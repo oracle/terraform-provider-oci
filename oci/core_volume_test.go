@@ -82,6 +82,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 
 	resourceName := "oci_core_volume.test_volume"
 	datasourceName := "data.oci_core_volumes.test_volumes"
+	singularDatasourceName := "data.oci_core_volume.test_volume"
 
 	var resId, resId2 string
 
@@ -226,6 +227,52 @@ data "oci_core_volumes" "test_volumes" {
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.time_created"),
 				),
+			},
+			// verify singular datasource
+			{
+				Config: config + `
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = 52 }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+
+data "oci_core_volume" "test_volume" {
+	#Required
+	volume_id = "${oci_core_volume.test_volume.id}"
+}
+                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "volume_id"),
+
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_hydrated"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_gbs"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_mbs"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "source_details.0.id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "source_details.0.type"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "volume_defined_tags_value" { default = "updatedValue" }
+variable "volume_display_name" { default = "displayName2" }
+variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "volume_size_in_gbs" { default = 52 }
+variable "volume_source_details_type" { default = "volume" }
+variable "volume_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + VolumeResourceConfig,
 			},
 			// verify resource import
 			{

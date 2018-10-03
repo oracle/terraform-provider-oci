@@ -128,6 +128,26 @@ resource "oci_core_subnet" "test_subnet" {
 }
 ```
 
+
+## Subnet Singular DataSource
+
+
+### Get Operation
+Gets the specified subnet's information.
+
+The following arguments are supported:
+
+* `subnet_id` - (Required) The OCID of the subnet.
+
+
+### Example Usage
+
+```hcl
+data "oci_core_subnet" "test_subnet" {
+	#Required
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
+}
+```
 # oci_core_subnets
 
 ## Subnet DataSource

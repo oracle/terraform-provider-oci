@@ -95,6 +95,26 @@ resource "oci_core_volume" "test_volume" {
 }
 ```
 
+
+## Volume Singular DataSource
+
+
+### Get Operation
+Gets information for the specified volume.
+
+The following arguments are supported:
+
+* `volume_id` - (Required) The OCID of the volume.
+
+
+### Example Usage
+
+```hcl
+data "oci_core_volume" "test_volume" {
+	#Required
+	volume_id = "${oci_core_volume.test_volume.id}"
+}
+```
 # oci_core_volumes
 
 ## Volume DataSource

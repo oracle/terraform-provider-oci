@@ -67,6 +67,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 
 	resourceName := "oci_core_subnet.test_subnet"
 	datasourceName := "data.oci_core_subnets.test_subnets"
+	singularDatasourceName := "data.oci_core_subnet.test_subnet"
 
 	var resId, resId2 string
 
@@ -218,6 +219,62 @@ data "oci_core_subnets" "test_subnets" {
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.virtual_router_ip"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.virtual_router_mac"),
 				),
+			},
+			// verify singular datasource
+			{
+				Config: config + `
+variable "subnet_availability_domain" { default = "crmS:PHX-AD-1" }
+variable "subnet_cidr_block" { default = "10.0.0.0/16" }
+variable "subnet_defined_tags_value" { default = "updatedValue" }
+variable "subnet_display_name" { default = "displayName2" }
+variable "subnet_dns_label" { default = "dnslabel" }
+variable "subnet_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "subnet_prohibit_public_ip_on_vnic" { default = false }
+variable "subnet_security_list_ids" { default = [] }
+variable "subnet_state" { default = "AVAILABLE" }
+
+data "oci_core_subnet" "test_subnet" {
+	#Required
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
+}
+                ` + compartmentIdVariableStr + SubnetResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "dhcp_options_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "route_table_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
+
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "cidr_block"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "dns_label"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "prohibit_public_ip_on_vnic"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "security_list_ids.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_domain_name"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_router_ip"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_router_mac"),
+				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "subnet_availability_domain" { default = "crmS:PHX-AD-1" }
+variable "subnet_cidr_block" { default = "10.0.0.0/16" }
+variable "subnet_defined_tags_value" { default = "updatedValue" }
+variable "subnet_display_name" { default = "displayName2" }
+variable "subnet_dns_label" { default = "dnslabel" }
+variable "subnet_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "subnet_prohibit_public_ip_on_vnic" { default = false }
+variable "subnet_security_list_ids" { default = [] }
+variable "subnet_state" { default = "AVAILABLE" }
+
+                ` + compartmentIdVariableStr + SubnetResourceConfig,
 			},
 			// verify resource import
 			{
