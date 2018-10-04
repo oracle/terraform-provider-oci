@@ -3,7 +3,7 @@
 
 // Object Storage Service API
 //
-// Common set of Object and Archive Storage APIs for managing buckets and objects.
+// The Object and Archive Storage APIs for managing buckets and objects.
 //
 
 package objectstorage
@@ -15,11 +15,11 @@ import (
 // RestoreObjectsDetails The representation of RestoreObjectsDetails
 type RestoreObjectsDetails struct {
 
-	// A object which was in an archived state and need to be restored.
+	// An object which is in archive-tier storage and needs to be restored.
 	ObjectName *string `mandatory:"true" json:"objectName"`
 
 	// The number of hours for which this object will be restored.
-	// By default object will be restored for 24 hours.It can be configured using hours parameter.
+	// By default objects will be restored for 24 hours. Duration can be configured using the hours parameter.
 	Hours *int `mandatory:"false" json:"hours"`
 }
 

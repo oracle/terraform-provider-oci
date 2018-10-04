@@ -793,6 +793,54 @@ func (client VirtualNetworkClient) createLocalPeeringGateway(ctx context.Context
 	return response, err
 }
 
+// CreateNatGateway Creates a new NAT gateway for the specified VCN. You must also set up a route rule with the
+// NAT gateway as the rule's target. See RouteTable.
+func (client VirtualNetworkClient) CreateNatGateway(ctx context.Context, request CreateNatGatewayRequest) (response CreateNatGatewayResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createNatGateway, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateNatGatewayResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateNatGatewayResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateNatGatewayResponse")
+	}
+	return
+}
+
+// createNatGateway implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createNatGateway(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/natGateways")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateNatGatewayResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreatePrivateIp Creates a secondary private IP for the specified VNIC.
 // For more information about secondary private IPs, see
 // IP Addresses (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingIPaddresses.htm).
@@ -845,11 +893,12 @@ func (client VirtualNetworkClient) createPrivateIp(ctx context.Context, request 
 // CreatePublicIp Creates a public IP. Use the `lifetime` property to specify whether it's an ephemeral or
 // reserved public IP. For information about limits on how many you can create, see
 // Public IP Addresses (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingpublicIPs.htm).
-// * **For an ephemeral public IP:** You must also specify a `privateIpId` with the OCID of
-// the primary private IP you want to assign the public IP to. The public IP is created in
-// the same availability domain as the private IP. An ephemeral public IP must always be
+// * **For an ephemeral public IP assigned to a private IP:** You must also specify a `privateIpId`
+// with the OCID of the primary private IP you want to assign the public IP to. The public IP is
+// created in the same availability domain as the private IP. An ephemeral public IP must always be
 // assigned to a private IP, and only to the *primary* private IP on a VNIC, not a secondary
-// private IP.
+// private IP. Exception: If you create a NatGateway, Oracle
+// automatically assigns the NAT gateway a regional ephemeral public IP that you cannot remove.
 // * **For a reserved public IP:** You may also optionally assign the public IP to a private
 // IP by specifying `privateIpId`. Or you can later assign the public IP with
 // UpdatePublicIp.
@@ -1727,6 +1776,51 @@ func (client VirtualNetworkClient) deleteLocalPeeringGateway(ctx context.Context
 	return response, err
 }
 
+// DeleteNatGateway Deletes the specified NAT gateway. The NAT gateway does not have to be disabled, but there
+// must not be a route rule that lists the NAT gateway as a target.
+// This is an asynchronous operation. The NAT gateway's `lifecycleState` will change to
+// TERMINATING temporarily until the NAT gateway is completely removed.
+func (client VirtualNetworkClient) DeleteNatGateway(ctx context.Context, request DeleteNatGatewayRequest) (response DeleteNatGatewayResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteNatGateway, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteNatGatewayResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteNatGatewayResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteNatGatewayResponse")
+	}
+	return
+}
+
+// deleteNatGateway implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteNatGateway(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/natGateways/{natGatewayId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteNatGatewayResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeletePrivateIp Unassigns and deletes the specified private IP. You must
 // specify the object's OCID. The private IP address is returned to
 // the subnet's pool of available addresses.
@@ -1780,6 +1874,9 @@ func (client VirtualNetworkClient) deletePrivateIp(ctx context.Context, request 
 // DeletePublicIp Unassigns and deletes the specified public IP (either ephemeral or reserved).
 // You must specify the object's OCID. The public IP address is returned to the
 // Oracle Cloud Infrastructure public IP pool.
+// **Note:** You cannot update, unassign, or delete the public IP that Oracle automatically
+// assigned to an entity for you (such as a load balancer or NAT gateway). The public IP is
+// automatically deleted if the assigned entity is terminated.
 // For an assigned reserved public IP, the initial unassignment portion of this operation
 // is asynchronous. Poll the public IP's `lifecycleState` to determine
 // if the operation succeeded.
@@ -2782,6 +2879,48 @@ func (client VirtualNetworkClient) getLocalPeeringGateway(ctx context.Context, r
 	return response, err
 }
 
+// GetNatGateway Gets the specified NAT gateway's information.
+func (client VirtualNetworkClient) GetNatGateway(ctx context.Context, request GetNatGatewayRequest) (response GetNatGatewayResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getNatGateway, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetNatGatewayResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetNatGatewayResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetNatGatewayResponse")
+	}
+	return
+}
+
+// getNatGateway implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getNatGateway(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/natGateways/{natGatewayId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetNatGatewayResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetPrivateIp Gets the specified private IP. You must specify the object's OCID.
 // Alternatively, you can get the object by using
 // ListPrivateIps
@@ -2834,7 +2973,7 @@ func (client VirtualNetworkClient) getPrivateIp(ctx context.Context, request com
 // with the OCID of the private IP that the public IP is assigned to.
 // **Note:** If you're fetching a reserved public IP that is in the process of being
 // moved to a different private IP, the service returns the public IP object with
-// `lifecycleState` = ASSIGNING and `privateIpId` = OCID of the target private IP.
+// `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID of the target private IP.
 func (client VirtualNetworkClient) GetPublicIp(ctx context.Context, request GetPublicIpRequest) (response GetPublicIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2879,7 +3018,7 @@ func (client VirtualNetworkClient) getPublicIp(ctx context.Context, request comm
 // GetPublicIpByIpAddress Gets the public IP based on the public IP address (for example, 129.146.2.1).
 // **Note:** If you're fetching a reserved public IP that is in the process of being
 // moved to a different private IP, the service returns the public IP object with
-// `lifecycleState` = ASSIGNING and `privateIpId` = OCID of the target private IP.
+// `lifecycleState` = ASSIGNING and `assignedEntityId` = OCID of the target private IP.
 func (client VirtualNetworkClient) GetPublicIpByIpAddress(ctx context.Context, request GetPublicIpByIpAddressRequest) (response GetPublicIpByIpAddressResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2929,8 +3068,8 @@ func (client VirtualNetworkClient) getPublicIpByIpAddress(ctx context.Context, r
 // private IP, or if you instead call
 // GetPublicIp or
 // GetPublicIpByIpAddress, the
-// service returns the public IP object with `lifecycleState` = ASSIGNING and `privateIpId` = OCID
-// of the target private IP.
+// service returns the public IP object with `lifecycleState` = ASSIGNING and
+// `assignedEntityId` = OCID of the target private IP.
 func (client VirtualNetworkClient) GetPublicIpByPrivateIpId(ctx context.Context, request GetPublicIpByPrivateIpIdRequest) (response GetPublicIpByPrivateIpIdResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3957,6 +4096,49 @@ func (client VirtualNetworkClient) listLocalPeeringGateways(ctx context.Context,
 	return response, err
 }
 
+// ListNatGateways Lists the NAT gateways in the specified compartment. You may optionally specify a VCN OCID
+// to filter the results by VCN.
+func (client VirtualNetworkClient) ListNatGateways(ctx context.Context, request ListNatGatewaysRequest) (response ListNatGatewaysResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listNatGateways, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListNatGatewaysResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListNatGatewaysResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListNatGatewaysResponse")
+	}
+	return
+}
+
+// listNatGateways implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listNatGateways(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/natGateways")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListNatGatewaysResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListPrivateIps Lists the PrivateIp objects based
 // on one of these filters:
 //   - Subnet OCID.
@@ -4009,13 +4191,22 @@ func (client VirtualNetworkClient) listPrivateIps(ctx context.Context, request c
 	return response, err
 }
 
-// ListPublicIps Lists either the ephemeral or reserved PublicIp objects
-// in the specified compartment.
-// To list your reserved public IPs, set `scope` = `REGION`, and leave the
-// `availabilityDomain` parameter empty.
-// To list your ephemeral public IPs, set `scope` = `AVAILABILITY_DOMAIN`, and set the
-// `availabilityDomain` parameter to the desired availability domain. An ephemeral public IP
-// is always in the same availability domain and compartment as the private IP it's assigned to.
+// ListPublicIps Lists the PublicIp objects
+// in the specified compartment. You can filter the list by using query parameters.
+// To list your reserved public IPs:
+//   * Set `scope` = `REGION`  (required)
+//   * Leave the `availabilityDomain` parameter empty
+//   * Set `lifetime` = `RESERVED`
+// To list the ephemeral public IPs assigned to a regional entity such as a NAT gateway:
+//   * Set `scope` = `REGION`  (required)
+//   * Leave the `availabilityDomain` parameter empty
+//   * Set `lifetime` = `EPHEMERAL`
+// To list the ephemeral public IPs assigned to private IPs:
+//   * Set `scope` = `AVAILABILITY_DOMAIN` (required)
+//   * Set the `availabilityDomain` parameter to the desired availability domain (required)
+//   * Set `lifetime` = `EPHEMERAL`
+// **Note:** An ephemeral public IP assigned to a private IP
+// is always in the same availability domain and compartment as the private IP.
 func (client VirtualNetworkClient) ListPublicIps(ctx context.Context, request ListPublicIpsRequest) (response ListPublicIpsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4857,6 +5048,48 @@ func (client VirtualNetworkClient) updateLocalPeeringGateway(ctx context.Context
 	}
 
 	var response UpdateLocalPeeringGatewayResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateNatGateway Updates the specified NAT gateway.
+func (client VirtualNetworkClient) UpdateNatGateway(ctx context.Context, request UpdateNatGatewayRequest) (response UpdateNatGatewayResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateNatGateway, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateNatGatewayResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateNatGatewayResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateNatGatewayResponse")
+	}
+	return
+}
+
+// updateNatGateway implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateNatGateway(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/natGateways/{natGatewayId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateNatGatewayResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
