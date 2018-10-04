@@ -332,6 +332,61 @@ variable "volume_state" { default = "AVAILABLE" }
 	})
 }
 
+// This is a test to validate that interpolation syntax can be passed into int64
+// fields that are being represented as strings in the schema. This is a regression
+// test for issue found in https://github.com/terraform-providers/terraform-provider-oci/issues/607
+func TestCoreVolumeResource_int64_interpolation(t *testing.T) {
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_volume.test_volume"
+	resourceName2 := "oci_core_volume.test_volume2"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreVolumeDestroy,
+		Steps: []resource.TestStep{
+			// verify create
+			{
+				Config: config + VolumePropertyVariables + compartmentIdVariableStr + VolumeRequiredOnlyResource + `
+data "oci_core_volumes" "test_volumes" {
+	#Required
+	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+
+	filter {
+		name = "id"
+		values = ["${oci_core_volume.test_volume.id}"]
+	}
+}
+
+resource "oci_core_volume" "test_volume2" {
+	#Required
+	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
+
+	size_in_gbs = "${data.oci_core_volumes.test_volumes.volumes.0.size_in_gbs}"
+}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					// Check on default values used
+					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "50"),
+					resource.TestCheckResourceAttr(resourceName2, "size_in_mbs", "51200"),
+					resource.TestCheckResourceAttr(resourceName2, "size_in_gbs", "50"),
+				),
+			},
+		},
+	})
+}
+
 // This test is separated from the basic test due to weird behavior from Terraform test framework.
 // An test step that results in an error will result in the state being voided. Isolate such test steps to
 // avoid interfering with regular tests that Create/Update resources.

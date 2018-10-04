@@ -69,6 +69,7 @@ type Image struct {
 	// Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 	// * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.
 	// * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
+	// * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers.
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 	LaunchMode ImageLaunchModeEnum `mandatory:"false" json:"launchMode,omitempty"`
 
@@ -88,15 +89,17 @@ type ImageLaunchModeEnum string
 
 // Set of constants representing the allowable values for ImageLaunchMode
 const (
-	ImageLaunchModeNative   ImageLaunchModeEnum = "NATIVE"
-	ImageLaunchModeEmulated ImageLaunchModeEnum = "EMULATED"
-	ImageLaunchModeCustom   ImageLaunchModeEnum = "CUSTOM"
+	ImageLaunchModeNative          ImageLaunchModeEnum = "NATIVE"
+	ImageLaunchModeEmulated        ImageLaunchModeEnum = "EMULATED"
+	ImageLaunchModeParavirtualized ImageLaunchModeEnum = "PARAVIRTUALIZED"
+	ImageLaunchModeCustom          ImageLaunchModeEnum = "CUSTOM"
 )
 
 var mappingImageLaunchMode = map[string]ImageLaunchModeEnum{
-	"NATIVE":   ImageLaunchModeNative,
-	"EMULATED": ImageLaunchModeEmulated,
-	"CUSTOM":   ImageLaunchModeCustom,
+	"NATIVE":          ImageLaunchModeNative,
+	"EMULATED":        ImageLaunchModeEmulated,
+	"PARAVIRTUALIZED": ImageLaunchModeParavirtualized,
+	"CUSTOM":          ImageLaunchModeCustom,
 }
 
 // GetImageLaunchModeEnumValues Enumerates the set of values for ImageLaunchMode

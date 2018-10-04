@@ -67,6 +67,11 @@ func (client IdentityClient) AddUserToGroup(ctx context.Context, request AddUser
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.addUserToGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -116,6 +121,11 @@ func (client IdentityClient) CreateAuthToken(ctx context.Context, request Create
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createAuthToken, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -171,6 +181,11 @@ func (client IdentityClient) CreateCompartment(ctx context.Context, request Crea
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -221,6 +236,11 @@ func (client IdentityClient) CreateCustomerSecretKey(ctx context.Context, reques
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createCustomerSecretKey, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -276,6 +296,11 @@ func (client IdentityClient) CreateDynamicGroup(ctx context.Context, request Cre
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createDynamicGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -333,6 +358,11 @@ func (client IdentityClient) CreateGroup(ctx context.Context, request CreateGrou
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -388,6 +418,11 @@ func (client IdentityClient) CreateIdentityProvider(ctx context.Context, request
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createIdentityProvider, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -431,6 +466,11 @@ func (client IdentityClient) CreateIdpGroupMapping(ctx context.Context, request 
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createIdpGroupMapping, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -481,6 +521,11 @@ func (client IdentityClient) CreateOrResetUIPassword(ctx context.Context, reques
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createOrResetUIPassword, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -534,6 +579,11 @@ func (client IdentityClient) CreatePolicy(ctx context.Context, request CreatePol
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -576,6 +626,11 @@ func (client IdentityClient) CreateRegionSubscription(ctx context.Context, reque
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createRegionSubscription, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -621,6 +676,11 @@ func (client IdentityClient) CreateSmtpCredential(ctx context.Context, request C
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createSmtpCredential, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -671,6 +731,11 @@ func (client IdentityClient) CreateSwiftPassword(ctx context.Context, request Cr
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createSwiftPassword, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -721,6 +786,11 @@ func (client IdentityClient) CreateTag(ctx context.Context, request CreateTagReq
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createTag, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -775,6 +845,11 @@ func (client IdentityClient) CreateTagNamespace(ctx context.Context, request Cre
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createTagNamespace, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -845,6 +920,11 @@ func (client IdentityClient) CreateUser(ctx context.Context, request CreateUserR
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createUser, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -3318,6 +3398,11 @@ func (client IdentityClient) UploadApiKey(ctx context.Context, request UploadApi
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.uploadApiKey, policy)
 	if err != nil {
 		if ociResponse != nil {

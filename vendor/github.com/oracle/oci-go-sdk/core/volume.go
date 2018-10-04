@@ -60,6 +60,9 @@ type Volume struct {
 	// Specifies whether the cloned volume's data has finished copying from the source volume or backup.
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
 
+	// The OCID of the KMS key which is the master encryption key for the volume.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -81,6 +84,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		IsHydrated         *bool                             `json:"isHydrated"`
+		KmsKeyId           *string                           `json:"kmsKeyId"`
 		SizeInGBs          *int64                            `json:"sizeInGBs"`
 		SourceDetails      volumesourcedetails               `json:"sourceDetails"`
 		VolumeGroupId      *string                           `json:"volumeGroupId"`
@@ -100,6 +104,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 	m.FreeformTags = model.FreeformTags
 	m.IsHydrated = model.IsHydrated
+	m.KmsKeyId = model.KmsKeyId
 	m.SizeInGBs = model.SizeInGBs
 	nn, e := model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
 	if e != nil {

@@ -148,7 +148,7 @@ data "oci_core_boot_volume_backups" "test_boot_volume_backups" {
 	#Optional
 	boot_volume_id = "${oci_core_instance.test_instance.boot_volume_id}"
 	display_name = "${var.boot_volume_backup_display_name}"
-	//state = "${var.boot_volume_backup_state}"
+	state = "${var.boot_volume_backup_state}"
 
     filter {
     	name = "id"
@@ -160,7 +160,7 @@ data "oci_core_boot_volume_backups" "test_boot_volume_backups" {
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					//resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.boot_volume_id"),

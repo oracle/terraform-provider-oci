@@ -197,10 +197,6 @@ func (client *BaseClient) prepareRequest(request *http.Request) (err error) {
 	request.Header.Set(requestHeaderUserAgent, client.UserAgent)
 	request.Header.Set(requestHeaderDate, time.Now().UTC().Format(http.TimeFormat))
 
-	if request.Header.Get(requestHeaderOpcRetryToken) == "" {
-		request.Header.Set(requestHeaderOpcRetryToken, generateRetryToken())
-	}
-
 	if !strings.Contains(client.Host, "http") &&
 		!strings.Contains(client.Host, "https") {
 		client.Host = fmt.Sprintf("%s://%s", defaultScheme, client.Host)

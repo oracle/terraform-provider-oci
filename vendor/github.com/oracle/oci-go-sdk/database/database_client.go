@@ -65,6 +65,11 @@ func (client DatabaseClient) CreateAutonomousDataWarehouse(ctx context.Context, 
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDataWarehouse, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -107,6 +112,11 @@ func (client DatabaseClient) CreateAutonomousDataWarehouseBackup(ctx context.Con
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDataWarehouseBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -149,6 +159,11 @@ func (client DatabaseClient) CreateAutonomousDatabase(ctx context.Context, reque
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -191,6 +206,11 @@ func (client DatabaseClient) CreateAutonomousDatabaseBackup(ctx context.Context,
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDatabaseBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -233,6 +253,11 @@ func (client DatabaseClient) CreateBackup(ctx context.Context, request CreateBac
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -281,6 +306,11 @@ func (client DatabaseClient) CreateDataGuardAssociation(ctx context.Context, req
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createDataGuardAssociation, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -323,6 +353,11 @@ func (client DatabaseClient) CreateDbHome(ctx context.Context, request CreateDbH
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.createDbHome, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -374,6 +409,11 @@ func (client DatabaseClient) DbNodeAction(ctx context.Context, request DbNodeAct
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.dbNodeAction, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -1221,6 +1261,11 @@ func (client DatabaseClient) LaunchDbSystem(ctx context.Context, request LaunchD
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.launchDbSystem, policy)
 	if err != nil {
 		if ociResponse != nil {

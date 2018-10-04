@@ -64,6 +64,9 @@ type Bucket struct {
 	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The OCID of a KMS key id used to call KMS to generate data key, decrypt the encrypted data key
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
 func (m Bucket) String() string {

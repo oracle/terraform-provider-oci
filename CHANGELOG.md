@@ -1,4 +1,11 @@
-## 3.2.1 (Unreleased)
+## 3.3.0 (Unreleased)
+
+### Added
+- Support for new Image launch mode: paravirtualization
+
+### Fixed
+- Fix logic to prevent unexpected diffs related to numbers. Issue [#607](https://github.com/terraform-providers/terraform-provider-oci/issues/607)
+
 ## 3.2.0 (September 28, 2018)
 
 ### Added

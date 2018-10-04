@@ -1,5 +1,5 @@
 # Gets a list of Availability Domains
-data "oci_identity_availability_domains" "availability_domains" {
+data "oci_identity_availability_domains" "ADs" {
   compartment_id = "${var.tenancy_ocid}"
 }
 
@@ -70,7 +70,7 @@ data "oci_database_db_versions" "test_db_versions_by_db_system_id" {
 }
 
 data "oci_database_db_system_shapes" "test_db_system_shapes" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.availability_domains.availability_domains[0],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   compartment_id      = "${var.compartment_ocid}"
 
   filter {
