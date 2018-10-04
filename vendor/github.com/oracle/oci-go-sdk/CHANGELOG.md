@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 2.6.0 - 2018-10-04
+### Added
+- Support for trusted partner images through application listings and subscriptions in the Compute service
+- Support for object lifecycle policies in the Object Storage service
+- Support for copying objects across regions in the Object Storage service
+- Support for network address translation (NAT) gateways in the Networking service
+
 ## 2.5.0 - 2018-09-27
 ### Added
 - Support for paravirtualized launch mode when importing images in the Compute service

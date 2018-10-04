@@ -54,6 +54,9 @@ type LaunchInstanceDetails struct {
 	// instances in other fault domains.
 	// If you do not specify the fault domain, the system selects one for you. To change the fault
 	// domain for an instance, terminate it and launch a new instance in the preferred fault domain.
+	// To get a list of fault domains, use the
+	// ListFaultDomains operation in the
+	// Identity and Access Management Service API.
 	// Example: `FAULT-DOMAIN-1`
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
