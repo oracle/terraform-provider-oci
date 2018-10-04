@@ -12,7 +12,7 @@ const (
 	UnlimitedNumAttemptsValue = uint(0)
 
 	// number of characters contained in the generated retry token
-	generatedRetryTokenLength = 30
+	generatedRetryTokenLength = 32
 )
 
 // OCIRetryableRequest represents a request that can be reissued according to the specified policy.
@@ -86,8 +86,8 @@ func shouldContinueIssuingRequests(current, maximum uint) bool {
 	return maximum == UnlimitedNumAttemptsValue || current <= maximum
 }
 
-// generateRetryToken generates a retry token that must be included on any request passed to the Retry method.
-func generateRetryToken() string {
+// RetryToken generates a retry token that must be included on any request passed to the Retry method.
+func RetryToken() string {
 	alphanumericChars := []rune("abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	retryToken := make([]rune, generatedRetryTokenLength)
 	for i := range retryToken {

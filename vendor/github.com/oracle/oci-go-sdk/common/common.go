@@ -3,6 +3,7 @@
 package common
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -40,4 +41,13 @@ func StringToRegion(stringRegion string) (r Region) {
 		Debugf("region named: %s, is not recognized", stringRegion)
 	}
 	return
+}
+
+// canStringBeRegion test if the string can be a region, if it can, returns the string as is, otherwise it
+// returns an error
+func canStringBeRegion(stringRegion string) (region string, err error) {
+	if strings.Contains(stringRegion, " ") || stringRegion == "" {
+		return "", fmt.Errorf("region can not be empty or have spaces")
+	}
+	return stringRegion, nil
 }

@@ -92,7 +92,7 @@ func (p rawConfigurationProvider) KeyFingerprint() (string, error) {
 }
 
 func (p rawConfigurationProvider) Region() (string, error) {
-	return p.region, nil
+	return canStringBeRegion(p.region)
 }
 
 // environmentConfigurationProvider reads configuration from environment variables
@@ -183,8 +183,10 @@ func (p environmentConfigurationProvider) Region() (value string, err error) {
 	var ok bool
 	if value, ok = os.LookupEnv(environmentVariable); !ok {
 		err = fmt.Errorf("can not read region from environment variable %s", environmentVariable)
+		return value, err
 	}
-	return
+
+	return canStringBeRegion(value)
 }
 
 // fileConfigurationProvider. reads configuration information from a file
@@ -436,7 +438,11 @@ func (p fileConfigurationProvider) Region() (value string, err error) {
 	}
 
 	value, err = presentOrError(info.Region, hasRegion, info.PresentConfiguration, "region")
-	return
+	if err != nil {
+		return
+	}
+
+	return canStringBeRegion(value)
 }
 
 // A configuration provider that look for information in  multiple configuration providers
