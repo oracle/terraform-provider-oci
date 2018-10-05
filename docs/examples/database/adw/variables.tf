@@ -34,5 +34,5 @@ variable "autonomous_data_warehouse_backup_display_name" {
 }
 
 variable "autonomous_data_warehouse_backup_state" {
-  default = "AVAILABLE"
+  default = "Available"
 }
