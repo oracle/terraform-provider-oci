@@ -34,7 +34,10 @@ const (
 	defaultConnectionTimeout     = 10 * time.Second
 	defaultTLSHandshakeTimeout   = 5 * time.Second
 	userAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) Oracle-TerraformProvider/%s"
-	r1CertLocationEnv            = "R1_CERT_LOCATION"
+	domainNameOverrideEnv        = "domain_name_override"
+	customCertLocationEnv        = "custom_cert_location"
+	oracleR1DomainNameEnv        = "oracle_r1_domain_name" // deprecate
+	r1CertLocationEnv            = "R1_CERT_LOCATION"      // deprecate
 )
 
 // OboTokenProvider interface that wraps information about auth tokens so the sdk client can make calls
@@ -561,14 +564,4 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 	}
 
 	return nil, fmt.Errorf("can not get private_key or private_key_path from Terraform configuration")
-}
-
-func readCertPem() (file []byte, err error) {
-	r1CertLoc := getEnvSettingWithBlankDefault(r1CertLocationEnv)
-	if r1CertLoc == "" {
-		err = fmt.Errorf("the R1 Certificate Location must be specified in the environment variable %s", r1CertLocationEnv)
-		return
-	}
-	file, err = ioutil.ReadFile(r1CertLoc)
-	return
 }
