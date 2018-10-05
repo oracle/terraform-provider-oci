@@ -59,7 +59,7 @@ variable "public_ip_freeform_tags" { default = {"Department"= "Finance"} }
 variable "public_ip_lifetime" { default = "RESERVED" }
 variable "public_ip_scope" { default = "` + string(oci_core.PublicIpScopeRegion) + `" }
 `
-	PublicIpResourceDependencies = `
+	PublicIpResourceDependencies = DefinedTagsDependencies + `
 	variable "InstanceImageOCID" {
 		type = "map"
 		default = {
@@ -127,7 +127,7 @@ variable "public_ip_scope" { default = "` + string(oci_core.PublicIpScopeRegion)
 
 func TestCorePublicIpResource_basic(t *testing.T) {
 	provider := testAccProvider
-	config := testProviderConfig() + DefinedTagsDependencies
+	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)

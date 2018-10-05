@@ -6,6 +6,7 @@
 - Support for offline resizing of Boot Volume
 - Support for tagging of Boot Volume
 - Support for NAT Gateways
+- Fields "assigned_entity_id" and "assigned_entity_type" have been added to Public IPs to allow you to distinguish Public IPs of the NAT Gateway.
 
 ### Fixed
 - Fix logic for importing of volumes with backup policies. GH-590
