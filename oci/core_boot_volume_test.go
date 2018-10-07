@@ -264,6 +264,26 @@ data "oci_core_boot_volume" "test_boot_volume" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + `
+variable "boot_volume_availability_domain" { default = "availabilityDomain" }
+variable "boot_volume_defined_tags_value" { default = "updatedValue" }
+variable "boot_volume_display_name" { default = "displayName2" }
+variable "boot_volume_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "boot_volume_size_in_gbs" { default = 51 }
+variable "boot_volume_source_details_id" { default = "id" }
+variable "boot_volume_source_details_type" { default = "bootVolume" }
+
+                ` + compartmentIdVariableStr + BootVolumeResourceConfig,
+			},
+			// verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ResourceName:      resourceName,
+			},
 		},
 	})
 }

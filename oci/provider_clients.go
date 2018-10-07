@@ -21,8 +21,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 
-	oci_common "github.com/oracle/oci-go-sdk/common"
 	"io/ioutil"
+
+	oci_common "github.com/oracle/oci-go-sdk/common"
 )
 
 func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_common.ConfigurationProvider, httpClient *http.Client, userAgent string) (err error) {
@@ -124,7 +125,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 
 			region, _ := officialSdkConfigProvider.Region()
 			service := strings.Split(client.Host, ".")[0]
-			client.Host = fmt.Sprintf("%s.%s.%s", service, strings.ToLower(region), domainNameOverride + r1DomainName)
+			client.Host = fmt.Sprintf("%s.%s.%s", service, strings.ToLower(region), domainNameOverride+r1DomainName)
 		}
 
 		if customCertLoc != "" || r1CertLoc != "" {

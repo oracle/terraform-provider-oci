@@ -17,6 +17,9 @@ import (
 
 func BootVolumeResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createBootVolume,
 		Read:     readBootVolume,
@@ -402,6 +405,13 @@ func (s *BootVolumeResourceCrud) SetData() error {
 		s.D.Set("volume_group_id", *s.Res.VolumeGroupId)
 	}
 
+	// Add backup policy id from the other API
+	backupPolicyId, err := getBackupPolicyId(s.Res.Id, s.Client)
+	if err != nil {
+		log.Printf("[ERROR] Received an error when fetching backup policy id %v", err)
+	} else if backupPolicyId != nil {
+		s.D.Set("backup_policy_id", backupPolicyId)
+	}
 	return nil
 }
 
