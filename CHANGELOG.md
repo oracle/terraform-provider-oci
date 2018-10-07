@@ -6,6 +6,9 @@
 - Support for offline resizing of Boot Volume
 - Support for tagging of Boot Volume
 
+### Fixed
+- Fix logic for importing of volumes with backup policies. GH-590
+
 ## 3.3.0 (October 04, 2018)
 
 ### Added

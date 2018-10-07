@@ -280,7 +280,6 @@ variable "volume_state" { default = "AVAILABLE" }
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
-					"backup_policy_id",
 					"volume_backup_id",
 				},
 				ResourceName: resourceName,

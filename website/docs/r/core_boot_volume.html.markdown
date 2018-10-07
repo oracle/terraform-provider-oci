@@ -76,3 +76,11 @@ The following attributes are exported:
 * `state` - The current state of a boot volume.
 * `time_created` - The date and time the boot volume was created. Format defined by RFC3339.
 * `volume_group_id` - The OCID of the source volume group.
+
+## Import
+
+BootVolumes can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_core_boot_volume.test_boot_volume "id"
+```
