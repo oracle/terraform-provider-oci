@@ -6,6 +6,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 	"strings"
@@ -20,8 +21,6 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
-
-	"io/ioutil"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
 )
