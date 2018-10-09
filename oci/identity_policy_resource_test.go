@@ -3,15 +3,12 @@
 package provider
 
 import (
+	"fmt"
+	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-
-	"fmt"
-
-	"regexp"
-
 	"github.com/oracle/oci-go-sdk/identity"
 	"github.com/stretchr/testify/suite"
 )
@@ -102,6 +99,30 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 						return err
 					},
 				),
+			},
+		},
+	},
+	)
+}
+
+func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_emptyStatement() {
+	resource.Test(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			// verify create
+			{
+				Config: s.Config + s.TokenFn(`
+				resource "oci_identity_policy" "p" {
+					compartment_id = "${oci_identity_compartment.t.id}"
+					name = "p1-{{.token}}"
+					description = "automated test policy"
+					version_date = "2018-04-17"
+					statements = [
+"Allow group ${oci_identity_group.t.name} to inspect instances in compartment ${oci_identity_compartment.t.name}",
+"",
+"Allow group ${oci_identity_group.t.name} to inspect instances in compartment ${oci_identity_compartment.t.name}"]
+				}`, nil),
+				ExpectError: regexp.MustCompile("Service error:InvalidParameter"),
 			},
 		},
 	},

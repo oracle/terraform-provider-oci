@@ -475,7 +475,9 @@ func (s *DbSystemResourceCrud) Update() error {
 		interfaces := sshPublicKeys.([]interface{})
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
-			tmp[i] = interfaces[i].(string)
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
 		}
 		request.SshPublicKeys = tmp
 	}
@@ -924,7 +926,9 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 			interfaces := sshPublicKeys.([]interface{})
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
-				tmp[i] = interfaces[i].(string)
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
 			}
 			details.SshPublicKeys = tmp
 		}
@@ -1016,7 +1020,9 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 			interfaces := sshPublicKeys.([]interface{})
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
-				tmp[i] = interfaces[i].(string)
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
 			}
 			details.SshPublicKeys = tmp
 		}

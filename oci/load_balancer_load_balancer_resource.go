@@ -209,7 +209,9 @@ func (s *LoadBalancerResourceCrud) Create() error {
 		interfaces := subnetIds.([]interface{})
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
-			tmp[i] = interfaces[i].(string)
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
 		}
 		request.SubnetIds = tmp
 	}
