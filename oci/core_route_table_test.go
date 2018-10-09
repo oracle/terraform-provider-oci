@@ -26,142 +26,59 @@ resource "oci_core_route_table" "test_route_table" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 }
 `
-	RouteTableRequiredOnlyResourceWithSecondNetworkEntity = RouteTableResourceDependencies + `
-resource "oci_core_route_table" "test_route_table" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	route_rules {
-		#Required
-		cidr_block = "${var.route_table_route_rules_cidr_block}"
-		network_entity_id = "${oci_core_drg.test_drg.id}"
-	}
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-}
-`
+
 	RouteTableResourceConfig = RouteTableResourceDependencies + `
 resource "oci_core_route_table" "test_route_table" {
 	#Required
 	compartment_id = "${var.compartment_id}"
+    route_rules {
+		#Required
+		destination = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
+		destination_type = "SERVICE_CIDR_BLOCK"
+		network_entity_id = "${oci_core_service_gateway.test_service_gateway.id}"
+	}
 	route_rules {
 		#Required
+		cidr_block = "${var.route_table_route_rules_cidr_block}"
 		network_entity_id = "${oci_core_internet_gateway.test_network_entity.id}"
-
-		#Optional
-		destination = "${var.route_table_route_rules_destination}"
-		destination_type = "${var.route_table_route_rules_destination_type}"
 	}
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.route_table_defined_tags_value}")}"
 	display_name = "${var.route_table_display_name}"
-	freeform_tags = "${var.route_table_freeform_tags}"
 }
 `
-	RouteTableResourceConfigWithServiceCidr = RouteTableResourceDependencies + `
+	RouteTableResourceConfigWithAdditionalRule = RouteTableResourceDependencies + `
 resource "oci_core_route_table" "test_route_table" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	route_rules {
 		#Required
-		network_entity_id = "${oci_core_service_gateway.test_service_gateway.id}"
-
-		#Optional
+		cidr_block = "10.0.0.0/8"
+		network_entity_id = "${oci_core_internet_gateway.test_network_entity.id}"
+	}
+    route_rules {
+		#Required
 		destination = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
-		destination_type = "${var.route_table_route_rules_destination_type}"
-	}
-	route_rules {
-		#Required
-		destination = "${var.route_table_route_rules_destination}"
-		network_entity_id = "${oci_core_drg.test_drg.id}"
-	}
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.route_table_defined_tags_value}")}"
-	display_name = "${var.route_table_display_name}"
-	freeform_tags = "${var.route_table_freeform_tags}"
-}
-
-resource "oci_core_service_gateway" "test_service_gateway" {
-    #Required
-    compartment_id = "${var.compartment_id}"
-    services {
-        service_id = "${lookup(data.oci_core_services.test_services.services[0], "id")}"
-    }
-    vcn_id = "${oci_core_vcn.test_vcn.id}"
-}
-
-data "oci_core_services" "test_services" {
-}
-`
-	RouteTableResourceConfigWithServiceCidrAddingCidrBlock = RouteTableResourceDependencies + `
-resource "oci_core_route_table" "test_route_table" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	route_rules {
-		#Required
+		destination_type = "SERVICE_CIDR_BLOCK"
 		network_entity_id = "${oci_core_service_gateway.test_service_gateway.id}"
-
-		#Optional
-		cidr_block = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
-		destination = "${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}"
-		destination_type = "${var.route_table_route_rules_destination_type}"
 	}
 	route_rules {
 		#Required
-		destination = "${var.route_table_route_rules_destination}"
-		network_entity_id = "${oci_core_drg.test_drg.id}"
+		cidr_block = "${var.route_table_route_rules_cidr_block}"
+		network_entity_id = "${oci_core_internet_gateway.test_network_entity.id}"
 	}
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.route_table_defined_tags_value}")}"
 	display_name = "${var.route_table_display_name}"
-	freeform_tags = "${var.route_table_freeform_tags}"
-}
-
-resource "oci_core_service_gateway" "test_service_gateway" {
-    #Required
-    compartment_id = "${var.compartment_id}"
-    services {
-        service_id = "${lookup(data.oci_core_services.test_services.services[0], "id")}"
-    }
-    vcn_id = "${oci_core_vcn.test_vcn.id}"
-}
-
-data "oci_core_services" "test_services" {
 }
 `
 
-	RouteTableResourceConfigWithSecondNetworkEntity = RouteTableResourceDependencies + `
-resource "oci_core_route_table" "test_route_table" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	route_rules {
-		#Required
-		network_entity_id = "${oci_core_drg.test_drg.id}"
-
-		#Optional
-		destination = "${var.route_table_route_rules_destination}"
-		destination_type = "${var.route_table_route_rules_destination_type}"
-	}
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.route_table_defined_tags_value}")}"
-	display_name = "${var.route_table_display_name}"
-	freeform_tags = "${var.route_table_freeform_tags}"
-}
-`
 	RouteTablePropertyVariables = `
-variable "route_table_defined_tags_value" { default = "value" }
 variable "route_table_display_name" { default = "MyRouteTable" }
-variable "route_table_freeform_tags" { default = {"Department"= "Finance"} }
 variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
-variable "route_table_route_rules_destination" { default = "0.0.0.0/0" }
-variable "route_table_route_rules_destination_type" { default = "CIDR_BLOCK" }
-variable "route_table_state" { default = "AVAILABLE" }
+variable "route_table_state" { default = "state" }
 
 `
 	RouteTableResourceDependencies = VcnPropertyVariables + VcnResourceConfig + `
@@ -171,9 +88,23 @@ variable "route_table_state" { default = "AVAILABLE" }
 		display_name = "-tf-internet-gateway"
 	}
 
-	resource "oci_core_drg" "test_drg" {
-		#Required
-		compartment_id = "${var.compartment_id}"
+	resource "oci_core_service_gateway" "test_service_gateway" {
+	  #Required
+	  compartment_id = "${var.compartment_id}"
+	
+	  services {
+		service_id = "${lookup(data.oci_core_services.test_services.services[0], "id")}"
+	  }
+	
+	  vcn_id = "${oci_core_vcn.test_vcn.id}"
+	}
+	
+	data "oci_core_services" "test_services" {
+	  filter {
+		name   = "name"
+		values = [".*Object.*Storage"]
+		regex  = true
+	  }
 	}
 	`
 )
@@ -182,11 +113,12 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
+	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
 
 	resourceName := "oci_core_route_table.test_route_table"
-	datasourceName := "data.oci_core_route_tables.test_route_tables"
 
 	var resId, resId2 string
 
@@ -203,142 +135,14 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
-						"cidr_block": "0.0.0.0/0",
-					},
-						[]string{
-							"network_entity_id",
-						}),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						return err
 					},
-				),
-			},
-			// verify update to deprecated cidr_block
-			{
-				Config: config + `
-variable "route_table_defined_tags_value" { default = "value" }
-variable "route_table_display_name" { default = "MyRouteTable" }
-variable "route_table_freeform_tags" { default = {"Department"= "Finance"} }
-variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
-variable "route_table_route_rules_destination" { default = "0.0.0.0/0" }
-variable "route_table_route_rules_destination_type" { default = "CIDR_BLOCK" }
-variable "route_table_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + RouteTableRequiredOnlyResource,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"cidr_block": "10.0.0.0/8"}, []string{"network_entity_id"}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify update to network_id
-			{
-				Config: config + `
-variable "route_table_defined_tags_value" { default = "value" }
-variable "route_table_display_name" { default = "MyRouteTable" }
-variable "route_table_freeform_tags" { default = {"Department"= "Finance"} }
-variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
-variable "route_table_route_rules_destination" { default = "0.0.0.0/0" }
-variable "route_table_route_rules_destination_type" { default = "CIDR_BLOCK" }
-variable "route_table_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + RouteTableRequiredOnlyResourceWithSecondNetworkEntity,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"cidr_block": "10.0.0.0/8"}, []string{"network_entity_id"}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify create with destination_type
-			{
-				Config: config + `
-variable "route_table_defined_tags_value" { default = "value" }
-variable "route_table_display_name" { default = "MyRouteTable" }
-variable "route_table_freeform_tags" { default = {"Department"= "Finance"} }
-variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
-variable "route_table_route_rules_destination" { default = "0.0.0.0/0" }
-variable "route_table_route_rules_destination_type" { default = "SERVICE_CIDR_BLOCK" }
-variable "route_table_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + RouteTableResourceConfigWithServiceCidr,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination_type": "SERVICE_CIDR_BLOCK"}, []string{"network_entity_id", "destination"}),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination_type": "CIDR_BLOCK", "destination": "0.0.0.0/0"}, []string{"network_entity_id"}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-				),
-			},
-			// verify update after having a destination_type rule
-			{
-				Config: config + `
-variable "route_table_defined_tags_value" { default = "value" }
-variable "route_table_display_name" { default = "MyRouteTable" }
-variable "route_table_freeform_tags" { default = {"Department"= "Finance"} }
-variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
-variable "route_table_route_rules_destination" { default = "0.0.0.0/1" }
-variable "route_table_route_rules_destination_type" { default = "SERVICE_CIDR_BLOCK" }
-variable "route_table_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + RouteTableResourceConfigWithServiceCidr,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination_type": "SERVICE_CIDR_BLOCK"}, []string{"network_entity_id", "destination"}),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination_type": "CIDR_BLOCK", "destination": "0.0.0.0/1"}, []string{"network_entity_id"}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-				),
-			},
-			// verify adding cidr_block to a rule that has destination already
-			{
-				Config: config + `
-variable "route_table_defined_tags_value" { default = "value" }
-variable "route_table_display_name" { default = "MyRouteTable" }
-variable "route_table_freeform_tags" { default = {"Department"= "Finance"} }
-variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
-variable "route_table_route_rules_destination" { default = "0.0.0.0/1" }
-variable "route_table_route_rules_destination_type" { default = "SERVICE_CIDR_BLOCK" }
-variable "route_table_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + RouteTableResourceConfigWithServiceCidrAddingCidrBlock,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "2"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination_type": "SERVICE_CIDR_BLOCK"}, []string{"network_entity_id", "destination"}),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination_type": "CIDR_BLOCK", "destination": "0.0.0.0/1"}, []string{"network_entity_id"}),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 				),
 			},
 
@@ -351,19 +155,13 @@ variable "route_table_state" { default = "AVAILABLE" }
 				Config: config + RouteTablePropertyVariables + compartmentIdVariableStr + RouteTableResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
-						"cidr_block":       "0.0.0.0/0",
-						"destination":      "0.0.0.0/0",
-						"destination_type": "CIDR_BLOCK",
-					},
-						[]string{
-							"network_entity_id",
-						}),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "2"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.0.destination_type", "SERVICE_CIDR_BLOCK"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_rules.0.network_entity_id"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.1.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_rules.1.network_entity_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -377,30 +175,18 @@ variable "route_table_state" { default = "AVAILABLE" }
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "route_table_defined_tags_value" { default = "updatedValue" }
 variable "route_table_display_name" { default = "displayName2" }
-variable "route_table_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
-variable "route_table_route_rules_destination" { default = "10.0.0.0/8" }
-variable "route_table_route_rules_destination_type" { default = "CIDR_BLOCK" }
-variable "route_table_state" { default = "AVAILABLE" }
+variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
+variable "route_table_state" { default = "state" }
 
-                ` + compartmentIdVariableStr + RouteTableResourceConfig,
+                ` + compartmentIdVariableStr + RouteTableResourceConfigWithAdditionalRule,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
-						"cidr_block":       "10.0.0.0/8",
-						"destination":      "10.0.0.0/8",
-						"destination_type": "CIDR_BLOCK",
-					},
-						[]string{
-							"network_entity_id",
-						}),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "3"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", "10.0.0.0/8"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -413,86 +199,127 @@ variable "route_table_state" { default = "AVAILABLE" }
 					},
 				),
 			},
-			// verify updates to network entity
+			// verify updates to Force New parameters.
 			{
 				Config: config + `
-variable "route_table_defined_tags_value" { default = "updatedValue" }
 variable "route_table_display_name" { default = "displayName2" }
-variable "route_table_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "route_table_route_rules_destination" { default = "10.0.0.0/8" }
-variable "route_table_route_rules_destination_type" { default = "CIDR_BLOCK" }
+variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
 variable "route_table_state" { default = "AVAILABLE" }
 
-                ` + compartmentIdVariableStr + RouteTableResourceConfigWithSecondNetworkEntity,
+                ` + compartmentIdVariableStr2 + RouteTableResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"cidr_block": "10.0.0.0/8", "destination_type": "CIDR_BLOCK"}, []string{"network_entity_id"}),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "2"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", ""),
+					resource.TestCheckResourceAttrSet(resourceName, "route_rules.0.network_entity_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						if resId == resId2 {
+							return fmt.Errorf("Resource was expected to be recreated but it wasn't.")
 						}
 						return err
 					},
 				),
 			},
-			// verify datasource
-			{
-				Config: config + `
-variable "route_table_defined_tags_value" { default = "updatedValue" }
-variable "route_table_display_name" { default = "displayName2" }
-variable "route_table_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "route_table_route_rules_cidr_block" { default = "10.0.0.0/8" }
-variable "route_table_route_rules_destination" { default = "10.0.0.0/8" }
-variable "route_table_route_rules_destination_type" { default = "CIDR_BLOCK" }
-variable "route_table_state" { default = "AVAILABLE" }
-
-data "oci_core_route_tables" "test_route_tables" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-
-	#Optional
-	display_name = "${var.route_table_display_name}"
-	state = "${var.route_table_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_route_table.test_route_table.id}"]
-    }
+		},
+	})
 }
-                ` + compartmentIdVariableStr + RouteTableResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
 
-					resource.TestCheckResourceAttr(datasourceName, "route_tables.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(datasourceName, "route_tables.0.route_rules", map[string]string{
-						"cidr_block":       "10.0.0.0/8",
-						"destination":      "10.0.0.0/8",
-						"destination_type": "CIDR_BLOCK",
+func TestCoreRouteTableResource_forcenew(t *testing.T) {
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getRequiredEnvSetting("compartment_id_for_create")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	compartmentId2 := getRequiredEnvSetting("compartment_id_for_update")
+	compartmentIdVariableStr2 := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId2)
+
+	resourceName := "oci_core_route_table.test_route_table"
+
+	var resId, resId2 string
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			// verify create with optionals
+			{
+				Config: config + RouteTablePropertyVariables + compartmentIdVariableStr + RouteTableResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_rules.0.network_entity_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
 					},
-						[]string{
-							"network_entity_id",
-						}),
-					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.vcn_id"),
+				),
+			},
+			// force new tests, test that changing a parameter would result in creation of a new resource.
+
+			{
+				Config: config + `
+variable "route_table_display_name" { default = "MyRouteTable" }
+variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
+variable "route_table_state" { default = "state" }
+				` + compartmentIdVariableStr2 + RouteTableResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_rules.0.network_entity_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId == resId2 {
+							return fmt.Errorf("Resource was expected to be recreated when updating parameter CompartmentId but the id did not change.")
+						}
+						resId = resId2
+						return err
+					},
+				),
+			},
+
+			{
+				Config: config + `
+variable "route_table_display_name" { default = "MyRouteTable" }
+variable "route_table_route_rules_cidr_block" { default = "0.0.0.0/0" }
+variable "route_table_state" { default = "state" }
+				` + compartmentIdVariableStr2 + RouteTableResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "MyRouteTable"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "route_rules.0.cidr_block", "0.0.0.0/0"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_rules.0.network_entity_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId == resId2 {
+							return fmt.Errorf("Resource was expected to be recreated when updating parameter VcnId but the id did not change.")
+						}
+						resId = resId2
+						return err
+					},
 				),
 			},
 			// verify resource import

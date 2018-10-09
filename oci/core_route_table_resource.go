@@ -207,7 +207,11 @@ func (s *RouteTableResourceCrud) Create() error {
 
 	request.RouteRules = []oci_core.RouteRule{}
 	if _, ok := s.D.GetOk("route_rules"); ok {
-		request.RouteRules = expandRouteRules(s.D)
+		routeRules, err := expandRouteRules(s.D)
+		if err != nil {
+			return err
+		}
+		request.RouteRules = routeRules
 	}
 
 	/*
@@ -282,7 +286,11 @@ func (s *RouteTableResourceCrud) Update() error {
 	}
 
 	if _, ok := s.D.GetOk("route_rules"); ok {
-		request.RouteRules = expandRouteRules(s.D)
+		routeRules, err := expandRouteRules(s.D)
+		if err != nil {
+			return err
+		}
+		request.RouteRules = routeRules
 	}
 	/*
 		request.RouteRules = []oci_core.RouteRule{}
@@ -462,34 +470,42 @@ func routeRulesHashCodeForSets(v interface{}) int {
 	return hashcode.String(buf.String())
 }
 
-func expandRouteRules(d *schema.ResourceData) []oci_core.RouteRule {
+// Check HasChange on variables
+// Setup a prefix to check for each attribute
+func expandRouteRules(d *schema.ResourceData) ([]oci_core.RouteRule, error) {
 
 	configRules := d.Get("route_rules").([]interface{})
 
 	routeRules := make([]oci_core.RouteRule, 0)
-	for _, v := range configRules {
-		attrs := v.(map[string]interface{})
+	for i := range configRules {
+		prefix := fmt.Sprintf("route_rules.%d", i)
 
-		networkEntityID := attrs["network_entity_id"].(string)
+		networkEntityID := d.Get(fmt.Sprintf("%s.network_entity_id", prefix)).(string)
 		routeRule := oci_core.RouteRule{
 			NetworkEntityId: &networkEntityID,
 		}
 
-		if v, ok := attrs["cidr_block"].(string); ok && v != "" {
-			routeRule.CidrBlock = &v
+		if d.HasChange(fmt.Sprintf("%s.cidr_block", prefix)) {
+			cidrBlock := d.Get(fmt.Sprintf("%s.cidr_block", prefix)).(string)
+			if cidrBlock != "" {
+				routeRule.CidrBlock = &cidrBlock
+			}
 		}
 
-		if v, ok := attrs["destination"].(string); ok && v != "" {
-			routeRule.Destination = &v
+		if d.HasChange(fmt.Sprintf("%s.destination", prefix)) {
+			destination := d.Get(fmt.Sprintf("%s.destination", prefix)).(string)
+			if destination != "" {
+				routeRule.Destination = &destination
+			}
 		}
 
-		if v := attrs["destination_type"]; v != nil {
+		if v, ok := d.GetOk(fmt.Sprintf("%s.destination_type", prefix)); ok {
 			routeRule.DestinationType = oci_core.RouteRuleDestinationTypeEnum(v.(string))
 		}
 
 		routeRules = append(routeRules, routeRule)
 	}
-	return routeRules
+	return routeRules, nil
 }
 
 func flattenRouteRules(input []oci_core.RouteRule) []interface{} {
@@ -502,8 +518,12 @@ func flattenRouteRules(input []oci_core.RouteRule) []interface{} {
 		output := make(map[string]interface{}, 0)
 
 		output["network_entity_id"] = string(*rule.NetworkEntityId)
-		output["cidr_block"] = string(*rule.CidrBlock)
-		output["destination"] = string(*rule.Destination)
+		if rule.CidrBlock != nil {
+			output["cidr_block"] = string(*rule.CidrBlock)
+		}
+		if rule.Destination != nil {
+			output["destination"] = string(*rule.Destination)
+		}
 		output["destination_type"] = string(rule.DestinationType)
 
 		result = append(result, output)
