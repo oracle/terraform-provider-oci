@@ -220,7 +220,9 @@ func (s *PolicyResourceCrud) Create() error {
 		interfaces := statements.([]interface{})
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
-			tmp[i] = interfaces[i].(string)
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
 		}
 		request.Statements = tmp
 	}
@@ -300,12 +302,13 @@ func (s *PolicyResourceCrud) Update() error {
 		interfaces := statements.([]interface{})
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
-			tmp[i] = interfaces[i].(string)
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
 		}
 		request.Statements = tmp
 	}
 
-	// TODO: see comment "pending spec/sdk versionDate solution" above
 	if versionDate, ok := s.D.GetOkExists("version_date"); ok {
 		tmp, err := oci_common.NewSDKDateFromString(versionDate.(string))
 		if err != nil {

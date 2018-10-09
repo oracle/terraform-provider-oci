@@ -376,7 +376,9 @@ func (s *DhcpOptionsResourceCrud) mapToDhcpOption(fieldKeyFormat string) (oci_co
 			interfaces := customDnsServers.([]interface{})
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
-				tmp[i] = interfaces[i].(string)
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
 			}
 			details.CustomDnsServers = tmp
 		}
@@ -399,7 +401,9 @@ func (s *DhcpOptionsResourceCrud) mapToDhcpOption(fieldKeyFormat string) (oci_co
 			interfaces := searchDomainNames.([]interface{})
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
-				tmp[i] = interfaces[i].(string)
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
 			}
 			details.SearchDomainNames = tmp
 		}

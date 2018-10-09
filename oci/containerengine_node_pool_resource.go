@@ -287,7 +287,9 @@ func (s *NodePoolResourceCrud) Create() error {
 		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
-			tmp[i] = interfaces[i].(string)
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
 		}
 		request.SubnetIds = tmp
 	}
@@ -400,7 +402,9 @@ func (s *NodePoolResourceCrud) Update() error {
 		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
-			tmp[i] = interfaces[i].(string)
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
 		}
 		request.SubnetIds = tmp
 	}

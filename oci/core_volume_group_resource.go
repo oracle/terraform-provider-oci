@@ -299,7 +299,9 @@ func (s *VolumeGroupResourceCrud) Update() error {
 		interfaces := volumeIds.([]interface{})
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
-			tmp[i] = interfaces[i].(string)
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
 		}
 		request.VolumeIds = tmp
 	}
@@ -408,7 +410,9 @@ func (s *VolumeGroupResourceCrud) mapToVolumeGroupSourceDetails(fieldKeyFormat s
 			interfaces := set.List()
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
-				tmp[i] = interfaces[i].(string)
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
 			}
 			details.VolumeIds = tmp
 		}
