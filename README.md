@@ -40,9 +40,20 @@ $ make build
 ```
 
 
-Using the provider
+Using the Provider
 ----------------------
-If you're building the provider, follow the instructions to [install it as a plugin.](https://www.terraform.io/docs/plugins/basics.html#installing-a-plugin) After placing it into your plugins directory,  run `terraform init` to initialize it.
+If you're building the provider, follow the instructions to [install it as a plugin.](https://www.terraform.io/docs/plugins/basics.html#installing-a-plugin) 
+After placing it into your plugins directory,  run `terraform init` to initialize it and begin using Terraform with the Oracle Cloud Infrastructure provider.
+
+
+Troubleshooting the Provider
+----------------------
+To get verbose console output when the provider is running, precede your Terraform command with the `TF_LOG` and `OCI_GO_SDK_DEBUG` flags:
+```sh
+TF_LOG=DEBUG OCI_GO_SDK_DEBUG=1 terraform plan
+```
+
+The [tf_log](https://www.terraform.io/docs/internals/debugging.html) level and `OCI_GO_SDK_DEBUG` flags can also be set as environment variables.
 
 
 Developing the Provider
