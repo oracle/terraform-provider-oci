@@ -7,10 +7,11 @@
 - Support for tagging of Boot Volume
 - Support for NAT Gateways
 - Support for singular data sources that can query individual Volumes, Subnets, and Instances
-- Fields "assigned_entity_id" and "assigned_entity_type" have been added to Public IPs to allow you to distinguish Public IPs of the NAT Gateway.
+- Fields "assigned_entity_id" and "assigned_entity_type" to Public IPs to allow distinguishing Public IPs of the NAT Gateway.
 
 ### Fixed
-- Fix logic for importing of volumes with backup policies. GH-590
+- Importing of volumes with backup policies. Issue [#590](https://github.com/terraform-providers/terraform-provider-oci/issues/590)
+- Updating of Virtual Circuits fails with field bgpMd5AuthKey is not supported
 
 ## 3.3.0 (October 04, 2018)
 
