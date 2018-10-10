@@ -6,6 +6,7 @@
 - Support for offline resizing of Boot Volume
 - Support for tagging of Boot Volume
 - Support for NAT Gateways
+- Support for singular data sources that can query individual Volumes, Subnets, and Instances
 - Fields "assigned_entity_id" and "assigned_entity_type" have been added to Public IPs to allow you to distinguish Public IPs of the NAT Gateway.
 
 ### Fixed
