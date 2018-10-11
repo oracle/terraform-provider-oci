@@ -1,4 +1,5 @@
-## 3.4.0 (Unreleased)
+## 3.5.0 (Unreleased)
+## 3.4.0 (October 11, 2018)
 
 ### Added
 - Support for clone and resize of Boot Volume
