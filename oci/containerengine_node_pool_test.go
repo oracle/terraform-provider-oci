@@ -52,7 +52,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	NodePoolPropertyVariables = `
 variable "node_pool_initial_node_labels_key" { default = "key" }
 variable "node_pool_initial_node_labels_value" { default = "value" }
-variable "node_pool_kubernetes_version" { default = "v1.8.11" }
+variable "node_pool_kubernetes_version" { default = "v1.10.3" }
 variable "node_pool_name" { default = "name" }
 variable "node_pool_node_image_name" { default = "Oracle-Linux-7.4" }
 variable "node_pool_node_shape" { default = "VM.Standard1.1" }
@@ -107,7 +107,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.8.11"),
+					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.10.3"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.4"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard1.1"),
@@ -133,7 +133,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key"),
 					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value"),
-					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.8.11"),
+					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.10.3"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.4"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard1.1"),
@@ -153,7 +153,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				Config: config + `
 variable "node_pool_initial_node_labels_key" { default = "key2" }
 variable "node_pool_initial_node_labels_value" { default = "value2" }
-variable "node_pool_kubernetes_version" { default = "v1.8.11" }
+variable "node_pool_kubernetes_version" { default = "v1.10.3" }
 variable "node_pool_name" { default = "name2" }
 variable "node_pool_node_image_name" { default = "Oracle-Linux-7.4" }
 variable "node_pool_node_shape" { default = "VM.Standard1.1" }
@@ -168,7 +168,7 @@ variable "node_pool_subnet_ids" { default = [] }
 					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key2"),
 					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value2"),
-					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.8.11"),
+					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.10.3"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.4"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard1.1"),
@@ -190,7 +190,7 @@ variable "node_pool_subnet_ids" { default = [] }
 				Config: config + `
 variable "node_pool_initial_node_labels_key" { default = "key2" }
 variable "node_pool_initial_node_labels_value" { default = "value2" }
-variable "node_pool_kubernetes_version" { default = "v1.8.11" }
+variable "node_pool_kubernetes_version" { default = "v1.10.3" }
 variable "node_pool_name" { default = "name2" }
 variable "node_pool_node_image_name" { default = "Oracle-Linux-7.4" }
 variable "node_pool_node_shape" { default = "VM.Standard1.1" }
@@ -223,7 +223,7 @@ data "oci_containerengine_node_pools" "test_node_pools" {
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.key", "key2"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.value", "value2"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.kubernetes_version", "v1.8.11"),
+					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.kubernetes_version", "v1.10.3"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.name", "name2"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_image_name", "Oracle-Linux-7.4"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard1.1"),
@@ -237,7 +237,7 @@ data "oci_containerengine_node_pools" "test_node_pools" {
 				Config: config + `
 variable "node_pool_initial_node_labels_key" { default = "key2" }
 variable "node_pool_initial_node_labels_value" { default = "value2" }
-variable "node_pool_kubernetes_version" { default = "v1.8.11" }
+variable "node_pool_kubernetes_version" { default = "v1.10.3" }
 variable "node_pool_name" { default = "name2" }
 variable "node_pool_node_image_name" { default = "Oracle-Linux-7.4" }
 variable "node_pool_node_shape" { default = "VM.Standard1.1" }
@@ -259,7 +259,7 @@ data "oci_containerengine_node_pool" "test_node_pool" {
 					resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.key", "key2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.value", "value2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "kubernetes_version", "v1.8.11"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "kubernetes_version", "v1.10.3"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "node_image_name", "Oracle-Linux-7.4"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard1.1"),
@@ -273,7 +273,7 @@ data "oci_containerengine_node_pool" "test_node_pool" {
 				Config: config + `
 variable "node_pool_initial_node_labels_key" { default = "key2" }
 variable "node_pool_initial_node_labels_value" { default = "value2" }
-variable "node_pool_kubernetes_version" { default = "v1.8.11" }
+variable "node_pool_kubernetes_version" { default = "v1.10.3" }
 variable "node_pool_name" { default = "name2" }
 variable "node_pool_node_image_name" { default = "Oracle-Linux-7.4" }
 variable "node_pool_node_shape" { default = "VM.Standard1.1" }
