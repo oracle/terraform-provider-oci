@@ -11,14 +11,20 @@
         <li<%= sidebar_current("docs-oci-guide") %>>
         <a href="#">Guides</a>
         <ul class="nav nav-visible">
-            <li<%= sidebar_current("docs-oci-guide-filters") %>>
-                <a href="/docs/providers/oci/guides/filters.html">Filters</a>
+            <li<%= sidebar_current("docs-oci-guide-best_practices") %>>
+                <a href="/docs/providers/oci/guides/best_practices.html">Best Practices</a>
             </li>
             <li<%= sidebar_current("docs-oci-guide-faq") %>>
                 <a href="/docs/providers/oci/guides/faq.html">Frequently Asked Questions</a>
             </li>
+            <li<%= sidebar_current("docs-oci-guide-filters") %>>
+                <a href="/docs/providers/oci/guides/filters.html">Filters</a>
+            </li>
             <li<%= sidebar_current("docs-oci-guide-managing_default_resources") %>>
                 <a href="/docs/providers/oci/guides/managing_default_resources.html">Managing Default Resources</a>
+            </li>
+            <li<%= sidebar_current("docs-oci-guide-object_store_backend") %>>
+                <a href="/docs/providers/oci/guides/object_store_backend.html">Object Store Backend</a>
             </li>
             <li<%= sidebar_current("docs-oci-guide-tagging_resources") %>>
                 <a href="/docs/providers/oci/guides/tagging_resources.html">Tagging Resources</a>
@@ -69,6 +75,9 @@
                  </li> 
                  <li<%= sidebar_current("docs-oci-datasource-containerengine-work_requests") %>>
                      <a href="/docs/providers/oci/d/containerengine_work_requests.html">oci_containerengine_work_requests</a>
+                 </li> 
+                 <li<%= sidebar_current("docs-oci-datasource-core-boot_volume") %>>
+                     <a href="/docs/providers/oci/d/core_boot_volume.html">oci_core_boot_volume</a>
                  </li> 
                  <li<%= sidebar_current("docs-oci-datasource-core-boot_volume_attachments") %>>
                      <a href="/docs/providers/oci/d/core_boot_volume_attachments.html">oci_core_boot_volume_attachments</a>
@@ -130,6 +139,9 @@
                  <li<%= sidebar_current("docs-oci-datasource-core-images") %>>
                      <a href="/docs/providers/oci/d/core_images.html">oci_core_images</a>
                  </li> 
+                 <li<%= sidebar_current("docs-oci-datasource-core-instance") %>>
+                     <a href="/docs/providers/oci/d/core_instance.html">oci_core_instance</a>
+                 </li> 
                  <li<%= sidebar_current("docs-oci-datasource-core-instance_console_connections") %>>
                      <a href="/docs/providers/oci/d/core_instance_console_connections.html">oci_core_instance_console_connections</a>
                  </li> 
@@ -156,6 +168,12 @@
                  </li> 
                  <li<%= sidebar_current("docs-oci-datasource-core-local_peering_gateways") %>>
                      <a href="/docs/providers/oci/d/core_local_peering_gateways.html">oci_core_local_peering_gateways</a>
+                 </li> 
+                 <li<%= sidebar_current("docs-oci-datasource-core-nat_gateway") %>>
+                     <a href="/docs/providers/oci/d/core_nat_gateway.html">oci_core_nat_gateway</a>
+                 </li> 
+                 <li<%= sidebar_current("docs-oci-datasource-core-nat_gateways") %>>
+                     <a href="/docs/providers/oci/d/core_nat_gateways.html">oci_core_nat_gateways</a>
                  </li> 
                  <li<%= sidebar_current("docs-oci-datasource-core-peer_region_for_remote_peerings") %>>
                      <a href="/docs/providers/oci/d/core_peer_region_for_remote_peerings.html">oci_core_peer_region_for_remote_peerings</a>
@@ -187,6 +205,9 @@
                  <li<%= sidebar_current("docs-oci-datasource-core-shapes") %>>
                      <a href="/docs/providers/oci/d/core_shapes.html">oci_core_shapes</a>
                  </li> 
+                 <li<%= sidebar_current("docs-oci-datasource-core-subnet") %>>
+                     <a href="/docs/providers/oci/d/core_subnet.html">oci_core_subnet</a>
+                 </li> 
                  <li<%= sidebar_current("docs-oci-datasource-core-subnets") %>>
                      <a href="/docs/providers/oci/d/core_subnets.html">oci_core_subnets</a>
                  </li> 
@@ -210,6 +231,9 @@
                  </li> 
                  <li<%= sidebar_current("docs-oci-datasource-core-vnic_attachments") %>>
                      <a href="/docs/providers/oci/d/core_vnic_attachments.html">oci_core_vnic_attachments</a>
+                 </li> 
+                 <li<%= sidebar_current("docs-oci-datasource-core-volume") %>>
+                     <a href="/docs/providers/oci/d/core_volume.html">oci_core_volume</a>
                  </li> 
                  <li<%= sidebar_current("docs-oci-datasource-core-volume_attachments") %>>
                      <a href="/docs/providers/oci/d/core_volume_attachments.html">oci_core_volume_attachments</a>
@@ -469,6 +493,9 @@
                 <li<%= sidebar_current("docs-oci-resource-core-boot_volume_backup") %>>
                     <a href="/docs/providers/oci/r/core_boot_volume_backup.html">oci_core_boot_volume_backup</a>
                 </li> 
+                <li<%= sidebar_current("docs-oci-resource-core-boot_volume") %>>
+                    <a href="/docs/providers/oci/r/core_boot_volume.html">oci_core_boot_volume</a>
+                </li> 
                 <li<%= sidebar_current("docs-oci-resource-core-console_history") %>>
                     <a href="/docs/providers/oci/r/core_console_history.html">oci_core_console_history</a>
                 </li> 
@@ -507,6 +534,9 @@
                 </li> 
                 <li<%= sidebar_current("docs-oci-resource-core-local_peering_gateway") %>>
                     <a href="/docs/providers/oci/r/core_local_peering_gateway.html">oci_core_local_peering_gateway</a>
+                </li> 
+                <li<%= sidebar_current("docs-oci-resource-core-nat_gateway") %>>
+                    <a href="/docs/providers/oci/r/core_nat_gateway.html">oci_core_nat_gateway</a>
                 </li> 
                 <li<%= sidebar_current("docs-oci-resource-core-private_ip") %>>
                     <a href="/docs/providers/oci/r/core_private_ip.html">oci_core_private_ip</a>

@@ -11,7 +11,7 @@ import (
 
 // @CODEGEN: Override the resource schema's 'security_list_ids' to make it TypeList instead of TypeSet.
 // Avoids a potential breaking change with existing schema.
-func SubnetDataSource() *schema.Resource {
+func SubnetItemSchema() *schema.Resource {
 	result := SubnetResource()
 
 	result.Schema["security_list_ids"] = &schema.Schema{
@@ -49,7 +49,7 @@ func SubnetsDataSource() *schema.Resource {
 			"subnets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     SubnetDataSource(),
+				Elem:     SubnetItemSchema(),
 			},
 			"limit": {
 				Type:       schema.TypeInt,

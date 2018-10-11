@@ -16,7 +16,7 @@ Gets the specified cross-connect's information.
 ```hcl
 data "oci_core_cross_connect" "test_cross_connect" {
 	#Required
-	cross_connect_id = "${var.cross_connect_cross_connect_id}"
+	cross_connect_id = "${oci_core_cross_connect.test_cross_connect.id}"
 }
 ```
 

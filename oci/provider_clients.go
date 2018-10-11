@@ -6,6 +6,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 	"strings"
@@ -110,25 +111,36 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 			return nil
 		}
 
-		// R1 Support
-		if region, err := officialSdkConfigProvider.Region(); err == nil && strings.ToLower(region) == "r1" {
-			service := strings.Split(client.Host, ".")[0]
-			domainName := getEnvSettingWithBlankDefault("oracle_r1_domain_name")
-			if domainName == "" {
-				return fmt.Errorf("oracle_r1_domain_name is required env setting for r1 region")
-			}
-			client.Host = fmt.Sprintf("%s.%s.%s", service, strings.ToLower(region), domainName)
+		// R1, et al Support
+		domainNameOverride := getEnvSettingWithBlankDefault(domainNameOverrideEnv)
+		r1DomainName := getEnvSettingWithBlankDefault(oracleR1DomainNameEnv)
+		customCertLoc := getEnvSettingWithBlankDefault(customCertLocationEnv)
+		r1CertLoc := getEnvSettingWithBlankDefault(r1CertLocationEnv)
 
-			pool := x509.NewCertPool()
-			//readCertPem reads the pem files to a []byte
-			cert, err := readCertPem()
+		if domainNameOverride != "" || r1DomainName != "" {
+			if domainNameOverride != "" && r1DomainName != "" {
+				return fmt.Errorf("conflicting environment variables (domain_name_override and oracle_r1_domain_name) resulting in domain name ambiguity:  %s and %s", domainNameOverride, r1DomainName)
+			}
+
+			region, _ := officialSdkConfigProvider.Region()
+			service := strings.Split(client.Host, ".")[0]
+			client.Host = fmt.Sprintf("%s.%s.%s", service, strings.ToLower(region), domainNameOverride+r1DomainName)
+		}
+
+		if customCertLoc != "" || r1CertLoc != "" {
+			if customCertLoc != "" && r1CertLoc != "" {
+				return fmt.Errorf("conflicting environment variables (custom_cert_location and R1_CERT_LOCATION) resulting in certificate locations ambiguity: %s and %s", customCertLoc, r1CertLoc)
+			}
+
+			cert, err := ioutil.ReadFile(customCertLoc + r1CertLoc)
 			if err != nil {
 				return err
 			}
+			pool := x509.NewCertPool()
 			if ok := pool.AppendCertsFromPEM(cert); !ok {
 				return fmt.Errorf("failed to append R1 cert to the cert pool")
 			}
-			//install the certificates to the client
+			// install the certificates in the client
 			if h, ok := client.HTTPClient.(*http.Client); ok {
 				tr := &http.Transport{TLSClientConfig: &tls.Config{RootCAs: pool}}
 				h.Transport = tr
@@ -136,6 +148,11 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 				return fmt.Errorf("the client dispatcher is not of http.Client type. can not patch the tls config")
 			}
 		}
+
+		if r1DomainName != "" && r1CertLoc == "" || r1DomainName == "" && r1CertLoc != "" {
+			return fmt.Errorf("both certificate location and domain name must be specified to target r1")
+		}
+
 		return nil
 	}
 

@@ -5,8 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
-	"regexp"
 	"testing"
+
+	"regexp"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
@@ -130,6 +131,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 
 	resourceName := "oci_core_instance.test_instance"
 	datasourceName := "data.oci_core_instances.test_instances"
+	singularDatasourceName := "data.oci_core_instance.test_instance"
 
 	var resId, resId2 string
 
@@ -369,6 +371,99 @@ data "oci_core_instances" "test_instances" {
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.time_created"),
 				),
+			},
+			// verify singular datasource
+			{
+				Config: config + InstanceCommonVariables + `
+variable "instance_availability_domain" { default = "availabilityDomain" }
+variable "instance_create_vnic_details_assign_public_ip" { default = true }
+variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
+variable "instance_create_vnic_details_display_name" { default = "displayName" }
+variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "instance_create_vnic_details_private_ip" { default = "10.0.0.5" }
+variable "instance_create_vnic_details_skip_source_dest_check" { default = false }
+variable "instance_defined_tags_value" { default = "updatedValue" }
+variable "instance_display_name" { default = "displayName2" }
+variable "instance_extended_metadata" { default = {
+	some_string = "stringA"
+	nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
+	other_string = "stringD"
+} }
+variable "instance_fault_domain" { default = "FAULT-DOMAIN-2" }
+variable "instance_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "instance_hostname_label" { default = "hostnameLabel" }
+variable "instance_image" { default = "image" }
+variable "instance_ipxe_script" { default = "ipxeScript" }
+variable "instance_metadata" { default = { 
+	user_data = "abcd"
+	volatile_data = "stringE"
+} }
+variable "instance_shape" { default = "VM.Standard1.8" }
+variable "instance_source_details_source_type" { default = "image" }
+variable "instance_state" { default = "RUNNING" }
+
+data "oci_core_instance" "test_instance" {
+	#Required
+	instance_id = "${oci_core_instance.test_instance.id}"
+}
+                ` + compartmentIdVariableStr + InstanceResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
+
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
+					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "2"),
+					resource.TestCheckResourceAttrSet(resourceName, "region"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					resource.TestCheckResourceAttrSet(resourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(resourceName, "private_ip"),
+					resource.TestCheckResourceAttrSet(resourceName, "boot_volume_id"),
+				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + InstanceCommonVariables + `
+variable "instance_availability_domain" { default = "availabilityDomain" }
+variable "instance_create_vnic_details_assign_public_ip" { default = true }
+variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
+variable "instance_create_vnic_details_display_name" { default = "displayName" }
+variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "instance_create_vnic_details_private_ip" { default = "10.0.0.5" }
+variable "instance_create_vnic_details_skip_source_dest_check" { default = false }
+variable "instance_defined_tags_value" { default = "updatedValue" }
+variable "instance_display_name" { default = "displayName2" }
+variable "instance_extended_metadata" { default = {
+	some_string = "stringA"
+	nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
+	other_string = "stringD"
+} }
+variable "instance_fault_domain" { default = "FAULT-DOMAIN-2" }
+variable "instance_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "instance_hostname_label" { default = "hostnameLabel" }
+variable "instance_image" { default = "image" }
+variable "instance_ipxe_script" { default = "ipxeScript" }
+variable "instance_metadata" { default = { 
+	user_data = "abcd"
+	volatile_data = "stringE"
+} }
+variable "instance_shape" { default = "VM.Standard1.8" }
+variable "instance_source_details_source_type" { default = "image" }
+variable "instance_state" { default = "RUNNING" }
+
+                ` + compartmentIdVariableStr + InstanceResourceConfig,
 			},
 			// verify resource import
 			{

@@ -22,6 +22,10 @@ func PublicIpsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"lifetime": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"scope": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -66,6 +70,10 @@ func (s *PublicIpsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if lifetime, ok := s.D.GetOkExists("lifetime"); ok {
+		request.Lifetime = oci_core.ListPublicIpsLifetimeEnum(lifetime.(string))
+	}
+
 	if scope, ok := s.D.GetOkExists("scope"); ok {
 		request.Scope = oci_core.ListPublicIpsScopeEnum(scope.(string))
 	}
@@ -106,6 +114,12 @@ func (s *PublicIpsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 			"scope":          r.Scope,
 		}
+
+		if r.AssignedEntityId != nil {
+			publicIp["assigned_entity_id"] = *r.AssignedEntityId
+		}
+
+		publicIp["assigned_entity_type"] = r.AssignedEntityType
 
 		if r.AvailabilityDomain != nil {
 			publicIp["availability_domain"] = *r.AvailabilityDomain

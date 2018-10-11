@@ -543,7 +543,7 @@ func CreateVirtualCircuitPublicPrefixDetailsToMap(obj string) map[string]interfa
 func (s *VirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat string) (oci_core.CrossConnectMapping, error) {
 	result := oci_core.CrossConnectMapping{}
 
-	if bgpMd5AuthKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bgp_md5auth_key")); ok {
+	if bgpMd5AuthKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bgp_md5auth_key")); ok && bgpMd5AuthKey != "" {
 		tmp := bgpMd5AuthKey.(string)
 		result.BgpMd5AuthKey = &tmp
 	}

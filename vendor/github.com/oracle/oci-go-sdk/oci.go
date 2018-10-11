@@ -143,6 +143,36 @@ The signer also allows more granular control on the headers used for signing. Fo
 	// Execute the request
 	c.Do(request)
 
+You can combine a custom signer with the exposed clients in the SDK.
+This allows you to add custom signed headers to the request. Following is an example:
+
+	//Create a provider of cryptographic keys
+	provider := common.DefaultConfigProvider()
+
+	//Create a client for the service you interested in
+	c, _ := identity.NewIdentityClientWithConfigurationProvider(provider)
+
+	//Define a custom header to be signed, and add it to the list of default headers
+	customHeader := "opc-my-token"
+	allHeaders := append(common.DefaultGenericHeaders(), customHeader)
+
+	//Overwrite the signer in your client to sign the new slice of headers
+	c.Signer = common.RequestSigner(provider, allHeaders, common.DefaultBodyHeaders())
+
+	//Set the value of the header. This can be done with an Interceptor
+	c.Interceptor = func(request *http.Request) error {
+		request.Header.Add(customHeader, "customvalue")
+		return nil
+	}
+
+	//Execute your operation as before
+	c.ListGroups(..)
+
+Bear in mind that some services have a white list of headers that it expects to be signed.
+Therefore, adding an arbitrary header can result in authentications errors.
+To see a runnable example, see https://github.com/oracle/oci-go-sdk/blob/master/example/example_identity_test.go
+
+
 For more information on the signing algorithm refer to: https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/signingrequests.htm
 
 Polymorphic json requests and responses

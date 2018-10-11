@@ -199,7 +199,7 @@ variable "db_home_db_version" { default = "12.1.0.2" }
 
 data "oci_database_db_home" "test_db_home" {
 	#Required
-	db_home_id = "${oci_database_db_home.test_db_home.id}"
+	db_home_id = "${var.db_home_id}"
 }
                 ` + compartmentIdVariableStr + DbHomeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(

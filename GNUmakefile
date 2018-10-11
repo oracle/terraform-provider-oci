@@ -3,7 +3,7 @@ GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 PKG_NAME=oci
 WEBSITE_REPO=github.com/hashicorp/terraform-website
 
-prefix := $(if $(debug),TF_LOG=DEBUG DEBUG=true OCI_GO_SDK_DEBUG=1, )
+prefix := $(if $(debug),TF_LOG=DEBUG OCI_GO_SDK_DEBUG=1, )
 timeout := $(if $(timeout), $(timeout), 120m)
 run_regex := $(if $(run), -run $(run), )
 skip_goimports_check_flag := $(if $(skip_goimports_check), -s, )

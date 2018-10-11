@@ -1,4 +1,18 @@
-## 3.3.1 (Unreleased)
+## 3.4.0 (Unreleased)
+
+### Added
+- Support for clone and resize of Boot Volume
+- Support for specifying a backup policy at the time of creating a Boot Volume
+- Support for offline resizing of Boot Volume
+- Support for tagging of Boot Volume
+- Support for NAT Gateways
+- Support for singular data sources that can query individual Volumes, Subnets, and Instances
+- Fields "assigned_entity_id" and "assigned_entity_type" to Public IPs to allow distinguishing Public IPs of the NAT Gateway.
+
+### Fixed
+- Importing of volumes with backup policies. Issue [#590](https://github.com/terraform-providers/terraform-provider-oci/issues/590)
+- Updating of Virtual Circuits fails with field bgpMd5AuthKey is not supported
+
 ## 3.3.0 (October 04, 2018)
 
 ### Added

@@ -677,13 +677,13 @@
 			"revisionTime": "2018-03-08T00:51:04Z"
 		},
 		{
-			"checksumSHA1": "0EDIxV/6uYEK5dT0LUDLEeBOoeY=",
+			"checksumSHA1": "BkX7KaAM5ibEW3pgw3ZiwRmQBsI=",
 			"path": "github.com/oracle/oci-go-sdk",
-			"revision": "f97cb21a94590a35d41e7e96a2adf0d2e4721fc1",
-			"revisionTime": "2018-09-27T21:02:56Z",
+			"revision": "37ec848b9622efd149232580c77a7a168f0f35ef",
+			"revisionTime": "2018-10-04T17:34:37Z",
 			"tree": true,
-			"version": "=v2.5.0",
-			"versionExact": "v2.5.0"
+			"version": "v2.6.0",
+			"versionExact": "v2.6.0"
 		},
 		{
 			"checksumSHA1": "LuFv4/jlrmFNnDb/5SCSEPAM9vU=",

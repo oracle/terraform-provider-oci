@@ -34,7 +34,10 @@ const (
 	defaultConnectionTimeout     = 10 * time.Second
 	defaultTLSHandshakeTimeout   = 5 * time.Second
 	userAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) Oracle-TerraformProvider/%s"
-	r1CertLocationEnv            = "R1_CERT_LOCATION"
+	domainNameOverrideEnv        = "domain_name_override"
+	customCertLocationEnv        = "custom_cert_location"
+	oracleR1DomainNameEnv        = "oracle_r1_domain_name" // deprecate
+	r1CertLocationEnv            = "R1_CERT_LOCATION"      // deprecate
 )
 
 // OboTokenProvider interface that wraps information about auth tokens so the sdk client can make calls
@@ -184,6 +187,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_fast_connect_provider_service":         FastConnectProviderServiceDataSource(),
 		"oci_core_fast_connect_provider_services":        FastConnectProviderServicesDataSource(),
 		"oci_core_images":                                ImagesDataSource(),
+		"oci_core_instance":                              InstanceDataSource(),
 		"oci_core_instance_credentials":                  InstanceCredentialDataSource(),
 		"oci_core_instances":                             InstancesDataSource(),
 		"oci_core_instance_console_connections":          InstanceConsoleConnectionsDataSource(),
@@ -193,6 +197,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_ipsec_status":                          IpSecConnectionDeviceStatusDataSource(),
 		"oci_core_letter_of_authority":                   LetterOfAuthorityDataSource(),
 		"oci_core_local_peering_gateways":                LocalPeeringGatewaysDataSource(),
+		"oci_core_nat_gateway":                           NatGatewayDataSource(),
+		"oci_core_nat_gateways":                          NatGatewaysDataSource(),
 		"oci_core_peer_region_for_remote_peerings":       PeerRegionForRemotePeeringsDataSource(),
 		"oci_core_private_ips":                           PrivateIpsDataSource(),
 		"oci_core_public_ip":                             PublicIpDataSource(),
@@ -204,6 +210,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_services":                              ServicesDataSource(),
 		"oci_core_shape":                                 InstanceShapesDataSource(),
 		"oci_core_shapes":                                InstanceShapesDataSource(),
+		"oci_core_subnet":                                SubnetDataSource(),
 		"oci_core_subnets":                               SubnetsDataSource(),
 		"oci_core_virtual_circuit_bandwidth_shapes":      VirtualCircuitBandwidthShapesDataSource(),
 		"oci_core_virtual_circuit_public_prefixes":       VirtualCircuitPublicPrefixesDataSource(),
@@ -213,6 +220,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_vcns":                                  VcnsDataSource(),
 		"oci_core_vnic":                                  VnicDataSource(),
 		"oci_core_vnic_attachments":                      VnicAttachmentsDataSource(),
+		"oci_core_volume":                                VolumeDataSource(),
 		"oci_core_volume_attachments":                    VolumeAttachmentsDataSource(),
 		"oci_core_volume_backup_policies":                VolumeBackupPoliciesDataSource(),
 		"oci_core_volume_backup_policy_assignments":      VolumeBackupPolicyAssignmentsDataSource(),
@@ -318,6 +326,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_internet_gateway":                     InternetGatewayResource(),
 		"oci_core_ipsec":                                IpSecConnectionResource(),
 		"oci_core_local_peering_gateway":                LocalPeeringGatewayResource(),
+		"oci_core_nat_gateway":                          NatGatewayResource(),
 		"oci_core_private_ip":                           PrivateIpResource(),
 		"oci_core_public_ip":                            PublicIpResource(),
 		"oci_core_default_route_table":                  DefaultRouteTableResource(),
@@ -559,14 +568,4 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 	}
 
 	return nil, fmt.Errorf("can not get private_key or private_key_path from Terraform configuration")
-}
-
-func readCertPem() (file []byte, err error) {
-	r1CertLoc := getEnvSettingWithBlankDefault(r1CertLocationEnv)
-	if r1CertLoc == "" {
-		err = fmt.Errorf("the R1 Certificate Location must be specified in the environment variable %s", r1CertLocationEnv)
-		return
-	}
-	file, err = ioutil.ReadFile(r1CertLoc)
-	return
 }
