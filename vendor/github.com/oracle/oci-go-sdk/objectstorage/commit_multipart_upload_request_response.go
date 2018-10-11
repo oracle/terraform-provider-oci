@@ -32,7 +32,7 @@ type CommitMultipartUploadRequest struct {
 	// For uploading a part, this is the entity tag of the target part.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The entity tag to avoid matching. The only valid value is ‘*’, which indicates that the request should fail if the object already exists.
+	// The entity tag to avoid matching. The only valid value is '*', which indicates that the request should fail if the object already exists.
 	// For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a part, this is the entity tag of the target part.
 	IfNoneMatch *string `mandatory:"false" contributesTo:"header" name:"if-none-match"`
 
@@ -74,8 +74,7 @@ type CommitMultipartUploadResponse struct {
 	// Base-64 representation of the multipart object hash.
 	// The multipart object hash is calculated by taking the MD5 hashes of the parts passed to this call,
 	// concatenating the binary representation of those hashes in order of their part numbers,
-	// and then calculating the MD5 hash of the concatenated values. The multipart object hash is followed
-	// by a hyphen and the total number of parts (for example, '-6').
+	// and then calculating the MD5 hash of the concatenated values.
 	OpcMultipartMd5 *string `presentIn:"header" name:"opc-multipart-md5"`
 
 	// The entity tag for the object.

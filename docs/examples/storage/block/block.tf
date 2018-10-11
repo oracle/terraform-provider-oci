@@ -38,6 +38,22 @@ resource "oci_core_volume" "t" {
   size_in_gbs         = "${var.DBSize}"
 }
 
+resource "oci_core_volume" "t2" {
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  compartment_id      = "${var.compartment_ocid}"
+  display_name        = "-tf-volume-with-backup-policy"
+  size_in_gbs         = "${var.DBSize}"
+  backup_policy_id    = "${data.oci_core_volume_backup_policies.test_boot_volume_backup_policies.volume_backup_policies.0.id}"
+
+}
+
+data "oci_core_volume_backup_policies" "test_boot_volume_backup_policies" {
+  filter {
+    name   = "display_name"
+    values = ["bronze"]
+  }
+}
+
 data "oci_core_volumes" "test_volumes" {
   compartment_id = "${var.compartment_ocid}"
 

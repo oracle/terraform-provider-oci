@@ -22,7 +22,7 @@ type GetBucketRequest struct {
 	// For uploading a part, this is the entity tag of the target part.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The entity tag to avoid matching. The only valid value is ‘*’, which indicates that the request should fail if the object already exists.
+	// The entity tag to avoid matching. The only valid value is '*', which indicates that the request should fail if the object already exists.
 	// For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a part, this is the entity tag of the target part.
 	IfNoneMatch *string `mandatory:"false" contributesTo:"header" name:"if-none-match"`
 

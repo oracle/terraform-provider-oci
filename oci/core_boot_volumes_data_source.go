@@ -30,65 +30,7 @@ func BootVolumesDataSource() *schema.Resource {
 			"boot_volumes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"availability_domain": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"compartment_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"defined_tags": {
-							Type:     schema.TypeMap,
-							Computed: true,
-							Elem:     schema.TypeString,
-						},
-						"display_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"freeform_tags": {
-							Type:     schema.TypeMap,
-							Computed: true,
-							Elem:     schema.TypeString,
-						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"image_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"size_in_gbs": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"size_in_mbs": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"state": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_created": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"volume_group_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
+				Elem:     GetDataSourceItemSchema(BootVolumeResource()),
 			},
 		},
 	}
@@ -185,12 +127,26 @@ func (s *BootVolumesDataSourceCrud) SetData() error {
 			bootVolume["image_id"] = *r.ImageId
 		}
 
+		if r.IsHydrated != nil {
+			bootVolume["is_hydrated"] = *r.IsHydrated
+		}
+
 		if r.SizeInGBs != nil {
 			bootVolume["size_in_gbs"] = strconv.FormatInt(*r.SizeInGBs, 10)
 		}
 
 		if r.SizeInMBs != nil {
 			bootVolume["size_in_mbs"] = strconv.FormatInt(*r.SizeInMBs, 10)
+		}
+
+		if r.SourceDetails != nil {
+			sourceDetailsArray := []interface{}{}
+			if sourceDetailsMap := BootVolumeSourceDetailsToMap(&r.SourceDetails); sourceDetailsMap != nil {
+				sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
+			}
+			bootVolume["source_details"] = sourceDetailsArray
+		} else {
+			bootVolume["source_details"] = nil
 		}
 
 		bootVolume["state"] = r.LifecycleState

@@ -16,7 +16,7 @@ Gets information about the specified database home.
 ```hcl
 data "oci_database_db_home" "test_db_home" {
 	#Required
-	db_home_id = "${oci_database_db_system.test_db_system.id}"
+	db_home_id = "${var.db_home_id}"
 }
 ```
 

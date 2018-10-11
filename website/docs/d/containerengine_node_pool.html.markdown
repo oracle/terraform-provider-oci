@@ -16,7 +16,7 @@ Get the details of a node pool.
 ```hcl
 data "oci_containerengine_node_pool" "test_node_pool" {
 	#Required
-	node_pool_id = "${var.node_pool_node_pool_id}"
+	node_pool_id = "${oci_containerengine_node_pool.test_node_pool.id}"
 }
 ```
 

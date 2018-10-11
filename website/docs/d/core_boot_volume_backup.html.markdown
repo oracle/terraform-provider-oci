@@ -16,7 +16,7 @@ Gets information for the specified boot volume backup.
 ```hcl
 data "oci_core_boot_volume_backup" "test_boot_volume_backup" {
 	#Required
-	boot_volume_backup_id = "${var.boot_volume_backup_boot_volume_backup_id}"
+	boot_volume_backup_id = "${oci_core_boot_volume_backup.test_boot_volume_backup.id}"
 }
 ```
 

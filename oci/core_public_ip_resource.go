@@ -59,6 +59,14 @@ func PublicIpResource() *schema.Resource {
 			},
 
 			// Computed
+			"assigned_entity_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"assigned_entity_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -289,6 +297,12 @@ func (s *PublicIpResourceCrud) Delete() error {
 }
 
 func (s *PublicIpResourceCrud) SetData() error {
+	if s.Res.AssignedEntityId != nil {
+		s.D.Set("assigned_entity_id", *s.Res.AssignedEntityId)
+	}
+
+	s.D.Set("assigned_entity_type", s.Res.AssignedEntityType)
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}

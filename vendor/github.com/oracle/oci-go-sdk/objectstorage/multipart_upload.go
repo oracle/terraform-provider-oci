@@ -3,7 +3,7 @@
 
 // Object Storage Service API
 //
-// Common set of Object and Archive Storage APIs for managing buckets and objects.
+// The Object and Archive Storage APIs for managing buckets and objects.
 //
 
 package objectstorage
@@ -16,7 +16,7 @@ import (
 // objects that are too large for a single upload operation. With multipart uploads, individual parts of an object can be
 // uploaded in parallel to reduce the amount of time you spend uploading. Multipart uploads can also minimize the impact
 // of network failures by letting you retry a failed part upload instead of requiring you to retry an entire object upload.
-// See Using Multipart Uploads (https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/usingmultipartuploads.htm).
+// See Managing Multipart Uploads (https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/managingmultipartuploads.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).

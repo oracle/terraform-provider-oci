@@ -3,6 +3,8 @@
 package provider
 
 import (
+	"context"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
@@ -47,4 +49,22 @@ func LaunchOptionsToMap(obj *oci_core.LaunchOptions) map[string]interface{} {
 	result["remote_data_volume_type"] = string(obj.RemoteDataVolumeType)
 
 	return result
+}
+
+func getBackupPolicyId(assetId *string, client *oci_core.BlockstorageClient) (*string, error) {
+	request := oci_core.GetVolumeBackupPolicyAssetAssignmentRequest{}
+	request.AssetId = assetId
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
+
+	response, err := client.GetVolumeBackupPolicyAssetAssignment(context.Background(), request)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(response.Items) > 0 {
+		policyAssignment := response.Items[0]
+		return policyAssignment.PolicyId, nil
+	} else {
+		return nil, nil
+	}
 }

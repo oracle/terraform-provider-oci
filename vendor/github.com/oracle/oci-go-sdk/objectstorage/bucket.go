@@ -3,7 +3,7 @@
 
 // Object Storage Service API
 //
-// Common set of Object and Archive Storage APIs for managing buckets and objects.
+// The Object and Archive Storage APIs for managing buckets and objects.
 //
 
 package objectstorage
@@ -67,6 +67,9 @@ type Bucket struct {
 
 	// The OCID of a KMS key id used to call KMS to generate data key, decrypt the encrypted data key
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The entity tag for the live object lifecycle policy on the bucket.
+	ObjectLifecyclePolicyEtag *string `mandatory:"false" json:"objectLifecyclePolicyEtag"`
 }
 
 func (m Bucket) String() string {
