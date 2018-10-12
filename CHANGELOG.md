@@ -3,6 +3,7 @@
 ### Added
 - Support for [Cross Region Copy](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/copyingobjects.htm) of objects
 - Support for object lifecycle policies on a bucket on object storage. See [Using Object Lifecycle Management](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/usinglifecyclepolicies.htm)
+- Support for singular data source for a bucket
 
 ## 3.4.0 (October 11, 2018)
 
