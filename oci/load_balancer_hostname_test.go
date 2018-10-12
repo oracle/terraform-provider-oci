@@ -115,7 +115,6 @@ data "oci_load_balancer_hostnames" "test_hostnames" {
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
-					"load_balancer_id",
 					"state",
 				},
 				ResourceName: resourceName,
