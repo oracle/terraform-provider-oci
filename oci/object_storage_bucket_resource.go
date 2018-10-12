@@ -75,6 +75,10 @@ func BucketResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"object_lifecycle_policy_etag": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -323,6 +327,10 @@ func (s *BucketResourceCrud) SetData() error {
 
 	if s.Res.Namespace != nil {
 		s.D.Set("namespace", *s.Res.Namespace)
+	}
+
+	if s.Res.ObjectLifecyclePolicyEtag != nil {
+		s.D.Set("object_lifecycle_policy_etag", *s.Res.ObjectLifecyclePolicyEtag)
 	}
 
 	s.D.Set("storage_tier", s.Res.StorageTier)

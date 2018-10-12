@@ -44,6 +44,7 @@ variable "bucket_defined_tags_value" { default = "value" }
 variable "bucket_freeform_tags" { default = {"Department"= "Finance"} }
 variable "bucket_metadata" { default = {"content-type" = "text/plain"} }
 variable "bucket_name" { default = "my-test-1" }
+variable "bucket_namespace" { default = "example_namespace" }
 variable "bucket_storage_tier" { default = "Standard" }
 
 `
@@ -65,6 +66,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 
 	resourceName := "oci_objectstorage_bucket.test_bucket"
 	datasourceName := "data.oci_objectstorage_bucket_summaries.test_buckets"
+	singularDatasourceName := "data.oci_objectstorage_bucket.test_bucket"
 
 	var resId, resId2 string
 
@@ -150,7 +152,8 @@ variable "bucket_defined_tags_value" { default = "updatedValue" }
 variable "bucket_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "bucket_metadata" { default = {"content-type" = "text/xml"} }
 variable "bucket_name" { default = "name2" }
-variable "bucket_storage_tier" { default = "Archive" }
+variable "bucket_namespace" { default = "example_namespace" }
+variable "bucket_storage_tier" { default = "Standard" }
 
                 ` + compartmentIdVariableStr + BucketResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -163,7 +166,7 @@ variable "bucket_storage_tier" { default = "Archive" }
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Archive"),
+					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
@@ -184,6 +187,7 @@ variable "bucket_defined_tags_value" { default = "updatedValue" }
 variable "bucket_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "bucket_metadata" { default = {"content-type" = "text/xml"} }
 variable "bucket_name" { default = "name2" }
+variable "bucket_namespace" { default = "example_namespace" }
 variable "bucket_storage_tier" { default = "Standard" }
 
 data "oci_objectstorage_bucket_summaries" "test_buckets" {
@@ -210,6 +214,43 @@ data "oci_objectstorage_bucket_summaries" "test_buckets" {
 					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.name", "name2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.namespace"),
 					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.time_created"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config + `
+variable "bucket_access_type" { default = "ObjectRead" }
+variable "bucket_defined_tags_value" { default = "updatedValue" }
+variable "bucket_freeform_tags" { default = {"Department"= "Accounting"} }
+variable "bucket_metadata" { default = {"content-type" = "text/xml"} }
+variable "bucket_name" { default = "name2" }
+variable "bucket_namespace" { default = "example_namespace" }
+variable "bucket_storage_tier" { default = "Standard" }
+
+data "oci_objectstorage_bucket" "test_bucket" {
+	#Required
+	name = "${var.bucket_name}"
+	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+}
+                ` + compartmentIdVariableStr + BucketResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "access_type", "ObjectRead"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
+					// This is difficult to test because TF is eager in creating the datasource and gives stale results.
+					// If a depends_on is added, we get an error like "After applying this step and refreshing, the plan was not empty:"
+					//resource.TestCheckResourceAttrSet(singularDatasourceName, "object_lifecycle_policy_etag"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "storage_tier", "Standard"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
 		},
