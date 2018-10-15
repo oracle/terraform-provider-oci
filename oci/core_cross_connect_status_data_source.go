@@ -18,7 +18,6 @@ func CrossConnectStatusDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
-			// @CODEGEN 07/2018: Remove duplicated fields in computed that are also required
 			"interface_state": {
 				Type:     schema.TypeString,
 				Computed: true,
