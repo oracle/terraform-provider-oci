@@ -33,7 +33,9 @@ const (
 	defaultRequestTimeout        = 0
 	defaultConnectionTimeout     = 10 * time.Second
 	defaultTLSHandshakeTimeout   = 5 * time.Second
-	userAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) Oracle-TerraformProvider/%s"
+	defaultUserAgentProviderName = "Oracle-TerraformProvider"
+	userAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) %s/%s"
+	userAgentProviderNameEnv     = "USER_AGENT_PROVIDER_NAME"
 	domainNameOverrideEnv        = "domain_name_override"
 	customCertLocationEnv        = "custom_cert_location"
 	oracleR1DomainNameEnv        = "oracle_r1_domain_name" // deprecate
@@ -439,7 +441,8 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	disableAutoRetries = d.Get("disable_auto_retries").(bool)
 	auth := strings.ToLower(d.Get("auth").(string))
 
-	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), Version)
+	userAgentProviderName := getEnvSettingWithDefault(userAgentProviderNameEnv, defaultUserAgentProviderName)
+	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), userAgentProviderName, Version)
 
 	httpClient := &http.Client{
 		Timeout: defaultRequestTimeout,
