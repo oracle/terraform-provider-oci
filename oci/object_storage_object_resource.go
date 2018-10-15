@@ -4,22 +4,18 @@ package provider
 
 import (
 	"context"
-	"fmt"
-
-	"github.com/hashicorp/terraform/helper/schema"
-
 	"crypto/md5"
 	"encoding/hex"
+	"fmt"
 
 	"bytes"
 	"io/ioutil"
 	"log"
+	"os"
+	"strconv"
 	"strings"
 
-	"strconv"
-
-	"os"
-
+	"github.com/hashicorp/terraform/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
@@ -79,7 +75,7 @@ func ObjectResource() *schema.Resource {
 					h := md5.Sum([]byte(v))
 					return hex.EncodeToString(h[:])
 				},
-				ConflictsWith: []string{"source"},
+				ConflictsWith: []string{"source", "source_uri_details"},
 			},
 			"content_encoding": {
 				Type:     schema.TypeString,
@@ -120,12 +116,73 @@ func ObjectResource() *schema.Resource {
 				Type:          schema.TypeString,
 				Optional:      true,
 				ForceNew:      true,
-				ConflictsWith: []string{"content"},
+				ConflictsWith: []string{"content", "source_uri_details"},
 				StateFunc:     setSourceState,
 				ValidateFunc:  validateSourceValue,
 			},
+			"source_uri_details": {
+				Type:          schema.TypeList,
+				Optional:      true,
+				ForceNew:      true,
+				MaxItems:      1,
+				MinItems:      1,
+				ConflictsWith: []string{"content", "source"},
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"region": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						// Required
+						"namespace": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						// Required
+						"bucket": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						// Required
+						"object": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"source_object_if_match_etag": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"destination_object_if_match_etag": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"destination_object_if_none_match_etag": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+					},
+				},
+			},
 
 			// Computed
+			"copy_state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"copy_work_request_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -212,6 +269,120 @@ func (s *ObjectResourceCrud) createMultiPartObject() error {
 	return s.Get()
 }
 
+func (s *ObjectResourceCrud) createCopyObject() error {
+
+	copyObjectRequest := oci_object_storage.CopyObjectRequest{}
+
+	configProvider := *s.Client.ConfigurationProvider()
+	if configProvider == nil {
+		return fmt.Errorf("cannot access ConfigurationProvider")
+	}
+	currentRegion, error := configProvider.Region()
+	if error != nil {
+		return fmt.Errorf("cannot access Region for the current ConfigurationProvider")
+	}
+
+	if sourceURI, ok := s.D.GetOkExists("source_uri_details"); ok && sourceURI != nil {
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_uri_details", 0)
+
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			err := s.createSourceRegionClient(tmp)
+			if err != nil {
+				return err
+			}
+		}
+		copyObjectRequest.DestinationRegion = &currentRegion
+
+		if sourceNamespaceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := sourceNamespaceName.(string)
+			copyObjectRequest.NamespaceName = &tmp
+		}
+
+		if sourceBucketName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := sourceBucketName.(string)
+			copyObjectRequest.BucketName = &tmp
+		}
+
+		if sourceObjectName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object")); ok {
+			tmp := sourceObjectName.(string)
+			copyObjectRequest.SourceObjectName = &tmp
+		}
+
+		if sourceObjectIfMatchETag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_object_if_match_etag")); ok {
+			tmp := sourceObjectIfMatchETag.(string)
+			copyObjectRequest.SourceObjectIfMatchETag = &tmp
+		}
+
+		if destinationObjectIfMatchETag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_object_if_match_etag")); ok {
+			tmp := destinationObjectIfMatchETag.(string)
+			copyObjectRequest.DestinationObjectIfMatchETag = &tmp
+		}
+
+		if destinationObjectIfNoneMatchETag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_object_if_none_match_etag")); ok {
+			tmp := destinationObjectIfNoneMatchETag.(string)
+			copyObjectRequest.DestinationObjectIfNoneMatchETag = &tmp
+		}
+	}
+
+	if bucket, ok := s.D.GetOkExists("bucket"); ok {
+		tmp := bucket.(string)
+		copyObjectRequest.DestinationBucket = &tmp
+	}
+
+	if metadata, ok := s.D.GetOkExists("metadata"); ok {
+		copyObjectRequest.DestinationObjectMetadata = resourceObjectStorageMapToOPCMetadata(metadata.(map[string]interface{}))
+	}
+
+	if namespace, ok := s.D.GetOkExists("namespace"); ok {
+		tmp := namespace.(string)
+		copyObjectRequest.DestinationNamespace = &tmp
+	}
+
+	if object, ok := s.D.GetOkExists("object"); ok {
+		tmp := object.(string)
+		copyObjectRequest.DestinationObjectName = &tmp
+	}
+
+	copyObjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	var workRequestId = ""
+	if copyState, ok := s.D.GetOkExists("copy_state"); ok {
+		if copyState == oci_object_storage.WorkRequestStatusInProgress {
+			workRequestIdStateValue := s.D.Get("copy_work_request_id")
+			workRequestId = workRequestIdStateValue.(string)
+		}
+	}
+
+	if workRequestId == "" {
+		copyObjectResponse, err := s.SourceRegionClient.CopyObject(context.Background(), copyObjectRequest)
+		if err != nil {
+			s.D.Set("copy_state", string(oci_object_storage.WorkRequestStatusCanceled))
+			return err
+		}
+		workRequestId = *copyObjectResponse.OpcWorkRequestId
+	}
+
+	s.D.Set("copy_work_request_id", workRequestId)
+	s.D.Set("copy_state", string(oci_object_storage.WorkRequestStatusInProgress))
+
+	copyTimeout := *DefaultTimeout.Create
+	err := copyObjectWaitForWorkRequest(&workRequestId, "object", copyTimeout, s.DisableNotFoundRetries, s.SourceRegionClient)
+
+	if err != nil {
+		// we are not able to verify the state of workRequest
+		s.D.Set("copy_work_request_id", "")
+		s.D.Set("copy_state", string(oci_object_storage.WorkRequestStatusFailed))
+		return err
+	}
+
+	s.D.Set("copy_work_request_id", "")
+	s.D.Set("copy_state", string(oci_object_storage.WorkRequestStatusCompleted))
+	id := getId(*copyObjectRequest.DestinationNamespace, *copyObjectRequest.DestinationBucket, *copyObjectRequest.DestinationObjectName)
+	s.D.SetId(id)
+	return s.Get()
+}
+
 func readObject(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectResourceCrud{}
 	sync.D = d
@@ -249,6 +420,7 @@ type ObjectStorageObject struct {
 type ObjectResourceCrud struct {
 	BaseCrud
 	Client                 *oci_object_storage.ObjectStorageClient
+	SourceRegionClient     *oci_object_storage.ObjectStorageClient
 	Res                    *ObjectStorageObject
 	DisableNotFoundRetries bool
 }
@@ -279,11 +451,32 @@ func (s *ObjectResourceCrud) ID() string {
 }
 
 func (s *ObjectResourceCrud) Create() error {
+
+	if s.isCopyCreate() {
+		return s.createCopyObject()
+	}
+
 	if s.isMultiPartCreate() {
 		return s.createMultiPartObject()
 	}
 
 	return s.createContentObject()
+}
+
+func (s *ObjectResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_object_storage.WorkRequestStatusAccepted),
+		string(oci_object_storage.WorkRequestStatusInProgress),
+		string(oci_object_storage.WorkRequestStatusCanceling),
+	}
+}
+
+func (s *ObjectResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_object_storage.WorkRequestSummaryStatusCompleted),
+		string(oci_object_storage.WorkRequestSummaryStatusCanceled),
+		string(oci_object_storage.WorkRequestStatusFailed),
+	}
 }
 
 func (s *ObjectResourceCrud) createContentObject() error {
@@ -355,6 +548,7 @@ func (s *ObjectResourceCrud) createContentObject() error {
 }
 
 func (s *ObjectResourceCrud) getObjectHead() error {
+
 	headObjectRequest := &oci_object_storage.HeadObjectRequest{}
 
 	namespaceName, bucketName, objectName, err := parseId(s.D.Id())
@@ -387,6 +581,60 @@ func (s *ObjectResourceCrud) getObjectHead() error {
 	return nil
 }
 
+func (s *ObjectResourceCrud) updateCopyState() (bool, error) {
+	if copyState, ok := s.D.GetOkExists("copy_state"); ok {
+		if copyState == oci_object_storage.WorkRequestStatusInProgress {
+
+			if copyWRID, ok := s.D.GetOkExists("copy_work_request_id"); ok {
+				retryPolicy := getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+				copyTimeout := DefaultTimeout.Create
+				retryPolicy.ShouldRetryOperation = objectStorageWorkRequestShouldRetryFunc(*copyTimeout)
+
+				getWorkRequestRequest := oci_object_storage.GetWorkRequestRequest{}
+				copyWRIDStr := copyWRID.(string)
+				getWorkRequestRequest.WorkRequestId = &copyWRIDStr
+				getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
+
+				if sourceURI, ok := s.D.GetOkExists("source_uri_details"); ok && sourceURI != nil {
+					fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_uri_details", 0)
+					// the region should exist for source_uri_details
+					if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+						tmp := region.(string)
+						err := s.createSourceRegionClient(tmp)
+						if err != nil {
+							return false, err
+						}
+					}
+				} else {
+					return false, fmt.Errorf("no source_uri_details specified to verify copy state by WorkRequest")
+				}
+
+				workRequestResponse, err := s.SourceRegionClient.GetWorkRequest(context.Background(), getWorkRequestRequest)
+				if err != nil {
+					return false, err
+				}
+
+				wr := &workRequestResponse.WorkRequest
+				s.D.Set("copy_state", string(wr.Status))
+
+				if wr.Status == oci_object_storage.WorkRequestStatusInProgress {
+					return false, nil
+				}
+
+				s.D.Set("copy_work_request_id", "")
+				return true, nil
+
+			}
+
+			return false, fmt.Errorf("the state is incorrect. no copy_work_request_id found for the InProgress State")
+		}
+
+		return true, nil
+	}
+
+	return true, nil
+}
+
 func (s *ObjectResourceCrud) shouldUseObjectHeadForGet() bool {
 	content, _ := s.D.GetOkExists("content")
 	return content == ""
@@ -397,7 +645,27 @@ func (s *ObjectResourceCrud) isMultiPartCreate() bool {
 	return source != ""
 }
 
+func (s *ObjectResourceCrud) isCopyCreate() bool {
+	if sourceURI, ok := s.D.GetOkExists("source_uri_details"); ok {
+		if tmpList := sourceURI.([]interface{}); len(tmpList) > 0 {
+			return true
+		}
+	}
+	return false
+}
+
 func (s *ObjectResourceCrud) Get() error {
+
+	workRequestFinished, err := s.updateCopyState()
+	if err != nil {
+		return err
+	}
+
+	if !workRequestFinished {
+		// old object can exist
+		return nil
+	}
+
 	if s.shouldUseObjectHeadForGet() {
 		return s.getObjectHead()
 	}

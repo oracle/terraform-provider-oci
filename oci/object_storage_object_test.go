@@ -611,3 +611,282 @@ data "oci_objectstorage_objects" "test_objects" {
 		},
 	})
 }
+
+const (
+	ObjectResourceConfigWithSourceURIFromContentObject = `
+resource "oci_objectstorage_object" "test_object_copy" {
+	#Required
+	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
+	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
+	object = "${var.object_object_copy}"
+	
+	#Optional
+
+	#should be the same as for the source object not to have empty plan
+	content_encoding = "${var.object_content_encoding}"
+	content_language = "${var.object_content_language}"
+	metadata = "${var.object_metadata}"
+
+	source_uri_details {
+		region = "${var.region}"
+		namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
+		bucket = "${oci_objectstorage_bucket.test_bucket.name}"
+		object = "${var.object_object}"
+		source_object_if_match_etag = "${data.oci_objectstorage_object_head.object_head.etag}"
+	}
+}
+
+data "oci_objectstorage_object_head" "object_head" {
+  namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
+  bucket    = "${oci_objectstorage_bucket.test_bucket.name}"
+  object    = "${var.object_object}"
+}
+`
+
+	ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag = `
+resource "oci_objectstorage_object" "test_object_copy" {
+	#Required
+	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
+	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
+	object = "${var.object_object_copy}"
+	
+	#Optional
+
+	#should be the same as for the source object not to have empty plan
+	content_encoding = "${var.object_content_encoding}"
+	content_language = "${var.object_content_language}"
+	metadata = "${var.object_copy2_metadata}"
+
+	source_uri_details {
+		region = "${var.region}"
+		namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
+		bucket = "${oci_objectstorage_bucket.test_bucket.name}"
+		object = "${var.object_object}"
+	}
+}
+`
+
+	ObjectResourceConfigWithSourceURIFromCopyOfContentObject = `
+	resource "oci_objectstorage_object" "test_object" {
+	#Required
+	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
+	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
+	object = "${var.object_object}"
+
+	#Optional
+	content_encoding = "${var.object_content_encoding}"
+	content_language = "${var.object_content_language}"
+	metadata = "${var.object_copy3_metadata}"
+
+	source_uri_details {
+		region = "${var.region}"
+		namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
+		bucket = "${oci_objectstorage_bucket.test_bucket.name}"
+		object = "${var.object_object_copy}"
+	}
+
+}
+`
+)
+
+func createTmpObjectInOtherRegion(t *testing.T) {
+	tmpfile, err := os.Create(pathToSinglePartFile)
+	if err != nil {
+		t.Fatalf("Unable to create %s file to upload. Error: %q", pathToSinglePartFile, err)
+	}
+	if err := tmpfile.Truncate(singlePartFileSize); err != nil {
+		t.Fatalf("unable to truncate %s file. Error: %q", pathToSinglePartFile, err)
+	}
+}
+
+func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_objectstorage_object.test_object"
+	resourceNameCopy := "oci_objectstorage_object.test_object_copy"
+
+	var resId string
+	hexSum := md5.Sum([]byte("content"))
+	md5sum := hex.EncodeToString(hexSum[:])
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t); createTmpObjectInOtherRegion(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckObjectStorageObjectDestroy,
+		Steps: []resource.TestStep{
+			// create from source with options to copy
+			{
+				Config: config + ObjectPropertyVariables + `
+					variable "object_source" { default = "` + pathToSinglePartFile + `" }
+					` + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
+					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
+					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(singlePartFileSize)),
+					resource.TestCheckResourceAttr(resourceName, "content_md5", opcSingleMd5),
+					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckNoResourceAttr(resourceName, "content"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),
+					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
+				),
+			},
+			// verify copy object copy of the source object
+			{
+				Config: config + ObjectPropertyVariables + `
+					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
+					variable "object_object_copy" { default = "my-test-object-1-copy" }
+					variable "object_source" { default = "` + pathToSinglePartFile + `" }
+                	` + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag + ObjectResourceConfigWithSource,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "object", "my-test-object-1-copy"),
+					//the values were not set for the object_copy, the source object are used
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_length", strconv.Itoa(singlePartFileSize)),
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_type", "text/plain"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_encoding", "identity"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_language", "en-US"),
+					//the values were set for the object_copy
+					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.content-type", "text/plain-copy"),
+				),
+			},
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies,
+			},
+			// verify create content object with optionals
+			{
+				Config: config + ObjectPropertyVariables + compartmentIdVariableStr + ObjectResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
+					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
+					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
+					resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
+					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttrSet(resourceName, "content"),
+					resource.TestCheckResourceAttr(resourceName, "content", md5sum),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),
+					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// verify copy content object in the same bucket with source etag
+			{
+				Config: config + ObjectPropertyVariables + compartmentIdVariableStr + ObjectResourceConfig + `
+					variable "object_object_copy" { default = "my-test-object-1-copy" }
+					` + ObjectResourceConfigWithSourceURIFromContentObject,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "object", "my-test-object-1-copy"),
+					//the values were not set for the object_copy, the source object are used
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_length", "7"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_type", "text/plain"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_encoding", "identity"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_language", "en-US"),
+					//the values were set for the object_copy
+					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.content-type", "text/plain"),
+				),
+			},
+			// verify recreate copy content object in the same bucket - remove source etag
+			// metadata is updated
+			{
+				Config: config + ObjectPropertyVariables + compartmentIdVariableStr + ObjectResourceConfig + `
+					variable "object_object_copy" { default = "my-test-object-1-copy" }
+					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
+					` + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "object", "my-test-object-1-copy"),
+					//the values were not set for the object_copy, the source object are used
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_length", "7"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_type", "text/plain"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_encoding", "identity"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_language", "en-US"),
+					//the values were set for the object_copy
+					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "metadata.content-type", "text/plain-copy"),
+				),
+			},
+			//  replace content object by the copy of the content object copy in the same bucket
+			{
+				Config: config + ObjectPropertyVariables + compartmentIdVariableStr + `
+					variable "object_object_copy" { default = "my-test-object-1-copy" }
+					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
+					
+					variable "object_copy3_metadata" { default = {"content-type" = "text/plain-copy-copy"} }
+                	` + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
+					ObjectResourceConfigWithSourceURIFromCopyOfContentObject +
+					ObjectResourceDependencies,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
+					//the values were not set for the object_copy, the source object are used
+					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
+					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
+					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
+					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
+					//the values were set for the object_copy
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain-copy-copy"),
+				),
+			},
+			// recreate copy of copy of content object by singlepart with optionals
+			{
+				Config: config + ObjectPropertyVariables + `
+					variable "object_source" { default = "` + pathToSinglePartFile + `" }
+					variable "object_object_copy" { default = "my-test-object-1-copy" }
+					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
+					
+					` + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
+					compartmentIdVariableStr + ObjectResourceConfigWithSource,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
+					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
+					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(singlePartFileSize)),
+					resource.TestCheckResourceAttr(resourceName, "content_md5", opcSingleMd5),
+					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckNoResourceAttr(resourceName, "content"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),
+					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
+				),
+			},
+			// verify import copy of the content object
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"source_uri_details",
+					"copy_state",
+					"copy_work_request_id",
+				},
+				ResourceName: resourceNameCopy,
+			},
+		},
+	})
+
+}
