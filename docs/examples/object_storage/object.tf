@@ -22,6 +22,21 @@ resource "oci_objectstorage_object" "source-object" {
   source           = "index.html"
 }
 
+resource "oci_objectstorage_object" "source-uri-object" {
+  namespace        = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket           = "${oci_objectstorage_bucket.bucket1.name}"
+  object           = "copy_index.html"
+  content_language = "en-US"
+  content_type     = "text/html"
+
+  source_uri_details {
+    region = "${var.source_region}"
+    namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
+    bucket = "${oci_objectstorage_bucket.bucket1.name}"
+    object = "index.html"
+  }
+}
+
 data "oci_objectstorage_object_head" "object-head1" {
   namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
   bucket    = "${oci_objectstorage_bucket.bucket1.name}"
