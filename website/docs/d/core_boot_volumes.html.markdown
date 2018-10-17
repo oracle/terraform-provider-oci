@@ -52,6 +52,7 @@ The following attributes are exported:
 * `id` - The boot volume's Oracle ID (OCID).
 * `image_id` - The image OCID used to create the boot volume.
 * `is_hydrated` - Specifies whether the boot volume's data has finished copying from the source boot volume or boot volume backup.
+* `kms_key_id` - The OCID of the KMS key which is the master encryption key for the boot volume.
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_details` - The boot volume source, either an existing boot volume in the same availability domain or a boot volume backup. If null, this means that the boot volume was created from an image. 

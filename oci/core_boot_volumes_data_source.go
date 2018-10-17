@@ -131,6 +131,10 @@ func (s *BootVolumesDataSourceCrud) SetData() error {
 			bootVolume["is_hydrated"] = *r.IsHydrated
 		}
 
+		if r.KmsKeyId != nil {
+			bootVolume["kms_key_id"] = *r.KmsKeyId
+		}
+
 		if r.SizeInGBs != nil {
 			bootVolume["size_in_gbs"] = strconv.FormatInt(*r.SizeInGBs, 10)
 		}
