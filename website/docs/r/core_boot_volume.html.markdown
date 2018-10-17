@@ -33,6 +33,7 @@ resource "oci_core_boot_volume" "test_boot_volume" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.boot_volume_display_name}"
 	freeform_tags = {"Department"= "Finance"}
+	kms_key_id = "${oci_core_kms_key.test_kms_key.id}"
 	size_in_gbs = "${var.boot_volume_size_in_gbs}"
 }
 ```
@@ -46,7 +47,8 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment that contains the boot volume.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`  
+* `kms_key_id` - (Optional) (Updatable) The OCID of the KMS key to be used as the master encryption key for the boot volume.
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
 * `source_details` - (Required) Specifies the boot volume source details for a new boot volume. The volume source is either another boot volume in the same availability domain or a boot volume backup. This is a mandatory field for a boot volume. 
 	* `id` - (Required) The OCID of the boot volume or boot volume backup.
@@ -68,6 +70,7 @@ The following attributes are exported:
 * `id` - The boot volume's Oracle ID (OCID).
 * `image_id` - The image OCID used to create the boot volume.
 * `is_hydrated` - Specifies whether the boot volume's data has finished copying from the source boot volume or boot volume backup.
+* `kms_key_id` - The OCID of the KMS key which is the master encryption key for the boot volume.
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_details` - The boot volume source, either an existing boot volume in the same availability domain or a boot volume backup. If null, this means that the boot volume was created from an image. 

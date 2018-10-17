@@ -63,6 +63,11 @@ func VolumeResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"size_in_gbs": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -255,6 +260,11 @@ func (s *VolumeResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		request.KmsKeyId = &tmp
+	}
+
 	if sizeInGBs, ok := s.D.GetOkExists("size_in_gbs"); ok {
 		tmp := sizeInGBs.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
@@ -342,6 +352,23 @@ func (s *VolumeResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if s.D.HasChange("kms_key_id") {
+		keyUpdateRequest := oci_core.UpdateVolumeKmsKeyRequest{}
+
+		volumeId := s.D.Id()
+		keyUpdateRequest.VolumeId = &volumeId
+
+		tmp := s.D.Get("kms_key_id").(string)
+		keyUpdateRequest.KmsKeyId = &tmp
+
+		keyUpdateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+		_, err := s.Client.UpdateVolumeKmsKey(context.Background(), keyUpdateRequest)
+		if err != nil {
+			return err
+		}
+	}
+
 	if sizeInGBs, ok := s.D.GetOkExists("size_in_gbs"); ok {
 		tmp := sizeInGBs.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
@@ -398,6 +425,10 @@ func (s *VolumeResourceCrud) SetData() error {
 
 	if s.Res.IsHydrated != nil {
 		s.D.Set("is_hydrated", *s.Res.IsHydrated)
+	}
+
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
 
 	if s.Res.SizeInGBs != nil {
