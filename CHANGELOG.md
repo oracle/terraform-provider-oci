@@ -5,6 +5,7 @@
 - New parameters `display_name` and `state` in `oci_database_db_homes` data source
 - New parameter `state` parameter in `oci_database_db_nodes` data source
 - New parameters `availability_domain`, `display_name`, and `state` in `oci_database_db_systems` data source
+- Support for Partner Image Catalog
 
 ### Fixed
 - Data type for properties with type as TypeSet to TypeList in following datasources: `oci_core_route_tables`, `oci_core_security_lists`, `oci_core_volume`, and `oci_core_service_gateways` to allow referencing by indexes in Terraform configs.
