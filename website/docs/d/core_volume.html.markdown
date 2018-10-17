@@ -38,6 +38,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the volume.
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup.
+* `kms_key_id` - The OCID of the KMS key which is the master encryption key for the volume.
 * `size_in_gbs` - The size of the volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead.
 * `source_details` - The volume source, either an existing volume in the same availability domain or a volume backup. If null, an empty volume is created. 

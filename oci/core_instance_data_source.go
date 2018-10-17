@@ -137,6 +137,12 @@ func InstanceDataSource() *schema.Resource {
 							ValidateFunc:     validateInt64TypeString,
 							DiffSuppressFunc: int64StringDiffSuppressFunction,
 						},
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 
 						// Computed
 					},

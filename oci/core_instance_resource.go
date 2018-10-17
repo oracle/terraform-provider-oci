@@ -228,6 +228,12 @@ func InstanceResource() *schema.Resource {
 							ValidateFunc:     validateInt64TypeString,
 							DiffSuppressFunc: int64StringDiffSuppressFunction,
 						},
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 
 						// Computed
 					},
@@ -884,6 +890,10 @@ func (s *InstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat string)
 			}
 			details.BootVolumeSizeInGBs = &tmpInt64
 		}
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
 		if sourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_id")); ok {
 			tmp := sourceId.(string)
 			details.ImageId = &tmp
@@ -916,6 +926,10 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 		} else if sourceDetailsFromConfig != nil {
 			// Last resort. If we can't query the boot volume size from service, use the config value.
 			result["boot_volume_size_in_gbs"] = sourceDetailsFromConfig["boot_volume_size_in_gbs"]
+		}
+
+		if v.KmsKeyId != nil {
+			result["kms_key_id"] = string(*v.KmsKeyId)
 		}
 
 		if v.ImageId != nil {

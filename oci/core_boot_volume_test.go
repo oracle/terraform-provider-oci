@@ -45,6 +45,7 @@ var (
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`, update: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[1], "id")}`},
 		"size_in_gbs":         Representation{repType: Optional, create: `50`, update: `51`},
 	}
 	bootVolumeSourceDetailsRepresentation = map[string]interface{}{
@@ -52,7 +53,7 @@ var (
 		"type": Representation{repType: Required, create: `bootVolume`},
 	}
 
-	BootVolumeResourceDependencies = InstanceRequiredOnlyResource + VolumeGroupAsDependency + `
+	BootVolumeResourceDependencies = InstanceRequiredOnlyResource + KeyResourceDependencyConfig + VolumeGroupAsDependency + `
 data "oci_core_volume_backup_policies" "test_boot_volume_backup_policies" {
 	filter {
 		name = "display_name"
@@ -118,6 +119,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "50"),
 					resource.TestCheckResourceAttrSet(resourceName, "size_in_mbs"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
@@ -148,6 +150,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "51"),
 					resource.TestCheckResourceAttrSet(resourceName, "size_in_mbs"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
@@ -178,7 +181,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckNoResourceAttr(datasourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckNoResourceAttr(datasourceName, "volume_group_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.availability_domain"),
@@ -187,7 +190,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.size_in_gbs", "51"),
+					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.size_in_gbs", "i	51"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.size_in_mbs"),
 					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.source_details.0.id"),
@@ -204,7 +207,8 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckNoResourceAttr(singularDatasourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
-					resource.TestCheckNoResourceAttr(singularDatasourceName, "volume_group_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "volume_group_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

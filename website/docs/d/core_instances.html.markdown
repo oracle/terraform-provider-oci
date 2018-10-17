@@ -80,6 +80,7 @@ The following attributes are exported:
 * `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 	* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.
 	* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
+	* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers.
 	* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
 * `launch_options` - 
 	* `boot_volume_type` - Emulation type for volume.
@@ -93,7 +94,8 @@ The following attributes are exported:
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
 	* `network_type` - Emulation type for NIC.
 		* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
-		* `VFIO` - Direct attached Virtual Function network controller.  Default for Oracle provided images. 
+		* `VFIO` - Direct attached Virtual Function network controller.  Default for Oracle provided images.
+		* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers. 
 	* `remote_data_volume_type` - Emulation type for volume.
 		* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
 		* `SCSI` - Emulated SCSI disk.
@@ -105,7 +107,8 @@ The following attributes are exported:
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `source_details` - Details for creating an instance
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB). This should only be specified when `source_type` is `image`.
-	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
+	* `kms_key_id` - The OCID of the KMS key to be used as the master encryption key for the boot volume.
+    * `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `state` - The current state of the instance.
 * `time_created` - The date and time the instance was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 

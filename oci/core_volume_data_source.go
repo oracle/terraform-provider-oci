@@ -46,6 +46,10 @@ func VolumeDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"size_in_gbs": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -162,6 +166,10 @@ func (s *VolumeDataSourceCrud) SetData() error {
 
 	if s.Res.IsHydrated != nil {
 		s.D.Set("is_hydrated", *s.Res.IsHydrated)
+	}
+
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
 
 	if s.Res.SizeInGBs != nil {

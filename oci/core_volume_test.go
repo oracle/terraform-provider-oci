@@ -45,6 +45,7 @@ var (
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`, update: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[1], "id")}`},
 		"size_in_gbs":         Representation{repType: Optional, create: `51`, update: `52`},
 		//		"size_in_mbs":         Representation{repType: Optional, create: `10`},
 		"source_details": RepresentationGroup{Optional, sourceDetailsVolumeRepresentation},
@@ -55,7 +56,7 @@ var (
 		"type": Representation{repType: Required, create: `volume`},
 	}
 
-	VolumeResourceDependencies             = DefinedTagsDependencies + VolumeResourceRequiredOnlyDependencies
+	VolumeResourceDependencies             = DefinedTagsDependencies + KeyResourceDependencyConfig + VolumeResourceRequiredOnlyDependencies
 	VolumeResourceRequiredOnlyDependencies = `
 data "oci_identity_availability_domains" "ADs" {
 	compartment_id = "${var.compartment_id}"
@@ -105,8 +106,6 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckNoResourceAttr(resourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckNoResourceAttr(resourceName, "volume_backup_id"),
-					resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
 
 					// Check on default values used
 					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "51200"),
@@ -134,6 +133,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "51"),
 					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "52224"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
@@ -162,6 +162,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "52"),
 					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "53248"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
@@ -222,6 +223,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "size_in_gbs", "52"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "size_in_mbs", "53248"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),

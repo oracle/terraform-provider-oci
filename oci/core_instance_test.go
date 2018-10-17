@@ -38,7 +38,7 @@ var (
 	instanceRepresentation = map[string]interface{}{
 		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"shape":               Representation{repType: Required, create: `VM.Standard1.2`},
+		"shape":               Representation{repType: Required, create: `VM.Standard2.1`},
 		"create_vnic_details": RepresentationGroup{Optional, instanceCreateVnicDetailsRepresentation},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
@@ -72,6 +72,7 @@ var (
 	instanceSourceDetailsRepresentation = map[string]interface{}{
 		"source_id":   Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
 		"source_type": Representation{repType: Required, create: `image`},
+		"kms_key_id":  Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
 
 	InstanceCommonVariables = `

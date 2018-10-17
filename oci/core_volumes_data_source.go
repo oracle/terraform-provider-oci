@@ -167,6 +167,10 @@ func (s *VolumesDataSourceCrud) SetData() error {
 			volume["is_hydrated"] = *r.IsHydrated
 		}
 
+		if r.KmsKeyId != nil {
+			volume["kms_key_id"] = *r.KmsKeyId
+		}
+
 		if r.SizeInGBs != nil {
 			volume["size_in_gbs"] = strconv.FormatInt(*r.SizeInGBs, 10)
 		}
