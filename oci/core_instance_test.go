@@ -7,8 +7,6 @@ import (
 	"fmt"
 	"testing"
 
-	"regexp"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
@@ -18,6 +16,13 @@ import (
 var (
 	InstanceRequiredOnlyResource = InstanceResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation)
+
+	InstanceResourceConfig = InstanceResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentation)
+
+	instanceSingularDataSourceRepresentation = map[string]interface{}{
+		"instance_id": Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+	}
 
 	instanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
@@ -83,8 +88,7 @@ variable "InstanceImageOCID" {
 }
 
 `
-	InstanceResourceDependenciesRequiredOnly = SubnetResourceConfig + InstanceCommonVariables
-	InstanceResourceDependencies             = InstanceResourceDependenciesRequiredOnly
+	InstanceResourceDependencies = SubnetResourceConfig + InstanceCommonVariables
 )
 
 func TestCoreInstanceResource_basic(t *testing.T) {
@@ -249,39 +253,9 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 			},
 			// verify singular datasource
 			{
-				Config: config + InstanceCommonVariables + `
-variable "instance_availability_domain" { default = "availabilityDomain" }
-variable "instance_create_vnic_details_assign_public_ip" { default = true }
-variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
-variable "instance_create_vnic_details_display_name" { default = "displayName" }
-variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "instance_create_vnic_details_private_ip" { default = "10.0.0.5" }
-variable "instance_create_vnic_details_skip_source_dest_check" { default = false }
-variable "instance_defined_tags_value" { default = "updatedValue" }
-variable "instance_display_name" { default = "displayName2" }
-variable "instance_extended_metadata" { default = {
-	some_string = "stringA"
-	nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
-	other_string = "stringD"
-} }
-variable "instance_fault_domain" { default = "FAULT-DOMAIN-2" }
-variable "instance_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "instance_hostname_label" { default = "hostnameLabel" }
-variable "instance_image" { default = "image" }
-variable "instance_ipxe_script" { default = "ipxeScript" }
-variable "instance_metadata" { default = { 
-	user_data = "abcd"
-	volatile_data = "stringE"
-} }
-variable "instance_shape" { default = "VM.Standard1.8" }
-variable "instance_source_details_source_type" { default = "image" }
-variable "instance_state" { default = "RUNNING" }
-
-data "oci_core_instance" "test_instance" {
-	#Required
-	instance_id = "${oci_core_instance.test_instance.id}"
-}
-                ` + compartmentIdVariableStr + InstanceResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + InstanceResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
@@ -310,35 +284,7 @@ data "oci_core_instance" "test_instance" {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + InstanceCommonVariables + `
-variable "instance_availability_domain" { default = "availabilityDomain" }
-variable "instance_create_vnic_details_assign_public_ip" { default = true }
-variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
-variable "instance_create_vnic_details_display_name" { default = "displayName" }
-variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "instance_create_vnic_details_private_ip" { default = "10.0.0.5" }
-variable "instance_create_vnic_details_skip_source_dest_check" { default = false }
-variable "instance_defined_tags_value" { default = "updatedValue" }
-variable "instance_display_name" { default = "displayName2" }
-variable "instance_extended_metadata" { default = {
-	some_string = "stringA"
-	nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
-	other_string = "stringD"
-} }
-variable "instance_fault_domain" { default = "FAULT-DOMAIN-2" }
-variable "instance_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "instance_hostname_label" { default = "hostnameLabel" }
-variable "instance_image" { default = "image" }
-variable "instance_ipxe_script" { default = "ipxeScript" }
-variable "instance_metadata" { default = { 
-	user_data = "abcd"
-	volatile_data = "stringE"
-} }
-variable "instance_shape" { default = "VM.Standard1.8" }
-variable "instance_source_details_source_type" { default = "image" }
-variable "instance_state" { default = "RUNNING" }
-
-                ` + compartmentIdVariableStr + InstanceResourceConfig,
+				Config: config + compartmentIdVariableStr + InstanceResourceConfig,
 			},
 			// verify resource import
 			{

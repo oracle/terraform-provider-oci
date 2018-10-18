@@ -18,14 +18,6 @@ import (
 var (
 	BootVolumeWaitConditionDuration = time.Duration(20 * time.Minute)
 
-	BootVolumeResourceDependencies = DefinedTagsDependencies + InstancePropertyVariables + InstanceResourceAsDependencyConfig + `
-data "oci_core_volume_backup_policies" "test_boot_volume_backup_policies" {
-	filter {
-		name = "display_name"
-		values = [ "silver" ]
-	}
-}
-`
 	BootVolumeRequiredOnlyResource = BootVolumeResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation)
 
@@ -61,7 +53,14 @@ data "oci_core_volume_backup_policies" "test_boot_volume_backup_policies" {
 		"type": Representation{repType: Required, create: `bootVolume`},
 	}
 
-	BootVolumeResourceDependencies = BackupPolicyResourceConfig + DefinedTagsDependencies + VolumeGroupResourceConfig
+	BootVolumeResourceDependencies = InstanceRequiredOnlyResource + VolumeGroupResourceConfig + `
+data "oci_core_volume_backup_policies" "test_boot_volume_backup_policies" {
+	filter {
+		name = "display_name"
+		values = [ "silver" ]
+	}
+}
+`
 )
 
 func TestCoreBootVolumeResource_basic(t *testing.T) {
@@ -86,7 +85,8 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + BootVolumePropertyVariables + compartmentIdVariableStr + BootVolumeRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + BootVolumeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckNoResourceAttr(resourceName, "backup_policy_id"),
@@ -109,7 +109,8 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + BootVolumePropertyVariables + compartmentIdVariableStr + BootVolumeResourceConfig,
+				Config: config + compartmentIdVariableStr + BootVolumeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, bootVolumeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
@@ -169,8 +170,9 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 				PreConfig: waitTillCondition(testAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
 					bootVolumeResponseFetchOperation, "core", false),
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_boot_volumes", "test_boot_volumes", Required, Create, bootVolumeDataSourceRepresentation) +
-					compartmentIdVariableStr + BootVolumeResourceConfig,
+					generateDataSourceFromRepresentationMap("oci_core_boot_volumes", "test_boot_volumes", Optional, Update, bootVolumeDataSourceRepresentation) +
+					compartmentIdVariableStr + BootVolumeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckNoResourceAttr(datasourceName, "backup_policy_id"),
