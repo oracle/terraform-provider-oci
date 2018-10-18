@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -273,4 +276,75 @@ func testAccCheckDatabaseDbHomeDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initDatabaseDbHomeSweeper() {
+	resource.AddTestSweepers("DatabaseDbHome", &resource.Sweeper{
+		Name:         "DatabaseDbHome",
+		Dependencies: DependencyGraph["dbHome"],
+		F:            sweepDatabaseDbHomeResource,
+	})
+}
+
+func sweepDatabaseDbHomeResource(compartment string) error {
+	compartmentId := compartment
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+
+	listDbHomesRequest := oci_database.ListDbHomesRequest{}
+	listDbHomesRequest.CompartmentId = &compartmentId
+	listDbHomesRequest.LifecycleState = oci_database.DbHomeSummaryLifecycleStateAvailable
+	listDbHomesResponse, err := databaseClient.ListDbHomes(context.Background(), listDbHomesRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting DbHome list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, dbHome := range listDbHomesResponse.Items {
+		if dbHome.LifecycleState != oci_database.DbHomeSummaryLifecycleStateTerminated {
+			log.Printf("deleting dbHome %s ", *dbHome.Id)
+
+			deleteDbHomeRequest := oci_database.DeleteDbHomeRequest{}
+
+			deleteDbHomeRequest.DbHomeId = dbHome.Id
+
+			deleteDbHomeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			_, error := databaseClient.DeleteDbHome(context.Background(), deleteDbHomeRequest)
+			if error != nil {
+				fmt.Printf("Error deleting DbHome %s %s, It is possible that the resource is already deleted. Please verify manually \n", *dbHome.Id, error)
+				continue
+			}
+
+			getDbHomeRequest := oci_database.GetDbHomeRequest{}
+
+			getDbHomeRequest.DbHomeId = dbHome.Id
+
+			_, error = databaseClient.GetDbHome(context.Background(), getDbHomeRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving DbHome state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, dbHome.Id, dbHomeSweepWaitCondition, time.Duration(3*time.Minute),
+				dbHomeSweepResponseFetchOperation, "database", true)
+		}
+	}
+	return nil
+}
+
+func dbHomeSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if dbHomeResponse, ok := response.Response.(oci_database.GetDbHomeResponse); ok {
+		return dbHomeResponse.LifecycleState == oci_database.DbHomeLifecycleStateTerminated
+	}
+	return false
+}
+
+func dbHomeSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.databaseClient.GetDbHome(context.Background(), oci_database.GetDbHomeRequest{
+		DbHomeId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

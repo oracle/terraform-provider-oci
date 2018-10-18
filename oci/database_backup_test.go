@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -123,4 +126,74 @@ func testAccCheckDatabaseBackupDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initDatabaseBackupSweeper() {
+	resource.AddTestSweepers("DatabaseBackup", &resource.Sweeper{
+		Name:         "DatabaseBackup",
+		Dependencies: DependencyGraph["backup"],
+		F:            sweepDatabaseBackupResource,
+	})
+}
+
+func sweepDatabaseBackupResource(compartment string) error {
+	compartmentId := compartment
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+
+	listBackupsRequest := oci_database.ListBackupsRequest{}
+	listBackupsRequest.CompartmentId = &compartmentId
+	listBackupsResponse, err := databaseClient.ListBackups(context.Background(), listBackupsRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting Backup list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, backup := range listBackupsResponse.Items {
+		if backup.LifecycleState != oci_database.BackupSummaryLifecycleStateDeleted {
+			log.Printf("deleting backup %s ", *backup.Id)
+
+			deleteBackupRequest := oci_database.DeleteBackupRequest{}
+
+			deleteBackupRequest.BackupId = backup.Id
+
+			deleteBackupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			_, error := databaseClient.DeleteBackup(context.Background(), deleteBackupRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Backup %s %s, It is possible that the resource is already deleted. Please verify manually \n", *backup.Id, error)
+				continue
+			}
+
+			getBackupRequest := oci_database.GetBackupRequest{}
+
+			getBackupRequest.BackupId = backup.Id
+
+			_, error = databaseClient.GetBackup(context.Background(), getBackupRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving Backup state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, backup.Id, backupSweepWaitCondition, time.Duration(3*time.Minute),
+				backupSweepResponseFetchOperation, "database", true)
+		}
+	}
+	return nil
+}
+
+func backupSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if backupResponse, ok := response.Response.(oci_database.GetBackupResponse); ok {
+		return backupResponse.LifecycleState == oci_database.BackupLifecycleStateDeleted
+	}
+	return false
+}
+
+func backupSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.databaseClient.GetBackup(context.Background(), oci_database.GetBackupRequest{
+		BackupId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

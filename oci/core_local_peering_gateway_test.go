@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -249,4 +252,74 @@ func testAccCheckCoreLocalPeeringGatewayDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initCoreLocalPeeringGatewaySweeper() {
+	resource.AddTestSweepers("CoreLocalPeeringGateway", &resource.Sweeper{
+		Name:         "CoreLocalPeeringGateway",
+		Dependencies: DependencyGraph["localPeeringGateway"],
+		F:            sweepCoreLocalPeeringGatewayResource,
+	})
+}
+
+func sweepCoreLocalPeeringGatewayResource(compartment string) error {
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listLocalPeeringGatewaysRequest := oci_core.ListLocalPeeringGatewaysRequest{}
+	listLocalPeeringGatewaysRequest.CompartmentId = &compartmentId
+	listLocalPeeringGatewaysResponse, err := virtualNetworkClient.ListLocalPeeringGateways(context.Background(), listLocalPeeringGatewaysRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting LocalPeeringGateway list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, localPeeringGateway := range listLocalPeeringGatewaysResponse.Items {
+		if localPeeringGateway.LifecycleState != oci_core.LocalPeeringGatewayLifecycleStateTerminated {
+			log.Printf("deleting localPeeringGateway %s ", *localPeeringGateway.Id)
+
+			deleteLocalPeeringGatewayRequest := oci_core.DeleteLocalPeeringGatewayRequest{}
+
+			deleteLocalPeeringGatewayRequest.LocalPeeringGatewayId = localPeeringGateway.Id
+
+			deleteLocalPeeringGatewayRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteLocalPeeringGateway(context.Background(), deleteLocalPeeringGatewayRequest)
+			if error != nil {
+				fmt.Printf("Error deleting LocalPeeringGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", *localPeeringGateway.Id, error)
+				continue
+			}
+
+			getLocalPeeringGatewayRequest := oci_core.GetLocalPeeringGatewayRequest{}
+
+			getLocalPeeringGatewayRequest.LocalPeeringGatewayId = localPeeringGateway.Id
+
+			_, error = virtualNetworkClient.GetLocalPeeringGateway(context.Background(), getLocalPeeringGatewayRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving LocalPeeringGateway state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, localPeeringGateway.Id, localPeeringGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+				localPeeringGatewaySweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func localPeeringGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if localPeeringGatewayResponse, ok := response.Response.(oci_core.GetLocalPeeringGatewayResponse); ok {
+		return localPeeringGatewayResponse.LifecycleState == oci_core.LocalPeeringGatewayLifecycleStateTerminated
+	}
+	return false
+}
+
+func localPeeringGatewaySweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetLocalPeeringGateway(context.Background(), oci_core.GetLocalPeeringGatewayRequest{
+		LocalPeeringGatewayId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

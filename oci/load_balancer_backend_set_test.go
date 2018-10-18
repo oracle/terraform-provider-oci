@@ -273,3 +273,15 @@ func testAccCheckLoadBalancerBackendSetDestroy(s *terraform.State) error {
 
 	return nil
 }
+
+func initLoadBalancerBackendSetSweeper() {
+	resource.AddTestSweepers("LoadBalancerBackendSet", &resource.Sweeper{
+		Name:         "LoadBalancerBackendSet",
+		Dependencies: DependencyGraph["backendSet"],
+		F:            sweepLoadBalancerBackendSetResource,
+	})
+}
+
+func sweepLoadBalancerBackendSetResource(compartment string) error {
+	return nil
+}

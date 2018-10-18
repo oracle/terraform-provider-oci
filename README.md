@@ -74,3 +74,16 @@ $ make testacc
 ```
 
 > **Note:** The tests run against live OCI service APIs, you will need to configure environment variables with valid credientials as shown in the [documentation](https://www.terraform.io/docs/providers/oci/index.html).
+
+Running The Sweeper
+-------------------
+Sweep all resources in a compartment
+```sh
+$ make sweep sweep=#COMPARTMENT_OCID#
+```
+
+Sweep selected resources in a compartment
+```sh
+$ make sweep sweep=#COMPARTMENT_OCID# sweep-run=#comma separated list of sweeperFuncs#
+```
+> **Note:** Resource dependencies is not tested and still under development 

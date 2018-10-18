@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
@@ -233,4 +236,74 @@ func testAccCheckContainerengineClusterDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initContainerengineClusterSweeper() {
+	resource.AddTestSweepers("ContainerengineCluster", &resource.Sweeper{
+		Name:         "ContainerengineCluster",
+		Dependencies: DependencyGraph["cluster"],
+		F:            sweepContainerengineClusterResource,
+	})
+}
+
+func sweepContainerengineClusterResource(compartment string) error {
+	compartmentId := compartment
+	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient
+
+	listClustersRequest := oci_containerengine.ListClustersRequest{}
+	listClustersRequest.CompartmentId = &compartmentId
+	listClustersResponse, err := containerEngineClient.ListClusters(context.Background(), listClustersRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting Cluster list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, cluster := range listClustersResponse.Items {
+		if cluster.LifecycleState != oci_containerengine.ClusterSummaryLifecycleStateDeleted {
+			log.Printf("deleting cluster %s ", *cluster.Id)
+
+			deleteClusterRequest := oci_containerengine.DeleteClusterRequest{}
+
+			deleteClusterRequest.ClusterId = cluster.Id
+
+			deleteClusterRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "containerengine")
+			_, error := containerEngineClient.DeleteCluster(context.Background(), deleteClusterRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Cluster %s %s, It is possible that the resource is already deleted. Please verify manually \n", *cluster.Id, error)
+				continue
+			}
+
+			getClusterRequest := oci_containerengine.GetClusterRequest{}
+
+			getClusterRequest.ClusterId = cluster.Id
+
+			_, error = containerEngineClient.GetCluster(context.Background(), getClusterRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving Cluster state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, cluster.Id, clusterSweepWaitCondition, time.Duration(3*time.Minute),
+				clusterSweepResponseFetchOperation, "containerengine", true)
+		}
+	}
+	return nil
+}
+
+func clusterSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if clusterResponse, ok := response.Response.(oci_containerengine.GetClusterResponse); ok {
+		return clusterResponse.LifecycleState == oci_containerengine.ClusterLifecycleStateDeleted
+	}
+	return false
+}
+
+func clusterSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.containerEngineClient.GetCluster(context.Background(), oci_containerengine.GetClusterRequest{
+		ClusterId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }
