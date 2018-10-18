@@ -36,8 +36,7 @@ type ListAutonomousDatabaseBackupsRequest struct {
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// Unique Oracle-assigned identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
+	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -91,7 +90,7 @@ func (response ListAutonomousDatabaseBackupsResponse) HTTPResponse() *http.Respo
 // ListAutonomousDatabaseBackupsSortByEnum Enum with underlying type: string
 type ListAutonomousDatabaseBackupsSortByEnum string
 
-// Set of constants representing the allowable values for ListAutonomousDatabaseBackupsSortBy
+// Set of constants representing the allowable values for ListAutonomousDatabaseBackupsSortByEnum
 const (
 	ListAutonomousDatabaseBackupsSortByTimecreated ListAutonomousDatabaseBackupsSortByEnum = "TIMECREATED"
 	ListAutonomousDatabaseBackupsSortByDisplayname ListAutonomousDatabaseBackupsSortByEnum = "DISPLAYNAME"
@@ -102,7 +101,7 @@ var mappingListAutonomousDatabaseBackupsSortBy = map[string]ListAutonomousDataba
 	"DISPLAYNAME": ListAutonomousDatabaseBackupsSortByDisplayname,
 }
 
-// GetListAutonomousDatabaseBackupsSortByEnumValues Enumerates the set of values for ListAutonomousDatabaseBackupsSortBy
+// GetListAutonomousDatabaseBackupsSortByEnumValues Enumerates the set of values for ListAutonomousDatabaseBackupsSortByEnum
 func GetListAutonomousDatabaseBackupsSortByEnumValues() []ListAutonomousDatabaseBackupsSortByEnum {
 	values := make([]ListAutonomousDatabaseBackupsSortByEnum, 0)
 	for _, v := range mappingListAutonomousDatabaseBackupsSortBy {
@@ -114,7 +113,7 @@ func GetListAutonomousDatabaseBackupsSortByEnumValues() []ListAutonomousDatabase
 // ListAutonomousDatabaseBackupsSortOrderEnum Enum with underlying type: string
 type ListAutonomousDatabaseBackupsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListAutonomousDatabaseBackupsSortOrder
+// Set of constants representing the allowable values for ListAutonomousDatabaseBackupsSortOrderEnum
 const (
 	ListAutonomousDatabaseBackupsSortOrderAsc  ListAutonomousDatabaseBackupsSortOrderEnum = "ASC"
 	ListAutonomousDatabaseBackupsSortOrderDesc ListAutonomousDatabaseBackupsSortOrderEnum = "DESC"
@@ -125,7 +124,7 @@ var mappingListAutonomousDatabaseBackupsSortOrder = map[string]ListAutonomousDat
 	"DESC": ListAutonomousDatabaseBackupsSortOrderDesc,
 }
 
-// GetListAutonomousDatabaseBackupsSortOrderEnumValues Enumerates the set of values for ListAutonomousDatabaseBackupsSortOrder
+// GetListAutonomousDatabaseBackupsSortOrderEnumValues Enumerates the set of values for ListAutonomousDatabaseBackupsSortOrderEnum
 func GetListAutonomousDatabaseBackupsSortOrderEnumValues() []ListAutonomousDatabaseBackupsSortOrderEnum {
 	values := make([]ListAutonomousDatabaseBackupsSortOrderEnum, 0)
 	for _, v := range mappingListAutonomousDatabaseBackupsSortOrder {

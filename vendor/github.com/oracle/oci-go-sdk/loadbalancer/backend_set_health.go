@@ -53,7 +53,7 @@ func (m BackendSetHealth) String() string {
 // BackendSetHealthStatusEnum Enum with underlying type: string
 type BackendSetHealthStatusEnum string
 
-// Set of constants representing the allowable values for BackendSetHealthStatus
+// Set of constants representing the allowable values for BackendSetHealthStatusEnum
 const (
 	BackendSetHealthStatusOk       BackendSetHealthStatusEnum = "OK"
 	BackendSetHealthStatusWarning  BackendSetHealthStatusEnum = "WARNING"
@@ -68,7 +68,7 @@ var mappingBackendSetHealthStatus = map[string]BackendSetHealthStatusEnum{
 	"UNKNOWN":  BackendSetHealthStatusUnknown,
 }
 
-// GetBackendSetHealthStatusEnumValues Enumerates the set of values for BackendSetHealthStatus
+// GetBackendSetHealthStatusEnumValues Enumerates the set of values for BackendSetHealthStatusEnum
 func GetBackendSetHealthStatusEnumValues() []BackendSetHealthStatusEnum {
 	values := make([]BackendSetHealthStatusEnum, 0)
 	for _, v := range mappingBackendSetHealthStatus {

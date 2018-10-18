@@ -133,7 +133,7 @@ func (response GetObjectResponse) HTTPResponse() *http.Response {
 // GetObjectArchivalStateEnum Enum with underlying type: string
 type GetObjectArchivalStateEnum string
 
-// Set of constants representing the allowable values for GetObjectArchivalState
+// Set of constants representing the allowable values for GetObjectArchivalStateEnum
 const (
 	GetObjectArchivalStateAvailable GetObjectArchivalStateEnum = "AVAILABLE"
 	GetObjectArchivalStateArchived  GetObjectArchivalStateEnum = "ARCHIVED"
@@ -148,7 +148,7 @@ var mappingGetObjectArchivalState = map[string]GetObjectArchivalStateEnum{
 	"RESTORED":  GetObjectArchivalStateRestored,
 }
 
-// GetGetObjectArchivalStateEnumValues Enumerates the set of values for GetObjectArchivalState
+// GetGetObjectArchivalStateEnumValues Enumerates the set of values for GetObjectArchivalStateEnum
 func GetGetObjectArchivalStateEnumValues() []GetObjectArchivalStateEnum {
 	values := make([]GetObjectArchivalStateEnum, 0)
 	for _, v := range mappingGetObjectArchivalState {

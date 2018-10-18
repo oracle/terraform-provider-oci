@@ -115,7 +115,7 @@ func (m createdataguardassociationdetails) String() string {
 // CreateDataGuardAssociationDetailsProtectionModeEnum Enum with underlying type: string
 type CreateDataGuardAssociationDetailsProtectionModeEnum string
 
-// Set of constants representing the allowable values for CreateDataGuardAssociationDetailsProtectionMode
+// Set of constants representing the allowable values for CreateDataGuardAssociationDetailsProtectionModeEnum
 const (
 	CreateDataGuardAssociationDetailsProtectionModeAvailability CreateDataGuardAssociationDetailsProtectionModeEnum = "MAXIMUM_AVAILABILITY"
 	CreateDataGuardAssociationDetailsProtectionModePerformance  CreateDataGuardAssociationDetailsProtectionModeEnum = "MAXIMUM_PERFORMANCE"
@@ -128,7 +128,7 @@ var mappingCreateDataGuardAssociationDetailsProtectionMode = map[string]CreateDa
 	"MAXIMUM_PROTECTION":   CreateDataGuardAssociationDetailsProtectionModeProtection,
 }
 
-// GetCreateDataGuardAssociationDetailsProtectionModeEnumValues Enumerates the set of values for CreateDataGuardAssociationDetailsProtectionMode
+// GetCreateDataGuardAssociationDetailsProtectionModeEnumValues Enumerates the set of values for CreateDataGuardAssociationDetailsProtectionModeEnum
 func GetCreateDataGuardAssociationDetailsProtectionModeEnumValues() []CreateDataGuardAssociationDetailsProtectionModeEnum {
 	values := make([]CreateDataGuardAssociationDetailsProtectionModeEnum, 0)
 	for _, v := range mappingCreateDataGuardAssociationDetailsProtectionMode {
@@ -140,7 +140,7 @@ func GetCreateDataGuardAssociationDetailsProtectionModeEnumValues() []CreateData
 // CreateDataGuardAssociationDetailsTransportTypeEnum Enum with underlying type: string
 type CreateDataGuardAssociationDetailsTransportTypeEnum string
 
-// Set of constants representing the allowable values for CreateDataGuardAssociationDetailsTransportType
+// Set of constants representing the allowable values for CreateDataGuardAssociationDetailsTransportTypeEnum
 const (
 	CreateDataGuardAssociationDetailsTransportTypeSync     CreateDataGuardAssociationDetailsTransportTypeEnum = "SYNC"
 	CreateDataGuardAssociationDetailsTransportTypeAsync    CreateDataGuardAssociationDetailsTransportTypeEnum = "ASYNC"
@@ -153,7 +153,7 @@ var mappingCreateDataGuardAssociationDetailsTransportType = map[string]CreateDat
 	"FASTSYNC": CreateDataGuardAssociationDetailsTransportTypeFastsync,
 }
 
-// GetCreateDataGuardAssociationDetailsTransportTypeEnumValues Enumerates the set of values for CreateDataGuardAssociationDetailsTransportType
+// GetCreateDataGuardAssociationDetailsTransportTypeEnumValues Enumerates the set of values for CreateDataGuardAssociationDetailsTransportTypeEnum
 func GetCreateDataGuardAssociationDetailsTransportTypeEnumValues() []CreateDataGuardAssociationDetailsTransportTypeEnum {
 	values := make([]CreateDataGuardAssociationDetailsTransportTypeEnum, 0)
 	for _, v := range mappingCreateDataGuardAssociationDetailsTransportType {

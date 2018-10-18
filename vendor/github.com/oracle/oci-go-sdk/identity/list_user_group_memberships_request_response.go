@@ -11,7 +11,7 @@ import (
 // ListUserGroupMembershipsRequest wrapper for the ListUserGroupMemberships operation
 type ListUserGroupMembershipsRequest struct {
 
-	// The OCID of the compartment (remember that the tenancy is simply the root compartment).
+	// The OCID of the parent compartment (remember that the tenancy is simply the root compartment).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The OCID of the user.

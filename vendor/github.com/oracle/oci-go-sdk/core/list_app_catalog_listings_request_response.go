@@ -89,7 +89,7 @@ func (response ListAppCatalogListingsResponse) HTTPResponse() *http.Response {
 // ListAppCatalogListingsSortOrderEnum Enum with underlying type: string
 type ListAppCatalogListingsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListAppCatalogListingsSortOrder
+// Set of constants representing the allowable values for ListAppCatalogListingsSortOrderEnum
 const (
 	ListAppCatalogListingsSortOrderAsc  ListAppCatalogListingsSortOrderEnum = "ASC"
 	ListAppCatalogListingsSortOrderDesc ListAppCatalogListingsSortOrderEnum = "DESC"
@@ -100,7 +100,7 @@ var mappingListAppCatalogListingsSortOrder = map[string]ListAppCatalogListingsSo
 	"DESC": ListAppCatalogListingsSortOrderDesc,
 }
 
-// GetListAppCatalogListingsSortOrderEnumValues Enumerates the set of values for ListAppCatalogListingsSortOrder
+// GetListAppCatalogListingsSortOrderEnumValues Enumerates the set of values for ListAppCatalogListingsSortOrderEnum
 func GetListAppCatalogListingsSortOrderEnumValues() []ListAppCatalogListingsSortOrderEnum {
 	values := make([]ListAppCatalogListingsSortOrderEnum, 0)
 	for _, v := range mappingListAppCatalogListingsSortOrder {

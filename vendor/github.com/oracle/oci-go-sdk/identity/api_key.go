@@ -53,7 +53,7 @@ func (m ApiKey) String() string {
 // ApiKeyLifecycleStateEnum Enum with underlying type: string
 type ApiKeyLifecycleStateEnum string
 
-// Set of constants representing the allowable values for ApiKeyLifecycleState
+// Set of constants representing the allowable values for ApiKeyLifecycleStateEnum
 const (
 	ApiKeyLifecycleStateCreating ApiKeyLifecycleStateEnum = "CREATING"
 	ApiKeyLifecycleStateActive   ApiKeyLifecycleStateEnum = "ACTIVE"
@@ -70,7 +70,7 @@ var mappingApiKeyLifecycleState = map[string]ApiKeyLifecycleStateEnum{
 	"DELETED":  ApiKeyLifecycleStateDeleted,
 }
 
-// GetApiKeyLifecycleStateEnumValues Enumerates the set of values for ApiKeyLifecycleState
+// GetApiKeyLifecycleStateEnumValues Enumerates the set of values for ApiKeyLifecycleStateEnum
 func GetApiKeyLifecycleStateEnumValues() []ApiKeyLifecycleStateEnum {
 	values := make([]ApiKeyLifecycleStateEnum, 0)
 	for _, v := range mappingApiKeyLifecycleState {

@@ -58,7 +58,7 @@ func (m MountTargetSummary) String() string {
 // MountTargetSummaryLifecycleStateEnum Enum with underlying type: string
 type MountTargetSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for MountTargetSummaryLifecycleState
+// Set of constants representing the allowable values for MountTargetSummaryLifecycleStateEnum
 const (
 	MountTargetSummaryLifecycleStateCreating MountTargetSummaryLifecycleStateEnum = "CREATING"
 	MountTargetSummaryLifecycleStateActive   MountTargetSummaryLifecycleStateEnum = "ACTIVE"
@@ -75,7 +75,7 @@ var mappingMountTargetSummaryLifecycleState = map[string]MountTargetSummaryLifec
 	"FAILED":   MountTargetSummaryLifecycleStateFailed,
 }
 
-// GetMountTargetSummaryLifecycleStateEnumValues Enumerates the set of values for MountTargetSummaryLifecycleState
+// GetMountTargetSummaryLifecycleStateEnumValues Enumerates the set of values for MountTargetSummaryLifecycleStateEnum
 func GetMountTargetSummaryLifecycleStateEnumValues() []MountTargetSummaryLifecycleStateEnum {
 	values := make([]MountTargetSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingMountTargetSummaryLifecycleState {

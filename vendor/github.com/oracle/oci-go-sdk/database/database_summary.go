@@ -73,7 +73,7 @@ func (m DatabaseSummary) String() string {
 // DatabaseSummaryLifecycleStateEnum Enum with underlying type: string
 type DatabaseSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for DatabaseSummaryLifecycleState
+// Set of constants representing the allowable values for DatabaseSummaryLifecycleStateEnum
 const (
 	DatabaseSummaryLifecycleStateProvisioning     DatabaseSummaryLifecycleStateEnum = "PROVISIONING"
 	DatabaseSummaryLifecycleStateAvailable        DatabaseSummaryLifecycleStateEnum = "AVAILABLE"
@@ -96,7 +96,7 @@ var mappingDatabaseSummaryLifecycleState = map[string]DatabaseSummaryLifecycleSt
 	"FAILED":             DatabaseSummaryLifecycleStateFailed,
 }
 
-// GetDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for DatabaseSummaryLifecycleState
+// GetDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for DatabaseSummaryLifecycleStateEnum
 func GetDatabaseSummaryLifecycleStateEnumValues() []DatabaseSummaryLifecycleStateEnum {
 	values := make([]DatabaseSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingDatabaseSummaryLifecycleState {

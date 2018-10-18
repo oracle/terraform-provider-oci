@@ -35,7 +35,7 @@ func (m CreateZoneDetails) String() string {
 // CreateZoneDetailsZoneTypeEnum Enum with underlying type: string
 type CreateZoneDetailsZoneTypeEnum string
 
-// Set of constants representing the allowable values for CreateZoneDetailsZoneType
+// Set of constants representing the allowable values for CreateZoneDetailsZoneTypeEnum
 const (
 	CreateZoneDetailsZoneTypePrimary   CreateZoneDetailsZoneTypeEnum = "PRIMARY"
 	CreateZoneDetailsZoneTypeSecondary CreateZoneDetailsZoneTypeEnum = "SECONDARY"
@@ -46,7 +46,7 @@ var mappingCreateZoneDetailsZoneType = map[string]CreateZoneDetailsZoneTypeEnum{
 	"SECONDARY": CreateZoneDetailsZoneTypeSecondary,
 }
 
-// GetCreateZoneDetailsZoneTypeEnumValues Enumerates the set of values for CreateZoneDetailsZoneType
+// GetCreateZoneDetailsZoneTypeEnumValues Enumerates the set of values for CreateZoneDetailsZoneTypeEnum
 func GetCreateZoneDetailsZoneTypeEnumValues() []CreateZoneDetailsZoneTypeEnum {
 	values := make([]CreateZoneDetailsZoneTypeEnum, 0)
 	for _, v := range mappingCreateZoneDetailsZoneType {

@@ -27,7 +27,7 @@ func (m WorkRequestError) String() string {
 // WorkRequestErrorErrorCodeEnum Enum with underlying type: string
 type WorkRequestErrorErrorCodeEnum string
 
-// Set of constants representing the allowable values for WorkRequestErrorErrorCode
+// Set of constants representing the allowable values for WorkRequestErrorErrorCodeEnum
 const (
 	WorkRequestErrorErrorCodeBadInput      WorkRequestErrorErrorCodeEnum = "BAD_INPUT"
 	WorkRequestErrorErrorCodeInternalError WorkRequestErrorErrorCodeEnum = "INTERNAL_ERROR"
@@ -38,7 +38,7 @@ var mappingWorkRequestErrorErrorCode = map[string]WorkRequestErrorErrorCodeEnum{
 	"INTERNAL_ERROR": WorkRequestErrorErrorCodeInternalError,
 }
 
-// GetWorkRequestErrorErrorCodeEnumValues Enumerates the set of values for WorkRequestErrorErrorCode
+// GetWorkRequestErrorErrorCodeEnumValues Enumerates the set of values for WorkRequestErrorErrorCodeEnum
 func GetWorkRequestErrorErrorCodeEnumValues() []WorkRequestErrorErrorCodeEnum {
 	values := make([]WorkRequestErrorErrorCodeEnum, 0)
 	for _, v := range mappingWorkRequestErrorErrorCode {

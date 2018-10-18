@@ -90,7 +90,7 @@ func (response ListSnapshotsResponse) HTTPResponse() *http.Response {
 // ListSnapshotsLifecycleStateEnum Enum with underlying type: string
 type ListSnapshotsLifecycleStateEnum string
 
-// Set of constants representing the allowable values for ListSnapshotsLifecycleState
+// Set of constants representing the allowable values for ListSnapshotsLifecycleStateEnum
 const (
 	ListSnapshotsLifecycleStateCreating ListSnapshotsLifecycleStateEnum = "CREATING"
 	ListSnapshotsLifecycleStateActive   ListSnapshotsLifecycleStateEnum = "ACTIVE"
@@ -107,7 +107,7 @@ var mappingListSnapshotsLifecycleState = map[string]ListSnapshotsLifecycleStateE
 	"FAILED":   ListSnapshotsLifecycleStateFailed,
 }
 
-// GetListSnapshotsLifecycleStateEnumValues Enumerates the set of values for ListSnapshotsLifecycleState
+// GetListSnapshotsLifecycleStateEnumValues Enumerates the set of values for ListSnapshotsLifecycleStateEnum
 func GetListSnapshotsLifecycleStateEnumValues() []ListSnapshotsLifecycleStateEnum {
 	values := make([]ListSnapshotsLifecycleStateEnum, 0)
 	for _, v := range mappingListSnapshotsLifecycleState {
@@ -119,7 +119,7 @@ func GetListSnapshotsLifecycleStateEnumValues() []ListSnapshotsLifecycleStateEnu
 // ListSnapshotsSortOrderEnum Enum with underlying type: string
 type ListSnapshotsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListSnapshotsSortOrder
+// Set of constants representing the allowable values for ListSnapshotsSortOrderEnum
 const (
 	ListSnapshotsSortOrderAsc  ListSnapshotsSortOrderEnum = "ASC"
 	ListSnapshotsSortOrderDesc ListSnapshotsSortOrderEnum = "DESC"
@@ -130,7 +130,7 @@ var mappingListSnapshotsSortOrder = map[string]ListSnapshotsSortOrderEnum{
 	"DESC": ListSnapshotsSortOrderDesc,
 }
 
-// GetListSnapshotsSortOrderEnumValues Enumerates the set of values for ListSnapshotsSortOrder
+// GetListSnapshotsSortOrderEnumValues Enumerates the set of values for ListSnapshotsSortOrderEnum
 func GetListSnapshotsSortOrderEnumValues() []ListSnapshotsSortOrderEnum {
 	values := make([]ListSnapshotsSortOrderEnum, 0)
 	for _, v := range mappingListSnapshotsSortOrder {

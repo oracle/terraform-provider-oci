@@ -120,7 +120,7 @@ func (response GetZoneRecordsResponse) HTTPResponse() *http.Response {
 // GetZoneRecordsSortByEnum Enum with underlying type: string
 type GetZoneRecordsSortByEnum string
 
-// Set of constants representing the allowable values for GetZoneRecordsSortBy
+// Set of constants representing the allowable values for GetZoneRecordsSortByEnum
 const (
 	GetZoneRecordsSortByDomain GetZoneRecordsSortByEnum = "domain"
 	GetZoneRecordsSortByRtype  GetZoneRecordsSortByEnum = "rtype"
@@ -133,7 +133,7 @@ var mappingGetZoneRecordsSortBy = map[string]GetZoneRecordsSortByEnum{
 	"ttl":    GetZoneRecordsSortByTtl,
 }
 
-// GetGetZoneRecordsSortByEnumValues Enumerates the set of values for GetZoneRecordsSortBy
+// GetGetZoneRecordsSortByEnumValues Enumerates the set of values for GetZoneRecordsSortByEnum
 func GetGetZoneRecordsSortByEnumValues() []GetZoneRecordsSortByEnum {
 	values := make([]GetZoneRecordsSortByEnum, 0)
 	for _, v := range mappingGetZoneRecordsSortBy {
@@ -145,7 +145,7 @@ func GetGetZoneRecordsSortByEnumValues() []GetZoneRecordsSortByEnum {
 // GetZoneRecordsSortOrderEnum Enum with underlying type: string
 type GetZoneRecordsSortOrderEnum string
 
-// Set of constants representing the allowable values for GetZoneRecordsSortOrder
+// Set of constants representing the allowable values for GetZoneRecordsSortOrderEnum
 const (
 	GetZoneRecordsSortOrderAsc  GetZoneRecordsSortOrderEnum = "ASC"
 	GetZoneRecordsSortOrderDesc GetZoneRecordsSortOrderEnum = "DESC"
@@ -156,7 +156,7 @@ var mappingGetZoneRecordsSortOrder = map[string]GetZoneRecordsSortOrderEnum{
 	"DESC": GetZoneRecordsSortOrderDesc,
 }
 
-// GetGetZoneRecordsSortOrderEnumValues Enumerates the set of values for GetZoneRecordsSortOrder
+// GetGetZoneRecordsSortOrderEnumValues Enumerates the set of values for GetZoneRecordsSortOrderEnum
 func GetGetZoneRecordsSortOrderEnumValues() []GetZoneRecordsSortOrderEnum {
 	values := make([]GetZoneRecordsSortOrderEnum, 0)
 	for _, v := range mappingGetZoneRecordsSortOrder {

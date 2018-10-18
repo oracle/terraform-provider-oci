@@ -42,7 +42,7 @@ func (m UiPassword) String() string {
 // UiPasswordLifecycleStateEnum Enum with underlying type: string
 type UiPasswordLifecycleStateEnum string
 
-// Set of constants representing the allowable values for UiPasswordLifecycleState
+// Set of constants representing the allowable values for UiPasswordLifecycleStateEnum
 const (
 	UiPasswordLifecycleStateCreating UiPasswordLifecycleStateEnum = "CREATING"
 	UiPasswordLifecycleStateActive   UiPasswordLifecycleStateEnum = "ACTIVE"
@@ -59,7 +59,7 @@ var mappingUiPasswordLifecycleState = map[string]UiPasswordLifecycleStateEnum{
 	"DELETED":  UiPasswordLifecycleStateDeleted,
 }
 
-// GetUiPasswordLifecycleStateEnumValues Enumerates the set of values for UiPasswordLifecycleState
+// GetUiPasswordLifecycleStateEnumValues Enumerates the set of values for UiPasswordLifecycleStateEnum
 func GetUiPasswordLifecycleStateEnumValues() []UiPasswordLifecycleStateEnum {
 	values := make([]UiPasswordLifecycleStateEnum, 0)
 	for _, v := range mappingUiPasswordLifecycleState {

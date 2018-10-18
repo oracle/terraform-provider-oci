@@ -70,7 +70,7 @@ func (m IngressSecurityRule) String() string {
 // IngressSecurityRuleSourceTypeEnum Enum with underlying type: string
 type IngressSecurityRuleSourceTypeEnum string
 
-// Set of constants representing the allowable values for IngressSecurityRuleSourceType
+// Set of constants representing the allowable values for IngressSecurityRuleSourceTypeEnum
 const (
 	IngressSecurityRuleSourceTypeCidrBlock        IngressSecurityRuleSourceTypeEnum = "CIDR_BLOCK"
 	IngressSecurityRuleSourceTypeServiceCidrBlock IngressSecurityRuleSourceTypeEnum = "SERVICE_CIDR_BLOCK"
@@ -81,7 +81,7 @@ var mappingIngressSecurityRuleSourceType = map[string]IngressSecurityRuleSourceT
 	"SERVICE_CIDR_BLOCK": IngressSecurityRuleSourceTypeServiceCidrBlock,
 }
 
-// GetIngressSecurityRuleSourceTypeEnumValues Enumerates the set of values for IngressSecurityRuleSourceType
+// GetIngressSecurityRuleSourceTypeEnumValues Enumerates the set of values for IngressSecurityRuleSourceTypeEnum
 func GetIngressSecurityRuleSourceTypeEnumValues() []IngressSecurityRuleSourceTypeEnum {
 	values := make([]IngressSecurityRuleSourceTypeEnum, 0)
 	for _, v := range mappingIngressSecurityRuleSourceType {

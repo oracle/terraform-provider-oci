@@ -70,7 +70,7 @@ func (m IpSecConnection) String() string {
 // IpSecConnectionLifecycleStateEnum Enum with underlying type: string
 type IpSecConnectionLifecycleStateEnum string
 
-// Set of constants representing the allowable values for IpSecConnectionLifecycleState
+// Set of constants representing the allowable values for IpSecConnectionLifecycleStateEnum
 const (
 	IpSecConnectionLifecycleStateProvisioning IpSecConnectionLifecycleStateEnum = "PROVISIONING"
 	IpSecConnectionLifecycleStateAvailable    IpSecConnectionLifecycleStateEnum = "AVAILABLE"
@@ -85,7 +85,7 @@ var mappingIpSecConnectionLifecycleState = map[string]IpSecConnectionLifecycleSt
 	"TERMINATED":   IpSecConnectionLifecycleStateTerminated,
 }
 
-// GetIpSecConnectionLifecycleStateEnumValues Enumerates the set of values for IpSecConnectionLifecycleState
+// GetIpSecConnectionLifecycleStateEnumValues Enumerates the set of values for IpSecConnectionLifecycleStateEnum
 func GetIpSecConnectionLifecycleStateEnumValues() []IpSecConnectionLifecycleStateEnum {
 	values := make([]IpSecConnectionLifecycleStateEnum, 0)
 	for _, v := range mappingIpSecConnectionLifecycleState {

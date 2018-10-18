@@ -102,7 +102,7 @@ func (response ListVolumeGroupsResponse) HTTPResponse() *http.Response {
 // ListVolumeGroupsSortByEnum Enum with underlying type: string
 type ListVolumeGroupsSortByEnum string
 
-// Set of constants representing the allowable values for ListVolumeGroupsSortBy
+// Set of constants representing the allowable values for ListVolumeGroupsSortByEnum
 const (
 	ListVolumeGroupsSortByTimecreated ListVolumeGroupsSortByEnum = "TIMECREATED"
 	ListVolumeGroupsSortByDisplayname ListVolumeGroupsSortByEnum = "DISPLAYNAME"
@@ -113,7 +113,7 @@ var mappingListVolumeGroupsSortBy = map[string]ListVolumeGroupsSortByEnum{
 	"DISPLAYNAME": ListVolumeGroupsSortByDisplayname,
 }
 
-// GetListVolumeGroupsSortByEnumValues Enumerates the set of values for ListVolumeGroupsSortBy
+// GetListVolumeGroupsSortByEnumValues Enumerates the set of values for ListVolumeGroupsSortByEnum
 func GetListVolumeGroupsSortByEnumValues() []ListVolumeGroupsSortByEnum {
 	values := make([]ListVolumeGroupsSortByEnum, 0)
 	for _, v := range mappingListVolumeGroupsSortBy {
@@ -125,7 +125,7 @@ func GetListVolumeGroupsSortByEnumValues() []ListVolumeGroupsSortByEnum {
 // ListVolumeGroupsSortOrderEnum Enum with underlying type: string
 type ListVolumeGroupsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListVolumeGroupsSortOrder
+// Set of constants representing the allowable values for ListVolumeGroupsSortOrderEnum
 const (
 	ListVolumeGroupsSortOrderAsc  ListVolumeGroupsSortOrderEnum = "ASC"
 	ListVolumeGroupsSortOrderDesc ListVolumeGroupsSortOrderEnum = "DESC"
@@ -136,7 +136,7 @@ var mappingListVolumeGroupsSortOrder = map[string]ListVolumeGroupsSortOrderEnum{
 	"DESC": ListVolumeGroupsSortOrderDesc,
 }
 
-// GetListVolumeGroupsSortOrderEnumValues Enumerates the set of values for ListVolumeGroupsSortOrder
+// GetListVolumeGroupsSortOrderEnumValues Enumerates the set of values for ListVolumeGroupsSortOrderEnum
 func GetListVolumeGroupsSortOrderEnumValues() []ListVolumeGroupsSortOrderEnum {
 	values := make([]ListVolumeGroupsSortOrderEnum, 0)
 	for _, v := range mappingListVolumeGroupsSortOrder {

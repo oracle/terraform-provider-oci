@@ -41,7 +41,7 @@ func (m CrossConnectStatus) String() string {
 // CrossConnectStatusInterfaceStateEnum Enum with underlying type: string
 type CrossConnectStatusInterfaceStateEnum string
 
-// Set of constants representing the allowable values for CrossConnectStatusInterfaceState
+// Set of constants representing the allowable values for CrossConnectStatusInterfaceStateEnum
 const (
 	CrossConnectStatusInterfaceStateUp   CrossConnectStatusInterfaceStateEnum = "UP"
 	CrossConnectStatusInterfaceStateDown CrossConnectStatusInterfaceStateEnum = "DOWN"
@@ -52,7 +52,7 @@ var mappingCrossConnectStatusInterfaceState = map[string]CrossConnectStatusInter
 	"DOWN": CrossConnectStatusInterfaceStateDown,
 }
 
-// GetCrossConnectStatusInterfaceStateEnumValues Enumerates the set of values for CrossConnectStatusInterfaceState
+// GetCrossConnectStatusInterfaceStateEnumValues Enumerates the set of values for CrossConnectStatusInterfaceStateEnum
 func GetCrossConnectStatusInterfaceStateEnumValues() []CrossConnectStatusInterfaceStateEnum {
 	values := make([]CrossConnectStatusInterfaceStateEnum, 0)
 	for _, v := range mappingCrossConnectStatusInterfaceState {
@@ -64,7 +64,7 @@ func GetCrossConnectStatusInterfaceStateEnumValues() []CrossConnectStatusInterfa
 // CrossConnectStatusLightLevelIndicatorEnum Enum with underlying type: string
 type CrossConnectStatusLightLevelIndicatorEnum string
 
-// Set of constants representing the allowable values for CrossConnectStatusLightLevelIndicator
+// Set of constants representing the allowable values for CrossConnectStatusLightLevelIndicatorEnum
 const (
 	CrossConnectStatusLightLevelIndicatorNoLight  CrossConnectStatusLightLevelIndicatorEnum = "NO_LIGHT"
 	CrossConnectStatusLightLevelIndicatorLowWarn  CrossConnectStatusLightLevelIndicatorEnum = "LOW_WARN"
@@ -81,7 +81,7 @@ var mappingCrossConnectStatusLightLevelIndicator = map[string]CrossConnectStatus
 	"GOOD":      CrossConnectStatusLightLevelIndicatorGood,
 }
 
-// GetCrossConnectStatusLightLevelIndicatorEnumValues Enumerates the set of values for CrossConnectStatusLightLevelIndicator
+// GetCrossConnectStatusLightLevelIndicatorEnumValues Enumerates the set of values for CrossConnectStatusLightLevelIndicatorEnum
 func GetCrossConnectStatusLightLevelIndicatorEnumValues() []CrossConnectStatusLightLevelIndicatorEnum {
 	values := make([]CrossConnectStatusLightLevelIndicatorEnum, 0)
 	for _, v := range mappingCrossConnectStatusLightLevelIndicator {

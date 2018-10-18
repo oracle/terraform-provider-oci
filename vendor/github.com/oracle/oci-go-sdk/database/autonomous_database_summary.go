@@ -37,6 +37,9 @@ type AutonomousDatabaseSummary struct {
 	// The connection string used to connect to the Autonomous Database. The username for the Service Console is ADMIN. Use the password you entered when creating the Autonomous Database for the password value.
 	ConnectionStrings *AutonomousDatabaseConnectionStrings `mandatory:"false" json:"connectionStrings"`
 
+	// A valid Oracle Database version for Autonomous Database.
+	DbVersion *string `mandatory:"false" json:"dbVersion"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -53,7 +56,7 @@ type AutonomousDatabaseSummary struct {
 	// The Oracle license model that applies to the Oracle Autonomous Database. The default is BRING_YOUR_OWN_LICENSE.
 	LicenseModel AutonomousDatabaseSummaryLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
-	// Additional information about the current lifecycle state.
+	// Information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The URL of the Service Console for the Autonomous Database.
@@ -70,7 +73,7 @@ func (m AutonomousDatabaseSummary) String() string {
 // AutonomousDatabaseSummaryLicenseModelEnum Enum with underlying type: string
 type AutonomousDatabaseSummaryLicenseModelEnum string
 
-// Set of constants representing the allowable values for AutonomousDatabaseSummaryLicenseModel
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryLicenseModelEnum
 const (
 	AutonomousDatabaseSummaryLicenseModelLicenseIncluded     AutonomousDatabaseSummaryLicenseModelEnum = "LICENSE_INCLUDED"
 	AutonomousDatabaseSummaryLicenseModelBringYourOwnLicense AutonomousDatabaseSummaryLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
@@ -81,7 +84,7 @@ var mappingAutonomousDatabaseSummaryLicenseModel = map[string]AutonomousDatabase
 	"BRING_YOUR_OWN_LICENSE": AutonomousDatabaseSummaryLicenseModelBringYourOwnLicense,
 }
 
-// GetAutonomousDatabaseSummaryLicenseModelEnumValues Enumerates the set of values for AutonomousDatabaseSummaryLicenseModel
+// GetAutonomousDatabaseSummaryLicenseModelEnumValues Enumerates the set of values for AutonomousDatabaseSummaryLicenseModelEnum
 func GetAutonomousDatabaseSummaryLicenseModelEnumValues() []AutonomousDatabaseSummaryLicenseModelEnum {
 	values := make([]AutonomousDatabaseSummaryLicenseModelEnum, 0)
 	for _, v := range mappingAutonomousDatabaseSummaryLicenseModel {
@@ -93,7 +96,7 @@ func GetAutonomousDatabaseSummaryLicenseModelEnumValues() []AutonomousDatabaseSu
 // AutonomousDatabaseSummaryLifecycleStateEnum Enum with underlying type: string
 type AutonomousDatabaseSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for AutonomousDatabaseSummaryLifecycleState
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryLifecycleStateEnum
 const (
 	AutonomousDatabaseSummaryLifecycleStateProvisioning            AutonomousDatabaseSummaryLifecycleStateEnum = "PROVISIONING"
 	AutonomousDatabaseSummaryLifecycleStateAvailable               AutonomousDatabaseSummaryLifecycleStateEnum = "AVAILABLE"
@@ -104,6 +107,7 @@ const (
 	AutonomousDatabaseSummaryLifecycleStateTerminated              AutonomousDatabaseSummaryLifecycleStateEnum = "TERMINATED"
 	AutonomousDatabaseSummaryLifecycleStateUnavailable             AutonomousDatabaseSummaryLifecycleStateEnum = "UNAVAILABLE"
 	AutonomousDatabaseSummaryLifecycleStateRestoreInProgress       AutonomousDatabaseSummaryLifecycleStateEnum = "RESTORE_IN_PROGRESS"
+	AutonomousDatabaseSummaryLifecycleStateRestoreFailed           AutonomousDatabaseSummaryLifecycleStateEnum = "RESTORE_FAILED"
 	AutonomousDatabaseSummaryLifecycleStateBackupInProgress        AutonomousDatabaseSummaryLifecycleStateEnum = "BACKUP_IN_PROGRESS"
 	AutonomousDatabaseSummaryLifecycleStateScaleInProgress         AutonomousDatabaseSummaryLifecycleStateEnum = "SCALE_IN_PROGRESS"
 	AutonomousDatabaseSummaryLifecycleStateAvailableNeedsAttention AutonomousDatabaseSummaryLifecycleStateEnum = "AVAILABLE_NEEDS_ATTENTION"
@@ -119,12 +123,13 @@ var mappingAutonomousDatabaseSummaryLifecycleState = map[string]AutonomousDataba
 	"TERMINATED":                AutonomousDatabaseSummaryLifecycleStateTerminated,
 	"UNAVAILABLE":               AutonomousDatabaseSummaryLifecycleStateUnavailable,
 	"RESTORE_IN_PROGRESS":       AutonomousDatabaseSummaryLifecycleStateRestoreInProgress,
+	"RESTORE_FAILED":            AutonomousDatabaseSummaryLifecycleStateRestoreFailed,
 	"BACKUP_IN_PROGRESS":        AutonomousDatabaseSummaryLifecycleStateBackupInProgress,
 	"SCALE_IN_PROGRESS":         AutonomousDatabaseSummaryLifecycleStateScaleInProgress,
 	"AVAILABLE_NEEDS_ATTENTION": AutonomousDatabaseSummaryLifecycleStateAvailableNeedsAttention,
 }
 
-// GetAutonomousDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseSummaryLifecycleState
+// GetAutonomousDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseSummaryLifecycleStateEnum
 func GetAutonomousDatabaseSummaryLifecycleStateEnumValues() []AutonomousDatabaseSummaryLifecycleStateEnum {
 	values := make([]AutonomousDatabaseSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingAutonomousDatabaseSummaryLifecycleState {

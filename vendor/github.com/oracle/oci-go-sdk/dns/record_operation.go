@@ -64,7 +64,7 @@ func (m RecordOperation) String() string {
 // RecordOperationOperationEnum Enum with underlying type: string
 type RecordOperationOperationEnum string
 
-// Set of constants representing the allowable values for RecordOperationOperation
+// Set of constants representing the allowable values for RecordOperationOperationEnum
 const (
 	RecordOperationOperationRequire  RecordOperationOperationEnum = "REQUIRE"
 	RecordOperationOperationProhibit RecordOperationOperationEnum = "PROHIBIT"
@@ -79,7 +79,7 @@ var mappingRecordOperationOperation = map[string]RecordOperationOperationEnum{
 	"REMOVE":   RecordOperationOperationRemove,
 }
 
-// GetRecordOperationOperationEnumValues Enumerates the set of values for RecordOperationOperation
+// GetRecordOperationOperationEnumValues Enumerates the set of values for RecordOperationOperationEnum
 func GetRecordOperationOperationEnumValues() []RecordOperationOperationEnum {
 	values := make([]RecordOperationOperationEnum, 0)
 	for _, v := range mappingRecordOperationOperation {

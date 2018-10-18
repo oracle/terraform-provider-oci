@@ -55,7 +55,7 @@ func (m AutonomousDatabaseBackupSummary) String() string {
 // AutonomousDatabaseBackupSummaryLifecycleStateEnum Enum with underlying type: string
 type AutonomousDatabaseBackupSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for AutonomousDatabaseBackupSummaryLifecycleState
+// Set of constants representing the allowable values for AutonomousDatabaseBackupSummaryLifecycleStateEnum
 const (
 	AutonomousDatabaseBackupSummaryLifecycleStateCreating AutonomousDatabaseBackupSummaryLifecycleStateEnum = "CREATING"
 	AutonomousDatabaseBackupSummaryLifecycleStateActive   AutonomousDatabaseBackupSummaryLifecycleStateEnum = "ACTIVE"
@@ -72,7 +72,7 @@ var mappingAutonomousDatabaseBackupSummaryLifecycleState = map[string]Autonomous
 	"FAILED":   AutonomousDatabaseBackupSummaryLifecycleStateFailed,
 }
 
-// GetAutonomousDatabaseBackupSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseBackupSummaryLifecycleState
+// GetAutonomousDatabaseBackupSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseBackupSummaryLifecycleStateEnum
 func GetAutonomousDatabaseBackupSummaryLifecycleStateEnumValues() []AutonomousDatabaseBackupSummaryLifecycleStateEnum {
 	values := make([]AutonomousDatabaseBackupSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingAutonomousDatabaseBackupSummaryLifecycleState {
@@ -84,7 +84,7 @@ func GetAutonomousDatabaseBackupSummaryLifecycleStateEnumValues() []AutonomousDa
 // AutonomousDatabaseBackupSummaryTypeEnum Enum with underlying type: string
 type AutonomousDatabaseBackupSummaryTypeEnum string
 
-// Set of constants representing the allowable values for AutonomousDatabaseBackupSummaryType
+// Set of constants representing the allowable values for AutonomousDatabaseBackupSummaryTypeEnum
 const (
 	AutonomousDatabaseBackupSummaryTypeIncremental AutonomousDatabaseBackupSummaryTypeEnum = "INCREMENTAL"
 	AutonomousDatabaseBackupSummaryTypeFull        AutonomousDatabaseBackupSummaryTypeEnum = "FULL"
@@ -95,7 +95,7 @@ var mappingAutonomousDatabaseBackupSummaryType = map[string]AutonomousDatabaseBa
 	"FULL":        AutonomousDatabaseBackupSummaryTypeFull,
 }
 
-// GetAutonomousDatabaseBackupSummaryTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupSummaryType
+// GetAutonomousDatabaseBackupSummaryTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupSummaryTypeEnum
 func GetAutonomousDatabaseBackupSummaryTypeEnumValues() []AutonomousDatabaseBackupSummaryTypeEnum {
 	values := make([]AutonomousDatabaseBackupSummaryTypeEnum, 0)
 	for _, v := range mappingAutonomousDatabaseBackupSummaryType {

@@ -121,7 +121,7 @@ var sdkDateType = reflect.TypeOf(SDKDate{})
 var sdkDateTypePtr = reflect.TypeOf(&SDKDate{})
 
 //Formats for sdk supported time representations
-const sdkTimeFormat = time.RFC3339
+const sdkTimeFormat = time.RFC3339Nano
 const rfc1123OptionalLeadingDigitsInDay = "Mon, _2 Jan 2006 15:04:05 MST"
 const sdkDateFormat = "2006-01-02"
 
@@ -129,7 +129,7 @@ func tryParsingTimeWithValidFormatsForHeaders(data []byte, headerName string) (t
 	header := strings.ToLower(headerName)
 	switch header {
 	case "lastmodified", "date":
-		t, err = tryParsing(data, time.RFC3339, time.RFC1123, rfc1123OptionalLeadingDigitsInDay, time.RFC850, time.ANSIC)
+		t, err = tryParsing(data, time.RFC3339Nano, time.RFC3339, time.RFC1123, rfc1123OptionalLeadingDigitsInDay, time.RFC850, time.ANSIC)
 		return
 	default: //By default we parse with RFC3339
 		t, err = time.Parse(sdkTimeFormat, string(data))

@@ -50,7 +50,7 @@ func (m Node) String() string {
 // NodeLifecycleStateEnum Enum with underlying type: string
 type NodeLifecycleStateEnum string
 
-// Set of constants representing the allowable values for NodeLifecycleState
+// Set of constants representing the allowable values for NodeLifecycleStateEnum
 const (
 	NodeLifecycleStateCreating NodeLifecycleStateEnum = "CREATING"
 	NodeLifecycleStateActive   NodeLifecycleStateEnum = "ACTIVE"
@@ -71,7 +71,7 @@ var mappingNodeLifecycleState = map[string]NodeLifecycleStateEnum{
 	"INACTIVE": NodeLifecycleStateInactive,
 }
 
-// GetNodeLifecycleStateEnumValues Enumerates the set of values for NodeLifecycleState
+// GetNodeLifecycleStateEnumValues Enumerates the set of values for NodeLifecycleStateEnum
 func GetNodeLifecycleStateEnumValues() []NodeLifecycleStateEnum {
 	values := make([]NodeLifecycleStateEnum, 0)
 	for _, v := range mappingNodeLifecycleState {

@@ -126,7 +126,7 @@ func (m VirtualCircuit) String() string {
 // VirtualCircuitBgpManagementEnum Enum with underlying type: string
 type VirtualCircuitBgpManagementEnum string
 
-// Set of constants representing the allowable values for VirtualCircuitBgpManagement
+// Set of constants representing the allowable values for VirtualCircuitBgpManagementEnum
 const (
 	VirtualCircuitBgpManagementCustomerManaged VirtualCircuitBgpManagementEnum = "CUSTOMER_MANAGED"
 	VirtualCircuitBgpManagementProviderManaged VirtualCircuitBgpManagementEnum = "PROVIDER_MANAGED"
@@ -139,7 +139,7 @@ var mappingVirtualCircuitBgpManagement = map[string]VirtualCircuitBgpManagementE
 	"ORACLE_MANAGED":   VirtualCircuitBgpManagementOracleManaged,
 }
 
-// GetVirtualCircuitBgpManagementEnumValues Enumerates the set of values for VirtualCircuitBgpManagement
+// GetVirtualCircuitBgpManagementEnumValues Enumerates the set of values for VirtualCircuitBgpManagementEnum
 func GetVirtualCircuitBgpManagementEnumValues() []VirtualCircuitBgpManagementEnum {
 	values := make([]VirtualCircuitBgpManagementEnum, 0)
 	for _, v := range mappingVirtualCircuitBgpManagement {
@@ -151,7 +151,7 @@ func GetVirtualCircuitBgpManagementEnumValues() []VirtualCircuitBgpManagementEnu
 // VirtualCircuitBgpSessionStateEnum Enum with underlying type: string
 type VirtualCircuitBgpSessionStateEnum string
 
-// Set of constants representing the allowable values for VirtualCircuitBgpSessionState
+// Set of constants representing the allowable values for VirtualCircuitBgpSessionStateEnum
 const (
 	VirtualCircuitBgpSessionStateUp   VirtualCircuitBgpSessionStateEnum = "UP"
 	VirtualCircuitBgpSessionStateDown VirtualCircuitBgpSessionStateEnum = "DOWN"
@@ -162,7 +162,7 @@ var mappingVirtualCircuitBgpSessionState = map[string]VirtualCircuitBgpSessionSt
 	"DOWN": VirtualCircuitBgpSessionStateDown,
 }
 
-// GetVirtualCircuitBgpSessionStateEnumValues Enumerates the set of values for VirtualCircuitBgpSessionState
+// GetVirtualCircuitBgpSessionStateEnumValues Enumerates the set of values for VirtualCircuitBgpSessionStateEnum
 func GetVirtualCircuitBgpSessionStateEnumValues() []VirtualCircuitBgpSessionStateEnum {
 	values := make([]VirtualCircuitBgpSessionStateEnum, 0)
 	for _, v := range mappingVirtualCircuitBgpSessionState {
@@ -174,7 +174,7 @@ func GetVirtualCircuitBgpSessionStateEnumValues() []VirtualCircuitBgpSessionStat
 // VirtualCircuitLifecycleStateEnum Enum with underlying type: string
 type VirtualCircuitLifecycleStateEnum string
 
-// Set of constants representing the allowable values for VirtualCircuitLifecycleState
+// Set of constants representing the allowable values for VirtualCircuitLifecycleStateEnum
 const (
 	VirtualCircuitLifecycleStatePendingProvider VirtualCircuitLifecycleStateEnum = "PENDING_PROVIDER"
 	VirtualCircuitLifecycleStateVerifying       VirtualCircuitLifecycleStateEnum = "VERIFYING"
@@ -197,7 +197,7 @@ var mappingVirtualCircuitLifecycleState = map[string]VirtualCircuitLifecycleStat
 	"TERMINATED":       VirtualCircuitLifecycleStateTerminated,
 }
 
-// GetVirtualCircuitLifecycleStateEnumValues Enumerates the set of values for VirtualCircuitLifecycleState
+// GetVirtualCircuitLifecycleStateEnumValues Enumerates the set of values for VirtualCircuitLifecycleStateEnum
 func GetVirtualCircuitLifecycleStateEnumValues() []VirtualCircuitLifecycleStateEnum {
 	values := make([]VirtualCircuitLifecycleStateEnum, 0)
 	for _, v := range mappingVirtualCircuitLifecycleState {
@@ -209,7 +209,7 @@ func GetVirtualCircuitLifecycleStateEnumValues() []VirtualCircuitLifecycleStateE
 // VirtualCircuitProviderStateEnum Enum with underlying type: string
 type VirtualCircuitProviderStateEnum string
 
-// Set of constants representing the allowable values for VirtualCircuitProviderState
+// Set of constants representing the allowable values for VirtualCircuitProviderStateEnum
 const (
 	VirtualCircuitProviderStateActive   VirtualCircuitProviderStateEnum = "ACTIVE"
 	VirtualCircuitProviderStateInactive VirtualCircuitProviderStateEnum = "INACTIVE"
@@ -220,7 +220,7 @@ var mappingVirtualCircuitProviderState = map[string]VirtualCircuitProviderStateE
 	"INACTIVE": VirtualCircuitProviderStateInactive,
 }
 
-// GetVirtualCircuitProviderStateEnumValues Enumerates the set of values for VirtualCircuitProviderState
+// GetVirtualCircuitProviderStateEnumValues Enumerates the set of values for VirtualCircuitProviderStateEnum
 func GetVirtualCircuitProviderStateEnumValues() []VirtualCircuitProviderStateEnum {
 	values := make([]VirtualCircuitProviderStateEnum, 0)
 	for _, v := range mappingVirtualCircuitProviderState {
@@ -232,7 +232,7 @@ func GetVirtualCircuitProviderStateEnumValues() []VirtualCircuitProviderStateEnu
 // VirtualCircuitServiceTypeEnum Enum with underlying type: string
 type VirtualCircuitServiceTypeEnum string
 
-// Set of constants representing the allowable values for VirtualCircuitServiceType
+// Set of constants representing the allowable values for VirtualCircuitServiceTypeEnum
 const (
 	VirtualCircuitServiceTypeColocated VirtualCircuitServiceTypeEnum = "COLOCATED"
 	VirtualCircuitServiceTypeLayer2    VirtualCircuitServiceTypeEnum = "LAYER2"
@@ -245,7 +245,7 @@ var mappingVirtualCircuitServiceType = map[string]VirtualCircuitServiceTypeEnum{
 	"LAYER3":    VirtualCircuitServiceTypeLayer3,
 }
 
-// GetVirtualCircuitServiceTypeEnumValues Enumerates the set of values for VirtualCircuitServiceType
+// GetVirtualCircuitServiceTypeEnumValues Enumerates the set of values for VirtualCircuitServiceTypeEnum
 func GetVirtualCircuitServiceTypeEnumValues() []VirtualCircuitServiceTypeEnum {
 	values := make([]VirtualCircuitServiceTypeEnum, 0)
 	for _, v := range mappingVirtualCircuitServiceType {
@@ -257,7 +257,7 @@ func GetVirtualCircuitServiceTypeEnumValues() []VirtualCircuitServiceTypeEnum {
 // VirtualCircuitTypeEnum Enum with underlying type: string
 type VirtualCircuitTypeEnum string
 
-// Set of constants representing the allowable values for VirtualCircuitType
+// Set of constants representing the allowable values for VirtualCircuitTypeEnum
 const (
 	VirtualCircuitTypePublic  VirtualCircuitTypeEnum = "PUBLIC"
 	VirtualCircuitTypePrivate VirtualCircuitTypeEnum = "PRIVATE"
@@ -268,7 +268,7 @@ var mappingVirtualCircuitType = map[string]VirtualCircuitTypeEnum{
 	"PRIVATE": VirtualCircuitTypePrivate,
 }
 
-// GetVirtualCircuitTypeEnumValues Enumerates the set of values for VirtualCircuitType
+// GetVirtualCircuitTypeEnumValues Enumerates the set of values for VirtualCircuitTypeEnum
 func GetVirtualCircuitTypeEnumValues() []VirtualCircuitTypeEnum {
 	values := make([]VirtualCircuitTypeEnum, 0)
 	for _, v := range mappingVirtualCircuitType {

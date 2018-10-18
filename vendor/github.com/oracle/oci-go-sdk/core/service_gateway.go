@@ -77,7 +77,7 @@ func (m ServiceGateway) String() string {
 // ServiceGatewayLifecycleStateEnum Enum with underlying type: string
 type ServiceGatewayLifecycleStateEnum string
 
-// Set of constants representing the allowable values for ServiceGatewayLifecycleState
+// Set of constants representing the allowable values for ServiceGatewayLifecycleStateEnum
 const (
 	ServiceGatewayLifecycleStateProvisioning ServiceGatewayLifecycleStateEnum = "PROVISIONING"
 	ServiceGatewayLifecycleStateAvailable    ServiceGatewayLifecycleStateEnum = "AVAILABLE"
@@ -92,7 +92,7 @@ var mappingServiceGatewayLifecycleState = map[string]ServiceGatewayLifecycleStat
 	"TERMINATED":   ServiceGatewayLifecycleStateTerminated,
 }
 
-// GetServiceGatewayLifecycleStateEnumValues Enumerates the set of values for ServiceGatewayLifecycleState
+// GetServiceGatewayLifecycleStateEnumValues Enumerates the set of values for ServiceGatewayLifecycleStateEnum
 func GetServiceGatewayLifecycleStateEnumValues() []ServiceGatewayLifecycleStateEnum {
 	values := make([]ServiceGatewayLifecycleStateEnum, 0)
 	for _, v := range mappingServiceGatewayLifecycleState {

@@ -64,7 +64,7 @@ func (m RouteTable) String() string {
 // RouteTableLifecycleStateEnum Enum with underlying type: string
 type RouteTableLifecycleStateEnum string
 
-// Set of constants representing the allowable values for RouteTableLifecycleState
+// Set of constants representing the allowable values for RouteTableLifecycleStateEnum
 const (
 	RouteTableLifecycleStateProvisioning RouteTableLifecycleStateEnum = "PROVISIONING"
 	RouteTableLifecycleStateAvailable    RouteTableLifecycleStateEnum = "AVAILABLE"
@@ -79,7 +79,7 @@ var mappingRouteTableLifecycleState = map[string]RouteTableLifecycleStateEnum{
 	"TERMINATED":   RouteTableLifecycleStateTerminated,
 }
 
-// GetRouteTableLifecycleStateEnumValues Enumerates the set of values for RouteTableLifecycleState
+// GetRouteTableLifecycleStateEnumValues Enumerates the set of values for RouteTableLifecycleStateEnum
 func GetRouteTableLifecycleStateEnumValues() []RouteTableLifecycleStateEnum {
 	values := make([]RouteTableLifecycleStateEnum, 0)
 	for _, v := range mappingRouteTableLifecycleState {

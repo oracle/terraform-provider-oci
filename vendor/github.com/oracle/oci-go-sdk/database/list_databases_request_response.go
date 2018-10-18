@@ -23,6 +23,18 @@ type ListDatabasesRequest struct {
 	// The pagination token to continue listing from.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// The field to sort by.  You can provide one sort order (`sortOrder`).  Default order for TIMECREATED is descending.  Default order for DBNAME is ascending. The DBNAME sort order is case sensitive.
+	SortBy ListDatabasesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+	SortOrder ListDatabasesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// A filter to return only resources that match the given lifecycle state exactly.
+	LifecycleState DatabaseSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
+	// A filter to return only resources that match the entire database name given. The match is not case sensitive.
+	DbName *string `mandatory:"false" contributesTo:"query" name:"dbName"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -73,4 +85,50 @@ func (response ListDatabasesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListDatabasesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListDatabasesSortByEnum Enum with underlying type: string
+type ListDatabasesSortByEnum string
+
+// Set of constants representing the allowable values for ListDatabasesSortByEnum
+const (
+	ListDatabasesSortByDbname      ListDatabasesSortByEnum = "DBNAME"
+	ListDatabasesSortByTimecreated ListDatabasesSortByEnum = "TIMECREATED"
+)
+
+var mappingListDatabasesSortBy = map[string]ListDatabasesSortByEnum{
+	"DBNAME":      ListDatabasesSortByDbname,
+	"TIMECREATED": ListDatabasesSortByTimecreated,
+}
+
+// GetListDatabasesSortByEnumValues Enumerates the set of values for ListDatabasesSortByEnum
+func GetListDatabasesSortByEnumValues() []ListDatabasesSortByEnum {
+	values := make([]ListDatabasesSortByEnum, 0)
+	for _, v := range mappingListDatabasesSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListDatabasesSortOrderEnum Enum with underlying type: string
+type ListDatabasesSortOrderEnum string
+
+// Set of constants representing the allowable values for ListDatabasesSortOrderEnum
+const (
+	ListDatabasesSortOrderAsc  ListDatabasesSortOrderEnum = "ASC"
+	ListDatabasesSortOrderDesc ListDatabasesSortOrderEnum = "DESC"
+)
+
+var mappingListDatabasesSortOrder = map[string]ListDatabasesSortOrderEnum{
+	"ASC":  ListDatabasesSortOrderAsc,
+	"DESC": ListDatabasesSortOrderDesc,
+}
+
+// GetListDatabasesSortOrderEnumValues Enumerates the set of values for ListDatabasesSortOrderEnum
+func GetListDatabasesSortOrderEnumValues() []ListDatabasesSortOrderEnum {
+	values := make([]ListDatabasesSortOrderEnum, 0)
+	for _, v := range mappingListDatabasesSortOrder {
+		values = append(values, v)
+	}
+	return values
 }

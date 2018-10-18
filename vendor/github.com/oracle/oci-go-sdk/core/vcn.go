@@ -89,7 +89,7 @@ func (m Vcn) String() string {
 // VcnLifecycleStateEnum Enum with underlying type: string
 type VcnLifecycleStateEnum string
 
-// Set of constants representing the allowable values for VcnLifecycleState
+// Set of constants representing the allowable values for VcnLifecycleStateEnum
 const (
 	VcnLifecycleStateProvisioning VcnLifecycleStateEnum = "PROVISIONING"
 	VcnLifecycleStateAvailable    VcnLifecycleStateEnum = "AVAILABLE"
@@ -104,7 +104,7 @@ var mappingVcnLifecycleState = map[string]VcnLifecycleStateEnum{
 	"TERMINATED":   VcnLifecycleStateTerminated,
 }
 
-// GetVcnLifecycleStateEnumValues Enumerates the set of values for VcnLifecycleState
+// GetVcnLifecycleStateEnumValues Enumerates the set of values for VcnLifecycleStateEnum
 func GetVcnLifecycleStateEnumValues() []VcnLifecycleStateEnum {
 	values := make([]VcnLifecycleStateEnum, 0)
 	for _, v := range mappingVcnLifecycleState {

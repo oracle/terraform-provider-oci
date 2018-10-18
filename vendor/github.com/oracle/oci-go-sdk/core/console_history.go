@@ -63,7 +63,7 @@ func (m ConsoleHistory) String() string {
 // ConsoleHistoryLifecycleStateEnum Enum with underlying type: string
 type ConsoleHistoryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for ConsoleHistoryLifecycleState
+// Set of constants representing the allowable values for ConsoleHistoryLifecycleStateEnum
 const (
 	ConsoleHistoryLifecycleStateRequested      ConsoleHistoryLifecycleStateEnum = "REQUESTED"
 	ConsoleHistoryLifecycleStateGettingHistory ConsoleHistoryLifecycleStateEnum = "GETTING-HISTORY"
@@ -78,7 +78,7 @@ var mappingConsoleHistoryLifecycleState = map[string]ConsoleHistoryLifecycleStat
 	"FAILED":          ConsoleHistoryLifecycleStateFailed,
 }
 
-// GetConsoleHistoryLifecycleStateEnumValues Enumerates the set of values for ConsoleHistoryLifecycleState
+// GetConsoleHistoryLifecycleStateEnumValues Enumerates the set of values for ConsoleHistoryLifecycleStateEnum
 func GetConsoleHistoryLifecycleStateEnumValues() []ConsoleHistoryLifecycleStateEnum {
 	values := make([]ConsoleHistoryLifecycleStateEnum, 0)
 	for _, v := range mappingConsoleHistoryLifecycleState {

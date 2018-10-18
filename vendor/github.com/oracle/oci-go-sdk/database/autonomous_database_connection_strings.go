@@ -15,6 +15,9 @@ import (
 // AutonomousDatabaseConnectionStrings Connection strings to connect to an Oracle Autonomous Database.
 type AutonomousDatabaseConnectionStrings struct {
 
+	// All connection strings to use to connect to the Autonomous Database.
+	AllConnectionStrings map[string]string `mandatory:"false" json:"allConnectionStrings"`
+
 	// The High database service provides the highest level of resources to each SQL statement resulting in the highest performance, but supports the fewest number of concurrent SQL statements.
 	High *string `mandatory:"false" json:"high"`
 

@@ -53,7 +53,7 @@ func (m AppCatalogListingResourceVersion) String() string {
 // AppCatalogListingResourceVersionAllowedActionsEnum Enum with underlying type: string
 type AppCatalogListingResourceVersionAllowedActionsEnum string
 
-// Set of constants representing the allowable values for AppCatalogListingResourceVersionAllowedActions
+// Set of constants representing the allowable values for AppCatalogListingResourceVersionAllowedActionsEnum
 const (
 	AppCatalogListingResourceVersionAllowedActionsSnapshot              AppCatalogListingResourceVersionAllowedActionsEnum = "SNAPSHOT"
 	AppCatalogListingResourceVersionAllowedActionsBootVolumeDetach      AppCatalogListingResourceVersionAllowedActionsEnum = "BOOT_VOLUME_DETACH"
@@ -74,7 +74,7 @@ var mappingAppCatalogListingResourceVersionAllowedActions = map[string]AppCatalo
 	"CAPTURE_CONSOLE_HISTORY": AppCatalogListingResourceVersionAllowedActionsCaptureConsoleHistory,
 }
 
-// GetAppCatalogListingResourceVersionAllowedActionsEnumValues Enumerates the set of values for AppCatalogListingResourceVersionAllowedActions
+// GetAppCatalogListingResourceVersionAllowedActionsEnumValues Enumerates the set of values for AppCatalogListingResourceVersionAllowedActionsEnum
 func GetAppCatalogListingResourceVersionAllowedActionsEnumValues() []AppCatalogListingResourceVersionAllowedActionsEnum {
 	values := make([]AppCatalogListingResourceVersionAllowedActionsEnum, 0)
 	for _, v := range mappingAppCatalogListingResourceVersionAllowedActions {

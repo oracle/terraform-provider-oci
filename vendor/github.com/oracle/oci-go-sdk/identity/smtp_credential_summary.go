@@ -53,7 +53,7 @@ func (m SmtpCredentialSummary) String() string {
 // SmtpCredentialSummaryLifecycleStateEnum Enum with underlying type: string
 type SmtpCredentialSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for SmtpCredentialSummaryLifecycleState
+// Set of constants representing the allowable values for SmtpCredentialSummaryLifecycleStateEnum
 const (
 	SmtpCredentialSummaryLifecycleStateCreating SmtpCredentialSummaryLifecycleStateEnum = "CREATING"
 	SmtpCredentialSummaryLifecycleStateActive   SmtpCredentialSummaryLifecycleStateEnum = "ACTIVE"
@@ -70,7 +70,7 @@ var mappingSmtpCredentialSummaryLifecycleState = map[string]SmtpCredentialSummar
 	"DELETED":  SmtpCredentialSummaryLifecycleStateDeleted,
 }
 
-// GetSmtpCredentialSummaryLifecycleStateEnumValues Enumerates the set of values for SmtpCredentialSummaryLifecycleState
+// GetSmtpCredentialSummaryLifecycleStateEnumValues Enumerates the set of values for SmtpCredentialSummaryLifecycleStateEnum
 func GetSmtpCredentialSummaryLifecycleStateEnumValues() []SmtpCredentialSummaryLifecycleStateEnum {
 	values := make([]SmtpCredentialSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingSmtpCredentialSummaryLifecycleState {

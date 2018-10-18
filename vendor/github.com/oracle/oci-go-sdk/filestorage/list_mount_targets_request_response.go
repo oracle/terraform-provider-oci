@@ -107,7 +107,7 @@ func (response ListMountTargetsResponse) HTTPResponse() *http.Response {
 // ListMountTargetsLifecycleStateEnum Enum with underlying type: string
 type ListMountTargetsLifecycleStateEnum string
 
-// Set of constants representing the allowable values for ListMountTargetsLifecycleState
+// Set of constants representing the allowable values for ListMountTargetsLifecycleStateEnum
 const (
 	ListMountTargetsLifecycleStateCreating ListMountTargetsLifecycleStateEnum = "CREATING"
 	ListMountTargetsLifecycleStateActive   ListMountTargetsLifecycleStateEnum = "ACTIVE"
@@ -124,7 +124,7 @@ var mappingListMountTargetsLifecycleState = map[string]ListMountTargetsLifecycle
 	"FAILED":   ListMountTargetsLifecycleStateFailed,
 }
 
-// GetListMountTargetsLifecycleStateEnumValues Enumerates the set of values for ListMountTargetsLifecycleState
+// GetListMountTargetsLifecycleStateEnumValues Enumerates the set of values for ListMountTargetsLifecycleStateEnum
 func GetListMountTargetsLifecycleStateEnumValues() []ListMountTargetsLifecycleStateEnum {
 	values := make([]ListMountTargetsLifecycleStateEnum, 0)
 	for _, v := range mappingListMountTargetsLifecycleState {
@@ -136,7 +136,7 @@ func GetListMountTargetsLifecycleStateEnumValues() []ListMountTargetsLifecycleSt
 // ListMountTargetsSortByEnum Enum with underlying type: string
 type ListMountTargetsSortByEnum string
 
-// Set of constants representing the allowable values for ListMountTargetsSortBy
+// Set of constants representing the allowable values for ListMountTargetsSortByEnum
 const (
 	ListMountTargetsSortByTimecreated ListMountTargetsSortByEnum = "TIMECREATED"
 	ListMountTargetsSortByDisplayname ListMountTargetsSortByEnum = "DISPLAYNAME"
@@ -147,7 +147,7 @@ var mappingListMountTargetsSortBy = map[string]ListMountTargetsSortByEnum{
 	"DISPLAYNAME": ListMountTargetsSortByDisplayname,
 }
 
-// GetListMountTargetsSortByEnumValues Enumerates the set of values for ListMountTargetsSortBy
+// GetListMountTargetsSortByEnumValues Enumerates the set of values for ListMountTargetsSortByEnum
 func GetListMountTargetsSortByEnumValues() []ListMountTargetsSortByEnum {
 	values := make([]ListMountTargetsSortByEnum, 0)
 	for _, v := range mappingListMountTargetsSortBy {
@@ -159,7 +159,7 @@ func GetListMountTargetsSortByEnumValues() []ListMountTargetsSortByEnum {
 // ListMountTargetsSortOrderEnum Enum with underlying type: string
 type ListMountTargetsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListMountTargetsSortOrder
+// Set of constants representing the allowable values for ListMountTargetsSortOrderEnum
 const (
 	ListMountTargetsSortOrderAsc  ListMountTargetsSortOrderEnum = "ASC"
 	ListMountTargetsSortOrderDesc ListMountTargetsSortOrderEnum = "DESC"
@@ -170,7 +170,7 @@ var mappingListMountTargetsSortOrder = map[string]ListMountTargetsSortOrderEnum{
 	"DESC": ListMountTargetsSortOrderDesc,
 }
 
-// GetListMountTargetsSortOrderEnumValues Enumerates the set of values for ListMountTargetsSortOrder
+// GetListMountTargetsSortOrderEnumValues Enumerates the set of values for ListMountTargetsSortOrderEnum
 func GetListMountTargetsSortOrderEnumValues() []ListMountTargetsSortOrderEnum {
 	values := make([]ListMountTargetsSortOrderEnum, 0)
 	for _, v := range mappingListMountTargetsSortOrder {

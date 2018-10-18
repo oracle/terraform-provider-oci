@@ -80,14 +80,23 @@ func (p rawConfigurationProvider) KeyID() (keyID string, err error) {
 }
 
 func (p rawConfigurationProvider) TenancyOCID() (string, error) {
+	if p.tenancy == "" {
+		return "", fmt.Errorf("tenancy OCID can not be empty")
+	}
 	return p.tenancy, nil
 }
 
 func (p rawConfigurationProvider) UserOCID() (string, error) {
+	if p.user == "" {
+		return "", fmt.Errorf("user OCID can not be empty")
+	}
 	return p.user, nil
 }
 
 func (p rawConfigurationProvider) KeyFingerprint() (string, error) {
+	if p.fingerprint == "" {
+		return "", fmt.Errorf("fingerprint can not be empty")
+	}
 	return p.fingerprint, nil
 }
 

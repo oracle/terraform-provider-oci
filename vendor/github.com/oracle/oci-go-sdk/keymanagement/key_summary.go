@@ -53,7 +53,7 @@ func (m KeySummary) String() string {
 // KeySummaryLifecycleStateEnum Enum with underlying type: string
 type KeySummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for KeySummaryLifecycleState
+// Set of constants representing the allowable values for KeySummaryLifecycleStateEnum
 const (
 	KeySummaryLifecycleStateCreating           KeySummaryLifecycleStateEnum = "CREATING"
 	KeySummaryLifecycleStateEnabling           KeySummaryLifecycleStateEnum = "ENABLING"
@@ -80,7 +80,7 @@ var mappingKeySummaryLifecycleState = map[string]KeySummaryLifecycleStateEnum{
 	"CANCELLING_DELETION": KeySummaryLifecycleStateCancellingDeletion,
 }
 
-// GetKeySummaryLifecycleStateEnumValues Enumerates the set of values for KeySummaryLifecycleState
+// GetKeySummaryLifecycleStateEnumValues Enumerates the set of values for KeySummaryLifecycleStateEnum
 func GetKeySummaryLifecycleStateEnumValues() []KeySummaryLifecycleStateEnum {
 	values := make([]KeySummaryLifecycleStateEnum, 0)
 	for _, v := range mappingKeySummaryLifecycleState {

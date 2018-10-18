@@ -106,7 +106,7 @@ func (m Vnic) String() string {
 // VnicLifecycleStateEnum Enum with underlying type: string
 type VnicLifecycleStateEnum string
 
-// Set of constants representing the allowable values for VnicLifecycleState
+// Set of constants representing the allowable values for VnicLifecycleStateEnum
 const (
 	VnicLifecycleStateProvisioning VnicLifecycleStateEnum = "PROVISIONING"
 	VnicLifecycleStateAvailable    VnicLifecycleStateEnum = "AVAILABLE"
@@ -121,7 +121,7 @@ var mappingVnicLifecycleState = map[string]VnicLifecycleStateEnum{
 	"TERMINATED":   VnicLifecycleStateTerminated,
 }
 
-// GetVnicLifecycleStateEnumValues Enumerates the set of values for VnicLifecycleState
+// GetVnicLifecycleStateEnumValues Enumerates the set of values for VnicLifecycleStateEnum
 func GetVnicLifecycleStateEnumValues() []VnicLifecycleStateEnum {
 	values := make([]VnicLifecycleStateEnum, 0)
 	for _, v := range mappingVnicLifecycleState {

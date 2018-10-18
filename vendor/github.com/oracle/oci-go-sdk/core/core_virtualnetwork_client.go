@@ -5398,7 +5398,7 @@ func (client VirtualNetworkClient) updateServiceGateway(ctx context.Context, req
 	return response, err
 }
 
-// UpdateSubnet Updates the specified subnet's display name. Avoid entering confidential information.
+// UpdateSubnet Updates the specified subnet.
 func (client VirtualNetworkClient) UpdateSubnet(ctx context.Context, request UpdateSubnetRequest) (response UpdateSubnetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5440,8 +5440,7 @@ func (client VirtualNetworkClient) updateSubnet(ctx context.Context, request com
 	return response, err
 }
 
-// UpdateVcn Updates the specified VCN's display name.
-// Avoid entering confidential information.
+// UpdateVcn Updates the specified VCN.
 func (client VirtualNetworkClient) UpdateVcn(ctx context.Context, request UpdateVcnRequest) (response UpdateVcnResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
