@@ -69,7 +69,7 @@ func (m UpdateVirtualCircuitDetails) String() string {
 // UpdateVirtualCircuitDetailsProviderStateEnum Enum with underlying type: string
 type UpdateVirtualCircuitDetailsProviderStateEnum string
 
-// Set of constants representing the allowable values for UpdateVirtualCircuitDetailsProviderState
+// Set of constants representing the allowable values for UpdateVirtualCircuitDetailsProviderStateEnum
 const (
 	UpdateVirtualCircuitDetailsProviderStateActive   UpdateVirtualCircuitDetailsProviderStateEnum = "ACTIVE"
 	UpdateVirtualCircuitDetailsProviderStateInactive UpdateVirtualCircuitDetailsProviderStateEnum = "INACTIVE"
@@ -80,7 +80,7 @@ var mappingUpdateVirtualCircuitDetailsProviderState = map[string]UpdateVirtualCi
 	"INACTIVE": UpdateVirtualCircuitDetailsProviderStateInactive,
 }
 
-// GetUpdateVirtualCircuitDetailsProviderStateEnumValues Enumerates the set of values for UpdateVirtualCircuitDetailsProviderState
+// GetUpdateVirtualCircuitDetailsProviderStateEnumValues Enumerates the set of values for UpdateVirtualCircuitDetailsProviderStateEnum
 func GetUpdateVirtualCircuitDetailsProviderStateEnumValues() []UpdateVirtualCircuitDetailsProviderStateEnum {
 	values := make([]UpdateVirtualCircuitDetailsProviderStateEnum, 0)
 	for _, v := range mappingUpdateVirtualCircuitDetailsProviderState {

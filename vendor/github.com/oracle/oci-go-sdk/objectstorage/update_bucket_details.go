@@ -60,7 +60,7 @@ func (m UpdateBucketDetails) String() string {
 // UpdateBucketDetailsPublicAccessTypeEnum Enum with underlying type: string
 type UpdateBucketDetailsPublicAccessTypeEnum string
 
-// Set of constants representing the allowable values for UpdateBucketDetailsPublicAccessType
+// Set of constants representing the allowable values for UpdateBucketDetailsPublicAccessTypeEnum
 const (
 	UpdateBucketDetailsPublicAccessTypeNopublicaccess        UpdateBucketDetailsPublicAccessTypeEnum = "NoPublicAccess"
 	UpdateBucketDetailsPublicAccessTypeObjectread            UpdateBucketDetailsPublicAccessTypeEnum = "ObjectRead"
@@ -73,7 +73,7 @@ var mappingUpdateBucketDetailsPublicAccessType = map[string]UpdateBucketDetailsP
 	"ObjectReadWithoutList": UpdateBucketDetailsPublicAccessTypeObjectreadwithoutlist,
 }
 
-// GetUpdateBucketDetailsPublicAccessTypeEnumValues Enumerates the set of values for UpdateBucketDetailsPublicAccessType
+// GetUpdateBucketDetailsPublicAccessTypeEnumValues Enumerates the set of values for UpdateBucketDetailsPublicAccessTypeEnum
 func GetUpdateBucketDetailsPublicAccessTypeEnumValues() []UpdateBucketDetailsPublicAccessTypeEnum {
 	values := make([]UpdateBucketDetailsPublicAccessTypeEnum, 0)
 	for _, v := range mappingUpdateBucketDetailsPublicAccessType {

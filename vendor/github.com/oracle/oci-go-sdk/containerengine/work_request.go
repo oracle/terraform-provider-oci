@@ -47,7 +47,7 @@ func (m WorkRequest) String() string {
 // WorkRequestOperationTypeEnum Enum with underlying type: string
 type WorkRequestOperationTypeEnum string
 
-// Set of constants representing the allowable values for WorkRequestOperationType
+// Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
 	WorkRequestOperationTypeClusterCreate     WorkRequestOperationTypeEnum = "CLUSTER_CREATE"
 	WorkRequestOperationTypeClusterUpdate     WorkRequestOperationTypeEnum = "CLUSTER_UPDATE"
@@ -68,7 +68,7 @@ var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
 	"WORKREQUEST_CANCEL": WorkRequestOperationTypeWorkrequestCancel,
 }
 
-// GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationType
+// GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
 func GetWorkRequestOperationTypeEnumValues() []WorkRequestOperationTypeEnum {
 	values := make([]WorkRequestOperationTypeEnum, 0)
 	for _, v := range mappingWorkRequestOperationType {
@@ -80,7 +80,7 @@ func GetWorkRequestOperationTypeEnumValues() []WorkRequestOperationTypeEnum {
 // WorkRequestStatusEnum Enum with underlying type: string
 type WorkRequestStatusEnum string
 
-// Set of constants representing the allowable values for WorkRequestStatus
+// Set of constants representing the allowable values for WorkRequestStatusEnum
 const (
 	WorkRequestStatusAccepted   WorkRequestStatusEnum = "ACCEPTED"
 	WorkRequestStatusInProgress WorkRequestStatusEnum = "IN_PROGRESS"
@@ -99,7 +99,7 @@ var mappingWorkRequestStatus = map[string]WorkRequestStatusEnum{
 	"CANCELED":    WorkRequestStatusCanceled,
 }
 
-// GetWorkRequestStatusEnumValues Enumerates the set of values for WorkRequestStatus
+// GetWorkRequestStatusEnumValues Enumerates the set of values for WorkRequestStatusEnum
 func GetWorkRequestStatusEnumValues() []WorkRequestStatusEnum {
 	values := make([]WorkRequestStatusEnum, 0)
 	for _, v := range mappingWorkRequestStatus {

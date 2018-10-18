@@ -56,7 +56,7 @@ func (m Cluster) String() string {
 // ClusterLifecycleStateEnum Enum with underlying type: string
 type ClusterLifecycleStateEnum string
 
-// Set of constants representing the allowable values for ClusterLifecycleState
+// Set of constants representing the allowable values for ClusterLifecycleStateEnum
 const (
 	ClusterLifecycleStateCreating ClusterLifecycleStateEnum = "CREATING"
 	ClusterLifecycleStateActive   ClusterLifecycleStateEnum = "ACTIVE"
@@ -75,7 +75,7 @@ var mappingClusterLifecycleState = map[string]ClusterLifecycleStateEnum{
 	"UPDATING": ClusterLifecycleStateUpdating,
 }
 
-// GetClusterLifecycleStateEnumValues Enumerates the set of values for ClusterLifecycleState
+// GetClusterLifecycleStateEnumValues Enumerates the set of values for ClusterLifecycleStateEnum
 func GetClusterLifecycleStateEnumValues() []ClusterLifecycleStateEnum {
 	values := make([]ClusterLifecycleStateEnum, 0)
 	for _, v := range mappingClusterLifecycleState {

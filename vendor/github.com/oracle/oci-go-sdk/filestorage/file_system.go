@@ -61,7 +61,7 @@ func (m FileSystem) String() string {
 // FileSystemLifecycleStateEnum Enum with underlying type: string
 type FileSystemLifecycleStateEnum string
 
-// Set of constants representing the allowable values for FileSystemLifecycleState
+// Set of constants representing the allowable values for FileSystemLifecycleStateEnum
 const (
 	FileSystemLifecycleStateCreating FileSystemLifecycleStateEnum = "CREATING"
 	FileSystemLifecycleStateActive   FileSystemLifecycleStateEnum = "ACTIVE"
@@ -76,7 +76,7 @@ var mappingFileSystemLifecycleState = map[string]FileSystemLifecycleStateEnum{
 	"DELETED":  FileSystemLifecycleStateDeleted,
 }
 
-// GetFileSystemLifecycleStateEnumValues Enumerates the set of values for FileSystemLifecycleState
+// GetFileSystemLifecycleStateEnumValues Enumerates the set of values for FileSystemLifecycleStateEnum
 func GetFileSystemLifecycleStateEnumValues() []FileSystemLifecycleStateEnum {
 	values := make([]FileSystemLifecycleStateEnum, 0)
 	for _, v := range mappingFileSystemLifecycleState {

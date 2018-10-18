@@ -35,7 +35,7 @@ type CreateSubnetDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The OCID of the set of DHCP options the subnet will use. If you don't
-	// provide a value, the subnet will use the VCN's default set of DHCP options.
+	// provide a value, the subnet uses the VCN's default set of DHCP options.
 	DhcpOptionsId *string `mandatory:"false" json:"dhcpOptionsId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -72,13 +72,13 @@ type CreateSubnetDetails struct {
 	ProhibitPublicIpOnVnic *bool `mandatory:"false" json:"prohibitPublicIpOnVnic"`
 
 	// The OCID of the route table the subnet will use. If you don't provide a value,
-	// the subnet will use the VCN's default route table.
+	// the subnet uses the VCN's default route table.
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 
-	// OCIDs for the security lists to associate with the subnet. If you don't
-	// provide a value, the VCN's default security list will be associated with
-	// the subnet. Remember that security lists are associated at the subnet
-	// level, but the rules are applied to the individual VNICs in the subnet.
+	// The OCIDs of the security list or lists the subnet will use. If you don't
+	// provide a value, the subnet uses the VCN's default security list.
+	// Remember that security lists are associated *with the subnet*, but the
+	// rules are applied to the individual VNICs in the subnet.
 	SecurityListIds []string `mandatory:"false" json:"securityListIds"`
 }
 

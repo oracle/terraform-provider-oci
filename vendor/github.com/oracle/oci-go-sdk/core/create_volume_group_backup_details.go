@@ -46,7 +46,7 @@ func (m CreateVolumeGroupBackupDetails) String() string {
 // CreateVolumeGroupBackupDetailsTypeEnum Enum with underlying type: string
 type CreateVolumeGroupBackupDetailsTypeEnum string
 
-// Set of constants representing the allowable values for CreateVolumeGroupBackupDetailsType
+// Set of constants representing the allowable values for CreateVolumeGroupBackupDetailsTypeEnum
 const (
 	CreateVolumeGroupBackupDetailsTypeFull        CreateVolumeGroupBackupDetailsTypeEnum = "FULL"
 	CreateVolumeGroupBackupDetailsTypeIncremental CreateVolumeGroupBackupDetailsTypeEnum = "INCREMENTAL"
@@ -57,7 +57,7 @@ var mappingCreateVolumeGroupBackupDetailsType = map[string]CreateVolumeGroupBack
 	"INCREMENTAL": CreateVolumeGroupBackupDetailsTypeIncremental,
 }
 
-// GetCreateVolumeGroupBackupDetailsTypeEnumValues Enumerates the set of values for CreateVolumeGroupBackupDetailsType
+// GetCreateVolumeGroupBackupDetailsTypeEnumValues Enumerates the set of values for CreateVolumeGroupBackupDetailsTypeEnum
 func GetCreateVolumeGroupBackupDetailsTypeEnumValues() []CreateVolumeGroupBackupDetailsTypeEnum {
 	values := make([]CreateVolumeGroupBackupDetailsTypeEnum, 0)
 	for _, v := range mappingCreateVolumeGroupBackupDetailsType {

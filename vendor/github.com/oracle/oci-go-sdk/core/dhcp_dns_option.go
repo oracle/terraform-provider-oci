@@ -59,7 +59,7 @@ func (m DhcpDnsOption) MarshalJSON() (buff []byte, e error) {
 // DhcpDnsOptionServerTypeEnum Enum with underlying type: string
 type DhcpDnsOptionServerTypeEnum string
 
-// Set of constants representing the allowable values for DhcpDnsOptionServerType
+// Set of constants representing the allowable values for DhcpDnsOptionServerTypeEnum
 const (
 	DhcpDnsOptionServerTypeVcnlocal             DhcpDnsOptionServerTypeEnum = "VcnLocal"
 	DhcpDnsOptionServerTypeVcnlocalplusinternet DhcpDnsOptionServerTypeEnum = "VcnLocalPlusInternet"
@@ -72,7 +72,7 @@ var mappingDhcpDnsOptionServerType = map[string]DhcpDnsOptionServerTypeEnum{
 	"CustomDnsServer":      DhcpDnsOptionServerTypeCustomdnsserver,
 }
 
-// GetDhcpDnsOptionServerTypeEnumValues Enumerates the set of values for DhcpDnsOptionServerType
+// GetDhcpDnsOptionServerTypeEnumValues Enumerates the set of values for DhcpDnsOptionServerTypeEnum
 func GetDhcpDnsOptionServerTypeEnumValues() []DhcpDnsOptionServerTypeEnum {
 	values := make([]DhcpDnsOptionServerTypeEnum, 0)
 	for _, v := range mappingDhcpDnsOptionServerType {

@@ -81,7 +81,7 @@ func (response DbNodeActionResponse) HTTPResponse() *http.Response {
 // DbNodeActionActionEnum Enum with underlying type: string
 type DbNodeActionActionEnum string
 
-// Set of constants representing the allowable values for DbNodeActionAction
+// Set of constants representing the allowable values for DbNodeActionActionEnum
 const (
 	DbNodeActionActionStop      DbNodeActionActionEnum = "STOP"
 	DbNodeActionActionStart     DbNodeActionActionEnum = "START"
@@ -96,7 +96,7 @@ var mappingDbNodeActionAction = map[string]DbNodeActionActionEnum{
 	"RESET":     DbNodeActionActionReset,
 }
 
-// GetDbNodeActionActionEnumValues Enumerates the set of values for DbNodeActionAction
+// GetDbNodeActionActionEnumValues Enumerates the set of values for DbNodeActionActionEnum
 func GetDbNodeActionActionEnumValues() []DbNodeActionActionEnum {
 	values := make([]DbNodeActionActionEnum, 0)
 	for _, v := range mappingDbNodeActionAction {

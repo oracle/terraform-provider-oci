@@ -101,7 +101,7 @@ func (response ListNatGatewaysResponse) HTTPResponse() *http.Response {
 // ListNatGatewaysSortByEnum Enum with underlying type: string
 type ListNatGatewaysSortByEnum string
 
-// Set of constants representing the allowable values for ListNatGatewaysSortBy
+// Set of constants representing the allowable values for ListNatGatewaysSortByEnum
 const (
 	ListNatGatewaysSortByTimecreated ListNatGatewaysSortByEnum = "TIMECREATED"
 	ListNatGatewaysSortByDisplayname ListNatGatewaysSortByEnum = "DISPLAYNAME"
@@ -112,7 +112,7 @@ var mappingListNatGatewaysSortBy = map[string]ListNatGatewaysSortByEnum{
 	"DISPLAYNAME": ListNatGatewaysSortByDisplayname,
 }
 
-// GetListNatGatewaysSortByEnumValues Enumerates the set of values for ListNatGatewaysSortBy
+// GetListNatGatewaysSortByEnumValues Enumerates the set of values for ListNatGatewaysSortByEnum
 func GetListNatGatewaysSortByEnumValues() []ListNatGatewaysSortByEnum {
 	values := make([]ListNatGatewaysSortByEnum, 0)
 	for _, v := range mappingListNatGatewaysSortBy {
@@ -124,7 +124,7 @@ func GetListNatGatewaysSortByEnumValues() []ListNatGatewaysSortByEnum {
 // ListNatGatewaysSortOrderEnum Enum with underlying type: string
 type ListNatGatewaysSortOrderEnum string
 
-// Set of constants representing the allowable values for ListNatGatewaysSortOrder
+// Set of constants representing the allowable values for ListNatGatewaysSortOrderEnum
 const (
 	ListNatGatewaysSortOrderAsc  ListNatGatewaysSortOrderEnum = "ASC"
 	ListNatGatewaysSortOrderDesc ListNatGatewaysSortOrderEnum = "DESC"
@@ -135,7 +135,7 @@ var mappingListNatGatewaysSortOrder = map[string]ListNatGatewaysSortOrderEnum{
 	"DESC": ListNatGatewaysSortOrderDesc,
 }
 
-// GetListNatGatewaysSortOrderEnumValues Enumerates the set of values for ListNatGatewaysSortOrder
+// GetListNatGatewaysSortOrderEnumValues Enumerates the set of values for ListNatGatewaysSortOrderEnum
 func GetListNatGatewaysSortOrderEnumValues() []ListNatGatewaysSortOrderEnum {
 	values := make([]ListNatGatewaysSortOrderEnum, 0)
 	for _, v := range mappingListNatGatewaysSortOrder {

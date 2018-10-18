@@ -111,7 +111,7 @@ func (m *DhcpOptions) UnmarshalJSON(data []byte) (e error) {
 // DhcpOptionsLifecycleStateEnum Enum with underlying type: string
 type DhcpOptionsLifecycleStateEnum string
 
-// Set of constants representing the allowable values for DhcpOptionsLifecycleState
+// Set of constants representing the allowable values for DhcpOptionsLifecycleStateEnum
 const (
 	DhcpOptionsLifecycleStateProvisioning DhcpOptionsLifecycleStateEnum = "PROVISIONING"
 	DhcpOptionsLifecycleStateAvailable    DhcpOptionsLifecycleStateEnum = "AVAILABLE"
@@ -126,7 +126,7 @@ var mappingDhcpOptionsLifecycleState = map[string]DhcpOptionsLifecycleStateEnum{
 	"TERMINATED":   DhcpOptionsLifecycleStateTerminated,
 }
 
-// GetDhcpOptionsLifecycleStateEnumValues Enumerates the set of values for DhcpOptionsLifecycleState
+// GetDhcpOptionsLifecycleStateEnumValues Enumerates the set of values for DhcpOptionsLifecycleStateEnum
 func GetDhcpOptionsLifecycleStateEnumValues() []DhcpOptionsLifecycleStateEnum {
 	values := make([]DhcpOptionsLifecycleStateEnum, 0)
 	for _, v := range mappingDhcpOptionsLifecycleState {

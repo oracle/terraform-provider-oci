@@ -49,7 +49,7 @@ func (m RegionSubscription) String() string {
 // RegionSubscriptionStatusEnum Enum with underlying type: string
 type RegionSubscriptionStatusEnum string
 
-// Set of constants representing the allowable values for RegionSubscriptionStatus
+// Set of constants representing the allowable values for RegionSubscriptionStatusEnum
 const (
 	RegionSubscriptionStatusReady      RegionSubscriptionStatusEnum = "READY"
 	RegionSubscriptionStatusInProgress RegionSubscriptionStatusEnum = "IN_PROGRESS"
@@ -60,7 +60,7 @@ var mappingRegionSubscriptionStatus = map[string]RegionSubscriptionStatusEnum{
 	"IN_PROGRESS": RegionSubscriptionStatusInProgress,
 }
 
-// GetRegionSubscriptionStatusEnumValues Enumerates the set of values for RegionSubscriptionStatus
+// GetRegionSubscriptionStatusEnumValues Enumerates the set of values for RegionSubscriptionStatusEnum
 func GetRegionSubscriptionStatusEnumValues() []RegionSubscriptionStatusEnum {
 	values := make([]RegionSubscriptionStatusEnum, 0)
 	for _, v := range mappingRegionSubscriptionStatus {

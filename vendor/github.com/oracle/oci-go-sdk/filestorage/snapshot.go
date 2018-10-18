@@ -43,7 +43,7 @@ func (m Snapshot) String() string {
 // SnapshotLifecycleStateEnum Enum with underlying type: string
 type SnapshotLifecycleStateEnum string
 
-// Set of constants representing the allowable values for SnapshotLifecycleState
+// Set of constants representing the allowable values for SnapshotLifecycleStateEnum
 const (
 	SnapshotLifecycleStateCreating SnapshotLifecycleStateEnum = "CREATING"
 	SnapshotLifecycleStateActive   SnapshotLifecycleStateEnum = "ACTIVE"
@@ -58,7 +58,7 @@ var mappingSnapshotLifecycleState = map[string]SnapshotLifecycleStateEnum{
 	"DELETED":  SnapshotLifecycleStateDeleted,
 }
 
-// GetSnapshotLifecycleStateEnumValues Enumerates the set of values for SnapshotLifecycleState
+// GetSnapshotLifecycleStateEnumValues Enumerates the set of values for SnapshotLifecycleStateEnum
 func GetSnapshotLifecycleStateEnumValues() []SnapshotLifecycleStateEnum {
 	values := make([]SnapshotLifecycleStateEnum, 0)
 	for _, v := range mappingSnapshotLifecycleState {

@@ -55,7 +55,7 @@ func (m CreateAutonomousDatabaseDetails) String() string {
 // CreateAutonomousDatabaseDetailsLicenseModelEnum Enum with underlying type: string
 type CreateAutonomousDatabaseDetailsLicenseModelEnum string
 
-// Set of constants representing the allowable values for CreateAutonomousDatabaseDetailsLicenseModel
+// Set of constants representing the allowable values for CreateAutonomousDatabaseDetailsLicenseModelEnum
 const (
 	CreateAutonomousDatabaseDetailsLicenseModelLicenseIncluded     CreateAutonomousDatabaseDetailsLicenseModelEnum = "LICENSE_INCLUDED"
 	CreateAutonomousDatabaseDetailsLicenseModelBringYourOwnLicense CreateAutonomousDatabaseDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
@@ -66,7 +66,7 @@ var mappingCreateAutonomousDatabaseDetailsLicenseModel = map[string]CreateAutono
 	"BRING_YOUR_OWN_LICENSE": CreateAutonomousDatabaseDetailsLicenseModelBringYourOwnLicense,
 }
 
-// GetCreateAutonomousDatabaseDetailsLicenseModelEnumValues Enumerates the set of values for CreateAutonomousDatabaseDetailsLicenseModel
+// GetCreateAutonomousDatabaseDetailsLicenseModelEnumValues Enumerates the set of values for CreateAutonomousDatabaseDetailsLicenseModelEnum
 func GetCreateAutonomousDatabaseDetailsLicenseModelEnumValues() []CreateAutonomousDatabaseDetailsLicenseModelEnum {
 	values := make([]CreateAutonomousDatabaseDetailsLicenseModelEnum, 0)
 	for _, v := range mappingCreateAutonomousDatabaseDetailsLicenseModel {

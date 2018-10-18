@@ -55,7 +55,7 @@ func (m CustomerSecretKey) String() string {
 // CustomerSecretKeyLifecycleStateEnum Enum with underlying type: string
 type CustomerSecretKeyLifecycleStateEnum string
 
-// Set of constants representing the allowable values for CustomerSecretKeyLifecycleState
+// Set of constants representing the allowable values for CustomerSecretKeyLifecycleStateEnum
 const (
 	CustomerSecretKeyLifecycleStateCreating CustomerSecretKeyLifecycleStateEnum = "CREATING"
 	CustomerSecretKeyLifecycleStateActive   CustomerSecretKeyLifecycleStateEnum = "ACTIVE"
@@ -72,7 +72,7 @@ var mappingCustomerSecretKeyLifecycleState = map[string]CustomerSecretKeyLifecyc
 	"DELETED":  CustomerSecretKeyLifecycleStateDeleted,
 }
 
-// GetCustomerSecretKeyLifecycleStateEnumValues Enumerates the set of values for CustomerSecretKeyLifecycleState
+// GetCustomerSecretKeyLifecycleStateEnumValues Enumerates the set of values for CustomerSecretKeyLifecycleStateEnum
 func GetCustomerSecretKeyLifecycleStateEnumValues() []CustomerSecretKeyLifecycleStateEnum {
 	values := make([]CustomerSecretKeyLifecycleStateEnum, 0)
 	for _, v := range mappingCustomerSecretKeyLifecycleState {

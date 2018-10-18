@@ -57,7 +57,7 @@ func (m Zone) String() string {
 // ZoneZoneTypeEnum Enum with underlying type: string
 type ZoneZoneTypeEnum string
 
-// Set of constants representing the allowable values for ZoneZoneType
+// Set of constants representing the allowable values for ZoneZoneTypeEnum
 const (
 	ZoneZoneTypePrimary   ZoneZoneTypeEnum = "PRIMARY"
 	ZoneZoneTypeSecondary ZoneZoneTypeEnum = "SECONDARY"
@@ -68,7 +68,7 @@ var mappingZoneZoneType = map[string]ZoneZoneTypeEnum{
 	"SECONDARY": ZoneZoneTypeSecondary,
 }
 
-// GetZoneZoneTypeEnumValues Enumerates the set of values for ZoneZoneType
+// GetZoneZoneTypeEnumValues Enumerates the set of values for ZoneZoneTypeEnum
 func GetZoneZoneTypeEnumValues() []ZoneZoneTypeEnum {
 	values := make([]ZoneZoneTypeEnum, 0)
 	for _, v := range mappingZoneZoneType {
@@ -80,7 +80,7 @@ func GetZoneZoneTypeEnumValues() []ZoneZoneTypeEnum {
 // ZoneLifecycleStateEnum Enum with underlying type: string
 type ZoneLifecycleStateEnum string
 
-// Set of constants representing the allowable values for ZoneLifecycleState
+// Set of constants representing the allowable values for ZoneLifecycleStateEnum
 const (
 	ZoneLifecycleStateActive   ZoneLifecycleStateEnum = "ACTIVE"
 	ZoneLifecycleStateCreating ZoneLifecycleStateEnum = "CREATING"
@@ -97,7 +97,7 @@ var mappingZoneLifecycleState = map[string]ZoneLifecycleStateEnum{
 	"FAILED":   ZoneLifecycleStateFailed,
 }
 
-// GetZoneLifecycleStateEnumValues Enumerates the set of values for ZoneLifecycleState
+// GetZoneLifecycleStateEnumValues Enumerates the set of values for ZoneLifecycleStateEnum
 func GetZoneLifecycleStateEnumValues() []ZoneLifecycleStateEnum {
 	values := make([]ZoneLifecycleStateEnum, 0)
 	for _, v := range mappingZoneLifecycleState {

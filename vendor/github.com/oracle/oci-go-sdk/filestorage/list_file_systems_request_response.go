@@ -104,7 +104,7 @@ func (response ListFileSystemsResponse) HTTPResponse() *http.Response {
 // ListFileSystemsLifecycleStateEnum Enum with underlying type: string
 type ListFileSystemsLifecycleStateEnum string
 
-// Set of constants representing the allowable values for ListFileSystemsLifecycleState
+// Set of constants representing the allowable values for ListFileSystemsLifecycleStateEnum
 const (
 	ListFileSystemsLifecycleStateCreating ListFileSystemsLifecycleStateEnum = "CREATING"
 	ListFileSystemsLifecycleStateActive   ListFileSystemsLifecycleStateEnum = "ACTIVE"
@@ -121,7 +121,7 @@ var mappingListFileSystemsLifecycleState = map[string]ListFileSystemsLifecycleSt
 	"FAILED":   ListFileSystemsLifecycleStateFailed,
 }
 
-// GetListFileSystemsLifecycleStateEnumValues Enumerates the set of values for ListFileSystemsLifecycleState
+// GetListFileSystemsLifecycleStateEnumValues Enumerates the set of values for ListFileSystemsLifecycleStateEnum
 func GetListFileSystemsLifecycleStateEnumValues() []ListFileSystemsLifecycleStateEnum {
 	values := make([]ListFileSystemsLifecycleStateEnum, 0)
 	for _, v := range mappingListFileSystemsLifecycleState {
@@ -133,7 +133,7 @@ func GetListFileSystemsLifecycleStateEnumValues() []ListFileSystemsLifecycleStat
 // ListFileSystemsSortByEnum Enum with underlying type: string
 type ListFileSystemsSortByEnum string
 
-// Set of constants representing the allowable values for ListFileSystemsSortBy
+// Set of constants representing the allowable values for ListFileSystemsSortByEnum
 const (
 	ListFileSystemsSortByTimecreated ListFileSystemsSortByEnum = "TIMECREATED"
 	ListFileSystemsSortByDisplayname ListFileSystemsSortByEnum = "DISPLAYNAME"
@@ -144,7 +144,7 @@ var mappingListFileSystemsSortBy = map[string]ListFileSystemsSortByEnum{
 	"DISPLAYNAME": ListFileSystemsSortByDisplayname,
 }
 
-// GetListFileSystemsSortByEnumValues Enumerates the set of values for ListFileSystemsSortBy
+// GetListFileSystemsSortByEnumValues Enumerates the set of values for ListFileSystemsSortByEnum
 func GetListFileSystemsSortByEnumValues() []ListFileSystemsSortByEnum {
 	values := make([]ListFileSystemsSortByEnum, 0)
 	for _, v := range mappingListFileSystemsSortBy {
@@ -156,7 +156,7 @@ func GetListFileSystemsSortByEnumValues() []ListFileSystemsSortByEnum {
 // ListFileSystemsSortOrderEnum Enum with underlying type: string
 type ListFileSystemsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListFileSystemsSortOrder
+// Set of constants representing the allowable values for ListFileSystemsSortOrderEnum
 const (
 	ListFileSystemsSortOrderAsc  ListFileSystemsSortOrderEnum = "ASC"
 	ListFileSystemsSortOrderDesc ListFileSystemsSortOrderEnum = "DESC"
@@ -167,7 +167,7 @@ var mappingListFileSystemsSortOrder = map[string]ListFileSystemsSortOrderEnum{
 	"DESC": ListFileSystemsSortOrderDesc,
 }
 
-// GetListFileSystemsSortOrderEnumValues Enumerates the set of values for ListFileSystemsSortOrder
+// GetListFileSystemsSortOrderEnumValues Enumerates the set of values for ListFileSystemsSortOrderEnum
 func GetListFileSystemsSortOrderEnumValues() []ListFileSystemsSortOrderEnum {
 	values := make([]ListFileSystemsSortOrderEnum, 0)
 	for _, v := range mappingListFileSystemsSortOrder {

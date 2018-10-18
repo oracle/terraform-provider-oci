@@ -81,7 +81,7 @@ func (response InstanceActionResponse) HTTPResponse() *http.Response {
 // InstanceActionActionEnum Enum with underlying type: string
 type InstanceActionActionEnum string
 
-// Set of constants representing the allowable values for InstanceActionAction
+// Set of constants representing the allowable values for InstanceActionActionEnum
 const (
 	InstanceActionActionStop      InstanceActionActionEnum = "STOP"
 	InstanceActionActionStart     InstanceActionActionEnum = "START"
@@ -98,7 +98,7 @@ var mappingInstanceActionAction = map[string]InstanceActionActionEnum{
 	"SOFTSTOP":  InstanceActionActionSoftstop,
 }
 
-// GetInstanceActionActionEnumValues Enumerates the set of values for InstanceActionAction
+// GetInstanceActionActionEnumValues Enumerates the set of values for InstanceActionActionEnum
 func GetInstanceActionActionEnumValues() []InstanceActionActionEnum {
 	values := make([]InstanceActionActionEnum, 0)
 	for _, v := range mappingInstanceActionAction {

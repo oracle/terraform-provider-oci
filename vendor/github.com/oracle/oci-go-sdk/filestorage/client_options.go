@@ -61,7 +61,7 @@ func (m ClientOptions) String() string {
 // ClientOptionsAccessEnum Enum with underlying type: string
 type ClientOptionsAccessEnum string
 
-// Set of constants representing the allowable values for ClientOptionsAccess
+// Set of constants representing the allowable values for ClientOptionsAccessEnum
 const (
 	ClientOptionsAccessWrite ClientOptionsAccessEnum = "READ_WRITE"
 	ClientOptionsAccessOnly  ClientOptionsAccessEnum = "READ_ONLY"
@@ -72,7 +72,7 @@ var mappingClientOptionsAccess = map[string]ClientOptionsAccessEnum{
 	"READ_ONLY":  ClientOptionsAccessOnly,
 }
 
-// GetClientOptionsAccessEnumValues Enumerates the set of values for ClientOptionsAccess
+// GetClientOptionsAccessEnumValues Enumerates the set of values for ClientOptionsAccessEnum
 func GetClientOptionsAccessEnumValues() []ClientOptionsAccessEnum {
 	values := make([]ClientOptionsAccessEnum, 0)
 	for _, v := range mappingClientOptionsAccess {
@@ -84,7 +84,7 @@ func GetClientOptionsAccessEnumValues() []ClientOptionsAccessEnum {
 // ClientOptionsIdentitySquashEnum Enum with underlying type: string
 type ClientOptionsIdentitySquashEnum string
 
-// Set of constants representing the allowable values for ClientOptionsIdentitySquash
+// Set of constants representing the allowable values for ClientOptionsIdentitySquashEnum
 const (
 	ClientOptionsIdentitySquashNone ClientOptionsIdentitySquashEnum = "NONE"
 	ClientOptionsIdentitySquashRoot ClientOptionsIdentitySquashEnum = "ROOT"
@@ -97,7 +97,7 @@ var mappingClientOptionsIdentitySquash = map[string]ClientOptionsIdentitySquashE
 	"ALL":  ClientOptionsIdentitySquashAll,
 }
 
-// GetClientOptionsIdentitySquashEnumValues Enumerates the set of values for ClientOptionsIdentitySquash
+// GetClientOptionsIdentitySquashEnumValues Enumerates the set of values for ClientOptionsIdentitySquashEnum
 func GetClientOptionsIdentitySquashEnumValues() []ClientOptionsIdentitySquashEnum {
 	values := make([]ClientOptionsIdentitySquashEnum, 0)
 	for _, v := range mappingClientOptionsIdentitySquash {

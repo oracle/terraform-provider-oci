@@ -55,7 +55,7 @@ func (m AutonomousDatabaseBackup) String() string {
 // AutonomousDatabaseBackupLifecycleStateEnum Enum with underlying type: string
 type AutonomousDatabaseBackupLifecycleStateEnum string
 
-// Set of constants representing the allowable values for AutonomousDatabaseBackupLifecycleState
+// Set of constants representing the allowable values for AutonomousDatabaseBackupLifecycleStateEnum
 const (
 	AutonomousDatabaseBackupLifecycleStateCreating AutonomousDatabaseBackupLifecycleStateEnum = "CREATING"
 	AutonomousDatabaseBackupLifecycleStateActive   AutonomousDatabaseBackupLifecycleStateEnum = "ACTIVE"
@@ -72,7 +72,7 @@ var mappingAutonomousDatabaseBackupLifecycleState = map[string]AutonomousDatabas
 	"FAILED":   AutonomousDatabaseBackupLifecycleStateFailed,
 }
 
-// GetAutonomousDatabaseBackupLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseBackupLifecycleState
+// GetAutonomousDatabaseBackupLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseBackupLifecycleStateEnum
 func GetAutonomousDatabaseBackupLifecycleStateEnumValues() []AutonomousDatabaseBackupLifecycleStateEnum {
 	values := make([]AutonomousDatabaseBackupLifecycleStateEnum, 0)
 	for _, v := range mappingAutonomousDatabaseBackupLifecycleState {
@@ -84,7 +84,7 @@ func GetAutonomousDatabaseBackupLifecycleStateEnumValues() []AutonomousDatabaseB
 // AutonomousDatabaseBackupTypeEnum Enum with underlying type: string
 type AutonomousDatabaseBackupTypeEnum string
 
-// Set of constants representing the allowable values for AutonomousDatabaseBackupType
+// Set of constants representing the allowable values for AutonomousDatabaseBackupTypeEnum
 const (
 	AutonomousDatabaseBackupTypeIncremental AutonomousDatabaseBackupTypeEnum = "INCREMENTAL"
 	AutonomousDatabaseBackupTypeFull        AutonomousDatabaseBackupTypeEnum = "FULL"
@@ -95,7 +95,7 @@ var mappingAutonomousDatabaseBackupType = map[string]AutonomousDatabaseBackupTyp
 	"FULL":        AutonomousDatabaseBackupTypeFull,
 }
 
-// GetAutonomousDatabaseBackupTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupType
+// GetAutonomousDatabaseBackupTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupTypeEnum
 func GetAutonomousDatabaseBackupTypeEnumValues() []AutonomousDatabaseBackupTypeEnum {
 	values := make([]AutonomousDatabaseBackupTypeEnum, 0)
 	for _, v := range mappingAutonomousDatabaseBackupType {

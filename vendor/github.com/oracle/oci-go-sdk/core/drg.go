@@ -60,7 +60,7 @@ func (m Drg) String() string {
 // DrgLifecycleStateEnum Enum with underlying type: string
 type DrgLifecycleStateEnum string
 
-// Set of constants representing the allowable values for DrgLifecycleState
+// Set of constants representing the allowable values for DrgLifecycleStateEnum
 const (
 	DrgLifecycleStateProvisioning DrgLifecycleStateEnum = "PROVISIONING"
 	DrgLifecycleStateAvailable    DrgLifecycleStateEnum = "AVAILABLE"
@@ -75,7 +75,7 @@ var mappingDrgLifecycleState = map[string]DrgLifecycleStateEnum{
 	"TERMINATED":   DrgLifecycleStateTerminated,
 }
 
-// GetDrgLifecycleStateEnumValues Enumerates the set of values for DrgLifecycleState
+// GetDrgLifecycleStateEnumValues Enumerates the set of values for DrgLifecycleStateEnum
 func GetDrgLifecycleStateEnumValues() []DrgLifecycleStateEnum {
 	values := make([]DrgLifecycleStateEnum, 0)
 	for _, v := range mappingDrgLifecycleState {

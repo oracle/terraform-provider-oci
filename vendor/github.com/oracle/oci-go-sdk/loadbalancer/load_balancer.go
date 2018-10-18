@@ -92,7 +92,7 @@ func (m LoadBalancer) String() string {
 // LoadBalancerLifecycleStateEnum Enum with underlying type: string
 type LoadBalancerLifecycleStateEnum string
 
-// Set of constants representing the allowable values for LoadBalancerLifecycleState
+// Set of constants representing the allowable values for LoadBalancerLifecycleStateEnum
 const (
 	LoadBalancerLifecycleStateCreating LoadBalancerLifecycleStateEnum = "CREATING"
 	LoadBalancerLifecycleStateFailed   LoadBalancerLifecycleStateEnum = "FAILED"
@@ -109,7 +109,7 @@ var mappingLoadBalancerLifecycleState = map[string]LoadBalancerLifecycleStateEnu
 	"DELETED":  LoadBalancerLifecycleStateDeleted,
 }
 
-// GetLoadBalancerLifecycleStateEnumValues Enumerates the set of values for LoadBalancerLifecycleState
+// GetLoadBalancerLifecycleStateEnumValues Enumerates the set of values for LoadBalancerLifecycleStateEnum
 func GetLoadBalancerLifecycleStateEnumValues() []LoadBalancerLifecycleStateEnum {
 	values := make([]LoadBalancerLifecycleStateEnum, 0)
 	for _, v := range mappingLoadBalancerLifecycleState {

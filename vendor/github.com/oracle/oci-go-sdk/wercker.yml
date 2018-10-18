@@ -8,8 +8,9 @@ build:
         - script:
              name: golint-prepare
              code: |
-                 go get github.com/golang/lint/golint
-                 go install github.com/golang/lint/golint
+                 go get golang.org/x/lint/golint
+                 go install golang.org/x/lint/golint
+                 go get -v github.com/stretchr/testify
 
         - script:
              name: symlinking src code

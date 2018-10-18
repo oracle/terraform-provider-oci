@@ -101,7 +101,7 @@ func (response ListDhcpOptionsResponse) HTTPResponse() *http.Response {
 // ListDhcpOptionsSortByEnum Enum with underlying type: string
 type ListDhcpOptionsSortByEnum string
 
-// Set of constants representing the allowable values for ListDhcpOptionsSortBy
+// Set of constants representing the allowable values for ListDhcpOptionsSortByEnum
 const (
 	ListDhcpOptionsSortByTimecreated ListDhcpOptionsSortByEnum = "TIMECREATED"
 	ListDhcpOptionsSortByDisplayname ListDhcpOptionsSortByEnum = "DISPLAYNAME"
@@ -112,7 +112,7 @@ var mappingListDhcpOptionsSortBy = map[string]ListDhcpOptionsSortByEnum{
 	"DISPLAYNAME": ListDhcpOptionsSortByDisplayname,
 }
 
-// GetListDhcpOptionsSortByEnumValues Enumerates the set of values for ListDhcpOptionsSortBy
+// GetListDhcpOptionsSortByEnumValues Enumerates the set of values for ListDhcpOptionsSortByEnum
 func GetListDhcpOptionsSortByEnumValues() []ListDhcpOptionsSortByEnum {
 	values := make([]ListDhcpOptionsSortByEnum, 0)
 	for _, v := range mappingListDhcpOptionsSortBy {
@@ -124,7 +124,7 @@ func GetListDhcpOptionsSortByEnumValues() []ListDhcpOptionsSortByEnum {
 // ListDhcpOptionsSortOrderEnum Enum with underlying type: string
 type ListDhcpOptionsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListDhcpOptionsSortOrder
+// Set of constants representing the allowable values for ListDhcpOptionsSortOrderEnum
 const (
 	ListDhcpOptionsSortOrderAsc  ListDhcpOptionsSortOrderEnum = "ASC"
 	ListDhcpOptionsSortOrderDesc ListDhcpOptionsSortOrderEnum = "DESC"
@@ -135,7 +135,7 @@ var mappingListDhcpOptionsSortOrder = map[string]ListDhcpOptionsSortOrderEnum{
 	"DESC": ListDhcpOptionsSortOrderDesc,
 }
 
-// GetListDhcpOptionsSortOrderEnumValues Enumerates the set of values for ListDhcpOptionsSortOrder
+// GetListDhcpOptionsSortOrderEnumValues Enumerates the set of values for ListDhcpOptionsSortOrderEnum
 func GetListDhcpOptionsSortOrderEnumValues() []ListDhcpOptionsSortOrderEnum {
 	values := make([]ListDhcpOptionsSortOrderEnum, 0)
 	for _, v := range mappingListDhcpOptionsSortOrder {

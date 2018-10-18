@@ -34,7 +34,7 @@ func (m PathMatchType) String() string {
 // PathMatchTypeMatchTypeEnum Enum with underlying type: string
 type PathMatchTypeMatchTypeEnum string
 
-// Set of constants representing the allowable values for PathMatchTypeMatchType
+// Set of constants representing the allowable values for PathMatchTypeMatchTypeEnum
 const (
 	PathMatchTypeMatchTypeExactMatch              PathMatchTypeMatchTypeEnum = "EXACT_MATCH"
 	PathMatchTypeMatchTypeForceLongestPrefixMatch PathMatchTypeMatchTypeEnum = "FORCE_LONGEST_PREFIX_MATCH"
@@ -49,7 +49,7 @@ var mappingPathMatchTypeMatchType = map[string]PathMatchTypeMatchTypeEnum{
 	"SUFFIX_MATCH":               PathMatchTypeMatchTypeSuffixMatch,
 }
 
-// GetPathMatchTypeMatchTypeEnumValues Enumerates the set of values for PathMatchTypeMatchType
+// GetPathMatchTypeMatchTypeEnumValues Enumerates the set of values for PathMatchTypeMatchTypeEnum
 func GetPathMatchTypeMatchTypeEnumValues() []PathMatchTypeMatchTypeEnum {
 	values := make([]PathMatchTypeMatchTypeEnum, 0)
 	for _, v := range mappingPathMatchTypeMatchType {

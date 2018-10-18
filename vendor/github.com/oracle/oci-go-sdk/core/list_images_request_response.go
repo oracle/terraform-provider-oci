@@ -109,7 +109,7 @@ func (response ListImagesResponse) HTTPResponse() *http.Response {
 // ListImagesSortByEnum Enum with underlying type: string
 type ListImagesSortByEnum string
 
-// Set of constants representing the allowable values for ListImagesSortBy
+// Set of constants representing the allowable values for ListImagesSortByEnum
 const (
 	ListImagesSortByTimecreated ListImagesSortByEnum = "TIMECREATED"
 	ListImagesSortByDisplayname ListImagesSortByEnum = "DISPLAYNAME"
@@ -120,7 +120,7 @@ var mappingListImagesSortBy = map[string]ListImagesSortByEnum{
 	"DISPLAYNAME": ListImagesSortByDisplayname,
 }
 
-// GetListImagesSortByEnumValues Enumerates the set of values for ListImagesSortBy
+// GetListImagesSortByEnumValues Enumerates the set of values for ListImagesSortByEnum
 func GetListImagesSortByEnumValues() []ListImagesSortByEnum {
 	values := make([]ListImagesSortByEnum, 0)
 	for _, v := range mappingListImagesSortBy {
@@ -132,7 +132,7 @@ func GetListImagesSortByEnumValues() []ListImagesSortByEnum {
 // ListImagesSortOrderEnum Enum with underlying type: string
 type ListImagesSortOrderEnum string
 
-// Set of constants representing the allowable values for ListImagesSortOrder
+// Set of constants representing the allowable values for ListImagesSortOrderEnum
 const (
 	ListImagesSortOrderAsc  ListImagesSortOrderEnum = "ASC"
 	ListImagesSortOrderDesc ListImagesSortOrderEnum = "DESC"
@@ -143,7 +143,7 @@ var mappingListImagesSortOrder = map[string]ListImagesSortOrderEnum{
 	"DESC": ListImagesSortOrderDesc,
 }
 
-// GetListImagesSortOrderEnumValues Enumerates the set of values for ListImagesSortOrder
+// GetListImagesSortOrderEnumValues Enumerates the set of values for ListImagesSortOrderEnum
 func GetListImagesSortOrderEnumValues() []ListImagesSortOrderEnum {
 	values := make([]ListImagesSortOrderEnum, 0)
 	for _, v := range mappingListImagesSortOrder {

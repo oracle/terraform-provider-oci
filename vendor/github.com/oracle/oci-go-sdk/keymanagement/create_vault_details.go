@@ -33,7 +33,7 @@ func (m CreateVaultDetails) String() string {
 // CreateVaultDetailsVaultTypeEnum Enum with underlying type: string
 type CreateVaultDetailsVaultTypeEnum string
 
-// Set of constants representing the allowable values for CreateVaultDetailsVaultType
+// Set of constants representing the allowable values for CreateVaultDetailsVaultTypeEnum
 const (
 	CreateVaultDetailsVaultTypePrivate CreateVaultDetailsVaultTypeEnum = "VIRTUAL_PRIVATE"
 )
@@ -42,7 +42,7 @@ var mappingCreateVaultDetailsVaultType = map[string]CreateVaultDetailsVaultTypeE
 	"VIRTUAL_PRIVATE": CreateVaultDetailsVaultTypePrivate,
 }
 
-// GetCreateVaultDetailsVaultTypeEnumValues Enumerates the set of values for CreateVaultDetailsVaultType
+// GetCreateVaultDetailsVaultTypeEnumValues Enumerates the set of values for CreateVaultDetailsVaultTypeEnum
 func GetCreateVaultDetailsVaultTypeEnumValues() []CreateVaultDetailsVaultTypeEnum {
 	values := make([]CreateVaultDetailsVaultTypeEnum, 0)
 	for _, v := range mappingCreateVaultDetailsVaultType {

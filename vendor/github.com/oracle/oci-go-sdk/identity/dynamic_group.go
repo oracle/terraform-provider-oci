@@ -58,7 +58,7 @@ func (m DynamicGroup) String() string {
 // DynamicGroupLifecycleStateEnum Enum with underlying type: string
 type DynamicGroupLifecycleStateEnum string
 
-// Set of constants representing the allowable values for DynamicGroupLifecycleState
+// Set of constants representing the allowable values for DynamicGroupLifecycleStateEnum
 const (
 	DynamicGroupLifecycleStateCreating DynamicGroupLifecycleStateEnum = "CREATING"
 	DynamicGroupLifecycleStateActive   DynamicGroupLifecycleStateEnum = "ACTIVE"
@@ -75,7 +75,7 @@ var mappingDynamicGroupLifecycleState = map[string]DynamicGroupLifecycleStateEnu
 	"DELETED":  DynamicGroupLifecycleStateDeleted,
 }
 
-// GetDynamicGroupLifecycleStateEnumValues Enumerates the set of values for DynamicGroupLifecycleState
+// GetDynamicGroupLifecycleStateEnumValues Enumerates the set of values for DynamicGroupLifecycleStateEnum
 func GetDynamicGroupLifecycleStateEnumValues() []DynamicGroupLifecycleStateEnum {
 	values := make([]DynamicGroupLifecycleStateEnum, 0)
 	for _, v := range mappingDynamicGroupLifecycleState {

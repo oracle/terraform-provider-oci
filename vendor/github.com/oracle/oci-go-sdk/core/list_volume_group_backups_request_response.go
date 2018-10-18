@@ -98,7 +98,7 @@ func (response ListVolumeGroupBackupsResponse) HTTPResponse() *http.Response {
 // ListVolumeGroupBackupsSortByEnum Enum with underlying type: string
 type ListVolumeGroupBackupsSortByEnum string
 
-// Set of constants representing the allowable values for ListVolumeGroupBackupsSortBy
+// Set of constants representing the allowable values for ListVolumeGroupBackupsSortByEnum
 const (
 	ListVolumeGroupBackupsSortByTimecreated ListVolumeGroupBackupsSortByEnum = "TIMECREATED"
 	ListVolumeGroupBackupsSortByDisplayname ListVolumeGroupBackupsSortByEnum = "DISPLAYNAME"
@@ -109,7 +109,7 @@ var mappingListVolumeGroupBackupsSortBy = map[string]ListVolumeGroupBackupsSortB
 	"DISPLAYNAME": ListVolumeGroupBackupsSortByDisplayname,
 }
 
-// GetListVolumeGroupBackupsSortByEnumValues Enumerates the set of values for ListVolumeGroupBackupsSortBy
+// GetListVolumeGroupBackupsSortByEnumValues Enumerates the set of values for ListVolumeGroupBackupsSortByEnum
 func GetListVolumeGroupBackupsSortByEnumValues() []ListVolumeGroupBackupsSortByEnum {
 	values := make([]ListVolumeGroupBackupsSortByEnum, 0)
 	for _, v := range mappingListVolumeGroupBackupsSortBy {
@@ -121,7 +121,7 @@ func GetListVolumeGroupBackupsSortByEnumValues() []ListVolumeGroupBackupsSortByE
 // ListVolumeGroupBackupsSortOrderEnum Enum with underlying type: string
 type ListVolumeGroupBackupsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListVolumeGroupBackupsSortOrder
+// Set of constants representing the allowable values for ListVolumeGroupBackupsSortOrderEnum
 const (
 	ListVolumeGroupBackupsSortOrderAsc  ListVolumeGroupBackupsSortOrderEnum = "ASC"
 	ListVolumeGroupBackupsSortOrderDesc ListVolumeGroupBackupsSortOrderEnum = "DESC"
@@ -132,7 +132,7 @@ var mappingListVolumeGroupBackupsSortOrder = map[string]ListVolumeGroupBackupsSo
 	"DESC": ListVolumeGroupBackupsSortOrderDesc,
 }
 
-// GetListVolumeGroupBackupsSortOrderEnumValues Enumerates the set of values for ListVolumeGroupBackupsSortOrder
+// GetListVolumeGroupBackupsSortOrderEnumValues Enumerates the set of values for ListVolumeGroupBackupsSortOrderEnum
 func GetListVolumeGroupBackupsSortOrderEnumValues() []ListVolumeGroupBackupsSortOrderEnum {
 	values := make([]ListVolumeGroupBackupsSortOrderEnum, 0)
 	for _, v := range mappingListVolumeGroupBackupsSortOrder {

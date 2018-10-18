@@ -51,7 +51,7 @@ func (m Patch) String() string {
 // PatchAvailableActionsEnum Enum with underlying type: string
 type PatchAvailableActionsEnum string
 
-// Set of constants representing the allowable values for PatchAvailableActions
+// Set of constants representing the allowable values for PatchAvailableActionsEnum
 const (
 	PatchAvailableActionsApply    PatchAvailableActionsEnum = "APPLY"
 	PatchAvailableActionsPrecheck PatchAvailableActionsEnum = "PRECHECK"
@@ -62,7 +62,7 @@ var mappingPatchAvailableActions = map[string]PatchAvailableActionsEnum{
 	"PRECHECK": PatchAvailableActionsPrecheck,
 }
 
-// GetPatchAvailableActionsEnumValues Enumerates the set of values for PatchAvailableActions
+// GetPatchAvailableActionsEnumValues Enumerates the set of values for PatchAvailableActionsEnum
 func GetPatchAvailableActionsEnumValues() []PatchAvailableActionsEnum {
 	values := make([]PatchAvailableActionsEnum, 0)
 	for _, v := range mappingPatchAvailableActions {
@@ -74,7 +74,7 @@ func GetPatchAvailableActionsEnumValues() []PatchAvailableActionsEnum {
 // PatchLastActionEnum Enum with underlying type: string
 type PatchLastActionEnum string
 
-// Set of constants representing the allowable values for PatchLastAction
+// Set of constants representing the allowable values for PatchLastActionEnum
 const (
 	PatchLastActionApply    PatchLastActionEnum = "APPLY"
 	PatchLastActionPrecheck PatchLastActionEnum = "PRECHECK"
@@ -85,7 +85,7 @@ var mappingPatchLastAction = map[string]PatchLastActionEnum{
 	"PRECHECK": PatchLastActionPrecheck,
 }
 
-// GetPatchLastActionEnumValues Enumerates the set of values for PatchLastAction
+// GetPatchLastActionEnumValues Enumerates the set of values for PatchLastActionEnum
 func GetPatchLastActionEnumValues() []PatchLastActionEnum {
 	values := make([]PatchLastActionEnum, 0)
 	for _, v := range mappingPatchLastAction {
@@ -97,7 +97,7 @@ func GetPatchLastActionEnumValues() []PatchLastActionEnum {
 // PatchLifecycleStateEnum Enum with underlying type: string
 type PatchLifecycleStateEnum string
 
-// Set of constants representing the allowable values for PatchLifecycleState
+// Set of constants representing the allowable values for PatchLifecycleStateEnum
 const (
 	PatchLifecycleStateAvailable  PatchLifecycleStateEnum = "AVAILABLE"
 	PatchLifecycleStateSuccess    PatchLifecycleStateEnum = "SUCCESS"
@@ -112,7 +112,7 @@ var mappingPatchLifecycleState = map[string]PatchLifecycleStateEnum{
 	"FAILED":      PatchLifecycleStateFailed,
 }
 
-// GetPatchLifecycleStateEnumValues Enumerates the set of values for PatchLifecycleState
+// GetPatchLifecycleStateEnumValues Enumerates the set of values for PatchLifecycleStateEnum
 func GetPatchLifecycleStateEnumValues() []PatchLifecycleStateEnum {
 	values := make([]PatchLifecycleStateEnum, 0)
 	for _, v := range mappingPatchLifecycleState {

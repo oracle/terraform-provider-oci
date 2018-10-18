@@ -59,7 +59,7 @@ func (m InstanceConsoleConnection) String() string {
 // InstanceConsoleConnectionLifecycleStateEnum Enum with underlying type: string
 type InstanceConsoleConnectionLifecycleStateEnum string
 
-// Set of constants representing the allowable values for InstanceConsoleConnectionLifecycleState
+// Set of constants representing the allowable values for InstanceConsoleConnectionLifecycleStateEnum
 const (
 	InstanceConsoleConnectionLifecycleStateActive   InstanceConsoleConnectionLifecycleStateEnum = "ACTIVE"
 	InstanceConsoleConnectionLifecycleStateCreating InstanceConsoleConnectionLifecycleStateEnum = "CREATING"
@@ -76,7 +76,7 @@ var mappingInstanceConsoleConnectionLifecycleState = map[string]InstanceConsoleC
 	"FAILED":   InstanceConsoleConnectionLifecycleStateFailed,
 }
 
-// GetInstanceConsoleConnectionLifecycleStateEnumValues Enumerates the set of values for InstanceConsoleConnectionLifecycleState
+// GetInstanceConsoleConnectionLifecycleStateEnumValues Enumerates the set of values for InstanceConsoleConnectionLifecycleStateEnum
 func GetInstanceConsoleConnectionLifecycleStateEnumValues() []InstanceConsoleConnectionLifecycleStateEnum {
 	values := make([]InstanceConsoleConnectionLifecycleStateEnum, 0)
 	for _, v := range mappingInstanceConsoleConnectionLifecycleState {

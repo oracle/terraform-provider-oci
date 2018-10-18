@@ -44,6 +44,9 @@ type TagSummary struct {
 	// Date and time the tag was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// Indicates whether the tag is enabled for cost tracking.
+	IsCostTracking *bool `mandatory:"false" json:"isCostTracking"`
 }
 
 func (m TagSummary) String() string {

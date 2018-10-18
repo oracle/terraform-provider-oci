@@ -71,7 +71,7 @@ func (m RemotePeeringConnection) String() string {
 // RemotePeeringConnectionLifecycleStateEnum Enum with underlying type: string
 type RemotePeeringConnectionLifecycleStateEnum string
 
-// Set of constants representing the allowable values for RemotePeeringConnectionLifecycleState
+// Set of constants representing the allowable values for RemotePeeringConnectionLifecycleStateEnum
 const (
 	RemotePeeringConnectionLifecycleStateAvailable    RemotePeeringConnectionLifecycleStateEnum = "AVAILABLE"
 	RemotePeeringConnectionLifecycleStateProvisioning RemotePeeringConnectionLifecycleStateEnum = "PROVISIONING"
@@ -86,7 +86,7 @@ var mappingRemotePeeringConnectionLifecycleState = map[string]RemotePeeringConne
 	"TERMINATED":   RemotePeeringConnectionLifecycleStateTerminated,
 }
 
-// GetRemotePeeringConnectionLifecycleStateEnumValues Enumerates the set of values for RemotePeeringConnectionLifecycleState
+// GetRemotePeeringConnectionLifecycleStateEnumValues Enumerates the set of values for RemotePeeringConnectionLifecycleStateEnum
 func GetRemotePeeringConnectionLifecycleStateEnumValues() []RemotePeeringConnectionLifecycleStateEnum {
 	values := make([]RemotePeeringConnectionLifecycleStateEnum, 0)
 	for _, v := range mappingRemotePeeringConnectionLifecycleState {
@@ -98,7 +98,7 @@ func GetRemotePeeringConnectionLifecycleStateEnumValues() []RemotePeeringConnect
 // RemotePeeringConnectionPeeringStatusEnum Enum with underlying type: string
 type RemotePeeringConnectionPeeringStatusEnum string
 
-// Set of constants representing the allowable values for RemotePeeringConnectionPeeringStatus
+// Set of constants representing the allowable values for RemotePeeringConnectionPeeringStatusEnum
 const (
 	RemotePeeringConnectionPeeringStatusInvalid RemotePeeringConnectionPeeringStatusEnum = "INVALID"
 	RemotePeeringConnectionPeeringStatusNew     RemotePeeringConnectionPeeringStatusEnum = "NEW"
@@ -115,7 +115,7 @@ var mappingRemotePeeringConnectionPeeringStatus = map[string]RemotePeeringConnec
 	"REVOKED": RemotePeeringConnectionPeeringStatusRevoked,
 }
 
-// GetRemotePeeringConnectionPeeringStatusEnumValues Enumerates the set of values for RemotePeeringConnectionPeeringStatus
+// GetRemotePeeringConnectionPeeringStatusEnumValues Enumerates the set of values for RemotePeeringConnectionPeeringStatusEnum
 func GetRemotePeeringConnectionPeeringStatusEnumValues() []RemotePeeringConnectionPeeringStatusEnum {
 	values := make([]RemotePeeringConnectionPeeringStatusEnum, 0)
 	for _, v := range mappingRemotePeeringConnectionPeeringStatus {

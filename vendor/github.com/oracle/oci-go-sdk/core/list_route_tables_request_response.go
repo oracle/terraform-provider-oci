@@ -101,7 +101,7 @@ func (response ListRouteTablesResponse) HTTPResponse() *http.Response {
 // ListRouteTablesSortByEnum Enum with underlying type: string
 type ListRouteTablesSortByEnum string
 
-// Set of constants representing the allowable values for ListRouteTablesSortBy
+// Set of constants representing the allowable values for ListRouteTablesSortByEnum
 const (
 	ListRouteTablesSortByTimecreated ListRouteTablesSortByEnum = "TIMECREATED"
 	ListRouteTablesSortByDisplayname ListRouteTablesSortByEnum = "DISPLAYNAME"
@@ -112,7 +112,7 @@ var mappingListRouteTablesSortBy = map[string]ListRouteTablesSortByEnum{
 	"DISPLAYNAME": ListRouteTablesSortByDisplayname,
 }
 
-// GetListRouteTablesSortByEnumValues Enumerates the set of values for ListRouteTablesSortBy
+// GetListRouteTablesSortByEnumValues Enumerates the set of values for ListRouteTablesSortByEnum
 func GetListRouteTablesSortByEnumValues() []ListRouteTablesSortByEnum {
 	values := make([]ListRouteTablesSortByEnum, 0)
 	for _, v := range mappingListRouteTablesSortBy {
@@ -124,7 +124,7 @@ func GetListRouteTablesSortByEnumValues() []ListRouteTablesSortByEnum {
 // ListRouteTablesSortOrderEnum Enum with underlying type: string
 type ListRouteTablesSortOrderEnum string
 
-// Set of constants representing the allowable values for ListRouteTablesSortOrder
+// Set of constants representing the allowable values for ListRouteTablesSortOrderEnum
 const (
 	ListRouteTablesSortOrderAsc  ListRouteTablesSortOrderEnum = "ASC"
 	ListRouteTablesSortOrderDesc ListRouteTablesSortOrderEnum = "DESC"
@@ -135,7 +135,7 @@ var mappingListRouteTablesSortOrder = map[string]ListRouteTablesSortOrderEnum{
 	"DESC": ListRouteTablesSortOrderDesc,
 }
 
-// GetListRouteTablesSortOrderEnumValues Enumerates the set of values for ListRouteTablesSortOrder
+// GetListRouteTablesSortOrderEnumValues Enumerates the set of values for ListRouteTablesSortOrderEnum
 func GetListRouteTablesSortOrderEnumValues() []ListRouteTablesSortOrderEnum {
 	values := make([]ListRouteTablesSortOrderEnum, 0)
 	for _, v := range mappingListRouteTablesSortOrder {

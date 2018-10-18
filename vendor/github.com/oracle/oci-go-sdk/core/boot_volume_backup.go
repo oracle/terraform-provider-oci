@@ -88,7 +88,7 @@ func (m BootVolumeBackup) String() string {
 // BootVolumeBackupLifecycleStateEnum Enum with underlying type: string
 type BootVolumeBackupLifecycleStateEnum string
 
-// Set of constants representing the allowable values for BootVolumeBackupLifecycleState
+// Set of constants representing the allowable values for BootVolumeBackupLifecycleStateEnum
 const (
 	BootVolumeBackupLifecycleStateCreating        BootVolumeBackupLifecycleStateEnum = "CREATING"
 	BootVolumeBackupLifecycleStateAvailable       BootVolumeBackupLifecycleStateEnum = "AVAILABLE"
@@ -107,7 +107,7 @@ var mappingBootVolumeBackupLifecycleState = map[string]BootVolumeBackupLifecycle
 	"REQUEST_RECEIVED": BootVolumeBackupLifecycleStateRequestReceived,
 }
 
-// GetBootVolumeBackupLifecycleStateEnumValues Enumerates the set of values for BootVolumeBackupLifecycleState
+// GetBootVolumeBackupLifecycleStateEnumValues Enumerates the set of values for BootVolumeBackupLifecycleStateEnum
 func GetBootVolumeBackupLifecycleStateEnumValues() []BootVolumeBackupLifecycleStateEnum {
 	values := make([]BootVolumeBackupLifecycleStateEnum, 0)
 	for _, v := range mappingBootVolumeBackupLifecycleState {
@@ -119,7 +119,7 @@ func GetBootVolumeBackupLifecycleStateEnumValues() []BootVolumeBackupLifecycleSt
 // BootVolumeBackupSourceTypeEnum Enum with underlying type: string
 type BootVolumeBackupSourceTypeEnum string
 
-// Set of constants representing the allowable values for BootVolumeBackupSourceType
+// Set of constants representing the allowable values for BootVolumeBackupSourceTypeEnum
 const (
 	BootVolumeBackupSourceTypeManual    BootVolumeBackupSourceTypeEnum = "MANUAL"
 	BootVolumeBackupSourceTypeScheduled BootVolumeBackupSourceTypeEnum = "SCHEDULED"
@@ -130,7 +130,7 @@ var mappingBootVolumeBackupSourceType = map[string]BootVolumeBackupSourceTypeEnu
 	"SCHEDULED": BootVolumeBackupSourceTypeScheduled,
 }
 
-// GetBootVolumeBackupSourceTypeEnumValues Enumerates the set of values for BootVolumeBackupSourceType
+// GetBootVolumeBackupSourceTypeEnumValues Enumerates the set of values for BootVolumeBackupSourceTypeEnum
 func GetBootVolumeBackupSourceTypeEnumValues() []BootVolumeBackupSourceTypeEnum {
 	values := make([]BootVolumeBackupSourceTypeEnum, 0)
 	for _, v := range mappingBootVolumeBackupSourceType {
@@ -142,7 +142,7 @@ func GetBootVolumeBackupSourceTypeEnumValues() []BootVolumeBackupSourceTypeEnum 
 // BootVolumeBackupTypeEnum Enum with underlying type: string
 type BootVolumeBackupTypeEnum string
 
-// Set of constants representing the allowable values for BootVolumeBackupType
+// Set of constants representing the allowable values for BootVolumeBackupTypeEnum
 const (
 	BootVolumeBackupTypeFull        BootVolumeBackupTypeEnum = "FULL"
 	BootVolumeBackupTypeIncremental BootVolumeBackupTypeEnum = "INCREMENTAL"
@@ -153,7 +153,7 @@ var mappingBootVolumeBackupType = map[string]BootVolumeBackupTypeEnum{
 	"INCREMENTAL": BootVolumeBackupTypeIncremental,
 }
 
-// GetBootVolumeBackupTypeEnumValues Enumerates the set of values for BootVolumeBackupType
+// GetBootVolumeBackupTypeEnumValues Enumerates the set of values for BootVolumeBackupTypeEnum
 func GetBootVolumeBackupTypeEnumValues() []BootVolumeBackupTypeEnum {
 	values := make([]BootVolumeBackupTypeEnum, 0)
 	for _, v := range mappingBootVolumeBackupType {

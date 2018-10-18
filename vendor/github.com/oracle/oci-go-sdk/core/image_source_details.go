@@ -78,7 +78,7 @@ func (m imagesourcedetails) String() string {
 // ImageSourceDetailsSourceImageTypeEnum Enum with underlying type: string
 type ImageSourceDetailsSourceImageTypeEnum string
 
-// Set of constants representing the allowable values for ImageSourceDetailsSourceImageType
+// Set of constants representing the allowable values for ImageSourceDetailsSourceImageTypeEnum
 const (
 	ImageSourceDetailsSourceImageTypeQcow2 ImageSourceDetailsSourceImageTypeEnum = "QCOW2"
 	ImageSourceDetailsSourceImageTypeVmdk  ImageSourceDetailsSourceImageTypeEnum = "VMDK"
@@ -89,7 +89,7 @@ var mappingImageSourceDetailsSourceImageType = map[string]ImageSourceDetailsSour
 	"VMDK":  ImageSourceDetailsSourceImageTypeVmdk,
 }
 
-// GetImageSourceDetailsSourceImageTypeEnumValues Enumerates the set of values for ImageSourceDetailsSourceImageType
+// GetImageSourceDetailsSourceImageTypeEnumValues Enumerates the set of values for ImageSourceDetailsSourceImageTypeEnum
 func GetImageSourceDetailsSourceImageTypeEnumValues() []ImageSourceDetailsSourceImageTypeEnum {
 	values := make([]ImageSourceDetailsSourceImageTypeEnum, 0)
 	for _, v := range mappingImageSourceDetailsSourceImageType {

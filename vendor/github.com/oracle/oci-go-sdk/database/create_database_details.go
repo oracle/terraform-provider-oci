@@ -56,7 +56,7 @@ func (m CreateDatabaseDetails) String() string {
 // CreateDatabaseDetailsDbWorkloadEnum Enum with underlying type: string
 type CreateDatabaseDetailsDbWorkloadEnum string
 
-// Set of constants representing the allowable values for CreateDatabaseDetailsDbWorkload
+// Set of constants representing the allowable values for CreateDatabaseDetailsDbWorkloadEnum
 const (
 	CreateDatabaseDetailsDbWorkloadOltp CreateDatabaseDetailsDbWorkloadEnum = "OLTP"
 	CreateDatabaseDetailsDbWorkloadDss  CreateDatabaseDetailsDbWorkloadEnum = "DSS"
@@ -67,7 +67,7 @@ var mappingCreateDatabaseDetailsDbWorkload = map[string]CreateDatabaseDetailsDbW
 	"DSS":  CreateDatabaseDetailsDbWorkloadDss,
 }
 
-// GetCreateDatabaseDetailsDbWorkloadEnumValues Enumerates the set of values for CreateDatabaseDetailsDbWorkload
+// GetCreateDatabaseDetailsDbWorkloadEnumValues Enumerates the set of values for CreateDatabaseDetailsDbWorkloadEnum
 func GetCreateDatabaseDetailsDbWorkloadEnumValues() []CreateDatabaseDetailsDbWorkloadEnum {
 	values := make([]CreateDatabaseDetailsDbWorkloadEnum, 0)
 	for _, v := range mappingCreateDatabaseDetailsDbWorkload {

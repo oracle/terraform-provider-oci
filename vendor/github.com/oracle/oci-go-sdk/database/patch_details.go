@@ -31,7 +31,7 @@ func (m PatchDetails) String() string {
 // PatchDetailsActionEnum Enum with underlying type: string
 type PatchDetailsActionEnum string
 
-// Set of constants representing the allowable values for PatchDetailsAction
+// Set of constants representing the allowable values for PatchDetailsActionEnum
 const (
 	PatchDetailsActionApply    PatchDetailsActionEnum = "APPLY"
 	PatchDetailsActionPrecheck PatchDetailsActionEnum = "PRECHECK"
@@ -42,7 +42,7 @@ var mappingPatchDetailsAction = map[string]PatchDetailsActionEnum{
 	"PRECHECK": PatchDetailsActionPrecheck,
 }
 
-// GetPatchDetailsActionEnumValues Enumerates the set of values for PatchDetailsAction
+// GetPatchDetailsActionEnumValues Enumerates the set of values for PatchDetailsActionEnum
 func GetPatchDetailsActionEnumValues() []PatchDetailsActionEnum {
 	values := make([]PatchDetailsActionEnum, 0)
 	for _, v := range mappingPatchDetailsAction {

@@ -48,7 +48,7 @@ func (m ObjectLifecycleRule) String() string {
 // ObjectLifecycleRuleTimeUnitEnum Enum with underlying type: string
 type ObjectLifecycleRuleTimeUnitEnum string
 
-// Set of constants representing the allowable values for ObjectLifecycleRuleTimeUnit
+// Set of constants representing the allowable values for ObjectLifecycleRuleTimeUnitEnum
 const (
 	ObjectLifecycleRuleTimeUnitDays  ObjectLifecycleRuleTimeUnitEnum = "DAYS"
 	ObjectLifecycleRuleTimeUnitYears ObjectLifecycleRuleTimeUnitEnum = "YEARS"
@@ -59,7 +59,7 @@ var mappingObjectLifecycleRuleTimeUnit = map[string]ObjectLifecycleRuleTimeUnitE
 	"YEARS": ObjectLifecycleRuleTimeUnitYears,
 }
 
-// GetObjectLifecycleRuleTimeUnitEnumValues Enumerates the set of values for ObjectLifecycleRuleTimeUnit
+// GetObjectLifecycleRuleTimeUnitEnumValues Enumerates the set of values for ObjectLifecycleRuleTimeUnitEnum
 func GetObjectLifecycleRuleTimeUnitEnumValues() []ObjectLifecycleRuleTimeUnitEnum {
 	values := make([]ObjectLifecycleRuleTimeUnitEnum, 0)
 	for _, v := range mappingObjectLifecycleRuleTimeUnit {

@@ -31,11 +31,11 @@ type Compartment struct {
 	// The OCID of the compartment.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the compartment.
+	// The OCID of the parent compartment containing the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The name you assign to the compartment during creation. The name must be unique across all
-	// compartments in the tenancy. Avoid entering confidential information.
+	// compartments in the parent. Avoid entering confidential information.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The description you assign to the compartment. Does not have to be unique, and it's changeable.
@@ -51,6 +51,11 @@ type Compartment struct {
 
 	// The detailed status of INACTIVE lifecycleState.
 	InactiveStatus *int64 `mandatory:"false" json:"inactiveStatus"`
+
+	// Indicates whether or not the compartment is accessible for the user making the request.
+	// Returns true when the user has INSPECT permissions directly on a resource in the
+	// compartment or indirectly (permissions can be on a resource in a subcompartment).
+	IsAccessible *bool `mandatory:"false" json:"isAccessible"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
@@ -70,7 +75,7 @@ func (m Compartment) String() string {
 // CompartmentLifecycleStateEnum Enum with underlying type: string
 type CompartmentLifecycleStateEnum string
 
-// Set of constants representing the allowable values for CompartmentLifecycleState
+// Set of constants representing the allowable values for CompartmentLifecycleStateEnum
 const (
 	CompartmentLifecycleStateCreating CompartmentLifecycleStateEnum = "CREATING"
 	CompartmentLifecycleStateActive   CompartmentLifecycleStateEnum = "ACTIVE"
@@ -87,7 +92,7 @@ var mappingCompartmentLifecycleState = map[string]CompartmentLifecycleStateEnum{
 	"DELETED":  CompartmentLifecycleStateDeleted,
 }
 
-// GetCompartmentLifecycleStateEnumValues Enumerates the set of values for CompartmentLifecycleState
+// GetCompartmentLifecycleStateEnumValues Enumerates the set of values for CompartmentLifecycleStateEnum
 func GetCompartmentLifecycleStateEnumValues() []CompartmentLifecycleStateEnum {
 	values := make([]CompartmentLifecycleStateEnum, 0)
 	for _, v := range mappingCompartmentLifecycleState {

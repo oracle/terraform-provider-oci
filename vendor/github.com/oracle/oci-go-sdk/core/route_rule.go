@@ -52,7 +52,7 @@ func (m RouteRule) String() string {
 // RouteRuleDestinationTypeEnum Enum with underlying type: string
 type RouteRuleDestinationTypeEnum string
 
-// Set of constants representing the allowable values for RouteRuleDestinationType
+// Set of constants representing the allowable values for RouteRuleDestinationTypeEnum
 const (
 	RouteRuleDestinationTypeCidrBlock        RouteRuleDestinationTypeEnum = "CIDR_BLOCK"
 	RouteRuleDestinationTypeServiceCidrBlock RouteRuleDestinationTypeEnum = "SERVICE_CIDR_BLOCK"
@@ -63,7 +63,7 @@ var mappingRouteRuleDestinationType = map[string]RouteRuleDestinationTypeEnum{
 	"SERVICE_CIDR_BLOCK": RouteRuleDestinationTypeServiceCidrBlock,
 }
 
-// GetRouteRuleDestinationTypeEnumValues Enumerates the set of values for RouteRuleDestinationType
+// GetRouteRuleDestinationTypeEnumValues Enumerates the set of values for RouteRuleDestinationTypeEnum
 func GetRouteRuleDestinationTypeEnumValues() []RouteRuleDestinationTypeEnum {
 	values := make([]RouteRuleDestinationTypeEnum, 0)
 	for _, v := range mappingRouteRuleDestinationType {

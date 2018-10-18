@@ -73,7 +73,7 @@ func (m NatGateway) String() string {
 // NatGatewayLifecycleStateEnum Enum with underlying type: string
 type NatGatewayLifecycleStateEnum string
 
-// Set of constants representing the allowable values for NatGatewayLifecycleState
+// Set of constants representing the allowable values for NatGatewayLifecycleStateEnum
 const (
 	NatGatewayLifecycleStateProvisioning NatGatewayLifecycleStateEnum = "PROVISIONING"
 	NatGatewayLifecycleStateAvailable    NatGatewayLifecycleStateEnum = "AVAILABLE"
@@ -88,7 +88,7 @@ var mappingNatGatewayLifecycleState = map[string]NatGatewayLifecycleStateEnum{
 	"TERMINATED":   NatGatewayLifecycleStateTerminated,
 }
 
-// GetNatGatewayLifecycleStateEnumValues Enumerates the set of values for NatGatewayLifecycleState
+// GetNatGatewayLifecycleStateEnumValues Enumerates the set of values for NatGatewayLifecycleStateEnum
 func GetNatGatewayLifecycleStateEnumValues() []NatGatewayLifecycleStateEnum {
 	values := make([]NatGatewayLifecycleStateEnum, 0)
 	for _, v := range mappingNatGatewayLifecycleState {

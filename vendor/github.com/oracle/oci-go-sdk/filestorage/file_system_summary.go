@@ -53,7 +53,7 @@ func (m FileSystemSummary) String() string {
 // FileSystemSummaryLifecycleStateEnum Enum with underlying type: string
 type FileSystemSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for FileSystemSummaryLifecycleState
+// Set of constants representing the allowable values for FileSystemSummaryLifecycleStateEnum
 const (
 	FileSystemSummaryLifecycleStateCreating FileSystemSummaryLifecycleStateEnum = "CREATING"
 	FileSystemSummaryLifecycleStateActive   FileSystemSummaryLifecycleStateEnum = "ACTIVE"
@@ -68,7 +68,7 @@ var mappingFileSystemSummaryLifecycleState = map[string]FileSystemSummaryLifecyc
 	"DELETED":  FileSystemSummaryLifecycleStateDeleted,
 }
 
-// GetFileSystemSummaryLifecycleStateEnumValues Enumerates the set of values for FileSystemSummaryLifecycleState
+// GetFileSystemSummaryLifecycleStateEnumValues Enumerates the set of values for FileSystemSummaryLifecycleStateEnum
 func GetFileSystemSummaryLifecycleStateEnumValues() []FileSystemSummaryLifecycleStateEnum {
 	values := make([]FileSystemSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingFileSystemSummaryLifecycleState {

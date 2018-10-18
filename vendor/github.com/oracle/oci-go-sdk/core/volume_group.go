@@ -121,7 +121,7 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 // VolumeGroupLifecycleStateEnum Enum with underlying type: string
 type VolumeGroupLifecycleStateEnum string
 
-// Set of constants representing the allowable values for VolumeGroupLifecycleState
+// Set of constants representing the allowable values for VolumeGroupLifecycleStateEnum
 const (
 	VolumeGroupLifecycleStateProvisioning VolumeGroupLifecycleStateEnum = "PROVISIONING"
 	VolumeGroupLifecycleStateAvailable    VolumeGroupLifecycleStateEnum = "AVAILABLE"
@@ -138,7 +138,7 @@ var mappingVolumeGroupLifecycleState = map[string]VolumeGroupLifecycleStateEnum{
 	"FAULTY":       VolumeGroupLifecycleStateFaulty,
 }
 
-// GetVolumeGroupLifecycleStateEnumValues Enumerates the set of values for VolumeGroupLifecycleState
+// GetVolumeGroupLifecycleStateEnumValues Enumerates the set of values for VolumeGroupLifecycleStateEnum
 func GetVolumeGroupLifecycleStateEnumValues() []VolumeGroupLifecycleStateEnum {
 	values := make([]VolumeGroupLifecycleStateEnum, 0)
 	for _, v := range mappingVolumeGroupLifecycleState {

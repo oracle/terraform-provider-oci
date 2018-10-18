@@ -101,7 +101,7 @@ func (response ListSubnetsResponse) HTTPResponse() *http.Response {
 // ListSubnetsSortByEnum Enum with underlying type: string
 type ListSubnetsSortByEnum string
 
-// Set of constants representing the allowable values for ListSubnetsSortBy
+// Set of constants representing the allowable values for ListSubnetsSortByEnum
 const (
 	ListSubnetsSortByTimecreated ListSubnetsSortByEnum = "TIMECREATED"
 	ListSubnetsSortByDisplayname ListSubnetsSortByEnum = "DISPLAYNAME"
@@ -112,7 +112,7 @@ var mappingListSubnetsSortBy = map[string]ListSubnetsSortByEnum{
 	"DISPLAYNAME": ListSubnetsSortByDisplayname,
 }
 
-// GetListSubnetsSortByEnumValues Enumerates the set of values for ListSubnetsSortBy
+// GetListSubnetsSortByEnumValues Enumerates the set of values for ListSubnetsSortByEnum
 func GetListSubnetsSortByEnumValues() []ListSubnetsSortByEnum {
 	values := make([]ListSubnetsSortByEnum, 0)
 	for _, v := range mappingListSubnetsSortBy {
@@ -124,7 +124,7 @@ func GetListSubnetsSortByEnumValues() []ListSubnetsSortByEnum {
 // ListSubnetsSortOrderEnum Enum with underlying type: string
 type ListSubnetsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListSubnetsSortOrder
+// Set of constants representing the allowable values for ListSubnetsSortOrderEnum
 const (
 	ListSubnetsSortOrderAsc  ListSubnetsSortOrderEnum = "ASC"
 	ListSubnetsSortOrderDesc ListSubnetsSortOrderEnum = "DESC"
@@ -135,7 +135,7 @@ var mappingListSubnetsSortOrder = map[string]ListSubnetsSortOrderEnum{
 	"DESC": ListSubnetsSortOrderDesc,
 }
 
-// GetListSubnetsSortOrderEnumValues Enumerates the set of values for ListSubnetsSortOrder
+// GetListSubnetsSortOrderEnumValues Enumerates the set of values for ListSubnetsSortOrderEnum
 func GetListSubnetsSortOrderEnumValues() []ListSubnetsSortOrderEnum {
 	values := make([]ListSubnetsSortOrderEnum, 0)
 	for _, v := range mappingListSubnetsSortOrder {
