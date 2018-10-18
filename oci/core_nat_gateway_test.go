@@ -13,7 +13,7 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
+var (
 	NatGatewayRequiredOnlyResource = NatGatewayResourceDependencies + `
 resource "oci_core_nat_gateway" "test_nat_gateway" {
 	#Required
@@ -43,7 +43,7 @@ variable "nat_gateway_freeform_tags" { default = {"Department"= "Finance"} }
 variable "nat_gateway_state" { default = "AVAILABLE" }
 
 `
-	NatGatewayResourceDependencies = VcnPropertyVariables + VcnResourceConfig
+	NatGatewayResourceDependencies = VcnResourceConfig
 )
 
 func TestCoreNatGatewayResource_basic(t *testing.T) {

@@ -648,7 +648,9 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 		Steps: []resource.TestStep{
 			// create from source with options to copy
 			{
-				Config: config + ObjectPropertyVariables + singlePartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+				Config: config + `
+					variable "object_source" { default = "` + pathToSinglePartFile + `" }
+					` + compartmentIdVariableStr,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
@@ -665,10 +667,11 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// verify copy object copy of the source object
 			{
-				Config: config + ObjectPropertyVariables + `
+				Config: config + `
 					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
-					variable "object_object_copy" { default = "my-test-object-1-copy" }` +
-					singlePartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag + ObjectResourceConfigWithSource,
+					variable "object_object_copy" { default = "my-test-object-1-copy" }
+					variable "object_source" { default = "` + pathToSinglePartFile + `" }
+                	` + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", "my-test-1"),
@@ -689,7 +692,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// verify create content object with optionals
 			{
-				Config: config + ObjectPropertyVariables + compartmentIdVariableStr + ObjectResourceConfig,
+				Config: config + compartmentIdVariableStr,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
@@ -712,7 +715,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// verify copy content object in the same bucket with source etag
 			{
-				Config: config + ObjectPropertyVariables + compartmentIdVariableStr + ObjectResourceConfig + `
+				Config: config + compartmentIdVariableStr + `
 					variable "object_object_copy" { default = "my-test-object-1-copy" }
 					` + ObjectResourceConfigWithSourceURIFromContentObject,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -732,7 +735,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			// verify recreate copy content object in the same bucket - remove source etag
 			// metadata is updated
 			{
-				Config: config + ObjectPropertyVariables + compartmentIdVariableStr + ObjectResourceConfig + `
+				Config: config + compartmentIdVariableStr + `
 					variable "object_object_copy" { default = "my-test-object-1-copy" }
 					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
 					` + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
@@ -752,7 +755,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			//  replace content object by the copy of the content object copy in the same bucket
 			{
-				Config: config + ObjectPropertyVariables + compartmentIdVariableStr + `
+				Config: config + compartmentIdVariableStr + `
 					variable "object_object_copy" { default = "my-test-object-1-copy" }
 					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
 					
@@ -776,11 +779,13 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// recreate copy of copy of content object by singlepart with optionals
 			{
-				Config: config + ObjectPropertyVariables + `
+				Config: config + `
+					variable "object_source" { default = "` + pathToSinglePartFile + `" }
 					variable "object_object_copy" { default = "my-test-object-1-copy" }
 					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
-					` + singlePartFileVariable + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
-					compartmentIdVariableStr + ObjectResourceConfigWithSource,
+					
+					` + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
+					compartmentIdVariableStr,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
