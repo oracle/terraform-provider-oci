@@ -193,7 +193,7 @@ variable "cluster_options_add_ons_is_tiller_enabled" { default = true }
 variable "cluster_options_kubernetes_network_config_pods_cidr" { default = "10.1.0.0/16" }
 variable "cluster_options_kubernetes_network_config_services_cidr" { default = "10.2.0.0/16" }
 variable "cluster_options_service_lb_subnet_ids" { default = [] }
-variable "cluster_state" { default = ["CREATING", "ACTIVE", FAILED", "DELETING", "DELETED", "UPDATING"] }
+variable "cluster_state" { default = ["CREATING", "ACTIVE", "FAILED", "DELETING", "DELETED", "UPDATING"] }
 
 data "oci_containerengine_clusters" "test_clusters" {
 	#Required
