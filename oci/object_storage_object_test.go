@@ -7,6 +7,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"io/ioutil"
 	"regexp"
 	"testing"
 
@@ -316,11 +317,15 @@ func testAccCheckObjectStorageObjectDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := testAccProvider.Meta().(*OracleClients).objectStorageClient
 
-	if _, err := os.Stat(pathToSinglePartFile); err == nil {
-		os.Remove(pathToSinglePartFile)
+	if singlePartFile != nil {
+		if _, err := os.Stat(singlePartFile.Name()); err == nil {
+			os.Remove(singlePartFile.Name())
+		}
 	}
-	if _, err := os.Stat(pathToMultiPartFile); err == nil {
-		os.Remove(pathToMultiPartFile)
+	if multiPartFile != nil {
+		if _, err := os.Stat(multiPartFile.Name()); err == nil {
+			os.Remove(multiPartFile.Name())
+		}
 	}
 
 	for _, rs := range s.RootModule().Resources {
@@ -377,32 +382,39 @@ resource "oci_objectstorage_object" "test_object" {
 `
 
 	//the object size is less than default part value, single part upload
-	pathToSinglePartFile = "small.tmp"
+	singlePartFilePrefix = "small-"
 	singlePartFileSize   = 42e6
 	opcSingleMd5         = "iMBtc3kGpfXuMgOX9sVm0Q=="
 
 	//the object will be split on 3 parts
-	pathToMultiPartFile = "large.tmp"
+	multiPartFilePrefix = "large-"
 	multiPartFileSize   = 300e6
 	opcMultipartMd5     = "leCtKnqvcLbdMUeTbjnKnA==-3"
 )
 
-func createTmpFile(t *testing.T) {
-	tmpfile, err := os.Create(pathToSinglePartFile)
+var (
+	singlePartFile *os.File
+	multiPartFile  *os.File
+)
+
+func createTmpFiles() (string, string, error) {
+	singlePartFile, err := ioutil.TempFile(os.TempDir(), singlePartFilePrefix)
 	if err != nil {
-		t.Fatalf("Unable to create %s file to upload. Error: %q", pathToSinglePartFile, err)
+		return "", "", err
 	}
-	if err := tmpfile.Truncate(singlePartFileSize); err != nil {
-		t.Fatalf("unable to truncate %s file. Error: %q", pathToSinglePartFile, err)
+	if err := singlePartFile.Truncate(singlePartFileSize); err != nil {
+		return "", "", err
 	}
 
-	tmpfile, err = os.Create(pathToMultiPartFile)
+	multiPartFile, err = ioutil.TempFile(os.TempDir(), multiPartFilePrefix)
 	if err != nil {
-		t.Fatalf("Unable to create %s file to upload. Error: %q", pathToMultiPartFile, err)
+		return "", "", err
 	}
-	if err := tmpfile.Truncate(multiPartFileSize); err != nil {
-		t.Fatalf("Unable to truncate %s file. Error: %q", pathToMultiPartFile, err)
+	if err := multiPartFile.Truncate(multiPartFileSize); err != nil {
+		return "", "", err
 	}
+
+	return singlePartFile.Name(), multiPartFile.Name(), nil
 }
 
 func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
@@ -417,8 +429,15 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 
 	var resId, resId2 string
 
+	singlePartFilePath, multiPartFilePath, err := createTmpFiles()
+	if err != nil {
+		t.Fatalf("Unable to create files to upload. Error: %q", err)
+	}
+	singlePartFileVariable := fmt.Sprintf("variable \"object_source\" { default = \"%s\" }\n", singlePartFilePath)
+	multiPartFileVariable := fmt.Sprintf("variable \"object_source\" { default = \"%s\" }\n", multiPartFilePath)
+
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t); createTmpFile(t) },
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -452,9 +471,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify create singlepart with optionals
 			{
-				Config: config + ObjectPropertyVariables + `
-					variable "object_source" { default = "` + pathToSinglePartFile + `" }
-					` + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+				Config: config + ObjectPropertyVariables + singlePartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
@@ -481,9 +498,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + ObjectPropertyVariables + `
-					variable "object_source" { default = "` + pathToMultiPartFile + `" }
-					` + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+				Config: config + ObjectPropertyVariables + multiPartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
@@ -511,9 +526,8 @@ variable "object_content_language" { default = "en-CA" }
 variable "object_content_type" { default = "text/xml" }
 variable "object_metadata" { default = {"content-type" = "text/xml"} }
 variable "object_object" { default = "my-test-object-3" }
-variable "object_source" { default = "` + pathToMultiPartFile + `" }
 
-                ` + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+                ` + multiPartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
@@ -545,7 +559,6 @@ variable "object_content_language" { default = "en-CA" }
 variable "object_content_type" { default = "text/xml" }
 variable "object_metadata" { default = {"content-type" = "text/xml"} }
 variable "object_object" { default = "my-test-object-1" }
-variable "object_source" { default = "` + pathToMultiPartFile + `" }
 
 data "oci_objectstorage_objects" "test_objects" {
 	#Required
@@ -557,7 +570,7 @@ data "oci_objectstorage_objects" "test_objects" {
     	values = ["${oci_objectstorage_object.test_object.object}"]
     }
 }
-                ` + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+                ` + multiPartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -571,7 +584,6 @@ data "oci_objectstorage_objects" "test_objects" {
 variable "object_content_encoding" { default = "identity" }
 variable "object_content_language" { default = "en-CA" }
 variable "object_content_type" { default = "text/xml" }
-variable "object_source" { default = "` + pathToMultiPartFile + `" }
 variable "object_metadata" { default = {"content-type" = "text/xml"} }
 variable "object_object" { default = "my-test/object-1" }
 
@@ -588,7 +600,7 @@ data "oci_objectstorage_objects" "test_objects" {
     	values = ["${oci_objectstorage_object.test_object.object}"]
     }
 }
-                ` + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+                ` + multiPartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -689,14 +701,17 @@ resource "oci_objectstorage_object" "test_object_copy" {
 `
 )
 
-func createTmpObjectInOtherRegion(t *testing.T) {
-	tmpfile, err := os.Create(pathToSinglePartFile)
+func createTmpObjectInOtherRegion() (string, error) {
+	// now running tests in one region
+	singlePartFile, err := ioutil.TempFile(os.TempDir(), singlePartFilePrefix)
 	if err != nil {
-		t.Fatalf("Unable to create %s file to upload. Error: %q", pathToSinglePartFile, err)
+		return "", err
 	}
-	if err := tmpfile.Truncate(singlePartFileSize); err != nil {
-		t.Fatalf("unable to truncate %s file. Error: %q", pathToSinglePartFile, err)
+	if err := singlePartFile.Truncate(singlePartFileSize); err != nil {
+		return "", err
 	}
+
+	return singlePartFile.Name(), nil
 }
 
 func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
@@ -706,6 +721,12 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	singlePartFilePath, err := createTmpObjectInOtherRegion()
+	if err != nil {
+		t.Fatalf("Unable to create file to upload. Error: %q", err)
+	}
+	singlePartFileVariable := fmt.Sprintf("variable \"object_source\" { default = \"%s\" }\n", singlePartFilePath)
+
 	resourceName := "oci_objectstorage_object.test_object"
 	resourceNameCopy := "oci_objectstorage_object.test_object_copy"
 
@@ -714,7 +735,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 	md5sum := hex.EncodeToString(hexSum[:])
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t); createTmpObjectInOtherRegion(t) },
+		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -722,9 +743,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 		Steps: []resource.TestStep{
 			// create from source with options to copy
 			{
-				Config: config + ObjectPropertyVariables + `
-					variable "object_source" { default = "` + pathToSinglePartFile + `" }
-					` + compartmentIdVariableStr + ObjectResourceConfigWithSource,
+				Config: config + ObjectPropertyVariables + singlePartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
@@ -743,9 +762,8 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			{
 				Config: config + ObjectPropertyVariables + `
 					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
-					variable "object_object_copy" { default = "my-test-object-1-copy" }
-					variable "object_source" { default = "` + pathToSinglePartFile + `" }
-                	` + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag + ObjectResourceConfigWithSource,
+					variable "object_object_copy" { default = "my-test-object-1-copy" }` +
+					singlePartFileVariable + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag + ObjectResourceConfigWithSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", "my-test-1"),
@@ -854,11 +872,9 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			// recreate copy of copy of content object by singlepart with optionals
 			{
 				Config: config + ObjectPropertyVariables + `
-					variable "object_source" { default = "` + pathToSinglePartFile + `" }
 					variable "object_object_copy" { default = "my-test-object-1-copy" }
 					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
-					
-					` + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
+					` + singlePartFileVariable + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
 					compartmentIdVariableStr + ObjectResourceConfigWithSource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
