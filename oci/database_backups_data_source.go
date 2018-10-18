@@ -104,16 +104,15 @@ func (s *BackupsDataSourceCrud) SetData() error {
 			backup["compartment_id"] = *r.CompartmentId
 		}
 
-		if r.DatabaseEdition != nil {
-			backup["database_edition"] = *r.DatabaseEdition
-		}
+		backup["database_edition"] = r.DatabaseEdition
 
 		if r.DatabaseId != nil {
 			backup["database_id"] = *r.DatabaseId
 		}
 
-		if r.DbDataSizeInMBs != nil {
-			backup["db_data_size_in_mbs"] = *r.DbDataSizeInMBs
+		if r.DatabaseSizeInGBs != nil {
+			backup["database_size_in_gbs"] = *r.DatabaseSizeInGBs
+			backup["db_data_size_in_mbs"] = (*r.DatabaseSizeInGBs) * 1024
 		}
 
 		if r.DisplayName != nil {
