@@ -110,11 +110,11 @@ func validateSourceValue(i interface{}, k string) (s []string, es []error) {
 	}
 	info, err := os.Stat(v)
 	if err != nil {
-		es = append(es, fmt.Errorf("cannot get file information for the specified source: %s", k))
+		es = append(es, fmt.Errorf("cannot get file information for the specified source: %s", v))
 		return
 	}
 	if info.Size() > maxCount*maxPartSize {
-		es = append(es, fmt.Errorf("the specified source: %s file is too large", k))
+		es = append(es, fmt.Errorf("the specified source: %s file is too large", v))
 	}
 	return
 }
