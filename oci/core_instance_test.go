@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -385,4 +388,75 @@ func testAccCheckCoreInstanceDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initCoreInstanceSweeper() {
+	resource.AddTestSweepers("CoreInstance", &resource.Sweeper{
+		Name:         "CoreInstance",
+		Dependencies: DependencyGraph["instance"],
+		F:            sweepCoreInstanceResource,
+	})
+}
+
+func sweepCoreInstanceResource(compartment string) error {
+	compartmentId := compartment
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+
+	listInstancesRequest := oci_core.ListInstancesRequest{}
+	listInstancesRequest.CompartmentId = &compartmentId
+	listInstancesRequest.LifecycleState = oci_core.InstanceLifecycleStateRunning
+	listInstancesResponse, err := computeClient.ListInstances(context.Background(), listInstancesRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting Instance list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, instance := range listInstancesResponse.Items {
+		if instance.LifecycleState != oci_core.InstanceLifecycleStateTerminated {
+			log.Printf("deleting instance %s ", *instance.Id)
+
+			terminateInstanceRequest := oci_core.TerminateInstanceRequest{}
+
+			terminateInstanceRequest.InstanceId = instance.Id
+
+			terminateInstanceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeClient.TerminateInstance(context.Background(), terminateInstanceRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Instance %s %s, It is possible that the resource is already deleted. Please verify manually \n", *instance.Id, error)
+				continue
+			}
+
+			getInstanceRequest := oci_core.GetInstanceRequest{}
+
+			getInstanceRequest.InstanceId = instance.Id
+
+			_, error = computeClient.GetInstance(context.Background(), getInstanceRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving Instance state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, instance.Id, instanceSweepWaitCondition, time.Duration(3*time.Minute),
+				instanceSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func instanceSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if instanceResponse, ok := response.Response.(oci_core.GetInstanceResponse); ok {
+		return instanceResponse.LifecycleState == oci_core.InstanceLifecycleStateTerminated
+	}
+	return false
+}
+
+func instanceSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.computeClient.GetInstance(context.Background(), oci_core.GetInstanceRequest{
+		InstanceId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

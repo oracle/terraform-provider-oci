@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
@@ -194,4 +197,75 @@ func testAccCheckFileStorageFileSystemDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initFileStorageFileSystemSweeper() {
+	resource.AddTestSweepers("FileStorageFileSystem", &resource.Sweeper{
+		Name:         "FileStorageFileSystem",
+		Dependencies: DependencyGraph["fileSystem"],
+		F:            sweepFileStorageFileSystemResource,
+	})
+}
+
+func sweepFileStorageFileSystemResource(compartment string) error {
+	compartmentId := compartment
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+
+	listFileSystemsRequest := oci_file_storage.ListFileSystemsRequest{}
+	listFileSystemsRequest.CompartmentId = &compartmentId
+	listFileSystemsRequest.LifecycleState = oci_file_storage.ListFileSystemsLifecycleStateActive
+	listFileSystemsResponse, err := fileStorageClient.ListFileSystems(context.Background(), listFileSystemsRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting FileSystem list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, fileSystem := range listFileSystemsResponse.Items {
+		if fileSystem.LifecycleState != oci_file_storage.FileSystemSummaryLifecycleStateDeleted {
+			log.Printf("deleting fileSystem %s ", *fileSystem.Id)
+
+			deleteFileSystemRequest := oci_file_storage.DeleteFileSystemRequest{}
+
+			deleteFileSystemRequest.FileSystemId = fileSystem.Id
+
+			deleteFileSystemRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			_, error := fileStorageClient.DeleteFileSystem(context.Background(), deleteFileSystemRequest)
+			if error != nil {
+				fmt.Printf("Error deleting FileSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", *fileSystem.Id, error)
+				continue
+			}
+
+			getFileSystemRequest := oci_file_storage.GetFileSystemRequest{}
+
+			getFileSystemRequest.FileSystemId = fileSystem.Id
+
+			_, error = fileStorageClient.GetFileSystem(context.Background(), getFileSystemRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving FileSystem state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, fileSystem.Id, fileSystemSweepWaitCondition, time.Duration(3*time.Minute),
+				fileSystemSweepResponseFetchOperation, "file_storage", true)
+		}
+	}
+	return nil
+}
+
+func fileSystemSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if fileSystemResponse, ok := response.Response.(oci_file_storage.GetFileSystemResponse); ok {
+		return fileSystemResponse.LifecycleState == oci_file_storage.FileSystemLifecycleStateDeleted
+	}
+	return false
+}
+
+func fileSystemSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.fileStorageClient.GetFileSystem(context.Background(), oci_file_storage.GetFileSystemRequest{
+		FileSystemId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

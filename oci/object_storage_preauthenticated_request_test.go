@@ -181,3 +181,15 @@ func testAccCheckObjectStoragePreauthenticatedRequestDestroy(s *terraform.State)
 
 	return nil
 }
+
+func initObjectStoragePreauthenticatedRequestSweeper() {
+	resource.AddTestSweepers("ObjectStoragePreauthenticatedRequest", &resource.Sweeper{
+		Name:         "ObjectStoragePreauthenticatedRequest",
+		Dependencies: DependencyGraph["preauthenticatedRequest"],
+		F:            sweepObjectStoragePreauthenticatedRequestResource,
+	})
+}
+
+func sweepObjectStoragePreauthenticatedRequestResource(compartment string) error {
+	return nil
+}

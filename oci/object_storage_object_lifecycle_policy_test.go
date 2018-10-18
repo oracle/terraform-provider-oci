@@ -333,3 +333,15 @@ func testAccCheckObjectStorageObjectLifecyclePolicyDestroy(s *terraform.State) e
 
 	return nil
 }
+
+func initObjectStorageObjectLifecyclePolicySweeper() {
+	resource.AddTestSweepers("ObjectStorageObjectLifecyclePolicy", &resource.Sweeper{
+		Name:         "ObjectStorageObjectLifecyclePolicy",
+		Dependencies: DependencyGraph["objectLifecyclePolicy"],
+		F:            sweepObjectStorageObjectLifecyclePolicyResource,
+	})
+}
+
+func sweepObjectStorageObjectLifecyclePolicyResource(compartment string) error {
+	return nil
+}

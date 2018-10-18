@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -167,4 +170,73 @@ func testAccCheckCoreVolumeAttachmentDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initCoreVolumeAttachmentSweeper() {
+	resource.AddTestSweepers("CoreVolumeAttachment", &resource.Sweeper{
+		Name:         "CoreVolumeAttachment",
+		Dependencies: DependencyGraph["volumeAttachment"],
+		F:            sweepCoreVolumeAttachmentResource,
+	})
+}
+
+func sweepCoreVolumeAttachmentResource(compartment string) error {
+	compartmentId := compartment
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+
+	listVolumeAttachmentsRequest := oci_core.ListVolumeAttachmentsRequest{}
+	listVolumeAttachmentsRequest.CompartmentId = &compartmentId
+	listVolumeAttachmentsResponse, err := computeClient.ListVolumeAttachments(context.Background(), listVolumeAttachmentsRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting VolumeAttachment list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, volumeAttachment := range listVolumeAttachmentsResponse.Items {
+		log.Printf("deleting volumeAttachment %s ", *volumeAttachment.GetId())
+
+		detachVolumeRequest := oci_core.DetachVolumeRequest{}
+
+		detachVolumeRequest.VolumeAttachmentId = volumeAttachment.GetId()
+
+		detachVolumeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+		_, error := computeClient.DetachVolume(context.Background(), detachVolumeRequest)
+		if error != nil {
+			fmt.Printf("Error deleting VolumeAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", *volumeAttachment.GetId(), error)
+			continue
+		}
+
+		getVolumeAttachmentRequest := oci_core.GetVolumeAttachmentRequest{}
+
+		getVolumeAttachmentRequest.VolumeAttachmentId = volumeAttachment.GetId()
+
+		_, error = computeClient.GetVolumeAttachment(context.Background(), getVolumeAttachmentRequest)
+		if error != nil {
+			fmt.Printf("Error retrieving VolumeAttachment state %s \n", error)
+			continue
+		}
+
+		waitTillCondition(testAccProvider, volumeAttachment.GetId(), volumeAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+			volumeAttachmentSweepResponseFetchOperation, "core", true)
+
+	}
+	return nil
+}
+
+func volumeAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if volumeAttachmentResponse, ok := response.Response.(oci_core.GetVolumeAttachmentResponse); ok {
+		return volumeAttachmentResponse.GetLifecycleState() == oci_core.VolumeAttachmentLifecycleStateDetached
+	}
+	return false
+}
+
+func volumeAttachmentSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.computeClient.GetVolumeAttachment(context.Background(), oci_core.GetVolumeAttachmentRequest{
+		VolumeAttachmentId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

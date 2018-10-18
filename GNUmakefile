@@ -17,6 +17,10 @@ build: fmtcheck
 ### TODO: Fix this so that only unit tests are running
 test: fmtcheck
 
+sweep: fmtcheck
+	@echo "WARNING: This will destroy infrastructure. Use only in development accounts."
+	TF_ACC=1 $(prefix) go test $(TEST) -v -run TestMain -sweep=$(sweep) -sweep-run=$(sweep-run) -timeout $(timeout)
+
 testacc: fmtcheck
 	TF_ACC=1 $(prefix) go test $(TEST) -v $(TESTARGS) $(run_regex) -timeout $(timeout)
 

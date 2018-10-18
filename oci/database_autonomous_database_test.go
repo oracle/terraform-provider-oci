@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -249,4 +252,75 @@ func testAccCheckDatabaseAutonomousDatabaseDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initDatabaseAutonomousDatabaseSweeper() {
+	resource.AddTestSweepers("DatabaseAutonomousDatabase", &resource.Sweeper{
+		Name:         "DatabaseAutonomousDatabase",
+		Dependencies: DependencyGraph["autonomousDatabase"],
+		F:            sweepDatabaseAutonomousDatabaseResource,
+	})
+}
+
+func sweepDatabaseAutonomousDatabaseResource(compartment string) error {
+	compartmentId := compartment
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+
+	listAutonomousDatabasesRequest := oci_database.ListAutonomousDatabasesRequest{}
+	listAutonomousDatabasesRequest.CompartmentId = &compartmentId
+	listAutonomousDatabasesRequest.LifecycleState = oci_database.AutonomousDatabaseSummaryLifecycleStateAvailable
+	listAutonomousDatabasesResponse, err := databaseClient.ListAutonomousDatabases(context.Background(), listAutonomousDatabasesRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting AutonomousDatabase list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, autonomousDatabase := range listAutonomousDatabasesResponse.Items {
+		if autonomousDatabase.LifecycleState != oci_database.AutonomousDatabaseSummaryLifecycleStateTerminated {
+			log.Printf("deleting autonomousDatabase %s ", *autonomousDatabase.Id)
+
+			deleteAutonomousDatabaseRequest := oci_database.DeleteAutonomousDatabaseRequest{}
+
+			deleteAutonomousDatabaseRequest.AutonomousDatabaseId = autonomousDatabase.Id
+
+			deleteAutonomousDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			_, error := databaseClient.DeleteAutonomousDatabase(context.Background(), deleteAutonomousDatabaseRequest)
+			if error != nil {
+				fmt.Printf("Error deleting AutonomousDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", *autonomousDatabase.Id, error)
+				continue
+			}
+
+			getAutonomousDatabaseRequest := oci_database.GetAutonomousDatabaseRequest{}
+
+			getAutonomousDatabaseRequest.AutonomousDatabaseId = autonomousDatabase.Id
+
+			_, error = databaseClient.GetAutonomousDatabase(context.Background(), getAutonomousDatabaseRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving AutonomousDatabase state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, autonomousDatabase.Id, autonomousDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+				autonomousDatabaseSweepResponseFetchOperation, "database", true)
+		}
+	}
+	return nil
+}
+
+func autonomousDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if autonomousDatabaseResponse, ok := response.Response.(oci_database.GetAutonomousDatabaseResponse); ok {
+		return autonomousDatabaseResponse.LifecycleState == oci_database.AutonomousDatabaseLifecycleStateTerminated
+	}
+	return false
+}
+
+func autonomousDatabaseSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.databaseClient.GetAutonomousDatabase(context.Background(), oci_database.GetAutonomousDatabaseRequest{
+		AutonomousDatabaseId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

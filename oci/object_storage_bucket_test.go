@@ -274,3 +274,15 @@ func testAccCheckObjectStorageBucketDestroy(s *terraform.State) error {
 
 	return nil
 }
+
+func initObjectStorageBucketSweeper() {
+	resource.AddTestSweepers("ObjectStorageBucket", &resource.Sweeper{
+		Name:         "ObjectStorageBucket",
+		Dependencies: DependencyGraph["bucket"],
+		F:            sweepObjectStorageBucketResource,
+	})
+}
+
+func sweepObjectStorageBucketResource(compartment string) error {
+	return nil
+}

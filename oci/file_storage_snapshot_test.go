@@ -185,3 +185,15 @@ func testAccCheckFileStorageSnapshotDestroy(s *terraform.State) error {
 
 	return nil
 }
+
+func initFileStorageSnapshotSweeper() {
+	resource.AddTestSweepers("FileStorageSnapshot", &resource.Sweeper{
+		Name:         "FileStorageSnapshot",
+		Dependencies: DependencyGraph["snapshot"],
+		F:            sweepFileStorageSnapshotResource,
+	})
+}
+
+func sweepFileStorageSnapshotResource(compartment string) error {
+	return nil
+}

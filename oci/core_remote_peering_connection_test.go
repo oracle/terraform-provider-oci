@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -186,4 +189,74 @@ func testAccCheckCoreRemotePeeringConnectionDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initCoreRemotePeeringConnectionSweeper() {
+	resource.AddTestSweepers("CoreRemotePeeringConnection", &resource.Sweeper{
+		Name:         "CoreRemotePeeringConnection",
+		Dependencies: DependencyGraph["remotePeeringConnection"],
+		F:            sweepCoreRemotePeeringConnectionResource,
+	})
+}
+
+func sweepCoreRemotePeeringConnectionResource(compartment string) error {
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listRemotePeeringConnectionsRequest := oci_core.ListRemotePeeringConnectionsRequest{}
+	listRemotePeeringConnectionsRequest.CompartmentId = &compartmentId
+	listRemotePeeringConnectionsResponse, err := virtualNetworkClient.ListRemotePeeringConnections(context.Background(), listRemotePeeringConnectionsRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting RemotePeeringConnection list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, remotePeeringConnection := range listRemotePeeringConnectionsResponse.Items {
+		if remotePeeringConnection.LifecycleState != oci_core.RemotePeeringConnectionLifecycleStateTerminated {
+			log.Printf("deleting remotePeeringConnection %s ", *remotePeeringConnection.Id)
+
+			deleteRemotePeeringConnectionRequest := oci_core.DeleteRemotePeeringConnectionRequest{}
+
+			deleteRemotePeeringConnectionRequest.RemotePeeringConnectionId = remotePeeringConnection.Id
+
+			deleteRemotePeeringConnectionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteRemotePeeringConnection(context.Background(), deleteRemotePeeringConnectionRequest)
+			if error != nil {
+				fmt.Printf("Error deleting RemotePeeringConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", *remotePeeringConnection.Id, error)
+				continue
+			}
+
+			getRemotePeeringConnectionRequest := oci_core.GetRemotePeeringConnectionRequest{}
+
+			getRemotePeeringConnectionRequest.RemotePeeringConnectionId = remotePeeringConnection.Id
+
+			_, error = virtualNetworkClient.GetRemotePeeringConnection(context.Background(), getRemotePeeringConnectionRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving RemotePeeringConnection state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, remotePeeringConnection.Id, remotePeeringConnectionSweepWaitCondition, time.Duration(3*time.Minute),
+				remotePeeringConnectionSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func remotePeeringConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if remotePeeringConnectionResponse, ok := response.Response.(oci_core.GetRemotePeeringConnectionResponse); ok {
+		return remotePeeringConnectionResponse.LifecycleState == oci_core.RemotePeeringConnectionLifecycleStateTerminated
+	}
+	return false
+}
+
+func remotePeeringConnectionSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetRemotePeeringConnection(context.Background(), oci_core.GetRemotePeeringConnectionRequest{
+		RemotePeeringConnectionId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

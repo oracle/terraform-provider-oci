@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
@@ -206,4 +209,75 @@ func testAccCheckFileStorageExportDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initFileStorageExportSweeper() {
+	resource.AddTestSweepers("FileStorageExport", &resource.Sweeper{
+		Name:         "FileStorageExport",
+		Dependencies: DependencyGraph["export"],
+		F:            sweepFileStorageExportResource,
+	})
+}
+
+func sweepFileStorageExportResource(compartment string) error {
+	compartmentId := compartment
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+
+	listExportsRequest := oci_file_storage.ListExportsRequest{}
+	listExportsRequest.CompartmentId = &compartmentId
+	listExportsRequest.LifecycleState = oci_file_storage.ListExportsLifecycleStateActive
+	listExportsResponse, err := fileStorageClient.ListExports(context.Background(), listExportsRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting Export list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, export := range listExportsResponse.Items {
+		if export.LifecycleState != oci_file_storage.ExportSummaryLifecycleStateDeleted {
+			log.Printf("deleting export %s ", *export.Id)
+
+			deleteExportRequest := oci_file_storage.DeleteExportRequest{}
+
+			deleteExportRequest.ExportId = export.Id
+
+			deleteExportRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			_, error := fileStorageClient.DeleteExport(context.Background(), deleteExportRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Export %s %s, It is possible that the resource is already deleted. Please verify manually \n", *export.Id, error)
+				continue
+			}
+
+			getExportRequest := oci_file_storage.GetExportRequest{}
+
+			getExportRequest.ExportId = export.Id
+
+			_, error = fileStorageClient.GetExport(context.Background(), getExportRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving Export state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, export.Id, exportSweepWaitCondition, time.Duration(3*time.Minute),
+				exportSweepResponseFetchOperation, "file_storage", true)
+		}
+	}
+	return nil
+}
+
+func exportSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if exportResponse, ok := response.Response.(oci_file_storage.GetExportResponse); ok {
+		return exportResponse.LifecycleState == oci_file_storage.ExportLifecycleStateDeleted
+	}
+	return false
+}
+
+func exportSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.fileStorageClient.GetExport(context.Background(), oci_file_storage.GetExportRequest{
+		ExportId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

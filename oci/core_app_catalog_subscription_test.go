@@ -155,3 +155,15 @@ func testAccCheckCoreAppCatalogSubscriptionDestroy(s *terraform.State) error {
 
 	return nil
 }
+
+func initCoreAppCatalogSubscriptionSweeper() {
+	resource.AddTestSweepers("CoreAppCatalogSubscription", &resource.Sweeper{
+		Name:         "CoreAppCatalogSubscription",
+		Dependencies: DependencyGraph["appCatalogSubscription"],
+		F:            sweepCoreAppCatalogSubscriptionResource,
+	})
+}
+
+func sweepCoreAppCatalogSubscriptionResource(compartment string) error {
+	return nil
+}

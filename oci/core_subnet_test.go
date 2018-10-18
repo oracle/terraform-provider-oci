@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -267,4 +270,75 @@ func testAccCheckCoreSubnetDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initCoreSubnetSweeper() {
+	resource.AddTestSweepers("CoreSubnet", &resource.Sweeper{
+		Name:         "CoreSubnet",
+		Dependencies: DependencyGraph["subnet"],
+		F:            sweepCoreSubnetResource,
+	})
+}
+
+func sweepCoreSubnetResource(compartment string) error {
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listSubnetsRequest := oci_core.ListSubnetsRequest{}
+	listSubnetsRequest.CompartmentId = &compartmentId
+	listSubnetsRequest.LifecycleState = oci_core.SubnetLifecycleStateAvailable
+	listSubnetsResponse, err := virtualNetworkClient.ListSubnets(context.Background(), listSubnetsRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting Subnet list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, subnet := range listSubnetsResponse.Items {
+		if subnet.LifecycleState != oci_core.SubnetLifecycleStateTerminated {
+			log.Printf("deleting subnet %s ", *subnet.Id)
+
+			deleteSubnetRequest := oci_core.DeleteSubnetRequest{}
+
+			deleteSubnetRequest.SubnetId = subnet.Id
+
+			deleteSubnetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteSubnet(context.Background(), deleteSubnetRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Subnet %s %s, It is possible that the resource is already deleted. Please verify manually \n", *subnet.Id, error)
+				continue
+			}
+
+			getSubnetRequest := oci_core.GetSubnetRequest{}
+
+			getSubnetRequest.SubnetId = subnet.Id
+
+			_, error = virtualNetworkClient.GetSubnet(context.Background(), getSubnetRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving Subnet state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, subnet.Id, subnetSweepWaitCondition, time.Duration(3*time.Minute),
+				subnetSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func subnetSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if subnetResponse, ok := response.Response.(oci_core.GetSubnetResponse); ok {
+		return subnetResponse.LifecycleState == oci_core.SubnetLifecycleStateTerminated
+	}
+	return false
+}
+
+func subnetSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetSubnet(context.Background(), oci_core.GetSubnetRequest{
+		SubnetId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }
