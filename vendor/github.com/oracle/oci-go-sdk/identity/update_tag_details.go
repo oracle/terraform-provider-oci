@@ -31,6 +31,9 @@ type UpdateTagDetails struct {
 	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Indicates whether the tag is enabled for cost tracking.
+	IsCostTracking *bool `mandatory:"false" json:"isCostTracking"`
 }
 
 func (m UpdateTagDetails) String() string {

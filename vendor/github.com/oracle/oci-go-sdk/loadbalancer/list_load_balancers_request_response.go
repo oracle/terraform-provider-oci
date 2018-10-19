@@ -95,7 +95,7 @@ func (response ListLoadBalancersResponse) HTTPResponse() *http.Response {
 // ListLoadBalancersSortByEnum Enum with underlying type: string
 type ListLoadBalancersSortByEnum string
 
-// Set of constants representing the allowable values for ListLoadBalancersSortBy
+// Set of constants representing the allowable values for ListLoadBalancersSortByEnum
 const (
 	ListLoadBalancersSortByTimecreated ListLoadBalancersSortByEnum = "TIMECREATED"
 	ListLoadBalancersSortByDisplayname ListLoadBalancersSortByEnum = "DISPLAYNAME"
@@ -106,7 +106,7 @@ var mappingListLoadBalancersSortBy = map[string]ListLoadBalancersSortByEnum{
 	"DISPLAYNAME": ListLoadBalancersSortByDisplayname,
 }
 
-// GetListLoadBalancersSortByEnumValues Enumerates the set of values for ListLoadBalancersSortBy
+// GetListLoadBalancersSortByEnumValues Enumerates the set of values for ListLoadBalancersSortByEnum
 func GetListLoadBalancersSortByEnumValues() []ListLoadBalancersSortByEnum {
 	values := make([]ListLoadBalancersSortByEnum, 0)
 	for _, v := range mappingListLoadBalancersSortBy {
@@ -118,7 +118,7 @@ func GetListLoadBalancersSortByEnumValues() []ListLoadBalancersSortByEnum {
 // ListLoadBalancersSortOrderEnum Enum with underlying type: string
 type ListLoadBalancersSortOrderEnum string
 
-// Set of constants representing the allowable values for ListLoadBalancersSortOrder
+// Set of constants representing the allowable values for ListLoadBalancersSortOrderEnum
 const (
 	ListLoadBalancersSortOrderAsc  ListLoadBalancersSortOrderEnum = "ASC"
 	ListLoadBalancersSortOrderDesc ListLoadBalancersSortOrderEnum = "DESC"
@@ -129,7 +129,7 @@ var mappingListLoadBalancersSortOrder = map[string]ListLoadBalancersSortOrderEnu
 	"DESC": ListLoadBalancersSortOrderDesc,
 }
 
-// GetListLoadBalancersSortOrderEnumValues Enumerates the set of values for ListLoadBalancersSortOrder
+// GetListLoadBalancersSortOrderEnumValues Enumerates the set of values for ListLoadBalancersSortOrderEnum
 func GetListLoadBalancersSortOrderEnumValues() []ListLoadBalancersSortOrderEnum {
 	values := make([]ListLoadBalancersSortOrderEnum, 0)
 	for _, v := range mappingListLoadBalancersSortOrder {

@@ -23,6 +23,18 @@ type ListDbHomesRequest struct {
 	// The pagination token to continue listing from.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// The field to sort by.  You can provide one sort order (`sortOrder`).  Default order for TIMECREATED is descending.  Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case sensitive.
+	SortBy ListDbHomesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
+
+	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+	SortOrder ListDbHomesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// A filter to return only resources that match the given lifecycle state exactly.
+	LifecycleState DbHomeSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
+	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
+	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -73,4 +85,50 @@ func (response ListDbHomesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListDbHomesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListDbHomesSortByEnum Enum with underlying type: string
+type ListDbHomesSortByEnum string
+
+// Set of constants representing the allowable values for ListDbHomesSortByEnum
+const (
+	ListDbHomesSortByTimecreated ListDbHomesSortByEnum = "TIMECREATED"
+	ListDbHomesSortByDisplayname ListDbHomesSortByEnum = "DISPLAYNAME"
+)
+
+var mappingListDbHomesSortBy = map[string]ListDbHomesSortByEnum{
+	"TIMECREATED": ListDbHomesSortByTimecreated,
+	"DISPLAYNAME": ListDbHomesSortByDisplayname,
+}
+
+// GetListDbHomesSortByEnumValues Enumerates the set of values for ListDbHomesSortByEnum
+func GetListDbHomesSortByEnumValues() []ListDbHomesSortByEnum {
+	values := make([]ListDbHomesSortByEnum, 0)
+	for _, v := range mappingListDbHomesSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListDbHomesSortOrderEnum Enum with underlying type: string
+type ListDbHomesSortOrderEnum string
+
+// Set of constants representing the allowable values for ListDbHomesSortOrderEnum
+const (
+	ListDbHomesSortOrderAsc  ListDbHomesSortOrderEnum = "ASC"
+	ListDbHomesSortOrderDesc ListDbHomesSortOrderEnum = "DESC"
+)
+
+var mappingListDbHomesSortOrder = map[string]ListDbHomesSortOrderEnum{
+	"ASC":  ListDbHomesSortOrderAsc,
+	"DESC": ListDbHomesSortOrderDesc,
+}
+
+// GetListDbHomesSortOrderEnumValues Enumerates the set of values for ListDbHomesSortOrderEnum
+func GetListDbHomesSortOrderEnumValues() []ListDbHomesSortOrderEnum {
+	values := make([]ListDbHomesSortOrderEnum, 0)
+	for _, v := range mappingListDbHomesSortOrder {
+		values = append(values, v)
+	}
+	return values
 }

@@ -85,7 +85,7 @@ func (response ListKeysResponse) HTTPResponse() *http.Response {
 // ListKeysSortByEnum Enum with underlying type: string
 type ListKeysSortByEnum string
 
-// Set of constants representing the allowable values for ListKeysSortBy
+// Set of constants representing the allowable values for ListKeysSortByEnum
 const (
 	ListKeysSortByTimecreated ListKeysSortByEnum = "TIMECREATED"
 	ListKeysSortByDisplayname ListKeysSortByEnum = "DISPLAYNAME"
@@ -96,7 +96,7 @@ var mappingListKeysSortBy = map[string]ListKeysSortByEnum{
 	"DISPLAYNAME": ListKeysSortByDisplayname,
 }
 
-// GetListKeysSortByEnumValues Enumerates the set of values for ListKeysSortBy
+// GetListKeysSortByEnumValues Enumerates the set of values for ListKeysSortByEnum
 func GetListKeysSortByEnumValues() []ListKeysSortByEnum {
 	values := make([]ListKeysSortByEnum, 0)
 	for _, v := range mappingListKeysSortBy {
@@ -108,7 +108,7 @@ func GetListKeysSortByEnumValues() []ListKeysSortByEnum {
 // ListKeysSortOrderEnum Enum with underlying type: string
 type ListKeysSortOrderEnum string
 
-// Set of constants representing the allowable values for ListKeysSortOrder
+// Set of constants representing the allowable values for ListKeysSortOrderEnum
 const (
 	ListKeysSortOrderAsc  ListKeysSortOrderEnum = "ASC"
 	ListKeysSortOrderDesc ListKeysSortOrderEnum = "DESC"
@@ -119,7 +119,7 @@ var mappingListKeysSortOrder = map[string]ListKeysSortOrderEnum{
 	"DESC": ListKeysSortOrderDesc,
 }
 
-// GetListKeysSortOrderEnumValues Enumerates the set of values for ListKeysSortOrder
+// GetListKeysSortOrderEnumValues Enumerates the set of values for ListKeysSortOrderEnum
 func GetListKeysSortOrderEnumValues() []ListKeysSortOrderEnum {
 	values := make([]ListKeysSortOrderEnum, 0)
 	for _, v := range mappingListKeysSortOrder {

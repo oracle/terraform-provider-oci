@@ -98,7 +98,7 @@ func (response ListServiceGatewaysResponse) HTTPResponse() *http.Response {
 // ListServiceGatewaysSortByEnum Enum with underlying type: string
 type ListServiceGatewaysSortByEnum string
 
-// Set of constants representing the allowable values for ListServiceGatewaysSortBy
+// Set of constants representing the allowable values for ListServiceGatewaysSortByEnum
 const (
 	ListServiceGatewaysSortByTimecreated ListServiceGatewaysSortByEnum = "TIMECREATED"
 	ListServiceGatewaysSortByDisplayname ListServiceGatewaysSortByEnum = "DISPLAYNAME"
@@ -109,7 +109,7 @@ var mappingListServiceGatewaysSortBy = map[string]ListServiceGatewaysSortByEnum{
 	"DISPLAYNAME": ListServiceGatewaysSortByDisplayname,
 }
 
-// GetListServiceGatewaysSortByEnumValues Enumerates the set of values for ListServiceGatewaysSortBy
+// GetListServiceGatewaysSortByEnumValues Enumerates the set of values for ListServiceGatewaysSortByEnum
 func GetListServiceGatewaysSortByEnumValues() []ListServiceGatewaysSortByEnum {
 	values := make([]ListServiceGatewaysSortByEnum, 0)
 	for _, v := range mappingListServiceGatewaysSortBy {
@@ -121,7 +121,7 @@ func GetListServiceGatewaysSortByEnumValues() []ListServiceGatewaysSortByEnum {
 // ListServiceGatewaysSortOrderEnum Enum with underlying type: string
 type ListServiceGatewaysSortOrderEnum string
 
-// Set of constants representing the allowable values for ListServiceGatewaysSortOrder
+// Set of constants representing the allowable values for ListServiceGatewaysSortOrderEnum
 const (
 	ListServiceGatewaysSortOrderAsc  ListServiceGatewaysSortOrderEnum = "ASC"
 	ListServiceGatewaysSortOrderDesc ListServiceGatewaysSortOrderEnum = "DESC"
@@ -132,7 +132,7 @@ var mappingListServiceGatewaysSortOrder = map[string]ListServiceGatewaysSortOrde
 	"DESC": ListServiceGatewaysSortOrderDesc,
 }
 
-// GetListServiceGatewaysSortOrderEnumValues Enumerates the set of values for ListServiceGatewaysSortOrder
+// GetListServiceGatewaysSortOrderEnumValues Enumerates the set of values for ListServiceGatewaysSortOrderEnum
 func GetListServiceGatewaysSortOrderEnumValues() []ListServiceGatewaysSortOrderEnum {
 	values := make([]ListServiceGatewaysSortOrderEnum, 0)
 	for _, v := range mappingListServiceGatewaysSortOrder {

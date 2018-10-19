@@ -26,7 +26,6 @@ func LetterOfAuthorityDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			// @CODEGEN 07/2018: Remove duplicated fields in computed that are also required
 			"facility_location": {
 				Type:     schema.TypeString,
 				Computed: true,

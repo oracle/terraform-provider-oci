@@ -36,7 +36,7 @@ func (m QueryableFieldDescription) String() string {
 // QueryableFieldDescriptionFieldTypeEnum Enum with underlying type: string
 type QueryableFieldDescriptionFieldTypeEnum string
 
-// Set of constants representing the allowable values for QueryableFieldDescriptionFieldType
+// Set of constants representing the allowable values for QueryableFieldDescriptionFieldTypeEnum
 const (
 	QueryableFieldDescriptionFieldTypeIdentifier QueryableFieldDescriptionFieldTypeEnum = "IDENTIFIER"
 	QueryableFieldDescriptionFieldTypeString     QueryableFieldDescriptionFieldTypeEnum = "STRING"
@@ -59,7 +59,7 @@ var mappingQueryableFieldDescriptionFieldType = map[string]QueryableFieldDescrip
 	"OBJECT":     QueryableFieldDescriptionFieldTypeObject,
 }
 
-// GetQueryableFieldDescriptionFieldTypeEnumValues Enumerates the set of values for QueryableFieldDescriptionFieldType
+// GetQueryableFieldDescriptionFieldTypeEnumValues Enumerates the set of values for QueryableFieldDescriptionFieldTypeEnum
 func GetQueryableFieldDescriptionFieldTypeEnumValues() []QueryableFieldDescriptionFieldTypeEnum {
 	values := make([]QueryableFieldDescriptionFieldTypeEnum, 0)
 	for _, v := range mappingQueryableFieldDescriptionFieldType {

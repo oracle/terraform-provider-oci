@@ -161,9 +161,9 @@ func (client IdentityClient) createAuthToken(ctx context.Context, request common
 	return response, err
 }
 
-// CreateCompartment Creates a new compartment in your tenancy.
+// CreateCompartment Creates a new compartment in the specified compartment.
 // **Important:** Compartments cannot be deleted.
-// You must specify your tenancy's OCID as the compartment ID in the request object. Remember that the tenancy
+// Specify the parent compartment's OCID as the compartment ID in the request object. Remember that the tenancy
 // is simply the root compartment. For information about OCIDs, see
 // Resource Identifiers (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 // You must also specify a *name* for the compartment, which must be unique across all compartments in
@@ -1048,6 +1048,48 @@ func (client IdentityClient) deleteAuthToken(ctx context.Context, request common
 	return response, err
 }
 
+// DeleteCompartment Deletes the specified compartment. The compartment must be empty.
+func (client IdentityClient) DeleteCompartment(ctx context.Context, request DeleteCompartmentRequest) (response DeleteCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCompartmentResponse")
+	}
+	return
+}
+
+// deleteCompartment implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) deleteCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/compartments/{compartmentId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteCustomerSecretKey Deletes the specified secret key for the specified user.
 func (client IdentityClient) DeleteCustomerSecretKey(ctx context.Context, request DeleteCustomerSecretKeyRequest) (response DeleteCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1899,6 +1941,49 @@ func (client IdentityClient) getUserGroupMembership(ctx context.Context, request
 	return response, err
 }
 
+// GetWorkRequest Gets details on a specified work request. The workRequestID is returned in the opc-workrequest-id header
+// for any asynchronous operation in the Identity and Access Management service.
+func (client IdentityClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetWorkRequestResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetWorkRequestResponse")
+	}
+	return
+}
+
+// getWorkRequest implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) getWorkRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetWorkRequestResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListApiKeys Lists the API signing keys for the specified user. A user can have a maximum of three keys.
 // Every user has permission to use this API call for *their own user ID*.  An administrator in your
 // organization does not need to write a policy to give users this ability.
@@ -2032,8 +2117,19 @@ func (client IdentityClient) listAvailabilityDomains(ctx context.Context, reques
 	return response, err
 }
 
-// ListCompartments Lists the compartments in your tenancy. You must specify your tenancy's OCID as the value
-// for the compartment ID (remember that the tenancy is simply the root compartment).
+// ListCompartments Lists the compartments in a specified compartment. The members of the list
+// returned depends on the values set for several parameters.
+// With the exception of the tenancy (root compartment), the ListCompartments operation
+// returns only the first-level child compartments in the parent compartment specified in
+// `compartmentId`. The list does not include any subcompartments of the child
+// compartments (grandchildren).
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (the resource can be in a subcompartment).
+// The parameter `compartmentIdInSubtree` applies only when you perform ListCompartments on the
+// tenancy (root compartment). When set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ANY.
 // See Where to Get the Tenancy's OCID and User's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
 func (client IdentityClient) ListCompartments(ctx context.Context, request ListCompartmentsRequest) (response ListCompartmentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2064,6 +2160,49 @@ func (client IdentityClient) listCompartments(ctx context.Context, request commo
 	}
 
 	var response ListCompartmentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCostTrackingTags Lists all the tags enabled for cost-tracking in the specified tenancy. For information about
+// cost-tracking tags, see Using Cost-tracking Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#costs).
+func (client IdentityClient) ListCostTrackingTags(ctx context.Context, request ListCostTrackingTagsRequest) (response ListCostTrackingTagsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCostTrackingTags, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListCostTrackingTagsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCostTrackingTagsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCostTrackingTagsResponse")
+	}
+	return
+}
+
+// listCostTrackingTags implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listCostTrackingTags(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagNamespaces/actions/listCostTrackingTags")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCostTrackingTagsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2730,6 +2869,48 @@ func (client IdentityClient) listUsers(ctx context.Context, request common.OCIRe
 	}
 
 	var response ListUsersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListWorkRequests Lists the work requests in compartment.
+func (client IdentityClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListWorkRequestsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListWorkRequestsResponse")
+	}
+	return
+}
+
+// listWorkRequests implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listWorkRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

@@ -65,7 +65,7 @@ func (m InternetGateway) String() string {
 // InternetGatewayLifecycleStateEnum Enum with underlying type: string
 type InternetGatewayLifecycleStateEnum string
 
-// Set of constants representing the allowable values for InternetGatewayLifecycleState
+// Set of constants representing the allowable values for InternetGatewayLifecycleStateEnum
 const (
 	InternetGatewayLifecycleStateProvisioning InternetGatewayLifecycleStateEnum = "PROVISIONING"
 	InternetGatewayLifecycleStateAvailable    InternetGatewayLifecycleStateEnum = "AVAILABLE"
@@ -80,7 +80,7 @@ var mappingInternetGatewayLifecycleState = map[string]InternetGatewayLifecycleSt
 	"TERMINATED":   InternetGatewayLifecycleStateTerminated,
 }
 
-// GetInternetGatewayLifecycleStateEnumValues Enumerates the set of values for InternetGatewayLifecycleState
+// GetInternetGatewayLifecycleStateEnumValues Enumerates the set of values for InternetGatewayLifecycleStateEnum
 func GetInternetGatewayLifecycleStateEnumValues() []InternetGatewayLifecycleStateEnum {
 	values := make([]InternetGatewayLifecycleStateEnum, 0)
 	for _, v := range mappingInternetGatewayLifecycleState {

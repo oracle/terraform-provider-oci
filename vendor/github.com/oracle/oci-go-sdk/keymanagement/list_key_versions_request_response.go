@@ -85,7 +85,7 @@ func (response ListKeyVersionsResponse) HTTPResponse() *http.Response {
 // ListKeyVersionsSortByEnum Enum with underlying type: string
 type ListKeyVersionsSortByEnum string
 
-// Set of constants representing the allowable values for ListKeyVersionsSortBy
+// Set of constants representing the allowable values for ListKeyVersionsSortByEnum
 const (
 	ListKeyVersionsSortByTimecreated ListKeyVersionsSortByEnum = "TIMECREATED"
 	ListKeyVersionsSortByDisplayname ListKeyVersionsSortByEnum = "DISPLAYNAME"
@@ -96,7 +96,7 @@ var mappingListKeyVersionsSortBy = map[string]ListKeyVersionsSortByEnum{
 	"DISPLAYNAME": ListKeyVersionsSortByDisplayname,
 }
 
-// GetListKeyVersionsSortByEnumValues Enumerates the set of values for ListKeyVersionsSortBy
+// GetListKeyVersionsSortByEnumValues Enumerates the set of values for ListKeyVersionsSortByEnum
 func GetListKeyVersionsSortByEnumValues() []ListKeyVersionsSortByEnum {
 	values := make([]ListKeyVersionsSortByEnum, 0)
 	for _, v := range mappingListKeyVersionsSortBy {
@@ -108,7 +108,7 @@ func GetListKeyVersionsSortByEnumValues() []ListKeyVersionsSortByEnum {
 // ListKeyVersionsSortOrderEnum Enum with underlying type: string
 type ListKeyVersionsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListKeyVersionsSortOrder
+// Set of constants representing the allowable values for ListKeyVersionsSortOrderEnum
 const (
 	ListKeyVersionsSortOrderAsc  ListKeyVersionsSortOrderEnum = "ASC"
 	ListKeyVersionsSortOrderDesc ListKeyVersionsSortOrderEnum = "DESC"
@@ -119,7 +119,7 @@ var mappingListKeyVersionsSortOrder = map[string]ListKeyVersionsSortOrderEnum{
 	"DESC": ListKeyVersionsSortOrderDesc,
 }
 
-// GetListKeyVersionsSortOrderEnumValues Enumerates the set of values for ListKeyVersionsSortOrder
+// GetListKeyVersionsSortOrderEnumValues Enumerates the set of values for ListKeyVersionsSortOrderEnum
 func GetListKeyVersionsSortOrderEnumValues() []ListKeyVersionsSortOrderEnum {
 	values := make([]ListKeyVersionsSortOrderEnum, 0)
 	for _, v := range mappingListKeyVersionsSortOrder {

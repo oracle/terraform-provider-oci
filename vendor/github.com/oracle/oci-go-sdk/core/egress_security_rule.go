@@ -71,7 +71,7 @@ func (m EgressSecurityRule) String() string {
 // EgressSecurityRuleDestinationTypeEnum Enum with underlying type: string
 type EgressSecurityRuleDestinationTypeEnum string
 
-// Set of constants representing the allowable values for EgressSecurityRuleDestinationType
+// Set of constants representing the allowable values for EgressSecurityRuleDestinationTypeEnum
 const (
 	EgressSecurityRuleDestinationTypeCidrBlock        EgressSecurityRuleDestinationTypeEnum = "CIDR_BLOCK"
 	EgressSecurityRuleDestinationTypeServiceCidrBlock EgressSecurityRuleDestinationTypeEnum = "SERVICE_CIDR_BLOCK"
@@ -82,7 +82,7 @@ var mappingEgressSecurityRuleDestinationType = map[string]EgressSecurityRuleDest
 	"SERVICE_CIDR_BLOCK": EgressSecurityRuleDestinationTypeServiceCidrBlock,
 }
 
-// GetEgressSecurityRuleDestinationTypeEnumValues Enumerates the set of values for EgressSecurityRuleDestinationType
+// GetEgressSecurityRuleDestinationTypeEnumValues Enumerates the set of values for EgressSecurityRuleDestinationTypeEnum
 func GetEgressSecurityRuleDestinationTypeEnumValues() []EgressSecurityRuleDestinationTypeEnum {
 	values := make([]EgressSecurityRuleDestinationTypeEnum, 0)
 	for _, v := range mappingEgressSecurityRuleDestinationType {

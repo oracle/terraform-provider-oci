@@ -32,6 +32,11 @@ func AutonomousDataWarehouseDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"all_connection_strings": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"high": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -56,6 +61,10 @@ func AutonomousDataWarehouseDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"db_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"db_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -161,6 +170,10 @@ func (s *AutonomousDataWarehouseDataSourceCrud) SetData() error {
 
 	if s.Res.DbName != nil {
 		s.D.Set("db_name", *s.Res.DbName)
+	}
+
+	if s.Res.DbVersion != nil {
+		s.D.Set("db_version", *s.Res.DbVersion)
 	}
 
 	if s.Res.DefinedTags != nil {

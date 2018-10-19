@@ -133,7 +133,7 @@ func (m createidentityproviderdetails) String() string {
 // CreateIdentityProviderDetailsProductTypeEnum Enum with underlying type: string
 type CreateIdentityProviderDetailsProductTypeEnum string
 
-// Set of constants representing the allowable values for CreateIdentityProviderDetailsProductType
+// Set of constants representing the allowable values for CreateIdentityProviderDetailsProductTypeEnum
 const (
 	CreateIdentityProviderDetailsProductTypeIdcs CreateIdentityProviderDetailsProductTypeEnum = "IDCS"
 	CreateIdentityProviderDetailsProductTypeAdfs CreateIdentityProviderDetailsProductTypeEnum = "ADFS"
@@ -144,7 +144,7 @@ var mappingCreateIdentityProviderDetailsProductType = map[string]CreateIdentityP
 	"ADFS": CreateIdentityProviderDetailsProductTypeAdfs,
 }
 
-// GetCreateIdentityProviderDetailsProductTypeEnumValues Enumerates the set of values for CreateIdentityProviderDetailsProductType
+// GetCreateIdentityProviderDetailsProductTypeEnumValues Enumerates the set of values for CreateIdentityProviderDetailsProductTypeEnum
 func GetCreateIdentityProviderDetailsProductTypeEnumValues() []CreateIdentityProviderDetailsProductTypeEnum {
 	values := make([]CreateIdentityProviderDetailsProductTypeEnum, 0)
 	for _, v := range mappingCreateIdentityProviderDetailsProductType {

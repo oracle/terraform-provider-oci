@@ -87,7 +87,7 @@ func (m Image) String() string {
 // ImageLaunchModeEnum Enum with underlying type: string
 type ImageLaunchModeEnum string
 
-// Set of constants representing the allowable values for ImageLaunchMode
+// Set of constants representing the allowable values for ImageLaunchModeEnum
 const (
 	ImageLaunchModeNative          ImageLaunchModeEnum = "NATIVE"
 	ImageLaunchModeEmulated        ImageLaunchModeEnum = "EMULATED"
@@ -102,7 +102,7 @@ var mappingImageLaunchMode = map[string]ImageLaunchModeEnum{
 	"CUSTOM":          ImageLaunchModeCustom,
 }
 
-// GetImageLaunchModeEnumValues Enumerates the set of values for ImageLaunchMode
+// GetImageLaunchModeEnumValues Enumerates the set of values for ImageLaunchModeEnum
 func GetImageLaunchModeEnumValues() []ImageLaunchModeEnum {
 	values := make([]ImageLaunchModeEnum, 0)
 	for _, v := range mappingImageLaunchMode {
@@ -114,7 +114,7 @@ func GetImageLaunchModeEnumValues() []ImageLaunchModeEnum {
 // ImageLifecycleStateEnum Enum with underlying type: string
 type ImageLifecycleStateEnum string
 
-// Set of constants representing the allowable values for ImageLifecycleState
+// Set of constants representing the allowable values for ImageLifecycleStateEnum
 const (
 	ImageLifecycleStateProvisioning ImageLifecycleStateEnum = "PROVISIONING"
 	ImageLifecycleStateImporting    ImageLifecycleStateEnum = "IMPORTING"
@@ -133,7 +133,7 @@ var mappingImageLifecycleState = map[string]ImageLifecycleStateEnum{
 	"DELETED":      ImageLifecycleStateDeleted,
 }
 
-// GetImageLifecycleStateEnumValues Enumerates the set of values for ImageLifecycleState
+// GetImageLifecycleStateEnumValues Enumerates the set of values for ImageLifecycleStateEnum
 func GetImageLifecycleStateEnumValues() []ImageLifecycleStateEnum {
 	values := make([]ImageLifecycleStateEnum, 0)
 	for _, v := range mappingImageLifecycleState {

@@ -92,7 +92,7 @@ func (response ListWorkRequestsResponse) HTTPResponse() *http.Response {
 // ListWorkRequestsResourceTypeEnum Enum with underlying type: string
 type ListWorkRequestsResourceTypeEnum string
 
-// Set of constants representing the allowable values for ListWorkRequestsResourceType
+// Set of constants representing the allowable values for ListWorkRequestsResourceTypeEnum
 const (
 	ListWorkRequestsResourceTypeCluster  ListWorkRequestsResourceTypeEnum = "CLUSTER"
 	ListWorkRequestsResourceTypeNodepool ListWorkRequestsResourceTypeEnum = "NODEPOOL"
@@ -103,7 +103,7 @@ var mappingListWorkRequestsResourceType = map[string]ListWorkRequestsResourceTyp
 	"NODEPOOL": ListWorkRequestsResourceTypeNodepool,
 }
 
-// GetListWorkRequestsResourceTypeEnumValues Enumerates the set of values for ListWorkRequestsResourceType
+// GetListWorkRequestsResourceTypeEnumValues Enumerates the set of values for ListWorkRequestsResourceTypeEnum
 func GetListWorkRequestsResourceTypeEnumValues() []ListWorkRequestsResourceTypeEnum {
 	values := make([]ListWorkRequestsResourceTypeEnum, 0)
 	for _, v := range mappingListWorkRequestsResourceType {
@@ -115,7 +115,7 @@ func GetListWorkRequestsResourceTypeEnumValues() []ListWorkRequestsResourceTypeE
 // ListWorkRequestsStatusEnum Enum with underlying type: string
 type ListWorkRequestsStatusEnum string
 
-// Set of constants representing the allowable values for ListWorkRequestsStatus
+// Set of constants representing the allowable values for ListWorkRequestsStatusEnum
 const (
 	ListWorkRequestsStatusAccepted   ListWorkRequestsStatusEnum = "ACCEPTED"
 	ListWorkRequestsStatusInProgress ListWorkRequestsStatusEnum = "IN_PROGRESS"
@@ -134,7 +134,7 @@ var mappingListWorkRequestsStatus = map[string]ListWorkRequestsStatusEnum{
 	"CANCELED":    ListWorkRequestsStatusCanceled,
 }
 
-// GetListWorkRequestsStatusEnumValues Enumerates the set of values for ListWorkRequestsStatus
+// GetListWorkRequestsStatusEnumValues Enumerates the set of values for ListWorkRequestsStatusEnum
 func GetListWorkRequestsStatusEnumValues() []ListWorkRequestsStatusEnum {
 	values := make([]ListWorkRequestsStatusEnum, 0)
 	for _, v := range mappingListWorkRequestsStatus {
@@ -146,7 +146,7 @@ func GetListWorkRequestsStatusEnumValues() []ListWorkRequestsStatusEnum {
 // ListWorkRequestsSortOrderEnum Enum with underlying type: string
 type ListWorkRequestsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListWorkRequestsSortOrder
+// Set of constants representing the allowable values for ListWorkRequestsSortOrderEnum
 const (
 	ListWorkRequestsSortOrderAsc  ListWorkRequestsSortOrderEnum = "ASC"
 	ListWorkRequestsSortOrderDesc ListWorkRequestsSortOrderEnum = "DESC"
@@ -157,7 +157,7 @@ var mappingListWorkRequestsSortOrder = map[string]ListWorkRequestsSortOrderEnum{
 	"DESC": ListWorkRequestsSortOrderDesc,
 }
 
-// GetListWorkRequestsSortOrderEnumValues Enumerates the set of values for ListWorkRequestsSortOrder
+// GetListWorkRequestsSortOrderEnumValues Enumerates the set of values for ListWorkRequestsSortOrderEnum
 func GetListWorkRequestsSortOrderEnumValues() []ListWorkRequestsSortOrderEnum {
 	values := make([]ListWorkRequestsSortOrderEnum, 0)
 	for _, v := range mappingListWorkRequestsSortOrder {
@@ -169,7 +169,7 @@ func GetListWorkRequestsSortOrderEnumValues() []ListWorkRequestsSortOrderEnum {
 // ListWorkRequestsSortByEnum Enum with underlying type: string
 type ListWorkRequestsSortByEnum string
 
-// Set of constants representing the allowable values for ListWorkRequestsSortBy
+// Set of constants representing the allowable values for ListWorkRequestsSortByEnum
 const (
 	ListWorkRequestsSortById            ListWorkRequestsSortByEnum = "ID"
 	ListWorkRequestsSortByOperationType ListWorkRequestsSortByEnum = "OPERATION_TYPE"
@@ -188,7 +188,7 @@ var mappingListWorkRequestsSortBy = map[string]ListWorkRequestsSortByEnum{
 	"TIME_FINISHED":  ListWorkRequestsSortByTimeFinished,
 }
 
-// GetListWorkRequestsSortByEnumValues Enumerates the set of values for ListWorkRequestsSortBy
+// GetListWorkRequestsSortByEnumValues Enumerates the set of values for ListWorkRequestsSortByEnum
 func GetListWorkRequestsSortByEnumValues() []ListWorkRequestsSortByEnum {
 	values := make([]ListWorkRequestsSortByEnum, 0)
 	for _, v := range mappingListWorkRequestsSortBy {

@@ -24,13 +24,13 @@ type Backup struct {
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The Oracle Database edition of the DB system from which the database backup was taken.
-	DatabaseEdition *string `mandatory:"false" json:"databaseEdition"`
+	DatabaseEdition BackupDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
-	// Size of the database in megabytes (MB) at the time the backup was taken.
-	DbDataSizeInMBs *int `mandatory:"false" json:"dbDataSizeInMBs"`
+	// The size of the database in gigabytes at the time the backup was taken.
+	DatabaseSizeInGBs *float64 `mandatory:"false" json:"databaseSizeInGBs"`
 
 	// The user-friendly name for the backup. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -58,10 +58,37 @@ func (m Backup) String() string {
 	return common.PointerString(m)
 }
 
+// BackupDatabaseEditionEnum Enum with underlying type: string
+type BackupDatabaseEditionEnum string
+
+// Set of constants representing the allowable values for BackupDatabaseEditionEnum
+const (
+	BackupDatabaseEditionStandardEdition                     BackupDatabaseEditionEnum = "STANDARD_EDITION"
+	BackupDatabaseEditionEnterpriseEdition                   BackupDatabaseEditionEnum = "ENTERPRISE_EDITION"
+	BackupDatabaseEditionEnterpriseEditionHighPerformance    BackupDatabaseEditionEnum = "ENTERPRISE_EDITION_HIGH_PERFORMANCE"
+	BackupDatabaseEditionEnterpriseEditionExtremePerformance BackupDatabaseEditionEnum = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
+)
+
+var mappingBackupDatabaseEdition = map[string]BackupDatabaseEditionEnum{
+	"STANDARD_EDITION":                       BackupDatabaseEditionStandardEdition,
+	"ENTERPRISE_EDITION":                     BackupDatabaseEditionEnterpriseEdition,
+	"ENTERPRISE_EDITION_HIGH_PERFORMANCE":    BackupDatabaseEditionEnterpriseEditionHighPerformance,
+	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": BackupDatabaseEditionEnterpriseEditionExtremePerformance,
+}
+
+// GetBackupDatabaseEditionEnumValues Enumerates the set of values for BackupDatabaseEditionEnum
+func GetBackupDatabaseEditionEnumValues() []BackupDatabaseEditionEnum {
+	values := make([]BackupDatabaseEditionEnum, 0)
+	for _, v := range mappingBackupDatabaseEdition {
+		values = append(values, v)
+	}
+	return values
+}
+
 // BackupLifecycleStateEnum Enum with underlying type: string
 type BackupLifecycleStateEnum string
 
-// Set of constants representing the allowable values for BackupLifecycleState
+// Set of constants representing the allowable values for BackupLifecycleStateEnum
 const (
 	BackupLifecycleStateCreating  BackupLifecycleStateEnum = "CREATING"
 	BackupLifecycleStateActive    BackupLifecycleStateEnum = "ACTIVE"
@@ -80,7 +107,7 @@ var mappingBackupLifecycleState = map[string]BackupLifecycleStateEnum{
 	"RESTORING": BackupLifecycleStateRestoring,
 }
 
-// GetBackupLifecycleStateEnumValues Enumerates the set of values for BackupLifecycleState
+// GetBackupLifecycleStateEnumValues Enumerates the set of values for BackupLifecycleStateEnum
 func GetBackupLifecycleStateEnumValues() []BackupLifecycleStateEnum {
 	values := make([]BackupLifecycleStateEnum, 0)
 	for _, v := range mappingBackupLifecycleState {
@@ -92,7 +119,7 @@ func GetBackupLifecycleStateEnumValues() []BackupLifecycleStateEnum {
 // BackupTypeEnum Enum with underlying type: string
 type BackupTypeEnum string
 
-// Set of constants representing the allowable values for BackupType
+// Set of constants representing the allowable values for BackupTypeEnum
 const (
 	BackupTypeIncremental BackupTypeEnum = "INCREMENTAL"
 	BackupTypeFull        BackupTypeEnum = "FULL"
@@ -103,7 +130,7 @@ var mappingBackupType = map[string]BackupTypeEnum{
 	"FULL":        BackupTypeFull,
 }
 
-// GetBackupTypeEnumValues Enumerates the set of values for BackupType
+// GetBackupTypeEnumValues Enumerates the set of values for BackupTypeEnum
 func GetBackupTypeEnumValues() []BackupTypeEnum {
 	values := make([]BackupTypeEnum, 0)
 	for _, v := range mappingBackupType {

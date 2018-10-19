@@ -67,7 +67,7 @@ func (m Group) String() string {
 // GroupLifecycleStateEnum Enum with underlying type: string
 type GroupLifecycleStateEnum string
 
-// Set of constants representing the allowable values for GroupLifecycleState
+// Set of constants representing the allowable values for GroupLifecycleStateEnum
 const (
 	GroupLifecycleStateCreating GroupLifecycleStateEnum = "CREATING"
 	GroupLifecycleStateActive   GroupLifecycleStateEnum = "ACTIVE"
@@ -84,7 +84,7 @@ var mappingGroupLifecycleState = map[string]GroupLifecycleStateEnum{
 	"DELETED":  GroupLifecycleStateDeleted,
 }
 
-// GetGroupLifecycleStateEnumValues Enumerates the set of values for GroupLifecycleState
+// GetGroupLifecycleStateEnumValues Enumerates the set of values for GroupLifecycleStateEnum
 func GetGroupLifecycleStateEnumValues() []GroupLifecycleStateEnum {
 	values := make([]GroupLifecycleStateEnum, 0)
 	for _, v := range mappingGroupLifecycleState {

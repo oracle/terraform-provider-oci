@@ -29,7 +29,7 @@ func (m KeyShape) String() string {
 // KeyShapeAlgorithmEnum Enum with underlying type: string
 type KeyShapeAlgorithmEnum string
 
-// Set of constants representing the allowable values for KeyShapeAlgorithm
+// Set of constants representing the allowable values for KeyShapeAlgorithmEnum
 const (
 	KeyShapeAlgorithmAes KeyShapeAlgorithmEnum = "AES"
 )
@@ -38,7 +38,7 @@ var mappingKeyShapeAlgorithm = map[string]KeyShapeAlgorithmEnum{
 	"AES": KeyShapeAlgorithmAes,
 }
 
-// GetKeyShapeAlgorithmEnumValues Enumerates the set of values for KeyShapeAlgorithm
+// GetKeyShapeAlgorithmEnumValues Enumerates the set of values for KeyShapeAlgorithmEnum
 func GetKeyShapeAlgorithmEnumValues() []KeyShapeAlgorithmEnum {
 	values := make([]KeyShapeAlgorithmEnum, 0)
 	for _, v := range mappingKeyShapeAlgorithm {

@@ -36,9 +36,9 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 The following arguments are supported:
 
 * `admin_password` - (Required) (Updatable) A strong password for Admin. The password must be between 12 and 60 characters long, and must contain at least 1 uppercase, 1 lowercase and 2 numeric characters. It cannot contain the double quote symbol ("). It must be different than the last 4 passwords.
-* `compartment_id` - (Required) The Oracle Cloud ID (OCID) of the compartment of the DB system.
+* `compartment_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment of the autonomous database.
 * `cpu_core_count` - (Required) (Updatable) The number of CPU Cores to be made available to the database.
-* `data_storage_size_in_tbs` - (Required) (Updatable) Size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. 
+* `data_storage_size_in_tbs` - (Required) (Updatable) The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. 
 * `db_name` - (Required) The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) The user-friendly name for the Autonomous Database. The name does not have to be unique.
@@ -53,14 +53,16 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the compartment.
+* `compartment_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment.
 * `connection_strings` - The connection string used to connect to the Autonomous Database. The username for the Service Console is ADMIN. Use the password you entered when creating the Autonomous Database for the password value.
+	* `all_connection_strings` - All connection string used to connect to the Autonomous Database. The username for the Service Console is ADMIN. Use the password you entered when creating the Autonomous Database for the password value.
 	* `high` - The High database service provides the highest level of resources to each SQL statement resulting in the highest performance, but supports the fewest number of concurrent SQL statements.
 	* `low` - The Low database service provides the least level of resources to each SQL statement, but supports the most number of concurrent SQL statements.
 	* `medium` - The Medium database service provides a lower level of resources to each SQL statement potentially resulting a lower level of performance, but supports more concurrent SQL statements.
 * `cpu_core_count` - The number of CPU cores to be made available to the database.
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
 * `db_name` - The database name.
+* `db_version` - A valid Oracle Database version for Autonomous Database.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 

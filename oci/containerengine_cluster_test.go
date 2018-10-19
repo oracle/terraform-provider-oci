@@ -53,7 +53,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 }
 `
 	ClusterPropertyVariables = `
-variable "cluster_kubernetes_version" { default = "v1.8.11" }
+variable "cluster_kubernetes_version" { default = "v1.10.3" }
 variable "cluster_name" { default = "name" }
 variable "cluster_options_add_ons_is_kubernetes_dashboard_enabled" { default = true }
 variable "cluster_options_add_ons_is_tiller_enabled" { default = true }
@@ -107,7 +107,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				Config: config + ClusterPropertyVariables + compartmentIdVariableStr + ClusterRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.8.11"),
+					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.10.3"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.#", "1"),
@@ -128,7 +128,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				Config: config + ClusterPropertyVariables + compartmentIdVariableStr + ClusterResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.8.11"),
+					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.10.3"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.#", "1"),
@@ -150,7 +150,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + `
-variable "cluster_kubernetes_version" { default = "v1.9.7" }
+variable "cluster_kubernetes_version" { default = "v1.11.1" }
 variable "cluster_name" { default = "name2" }
 variable "cluster_options_add_ons_is_kubernetes_dashboard_enabled" { default = true }
 variable "cluster_options_add_ons_is_tiller_enabled" { default = true }
@@ -162,7 +162,7 @@ variable "cluster_state" { default = [] }
                 ` + compartmentIdVariableStr + ClusterResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.9.7"),
+					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.11.1"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 					resource.TestCheckResourceAttr(resourceName, "options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.#", "1"),
@@ -186,14 +186,14 @@ variable "cluster_state" { default = [] }
 			// verify datasource
 			{
 				Config: config + `
-variable "cluster_kubernetes_version" { default = "v1.9.7" }
+variable "cluster_kubernetes_version" { default = "v1.11.1" }
 variable "cluster_name" { default = "name2" }
 variable "cluster_options_add_ons_is_kubernetes_dashboard_enabled" { default = true }
 variable "cluster_options_add_ons_is_tiller_enabled" { default = true }
 variable "cluster_options_kubernetes_network_config_pods_cidr" { default = "10.1.0.0/16" }
 variable "cluster_options_kubernetes_network_config_services_cidr" { default = "10.2.0.0/16" }
 variable "cluster_options_service_lb_subnet_ids" { default = [] }
-variable "cluster_state" { default = ["CREATING", "ACTIVE", FAILED", "DELETING", "DELETED", "UPDATING"] }
+variable "cluster_state" { default = ["CREATING", "ACTIVE", "FAILED", "DELETING", "DELETED", "UPDATING"] }
 
 data "oci_containerengine_clusters" "test_clusters" {
 	#Required
@@ -215,7 +215,7 @@ data "oci_containerengine_clusters" "test_clusters" {
 
 					resource.TestCheckResourceAttr(datasourceName, "clusters.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.kubernetes_version", "v1.9.7"),
+					resource.TestCheckResourceAttr(datasourceName, "clusters.0.kubernetes_version", "v1.11.1"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.name", "name2"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.add_ons.#", "1"),

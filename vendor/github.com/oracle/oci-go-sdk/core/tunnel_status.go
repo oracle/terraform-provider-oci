@@ -38,7 +38,7 @@ func (m TunnelStatus) String() string {
 // TunnelStatusLifecycleStateEnum Enum with underlying type: string
 type TunnelStatusLifecycleStateEnum string
 
-// Set of constants representing the allowable values for TunnelStatusLifecycleState
+// Set of constants representing the allowable values for TunnelStatusLifecycleStateEnum
 const (
 	TunnelStatusLifecycleStateUp                 TunnelStatusLifecycleStateEnum = "UP"
 	TunnelStatusLifecycleStateDown               TunnelStatusLifecycleStateEnum = "DOWN"
@@ -51,7 +51,7 @@ var mappingTunnelStatusLifecycleState = map[string]TunnelStatusLifecycleStateEnu
 	"DOWN_FOR_MAINTENANCE": TunnelStatusLifecycleStateDownForMaintenance,
 }
 
-// GetTunnelStatusLifecycleStateEnumValues Enumerates the set of values for TunnelStatusLifecycleState
+// GetTunnelStatusLifecycleStateEnumValues Enumerates the set of values for TunnelStatusLifecycleStateEnum
 func GetTunnelStatusLifecycleStateEnumValues() []TunnelStatusLifecycleStateEnum {
 	values := make([]TunnelStatusLifecycleStateEnum, 0)
 	for _, v := range mappingTunnelStatusLifecycleState {

@@ -77,7 +77,7 @@ func (m searchdetails) String() string {
 // SearchDetailsMatchingContextTypeEnum Enum with underlying type: string
 type SearchDetailsMatchingContextTypeEnum string
 
-// Set of constants representing the allowable values for SearchDetailsMatchingContextType
+// Set of constants representing the allowable values for SearchDetailsMatchingContextTypeEnum
 const (
 	SearchDetailsMatchingContextTypeNone       SearchDetailsMatchingContextTypeEnum = "NONE"
 	SearchDetailsMatchingContextTypeHighlights SearchDetailsMatchingContextTypeEnum = "HIGHLIGHTS"
@@ -88,7 +88,7 @@ var mappingSearchDetailsMatchingContextType = map[string]SearchDetailsMatchingCo
 	"HIGHLIGHTS": SearchDetailsMatchingContextTypeHighlights,
 }
 
-// GetSearchDetailsMatchingContextTypeEnumValues Enumerates the set of values for SearchDetailsMatchingContextType
+// GetSearchDetailsMatchingContextTypeEnumValues Enumerates the set of values for SearchDetailsMatchingContextTypeEnum
 func GetSearchDetailsMatchingContextTypeEnumValues() []SearchDetailsMatchingContextTypeEnum {
 	values := make([]SearchDetailsMatchingContextTypeEnum, 0)
 	for _, v := range mappingSearchDetailsMatchingContextType {

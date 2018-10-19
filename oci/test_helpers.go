@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"os"
 	"text/template"
 	"time"
 
@@ -134,4 +135,17 @@ func conditionShouldRetry(timeout time.Duration, condition WaitConditionFunc, se
 
 		return condition(response)
 	}
+}
+
+// GenerateTestResourceName generates a name for the resource based on the prefix and current time stamp.
+func GenerateTestResourceName(prefix string, maxLength int) string {
+	return (prefix + time.Now().UTC().Format("20060102150405"))[:maxLength]
+}
+
+func setEnvSetting(s, v string) error {
+	error := os.Setenv(s, v)
+	if error != nil {
+		return fmt.Errorf("Failed to set env setting '%s', encountered error: %v", s, error)
+	}
+	return nil
 }

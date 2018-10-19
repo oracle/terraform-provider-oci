@@ -212,7 +212,7 @@ func (m LaunchDbSystemDetails) MarshalJSON() (buff []byte, e error) {
 // LaunchDbSystemDetailsDatabaseEditionEnum Enum with underlying type: string
 type LaunchDbSystemDetailsDatabaseEditionEnum string
 
-// Set of constants representing the allowable values for LaunchDbSystemDetailsDatabaseEdition
+// Set of constants representing the allowable values for LaunchDbSystemDetailsDatabaseEditionEnum
 const (
 	LaunchDbSystemDetailsDatabaseEditionStandardEdition                     LaunchDbSystemDetailsDatabaseEditionEnum = "STANDARD_EDITION"
 	LaunchDbSystemDetailsDatabaseEditionEnterpriseEdition                   LaunchDbSystemDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION"
@@ -227,7 +227,7 @@ var mappingLaunchDbSystemDetailsDatabaseEdition = map[string]LaunchDbSystemDetai
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": LaunchDbSystemDetailsDatabaseEditionEnterpriseEditionExtremePerformance,
 }
 
-// GetLaunchDbSystemDetailsDatabaseEditionEnumValues Enumerates the set of values for LaunchDbSystemDetailsDatabaseEdition
+// GetLaunchDbSystemDetailsDatabaseEditionEnumValues Enumerates the set of values for LaunchDbSystemDetailsDatabaseEditionEnum
 func GetLaunchDbSystemDetailsDatabaseEditionEnumValues() []LaunchDbSystemDetailsDatabaseEditionEnum {
 	values := make([]LaunchDbSystemDetailsDatabaseEditionEnum, 0)
 	for _, v := range mappingLaunchDbSystemDetailsDatabaseEdition {
@@ -239,7 +239,7 @@ func GetLaunchDbSystemDetailsDatabaseEditionEnumValues() []LaunchDbSystemDetails
 // LaunchDbSystemDetailsDiskRedundancyEnum Enum with underlying type: string
 type LaunchDbSystemDetailsDiskRedundancyEnum string
 
-// Set of constants representing the allowable values for LaunchDbSystemDetailsDiskRedundancy
+// Set of constants representing the allowable values for LaunchDbSystemDetailsDiskRedundancyEnum
 const (
 	LaunchDbSystemDetailsDiskRedundancyHigh   LaunchDbSystemDetailsDiskRedundancyEnum = "HIGH"
 	LaunchDbSystemDetailsDiskRedundancyNormal LaunchDbSystemDetailsDiskRedundancyEnum = "NORMAL"
@@ -250,7 +250,7 @@ var mappingLaunchDbSystemDetailsDiskRedundancy = map[string]LaunchDbSystemDetail
 	"NORMAL": LaunchDbSystemDetailsDiskRedundancyNormal,
 }
 
-// GetLaunchDbSystemDetailsDiskRedundancyEnumValues Enumerates the set of values for LaunchDbSystemDetailsDiskRedundancy
+// GetLaunchDbSystemDetailsDiskRedundancyEnumValues Enumerates the set of values for LaunchDbSystemDetailsDiskRedundancyEnum
 func GetLaunchDbSystemDetailsDiskRedundancyEnumValues() []LaunchDbSystemDetailsDiskRedundancyEnum {
 	values := make([]LaunchDbSystemDetailsDiskRedundancyEnum, 0)
 	for _, v := range mappingLaunchDbSystemDetailsDiskRedundancy {
@@ -262,7 +262,7 @@ func GetLaunchDbSystemDetailsDiskRedundancyEnumValues() []LaunchDbSystemDetailsD
 // LaunchDbSystemDetailsLicenseModelEnum Enum with underlying type: string
 type LaunchDbSystemDetailsLicenseModelEnum string
 
-// Set of constants representing the allowable values for LaunchDbSystemDetailsLicenseModel
+// Set of constants representing the allowable values for LaunchDbSystemDetailsLicenseModelEnum
 const (
 	LaunchDbSystemDetailsLicenseModelLicenseIncluded     LaunchDbSystemDetailsLicenseModelEnum = "LICENSE_INCLUDED"
 	LaunchDbSystemDetailsLicenseModelBringYourOwnLicense LaunchDbSystemDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
@@ -273,7 +273,7 @@ var mappingLaunchDbSystemDetailsLicenseModel = map[string]LaunchDbSystemDetailsL
 	"BRING_YOUR_OWN_LICENSE": LaunchDbSystemDetailsLicenseModelBringYourOwnLicense,
 }
 
-// GetLaunchDbSystemDetailsLicenseModelEnumValues Enumerates the set of values for LaunchDbSystemDetailsLicenseModel
+// GetLaunchDbSystemDetailsLicenseModelEnumValues Enumerates the set of values for LaunchDbSystemDetailsLicenseModelEnum
 func GetLaunchDbSystemDetailsLicenseModelEnumValues() []LaunchDbSystemDetailsLicenseModelEnum {
 	values := make([]LaunchDbSystemDetailsLicenseModelEnum, 0)
 	for _, v := range mappingLaunchDbSystemDetailsLicenseModel {

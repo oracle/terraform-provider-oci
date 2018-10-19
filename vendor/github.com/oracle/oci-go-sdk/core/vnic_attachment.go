@@ -69,7 +69,7 @@ func (m VnicAttachment) String() string {
 // VnicAttachmentLifecycleStateEnum Enum with underlying type: string
 type VnicAttachmentLifecycleStateEnum string
 
-// Set of constants representing the allowable values for VnicAttachmentLifecycleState
+// Set of constants representing the allowable values for VnicAttachmentLifecycleStateEnum
 const (
 	VnicAttachmentLifecycleStateAttaching VnicAttachmentLifecycleStateEnum = "ATTACHING"
 	VnicAttachmentLifecycleStateAttached  VnicAttachmentLifecycleStateEnum = "ATTACHED"
@@ -84,7 +84,7 @@ var mappingVnicAttachmentLifecycleState = map[string]VnicAttachmentLifecycleStat
 	"DETACHED":  VnicAttachmentLifecycleStateDetached,
 }
 
-// GetVnicAttachmentLifecycleStateEnumValues Enumerates the set of values for VnicAttachmentLifecycleState
+// GetVnicAttachmentLifecycleStateEnumValues Enumerates the set of values for VnicAttachmentLifecycleStateEnum
 func GetVnicAttachmentLifecycleStateEnumValues() []VnicAttachmentLifecycleStateEnum {
 	values := make([]VnicAttachmentLifecycleStateEnum, 0)
 	for _, v := range mappingVnicAttachmentLifecycleState {

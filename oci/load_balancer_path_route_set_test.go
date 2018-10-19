@@ -140,7 +140,6 @@ data "oci_load_balancer_path_route_sets" "test_path_route_sets" {
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
-					"load_balancer_id",
 					"state",
 				},
 				ResourceName: resourceName,

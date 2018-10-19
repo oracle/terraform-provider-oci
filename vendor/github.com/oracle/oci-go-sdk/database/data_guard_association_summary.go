@@ -82,7 +82,7 @@ func (m DataGuardAssociationSummary) String() string {
 // DataGuardAssociationSummaryLifecycleStateEnum Enum with underlying type: string
 type DataGuardAssociationSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for DataGuardAssociationSummaryLifecycleState
+// Set of constants representing the allowable values for DataGuardAssociationSummaryLifecycleStateEnum
 const (
 	DataGuardAssociationSummaryLifecycleStateProvisioning DataGuardAssociationSummaryLifecycleStateEnum = "PROVISIONING"
 	DataGuardAssociationSummaryLifecycleStateAvailable    DataGuardAssociationSummaryLifecycleStateEnum = "AVAILABLE"
@@ -101,7 +101,7 @@ var mappingDataGuardAssociationSummaryLifecycleState = map[string]DataGuardAssoc
 	"FAILED":       DataGuardAssociationSummaryLifecycleStateFailed,
 }
 
-// GetDataGuardAssociationSummaryLifecycleStateEnumValues Enumerates the set of values for DataGuardAssociationSummaryLifecycleState
+// GetDataGuardAssociationSummaryLifecycleStateEnumValues Enumerates the set of values for DataGuardAssociationSummaryLifecycleStateEnum
 func GetDataGuardAssociationSummaryLifecycleStateEnumValues() []DataGuardAssociationSummaryLifecycleStateEnum {
 	values := make([]DataGuardAssociationSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingDataGuardAssociationSummaryLifecycleState {
@@ -113,7 +113,7 @@ func GetDataGuardAssociationSummaryLifecycleStateEnumValues() []DataGuardAssocia
 // DataGuardAssociationSummaryPeerRoleEnum Enum with underlying type: string
 type DataGuardAssociationSummaryPeerRoleEnum string
 
-// Set of constants representing the allowable values for DataGuardAssociationSummaryPeerRole
+// Set of constants representing the allowable values for DataGuardAssociationSummaryPeerRoleEnum
 const (
 	DataGuardAssociationSummaryPeerRolePrimary         DataGuardAssociationSummaryPeerRoleEnum = "PRIMARY"
 	DataGuardAssociationSummaryPeerRoleStandby         DataGuardAssociationSummaryPeerRoleEnum = "STANDBY"
@@ -126,7 +126,7 @@ var mappingDataGuardAssociationSummaryPeerRole = map[string]DataGuardAssociation
 	"DISABLED_STANDBY": DataGuardAssociationSummaryPeerRoleDisabledStandby,
 }
 
-// GetDataGuardAssociationSummaryPeerRoleEnumValues Enumerates the set of values for DataGuardAssociationSummaryPeerRole
+// GetDataGuardAssociationSummaryPeerRoleEnumValues Enumerates the set of values for DataGuardAssociationSummaryPeerRoleEnum
 func GetDataGuardAssociationSummaryPeerRoleEnumValues() []DataGuardAssociationSummaryPeerRoleEnum {
 	values := make([]DataGuardAssociationSummaryPeerRoleEnum, 0)
 	for _, v := range mappingDataGuardAssociationSummaryPeerRole {
@@ -138,7 +138,7 @@ func GetDataGuardAssociationSummaryPeerRoleEnumValues() []DataGuardAssociationSu
 // DataGuardAssociationSummaryProtectionModeEnum Enum with underlying type: string
 type DataGuardAssociationSummaryProtectionModeEnum string
 
-// Set of constants representing the allowable values for DataGuardAssociationSummaryProtectionMode
+// Set of constants representing the allowable values for DataGuardAssociationSummaryProtectionModeEnum
 const (
 	DataGuardAssociationSummaryProtectionModeAvailability DataGuardAssociationSummaryProtectionModeEnum = "MAXIMUM_AVAILABILITY"
 	DataGuardAssociationSummaryProtectionModePerformance  DataGuardAssociationSummaryProtectionModeEnum = "MAXIMUM_PERFORMANCE"
@@ -151,7 +151,7 @@ var mappingDataGuardAssociationSummaryProtectionMode = map[string]DataGuardAssoc
 	"MAXIMUM_PROTECTION":   DataGuardAssociationSummaryProtectionModeProtection,
 }
 
-// GetDataGuardAssociationSummaryProtectionModeEnumValues Enumerates the set of values for DataGuardAssociationSummaryProtectionMode
+// GetDataGuardAssociationSummaryProtectionModeEnumValues Enumerates the set of values for DataGuardAssociationSummaryProtectionModeEnum
 func GetDataGuardAssociationSummaryProtectionModeEnumValues() []DataGuardAssociationSummaryProtectionModeEnum {
 	values := make([]DataGuardAssociationSummaryProtectionModeEnum, 0)
 	for _, v := range mappingDataGuardAssociationSummaryProtectionMode {
@@ -163,7 +163,7 @@ func GetDataGuardAssociationSummaryProtectionModeEnumValues() []DataGuardAssocia
 // DataGuardAssociationSummaryRoleEnum Enum with underlying type: string
 type DataGuardAssociationSummaryRoleEnum string
 
-// Set of constants representing the allowable values for DataGuardAssociationSummaryRole
+// Set of constants representing the allowable values for DataGuardAssociationSummaryRoleEnum
 const (
 	DataGuardAssociationSummaryRolePrimary         DataGuardAssociationSummaryRoleEnum = "PRIMARY"
 	DataGuardAssociationSummaryRoleStandby         DataGuardAssociationSummaryRoleEnum = "STANDBY"
@@ -176,7 +176,7 @@ var mappingDataGuardAssociationSummaryRole = map[string]DataGuardAssociationSumm
 	"DISABLED_STANDBY": DataGuardAssociationSummaryRoleDisabledStandby,
 }
 
-// GetDataGuardAssociationSummaryRoleEnumValues Enumerates the set of values for DataGuardAssociationSummaryRole
+// GetDataGuardAssociationSummaryRoleEnumValues Enumerates the set of values for DataGuardAssociationSummaryRoleEnum
 func GetDataGuardAssociationSummaryRoleEnumValues() []DataGuardAssociationSummaryRoleEnum {
 	values := make([]DataGuardAssociationSummaryRoleEnum, 0)
 	for _, v := range mappingDataGuardAssociationSummaryRole {
@@ -188,7 +188,7 @@ func GetDataGuardAssociationSummaryRoleEnumValues() []DataGuardAssociationSummar
 // DataGuardAssociationSummaryTransportTypeEnum Enum with underlying type: string
 type DataGuardAssociationSummaryTransportTypeEnum string
 
-// Set of constants representing the allowable values for DataGuardAssociationSummaryTransportType
+// Set of constants representing the allowable values for DataGuardAssociationSummaryTransportTypeEnum
 const (
 	DataGuardAssociationSummaryTransportTypeSync     DataGuardAssociationSummaryTransportTypeEnum = "SYNC"
 	DataGuardAssociationSummaryTransportTypeAsync    DataGuardAssociationSummaryTransportTypeEnum = "ASYNC"
@@ -201,7 +201,7 @@ var mappingDataGuardAssociationSummaryTransportType = map[string]DataGuardAssoci
 	"FASTSYNC": DataGuardAssociationSummaryTransportTypeFastsync,
 }
 
-// GetDataGuardAssociationSummaryTransportTypeEnumValues Enumerates the set of values for DataGuardAssociationSummaryTransportType
+// GetDataGuardAssociationSummaryTransportTypeEnumValues Enumerates the set of values for DataGuardAssociationSummaryTransportTypeEnum
 func GetDataGuardAssociationSummaryTransportTypeEnumValues() []DataGuardAssociationSummaryTransportTypeEnum {
 	values := make([]DataGuardAssociationSummaryTransportTypeEnum, 0)
 	for _, v := range mappingDataGuardAssociationSummaryTransportType {

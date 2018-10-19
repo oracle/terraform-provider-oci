@@ -38,4 +38,5 @@ The following attributes are exported:
 * `metadata` - The metadata of the object
 * `content_type` - The content-type of the object
 * `content_length` - The content-length of the object
+* `etag` - The etag of the object
 

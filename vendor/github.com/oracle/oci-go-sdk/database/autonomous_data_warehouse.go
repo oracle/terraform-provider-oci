@@ -37,6 +37,9 @@ type AutonomousDataWarehouse struct {
 	// The connection string used to connect to the Data Warehouse. The username for the Service Console is ADMIN. Use the password you entered when creating the Autonomous Data Warehouse for the password value.
 	ConnectionStrings *AutonomousDataWarehouseConnectionStrings `mandatory:"false" json:"connectionStrings"`
 
+	// A valid Oracle Database version for Autonomous Data Warehouse.
+	DbVersion *string `mandatory:"false" json:"dbVersion"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -53,7 +56,7 @@ type AutonomousDataWarehouse struct {
 	// The Oracle license model that applies to the Oracle Autonomous Data Warehouse. The default is BRING_YOUR_OWN_LICENSE.
 	LicenseModel AutonomousDataWarehouseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
-	// Additional information about the current lifecycle state.
+	// Information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The URL of the Service Console for the Data Warehouse.
@@ -70,7 +73,7 @@ func (m AutonomousDataWarehouse) String() string {
 // AutonomousDataWarehouseLicenseModelEnum Enum with underlying type: string
 type AutonomousDataWarehouseLicenseModelEnum string
 
-// Set of constants representing the allowable values for AutonomousDataWarehouseLicenseModel
+// Set of constants representing the allowable values for AutonomousDataWarehouseLicenseModelEnum
 const (
 	AutonomousDataWarehouseLicenseModelLicenseIncluded     AutonomousDataWarehouseLicenseModelEnum = "LICENSE_INCLUDED"
 	AutonomousDataWarehouseLicenseModelBringYourOwnLicense AutonomousDataWarehouseLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
@@ -81,7 +84,7 @@ var mappingAutonomousDataWarehouseLicenseModel = map[string]AutonomousDataWareho
 	"BRING_YOUR_OWN_LICENSE": AutonomousDataWarehouseLicenseModelBringYourOwnLicense,
 }
 
-// GetAutonomousDataWarehouseLicenseModelEnumValues Enumerates the set of values for AutonomousDataWarehouseLicenseModel
+// GetAutonomousDataWarehouseLicenseModelEnumValues Enumerates the set of values for AutonomousDataWarehouseLicenseModelEnum
 func GetAutonomousDataWarehouseLicenseModelEnumValues() []AutonomousDataWarehouseLicenseModelEnum {
 	values := make([]AutonomousDataWarehouseLicenseModelEnum, 0)
 	for _, v := range mappingAutonomousDataWarehouseLicenseModel {
@@ -93,7 +96,7 @@ func GetAutonomousDataWarehouseLicenseModelEnumValues() []AutonomousDataWarehous
 // AutonomousDataWarehouseLifecycleStateEnum Enum with underlying type: string
 type AutonomousDataWarehouseLifecycleStateEnum string
 
-// Set of constants representing the allowable values for AutonomousDataWarehouseLifecycleState
+// Set of constants representing the allowable values for AutonomousDataWarehouseLifecycleStateEnum
 const (
 	AutonomousDataWarehouseLifecycleStateProvisioning            AutonomousDataWarehouseLifecycleStateEnum = "PROVISIONING"
 	AutonomousDataWarehouseLifecycleStateAvailable               AutonomousDataWarehouseLifecycleStateEnum = "AVAILABLE"
@@ -124,7 +127,7 @@ var mappingAutonomousDataWarehouseLifecycleState = map[string]AutonomousDataWare
 	"AVAILABLE_NEEDS_ATTENTION": AutonomousDataWarehouseLifecycleStateAvailableNeedsAttention,
 }
 
-// GetAutonomousDataWarehouseLifecycleStateEnumValues Enumerates the set of values for AutonomousDataWarehouseLifecycleState
+// GetAutonomousDataWarehouseLifecycleStateEnumValues Enumerates the set of values for AutonomousDataWarehouseLifecycleStateEnum
 func GetAutonomousDataWarehouseLifecycleStateEnumValues() []AutonomousDataWarehouseLifecycleStateEnum {
 	values := make([]AutonomousDataWarehouseLifecycleStateEnum, 0)
 	for _, v := range mappingAutonomousDataWarehouseLifecycleState {

@@ -75,7 +75,7 @@ func (m User) String() string {
 // UserLifecycleStateEnum Enum with underlying type: string
 type UserLifecycleStateEnum string
 
-// Set of constants representing the allowable values for UserLifecycleState
+// Set of constants representing the allowable values for UserLifecycleStateEnum
 const (
 	UserLifecycleStateCreating UserLifecycleStateEnum = "CREATING"
 	UserLifecycleStateActive   UserLifecycleStateEnum = "ACTIVE"
@@ -92,7 +92,7 @@ var mappingUserLifecycleState = map[string]UserLifecycleStateEnum{
 	"DELETED":  UserLifecycleStateDeleted,
 }
 
-// GetUserLifecycleStateEnumValues Enumerates the set of values for UserLifecycleState
+// GetUserLifecycleStateEnumValues Enumerates the set of values for UserLifecycleStateEnum
 func GetUserLifecycleStateEnumValues() []UserLifecycleStateEnum {
 	values := make([]UserLifecycleStateEnum, 0)
 	for _, v := range mappingUserLifecycleState {

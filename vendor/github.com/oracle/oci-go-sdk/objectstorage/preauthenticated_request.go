@@ -51,7 +51,7 @@ func (m PreauthenticatedRequest) String() string {
 // PreauthenticatedRequestAccessTypeEnum Enum with underlying type: string
 type PreauthenticatedRequestAccessTypeEnum string
 
-// Set of constants representing the allowable values for PreauthenticatedRequestAccessType
+// Set of constants representing the allowable values for PreauthenticatedRequestAccessTypeEnum
 const (
 	PreauthenticatedRequestAccessTypeObjectread      PreauthenticatedRequestAccessTypeEnum = "ObjectRead"
 	PreauthenticatedRequestAccessTypeObjectwrite     PreauthenticatedRequestAccessTypeEnum = "ObjectWrite"
@@ -66,7 +66,7 @@ var mappingPreauthenticatedRequestAccessType = map[string]PreauthenticatedReques
 	"AnyObjectWrite":  PreauthenticatedRequestAccessTypeAnyobjectwrite,
 }
 
-// GetPreauthenticatedRequestAccessTypeEnumValues Enumerates the set of values for PreauthenticatedRequestAccessType
+// GetPreauthenticatedRequestAccessTypeEnumValues Enumerates the set of values for PreauthenticatedRequestAccessTypeEnum
 func GetPreauthenticatedRequestAccessTypeEnumValues() []PreauthenticatedRequestAccessTypeEnum {
 	values := make([]PreauthenticatedRequestAccessTypeEnum, 0)
 	for _, v := range mappingPreauthenticatedRequestAccessType {

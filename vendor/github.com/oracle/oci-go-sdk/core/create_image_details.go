@@ -91,7 +91,7 @@ func (m *CreateImageDetails) UnmarshalJSON(data []byte) (e error) {
 // CreateImageDetailsLaunchModeEnum Enum with underlying type: string
 type CreateImageDetailsLaunchModeEnum string
 
-// Set of constants representing the allowable values for CreateImageDetailsLaunchMode
+// Set of constants representing the allowable values for CreateImageDetailsLaunchModeEnum
 const (
 	CreateImageDetailsLaunchModeNative          CreateImageDetailsLaunchModeEnum = "NATIVE"
 	CreateImageDetailsLaunchModeEmulated        CreateImageDetailsLaunchModeEnum = "EMULATED"
@@ -106,7 +106,7 @@ var mappingCreateImageDetailsLaunchMode = map[string]CreateImageDetailsLaunchMod
 	"CUSTOM":          CreateImageDetailsLaunchModeCustom,
 }
 
-// GetCreateImageDetailsLaunchModeEnumValues Enumerates the set of values for CreateImageDetailsLaunchMode
+// GetCreateImageDetailsLaunchModeEnumValues Enumerates the set of values for CreateImageDetailsLaunchModeEnum
 func GetCreateImageDetailsLaunchModeEnumValues() []CreateImageDetailsLaunchModeEnum {
 	values := make([]CreateImageDetailsLaunchModeEnum, 0)
 	for _, v := range mappingCreateImageDetailsLaunchMode {

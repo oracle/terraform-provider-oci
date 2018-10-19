@@ -101,7 +101,7 @@ func (response ListCrossConnectsResponse) HTTPResponse() *http.Response {
 // ListCrossConnectsSortByEnum Enum with underlying type: string
 type ListCrossConnectsSortByEnum string
 
-// Set of constants representing the allowable values for ListCrossConnectsSortBy
+// Set of constants representing the allowable values for ListCrossConnectsSortByEnum
 const (
 	ListCrossConnectsSortByTimecreated ListCrossConnectsSortByEnum = "TIMECREATED"
 	ListCrossConnectsSortByDisplayname ListCrossConnectsSortByEnum = "DISPLAYNAME"
@@ -112,7 +112,7 @@ var mappingListCrossConnectsSortBy = map[string]ListCrossConnectsSortByEnum{
 	"DISPLAYNAME": ListCrossConnectsSortByDisplayname,
 }
 
-// GetListCrossConnectsSortByEnumValues Enumerates the set of values for ListCrossConnectsSortBy
+// GetListCrossConnectsSortByEnumValues Enumerates the set of values for ListCrossConnectsSortByEnum
 func GetListCrossConnectsSortByEnumValues() []ListCrossConnectsSortByEnum {
 	values := make([]ListCrossConnectsSortByEnum, 0)
 	for _, v := range mappingListCrossConnectsSortBy {
@@ -124,7 +124,7 @@ func GetListCrossConnectsSortByEnumValues() []ListCrossConnectsSortByEnum {
 // ListCrossConnectsSortOrderEnum Enum with underlying type: string
 type ListCrossConnectsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListCrossConnectsSortOrder
+// Set of constants representing the allowable values for ListCrossConnectsSortOrderEnum
 const (
 	ListCrossConnectsSortOrderAsc  ListCrossConnectsSortOrderEnum = "ASC"
 	ListCrossConnectsSortOrderDesc ListCrossConnectsSortOrderEnum = "DESC"
@@ -135,7 +135,7 @@ var mappingListCrossConnectsSortOrder = map[string]ListCrossConnectsSortOrderEnu
 	"DESC": ListCrossConnectsSortOrderDesc,
 }
 
-// GetListCrossConnectsSortOrderEnumValues Enumerates the set of values for ListCrossConnectsSortOrder
+// GetListCrossConnectsSortOrderEnumValues Enumerates the set of values for ListCrossConnectsSortOrderEnum
 func GetListCrossConnectsSortOrderEnumValues() []ListCrossConnectsSortOrderEnum {
 	values := make([]ListCrossConnectsSortOrderEnum, 0)
 	for _, v := range mappingListCrossConnectsSortOrder {

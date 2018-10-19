@@ -115,7 +115,7 @@ func (response GetDomainRecordsResponse) HTTPResponse() *http.Response {
 // GetDomainRecordsSortByEnum Enum with underlying type: string
 type GetDomainRecordsSortByEnum string
 
-// Set of constants representing the allowable values for GetDomainRecordsSortBy
+// Set of constants representing the allowable values for GetDomainRecordsSortByEnum
 const (
 	GetDomainRecordsSortByRtype GetDomainRecordsSortByEnum = "rtype"
 	GetDomainRecordsSortByTtl   GetDomainRecordsSortByEnum = "ttl"
@@ -126,7 +126,7 @@ var mappingGetDomainRecordsSortBy = map[string]GetDomainRecordsSortByEnum{
 	"ttl":   GetDomainRecordsSortByTtl,
 }
 
-// GetGetDomainRecordsSortByEnumValues Enumerates the set of values for GetDomainRecordsSortBy
+// GetGetDomainRecordsSortByEnumValues Enumerates the set of values for GetDomainRecordsSortByEnum
 func GetGetDomainRecordsSortByEnumValues() []GetDomainRecordsSortByEnum {
 	values := make([]GetDomainRecordsSortByEnum, 0)
 	for _, v := range mappingGetDomainRecordsSortBy {
@@ -138,7 +138,7 @@ func GetGetDomainRecordsSortByEnumValues() []GetDomainRecordsSortByEnum {
 // GetDomainRecordsSortOrderEnum Enum with underlying type: string
 type GetDomainRecordsSortOrderEnum string
 
-// Set of constants representing the allowable values for GetDomainRecordsSortOrder
+// Set of constants representing the allowable values for GetDomainRecordsSortOrderEnum
 const (
 	GetDomainRecordsSortOrderAsc  GetDomainRecordsSortOrderEnum = "ASC"
 	GetDomainRecordsSortOrderDesc GetDomainRecordsSortOrderEnum = "DESC"
@@ -149,7 +149,7 @@ var mappingGetDomainRecordsSortOrder = map[string]GetDomainRecordsSortOrderEnum{
 	"DESC": GetDomainRecordsSortOrderDesc,
 }
 
-// GetGetDomainRecordsSortOrderEnumValues Enumerates the set of values for GetDomainRecordsSortOrder
+// GetGetDomainRecordsSortOrderEnumValues Enumerates the set of values for GetDomainRecordsSortOrderEnum
 func GetGetDomainRecordsSortOrderEnumValues() []GetDomainRecordsSortOrderEnum {
 	values := make([]GetDomainRecordsSortOrderEnum, 0)
 	for _, v := range mappingGetDomainRecordsSortOrder {

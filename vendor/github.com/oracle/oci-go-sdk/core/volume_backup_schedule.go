@@ -35,7 +35,7 @@ func (m VolumeBackupSchedule) String() string {
 // VolumeBackupScheduleBackupTypeEnum Enum with underlying type: string
 type VolumeBackupScheduleBackupTypeEnum string
 
-// Set of constants representing the allowable values for VolumeBackupScheduleBackupType
+// Set of constants representing the allowable values for VolumeBackupScheduleBackupTypeEnum
 const (
 	VolumeBackupScheduleBackupTypeFull        VolumeBackupScheduleBackupTypeEnum = "FULL"
 	VolumeBackupScheduleBackupTypeIncremental VolumeBackupScheduleBackupTypeEnum = "INCREMENTAL"
@@ -46,7 +46,7 @@ var mappingVolumeBackupScheduleBackupType = map[string]VolumeBackupScheduleBacku
 	"INCREMENTAL": VolumeBackupScheduleBackupTypeIncremental,
 }
 
-// GetVolumeBackupScheduleBackupTypeEnumValues Enumerates the set of values for VolumeBackupScheduleBackupType
+// GetVolumeBackupScheduleBackupTypeEnumValues Enumerates the set of values for VolumeBackupScheduleBackupTypeEnum
 func GetVolumeBackupScheduleBackupTypeEnumValues() []VolumeBackupScheduleBackupTypeEnum {
 	values := make([]VolumeBackupScheduleBackupTypeEnum, 0)
 	for _, v := range mappingVolumeBackupScheduleBackupType {
@@ -58,7 +58,7 @@ func GetVolumeBackupScheduleBackupTypeEnumValues() []VolumeBackupScheduleBackupT
 // VolumeBackupSchedulePeriodEnum Enum with underlying type: string
 type VolumeBackupSchedulePeriodEnum string
 
-// Set of constants representing the allowable values for VolumeBackupSchedulePeriod
+// Set of constants representing the allowable values for VolumeBackupSchedulePeriodEnum
 const (
 	VolumeBackupSchedulePeriodHour  VolumeBackupSchedulePeriodEnum = "ONE_HOUR"
 	VolumeBackupSchedulePeriodDay   VolumeBackupSchedulePeriodEnum = "ONE_DAY"
@@ -75,7 +75,7 @@ var mappingVolumeBackupSchedulePeriod = map[string]VolumeBackupSchedulePeriodEnu
 	"ONE_YEAR":  VolumeBackupSchedulePeriodYear,
 }
 
-// GetVolumeBackupSchedulePeriodEnumValues Enumerates the set of values for VolumeBackupSchedulePeriod
+// GetVolumeBackupSchedulePeriodEnumValues Enumerates the set of values for VolumeBackupSchedulePeriodEnum
 func GetVolumeBackupSchedulePeriodEnumValues() []VolumeBackupSchedulePeriodEnum {
 	values := make([]VolumeBackupSchedulePeriodEnum, 0)
 	for _, v := range mappingVolumeBackupSchedulePeriod {

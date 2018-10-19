@@ -84,7 +84,7 @@ func (m VolumeGroupBackup) String() string {
 // VolumeGroupBackupLifecycleStateEnum Enum with underlying type: string
 type VolumeGroupBackupLifecycleStateEnum string
 
-// Set of constants representing the allowable values for VolumeGroupBackupLifecycleState
+// Set of constants representing the allowable values for VolumeGroupBackupLifecycleStateEnum
 const (
 	VolumeGroupBackupLifecycleStateCreating        VolumeGroupBackupLifecycleStateEnum = "CREATING"
 	VolumeGroupBackupLifecycleStateCommitted       VolumeGroupBackupLifecycleStateEnum = "COMMITTED"
@@ -105,7 +105,7 @@ var mappingVolumeGroupBackupLifecycleState = map[string]VolumeGroupBackupLifecyc
 	"REQUEST_RECEIVED": VolumeGroupBackupLifecycleStateRequestReceived,
 }
 
-// GetVolumeGroupBackupLifecycleStateEnumValues Enumerates the set of values for VolumeGroupBackupLifecycleState
+// GetVolumeGroupBackupLifecycleStateEnumValues Enumerates the set of values for VolumeGroupBackupLifecycleStateEnum
 func GetVolumeGroupBackupLifecycleStateEnumValues() []VolumeGroupBackupLifecycleStateEnum {
 	values := make([]VolumeGroupBackupLifecycleStateEnum, 0)
 	for _, v := range mappingVolumeGroupBackupLifecycleState {
@@ -117,7 +117,7 @@ func GetVolumeGroupBackupLifecycleStateEnumValues() []VolumeGroupBackupLifecycle
 // VolumeGroupBackupTypeEnum Enum with underlying type: string
 type VolumeGroupBackupTypeEnum string
 
-// Set of constants representing the allowable values for VolumeGroupBackupType
+// Set of constants representing the allowable values for VolumeGroupBackupTypeEnum
 const (
 	VolumeGroupBackupTypeFull        VolumeGroupBackupTypeEnum = "FULL"
 	VolumeGroupBackupTypeIncremental VolumeGroupBackupTypeEnum = "INCREMENTAL"
@@ -128,7 +128,7 @@ var mappingVolumeGroupBackupType = map[string]VolumeGroupBackupTypeEnum{
 	"INCREMENTAL": VolumeGroupBackupTypeIncremental,
 }
 
-// GetVolumeGroupBackupTypeEnumValues Enumerates the set of values for VolumeGroupBackupType
+// GetVolumeGroupBackupTypeEnumValues Enumerates the set of values for VolumeGroupBackupTypeEnum
 func GetVolumeGroupBackupTypeEnumValues() []VolumeGroupBackupTypeEnum {
 	values := make([]VolumeGroupBackupTypeEnum, 0)
 	for _, v := range mappingVolumeGroupBackupType {

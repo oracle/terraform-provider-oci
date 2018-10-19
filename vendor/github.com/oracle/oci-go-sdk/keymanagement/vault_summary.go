@@ -59,7 +59,7 @@ func (m VaultSummary) String() string {
 // VaultSummaryLifecycleStateEnum Enum with underlying type: string
 type VaultSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for VaultSummaryLifecycleState
+// Set of constants representing the allowable values for VaultSummaryLifecycleStateEnum
 const (
 	VaultSummaryLifecycleStateCreating           VaultSummaryLifecycleStateEnum = "CREATING"
 	VaultSummaryLifecycleStateActive             VaultSummaryLifecycleStateEnum = "ACTIVE"
@@ -80,7 +80,7 @@ var mappingVaultSummaryLifecycleState = map[string]VaultSummaryLifecycleStateEnu
 	"CANCELLING_DELETION": VaultSummaryLifecycleStateCancellingDeletion,
 }
 
-// GetVaultSummaryLifecycleStateEnumValues Enumerates the set of values for VaultSummaryLifecycleState
+// GetVaultSummaryLifecycleStateEnumValues Enumerates the set of values for VaultSummaryLifecycleStateEnum
 func GetVaultSummaryLifecycleStateEnumValues() []VaultSummaryLifecycleStateEnum {
 	values := make([]VaultSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingVaultSummaryLifecycleState {
@@ -92,7 +92,7 @@ func GetVaultSummaryLifecycleStateEnumValues() []VaultSummaryLifecycleStateEnum 
 // VaultSummaryVaultTypeEnum Enum with underlying type: string
 type VaultSummaryVaultTypeEnum string
 
-// Set of constants representing the allowable values for VaultSummaryVaultType
+// Set of constants representing the allowable values for VaultSummaryVaultTypeEnum
 const (
 	VaultSummaryVaultTypePrivate VaultSummaryVaultTypeEnum = "VIRTUAL_PRIVATE"
 )
@@ -101,7 +101,7 @@ var mappingVaultSummaryVaultType = map[string]VaultSummaryVaultTypeEnum{
 	"VIRTUAL_PRIVATE": VaultSummaryVaultTypePrivate,
 }
 
-// GetVaultSummaryVaultTypeEnumValues Enumerates the set of values for VaultSummaryVaultType
+// GetVaultSummaryVaultTypeEnumValues Enumerates the set of values for VaultSummaryVaultTypeEnum
 func GetVaultSummaryVaultTypeEnumValues() []VaultSummaryVaultTypeEnum {
 	values := make([]VaultSummaryVaultTypeEnum, 0)
 	for _, v := range mappingVaultSummaryVaultType {

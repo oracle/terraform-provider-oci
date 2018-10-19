@@ -55,7 +55,7 @@ func (m CreatePublicIpDetails) String() string {
 // CreatePublicIpDetailsLifetimeEnum Enum with underlying type: string
 type CreatePublicIpDetailsLifetimeEnum string
 
-// Set of constants representing the allowable values for CreatePublicIpDetailsLifetime
+// Set of constants representing the allowable values for CreatePublicIpDetailsLifetimeEnum
 const (
 	CreatePublicIpDetailsLifetimeEphemeral CreatePublicIpDetailsLifetimeEnum = "EPHEMERAL"
 	CreatePublicIpDetailsLifetimeReserved  CreatePublicIpDetailsLifetimeEnum = "RESERVED"
@@ -66,7 +66,7 @@ var mappingCreatePublicIpDetailsLifetime = map[string]CreatePublicIpDetailsLifet
 	"RESERVED":  CreatePublicIpDetailsLifetimeReserved,
 }
 
-// GetCreatePublicIpDetailsLifetimeEnumValues Enumerates the set of values for CreatePublicIpDetailsLifetime
+// GetCreatePublicIpDetailsLifetimeEnumValues Enumerates the set of values for CreatePublicIpDetailsLifetimeEnum
 func GetCreatePublicIpDetailsLifetimeEnumValues() []CreatePublicIpDetailsLifetimeEnum {
 	values := make([]CreatePublicIpDetailsLifetimeEnum, 0)
 	for _, v := range mappingCreatePublicIpDetailsLifetime {

@@ -41,7 +41,7 @@ type Subnet struct {
 	// The subnet's current state.
 	LifecycleState SubnetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID of the route table the subnet is using.
+	// The OCID of the route table that the subnet uses.
 	RouteTableId *string `mandatory:"true" json:"routeTableId"`
 
 	// The OCID of the VCN the subnet is in.
@@ -60,7 +60,7 @@ type Subnet struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The OCID of the set of DHCP options associated with the subnet.
+	// The OCID of the set of DHCP options that the subnet uses.
 	DhcpOptionsId *string `mandatory:"false" json:"dhcpOptionsId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -97,7 +97,9 @@ type Subnet struct {
 	// Example: `true`
 	ProhibitPublicIpOnVnic *bool `mandatory:"false" json:"prohibitPublicIpOnVnic"`
 
-	// OCIDs for the security lists to use for VNICs in this subnet.
+	// The OCIDs of the security list or lists that the subnet uses. Remember
+	// that security lists are associated *with the subnet*, but the
+	// rules are applied to the individual VNICs in the subnet.
 	SecurityListIds []string `mandatory:"false" json:"securityListIds"`
 
 	// The subnet's domain name, which consists of the subnet's DNS label,
@@ -119,7 +121,7 @@ func (m Subnet) String() string {
 // SubnetLifecycleStateEnum Enum with underlying type: string
 type SubnetLifecycleStateEnum string
 
-// Set of constants representing the allowable values for SubnetLifecycleState
+// Set of constants representing the allowable values for SubnetLifecycleStateEnum
 const (
 	SubnetLifecycleStateProvisioning SubnetLifecycleStateEnum = "PROVISIONING"
 	SubnetLifecycleStateAvailable    SubnetLifecycleStateEnum = "AVAILABLE"
@@ -134,7 +136,7 @@ var mappingSubnetLifecycleState = map[string]SubnetLifecycleStateEnum{
 	"TERMINATED":   SubnetLifecycleStateTerminated,
 }
 
-// GetSubnetLifecycleStateEnumValues Enumerates the set of values for SubnetLifecycleState
+// GetSubnetLifecycleStateEnumValues Enumerates the set of values for SubnetLifecycleStateEnum
 func GetSubnetLifecycleStateEnumValues() []SubnetLifecycleStateEnum {
 	values := make([]SubnetLifecycleStateEnum, 0)
 	for _, v := range mappingSubnetLifecycleState {

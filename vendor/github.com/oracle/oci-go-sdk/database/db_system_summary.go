@@ -146,7 +146,7 @@ func (m DbSystemSummary) String() string {
 // DbSystemSummaryDatabaseEditionEnum Enum with underlying type: string
 type DbSystemSummaryDatabaseEditionEnum string
 
-// Set of constants representing the allowable values for DbSystemSummaryDatabaseEdition
+// Set of constants representing the allowable values for DbSystemSummaryDatabaseEditionEnum
 const (
 	DbSystemSummaryDatabaseEditionStandardEdition                     DbSystemSummaryDatabaseEditionEnum = "STANDARD_EDITION"
 	DbSystemSummaryDatabaseEditionEnterpriseEdition                   DbSystemSummaryDatabaseEditionEnum = "ENTERPRISE_EDITION"
@@ -161,7 +161,7 @@ var mappingDbSystemSummaryDatabaseEdition = map[string]DbSystemSummaryDatabaseEd
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": DbSystemSummaryDatabaseEditionEnterpriseEditionExtremePerformance,
 }
 
-// GetDbSystemSummaryDatabaseEditionEnumValues Enumerates the set of values for DbSystemSummaryDatabaseEdition
+// GetDbSystemSummaryDatabaseEditionEnumValues Enumerates the set of values for DbSystemSummaryDatabaseEditionEnum
 func GetDbSystemSummaryDatabaseEditionEnumValues() []DbSystemSummaryDatabaseEditionEnum {
 	values := make([]DbSystemSummaryDatabaseEditionEnum, 0)
 	for _, v := range mappingDbSystemSummaryDatabaseEdition {
@@ -173,7 +173,7 @@ func GetDbSystemSummaryDatabaseEditionEnumValues() []DbSystemSummaryDatabaseEdit
 // DbSystemSummaryDiskRedundancyEnum Enum with underlying type: string
 type DbSystemSummaryDiskRedundancyEnum string
 
-// Set of constants representing the allowable values for DbSystemSummaryDiskRedundancy
+// Set of constants representing the allowable values for DbSystemSummaryDiskRedundancyEnum
 const (
 	DbSystemSummaryDiskRedundancyHigh   DbSystemSummaryDiskRedundancyEnum = "HIGH"
 	DbSystemSummaryDiskRedundancyNormal DbSystemSummaryDiskRedundancyEnum = "NORMAL"
@@ -184,7 +184,7 @@ var mappingDbSystemSummaryDiskRedundancy = map[string]DbSystemSummaryDiskRedunda
 	"NORMAL": DbSystemSummaryDiskRedundancyNormal,
 }
 
-// GetDbSystemSummaryDiskRedundancyEnumValues Enumerates the set of values for DbSystemSummaryDiskRedundancy
+// GetDbSystemSummaryDiskRedundancyEnumValues Enumerates the set of values for DbSystemSummaryDiskRedundancyEnum
 func GetDbSystemSummaryDiskRedundancyEnumValues() []DbSystemSummaryDiskRedundancyEnum {
 	values := make([]DbSystemSummaryDiskRedundancyEnum, 0)
 	for _, v := range mappingDbSystemSummaryDiskRedundancy {
@@ -196,7 +196,7 @@ func GetDbSystemSummaryDiskRedundancyEnumValues() []DbSystemSummaryDiskRedundanc
 // DbSystemSummaryLicenseModelEnum Enum with underlying type: string
 type DbSystemSummaryLicenseModelEnum string
 
-// Set of constants representing the allowable values for DbSystemSummaryLicenseModel
+// Set of constants representing the allowable values for DbSystemSummaryLicenseModelEnum
 const (
 	DbSystemSummaryLicenseModelLicenseIncluded     DbSystemSummaryLicenseModelEnum = "LICENSE_INCLUDED"
 	DbSystemSummaryLicenseModelBringYourOwnLicense DbSystemSummaryLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
@@ -207,7 +207,7 @@ var mappingDbSystemSummaryLicenseModel = map[string]DbSystemSummaryLicenseModelE
 	"BRING_YOUR_OWN_LICENSE": DbSystemSummaryLicenseModelBringYourOwnLicense,
 }
 
-// GetDbSystemSummaryLicenseModelEnumValues Enumerates the set of values for DbSystemSummaryLicenseModel
+// GetDbSystemSummaryLicenseModelEnumValues Enumerates the set of values for DbSystemSummaryLicenseModelEnum
 func GetDbSystemSummaryLicenseModelEnumValues() []DbSystemSummaryLicenseModelEnum {
 	values := make([]DbSystemSummaryLicenseModelEnum, 0)
 	for _, v := range mappingDbSystemSummaryLicenseModel {
@@ -219,7 +219,7 @@ func GetDbSystemSummaryLicenseModelEnumValues() []DbSystemSummaryLicenseModelEnu
 // DbSystemSummaryLifecycleStateEnum Enum with underlying type: string
 type DbSystemSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for DbSystemSummaryLifecycleState
+// Set of constants representing the allowable values for DbSystemSummaryLifecycleStateEnum
 const (
 	DbSystemSummaryLifecycleStateProvisioning DbSystemSummaryLifecycleStateEnum = "PROVISIONING"
 	DbSystemSummaryLifecycleStateAvailable    DbSystemSummaryLifecycleStateEnum = "AVAILABLE"
@@ -238,7 +238,7 @@ var mappingDbSystemSummaryLifecycleState = map[string]DbSystemSummaryLifecycleSt
 	"FAILED":       DbSystemSummaryLifecycleStateFailed,
 }
 
-// GetDbSystemSummaryLifecycleStateEnumValues Enumerates the set of values for DbSystemSummaryLifecycleState
+// GetDbSystemSummaryLifecycleStateEnumValues Enumerates the set of values for DbSystemSummaryLifecycleStateEnum
 func GetDbSystemSummaryLifecycleStateEnumValues() []DbSystemSummaryLifecycleStateEnum {
 	values := make([]DbSystemSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingDbSystemSummaryLifecycleState {

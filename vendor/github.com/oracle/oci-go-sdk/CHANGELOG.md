@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 2.7.0 - 2018-10-18
+### Added
+- Support for cost tracking tags in the Identity service
+- Support for generating and downloading wallets in the Database service
+- Support for creating a standalone backup from an on-premises database in the Database service
+- Support for db version and additional connection strings in the Autonomous Transaction Processing and Autonomous Data Warehouse resources of the Database service
+- Support for copying volume backups across regions in the Block Storage service
+- Support for deleting compartments in the Identity service
+- Support for reboot migration for virtual machines in the Compute service
+- Support for Instance Pools and Instance Configurations in the Compute service
+
+### Fixed
+- The signing algorithm does not lower case the header fields [Github issue 132](https://github.com/oracle/oci-go-sdk/issues/132)
+- Raw configuration provider does not check for empty strings [Github issue 134](https://github.com/oracle/oci-go-sdk/issues/134)
+
 ## 2.6.0 - 2018-10-04
 ### Added
 - Support for trusted partner images through application listings and subscriptions in the Compute service
@@ -30,14 +45,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 - Support for resizing an offline volume in the Block Storage service
 - Nil interface when polymorphic json response object is null
 
-## 2.2.0 - 2018-07-26
+## 2.2.0 - 2018-08-09
 ### Added
 - Support for fault domains in the Compute service
 - A sample showing how to use Search service from the SDK is available on [Github](https://github.com/oracle/oci-go-sdk/tree/master/example/example_resourcesearch_test.go)
 
 ## 2.1.0 - 2018-07-26
 ### Added
-- Support for the OCI Search service
+- Support for the Search service
 - Support for specifying a backup policy when creating a boot volume in the Block Storage service
 
 ### Fixed
@@ -207,7 +222,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
 ## 1.3.0 - 2018-04-19
 ### Added
-- Support for retry on OCI service APIs. Example can be found on [Github](https://github.com/oracle/oci-go-sdk/tree/master/example/example_retry_test.go)
+- Support for retry on Oracle Cloud Infrastructure service APIs. Example can be found on [Github](https://github.com/oracle/oci-go-sdk/tree/master/example/example_retry_test.go)
 - Support for tagging DbSystem and Database resources in the Database Service
 - Support for filtering by DbSystemId in ListDbVersions operation in Database Service
 

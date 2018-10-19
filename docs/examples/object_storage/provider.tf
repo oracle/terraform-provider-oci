@@ -14,6 +14,11 @@ variable "region" {
   default = "us-ashburn-1"
 }
 
+//the object can be created from the object data in the other region
+variable "source_region" {
+  default = "us-ashburn-1"
+}
+
 provider "oci" {
   region           = "${var.region}"
   tenancy_ocid     = "${var.tenancy_ocid}"

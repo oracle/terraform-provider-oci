@@ -10,11 +10,13 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"sync"
-
 	"strings"
+	"sync"
+	"time"
 
+	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/oracle/oci-go-sdk/common"
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
@@ -108,11 +110,11 @@ func validateSourceValue(i interface{}, k string) (s []string, es []error) {
 	}
 	info, err := os.Stat(v)
 	if err != nil {
-		es = append(es, fmt.Errorf("cannot get file information for the specified source: %s", k))
+		es = append(es, fmt.Errorf("cannot get file information for the specified source: %s", v))
 		return
 	}
 	if info.Size() > maxCount*maxPartSize {
-		es = append(es, fmt.Errorf("the specified source: %s file is too large", k))
+		es = append(es, fmt.Errorf("the specified source: %s file is too large", v))
 	}
 	return
 }
@@ -393,4 +395,100 @@ func uploadPartsWorker(ctx objectStorageMultiPartUploadContext) {
 		ctx.osUploadPartResponses <- *osUploadPartResponse
 		ctx.wg.Done()
 	}
+}
+
+func (s *ObjectResourceCrud) createSourceRegionClient(region string) error {
+	if s.SourceRegionClient == nil {
+		sourceObjectStorageClient, err := oci_object_storage.NewObjectStorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
+		if err != nil {
+			return fmt.Errorf("cannot create client for the source region: %v", err)
+		}
+		s.SourceRegionClient = &sourceObjectStorageClient
+	}
+	s.SourceRegionClient.SetRegion(region)
+
+	return nil
+}
+
+func copyObjectWaitForWorkRequest(wId *string, entityType string, timeout time.Duration, disableFoundRetries bool, client *oci_object_storage.ObjectStorageClient) error {
+
+	retryPolicy := getRetryPolicy(disableFoundRetries, "object_storage")
+	retryPolicy.ShouldRetryOperation = objectStorageWorkRequestShouldRetryFunc(timeout)
+
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_object_storage.WorkRequestStatusAccepted),
+			string(oci_object_storage.WorkRequestStatusInProgress),
+			string(oci_object_storage.WorkRequestStatusCanceling),
+		},
+		Target: []string{
+			string(oci_object_storage.WorkRequestSummaryStatusCompleted),
+			string(oci_object_storage.WorkRequestSummaryStatusCanceled),
+			string(oci_object_storage.WorkRequestStatusFailed),
+		},
+		Refresh: func() (interface{}, string, error) {
+			getWorkRequestRequest := oci_object_storage.GetWorkRequestRequest{}
+			getWorkRequestRequest.WorkRequestId = wId
+			getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
+			workRequestResponse, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+			wr := &workRequestResponse.WorkRequest
+			return workRequestResponse, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+
+	wrr, e := stateConf.WaitForState()
+	if e != nil {
+		return fmt.Errorf("work request did not succeed, workId: %s, entity: %s. Message: %s", *wId, entityType, e)
+	}
+
+	wr := wrr.(oci_object_storage.GetWorkRequestResponse).WorkRequest
+	if wr.Status == oci_object_storage.WorkRequestStatusFailed {
+		errorMessage, _ := getObjectStorageErrorFromWorkRequest(wId, client, disableFoundRetries)
+		return fmt.Errorf("work request did not succeed, workId: %s, entity: %s. Message: %s", *wId, entityType, errorMessage)
+	}
+
+	return nil
+
+}
+
+func objectStorageWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	stopTime := time.Now().Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		//Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		//Make sure we stop on default rules
+		if shouldRetry(response, false, "object_storage") {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if objectRes, ok := response.Response.(oci_object_storage.GetWorkRequestResponse); ok {
+			return objectRes.TimeFinished == nil
+		}
+		return false
+	}
+}
+
+func getObjectStorageErrorFromWorkRequest(workRequestId *string, client *oci_object_storage.ObjectStorageClient, disableFoundAutoRetries bool) (string, error) {
+	req := oci_object_storage.ListWorkRequestErrorsRequest{}
+	req.WorkRequestId = workRequestId
+	req.RequestMetadata.RetryPolicy = getRetryPolicy(disableFoundAutoRetries, "object_storage")
+	res, err := client.ListWorkRequestErrors(context.Background(), req)
+
+	if err != nil {
+		return "", err
+	}
+
+	allErrs := make([]string, 0)
+	for _, errs := range res.Items {
+		allErrs = append(allErrs, *errs.Message)
+	}
+
+	errorMessage := strings.Join(allErrs, "\n")
+	return errorMessage, nil
 }

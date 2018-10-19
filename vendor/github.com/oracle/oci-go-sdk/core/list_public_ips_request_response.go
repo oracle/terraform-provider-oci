@@ -96,7 +96,7 @@ func (response ListPublicIpsResponse) HTTPResponse() *http.Response {
 // ListPublicIpsScopeEnum Enum with underlying type: string
 type ListPublicIpsScopeEnum string
 
-// Set of constants representing the allowable values for ListPublicIpsScope
+// Set of constants representing the allowable values for ListPublicIpsScopeEnum
 const (
 	ListPublicIpsScopeRegion             ListPublicIpsScopeEnum = "REGION"
 	ListPublicIpsScopeAvailabilityDomain ListPublicIpsScopeEnum = "AVAILABILITY_DOMAIN"
@@ -107,7 +107,7 @@ var mappingListPublicIpsScope = map[string]ListPublicIpsScopeEnum{
 	"AVAILABILITY_DOMAIN": ListPublicIpsScopeAvailabilityDomain,
 }
 
-// GetListPublicIpsScopeEnumValues Enumerates the set of values for ListPublicIpsScope
+// GetListPublicIpsScopeEnumValues Enumerates the set of values for ListPublicIpsScopeEnum
 func GetListPublicIpsScopeEnumValues() []ListPublicIpsScopeEnum {
 	values := make([]ListPublicIpsScopeEnum, 0)
 	for _, v := range mappingListPublicIpsScope {
@@ -119,7 +119,7 @@ func GetListPublicIpsScopeEnumValues() []ListPublicIpsScopeEnum {
 // ListPublicIpsLifetimeEnum Enum with underlying type: string
 type ListPublicIpsLifetimeEnum string
 
-// Set of constants representing the allowable values for ListPublicIpsLifetime
+// Set of constants representing the allowable values for ListPublicIpsLifetimeEnum
 const (
 	ListPublicIpsLifetimeEphemeral ListPublicIpsLifetimeEnum = "EPHEMERAL"
 	ListPublicIpsLifetimeReserved  ListPublicIpsLifetimeEnum = "RESERVED"
@@ -130,7 +130,7 @@ var mappingListPublicIpsLifetime = map[string]ListPublicIpsLifetimeEnum{
 	"RESERVED":  ListPublicIpsLifetimeReserved,
 }
 
-// GetListPublicIpsLifetimeEnumValues Enumerates the set of values for ListPublicIpsLifetime
+// GetListPublicIpsLifetimeEnumValues Enumerates the set of values for ListPublicIpsLifetimeEnum
 func GetListPublicIpsLifetimeEnumValues() []ListPublicIpsLifetimeEnum {
 	values := make([]ListPublicIpsLifetimeEnum, 0)
 	for _, v := range mappingListPublicIpsLifetime {

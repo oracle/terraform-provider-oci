@@ -63,7 +63,7 @@ func (m Vault) String() string {
 // VaultLifecycleStateEnum Enum with underlying type: string
 type VaultLifecycleStateEnum string
 
-// Set of constants representing the allowable values for VaultLifecycleState
+// Set of constants representing the allowable values for VaultLifecycleStateEnum
 const (
 	VaultLifecycleStateCreating           VaultLifecycleStateEnum = "CREATING"
 	VaultLifecycleStateActive             VaultLifecycleStateEnum = "ACTIVE"
@@ -84,7 +84,7 @@ var mappingVaultLifecycleState = map[string]VaultLifecycleStateEnum{
 	"CANCELLING_DELETION": VaultLifecycleStateCancellingDeletion,
 }
 
-// GetVaultLifecycleStateEnumValues Enumerates the set of values for VaultLifecycleState
+// GetVaultLifecycleStateEnumValues Enumerates the set of values for VaultLifecycleStateEnum
 func GetVaultLifecycleStateEnumValues() []VaultLifecycleStateEnum {
 	values := make([]VaultLifecycleStateEnum, 0)
 	for _, v := range mappingVaultLifecycleState {
@@ -96,7 +96,7 @@ func GetVaultLifecycleStateEnumValues() []VaultLifecycleStateEnum {
 // VaultVaultTypeEnum Enum with underlying type: string
 type VaultVaultTypeEnum string
 
-// Set of constants representing the allowable values for VaultVaultType
+// Set of constants representing the allowable values for VaultVaultTypeEnum
 const (
 	VaultVaultTypePrivate VaultVaultTypeEnum = "VIRTUAL_PRIVATE"
 )
@@ -105,7 +105,7 @@ var mappingVaultVaultType = map[string]VaultVaultTypeEnum{
 	"VIRTUAL_PRIVATE": VaultVaultTypePrivate,
 }
 
-// GetVaultVaultTypeEnumValues Enumerates the set of values for VaultVaultType
+// GetVaultVaultTypeEnumValues Enumerates the set of values for VaultVaultTypeEnum
 func GetVaultVaultTypeEnumValues() []VaultVaultTypeEnum {
 	values := make([]VaultVaultTypeEnum, 0)
 	for _, v := range mappingVaultVaultType {

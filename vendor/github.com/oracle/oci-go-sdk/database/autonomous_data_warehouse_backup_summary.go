@@ -55,7 +55,7 @@ func (m AutonomousDataWarehouseBackupSummary) String() string {
 // AutonomousDataWarehouseBackupSummaryLifecycleStateEnum Enum with underlying type: string
 type AutonomousDataWarehouseBackupSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for AutonomousDataWarehouseBackupSummaryLifecycleState
+// Set of constants representing the allowable values for AutonomousDataWarehouseBackupSummaryLifecycleStateEnum
 const (
 	AutonomousDataWarehouseBackupSummaryLifecycleStateCreating AutonomousDataWarehouseBackupSummaryLifecycleStateEnum = "CREATING"
 	AutonomousDataWarehouseBackupSummaryLifecycleStateActive   AutonomousDataWarehouseBackupSummaryLifecycleStateEnum = "ACTIVE"
@@ -72,7 +72,7 @@ var mappingAutonomousDataWarehouseBackupSummaryLifecycleState = map[string]Auton
 	"FAILED":   AutonomousDataWarehouseBackupSummaryLifecycleStateFailed,
 }
 
-// GetAutonomousDataWarehouseBackupSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDataWarehouseBackupSummaryLifecycleState
+// GetAutonomousDataWarehouseBackupSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDataWarehouseBackupSummaryLifecycleStateEnum
 func GetAutonomousDataWarehouseBackupSummaryLifecycleStateEnumValues() []AutonomousDataWarehouseBackupSummaryLifecycleStateEnum {
 	values := make([]AutonomousDataWarehouseBackupSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingAutonomousDataWarehouseBackupSummaryLifecycleState {
@@ -84,7 +84,7 @@ func GetAutonomousDataWarehouseBackupSummaryLifecycleStateEnumValues() []Autonom
 // AutonomousDataWarehouseBackupSummaryTypeEnum Enum with underlying type: string
 type AutonomousDataWarehouseBackupSummaryTypeEnum string
 
-// Set of constants representing the allowable values for AutonomousDataWarehouseBackupSummaryType
+// Set of constants representing the allowable values for AutonomousDataWarehouseBackupSummaryTypeEnum
 const (
 	AutonomousDataWarehouseBackupSummaryTypeIncremental AutonomousDataWarehouseBackupSummaryTypeEnum = "INCREMENTAL"
 	AutonomousDataWarehouseBackupSummaryTypeFull        AutonomousDataWarehouseBackupSummaryTypeEnum = "FULL"
@@ -95,7 +95,7 @@ var mappingAutonomousDataWarehouseBackupSummaryType = map[string]AutonomousDataW
 	"FULL":        AutonomousDataWarehouseBackupSummaryTypeFull,
 }
 
-// GetAutonomousDataWarehouseBackupSummaryTypeEnumValues Enumerates the set of values for AutonomousDataWarehouseBackupSummaryType
+// GetAutonomousDataWarehouseBackupSummaryTypeEnumValues Enumerates the set of values for AutonomousDataWarehouseBackupSummaryTypeEnum
 func GetAutonomousDataWarehouseBackupSummaryTypeEnumValues() []AutonomousDataWarehouseBackupSummaryTypeEnum {
 	values := make([]AutonomousDataWarehouseBackupSummaryTypeEnum, 0)
 	for _, v := range mappingAutonomousDataWarehouseBackupSummaryType {

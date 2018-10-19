@@ -58,6 +58,54 @@ func (client *DatabaseClient) ConfigurationProvider() *common.ConfigurationProvi
 	return client.config
 }
 
+// CompleteExternalBackupJob Changes the status of the standalone backup resource to `ACTIVE` after the backup is created from the on-premises database and placed in Oracle Cloud Infrastructure Object Storage.
+// **Note:** This API is used by an Oracle Cloud Infrastructure Python script that is packaged with the Oracle Cloud Infrastructure CLI. Oracle recommends that you use the script instead using the API directly. See Migrating an On-Premises Database to Oracle Cloud Infrastructure by Creating a Backup in the Cloud (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Tasks/mig-onprembackup.htm) for more information.
+func (client DatabaseClient) CompleteExternalBackupJob(ctx context.Context, request CompleteExternalBackupJobRequest) (response CompleteExternalBackupJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.completeExternalBackupJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CompleteExternalBackupJobResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CompleteExternalBackupJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CompleteExternalBackupJobResponse")
+	}
+	return
+}
+
+// completeExternalBackupJob implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) completeExternalBackupJob(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalBackupJobs/{backupId}/actions/complete")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CompleteExternalBackupJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateAutonomousDataWarehouse Creates a new Autonomous Data Warehouse.
 func (client DatabaseClient) CreateAutonomousDataWarehouse(ctx context.Context, request CreateAutonomousDataWarehouseRequest) (response CreateAutonomousDataWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -393,6 +441,54 @@ func (client DatabaseClient) createDbHome(ctx context.Context, request common.OC
 	return response, err
 }
 
+// CreateExternalBackupJob Creates a new backup resource and returns the information the caller needs to back up an on-premises Oracle Database to Oracle Cloud Infrastructure.
+// **Note:** This API is used by an Oracle Cloud Infrastructure Python script that is packaged with the Oracle Cloud Infrastructure CLI. Oracle recommends that you use the script instead using the API directly. See Migrating an On-Premises Database to Oracle Cloud Infrastructure by Creating a Backup in the Cloud (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Tasks/mig-onprembackup.htm) for more information.
+func (client DatabaseClient) CreateExternalBackupJob(ctx context.Context, request CreateExternalBackupJobRequest) (response CreateExternalBackupJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createExternalBackupJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateExternalBackupJobResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateExternalBackupJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateExternalBackupJobResponse")
+	}
+	return
+}
+
+// createExternalBackupJob implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createExternalBackupJob(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalBackupJobs")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateExternalBackupJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DbNodeAction Performs an action, such as one of the power actions (start, stop, softreset, or reset), on the specified DB Node.
 // **start** - power on
 // **stop** - power off
@@ -653,6 +749,98 @@ func (client DatabaseClient) failoverDataGuardAssociation(ctx context.Context, r
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GenerateAutonomousDataWarehouseWallet Creates and downloads a wallet for the specified Autonomous Data Warehouse.
+func (client DatabaseClient) GenerateAutonomousDataWarehouseWallet(ctx context.Context, request GenerateAutonomousDataWarehouseWalletRequest) (response GenerateAutonomousDataWarehouseWalletResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateAutonomousDataWarehouseWallet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GenerateAutonomousDataWarehouseWalletResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateAutonomousDataWarehouseWalletResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateAutonomousDataWarehouseWalletResponse")
+	}
+	return
+}
+
+// generateAutonomousDataWarehouseWallet implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) generateAutonomousDataWarehouseWallet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDataWarehouses/{autonomousDataWarehouseId}/actions/generateWallet")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateAutonomousDataWarehouseWalletResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GenerateAutonomousDatabaseWallet Creates and downloads a wallet for the specified Autonomous Transaction Processing database.
+func (client DatabaseClient) GenerateAutonomousDatabaseWallet(ctx context.Context, request GenerateAutonomousDatabaseWalletRequest) (response GenerateAutonomousDatabaseWalletResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateAutonomousDatabaseWallet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GenerateAutonomousDatabaseWalletResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateAutonomousDatabaseWalletResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateAutonomousDatabaseWalletResponse")
+	}
+	return
+}
+
+// generateAutonomousDatabaseWallet implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) generateAutonomousDatabaseWallet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/generateWallet")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateAutonomousDatabaseWalletResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
 		return response, err
@@ -1238,6 +1426,49 @@ func (client DatabaseClient) getDbSystemPatchHistoryEntry(ctx context.Context, r
 	}
 
 	var response GetDbSystemPatchHistoryEntryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetExternalBackupJob Gets information about the specified external backup job.
+// **Note:** This API is used by an Oracle Cloud Infrastructure Python script that is packaged with the Oracle Cloud Infrastructure CLI. Oracle recommends that you use the script instead using the API directly. See Migrating an On-Premises Database to Oracle Cloud Infrastructure by Creating a Backup in the Cloud (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Tasks/mig-onprembackup.htm) for more information.
+func (client DatabaseClient) GetExternalBackupJob(ctx context.Context, request GetExternalBackupJobRequest) (response GetExternalBackupJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getExternalBackupJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetExternalBackupJobResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetExternalBackupJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetExternalBackupJobResponse")
+	}
+	return
+}
+
+// getExternalBackupJob implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getExternalBackupJob(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/externalBackupJobs/{backupId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetExternalBackupJobResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
