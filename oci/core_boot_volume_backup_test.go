@@ -18,7 +18,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupRepresentation)
 
 	BootVolumeBackupResourceConfig = BootVolumeBackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Required, Create, bootVolumeBackupRepresentation)
+		generateResourceFromRepresentationMap("oci_core_boot_volume_backup", "test_boot_volume_backup", Optional, Update, bootVolumeBackupRepresentation)
 
 	bootVolumeBackupSingularDataSourceRepresentation = map[string]interface{}{
 		"boot_volume_backup_id": Representation{repType: Required, create: `${oci_core_boot_volume_backup.test_boot_volume_backup.id}`},

@@ -12,7 +12,7 @@ import (
 
 var (
 	ConfigurationResourceConfig = ConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationRepresentation)
+		generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Optional, Update, configurationRepresentation)
 
 	configurationSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},

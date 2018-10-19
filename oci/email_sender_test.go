@@ -15,7 +15,7 @@ import (
 
 var (
 	SenderResourceConfig = SenderResourceDependencies +
-		generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderRepresentation)
+		generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation)
 
 	senderSingularDataSourceRepresentation = map[string]interface{}{
 		"sender_id": Representation{repType: Required, create: `${oci_email_sender.test_sender.id}`},

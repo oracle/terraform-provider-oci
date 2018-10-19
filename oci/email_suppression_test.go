@@ -15,7 +15,7 @@ import (
 
 var (
 	SuppressionResourceConfig = SuppressionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Required, Create, suppressionRepresentation)
+		generateResourceFromRepresentationMap("oci_email_suppression", "test_suppression", Optional, Update, suppressionRepresentation)
 
 	suppressionSingularDataSourceRepresentation = map[string]interface{}{
 		"suppression_id": Representation{repType: Required, create: `${oci_email_suppression.test_suppression.id}`},

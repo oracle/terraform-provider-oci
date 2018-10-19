@@ -18,7 +18,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation)
 
 	SubnetResourceConfig = SubnetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation)
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation)
 
 	subnetSingularDataSourceRepresentation = map[string]interface{}{
 		"subnet_id": Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},

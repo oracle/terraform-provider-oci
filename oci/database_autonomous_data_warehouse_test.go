@@ -18,7 +18,7 @@ var (
 		generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse", "test_autonomous_data_warehouse", Required, Create, autonomousDataWarehouseRepresentation)
 
 	AutonomousDataWarehouseResourceConfig = AutonomousDataWarehouseResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse", "test_autonomous_data_warehouse", Required, Create, autonomousDataWarehouseRepresentation)
+		generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse", "test_autonomous_data_warehouse", Optional, Update, autonomousDataWarehouseRepresentation)
 
 	autonomousDataWarehouseSingularDataSourceRepresentation = map[string]interface{}{
 		"autonomous_data_warehouse_id": Representation{repType: Required, create: `${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}`},

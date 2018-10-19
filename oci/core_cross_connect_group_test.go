@@ -18,7 +18,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupRepresentation)
 
 	CrossConnectGroupResourceConfig = CrossConnectGroupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupRepresentation)
+		generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Update, crossConnectGroupRepresentation)
 
 	crossConnectGroupSingularDataSourceRepresentation = map[string]interface{}{
 		"cross_connect_group_id": Representation{repType: Required, create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},

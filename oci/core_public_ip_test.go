@@ -25,7 +25,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation)
 
 	PublicIpResourceConfig = PublicIpResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Required, Create, publicIpRepresentation)
+		generateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", Optional, Update, publicIpRepresentation)
 
 	publicIpSingularDataSourceRepresentation = map[string]interface{}{
 		"private_ip_id": Representation{repType: Required, create: `${oci_core_public_ip.test_public_ip2.private_ip_id}`},
