@@ -60,11 +60,3 @@ The following attributes are exported:
 * `rtype` - The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
 * `ttl` - The Time To Live for the record, in seconds.
 * `zone_name_or_id` - The name or OCID of the target zone.
-
-## Import
-
-PublicIps can be imported using the `id`, e.g.
-
-```
-$ terraform import oci_dns_records.test_record "id"
-```
