@@ -1,4 +1,4 @@
-## 3.5.0 (Unreleased)
+## 3.5.0 (October 19, 2018)
 
 ### Added
 - Support for [Cross Region Copy](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/copyingobjects.htm) of objects
