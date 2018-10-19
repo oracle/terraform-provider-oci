@@ -22,16 +22,15 @@ var (
 		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation)
 
 	BootVolumeResourceConfig = BootVolumeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation)
+		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation)
 
 	bootVolumeSingularDataSourceRepresentation = map[string]interface{}{
-		"boot_volume_id": Representation{repType: Required, create: `{}`},
+		"boot_volume_id": Representation{repType: Required, create: `${oci_core_boot_volume.test_boot_volume.id}`},
 	}
 
 	bootVolumeDataSourceRepresentation = map[string]interface{}{
 		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"volume_group_id":     Representation{repType: Optional, create: `${oci_core_volume_group.test_volume_group.id}`},
 		"filter":              RepresentationGroup{Required, bootVolumeDataSourceFilterRepresentation}}
 	bootVolumeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -39,21 +38,21 @@ var (
 	}
 
 	bootVolumeRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `availabilityDomain`},
+		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"source_details":      RepresentationGroup{Required, bootVolumeSourceDetailsRepresentation},
 		"backup_policy_id":    Representation{repType: Optional, create: `${data.oci_core_volume_backup_policies.test_boot_volume_backup_policies.volume_backup_policies.0.id}`},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"size_in_gbs":         Representation{repType: Optional, create: `50`},
+		"size_in_gbs":         Representation{repType: Optional, create: `50`, update: `51`},
 	}
 	bootVolumeSourceDetailsRepresentation = map[string]interface{}{
 		"id":   Representation{repType: Required, create: `${oci_core_instance.test_instance.boot_volume_id}`},
 		"type": Representation{repType: Required, create: `bootVolume`},
 	}
 
-	BootVolumeResourceDependencies = InstanceRequiredOnlyResource + VolumeGroupResourceConfig + `
+	BootVolumeResourceDependencies = InstanceRequiredOnlyResource + VolumeGroupAsDependency + `
 data "oci_core_volume_backup_policies" "test_boot_volume_backup_policies" {
 	filter {
 		name = "display_name"
@@ -137,6 +136,8 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
+				PreConfig: waitTillCondition(testAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
+					bootVolumeResponseFetchOperation, "core", false),
 				Config: config + compartmentIdVariableStr + BootVolumeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(

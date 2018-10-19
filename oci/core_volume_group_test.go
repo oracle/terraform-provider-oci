@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	VolumeGroupRequiredOnlyResource = VolumeGroupResourceDependencies +
+	VolumeGroupRequiredOnlyResource = VolumeGroupRequiredOnlyResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation)
 
 	VolumeGroupResourceConfig = VolumeGroupResourceDependencies +
@@ -22,7 +22,7 @@ var (
 
 	volumeGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.ADs.availability_domains.0.name}`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":               Representation{repType: Optional, create: `AVAILABLE`},
 		"filter":              RepresentationGroup{Required, volumeGroupDataSourceFilterRepresentation}}
@@ -32,7 +32,7 @@ var (
 	}
 
 	volumeGroupRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.ADs.availability_domains.0.name}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"source_details":      RepresentationGroup{Required, volumeGroupSourceDetailsRepresentation},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -60,17 +60,15 @@ var (
 		generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create,
 			getUpdatedRepresentationCopy("source_details", RepresentationGroup{Required, sourceDetailsSingleVolumeIdSourceDetailsRepresentation}, volumeGroupRepresentation))
 
-	VolumeGroupResourceDependencies = DefinedTagsDependencies + `
-data "oci_identity_availability_domains" "ADs" {
-	compartment_id = "${var.compartment_id}"
-}
-
+	VolumeGroupResourceDependencies = DefinedTagsDependencies + VolumeGroupRequiredOnlyResourceDependencies
+	VolumeGroupRequiredOnlyResourceDependencies = AvailabilityDomainConfig + VolumeGroupAsDependency
+	VolumeGroupAsDependency = generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation) + `
 resource "oci_core_volume" "source_volume_list" {
 	count = 2
 	display_name = "${format("source-volume-%d", count.index + 1)}"
 
 	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 }
 `
@@ -97,7 +95,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies +
+				Config: config + compartmentIdVariableStr + VolumeGroupRequiredOnlyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),

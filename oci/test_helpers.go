@@ -181,6 +181,14 @@ func cloneRepresentation(representations map[string]interface{}) map[string]inte
 	return copyMap
 }
 
+func representationCopyWithRemovedProperties(representations map[string]interface{}, removedProperties []string) map[string]interface{} {
+	representationsCopy := cloneRepresentation(representations)
+	for _, propName := range removedProperties {
+		delete(representationsCopy, propName)
+	}
+	return representationsCopy
+}
+
 func representationCopyWithNewProperties(representations map[string]interface{}, newProperties map[string]interface{}) map[string]interface{} {
 	representationsCopy := cloneRepresentation(representations)
 	for propName, value := range newProperties {
@@ -220,6 +228,9 @@ func generateDataSourceFromRepresentationMap(resourceType string, resourceName s
 func generateResourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
 	var buffer bytes.Buffer
 	buffer.WriteString(fmt.Sprintf(`resource "%s" "%s" %s`, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))
+	if "test_object_copy" == resourceName{
+		log.Printf("### %s", buffer.String())
+	}
 	return buffer.String()
 }
 
