@@ -25,7 +25,7 @@ var (
 		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation)
 
 	ObjectResourceConfig = ObjectResourceDependencies +
-		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation)
+		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectRepresentation)
 
 	objectDataSourceRepresentation = map[string]interface{}{
 		"bucket":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
@@ -539,7 +539,7 @@ var (
 		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, getUpdatedRepresentationCopy(
 			"source", Representation{repType: Optional, create: pathToSinglePartFile}, objectSourceRepresentation))
 
-	ObjectResourceConfigWithSourceURIFromContentObject = ObjectResourceDependencies +
+	ObjectResourceConfigWithSourceURIFromContentObject = ObjectResourceConfigWithSourceURIFromContentObjectDependency +
 		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object_copy", Optional, Create, representationCopyWithNewProperties(ObjectResourceConfigWithoutContent, map[string]interface{}{
 			"source_uri_details": RepresentationGroup{Optional, objectSourceUriDetailsRepresentationSourceEtag},
 			"object":             Representation{repType: Optional, create: `my-test-object-1-copy`},
@@ -551,16 +551,15 @@ var (
 		"metadata":           Representation{repType: Optional, create: map[string]string{"content-type": "text/plain-copy"}},
 	}))
 
-	ObjectResourceConfigWithSourceURIFromCopyOfContentObject = ObjectResourceDependencies +
-		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, representationCopyWithNewProperties(ObjectResourceConfigWithoutContent, map[string]interface{}{
-			"source_uri_details": RepresentationGroup{Optional, objectSourceUriDetailsRepresentationWithCopyObject},
-			"metadata":           Representation{repType: Optional, create: map[string]string{"content-type": "text/plain-copy-copy"}},
-		}))
+	ObjectResourceConfigWithSourceURIFromCopyOfContentObject = generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, representationCopyWithNewProperties(ObjectResourceConfigWithoutContent, map[string]interface{}{
+		"source_uri_details": RepresentationGroup{Optional, objectSourceUriDetailsRepresentationWithCopyObject},
+		"metadata":           Representation{repType: Optional, create: map[string]string{"content-type": "text/plain-copy-copy"}},
+	}))
 
 	objectSourceUriDetailsRepresentation = map[string]interface{}{
-		"region":    Representation{repType: Optional, create: `${var.region}`},
-		"namespace": Representation{repType: Optional, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
-		"bucket":    Representation{repType: Optional, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"region":    Representation{repType: Required, create: `${var.region}`},
+		"namespace": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"bucket":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"object":    Representation{repType: Required, create: `my-test-object-1`},
 	}
 	objectSourceUriDetailsRepresentationSourceEtag = representationCopyWithNewProperties(objectSourceUriDetailsRepresentation, map[string]interface{}{
@@ -569,16 +568,14 @@ var (
 	objectSourceUriDetailsRepresentationWithCopyObject = representationCopyWithNewProperties(objectSourceUriDetailsRepresentation, map[string]interface{}{
 		"object": Representation{repType: Optional, create: `my-test-object-1-copy`},
 	})
-)
 
-const (
-	ObjectResourceConfigWithSourceURIFromContentObjectDependency = `
-data "oci_objectstorage_object_head" "object_head" {
-  namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-  bucket    = "${oci_objectstorage_bucket.test_bucket.name}"
-  object    = "${var.object_object}"
-}
-`
+	ObjectResourceConfigWithSourceURIFromContentObjectDependency = generateDataSourceFromRepresentationMap("oci_objectstorage_object_head", "object_head", Required, Create, objectHeadDatasourceRepresentation)
+
+	objectHeadDatasourceRepresentation = map[string]interface{}{
+		"namespace": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"bucket":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"object":    Representation{repType: Required, create: `my-test-object-1`},
+	}
 )
 
 func createTmpObjectInOtherRegion() (string, error) {
@@ -640,11 +637,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// verify copy object copy of the source object
 			{
-				Config: config + ObjectResourceConfigWithSourceSinglePart + `
-					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
-					variable "object_object_copy" { default = "my-test-object-1-copy" }
-					variable "object_source" { default = "` + pathToSinglePartFile + `" }
-                	` + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
+				Config: config + ObjectResourceConfigWithSourceSinglePart + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", "my-test-1"),
@@ -665,7 +658,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// verify create content object with optionals
 			{
-				Config: config + compartmentIdVariableStr,
+				Config: config + compartmentIdVariableStr + ObjectResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
@@ -688,9 +681,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// verify copy content object in the same bucket with source etag
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceConfig + `
-					variable "object_object_copy" { default = "my-test-object-1-copy" }
-					` + ObjectResourceConfigWithSourceURIFromContentObject,
+				Config: config + compartmentIdVariableStr + ObjectResourceConfig + ObjectResourceConfigWithSourceURIFromContentObject,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", "my-test-1"),
@@ -708,10 +699,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			// verify recreate copy content object in the same bucket - remove source etag
 			// metadata is updated
 			{
-				Config: config + compartmentIdVariableStr + ObjectResourceConfig + `
-					variable "object_object_copy" { default = "my-test-object-1-copy" }
-					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
-					` + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
+				Config: config + compartmentIdVariableStr + ObjectResourceConfig + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", "my-test-1"),
@@ -728,12 +716,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			//  replace content object by the copy of the content object copy in the same bucket
 			{
-				Config: config + compartmentIdVariableStr + `
-					variable "object_object_copy" { default = "my-test-object-1-copy" }
-					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
-					
-					variable "object_copy3_metadata" { default = {"content-type" = "text/plain-copy-copy"} }
-                	` + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
+				Config: config + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
 					ObjectResourceConfigWithSourceURIFromCopyOfContentObject + ObjectResourceConfigWithSourceURIFromContentObjectDependency +
 					ObjectResourceDependencies,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -752,12 +735,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// recreate copy of copy of content object by singlepart with optionals
 			{
-				Config: config + ObjectResourceConfigWithSourceSinglePart + `
-					variable "object_source" { default = "` + pathToSinglePartFile + `" }
-					variable "object_object_copy" { default = "my-test-object-1-copy" }
-					variable "object_copy2_metadata" { default = {"content-type" = "text/plain-copy"} }
-					
-					` + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
+				Config: config + ObjectResourceConfigWithSourceSinglePart + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
 					compartmentIdVariableStr,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
