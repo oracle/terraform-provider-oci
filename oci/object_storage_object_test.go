@@ -310,7 +310,7 @@ func testAccCheckObjectStorageObjectDestroy(s *terraform.State) error {
 }
 
 var (
-		objectSourceRepresentation = map[string]interface{}{
+	objectSourceRepresentation = map[string]interface{}{
 		"bucket":           Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace":        Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 		"object":           Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`},
@@ -532,7 +532,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 	})
 }
 
-var(
+var (
 	ObjectResourceConfigWithoutContent = representationCopyWithRemovedProperties(objectRepresentation, []string{"content"})
 
 	ObjectResourceConfigWithSourceSinglePart = ObjectResourceDependencies +
@@ -542,112 +542,41 @@ var(
 	ObjectResourceConfigWithSourceURIFromContentObject = ObjectResourceDependencies +
 		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object_copy", Optional, Create, representationCopyWithNewProperties(ObjectResourceConfigWithoutContent, map[string]interface{}{
 			"source_uri_details": RepresentationGroup{Optional, objectSourceUriDetailsRepresentationSourceEtag},
-			"object":  Representation{repType: Optional, create: `my-test-object-1-copy`},
+			"object":             Representation{repType: Optional, create: `my-test-object-1-copy`},
 		}))
 
-	ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag =
-		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object_copy", Optional, Create, representationCopyWithNewProperties(ObjectResourceConfigWithoutContent, map[string]interface{}{
-			"source_uri_details": RepresentationGroup{Optional, objectSourceUriDetailsRepresentation},
-			"object":  Representation{repType: Optional, create: `my-test-object-1-copy`},
-			"metadata": Representation{repType: Optional, create: map[string]string{"content-type": "text/plain-copy"}},
-		}))
-
+	ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag = generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object_copy", Optional, Create, representationCopyWithNewProperties(ObjectResourceConfigWithoutContent, map[string]interface{}{
+		"source_uri_details": RepresentationGroup{Optional, objectSourceUriDetailsRepresentation},
+		"object":             Representation{repType: Optional, create: `my-test-object-1-copy`},
+		"metadata":           Representation{repType: Optional, create: map[string]string{"content-type": "text/plain-copy"}},
+	}))
 
 	ObjectResourceConfigWithSourceURIFromCopyOfContentObject = ObjectResourceDependencies +
 		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, representationCopyWithNewProperties(ObjectResourceConfigWithoutContent, map[string]interface{}{
 			"source_uri_details": RepresentationGroup{Optional, objectSourceUriDetailsRepresentationWithCopyObject},
-			"metadata": Representation{repType: Optional, create: map[string]string{"content-type": "text/plain-copy-copy"}},
+			"metadata":           Representation{repType: Optional, create: map[string]string{"content-type": "text/plain-copy-copy"}},
 		}))
 
-
-
-	objectSourceUriDetailsRepresentation = 	map[string]interface{}{
-		"region": Representation{repType: Optional, create: `${var.region}`},
+	objectSourceUriDetailsRepresentation = map[string]interface{}{
+		"region":    Representation{repType: Optional, create: `${var.region}`},
 		"namespace": Representation{repType: Optional, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
-		"bucket": Representation{repType: Optional, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"object": Representation{repType: Required, create: `my-test-object-1`},
+		"bucket":    Representation{repType: Optional, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"object":    Representation{repType: Required, create: `my-test-object-1`},
 	}
 	objectSourceUriDetailsRepresentationSourceEtag = representationCopyWithNewProperties(objectSourceUriDetailsRepresentation, map[string]interface{}{
 		"source_object_if_match_etag": Representation{repType: Optional, create: `${data.oci_objectstorage_object_head.object_head.etag}`},
 	})
 	objectSourceUriDetailsRepresentationWithCopyObject = representationCopyWithNewProperties(objectSourceUriDetailsRepresentation, map[string]interface{}{
-		"object":  Representation{repType: Optional, create: `my-test-object-1-copy`},
+		"object": Representation{repType: Optional, create: `my-test-object-1-copy`},
 	})
 )
 
 const (
-	ObjectResourceConfigWithSourceURIFromContentObject = `
-resource "oci_objectstorage_object" "test_object_copy" {
-	#Required
-	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-	object = "${var.object_object_copy}"
-	
-	#Optional
-
-	#should be the same as for the source object not to have empty plan
-	content_encoding = "${var.object_content_encoding}"
-	content_language = "${var.object_content_language}"
-	metadata = "${var.object_metadata}"
-
-	source_uri_details {
-		region = "${var.region}"
-		namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-		bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-		object = "${var.object_object}"
-		source_object_if_match_etag = "${data.oci_objectstorage_object_head.object_head.etag}"
-	}
-}
-
+	ObjectResourceConfigWithSourceURIFromContentObjectDependency = `
 data "oci_objectstorage_object_head" "object_head" {
   namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
   bucket    = "${oci_objectstorage_bucket.test_bucket.name}"
   object    = "${var.object_object}"
-}
-`
-
-	ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag = `
-resource "oci_objectstorage_object" "test_object_copy" {
-	#Required
-	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-	object = "${var.object_object_copy}"
-	
-	#Optional
-
-	#should be the same as for the source object not to have empty plan
-	content_encoding = "${var.object_content_encoding}"
-	content_language = "${var.object_content_language}"
-	metadata = "${var.object_copy2_metadata}"
-
-	source_uri_details {
-		region = "${var.region}"
-		namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-		bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-		object = "${var.object_object}"
-	}
-}
-`
-
-	ObjectResourceConfigWithSourceURIFromCopyOfContentObject = `
-	resource "oci_objectstorage_object" "test_object" {
-	#Required
-	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-	namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-	object = "${var.object_object}"
-
-	#Optional
-	content_encoding = "${var.object_content_encoding}"
-	content_language = "${var.object_content_language}"
-	metadata = "${var.object_copy3_metadata}"
-
-	source_uri_details {
-		region = "${var.region}"
-		namespace = "${oci_objectstorage_bucket.test_bucket.namespace}"
-		bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-		object = "${var.object_object_copy}"
-	}
-
 }
 `
 )

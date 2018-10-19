@@ -21,7 +21,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitRequiredOnlyRepresentation)
 
 	VirtualCircuitResourceConfig = VirtualCircuitResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create, virtualCircuitRepresentation)
+		generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation)
 
 	virtualCircuitSingularDataSourceRepresentation = map[string]interface{}{
 		"virtual_circuit_id": Representation{repType: Required, create: `${oci_core_virtual_circuit.test_virtual_circuit.id}`},

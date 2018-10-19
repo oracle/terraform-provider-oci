@@ -20,7 +20,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation)
 
 	VolumeResourceConfig = VolumeResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, volumeRepresentation)
+		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation)
 
 	volumeSingularDataSourceRepresentation = map[string]interface{}{
 		"volume_id": Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},

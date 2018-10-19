@@ -12,7 +12,7 @@ import (
 
 var (
 	AutonomousDataWarehouseBackupResourceConfig = AutonomousDataWarehouseBackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse_backup", "test_autonomous_data_warehouse_backup", Required, Create, autonomousDataWarehouseBackupRepresentation)
+		generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse_backup", "test_autonomous_data_warehouse_backup", Optional, Update, autonomousDataWarehouseBackupRepresentation)
 
 	autonomousDataWarehouseBackupSingularDataSourceRepresentation = map[string]interface{}{
 		"autonomous_data_warehouse_backup_id": Representation{repType: Required, create: `${oci_database_autonomous_data_warehouse_backup.test_autonomous_data_warehouse_backup.id}`},

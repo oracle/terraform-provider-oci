@@ -18,7 +18,7 @@ var (
 		generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestRepresentation)
 
 	PreauthenticatedRequestResourceConfig = PreauthenticatedRequestResourceDependencies +
-		generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestRepresentation)
+		generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation)
 
 	preauthenticatedRequestSingularDataSourceRepresentation = map[string]interface{}{
 		"bucket":    Representation{repType: Required, create: `my-test-1`},

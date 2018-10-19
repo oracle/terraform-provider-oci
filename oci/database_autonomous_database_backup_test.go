@@ -12,7 +12,7 @@ import (
 
 var (
 	AutonomousDatabaseBackupResourceConfig = AutonomousDatabaseBackupResourceDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation)
+		generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Optional, Update, autonomousDatabaseBackupRepresentation)
 
 	autonomousDatabaseBackupSingularDataSourceRepresentation = map[string]interface{}{
 		"autonomous_database_backup_id": Representation{repType: Required, create: `${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`},
