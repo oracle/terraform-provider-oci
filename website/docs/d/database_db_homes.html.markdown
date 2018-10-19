@@ -19,6 +19,10 @@ data "oci_database_db_homes" "test_db_homes" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	db_system_id = "${oci_database_db_system.test_db_system.id}"
+
+	#Optional
+	display_name = "${var.db_home_display_name}"
+	state = "${var.db_home_state}"
 }
 ```
 
@@ -28,6 +32,8 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 * `db_system_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB system.
+* `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
+* `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
 ## Attributes Reference

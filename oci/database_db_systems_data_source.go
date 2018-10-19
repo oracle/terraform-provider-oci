@@ -14,6 +14,10 @@ func DbSystemsDataSource() *schema.Resource {
 		Read: readDbSystems,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"availability_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"backup_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -21,6 +25,14 @@ func DbSystemsDataSource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"db_systems": {
 				Type:     schema.TypeList,
@@ -62,6 +74,11 @@ func (s *DbSystemsDataSourceCrud) VoidState() {
 func (s *DbSystemsDataSourceCrud) Get() error {
 	request := oci_database.ListDbSystemsRequest{}
 
+	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+		tmp := availabilityDomain.(string)
+		request.AvailabilityDomain = &tmp
+	}
+
 	if backupId, ok := s.D.GetOkExists("backup_id"); ok {
 		tmp := backupId.(string)
 		request.BackupId = &tmp
@@ -70,6 +87,15 @@ func (s *DbSystemsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_database.DbSystemSummaryLifecycleStateEnum(state.(string))
 	}
 
 	if limit, ok := s.D.GetOkExists("limit"); ok {

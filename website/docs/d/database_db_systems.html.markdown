@@ -21,7 +21,10 @@ data "oci_database_db_systems" "test_db_systems" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
+	availability_domain = "${var.db_system_availability_domain}"
 	backup_id = "${oci_database_backup.test_backup.id}"
+	display_name = "${var.db_system_display_name}"
+	state = "${var.db_system_state}"
 }
 ```
 
@@ -29,8 +32,11 @@ data "oci_database_db_systems" "test_db_systems" {
 
 The following arguments are supported:
 
+* `availability_domain` - (Optional) A filter to return only resources that match the given availability domain exactly.
 * `backup_id` - (Optional) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the backup. Specify a backupId to list only the DB systems that support creating a database using this backup in this compartment.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+* `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
+* `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
 ## Attributes Reference

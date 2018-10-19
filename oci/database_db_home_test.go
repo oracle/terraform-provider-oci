@@ -71,6 +71,7 @@ variable "db_home_database_ncharacter_set" { default = "AL16UTF16" }
 variable "db_home_database_pdb_name" { default = "pdbName" }
 variable "db_home_display_name" { default = "createdDbHome" }
 variable "db_home_source" { default = "DB_BACKUP" }
+variable "db_home_state" { default = "AVAILABLE" }
 variable "db_home_db_version" { default = "12.1.0.2" }
 
 `
@@ -154,6 +155,7 @@ variable "db_home_database_ncharacter_set" { default = "AL16UTF16" }
 variable "db_home_database_pdb_name" { default = "pdbName" }
 variable "db_home_display_name" { default = "createdDbHome" }
 variable "db_home_source" { default = "DB_BACKUP" }
+variable "db_home_state" { default = "AVAILABLE" }
 variable "db_home_db_version" { default = "12.1.0.2" }
 
 data "oci_database_db_homes" "test_db_homes" {
@@ -161,6 +163,9 @@ data "oci_database_db_homes" "test_db_homes" {
 	compartment_id = "${var.compartment_id}"
 	db_system_id = "${oci_database_db_system.test_db_system.id}"
 
+	#Optional
+	display_name = "${var.db_home_display_name}"
+	state = "${var.db_home_state}"
     filter {
     	name = "id"
     	values = ["${oci_database_db_home.test_db_home.id}"]
@@ -170,6 +175,8 @@ data "oci_database_db_homes" "test_db_homes" {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", "createdDbHome"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "db_homes.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.compartment_id"),
@@ -195,6 +202,7 @@ variable "db_home_database_ncharacter_set" { default = "AL16UTF16" }
 variable "db_home_database_pdb_name" { default = "pdbName" }
 variable "db_home_display_name" { default = "createdDbHome" }
 variable "db_home_source" { default = "DB_BACKUP" }
+variable "db_home_state" { default = "AVAILABLE" }
 variable "db_home_db_version" { default = "12.1.0.2" }
 
 data "oci_database_db_home" "test_db_home" {

@@ -19,6 +19,10 @@ data "oci_database_databases" "test_databases" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	db_home_id = "${oci_database_db_home.test_db_home.id}"
+
+	#Optional
+	db_name = "${var.database_db_name}"
+	state = "${var.database_state}"
 }
 ```
 
@@ -28,6 +32,8 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
 * `db_home_id` - (Required) A database home [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+* `db_name` - (Optional) A filter to return only resources that match the entire database name given. The match is not case sensitive.
+* `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
 ## Attributes Reference
