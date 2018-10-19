@@ -124,6 +124,10 @@ func (s *AutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["db_name"] = *r.DbName
 		}
 
+		if r.DbVersion != nil {
+			autonomousDatabase["db_version"] = *r.DbVersion
+		}
+
 		if r.DefinedTags != nil {
 			autonomousDatabase["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}

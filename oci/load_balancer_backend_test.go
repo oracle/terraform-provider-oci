@@ -182,7 +182,6 @@ data "oci_load_balancer_backends" "test_backends" {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"backendset_name",
-					"load_balancer_id",
 					"state",
 				},
 				ResourceName: resourceName,

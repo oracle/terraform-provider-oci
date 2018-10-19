@@ -101,7 +101,7 @@ func (response ListBootVolumeBackupsResponse) HTTPResponse() *http.Response {
 // ListBootVolumeBackupsSortByEnum Enum with underlying type: string
 type ListBootVolumeBackupsSortByEnum string
 
-// Set of constants representing the allowable values for ListBootVolumeBackupsSortBy
+// Set of constants representing the allowable values for ListBootVolumeBackupsSortByEnum
 const (
 	ListBootVolumeBackupsSortByTimecreated ListBootVolumeBackupsSortByEnum = "TIMECREATED"
 	ListBootVolumeBackupsSortByDisplayname ListBootVolumeBackupsSortByEnum = "DISPLAYNAME"
@@ -112,7 +112,7 @@ var mappingListBootVolumeBackupsSortBy = map[string]ListBootVolumeBackupsSortByE
 	"DISPLAYNAME": ListBootVolumeBackupsSortByDisplayname,
 }
 
-// GetListBootVolumeBackupsSortByEnumValues Enumerates the set of values for ListBootVolumeBackupsSortBy
+// GetListBootVolumeBackupsSortByEnumValues Enumerates the set of values for ListBootVolumeBackupsSortByEnum
 func GetListBootVolumeBackupsSortByEnumValues() []ListBootVolumeBackupsSortByEnum {
 	values := make([]ListBootVolumeBackupsSortByEnum, 0)
 	for _, v := range mappingListBootVolumeBackupsSortBy {
@@ -124,7 +124,7 @@ func GetListBootVolumeBackupsSortByEnumValues() []ListBootVolumeBackupsSortByEnu
 // ListBootVolumeBackupsSortOrderEnum Enum with underlying type: string
 type ListBootVolumeBackupsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListBootVolumeBackupsSortOrder
+// Set of constants representing the allowable values for ListBootVolumeBackupsSortOrderEnum
 const (
 	ListBootVolumeBackupsSortOrderAsc  ListBootVolumeBackupsSortOrderEnum = "ASC"
 	ListBootVolumeBackupsSortOrderDesc ListBootVolumeBackupsSortOrderEnum = "DESC"
@@ -135,7 +135,7 @@ var mappingListBootVolumeBackupsSortOrder = map[string]ListBootVolumeBackupsSort
 	"DESC": ListBootVolumeBackupsSortOrderDesc,
 }
 
-// GetListBootVolumeBackupsSortOrderEnumValues Enumerates the set of values for ListBootVolumeBackupsSortOrder
+// GetListBootVolumeBackupsSortOrderEnumValues Enumerates the set of values for ListBootVolumeBackupsSortOrderEnum
 func GetListBootVolumeBackupsSortOrderEnumValues() []ListBootVolumeBackupsSortOrderEnum {
 	values := make([]ListBootVolumeBackupsSortOrderEnum, 0)
 	for _, v := range mappingListBootVolumeBackupsSortOrder {

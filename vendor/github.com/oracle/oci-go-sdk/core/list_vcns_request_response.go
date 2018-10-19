@@ -98,7 +98,7 @@ func (response ListVcnsResponse) HTTPResponse() *http.Response {
 // ListVcnsSortByEnum Enum with underlying type: string
 type ListVcnsSortByEnum string
 
-// Set of constants representing the allowable values for ListVcnsSortBy
+// Set of constants representing the allowable values for ListVcnsSortByEnum
 const (
 	ListVcnsSortByTimecreated ListVcnsSortByEnum = "TIMECREATED"
 	ListVcnsSortByDisplayname ListVcnsSortByEnum = "DISPLAYNAME"
@@ -109,7 +109,7 @@ var mappingListVcnsSortBy = map[string]ListVcnsSortByEnum{
 	"DISPLAYNAME": ListVcnsSortByDisplayname,
 }
 
-// GetListVcnsSortByEnumValues Enumerates the set of values for ListVcnsSortBy
+// GetListVcnsSortByEnumValues Enumerates the set of values for ListVcnsSortByEnum
 func GetListVcnsSortByEnumValues() []ListVcnsSortByEnum {
 	values := make([]ListVcnsSortByEnum, 0)
 	for _, v := range mappingListVcnsSortBy {
@@ -121,7 +121,7 @@ func GetListVcnsSortByEnumValues() []ListVcnsSortByEnum {
 // ListVcnsSortOrderEnum Enum with underlying type: string
 type ListVcnsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListVcnsSortOrder
+// Set of constants representing the allowable values for ListVcnsSortOrderEnum
 const (
 	ListVcnsSortOrderAsc  ListVcnsSortOrderEnum = "ASC"
 	ListVcnsSortOrderDesc ListVcnsSortOrderEnum = "DESC"
@@ -132,7 +132,7 @@ var mappingListVcnsSortOrder = map[string]ListVcnsSortOrderEnum{
 	"DESC": ListVcnsSortOrderDesc,
 }
 
-// GetListVcnsSortOrderEnumValues Enumerates the set of values for ListVcnsSortOrder
+// GetListVcnsSortOrderEnumValues Enumerates the set of values for ListVcnsSortOrderEnum
 func GetListVcnsSortOrderEnumValues() []ListVcnsSortOrderEnum {
 	values := make([]ListVcnsSortOrderEnum, 0)
 	for _, v := range mappingListVcnsSortOrder {

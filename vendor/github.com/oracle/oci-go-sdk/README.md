@@ -54,7 +54,7 @@ type ConfigurationProvider interface {
 ```
 
 ### Making a request
-To make a request to an OCI service, create a client for the service and then use the client to call a function from the service.
+To make a request to an Oracle Cloud Infrastructure service, create a client for the service and then use the client to call a function from the service.
 
 - *Creating a client*: All packages provide a function to create clients, using the naming convention `New<ServiceName>ClientWithConfigurationProvider`,
 such as `NewVirtualNetworkClientWithConfigurationProvider` or `NewIdentityClientWithConfigurationProvider`. To create a new client, 

@@ -67,7 +67,7 @@ func (m CrossConnect) String() string {
 // CrossConnectLifecycleStateEnum Enum with underlying type: string
 type CrossConnectLifecycleStateEnum string
 
-// Set of constants representing the allowable values for CrossConnectLifecycleState
+// Set of constants representing the allowable values for CrossConnectLifecycleStateEnum
 const (
 	CrossConnectLifecycleStatePendingCustomer CrossConnectLifecycleStateEnum = "PENDING_CUSTOMER"
 	CrossConnectLifecycleStateProvisioning    CrossConnectLifecycleStateEnum = "PROVISIONING"
@@ -86,7 +86,7 @@ var mappingCrossConnectLifecycleState = map[string]CrossConnectLifecycleStateEnu
 	"TERMINATED":       CrossConnectLifecycleStateTerminated,
 }
 
-// GetCrossConnectLifecycleStateEnumValues Enumerates the set of values for CrossConnectLifecycleState
+// GetCrossConnectLifecycleStateEnumValues Enumerates the set of values for CrossConnectLifecycleStateEnum
 func GetCrossConnectLifecycleStateEnumValues() []CrossConnectLifecycleStateEnum {
 	values := make([]CrossConnectLifecycleStateEnum, 0)
 	for _, v := range mappingCrossConnectLifecycleState {

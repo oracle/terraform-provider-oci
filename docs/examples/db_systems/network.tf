@@ -2,14 +2,14 @@ resource "oci_core_virtual_network" "vcn" {
   cidr_block     = "10.1.0.0/16"
   compartment_id = "${var.compartment_ocid}"
   display_name   = "TFExampleVCNDBSystem"
-  dns_label      = "tfexamplevcndbsystem"
+  dns_label      = "tfexvcndbsys"
 }
 
 resource "oci_core_subnet" "subnet" {
   availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   cidr_block          = "10.1.20.0/24"
   display_name        = "TFExampleSubnetDBSystem"
-  dns_label           = "tfexamplesubnetdbsystem"
+  dns_label           = "tfexsubdbsys"
   security_list_ids   = ["${oci_core_virtual_network.vcn.default_security_list_id}"]
   compartment_id      = "${var.compartment_ocid}"
   vcn_id              = "${oci_core_virtual_network.vcn.id}"

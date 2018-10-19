@@ -27,6 +27,10 @@ func ObjectHeadDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"etag": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"content-length": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -123,6 +127,10 @@ func (s *ObjectHeadDataSourceCrud) SetData() error {
 	if s.Res.ContentType != nil {
 		s.D.Set("content-type", *s.Res.ContentType)
 		s.D.Set("content_type", *s.Res.ContentType)
+	}
+
+	if s.Res.ETag != nil {
+		s.D.Set("etag", *s.Res.ETag)
 	}
 
 	return nil

@@ -14,7 +14,7 @@ type ListIdentityProvidersRequest struct {
 	// The protocol used for federation.
 	Protocol ListIdentityProvidersProtocolEnum `mandatory:"true" contributesTo:"query" name:"protocol" omitEmpty:"true"`
 
-	// The OCID of the compartment (remember that the tenancy is simply the root compartment).
+	// The OCID of the parent compartment (remember that the tenancy is simply the root compartment).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The value of the `opc-next-page` response header from the previous "List" call.
@@ -77,7 +77,7 @@ func (response ListIdentityProvidersResponse) HTTPResponse() *http.Response {
 // ListIdentityProvidersProtocolEnum Enum with underlying type: string
 type ListIdentityProvidersProtocolEnum string
 
-// Set of constants representing the allowable values for ListIdentityProvidersProtocol
+// Set of constants representing the allowable values for ListIdentityProvidersProtocolEnum
 const (
 	ListIdentityProvidersProtocolSaml2 ListIdentityProvidersProtocolEnum = "SAML2"
 )
@@ -86,7 +86,7 @@ var mappingListIdentityProvidersProtocol = map[string]ListIdentityProvidersProto
 	"SAML2": ListIdentityProvidersProtocolSaml2,
 }
 
-// GetListIdentityProvidersProtocolEnumValues Enumerates the set of values for ListIdentityProvidersProtocol
+// GetListIdentityProvidersProtocolEnumValues Enumerates the set of values for ListIdentityProvidersProtocolEnum
 func GetListIdentityProvidersProtocolEnumValues() []ListIdentityProvidersProtocolEnum {
 	values := make([]ListIdentityProvidersProtocolEnum, 0)
 	for _, v := range mappingListIdentityProvidersProtocol {

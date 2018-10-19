@@ -85,6 +85,11 @@ func AutonomousDatabaseResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"all_connection_strings": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"high": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -99,6 +104,10 @@ func AutonomousDatabaseResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"db_version": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -366,6 +375,10 @@ func (s *AutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("db_name", *s.Res.DbName)
 	}
 
+	if s.Res.DbVersion != nil {
+		s.D.Set("db_version", *s.Res.DbVersion)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -397,6 +410,8 @@ func (s *AutonomousDatabaseResourceCrud) SetData() error {
 
 func AutonomousDatabaseConnectionStringsToMap(obj *oci_database.AutonomousDatabaseConnectionStrings) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["all_connection_strings"] = obj.AllConnectionStrings
 
 	if obj.High != nil {
 		result["high"] = string(*obj.High)

@@ -332,7 +332,7 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	oracleClient, ok := client.(*OracleClients)
 	assert.True(t, ok)
 
-	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), Version)
+	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), defaultUserAgentProviderName, Version)
 	testClient := func(c *oci_common.BaseClient) {
 		assert.NotNil(t, c)
 		assert.NotNil(t, c.HTTPClient)

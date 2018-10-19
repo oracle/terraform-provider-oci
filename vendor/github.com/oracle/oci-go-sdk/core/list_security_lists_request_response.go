@@ -101,7 +101,7 @@ func (response ListSecurityListsResponse) HTTPResponse() *http.Response {
 // ListSecurityListsSortByEnum Enum with underlying type: string
 type ListSecurityListsSortByEnum string
 
-// Set of constants representing the allowable values for ListSecurityListsSortBy
+// Set of constants representing the allowable values for ListSecurityListsSortByEnum
 const (
 	ListSecurityListsSortByTimecreated ListSecurityListsSortByEnum = "TIMECREATED"
 	ListSecurityListsSortByDisplayname ListSecurityListsSortByEnum = "DISPLAYNAME"
@@ -112,7 +112,7 @@ var mappingListSecurityListsSortBy = map[string]ListSecurityListsSortByEnum{
 	"DISPLAYNAME": ListSecurityListsSortByDisplayname,
 }
 
-// GetListSecurityListsSortByEnumValues Enumerates the set of values for ListSecurityListsSortBy
+// GetListSecurityListsSortByEnumValues Enumerates the set of values for ListSecurityListsSortByEnum
 func GetListSecurityListsSortByEnumValues() []ListSecurityListsSortByEnum {
 	values := make([]ListSecurityListsSortByEnum, 0)
 	for _, v := range mappingListSecurityListsSortBy {
@@ -124,7 +124,7 @@ func GetListSecurityListsSortByEnumValues() []ListSecurityListsSortByEnum {
 // ListSecurityListsSortOrderEnum Enum with underlying type: string
 type ListSecurityListsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListSecurityListsSortOrder
+// Set of constants representing the allowable values for ListSecurityListsSortOrderEnum
 const (
 	ListSecurityListsSortOrderAsc  ListSecurityListsSortOrderEnum = "ASC"
 	ListSecurityListsSortOrderDesc ListSecurityListsSortOrderEnum = "DESC"
@@ -135,7 +135,7 @@ var mappingListSecurityListsSortOrder = map[string]ListSecurityListsSortOrderEnu
 	"DESC": ListSecurityListsSortOrderDesc,
 }
 
-// GetListSecurityListsSortOrderEnumValues Enumerates the set of values for ListSecurityListsSortOrder
+// GetListSecurityListsSortOrderEnumValues Enumerates the set of values for ListSecurityListsSortOrderEnum
 func GetListSecurityListsSortOrderEnumValues() []ListSecurityListsSortOrderEnum {
 	values := make([]ListSecurityListsSortOrderEnum, 0)
 	for _, v := range mappingListSecurityListsSortOrder {

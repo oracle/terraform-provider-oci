@@ -85,7 +85,7 @@ func (response ListBucketsResponse) HTTPResponse() *http.Response {
 // ListBucketsFieldsEnum Enum with underlying type: string
 type ListBucketsFieldsEnum string
 
-// Set of constants representing the allowable values for ListBucketsFields
+// Set of constants representing the allowable values for ListBucketsFieldsEnum
 const (
 	ListBucketsFieldsTags ListBucketsFieldsEnum = "tags"
 )
@@ -94,7 +94,7 @@ var mappingListBucketsFields = map[string]ListBucketsFieldsEnum{
 	"tags": ListBucketsFieldsTags,
 }
 
-// GetListBucketsFieldsEnumValues Enumerates the set of values for ListBucketsFields
+// GetListBucketsFieldsEnumValues Enumerates the set of values for ListBucketsFieldsEnum
 func GetListBucketsFieldsEnumValues() []ListBucketsFieldsEnum {
 	values := make([]ListBucketsFieldsEnum, 0)
 	for _, v := range mappingListBucketsFields {

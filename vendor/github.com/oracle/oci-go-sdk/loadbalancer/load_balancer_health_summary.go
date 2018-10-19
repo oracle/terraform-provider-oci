@@ -39,7 +39,7 @@ func (m LoadBalancerHealthSummary) String() string {
 // LoadBalancerHealthSummaryStatusEnum Enum with underlying type: string
 type LoadBalancerHealthSummaryStatusEnum string
 
-// Set of constants representing the allowable values for LoadBalancerHealthSummaryStatus
+// Set of constants representing the allowable values for LoadBalancerHealthSummaryStatusEnum
 const (
 	LoadBalancerHealthSummaryStatusOk       LoadBalancerHealthSummaryStatusEnum = "OK"
 	LoadBalancerHealthSummaryStatusWarning  LoadBalancerHealthSummaryStatusEnum = "WARNING"
@@ -54,7 +54,7 @@ var mappingLoadBalancerHealthSummaryStatus = map[string]LoadBalancerHealthSummar
 	"UNKNOWN":  LoadBalancerHealthSummaryStatusUnknown,
 }
 
-// GetLoadBalancerHealthSummaryStatusEnumValues Enumerates the set of values for LoadBalancerHealthSummaryStatus
+// GetLoadBalancerHealthSummaryStatusEnumValues Enumerates the set of values for LoadBalancerHealthSummaryStatusEnum
 func GetLoadBalancerHealthSummaryStatusEnumValues() []LoadBalancerHealthSummaryStatusEnum {
 	values := make([]LoadBalancerHealthSummaryStatusEnum, 0)
 	for _, v := range mappingLoadBalancerHealthSummaryStatus {

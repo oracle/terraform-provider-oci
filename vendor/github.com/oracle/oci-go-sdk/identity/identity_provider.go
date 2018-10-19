@@ -187,7 +187,7 @@ func (m identityprovider) String() string {
 // IdentityProviderLifecycleStateEnum Enum with underlying type: string
 type IdentityProviderLifecycleStateEnum string
 
-// Set of constants representing the allowable values for IdentityProviderLifecycleState
+// Set of constants representing the allowable values for IdentityProviderLifecycleStateEnum
 const (
 	IdentityProviderLifecycleStateCreating IdentityProviderLifecycleStateEnum = "CREATING"
 	IdentityProviderLifecycleStateActive   IdentityProviderLifecycleStateEnum = "ACTIVE"
@@ -204,7 +204,7 @@ var mappingIdentityProviderLifecycleState = map[string]IdentityProviderLifecycle
 	"DELETED":  IdentityProviderLifecycleStateDeleted,
 }
 
-// GetIdentityProviderLifecycleStateEnumValues Enumerates the set of values for IdentityProviderLifecycleState
+// GetIdentityProviderLifecycleStateEnumValues Enumerates the set of values for IdentityProviderLifecycleStateEnum
 func GetIdentityProviderLifecycleStateEnumValues() []IdentityProviderLifecycleStateEnum {
 	values := make([]IdentityProviderLifecycleStateEnum, 0)
 	for _, v := range mappingIdentityProviderLifecycleState {

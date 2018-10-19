@@ -68,6 +68,9 @@ func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_autonomous_data_warehouses.test_autonomous_data_warehouses"
 	singularDatasourceName := "data.oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse"
 
+	testResourceName := GenerateTestResourceName("adwdb1", 14)
+	setEnvSetting("TF_VAR_autonomous_data_warehouse_db_name", testResourceName)
+
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
@@ -85,7 +88,7 @@ func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", "adwdb1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", testResourceName),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -106,7 +109,7 @@ func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", "adwdb1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", testResourceName),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_data_warehouse"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -140,7 +143,7 @@ variable "autonomous_data_warehouse_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", "adwdb1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", testResourceName),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -193,7 +196,7 @@ data "oci_database_autonomous_data_warehouses" "test_autonomous_data_warehouses"
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.db_name", "adwdb1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.db_name", testResourceName),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.freeform_tags.%", "1"),
@@ -224,15 +227,23 @@ data "oci_database_autonomous_data_warehouse" "test_autonomous_data_warehouse" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_data_warehouse_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.0.all_connection_strings.%", "4"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_strings.0.high"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_strings.0.low"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_strings.0.medium"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", "adwdb1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", testResourceName),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "lifecycle_details"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

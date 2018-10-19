@@ -110,6 +110,7 @@ func (signer ociRequestSigner) getSigningString(request *http.Request) string {
 	signingParts := make([]string, len(signingHeaders))
 	for i, part := range signingHeaders {
 		var value string
+		part = strings.ToLower(part)
 		switch part {
 		case "(request-target)":
 			value = getRequestTarget(request)

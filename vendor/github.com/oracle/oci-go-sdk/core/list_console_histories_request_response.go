@@ -102,7 +102,7 @@ func (response ListConsoleHistoriesResponse) HTTPResponse() *http.Response {
 // ListConsoleHistoriesSortByEnum Enum with underlying type: string
 type ListConsoleHistoriesSortByEnum string
 
-// Set of constants representing the allowable values for ListConsoleHistoriesSortBy
+// Set of constants representing the allowable values for ListConsoleHistoriesSortByEnum
 const (
 	ListConsoleHistoriesSortByTimecreated ListConsoleHistoriesSortByEnum = "TIMECREATED"
 	ListConsoleHistoriesSortByDisplayname ListConsoleHistoriesSortByEnum = "DISPLAYNAME"
@@ -113,7 +113,7 @@ var mappingListConsoleHistoriesSortBy = map[string]ListConsoleHistoriesSortByEnu
 	"DISPLAYNAME": ListConsoleHistoriesSortByDisplayname,
 }
 
-// GetListConsoleHistoriesSortByEnumValues Enumerates the set of values for ListConsoleHistoriesSortBy
+// GetListConsoleHistoriesSortByEnumValues Enumerates the set of values for ListConsoleHistoriesSortByEnum
 func GetListConsoleHistoriesSortByEnumValues() []ListConsoleHistoriesSortByEnum {
 	values := make([]ListConsoleHistoriesSortByEnum, 0)
 	for _, v := range mappingListConsoleHistoriesSortBy {
@@ -125,7 +125,7 @@ func GetListConsoleHistoriesSortByEnumValues() []ListConsoleHistoriesSortByEnum 
 // ListConsoleHistoriesSortOrderEnum Enum with underlying type: string
 type ListConsoleHistoriesSortOrderEnum string
 
-// Set of constants representing the allowable values for ListConsoleHistoriesSortOrder
+// Set of constants representing the allowable values for ListConsoleHistoriesSortOrderEnum
 const (
 	ListConsoleHistoriesSortOrderAsc  ListConsoleHistoriesSortOrderEnum = "ASC"
 	ListConsoleHistoriesSortOrderDesc ListConsoleHistoriesSortOrderEnum = "DESC"
@@ -136,7 +136,7 @@ var mappingListConsoleHistoriesSortOrder = map[string]ListConsoleHistoriesSortOr
 	"DESC": ListConsoleHistoriesSortOrderDesc,
 }
 
-// GetListConsoleHistoriesSortOrderEnumValues Enumerates the set of values for ListConsoleHistoriesSortOrder
+// GetListConsoleHistoriesSortOrderEnumValues Enumerates the set of values for ListConsoleHistoriesSortOrderEnum
 func GetListConsoleHistoriesSortOrderEnumValues() []ListConsoleHistoriesSortOrderEnum {
 	values := make([]ListConsoleHistoriesSortOrderEnum, 0)
 	for _, v := range mappingListConsoleHistoriesSortOrder {

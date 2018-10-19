@@ -50,7 +50,7 @@ func (m ExportSetSummary) String() string {
 // ExportSetSummaryLifecycleStateEnum Enum with underlying type: string
 type ExportSetSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for ExportSetSummaryLifecycleState
+// Set of constants representing the allowable values for ExportSetSummaryLifecycleStateEnum
 const (
 	ExportSetSummaryLifecycleStateCreating ExportSetSummaryLifecycleStateEnum = "CREATING"
 	ExportSetSummaryLifecycleStateActive   ExportSetSummaryLifecycleStateEnum = "ACTIVE"
@@ -65,7 +65,7 @@ var mappingExportSetSummaryLifecycleState = map[string]ExportSetSummaryLifecycle
 	"DELETED":  ExportSetSummaryLifecycleStateDeleted,
 }
 
-// GetExportSetSummaryLifecycleStateEnumValues Enumerates the set of values for ExportSetSummaryLifecycleState
+// GetExportSetSummaryLifecycleStateEnumValues Enumerates the set of values for ExportSetSummaryLifecycleStateEnum
 func GetExportSetSummaryLifecycleStateEnumValues() []ExportSetSummaryLifecycleStateEnum {
 	values := make([]ExportSetSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingExportSetSummaryLifecycleState {

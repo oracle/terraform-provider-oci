@@ -36,7 +36,7 @@ func (m SenderSummary) String() string {
 // SenderSummaryLifecycleStateEnum Enum with underlying type: string
 type SenderSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for SenderSummaryLifecycleState
+// Set of constants representing the allowable values for SenderSummaryLifecycleStateEnum
 const (
 	SenderSummaryLifecycleStateCreating SenderSummaryLifecycleStateEnum = "CREATING"
 	SenderSummaryLifecycleStateActive   SenderSummaryLifecycleStateEnum = "ACTIVE"
@@ -51,7 +51,7 @@ var mappingSenderSummaryLifecycleState = map[string]SenderSummaryLifecycleStateE
 	"DELETED":  SenderSummaryLifecycleStateDeleted,
 }
 
-// GetSenderSummaryLifecycleStateEnumValues Enumerates the set of values for SenderSummaryLifecycleState
+// GetSenderSummaryLifecycleStateEnumValues Enumerates the set of values for SenderSummaryLifecycleStateEnum
 func GetSenderSummaryLifecycleStateEnumValues() []SenderSummaryLifecycleStateEnum {
 	values := make([]SenderSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingSenderSummaryLifecycleState {

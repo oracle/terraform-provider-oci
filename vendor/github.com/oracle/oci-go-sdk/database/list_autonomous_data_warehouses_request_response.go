@@ -88,7 +88,7 @@ func (response ListAutonomousDataWarehousesResponse) HTTPResponse() *http.Respon
 // ListAutonomousDataWarehousesSortByEnum Enum with underlying type: string
 type ListAutonomousDataWarehousesSortByEnum string
 
-// Set of constants representing the allowable values for ListAutonomousDataWarehousesSortBy
+// Set of constants representing the allowable values for ListAutonomousDataWarehousesSortByEnum
 const (
 	ListAutonomousDataWarehousesSortByTimecreated ListAutonomousDataWarehousesSortByEnum = "TIMECREATED"
 	ListAutonomousDataWarehousesSortByDisplayname ListAutonomousDataWarehousesSortByEnum = "DISPLAYNAME"
@@ -99,7 +99,7 @@ var mappingListAutonomousDataWarehousesSortBy = map[string]ListAutonomousDataWar
 	"DISPLAYNAME": ListAutonomousDataWarehousesSortByDisplayname,
 }
 
-// GetListAutonomousDataWarehousesSortByEnumValues Enumerates the set of values for ListAutonomousDataWarehousesSortBy
+// GetListAutonomousDataWarehousesSortByEnumValues Enumerates the set of values for ListAutonomousDataWarehousesSortByEnum
 func GetListAutonomousDataWarehousesSortByEnumValues() []ListAutonomousDataWarehousesSortByEnum {
 	values := make([]ListAutonomousDataWarehousesSortByEnum, 0)
 	for _, v := range mappingListAutonomousDataWarehousesSortBy {
@@ -111,7 +111,7 @@ func GetListAutonomousDataWarehousesSortByEnumValues() []ListAutonomousDataWareh
 // ListAutonomousDataWarehousesSortOrderEnum Enum with underlying type: string
 type ListAutonomousDataWarehousesSortOrderEnum string
 
-// Set of constants representing the allowable values for ListAutonomousDataWarehousesSortOrder
+// Set of constants representing the allowable values for ListAutonomousDataWarehousesSortOrderEnum
 const (
 	ListAutonomousDataWarehousesSortOrderAsc  ListAutonomousDataWarehousesSortOrderEnum = "ASC"
 	ListAutonomousDataWarehousesSortOrderDesc ListAutonomousDataWarehousesSortOrderEnum = "DESC"
@@ -122,7 +122,7 @@ var mappingListAutonomousDataWarehousesSortOrder = map[string]ListAutonomousData
 	"DESC": ListAutonomousDataWarehousesSortOrderDesc,
 }
 
-// GetListAutonomousDataWarehousesSortOrderEnumValues Enumerates the set of values for ListAutonomousDataWarehousesSortOrder
+// GetListAutonomousDataWarehousesSortOrderEnumValues Enumerates the set of values for ListAutonomousDataWarehousesSortOrderEnum
 func GetListAutonomousDataWarehousesSortOrderEnumValues() []ListAutonomousDataWarehousesSortOrderEnum {
 	values := make([]ListAutonomousDataWarehousesSortOrderEnum, 0)
 	for _, v := range mappingListAutonomousDataWarehousesSortOrder {

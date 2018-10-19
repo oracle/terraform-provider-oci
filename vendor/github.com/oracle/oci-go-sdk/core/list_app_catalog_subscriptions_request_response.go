@@ -95,7 +95,7 @@ func (response ListAppCatalogSubscriptionsResponse) HTTPResponse() *http.Respons
 // ListAppCatalogSubscriptionsSortByEnum Enum with underlying type: string
 type ListAppCatalogSubscriptionsSortByEnum string
 
-// Set of constants representing the allowable values for ListAppCatalogSubscriptionsSortBy
+// Set of constants representing the allowable values for ListAppCatalogSubscriptionsSortByEnum
 const (
 	ListAppCatalogSubscriptionsSortByTimecreated ListAppCatalogSubscriptionsSortByEnum = "TIMECREATED"
 	ListAppCatalogSubscriptionsSortByDisplayname ListAppCatalogSubscriptionsSortByEnum = "DISPLAYNAME"
@@ -106,7 +106,7 @@ var mappingListAppCatalogSubscriptionsSortBy = map[string]ListAppCatalogSubscrip
 	"DISPLAYNAME": ListAppCatalogSubscriptionsSortByDisplayname,
 }
 
-// GetListAppCatalogSubscriptionsSortByEnumValues Enumerates the set of values for ListAppCatalogSubscriptionsSortBy
+// GetListAppCatalogSubscriptionsSortByEnumValues Enumerates the set of values for ListAppCatalogSubscriptionsSortByEnum
 func GetListAppCatalogSubscriptionsSortByEnumValues() []ListAppCatalogSubscriptionsSortByEnum {
 	values := make([]ListAppCatalogSubscriptionsSortByEnum, 0)
 	for _, v := range mappingListAppCatalogSubscriptionsSortBy {
@@ -118,7 +118,7 @@ func GetListAppCatalogSubscriptionsSortByEnumValues() []ListAppCatalogSubscripti
 // ListAppCatalogSubscriptionsSortOrderEnum Enum with underlying type: string
 type ListAppCatalogSubscriptionsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListAppCatalogSubscriptionsSortOrder
+// Set of constants representing the allowable values for ListAppCatalogSubscriptionsSortOrderEnum
 const (
 	ListAppCatalogSubscriptionsSortOrderAsc  ListAppCatalogSubscriptionsSortOrderEnum = "ASC"
 	ListAppCatalogSubscriptionsSortOrderDesc ListAppCatalogSubscriptionsSortOrderEnum = "DESC"
@@ -129,7 +129,7 @@ var mappingListAppCatalogSubscriptionsSortOrder = map[string]ListAppCatalogSubsc
 	"DESC": ListAppCatalogSubscriptionsSortOrderDesc,
 }
 
-// GetListAppCatalogSubscriptionsSortOrderEnumValues Enumerates the set of values for ListAppCatalogSubscriptionsSortOrder
+// GetListAppCatalogSubscriptionsSortOrderEnumValues Enumerates the set of values for ListAppCatalogSubscriptionsSortOrderEnum
 func GetListAppCatalogSubscriptionsSortOrderEnumValues() []ListAppCatalogSubscriptionsSortOrderEnum {
 	values := make([]ListAppCatalogSubscriptionsSortOrderEnum, 0)
 	for _, v := range mappingListAppCatalogSubscriptionsSortOrder {

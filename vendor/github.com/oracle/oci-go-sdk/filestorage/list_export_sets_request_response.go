@@ -104,7 +104,7 @@ func (response ListExportSetsResponse) HTTPResponse() *http.Response {
 // ListExportSetsLifecycleStateEnum Enum with underlying type: string
 type ListExportSetsLifecycleStateEnum string
 
-// Set of constants representing the allowable values for ListExportSetsLifecycleState
+// Set of constants representing the allowable values for ListExportSetsLifecycleStateEnum
 const (
 	ListExportSetsLifecycleStateCreating ListExportSetsLifecycleStateEnum = "CREATING"
 	ListExportSetsLifecycleStateActive   ListExportSetsLifecycleStateEnum = "ACTIVE"
@@ -121,7 +121,7 @@ var mappingListExportSetsLifecycleState = map[string]ListExportSetsLifecycleStat
 	"FAILED":   ListExportSetsLifecycleStateFailed,
 }
 
-// GetListExportSetsLifecycleStateEnumValues Enumerates the set of values for ListExportSetsLifecycleState
+// GetListExportSetsLifecycleStateEnumValues Enumerates the set of values for ListExportSetsLifecycleStateEnum
 func GetListExportSetsLifecycleStateEnumValues() []ListExportSetsLifecycleStateEnum {
 	values := make([]ListExportSetsLifecycleStateEnum, 0)
 	for _, v := range mappingListExportSetsLifecycleState {
@@ -133,7 +133,7 @@ func GetListExportSetsLifecycleStateEnumValues() []ListExportSetsLifecycleStateE
 // ListExportSetsSortByEnum Enum with underlying type: string
 type ListExportSetsSortByEnum string
 
-// Set of constants representing the allowable values for ListExportSetsSortBy
+// Set of constants representing the allowable values for ListExportSetsSortByEnum
 const (
 	ListExportSetsSortByTimecreated ListExportSetsSortByEnum = "TIMECREATED"
 	ListExportSetsSortByDisplayname ListExportSetsSortByEnum = "DISPLAYNAME"
@@ -144,7 +144,7 @@ var mappingListExportSetsSortBy = map[string]ListExportSetsSortByEnum{
 	"DISPLAYNAME": ListExportSetsSortByDisplayname,
 }
 
-// GetListExportSetsSortByEnumValues Enumerates the set of values for ListExportSetsSortBy
+// GetListExportSetsSortByEnumValues Enumerates the set of values for ListExportSetsSortByEnum
 func GetListExportSetsSortByEnumValues() []ListExportSetsSortByEnum {
 	values := make([]ListExportSetsSortByEnum, 0)
 	for _, v := range mappingListExportSetsSortBy {
@@ -156,7 +156,7 @@ func GetListExportSetsSortByEnumValues() []ListExportSetsSortByEnum {
 // ListExportSetsSortOrderEnum Enum with underlying type: string
 type ListExportSetsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListExportSetsSortOrder
+// Set of constants representing the allowable values for ListExportSetsSortOrderEnum
 const (
 	ListExportSetsSortOrderAsc  ListExportSetsSortOrderEnum = "ASC"
 	ListExportSetsSortOrderDesc ListExportSetsSortOrderEnum = "DESC"
@@ -167,7 +167,7 @@ var mappingListExportSetsSortOrder = map[string]ListExportSetsSortOrderEnum{
 	"DESC": ListExportSetsSortOrderDesc,
 }
 
-// GetListExportSetsSortOrderEnumValues Enumerates the set of values for ListExportSetsSortOrder
+// GetListExportSetsSortOrderEnumValues Enumerates the set of values for ListExportSetsSortOrderEnum
 func GetListExportSetsSortOrderEnumValues() []ListExportSetsSortOrderEnum {
 	values := make([]ListExportSetsSortOrderEnum, 0)
 	for _, v := range mappingListExportSetsSortOrder {

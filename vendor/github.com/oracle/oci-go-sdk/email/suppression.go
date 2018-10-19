@@ -36,7 +36,7 @@ func (m Suppression) String() string {
 // SuppressionReasonEnum Enum with underlying type: string
 type SuppressionReasonEnum string
 
-// Set of constants representing the allowable values for SuppressionReason
+// Set of constants representing the allowable values for SuppressionReasonEnum
 const (
 	SuppressionReasonUnknown     SuppressionReasonEnum = "UNKNOWN"
 	SuppressionReasonHardbounce  SuppressionReasonEnum = "HARDBOUNCE"
@@ -55,7 +55,7 @@ var mappingSuppressionReason = map[string]SuppressionReasonEnum{
 	"UNSUBSCRIBE": SuppressionReasonUnsubscribe,
 }
 
-// GetSuppressionReasonEnumValues Enumerates the set of values for SuppressionReason
+// GetSuppressionReasonEnumValues Enumerates the set of values for SuppressionReasonEnum
 func GetSuppressionReasonEnumValues() []SuppressionReasonEnum {
 	values := make([]SuppressionReasonEnum, 0)
 	for _, v := range mappingSuppressionReason {

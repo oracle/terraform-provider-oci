@@ -58,7 +58,7 @@ func (m AuthToken) String() string {
 // AuthTokenLifecycleStateEnum Enum with underlying type: string
 type AuthTokenLifecycleStateEnum string
 
-// Set of constants representing the allowable values for AuthTokenLifecycleState
+// Set of constants representing the allowable values for AuthTokenLifecycleStateEnum
 const (
 	AuthTokenLifecycleStateCreating AuthTokenLifecycleStateEnum = "CREATING"
 	AuthTokenLifecycleStateActive   AuthTokenLifecycleStateEnum = "ACTIVE"
@@ -75,7 +75,7 @@ var mappingAuthTokenLifecycleState = map[string]AuthTokenLifecycleStateEnum{
 	"DELETED":  AuthTokenLifecycleStateDeleted,
 }
 
-// GetAuthTokenLifecycleStateEnumValues Enumerates the set of values for AuthTokenLifecycleState
+// GetAuthTokenLifecycleStateEnumValues Enumerates the set of values for AuthTokenLifecycleStateEnum
 func GetAuthTokenLifecycleStateEnumValues() []AuthTokenLifecycleStateEnum {
 	values := make([]AuthTokenLifecycleStateEnum, 0)
 	for _, v := range mappingAuthTokenLifecycleState {

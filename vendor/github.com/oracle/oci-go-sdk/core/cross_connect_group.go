@@ -52,7 +52,7 @@ func (m CrossConnectGroup) String() string {
 // CrossConnectGroupLifecycleStateEnum Enum with underlying type: string
 type CrossConnectGroupLifecycleStateEnum string
 
-// Set of constants representing the allowable values for CrossConnectGroupLifecycleState
+// Set of constants representing the allowable values for CrossConnectGroupLifecycleStateEnum
 const (
 	CrossConnectGroupLifecycleStateProvisioning CrossConnectGroupLifecycleStateEnum = "PROVISIONING"
 	CrossConnectGroupLifecycleStateProvisioned  CrossConnectGroupLifecycleStateEnum = "PROVISIONED"
@@ -69,7 +69,7 @@ var mappingCrossConnectGroupLifecycleState = map[string]CrossConnectGroupLifecyc
 	"TERMINATED":   CrossConnectGroupLifecycleStateTerminated,
 }
 
-// GetCrossConnectGroupLifecycleStateEnumValues Enumerates the set of values for CrossConnectGroupLifecycleState
+// GetCrossConnectGroupLifecycleStateEnumValues Enumerates the set of values for CrossConnectGroupLifecycleStateEnum
 func GetCrossConnectGroupLifecycleStateEnumValues() []CrossConnectGroupLifecycleStateEnum {
 	values := make([]CrossConnectGroupLifecycleStateEnum, 0)
 	for _, v := range mappingCrossConnectGroupLifecycleState {

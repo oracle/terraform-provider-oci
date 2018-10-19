@@ -134,7 +134,7 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 // BootVolumeLifecycleStateEnum Enum with underlying type: string
 type BootVolumeLifecycleStateEnum string
 
-// Set of constants representing the allowable values for BootVolumeLifecycleState
+// Set of constants representing the allowable values for BootVolumeLifecycleStateEnum
 const (
 	BootVolumeLifecycleStateProvisioning BootVolumeLifecycleStateEnum = "PROVISIONING"
 	BootVolumeLifecycleStateRestoring    BootVolumeLifecycleStateEnum = "RESTORING"
@@ -153,7 +153,7 @@ var mappingBootVolumeLifecycleState = map[string]BootVolumeLifecycleStateEnum{
 	"FAULTY":       BootVolumeLifecycleStateFaulty,
 }
 
-// GetBootVolumeLifecycleStateEnumValues Enumerates the set of values for BootVolumeLifecycleState
+// GetBootVolumeLifecycleStateEnumValues Enumerates the set of values for BootVolumeLifecycleStateEnum
 func GetBootVolumeLifecycleStateEnumValues() []BootVolumeLifecycleStateEnum {
 	values := make([]BootVolumeLifecycleStateEnum, 0)
 	for _, v := range mappingBootVolumeLifecycleState {

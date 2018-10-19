@@ -62,7 +62,7 @@ func (m CreateBucketDetails) String() string {
 // CreateBucketDetailsPublicAccessTypeEnum Enum with underlying type: string
 type CreateBucketDetailsPublicAccessTypeEnum string
 
-// Set of constants representing the allowable values for CreateBucketDetailsPublicAccessType
+// Set of constants representing the allowable values for CreateBucketDetailsPublicAccessTypeEnum
 const (
 	CreateBucketDetailsPublicAccessTypeNopublicaccess        CreateBucketDetailsPublicAccessTypeEnum = "NoPublicAccess"
 	CreateBucketDetailsPublicAccessTypeObjectread            CreateBucketDetailsPublicAccessTypeEnum = "ObjectRead"
@@ -75,7 +75,7 @@ var mappingCreateBucketDetailsPublicAccessType = map[string]CreateBucketDetailsP
 	"ObjectReadWithoutList": CreateBucketDetailsPublicAccessTypeObjectreadwithoutlist,
 }
 
-// GetCreateBucketDetailsPublicAccessTypeEnumValues Enumerates the set of values for CreateBucketDetailsPublicAccessType
+// GetCreateBucketDetailsPublicAccessTypeEnumValues Enumerates the set of values for CreateBucketDetailsPublicAccessTypeEnum
 func GetCreateBucketDetailsPublicAccessTypeEnumValues() []CreateBucketDetailsPublicAccessTypeEnum {
 	values := make([]CreateBucketDetailsPublicAccessTypeEnum, 0)
 	for _, v := range mappingCreateBucketDetailsPublicAccessType {
@@ -87,7 +87,7 @@ func GetCreateBucketDetailsPublicAccessTypeEnumValues() []CreateBucketDetailsPub
 // CreateBucketDetailsStorageTierEnum Enum with underlying type: string
 type CreateBucketDetailsStorageTierEnum string
 
-// Set of constants representing the allowable values for CreateBucketDetailsStorageTier
+// Set of constants representing the allowable values for CreateBucketDetailsStorageTierEnum
 const (
 	CreateBucketDetailsStorageTierStandard CreateBucketDetailsStorageTierEnum = "Standard"
 	CreateBucketDetailsStorageTierArchive  CreateBucketDetailsStorageTierEnum = "Archive"
@@ -98,7 +98,7 @@ var mappingCreateBucketDetailsStorageTier = map[string]CreateBucketDetailsStorag
 	"Archive":  CreateBucketDetailsStorageTierArchive,
 }
 
-// GetCreateBucketDetailsStorageTierEnumValues Enumerates the set of values for CreateBucketDetailsStorageTier
+// GetCreateBucketDetailsStorageTierEnumValues Enumerates the set of values for CreateBucketDetailsStorageTierEnum
 func GetCreateBucketDetailsStorageTierEnumValues() []CreateBucketDetailsStorageTierEnum {
 	values := make([]CreateBucketDetailsStorageTierEnum, 0)
 	for _, v := range mappingCreateBucketDetailsStorageTier {

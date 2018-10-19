@@ -15,11 +15,11 @@ import (
 // CreateCompartmentDetails The representation of CreateCompartmentDetails
 type CreateCompartmentDetails struct {
 
-	// The OCID of the tenancy containing the compartment.
+	// The OCID of the parent compartment containing the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The name you assign to the compartment during creation. The name must be unique across all compartments
-	// in the tenancy. Avoid entering confidential information.
+	// in the parent compartment. Avoid entering confidential information.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The description you assign to the compartment during creation. Does not have to be unique, and it's changeable.

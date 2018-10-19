@@ -48,7 +48,12 @@ func BackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"db_data_size_in_mbs": {
-				Type:     schema.TypeInt,
+				Type:       schema.TypeInt,
+				Computed:   true,
+				Deprecated: FieldDeprecatedForAnother("db_data_size_in_mbs", "database_size_in_gbs"),
+			},
+			"database_size_in_gbs": {
+				Type:     schema.TypeFloat,
 				Computed: true,
 			},
 			"lifecycle_details": {
@@ -198,16 +203,15 @@ func (s *BackupResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
-	if s.Res.DatabaseEdition != nil {
-		s.D.Set("database_edition", *s.Res.DatabaseEdition)
-	}
+	s.D.Set("database_edition", s.Res.DatabaseEdition)
 
 	if s.Res.DatabaseId != nil {
 		s.D.Set("database_id", *s.Res.DatabaseId)
 	}
 
-	if s.Res.DbDataSizeInMBs != nil {
-		s.D.Set("db_data_size_in_mbs", *s.Res.DbDataSizeInMBs)
+	if s.Res.DatabaseSizeInGBs != nil {
+		s.D.Set("database_size_in_gbs", *s.Res.DatabaseSizeInGBs)
+		s.D.Set("db_data_size_in_mbs", (*s.Res.DatabaseSizeInGBs)*1024)
 	}
 
 	if s.Res.DisplayName != nil {

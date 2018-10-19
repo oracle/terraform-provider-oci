@@ -60,7 +60,7 @@ func (m Key) String() string {
 // KeyLifecycleStateEnum Enum with underlying type: string
 type KeyLifecycleStateEnum string
 
-// Set of constants representing the allowable values for KeyLifecycleState
+// Set of constants representing the allowable values for KeyLifecycleStateEnum
 const (
 	KeyLifecycleStateCreating           KeyLifecycleStateEnum = "CREATING"
 	KeyLifecycleStateEnabling           KeyLifecycleStateEnum = "ENABLING"
@@ -87,7 +87,7 @@ var mappingKeyLifecycleState = map[string]KeyLifecycleStateEnum{
 	"CANCELLING_DELETION": KeyLifecycleStateCancellingDeletion,
 }
 
-// GetKeyLifecycleStateEnumValues Enumerates the set of values for KeyLifecycleState
+// GetKeyLifecycleStateEnumValues Enumerates the set of values for KeyLifecycleStateEnum
 func GetKeyLifecycleStateEnumValues() []KeyLifecycleStateEnum {
 	values := make([]KeyLifecycleStateEnum, 0)
 	for _, v := range mappingKeyLifecycleState {

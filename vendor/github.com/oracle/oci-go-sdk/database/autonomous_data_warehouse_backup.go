@@ -55,7 +55,7 @@ func (m AutonomousDataWarehouseBackup) String() string {
 // AutonomousDataWarehouseBackupLifecycleStateEnum Enum with underlying type: string
 type AutonomousDataWarehouseBackupLifecycleStateEnum string
 
-// Set of constants representing the allowable values for AutonomousDataWarehouseBackupLifecycleState
+// Set of constants representing the allowable values for AutonomousDataWarehouseBackupLifecycleStateEnum
 const (
 	AutonomousDataWarehouseBackupLifecycleStateCreating AutonomousDataWarehouseBackupLifecycleStateEnum = "CREATING"
 	AutonomousDataWarehouseBackupLifecycleStateActive   AutonomousDataWarehouseBackupLifecycleStateEnum = "ACTIVE"
@@ -72,7 +72,7 @@ var mappingAutonomousDataWarehouseBackupLifecycleState = map[string]AutonomousDa
 	"FAILED":   AutonomousDataWarehouseBackupLifecycleStateFailed,
 }
 
-// GetAutonomousDataWarehouseBackupLifecycleStateEnumValues Enumerates the set of values for AutonomousDataWarehouseBackupLifecycleState
+// GetAutonomousDataWarehouseBackupLifecycleStateEnumValues Enumerates the set of values for AutonomousDataWarehouseBackupLifecycleStateEnum
 func GetAutonomousDataWarehouseBackupLifecycleStateEnumValues() []AutonomousDataWarehouseBackupLifecycleStateEnum {
 	values := make([]AutonomousDataWarehouseBackupLifecycleStateEnum, 0)
 	for _, v := range mappingAutonomousDataWarehouseBackupLifecycleState {
@@ -84,7 +84,7 @@ func GetAutonomousDataWarehouseBackupLifecycleStateEnumValues() []AutonomousData
 // AutonomousDataWarehouseBackupTypeEnum Enum with underlying type: string
 type AutonomousDataWarehouseBackupTypeEnum string
 
-// Set of constants representing the allowable values for AutonomousDataWarehouseBackupType
+// Set of constants representing the allowable values for AutonomousDataWarehouseBackupTypeEnum
 const (
 	AutonomousDataWarehouseBackupTypeIncremental AutonomousDataWarehouseBackupTypeEnum = "INCREMENTAL"
 	AutonomousDataWarehouseBackupTypeFull        AutonomousDataWarehouseBackupTypeEnum = "FULL"
@@ -95,7 +95,7 @@ var mappingAutonomousDataWarehouseBackupType = map[string]AutonomousDataWarehous
 	"FULL":        AutonomousDataWarehouseBackupTypeFull,
 }
 
-// GetAutonomousDataWarehouseBackupTypeEnumValues Enumerates the set of values for AutonomousDataWarehouseBackupType
+// GetAutonomousDataWarehouseBackupTypeEnumValues Enumerates the set of values for AutonomousDataWarehouseBackupTypeEnum
 func GetAutonomousDataWarehouseBackupTypeEnumValues() []AutonomousDataWarehouseBackupTypeEnum {
 	values := make([]AutonomousDataWarehouseBackupTypeEnum, 0)
 	for _, v := range mappingAutonomousDataWarehouseBackupType {

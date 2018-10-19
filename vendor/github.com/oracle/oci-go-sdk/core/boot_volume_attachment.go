@@ -53,7 +53,7 @@ func (m BootVolumeAttachment) String() string {
 // BootVolumeAttachmentLifecycleStateEnum Enum with underlying type: string
 type BootVolumeAttachmentLifecycleStateEnum string
 
-// Set of constants representing the allowable values for BootVolumeAttachmentLifecycleState
+// Set of constants representing the allowable values for BootVolumeAttachmentLifecycleStateEnum
 const (
 	BootVolumeAttachmentLifecycleStateAttaching BootVolumeAttachmentLifecycleStateEnum = "ATTACHING"
 	BootVolumeAttachmentLifecycleStateAttached  BootVolumeAttachmentLifecycleStateEnum = "ATTACHED"
@@ -68,7 +68,7 @@ var mappingBootVolumeAttachmentLifecycleState = map[string]BootVolumeAttachmentL
 	"DETACHED":  BootVolumeAttachmentLifecycleStateDetached,
 }
 
-// GetBootVolumeAttachmentLifecycleStateEnumValues Enumerates the set of values for BootVolumeAttachmentLifecycleState
+// GetBootVolumeAttachmentLifecycleStateEnumValues Enumerates the set of values for BootVolumeAttachmentLifecycleStateEnum
 func GetBootVolumeAttachmentLifecycleStateEnumValues() []BootVolumeAttachmentLifecycleStateEnum {
 	values := make([]BootVolumeAttachmentLifecycleStateEnum, 0)
 	for _, v := range mappingBootVolumeAttachmentLifecycleState {

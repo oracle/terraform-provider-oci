@@ -86,7 +86,7 @@ func (response ListNodePoolsResponse) HTTPResponse() *http.Response {
 // ListNodePoolsSortOrderEnum Enum with underlying type: string
 type ListNodePoolsSortOrderEnum string
 
-// Set of constants representing the allowable values for ListNodePoolsSortOrder
+// Set of constants representing the allowable values for ListNodePoolsSortOrderEnum
 const (
 	ListNodePoolsSortOrderAsc  ListNodePoolsSortOrderEnum = "ASC"
 	ListNodePoolsSortOrderDesc ListNodePoolsSortOrderEnum = "DESC"
@@ -97,7 +97,7 @@ var mappingListNodePoolsSortOrder = map[string]ListNodePoolsSortOrderEnum{
 	"DESC": ListNodePoolsSortOrderDesc,
 }
 
-// GetListNodePoolsSortOrderEnumValues Enumerates the set of values for ListNodePoolsSortOrder
+// GetListNodePoolsSortOrderEnumValues Enumerates the set of values for ListNodePoolsSortOrderEnum
 func GetListNodePoolsSortOrderEnumValues() []ListNodePoolsSortOrderEnum {
 	values := make([]ListNodePoolsSortOrderEnum, 0)
 	for _, v := range mappingListNodePoolsSortOrder {
@@ -109,7 +109,7 @@ func GetListNodePoolsSortOrderEnumValues() []ListNodePoolsSortOrderEnum {
 // ListNodePoolsSortByEnum Enum with underlying type: string
 type ListNodePoolsSortByEnum string
 
-// Set of constants representing the allowable values for ListNodePoolsSortBy
+// Set of constants representing the allowable values for ListNodePoolsSortByEnum
 const (
 	ListNodePoolsSortById          ListNodePoolsSortByEnum = "ID"
 	ListNodePoolsSortByName        ListNodePoolsSortByEnum = "NAME"
@@ -122,7 +122,7 @@ var mappingListNodePoolsSortBy = map[string]ListNodePoolsSortByEnum{
 	"TIME_CREATED": ListNodePoolsSortByTimeCreated,
 }
 
-// GetListNodePoolsSortByEnumValues Enumerates the set of values for ListNodePoolsSortBy
+// GetListNodePoolsSortByEnumValues Enumerates the set of values for ListNodePoolsSortByEnum
 func GetListNodePoolsSortByEnumValues() []ListNodePoolsSortByEnum {
 	values := make([]ListNodePoolsSortByEnum, 0)
 	for _, v := range mappingListNodePoolsSortBy {

@@ -58,7 +58,7 @@ func (m WorkRequest) String() string {
 // WorkRequestLifecycleStateEnum Enum with underlying type: string
 type WorkRequestLifecycleStateEnum string
 
-// Set of constants representing the allowable values for WorkRequestLifecycleState
+// Set of constants representing the allowable values for WorkRequestLifecycleStateEnum
 const (
 	WorkRequestLifecycleStateAccepted   WorkRequestLifecycleStateEnum = "ACCEPTED"
 	WorkRequestLifecycleStateInProgress WorkRequestLifecycleStateEnum = "IN_PROGRESS"
@@ -73,7 +73,7 @@ var mappingWorkRequestLifecycleState = map[string]WorkRequestLifecycleStateEnum{
 	"SUCCEEDED":   WorkRequestLifecycleStateSucceeded,
 }
 
-// GetWorkRequestLifecycleStateEnumValues Enumerates the set of values for WorkRequestLifecycleState
+// GetWorkRequestLifecycleStateEnumValues Enumerates the set of values for WorkRequestLifecycleStateEnum
 func GetWorkRequestLifecycleStateEnumValues() []WorkRequestLifecycleStateEnum {
 	values := make([]WorkRequestLifecycleStateEnum, 0)
 	for _, v := range mappingWorkRequestLifecycleState {

@@ -49,7 +49,7 @@ func (m DrgAttachment) String() string {
 // DrgAttachmentLifecycleStateEnum Enum with underlying type: string
 type DrgAttachmentLifecycleStateEnum string
 
-// Set of constants representing the allowable values for DrgAttachmentLifecycleState
+// Set of constants representing the allowable values for DrgAttachmentLifecycleStateEnum
 const (
 	DrgAttachmentLifecycleStateAttaching DrgAttachmentLifecycleStateEnum = "ATTACHING"
 	DrgAttachmentLifecycleStateAttached  DrgAttachmentLifecycleStateEnum = "ATTACHED"
@@ -64,7 +64,7 @@ var mappingDrgAttachmentLifecycleState = map[string]DrgAttachmentLifecycleStateE
 	"DETACHED":  DrgAttachmentLifecycleStateDetached,
 }
 
-// GetDrgAttachmentLifecycleStateEnumValues Enumerates the set of values for DrgAttachmentLifecycleState
+// GetDrgAttachmentLifecycleStateEnumValues Enumerates the set of values for DrgAttachmentLifecycleStateEnum
 func GetDrgAttachmentLifecycleStateEnumValues() []DrgAttachmentLifecycleStateEnum {
 	values := make([]DrgAttachmentLifecycleStateEnum, 0)
 	for _, v := range mappingDrgAttachmentLifecycleState {

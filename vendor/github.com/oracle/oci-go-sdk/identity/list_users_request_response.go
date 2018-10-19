@@ -11,7 +11,7 @@ import (
 // ListUsersRequest wrapper for the ListUsers operation
 type ListUsersRequest struct {
 
-	// The OCID of the compartment (remember that the tenancy is simply the root compartment).
+	// The OCID of the parent compartment (remember that the tenancy is simply the root compartment).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The value of the `opc-next-page` response header from the previous "List" call.

@@ -72,7 +72,7 @@ func (m SecurityList) String() string {
 // SecurityListLifecycleStateEnum Enum with underlying type: string
 type SecurityListLifecycleStateEnum string
 
-// Set of constants representing the allowable values for SecurityListLifecycleState
+// Set of constants representing the allowable values for SecurityListLifecycleStateEnum
 const (
 	SecurityListLifecycleStateProvisioning SecurityListLifecycleStateEnum = "PROVISIONING"
 	SecurityListLifecycleStateAvailable    SecurityListLifecycleStateEnum = "AVAILABLE"
@@ -87,7 +87,7 @@ var mappingSecurityListLifecycleState = map[string]SecurityListLifecycleStateEnu
 	"TERMINATED":   SecurityListLifecycleStateTerminated,
 }
 
-// GetSecurityListLifecycleStateEnumValues Enumerates the set of values for SecurityListLifecycleState
+// GetSecurityListLifecycleStateEnumValues Enumerates the set of values for SecurityListLifecycleStateEnum
 func GetSecurityListLifecycleStateEnumValues() []SecurityListLifecycleStateEnum {
 	values := make([]SecurityListLifecycleStateEnum, 0)
 	for _, v := range mappingSecurityListLifecycleState {

@@ -119,6 +119,7 @@ func (s *BucketsDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		bucket := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
+			"namespace":      *r.Namespace,
 		}
 
 		if r.CreatedBy != nil {
@@ -137,10 +138,6 @@ func (s *BucketsDataSourceCrud) SetData() error {
 
 		if r.Name != nil {
 			bucket["name"] = *r.Name
-		}
-
-		if r.Namespace != nil {
-			bucket["namespace"] = *r.Namespace
 		}
 
 		if r.TimeCreated != nil {

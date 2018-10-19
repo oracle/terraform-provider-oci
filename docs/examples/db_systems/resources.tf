@@ -34,7 +34,8 @@ resource "oci_database_db_system" "test_db_system" {
   license_model           = "${var.license_model}"
   node_count              = "${lookup(data.oci_database_db_system_shapes.test_db_system_shapes.db_system_shapes[0], "minimum_node_count")}"
 
-  defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+  #To use defined_tags, set the values below to an existing tag namespace, refer to the identity example on how to create tag namespaces
+  #defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
 
   freeform_tags = {
     "Department" = "Finance"

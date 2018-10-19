@@ -37,6 +37,9 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_autonomous_database_backups.test_autonomous_database_backups"
 	singularDatasourceName := "data.oci_database_autonomous_database_backup.test_autonomous_database_backup"
 
+	testResourceName := GenerateTestResourceName("adb1", 14)
+	setEnvSetting("TF_VAR_autonomous_database_db_name", testResourceName)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

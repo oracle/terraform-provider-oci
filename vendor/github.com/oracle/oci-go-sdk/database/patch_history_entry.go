@@ -45,7 +45,7 @@ func (m PatchHistoryEntry) String() string {
 // PatchHistoryEntryActionEnum Enum with underlying type: string
 type PatchHistoryEntryActionEnum string
 
-// Set of constants representing the allowable values for PatchHistoryEntryAction
+// Set of constants representing the allowable values for PatchHistoryEntryActionEnum
 const (
 	PatchHistoryEntryActionApply    PatchHistoryEntryActionEnum = "APPLY"
 	PatchHistoryEntryActionPrecheck PatchHistoryEntryActionEnum = "PRECHECK"
@@ -56,7 +56,7 @@ var mappingPatchHistoryEntryAction = map[string]PatchHistoryEntryActionEnum{
 	"PRECHECK": PatchHistoryEntryActionPrecheck,
 }
 
-// GetPatchHistoryEntryActionEnumValues Enumerates the set of values for PatchHistoryEntryAction
+// GetPatchHistoryEntryActionEnumValues Enumerates the set of values for PatchHistoryEntryActionEnum
 func GetPatchHistoryEntryActionEnumValues() []PatchHistoryEntryActionEnum {
 	values := make([]PatchHistoryEntryActionEnum, 0)
 	for _, v := range mappingPatchHistoryEntryAction {
@@ -68,7 +68,7 @@ func GetPatchHistoryEntryActionEnumValues() []PatchHistoryEntryActionEnum {
 // PatchHistoryEntryLifecycleStateEnum Enum with underlying type: string
 type PatchHistoryEntryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for PatchHistoryEntryLifecycleState
+// Set of constants representing the allowable values for PatchHistoryEntryLifecycleStateEnum
 const (
 	PatchHistoryEntryLifecycleStateInProgress PatchHistoryEntryLifecycleStateEnum = "IN_PROGRESS"
 	PatchHistoryEntryLifecycleStateSucceeded  PatchHistoryEntryLifecycleStateEnum = "SUCCEEDED"
@@ -81,7 +81,7 @@ var mappingPatchHistoryEntryLifecycleState = map[string]PatchHistoryEntryLifecyc
 	"FAILED":      PatchHistoryEntryLifecycleStateFailed,
 }
 
-// GetPatchHistoryEntryLifecycleStateEnumValues Enumerates the set of values for PatchHistoryEntryLifecycleState
+// GetPatchHistoryEntryLifecycleStateEnumValues Enumerates the set of values for PatchHistoryEntryLifecycleStateEnum
 func GetPatchHistoryEntryLifecycleStateEnumValues() []PatchHistoryEntryLifecycleStateEnum {
 	values := make([]PatchHistoryEntryLifecycleStateEnum, 0)
 	for _, v := range mappingPatchHistoryEntryLifecycleState {

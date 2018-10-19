@@ -53,7 +53,7 @@ func (m DbHomeSummary) String() string {
 // DbHomeSummaryLifecycleStateEnum Enum with underlying type: string
 type DbHomeSummaryLifecycleStateEnum string
 
-// Set of constants representing the allowable values for DbHomeSummaryLifecycleState
+// Set of constants representing the allowable values for DbHomeSummaryLifecycleStateEnum
 const (
 	DbHomeSummaryLifecycleStateProvisioning DbHomeSummaryLifecycleStateEnum = "PROVISIONING"
 	DbHomeSummaryLifecycleStateAvailable    DbHomeSummaryLifecycleStateEnum = "AVAILABLE"
@@ -72,7 +72,7 @@ var mappingDbHomeSummaryLifecycleState = map[string]DbHomeSummaryLifecycleStateE
 	"FAILED":       DbHomeSummaryLifecycleStateFailed,
 }
 
-// GetDbHomeSummaryLifecycleStateEnumValues Enumerates the set of values for DbHomeSummaryLifecycleState
+// GetDbHomeSummaryLifecycleStateEnumValues Enumerates the set of values for DbHomeSummaryLifecycleStateEnum
 func GetDbHomeSummaryLifecycleStateEnumValues() []DbHomeSummaryLifecycleStateEnum {
 	values := make([]DbHomeSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingDbHomeSummaryLifecycleState {

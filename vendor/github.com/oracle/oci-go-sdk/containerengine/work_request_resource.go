@@ -35,7 +35,7 @@ func (m WorkRequestResource) String() string {
 // WorkRequestResourceActionTypeEnum Enum with underlying type: string
 type WorkRequestResourceActionTypeEnum string
 
-// Set of constants representing the allowable values for WorkRequestResourceActionType
+// Set of constants representing the allowable values for WorkRequestResourceActionTypeEnum
 const (
 	WorkRequestResourceActionTypeCreated    WorkRequestResourceActionTypeEnum = "CREATED"
 	WorkRequestResourceActionTypeUpdated    WorkRequestResourceActionTypeEnum = "UPDATED"
@@ -54,7 +54,7 @@ var mappingWorkRequestResourceActionType = map[string]WorkRequestResourceActionT
 	"FAILED":      WorkRequestResourceActionTypeFailed,
 }
 
-// GetWorkRequestResourceActionTypeEnumValues Enumerates the set of values for WorkRequestResourceActionType
+// GetWorkRequestResourceActionTypeEnumValues Enumerates the set of values for WorkRequestResourceActionTypeEnum
 func GetWorkRequestResourceActionTypeEnumValues() []WorkRequestResourceActionTypeEnum {
 	values := make([]WorkRequestResourceActionTypeEnum, 0)
 	for _, v := range mappingWorkRequestResourceActionType {

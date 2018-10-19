@@ -33,7 +33,9 @@ const (
 	defaultRequestTimeout        = 0
 	defaultConnectionTimeout     = 10 * time.Second
 	defaultTLSHandshakeTimeout   = 5 * time.Second
-	userAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) Oracle-TerraformProvider/%s"
+	defaultUserAgentProviderName = "Oracle-TerraformProvider"
+	userAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) %s/%s"
+	userAgentProviderNameEnv     = "USER_AGENT_PROVIDER_NAME"
 	domainNameOverrideEnv        = "domain_name_override"
 	customCertLocationEnv        = "custom_cert_location"
 	oracleR1DomainNameEnv        = "oracle_r1_domain_name" // deprecate
@@ -230,10 +232,12 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_volume_group_backups":                  VolumeGroupBackupsDataSource(),
 		"oci_database_autonomous_data_warehouse":         AutonomousDataWarehouseDataSource(),
 		"oci_database_autonomous_data_warehouses":        AutonomousDataWarehousesDataSource(),
+		"oci_database_autonomous_data_warehouse_wallet":  AutonomousDataWarehouseWalletDataSource(),
 		"oci_database_autonomous_data_warehouse_backup":  AutonomousDataWarehouseBackupDataSource(),
 		"oci_database_autonomous_data_warehouse_backups": AutonomousDataWarehouseBackupsDataSource(),
 		"oci_database_autonomous_database":               AutonomousDatabaseDataSource(),
 		"oci_database_autonomous_databases":              AutonomousDatabasesDataSource(),
+		"oci_database_autonomous_database_wallet":        AutonomousDatabaseWalletDataSource(),
 		"oci_database_autonomous_database_backup":        AutonomousDatabaseBackupDataSource(),
 		"oci_database_autonomous_database_backups":       AutonomousDatabaseBackupsDataSource(),
 		"oci_database_backups":                           BackupsDataSource(),
@@ -295,7 +299,9 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_load_balancer_load_balancers":               LoadBalancersDataSource(),
 		"oci_load_balancers":                             LoadBalancersDataSource(),
 		"oci_load_balancer_path_route_sets":              PathRouteSetsDataSource(),
+		"oci_objectstorage_bucket":                       BucketDataSource(),
 		"oci_objectstorage_bucket_summaries":             BucketsDataSource(),
+		"oci_objectstorage_object_lifecycle_policy":      ObjectLifecyclePolicyDataSource(),
 		"oci_objectstorage_namespace":                    NamespaceDataSource(),
 		"oci_objectstorage_namespace_metadata":           NamespaceMetadataDataSource(),
 		"oci_objectstorage_object_head":                  ObjectHeadDataSource(),
@@ -352,46 +358,47 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_database_autonomous_database_backup":       AutonomousDatabaseBackupResource(),
 		//Do remember to enable database_db_home_test if you are enabling DB Home resource
 		//"oci_database_db_home":                     DbHomeResource(),
-		"oci_database_db_system":               DbSystemResource(),
-		"oci_database_backup":                  BackupResource(),
-		"oci_dns_record":                       RecordResource(),
-		"oci_dns_zone":                         ZoneResource(),
-		"oci_email_sender":                     SenderResource(),
-		"oci_email_suppression":                SuppressionResource(),
-		"oci_file_storage_export":              ExportResource(),
-		"oci_file_storage_export_set":          ExportSetResource(),
-		"oci_file_storage_file_system":         FileSystemResource(),
-		"oci_file_storage_mount_target":        MountTargetResource(),
-		"oci_file_storage_snapshot":            SnapshotResource(),
-		"oci_identity_api_key":                 ApiKeyResource(),
-		"oci_identity_auth_token":              AuthTokenResource(),
-		"oci_identity_compartment":             CompartmentResource(),
-		"oci_identity_customer_secret_key":     CustomerSecretKeyResource(),
-		"oci_identity_dynamic_group":           DynamicGroupResource(),
-		"oci_identity_group":                   GroupResource(),
-		"oci_identity_identity_provider":       IdentityProviderResource(),
-		"oci_identity_idp_group_mapping":       IdpGroupMappingResource(),
-		"oci_identity_policy":                  PolicyResource(),
-		"oci_identity_smtp_credential":         SmtpCredentialResource(),
-		"oci_identity_swift_password":          SwiftPasswordResource(),
-		"oci_identity_tag_namespace":           TagNamespaceResource(),
-		"oci_identity_tag":                     TagResource(),
-		"oci_identity_ui_password":             UiPasswordResource(),
-		"oci_identity_user":                    UserResource(),
-		"oci_identity_user_group_membership":   UserGroupMembershipResource(),
-		"oci_load_balancer":                    LoadBalancerResource(),
-		"oci_load_balancer_load_balancer":      LoadBalancerResource(),
-		"oci_load_balancer_backend":            BackendResource(),
-		"oci_load_balancer_backend_set":        BackendSetResource(),
-		"oci_load_balancer_backendset":         BackendSetResource(),
-		"oci_load_balancer_certificate":        CertificateResource(),
-		"oci_load_balancer_listener":           ListenerResource(),
-		"oci_load_balancer_hostname":           HostnameResource(),
-		"oci_load_balancer_path_route_set":     PathRouteSetResource(),
-		"oci_objectstorage_bucket":             BucketResource(),
-		"oci_objectstorage_object":             ObjectResource(),
-		"oci_objectstorage_namespace_metadata": NamespaceMetadataResource(),
-		"oci_objectstorage_preauthrequest":     PreauthenticatedRequestResource(),
+		"oci_database_db_system":                    DbSystemResource(),
+		"oci_database_backup":                       BackupResource(),
+		"oci_dns_record":                            RecordResource(),
+		"oci_dns_zone":                              ZoneResource(),
+		"oci_email_sender":                          SenderResource(),
+		"oci_email_suppression":                     SuppressionResource(),
+		"oci_file_storage_export":                   ExportResource(),
+		"oci_file_storage_export_set":               ExportSetResource(),
+		"oci_file_storage_file_system":              FileSystemResource(),
+		"oci_file_storage_mount_target":             MountTargetResource(),
+		"oci_file_storage_snapshot":                 SnapshotResource(),
+		"oci_identity_api_key":                      ApiKeyResource(),
+		"oci_identity_auth_token":                   AuthTokenResource(),
+		"oci_identity_compartment":                  CompartmentResource(),
+		"oci_identity_customer_secret_key":          CustomerSecretKeyResource(),
+		"oci_identity_dynamic_group":                DynamicGroupResource(),
+		"oci_identity_group":                        GroupResource(),
+		"oci_identity_identity_provider":            IdentityProviderResource(),
+		"oci_identity_idp_group_mapping":            IdpGroupMappingResource(),
+		"oci_identity_policy":                       PolicyResource(),
+		"oci_identity_smtp_credential":              SmtpCredentialResource(),
+		"oci_identity_swift_password":               SwiftPasswordResource(),
+		"oci_identity_tag_namespace":                TagNamespaceResource(),
+		"oci_identity_tag":                          TagResource(),
+		"oci_identity_ui_password":                  UiPasswordResource(),
+		"oci_identity_user":                         UserResource(),
+		"oci_identity_user_group_membership":        UserGroupMembershipResource(),
+		"oci_load_balancer":                         LoadBalancerResource(),
+		"oci_load_balancer_load_balancer":           LoadBalancerResource(),
+		"oci_load_balancer_backend":                 BackendResource(),
+		"oci_load_balancer_backend_set":             BackendSetResource(),
+		"oci_load_balancer_backendset":              BackendSetResource(),
+		"oci_load_balancer_certificate":             CertificateResource(),
+		"oci_load_balancer_listener":                ListenerResource(),
+		"oci_load_balancer_hostname":                HostnameResource(),
+		"oci_load_balancer_path_route_set":          PathRouteSetResource(),
+		"oci_objectstorage_bucket":                  BucketResource(),
+		"oci_objectstorage_object_lifecycle_policy": ObjectLifecyclePolicyResource(),
+		"oci_objectstorage_object":                  ObjectResource(),
+		"oci_objectstorage_namespace_metadata":      NamespaceMetadataResource(),
+		"oci_objectstorage_preauthrequest":          PreauthenticatedRequestResource(),
 	}
 }
 
@@ -439,7 +446,8 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	disableAutoRetries = d.Get("disable_auto_retries").(bool)
 	auth := strings.ToLower(d.Get("auth").(string))
 
-	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), Version)
+	userAgentProviderName := getEnvSettingWithDefault(userAgentProviderNameEnv, defaultUserAgentProviderName)
+	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), userAgentProviderName, Version)
 
 	httpClient := &http.Client{
 		Timeout: defaultRequestTimeout,

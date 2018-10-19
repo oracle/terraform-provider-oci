@@ -35,7 +35,7 @@ func (m VirtualCircuitPublicPrefix) String() string {
 // VirtualCircuitPublicPrefixVerificationStateEnum Enum with underlying type: string
 type VirtualCircuitPublicPrefixVerificationStateEnum string
 
-// Set of constants representing the allowable values for VirtualCircuitPublicPrefixVerificationState
+// Set of constants representing the allowable values for VirtualCircuitPublicPrefixVerificationStateEnum
 const (
 	VirtualCircuitPublicPrefixVerificationStateInProgress VirtualCircuitPublicPrefixVerificationStateEnum = "IN_PROGRESS"
 	VirtualCircuitPublicPrefixVerificationStateCompleted  VirtualCircuitPublicPrefixVerificationStateEnum = "COMPLETED"
@@ -48,7 +48,7 @@ var mappingVirtualCircuitPublicPrefixVerificationState = map[string]VirtualCircu
 	"FAILED":      VirtualCircuitPublicPrefixVerificationStateFailed,
 }
 
-// GetVirtualCircuitPublicPrefixVerificationStateEnumValues Enumerates the set of values for VirtualCircuitPublicPrefixVerificationState
+// GetVirtualCircuitPublicPrefixVerificationStateEnumValues Enumerates the set of values for VirtualCircuitPublicPrefixVerificationStateEnum
 func GetVirtualCircuitPublicPrefixVerificationStateEnumValues() []VirtualCircuitPublicPrefixVerificationStateEnum {
 	values := make([]VirtualCircuitPublicPrefixVerificationStateEnum, 0)
 	for _, v := range mappingVirtualCircuitPublicPrefixVerificationState {

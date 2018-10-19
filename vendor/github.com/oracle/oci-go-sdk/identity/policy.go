@@ -74,7 +74,7 @@ func (m Policy) String() string {
 // PolicyLifecycleStateEnum Enum with underlying type: string
 type PolicyLifecycleStateEnum string
 
-// Set of constants representing the allowable values for PolicyLifecycleState
+// Set of constants representing the allowable values for PolicyLifecycleStateEnum
 const (
 	PolicyLifecycleStateCreating PolicyLifecycleStateEnum = "CREATING"
 	PolicyLifecycleStateActive   PolicyLifecycleStateEnum = "ACTIVE"
@@ -91,7 +91,7 @@ var mappingPolicyLifecycleState = map[string]PolicyLifecycleStateEnum{
 	"DELETED":  PolicyLifecycleStateDeleted,
 }
 
-// GetPolicyLifecycleStateEnumValues Enumerates the set of values for PolicyLifecycleState
+// GetPolicyLifecycleStateEnumValues Enumerates the set of values for PolicyLifecycleStateEnum
 func GetPolicyLifecycleStateEnumValues() []PolicyLifecycleStateEnum {
 	values := make([]PolicyLifecycleStateEnum, 0)
 	for _, v := range mappingPolicyLifecycleState {

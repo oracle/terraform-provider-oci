@@ -57,7 +57,7 @@ func (m IdpGroupMapping) String() string {
 // IdpGroupMappingLifecycleStateEnum Enum with underlying type: string
 type IdpGroupMappingLifecycleStateEnum string
 
-// Set of constants representing the allowable values for IdpGroupMappingLifecycleState
+// Set of constants representing the allowable values for IdpGroupMappingLifecycleStateEnum
 const (
 	IdpGroupMappingLifecycleStateCreating IdpGroupMappingLifecycleStateEnum = "CREATING"
 	IdpGroupMappingLifecycleStateActive   IdpGroupMappingLifecycleStateEnum = "ACTIVE"
@@ -74,7 +74,7 @@ var mappingIdpGroupMappingLifecycleState = map[string]IdpGroupMappingLifecycleSt
 	"DELETED":  IdpGroupMappingLifecycleStateDeleted,
 }
 
-// GetIdpGroupMappingLifecycleStateEnumValues Enumerates the set of values for IdpGroupMappingLifecycleState
+// GetIdpGroupMappingLifecycleStateEnumValues Enumerates the set of values for IdpGroupMappingLifecycleStateEnum
 func GetIdpGroupMappingLifecycleStateEnumValues() []IdpGroupMappingLifecycleStateEnum {
 	values := make([]IdpGroupMappingLifecycleStateEnum, 0)
 	for _, v := range mappingIdpGroupMappingLifecycleState {

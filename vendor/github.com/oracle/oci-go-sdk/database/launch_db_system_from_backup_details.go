@@ -212,7 +212,7 @@ func (m LaunchDbSystemFromBackupDetails) MarshalJSON() (buff []byte, e error) {
 // LaunchDbSystemFromBackupDetailsDatabaseEditionEnum Enum with underlying type: string
 type LaunchDbSystemFromBackupDetailsDatabaseEditionEnum string
 
-// Set of constants representing the allowable values for LaunchDbSystemFromBackupDetailsDatabaseEdition
+// Set of constants representing the allowable values for LaunchDbSystemFromBackupDetailsDatabaseEditionEnum
 const (
 	LaunchDbSystemFromBackupDetailsDatabaseEditionStandardEdition                     LaunchDbSystemFromBackupDetailsDatabaseEditionEnum = "STANDARD_EDITION"
 	LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEdition                   LaunchDbSystemFromBackupDetailsDatabaseEditionEnum = "ENTERPRISE_EDITION"
@@ -227,7 +227,7 @@ var mappingLaunchDbSystemFromBackupDetailsDatabaseEdition = map[string]LaunchDbS
 	"ENTERPRISE_EDITION_EXTREME_PERFORMANCE": LaunchDbSystemFromBackupDetailsDatabaseEditionEnterpriseEditionExtremePerformance,
 }
 
-// GetLaunchDbSystemFromBackupDetailsDatabaseEditionEnumValues Enumerates the set of values for LaunchDbSystemFromBackupDetailsDatabaseEdition
+// GetLaunchDbSystemFromBackupDetailsDatabaseEditionEnumValues Enumerates the set of values for LaunchDbSystemFromBackupDetailsDatabaseEditionEnum
 func GetLaunchDbSystemFromBackupDetailsDatabaseEditionEnumValues() []LaunchDbSystemFromBackupDetailsDatabaseEditionEnum {
 	values := make([]LaunchDbSystemFromBackupDetailsDatabaseEditionEnum, 0)
 	for _, v := range mappingLaunchDbSystemFromBackupDetailsDatabaseEdition {
@@ -239,7 +239,7 @@ func GetLaunchDbSystemFromBackupDetailsDatabaseEditionEnumValues() []LaunchDbSys
 // LaunchDbSystemFromBackupDetailsDiskRedundancyEnum Enum with underlying type: string
 type LaunchDbSystemFromBackupDetailsDiskRedundancyEnum string
 
-// Set of constants representing the allowable values for LaunchDbSystemFromBackupDetailsDiskRedundancy
+// Set of constants representing the allowable values for LaunchDbSystemFromBackupDetailsDiskRedundancyEnum
 const (
 	LaunchDbSystemFromBackupDetailsDiskRedundancyHigh   LaunchDbSystemFromBackupDetailsDiskRedundancyEnum = "HIGH"
 	LaunchDbSystemFromBackupDetailsDiskRedundancyNormal LaunchDbSystemFromBackupDetailsDiskRedundancyEnum = "NORMAL"
@@ -250,7 +250,7 @@ var mappingLaunchDbSystemFromBackupDetailsDiskRedundancy = map[string]LaunchDbSy
 	"NORMAL": LaunchDbSystemFromBackupDetailsDiskRedundancyNormal,
 }
 
-// GetLaunchDbSystemFromBackupDetailsDiskRedundancyEnumValues Enumerates the set of values for LaunchDbSystemFromBackupDetailsDiskRedundancy
+// GetLaunchDbSystemFromBackupDetailsDiskRedundancyEnumValues Enumerates the set of values for LaunchDbSystemFromBackupDetailsDiskRedundancyEnum
 func GetLaunchDbSystemFromBackupDetailsDiskRedundancyEnumValues() []LaunchDbSystemFromBackupDetailsDiskRedundancyEnum {
 	values := make([]LaunchDbSystemFromBackupDetailsDiskRedundancyEnum, 0)
 	for _, v := range mappingLaunchDbSystemFromBackupDetailsDiskRedundancy {
@@ -262,7 +262,7 @@ func GetLaunchDbSystemFromBackupDetailsDiskRedundancyEnumValues() []LaunchDbSyst
 // LaunchDbSystemFromBackupDetailsLicenseModelEnum Enum with underlying type: string
 type LaunchDbSystemFromBackupDetailsLicenseModelEnum string
 
-// Set of constants representing the allowable values for LaunchDbSystemFromBackupDetailsLicenseModel
+// Set of constants representing the allowable values for LaunchDbSystemFromBackupDetailsLicenseModelEnum
 const (
 	LaunchDbSystemFromBackupDetailsLicenseModelLicenseIncluded     LaunchDbSystemFromBackupDetailsLicenseModelEnum = "LICENSE_INCLUDED"
 	LaunchDbSystemFromBackupDetailsLicenseModelBringYourOwnLicense LaunchDbSystemFromBackupDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
@@ -273,7 +273,7 @@ var mappingLaunchDbSystemFromBackupDetailsLicenseModel = map[string]LaunchDbSyst
 	"BRING_YOUR_OWN_LICENSE": LaunchDbSystemFromBackupDetailsLicenseModelBringYourOwnLicense,
 }
 
-// GetLaunchDbSystemFromBackupDetailsLicenseModelEnumValues Enumerates the set of values for LaunchDbSystemFromBackupDetailsLicenseModel
+// GetLaunchDbSystemFromBackupDetailsLicenseModelEnumValues Enumerates the set of values for LaunchDbSystemFromBackupDetailsLicenseModelEnum
 func GetLaunchDbSystemFromBackupDetailsLicenseModelEnumValues() []LaunchDbSystemFromBackupDetailsLicenseModelEnum {
 	values := make([]LaunchDbSystemFromBackupDetailsLicenseModelEnum, 0)
 	for _, v := range mappingLaunchDbSystemFromBackupDetailsLicenseModel {

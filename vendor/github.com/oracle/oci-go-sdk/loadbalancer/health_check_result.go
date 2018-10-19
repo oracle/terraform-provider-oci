@@ -38,7 +38,7 @@ func (m HealthCheckResult) String() string {
 // HealthCheckResultHealthCheckStatusEnum Enum with underlying type: string
 type HealthCheckResultHealthCheckStatusEnum string
 
-// Set of constants representing the allowable values for HealthCheckResultHealthCheckStatus
+// Set of constants representing the allowable values for HealthCheckResultHealthCheckStatusEnum
 const (
 	HealthCheckResultHealthCheckStatusOk                HealthCheckResultHealthCheckStatusEnum = "OK"
 	HealthCheckResultHealthCheckStatusInvalidStatusCode HealthCheckResultHealthCheckStatusEnum = "INVALID_STATUS_CODE"
@@ -61,7 +61,7 @@ var mappingHealthCheckResultHealthCheckStatus = map[string]HealthCheckResultHeal
 	"UNKNOWN":             HealthCheckResultHealthCheckStatusUnknown,
 }
 
-// GetHealthCheckResultHealthCheckStatusEnumValues Enumerates the set of values for HealthCheckResultHealthCheckStatus
+// GetHealthCheckResultHealthCheckStatusEnumValues Enumerates the set of values for HealthCheckResultHealthCheckStatusEnum
 func GetHealthCheckResultHealthCheckStatusEnumValues() []HealthCheckResultHealthCheckStatusEnum {
 	values := make([]HealthCheckResultHealthCheckStatusEnum, 0)
 	for _, v := range mappingHealthCheckResultHealthCheckStatus {

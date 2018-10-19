@@ -33,3 +33,7 @@ output "autonomous_data_warehouse_admin_password" {
 output "autonomous_data_warehouses" {
   value = "${data.oci_database_autonomous_data_warehouses.autonomous_data_warehouses.autonomous_data_warehouses}"
 }
+
+output "parallel_connection_string" {
+  value = ["${lookup(oci_database_autonomous_data_warehouse.autonomous_data_warehouse.connection_strings.0.all_connection_strings, "PARALLEL", "Unavailable")}"]
+}
