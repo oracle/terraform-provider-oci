@@ -17,6 +17,14 @@ var (
 	BucketRequiredOnlyResource = BucketResourceDependencies +
 		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation)
 
+	BucketResourceConfig = BucketResourceDependencies +
+		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation)
+
+	bucketSingularDataSourceRepresentation = map[string]interface{}{
+		"name":      Representation{repType: Required, create: `name2`},
+		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
+	}
+
 	bucketDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"namespace":      Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
@@ -34,7 +42,7 @@ var (
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"metadata":       Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
-		"storage_tier":   Representation{repType: Optional, create: `Standard`, update: `Archive`},
+		"storage_tier":   Representation{repType: Optional, create: `Standard`},
 	}
 
 	BucketResourceDependencies = DefinedTagsDependencies + `
@@ -185,22 +193,10 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 				),
 			},
 			// verify singular datasource
-	/*		{
-				Config: config + `
-variable "bucket_access_type" { default = "ObjectRead" }
-variable "bucket_defined_tags_value" { default = "updatedValue" }
-variable "bucket_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "bucket_metadata" { default = {"content-type" = "text/xml"} }
-variable "bucket_name" { default = "name2" }
-variable "bucket_namespace" { default = "example_namespace" }
-variable "bucket_storage_tier" { default = "Standard" }
-
-data "oci_objectstorage_bucket" "test_bucket" {
-	#Required
-	name = "${var.bucket_name}"
-	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
-}
-                ` + compartmentIdVariableStr + BucketResourceConfig,
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + BucketResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
@@ -220,7 +216,7 @@ data "oci_objectstorage_bucket" "test_bucket" {
 					resource.TestCheckResourceAttr(singularDatasourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
-			},*/
+			},
 		},
 	})
 }

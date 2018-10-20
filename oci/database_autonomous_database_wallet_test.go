@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
+var (
 	AutonomousDatabaseWalletResourceConfig = AutonomousDatabaseWalletResourceDependencies + `
 
 `
@@ -18,7 +18,7 @@ const (
 variable "autonomous_database_wallet_password" { default = "BEstrO0ng_#11" }
 
 `
-	AutonomousDatabaseWalletResourceDependencies = AutonomousDatabasePropertyVariables + AutonomousDatabaseResourceConfig
+	AutonomousDatabaseWalletResourceDependencies = AutonomousDatabaseResourceConfig
 )
 
 func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {

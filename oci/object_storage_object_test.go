@@ -314,7 +314,7 @@ var (
 		"bucket":           Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"namespace":        Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
 		"object":           Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`},
-		"source":           Representation{repType: Optional, create: pathToMultiPartFile},
+		"source":           Representation{repType: Optional, create: ``},
 		"content_encoding": Representation{repType: Optional, create: `identity`},
 		"content_language": Representation{repType: Optional, create: `en-US`, update: `en-CA`},
 		"content_type":     Representation{repType: Optional, create: `text/plain`, update: `text/xml`},
@@ -375,8 +375,6 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Unable to create files to upload. Error: %q", err)
 	}
-	singlePartFileVariable := fmt.Sprintf("variable \"object_source\" { default = \"%s\" }\n", singlePartFilePath)
-	multiPartFileVariable := fmt.Sprintf("variable \"object_source\" { default = \"%s\" }\n", multiPartFilePath)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -388,7 +386,8 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			// verify create
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation),
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create,
+						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -413,9 +412,9 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify create singlepart with optionals
 			{
-				Config: config + singlePartFileVariable + compartmentIdVariableStr + ObjectResourceDependencies +
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create,
-						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: pathToSinglePartFile}, objectSourceRepresentation)),
+						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
@@ -442,8 +441,9 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + multiPartFileVariable + compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectSourceRepresentation),
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create,
+						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: multiPartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
@@ -465,8 +465,9 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify updates to name alone
 			{
-				Config: config + compartmentIdVariableStr + multiPartFileVariable + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectSourceRepresentation),
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: multiPartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
@@ -492,10 +493,11 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify datasource
 			{
-				Config: config + multiPartFileVariable +
+				Config: config +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", Required, Update, objectDataSourceRepresentation) +
 					compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectSourceRepresentation),
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: multiPartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -505,10 +507,11 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 			},
 			// verify datasource for delimiter and prefix
 			{
-				Config: config + multiPartFileVariable +
+				Config: config +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_objects", "test_objects", Optional, Update, objectDataSourceRepresentation) +
 					compartmentIdVariableStr + ObjectResourceDependencies +
-					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectSourceRepresentation),
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: multiPartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
@@ -537,7 +540,7 @@ var (
 
 	ObjectResourceConfigWithSourceSinglePart = ObjectResourceDependencies +
 		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, getUpdatedRepresentationCopy(
-			"source", Representation{repType: Optional, create: pathToSinglePartFile}, objectSourceRepresentation))
+			"source", Representation{repType: Optional, create: ""}, objectSourceRepresentation))
 
 	ObjectResourceConfigWithSourceURIFromContentObject = ObjectResourceConfigWithSourceURIFromContentObjectDependency +
 		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object_copy", Optional, Create, representationCopyWithNewProperties(ObjectResourceConfigWithoutContent, map[string]interface{}{
@@ -602,7 +605,6 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Unable to create file to upload. Error: %q", err)
 	}
-	singlePartFileVariable := fmt.Sprintf("variable \"object_source\" { default = \"%s\" }\n", singlePartFilePath)
 
 	resourceName := "oci_objectstorage_object.test_object"
 	resourceNameCopy := "oci_objectstorage_object.test_object_copy"
@@ -620,7 +622,9 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 		Steps: []resource.TestStep{
 			// create from source with options to copy
 			{
-				Config: config + ObjectResourceConfigWithSourceSinglePart + compartmentIdVariableStr,
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, getUpdatedRepresentationCopy(
+						"source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
@@ -637,7 +641,10 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// verify copy object copy of the source object
 			{
-				Config: config + ObjectResourceConfigWithSourceSinglePart + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, getUpdatedRepresentationCopy(
+						"source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)) +
+					ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", "my-test-1"),
@@ -735,7 +742,10 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			},
 			// recreate copy of copy of content object by singlepart with optionals
 			{
-				Config: config + ObjectResourceConfigWithSourceSinglePart + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
+				Config: config + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, getUpdatedRepresentationCopy(
+						"source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)) +
+					ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
 					compartmentIdVariableStr,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
