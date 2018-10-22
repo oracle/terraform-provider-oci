@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_drg_attachments"
+page_title: "Oracle Cloud Infrastructure: oci_core_drg_attachments"
 sidebar_current: "docs-oci-datasource-core-drg_attachments"
 description: |-
-  Provides a list of DrgAttachments
+  Provides the list of Drg Attachments in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_drg_attachments
-The `oci_core_drg_attachments` data source allows access to the list of OCI drg_attachments
+This data source provides the list of Drg Attachments in Oracle Cloud Infrastructure Core service.
 
 Lists the `DrgAttachment` objects for the specified compartment. You can filter the
 results by VCN or DRG.

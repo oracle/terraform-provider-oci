@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_file_storage_mount_targets"
+page_title: "Oracle Cloud Infrastructure: oci_file_storage_mount_targets"
 sidebar_current: "docs-oci-datasource-file_storage-mount_targets"
 description: |-
-  Provides a list of MountTargets
+  Provides the list of Mount Targets in Oracle Cloud Infrastructure File Storage service
 ---
 
 # Data Source: oci_file_storage_mount_targets
-The `oci_file_storage_mount_targets` data source allows access to the list of OCI mount_targets
+This data source provides the list of Mount Targets in Oracle Cloud Infrastructure File Storage service.
 
 Lists the mount target resources in the specified compartment.
 

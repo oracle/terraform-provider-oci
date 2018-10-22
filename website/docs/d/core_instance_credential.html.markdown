@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_instance_credentials"
-sidebar_current: "docs-oci-datasource-core-instance_credentials"
+page_title: "Oracle Cloud Infrastructure: oci_core_instance_credentials"
+sidebar_current: "docs-oci-datasource-core-instance_credential"
 description: |-
-  Provides details about a specific InstanceCredential
+  Provides details about a specific Instance Credential in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_instance_credentials
-The `oci_core_instance_credentials` data source provides details about a specific InstanceCredentials
+This data source provides details about a specific Instance Credential resource in Oracle Cloud Infrastructure Core service.
 
 Gets the generated credentials for the instance. Only works for instances that require password to log in (E.g. Windows).
 For certain OS'es, users will be forced to change the initial credentials.

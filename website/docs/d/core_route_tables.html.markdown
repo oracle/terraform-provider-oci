@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_route_tables"
+page_title: "Oracle Cloud Infrastructure: oci_core_route_tables"
 sidebar_current: "docs-oci-datasource-core-route_tables"
 description: |-
-  Provides a list of RouteTables
+  Provides the list of Route Tables in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_route_tables
-The `oci_core_route_tables` data source allows access to the list of OCI route_tables
+This data source provides the list of Route Tables in Oracle Cloud Infrastructure Core service.
 
 Lists the route tables in the specified VCN and specified compartment. The response
 includes the default route table that automatically comes with each VCN, plus any route tables
@@ -49,9 +49,9 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the route table.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The route table's Oracle ID (OCID).
 * `route_rules` - The collection of rules for routing destination IPs to network devices.
 	* `cidr_block` - Deprecated, Destination and DestinationType should be used instead; request including both fields will be rejected. A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
@@ -59,7 +59,7 @@ The following attributes are exported:
 
 		Examples: `10.12.0.0/16` `oci-phx-objectstorage` 
 	* `destination_type` - Type of destination for the route rule. SERVICE_CIDR_BLOCK should be used if destination is a service cidrBlock. CIDR_BLOCK should be used if destination is IP address range in CIDR notation. It must be provided along with `destination`. 
-	* `network_entity_id` - The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm). 
+	* `network_entity_id` - The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm). 
 * `state` - The route table's current state.
 * `time_created` - The date and time the route table was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_id` - The OCID of the VCN the route table list belongs to.

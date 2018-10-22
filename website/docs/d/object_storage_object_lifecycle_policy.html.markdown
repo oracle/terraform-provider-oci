@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_objectstorage_object_lifecycle_policy"
+page_title: "Oracle Cloud Infrastructure: oci_objectstorage_object_lifecycle_policy"
 sidebar_current: "docs-oci-datasource-object_storage-object_lifecycle_policy"
 description: |-
-  Provides details about a specific ObjectLifecyclePolicy
+  Provides details about a specific Object Lifecycle Policy in Oracle Cloud Infrastructure Object Storage service
 ---
 
 # Data Source: oci_objectstorage_object_lifecycle_policy
-The `oci_objectstorage_object_lifecycle_policy` data source provides details about a specific ObjectLifecyclePolicy
+This data source provides details about a specific Object Lifecycle Policy resource in Oracle Cloud Infrastructure Object Storage service.
 
 Gets the object lifecycle policy for the bucket.
 
@@ -37,7 +37,7 @@ The following attributes are exported:
 * `rules` - The live lifecycle policy on the bucket.
 
 	For an example of this value, see the  [PutObjectLifecyclePolicy API documentation](https://docs.cloud.oracle.com/iaas/api/#/en/objectstorage/20160918/ObjectLifecyclePolicy/PutObjectLifecyclePolicy). 
-	* `action` - The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects into the  [Archival Storage tier](https://docs.us-phoenix-1.oraclecloud.com/Content/Archive/Concepts/archivestorageoverview.htm). Rules using the action 'DELETE' permanently delete objects from buckets. 'ARCHIVE' and 'DELETE' are the only two supported actions at this time. 
+	* `action` - The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects into the  [Archival Storage tier](https://docs.cloud.oracle.com/iaas/Content/Archive/Concepts/archivestorageoverview.htm). Rules using the action 'DELETE' permanently delete objects from buckets. 'ARCHIVE' and 'DELETE' are the only two supported actions at this time. 
 	* `is_enabled` - A boolean that determines whether this rule is currently enabled.
 	* `name` - The name of the lifecycle rule to be applied.
 	* `object_name_filter` - A filter limiting object names that the rule will apply to.

@@ -1,19 +1,19 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_objectstorage_objects"
+page_title: "Oracle Cloud Infrastructure: oci_objectstorage_objects"
 sidebar_current: "docs-oci-datasource-object_storage-objects"
 description: |-
-  Provides a list of Objects
+  Provides the list of Objects in Oracle Cloud Infrastructure Object Storage service
 ---
 
 # Data Source: oci_objectstorage_objects
-The `oci_objectstorage_objects` data source allows access to the list of OCI objects
+This data source provides the list of Objects in Oracle Cloud Infrastructure Object Storage service.
 
 Lists the objects in a bucket.
 
 To use this and other API operations, you must be authorized in an IAM policy. If you're not authorized,
 talk to an administrator. If you're an administrator who needs to write policies to give users access, see
-[Getting Started with Policies](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
+[Getting Started with Policies](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 
 
 ## Example Usage

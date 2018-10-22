@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_database_autonomous_data_warehouse_wallet"
+page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_data_warehouse_wallet"
 sidebar_current: "docs-oci-datasource-database-autonomous_data_warehouse_wallet"
 description: |-
-  Provides details about a specific AutonomousDataWarehouseWallet
+  Provides details about a specific Autonomous Data Warehouse Wallet in Oracle Cloud Infrastructure Database service
 ---
 
 # Data Source: oci_database_autonomous_data_warehouse_wallet
-The `oci_database_autonomous_data_warehouse_wallet` data source provides details about a specific AutonomousDataWarehouseWallet
+This data source provides details about a specific Autonomous Data Warehouse Wallet resource in Oracle Cloud Infrastructure Database service.
 
 
 
@@ -25,7 +25,7 @@ data "oci_database_autonomous_data_warehouse_wallet" "test_autonomous_data_wareh
 
 The following arguments are supported:
 
-* `autonomous_data_warehouse_id` - (Required) The database [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+* `autonomous_data_warehouse_id` - (Required) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `password` - (Required) The password to encrypt the keys inside the wallet.
 
 

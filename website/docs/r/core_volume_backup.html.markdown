@@ -1,16 +1,16 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_volume_backup"
+page_title: "Oracle Cloud Infrastructure: oci_core_volume_backup"
 sidebar_current: "docs-oci-resource-core-volume_backup"
 description: |-
-  Creates and manages an OCI VolumeBackup
+  Provides the Volume Backup resource in Oracle Cloud Infrastructure Core service
 ---
 
 # oci_core_volume_backup
-The `oci_core_volume_backup` resource creates and manages an OCI VolumeBackup
+This resource provides the Volume Backup resource in Oracle Cloud Infrastructure Core service.
 
 Creates a new backup of the specified volume. For general information about volume backups,
-see [Overview of Block Volume Service Backups](https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/blockvolumebackups.htm)
+see [Overview of Block Volume Service Backups](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumebackups.htm)
 
 When the request is received, the backup object is in a REQUEST_RECEIVED state.
 When the data is imaged, it goes into a CREATING state.
@@ -36,10 +36,10 @@ resource "oci_core_volume_backup" "test_volume_backup" {
 
 The following arguments are supported:
 
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name for the volume backup. Does not have to be unique and it's changeable. Avoid entering confidential information. 
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `type` - (Optional) The type of backup to create. If omitted, defaults to INCREMENTAL. Supported values are 'FULL' or 'INCREMENTAL'.
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `type` - (Optional) The type of backup to create. If omitted, defaults to INCREMENTAL.
 * `volume_id` - (Required) The OCID of the volume that needs to be backed up.
 
 
@@ -51,10 +51,10 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains the volume backup.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the volume backup. Does not have to be unique and it's changeable. Avoid entering confidential information. 
 * `expiration_time` - The date and time the volume backup will expire and be automatically deleted. Format defined by RFC3339. This parameter will always be present for backups that were created automatically by a scheduled-backup policy. For manually created backups, it will be absent, signifying that there is no expiration time and the backup will last forever until manually deleted. 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the volume backup.
 * `size_in_gbs` - The size of the volume, in GBs. 
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
@@ -74,3 +74,4 @@ VolumeBackups can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_volume_backup.test_volume_backup "id"
 ```
+

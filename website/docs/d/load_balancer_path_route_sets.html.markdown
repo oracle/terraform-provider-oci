@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_load_balancer_path_route_sets"
+page_title: "Oracle Cloud Infrastructure: oci_load_balancer_path_route_sets"
 sidebar_current: "docs-oci-datasource-load_balancer-path_route_sets"
 description: |-
-  Provides a list of PathRouteSets
+  Provides the list of Path Route Sets in Oracle Cloud Infrastructure Load Balancer service
 ---
 
 # Data Source: oci_load_balancer_path_route_sets
-The `oci_load_balancer_path_route_sets` data source allows access to the list of OCI path_route_sets
+This data source provides the list of Path Route Sets in Oracle Cloud Infrastructure Load Balancer service.
 
 Lists all path route sets associated with the specified load balancer.
 
@@ -24,7 +24,7 @@ data "oci_load_balancer_path_route_sets" "test_path_route_sets" {
 
 The following arguments are supported:
 
-* `load_balancer_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the path route sets to retrieve. 
+* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer associated with the path route sets to retrieve. 
 
 
 ## Attributes Reference
@@ -47,11 +47,11 @@ The following attributes are exported:
 
 		Example: `/example/video/123` 
 	* `path_match_type` - The type of matching to apply to incoming URIs.
-		* `match_type` - Specifies how the load balancing service compares a [PathRoute](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/requests/PathRoute) object's `path` string against the incoming URI.
+		* `match_type` - Specifies how the load balancing service compares a [PathRoute](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/requests/PathRoute) object's `path` string against the incoming URI.
 			*  **EXACT_MATCH** - Looks for a `path` string that exactly matches the incoming URI path.
 			*  **FORCE_LONGEST_PREFIX_MATCH** - Looks for the `path` string with the best, longest match of the beginning portion of the incoming URI path.
 			*  **PREFIX_MATCH** - Looks for a `path` string that matches the beginning portion of the incoming URI path.
 			*  **SUFFIX_MATCH** - Looks for a `path` string that matches the ending portion of the incoming URI path.
 
-			For a full description of how the system handles `matchType` in a path route set containing multiple rules, see [Managing Request Routing](https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingrequest.htm). 
+			For a full description of how the system handles `matchType` in a path route set containing multiple rules, see [Managing Request Routing](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm). 
 

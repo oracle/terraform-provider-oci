@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_volume_backup_policies"
+page_title: "Oracle Cloud Infrastructure: oci_core_volume_backup_policies"
 sidebar_current: "docs-oci-datasource-core-volume_backup_policies"
 description: |-
-  Provides a list of VolumeBackupPolicies
+  Provides the list of Volume Backup Policies in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_volume_backup_policies
-The `oci_core_volume_backup_policies` data source allows access to the list of OCI volume_backup_policies
+This data source provides the list of Volume Backup Policies in Oracle Cloud Infrastructure Core service.
 
 Lists all volume backup policies available to the caller.
 

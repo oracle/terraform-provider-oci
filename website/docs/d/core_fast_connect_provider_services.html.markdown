@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_fast_connect_provider_services"
+page_title: "Oracle Cloud Infrastructure: oci_core_fast_connect_provider_services"
 sidebar_current: "docs-oci-datasource-core-fast_connect_provider_services"
 description: |-
-  Provides a list of FastConnectProviderServices
+  Provides the list of Fast Connect Provider Services in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_fast_connect_provider_services
-The `oci_core_fast_connect_provider_services` data source allows access to the list of OCI fast_connect_provider_services
+This data source provides the list of Fast Connect Provider Services in Oracle Cloud Infrastructure Core service.
 
 Lists the service offerings from supported providers. You need this
 information so you can specify your desired provider and service
@@ -15,7 +15,7 @@ offering when you create a virtual circuit.
 
 For the compartment ID, provide the OCID of your tenancy (the root compartment).
 
-For more information, see [FastConnect Overview](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/fastconnect.htm).
+For more information, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 
 
 ## Example Usage

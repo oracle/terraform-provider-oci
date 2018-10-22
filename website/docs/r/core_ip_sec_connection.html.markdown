@@ -1,16 +1,16 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_ipsec"
+page_title: "Oracle Cloud Infrastructure: oci_core_ipsec"
 sidebar_current: "docs-oci-resource-core-ipsec"
 description: |-
-  Creates and manages an OCI IpSecConnection
+  Provides the Ip Sec Connection resource in Oracle Cloud Infrastructure Core service
 ---
 
 # oci_core_ipsec
-The `oci_core_ipsec` resource creates and manages an OCI IpSecConnection
+This resource provides the Ip Sec Connection resource in Oracle Cloud Infrastructure Core service.
 
 Creates a new IPSec connection between the specified DRG and CPE. For more information, see
-[IPSec VPNs](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingIPsec.htm).
+[IPSec VPNs](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPsec.htm).
 
 In the request, you must include at least one static route to the CPE object (you're allowed a maximum
 of 10). For example: 10.0.8.0/16.
@@ -20,21 +20,21 @@ IPSec connection to reside. Notice that the IPSec connection doesn't have to be 
 as the DRG, CPE, or other Networking Service components. If you're not sure which compartment to
 use, put the IPSec connection in the same compartment as the DRG. For more information about
 compartments and access control, see
-[Overview of the IAM Service](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
-For information about OCIDs, see [Resource Identifiers](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+[Overview of the IAM Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
+For information about OCIDs, see [Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 You may optionally specify a *display name* for the IPSec connection, otherwise a default is provided.
 It does not have to be unique, and you can change it. Avoid entering confidential information.
 
 After creating the IPSec connection, you need to configure your on-premises router
 with tunnel-specific information returned by
-[GetIPSecConnectionDeviceConfig](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnectionDeviceConfig/GetIPSecConnectionDeviceConfig).
+[GetIPSecConnectionDeviceConfig](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionDeviceConfig/GetIPSecConnectionDeviceConfig).
 For each tunnel, that operation gives you the IP address of Oracle's VPN headend and the shared secret
 (that is, the pre-shared key). For more information, see
-[Configuring Your On-Premises Router for an IPSec VPN](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/configuringCPE.htm).
+[Configuring Your On-Premises Router for an IPSec VPN](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
 
 To get the status of the tunnels (whether they're up or down), use
-[GetIPSecConnectionDeviceStatus](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IPSecConnectionDeviceStatus/GetIPSecConnectionDeviceStatus).
+[GetIPSecConnectionDeviceStatus](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionDeviceStatus/GetIPSecConnectionDeviceStatus).
 
 
 ## Example Usage
@@ -60,10 +60,10 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment to contain the IPSec connection.
 * `cpe_id` - (Required) The OCID of the CPE.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `drg_id` - (Required) The OCID of the DRG.
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `static_routes` - (Required) Static routes to the CPE. At least one route must be included. The CIDR must not be a multicast address or class E address.  Example: `10.0.1.0/24` 
 
 
@@ -76,10 +76,10 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the IPSec connection.
 * `cpe_id` - The OCID of the CPE.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `drg_id` - The OCID of the DRG.
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The IPSec connection's Oracle ID (OCID).
 * `state` - The IPSec connection's current state.
 * `static_routes` - Static routes to the CPE. At least one route must be included. The CIDR must not be a multicast address or class E address.  Example: `10.0.1.0/24` 
@@ -92,3 +92,4 @@ IpSecConnections can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_ipsec.test_ip_sec_connection "id"
 ```
+

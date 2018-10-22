@@ -1,23 +1,22 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_swift_password"
+page_title: "Oracle Cloud Infrastructure: oci_identity_swift_password"
 sidebar_current: "docs-oci-resource-identity-swift_password"
 description: |-
-  Creates and manages an OCI SwiftPassword
+  Provides the Swift Password resource in Oracle Cloud Infrastructure Identity service
 ---
 
 # oci_identity_swift_password
-**Deprecated. Use AuthToken instead.**
-The `oci_identity_swift_password` resource creates and manages an OCI SwiftPassword
+This resource provides the Swift Password resource in Oracle Cloud Infrastructure Identity service.
 
-**Deprecated. Use [CreateAuthToken](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/AuthToken/CreateAuthToken) instead.**
+**Deprecated. Use [CreateAuthToken](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/AuthToken/CreateAuthToken) instead.**
 
 Creates a new Swift password for the specified user. For information about what Swift passwords are for, see
-[Managing User Credentials](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingcredentials.htm).
+[Managing User Credentials](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcredentials.htm).
 
 You must specify a *description* for the Swift password (although it can be an empty string). It does not
 have to be unique, and you can change it anytime with
-[UpdateSwiftPassword](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/SwiftPassword/UpdateSwiftPassword).
+[UpdateSwiftPassword](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/SwiftPassword/UpdateSwiftPassword).
 
 Every user has permission to create a Swift password for *their own user ID*. An administrator in your organization
 does not need to write a policy to give users this ability. To compare, administrators who have permission to the
@@ -57,3 +56,4 @@ The following attributes are exported:
 * `state` - The password's current state.
 * `time_created` - Date and time the `SwiftPassword` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the password belongs to.
+

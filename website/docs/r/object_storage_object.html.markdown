@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_objectstorage_object"
+page_title: "Oracle Cloud Infrastructure: oci_objectstorage_object"
 sidebar_current: "docs-oci-resource-object_storage-object"
 description: |-
-  Creates and manages an OCI Object
+  Provides the Object resource in Oracle Cloud Infrastructure Object Storage service
 ---
 
 # oci_objectstorage_object
-The `oci_objectstorage_object` resource creates and manages an OCI Object
+This resource provides the Object resource in Oracle Cloud Infrastructure Object Storage service.
 
 Creates a new object or overwrites an existing one.
 
@@ -86,3 +86,4 @@ Objects can be imported using the `id`, e.g.
 ```
 $ terraform import oci_objectstorage_object.test_object "id"
 ```
+

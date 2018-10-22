@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_virtual_circuit_public_prefixes"
+page_title: "Oracle Cloud Infrastructure: oci_core_virtual_circuit_public_prefixes"
 sidebar_current: "docs-oci-datasource-core-virtual_circuit_public_prefixes"
 description: |-
-  Provides a list of VirtualCircuitPublicPrefixes
+  Provides the list of Virtual Circuit Public Prefixes in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_virtual_circuit_public_prefixes
-The `oci_core_virtual_circuit_public_prefixes` data source allows access to the list of OCI virtual_circuit_public_prefixes
+This data source provides the list of Virtual Circuit Public Prefixes in Oracle Cloud Infrastructure Core service.
 
 Lists the public IP prefixes and their details for the specified
 public virtual circuit.

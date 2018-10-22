@@ -1,26 +1,26 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_cross_connect_group"
+page_title: "Oracle Cloud Infrastructure: oci_core_cross_connect_group"
 sidebar_current: "docs-oci-resource-core-cross_connect_group"
 description: |-
-  Creates and manages an OCI CrossConnectGroup
+  Provides the Cross Connect Group resource in Oracle Cloud Infrastructure Core service
 ---
 
 # oci_core_cross_connect_group
-The `oci_core_cross_connect_group` resource creates and manages an OCI CrossConnectGroup
+This resource provides the Cross Connect Group resource in Oracle Cloud Infrastructure Core service.
 
 Creates a new cross-connect group to use with Oracle Cloud Infrastructure
 FastConnect. For more information, see
-[FastConnect Overview](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/fastconnect.htm).
+[FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 
 For the purposes of access control, you must provide the OCID of the
 compartment where you want the cross-connect group to reside. If you're
 not sure which compartment to use, put the cross-connect group in the
 same compartment with your VCN. For more information about
 compartments and access control, see
-[Overview of the IAM Service](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
+[Overview of the IAM Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 For information about OCIDs, see
-[Resource Identifiers](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+[Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 You may optionally specify a *display name* for the cross-connect group.
 It does not have to be unique, and you can change it. Avoid entering confidential information.
@@ -66,3 +66,4 @@ CrossConnectGroups can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_cross_connect_group.test_cross_connect_group "id"
 ```
+

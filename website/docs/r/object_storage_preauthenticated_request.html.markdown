@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_objectstorage_preauthrequest"
-sidebar_current: "docs-oci-resource-object_storage-preauthenticated_request"
+page_title: "Oracle Cloud Infrastructure: oci_objectstorage_preauthrequest"
+sidebar_current: "docs-oci-resource-object_storage-preauthrequest"
 description: |-
-  Creates and manages an OCI PreauthenticatedRequest
+  Provides the Preauthenticated Request resource in Oracle Cloud Infrastructure Object Storage service
 ---
 
 # oci_objectstorage_preauthrequest
-The `oci_objectstorage_preauthrequest` resource creates and manages an OCI PreauthenticatedRequest
+This resource provides the Preauthenticated Request resource in Oracle Cloud Infrastructure Object Storage service.
 
 Creates a pre-authenticated request specific to the bucket.
 
@@ -56,3 +56,4 @@ The following attributes are exported:
 * `object` - The name of object that is being granted access to by the pre-authenticated request. This can be null and if it is, the pre-authenticated request grants access to the entire bucket.
 * `time_created` - The date when the pre-authenticated request was created as per [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `time_expires` - The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/rfc/rfc3339). After this date the pre-authenticated request will no longer be valid. 
+

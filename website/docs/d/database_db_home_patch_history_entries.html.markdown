@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_database_db_home_patch_history_entries"
+page_title: "Oracle Cloud Infrastructure: oci_database_db_home_patch_history_entries"
 sidebar_current: "docs-oci-datasource-database-db_home_patch_history_entries"
 description: |-
-  Provides a list of DbHomePatchHistoryEntries
+  Provides the list of Db Home Patch History Entries in Oracle Cloud Infrastructure Database service
 ---
 
 # Data Source: oci_database_db_home_patch_history_entries
-The `oci_database_db_home_patch_history_entries` data source allows access to the list of OCI db_home_patch_history_entries
+This data source provides the list of Db Home Patch History Entries in Oracle Cloud Infrastructure Database service.
 
 Gets history of the actions taken for patches for the specified database home.
 
@@ -25,7 +25,7 @@ data "oci_database_db_home_patch_history_entries" "test_db_home_patch_history_en
 
 The following arguments are supported:
 
-* `db_home_id` - (Required) The database home [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+* `db_home_id` - (Required) The database home [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
 ## Attributes Reference
@@ -39,9 +39,9 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `action` - The action being performed or was completed.
-* `id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch history entry.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch history entry.
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically contains additional displayable text. 
-* `patch_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch.
+* `patch_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch.
 * `state` - The current state of the action.
 * `time_ended` - The date and time when the patch action completed.
 * `time_started` - The date and time when the patch action started.

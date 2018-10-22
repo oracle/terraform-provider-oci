@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_containerengine_cluster_option"
+page_title: "Oracle Cloud Infrastructure: oci_containerengine_cluster_option"
 sidebar_current: "docs-oci-datasource-containerengine-cluster_option"
 description: |-
-  Provides details about a specific ClusterOption
+  Provides details about a specific Cluster Option in Oracle Cloud Infrastructure Container Engine service
 ---
 
 # Data Source: oci_containerengine_cluster_option
-The `oci_containerengine_cluster_option` data source provides details about a specific ClusterOption
+This data source provides details about a specific Cluster Option resource in Oracle Cloud Infrastructure Container Engine service.
 
 Get options available for clusters.
 

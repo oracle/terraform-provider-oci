@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_database_db_nodes"
+page_title: "Oracle Cloud Infrastructure: oci_database_db_nodes"
 sidebar_current: "docs-oci-datasource-database-db_nodes"
 description: |-
-  Provides a list of DbNodes
+  Provides the list of Db Nodes in Oracle Cloud Infrastructure Database service
 ---
 
 # Data Source: oci_database_db_nodes
-The `oci_database_db_nodes` data source allows access to the list of OCI db_nodes
+This data source provides the list of Db Nodes in Oracle Cloud Infrastructure Database service.
 
 Gets a list of database nodes in the specified DB system and compartment. A database node is a server running database software.
 
@@ -29,8 +29,8 @@ data "oci_database_db_nodes" "test_db_nodes" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The compartment [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
-* `db_system_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB system.
+* `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `db_system_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
@@ -44,12 +44,12 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `backup_vnic_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the backup VNIC.
-* `db_system_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB system.
+* `backup_vnic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup VNIC.
+* `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `hostname` - The host name for the database node.
-* `id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database node.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database node.
 * `software_storage_size_in_gb` - The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems. 
 * `state` - The current state of the database node.
 * `time_created` - The date and time that the database node was created.
-* `vnic_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the VNIC.
+* `vnic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
 

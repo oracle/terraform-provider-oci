@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_file_storage_export_set"
+page_title: "Oracle Cloud Infrastructure: oci_file_storage_export_set"
 sidebar_current: "docs-oci-resource-file_storage-export_set"
 description: |-
-  Creates and manages an OCI ExportSet
+  Provides the Export Set resource in Oracle Cloud Infrastructure File Storage service
 ---
 
 # oci_file_storage_export_set
-The `oci_file_storage_export_set` resource manages an OCI ExportSet
+This resource provides the Export Set resource in Oracle Cloud Infrastructure File Storage service.
 
 The export set resource can neither be directly created, nor destroyed.
 
@@ -65,3 +65,4 @@ ExportSets can be imported using the `id`, e.g.
 ```
 $ terraform import oci_file_storage_export_set.test_export_set "id"
 ```
+

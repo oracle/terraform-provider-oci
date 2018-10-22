@@ -1,26 +1,26 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_virtual_circuit"
+page_title: "Oracle Cloud Infrastructure: oci_core_virtual_circuit"
 sidebar_current: "docs-oci-resource-core-virtual_circuit"
 description: |-
-  Creates and manages an OCI VirtualCircuit
+  Provides the Virtual Circuit resource in Oracle Cloud Infrastructure Core service
 ---
 
 # oci_core_virtual_circuit
-The `oci_core_virtual_circuit` resource creates and manages an OCI VirtualCircuit
+This resource provides the Virtual Circuit resource in Oracle Cloud Infrastructure Core service.
 
 Creates a new virtual circuit to use with Oracle Cloud
 Infrastructure FastConnect. For more information, see
-[FastConnect Overview](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/fastconnect.htm).
+[FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 
 For the purposes of access control, you must provide the OCID of the
 compartment where you want the virtual circuit to reside. If you're
 not sure which compartment to use, put the virtual circuit in the
 same compartment with the DRG it's using. For more information about
 compartments and access control, see
-[Overview of the IAM Service](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
+[Overview of the IAM Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 For information about OCIDs, see
-[Resource Identifiers](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+[Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 You may optionally specify a *display name* for the virtual circuit.
 It does not have to be unique, and you can change it. Avoid entering confidential information.
@@ -29,7 +29,7 @@ It does not have to be unique, and you can change it. Avoid entering confidentia
 the traffic to flow through. Make sure you attach the DRG to your
 VCN and confirm the VCN's routing sends traffic to the DRG. Otherwise
 traffic will not flow. For more information, see
-[Route Tables](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingroutetables.htm).
+[Route Tables](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm).
 
 
 ## Example Usage
@@ -67,7 +67,7 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 
 The following arguments are supported:
 
-* `bandwidth_shape_name` - (Optional) (Updatable) The provisioned data rate of the connection.  To get a list of the available bandwidth levels (that is, shapes), see [ListFastConnectProviderServiceVirtualCircuitBandwidthShapes](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/VirtualCircuitBandwidthShape/ListFastConnectProviderVirtualCircuitBandwidthShapes).  Example: `10 Gbps` 
+* `bandwidth_shape_name` - (Optional) (Updatable) The provisioned data rate of the connection.  To get a list of the available bandwidth levels (that is, shapes), see [ListFastConnectProviderServiceVirtualCircuitBandwidthShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuitBandwidthShape/ListFastConnectProviderVirtualCircuitBandwidthShapes).  Example: `10 Gbps` 
 * `compartment_id` - (Required) The OCID of the compartment to contain the virtual circuit. 
 * `cross_connect_mappings` - (Optional) (Updatable) Create a `CrossConnectMapping` for each cross-connect or cross-connect group this virtual circuit will run on. 
 	* `bgp_md5auth_key` - (Optional) (Updatable) The key for BGP MD5 authentication. Only applicable if your system requires MD5 authentication. If empty or not set (null), that means you don't use BGP MD5 authentication. 
@@ -85,8 +85,8 @@ The following arguments are supported:
 	* `vlan` - (Optional) (Updatable) The number of the specific VLAN (on the cross-connect or cross-connect group) that is assigned to this virtual circuit. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider).  Example: `200` 
 * `customer_bgp_asn` - (Optional) (Updatable) Your BGP ASN (either public or private). Provide this value only if there's a BGP session that goes from your edge router to Oracle. Otherwise, leave this empty or null. 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `gateway_id` - (Optional) (Updatable) For private virtual circuits only. The OCID of the [Dynamic Routing Gateway (DRG)](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Drg) that this virtual circuit uses. 
-* `provider_service_id` - (Optional) The OCID of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see [ListFastConnectProviderServices](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/FastConnectProviderService/ListFastConnectProviderServices). 
+* `gateway_id` - (Optional) (Updatable) For private virtual circuits only. The OCID of the [Dynamic Routing Gateway (DRG)](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Drg) that this virtual circuit uses. 
+* `provider_service_id` - (Optional) The OCID of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see [ListFastConnectProviderServices](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/FastConnectProviderService/ListFastConnectProviderServices). 
 * `public_prefixes` - (Optional) For a public virtual circuit. The public IP prefixes (CIDRs) the customer wants to advertise across the connection. 
 	* `cidr_block` - (Required) An individual public IP prefix (CIDR) to add to the public virtual circuit. Must be /24 or less specific. 
 * `region` - (Optional) The Oracle Cloud Infrastructure region where this virtual circuit is located. Example: `phx` 
@@ -120,7 +120,7 @@ The following attributes are exported:
 	* `vlan` - The number of the specific VLAN (on the cross-connect or cross-connect group) that is assigned to this virtual circuit. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider).  Example: `200` 
 * `customer_bgp_asn` - The BGP ASN of the network at the other end of the BGP session from Oracle. If the session is between the customer's edge router and Oracle, the value is the customer's ASN. If the BGP session is between the provider's edge router and Oracle, the value is the provider's ASN. 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `gateway_id` - The OCID of the customer's [Dynamic Routing Gateway (DRG)](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Drg) that this virtual circuit uses. Applicable only to private virtual circuits. 
+* `gateway_id` - The OCID of the customer's [Dynamic Routing Gateway (DRG)](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Drg) that this virtual circuit uses. Applicable only to private virtual circuits. 
 * `id` - The virtual circuit's Oracle ID (OCID).
 * `oracle_bgp_asn` - The Oracle BGP ASN.
 * `provider_service_id` - The OCID of the service offered by the provider (if the customer is connecting via a provider). 
@@ -129,9 +129,9 @@ The following attributes are exported:
 * `reference_comment` - Provider-supplied reference information about this virtual circuit (if the customer is connecting via a provider). 
 * `region` - The Oracle Cloud Infrastructure region where this virtual circuit is located. 
 * `service_type` - Provider service type. 
-* `state` - The virtual circuit's current state. For information about the different states, see [FastConnect Overview](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/fastconnect.htm). 
+* `state` - The virtual circuit's current state. For information about the different states, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm). 
 * `time_created` - The date and time the virtual circuit was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
-* `type` - Whether the virtual circuit supports private or public peering. For more information, see [FastConnect Overview](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/fastconnect.htm). 
+* `type` - Whether the virtual circuit supports private or public peering. For more information, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm). 
 
 ## Import
 
@@ -140,3 +140,4 @@ VirtualCircuits can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_virtual_circuit.test_virtual_circuit "id"
 ```
+

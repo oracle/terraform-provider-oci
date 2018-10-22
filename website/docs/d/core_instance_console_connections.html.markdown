@@ -1,17 +1,17 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_instance_console_connections"
+page_title: "Oracle Cloud Infrastructure: oci_core_instance_console_connections"
 sidebar_current: "docs-oci-datasource-core-instance_console_connections"
 description: |-
-  Provides a list of InstanceConsoleConnections
+  Provides the list of Instance Console Connections in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_instance_console_connections
-The `oci_core_instance_console_connections` data source allows access to the list of OCI instance_console_connections
+This data source provides the list of Instance Console Connections in Oracle Cloud Infrastructure Core service.
 
 Lists the console connections for the specified compartment or instance.
 
-For more information about console access, see [Accessing the Console](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/References/serialconsole.htm).
+For more information about console access, see [Accessing the Console](https://docs.cloud.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
 
 
 ## Example Usage
@@ -46,9 +46,9 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment to contain the console connection.
 * `connection_string` - The SSH connection string for the console connection.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `fingerprint` - The SSH public key fingerprint for the console connection.
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the console connection.
 * `instance_id` - The OCID of the instance the console connection connects to.
 * `state` - The current state of the console connection.

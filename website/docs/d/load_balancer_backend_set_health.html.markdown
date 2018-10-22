@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_load_balancer_backend_set_health"
+page_title: "Oracle Cloud Infrastructure: oci_load_balancer_backend_set_health"
 sidebar_current: "docs-oci-datasource-load_balancer-backend_set_health"
 description: |-
-  Provides details about a specific BackendSetHealth
+  Provides details about a specific Backend Set Health in Oracle Cloud Infrastructure Load Balancer service
 ---
 
 # Data Source: oci_load_balancer_backend_set_health
-The `oci_load_balancer_backend_set_health` data source provides details about a specific BackendSetHealth
+This data source provides details about a specific Backend Set Health resource in Oracle Cloud Infrastructure Load Balancer service.
 
 Gets the health status for the specified backend set.
 
@@ -26,7 +26,7 @@ data "oci_load_balancer_backend_set_health" "test_backend_set_health" {
 The following arguments are supported:
 
 * `backend_set_name` - (Required) The name of the backend set to retrieve the health status for.  Example: `example_backend_set` 
-* `load_balancer_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend set health status to be retrieved.
+* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend set health status to be retrieved.
 
 
 ## Attributes Reference

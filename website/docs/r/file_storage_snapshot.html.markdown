@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_file_storage_snapshot"
+page_title: "Oracle Cloud Infrastructure: oci_file_storage_snapshot"
 sidebar_current: "docs-oci-resource-file_storage-snapshot"
 description: |-
-  Creates and manages an OCI Snapshot
+  Provides the Snapshot resource in Oracle Cloud Infrastructure File Storage service
 ---
 
 # oci_file_storage_snapshot
-The `oci_file_storage_snapshot` resource creates and manages an OCI Snapshot
+This resource provides the Snapshot resource in Oracle Cloud Infrastructure File Storage service.
 
 Creates a new snapshot of the specified file system. You
 can access the snapshot at `.snapshot/<name>`.
@@ -59,3 +59,4 @@ Snapshots can be imported using the `id`, e.g.
 ```
 $ terraform import oci_file_storage_snapshot.test_snapshot "id"
 ```
+

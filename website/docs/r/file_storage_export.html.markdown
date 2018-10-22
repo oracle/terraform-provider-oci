@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_file_storage_export"
+page_title: "Oracle Cloud Infrastructure: oci_file_storage_export"
 sidebar_current: "docs-oci-resource-file_storage-export"
 description: |-
-  Creates and manages an OCI Export
+  Provides the Export resource in Oracle Cloud Infrastructure File Storage service
 ---
 
 # oci_file_storage_export
-The `oci_file_storage_export` resource creates and manages an OCI Export
+This resource provides the Export resource in Oracle Cloud Infrastructure File Storage service.
 
 Creates a new export in the specified export set, path, and
 file system.
@@ -109,3 +109,4 @@ Exports can be imported using the `id`, e.g.
 ```
 $ terraform import oci_file_storage_export.test_export "id"
 ```
+
