@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_audit_events"
+page_title: "Oracle Cloud Infrastructure: oci_audit_events"
 sidebar_current: "docs-oci-datasource-audit-events"
 description: |-
-  Provides a list of AuditEvents
+  Provides the list of Audit Events in Oracle Cloud Infrastructure Audit service
 ---
 
 # Data Source: oci_audit_events
-The `oci_audit_events` data source allows access to the list of OCI audit_events
+This data source provides the list of Audit Events in Oracle Cloud Infrastructure Audit service.
 
 Returns all audit events for the specified compartment that were processed within the specified time range.
 

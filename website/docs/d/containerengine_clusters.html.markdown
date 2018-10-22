@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_containerengine_clusters"
+page_title: "Oracle Cloud Infrastructure: oci_containerengine_clusters"
 sidebar_current: "docs-oci-datasource-containerengine-clusters"
 description: |-
-  Provides a list of Clusters
+  Provides the list of Clusters in Oracle Cloud Infrastructure Container Engine service
 ---
 
 # Data Source: oci_containerengine_clusters
-The `oci_containerengine_clusters` data source allows access to the list of OCI clusters
+This data source provides the list of Clusters in Oracle Cloud Infrastructure Container Engine service.
 
 List all the cluster objects in a compartment.
 

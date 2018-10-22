@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_boot_volume_backups"
+page_title: "Oracle Cloud Infrastructure: oci_core_boot_volume_backups"
 sidebar_current: "docs-oci-datasource-core-boot_volume_backups"
 description: |-
-  Provides a list of BootVolumeBackups
+  Provides the list of Boot Volume Backups in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_boot_volume_backups
-The `oci_core_boot_volume_backups` data source allows access to the list of OCI boot_volume_backups
+This data source provides the list of Boot Volume Backups in Oracle Cloud Infrastructure Core service.
 
 Lists the boot volume backups in the specified compartment. You can filter the results by boot volume.
 
@@ -48,10 +48,10 @@ The following attributes are exported:
 
 * `boot_volume_id` - The OCID of the boot volume.
 * `compartment_id` - The OCID of the compartment that contains the boot volume backup.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the boot volume backup. Does not have to be unique and it's changeable. Avoid entering confidential information. 
 * `expiration_time` - The date and time the volume backup will expire and be automatically deleted. Format defined by RFC3339. This parameter will always be present for backups that were created automatically by a scheduled-backup policy. For manually created backups, it will be absent, signifying that there is no expiration time and the backup will last forever until manually deleted. 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the boot volume backup.
 * `image_id` - The image OCID used to create the boot volume the backup is taken from.
 * `size_in_gbs` - The size of the boot volume, in GBs. 

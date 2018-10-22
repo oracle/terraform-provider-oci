@@ -1,17 +1,17 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_dynamic_groups"
+page_title: "Oracle Cloud Infrastructure: oci_identity_dynamic_groups"
 sidebar_current: "docs-oci-datasource-identity-dynamic_groups"
 description: |-
-  Provides a list of DynamicGroups
+  Provides the list of Dynamic Groups in Oracle Cloud Infrastructure Identity service
 ---
 
 # Data Source: oci_identity_dynamic_groups
-The `oci_identity_dynamic_groups` data source allows access to the list of OCI dynamic_groups
+This data source provides the list of Dynamic Groups in Oracle Cloud Infrastructure Identity service.
 
 Lists the dynamic groups in your tenancy. You must specify your tenancy's OCID as the value for
 the compartment ID (remember that the tenancy is simply the root compartment).
-See [Where to Get the Tenancy's OCID and User's OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
+See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#five).
 
 
 ## Example Usage
@@ -44,7 +44,7 @@ The following attributes are exported:
 * `description` - The description you assign to the group. Does not have to be unique, and it's changeable.
 * `id` - The OCID of the group.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
-* `matching_rule` - A rule string that defines which instance certificates will be matched. For syntax, see [Managing Dynamic Groups](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingdynamicgroups.htm). 
+* `matching_rule` - A rule string that defines which instance certificates will be matched. For syntax, see [Managing Dynamic Groups](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingdynamicgroups.htm). 
 * `name` - The name you assign to the group during creation. The name must be unique across all groups in the tenancy and cannot be changed. 
 * `state` - The group's current state.
 * `time_created` - Date and time the group was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 

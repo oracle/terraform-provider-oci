@@ -1,22 +1,22 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_user"
+page_title: "Oracle Cloud Infrastructure: oci_identity_user"
 sidebar_current: "docs-oci-resource-identity-user"
 description: |-
-  Creates and manages an OCI User
+  Provides the User resource in Oracle Cloud Infrastructure Identity service
 ---
 
 # oci_identity_user
-The `oci_identity_user` resource creates and manages an OCI User
+This resource provides the User resource in Oracle Cloud Infrastructure Identity service.
 
 Creates a new user in your tenancy. For conceptual information about users, your tenancy, and other
-IAM Service components, see [Overview of the IAM Service](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
+IAM Service components, see [Overview of the IAM Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 
 You must specify your tenancy's OCID as the compartment ID in the request object (remember that the
 tenancy is simply the root compartment). Notice that IAM resources (users, groups, compartments, and
 some policies) reside within the tenancy itself, unlike cloud resources such as compute instances,
 which typically reside within compartments inside the tenancy. For information about OCIDs, see
-[Resource Identifiers](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+[Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 You must also specify a *name* for the user, which must be unique across all users in your tenancy
 and cannot be changed. Allowed characters: No spaces. Only letters, numerals, hyphens, periods,
@@ -28,17 +28,17 @@ users because they have different OCIDs.
 
 You must also specify a *description* for the user (although it can be an empty string).
 It does not have to be unique, and you can change it anytime with
-[UpdateUser](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/User/UpdateUser). You can use the field to provide the user's
+[UpdateUser](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/User/UpdateUser). You can use the field to provide the user's
 full name, a description, a nickname, or other information to generally identify the user.
 
 A new user has no permissions until you place the user in one or more groups (see
-[AddUserToGroup](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UserGroupMembership/AddUserToGroup)). If the user needs to
+[AddUserToGroup](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/UserGroupMembership/AddUserToGroup)). If the user needs to
 access the Console, you need to provide the user a password (see
-[CreateOrResetUIPassword](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UIPassword/CreateOrResetUIPassword)).
+[CreateOrResetUIPassword](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/UIPassword/CreateOrResetUIPassword)).
 If the user needs to access the Oracle Cloud Infrastructure REST API, you need to upload a
 public API signing key for that user (see
-[Required Keys and OCIDs](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm) and also
-[UploadApiKey](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/ApiKey/UploadApiKey)).
+[Required Keys and OCIDs](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm) and also
+[UploadApiKey](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/ApiKey/UploadApiKey)).
 
 **Important:** Make sure to inform the new user which compartment(s) they have access to.
 
@@ -63,9 +63,9 @@ resource "oci_identity_user" "test_user" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the tenancy containing the user.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) (Updatable) The description you assign to the user during creation. Does not have to be unique, and it's changeable.
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) The name you assign to the user during creation. This is the user's login for the Console. The name must be unique across all users in the tenancy and cannot be changed. 
 
 
@@ -77,9 +77,9 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the tenancy containing the user.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the user. Does not have to be unique, and it's changeable.
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the user.
 * `inactive_state` - Returned only if the user's `lifecycleState` is INACTIVE. A 16-bit value showing the reason why the user is inactive:
 	* bit 0: SUSPENDED (reserved for future use)
@@ -96,3 +96,4 @@ Users can be imported using the `id`, e.g.
 ```
 $ terraform import oci_identity_user.test_user "id"
 ```
+

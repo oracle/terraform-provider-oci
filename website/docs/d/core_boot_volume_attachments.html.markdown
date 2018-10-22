@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_boot_volume_attachments"
+page_title: "Oracle Cloud Infrastructure: oci_core_boot_volume_attachments"
 sidebar_current: "docs-oci-datasource-core-boot_volume_attachments"
 description: |-
-  Provides a list of BootVolumeAttachments
+  Provides the list of Boot Volume Attachments in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_boot_volume_attachments
-The `oci_core_boot_volume_attachments` data source allows access to the list of OCI boot_volume_attachments
+This data source provides the list of Boot Volume Attachments in Oracle Cloud Infrastructure Core service.
 
 Lists the boot volume attachments in the specified compartment. You can filter the
 list by specifying an instance OCID, boot volume OCID, or both.

@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_email_suppression"
+page_title: "Oracle Cloud Infrastructure: oci_email_suppression"
 sidebar_current: "docs-oci-resource-email-suppression"
 description: |-
-  Creates and manages an OCI Suppression
+  Provides the Suppression resource in Oracle Cloud Infrastructure Email service
 ---
 
 # oci_email_suppression
-The `oci_email_suppression` resource creates and manages an OCI Suppression
+This resource provides the Suppression resource in Oracle Cloud Infrastructure Email service.
 
 Adds recipient email addresses to the suppression list for a tenancy.
 
@@ -39,7 +39,7 @@ The following attributes are exported:
 
 * `email_address` - The email address of the suppression.
 * `id` - The unique OCID of the suppression.
-* `reason` - The reason that the email address was suppressed. For more information on the types of bounces, see [Suppresion List](https://docs.us-phoenix-1.oraclecloud.com/Content/Email/Concepts/emaildeliveryoverview.htm#suppressionlist).
+* `reason` - The reason that the email address was suppressed. For more information on the types of bounces, see [Suppresion List](https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/emaildeliveryoverview.htm#suppressionlist).
 * `time_created` - The date and time a recipient's email address was added to the suppression list, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339. 
 
 ## Import
@@ -49,3 +49,4 @@ Suppressions can be imported using the `id`, e.g.
 ```
 $ terraform import oci_email_suppression.test_suppression "id"
 ```
+

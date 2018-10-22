@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_load_balancer_policies"
+page_title: "Oracle Cloud Infrastructure: oci_load_balancer_policies"
 sidebar_current: "docs-oci-datasource-load_balancer-policies"
 description: |-
-  Provides a list of LoadBalancerPolicies
+  Provides the list of Load Balancer Policies in Oracle Cloud Infrastructure Load Balancer service
 ---
 
 # Data Source: oci_load_balancer_policies
-The `oci_load_balancer_policies` data source allows access to the list of OCI load_balancer_policies
+This data source provides the list of Load Balancer Policies in Oracle Cloud Infrastructure Load Balancer service.
 
 Lists the available load balancer policies.
 
@@ -24,7 +24,7 @@ data "oci_load_balancer_policies" "test_load_balancer_policies" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancer policies to list.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancer policies to list.
 
 
 ## Attributes Reference

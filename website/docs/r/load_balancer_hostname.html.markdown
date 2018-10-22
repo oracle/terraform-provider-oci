@@ -1,16 +1,16 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_load_balancer_hostname"
+page_title: "Oracle Cloud Infrastructure: oci_load_balancer_hostname"
 sidebar_current: "docs-oci-resource-load_balancer-hostname"
 description: |-
-  Creates and manages an OCI Hostname
+  Provides the Hostname resource in Oracle Cloud Infrastructure Load Balancer service
 ---
 
 # oci_load_balancer_hostname
-The `oci_load_balancer_hostname` resource creates and manages an OCI Hostname
+This resource provides the Hostname resource in Oracle Cloud Infrastructure Load Balancer service.
 
 Adds a hostname resource to the specified load balancer. For more information, see
-[Managing Request Routing](https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingrequest.htm).
+[Managing Request Routing](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm).
 
 
 ## Example Usage
@@ -28,8 +28,8 @@ resource "oci_load_balancer_hostname" "test_hostname" {
 
 The following arguments are supported:
 
-* `hostname` - (Required) (Updatable) A virtual hostname. For more information about virtual hostname string construction, see [Managing Request Routing](https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingrequest.htm#routing).  Example: `app.example.com` 
-* `load_balancer_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer to add the hostname to.
+* `hostname` - (Required) (Updatable) A virtual hostname. For more information about virtual hostname string construction, see [Managing Request Routing](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm#routing).  Example: `app.example.com` 
+* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer to add the hostname to.
 * `name` - (Required) A friendly name for the hostname resource. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: `example_hostname_001` 
 
 
@@ -40,7 +40,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `hostname` - A virtual hostname. For more information about virtual hostname string construction, see [Managing Request Routing](https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingrequest.htm#routing).  Example: `app.example.com` 
+* `hostname` - A virtual hostname. For more information about virtual hostname string construction, see [Managing Request Routing](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm#routing).  Example: `app.example.com` 
 * `name` - A friendly name for the hostname resource. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: `example_hostname_001` 
 
 ## Import
@@ -50,3 +50,4 @@ Hostnames can be imported using the `id`, e.g.
 ```
 $ terraform import oci_load_balancer_hostname.test_hostname "loadBalancers/{loadBalancerId}/hostnames/{name}" 
 ```
+

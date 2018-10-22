@@ -1,17 +1,17 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_users"
+page_title: "Oracle Cloud Infrastructure: oci_identity_users"
 sidebar_current: "docs-oci-datasource-identity-users"
 description: |-
-  Provides a list of Users
+  Provides the list of Users in Oracle Cloud Infrastructure Identity service
 ---
 
 # Data Source: oci_identity_users
-The `oci_identity_users` data source allows access to the list of OCI users
+This data source provides the list of Users in Oracle Cloud Infrastructure Identity service.
 
 Lists the users in your tenancy. You must specify your tenancy's OCID as the value for the
 compartment ID (remember that the tenancy is simply the root compartment).
-See [Where to Get the Tenancy's OCID and User's OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
+See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#five).
 
 
 ## Example Usage
@@ -41,9 +41,9 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the tenancy containing the user.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the user. Does not have to be unique, and it's changeable.
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the user.
 * `inactive_state` - Returned only if the user's `lifecycleState` is INACTIVE. A 16-bit value showing the reason why the user is inactive:
 	* bit 0: SUSPENDED (reserved for future use)

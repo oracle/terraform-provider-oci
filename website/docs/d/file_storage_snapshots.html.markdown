@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_file_storage_snapshots"
+page_title: "Oracle Cloud Infrastructure: oci_file_storage_snapshots"
 sidebar_current: "docs-oci-datasource-file_storage-snapshots"
 description: |-
-  Provides a list of Snapshots
+  Provides the list of Snapshots in Oracle Cloud Infrastructure File Storage service
 ---
 
 # Data Source: oci_file_storage_snapshots
-The `oci_file_storage_snapshots` data source allows access to the list of OCI snapshots
+This data source provides the list of Snapshots in Oracle Cloud Infrastructure File Storage service.
 
 Lists snapshots of the specified file system.
 

@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_cross_connect_port_speed_shapes"
+page_title: "Oracle Cloud Infrastructure: oci_core_cross_connect_port_speed_shapes"
 sidebar_current: "docs-oci-datasource-core-cross_connect_port_speed_shapes"
 description: |-
-  Provides a list of CrossConnectPortSpeedShapes
+  Provides the list of Cross Connect Port Speed Shapes in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_cross_connect_port_speed_shapes
-The `oci_core_cross_connect_port_speed_shapes` data source allows access to the list of OCI cross_connect_port_speed_shapes
+This data source provides the list of Cross Connect Port Speed Shapes in Oracle Cloud Infrastructure Core service.
 
 Lists the available port speeds for cross-connects. You need this information
 so you can specify your desired port speed (that is, shape) when you create a

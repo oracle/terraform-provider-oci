@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_dns_records"
+page_title: "Oracle Cloud Infrastructure: oci_dns_records"
 sidebar_current: "docs-oci-datasource-dns-records"
 description: |-
-  Provides a list of DnsRecords
+  Provides the list of Records in Oracle Cloud Infrastructure Dns service
 ---
 
 # Data Source: oci_dns_records
-The `oci_dns_records` data source allows access to the list of OCI DNS resource records
+This data source provides the list of Records in Oracle Cloud Infrastructure Dns service.
 
 Gets all records in the specified zone. The results are
 sorted by `domain` in alphabetical order by default. For more

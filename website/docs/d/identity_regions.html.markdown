@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_regions"
+page_title: "Oracle Cloud Infrastructure: oci_identity_regions"
 sidebar_current: "docs-oci-datasource-identity-regions"
 description: |-
-  Provides a list of Regions
+  Provides the list of Regions in Oracle Cloud Infrastructure Identity service
 ---
 
 # Data Source: oci_identity_regions
-The `oci_identity_regions` data source allows access to the list of OCI regions
+This data source provides the list of Regions in Oracle Cloud Infrastructure Identity service.
 
 Lists all the regions offered by Oracle Cloud Infrastructure.
 

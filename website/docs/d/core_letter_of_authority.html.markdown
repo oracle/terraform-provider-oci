@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_letter_of_authority"
+page_title: "Oracle Cloud Infrastructure: oci_core_letter_of_authority"
 sidebar_current: "docs-oci-datasource-core-letter_of_authority"
 description: |-
-  Provides details about a specific LetterOfAuthority
+  Provides details about a specific Letter Of Authority in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_letter_of_authority
-The `oci_core_letter_of_authority` data source provides details about a specific LetterOfAuthority
+This data source provides details about a specific Letter Of Authority resource in Oracle Cloud Infrastructure Core service.
 
 Gets the Letter of Authority for the specified cross-connect.
 

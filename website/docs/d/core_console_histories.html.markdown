@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_console_histories"
+page_title: "Oracle Cloud Infrastructure: oci_core_console_histories"
 sidebar_current: "docs-oci-datasource-core-console_histories"
 description: |-
-  Provides a list of ConsoleHistories
+  Provides the list of Console Histories in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_console_histories
-The `oci_core_console_histories` data source allows access to the list of OCI console_histories
+This data source provides the list of Console Histories in Oracle Cloud Infrastructure Core service.
 
 Lists the console history metadata for the specified compartment or instance.
 
@@ -48,9 +48,9 @@ The following attributes are exported:
 
 * `availability_domain` - The Availability Domain of an instance.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My console history metadata` 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the console history metadata object.
 * `instance_id` - The OCID of the instance this console history was fetched from.
 * `state` - The current state of the console history.

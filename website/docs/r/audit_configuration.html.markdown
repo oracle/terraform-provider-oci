@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_audit_configuration"
+page_title: "Oracle Cloud Infrastructure: oci_audit_configuration"
 sidebar_current: "docs-oci-resource-audit-configuration"
 description: |-
-  Creates and manages an OCI Configuration
+  Provides the Configuration resource in Oracle Cloud Infrastructure Audit service
 ---
 
 # oci_audit_configuration
-The `oci_audit_configuration` resource creates and manages an OCI Configuration
+This resource provides the Configuration resource in Oracle Cloud Infrastructure Audit service.
 
 
 
@@ -38,3 +38,4 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `retention_period_days` - The retention period days
+

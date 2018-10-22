@@ -1,19 +1,19 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_volume_attachments"
+page_title: "Oracle Cloud Infrastructure: oci_core_volume_attachments"
 sidebar_current: "docs-oci-datasource-core-volume_attachments"
 description: |-
-  Provides a list of VolumeAttachments
+  Provides the list of Volume Attachments in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_volume_attachments
-The `oci_core_volume_attachments` data source allows access to the list of OCI volume_attachments
+This data source provides the list of Volume Attachments in Oracle Cloud Infrastructure Core service.
 
 Lists the volume attachments in the specified compartment. You can filter the
 list by specifying an instance OCID, volume OCID, or both.
 
-Currently, the only supported volume attachment type are [IScsiVolumeAttachment](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/IScsiVolumeAttachment/) and
-[ParavirtualizedVolumeAttachment](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/ParavirtualizedVolumeAttachment/).
+Currently, the only supported volume attachment type are [IScsiVolumeAttachment](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IScsiVolumeAttachment/) and
+[ParavirtualizedVolumeAttachment](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/ParavirtualizedVolumeAttachment/).
 
 
 ## Example Usage

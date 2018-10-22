@@ -1,16 +1,16 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_fast_connect_provider_service"
+page_title: "Oracle Cloud Infrastructure: oci_core_fast_connect_provider_service"
 sidebar_current: "docs-oci-datasource-core-fast_connect_provider_service"
 description: |-
-  Provides details about a specific FastConnectProviderService
+  Provides details about a specific Fast Connect Provider Service in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_fast_connect_provider_service
-The `oci_core_fast_connect_provider_service` data source provides details about a specific FastConnectProviderService
+This data source provides details about a specific Fast Connect Provider Service resource in Oracle Cloud Infrastructure Core service.
 
 Gets the specified provider service.
-For more information, see [FastConnect Overview](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/fastconnect.htm).
+For more information, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 
 
 ## Example Usage

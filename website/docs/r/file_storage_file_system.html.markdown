@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_file_storage_file_system"
+page_title: "Oracle Cloud Infrastructure: oci_file_storage_file_system"
 sidebar_current: "docs-oci-resource-file_storage-file_system"
 description: |-
-  Creates and manages an OCI FileSystem
+  Provides the File System resource in Oracle Cloud Infrastructure File Storage service
 ---
 
 # oci_file_storage_file_system
-The `oci_file_storage_file_system` resource creates and manages an OCI FileSystem
+This resource provides the File System resource in Oracle Cloud Infrastructure File Storage service.
 
 Creates a new file system in the specified compartment and
 availability domain. Instances can mount file systems in
@@ -21,7 +21,7 @@ mount target's IP address. You can associate a file system with
 more than one mount target at a time.
 
 For information about access control and compartments, see
-[Overview of the IAM Service](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
+[Overview of the IAM Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 
 For information about availability domains, see [Regions and
 Availability Domains](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/regions.htm).
@@ -81,3 +81,4 @@ FileSystems can be imported using the `id`, e.g.
 ```
 $ terraform import oci_file_storage_file_system.test_file_system "id"
 ```
+

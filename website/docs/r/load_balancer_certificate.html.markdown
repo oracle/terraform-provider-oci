@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_load_balancer_certificate"
+page_title: "Oracle Cloud Infrastructure: oci_load_balancer_certificate"
 sidebar_current: "docs-oci-resource-load_balancer-certificate"
 description: |-
-  Creates and manages an OCI Certificate
+  Provides the Certificate resource in Oracle Cloud Infrastructure Load Balancer service
 ---
 
 # oci_load_balancer_certificate
-The `oci_load_balancer_certificate` resource creates and manages an OCI Certificate
+This resource provides the Certificate resource in Oracle Cloud Infrastructure Load Balancer service.
 
 Creates an asynchronous request to add an SSL certificate bundle.
 
@@ -54,7 +54,7 @@ The following arguments are supported:
 	    -----END CERTIFICATE-----
 	
 * `certificate_name` - (Required) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
-* `load_balancer_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer on which to add the certificate bundle.
+* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer on which to add the certificate bundle.
 * `passphrase` - (Optional) A passphrase for encrypted private keys. This is needed only if you created your certificate with a passphrase. 
 * `private_key` - (Optional) The SSL private key for your certificate, in PEM format.
 
@@ -128,3 +128,4 @@ The following attributes are exported:
 	    ...
 	    -----END CERTIFICATE-----
 	
+

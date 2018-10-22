@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_tag_namespace"
+page_title: "Oracle Cloud Infrastructure: oci_identity_tag_namespace"
 sidebar_current: "docs-oci-resource-identity-tag_namespace"
 description: |-
-  Creates and manages an OCI TagNamespace
+  Provides the Tag Namespace resource in Oracle Cloud Infrastructure Identity service
 ---
 
 # oci_identity_tag_namespace
-The `oci_identity_tag_namespace` resource creates and manages an OCI TagNamespace
+This resource provides the Tag Namespace resource in Oracle Cloud Infrastructure Identity service.
 
 Creates a new tag namespace in the specified compartment.
 
@@ -22,10 +22,10 @@ If you specify a name that's already in use in the tenancy, a 409 error is retur
 
 You must also specify a *description* for the namespace.
 It does not have to be unique, and you can change it with
-[UpdateTagNamespace](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/tagging/20170101/TagNamespace/UpdateTagNamespace).
+[UpdateTagNamespace](https://docs.cloud.oracle.com/iaas/api/#/en/tagging/20170101/TagNamespace/UpdateTagNamespace).
 
 Tag namespaces cannot be deleted, but they can be retired.
-See [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring) for more information.
+See [Retiring Key Definitions and Namespace Definitions](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Retiring) for more information.
 
 
 ## Example Usage
@@ -49,9 +49,9 @@ resource "oci_identity_tag_namespace" "test_tag_namespace" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the tenancy containing the tag namespace.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) (Updatable) The description you assign to the tag namespace during creation.
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) The name you assign to the tag namespace during creation. It must be unique across all tag namespaces in the tenancy and cannot be changed. 
 * `is_retired` - (Optional) (Updatable) Whether the tag namespace is retired. For more information, see [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
 
@@ -64,11 +64,11 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains the tag namespace.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the tag namespace.
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the tag namespace.
-* `is_retired` - Whether the tag namespace is retired. For more information, see [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
+* `is_retired` - Whether the tag namespace is retired. For more information, see [Retiring Key Definitions and Namespace Definitions](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
 * `name` - The name of the tag namespace. It must be unique across all tag namespaces in the tenancy and cannot be changed. 
 * `time_created` - Date and time the tagNamespace was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
 
@@ -79,3 +79,4 @@ TagNamespaces can be imported using the `id`, e.g.
 ```
 $ terraform import oci_identity_tag_namespace.test_tag_namespace "id"
 ```
+

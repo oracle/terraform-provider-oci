@@ -1,36 +1,36 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_image"
+page_title: "Oracle Cloud Infrastructure: oci_core_image"
 sidebar_current: "docs-oci-resource-core-image"
 description: |-
-  Creates and manages an OCI Image
+  Provides the Image resource in Oracle Cloud Infrastructure Core service
 ---
 
 # oci_core_image
-The `oci_core_image` resource creates and manages an OCI Image
+This resource provides the Image resource in Oracle Cloud Infrastructure Core service.
 
 Creates a boot disk image for the specified instance or imports an exported image from the Oracle Cloud Infrastructure Object Storage service.
 
 When creating a new image, you must provide the OCID of the instance you want to use as the basis for the image, and
 the OCID of the compartment containing that instance. For more information about images,
-see [Managing Custom Images](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/managingcustomimages.htm).
+see [Managing Custom Images](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm).
 
 When importing an exported image from Object Storage, you specify the source information
-in [ImageSourceDetails](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/latest/requests/ImageSourceDetails).
+in [ImageSourceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/ImageSourceDetails).
 
 When importing an image based on the namespace, bucket name, and object name,
-use [ImageSourceViaObjectStorageTupleDetails](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/latest/requests/ImageSourceViaObjectStorageTupleDetails).
+use [ImageSourceViaObjectStorageTupleDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/ImageSourceViaObjectStorageTupleDetails).
 
 When importing an image based on the Object Storage URL, use
-[ImageSourceViaObjectStorageUriDetails](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/latest/requests/ImageSourceViaObjectStorageUriDetails).
-See [Object Storage URLs](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/imageimportexport.htm#URLs) and [pre-authenticated requests](https://docs.us-phoenix-1.oraclecloud.com/Content/Object/Tasks/managingaccess.htm#pre-auth)
+[ImageSourceViaObjectStorageUriDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/ImageSourceViaObjectStorageUriDetails).
+See [Object Storage URLs](/Content/Compute/Tasks/imageimportexport.htm#URLs) and [pre-authenticated requests](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/managingaccess.htm#pre-auth)
 for constructing URLs for image import/export.
 
 For more information about importing exported images, see
-[Image Import/Export](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/imageimportexport.htm).
+[Image Import/Export](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm).
 
 You may optionally specify a *display name* for the image, which is simply a friendly name or description.
-It does not have to be unique, and you can change it. See [UpdateImage](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Image/UpdateImage).
+It does not have to be unique, and you can change it. See [UpdateImage](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Image/UpdateImage).
 Avoid entering confidential information.
 
 
@@ -98,13 +98,13 @@ resource "oci_core_image" "test_image" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment containing the instance you want to use as the basis for the image.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 
 	You cannot use an Oracle-provided image name as a custom image name.
 
 	Example: `My Oracle Linux image` 
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `image_source_details` - (Optional) Details for creating an image through import
 	* `bucket_name` - (Required when source_type=objectStorageTuple) The Object Storage bucket for the image.
 	* `namespace_name` - (Required when source_type=objectStorageTuple) The Object Storage namespace for the image.
@@ -132,9 +132,9 @@ The following attributes are exported:
 * `base_image_id` - The OCID of the image originally used to launch the instance.
 * `compartment_id` - The OCID of the compartment containing the instance you want to use as the basis for the image. 
 * `create_image_allowed` - Whether instances launched with this image can be used to create new images. For example, you cannot create an image of an Oracle Database instance. Example: `true` 
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information. You cannot use an Oracle-provided image name as a custom image name.  Example: `My custom Oracle Linux image` 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the image.
 * `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 	* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.
@@ -174,3 +174,4 @@ Images can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_image.test_image "id"
 ```
+

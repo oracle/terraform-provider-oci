@@ -1,18 +1,18 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_virtual_circuit_bandwidth_shapes"
+page_title: "Oracle Cloud Infrastructure: oci_core_virtual_circuit_bandwidth_shapes"
 sidebar_current: "docs-oci-datasource-core-virtual_circuit_bandwidth_shapes"
 description: |-
-  Provides a list of VirtualCircuitBandwidthShapes
+  Provides the list of Virtual Circuit Bandwidth Shapes in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_virtual_circuit_bandwidth_shapes
-The `oci_core_virtual_circuit_bandwidth_shapes` data source allows access to the list of OCI virtual_circuit_bandwidth_shapes
+This data source provides the list of Virtual Circuit Bandwidth Shapes in Oracle Cloud Infrastructure Core service.
 
 Gets the list of available virtual circuit bandwidth levels for a provider.
 You need this information so you can specify your desired bandwidth level (shape) when you create a virtual circuit.
 
-For more information about virtual circuits, see [FastConnect Overview](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/fastconnect.htm).
+For more information about virtual circuits, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm).
 
 
 ## Example Usage

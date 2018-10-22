@@ -1,17 +1,17 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_user_group_memberships"
+page_title: "Oracle Cloud Infrastructure: oci_identity_user_group_memberships"
 sidebar_current: "docs-oci-datasource-identity-user_group_memberships"
 description: |-
-  Provides a list of UserGroupMemberships
+  Provides the list of User Group Memberships in Oracle Cloud Infrastructure Identity service
 ---
 
 # Data Source: oci_identity_user_group_memberships
-The `oci_identity_user_group_memberships` data source allows access to the list of OCI user_group_memberships
+This data source provides the list of User Group Memberships in Oracle Cloud Infrastructure Identity service.
 
 Lists the `UserGroupMembership` objects in your tenancy. You must specify your tenancy's OCID
 as the value for the compartment ID
-(see [Where to Get the Tenancy's OCID and User's OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five)).
+(see [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#five)).
 You must also then filter the list in one of these ways:
 
 - You can limit the results to just the memberships for a given user by specifying a `userId`.

@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_audit_configuration"
+page_title: "Oracle Cloud Infrastructure: oci_audit_configuration"
 sidebar_current: "docs-oci-datasource-audit-configuration"
 description: |-
-  Provides details about a specific Configuration
+  Provides details about a specific Configuration in Oracle Cloud Infrastructure Audit service
 ---
 
 # Data Source: oci_audit_configuration
-The `oci_audit_configuration` data source provides details about a specific Configuration
+This data source provides details about a specific Configuration resource in Oracle Cloud Infrastructure Audit service.
 
 Get the configuration
 

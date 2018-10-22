@@ -1,16 +1,16 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_console_history_data"
+page_title: "Oracle Cloud Infrastructure: oci_core_console_history_data"
 sidebar_current: "docs-oci-datasource-core-console_history_content"
 description: |-
-  Provides details about a specific ConsoleHistory
+  Provides details about a specific Console History Content in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_console_history_data
-The `oci_core_console_history_data` data source provides details about a specific ConsoleHistory
+This data source provides details about a specific Console History Content resource in Oracle Cloud Infrastructure Core service.
 
 Gets the actual console history data (not the metadata).
-See [CaptureConsoleHistory](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/ConsoleHistory/CaptureConsoleHistory)
+See [CaptureConsoleHistory](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/ConsoleHistory/CaptureConsoleHistory)
 for details about using the console history operations.
 
 

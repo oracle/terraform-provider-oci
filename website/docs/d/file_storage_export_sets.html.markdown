@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_file_storage_export_sets"
+page_title: "Oracle Cloud Infrastructure: oci_file_storage_export_sets"
 sidebar_current: "docs-oci-datasource-file_storage-export_sets"
 description: |-
-  Provides a list of ExportSets
+  Provides the list of Export Sets in Oracle Cloud Infrastructure File Storage service
 ---
 
 # Data Source: oci_file_storage_export_sets
-The `oci_file_storage_export_sets` data source allows access to the list of OCI export_sets
+This data source provides the list of Export Sets in Oracle Cloud Infrastructure File Storage service.
 
 Lists the export set resources in the specified compartment.
 

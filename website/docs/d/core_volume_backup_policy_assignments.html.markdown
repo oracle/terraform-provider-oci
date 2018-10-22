@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_volume_backup_policy_assignments"
+page_title: "Oracle Cloud Infrastructure: oci_core_volume_backup_policy_assignments"
 sidebar_current: "docs-oci-datasource-core-volume_backup_policy_assignments"
 description: |-
-  Provides a list of VolumeBackupPolicyAssignments
+  Provides the list of Volume Backup Policy Assignments in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_volume_backup_policy_assignments
-The `oci_core_volume_backup_policy_assignments` data source allows access to the list of OCI volume_backup_policy_assignments
+This data source provides the list of Volume Backup Policy Assignments in Oracle Cloud Infrastructure Core service.
 
 Gets the volume backup policy assignment for the specified asset. Note that the
 assetId query parameter is required, and that the returned list will contain at most

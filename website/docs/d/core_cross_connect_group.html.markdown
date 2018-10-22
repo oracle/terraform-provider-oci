@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_cross_connect_group"
+page_title: "Oracle Cloud Infrastructure: oci_core_cross_connect_group"
 sidebar_current: "docs-oci-datasource-core-cross_connect_group"
 description: |-
-  Provides details about a specific CrossConnectGroup
+  Provides details about a specific Cross Connect Group in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_cross_connect_group
-The `oci_core_cross_connect_group` data source provides details about a specific CrossConnectGroup
+This data source provides details about a specific Cross Connect Group resource in Oracle Cloud Infrastructure Core service.
 
 Gets the specified cross-connect group's information.
 

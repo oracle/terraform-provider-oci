@@ -1,17 +1,17 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_images"
+page_title: "Oracle Cloud Infrastructure: oci_core_images"
 sidebar_current: "docs-oci-datasource-core-images"
 description: |-
-  Provides a list of Images
+  Provides the list of Images in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_images
-The `oci_core_images` data source allows access to the list of OCI images
+This data source provides the list of Images in Oracle Cloud Infrastructure Core service.
 
 Lists the available images in the specified compartment, including both
-[Oracle-provided images](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/References/images.htm) and
-[custom images](https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/managingcustomimages.htm) that have
+[Oracle-provided images](https://docs.cloud.oracle.com/iaas/Content/Compute/References/images.htm) and
+[custom images](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm) that have
 been created. The list of images returned is ordered to first show all
 Oracle-provided images, then all custom images.
 
@@ -59,9 +59,9 @@ The following attributes are exported:
 * `base_image_id` - The OCID of the image originally used to launch the instance.
 * `compartment_id` - The OCID of the compartment containing the instance you want to use as the basis for the image. 
 * `create_image_allowed` - Whether instances launched with this image can be used to create new images. For example, you cannot create an image of an Oracle Database instance. Example: `true` 
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information. You cannot use an Oracle-provided image name as a custom image name.  Example: `My custom Oracle Linux image` 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the image.
 * `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 	* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.

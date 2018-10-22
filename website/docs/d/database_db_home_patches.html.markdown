@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_database_db_home_patches"
+page_title: "Oracle Cloud Infrastructure: oci_database_db_home_patches"
 sidebar_current: "docs-oci-datasource-database-db_home_patches"
 description: |-
-  Provides a list of DbHomePatches
+  Provides the list of Db Home Patches in Oracle Cloud Infrastructure Database service
 ---
 
 # Data Source: oci_database_db_home_patches
-The `oci_database_db_home_patches` data source allows access to the list of OCI db_home_patches
+This data source provides the list of Db Home Patches in Oracle Cloud Infrastructure Database service.
 
 Lists patches applicable to the requested database home.
 
@@ -25,7 +25,7 @@ data "oci_database_db_home_patches" "test_db_home_patches" {
 
 The following arguments are supported:
 
-* `db_home_id` - (Required) The database home [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+* `db_home_id` - (Required) The database home [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
 ## Attributes Reference
@@ -40,7 +40,7 @@ The following attributes are exported:
 
 * `available_actions` - Actions that can possibly be performed using this patch.
 * `description` - The text describing this patch package.
-* `id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch.
 * `last_action` - Action that is currently being performed or was completed last.
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically can contain additional displayable text. 
 * `state` - The current state of the patch as a result of lastAction.

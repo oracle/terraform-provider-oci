@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_containerengine_work_requests"
+page_title: "Oracle Cloud Infrastructure: oci_containerengine_work_requests"
 sidebar_current: "docs-oci-datasource-containerengine-work_requests"
 description: |-
-  Provides a list of WorkRequests
+  Provides the list of Work Requests in Oracle Cloud Infrastructure Container Engine service
 ---
 
 # Data Source: oci_containerengine_work_requests
-The `oci_containerengine_work_requests` data source allows access to the list of OCI work_requests
+This data source provides the list of Work Requests in Oracle Cloud Infrastructure Container Engine service.
 
 List all work requests in a compartment.
 
