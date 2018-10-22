@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_dns_records"
-sidebar_current: "docs-oci-resource-dns-records"
+page_title: "OCI: oci_dns_record"
+sidebar_current: "docs-oci-resource-dns-record"
 description: |-
   Creates and manages an OCI DnsRecord
 ---
 
-# oci_dns_records
-The `oci_dns_records` resource creates and manages an OCI DnsRecord
+# oci_dns_record
+The `oci_dns_record` resource creates and manages an OCI DnsRecord
 
 Replaces records in the specified zone with the records specified in the
 request body. If a specified record does not exist, it will be created.
@@ -19,17 +19,16 @@ request body, the record will be removed from the zone.
 ## Example Usage
 
 ```hcl
-resource "oci_dns_records" "test_record" {
+resource "oci_dns_record" "test_record" {
 	#Required
 	zone_name_or_id = "${oci_dns_zone_name_or.test_zone_name_or.id}"
 
 	#Optional
 	compartment_id = "${var.compartment_id}"
-    #Optional
-    domain = "${var.record_items_domain}"
-    rdata = "${var.record_items_rdata}"
-    rtype = "${var.record_items_rtype}"
-    ttl = "${var.record_items_ttl}"
+	domain = "${var.record_items_domain}"
+	rdata = "${var.record_items_rdata}"
+	rtype = "${var.record_items_rtype}"
+	ttl = "${var.record_items_ttl}"
 }
 ```
 
@@ -61,11 +60,3 @@ The following attributes are exported:
 * `rtype` - The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
 * `ttl` - The Time To Live for the record, in seconds.
 * `zone_name_or_id` - The name or OCID of the target zone.
-
-## Import
-
-PublicIps can be imported using the `id`, e.g.
-
-```
-$ terraform import oci_dns_records.test_record "id"
-```
