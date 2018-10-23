@@ -34,12 +34,14 @@ var (
 		"values": Representation{repType: Required, create: []string{`${oci_database_autonomous_database.test_autonomous_database.id}`}},
 	}
 
+	adbName = GenerateTestResourceName("adb", 14)
+
 	autonomousDatabaseRepresentation = map[string]interface{}{
 		"admin_password":           Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
 		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
 		"cpu_core_count":           Representation{repType: Required, create: `1`},
 		"data_storage_size_in_tbs": Representation{repType: Required, create: `1`},
-		"db_name":                  Representation{repType: Required, create: `adatabasedb1`},
+		"db_name":                  Representation{repType: Required, create: adbName},
 		"defined_tags":             Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":             Representation{repType: Optional, create: `example_autonomous_database`, update: `displayName2`},
 		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
@@ -60,9 +62,6 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_autonomous_databases.test_autonomous_databases"
 	singularDatasourceName := "data.oci_database_autonomous_database.test_autonomous_database"
 
-	testResourceName := GenerateTestResourceName("adb1", 14)
-	setEnvSetting("TF_VAR_autonomous_database_db_name", testResourceName)
-
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
@@ -81,7 +80,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", testResourceName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -103,7 +102,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", testResourceName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -127,7 +126,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", testResourceName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -159,7 +158,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", testResourceName),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_name", adbName),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.freeform_tags.%", "1"),
@@ -184,14 +183,13 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_strings.0.medium"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", testResourceName),
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", adbName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "lifecycle_details"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),

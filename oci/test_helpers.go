@@ -302,9 +302,13 @@ func generateResourceFromMap(representationType RepresentationType, representati
 	return buffer.String()
 }
 
-// GenerateTestResourceName generates a name for the resource based on the prefix and current time stamp.
 func GenerateTestResourceName(prefix string, maxLength int) string {
-	return (prefix + time.Now().UTC().Format("20060102150405"))[:maxLength]
+	t := time.Now()
+	resourceName := fmt.Sprintf("%s%d", prefix, t.Unix())
+	if len(resourceName) > maxLength {
+		resourceName = resourceName[:maxLength]
+	}
+	return resourceName
 }
 
 func setEnvSetting(s, v string) error {
