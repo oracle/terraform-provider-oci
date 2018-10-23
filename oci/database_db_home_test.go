@@ -215,12 +215,11 @@ data "oci_database_db_home" "test_db_home" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_home_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_version", "12.1.0.2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "createdDbHome"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
 			// verify resource import

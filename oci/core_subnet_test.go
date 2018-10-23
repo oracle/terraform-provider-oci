@@ -207,7 +207,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "dns_label"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "prohibit_public_ip_on_vnic"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "prohibit_public_ip_on_vnic", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_domain_name"),
