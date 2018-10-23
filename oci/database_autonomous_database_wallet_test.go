@@ -11,14 +11,12 @@ import (
 )
 
 var (
-	AutonomousDatabaseWalletResourceConfig = AutonomousDatabaseWalletResourceDependencies + `
+	autonomousDatabaseWalletSingularDataSourceRepresentation = map[string]interface{}{
+		"autonomous_database_id": Representation{repType: Required, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"password":               Representation{repType: Required, create: `BEstrO0ng_#11`},
+	}
 
-`
-	AutonomousDatabaseWalletPropertyVariables = `
-variable "autonomous_database_wallet_password" { default = "BEstrO0ng_#11" }
-
-`
-	AutonomousDatabaseWalletResourceDependencies = AutonomousDatabaseResourceConfig
+	AutonomousDatabaseWalletResourceConfig = AutonomousDatabaseResourceConfig
 )
 
 func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
@@ -30,9 +28,6 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_database_autonomous_database_wallet.test_autonomous_database_wallet"
 
-	testResourceName := GenerateTestResourceName("adb1", 14)
-	setEnvSetting("TF_VAR_autonomous_database_db_name", testResourceName)
-
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -41,15 +36,9 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-variable "autonomous_database_wallet_password" { default = "BEstrO0ng_#11" }
-
-data "oci_database_autonomous_database_wallet" "test_autonomous_database_wallet" {
-	#Required
-	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
-	password = "${var.autonomous_database_wallet_password}"
-}
-                ` + compartmentIdVariableStr + AutonomousDatabaseWalletResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Required, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + AutonomousDatabaseWalletResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "password", "BEstrO0ng_#11"),
