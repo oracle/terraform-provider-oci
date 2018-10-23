@@ -47,7 +47,7 @@ data "oci_core_vnic_attachments" "t" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "-tf-instance-vnic"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
@@ -58,7 +58,7 @@ data "oci_core_vnic_attachments" "t" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_address"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip_address"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "skip_source_dest_check", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),

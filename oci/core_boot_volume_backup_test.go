@@ -163,7 +163,7 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_backup_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckNoResourceAttr(singularDatasourceName, "expiration_time"),
@@ -172,7 +172,7 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "size_in_gbs", "47"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_type", "MANUAL"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_request_received"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "type", "INCREMENTAL"),
