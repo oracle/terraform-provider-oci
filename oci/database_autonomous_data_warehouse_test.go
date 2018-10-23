@@ -190,8 +190,7 @@ func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "AVAILABLE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

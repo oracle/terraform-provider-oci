@@ -92,14 +92,12 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_backup_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Monthly Backup"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_automatic", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_ended"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_started"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "type", "FULL"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_automatic"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
