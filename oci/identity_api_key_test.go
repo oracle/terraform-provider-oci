@@ -89,6 +89,7 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "api_keys.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "api_keys.0.key_value", apiKey),
 					resource.TestCheckResourceAttrSet(datasourceName, "api_keys.0.user_id"),
 				),
 			},

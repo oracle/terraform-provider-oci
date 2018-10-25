@@ -280,7 +280,9 @@ func (s *IdentityProviderResourceCrud) SetData() error {
 			s.D.Set("name", *v.Name)
 		}
 
-		s.D.Set("product_type", v.ProductType)
+		if v.ProductType != nil {
+			s.D.Set("product_type", *v.ProductType)
+		}
 
 		s.D.Set("state", v.LifecycleState)
 

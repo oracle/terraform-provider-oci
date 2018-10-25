@@ -62,11 +62,11 @@ func PreauthenticatedRequestResource() *schema.Resource {
 			},
 
 			// Computed
-			"time_created": {
+			"access_uri": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"access_uri": {
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -220,6 +220,10 @@ func (s *PreauthenticatedRequestResourceCrud) Delete() error {
 func (s *PreauthenticatedRequestResourceCrud) SetData() error {
 	s.D.Set("access_type", s.Res.AccessType)
 
+	if s.Res.AccessUri != nil {
+		s.D.Set("access_uri", *s.Res.AccessUri)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -234,10 +238,6 @@ func (s *PreauthenticatedRequestResourceCrud) SetData() error {
 
 	if s.Res.TimeExpires != nil {
 		s.D.Set("time_expires", s.Res.TimeExpires)
-	}
-
-	if s.Res.AccessUri != nil {
-		s.D.Set("access_uri", *s.Res.AccessUri)
 	}
 
 	return nil
