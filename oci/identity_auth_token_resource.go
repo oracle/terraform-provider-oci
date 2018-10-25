@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -175,8 +176,8 @@ func (s *AuthTokenResourceCrud) Get() error {
 			return nil
 		}
 	}
+	return errors.New("AuthToken with expected identifier not found")
 
-	return nil
 }
 
 func (s *AuthTokenResourceCrud) Update() error {

@@ -138,7 +138,9 @@ func (s *IdentityProvidersDataSourceCrud) SetData() error {
 				result["name"] = string(*v.Name)
 			}
 
-			result["product_type"] = string(*v.ProductType)
+			if v.ProductType != nil {
+				result["product_type"] = string(*v.ProductType)
+			}
 
 			result["state"] = string(v.LifecycleState)
 
