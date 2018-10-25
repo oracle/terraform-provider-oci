@@ -173,7 +173,11 @@ func (s *VolumeDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.SourceDetails != nil {
-		s.D.Set("source_details", []interface{}{VolumeSourceDetailsToMap(&s.Res.SourceDetails)})
+		sourceDetailsArray := []interface{}{}
+		if sourceDetailsMap := VolumeSourceDetailsToMap(&s.Res.SourceDetails); sourceDetailsMap != nil {
+			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
+		}
+		s.D.Set("source_details", sourceDetailsArray)
 	} else {
 		s.D.Set("source_details", nil)
 	}
