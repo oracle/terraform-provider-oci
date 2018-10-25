@@ -524,6 +524,10 @@ func convertResourceFieldsToDatasourceFields(resourceSchema *schema.Resource) *s
 		fieldSchema.DiffSuppressFunc = nil
 		fieldSchema.ValidateFunc = nil
 		fieldSchema.Default = nil
+		if fieldSchema.Type == schema.TypeSet {
+			fieldSchema.Type = schema.TypeList
+			fieldSchema.Set = nil
+		}
 
 		if fieldSchema.Elem != nil {
 			if resource, ok := fieldSchema.Elem.(*schema.Resource); ok {

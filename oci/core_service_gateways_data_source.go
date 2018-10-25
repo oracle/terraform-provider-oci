@@ -128,7 +128,7 @@ func (s *ServiceGatewaysDataSourceCrud) SetData() error {
 		for _, item := range r.Services {
 			services = append(services, ServiceIdResponseDetailsToMap(item))
 		}
-		serviceGateway["services"] = schema.NewSet(servicesHashCodeForSets, services)
+		serviceGateway["services"] = services
 
 		serviceGateway["state"] = r.LifecycleState
 
