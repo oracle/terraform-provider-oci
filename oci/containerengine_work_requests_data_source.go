@@ -148,8 +148,7 @@ func (s *WorkRequestsDataSourceCrud) Get() error {
 	}
 
 	if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
-		tmp := resourceType.(string)
-		request.ResourceType = oci_containerengine.ListWorkRequestsResourceTypeEnum(tmp)
+		request.ResourceType = oci_containerengine.ListWorkRequestsResourceTypeEnum(resourceType.(string))
 	}
 
 	if status, ok := s.D.GetOkExists("status"); ok {

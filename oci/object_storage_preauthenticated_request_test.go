@@ -89,6 +89,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Optional, Update, preauthenticatedRequestRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
+					resource.TestCheckResourceAttrSet(resourceName, "access_uri"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "-tf-par"),

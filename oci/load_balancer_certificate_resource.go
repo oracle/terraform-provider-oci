@@ -226,8 +226,8 @@ func (s *CertificateResourceCrud) Get() error {
 			return nil
 		}
 	}
-	err = errors.New("Certificate does not exist")
-	return err
+	return errors.New("Certificate with expected identifier not found")
+
 }
 
 func (s *CertificateResourceCrud) Delete() error {

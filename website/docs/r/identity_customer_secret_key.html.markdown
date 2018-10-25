@@ -47,9 +47,10 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `display_name` - The displayName you assign to the secret key. Does not have to be unique, and it's changeable.
+* `display_name` - The display name you assign to the secret key. Does not have to be unique, and it's changeable.
 * `id` - The OCID of the secret key.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
+* `key` - The secret key. 
 * `state` - The secret key's current state.
 * `time_created` - Date and time the `CustomerSecretKey` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_expires` - Date and time when this password will expire, in the format defined by RFC3339. Null if it never expires.  Example: `2016-08-25T21:10:29.600Z` 

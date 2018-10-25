@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -175,8 +176,8 @@ func (s *CustomerSecretKeyResourceCrud) Get() error {
 			return nil
 		}
 	}
+	return errors.New("CustomerSecretKey with expected identifier not found")
 
-	return nil
 }
 
 func (s *CustomerSecretKeyResourceCrud) Update() error {
@@ -232,7 +233,7 @@ func (s *CustomerSecretKeyResourceCrud) SetData() error {
 		s.D.Set("inactive_state", strconv.FormatInt(*s.Res.InactiveStatus, 10))
 	}
 
-	if s.Res.Key != nil && *s.Res.Key != "" {
+	if s.Res.Key != nil {
 		s.D.Set("key", *s.Res.Key)
 	}
 

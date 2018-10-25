@@ -171,8 +171,8 @@ func (s *ApiKeyResourceCrud) Get() error {
 			return nil
 		}
 	}
+	return errors.New("ApiKey with expected identifier not found")
 
-	return errors.New("API key not found")
 }
 
 func (s *ApiKeyResourceCrud) Delete() error {

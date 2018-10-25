@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"errors"
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -37,6 +38,10 @@ func SmtpCredentialResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"password": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -50,10 +55,6 @@ func SmtpCredentialResource() *schema.Resource {
 				Computed: true,
 			},
 			"username": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"password": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -190,8 +191,8 @@ func (s *SmtpCredentialResourceCrud) Get() error {
 			return nil
 		}
 	}
+	return errors.New("SmtpCredential with expected identifier not found")
 
-	return nil
 }
 
 func (s *SmtpCredentialResourceCrud) Update() error {
@@ -247,6 +248,10 @@ func (s *SmtpCredentialResourceCrud) SetData() error {
 		s.D.Set("inactive_state", strconv.FormatInt(*s.Res.InactiveStatus, 10))
 	}
 
+	if s.Res.Password != nil {
+		s.D.Set("password", *s.Res.Password)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -263,10 +268,6 @@ func (s *SmtpCredentialResourceCrud) SetData() error {
 
 	if s.Res.Username != nil {
 		s.D.Set("username", *s.Res.Username)
-	}
-
-	if s.Res.Password != nil {
-		s.D.Set("password", *s.Res.Password)
 	}
 
 	return nil
