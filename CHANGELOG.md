@@ -1,4 +1,11 @@
 ## 3.6.0 (Unreleased)
+
+### Added
+- Added db_name and state parameters into oci_database_database data source
+- Added display_name and state parameters into oci_database_db_homes data source
+- Added state parameter into oci_database_db_nodes data source
+- Added availability_domain, display_name, and state parameters into oci_database_db_systems data source
+
 ## 3.5.0 (October 19, 2018)
 
 ### Added
