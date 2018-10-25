@@ -50,7 +50,7 @@ The following arguments are supported:
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
 * `source_details` - (Required) Specifies the boot volume source details for a new boot volume. The volume source is either another boot volume in the same availability domain or a boot volume backup. This is a mandatory field for a boot volume. 
 	* `id` - (Required) The OCID of the boot volume or boot volume backup.
-	* `type` - (Required) The type of boot volume source. It should be set to either `bootVolumeBackup` or `bootVolume`.
+	* `type` - (Required) The type can be one of these values: `bootVolume`, `bootVolumeBackup`
 
 
 ** IMPORTANT **
@@ -72,7 +72,7 @@ The following attributes are exported:
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_details` - The boot volume source, either an existing boot volume in the same availability domain or a boot volume backup. If null, this means that the boot volume was created from an image. 
 	* `id` - The OCID of the boot volume or boot volume backup.
-	* `type` - The type of boot volume source. It should be set to either `bootVolumeBackup` or `bootVolume`.
+	* `type` - The type can be one of these values: `bootVolume`, `bootVolumeBackup`
 * `state` - The current state of a boot volume.
 * `time_created` - The date and time the boot volume was created. Format defined by RFC3339.
 * `volume_group_id` - The OCID of the source volume group.

@@ -59,7 +59,7 @@ The following attributes are exported:
 * `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use `size_in_gbs` instead.
 * `source_details` - The volume source, either an existing volume in the same availability domain or a volume backup. If null, an empty volume is created. 
 	* `id` - The OCID of the volume or volume backup.
-	* `type` - The type of volume source. It should be set to either `volumeBackup` or `volume`.
+	* `type` - The type can be one of these values: `volume`, `volumeBackup`
 * `state` - The current state of a volume.
 * `time_created` - The date and time the volume was created. Format defined by RFC3339.
 * `volume_group_id` - The OCID of the source volume group.
