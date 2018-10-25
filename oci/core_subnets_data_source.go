@@ -9,22 +9,6 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-// @CODEGEN: Override the resource schema's 'security_list_ids' to make it TypeList instead of TypeSet.
-// Avoids a potential breaking change with existing schema.
-func SubnetItemSchema() *schema.Resource {
-	result := SubnetResource()
-
-	result.Schema["security_list_ids"] = &schema.Schema{
-		Type:     schema.TypeList,
-		Computed: true,
-		Elem: &schema.Schema{
-			Type: schema.TypeString,
-		},
-	}
-
-	return GetDataSourceItemSchema(result)
-}
-
 func SubnetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSubnets,
@@ -49,7 +33,7 @@ func SubnetsDataSource() *schema.Resource {
 			"subnets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     SubnetItemSchema(),
+				Elem:     GetDataSourceItemSchema(SubnetResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
