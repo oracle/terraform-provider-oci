@@ -13,36 +13,32 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-const (
-	MountTargetRequiredOnlyResource = MountTargetResourceDependencies + `
-resource "oci_file_storage_mount_target" "test_mount_target" {
-	#Required
-	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
-	compartment_id = "${var.compartment_id}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
-}
-`
+var (
+	MountTargetRequiredOnlyResource = MountTargetResourceDependencies +
+		generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation)
 
-	MountTargetResourceConfig = MountTargetResourceDependencies + `
-resource "oci_file_storage_mount_target" "test_mount_target" {
-	#Required
-	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
-	compartment_id = "${var.compartment_id}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
+	mountTargetDataSourceRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":        Representation{repType: Optional, create: `mount-target-5`, update: `displayName2`},
+		"id":                  Representation{repType: Optional, create: `${oci_file_storage_mount_target.test_mount_target.id}`},
+		"state":               Representation{repType: Optional, create: `ACTIVE`},
+		"filter":              RepresentationGroup{Required, mountTargetDataSourceFilterRepresentation}}
+	mountTargetDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_file_storage_mount_target.test_mount_target.id}`}},
+	}
 
-	#Optional
-	display_name = "${var.mount_target_display_name}"
-	hostname_label = "${var.mount_target_hostname_label}"
-	ip_address = "${var.mount_target_ip_address}"
-}
-`
-	MountTargetPropertyVariables = `
-variable "mount_target_display_name" { default = "mount-target-5" }
-variable "mount_target_hostname_label" { default = "hostnameLabel" }
-variable "mount_target_ip_address" { default = "10.0.1.5" } # Subnet CIDR = 10.0.0.0/16. This IP needs to be in the allowable range.
+	mountTargetRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"subnet_id":           Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"display_name":        Representation{repType: Optional, create: `mount-target-5`, update: `displayName2`},
+		"hostname_label":      Representation{repType: Optional, create: `hostnameLabel`},
+		"ip_address":          Representation{repType: Optional, create: `10.0.1.5`},
+	}
 
-`
-	MountTargetResourceDependencies = SubnetPropertyVariables + SubnetResourceConfig
+	MountTargetResourceDependencies = SubnetResourceConfig
 )
 
 func TestFileStorageMountTargetResource_basic(t *testing.T) {
@@ -66,7 +62,8 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + MountTargetPropertyVariables + compartmentIdVariableStr + MountTargetRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -86,7 +83,8 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + MountTargetPropertyVariables + compartmentIdVariableStr + MountTargetResourceConfig,
+				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Create, mountTargetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -110,12 +108,8 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "mount_target_display_name" { default = "displayName2" } # changing this value to test updates
-variable "mount_target_hostname_label" { default = "hostnameLabel" }
-variable "mount_target_ip_address" { default = "10.0.1.5" } # Subnet CIDR = 10.0.0.0/16. This IP needs to be in the allowable range.
-
-                ` + compartmentIdVariableStr + MountTargetResourceConfig,
+				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Update, mountTargetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -141,27 +135,10 @@ variable "mount_target_ip_address" { default = "10.0.1.5" } # Subnet CIDR = 10.0
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "mount_target_display_name" { default = "displayName2" }
-variable "mount_target_hostname_label" { default = "hostnameLabel" }
-variable "mount_target_ip_address" { default = "10.0.1.5" } # Subnet CIDR = 10.0.0.0/16. This IP needs to be in the allowable range.
-
-data "oci_file_storage_mount_targets" "test_mount_targets" {
-	#Required
-	availability_domain = "${oci_file_storage_mount_target.test_mount_target.availability_domain}"
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	display_name = "${var.mount_target_display_name}"
-	id = "${oci_file_storage_mount_target.test_mount_target.id}"
-	state = "ACTIVE"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_file_storage_mount_target.test_mount_target.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + MountTargetResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_file_storage_mount_targets", "test_mount_targets", Optional, Update, mountTargetDataSourceRepresentation) +
+					compartmentIdVariableStr + MountTargetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Optional, Update, mountTargetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

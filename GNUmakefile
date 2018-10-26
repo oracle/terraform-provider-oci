@@ -31,9 +31,12 @@ vet:
 fmt:
 	gofmt -w $(GOFMT_FILES)
 	goimports -w -local github.com/oracle/terraform-provider-oci $(GOFMT_FILES)
+	terraform fmt
 
 fmtcheck:
 	@sh -c "'$(CURDIR)/scripts/gofmtcheck.sh' $(skip_goimports_check_flag)"
+	@echo "==> Checking terraform formatting of files"
+	@sh -c 'terraform fmt -check=true || (echo "Terraform files are not appropriately formatted. Please run make fmt to format them." && exit 1)'
 
 errcheck:
 	@sh -c "'$(CURDIR)/scripts/errcheck.sh'"

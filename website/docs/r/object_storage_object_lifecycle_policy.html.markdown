@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_objectstorage_object_lifecycle_policy"
+page_title: "Oracle Cloud Infrastructure: oci_objectstorage_object_lifecycle_policy"
 sidebar_current: "docs-oci-resource-object_storage-object_lifecycle_policy"
 description: |-
-  Creates and manages an OCI ObjectLifecyclePolicy
+  Provides the Object Lifecycle Policy resource in Oracle Cloud Infrastructure Object Storage service
 ---
 
 # oci_objectstorage_object_lifecycle_policy
-The `oci_objectstorage_object_lifecycle_policy` resource creates and manages an OCI ObjectLifecyclePolicy
+This resource provides the Object Lifecycle Policy resource in Oracle Cloud Infrastructure Object Storage service.
 
 Creates or replaces the object lifecycle policy for the bucket.
 
@@ -46,7 +46,7 @@ The following arguments are supported:
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
 * `namespace` - (Required) The top-level namespace used for the request.
 * `rules` - (Optional) (Updatable) The bucket's set of lifecycle policy rules.
-	* `action` - (Required) (Updatable) The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects into the  [Archival Storage tier](https://docs.us-phoenix-1.oraclecloud.com/Content/Archive/Concepts/archivestorageoverview.htm). Rules using the action 'DELETE' permanently delete objects from buckets. 'ARCHIVE' and 'DELETE' are the only two supported actions at this time. 
+	* `action` - (Required) (Updatable) The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects into the  [Archival Storage tier](https://docs.cloud.oracle.com/iaas/Content/Archive/Concepts/archivestorageoverview.htm). Rules using the action 'DELETE' permanently delete objects from buckets. 'ARCHIVE' and 'DELETE' are the only two supported actions at this time. 
 	* `is_enabled` - (Required) (Updatable) A boolean that determines whether this rule is currently enabled.
 	* `name` - (Required) (Updatable) The name of the lifecycle rule to be applied.
 	* `object_name_filter` - (Optional) (Updatable) A filter limiting object names that the rule will apply to.
@@ -65,7 +65,7 @@ The following attributes are exported:
 * `rules` - The live lifecycle policy on the bucket.
 
 	For an example of this value, see the  [PutObjectLifecyclePolicy API documentation](https://docs.cloud.oracle.com/iaas/api/#/en/objectstorage/20160918/ObjectLifecyclePolicy/PutObjectLifecyclePolicy). 
-	* `action` - The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects into the  [Archival Storage tier](https://docs.us-phoenix-1.oraclecloud.com/Content/Archive/Concepts/archivestorageoverview.htm). Rules using the action 'DELETE' permanently delete objects from buckets. 'ARCHIVE' and 'DELETE' are the only two supported actions at this time. 
+	* `action` - The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects into the  [Archival Storage tier](https://docs.cloud.oracle.com/iaas/Content/Archive/Concepts/archivestorageoverview.htm). Rules using the action 'DELETE' permanently delete objects from buckets. 'ARCHIVE' and 'DELETE' are the only two supported actions at this time. 
 	* `is_enabled` - A boolean that determines whether this rule is currently enabled.
 	* `name` - The name of the lifecycle rule to be applied.
 	* `object_name_filter` - A filter limiting object names that the rule will apply to.
@@ -81,3 +81,4 @@ ObjectLifecyclePolicies can be imported using the `id`, e.g.
 ```
 $ terraform import oci_objectstorage_object_lifecycle_policy.test_object_lifecycle_policy "n/{namespaceName}/b/{bucketName}/l" 
 ```
+

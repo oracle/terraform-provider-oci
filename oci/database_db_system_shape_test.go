@@ -10,15 +10,13 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	DbSystemShapeResourceConfig = DbSystemShapeResourceDependencies + `
+var (
+	dbSystemShapeDataSourceRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+	}
 
-`
-	DbSystemShapePropertyVariables = `
-variable "db_system_shape_availability_domain" { default = "availabilityDomain" }
-
-`
-	DbSystemShapeResourceDependencies = AvailabilityDomainConfig
+	DbSystemShapeResourceConfig = AvailabilityDomainConfig
 )
 
 func TestDatabaseDbSystemShapeResource_basic(t *testing.T) {
@@ -38,14 +36,9 @@ func TestDatabaseDbSystemShapeResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_database_db_system_shapes" "test_db_system_shapes" {
-	#Required
-	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
-	compartment_id = "${var.compartment_id}"
-}
-                ` + compartmentIdVariableStr + DbSystemShapeResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_db_system_shapes", "test_db_system_shapes", Required, Create, dbSystemShapeDataSourceRepresentation) +
+					compartmentIdVariableStr + DbSystemShapeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

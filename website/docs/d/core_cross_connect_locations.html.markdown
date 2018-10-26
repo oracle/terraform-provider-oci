@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_cross_connect_locations"
+page_title: "Oracle Cloud Infrastructure: oci_core_cross_connect_locations"
 sidebar_current: "docs-oci-datasource-core-cross_connect_locations"
 description: |-
-  Provides a list of CrossConnectLocations
+  Provides the list of Cross Connect Locations in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_cross_connect_locations
-The `oci_core_cross_connect_locations` data source allows access to the list of OCI cross_connect_locations
+This data source provides the list of Cross Connect Locations in Oracle Cloud Infrastructure Core service.
 
 Lists the available FastConnect locations for cross-connect installation. You need
 this information so you can specify your desired location when you create a cross-connect.

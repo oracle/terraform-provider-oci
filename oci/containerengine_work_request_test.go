@@ -10,16 +10,16 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	WorkRequestResourceConfig = WorkRequestResourceDependencies + `
+var (
+	workRequestDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"cluster_id":     Representation{repType: Optional, create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"resource_id":    Representation{repType: Optional, create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"resource_type":  Representation{repType: Optional, create: `CLUSTER`},
+		"status":         Representation{repType: Optional, create: []string{}},
+	}
 
-`
-	WorkRequestPropertyVariables = `
-variable "work_request_resource_type" { default = "CLUSTER" }
-variable "work_request_status" { default = [] }
-
-`
-	WorkRequestResourceDependencies = ClusterPropertyVariables + ClusterRequiredOnlyResource
+	WorkRequestResourceConfig = ClusterRequiredOnlyResource
 )
 
 func TestContainerengineWorkRequestResource_basic(t *testing.T) {
@@ -39,19 +39,9 @@ func TestContainerengineWorkRequestResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_containerengine_work_requests" "test_work_requests" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	cluster_id = "${oci_containerengine_cluster.test_cluster.id}"
-	resource_id = "${oci_containerengine_cluster.test_cluster.id}"
-	resource_type = "${var.work_request_resource_type}"
-	status = "${var.work_request_status}"
-}
-                ` + compartmentIdVariableStr + WorkRequestPropertyVariables + WorkRequestResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", Optional, Create, workRequestDataSourceRepresentation) +
+					compartmentIdVariableStr + WorkRequestResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

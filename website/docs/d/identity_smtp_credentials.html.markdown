@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_smtp_credentials"
+page_title: "Oracle Cloud Infrastructure: oci_identity_smtp_credentials"
 sidebar_current: "docs-oci-datasource-identity-smtp_credentials"
 description: |-
-  Provides a list of SmtpCredentials
+  Provides the list of Smtp Credentials in Oracle Cloud Infrastructure Identity service
 ---
 
 # Data Source: oci_identity_smtp_credentials
-The `oci_identity_smtp_credentials` data source allows access to the list of OCI smtp_credentials
+This data source provides the list of Smtp Credentials in Oracle Cloud Infrastructure Identity service.
 
 Lists the SMTP credentials for the specified user. The returned object contains the credential's OCID, 
 the SMTP user name but not the SMTP password. The SMTP password is returned only upon creation.

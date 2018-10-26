@@ -10,14 +10,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	DbSystemPatchResourceConfig = DbSystemPatchResourceDependencies + `
+var (
+	dbSystemPatchDataSourceRepresentation = map[string]interface{}{
+		"db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_db_system.id}`},
+	}
 
-`
-	DbSystemPatchPropertyVariables = `
-
-`
-	DbSystemPatchResourceDependencies = DbHomePatchResourceDependencies
+	DbSystemPatchResourceConfig = DbSystemResourceConfig
 )
 
 func TestDatabaseDbSystemPatchResource_basic(t *testing.T) {
@@ -37,12 +35,9 @@ func TestDatabaseDbSystemPatchResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-data "oci_database_db_system_patches" "test_db_system_patches" {
-	#Required
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
-}
-                ` + compartmentIdVariableStr + DbSystemPatchResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_db_system_patches", "test_db_system_patches", Required, Create, dbSystemPatchDataSourceRepresentation) +
+					compartmentIdVariableStr + DbSystemPatchResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
 

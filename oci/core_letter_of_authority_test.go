@@ -10,14 +10,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	LetterOfAuthorityResourceConfig = LetterOfAuthorityResourceDependencies + `
+var (
+	letterOfAuthoritySingularDataSourceRepresentation = map[string]interface{}{
+		"cross_connect_id": Representation{repType: Required, create: `${oci_core_cross_connect.test_cross_connect.id}`},
+	}
 
-`
-	LetterOfAuthorityPropertyVariables = `
-
-`
-	LetterOfAuthorityResourceDependencies = CrossConnectPropertyVariables + CrossConnectRequiredOnlyResource
+	LetterOfAuthorityResourceConfig = CrossConnectResourceConfig
 )
 
 func TestCoreLetterOfAuthorityResource_basic(t *testing.T) {
@@ -37,13 +35,9 @@ func TestCoreLetterOfAuthorityResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-
-data "oci_core_letter_of_authority" "test_letter_of_authority" {
-	#Required
-	cross_connect_id = "${oci_core_cross_connect.test_cross_connect.id}"
-}
-                ` + compartmentIdVariableStr + LetterOfAuthorityResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_letter_of_authority", "test_letter_of_authority", Required, Create, letterOfAuthoritySingularDataSourceRepresentation) +
+					compartmentIdVariableStr + LetterOfAuthorityResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 

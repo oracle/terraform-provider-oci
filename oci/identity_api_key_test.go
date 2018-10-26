@@ -13,17 +13,21 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-const (
-	ApiKeyResourceConfigOnly = `
-resource "oci_identity_api_key" "test_api_key" {
-	#Required
-	user_id = "${oci_identity_user.test_user.id}"
-	key_value = "${var.api_key_value}"
-}`
+var (
+	apiKeyDataSourceRepresentation = map[string]interface{}{
+		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"filter":  RepresentationGroup{Required, apiKeyDataSourceFilterRepresentation}}
+	apiKeyDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_api_key.test_api_key.id}`}},
+	}
 
-	ApiKeyResourceConfig = ApiKeyResourceDependencies + ApiKeyResourceConfigOnly
+	apiKeyRepresentation = map[string]interface{}{
+		"key_value": Representation{repType: Required, create: `${var.api_key_value}`},
+		"user_id":   Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+	}
 
-	ApiKeyResourceDependencies = UserPropertyVariables + UserResourceConfig
+	ApiKeyResourceDependencies = UserRequiredOnlyResource
 
 	apiKey = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4fGHcxbEs3VaWoKaGUiP
@@ -67,7 +71,8 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + apiKeyVarStr + compartmentIdVariableStr + ApiKeyResourceConfig,
+				Config: config + apiKeyVarStr + compartmentIdVariableStr + ApiKeyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Required, Create, apiKeyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "key_value", apiKey),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -76,18 +81,10 @@ func TestIdentityApiKeyResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + apiKeyVarStr + `
-
-data "oci_identity_api_keys" "test_api_keys" {
-	#Required
-	user_id = "${oci_identity_user.test_user.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_api_key.test_api_key.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + ApiKeyResourceConfig,
+				Config: config + apiKeyVarStr +
+					generateDataSourceFromRepresentationMap("oci_identity_api_keys", "test_api_keys", Optional, Update, apiKeyDataSourceRepresentation) +
+					compartmentIdVariableStr + ApiKeyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_api_key", "test_api_key", Optional, Update, apiKeyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 

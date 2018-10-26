@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_volume_backup_policy_assignment"
+page_title: "Oracle Cloud Infrastructure: oci_core_volume_backup_policy_assignment"
 sidebar_current: "docs-oci-resource-core-volume_backup_policy_assignment"
 description: |-
-  Creates and manages an OCI VolumeBackupPolicyAssignment
+  Provides the Volume Backup Policy Assignment resource in Oracle Cloud Infrastructure Core service
 ---
 
 # oci_core_volume_backup_policy_assignment
-The `oci_core_volume_backup_policy_assignment` resource creates and manages an OCI VolumeBackupPolicyAssignment
+This resource provides the Volume Backup Policy Assignment resource in Oracle Cloud Infrastructure Core service.
 
 Assigns a policy to the specified asset, such as a volume. Note that a given asset can
 only have one policy assigned to it; if this method is called for an asset that previously
@@ -51,3 +51,4 @@ VolumeBackupPolicyAssignments can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_volume_backup_policy_assignment.test_volume_backup_policy_assignment "id"
 ```
+

@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_tags"
+page_title: "Oracle Cloud Infrastructure: oci_identity_tags"
 sidebar_current: "docs-oci-datasource-identity-tags"
 description: |-
-  Provides a list of Tags
+  Provides the list of Tags in Oracle Cloud Infrastructure Identity service
 ---
 
 # Data Source: oci_identity_tags
-The `oci_identity_tags` data source allows access to the list of OCI tags
+This data source provides the list of Tags in Oracle Cloud Infrastructure Identity service.
 
 Lists the tag definitions in the specified tag namespace.
 
@@ -38,11 +38,11 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}`
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}`` 
 * `description` - The description you assign to the tag.
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the tag definition.
-* `is_retired` - Indicates whether the tag is retired. See [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
+* `is_retired` - Indicates whether the tag is retired. See [Retiring Key Definitions and Namespace Definitions](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
 * `name` - The name of the tag. The name must be unique across all tags in the tag namespace and can't be changed. 
 * `tag_namespace_id` - The OCID of the namespace that contains the tag definition.
 * `time_created` - Date and time the tag was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 

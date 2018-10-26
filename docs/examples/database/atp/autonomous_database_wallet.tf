@@ -6,7 +6,7 @@ resource "random_string" "wallet_password" {
 data "oci_database_autonomous_database_wallet" "autonomous_database_wallet" {
   #Required
   autonomous_database_id = "${oci_database_autonomous_database.autonomous_database.id}"
-  password    = "${random_string.wallet_password.result}"
+  password               = "${random_string.wallet_password.result}"
 }
 
 resource "local_file" "autonomous_database_wallet_file" {

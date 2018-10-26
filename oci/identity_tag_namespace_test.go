@@ -10,36 +10,27 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	TagNamespaceRequiredOnlyResource = TagNamespaceResourceDependencies + `
-resource "oci_identity_tag_namespace" "test_tag_namespace" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	description = "${var.tag_namespace_description}"
-	name = "${var.tag_namespace_name}"
-}
-`
+var (
+	TagNamespaceRequiredOnlyResource = TagNamespaceResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Required, Create, tagNamespaceRepresentation)
 
-	TagNamespaceResourceConfig = TagNamespaceResourceDependencies + `
-resource "oci_identity_tag_namespace" "test_tag_namespace" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	description = "${var.tag_namespace_description}"
-	name = "${var.tag_namespace_name}"
+	tagNamespaceDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
+		"include_subcompartments": Representation{repType: Optional, create: `false`},
+		"filter":                  RepresentationGroup{Required, tagNamespaceDataSourceFilterRepresentation}}
+	tagNamespaceDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_tag_namespace.test_tag_namespace.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.tag_namespace_defined_tags_value}")}"
-	freeform_tags = "${var.tag_namespace_freeform_tags}"
-}
-`
-	TagNamespacePropertyVariables = `
-variable "tag_namespace_defined_tags_value" { default = "value" }
-variable "tag_namespace_description" { default = "This namespace contains tags that will be used in billing." }
-variable "tag_namespace_freeform_tags" { default = {"Department"= "Finance"} }
-variable "tag_namespace_include_subcompartments" { default = false }
-variable "tag_namespace_name" { default = "BillingTags" }
+	tagNamespaceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"description":    Representation{repType: Required, create: `This namespace contains tags that will be used in billing.`, update: `description2`},
+		"name":           Representation{repType: Required, create: `BillingTags`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
 
-`
 	TagNamespaceResourceDependencies = DefinedTagsDependencies
 )
 
@@ -63,7 +54,8 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + TagNamespacePropertyVariables + compartmentIdVariableStr + TagNamespaceRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Required, Create, tagNamespaceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
@@ -82,7 +74,8 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + TagNamespacePropertyVariables + compartmentIdVariableStr + TagNamespaceResourceConfig,
+				Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create, tagNamespaceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -102,14 +95,8 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "tag_namespace_defined_tags_value" { default = "updatedValue" }
-variable "tag_namespace_description" { default = "description2" }
-variable "tag_namespace_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "tag_namespace_include_subcompartments" { default = false }
-variable "tag_namespace_name" { default = "BillingTags" }
-
-                ` + compartmentIdVariableStr + TagNamespaceResourceConfig,
+				Config: config + compartmentIdVariableStr + TagNamespaceResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Update, tagNamespaceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -131,26 +118,10 @@ variable "tag_namespace_name" { default = "BillingTags" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "tag_namespace_defined_tags_value" { default = "updatedValue" }
-variable "tag_namespace_description" { default = "description2" }
-variable "tag_namespace_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "tag_namespace_include_subcompartments" { default = false }
-variable "tag_namespace_name" { default = "BillingTags" }
-
-data "oci_identity_tag_namespaces" "test_tag_namespaces" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	include_subcompartments = "${var.tag_namespace_include_subcompartments}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_tag_namespace.test_tag_namespace.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + TagNamespaceResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_tag_namespaces", "test_tag_namespaces", Optional, Update, tagNamespaceDataSourceRepresentation) +
+					compartmentIdVariableStr + TagNamespaceResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Update, tagNamespaceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "include_subcompartments", "false"),

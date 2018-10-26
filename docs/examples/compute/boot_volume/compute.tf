@@ -14,12 +14,12 @@ resource "oci_core_instance" "TFInstance" {
   source_details {
     source_type = "image"
     source_id   = "${var.instance_image_ocid[var.region]}"
-
   }
 
   metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
   }
+
   timeouts {
     create = "60m"
   }

@@ -22,6 +22,10 @@ func DbNodesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"db_nodes": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -70,6 +74,10 @@ func (s *DbNodesDataSourceCrud) Get() error {
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
 		tmp := dbSystemId.(string)
 		request.DbSystemId = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_database.DbNodeSummaryLifecycleStateEnum(state.(string))
 	}
 
 	if limit, ok := s.D.GetOkExists("limit"); ok {

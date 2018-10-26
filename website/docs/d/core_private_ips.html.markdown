@@ -1,15 +1,15 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_private_ips"
+page_title: "Oracle Cloud Infrastructure: oci_core_private_ips"
 sidebar_current: "docs-oci-datasource-core-private_ips"
 description: |-
-  Provides a list of PrivateIps
+  Provides the list of Private Ips in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_private_ips
-The `oci_core_private_ips` data source allows access to the list of OCI private_ips
+This data source provides the list of Private Ips in Oracle Cloud Infrastructure Core service.
 
-Lists the [PrivateIp](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/PrivateIp/) objects based
+Lists the [PrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/) objects based
 on one of these filters:
 
   - Subnet OCID.
@@ -17,7 +17,7 @@ on one of these filters:
   - Both private IP address and subnet OCID: This lets
   you get a `privateIP` object based on its private IP
   address (for example, 10.0.3.3) and not its OCID. For comparison,
-  [GetPrivateIp](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/PrivateIp/GetPrivateIp)
+  [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/PrivateIp/GetPrivateIp)
   requires the OCID.
 
 If you're listing all the private IPs associated with a given subnet
@@ -70,12 +70,12 @@ The following attributes are exported:
 
 * `availability_domain` - The private IP's Availability Domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment containing the private IP.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname_label` - The hostname for the private IP. Used for DNS. The value is the hostname portion of the private IP's fully qualified domain name (FQDN) (for example, `bminstance-1` in FQDN `bminstance-1.subnet123.vcn1.oraclevcn.com`). Must be unique across all VNICs in the subnet and comply with [RFC 952](https://tools.ietf.org/html/rfc952) and [RFC 1123](https://tools.ietf.org/html/rfc1123).
 
-	For more information, see [DNS in Your Virtual Cloud Network](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/dns.htm).
+	For more information, see [DNS in Your Virtual Cloud Network](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 
 	Example: `bminstance-1` 
 * `id` - The private IP's Oracle ID (OCID).

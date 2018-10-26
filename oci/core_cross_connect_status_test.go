@@ -10,14 +10,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	CrossConnectStatusResourceConfig = CrossConnectStatusResourceDependencies + `
+var (
+	crossConnectStatusSingularDataSourceRepresentation = map[string]interface{}{
+		"cross_connect_id": Representation{repType: Required, create: `${oci_core_cross_connect.test_cross_connect.id}`},
+	}
 
-`
-	CrossConnectStatusPropertyVariables = `
-
-`
-	CrossConnectStatusResourceDependencies = CrossConnectPropertyVariables + CrossConnectRequiredOnlyResource
+	CrossConnectStatusResourceConfig = CrossConnectResourceConfig
 )
 
 func TestCoreCrossConnectStatusResource_basic(t *testing.T) {
@@ -37,13 +35,9 @@ func TestCoreCrossConnectStatusResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-
-data "oci_core_cross_connect_status" "test_cross_connect_status" {
-	#Required
-	cross_connect_id = "${oci_core_cross_connect.test_cross_connect.id}"
-}
-                ` + compartmentIdVariableStr + CrossConnectStatusResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_cross_connect_status", "test_cross_connect_status", Required, Create, crossConnectStatusSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + CrossConnectStatusResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 

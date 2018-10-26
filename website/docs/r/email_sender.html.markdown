@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_email_sender"
+page_title: "Oracle Cloud Infrastructure: oci_email_sender"
 sidebar_current: "docs-oci-resource-email-sender"
 description: |-
-  Creates and manages an OCI Sender
+  Provides the Sender resource in Oracle Cloud Infrastructure Email service
 ---
 
 # oci_email_sender
-The `oci_email_sender` resource creates and manages an OCI Sender
+This resource provides the Sender resource in Oracle Cloud Infrastructure Email service.
 
 Creates a sender for a tenancy in a given compartment.
 
@@ -38,7 +38,7 @@ The following attributes are exported:
 
 * `email_address` - The email address of the sender.
 * `id` - The unique OCID of the sender.
-* `is_spf` - Value of the SPF field. For more information about SPF, please see [SPF Authentication](https://docs.us-phoenix-1.oraclecloud.com/Content/Email/Concepts/emaildeliveryoverview.htm#spf). 
+* `is_spf` - Value of the SPF field. For more information about SPF, please see [SPF Authentication](https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/emaildeliveryoverview.htm#spf). 
 * `state` - The current status of the approved sender.
 * `time_created` - The date and time the approved sender was added in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339. 
 
@@ -49,3 +49,4 @@ Senders can be imported using the `id`, e.g.
 ```
 $ terraform import oci_email_sender.test_sender "id"
 ```
+

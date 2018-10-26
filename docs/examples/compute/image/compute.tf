@@ -26,7 +26,7 @@ resource "oci_core_instance" "TFInstance" {
 }
 
 resource "oci_core_image" "TFCustomImage" {
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = "${var.compartment_ocid}"
   instance_id    = "${oci_core_instance.TFInstance.id}"
 
   launch_mode = "NATIVE"

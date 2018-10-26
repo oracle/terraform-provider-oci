@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_user_group_membership"
+page_title: "Oracle Cloud Infrastructure: oci_identity_user_group_membership"
 sidebar_current: "docs-oci-resource-identity-user_group_membership"
 description: |-
-  Creates and manages an OCI UserGroupMembership
+  Provides the User Group Membership resource in Oracle Cloud Infrastructure Identity service
 ---
 
 # oci_identity_user_group_membership
-The `oci_identity_user_group_membership` resource creates and manages an OCI UserGroupMembership
+This resource provides the User Group Membership resource in Oracle Cloud Infrastructure Identity service.
 
 Adds the specified user to the specified group and returns a `UserGroupMembership` object with its own OCID.
 
@@ -52,3 +52,4 @@ UserGroupMemberships can be imported using the `id`, e.g.
 ```
 $ terraform import oci_identity_user_group_membership.test_user_group_membership "id"
 ```
+

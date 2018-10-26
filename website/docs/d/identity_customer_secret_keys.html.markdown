@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_customer_secret_keys"
+page_title: "Oracle Cloud Infrastructure: oci_identity_customer_secret_keys"
 sidebar_current: "docs-oci-datasource-identity-customer_secret_keys"
 description: |-
-  Provides a list of CustomerSecretKeys
+  Provides the list of Customer Secret Keys in Oracle Cloud Infrastructure Identity service
 ---
 
 # Data Source: oci_identity_customer_secret_keys
-The `oci_identity_customer_secret_keys` data source allows access to the list of OCI customer_secret_keys
+This data source provides the list of Customer Secret Keys in Oracle Cloud Infrastructure Identity service.
 
 Lists the secret keys for the specified user. The returned object contains the secret key's OCID, but not
 the secret key itself. The actual secret key is returned only upon creation.

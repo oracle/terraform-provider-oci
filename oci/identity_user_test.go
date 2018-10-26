@@ -13,37 +13,27 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-const (
-	UserRequiredOnlyResource = UserRequiredOnlyResourceDependencies + `
-resource "oci_identity_user" "test_user" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.user_description}"
-	name = "${var.user_name}"
-}
-`
+var (
+	UserRequiredOnlyResource = UserResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 
-	UserResourceConfig = UserResourceDependencies + `
-resource "oci_identity_user" "test_user" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.user_description}"
-	name = "${var.user_name}"
+	userDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"filter":         RepresentationGroup{Required, userDataSourceFilterRepresentation}}
+	userDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_user.test_user.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.user_defined_tags_value}")}"
-	freeform_tags = "${var.user_freeform_tags}"
-}
-`
-	UserPropertyVariables = `
-variable "user_defined_tags_value" { default = "value" }
-variable "user_description" { default = "John Smith" }
-variable "user_freeform_tags" { default = {"Department"= "Finance"} }
-variable "user_name" { default = "JohnSmith@example.com" }
+	userRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"description":    Representation{repType: Required, create: `John Smith`, update: `description2`},
+		"name":           Representation{repType: Required, create: `JohnSmith@example.com`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
 
-`
-	UserRequiredOnlyResourceDependencies = ``
-	UserResourceDependencies             = DefinedTagsDependencies
+	UserResourceDependencies = DefinedTagsDependencies
 )
 
 func TestIdentityUserResource_basic(t *testing.T) {
@@ -68,7 +58,8 @@ func TestIdentityUserResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + UserPropertyVariables + compartmentIdVariableStr + UserRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + UserResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
@@ -87,7 +78,8 @@ func TestIdentityUserResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + UserPropertyVariables + compartmentIdVariableStr + UserResourceConfig,
+				Config: config + compartmentIdVariableStr + UserResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Create, userRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -107,13 +99,8 @@ func TestIdentityUserResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "user_defined_tags_value" { default = "updatedValue" }
-variable "user_description" { default = "description2" }
-variable "user_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "user_name" { default = "JohnSmith@example.com" }
-
-                ` + compartmentIdVariableStr + UserResourceConfig,
+				Config: config + compartmentIdVariableStr + UserResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -135,22 +122,10 @@ variable "user_name" { default = "JohnSmith@example.com" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "user_defined_tags_value" { default = "updatedValue" }
-variable "user_description" { default = "description2" }
-variable "user_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "user_name" { default = "JohnSmith@example.com" }
-
-data "oci_identity_users" "test_users" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_user.test_user.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + UserResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_users", "test_users", Optional, Update, userDataSourceRepresentation) +
+					compartmentIdVariableStr + UserResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 

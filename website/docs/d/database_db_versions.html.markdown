@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_database_db_versions"
+page_title: "Oracle Cloud Infrastructure: oci_database_db_versions"
 sidebar_current: "docs-oci-datasource-database-db_versions"
 description: |-
-  Provides a list of DbVersions
+  Provides the list of Db Versions in Oracle Cloud Infrastructure Database service
 ---
 
 # Data Source: oci_database_db_versions
-The `oci_database_db_versions` data source allows access to the list of OCI db_versions
+This data source provides the list of Db Versions in Oracle Cloud Infrastructure Database service.
 
 Gets a list of supported Oracle database versions.
 
@@ -28,8 +28,8 @@ data "oci_database_db_versions" "test_db_versions" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The compartment [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
-* `db_system_id` - (Optional) The DB system [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm). If provided, filters the results to the set of database versions which are supported for the DB system.
+* `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `db_system_id` - (Optional) The DB system [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). If provided, filters the results to the set of database versions which are supported for the DB system.
 * `db_system_shape` - (Optional) If provided, filters the results to the set of database versions which are supported for the given shape.
 
 

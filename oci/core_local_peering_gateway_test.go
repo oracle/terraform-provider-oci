@@ -13,34 +13,35 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	LocalPeeringGatewayRequiredOnlyResource = LocalPeeringGatewayResourceDependencies + `
-resource "oci_core_local_peering_gateway" "test_local_peering_gateway" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-}
-`
+var (
+	LocalPeeringGatewayRequiredOnlyResource = LocalPeeringGatewayResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation)
 
-	LocalPeeringGatewayResourceConfig = LocalPeeringGatewayResourceDependencies + `
-resource "oci_core_local_peering_gateway" "test_local_peering_gateway" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	localPeeringGatewayDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"filter":         RepresentationGroup{Required, localPeeringGatewayDataSourceFilterRepresentation}}
+	localPeeringGatewayDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_local_peering_gateway.test_local_peering_gateway.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.local_peering_gateway_defined_tags_value}")}"
-	display_name = "${var.local_peering_gateway_display_name}"
-	freeform_tags = "${var.local_peering_gateway_freeform_tags}"
-}
-`
-	LocalPeeringGatewayPropertyVariables = `
-variable "local_peering_gateway_defined_tags_value" { default = "value" }
-variable "local_peering_gateway_display_name" { default = "displayName" }
-variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Finance"} }
+	localPeeringGatewayRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
 
-`
-	LocalPeeringGatewayResourceDependencies = VcnPropertyVariables + VcnResourceConfig
+	secondLocalPeeringGatewayRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn2.id}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `requestor`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"peer_id":        Representation{repType: Optional, create: `${oci_core_local_peering_gateway.test_local_peering_gateway.id}`},
+	}
 
 	secondLocalPeeringGatewayWithPeerId = `
 variable "vcn_cidr_block2" { default = "10.1.0.0/16" }
@@ -56,21 +57,8 @@ resource "oci_core_vcn" "test_vcn2" {
 	display_name = "${var.vcn_display_name2}"
 	dns_label = "${var.vcn_dns_label2}"
 }
-
-variable "local_peering_gateway_display_name2" { default = "requestor" }
-
-resource "oci_core_local_peering_gateway" "test_local_peering_gateway2" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn2.id}"
-
-	#Optional
-	display_name = "${var.local_peering_gateway_display_name2}"
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.local_peering_gateway_defined_tags_value}")}"
-	freeform_tags = "${var.local_peering_gateway_freeform_tags}"
-	peer_id = "${oci_core_local_peering_gateway.test_local_peering_gateway.id}"
-}
 `
+	LocalPeeringGatewayResourceDependencies = VcnRequiredOnlyResource + VcnResourceDependencies
 )
 
 func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
@@ -94,7 +82,8 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + LocalPeeringGatewayPropertyVariables + compartmentIdVariableStr + LocalPeeringGatewayRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -112,7 +101,8 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + LocalPeeringGatewayPropertyVariables + compartmentIdVariableStr + LocalPeeringGatewayResourceConfig,
+				Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Create, localPeeringGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -134,12 +124,8 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "local_peering_gateway_defined_tags_value" { default = "updatedValue" }
-variable "local_peering_gateway_display_name" { default = "displayName2" }
-variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
-
-                ` + compartmentIdVariableStr + LocalPeeringGatewayResourceConfig,
+				Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -163,22 +149,10 @@ variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accou
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "local_peering_gateway_defined_tags_value" { default = "updatedValue" }
-variable "local_peering_gateway_display_name" { default = "displayName2" }
-variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
-
-data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_local_peering_gateway.test_local_peering_gateway.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + LocalPeeringGatewayResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_local_peering_gateways", "test_local_peering_gateways", Optional, Update, localPeeringGatewayDataSourceRepresentation) +
+					compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
@@ -206,12 +180,10 @@ data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 			},
 			// verify connect functionality
 			{
-				Config: config + `
-variable "local_peering_gateway_defined_tags_value" { default = "updatedValue" }
-variable "local_peering_gateway_display_name" { default = "displayName2" }
-variable "local_peering_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
-
-			` + compartmentIdVariableStr + LocalPeeringGatewayResourceConfig + secondLocalPeeringGatewayWithPeerId,
+				Config: config + compartmentIdVariableStr + LocalPeeringGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Optional, Update, localPeeringGatewayRepresentation) +
+					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway2", Optional, Update, secondLocalPeeringGatewayRepresentation) +
+					secondLocalPeeringGatewayWithPeerId,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),

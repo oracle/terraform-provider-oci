@@ -10,15 +10,13 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	VirtualCircuitBandwidthShapeResourceConfig = VirtualCircuitBandwidthShapeResourceDependencies + `
+var (
+	virtualCircuitBandwidthShapeDataSourceRepresentation = map[string]interface{}{
+		"provider_service_id": Representation{repType: Required, create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
+	}
 
-`
-	VirtualCircuitBandwidthShapePropertyVariables = `
-
-`
 	// @CODEGEN 07/2018: ProviderService is actually FastConnectProviderService
-	VirtualCircuitBandwidthShapeResourceDependencies = FastConnectProviderServicePropertyVariables + FastConnectProviderServiceResourceConfig
+	VirtualCircuitBandwidthShapeResourceDependencies = FastConnectProviderServiceResourceConfig
 )
 
 func TestCoreVirtualCircuitBandwidthShapeResource_basic(t *testing.T) {
@@ -44,13 +42,9 @@ data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_servi
 	#Required
 	compartment_id = "${var.compartment_id}"
 
-}
-
-data "oci_core_virtual_circuit_bandwidth_shapes" "test_virtual_circuit_bandwidth_shapes" {
-	#Required
-	provider_service_id = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}"
-}
-                ` + compartmentIdVariableStr + VirtualCircuitBandwidthShapeResourceConfig,
+}` +
+					generateDataSourceFromRepresentationMap("oci_core_virtual_circuit_bandwidth_shapes", "test_virtual_circuit_bandwidth_shapes", Required, Create, virtualCircuitBandwidthShapeDataSourceRepresentation) +
+					compartmentIdVariableStr + VirtualCircuitBandwidthShapeResourceDependencies,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//resource.TestCheckResourceAttrSet(datasourceName, "provider_service_id"),
 

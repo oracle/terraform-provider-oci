@@ -13,50 +13,38 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-const (
-	ExportRequiredOnlyResource = ExportResourceDependencies + `
-resource "oci_file_storage_export" "test_export" {
-	#Required
-	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
-	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
-	path = "${var.export_path}"
-}
-`
+var (
+	ExportRequiredOnlyResource = ExportResourceDependencies +
+		generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Required, Create, exportRepresentation)
 
-	ExportResourceConfig = ExportResourceDependencies + `
-resource "oci_file_storage_export" "test_export" {
-	#Required
-	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
-	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
-	path = "${var.export_path}"
-
-	#Optional
-	export_options {
-		#Required
-		source = "${var.export_export_options_source}"
-
-		#Optional
-		access = "${var.export_export_options_access}"
-		anonymous_gid = "${var.export_export_options_anonymous_gid}"
-		anonymous_uid = "${var.export_export_options_anonymous_uid}"
-		identity_squash = "${var.export_export_options_identity_squash}"
-		require_privileged_source_port = "${var.export_export_options_require_privileged_source_port}"
+	exportDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
+		"export_set_id":  Representation{repType: Optional, create: `${oci_file_storage_export_set.test_export_set.id}`},
+		"file_system_id": Representation{repType: Optional, create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"id":             Representation{repType: Optional, create: `${oci_file_storage_export.test_export.id}`},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"filter":         RepresentationGroup{Required, exportDataSourceFilterRepresentation}}
+	exportDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_file_storage_export.test_export.id}`}},
 	}
-}
-`
-	ExportPropertyVariables = `
-variable "export_export_options_access" { default = "READ_WRITE" }
-variable "export_export_options_anonymous_gid" { default = 10 }
-variable "export_export_options_anonymous_uid" { default = 10 }
-variable "export_export_options_identity_squash" { default = "NONE" }
-variable "export_export_options_require_privileged_source_port" { default = false }
-variable "export_export_options_source" { default = "0.0.0.0/0" }
-variable "export_id" { default = "id" }
-variable "export_path" { default = "/files-5" }
-variable "export_state" { default = "ACTIVE" }
 
-`
-	ExportResourceDependencies = FileSystemPropertyVariables + FileSystemResourceConfigOnly + ExportSetPropertyVariables + ExportSetResourceConfig
+	exportRepresentation = map[string]interface{}{
+		"export_set_id":  Representation{repType: Required, create: `${oci_file_storage_export_set.test_export_set.id}`},
+		"file_system_id": Representation{repType: Required, create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"path":           Representation{repType: Required, create: `/files-5`},
+		"export_options": RepresentationGroup{Optional, exportExportOptionsRepresentation},
+	}
+	exportExportOptionsRepresentation = map[string]interface{}{
+		"source":                         Representation{repType: Required, create: `0.0.0.0/0`},
+		"access":                         Representation{repType: Optional, create: `READ_WRITE`, update: `READ_ONLY`},
+		"anonymous_gid":                  Representation{repType: Optional, create: `10`, update: `11`},
+		"anonymous_uid":                  Representation{repType: Optional, create: `10`, update: `11`},
+		"identity_squash":                Representation{repType: Optional, create: `NONE`, update: `ALL`},
+		"require_privileged_source_port": Representation{repType: Optional, create: `false`, update: `true`},
+	}
+
+	ExportResourceDependencies = ExportSetRequiredOnlyResource + FileSystemRequiredOnlyResource
 )
 
 func TestFileStorageExportResource_basic(t *testing.T) {
@@ -80,7 +68,8 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + ExportPropertyVariables + compartmentIdVariableStr + ExportRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + ExportResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Required, Create, exportRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
@@ -99,7 +88,8 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + ExportPropertyVariables + compartmentIdVariableStr + ExportResourceConfig,
+				Config: config + compartmentIdVariableStr + ExportResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Create, exportRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_WRITE"),
@@ -124,18 +114,8 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "export_export_options_access" { default = "READ_ONLY" }
-variable "export_export_options_anonymous_gid" { default = 11 }
-variable "export_export_options_anonymous_uid" { default = 11 }
-variable "export_export_options_identity_squash" { default = "ALL" }
-variable "export_export_options_require_privileged_source_port" { default = true }
-variable "export_export_options_source" { default = "0.0.0.0/0" }
-variable "export_id" { default = "id" }
-variable "export_path" { default = "/files-5" }
-variable "export_state" { default = "ACTIVE" }
-
-                ` + compartmentIdVariableStr + ExportResourceConfig,
+				Config: config + compartmentIdVariableStr + ExportResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Update, exportRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_ONLY"),
@@ -162,30 +142,10 @@ variable "export_state" { default = "ACTIVE" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "export_export_options_access" { default = "READ_ONLY" }
-variable "export_export_options_anonymous_gid" { default = 11 }
-variable "export_export_options_anonymous_uid" { default = 11 }
-variable "export_export_options_identity_squash" { default = "ALL" }
-variable "export_export_options_require_privileged_source_port" { default = true }
-variable "export_export_options_source" { default = "0.0.0.0/0" }
-variable "export_id" { default = "id" }
-variable "export_path" { default = "/files-5" }
-variable "export_state" { default = "ACTIVE" }
-
-data "oci_file_storage_exports" "test_exports" {
-
-	#Optional
-	compartment_id = "${var.compartment_id}"
-	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
-	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_file_storage_export.test_export.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + ExportResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_file_storage_exports", "test_exports", Optional, Update, exportDataSourceRepresentation) +
+					compartmentIdVariableStr + ExportResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_export", "test_export", Optional, Update, exportRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

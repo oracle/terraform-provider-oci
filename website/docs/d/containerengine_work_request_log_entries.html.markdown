@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_containerengine_work_request_log_entries"
+page_title: "Oracle Cloud Infrastructure: oci_containerengine_work_request_log_entries"
 sidebar_current: "docs-oci-datasource-containerengine-work_request_log_entries"
 description: |-
-  Provides a list of WorkRequestLogEntries
+  Provides the list of Work Request Log Entries in Oracle Cloud Infrastructure Container Engine service
 ---
 
 # Data Source: oci_containerengine_work_request_log_entries
-The `oci_containerengine_work_request_log_entries` data source allows access to the list of OCI work_request_log_entries
+This data source provides the list of Work Request Log Entries in Oracle Cloud Infrastructure Container Engine service.
 
 Get the logs of a work request.
 

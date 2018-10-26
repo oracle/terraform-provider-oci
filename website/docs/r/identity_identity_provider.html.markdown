@@ -1,20 +1,20 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_identity_provider"
+page_title: "Oracle Cloud Infrastructure: oci_identity_identity_provider"
 sidebar_current: "docs-oci-resource-identity-identity_provider"
 description: |-
-  Creates and manages an OCI IdentityProvider
+  Provides the Identity Provider resource in Oracle Cloud Infrastructure Identity service
 ---
 
 # oci_identity_identity_provider
-The `oci_identity_identity_provider` resource creates and manages an OCI IdentityProvider
+This resource provides the Identity Provider resource in Oracle Cloud Infrastructure Identity service.
 
 Creates a new identity provider in your tenancy. For more information, see
-[Identity Providers and Federation](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/federation.htm).
+[Identity Providers and Federation](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/federation.htm).
 
 You must specify your tenancy's OCID as the compartment ID in the request object.
 Remember that the tenancy is simply the root compartment. For information about
-OCIDs, see [Resource Identifiers](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+OCIDs, see [Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 You must also specify a *name* for the `IdentityProvider`, which must be unique
 across all `IdentityProvider` objects in your tenancy and cannot be changed.
@@ -22,7 +22,7 @@ across all `IdentityProvider` objects in your tenancy and cannot be changed.
 You must also specify a *description* for the `IdentityProvider` (although
 it can be an empty string). It does not have to be unique, and you can change
 it anytime with
-[UpdateIdentityProvider](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/IdentityProvider/UpdateIdentityProvider).
+[UpdateIdentityProvider](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/IdentityProvider/UpdateIdentityProvider).
 
 
 ## Example Usage
@@ -49,9 +49,9 @@ resource "oci_identity_identity_provider" "test_identity_provider" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of your tenancy.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) (Updatable) The description you assign to the `IdentityProvider` during creation. Does not have to be unique, and it's changeable. 
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `metadata` - (Required) (Updatable) The XML that contains the information required for federating. 
 * `metadata_url` - (Required) (Updatable) The URL for retrieving the identity provider's metadata, which contains information required for federating. 
 * `name` - (Required) The name you assign to the `IdentityProvider` during creation. The name must be unique across all `IdentityProvider` objects in the tenancy and cannot be changed. 
@@ -67,9 +67,9 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the tenancy containing the `IdentityProvider`.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the `IdentityProvider` during creation. Does not have to be unique, and it's changeable. 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the `IdentityProvider`.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `metadata_url` - The URL for retrieving the identity provider's metadata, which contains information required for federating. 
@@ -94,3 +94,4 @@ IdentityProviders can be imported using the `id`, e.g.
 ```
 $ terraform import oci_identity_identity_provider.test_identity_provider "id"
 ```
+

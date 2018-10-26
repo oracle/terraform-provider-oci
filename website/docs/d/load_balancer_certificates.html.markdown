@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_load_balancer_certificates"
+page_title: "Oracle Cloud Infrastructure: oci_load_balancer_certificates"
 sidebar_current: "docs-oci-datasource-load_balancer-certificates"
 description: |-
-  Provides a list of Certificates
+  Provides the list of Certificates in Oracle Cloud Infrastructure Load Balancer service
 ---
 
 # Data Source: oci_load_balancer_certificates
-The `oci_load_balancer_certificates` data source allows access to the list of OCI certificates
+This data source provides the list of Certificates in Oracle Cloud Infrastructure Load Balancer service.
 
 Lists all SSL certificates bundles associated with a given load balancer.
 
@@ -24,7 +24,7 @@ data "oci_load_balancer_certificates" "test_certificates" {
 
 The following arguments are supported:
 
-* `load_balancer_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the certificate bundles to be listed. 
+* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer associated with the certificate bundles to be listed. 
 
 
 ## Attributes Reference

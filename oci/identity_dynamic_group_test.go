@@ -5,9 +5,8 @@ package provider
 import (
 	"context"
 	"fmt"
-	"testing"
-
 	"regexp"
+	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
@@ -15,21 +14,22 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-const (
-	DynamicGroupResourceConfig = DynamicGroupResourceDependencies + `
-resource "oci_identity_dynamic_group" "test_dynamic_group" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.dynamic_group_description}"
-	matching_rule = "${var.dynamic_group_matching_rule}"
-	name = "${var.dynamic_group_name}"
-}
-`
-	DynamicGroupPropertyVariables = `
-variable "dynamic_group_description" { default = "Instance group for dev compartment" }
-variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
+var (
+	dynamicGroupDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"filter":         RepresentationGroup{Required, dynamicGroupDataSourceFilterRepresentation}}
+	dynamicGroupDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_dynamic_group.test_dynamic_group.id}`}},
+	}
 
-`
+	dynamicGroupRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"description":    Representation{repType: Required, create: `Instance group for dev compartment`, update: `description2`},
+		"matching_rule":  Representation{repType: Required, create: `${var.dynamic_group_matching_rule}`, update: `${var.dynamic_group_matching_rule}`},
+		"name":           Representation{repType: Required, create: `DevCompartmentDynamicGroup`},
+	}
+
 	DynamicGroupResourceDependencies = ""
 )
 
@@ -63,12 +63,13 @@ func TestIdentityDynamicGroupResource_basic(t *testing.T) {
 				Config: config + `
 variable "dynamic_group_description" { default = "description2" }
 variable "dynamic_group_matching_rule" { default = "bad_matching_rule" }
-variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }` + compartmentIdVariableStr + DynamicGroupResourceConfig,
+variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }` + compartmentIdVariableStr + generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Required, Create, dynamicGroupRepresentation),
 				ExpectError: regexp.MustCompile("Unable to parse matching rule"),
 			},
 			// verify create
 			{
-				Config: config + DynamicGroupPropertyVariables + compartmentIdVariableStr + matchingRuleVariableStr + DynamicGroupResourceConfig,
+				Config: config + compartmentIdVariableStr + matchingRuleVariableStr + DynamicGroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Required, Create, dynamicGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "Instance group for dev compartment"),
@@ -84,11 +85,8 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }` + comp
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "dynamic_group_description" { default = "description2" }
-variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
-
-                ` + compartmentIdVariableStr + matchingRule2VariableStr + DynamicGroupResourceConfig,
+				Config: config + compartmentIdVariableStr + matchingRule2VariableStr + DynamicGroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Update, dynamicGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -109,20 +107,10 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "dynamic_group_description" { default = "description2" }
-variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
-
-data "oci_identity_dynamic_groups" "test_dynamic_groups" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_dynamic_group.test_dynamic_group.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + matchingRule2VariableStr + DynamicGroupResourceConfig,
+				Config: config + matchingRule2VariableStr +
+					generateDataSourceFromRepresentationMap("oci_identity_dynamic_groups", "test_dynamic_groups", Optional, Update, dynamicGroupDataSourceRepresentation) +
+					compartmentIdVariableStr + DynamicGroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Update, dynamicGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 

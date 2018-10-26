@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_api_key"
+page_title: "Oracle Cloud Infrastructure: oci_identity_api_key"
 sidebar_current: "docs-oci-resource-identity-api_key"
 description: |-
-  Creates and manages an OCI ApiKey
+  Provides the Api Key resource in Oracle Cloud Infrastructure Identity service
 ---
 
 # oci_identity_api_key
-The `oci_identity_api_key` resource creates and manages an OCI ApiKey
+This resource provides the Api Key resource in Oracle Cloud Infrastructure Identity service.
 
 Uploads an API signing key for the specified user.
 
@@ -54,3 +54,4 @@ The following attributes are exported:
 * `state` - The API key's current state.
 * `time_created` - Date and time the `ApiKey` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the key belongs to.
+

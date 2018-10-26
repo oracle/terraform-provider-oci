@@ -44,7 +44,6 @@ resource "oci_core_volume" "t2" {
   display_name        = "-tf-volume-with-backup-policy"
   size_in_gbs         = "${var.DBSize}"
   backup_policy_id    = "${data.oci_core_volume_backup_policies.test_boot_volume_backup_policies.volume_backup_policies.0.id}"
-
 }
 
 data "oci_core_volume_backup_policies" "test_boot_volume_backup_policies" {

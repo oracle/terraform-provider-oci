@@ -11,11 +11,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	ClusterOptionPropertyVariables = `
-variable "cluster_option_id" { default = "all" }
+var (
+	clusterOptionSingularDataSourceRepresentation = map[string]interface{}{
+		"cluster_option_id": Representation{repType: Required, create: `all`},
+	}
 
-`
+	ClusterOptionResourceConfig = ""
 )
 
 func TestContainerengineClusterOptionResource_basic(t *testing.T) {
@@ -35,13 +36,9 @@ func TestContainerengineClusterOptionResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-
-data "oci_containerengine_cluster_option" "test_cluster_option" {
-	#Required
-	cluster_option_id = "${var.cluster_option_id}"
-}
-                ` + compartmentIdVariableStr + ClusterOptionPropertyVariables,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Required, Create, clusterOptionSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ClusterOptionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_option_id"),
 					resource.TestMatchResourceAttr(singularDatasourceName, "kubernetes_versions.#", regexp.MustCompile("[1-9][0-9]*")),

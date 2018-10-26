@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_containerengine_node_pool_option"
+page_title: "Oracle Cloud Infrastructure: oci_containerengine_node_pool_option"
 sidebar_current: "docs-oci-datasource-containerengine-node_pool_option"
 description: |-
-  Provides details about a specific NodePoolOption
+  Provides details about a specific Node Pool Option in Oracle Cloud Infrastructure Container Engine service
 ---
 
 # Data Source: oci_containerengine_node_pool_option
-The `oci_containerengine_node_pool_option` data source provides details about a specific NodePoolOption
+This data source provides details about a specific Node Pool Option resource in Oracle Cloud Infrastructure Container Engine service.
 
 Get options available for node pools.
 

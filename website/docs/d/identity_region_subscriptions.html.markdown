@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_region_subscriptions"
+page_title: "Oracle Cloud Infrastructure: oci_identity_region_subscriptions"
 sidebar_current: "docs-oci-datasource-identity-region_subscriptions"
 description: |-
-  Provides a list of RegionSubscriptions
+  Provides the list of Region Subscriptions in Oracle Cloud Infrastructure Identity service
 ---
 
 # Data Source: oci_identity_region_subscriptions
-The `oci_identity_region_subscriptions` data source allows access to the list of OCI region_subscriptions
+This data source provides the list of Region Subscriptions in Oracle Cloud Infrastructure Identity service.
 
 Lists the region subscriptions for the specified tenancy.
 

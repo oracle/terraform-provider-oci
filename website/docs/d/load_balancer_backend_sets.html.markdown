@@ -1,14 +1,16 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_load_balancer_backend_sets"
+page_title: "Oracle Cloud Infrastructure: oci_load_balancer_backend_sets"
 sidebar_current: "docs-oci-datasource-load_balancer-backend_sets"
 description: |-
-  Provides a list of BackendSets
+  Provides the list of Backend Sets in Oracle Cloud Infrastructure Load Balancer service
 ---
 
 # Data Source: oci_load_balancer_backend_sets
-`oci_load_balancer_backendsets` is the old name for `oci_load_balancer_backend_sets`. Both names are supported but `oci_load_balancer_backend_sets` is used in the docs.
-The `oci_load_balancer_backend_sets` data source allows access to the list of OCI backend_sets
+Other supported legacy names/aliases:
+  * `oci_load_balancer_backendset`
+
+This data source provides the list of Backend Sets in Oracle Cloud Infrastructure Load Balancer service.
 
 Lists all backend sets associated with a given load balancer.
 
@@ -25,7 +27,7 @@ data "oci_load_balancer_backend_sets" "test_backend_sets" {
 
 The following arguments are supported:
 
-* `load_balancer_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend sets to retrieve.
+* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend sets to retrieve.
 
 
 ## Attributes Reference
@@ -45,7 +47,7 @@ The following attributes are exported:
 	* `name` - A read-only field showing the IP address and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080` 
 	* `offline` - Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
 	* `port` - The communication port for the backend server.  Example: `8080` 
-	* `weight` - The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
+	* `weight` - The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
 * `health_checker` - 
 	* `interval_ms` - The interval between health checks, in milliseconds. The default is 30000 (30 seconds).  Example: `30000` 
 	* `port` - The backend server port against which to run the health check. If the port is not specified, the load balancer uses the port information from the `Backend` object.  Example: `8080` 
@@ -60,7 +62,7 @@ The following attributes are exported:
 	Valid backend set names include only alphanumeric characters, dashes, and underscores. Backend set names cannot contain spaces. Avoid entering confidential information.
 
 	Example: `example_backend_set` 
-* `policy` - The load balancer policy for the backend set. To get a list of available policies, use the [ListPolicies](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies) operation.  Example: `LEAST_CONNECTIONS` 
+* `policy` - The load balancer policy for the backend set. To get a list of available policies, use the [ListPolicies](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerPolicy/ListPolicies) operation.  Example: `LEAST_CONNECTIONS` 
 * `session_persistence_configuration` - 
 	* `cookie_name` - The name of the cookie used to detect a session initiated by the backend server. Use '*' to specify that any cookie set by the backend causes the session to persist.  Example: `example_cookie` 
 	* `disable_fallback` - Whether the load balancer is prevented from directing traffic from a persistent session client to a different backend server if the original server is unavailable. Defaults to false.  Example: `false` 

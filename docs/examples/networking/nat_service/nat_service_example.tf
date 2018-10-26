@@ -83,8 +83,8 @@ resource "oci_core_virtual_network" "this" {
 
 resource "oci_core_nat_gateway" "nat_gateway" {
   compartment_id = "${var.compartment_id}"
-  vcn_id = "${oci_core_virtual_network.this.id}"
-  display_name = "nat_gateway"
+  vcn_id         = "${oci_core_virtual_network.this.id}"
+  display_name   = "nat_gateway"
 }
 
 resource "oci_core_internet_gateway" "ig" {
@@ -197,8 +197,8 @@ resource "oci_core_route_table" "private" {
 
   route_rules = [
     {
-      destination = "${local.anywhere}"
-      destination_type = "CIDR_BLOCK"
+      destination       = "${local.anywhere}"
+      destination_type  = "CIDR_BLOCK"
       network_entity_id = "${oci_core_nat_gateway.nat_gateway.id}"
     },
   ]
@@ -237,7 +237,7 @@ resource "oci_core_instance" "private" {
   }
 
   create_vnic_details {
-    subnet_id = "${oci_core_subnet.private.id}"
+    subnet_id        = "${oci_core_subnet.private.id}"
     assign_public_ip = false
   }
 

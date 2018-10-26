@@ -10,15 +10,13 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	AutonomousDataWarehouseWalletResourceConfig = AutonomousDataWarehouseWalletResourceDependencies + `
+var (
+	autonomousDataWarehouseWalletSingularDataSourceRepresentation = map[string]interface{}{
+		"autonomous_data_warehouse_id": Representation{repType: Required, create: `${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}`},
+		"password":                     Representation{repType: Required, create: `BEstrO0ng_#11`},
+	}
 
-`
-	AutonomousDataWarehouseWalletPropertyVariables = `
-variable "autonomous_data_warehouse_wallet_password" { default = "BEstrO0ng_#11" }
-
-`
-	AutonomousDataWarehouseWalletResourceDependencies = AutonomousDataWarehousePropertyVariables + AutonomousDataWarehouseResourceConfig
+	AutonomousDataWarehouseWalletResourceConfig = AutonomousDataWarehouseResourceConfig
 )
 
 func TestDatabaseAutonomousDataWarehouseWalletResource_basic(t *testing.T) {
@@ -30,9 +28,6 @@ func TestDatabaseAutonomousDataWarehouseWalletResource_basic(t *testing.T) {
 
 	singularDatasourceName := "data.oci_database_autonomous_data_warehouse_wallet.test_autonomous_data_warehouse_wallet"
 
-	testResourceName := GenerateTestResourceName("adwdb1", 14)
-	setEnvSetting("TF_VAR_autonomous_data_warehouse_db_name", testResourceName)
-
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -41,15 +36,9 @@ func TestDatabaseAutonomousDataWarehouseWalletResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-variable "autonomous_data_warehouse_wallet_password" { default = "BEstrO0ng_#11" }
-
-data "oci_database_autonomous_data_warehouse_wallet" "test_autonomous_data_warehouse_wallet" {
-	#Required
-	autonomous_data_warehouse_id = "${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}"
-	password = "${var.autonomous_data_warehouse_wallet_password}"
-}
-                ` + compartmentIdVariableStr + AutonomousDataWarehouseWalletResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_autonomous_data_warehouse_wallet", "test_autonomous_data_warehouse_wallet", Required, Create, autonomousDataWarehouseWalletSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + AutonomousDataWarehouseWalletResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_data_warehouse_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "password", "BEstrO0ng_#11"),

@@ -13,37 +13,31 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	VcnRequiredOnlyResource = VcnRequiredOnlyResourceDependencies + `
-resource "oci_core_vcn" "test_vcn" {
-	#Required
-	cidr_block = "${var.vcn_cidr_block}"
-	compartment_id = "${var.compartment_id}"
-}
-`
+var (
+	VcnRequiredOnlyResource = VcnRequiredOnlyResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 
-	VcnResourceConfig = VcnResourceDependencies + `
-resource "oci_core_vcn" "test_vcn" {
-	#Required
-	cidr_block = "${var.vcn_cidr_block}"
-	compartment_id = "${var.compartment_id}"
+	VcnResourceConfig = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation)
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.vcn_defined_tags_value}")}"
-	display_name = "${var.vcn_display_name}"
-	dns_label = "${var.vcn_dns_label}"
-	freeform_tags = "${var.vcn_freeform_tags}"
-}
-`
-	VcnPropertyVariables = `
-variable "vcn_cidr_block" { default = "10.0.0.0/16" }
-variable "vcn_defined_tags_value" { default = "value" }
-variable "vcn_display_name" { default = "displayName" }
-variable "vcn_dns_label" { default = "dnslabel" }
-variable "vcn_freeform_tags" { default = {"Department"= "Finance"} }
-variable "vcn_state" { default = "AVAILABLE" }
+	vcnDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"filter":         RepresentationGroup{Required, vcnDataSourceFilterRepresentation}}
+	vcnDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_vcn.test_vcn.id}`}},
+	}
 
-`
+	vcnRepresentation = map[string]interface{}{
+		"cidr_block":     Representation{repType: Required, create: `10.0.0.0/16`},
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"dns_label":      Representation{repType: Optional, create: `dnslabel`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
+
 	VcnRequiredOnlyResourceDependencies = ``
 	VcnResourceDependencies             = DefinedTagsDependencies
 )
@@ -69,7 +63,8 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + VcnPropertyVariables + compartmentIdVariableStr + VcnRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -87,7 +82,8 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + VcnPropertyVariables + compartmentIdVariableStr + VcnResourceConfig,
+				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -107,15 +103,8 @@ func TestCoreVcnResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "vcn_cidr_block" { default = "10.0.0.0/16" }
-variable "vcn_defined_tags_value" { default = "updatedValue" }
-variable "vcn_display_name" { default = "displayName2" }
-variable "vcn_dns_label" { default = "dnslabel" }
-variable "vcn_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "vcn_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + VcnResourceConfig,
+				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, vcnRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -137,28 +126,10 @@ variable "vcn_state" { default = "AVAILABLE" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "vcn_cidr_block" { default = "10.0.0.0/16" }
-variable "vcn_defined_tags_value" { default = "updatedValue" }
-variable "vcn_display_name" { default = "displayName2" }
-variable "vcn_dns_label" { default = "dnslabel" }
-variable "vcn_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "vcn_state" { default = "AVAILABLE" }
-
-data "oci_core_vcns" "test_vcns" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	display_name = "${var.vcn_display_name}"
-	state = "${var.vcn_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_vcn.test_vcn.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + VcnResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", Optional, Update, vcnDataSourceRepresentation) +
+					compartmentIdVariableStr + VcnResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, vcnRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

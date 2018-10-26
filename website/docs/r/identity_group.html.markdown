@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_group"
+page_title: "Oracle Cloud Infrastructure: oci_identity_group"
 sidebar_current: "docs-oci-resource-identity-group"
 description: |-
-  Creates and manages an OCI Group
+  Provides the Group resource in Oracle Cloud Infrastructure Identity service
 ---
 
 # oci_identity_group
-The `oci_identity_group` resource creates and manages an OCI Group
+This resource provides the Group resource in Oracle Cloud Infrastructure Identity service.
 
 Creates a new group in your tenancy.
 
@@ -15,18 +15,17 @@ You must specify your tenancy's OCID as the compartment ID in the request object
 is simply the root compartment). Notice that IAM resources (users, groups, compartments, and some policies)
 reside within the tenancy itself, unlike cloud resources such as compute instances, which typically
 reside within compartments inside the tenancy. For information about OCIDs, see
-[Resource Identifiers](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+[Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 You must also specify a *name* for the group, which must be unique across all groups in your tenancy and
 cannot be changed. You can use this name or the OCID when writing policies that apply to the group. For more
-information about policies, see [How Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policies.htm).
+information about policies, see [How Policies Work](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policies.htm).
 
 You must also specify a *description* for the group (although it can be an empty string). It does not
-have to be unique, and you can change it anytime with [UpdateGroup](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Group/UpdateGroup).
-
+have to be unique, and you can change it anytime with [UpdateGroup](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/Group/UpdateGroup).
 After creating the group, you need to put users in it and write policies for it.
-See [AddUserToGroup](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/UserGroupMembership/AddUserToGroup) and
-[CreatePolicy](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/Policy/CreatePolicy).
+See [AddUserToGroup](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/UserGroupMembership/AddUserToGroup) and
+[CreatePolicy](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/Policy/CreatePolicy).
 
 
 ## Example Usage
@@ -49,9 +48,9 @@ resource "oci_identity_group" "test_group" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the tenancy containing the group.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) (Updatable) The description you assign to the group during creation. Does not have to be unique, and it's changeable.
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) The name you assign to the group during creation. The name must be unique across all groups in the tenancy and cannot be changed. 
 
 
@@ -63,9 +62,9 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the tenancy containing the group.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the group. Does not have to be unique, and it's changeable.
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the group.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
 * `name` - The name you assign to the group during creation. The name must be unique across all groups in the tenancy and cannot be changed. 
@@ -79,3 +78,4 @@ Groups can be imported using the `id`, e.g.
 ```
 $ terraform import oci_identity_group.test_group "id"
 ```
+

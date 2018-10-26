@@ -13,41 +13,40 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	CrossConnectRequiredOnlyResource = CrossConnectResourceDependencies + `
-resource "oci_core_cross_connect" "test_cross_connect" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	location_name = "${var.cross_connect_location_name}"
-	port_speed_shape_name = "${var.cross_connect_port_speed_shape_name}"
-}
-`
+var (
+	CrossConnectRequiredOnlyResource = CrossConnectResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation)
 
-	CrossConnectResourceConfig = CrossConnectResourceDependencies + `
-resource "oci_core_cross_connect" "test_cross_connect" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	location_name = "${var.cross_connect_location_name}"
-	port_speed_shape_name = "${var.cross_connect_port_speed_shape_name}"
+	CrossConnectResourceConfig = CrossConnectResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation)
 
-	#Optional
-	cross_connect_group_id = "${oci_core_cross_connect_group.test_cross_connect_group.id}"
-	display_name = "${var.cross_connect_display_name}"
-	#far_cross_connect_or_cross_connect_group_id = "${oci_core_far_cross_connect_or_cross_connect_group.test_far_cross_connect_or_cross_connect_group.id}"
-	#near_cross_connect_or_cross_connect_group_id = "${oci_core_near_cross_connect_or_cross_connect_group.test_near_cross_connect_or_cross_connect_group.id}"
-	is_active = "${var.cross_connect_is_active}"
-}
-`
-	CrossConnectPropertyVariables = `
-variable "cross_connect_display_name" { default = "displayName" }
-variable "cross_connect_location_name" { default = "Fake Location, Phoenix, AZ" }
-variable "cross_connect_port_speed_shape_name" { default = "10 Gbps" }
-variable "cross_connect_state" { default = "AVAILABLE" }
-variable "cross_connect_is_active" { default = true }
+	crossConnectSingularDataSourceRepresentation = map[string]interface{}{
+		"cross_connect_id": Representation{repType: Required, create: `${oci_core_cross_connect.test_cross_connect.id}`},
+	}
 
-`
-	//CrossConnectResourceDependencies = CrossConnectGroupPropertyVariables + CrossConnectGroupResourceConfig + FarCrossConnectOrCrossConnectGroupPropertyVariables + FarCrossConnectOrCrossConnectGroupResourceConfig + NearCrossConnectOrCrossConnectGroupPropertyVariables + NearCrossConnectOrCrossConnectGroupResourceConfig
-	CrossConnectResourceDependencies = CrossConnectGroupPropertyVariables + CrossConnectGroupResourceConfig
+	crossConnectDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
+		"cross_connect_group_id": Representation{repType: Optional, create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
+		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		//"state":                  Representation{repType: Optional, create: `AVAILABLE`},
+		"filter": RepresentationGroup{Required, crossConnectDataSourceFilterRepresentation}}
+	crossConnectDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_cross_connect.test_cross_connect.id}`}},
+	}
+
+	crossConnectRepresentation = map[string]interface{}{
+		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
+		"location_name":          Representation{repType: Required, create: `Fake Location, Phoenix, AZ`},
+		"port_speed_shape_name":  Representation{repType: Required, create: `10 Gbps`},
+		"cross_connect_group_id": Representation{repType: Optional, create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
+		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		//"far_cross_connect_or_cross_connect_group_id":  Representation{repType: Optional, create: `${oci_core_far_cross_connect_or_cross_connect_group.test_far_cross_connect_or_cross_connect_group.id}`},
+		//"near_cross_connect_or_cross_connect_group_id": Representation{repType: Optional, create: `${oci_core_near_cross_connect_or_cross_connect_group.test_near_cross_connect_or_cross_connect_group.id}`},
+		"is_active": Representation{repType: Optional, create: `true`},
+	}
+
+	CrossConnectResourceDependencies = CrossConnectGroupResourceConfig
 )
 
 func TestCoreCrossConnectResource_basic(t *testing.T) {
@@ -72,7 +71,8 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + CrossConnectPropertyVariables + compartmentIdVariableStr + CrossConnectRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + CrossConnectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					//resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
@@ -95,7 +95,8 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + CrossConnectPropertyVariables + compartmentIdVariableStr + CrossConnectResourceConfig,
+				Config: config + compartmentIdVariableStr + CrossConnectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create, crossConnectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
@@ -115,14 +116,8 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "cross_connect_display_name" { default = "displayName2" }
-variable "cross_connect_location_name" { default = "Fake Location, Phoenix, AZ" }
-variable "cross_connect_port_speed_shape_name" { default = "10 Gbps" }
-variable "cross_connect_state" { default = "AVAILABLE" }
-variable "cross_connect_is_active" { default = true }
-
-                ` + compartmentIdVariableStr + CrossConnectResourceConfig,
+				Config: config + compartmentIdVariableStr + CrossConnectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
@@ -144,28 +139,10 @@ variable "cross_connect_is_active" { default = true }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "cross_connect_display_name" { default = "displayName2" }
-variable "cross_connect_location_name" { default = "Fake Location, Phoenix, AZ" }
-variable "cross_connect_port_speed_shape_name" { default = "10 Gbps" }
-variable "cross_connect_state" { default = "AVAILABLE" }
-variable "cross_connect_is_active" { default = true }
-
-data "oci_core_cross_connects" "test_cross_connects" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	cross_connect_group_id = "${oci_core_cross_connect_group.test_cross_connect_group.id}"
-	display_name = "${var.cross_connect_display_name}"
-	#state = "${var.cross_connect_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_cross_connect.test_cross_connect.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + CrossConnectResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_cross_connects", "test_cross_connects", Optional, Update, crossConnectDataSourceRepresentation) +
+					compartmentIdVariableStr + CrossConnectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_group_id"),
@@ -187,18 +164,9 @@ data "oci_core_cross_connects" "test_cross_connects" {
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "cross_connect_display_name" { default = "displayName2" }
-variable "cross_connect_location_name" { default = "Fake Location, Phoenix, AZ" }
-variable "cross_connect_port_speed_shape_name" { default = "10 Gbps" }
-variable "cross_connect_state" { default = "AVAILABLE" }
-variable "cross_connect_is_active" { default = true }
-
-data "oci_core_cross_connect" "test_cross_connect" {
-	#Required
-	cross_connect_id = "${oci_core_cross_connect.test_cross_connect.id}"
-}
-                ` + compartmentIdVariableStr + CrossConnectResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + CrossConnectResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
@@ -217,25 +185,11 @@ data "oci_core_cross_connect" "test_cross_connect" {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + `
-variable "cross_connect_display_name" { default = "displayName2" }
-variable "cross_connect_location_name" { default = "Fake Location, Phoenix, AZ" }
-variable "cross_connect_port_speed_shape_name" { default = "10 Gbps" }
-variable "cross_connect_state" { default = "AVAILABLE" }
-variable "cross_connect_is_active" { default = true }
-
-                ` + compartmentIdVariableStr + CrossConnectResourceConfig,
+				Config: config + compartmentIdVariableStr + CrossConnectResourceConfig,
 			},
 			// verify resource import
 			{
-				Config: config + `
-variable "cross_connect_display_name" { default = "displayName2" }
-variable "cross_connect_location_name" { default = "Fake Location, Phoenix, AZ" }
-variable "cross_connect_port_speed_shape_name" { default = "10 Gbps" }
-variable "cross_connect_state" { default = "AVAILABLE" }
-variable "cross_connect_is_active" { default = true }
-
-                ` + compartmentIdVariableStr + CrossConnectResourceConfig,
+				Config:            config + compartmentIdVariableStr + CrossConnectResourceConfig,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

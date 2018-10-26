@@ -10,20 +10,30 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	AutonomousDataWarehouseBackupResourceConfig = AutonomousDataWarehouseBackupResourceDependencies + `
-resource "oci_database_autonomous_data_warehouse_backup" "test_autonomous_data_warehouse_backup" {
-	#Required
-	autonomous_data_warehouse_id = "${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}"
-	display_name = "${var.autonomous_data_warehouse_backup_display_name}"
-}
-`
-	AutonomousDataWarehouseBackupPropertyVariables = `
-variable "autonomous_data_warehouse_backup_display_name" { default = "Monthly Backup" }
-variable "autonomous_data_warehouse_backup_state" { default = "AVAILABLE" }
+var (
+	AutonomousDataWarehouseBackupResourceConfig = AutonomousDataWarehouseBackupResourceDependencies +
+		generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse_backup", "test_autonomous_data_warehouse_backup", Optional, Update, autonomousDataWarehouseBackupRepresentation)
 
-`
-	AutonomousDataWarehouseBackupResourceDependencies = AutonomousDataWarehousePropertyVariables + AutonomousDataWarehouseResourceConfig
+	autonomousDataWarehouseBackupSingularDataSourceRepresentation = map[string]interface{}{
+		"autonomous_data_warehouse_backup_id": Representation{repType: Required, create: `${oci_database_autonomous_data_warehouse_backup.test_autonomous_data_warehouse_backup.id}`},
+	}
+
+	autonomousDataWarehouseBackupDataSourceRepresentation = map[string]interface{}{
+		"autonomous_data_warehouse_id": Representation{repType: Optional, create: `${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}`},
+		"display_name":                 Representation{repType: Optional, create: `Monthly Backup`},
+		"state":                        Representation{repType: Optional, create: `ACTIVE`},
+		"filter":                       RepresentationGroup{Required, autonomousDataWarehouseBackupDataSourceFilterRepresentation}}
+	autonomousDataWarehouseBackupDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_database_autonomous_data_warehouse_backup.test_autonomous_data_warehouse_backup.id}`}},
+	}
+
+	autonomousDataWarehouseBackupRepresentation = map[string]interface{}{
+		"autonomous_data_warehouse_id": Representation{repType: Required, create: `${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}`},
+		"display_name":                 Representation{repType: Required, create: `Monthly Backup`},
+	}
+
+	AutonomousDataWarehouseBackupResourceDependencies = AutonomousDataWarehouseResourceConfig
 )
 
 func TestDatabaseAutonomousDataWarehouseBackupResource_basic(t *testing.T) {
@@ -48,7 +58,8 @@ func TestDatabaseAutonomousDataWarehouseBackupResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + AutonomousDataWarehouseBackupPropertyVariables + compartmentIdVariableStr + AutonomousDataWarehouseBackupResourceConfig,
+				Config: config + compartmentIdVariableStr + AutonomousDataWarehouseBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse_backup", "test_autonomous_data_warehouse_backup", Required, Create, autonomousDataWarehouseBackupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_data_warehouse_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
@@ -57,23 +68,10 @@ func TestDatabaseAutonomousDataWarehouseBackupResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + `
-variable "autonomous_data_warehouse_backup_display_name" { default = "Monthly Backup" }
-variable "autonomous_data_warehouse_backup_state" { default = "ACTIVE" }
-
-data "oci_database_autonomous_data_warehouse_backups" "test_autonomous_data_warehouse_backups" {
-
-	#Optional
-	autonomous_data_warehouse_id = "${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}"
-	display_name = "${var.autonomous_data_warehouse_backup_display_name}"
-	state = "${var.autonomous_data_warehouse_backup_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_database_autonomous_data_warehouse_backup.test_autonomous_data_warehouse_backup.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + AutonomousDataWarehouseBackupResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_autonomous_data_warehouse_backups", "test_autonomous_data_warehouse_backups", Optional, Update, autonomousDataWarehouseBackupDataSourceRepresentation) +
+					compartmentIdVariableStr + AutonomousDataWarehouseBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse_backup", "test_autonomous_data_warehouse_backup", Optional, Update, autonomousDataWarehouseBackupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_data_warehouse_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "Monthly Backup"),
@@ -91,15 +89,9 @@ data "oci_database_autonomous_data_warehouse_backups" "test_autonomous_data_ware
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "autonomous_data_warehouse_backup_display_name" { default = "Monthly Backup" }
-variable "autonomous_data_warehouse_backup_state" { default = "AVAILABLE" }
-
-data "oci_database_autonomous_data_warehouse_backup" "test_autonomous_data_warehouse_backup" {
-	#Required
-	autonomous_data_warehouse_backup_id = "${oci_database_autonomous_data_warehouse_backup.test_autonomous_data_warehouse_backup.id}"
-}
-                ` + compartmentIdVariableStr + AutonomousDataWarehouseBackupResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_autonomous_data_warehouse_backup", "test_autonomous_data_warehouse_backup", Required, Create, autonomousDataWarehouseBackupSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + AutonomousDataWarehouseBackupResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_data_warehouse_backup_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_data_warehouse_id"),
@@ -115,11 +107,7 @@ data "oci_database_autonomous_data_warehouse_backup" "test_autonomous_data_wareh
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + `
-variable "autonomous_data_warehouse_backup_display_name" { default = "Monthly Backup" }
-variable "autonomous_data_warehouse_backup_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + AutonomousDataWarehouseBackupResourceConfig,
+				Config: config + compartmentIdVariableStr + AutonomousDataWarehouseBackupResourceConfig,
 			},
 			// verify resource import
 			{

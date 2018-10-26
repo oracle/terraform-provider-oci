@@ -13,37 +13,38 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	NatGatewayRequiredOnlyResource = NatGatewayResourceDependencies + `
-resource "oci_core_nat_gateway" "test_nat_gateway" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-}
-`
+var (
+	NatGatewayRequiredOnlyResource = NatGatewayResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Required, Create, natGatewayRepresentation)
 
-	NatGatewayResourceConfig = NatGatewayResourceDependencies + `
-resource "oci_core_nat_gateway" "test_nat_gateway" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	NatGatewayResourceConfig = NatGatewayResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Update, natGatewayRepresentation)
 
-	#Optional
-	block_traffic = "${var.nat_gateway_block_traffic}"
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.nat_gateway_defined_tags_value}")}"
-	display_name = "${var.nat_gateway_display_name}"
-	freeform_tags = "${var.nat_gateway_freeform_tags}"
-}
-`
-	NatGatewayPropertyVariables = `
-variable "nat_gateway_block_traffic" { default = false }
-variable "nat_gateway_defined_tags_value" { default = "value" }
-variable "nat_gateway_display_name" { default = "displayName" }
-variable "nat_gateway_freeform_tags" { default = {"Department"= "Finance"} }
-variable "nat_gateway_state" { default = "AVAILABLE" }
+	natGatewaySingularDataSourceRepresentation = map[string]interface{}{
+		"nat_gateway_id": Representation{repType: Required, create: `${oci_core_nat_gateway.test_nat_gateway.id}`},
+	}
 
-`
-	NatGatewayResourceDependencies = VcnPropertyVariables + VcnResourceConfig
+	natGatewayDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"vcn_id":         Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.id}`},
+		"filter":         RepresentationGroup{Required, natGatewayDataSourceFilterRepresentation}}
+	natGatewayDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_nat_gateway.test_nat_gateway.id}`}},
+	}
+
+	natGatewayRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"block_traffic":  Representation{repType: Optional, create: `false`, update: `true`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
+
+	NatGatewayResourceDependencies = DefinedTagsDependencies + VcnResourceConfig
 )
 
 func TestCoreNatGatewayResource_basic(t *testing.T) {
@@ -68,7 +69,8 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + NatGatewayPropertyVariables + compartmentIdVariableStr + NatGatewayRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + NatGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Required, Create, natGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -86,7 +88,8 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + NatGatewayPropertyVariables + compartmentIdVariableStr + NatGatewayResourceConfig,
+				Config: config + compartmentIdVariableStr + NatGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Create, natGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "block_traffic", "false"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -108,14 +111,8 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "nat_gateway_block_traffic" { default = true }
-variable "nat_gateway_defined_tags_value" { default = "updatedValue" }
-variable "nat_gateway_display_name" { default = "displayName2" }
-variable "nat_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "nat_gateway_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + NatGatewayResourceConfig,
+				Config: config + compartmentIdVariableStr + NatGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Update, natGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "block_traffic", "true"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -139,28 +136,10 @@ variable "nat_gateway_state" { default = "AVAILABLE" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "nat_gateway_block_traffic" { default = true }
-variable "nat_gateway_defined_tags_value" { default = "updatedValue" }
-variable "nat_gateway_display_name" { default = "displayName2" }
-variable "nat_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "nat_gateway_state" { default = "AVAILABLE" }
-
-data "oci_core_nat_gateways" "test_nat_gateways" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	display_name = "${var.nat_gateway_display_name}"
-	state = "${var.nat_gateway_state}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_nat_gateway.test_nat_gateway.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + NatGatewayResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_nat_gateways", "test_nat_gateways", Optional, Update, natGatewayDataSourceRepresentation) +
+					compartmentIdVariableStr + NatGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Optional, Update, natGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -182,18 +161,9 @@ data "oci_core_nat_gateways" "test_nat_gateways" {
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "nat_gateway_block_traffic" { default = true }
-variable "nat_gateway_defined_tags_value" { default = "updatedValue" }
-variable "nat_gateway_display_name" { default = "displayName2" }
-variable "nat_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "nat_gateway_state" { default = "AVAILABLE" }
-
-data "oci_core_nat_gateway" "test_nat_gateway" {
-	#Required
-	nat_gateway_id = "${oci_core_nat_gateway.test_nat_gateway.id}"
-}
-                ` + compartmentIdVariableStr + NatGatewayResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_nat_gateway", "test_nat_gateway", Required, Create, natGatewaySingularDataSourceRepresentation) +
+					compartmentIdVariableStr + NatGatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "nat_gateway_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
@@ -211,14 +181,7 @@ data "oci_core_nat_gateway" "test_nat_gateway" {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + `
-variable "nat_gateway_block_traffic" { default = true }
-variable "nat_gateway_defined_tags_value" { default = "updatedValue" }
-variable "nat_gateway_display_name" { default = "displayName2" }
-variable "nat_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "nat_gateway_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + NatGatewayResourceConfig,
+				Config: config + compartmentIdVariableStr + NatGatewayResourceConfig,
 			},
 			// verify resource import
 			{

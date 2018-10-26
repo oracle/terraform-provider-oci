@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_idp_group_mappings"
+page_title: "Oracle Cloud Infrastructure: oci_identity_idp_group_mappings"
 sidebar_current: "docs-oci-datasource-identity-idp_group_mappings"
 description: |-
-  Provides a list of IdpGroupMappings
+  Provides the list of Idp Group Mappings in Oracle Cloud Infrastructure Identity service
 ---
 
 # Data Source: oci_identity_idp_group_mappings
-The `oci_identity_idp_group_mappings` data source allows access to the list of OCI idp_group_mappings
+This data source provides the list of Idp Group Mappings in Oracle Cloud Infrastructure Identity service.
 
 Lists the group mappings for the specified identity provider.
 

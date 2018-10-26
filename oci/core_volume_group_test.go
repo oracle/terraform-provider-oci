@@ -13,91 +13,62 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	VolumeGroupRequiredOnlyResource = VolumeGroupResourceDependencies + `
-resource "oci_core_volume_group" "test_volume_group" {
-	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	compartment_id = "${var.compartment_id}"
-	source_details {
-		#Required
-		type = "${var.volume_group_source_details_type}"
-		volume_ids = ["${oci_core_volume.source_volume_list.*.id}"]
-	}
-}
-`
-	VolumeGroupSourceDetailsConfig = `
-	source_details {
-		#Required
-		type = "${var.volume_group_source_details_type}"
-		volume_ids = ["${oci_core_volume.source_volume_list.*.id}"]
-	}
-`
-	VolumeGroupSourceDetailsConfigJumbledVolumeIds = `
-	source_details {
-		#Required
-		type = "${var.volume_group_source_details_type}"
-		volume_ids = ["${oci_core_volume.source_volume_list.*.id[1]}", "${oci_core_volume.source_volume_list.*.id[0]}"]
-	}
-`
-	VolumeGroupSourceDetailsConfigSingleVolumeIdSourceDetails = `
-	source_details {
-		#Required
-		type = "${var.volume_group_source_details_type}"
-		volume_ids = ["${oci_core_volume.source_volume_list.*.id[1]}"]
-	}
-`
-	VolumeGroupResourceConfig = VolumeGroupResourceDependencies + `
-resource "oci_core_volume_group" "test_volume_group" {
-	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	compartment_id = "${var.compartment_id}"
-` + VolumeGroupSourceDetailsConfig + `
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_group_defined_tags_value}")}"
-	display_name = "${var.volume_group_display_name}"
-	freeform_tags = "${var.volume_group_freeform_tags}"
-}
-`
-	VolumeGroupResourceConfigJumbledVolumeIds = VolumeGroupResourceDependencies + `
-resource "oci_core_volume_group" "test_volume_group" {
-	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	compartment_id = "${var.compartment_id}"
-` + VolumeGroupSourceDetailsConfigJumbledVolumeIds + `
-	#Optional
-	display_name = "${var.volume_group_display_name}"
-}
-`
-	VolumeGroupResourceConfigSingleVolumeId = VolumeGroupResourceDependencies + `
-resource "oci_core_volume_group" "test_volume_group" {
-	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	compartment_id = "${var.compartment_id}"
-` + VolumeGroupSourceDetailsConfigSingleVolumeIdSourceDetails + `
-	#Optional
-	display_name = "${var.volume_group_display_name}"
-}
-`
-	VolumeGroupPropertyVariables = `
-variable "volume_group_defined_tags_value" { default = "value" }
-variable "volume_group_display_name" { default = "displayName" }
-variable "volume_group_freeform_tags" { default = {"Department"= "Finance"} }
-variable "volume_group_source_details_type" { default = "volumeIds" }
-variable "volume_group_state" { default = "AVAILABLE" }
+var (
+	VolumeGroupRequiredOnlyResource = VolumeGroupRequiredOnlyResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation)
 
-`
-	VolumeGroupResourceDependencies = DefinedTagsDependencies + `
-data "oci_identity_availability_domains" "ADs" {
-	compartment_id = "${var.compartment_id}"
-}
+	VolumeGroupResourceConfig = VolumeGroupResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Create, volumeGroupRepresentation)
 
+	volumeGroupDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"state":               Representation{repType: Optional, create: `AVAILABLE`},
+		"filter":              RepresentationGroup{Required, volumeGroupDataSourceFilterRepresentation}}
+	volumeGroupDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_volume_group.test_volume_group.id}`}},
+	}
+
+	volumeGroupRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"source_details":      RepresentationGroup{Required, volumeGroupSourceDetailsRepresentation},
+		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
+	volumeGroupSourceDetailsRepresentation = map[string]interface{}{
+		"type":       Representation{repType: Required, create: `volumeIds`},
+		"volume_ids": Representation{repType: Required, create: []string{`${oci_core_volume.source_volume_list.*.id}`}},
+	}
+	sourceDetailsJumbledVolumeIdsRepresentation = map[string]interface{}{
+		"type":       Representation{repType: Required, create: `volumeIds`},
+		"volume_ids": Representation{repType: Required, create: []string{`${oci_core_volume.source_volume_list.*.id[1]}`, `${oci_core_volume.source_volume_list.*.id[0]}`}},
+	}
+	sourceDetailsSingleVolumeIdSourceDetailsRepresentation = map[string]interface{}{
+		"type":       Representation{repType: Required, create: `volumeIds`},
+		"volume_ids": Representation{repType: Required, create: []string{`${oci_core_volume.source_volume_list.*.id[1]}`}},
+	}
+
+	VolumeGroupResourceConfigJumbledVolumeIds = VolumeGroupResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create,
+			getUpdatedRepresentationCopy("source_details", RepresentationGroup{Required, sourceDetailsJumbledVolumeIdsRepresentation}, volumeGroupRepresentation))
+
+	VolumeGroupResourceConfigSingleVolumeId = VolumeGroupResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create,
+			getUpdatedRepresentationCopy("source_details", RepresentationGroup{Required, sourceDetailsSingleVolumeIdSourceDetailsRepresentation}, volumeGroupRepresentation))
+
+	VolumeGroupResourceDependencies             = DefinedTagsDependencies + VolumeGroupRequiredOnlyResourceDependencies
+	VolumeGroupRequiredOnlyResourceDependencies = AvailabilityDomainConfig + VolumeGroupAsDependency
+	VolumeGroupAsDependency                     = generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation) + `
 resource "oci_core_volume" "source_volume_list" {
 	count = 2
 	display_name = "${format("source-volume-%d", count.index + 1)}"
 
 	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 }
 `
@@ -124,7 +95,8 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + VolumeGroupPropertyVariables + compartmentIdVariableStr + VolumeGroupRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + VolumeGroupRequiredOnlyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -142,7 +114,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 			// group id property populated correctly. Since the TF framework doesn't have a RefreshOnly directive, we are
 			// using PlanOnly to trigger a refresh, and then assert on the value
 			{
-				Config:   config + VolumeGroupPropertyVariables + compartmentIdVariableStr + VolumeGroupRequiredOnlyResource,
+				Config:   config + compartmentIdVariableStr + VolumeGroupRequiredOnlyResource,
 				PlanOnly: true,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet("oci_core_volume.source_volume_list.0", "volume_group_id"),
@@ -154,7 +126,8 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + VolumeGroupPropertyVariables + compartmentIdVariableStr + VolumeGroupResourceConfig,
+				Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Create, volumeGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -177,15 +150,8 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "volume_group_availability_domain" { default = "availabilityDomain" }
-variable "volume_group_defined_tags_value" { default = "updatedValue" }
-variable "volume_group_display_name" { default = "displayName2" }
-variable "volume_group_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_group_source_details_type" { default = "volumeIds" }
-variable "volume_group_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + VolumeGroupResourceConfig,
+				Config: config + compartmentIdVariableStr + VolumeGroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Update, volumeGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -210,50 +176,22 @@ variable "volume_group_state" { default = "AVAILABLE" }
 			},
 			// verify that the change in order of the volume ids doesn't result in a new resource
 			{
-				Config: config + `
-variable "volume_group_display_name" { default = "displayName2" }
-variable "volume_group_source_details_type" { default = "volumeIds" }
-variable "volume_group_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + VolumeGroupResourceConfigJumbledVolumeIds,
+				Config:             config + compartmentIdVariableStr + VolumeGroupResourceConfigJumbledVolumeIds,
 				PlanOnly:           true,
 				ExpectNonEmptyPlan: false,
 			},
 			// verify that the change in list of volume ids does cause a change in the plan
 			{
-				Config: config + `
-variable "volume_group_display_name" { default = "displayName2" }
-variable "volume_group_source_details_type" { default = "volumeIds" }
-variable "volume_group_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + VolumeGroupResourceConfigSingleVolumeId,
+				Config:             config + compartmentIdVariableStr + VolumeGroupResourceConfigSingleVolumeId,
 				PlanOnly:           true,
 				ExpectNonEmptyPlan: true,
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "volume_group_defined_tags_value" { default = "updatedValue" }
-variable "volume_group_display_name" { default = "displayName2" }
-variable "volume_group_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_group_source_details_type" { default = "volumeIds" }
-variable "volume_group_state" { default = "AVAILABLE" }
-
-data "oci_core_volume_groups" "test_volume_groups" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	display_name = "${var.volume_group_display_name}"
-	state = "${var.volume_group_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_volume_group.test_volume_group.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + VolumeGroupResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_volume_groups", "test_volume_groups", Optional, Update, volumeGroupDataSourceRepresentation) +
+					compartmentIdVariableStr + VolumeGroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Optional, Update, volumeGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

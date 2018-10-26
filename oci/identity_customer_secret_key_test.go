@@ -13,19 +13,21 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-const (
-	CustomerSecretKeyResourceConfig = CustomerSecretKeyResourceDependencies + `
-resource "oci_identity_customer_secret_key" "test_customer_secret_key" {
-	#Required
-	display_name = "${var.customer_secret_key_display_name}"
-	user_id = "${oci_identity_user.test_user.id}"
-}
-`
-	CustomerSecretKeyPropertyVariables = `
-variable "customer_secret_key_display_name" { default = "displayName" }
+var (
+	customerSecretKeyDataSourceRepresentation = map[string]interface{}{
+		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+		"filter":  RepresentationGroup{Required, customerSecretKeyDataSourceFilterRepresentation}}
+	customerSecretKeyDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_customer_secret_key.test_customer_secret_key.id}`}},
+	}
 
-`
-	CustomerSecretKeyResourceDependencies = UserPropertyVariables + UserResourceConfig
+	customerSecretKeyRepresentation = map[string]interface{}{
+		"display_name": Representation{repType: Required, create: `displayName`, update: `displayName2`},
+		"user_id":      Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+	}
+
+	CustomerSecretKeyResourceDependencies = UserRequiredOnlyResource
 )
 
 func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
@@ -49,7 +51,8 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + CustomerSecretKeyPropertyVariables + compartmentIdVariableStr + CustomerSecretKeyResourceConfig,
+				Config: config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Required, Create, customerSecretKeyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -69,10 +72,8 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "customer_secret_key_display_name" { default = "displayName2" }
-
-                ` + compartmentIdVariableStr + CustomerSecretKeyResourceConfig,
+				Config: config + compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
@@ -88,19 +89,10 @@ variable "customer_secret_key_display_name" { default = "displayName2" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "customer_secret_key_display_name" { default = "displayName2" }
-
-data "oci_identity_customer_secret_keys" "test_customer_secret_keys" {
-	#Required
-	user_id = "${oci_identity_user.test_user.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_customer_secret_key.test_customer_secret_key.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + CustomerSecretKeyResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_customer_secret_keys", "test_customer_secret_keys", Optional, Update, customerSecretKeyDataSourceRepresentation) +
+					compartmentIdVariableStr + CustomerSecretKeyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_customer_secret_key", "test_customer_secret_key", Optional, Update, customerSecretKeyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 

@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_load_balancer_backend"
+page_title: "Oracle Cloud Infrastructure: oci_load_balancer_backend"
 sidebar_current: "docs-oci-resource-load_balancer-backend"
 description: |-
-  Creates and manages an OCI Backend
+  Provides the Backend resource in Oracle Cloud Infrastructure Load Balancer service
 ---
 
 # oci_load_balancer_backend
-The `oci_load_balancer_backend` resource creates and manages an OCI Backend
+This resource provides the Backend resource in Oracle Cloud Infrastructure Load Balancer service.
 
 Adds a backend server to a backend set.
 
@@ -37,10 +37,10 @@ The following arguments are supported:
 * `backup` - (Optional) (Updatable) Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.  Example: `false` 
 * `drain` - (Optional) (Updatable) Whether the load balancer should drain this server. Servers marked "drain" receive no new incoming traffic.  Example: `false` 
 * `ip_address` - (Required) The IP address of the backend server.  Example: `10.0.0.3` 
-* `load_balancer_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend set and servers.
+* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend set and servers.
 * `offline` - (Optional) (Updatable) Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
 * `port` - (Required) The communication port for the backend server.  Example: `8080` 
-* `weight` - (Optional) (Updatable) The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
+* `weight` - (Optional) (Updatable) The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
 
 
 ** IMPORTANT **
@@ -57,7 +57,7 @@ The following attributes are exported:
 * `name` - A read-only field showing the IP address and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080` 
 * `offline` - Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
 * `port` - The communication port for the backend server.  Example: `8080` 
-* `weight` - The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
+* `weight` - The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
 
 ## Import
 
@@ -66,3 +66,4 @@ Backends can be imported using the `id`, e.g.
 ```
 $ terraform import oci_load_balancer_backend.test_backend "loadBalancers/{loadBalancerId}/backendSets/{backendSetName}/backends/{backendName}" 
 ```
+

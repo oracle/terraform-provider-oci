@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_load_balancer_shapes"
+page_title: "Oracle Cloud Infrastructure: oci_load_balancer_shapes"
 sidebar_current: "docs-oci-datasource-load_balancer-shapes"
 description: |-
-  Provides a list of LoadBalancerShapes
+  Provides the list of Load Balancer Shapes in Oracle Cloud Infrastructure Load Balancer service
 ---
 
 # Data Source: oci_load_balancer_shapes
-The `oci_load_balancer_shapes` data source allows access to the list of OCI load_balancer_shapes
+This data source provides the list of Load Balancer Shapes in Oracle Cloud Infrastructure Load Balancer service.
 
 Lists the valid load balancer shapes.
 
@@ -24,7 +24,7 @@ data "oci_load_balancer_shapes" "test_load_balancer_shapes" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancer shapes to list.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancer shapes to list.
 
 
 ## Attributes Reference

@@ -1,16 +1,16 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_volume_group_backups"
+page_title: "Oracle Cloud Infrastructure: oci_core_volume_group_backups"
 sidebar_current: "docs-oci-datasource-core-volume_group_backups"
 description: |-
-  Provides a list of VolumeGroupBackups
+  Provides the list of Volume Group Backups in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_volume_group_backups
-The `oci_core_volume_group_backups` data source allows access to the list of OCI volume_group_backups
+This data source provides the list of Volume Group Backups in Oracle Cloud Infrastructure Core service.
 
 Lists the volume group backups in the specified compartment. You can filter the results by volume group.
-For more information, see [Volume Groups](https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/volumegroups.htm).
+For more information, see [Volume Groups](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 
 
 ## Example Usage
@@ -46,9 +46,9 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains the volume group backup.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the volume group backup. Does not have to be unique and it's changeable. Avoid entering confidential information.
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the volume group backup.
 * `size_in_gbs` - The aggregate size of the volume group backup, in GBs. 
 * `size_in_mbs` - The aggregate size of the volume group backup, in MBs. 

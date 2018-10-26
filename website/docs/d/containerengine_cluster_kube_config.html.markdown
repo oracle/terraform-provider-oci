@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_containerengine_cluster_kube_config"
+page_title: "Oracle Cloud Infrastructure: oci_containerengine_cluster_kube_config"
 sidebar_current: "docs-oci-datasource-containerengine-cluster_kube_config"
 description: |-
-  Provides details about a specific ClusterKubeConfig
+  Provides details about a specific Cluster Kube Config in Oracle Cloud Infrastructure Container Engine service
 ---
 
 # Data Source: oci_containerengine_cluster_kube_config
-The `oci_containerengine_cluster_kube_config` data source provides details about a specific ClusterKubeConfig
+This data source provides details about a specific Cluster Kube Config resource in Oracle Cloud Infrastructure Container Engine service.
 
 
 

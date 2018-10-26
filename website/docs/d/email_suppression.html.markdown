@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_email_suppression"
+page_title: "Oracle Cloud Infrastructure: oci_email_suppression"
 sidebar_current: "docs-oci-datasource-email-suppression"
 description: |-
-  Provides details about a specific Suppression
+  Provides details about a specific Suppression in Oracle Cloud Infrastructure Email service
 ---
 
 # Data Source: oci_email_suppression
-The `oci_email_suppression` data source provides details about a specific Suppression
+This data source provides details about a specific Suppression resource in Oracle Cloud Infrastructure Email service.
 
 Gets the details of a suppressed recipient email address for a given
 `suppressionId`. Each suppression is given a unique OCID.
@@ -35,6 +35,6 @@ The following attributes are exported:
 
 * `email_address` - The email address of the suppression.
 * `id` - The unique OCID of the suppression.
-* `reason` - The reason that the email address was suppressed. For more information on the types of bounces, see [Suppresion List](https://docs.us-phoenix-1.oraclecloud.com/Content/Email/Concepts/emaildeliveryoverview.htm#suppressionlist).
+* `reason` - The reason that the email address was suppressed. For more information on the types of bounces, see [Suppresion List](https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/emaildeliveryoverview.htm#suppressionlist).
 * `time_created` - The date and time a recipient's email address was added to the suppression list, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339. 
 

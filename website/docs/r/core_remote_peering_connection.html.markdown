@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_remote_peering_connection"
+page_title: "Oracle Cloud Infrastructure: oci_core_remote_peering_connection"
 sidebar_current: "docs-oci-resource-core-remote_peering_connection"
 description: |-
-  Creates and manages an OCI RemotePeeringConnection
+  Provides the Remote Peering Connection resource in Oracle Cloud Infrastructure Core service
 ---
 
 # oci_core_remote_peering_connection
-The `oci_core_remote_peering_connection` resource creates and manages an OCI RemotePeeringConnection
+This resource provides the Remote Peering Connection resource in Oracle Cloud Infrastructure Core service.
 
 Creates a new remote peering connection (RPC) for the specified DRG.
 
@@ -68,3 +68,4 @@ RemotePeeringConnections can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_remote_peering_connection.test_remote_peering_connection "id"
 ```
+
