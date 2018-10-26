@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_dns_record"
+page_title: "Oracle Cloud Infrastructure: oci_dns_record"
 sidebar_current: "docs-oci-resource-dns-record"
 description: |-
-  Creates and manages an OCI DnsRecord
+  Provides the Record resource in Oracle Cloud Infrastructure Dns service
 ---
 
 # oci_dns_record
-The `oci_dns_record` resource creates and manages an OCI DnsRecord
+This resource provides the Record resource in Oracle Cloud Infrastructure Dns service.
 
 Replaces records in the specified zone with the records specified in the
 request body. If a specified record does not exist, it will be created.
@@ -60,3 +60,4 @@ The following attributes are exported:
 * `rtype` - The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
 * `ttl` - The Time To Live for the record, in seconds.
 * `zone_name_or_id` - The name or OCID of the target zone.
+

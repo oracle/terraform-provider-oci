@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_containerengine_cluster"
+page_title: "Oracle Cloud Infrastructure: oci_containerengine_cluster"
 sidebar_current: "docs-oci-resource-containerengine-cluster"
 description: |-
-  Creates and manages an OCI Cluster
+  Provides the Cluster resource in Oracle Cloud Infrastructure Container Engine service
 ---
 
 # oci_containerengine_cluster
-The `oci_containerengine_cluster` resource creates and manages an OCI Cluster
+This resource provides the Cluster resource in Oracle Cloud Infrastructure Container Engine service.
 
 Create a new cluster.
 
@@ -103,3 +103,4 @@ Clusters can be imported using the `id`, e.g.
 ```
 $ terraform import oci_containerengine_cluster.test_cluster "id"
 ```
+

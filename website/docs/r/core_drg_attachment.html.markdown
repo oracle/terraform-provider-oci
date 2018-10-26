@@ -1,25 +1,25 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_drg_attachment"
+page_title: "Oracle Cloud Infrastructure: oci_core_drg_attachment"
 sidebar_current: "docs-oci-resource-core-drg_attachment"
 description: |-
-  Creates and manages an OCI DrgAttachment
+  Provides the Drg Attachment resource in Oracle Cloud Infrastructure Core service
 ---
 
 # oci_core_drg_attachment
-The `oci_core_drg_attachment` resource creates and manages an OCI DrgAttachment
+This resource provides the Drg Attachment resource in Oracle Cloud Infrastructure Core service.
 
 Attaches the specified DRG to the specified VCN. A VCN can be attached to only one DRG at a time,
 and vice versa. The response includes a `DrgAttachment` object with its own OCID. For more
 information about DRGs, see
-[Dynamic Routing Gateways (DRGs)](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingDRGs.htm).
+[Dynamic Routing Gateways (DRGs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
 
 You may optionally specify a *display name* for the attachment, otherwise a default is provided.
 It does not have to be unique, and you can change it. Avoid entering confidential information.
 
 For the purposes of access control, the DRG attachment is automatically placed into the same compartment
 as the VCN. For more information about compartments and access control, see
-[Overview of the IAM Service](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
+[Overview of the IAM Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 
 
 ## Example Usage
@@ -66,3 +66,4 @@ DrgAttachments can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_drg_attachment.test_drg_attachment "id"
 ```
+

@@ -10,15 +10,14 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	ShapeResourceConfig = ShapeResourceDependencies + `
+var (
+	shapeDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_domain": Representation{repType: Optional, create: `availabilityDomain`},
+		"image_id":            Representation{repType: Optional, create: `${oci_core_image.test_image.id}`},
+	}
 
-`
-	ShapePropertyVariables = `
-variable "shape_availability_domain" { default = "availabilityDomain" }
-
-`
-	ShapeResourceDependencies = ""
+	ShapeResourceConfig = ``
 )
 
 func TestCoreShapeResource_basic(t *testing.T) {
@@ -38,18 +37,9 @@ func TestCoreShapeResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-variable "shape_availability_domain" { default = "availabilityDomain" }
-
-data "oci_core_shapes" "test_shapes" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	#availability_domain = "${var.shape_availability_domain}"
-	#image_id = "${var.shape_image_id}"
-}
-                ` + compartmentIdVariableStr + ShapeResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
+					compartmentIdVariableStr + ShapeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//resource.TestCheckResourceAttr(datasourceName, "availability_domain", "availabilityDomain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

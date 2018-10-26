@@ -13,58 +13,47 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	ImageRequiredOnlyResource = ImageResourceDependencies + `
-resource "oci_core_image" "test_image" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	instance_id = "${oci_core_instance.test_instance.id}"
-	timeouts {
-		create = "30m"
+var (
+	ImageRequiredOnlyResource = ImageResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation)
+
+	imageDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":             Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
+		"operating_system":         Representation{repType: Optional, create: `operatingSystem`},
+		"operating_system_version": Representation{repType: Optional, create: `operatingSystemVersion`},
+		"shape":                    Representation{repType: Optional, create: `shape`},
+		"state":                    Representation{repType: Optional, create: `AVAILABLE`},
+		"filter":                   RepresentationGroup{Required, imageDataSourceFilterRepresentation}}
+	imageDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_image.test_image.id}`}},
 	}
-}
-`
 
-	ImageResourceConfig = ImageResourceDependencies + `
-data "oci_objectstorage_namespace" "t" {
-}
-resource "oci_core_image" "test_image" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.image_defined_tags_value}")}"
-	display_name = "${var.image_display_name}"
-	freeform_tags = "${var.image_freeform_tags}"
-	image_source_details {
-		#Required
-		source_type = "${var.image_image_source_details_source_type}"
-
-		#Optional
-		source_image_type = "${var.image_image_source_details_source_image_type}"
-		namespace_name = "${data.oci_objectstorage_namespace.t.namespace}"
-		bucket_name = "test-artifacts"
-		object_name = "test-image-export"
+	imageRepresentation = map[string]interface{}{
+		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
+		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":         Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
+		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"image_source_details": RepresentationGroup{Optional, imageImageSourceDetailsRepresentation},
+		"instance_id":          Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"launch_mode":          Representation{repType: Optional, create: `NATIVE`},
+		"timeouts":             RepresentationGroup{Required, timeoutsRepresentation},
 	}
-	launch_mode = "${var.image_launch_mode}"
-	timeouts {
-		create = "30m"
+	imageImageSourceDetailsRepresentation = map[string]interface{}{
+		"source_type":       Representation{repType: Required, create: `objectStorageTuple`},
+		"bucket_name":       Representation{repType: Optional, create: `MyBucket`},
+		"namespace_name":    Representation{repType: Optional, create: `MyNamespace`},
+		"object_name":       Representation{repType: Optional, create: `image-to-import.qcow2`},
+		"source_image_type": Representation{repType: Optional, create: `QCOW2`},
+		"source_uri":        Representation{repType: Optional, create: `https://objectstorage.us-phoenix-1.oraclecloud.com/n/MyNamespace/b/MyBucket/o/image-to-import.qcow2`},
 	}
-}
-`
-	ImagePropertyVariables = `
-variable "image_defined_tags_value" { default = "value" }
-variable "image_display_name" { default = "MyCustomImage" }
-variable "image_freeform_tags" { default = {"Department"= "Finance"} }
-variable "image_image_source_details_source_image_type" { default = "QCOW2" }
-variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
-variable "image_launch_mode" { default = "NATIVE" }
-variable "image_operating_system" { default = "operatingSystem" }
-variable "image_operating_system_version" { default = "operatingSystemVersion" }
-variable "image_state" { default = "AVAILABLE" }
 
-`
-	ImageResourceDependencies = DefinedTagsDependencies + InstancePropertyVariables + InstanceResourceAsDependencyConfig
+	timeoutsRepresentation = map[string]interface{}{
+		"create": Representation{repType: Required, create: `30m`},
+	}
+
+	ImageResourceDependencies = InstanceRequiredOnlyResource
 )
 
 func TestCoreImageResource_basic(t *testing.T) {
@@ -89,7 +78,8 @@ func TestCoreImageResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + ImagePropertyVariables + compartmentIdVariableStr + ImageRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + ImageResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
@@ -107,7 +97,8 @@ func TestCoreImageResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + ImagePropertyVariables + compartmentIdVariableStr + ImageResourceConfig,
+				Config: config + compartmentIdVariableStr + ImageResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Create, imageRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
@@ -133,18 +124,8 @@ func TestCoreImageResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "image_defined_tags_value" { default = "updatedValue" }
-variable "image_display_name" { default = "displayName2" }
-variable "image_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "image_image_source_details_source_image_type" { default = "QCOW2" }
-variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
-variable "image_launch_mode" { default = "NATIVE" }
-variable "image_operating_system" { default = "operatingSystem" }
-variable "image_operating_system_version" { default = "operatingSystemVersion" }
-variable "image_state" { default = "AVAILABLE" }
-
-               ` + compartmentIdVariableStr + ImageResourceConfig,
+				Config: config + compartmentIdVariableStr + ImageResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "create_image_allowed"),
@@ -172,31 +153,10 @@ variable "image_state" { default = "AVAILABLE" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "image_defined_tags_value" { default = "updatedValue" }
-variable "image_display_name" { default = "displayName2" }
-variable "image_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "image_image_source_details_source_image_type" { default = "QCOW2" }
-variable "image_image_source_details_source_type" { default = "objectStorageTuple" }
-variable "image_launch_mode" { default = "NATIVE" }
-variable "image_operating_system" { default = "operatingSystem" }
-variable "image_operating_system_version" { default = "operatingSystemVersion" }
-variable "image_state" { default = "AVAILABLE" }
-
-data "oci_core_images" "test_images" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	display_name = "${var.image_display_name}"
-	state = "${var.image_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_image.test_image.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + ImageResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_images", "test_images", Optional, Update, imageDataSourceRepresentation) +
+					compartmentIdVariableStr + ImageResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_image", "test_image", Optional, Update, imageRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

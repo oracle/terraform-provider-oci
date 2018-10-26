@@ -4,22 +4,20 @@ package provider
 
 import (
 	"fmt"
-	"testing"
-
 	"regexp"
+	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	FaultDomainResourceConfig = FaultDomainResourceDependencies + `
+var (
+	faultDomainDataSourceRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+	}
 
-`
-	FaultDomainPropertyVariables = `
-
-`
-	FaultDomainResourceDependencies = AvailabilityDomainConfig
+	FaultDomainResourceConfig = ""
 )
 
 func TestIdentityFaultDomainResource_basic(t *testing.T) {
@@ -39,14 +37,9 @@ func TestIdentityFaultDomainResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_identity_fault_domains" "test_fault_domains" {
-	#Required
-	availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
-	compartment_id = "${var.compartment_id}"
-}
-                ` + compartmentIdVariableStr + FaultDomainResourceConfig,
+				Config: config + AvailabilityDomainConfig +
+					generateDataSourceFromRepresentationMap("oci_identity_fault_domains", "test_fault_domains", Required, Create, faultDomainDataSourceRepresentation) +
+					compartmentIdVariableStr + FaultDomainResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestMatchResourceAttr(datasourceName, "availability_domain", regexp.MustCompile(`\w+-AD-\d+`)),
 					resource.TestMatchResourceAttr(datasourceName, "compartment_id", regexp.MustCompile(`.*?(tenancy|compartment).*?`)),

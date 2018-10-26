@@ -13,36 +13,30 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	VolumeAttachmentRequiredOnlyResource = VolumeAttachmentResourceDependencies + `
-resource "oci_core_volume_attachment" "test_volume_attachment" {
-	#Required
-	attachment_type = "${var.volume_attachment_attachment_type}"
-	instance_id = "${oci_core_instance.test_instance.id}"
-	volume_id = "${oci_core_volume.test_volume.id}"
-}
-`
+var (
+	VolumeAttachmentRequiredOnlyResource = VolumeAttachmentResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Required, Create, volumeAttachmentRepresentation)
 
-	VolumeAttachmentResourceConfig = VolumeAttachmentResourceDependencies + `
-resource "oci_core_volume_attachment" "test_volume_attachment" {
-	#Required
-	attachment_type = "${var.volume_attachment_attachment_type}"
-	instance_id = "${oci_core_instance.test_instance.id}"
-	volume_id = "${oci_core_volume.test_volume.id}"
+	volumeAttachmentDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.ADs.availability_domains.0.name}`},
+		"instance_id":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
+		"volume_id":           Representation{repType: Optional, create: `${oci_core_volume.test_volume.id}`},
+		"filter":              RepresentationGroup{Required, volumeAttachmentDataSourceFilterRepresentation}}
+	volumeAttachmentDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_volume_attachment.test_volume_attachment.id}`}},
+	}
 
-	#Optional
-	display_name = "${var.volume_attachment_display_name}"
-	is_read_only = "${var.volume_attachment_is_read_only}"
-}
-`
-	VolumeAttachmentPropertyVariables = `
-variable "volume_attachment_attachment_type" { default = "iscsi" }
-variable "volume_attachment_availability_domain" { default = "availabilityDomain" }
-variable "volume_attachment_display_name" { default = "displayName" }
-variable "volume_attachment_is_read_only" { default = false }
+	volumeAttachmentRepresentation = map[string]interface{}{
+		"attachment_type": Representation{repType: Required, create: `iscsi`},
+		"instance_id":     Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"volume_id":       Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
+		"display_name":    Representation{repType: Optional, create: `displayName`},
+		"is_read_only":    Representation{repType: Optional, create: `false`},
+	}
 
-`
-	VolumeAttachmentResourceDependencies = InstancePropertyVariables + InstanceResourceAsDependencyConfig + VolumePropertyVariables + VolumeResourceConfig
+	VolumeAttachmentResourceDependencies = InstanceRequiredOnlyResource + VolumeRequiredOnlyResource
 )
 
 func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
@@ -64,7 +58,8 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + VolumeAttachmentPropertyVariables + compartmentIdVariableStr + VolumeAttachmentRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Required, Create, volumeAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
@@ -78,7 +73,8 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + VolumeAttachmentPropertyVariables + compartmentIdVariableStr + VolumeAttachmentResourceConfig,
+				Config: config + compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Create, volumeAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -95,27 +91,10 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + `
-variable "volume_attachment_attachment_type" { default = "iscsi" }
-variable "volume_attachment_availability_domain" { default = "availabilityDomain" }
-variable "volume_attachment_display_name" { default = "displayName" }
-variable "volume_attachment_is_read_only" { default = false }
-
-data "oci_core_volume_attachments" "test_volume_attachments" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	instance_id = "${oci_core_instance.test_instance.id}"
-	volume_id = "${oci_core_volume.test_volume.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_volume_attachment.test_volume_attachment.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + VolumeAttachmentResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_volume_attachments", "test_volume_attachments", Optional, Update, volumeAttachmentDataSourceRepresentation) +
+					compartmentIdVariableStr + VolumeAttachmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", Optional, Update, volumeAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

@@ -13,7 +13,7 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-const (
+var (
 	ObjectLifecyclePolicyRequiredOnlyResource = ObjectLifecyclePolicyResourceDependencies + `
 resource "oci_objectstorage_object_lifecycle_policy" "test_object_lifecycle_policy" {
 	#Required
@@ -57,7 +57,7 @@ variable "object_lifecycle_policy_rules_time_amount" { default = 10 }
 variable "object_lifecycle_policy_rules_time_unit" { default = "DAYS" }
 
 `
-	ObjectLifecyclePolicyResourceDependencies = BucketPropertyVariables + BucketRequiredOnlyResource
+	ObjectLifecyclePolicyResourceDependencies = BucketRequiredOnlyResource
 )
 
 func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {

@@ -13,47 +13,41 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-const (
-	AutonomousDataWarehouseRequiredOnlyResource = AutonomousDataWarehouseResourceDependencies + `
-resource "oci_database_autonomous_data_warehouse" "test_autonomous_data_warehouse" {
-	#Required
-	admin_password = "${var.autonomous_data_warehouse_admin_password}"
-	compartment_id = "${var.compartment_id}"
-	cpu_core_count = "${var.autonomous_data_warehouse_cpu_core_count}"
-	data_storage_size_in_tbs = "${var.autonomous_data_warehouse_data_storage_size_in_tbs}"
-	db_name = "${var.autonomous_data_warehouse_db_name}"
-}
-`
+var (
+	AutonomousDataWarehouseRequiredOnlyResource = AutonomousDataWarehouseResourceDependencies +
+		generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse", "test_autonomous_data_warehouse", Required, Create, autonomousDataWarehouseRepresentation)
 
-	AutonomousDataWarehouseResourceConfig = AutonomousDataWarehouseResourceDependencies + `
-resource "oci_database_autonomous_data_warehouse" "test_autonomous_data_warehouse" {
-	#Required
-	admin_password = "${var.autonomous_data_warehouse_admin_password}"
-	compartment_id = "${var.compartment_id}"
-	cpu_core_count = "${var.autonomous_data_warehouse_cpu_core_count}"
-	data_storage_size_in_tbs = "${var.autonomous_data_warehouse_data_storage_size_in_tbs}"
-	db_name = "${var.autonomous_data_warehouse_db_name}"
+	AutonomousDataWarehouseResourceConfig = AutonomousDataWarehouseResourceDependencies +
+		generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse", "test_autonomous_data_warehouse", Optional, Update, autonomousDataWarehouseRepresentation)
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.autonomous_data_warehouse_defined_tags_value}")}"
-	display_name = "${var.autonomous_data_warehouse_display_name}"
-	freeform_tags = "${var.autonomous_data_warehouse_freeform_tags}"
-	license_model = "${var.autonomous_data_warehouse_license_model}"
-}
-`
+	autonomousDataWarehouseSingularDataSourceRepresentation = map[string]interface{}{
+		"autonomous_data_warehouse_id": Representation{repType: Required, create: `${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}`},
+	}
 
-	AutonomousDataWarehousePropertyVariables = `
-variable "autonomous_data_warehouse_admin_password" { default = "BEstrO0ng_#11" }
-variable "autonomous_data_warehouse_cpu_core_count" { default = 1 }
-variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 1 }
-variable "autonomous_data_warehouse_db_name" { default = "adwdb1" }
-variable "autonomous_data_warehouse_defined_tags_value" { default = "value" }
-variable "autonomous_data_warehouse_display_name" { default = "example_autonomous_data_warehouse" }
-variable "autonomous_data_warehouse_freeform_tags" { default = { Department = "Finance"} }
-variable "autonomous_data_warehouse_license_model" { default = "LICENSE_INCLUDED" }
-variable "autonomous_data_warehouse_state" { default = "AVAILABLE" }
+	autonomousDataWarehouseDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Optional, create: `example_autonomous_data_warehouse`, update: `displayName2`},
+		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"filter":         RepresentationGroup{Required, autonomousDataWarehouseDataSourceFilterRepresentation}}
+	autonomousDataWarehouseDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}`}},
+	}
 
-`
+	adwName = GenerateTestResourceName("adw", 14)
+
+	autonomousDataWarehouseRepresentation = map[string]interface{}{
+		"admin_password":           Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
+		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
+		"cpu_core_count":           Representation{repType: Required, create: `1`},
+		"data_storage_size_in_tbs": Representation{repType: Required, create: `1`},
+		"db_name":                  Representation{repType: Required, create: adwName},
+		"defined_tags":             Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":             Representation{repType: Optional, create: `example_autonomous_data_warehouse`, update: `displayName2`},
+		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"license_model":            Representation{repType: Optional, create: `LICENSE_INCLUDED`},
+	}
+
 	AutonomousDataWarehouseResourceDependencies = DefinedTagsDependencies
 )
 
@@ -68,9 +62,6 @@ func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 	datasourceName := "data.oci_database_autonomous_data_warehouses.test_autonomous_data_warehouses"
 	singularDatasourceName := "data.oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse"
 
-	testResourceName := GenerateTestResourceName("adwdb1", 14)
-	setEnvSetting("TF_VAR_autonomous_data_warehouse_db_name", testResourceName)
-
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
@@ -82,13 +73,14 @@ func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + AutonomousDataWarehousePropertyVariables + compartmentIdVariableStr + AutonomousDataWarehouseRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + AutonomousDataWarehouseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse", "test_autonomous_data_warehouse", Required, Create, autonomousDataWarehouseRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", testResourceName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adwName),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -103,13 +95,14 @@ func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + AutonomousDataWarehousePropertyVariables + compartmentIdVariableStr + AutonomousDataWarehouseResourceConfig,
+				Config: config + compartmentIdVariableStr + AutonomousDataWarehouseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse", "test_autonomous_data_warehouse", Optional, Create, autonomousDataWarehouseRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", testResourceName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adwName),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_data_warehouse"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -126,24 +119,14 @@ func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "autonomous_data_warehouse_admin_password" { default = "BEstrO0ng_#12" }
-variable "autonomous_data_warehouse_cpu_core_count" { default = 1 }
-variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 1 }
-variable "autonomous_data_warehouse_db_name" { default = "adwdb1" }
-variable "autonomous_data_warehouse_defined_tags_value" { default = "updatedValue" }
-variable "autonomous_data_warehouse_display_name" { default = "displayName2" }
-variable "autonomous_data_warehouse_freeform_tags" { default = { Department = "Accounting"} }
-variable "autonomous_data_warehouse_license_model" { default = "LICENSE_INCLUDED" }
-variable "autonomous_data_warehouse_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + AutonomousDataWarehouseResourceConfig,
+				Config: config + compartmentIdVariableStr + AutonomousDataWarehouseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse", "test_autonomous_data_warehouse", Optional, Update, autonomousDataWarehouseRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", testResourceName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adwName),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -162,31 +145,10 @@ variable "autonomous_data_warehouse_state" { default = "AVAILABLE" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "autonomous_data_warehouse_admin_password" { default = "BEstrO0ng_#12" }
-variable "autonomous_data_warehouse_cpu_core_count" { default = 1 }
-variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 1 }
-variable "autonomous_data_warehouse_db_name" { default = "adwdb1" }
-variable "autonomous_data_warehouse_defined_tags_value" { default = "updatedValue" }
-variable "autonomous_data_warehouse_display_name" { default = "displayName2" }
-variable "autonomous_data_warehouse_freeform_tags" { default = { Department = "Accounting"} }
-variable "autonomous_data_warehouse_license_model" { default = "LICENSE_INCLUDED" }
-variable "autonomous_data_warehouse_state" { default = "AVAILABLE" }
-
-data "oci_database_autonomous_data_warehouses" "test_autonomous_data_warehouses" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	display_name = "${var.autonomous_data_warehouse_display_name}"
-	state = "${var.autonomous_data_warehouse_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + AutonomousDataWarehouseResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_autonomous_data_warehouses", "test_autonomous_data_warehouses", Optional, Update, autonomousDataWarehouseDataSourceRepresentation) +
+					compartmentIdVariableStr + AutonomousDataWarehouseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse", "test_autonomous_data_warehouse", Optional, Update, autonomousDataWarehouseRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -196,7 +158,7 @@ data "oci_database_autonomous_data_warehouses" "test_autonomous_data_warehouses"
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.db_name", testResourceName),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.db_name", adwName),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_data_warehouses.0.freeform_tags.%", "1"),
@@ -207,22 +169,9 @@ data "oci_database_autonomous_data_warehouses" "test_autonomous_data_warehouses"
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "autonomous_data_warehouse_admin_password" { default = "BEstrO0ng_#12" }
-variable "autonomous_data_warehouse_cpu_core_count" { default = 1 }
-variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 1 }
-variable "autonomous_data_warehouse_db_name" { default = "adwdb1" }
-variable "autonomous_data_warehouse_defined_tags_value" { default = "updatedValue" }
-variable "autonomous_data_warehouse_display_name" { default = "displayName2" }
-variable "autonomous_data_warehouse_freeform_tags" { default = { Department = "Accounting"} }
-variable "autonomous_data_warehouse_license_model" { default = "LICENSE_INCLUDED" }
-variable "autonomous_data_warehouse_state" { default = "AVAILABLE" }
-
-data "oci_database_autonomous_data_warehouse" "test_autonomous_data_warehouse" {
-	#Required
-	autonomous_data_warehouse_id = "${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}"
-}
-                ` + compartmentIdVariableStr + AutonomousDataWarehouseResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_autonomous_data_warehouse", "test_autonomous_data_warehouse", Required, Create, autonomousDataWarehouseSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + AutonomousDataWarehouseResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_data_warehouse_id"),
 
@@ -234,32 +183,20 @@ data "oci_database_autonomous_data_warehouse" "test_autonomous_data_warehouse" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_strings.0.medium"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", testResourceName),
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", adwName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "lifecycle_details"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + `
-variable "autonomous_data_warehouse_admin_password" { default = "BEstrO0ng_#12" }
-variable "autonomous_data_warehouse_cpu_core_count" { default = 1 }
-variable "autonomous_data_warehouse_data_storage_size_in_tbs" { default = 1 }
-variable "autonomous_data_warehouse_db_name" { default = "adwdb1" }
-variable "autonomous_data_warehouse_defined_tags_value" { default = "updatedValue" }
-variable "autonomous_data_warehouse_display_name" { default = "displayName2" }
-variable "autonomous_data_warehouse_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "autonomous_data_warehouse_license_model" { default = "LICENSE_INCLUDED" }
-variable "autonomous_data_warehouse_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + AutonomousDataWarehouseResourceConfig,
+				Config: config + compartmentIdVariableStr + AutonomousDataWarehouseResourceConfig,
 			},
 			// verify resource import
 			{

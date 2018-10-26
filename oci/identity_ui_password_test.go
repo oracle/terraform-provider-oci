@@ -10,17 +10,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	UiPasswordResourceConfig = UiPasswordResourceDependencies + `
-resource "oci_identity_ui_password" "test_ui_password" {
-	#Required
-	user_id = "${oci_identity_user.test_user.id}"
-}
-`
-	UiPasswordPropertyVariables = `
+var (
+	uiPasswordRepresentation = map[string]interface{}{
+		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+	}
 
-`
-	UiPasswordResourceDependencies = UserPropertyVariables + UserResourceConfig
+	UiPasswordResourceDependencies = UserRequiredOnlyResource
 )
 
 func TestIdentityUiPasswordResource_basic(t *testing.T) {
@@ -40,7 +35,8 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + UiPasswordPropertyVariables + compartmentIdVariableStr + UiPasswordResourceConfig,
+				Config: config + compartmentIdVariableStr + UiPasswordResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 				),

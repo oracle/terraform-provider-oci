@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_database_db_system_shapes"
+page_title: "Oracle Cloud Infrastructure: oci_database_db_system_shapes"
 sidebar_current: "docs-oci-datasource-database-db_system_shapes"
 description: |-
-  Provides a list of DbSystemShapes
+  Provides the list of Db System Shapes in Oracle Cloud Infrastructure Database service
 ---
 
 # Data Source: oci_database_db_system_shapes
-The `oci_database_db_system_shapes` data source allows access to the list of OCI db_system_shapes
+This data source provides the list of Db System Shapes in Oracle Cloud Infrastructure Database service.
 
 Gets a list of the shapes that can be used to launch a new DB system. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.
 
@@ -26,7 +26,7 @@ data "oci_database_db_system_shapes" "test_db_system_shapes" {
 The following arguments are supported:
 
 * `availability_domain` - (Required) The name of the Availability Domain.
-* `compartment_id` - (Required) The compartment [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+* `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
 ## Attributes Reference

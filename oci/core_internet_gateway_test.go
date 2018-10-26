@@ -13,38 +13,31 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	InternetGatewayRequiredOnlyResource = InternetGatewayResourceDependencies + `
-resource "oci_core_internet_gateway" "test_internet_gateway" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	enabled = "${var.internet_gateway_enabled}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-}
-`
+var (
+	InternetGatewayRequiredOnlyResource = InternetGatewayResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation)
 
-	InternetGatewayResourceConfig = InternetGatewayResourceDependencies + `
-resource "oci_core_internet_gateway" "test_internet_gateway" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	enabled = "${var.internet_gateway_enabled}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
+	internetGatewayDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"display_name":   Representation{repType: Optional, create: `MyInternetGateway`, update: `displayName2`},
+		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"filter":         RepresentationGroup{Required, internetGatewayDataSourceFilterRepresentation}}
+	internetGatewayDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_internet_gateway.test_internet_gateway.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.internet_gateway_defined_tags_value}")}"
-	display_name = "${var.internet_gateway_display_name}"
-	freeform_tags = "${var.internet_gateway_freeform_tags}"
-}
-`
-	InternetGatewayPropertyVariables = `
-variable "internet_gateway_defined_tags_value" { default = "value" }
-variable "internet_gateway_display_name" { default = "MyInternetGateway" }
-variable "internet_gateway_enabled" { default = false }
-variable "internet_gateway_freeform_tags" { default = {"Department"= "Finance"} }
-variable "internet_gateway_state" { default = "AVAILABLE" }
+	internetGatewayRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"enabled":        Representation{repType: Required, create: `false`, update: `true`},
+		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `MyInternetGateway`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
 
-`
-	InternetGatewayResourceDependencies = VcnPropertyVariables + VcnResourceConfig
+	InternetGatewayResourceDependencies = VcnRequiredOnlyResource + VcnResourceDependencies
 )
 
 func TestCoreInternetGatewayResource_basic(t *testing.T) {
@@ -68,7 +61,8 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + InternetGatewayPropertyVariables + compartmentIdVariableStr + InternetGatewayRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "enabled", "false"),
@@ -87,7 +81,8 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + InternetGatewayPropertyVariables + compartmentIdVariableStr + InternetGatewayResourceConfig,
+				Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create, internetGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -107,14 +102,8 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "internet_gateway_defined_tags_value" { default = "updatedValue" }
-variable "internet_gateway_display_name" { default = "displayName2" }
-variable "internet_gateway_enabled" { default = true }
-variable "internet_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "internet_gateway_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + InternetGatewayResourceConfig,
+				Config: config + compartmentIdVariableStr + InternetGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Update, internetGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -136,28 +125,10 @@ variable "internet_gateway_state" { default = "AVAILABLE" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "internet_gateway_defined_tags_value" { default = "updatedValue" }
-variable "internet_gateway_display_name" { default = "displayName2" }
-variable "internet_gateway_enabled" { default = true }
-variable "internet_gateway_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "internet_gateway_state" { default = "AVAILABLE" }
-
-data "oci_core_internet_gateways" "test_internet_gateways" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-
-	#Optional
-	display_name = "${var.internet_gateway_display_name}"
-	state = "${var.internet_gateway_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_internet_gateway.test_internet_gateway.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + InternetGatewayResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_internet_gateways", "test_internet_gateways", Optional, Update, internetGatewayDataSourceRepresentation) +
+					compartmentIdVariableStr + InternetGatewayResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Update, internetGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),

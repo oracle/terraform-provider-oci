@@ -37,12 +37,13 @@ installed. For OCI Provider versions v3.x.x and above, a minimum Terraform versi
 ### Dial tcp i/o timeout when connecting via proxy
 
 _If the Terraform CLI gives an error message like:_
+
 ```
 * provider.oci: ... dial tcp 134.70.16.0:443: i/o timeout
-
 ```
 
 Then you may not have properly configured your proxy settings. The OCI terraform provider does support `http_proxy`, `https_proxy` and `no_proxy` variables where the inclusion or exclusion lists can be defined as follows:
+
 ```
 export http_proxy=http://www.your-proxy.com:80/
 export https_proxy=http://www.your-proxy.com:80/

@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_database_autonomous_database_backup"
+page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_database_backup"
 sidebar_current: "docs-oci-resource-database-autonomous_database_backup"
 description: |-
-  Creates and manages an OCI AutonomousDatabaseBackup
+  Provides the Autonomous Database Backup resource in Oracle Cloud Infrastructure Database service
 ---
 
 # oci_database_autonomous_database_backup
-The `oci_database_autonomous_database_backup` resource creates and manages an OCI AutonomousDatabaseBackup
+This resource provides the Autonomous Database Backup resource in Oracle Cloud Infrastructure Database service.
 
 Creates a new Autonomous Database backup for the specified database based on the provided request parameters.
 
@@ -26,7 +26,7 @@ resource "oci_database_autonomous_database_backup" "test_autonomous_database_bac
 
 The following arguments are supported:
 
-* `autonomous_database_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+* `autonomous_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
 * `display_name` - (Required) The user-friendly name for the backup. The name does not have to be unique.
 
 
@@ -37,10 +37,10 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `autonomous_database_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
-* `compartment_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment.
+* `autonomous_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
-* `id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
 * `is_automatic` - Indicates whether the backup is user-initiated or automatic.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `state` - The current state of the backup.
@@ -55,3 +55,4 @@ AutonomousDatabaseBackups can be imported using the `id`, e.g.
 ```
 $ terraform import oci_database_autonomous_database_backup.test_autonomous_database_backup "id"
 ```
+

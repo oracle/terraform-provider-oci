@@ -10,20 +10,14 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	AvailabilityDomainResourceConfig = AvailabilityDomainResourceDependencies + `
+var (
+	availabilityDomainDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+	}
 
-`
-	AvailabilityDomainPropertyVariables = `
+	AvailabilityDomainResourceConfig = ""
 
-`
-	AvailabilityDomainResourceDependencies = ""
-
-	AvailabilityDomainConfig = `
-data "oci_identity_availability_domains" "test_availability_domains" {
-	compartment_id = "${var.tenancy_ocid}"
-}
-`
+	AvailabilityDomainConfig = generateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceRepresentation)
 )
 
 func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
@@ -44,13 +38,9 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_identity_availability_domains" "test_availability_domains" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-}
-                ` + compartmentIdVariableStr + AvailabilityDomainResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceRepresentation) +
+					compartmentIdVariableStr + AvailabilityDomainResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 

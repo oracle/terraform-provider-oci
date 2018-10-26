@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_dns_zone"
+page_title: "Oracle Cloud Infrastructure: oci_dns_zone"
 sidebar_current: "docs-oci-resource-dns-zone"
 description: |-
-  Creates and manages an OCI DnsZone
+  Provides the Zone resource in Oracle Cloud Infrastructure Dns service
 ---
 
 # oci_dns_zone
-The `oci_dns_zone` resource creates and manages an OCI DnsZone
+This resource provides the Zone resource in Oracle Cloud Infrastructure Dns service.
 
 Creates a new zone in the specified compartment.
 
@@ -87,3 +87,4 @@ Zones can be imported using the `id`, e.g.
 ```
 $ terraform import oci_dns_zone.test_zone "id"
 ```
+

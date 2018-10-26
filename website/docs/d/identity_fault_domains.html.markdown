@@ -1,17 +1,17 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_fault_domains"
+page_title: "Oracle Cloud Infrastructure: oci_identity_fault_domains"
 sidebar_current: "docs-oci-datasource-identity-fault_domains"
 description: |-
-  Provides a list of FaultDomains
+  Provides the list of Fault Domains in Oracle Cloud Infrastructure Identity service
 ---
 
 # Data Source: oci_identity_fault_domains
-The `oci_identity_fault_domains` data source allows access to the list of OCI fault_domains
+This data source provides the list of Fault Domains in Oracle Cloud Infrastructure Identity service.
 
 Lists the Fault Domains in your tenancy. Specify the OCID of either the tenancy or another
 of your compartments as the value for the compartment ID (remember that the tenancy is simply the root compartment).
-See [Where to Get the Tenancy's OCID and User's OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm#five).
+See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#five).
 
 
 ## Example Usage

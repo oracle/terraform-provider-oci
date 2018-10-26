@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_file_storage_file_systems"
+page_title: "Oracle Cloud Infrastructure: oci_file_storage_file_systems"
 sidebar_current: "docs-oci-datasource-file_storage-file_systems"
 description: |-
-  Provides a list of FileSystems
+  Provides the list of File Systems in Oracle Cloud Infrastructure File Storage service
 ---
 
 # Data Source: oci_file_storage_file_systems
-The `oci_file_storage_file_systems` data source allows access to the list of OCI file_systems
+This data source provides the list of File Systems in Oracle Cloud Infrastructure File Storage service.
 
 Lists the file system resources in the specified compartment.
 

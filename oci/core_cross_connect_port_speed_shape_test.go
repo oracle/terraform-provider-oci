@@ -10,14 +10,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	CrossConnectPortSpeedShapeResourceConfig = CrossConnectPortSpeedShapeResourceDependencies + `
+var (
+	crossConnectPortSpeedShapeDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+	}
 
-`
-	CrossConnectPortSpeedShapePropertyVariables = `
-
-`
-	CrossConnectPortSpeedShapeResourceDependencies = ""
+	CrossConnectPortSpeedShapeResourceConfig = ""
 )
 
 func TestCoreCrossConnectPortSpeedShapeResource_basic(t *testing.T) {
@@ -37,13 +35,9 @@ func TestCoreCrossConnectPortSpeedShapeResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + `
-
-data "oci_core_cross_connect_port_speed_shapes" "test_cross_connect_port_speed_shapes" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-}
-                ` + compartmentIdVariableStr + CrossConnectPortSpeedShapeResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_cross_connect_port_speed_shapes", "test_cross_connect_port_speed_shapes", Required, Create, crossConnectPortSpeedShapeDataSourceRepresentation) +
+					compartmentIdVariableStr + CrossConnectPortSpeedShapeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 

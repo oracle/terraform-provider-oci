@@ -13,74 +13,49 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-const (
-	ClusterRequiredOnlyResource = ClusterResourceDependencies + `
-resource "oci_containerengine_cluster" "test_cluster" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	kubernetes_version = "${var.cluster_kubernetes_version}"
-	name = "${var.cluster_name}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-	options {
-		service_lb_subnet_ids = ["${oci_core_subnet.clusterSubnet_1.id}", "${oci_core_subnet.clusterSubnet_2.id}"]
+var (
+	ClusterRequiredOnlyResource = ClusterResourceDependencies +
+		generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation)
+
+	ClusterResourceConfig = ClusterResourceDependencies +
+		generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation)
+
+	clusterDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"name":           Representation{repType: Optional, create: `name`, update: `name2`},
+		"state":          Representation{repType: Optional, create: []string{"CREATING", "ACTIVE", "FAILED", "DELETING", "DELETED", "UPDATING"}},
+		"filter":         RepresentationGroup{Required, clusterDataSourceFilterRepresentation}}
+	clusterDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_containerengine_cluster.test_cluster.id}`}},
 	}
-}
-`
-	ClusterResourceConfig = ClusterResourceDependencies + `
-resource "oci_containerengine_cluster" "test_cluster" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	kubernetes_version = "${var.cluster_kubernetes_version}"
-	name = "${var.cluster_name}"
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
-	#Optional
-	options {
-		service_lb_subnet_ids = ["${oci_core_subnet.clusterSubnet_1.id}", "${oci_core_subnet.clusterSubnet_2.id}"]
-
-		#Optional
-		add_ons {
-			#Optional
-			is_kubernetes_dashboard_enabled = "${var.cluster_options_add_ons_is_kubernetes_dashboard_enabled}"
-			is_tiller_enabled = "${var.cluster_options_add_ons_is_tiller_enabled}"
-		}
-		kubernetes_network_config {
-			#Optional
-			pods_cidr = "${var.cluster_options_kubernetes_network_config_pods_cidr}"
-			services_cidr = "${var.cluster_options_kubernetes_network_config_services_cidr}"
-		}
+	clusterRepresentation = map[string]interface{}{
+		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
+		"kubernetes_version": Representation{repType: Required, create: `v1.10.3`, update: `v1.11.1`},
+		"name":               Representation{repType: Required, create: `name`, update: `name2`},
+		"vcn_id":             Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"options":            RepresentationGroup{Required, clusterOptionsRepresentation},
 	}
-}
-`
-	ClusterPropertyVariables = `
-variable "cluster_kubernetes_version" { default = "v1.10.3" }
-variable "cluster_name" { default = "name" }
-variable "cluster_options_add_ons_is_kubernetes_dashboard_enabled" { default = true }
-variable "cluster_options_add_ons_is_tiller_enabled" { default = true }
-variable "cluster_options_kubernetes_network_config_pods_cidr" { default = "10.1.0.0/16" }
-variable "cluster_options_kubernetes_network_config_services_cidr" { default = "10.2.0.0/16" }
-variable "cluster_state" { default = [] }
+	clusterOptionsRepresentation = map[string]interface{}{
+		"add_ons":                   RepresentationGroup{Optional, clusterOptionsAddOnsRepresentation},
+		"kubernetes_network_config": RepresentationGroup{Optional, clusterOptionsKubernetesNetworkConfigRepresentation},
+		"service_lb_subnet_ids":     Representation{repType: Required, create: []string{"${oci_core_subnet.clusterSubnet_1.id}", "${oci_core_subnet.clusterSubnet_2.id}"}},
+	}
+	clusterOptionsAddOnsRepresentation = map[string]interface{}{
+		"is_kubernetes_dashboard_enabled": Representation{repType: Optional, create: `true`},
+		"is_tiller_enabled":               Representation{repType: Optional, create: `true`},
+	}
+	clusterOptionsKubernetesNetworkConfigRepresentation = map[string]interface{}{
+		"pods_cidr":     Representation{repType: Optional, create: `10.1.0.0/16`},
+		"services_cidr": Representation{repType: Optional, create: `10.2.0.0/16`},
+	}
 
-`
-	ClusterResourceDependencies = VcnPropertyVariables + VcnResourceConfig + AvailabilityDomainConfig + `
-resource "oci_core_subnet" "clusterSubnet_1" {
-       #Required
-	   availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
-	   cidr_block = "10.0.20.0/24"
-	   compartment_id = "${var.compartment_id}"
-	   vcn_id = "${oci_core_vcn.test_vcn.id}"
-       security_list_ids = ["${oci_core_vcn.test_vcn.default_security_list_id}"] # Provider code tries to maintain compatibility with old versions.
-       display_name = "tfSubNet1ForClusters"
-}
-resource "oci_core_subnet" "clusterSubnet_2" {
-       #Required
-       availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
-       cidr_block = "10.0.21.0/24"
-       compartment_id = "${var.compartment_id}"
-       vcn_id = "${oci_core_vcn.test_vcn.id}"
-       display_name = "tfSubNet1ForClusters"
-    security_list_ids = ["${oci_core_vcn.test_vcn.default_security_list_id}"] # Provider code tries to maintain compatibility with old versions.
-}`
+	ClusterResourceDependencies = VcnRequiredOnlyResource + AvailabilityDomainConfig +
+		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", Required, Create,
+			getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.20.0/24`}, subnetRepresentation)) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", Required, Create,
+			getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.21.0/24`}, subnetRepresentation))
 )
 
 func TestContainerengineClusterResource_basic(t *testing.T) {
@@ -104,7 +79,8 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + ClusterPropertyVariables + compartmentIdVariableStr + ClusterRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
+					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.10.3"),
@@ -125,7 +101,8 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + ClusterPropertyVariables + compartmentIdVariableStr + ClusterResourceConfig,
+				Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
+					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.10.3"),
@@ -149,17 +126,8 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "cluster_kubernetes_version" { default = "v1.11.1" }
-variable "cluster_name" { default = "name2" }
-variable "cluster_options_add_ons_is_kubernetes_dashboard_enabled" { default = true }
-variable "cluster_options_add_ons_is_tiller_enabled" { default = true }
-variable "cluster_options_kubernetes_network_config_pods_cidr" { default = "10.1.0.0/16" }
-variable "cluster_options_kubernetes_network_config_services_cidr" { default = "10.2.0.0/16" }
-variable "cluster_options_service_lb_subnet_ids" { default = [] }
-variable "cluster_state" { default = [] }
-
-                ` + compartmentIdVariableStr + ClusterResourceConfig,
+				Config: config + compartmentIdVariableStr + ClusterResourceDependencies +
+					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.11.1"),
@@ -185,30 +153,10 @@ variable "cluster_state" { default = [] }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "cluster_kubernetes_version" { default = "v1.11.1" }
-variable "cluster_name" { default = "name2" }
-variable "cluster_options_add_ons_is_kubernetes_dashboard_enabled" { default = true }
-variable "cluster_options_add_ons_is_tiller_enabled" { default = true }
-variable "cluster_options_kubernetes_network_config_pods_cidr" { default = "10.1.0.0/16" }
-variable "cluster_options_kubernetes_network_config_services_cidr" { default = "10.2.0.0/16" }
-variable "cluster_options_service_lb_subnet_ids" { default = [] }
-variable "cluster_state" { default = ["CREATING", "ACTIVE", "FAILED", "DELETING", "DELETED", "UPDATING"] }
-
-data "oci_containerengine_clusters" "test_clusters" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	name = "${var.cluster_name}"
-	state = "${var.cluster_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_containerengine_cluster.test_cluster.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + ClusterResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_containerengine_clusters", "test_clusters", Optional, Update, clusterDataSourceRepresentation) +
+					compartmentIdVariableStr + ClusterResourceDependencies +
+					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),

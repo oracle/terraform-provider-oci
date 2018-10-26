@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_objectstorage_preauthrequests"
-sidebar_current: "docs-oci-datasource-object_storage-preauthenticated_requests"
+page_title: "Oracle Cloud Infrastructure: oci_objectstorage_preauthrequests"
+sidebar_current: "docs-oci-datasource-object_storage-preauthrequests"
 description: |-
-  Provides a list of PreauthenticatedRequests
+  Provides the list of Preauthenticated Requests in Oracle Cloud Infrastructure Object Storage service
 ---
 
 # Data Source: oci_objectstorage_preauthrequests
-The `oci_objectstorage_preauthrequests` data source allows access to the list of OCI preauthenticated_requests
+This data source provides the list of Preauthenticated Requests in Oracle Cloud Infrastructure Object Storage service.
 
 Lists pre-authenticated requests for the bucket.
 

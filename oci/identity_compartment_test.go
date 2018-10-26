@@ -10,35 +10,26 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	CompartmentRequiredOnlyResource = CompartmentResourceDependencies + `
-resource "oci_identity_compartment" "test_compartment" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.compartment_description}"
-	name = "${var.compartment_name}"
-}
-`
+var (
+	CompartmentRequiredOnlyResource = CompartmentResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation)
 
-	CompartmentResourceConfig = CompartmentResourceDependencies + `
-resource "oci_identity_compartment" "test_compartment" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "${var.compartment_description}"
-	name = "${var.compartment_name}"
+	compartmentDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"filter":         RepresentationGroup{Required, compartmentDataSourceFilterRepresentation}}
+	compartmentDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_compartment.test_compartment.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.compartment_defined_tags_value}")}"
-	freeform_tags = "${var.compartment_freeform_tags}"
-}
-`
-	CompartmentPropertyVariables = `
-variable "compartment_defined_tags_value" { default = "value" }
-variable "compartment_description" { default = "For network components" }
-variable "compartment_freeform_tags" { default = {"Department"= "Finance"} }
-variable "compartment_name" { default = "Network" }
+	compartmentRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"description":    Representation{repType: Required, create: `For network components`, update: `description2`},
+		"name":           Representation{repType: Required, create: `Network`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
 
-`
 	CompartmentResourceDependencies = DefinedTagsDependencies
 )
 
@@ -63,7 +54,8 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + CompartmentPropertyVariables + compartmentIdVariableStr + CompartmentRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "description", "For network components"),
@@ -77,7 +69,8 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + CompartmentPropertyVariables + compartmentIdVariableStr + CompartmentResourceConfig,
+				Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Create, compartmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -98,13 +91,8 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			// verify updates to updatable parameters except name.
 			// TODO add name updatability when we compartment delete becomes available
 			{
-				Config: config + `
-variable "compartment_defined_tags_value" { default = "updatedValue" }
-variable "compartment_description" { default = "description2" }
-variable "compartment_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "compartment_name" { default = "Network" }
-
-                ` + compartmentIdVariableStr + CompartmentResourceConfig,
+				Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -126,22 +114,10 @@ variable "compartment_name" { default = "Network" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "compartment_defined_tags_value" { default = "updatedValue" }
-variable "compartment_description" { default = "description2" }
-variable "compartment_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "compartment_name" { default = "Network" }
-
-data "oci_identity_compartments" "test_compartments" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_compartment.test_compartment.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + CompartmentResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_compartments", "test_compartments", Optional, Update, compartmentDataSourceRepresentation) +
+					compartmentIdVariableStr + CompartmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 

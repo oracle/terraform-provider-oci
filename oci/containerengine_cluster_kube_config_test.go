@@ -10,16 +10,14 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	ClusterKubeConfigResourceConfig = ClusterKubeConfigResourceDependencies + `
+var (
+	clusterKubeConfigSingularDataSourceRepresentation = map[string]interface{}{
+		"cluster_id":    Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"expiration":    Representation{repType: Optional, create: `2592000`},
+		"token_version": Representation{repType: Optional, create: `1.0.0`},
+	}
 
-`
-	ClusterKubeConfigPropertyVariables = `
-variable "cluster_kube_config_expiration" { default = 2592000 }
-variable "cluster_kube_config_token_version" { default = "1.0.0" }
-
-`
-	ClusterKubeConfigResourceDependencies = ClusterPropertyVariables + ClusterRequiredOnlyResource
+	ClusterKubeConfigResourceConfig = ClusterResourceConfig
 )
 
 func TestContainerengineClusterKubeConfigResource_basic(t *testing.T) {
@@ -39,19 +37,9 @@ func TestContainerengineClusterKubeConfigResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-variable "cluster_kube_config_expiration" { default = 2592000 }
-variable "cluster_kube_config_token_version" { default = "1.0.0" }
-
-data "oci_containerengine_cluster_kube_config" "test_cluster_kube_config" {
-	#Required
-	cluster_id = "${oci_containerengine_cluster.test_cluster.id}"
-
-	#Optional
-	expiration = "${var.cluster_kube_config_expiration}"
-	token_version = "${var.cluster_kube_config_token_version}"
-}
-                ` + compartmentIdVariableStr + ClusterKubeConfigResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_containerengine_cluster_kube_config", "test_cluster_kube_config", Optional, Create, clusterKubeConfigSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ClusterKubeConfigResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "expiration", "2592000"),

@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_database_autonomous_data_warehouse_backup"
+page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_data_warehouse_backup"
 sidebar_current: "docs-oci-datasource-database-autonomous_data_warehouse_backup"
 description: |-
-  Provides details about a specific AutonomousDataWarehouseBackup
+  Provides details about a specific Autonomous Data Warehouse Backup in Oracle Cloud Infrastructure Database service
 ---
 
 # Data Source: oci_database_autonomous_data_warehouse_backup
-The `oci_database_autonomous_data_warehouse_backup` data source provides details about a specific AutonomousDataWarehouseBackup
+This data source provides details about a specific Autonomous Data Warehouse Backup resource in Oracle Cloud Infrastructure Database service.
 
 Gets information about the specified Autonomous Data Warehouse backup.
 
@@ -24,17 +24,17 @@ data "oci_database_autonomous_data_warehouse_backup" "test_autonomous_data_wareh
 
 The following arguments are supported:
 
-* `autonomous_data_warehouse_backup_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Data Warehouse backup.
+* `autonomous_data_warehouse_backup_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Data Warehouse backup.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `autonomous_data_warehouse_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Data Warehouse.
-* `compartment_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment.
+* `autonomous_data_warehouse_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Data Warehouse.
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
-* `id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Data Warehouse backup.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Data Warehouse backup.
 * `is_automatic` - Indicates whether the backup is user-initiated or automatic.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `state` - The current state of the backup.

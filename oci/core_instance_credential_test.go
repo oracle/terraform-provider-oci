@@ -10,7 +10,11 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
+var (
+	instanceCredentialSingularDataSourceRepresentation = map[string]interface{}{
+		"instance_id": Representation{repType: Required, create: `${oci_core_instance.t.id}`},
+	}
+
 	InstanceCredentialResourceConfig = InstanceCredentialResourceDependencies + `
 
 `
@@ -83,13 +87,9 @@ func TestCoreInstanceCredentialResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + WindowsInstanceDnsConfig + `
-
-data "oci_core_instance_credentials" "test_instance_credentials" {
-	#Required
-	instance_id = "${oci_core_instance.t.id}"
-}
-                ` + compartmentIdVariableStr + InstanceCredentialResourceConfig,
+				Config: config + WindowsInstanceDnsConfig +
+					generateDataSourceFromRepresentationMap("oci_core_instance_credentials", "test_instance_credentials", Required, Create, instanceCredentialSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + InstanceCredentialResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
 

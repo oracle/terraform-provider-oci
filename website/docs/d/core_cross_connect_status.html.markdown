@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_cross_connect_status"
+page_title: "Oracle Cloud Infrastructure: oci_core_cross_connect_status"
 sidebar_current: "docs-oci-datasource-core-cross_connect_status"
 description: |-
-  Provides details about a specific CrossConnectStatus
+  Provides details about a specific Cross Connect Status in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_cross_connect_status
-The `oci_core_cross_connect_status` data source provides details about a specific CrossConnectStatus
+This data source provides details about a specific Cross Connect Status resource in Oracle Cloud Infrastructure Core service.
 
 Gets the status of the specified cross-connect.
 

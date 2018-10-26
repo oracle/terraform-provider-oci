@@ -1,20 +1,20 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_identity_auth_token"
+page_title: "Oracle Cloud Infrastructure: oci_identity_auth_token"
 sidebar_current: "docs-oci-resource-identity-auth_token"
 description: |-
-  Creates and manages an OCI AuthToken
+  Provides the Auth Token resource in Oracle Cloud Infrastructure Identity service
 ---
 
 # oci_identity_auth_token
-The `oci_identity_auth_token` resource creates and manages an OCI AuthToken
+This resource provides the Auth Token resource in Oracle Cloud Infrastructure Identity service.
 
 Creates a new auth token for the specified user. For information about what auth tokens are for, see
-[Managing User Credentials](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingcredentials.htm).
+[Managing User Credentials](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcredentials.htm).
 
 You must specify a *description* for the auth token (although it can be an empty string). It does not
 have to be unique, and you can change it anytime with
-[UpdateAuthToken](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/identity/20160918/AuthToken/UpdateAuthToken).
+[UpdateAuthToken](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/AuthToken/UpdateAuthToken).
 
 Every user has permission to create an auth token for *their own user ID*. An administrator in your organization
 does not need to write a policy to give users this ability. To compare, administrators who have permission to the
@@ -54,3 +54,4 @@ The following attributes are exported:
 * `time_expires` - Date and time when this auth token will expire, in the format defined by RFC3339. Null if it never expires.  Example: `2016-08-25T21:10:29.600Z` 
 * `token` - The auth token. The value is available only in the response for `CreateAuthToken`, and not for `ListAuthTokens` or `UpdateAuthToken`. 
 * `user_id` - The OCID of the user the auth token belongs to.
+

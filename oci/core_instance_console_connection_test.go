@@ -13,33 +13,27 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	InstanceConsoleConnectionRequiredOnlyResource = InstanceConsoleConnectionResourceDependencies + `
-resource "oci_core_instance_console_connection" "test_instance_console_connection" {
-	#Required
-	instance_id = "${oci_core_instance.test_instance.id}"
-	public_key = "${var.instance_console_connection_public_key}"
-}
-`
+var (
+	InstanceConsoleConnectionRequiredOnlyResource = InstanceConsoleConnectionResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", Required, Create, instanceConsoleConnectionRepresentation)
 
-	InstanceConsoleConnectionResourceConfig = InstanceConsoleConnectionResourceDependencies + `
-resource "oci_core_instance_console_connection" "test_instance_console_connection" {
-	#Required
-	instance_id = "${oci_core_instance.test_instance.id}"
-	public_key = "${var.instance_console_connection_public_key}"
+	instanceConsoleConnectionDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"instance_id":    Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
+		"filter":         RepresentationGroup{Required, instanceConsoleConnectionDataSourceFilterRepresentation}}
+	instanceConsoleConnectionDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_instance_console_connection.test_instance_console_connection.id}`}},
+	}
 
-	#Optional
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.instance_console_connection_defined_tags_value}")}"
-	freeform_tags = "${var.instance_console_connection_freeform_tags}"
-}
-`
-	InstanceConsoleConnectionPropertyVariables = `
-variable "instance_console_connection_defined_tags_value" { default = "value" }
-variable "instance_console_connection_freeform_tags" { default = {"Department"= "Finance"} }
-variable "instance_console_connection_public_key" { default = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin" }
+	instanceConsoleConnectionRepresentation = map[string]interface{}{
+		"instance_id":   Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"public_key":    Representation{repType: Required, create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
+		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+	}
 
-`
-	InstanceConsoleConnectionResourceDependencies = DefinedTagsDependencies + InstancePropertyVariables + InstanceResourceAsDependencyConfig
+	InstanceConsoleConnectionResourceDependencies = InstanceRequiredOnlyResource
 )
 
 func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
@@ -61,7 +55,8 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + InstanceConsoleConnectionPropertyVariables + compartmentIdVariableStr + InstanceConsoleConnectionRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + InstanceConsoleConnectionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", Required, Create, instanceConsoleConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "public_key", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
@@ -74,7 +69,8 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + InstanceConsoleConnectionPropertyVariables + compartmentIdVariableStr + InstanceConsoleConnectionResourceConfig,
+				Config: config + compartmentIdVariableStr + InstanceConsoleConnectionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", Optional, Create, instanceConsoleConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -85,24 +81,10 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + `
-variable "instance_console_connection_defined_tags_value" { default = "value" }
-variable "instance_console_connection_freeform_tags" { default = {"Department"= "Finance"} }
-variable "instance_console_connection_public_key" { default = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin" }
-
-data "oci_core_instance_console_connections" "test_instance_console_connections" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	instance_id = "${oci_core_instance.test_instance.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_instance_console_connection.test_instance_console_connection.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + InstanceConsoleConnectionResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_instance_console_connections", "test_instance_console_connections", Optional, Update, instanceConsoleConnectionDataSourceRepresentation) +
+					compartmentIdVariableStr + InstanceConsoleConnectionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_instance_console_connection", "test_instance_console_connection", Optional, Update, instanceConsoleConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),

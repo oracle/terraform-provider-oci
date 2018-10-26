@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_containerengine_work_request_errors"
+page_title: "Oracle Cloud Infrastructure: oci_containerengine_work_request_errors"
 sidebar_current: "docs-oci-datasource-containerengine-work_request_errors"
 description: |-
-  Provides a list of WorkRequestErrors
+  Provides the list of Work Request Errors in Oracle Cloud Infrastructure Container Engine service
 ---
 
 # Data Source: oci_containerengine_work_request_errors
-The `oci_containerengine_work_request_errors` data source allows access to the list of OCI work_request_errors
+This data source provides the list of Work Request Errors in Oracle Cloud Infrastructure Container Engine service.
 
 Get the errors of a work request.
 
@@ -39,7 +39,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `code` - A short error code that defines the error, meant for programmatic parsing. See [API Errors](https://docs.us-phoenix-1.oraclecloud.com/Content/API/References/apierrors.htm).
+* `code` - A short error code that defines the error, meant for programmatic parsing. See [API Errors](https://docs.cloud.oracle.com/iaas/Content/API/References/apierrors.htm).
 * `message` - A human-readable error string.
 * `timestamp` - The date and time the error occurred.
 

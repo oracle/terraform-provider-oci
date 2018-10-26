@@ -15,44 +15,48 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-const (
-	VolumeRequiredOnlyResource = VolumeResourceDependencies + `
-resource "oci_core_volume" "test_volume" {
-	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	compartment_id = "${var.compartment_id}"
-}
-`
+var (
+	VolumeRequiredOnlyResource = VolumeResourceRequiredOnlyDependencies +
+		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation)
 
-	VolumeResourceConfig = VolumeResourceDependencies + `
-resource "oci_core_volume" "test_volume" {
-	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	compartment_id = "${var.compartment_id}"
+	VolumeResourceConfig = VolumeResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation)
 
-	#Optional
-	backup_policy_id = "${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}"
-	defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_defined_tags_value}")}"
-	display_name = "${var.volume_display_name}"
-	freeform_tags = "${var.volume_freeform_tags}"
-	size_in_gbs = "${var.volume_size_in_gbs}"
-	source_details {
-		#Required
-		id = "${oci_core_volume.source_volume.id}"
-		type = "${var.volume_source_details_type}"
+	volumeSingularDataSourceRepresentation = map[string]interface{}{
+		"volume_id": Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
 	}
-}
-`
-	VolumePropertyVariables = `
-variable "volume_defined_tags_value" { default = "value" }
-variable "volume_display_name" { default = "displayName" }
-variable "volume_freeform_tags" { default = {"Department"= "Finance"} }
-variable "volume_size_in_gbs" { default = 51 }
-variable "volume_source_details_type" { default = "volume" }
-variable "volume_state" { default = "AVAILABLE" }
 
-`
-	VolumeResourceDependencies = DefinedTagsDependencies + `
+	volumeDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.ADs.availability_domains.0.name}`},
+		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"state":               Representation{repType: Optional, create: `AVAILABLE`},
+		//		"volume_group_id":     Representation{repType: Optional, create: `${oci_core_volume_group.test_volume_group.id}`},
+		"filter": RepresentationGroup{Required, volumeDataSourceFilterRepresentation}}
+	volumeDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_core_volume.test_volume.id}`}},
+	}
+
+	volumeRepresentation = map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.ADs.availability_domains.0.name}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"backup_policy_id":    Representation{repType: Optional, create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
+		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"size_in_gbs":         Representation{repType: Optional, create: `51`, update: `52`},
+		//		"size_in_mbs":         Representation{repType: Optional, create: `10`},
+		"source_details": RepresentationGroup{Optional, sourceDetailsVolumeRepresentation},
+		//		"volume_backup_id":    Representation{repType: Optional, create: `${oci_core_volume_backup.test_volume_backup.id}`},
+	}
+	sourceDetailsVolumeRepresentation = map[string]interface{}{
+		"id":   Representation{repType: Required, create: `${oci_core_volume.source_volume.id}`},
+		"type": Representation{repType: Required, create: `volume`},
+	}
+
+	VolumeResourceDependencies             = DefinedTagsDependencies + VolumeResourceRequiredOnlyDependencies
+	VolumeResourceRequiredOnlyDependencies = `
 data "oci_identity_availability_domains" "ADs" {
 	compartment_id = "${var.compartment_id}"
 }
@@ -95,7 +99,8 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + VolumePropertyVariables + compartmentIdVariableStr + VolumeRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + VolumeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckNoResourceAttr(resourceName, "backup_policy_id"),
@@ -119,7 +124,8 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + VolumePropertyVariables + compartmentIdVariableStr + VolumeResourceConfig,
+				Config: config + compartmentIdVariableStr + VolumeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create, volumeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
@@ -146,15 +152,8 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "volume_defined_tags_value" { default = "updatedValue" }
-variable "volume_display_name" { default = "displayName2" }
-variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_size_in_gbs" { default = 52 }
-variable "volume_source_details_type" { default = "volume" }
-variable "volume_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				Config: config + compartmentIdVariableStr + VolumeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
@@ -183,29 +182,10 @@ variable "volume_state" { default = "AVAILABLE" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "volume_defined_tags_value" { default = "updatedValue" }
-variable "volume_display_name" { default = "displayName2" }
-variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_size_in_gbs" { default = 52 }
-variable "volume_source_details_type" { default = "volume" }
-variable "volume_state" { default = "AVAILABLE" }
-
-data "oci_core_volumes" "test_volumes" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-	display_name = "${var.volume_display_name}"
-	state = "${var.volume_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_core_volume.test_volume.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_volumes", "test_volumes", Optional, Update, volumeDataSourceRepresentation) +
+					compartmentIdVariableStr + VolumeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckNoResourceAttr(datasourceName, "backup_policy_id"),
@@ -230,19 +210,9 @@ data "oci_core_volumes" "test_volumes" {
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "volume_defined_tags_value" { default = "updatedValue" }
-variable "volume_display_name" { default = "displayName2" }
-variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_size_in_gbs" { default = 52 }
-variable "volume_source_details_type" { default = "volume" }
-variable "volume_state" { default = "AVAILABLE" }
-
-data "oci_core_volume" "test_volume" {
-	#Required
-	volume_id = "${oci_core_volume.test_volume.id}"
-}
-                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + VolumeResourceDependencies + generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "volume_id"),
 
@@ -264,15 +234,7 @@ data "oci_core_volume" "test_volume" {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + `
-variable "volume_defined_tags_value" { default = "updatedValue" }
-variable "volume_display_name" { default = "displayName2" }
-variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "volume_size_in_gbs" { default = 52 }
-variable "volume_source_details_type" { default = "volume" }
-variable "volume_state" { default = "AVAILABLE" }
-
-                ` + compartmentIdVariableStr + VolumeResourceConfig,
+				Config: config + compartmentIdVariableStr + VolumeResourceDependencies + generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Update, volumeRepresentation),
 			},
 			// verify resource import
 			{
@@ -340,7 +302,8 @@ variable "volume_size_in_gbs" { default = "abc" }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
 
-                ` + compartmentIdVariableStr + VolumeResourceConfig,
+                ` + compartmentIdVariableStr + VolumeResourceDependencies + generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create,
+					getUpdatedRepresentationCopy("size_in_gbs", Representation{repType: Required, create: "abc"}, volumeRepresentation)),
 				PlanOnly:    true,
 				ExpectError: regexp.MustCompile("must be a 64-bit integer"),
 			},
@@ -400,7 +363,7 @@ func TestCoreVolumeResource_int64_interpolation(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + VolumePropertyVariables + compartmentIdVariableStr + VolumeRequiredOnlyResource + `
+				Config: config + compartmentIdVariableStr + VolumeRequiredOnlyResource + `
 data "oci_core_volumes" "test_volumes" {
 	#Required
 	compartment_id = "${var.compartment_id}"

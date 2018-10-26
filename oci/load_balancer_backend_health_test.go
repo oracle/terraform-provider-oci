@@ -10,17 +10,14 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	BackendHealthResourceConfig = BackendHealthResourceDependencies + `
+var (
+	backendHealthSingularDataSourceRepresentation = map[string]interface{}{
+		"backend_name":     Representation{repType: Required, create: `${oci_load_balancer_backend.test_backend.name}`},
+		"backend_set_name": Representation{repType: Required, create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+	}
 
-`
-	BackendHealthPropertyVariables = `
-variable "backend_health_backend_name" { default = "backendName" }
-variable "backend_health_backend_set_name" { default = "backendSetName" }
-variable "backend_health_load_balancer_id" { default = "loadBalancerId" }
-
-`
-	BackendHealthResourceDependencies = BackendRequiredOnlyResource + BackendPropertyVariables
+	BackendHealthResourceConfig = BackendRequiredOnlyResource
 )
 
 func TestLoadBalancerBackendHealthResource_basic(t *testing.T) {
@@ -40,18 +37,9 @@ func TestLoadBalancerBackendHealthResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-variable "backend_health_backend_name" { default = "backendName" }
-variable "backend_health_backend_set_name" { default = "backendSetName" }
-variable "backend_health_load_balancer_id" { default = "loadBalancerId" }
-
-data "oci_load_balancer_backend_health" "test_backend_health" {
-	#Required
-	backend_name = "${oci_load_balancer_backend.test_backend.name}"
-	backend_set_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-}
-                ` + compartmentIdVariableStr + BackendHealthResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_load_balancer_backend_health", "test_backend_health", Required, Create, backendHealthSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + BackendHealthResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(singularDatasourceName, "backend_name", "10.0.0.3:10"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "backend_set_name", "backendSet1"),

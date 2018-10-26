@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_database_db_system_patches"
+page_title: "Oracle Cloud Infrastructure: oci_database_db_system_patches"
 sidebar_current: "docs-oci-datasource-database-db_system_patches"
 description: |-
-  Provides a list of DbSystemPatches
+  Provides the list of Db System Patches in Oracle Cloud Infrastructure Database service
 ---
 
 # Data Source: oci_database_db_system_patches
-The `oci_database_db_system_patches` data source allows access to the list of OCI db_system_patches
+This data source provides the list of Db System Patches in Oracle Cloud Infrastructure Database service.
 
 Lists the patches applicable to the requested DB system.
 
@@ -25,7 +25,7 @@ data "oci_database_db_system_patches" "test_db_system_patches" {
 
 The following arguments are supported:
 
-* `db_system_id` - (Required) The DB system [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+* `db_system_id` - (Required) The DB system [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
 ## Attributes Reference
@@ -40,7 +40,7 @@ The following attributes are exported:
 
 * `available_actions` - Actions that can possibly be performed using this patch.
 * `description` - The text describing this patch package.
-* `id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch.
 * `last_action` - Action that is currently being performed or was completed last.
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically can contain additional displayable text. 
 * `state` - The current state of the patch as a result of lastAction.

@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_dns_zones"
+page_title: "Oracle Cloud Infrastructure: oci_dns_zones"
 sidebar_current: "docs-oci-datasource-dns-zones"
 description: |-
-  Provides a list of DnsZones
+  Provides the list of Zones in Oracle Cloud Infrastructure Dns service
 ---
 
 # Data Source: oci_dns_zones
-The `oci_dns_zones` data source allows access to the list of OCI DNS zones
+This data source provides the list of Zones in Oracle Cloud Infrastructure Dns service.
 
 Gets a list of all zones in the specified compartment. The collection
 can be filtered by name, time created, and zone type.

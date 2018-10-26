@@ -1,16 +1,16 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_peer_region_for_remote_peerings"
+page_title: "Oracle Cloud Infrastructure: oci_core_peer_region_for_remote_peerings"
 sidebar_current: "docs-oci-datasource-core-peer_region_for_remote_peerings"
 description: |-
-  Provides a list of PeerRegionForRemotePeerings
+  Provides the list of Peer Region For Remote Peerings in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_peer_region_for_remote_peerings
-The `oci_core_peer_region_for_remote_peerings` data source allows access to the list of OCI peer_region_for_remote_peerings
+This data source provides the list of Peer Region For Remote Peerings in Oracle Cloud Infrastructure Core service.
 
 Lists the regions that support remote VCN peering (which is peering across regions).
-For more information, see [VCN Peering](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/VCNpeering.htm).
+For more information, see [VCN Peering](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm).
 
 
 ## Example Usage

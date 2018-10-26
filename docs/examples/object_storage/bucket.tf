@@ -16,15 +16,14 @@ resource "oci_objectstorage_object_lifecycle_policy" "lifecyclePolicy1" {
   #Optional
   rules {
     #Required
-    action = "ARCHIVE"
-    is_enabled = "true"
-    name = "test-rule-1"
+    action      = "ARCHIVE"
+    is_enabled  = "true"
+    name        = "test-rule-1"
     time_amount = "10"
-    time_unit = "DAYS"
+    time_unit   = "DAYS"
 
     #Optional
     object_name_filter {
-
       #Optional
       inclusion_prefixes = ["my-test"]
     }

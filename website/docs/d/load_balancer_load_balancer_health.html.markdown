@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_load_balancer_health"
-sidebar_current: "docs-oci-datasource-load_balancer-health"
+page_title: "Oracle Cloud Infrastructure: oci_load_balancer_health"
+sidebar_current: "docs-oci-datasource-load_balancer-load_balancer_health"
 description: |-
-  Provides details about a specific LoadBalancerHealth
+  Provides details about a specific Load Balancer Health in Oracle Cloud Infrastructure Load Balancer service
 ---
 
 # Data Source: oci_load_balancer_health
-The `oci_load_balancer_health` data source provides details about a specific LoadBalancerHealth
+This data source provides details about a specific Load Balancer Health resource in Oracle Cloud Infrastructure Load Balancer service.
 
 Gets the health status for the specified load balancer.
 
@@ -24,7 +24,7 @@ data "oci_load_balancer_health" "test_load_balancer_health" {
 
 The following arguments are supported:
 
-* `load_balancer_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer to return health status for.
+* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer to return health status for.
 
 
 ## Attributes Reference

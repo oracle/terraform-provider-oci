@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_cross_connects"
+page_title: "Oracle Cloud Infrastructure: oci_core_cross_connects"
 sidebar_current: "docs-oci-datasource-core-cross_connects"
 description: |-
-  Provides a list of CrossConnects
+  Provides the list of Cross Connects in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_cross_connects
-The `oci_core_cross_connects` data source allows access to the list of OCI cross_connects
+This data source provides the list of Cross Connects in Oracle Cloud Infrastructure Core service.
 
 Lists the cross-connects in the specified compartment. You can filter the list
 by specifying the OCID of a cross-connect group.

@@ -13,19 +13,29 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/email"
 )
 
-const (
-	SenderResourceConfig = SenderResourceDependencies + `
-resource "oci_email_sender" "test_sender" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	email_address = "${var.sender_email_address}"
-}
-`
-	SenderPropertyVariables = `
-variable "sender_email_address" { default = "JohnSmith@example.com" }
-variable "sender_state" { default = "ACTIVE" }
+var (
+	SenderResourceConfig = SenderResourceDependencies +
+		generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation)
 
-`
+	senderSingularDataSourceRepresentation = map[string]interface{}{
+		"sender_id": Representation{repType: Required, create: `${oci_email_sender.test_sender.id}`},
+	}
+
+	senderDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"email_address":  Representation{repType: Optional, create: `JohnSmith@example.com`},
+		"state":          Representation{repType: Optional, create: `ACTIVE`},
+		"filter":         RepresentationGroup{Required, senderDataSourceFilterRepresentation}}
+	senderDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_email_sender.test_sender.id}`}},
+	}
+
+	senderRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"email_address":  Representation{repType: Required, create: `JohnSmith@example.com`},
+	}
+
 	SenderResourceDependencies = ""
 )
 
@@ -49,7 +59,8 @@ func TestEmailSenderResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + SenderPropertyVariables + compartmentIdVariableStr + SenderResourceConfig,
+				Config: config + compartmentIdVariableStr + SenderResourceDependencies +
+					generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "email_address", "JohnSmith@example.com"),
@@ -58,24 +69,10 @@ func TestEmailSenderResource_basic(t *testing.T) {
 
 			// verify datasource
 			{
-				Config: config + `
-variable "sender_email_address" { default = "JohnSmith@example.com" }
-variable "sender_state" { default = "ACTIVE" }
-
-data "oci_email_senders" "test_senders" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-
-	#Optional
-	email_address = "${var.sender_email_address}"
-	state = "${var.sender_state}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_email_sender.test_sender.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + SenderResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_email_senders", "test_senders", Optional, Update, senderDataSourceRepresentation) +
+					compartmentIdVariableStr + SenderResourceDependencies +
+					generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "email_address", "JohnSmith@example.com"),
@@ -87,15 +84,9 @@ data "oci_email_senders" "test_senders" {
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "sender_email_address" { default = "JohnSmith@example.com" }
-variable "sender_state" { default = "ACTIVE" }
-
-data "oci_email_sender" "test_sender" {
-	#Required
-	sender_id = "${oci_email_sender.test_sender.id}"
-}
-                ` + compartmentIdVariableStr + SenderResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + SenderResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "sender_id"),
 
@@ -108,11 +99,7 @@ data "oci_email_sender" "test_sender" {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + `
-variable "sender_email_address" { default = "JohnSmith@example.com" }
-variable "sender_state" { default = "ACTIVE" }
-
-                ` + compartmentIdVariableStr + SenderResourceConfig,
+				Config: config + compartmentIdVariableStr + SenderResourceConfig,
 			},
 			// verify resource import
 			{

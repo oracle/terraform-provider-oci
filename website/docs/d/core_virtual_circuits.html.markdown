@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_virtual_circuits"
+page_title: "Oracle Cloud Infrastructure: oci_core_virtual_circuits"
 sidebar_current: "docs-oci-datasource-core-virtual_circuits"
 description: |-
-  Provides a list of VirtualCircuits
+  Provides the list of Virtual Circuits in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_virtual_circuits
-The `oci_core_virtual_circuits` data source allows access to the list of OCI virtual_circuits
+This data source provides the list of Virtual Circuits in Oracle Cloud Infrastructure Core service.
 
 Lists the virtual circuits in the specified compartment.
 
@@ -64,7 +64,7 @@ The following attributes are exported:
 	* `vlan` - The number of the specific VLAN (on the cross-connect or cross-connect group) that is assigned to this virtual circuit. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider).  Example: `200` 
 * `customer_bgp_asn` - The BGP ASN of the network at the other end of the BGP session from Oracle. If the session is between the customer's edge router and Oracle, the value is the customer's ASN. If the BGP session is between the provider's edge router and Oracle, the value is the provider's ASN. 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `gateway_id` - The OCID of the customer's [Dynamic Routing Gateway (DRG)](https://docs.us-phoenix-1.oraclecloud.com/api/#/en/iaas/20160918/Drg) that this virtual circuit uses. Applicable only to private virtual circuits. 
+* `gateway_id` - The OCID of the customer's [Dynamic Routing Gateway (DRG)](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Drg) that this virtual circuit uses. Applicable only to private virtual circuits. 
 * `id` - The virtual circuit's Oracle ID (OCID).
 * `oracle_bgp_asn` - The Oracle BGP ASN.
 * `provider_service_id` - The OCID of the service offered by the provider (if the customer is connecting via a provider). 
@@ -73,7 +73,7 @@ The following attributes are exported:
 * `reference_comment` - Provider-supplied reference information about this virtual circuit (if the customer is connecting via a provider). 
 * `region` - The Oracle Cloud Infrastructure region where this virtual circuit is located. 
 * `service_type` - Provider service type. 
-* `state` - The virtual circuit's current state. For information about the different states, see [FastConnect Overview](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/fastconnect.htm). 
+* `state` - The virtual circuit's current state. For information about the different states, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm). 
 * `time_created` - The date and time the virtual circuit was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
-* `type` - Whether the virtual circuit supports private or public peering. For more information, see [FastConnect Overview](https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/fastconnect.htm). 
+* `type` - Whether the virtual circuit supports private or public peering. For more information, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm). 
 

@@ -843,7 +843,7 @@ func (s *InstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat str
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
+	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok && hostnameLabel != "" {
 		tmp := hostnameLabel.(string)
 		result.HostnameLabel = &tmp
 	}

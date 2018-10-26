@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_load_balancer_protocols"
+page_title: "Oracle Cloud Infrastructure: oci_load_balancer_protocols"
 sidebar_current: "docs-oci-datasource-load_balancer-protocols"
 description: |-
-  Provides a list of LoadBalancerProtocols
+  Provides the list of Load Balancer Protocols in Oracle Cloud Infrastructure Load Balancer service
 ---
 
 # Data Source: oci_load_balancer_protocols
-The `oci_load_balancer_protocols` data source allows access to the list of OCI load_balancer_protocols
+This data source provides the list of Load Balancer Protocols in Oracle Cloud Infrastructure Load Balancer service.
 
 Lists all supported traffic protocols.
 
@@ -24,7 +24,7 @@ data "oci_load_balancer_protocols" "test_load_balancer_protocols" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancer protocols to list.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the load balancer protocols to list.
 
 
 ## Attributes Reference

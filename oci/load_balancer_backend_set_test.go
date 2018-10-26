@@ -13,77 +13,45 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-const (
-	BackendSetRequiredOnlyResource = BackendSetResourceDependencies + `
-resource "oci_load_balancer_backend_set" "test_backend_set" {
-	#Required
-	health_checker {
-		#Required
-		protocol = "${var.backend_set_health_checker_protocol}"
-		url_path = "${var.backend_set_health_checker_url_path}"
+var (
+	BackendSetRequiredOnlyResource = BackendSetResourceDependencies +
+		generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation)
+
+	backendSetDataSourceRepresentation = map[string]interface{}{
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 	}
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	name = "${var.backend_set_name}"
-	policy = "${var.backend_set_policy}"
-}
-`
 
-	BackendSetResourceConfig = BackendSetResourceDependencies + `
-resource "oci_load_balancer_backend_set" "test_backend_set" {
-	#Required
-	health_checker {
-		#Required
-		protocol = "${var.backend_set_health_checker_protocol}"
-
-		#Optional
-		interval_ms = "${var.backend_set_health_checker_interval_ms}"
-		port = "${var.backend_set_health_checker_port}"
-		response_body_regex = "${var.backend_set_health_checker_response_body_regex}"
-		retries = "${var.backend_set_health_checker_retries}"
-		return_code = "${var.backend_set_health_checker_return_code}"
-		timeout_in_millis = "${var.backend_set_health_checker_timeout_in_millis}"
-		url_path = "${var.backend_set_health_checker_url_path}"
+	backendSetRepresentation = map[string]interface{}{
+		"health_checker":   RepresentationGroup{Required, backendSetHealthCheckerRepresentation},
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":             Representation{repType: Required, create: `backendSet1`},
+		"policy":           Representation{repType: Required, create: `LEAST_CONNECTIONS`},
+		"session_persistence_configuration": RepresentationGroup{Optional, backendSetSessionPersistenceConfigurationRepresentation},
+		"ssl_configuration":                 RepresentationGroup{Optional, backendSetSslConfigurationRepresentation},
 	}
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	name = "${var.backend_set_name}"
-	policy = "${var.backend_set_policy}"
 
-	#Optional
-	session_persistence_configuration {
-		#Required
-		cookie_name = "${var.backend_set_session_persistence_configuration_cookie_name}"
-
-		#Optional
-		disable_fallback = "${var.backend_set_session_persistence_configuration_disable_fallback}"
+	backendSetHealthCheckerRepresentation = map[string]interface{}{
+		"protocol":            Representation{repType: Required, create: `HTTP`},
+		"interval_ms":         Representation{repType: Optional, create: `1000`, update: `2000`},
+		"port":                Representation{repType: Optional, create: `10`, update: `11`},
+		"response_body_regex": Representation{repType: Optional, create: `.*`, update: `responseBodyRegex2`},
+		"retries":             Representation{repType: Optional, create: `10`, update: `11`},
+		"return_code":         Representation{repType: Optional, create: `200`, update: `11`},
+		"timeout_in_millis":   Representation{repType: Optional, create: `10000`, update: `11`},
+		"url_path":            Representation{repType: Required, create: `/healthcheck`, update: `urlPath2`},
 	}
-	ssl_configuration {
-		#Required
-		certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
 
-		#Optional
-		verify_depth = "${var.backend_set_ssl_configuration_verify_depth}"
-		verify_peer_certificate = "${var.backend_set_ssl_configuration_verify_peer_certificate}"
+	backendSetSessionPersistenceConfigurationRepresentation = map[string]interface{}{
+		"cookie_name":      Representation{repType: Required, create: `example_cookie`},
+		"disable_fallback": Representation{repType: Optional, create: `false`, update: `true`},
 	}
-}
-`
-	BackendSetPropertyVariables = `
-variable "backend_set_health_checker_interval_ms" { default = "1000" }
-variable "backend_set_health_checker_port" { default = 10 }
-variable "backend_set_health_checker_protocol" { default = "HTTP" }
-variable "backend_set_health_checker_response_body_regex" { default = ".*" }
-variable "backend_set_health_checker_retries" { default = 10 }
-variable "backend_set_health_checker_return_code" { default = 200 }
-variable "backend_set_health_checker_timeout_in_millis" { default = 10000 }
-variable "backend_set_health_checker_url_path" { default = "/healthcheck" }
-variable "backend_set_name" { default = "backendSet1" }
-variable "backend_set_policy" { default = "LEAST_CONNECTIONS" }
-variable "backend_set_session_persistence_configuration_cookie_name" { default = "example_cookie" }
-variable "backend_set_session_persistence_configuration_disable_fallback" { default = false }
-variable "backend_set_ssl_configuration_certificate_name" { default = "example_certificate_bundle" }
-variable "backend_set_ssl_configuration_verify_depth" { default = 6 }
-variable "backend_set_ssl_configuration_verify_peer_certificate" { default = false }
 
-`
+	backendSetSslConfigurationRepresentation = map[string]interface{}{
+		"certificate_name":        Representation{repType: Required, create: `${oci_load_balancer_certificate.t.certificate_name}`},
+		"verify_depth":            Representation{repType: Optional, create: `6`},
+		"verify_peer_certificate": Representation{repType: Optional, create: `false`},
+	}
+
 	BackendSetResourceDependencies = `
 	resource "oci_load_balancer_certificate" "t" {
 		load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
@@ -93,7 +61,7 @@ variable "backend_set_ssl_configuration_verify_peer_certificate" { default = fal
 		public_certificate = "-----BEGIN CERTIFICATE-----\nMIIBNzCB4gIJAKtwJkxUgNpzMA0GCSqGSIb3DQEBCwUAMCMxITAfBgNVBAoTGElu\ndGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0xNzA0MTIyMTU3NTZaFw0xODA0MTIy\nMTU3NTZaMCMxITAfBgNVBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDBcMA0G\nCSqGSIb3DQEBAQUAA0sAMEgCQQDlM8lz3BFJA6zBlsF63k9ajPVq3Q1WQoHQ3j35\n08DRKIfwqfV+CxL63W3dZrwL4TrjqorP5CQ36+I6OWALH2zVAgMBAAEwDQYJKoZI\nhvcNAQELBQADQQCEjHVQJoiiVpIIvDWF+4YDRReVuwzrvq2xduWw7CIsDWlYuGZT\nQKVY6tnTy2XpoUk0fqUvMB/M2HGQ1WqZGHs6\n-----END CERTIFICATE-----"
 	}
 
-` + LoadBalancerPropertyVariables + LoadBalancerRequiredOnlyResource
+` + LoadBalancerRequiredOnlyResource
 )
 
 func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
@@ -117,7 +85,8 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + BackendSetPropertyVariables + compartmentIdVariableStr + BackendSetRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
@@ -138,7 +107,8 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + BackendSetPropertyVariables + compartmentIdVariableStr + BackendSetResourceConfig,
+				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
@@ -169,24 +139,8 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "backend_set_health_checker_interval_ms" { default = "2000" }
-variable "backend_set_health_checker_port" { default = 11 }
-variable "backend_set_health_checker_protocol" { default = "HTTP" }
-variable "backend_set_health_checker_response_body_regex" { default = "responseBodyRegex2" }
-variable "backend_set_health_checker_retries" { default = 11 }
-variable "backend_set_health_checker_return_code" { default = 11 }
-variable "backend_set_health_checker_timeout_in_millis" { default = 11 }
-variable "backend_set_health_checker_url_path" { default = "urlPath2" }
-variable "backend_set_name" { default = "backendSet1" }
-variable "backend_set_policy" { default = "LEAST_CONNECTIONS" }
-variable "backend_set_session_persistence_configuration_cookie_name" { default = "example_cookie" }
-variable "backend_set_session_persistence_configuration_disable_fallback" { default = true }
-variable "backend_set_ssl_configuration_certificate_name" { default = "example_certificate_bundle" }
-variable "backend_set_ssl_configuration_verify_depth" { default = 6 }
-variable "backend_set_ssl_configuration_verify_peer_certificate" { default = false }
-
-                ` + compartmentIdVariableStr + BackendSetResourceConfig,
+				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "2000"),
@@ -219,28 +173,10 @@ variable "backend_set_ssl_configuration_verify_peer_certificate" { default = fal
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "backend_set_health_checker_interval_ms" { default = "2000" }
-variable "backend_set_health_checker_port" { default = 11 }
-variable "backend_set_health_checker_protocol" { default = "HTTP" }
-variable "backend_set_health_checker_response_body_regex" { default = "responseBodyRegex2" }
-variable "backend_set_health_checker_retries" { default = 11 }
-variable "backend_set_health_checker_return_code" { default = 11 }
-variable "backend_set_health_checker_timeout_in_millis" { default = 11 }
-variable "backend_set_health_checker_url_path" { default = "urlPath2" }
-variable "backend_set_name" { default = "backendSet1" }
-variable "backend_set_policy" { default = "LEAST_CONNECTIONS" }
-variable "backend_set_session_persistence_configuration_cookie_name" { default = "example_cookie" }
-variable "backend_set_session_persistence_configuration_disable_fallback" { default = true }
-variable "backend_set_ssl_configuration_certificate_name" { default = "example_certificate_bundle" }
-variable "backend_set_ssl_configuration_verify_depth" { default = 6 }
-variable "backend_set_ssl_configuration_verify_peer_certificate" { default = false }
-
-data "oci_load_balancer_backend_sets" "test_backend_sets" {
-	#Required
-	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-}
-                ` + compartmentIdVariableStr + BackendSetResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_load_balancer_backend_sets", "test_backend_sets", Optional, Update, backendSetDataSourceRepresentation) +
+					compartmentIdVariableStr + BackendSetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 

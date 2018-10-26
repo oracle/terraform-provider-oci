@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_remote_peering_connections"
+page_title: "Oracle Cloud Infrastructure: oci_core_remote_peering_connections"
 sidebar_current: "docs-oci-datasource-core-remote_peering_connections"
 description: |-
-  Provides a list of RemotePeeringConnections
+  Provides the list of Remote Peering Connections in Oracle Cloud Infrastructure Core service
 ---
 
 # Data Source: oci_core_remote_peering_connections
-The `oci_core_remote_peering_connections` data source allows access to the list of OCI remote_peering_connections
+This data source provides the list of Remote Peering Connections in Oracle Cloud Infrastructure Core service.
 
 Lists the remote peering connections (RPCs) for the specified DRG and compartment
 (the RPC's compartment).

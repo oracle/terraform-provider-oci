@@ -9,6 +9,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
+var (
+	tenancySingularDataSourceRepresentation = map[string]interface{}{
+		"tenancy_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+	}
+)
+
 func TestIdentityTenancyResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
@@ -23,13 +29,8 @@ func TestIdentityTenancyResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-
-data "oci_identity_tenancy" "test_tenancy" {
-	#Required
-	tenancy_id = "${var.tenancy_ocid}"
-}
-                `,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", Required, Create, tenancySingularDataSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),

@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_core_volume_attachment"
+page_title: "Oracle Cloud Infrastructure: oci_core_volume_attachment"
 sidebar_current: "docs-oci-resource-core-volume_attachment"
 description: |-
-  Creates and manages an OCI VolumeAttachment
+  Provides the Volume Attachment resource in Oracle Cloud Infrastructure Core service
 ---
 
 # oci_core_volume_attachment
-The `oci_core_volume_attachment` resource creates and manages an OCI VolumeAttachment
+This resource provides the Volume Attachment resource in Oracle Cloud Infrastructure Core service.
 
 Attaches the specified storage volume to the specified instance.
 
@@ -70,3 +70,4 @@ VolumeAttachments can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_volume_attachment.test_volume_attachment "id"
 ```
+

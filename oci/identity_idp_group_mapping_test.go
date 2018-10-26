@@ -13,20 +13,22 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-const (
-	IdpGroupMappingResourceConfig = IdpGroupMappingResourceDependencies + `
-resource "oci_identity_idp_group_mapping" "test_idp_group_mapping" {
-	#Required
-	group_id = "${oci_identity_group.test_group.id}"
-	identity_provider_id = "${oci_identity_identity_provider.test_identity_provider.id}"
-	idp_group_name = "${var.idp_group_mapping_idp_group_name}"
-}
-`
-	IdpGroupMappingPropertyVariables = `
-variable "idp_group_mapping_idp_group_name" { default = "idpGroupName" }
+var (
+	idpGroupMappingDataSourceRepresentation = map[string]interface{}{
+		"identity_provider_id": Representation{repType: Required, create: `${oci_identity_identity_provider.test_identity_provider.id}`},
+		"filter":               RepresentationGroup{Required, idpGroupMappingDataSourceFilterRepresentation}}
+	idpGroupMappingDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_idp_group_mapping.test_idp_group_mapping.id}`}},
+	}
 
-`
-	IdpGroupMappingResourceDependencies = GroupPropertyVariables + GroupResourceConfig + IdentityProviderPropertyVariables + IdentityProviderRequiredOnlyResource
+	idpGroupMappingRepresentation = map[string]interface{}{
+		"group_id":             Representation{repType: Required, create: `${oci_identity_group.test_group.id}`},
+		"identity_provider_id": Representation{repType: Required, create: `${oci_identity_identity_provider.test_identity_provider.id}`},
+		"idp_group_name":       Representation{repType: Required, create: `idpGroupName`, update: `idpGroupName2`},
+	}
+
+	IdpGroupMappingResourceDependencies = GroupResourceConfig + IdentityProviderRequiredOnlyResource
 )
 
 func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
@@ -55,7 +57,8 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + IdpGroupMappingPropertyVariables + compartmentIdVariableStr + IdpGroupMappingResourceConfig,
+				Config: config + compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Required, Create, idpGroupMappingRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "group_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "identity_provider_id"),
@@ -70,10 +73,8 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "idp_group_mapping_idp_group_name" { default = "idpGroupName2" }
-
-                ` + compartmentIdVariableStr + IdpGroupMappingResourceConfig,
+				Config: config + compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Optional, Update, idpGroupMappingRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "group_id"),
@@ -94,19 +95,10 @@ variable "idp_group_mapping_idp_group_name" { default = "idpGroupName2" }
 			},
 			// verify datasource
 			{
-				Config: config + `
-variable "idp_group_mapping_idp_group_name" { default = "idpGroupName2" }
-
-data "oci_identity_idp_group_mappings" "test_idp_group_mappings" {
-	#Required
-	identity_provider_id = "${oci_identity_identity_provider.test_identity_provider.id}"
-
-    filter {
-    	name = "id"
-    	values = ["${oci_identity_idp_group_mapping.test_idp_group_mapping.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + IdpGroupMappingResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_idp_group_mappings", "test_idp_group_mappings", Optional, Update, idpGroupMappingDataSourceRepresentation) +
+					compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Optional, Update, idpGroupMappingRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					//resource.TestCheckResourceAttrSet(datasourceName, "group_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),

@@ -22,6 +22,14 @@ func DbHomesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"db_homes": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -60,6 +68,15 @@ func (s *DbHomesDataSourceCrud) Get() error {
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
 		tmp := dbSystemId.(string)
 		request.DbSystemId = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_database.DbHomeSummaryLifecycleStateEnum(state.(string))
 	}
 
 	if limit, ok := s.D.GetOkExists("limit"); ok {

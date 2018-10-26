@@ -11,11 +11,12 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-const (
-	NodePoolOptionPropertyVariables = `
-variable "node_pool_option_id" { default = "all" }
+var (
+	nodePoolOptionSingularDataSourceRepresentation = map[string]interface{}{
+		"node_pool_option_id": Representation{repType: Required, create: `all`},
+	}
 
-`
+	NodePoolOptionResourceConfig = ""
 )
 
 func TestContainerengineNodePoolOptionResource_basic(t *testing.T) {
@@ -35,13 +36,9 @@ func TestContainerengineNodePoolOptionResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + `
-
-data "oci_containerengine_node_pool_option" "test_node_pool_option" {
-	#Required
-	node_pool_option_id = "${var.node_pool_option_id}"
-}
-                ` + compartmentIdVariableStr + NodePoolOptionPropertyVariables,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + NodePoolOptionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_option_id"),
 
