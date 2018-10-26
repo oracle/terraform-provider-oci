@@ -1,13 +1,13 @@
 ## 3.6.0 (Unreleased)
 
 ### Added
-- Support `db_name` and `state` parameters in `oci_database_database` data source
-- Support `display_name` and `state` parameters in  `oci_database_db_homes` data source
-- Support `state` parameter in `oci_database_db_nodes` data source
-- Support `availability_domain`, `display_name`, and `state` parameters in `oci_database_db_systems` data source
+- New parameters `db_name` and `state` in `oci_database_database` data source
+- New parameters `display_name` and `state` in `oci_database_db_homes` data source
+- New parameter `state` parameter in `oci_database_db_nodes` data source
+- New parameters `availability_domain`, `display_name`, and `state` in `oci_database_db_systems` data source
 
 ### Fixed
-- Converting SetType properties to ListTypes so that they can be referred to in tf files for datasources of `oci_core_route_tables`, `oci_core_security_lists`, `oci_core_volume`, and `oci_core_service_gateways`
+- Data type for properties with type as TypeSet to TypeList in following datasources: `oci_core_route_tables`, `oci_core_security_lists`, `oci_core_volume`, and `oci_core_service_gateways` to allow referencing by indexes in Terraform configs.
 
 ## 3.5.0 (October 19, 2018)
 
