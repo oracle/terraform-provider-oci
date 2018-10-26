@@ -1,13 +1,13 @@
 ## 3.6.0 (Unreleased)
 
 ### Added
-- Added `db_name` and `state` parameters into `oci_database_database` data source
-- Added `display_name` and `state` parameters into  `oci_database_db_homes` data source
-- Added `state` parameter into `oci_database_db_nodes` data source
-- Added `availability_domain`, `display_name`, and `state` parameters into `oci_database_db_systems` data source
+- Support `db_name` and `state` parameters in `oci_database_database` data source
+- Support `display_name` and `state` parameters in  `oci_database_db_homes` data source
+- Support `state` parameter in `oci_database_db_nodes` data source
+- Support `availability_domain`, `display_name`, and `state` parameters in `oci_database_db_systems` data source
 
-### Fiexed
-- Fix for datasources of `oci_core_route_tables`, `oci_core_security_lists`, `oci_core_volume`, and `oci_core_service_gateways` to convert SetType properties to ListTypes so that they can be referred to in tf files"
+### Fixed
+- Converting SetType properties to ListTypes so that they can be referred to in tf files for datasources of `oci_core_route_tables`, `oci_core_security_lists`, `oci_core_volume`, and `oci_core_service_gateways`
 
 ## 3.5.0 (October 19, 2018)
 
