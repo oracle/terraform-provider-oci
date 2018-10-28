@@ -101,6 +101,10 @@ func (s *TagsDataSourceCrud) SetData() error {
 			tag["id"] = *r.Id
 		}
 
+		if r.IsCostTracking != nil {
+			tag["is_cost_tracking"] = *r.IsCostTracking
+		}
+
 		if r.IsRetired != nil {
 			tag["is_retired"] = *r.IsRetired
 		}

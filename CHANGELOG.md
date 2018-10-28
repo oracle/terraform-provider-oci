@@ -10,6 +10,7 @@
 - Support for encrypting the contents of an Object Storage bucket using a Key Management Service key
 - Support for specifying a Key Management Service key when launching a compute instance in the Compute service
 - Support for specifying a Key Management Service key when backing up or restoring a block storage volume in the Block Volume service
+- Support for cost tracking in tags
 
 ### Fixed
 - Data type for properties with type as TypeSet to TypeList in following datasources: `oci_core_route_tables`, `oci_core_security_lists`, `oci_core_volume`, and `oci_core_service_gateways` to allow referencing by indexes in Terraform configs.

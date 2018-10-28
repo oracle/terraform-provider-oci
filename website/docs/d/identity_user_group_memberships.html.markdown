@@ -38,7 +38,7 @@ data "oci_identity_user_group_memberships" "test_user_group_memberships" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
+* `compartment_id` - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment). 
 * `group_id` - (Optional) The OCID of the group.
 * `user_id` - (Optional) The OCID of the user.
 

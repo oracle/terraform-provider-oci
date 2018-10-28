@@ -51,6 +51,7 @@ var (
 		"tag_namespace_id": Representation{repType: Required, create: `${oci_identity_tag_namespace.test_tag_namespace.id}`},
 		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"is_cost_tracking": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 
 	TagResourceDependencies = TagNamespaceRequiredOnlyResource
@@ -103,6 +104,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_cost_tracking", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "is_retired"),
 					resource.TestCheckResourceAttr(resourceName, "name", "CostCenter"),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
@@ -124,6 +126,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_cost_tracking", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "is_retired"),
 					resource.TestCheckResourceAttr(resourceName, "name", "CostCenter"),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
@@ -152,6 +155,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "tags.0.is_cost_tracking", "true"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.is_retired"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.name", "CostCenter"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.time_created"),

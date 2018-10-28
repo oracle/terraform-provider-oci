@@ -29,7 +29,7 @@ data "oci_identity_identity_providers" "test_identity_providers" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
+* `compartment_id` - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment). 
 * `protocol` - (Required) The protocol used for federation.
 
 

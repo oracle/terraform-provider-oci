@@ -28,7 +28,7 @@ data "oci_identity_tag_namespaces" "test_tag_namespaces" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
+* `compartment_id` - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment). 
 * `include_subcompartments` - (Optional) An optional boolean parameter indicating whether to retrieve all tag namespaces in subcompartments. If this parameter is not specified, only the tag namespaces defined in the specified compartment are retrieved. 
 
 
