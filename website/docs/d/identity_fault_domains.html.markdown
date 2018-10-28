@@ -29,7 +29,7 @@ data "oci_identity_fault_domains" "test_fault_domains" {
 The following arguments are supported:
 
 * `availability_domain` - (Required) The name of the availibilityDomain. 
-* `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
+* `compartment_id` - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment). 
 
 
 ## Attributes Reference

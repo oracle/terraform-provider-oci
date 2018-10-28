@@ -27,7 +27,7 @@ data "oci_identity_dynamic_groups" "test_dynamic_groups" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
+* `compartment_id` - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment). 
 
 
 ## Attributes Reference

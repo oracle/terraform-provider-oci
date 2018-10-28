@@ -35,6 +35,7 @@ resource "oci_identity_tag" "test_tag" {
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
+	is_cost_tracking = "${var.tag_is_cost_tracking}"
     is_retired = false
 }
 ```
@@ -46,6 +47,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) (Updatable) The description you assign to the tag during creation.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `is_cost_tracking` - (Optional) (Updatable) Indicates whether the tag is enabled for cost tracking. 
 * `name` - (Required) The name you assign to the tag during creation. The name must be unique within the tag namespace and cannot be changed. 
 * `tag_namespace_id` - (Required) The OCID of the tag namespace. 
 * `is_retired` - (Optional) (Updatable) Indicates whether the tag is retired. See [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
@@ -62,6 +64,7 @@ The following attributes are exported:
 * `description` - The description you assign to the tag.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the tag definition.
+* `is_cost_tracking` - Indicates whether the tag is enabled for cost tracking. 
 * `is_retired` - Indicates whether the tag is retired. See [Retiring Key Definitions and Namespace Definitions](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
 * `name` - The name of the tag. The name must be unique across all tags in the tag namespace and can't be changed. 
 * `tag_namespace_id` - The OCID of the namespace that contains the tag definition.
