@@ -42,6 +42,7 @@ The following attributes are exported:
 * `description` - The description you assign to the tag.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the tag definition.
+* `is_cost_tracking` - Indicates whether the tag is enabled for cost tracking. 
 * `is_retired` - Indicates whether the tag is retired. See [Retiring Key Definitions and Namespace Definitions](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
 * `name` - The name of the tag. The name must be unique across all tags in the tag namespace and can't be changed. 
 * `tag_namespace_id` - The OCID of the namespace that contains the tag definition.

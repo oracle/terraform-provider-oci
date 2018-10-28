@@ -53,6 +53,11 @@ func TagResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_cost_tracking": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_retired": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -125,6 +130,11 @@ func (s *TagResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isCostTracking, ok := s.D.GetOkExists("is_cost_tracking"); ok {
+		tmp := isCostTracking.(bool)
+		request.IsCostTracking = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -228,6 +238,11 @@ func (s *TagResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isCostTracking, ok := s.D.GetOkExists("is_cost_tracking"); ok {
+		tmp := isCostTracking.(bool)
+		request.IsCostTracking = &tmp
+	}
+
 	if isRetired, ok := s.D.GetOkExists("is_retired"); ok {
 		tmp := isRetired.(bool)
 		request.IsRetired = &tmp
@@ -264,6 +279,10 @@ func (s *TagResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsCostTracking != nil {
+		s.D.Set("is_cost_tracking", *s.Res.IsCostTracking)
+	}
 
 	if s.Res.IsRetired != nil {
 		s.D.Set("is_retired", *s.Res.IsRetired)
