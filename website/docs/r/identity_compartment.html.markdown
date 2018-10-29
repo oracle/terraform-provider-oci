@@ -9,13 +9,11 @@ description: |-
 # oci_identity_compartment
 This resource provides the Compartment resource in Oracle Cloud Infrastructure Identity service.
 
-Creates a new compartment in your tenancy.
-
-If a compartment with the given `name` already exists, then that compartment will be used instead of creating a new compartment.
+Creates a new compartment in the specified compartment.
 
 **Important:** Compartments cannot be deleted.
 
-You must specify your tenancy's OCID as the compartment ID in the request object. Remember that the tenancy
+Specify the parent compartment's OCID as the compartment ID in the request object. Remember that the tenancy
 is simply the root compartment. For information about OCIDs, see
 [Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
@@ -48,11 +46,12 @@ resource "oci_identity_compartment" "test_compartment" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the tenancy containing the compartment.
+* `compartment_id` - (Required) The OCID of the parent compartment containing the compartment.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) (Updatable) The description you assign to the compartment during creation. Does not have to be unique, and it's changeable. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
-* `name` - (Required) (Updatable) The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy. Avoid entering confidential information. 
+* `name` - (Required) (Updatable) The name you assign to the compartment during creation. The name must be unique across all compartments in the parent compartment. Avoid entering confidential information.
+* `enable_delete` - (Optional) Defaults to false. If omitted or set to false the provider will implicitly import the compartment if there is a name collision, and will not actually delete the compartment on destroy or removal of the resource declaration. If set to true, the provider will throw an error on a name collision with another compartment, and will attempt to delete the compartment on destroy or removal of the resource declaration.  
 
 
 ** IMPORTANT **
@@ -62,13 +61,14 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the tenancy containing the compartment.
+* `compartment_id` - The OCID of the parent compartment containing the compartment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the compartment. Does not have to be unique, and it's changeable.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the compartment.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.
-* `name` - The name you assign to the compartment during creation. The name must be unique across all compartments in the tenancy. Avoid entering confidential information. 
+* `is_accessible` - Indicates whether or not the compartment is accessible for the user making the request. Returns true when the user has INSPECT permissions directly on a resource in the compartment or indirectly (permissions can be on a resource in a subcompartment). 
+* `name` - The name you assign to the compartment during creation. The name must be unique across all compartments in the parent. Avoid entering confidential information. 
 * `state` - The compartment's current state.
 * `time_created` - Date and time the compartment was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 

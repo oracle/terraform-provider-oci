@@ -15,9 +15,17 @@ func CompartmentsDataSource() *schema.Resource {
 		Read: readCompartments,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"access_level": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"compartment_id_in_subtree": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			"compartments": {
 				Type:     schema.TypeList,
@@ -49,9 +57,19 @@ func (s *CompartmentsDataSourceCrud) VoidState() {
 func (s *CompartmentsDataSourceCrud) Get() error {
 	request := oci_identity.ListCompartmentsRequest{}
 
+	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
+		tmp := accessLevel.(string)
+		request.AccessLevel = oci_identity.ListCompartmentsAccessLevelEnum(tmp)
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		request.CompartmentIdInSubtree = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
@@ -106,6 +124,10 @@ func (s *CompartmentsDataSourceCrud) SetData() error {
 
 		if r.InactiveStatus != nil {
 			compartment["inactive_state"] = strconv.FormatInt(*r.InactiveStatus, 10)
+		}
+
+		if r.IsAccessible != nil {
+			compartment["is_accessible"] = *r.IsAccessible
 		}
 
 		if r.Name != nil {
