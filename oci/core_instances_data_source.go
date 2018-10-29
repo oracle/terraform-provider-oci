@@ -196,6 +196,10 @@ func (s *InstancesDataSourceCrud) SetData() error {
 			instance["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.TimeMaintenanceRebootDue != nil {
+			instance["time_maintenance_reboot_due"] = r.TimeMaintenanceRebootDue.String()
+		}
+
 		resources = append(resources, instance)
 	}
 

@@ -156,6 +156,10 @@ func InstanceDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_maintenance_reboot_due": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			// Legacy custom computed convenience values
 			"public_ip": {
 				Type:     schema.TypeString,
@@ -321,6 +325,10 @@ func (s *InstanceDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeMaintenanceRebootDue != nil {
+		s.D.Set("time_maintenance_reboot_due", s.Res.TimeMaintenanceRebootDue.String())
 	}
 
 	if s.Res.LifecycleState == oci_core.InstanceLifecycleStateRunning {

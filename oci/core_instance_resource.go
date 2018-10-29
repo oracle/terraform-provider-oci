@@ -300,6 +300,10 @@ func InstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_maintenance_reboot_due": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			// Legacy custom computed convenience values
 			"public_ip": {
 				Type:     schema.TypeString,
@@ -705,6 +709,14 @@ func (s *InstanceResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeMaintenanceRebootDue != nil {
+		s.D.Set("time_maintenance_reboot_due", s.Res.TimeMaintenanceRebootDue.String())
+	} else {
+		// If the maintenance time is cleared after reboot, the service will return a nil. 
+		// We should explicitly zero it out to avoid returning the previously cached reboot time.
+		s.D.Set("time_maintenance_reboot_due", "")
 	}
 
 	if s.Res.LifecycleState == oci_core.InstanceLifecycleStateRunning {
