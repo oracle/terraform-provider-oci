@@ -19,9 +19,11 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
+	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 
+	"github.com/mitchellh/copystructure"
 	oci_common "github.com/oracle/oci-go-sdk/common"
 )
 
@@ -61,6 +63,18 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	kmsCryptoClient, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(officialSdkConfigProvider, "DUMMY_ENDPOINT")
+	if err != nil {
+		return
+	}
+	kmsManagementClient, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(officialSdkConfigProvider, "DUMMY_ENDPOINT")
+	if err != nil {
+		return
+	}
+	kmsVaultClient, err := oci_kms.NewKmsVaultClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -192,6 +206,18 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&kmsCryptoClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&kmsManagementClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&kmsVaultClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&loadBalancerClient.BaseClient)
 	if err != nil {
 		return
@@ -214,6 +240,9 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.emailClient = &emailClient
 	clients.fileStorageClient = &fileStorageClient
 	clients.identityClient = &identityClient
+	clients.kmsCryptoClient = &kmsCryptoClient
+	clients.kmsManagementClient = &kmsManagementClient
+	clients.kmsVaultClient = &kmsVaultClient
 	clients.loadBalancerClient = &loadBalancerClient
 	clients.objectStorageClient = &objectStorageClient
 	clients.virtualNetworkClient = &virtualNetworkClient
@@ -231,7 +260,32 @@ type OracleClients struct {
 	emailClient           *oci_email.EmailClient
 	fileStorageClient     *oci_file_storage.FileStorageClient
 	identityClient        *oci_identity.IdentityClient
+	kmsCryptoClient       *oci_kms.KmsCryptoClient
+	kmsManagementClient   *oci_kms.KmsManagementClient
+	kmsVaultClient        *oci_kms.KmsVaultClient
 	loadBalancerClient    *oci_load_balancer.LoadBalancerClient
 	objectStorageClient   *oci_object_storage.ObjectStorageClient
 	virtualNetworkClient  *oci_core.VirtualNetworkClient
+}
+
+func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManagementClient, error) {
+	if copyClient, err := copystructure.Copy(*m.kmsManagementClient); err == nil {
+		client := copyClient.(oci_kms.KmsManagementClient)
+		client.Host = endpoint
+
+		return &client, nil
+	} else {
+		return nil, err
+	}
+}
+
+func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClient, error) {
+	if copyClient, err := copystructure.Copy(*m.kmsCryptoClient); err == nil {
+		client := copyClient.(oci_kms.KmsCryptoClient)
+		client.Host = endpoint
+
+		return &client, nil
+	} else {
+		return nil, err
+	}
 }
