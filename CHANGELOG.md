@@ -1,4 +1,4 @@
-## 3.6.0 (November 01, 2018)
+## 3.6.0 (Unreleased)
 
 ### Added
 - New parameters `db_name` and `state` in `oci_database_database` data source
@@ -12,6 +12,7 @@
 - Support for specifying a Key Management Service key when backing up or restoring a block storage volume in the Block Volume service
 - Support enabling cost tracking for tags using `is_cost_tracking` field
 - Support returning maintenance reboot time for compute instances using `time_maintenance_reboot_due` field
+- Support nesting and deleting compartments. Compartment delete requires opt in, see compartment documentation
 
 ### Fixed
 - Data type for properties with type as TypeSet to TypeList in following datasources: `oci_core_route_tables`, `oci_core_security_lists`, `oci_core_volume`, and `oci_core_service_gateways` to allow referencing by indexes in Terraform configs.

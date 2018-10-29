@@ -3,20 +3,32 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 var (
 	CompartmentRequiredOnlyResource = CompartmentResourceDependencies +
 		generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation)
 
+	CompartmentResourceConfig = CompartmentResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation)
+
+	compartmentSingularDataSourceRepresentation = map[string]interface{}{
+		"id": Representation{repType: Required, create: `${oci_identity_compartment.test_compartment.id}`},
+	}
+
 	compartmentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"filter":         RepresentationGroup{Required, compartmentDataSourceFilterRepresentation}}
+		"compartment_id":            Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"access_level":              Representation{repType: Optional, create: `ANY`},
+		"compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
+		"filter":                    RepresentationGroup{Required, compartmentDataSourceFilterRepresentation}}
 	compartmentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_identity_compartment.test_compartment.id}`}},
@@ -25,9 +37,16 @@ var (
 	compartmentRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"description":    Representation{repType: Required, create: `For network components`, update: `description2`},
-		"name":           Representation{repType: Required, create: `Network`},
+		"name":           Representation{repType: Required, create: `Network`, update: `name2`},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"timeouts":       RepresentationGroup{Required, compartmentTimeoutsRepresentation},
+	}
+
+	compartmentTimeoutsRepresentation = map[string]interface{}{
+		"create": Representation{repType: Optional, create: `60m`},
+		"update": Representation{repType: Optional, create: `60m`},
+		"delete": Representation{repType: Optional, create: `60m`},
 	}
 
 	CompartmentResourceDependencies = DefinedTagsDependencies
@@ -43,6 +62,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 
 	resourceName := "oci_identity_compartment.test_compartment"
 	datasourceName := "data.oci_identity_compartments.test_compartments"
+	singularDatasourceName := "data.oci_identity_compartment.test_compartment"
 
 	var resId, resId2 string
 
@@ -51,6 +71,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
+		CheckDestroy: testAccCheckIdentityCompartmentDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
@@ -88,8 +109,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 				),
 			},
 
-			// verify updates to updatable parameters except name.
-			// TODO add name updatability when we compartment delete becomes available
+			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
@@ -99,7 +119,7 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "name", "Network"),
+					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -119,7 +139,9 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 					compartmentIdVariableStr + CompartmentResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Optional, Update, compartmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(datasourceName, "access_level", "ANY"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 
 					resource.TestCheckResourceAttr(datasourceName, "compartments.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "compartments.0.compartment_id", tenancyId),
@@ -127,10 +149,30 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "compartments.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "compartments.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "compartments.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "compartments.0.name", "Network"),
+					resource.TestCheckResourceAttr(datasourceName, "compartments.0.name", "name2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "compartments.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "compartments.0.time_created"),
 				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + CompartmentResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + CompartmentResourceConfig,
 			},
 			// verify resource import
 			{
@@ -142,4 +184,42 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			},
 		},
 	})
+}
+
+func testAccCheckIdentityCompartmentDestroy(s *terraform.State) error {
+	noResourceFound := true
+	client := testAccProvider.Meta().(*OracleClients).identityClient
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_identity_compartment" {
+			noResourceFound = false
+			request := oci_identity.GetCompartmentRequest{}
+
+			tmp := rs.Primary.ID
+			request.CompartmentId = &tmp
+
+			response, err := client.GetCompartment(context.Background(), request)
+
+			if err == nil {
+				deletedLifecycleStates := map[string]bool{
+					string(oci_identity.CompartmentLifecycleStateDeleted): true,
+				}
+				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
+					//resource lifecycle state is not in expected deleted lifecycle states.
+					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.LifecycleState)
+				}
+				//resource lifecycle state is in expected deleted lifecycle states. continue with next one.
+				continue
+			}
+
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }
