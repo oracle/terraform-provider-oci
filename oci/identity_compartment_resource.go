@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
-
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
@@ -18,12 +18,16 @@ func CompartmentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createCompartment,
-		Read:     readCompartment,
-		Update:   updateCompartment,
-		Delete:   deleteCompartment,
+		Timeouts: &schema.ResourceTimeout{
+			Delete: schema.DefaultTimeout(90 * time.Minute), // service team states: p50: 30 min, p90: 60 min, max: 180 min
+		},
+		Create: createCompartment,
+		Read:   readCompartment,
+		Update: updateCompartment,
+		Delete: deleteCompartment,
 		Schema: map[string]*schema.Schema{
+			// Required
+			// @next-break: remove customizations
 			// The legacy provider exposed this as read-only/computed. The API requires this param. For legacy users who are
 			// not supplying a value, make it optional, behind the scenes it will use the tenancy ocid if not supplied.
 			// If a user supplies the value, then changes it, it requires forcing new.
@@ -33,7 +37,10 @@ func CompartmentResource() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
-			// Required
+			"enable_delete": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"description": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -63,6 +70,10 @@ func CompartmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_accessible": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -71,7 +82,7 @@ func CompartmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			// @Deprecated 01/2018: time_modified (removed)
+			// @Deprecated 01/2018: time_modified (removed). @next-break: remove
 			"time_modified": {
 				Type:       schema.TypeString,
 				Deprecated: FieldDeprecated("time_modified"),
@@ -106,7 +117,16 @@ func updateCompartment(d *schema.ResourceData, m interface{}) error {
 }
 
 func deleteCompartment(d *schema.ResourceData, m interface{}) error {
-	return nil
+	if enableDelete, ok := d.GetOkExists("enable_delete"); !ok || !enableDelete.(bool) {
+		return nil
+	}
+
+	sync := &CompartmentResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).identityClient
+	sync.DisableNotFoundRetries = true
+
+	return DeleteResource(d, sync)
 }
 
 type CompartmentResourceCrud struct {
@@ -150,7 +170,8 @@ func (s *CompartmentResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
-	} else {
+	} else { // @next-break: remove
+		// Maintain legacy contract of compartment_id defaulting to tenancy ocid if not specified
 		c := *s.Client.ConfigurationProvider()
 		if c == nil {
 			return fmt.Errorf("cannot access tenancyOCID")
@@ -187,34 +208,47 @@ func (s *CompartmentResourceCrud) Create() error {
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.CreateCompartment(context.Background(), request)
-	if err == nil {
-		s.Res = &response.Compartment
-		return nil
-	}
+	if err != nil {
+		if response.RawResponse != nil && response.RawResponse.StatusCode == 409 {
 
-	// Compartments can't be destroyed, so there is a work around here to react to name collisions
-	// by basically importing that pre-existing compartment into this plan.
-	if strings.Contains(err.Error(), "already exists") {
-		// List all compartments using the datasource to find that compartment with the matching name.
-		// CompartmentsDataSourceCrud requires a compartment_id, so forward whatever value was used in
-		// the create attempt above.
-		s.D.Set("compartment_id", request.CompartmentId)
-		dsCrud := &CompartmentsDataSourceCrud{s.D, s.Client, nil}
-		if err = dsCrud.Get(); err != nil {
-			return err
-		}
+			// It was determined that not enabling delete should also preserve the implicit importing behavior
+			if enableDelete, ok := s.D.GetOkExists("enable_delete"); !ok || !enableDelete.(bool) {
 
-		for _, compartment := range dsCrud.Res.Items {
-			if *compartment.Name == *request.Name {
-				s.Res = &compartment
-				//Update with correct description
-				s.D.SetId(s.ID())
-				return s.Update()
+				// React to name collisions by basically importing that pre-existing compartment into this plan.
+				if strings.Contains(err.Error(), "already exists") {
+					// List all compartments using the datasource to find that compartment with the matching name.
+					// CompartmentsDataSourceCrud requires a compartment_id, so forward whatever value was used in
+					// the create attempt above.
+					s.D.Set("compartment_id", request.CompartmentId)
+					dsCrud := &CompartmentsDataSourceCrud{s.D, s.Client, nil}
+					if err = dsCrud.Get(); err != nil {
+						return err
+					}
+
+					for _, compartment := range dsCrud.Res.Items {
+						if *compartment.Name == *request.Name {
+							s.Res = &compartment
+							//Update with correct description
+							s.D.SetId(s.ID())
+							return s.Update()
+						}
+					}
+				}
+
 			}
+
+			return fmt.Errorf(`%s
+
+If you define a compartment resource in your configurations with 
+the same name as an existing compartment, the compartment will no
+longer be transparently imported. If you intended to manage 
+an existing compartment, use terraform import instead.`, err)
 		}
+		return err
 	}
 
-	return err
+	s.Res = &response.Compartment
+	return nil
 }
 
 func (s *CompartmentResourceCrud) Get() error {
@@ -274,8 +308,15 @@ func (s *CompartmentResourceCrud) Update() error {
 }
 
 func (s *CompartmentResourceCrud) Delete() error {
-	// Compartments cannot be deleted. Just pretend it worked.
-	return nil
+	request := oci_identity.DeleteCompartmentRequest{}
+
+	tmp := s.D.Id()
+	request.CompartmentId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	_, err := s.Client.DeleteCompartment(context.Background(), request)
+	return err
 }
 
 func (s *CompartmentResourceCrud) SetData() error {
@@ -295,6 +336,10 @@ func (s *CompartmentResourceCrud) SetData() error {
 
 	if s.Res.InactiveStatus != nil {
 		s.D.Set("inactive_state", strconv.FormatInt(*s.Res.InactiveStatus, 10))
+	}
+
+	if s.Res.IsAccessible != nil {
+		s.D.Set("is_accessible", *s.Res.IsAccessible)
 	}
 
 	if s.Res.Name != nil {
