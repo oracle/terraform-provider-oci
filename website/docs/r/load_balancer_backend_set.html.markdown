@@ -46,7 +46,7 @@ resource "oci_load_balancer_backend_set" "test_backend_set" {
 	}
 	ssl_configuration {
 		#Required
-		certificate_name = "${var.backend_set_ssl_configuration_certificate_name}"
+		certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
 
 		#Optional
 		verify_depth = "${var.backend_set_ssl_configuration_verify_depth}"

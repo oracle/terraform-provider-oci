@@ -19,6 +19,10 @@ var (
 
 	backendSetDataSourceRepresentation = map[string]interface{}{
 		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"filter":           RepresentationGroup{Required, backendSetDataSourceFilterRepresentation}}
+	backendSetDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `name`},
+		"values": Representation{repType: Required, create: []string{`${oci_load_balancer_backend_set.test_backend_set.name}`}},
 	}
 
 	backendSetRepresentation = map[string]interface{}{
@@ -29,7 +33,6 @@ var (
 		"session_persistence_configuration": RepresentationGroup{Optional, backendSetSessionPersistenceConfigurationRepresentation},
 		"ssl_configuration":                 RepresentationGroup{Optional, backendSetSslConfigurationRepresentation},
 	}
-
 	backendSetHealthCheckerRepresentation = map[string]interface{}{
 		"protocol":            Representation{repType: Required, create: `HTTP`},
 		"interval_ms":         Representation{repType: Optional, create: `1000`, update: `2000`},
@@ -40,20 +43,18 @@ var (
 		"timeout_in_millis":   Representation{repType: Optional, create: `10000`, update: `11`},
 		"url_path":            Representation{repType: Required, create: `/healthcheck`, update: `urlPath2`},
 	}
-
 	backendSetSessionPersistenceConfigurationRepresentation = map[string]interface{}{
 		"cookie_name":      Representation{repType: Required, create: `example_cookie`},
 		"disable_fallback": Representation{repType: Optional, create: `false`, update: `true`},
 	}
-
 	backendSetSslConfigurationRepresentation = map[string]interface{}{
-		"certificate_name":        Representation{repType: Required, create: `${oci_load_balancer_certificate.t.certificate_name}`},
+		"certificate_name":        Representation{repType: Required, create: `${oci_load_balancer_certificate.test_certificate.certificate_name}`},
 		"verify_depth":            Representation{repType: Optional, create: `6`},
 		"verify_peer_certificate": Representation{repType: Optional, create: `false`},
 	}
 
 	BackendSetResourceDependencies = `
-	resource "oci_load_balancer_certificate" "t" {
+	resource "oci_load_balancer_certificate" "test_certificate" {
 		load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 		ca_certificate = "-----BEGIN CERTIFICATE-----\nMIIBNzCB4gIJAKtwJkxUgNpzMA0GCSqGSIb3DQEBCwUAMCMxITAfBgNVBAoTGElu\ndGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0xNzA0MTIyMTU3NTZaFw0xODA0MTIy\nMTU3NTZaMCMxITAfBgNVBAoTGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDBcMA0G\nCSqGSIb3DQEBAQUAA0sAMEgCQQDlM8lz3BFJA6zBlsF63k9ajPVq3Q1WQoHQ3j35\n08DRKIfwqfV+CxL63W3dZrwL4TrjqorP5CQ36+I6OWALH2zVAgMBAAEwDQYJKoZI\nhvcNAQELBQADQQCEjHVQJoiiVpIIvDWF+4YDRReVuwzrvq2xduWw7CIsDWlYuGZT\nQKVY6tnTy2XpoUk0fqUvMB/M2HGQ1WqZGHs6\n-----END CERTIFICATE-----"
 		certificate_name = "example_certificate_bundle"
@@ -126,7 +127,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
 					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "false"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
+					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
@@ -158,7 +159,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
 					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "true"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
+					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
@@ -196,7 +197,7 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.0.cookie_name", "example_cookie"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.0.disable_fallback", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.certificate_name", "example_certificate_bundle"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backendsets.0.ssl_configuration.0.certificate_name"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_depth", "6"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.verify_peer_certificate", "false"),
 				),

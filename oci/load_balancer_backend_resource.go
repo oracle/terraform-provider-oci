@@ -268,10 +268,10 @@ func (s *BackendResourceCrud) Get() error {
 	}
 
 	if !strings.HasPrefix(s.D.Id(), "ocid1.loadbalancerworkrequest.") {
-		backendName, backendSetName, loadBalancerId, err := parseBackendCompositeId(s.D.Id())
+		backendName, backendsetName, loadBalancerId, err := parseBackendCompositeId(s.D.Id())
 		if err == nil {
 			request.BackendName = &backendName
-			request.BackendSetName = &backendSetName
+			request.BackendSetName = &backendsetName
 			request.LoadBalancerId = &loadBalancerId
 		} else {
 			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
@@ -385,7 +385,6 @@ func (s *BackendResourceCrud) Delete() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	s.D.SetId(*workReqID)
 	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
@@ -398,10 +397,10 @@ func (s *BackendResourceCrud) SetData() error {
 		return nil
 	}
 
-	backendName, backendSetName, loadBalancerId, err := parseBackendCompositeId(s.D.Id())
+	backendName, backendsetName, loadBalancerId, err := parseBackendCompositeId(s.D.Id())
 	if err == nil {
 		s.D.Set("name", &backendName)
-		s.D.Set("backendset_name", &backendSetName)
+		s.D.Set("backendset_name", &backendsetName)
 		s.D.Set("load_balancer_id", &loadBalancerId)
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
@@ -438,15 +437,15 @@ func (s *BackendResourceCrud) SetData() error {
 	return nil
 }
 
-func getBackendCompositeId(backendName string, backendSetName string, loadBalancerId string) string {
+func getBackendCompositeId(backendName string, backendsetName string, loadBalancerId string) string {
 	backendName = url.PathEscape(backendName)
-	backendSetName = url.PathEscape(backendSetName)
+	backendsetName = url.PathEscape(backendsetName)
 	loadBalancerId = url.PathEscape(loadBalancerId)
-	compositeId := "loadBalancers/" + loadBalancerId + "/backendSets/" + backendSetName + "/backends/" + backendName
+	compositeId := "loadBalancers/" + loadBalancerId + "/backendSets/" + backendsetName + "/backends/" + backendName
 	return compositeId
 }
 
-func parseBackendCompositeId(compositeId string) (backendName string, backendSetName string, loadBalancerId string, err error) {
+func parseBackendCompositeId(compositeId string) (backendName string, backendsetName string, loadBalancerId string, err error) {
 	parts := strings.Split(compositeId, "/")
 	match, _ := regexp.MatchString("loadBalancers/.*/backendSets/.*/backends/.*", compositeId)
 	if !match || len(parts) != 6 {
@@ -454,7 +453,7 @@ func parseBackendCompositeId(compositeId string) (backendName string, backendSet
 		return
 	}
 	loadBalancerId, _ = url.PathUnescape(parts[1])
-	backendSetName, _ = url.PathUnescape(parts[3])
+	backendsetName, _ = url.PathUnescape(parts[3])
 	backendName, _ = url.PathUnescape(parts[5])
 
 	return

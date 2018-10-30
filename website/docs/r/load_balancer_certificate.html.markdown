@@ -101,21 +101,7 @@ The following attributes are exported:
 	    ...
 	    -----END CERTIFICATE-----
 	
-* `certificate_name` - A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle`
-* `load_balancer_id` - The [OCID](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer on which to add the certificate bundle.
-* `passphrase` - A passphrase for encrypted private keys. This is needed only if you created your certificate with a passphrase.
-* `private_key` - The SSL private key for your certificate, in PEM format.
-
-	Example:
-
-	    -----BEGIN RSA PRIVATE KEY-----
-	    jO1O1v2ftXMsawM90tnXwc6xhOAT1gDBC9S8DKeca..JZNUgYYwNS0dP2UK
-	    tmyN+XqVcAKw4HqVmChXy5b5msu8eIq3uc2NqNVtR..2ksSLukP8pxXcHyb
-	    +sEwvM4uf8qbnHAqwnOnP9+KV9vds6BaH1eRA4CHz..n+NVZlzBsTxTlS16
-	    /Umr7wJzVrMqK5sDiSu4WuaaBdqMGfL5hLsTjcBFD..Da2iyQmSKuVD4lIZ
-	    ...
-	    -----END RSA PRIVATE KEY-----
-
+* `certificate_name` - A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
 * `public_certificate` - The public certificate, in PEM format, that you received from your SSL certificate provider.
 
 	Example:

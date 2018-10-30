@@ -16,10 +16,11 @@ func LoadBalancerResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Create: createLoadBalancer,
-		Read:   readLoadBalancer,
-		Update: updateLoadBalancer,
-		Delete: deleteLoadBalancer,
+		Timeouts: DefaultTimeout,
+		Create:   createLoadBalancer,
+		Read:     readLoadBalancer,
+		Update:   updateLoadBalancer,
+		Delete:   deleteLoadBalancer,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -67,9 +68,31 @@ func LoadBalancerResource() *schema.Resource {
 			},
 
 			// Computed
-			"ip_addresses": {
+			"ip_address_details": {
 				Type:     schema.TypeList,
 				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"ip_address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_public": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"ip_addresses": {
+				Type:       schema.TypeList,
+				Computed:   true,
+				Deprecated: FieldDeprecatedForAnother("ip_addresses", "ip_address_details"),
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -232,7 +255,6 @@ func (s *LoadBalancerResourceCrud) Create() error {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	s.D.Set("state", s.WorkRequest.LifecycleState)
 	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
@@ -346,7 +368,6 @@ func (s *LoadBalancerResourceCrud) Delete() error {
 }
 
 func (s *LoadBalancerResourceCrud) SetData() error {
-	// The first time this is called, we haven't actually fetched the resource yet, we just got a work request
 	if s.Res == nil || s.Res.Id == nil {
 		return nil
 	}
@@ -372,6 +393,12 @@ func (s *LoadBalancerResourceCrud) SetData() error {
 	}
 	s.D.Set("ip_addresses", ipAddresses)
 
+	ipAddressDetails := []interface{}{}
+	for _, item := range s.Res.IpAddresses {
+		ipAddressDetails = append(ipAddressDetails, IpAddressToMap(item))
+	}
+	s.D.Set("ip_address_details", ipAddressDetails)
+
 	if s.Res.IsPrivate != nil {
 		s.D.Set("is_private", *s.Res.IsPrivate)
 	}
@@ -389,4 +416,18 @@ func (s *LoadBalancerResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func IpAddressToMap(obj oci_load_balancer.IpAddress) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IpAddress != nil {
+		result["ip_address"] = string(*obj.IpAddress)
+	}
+
+	if obj.IsPublic != nil {
+		result["is_public"] = bool(*obj.IsPublic)
+	}
+
+	return result
 }

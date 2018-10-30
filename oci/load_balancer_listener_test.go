@@ -112,7 +112,7 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "port", "10"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
+					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "10"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
 
@@ -135,11 +135,11 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "hostname_names.0", "example_hostname_001"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
-					resource.TestCheckResourceAttr(resourceName, "path_route_set_name", "example_path_route_set"),
+					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "port", "11"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
+					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "11"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "true"),
 

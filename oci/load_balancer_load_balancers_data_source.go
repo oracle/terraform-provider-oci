@@ -6,7 +6,6 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
@@ -129,6 +128,12 @@ func (s *LoadBalancersDataSourceCrud) SetData() error {
 		if r.Id != nil {
 			loadBalancer["id"] = *r.Id
 		}
+
+		ipAddressDetails := []interface{}{}
+		for _, item := range r.IpAddresses {
+			ipAddressDetails = append(ipAddressDetails, IpAddressToMap(item))
+		}
+		loadBalancer["ip_address_details"] = ipAddressDetails
 
 		ipAddresses := []string{}
 		for _, ad := range r.IpAddresses {

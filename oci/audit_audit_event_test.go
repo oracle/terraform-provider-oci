@@ -21,7 +21,7 @@ var (
 	AuditEventResourceConfig = ""
 )
 
-func TestAuditEventResource_basic(t *testing.T) {
+func TestAuditAuditEventResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 

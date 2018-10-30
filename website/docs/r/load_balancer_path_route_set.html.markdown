@@ -22,7 +22,7 @@ resource "oci_load_balancer_path_route_set" "test_path_route_set" {
 	name = "${var.path_route_set_name}"
 	path_routes {
 		#Required
-		backend_set_name = "${var.path_route_set_path_routes_backend_set_name}"
+		backend_set_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
 		path = "${var.path_route_set_path_routes_path}"
 		path_match_type {
 			#Required

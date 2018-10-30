@@ -374,14 +374,15 @@ func (s *ListenerResourceCrud) Update() error {
 		}
 		request.HostnameNames = tmp
 	}
+
+	if listenerName, ok := s.D.GetOkExists("name"); ok {
+		tmp := listenerName.(string)
+		request.ListenerName = &tmp
+	}
+
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
 		tmp := loadBalancerId.(string)
 		request.LoadBalancerId = &tmp
-	}
-
-	if name, ok := s.D.GetOkExists("name"); ok {
-		tmp := name.(string)
-		request.ListenerName = &tmp
 	}
 
 	if pathRouteSetName, ok := s.D.GetOkExists("path_route_set_name"); ok {
@@ -440,15 +441,16 @@ func (s *ListenerResourceCrud) Delete() error {
 	}
 	request := oci_load_balancer.DeleteListenerRequest{}
 
+	if listenerName, ok := s.D.GetOkExists("name"); ok {
+		tmp := listenerName.(string)
+		request.ListenerName = &tmp
+	}
+
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
 		tmp := loadBalancerId.(string)
 		request.LoadBalancerId = &tmp
 	}
 
-	if name, ok := s.D.GetOkExists("name"); ok {
-		tmp := name.(string)
-		request.ListenerName = &tmp
-	}
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.DeleteListener(context.Background(), request)
@@ -473,6 +475,7 @@ func (s *ListenerResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
+
 	listenerName, loadBalancerId, err := parseListenerCompositeId(s.D.Id())
 	if err == nil {
 		s.D.Set("name", &listenerName)
@@ -512,6 +515,7 @@ func (s *ListenerResourceCrud) SetData() error {
 
 	return nil
 }
+
 func getListenerCompositeId(listenerName string, loadBalancerId string) string {
 	listenerName = url.PathEscape(listenerName)
 	loadBalancerId = url.PathEscape(loadBalancerId)

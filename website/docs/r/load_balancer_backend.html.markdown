@@ -16,7 +16,7 @@ Adds a backend server to a backend set.
 ```hcl
 resource "oci_load_balancer_backend" "test_backend" {
 	#Required
-	backendset_name = "${var.backend_backendset_name}"
+	backendset_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
 	ip_address = "${var.backend_ip_address}"
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 	port = "${var.backend_port}"
@@ -50,7 +50,6 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `backendset_name` - The name of the backend set to add the backend server to.  Example: `My_backend_set`
 * `backup` - Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.  Example: `false` 
 * `drain` - Whether the load balancer should drain this server. Servers marked "drain" receive no new incoming traffic.  Example: `false` 
 * `ip_address` - The IP address of the backend server.  Example: `10.0.0.3` 
