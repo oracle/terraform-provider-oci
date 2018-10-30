@@ -61,8 +61,9 @@ var (
 			getUpdatedRepresentationCopy("source_details", RepresentationGroup{Required, sourceDetailsSingleVolumeIdSourceDetailsRepresentation}, volumeGroupRepresentation))
 
 	VolumeGroupResourceDependencies             = DefinedTagsDependencies + VolumeGroupRequiredOnlyResourceDependencies
-	VolumeGroupRequiredOnlyResourceDependencies = AvailabilityDomainConfig + VolumeGroupAsDependency
-	VolumeGroupAsDependency                     = generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation) + `
+	VolumeGroupRequiredOnlyResourceDependencies = AvailabilityDomainConfig + SourceVolumeListDependency
+	VolumeGroupAsDependency                     = generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation) + SourceVolumeListDependency
+	SourceVolumeListDependency                  = `
 resource "oci_core_volume" "source_volume_list" {
 	count = 2
 	display_name = "${format("source-volume-%d", count.index + 1)}"

@@ -144,7 +144,7 @@ func (s *VolumeGroupsDataSourceCrud) SetData() error {
 
 		if r.SourceDetails != nil {
 			sourceDetailsArray := []interface{}{}
-			if sourceDetailsMap := VolumeGroupSourceDetailsToMap(&r.SourceDetails); sourceDetailsMap != nil {
+			if sourceDetailsMap := VolumeGroupSourceDetailsToMap(&r.SourceDetails, true); sourceDetailsMap != nil {
 				sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 			}
 			volumeGroup["source_details"] = sourceDetailsArray
