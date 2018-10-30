@@ -49,7 +49,7 @@ func readSingularKeyVersion(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	endpoint, ok := d.GetOkExists("management_endpoint")
 	if !ok {
-		fmt.Errorf("management endpoint missing")
+		return fmt.Errorf("management endpoint missing")
 	}
 	client, err := m.(*OracleClients).KmsManagementClient(endpoint.(string))
 	if err != nil {
