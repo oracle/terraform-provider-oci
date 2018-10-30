@@ -25,6 +25,7 @@ resource "oci_objectstorage_bucket" "test_bucket" {
 	access_type = "${var.bucket_access_type}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
+	kms_key_id = "${oci_objectstorage_kms_key.test_kms_key.id}"
 	metadata = "${var.bucket_metadata}"
 	storage_tier = "${var.bucket_storage_tier}"
 }
@@ -38,6 +39,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The ID of the compartment in which to create the bucket.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `kms_key_id` - (Optional) (Updatable) The OCID of a KMS key id used to call KMS to generate data key, decrypt the encrypted data key
 * `metadata` - (Optional) (Updatable) Arbitrary string, up to 4KB, of keys and values for user-defined metadata.
 * `name` - (Required) The name of the bucket. Valid characters are uppercase or lowercase letters, numbers, and dashes. Bucket names must be unique within the namespace. Avoid entering confidential information. example: Example: my-new-bucket1 
 * `namespace` - (Required) The top-level namespace used for the request.
@@ -57,6 +59,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `etag` - The entity tag for the bucket.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `kms_key_id` - The OCID of a KMS key id used to call KMS to generate data key, decrypt the encrypted data key
 * `metadata` - Arbitrary string keys and values for user-defined metadata.
 * `name` - The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1 
 * `namespace` - The namespace in which the bucket lives.

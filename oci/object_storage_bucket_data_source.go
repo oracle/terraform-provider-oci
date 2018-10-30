@@ -48,6 +48,10 @@ func BucketDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"metadata": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -137,6 +141,10 @@ func (s *BucketDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
 
 	s.D.Set("metadata", s.Res.Metadata)
 
