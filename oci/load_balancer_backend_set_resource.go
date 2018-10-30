@@ -529,6 +529,9 @@ func (s *BackendSetResourceCrud) Update() error {
 }
 
 func (s *BackendSetResourceCrud) Delete() error {
+	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
+		return nil
+	}
 	request := oci_load_balancer.DeleteBackendSetRequest{}
 
 	if backendSetName, ok := s.D.GetOkExists("name"); ok {

@@ -20,6 +20,10 @@ var (
 	backendDataSourceRepresentation = map[string]interface{}{
 		"backendset_name":  Representation{repType: Required, create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
 		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"filter":           RepresentationGroup{Required, backendDataSourceFilterRepresentation}}
+	backendDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `name`},
+		"values": Representation{repType: Required, create: []string{`${oci_load_balancer_backend.test_backend.name}`}},
 	}
 
 	backendRepresentation = map[string]interface{}{
@@ -60,7 +64,7 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + BackendResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Required, Create, backendRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendSet1"),
+					resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "port", "10"),
@@ -81,7 +85,7 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + BackendResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Create, backendRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendSet1"),
+					resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
 					resource.TestCheckResourceAttr(resourceName, "backup", "false"),
 					resource.TestCheckResourceAttr(resourceName, "drain", "false"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
@@ -103,7 +107,7 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + BackendResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "backendset_name", "backendSet1"),
+					resource.TestCheckResourceAttrSet(resourceName, "backendset_name"),
 					resource.TestCheckResourceAttr(resourceName, "backup", "true"),
 					resource.TestCheckResourceAttr(resourceName, "drain", "true"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
@@ -129,7 +133,7 @@ func TestLoadBalancerBackendResource_basic(t *testing.T) {
 					compartmentIdVariableStr + BackendResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "backendset_name", "backendSet1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backendset_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "backends.#", "1"),
