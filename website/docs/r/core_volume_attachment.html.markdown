@@ -48,7 +48,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `attachment_type` - The type of volume attachment.
-* `availability_domain` - The Availability Domain of an instance.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The availability domain of an instance.  Example: `Uocm:PHX-AD-1` 
 * `chap_secret` - The Challenge-Handshake-Authentication-Protocol (CHAP) secret valid for the associated CHAP user name. (Also called the "CHAP password".)  Example: `d6866c0d-298b-48ba-95af-309b4faux45e` 
 * `chap_username` - The volume's system-generated Challenge-Handshake-Authentication-Protocol (CHAP) user name.  Example: `ocid1.volume.oc1.phx.abyhqljrgvttnlx73nmrwfaux7kcvzfs3s66izvxf2h4lgvyndsdsnoiwr5q` 
 * `compartment_id` - The OCID of the compartment.

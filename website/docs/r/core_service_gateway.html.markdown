@@ -33,9 +33,9 @@ resource "oci_core_service_gateway" "test_service_gateway" {
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
-	defined_tags = {"foo-namespace.bar-key"= "foo-value"}
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.service_gateway_display_name}"
-	freeform_tags = {"bar-key"= "value"}
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 
@@ -43,11 +43,11 @@ resource "oci_core_service_gateway" "test_service_gateway" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The [OCID] (/Content/General/Concepts/identifiers.htm)  of the compartment to contain the Service Gateway. 
+* `compartment_id` - (Required) The [OCID] (/Content/General/Concepts/identifiers.htm)  of the compartment to contain the service gateway. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `services` - (Required) (Updatable) List of the Service OCIDs. These are the Services which will be enabled on the Service Gateway. This list can be empty.
+* `services` - (Required) (Updatable) List of the service OCIDs. These are the services that will be enabled on the service gateway. This list can be empty.
 	* `service_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service. 
 * `vcn_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 
@@ -61,9 +61,9 @@ The following attributes are exported:
 
 * `block_traffic` - Whether the service gateway blocks all traffic through it. The default is `false`. When this is `true`, traffic is not routed to any services, regardless of route rules.  Example: `true` 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the service gateway. 
-* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "foo-value"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service gateway.
 * `services` - List of the services enabled on this service gateway. The list can be empty. You can enable a particular service by using [AttachServiceId](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/ServiceGateway/AttachServiceId). 
 	* `service_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service. 

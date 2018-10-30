@@ -9,7 +9,7 @@ description: |-
 # oci_core_cpe
 This resource provides the Cpe resource in Oracle Cloud Infrastructure Core service.
 
-Creates a new virtual Customer-Premises Equipment (CPE) object in the specified compartment. For
+Creates a new virtual customer-premises equipment (CPE) object in the specified compartment. For
 more information, see [IPSec VPNs](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPsec.htm).
 
 For the purposes of access control, you must provide the OCID of the compartment where you want

@@ -31,7 +31,7 @@ data "oci_core_volume_groups" "test_volume_groups" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Optional) The name of the Availability Domain.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The OCID of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
@@ -53,6 +53,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name for the volume group. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID for the volume group.
+* `is_hydrated` - Specifies whether the newly created cloned volume group's data has finished copying from the source volume group or backup.
 * `size_in_gbs` - The aggregate size of the volume group in GBs.
 * `size_in_mbs` - The aggregate size of the volume group in MBs.
 * `source_details` - The volume group source. The source is either another a list of volume IDs in the same availability domain, another volume group, or a volume group backup. 

@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_core_cpes
 This data source provides the list of Cpes in Oracle Cloud Infrastructure Core service.
 
-Lists the Customer-Premises Equipment objects (CPEs) in the specified compartment.
+Lists the customer-premises equipment objects (CPEs) in the specified compartment.
 
 
 ## Example Usage
