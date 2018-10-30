@@ -42,12 +42,12 @@ resource "oci_core_volume_group" "test_volume_group" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The Availability Domain of the volume group.
+* `availability_domain` - (Required) The availability domain of the volume group.
 * `compartment_id` - (Required) The OCID of the compartment that contains the volume group.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name for the volume group. Does not have to be unique, and it's changeable.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `source_details` - (Required) Specifies the volume group source details for a new volume group. The volume source is either another a list of volume ids in the same Availability Domain, another volume group or a volume group backup. 
+* `source_details` - (Required) Specifies the volume group source details for a new volume group. The volume source is either another a list of volume ids in the same availability domain, another volume group or a volume group backup. 
 	* `type` - (Required) The type can be one of these values: `volumeGroupBackupId`, `volumeGroupId`, `volumeIds`
 	* `volume_group_backup_id` - (Required when type=volumeGroupBackupId) The OCID of the volume group backup to restore from.
 	* `volume_group_id` - (Required when type=volumeGroupId) The OCID of the volume group to clone from.
@@ -67,6 +67,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name for the volume group. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID for the volume group.
+* `is_hydrated` - Specifies whether the newly created cloned volume group's data has finished copying from the source volume group or backup.
 * `size_in_gbs` - The aggregate size of the volume group in GBs.
 * `size_in_mbs` - The aggregate size of the volume group in MBs.
 * `source_details` - The volume group source. The source is either another a list of volume IDs in the same availability domain, another volume group, or a volume group backup. 

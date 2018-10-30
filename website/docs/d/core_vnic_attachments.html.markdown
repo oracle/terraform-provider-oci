@@ -11,7 +11,7 @@ This data source provides the list of Vnic Attachments in Oracle Cloud Infrastru
 
 Lists the VNIC attachments in the specified compartment. A VNIC attachment
 resides in the same compartment as the attached instance. The list can be
-filtered by instance, VNIC, or Availability Domain.
+filtered by instance, VNIC, or availability domain.
 
 
 ## Example Usage
@@ -32,7 +32,7 @@ data "oci_core_vnic_attachments" "test_vnic_attachments" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Optional) The name of the Availability Domain.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The OCID of the compartment.
 * `instance_id` - (Optional) The OCID of the instance.
 * `vnic_id` - (Optional) The OCID of the VNIC.
@@ -48,7 +48,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `availability_domain` - The Availability Domain of the instance.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment the VNIC attachment is in, which is the same compartment the instance is in. 
 * `display_name` - A user-friendly name. Does not have to be unique. Avoid entering confidential information. 
 * `id` - The OCID of the VNIC attachment.
