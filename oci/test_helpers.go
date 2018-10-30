@@ -228,9 +228,6 @@ func generateDataSourceFromRepresentationMap(resourceType string, resourceName s
 func generateResourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
 	var buffer bytes.Buffer
 	buffer.WriteString(fmt.Sprintf(`resource "%s" "%s" %s`, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))
-	if "test_object_copy" == resourceName {
-		log.Printf("### %s", buffer.String())
-	}
 	return buffer.String()
 }
 

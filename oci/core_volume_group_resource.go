@@ -358,7 +358,7 @@ func (s *VolumeGroupResourceCrud) SetData() error {
 
 	if s.Res.SourceDetails != nil {
 		sourceDetailsArray := []interface{}{}
-		if sourceDetailsMap := VolumeGroupSourceDetailsToMap(&s.Res.SourceDetails); sourceDetailsMap != nil {
+		if sourceDetailsMap := VolumeGroupSourceDetailsToMap(&s.Res.SourceDetails, false); sourceDetailsMap != nil {
 			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 		}
 		s.D.Set("source_details", sourceDetailsArray)
@@ -423,7 +423,7 @@ func (s *VolumeGroupResourceCrud) mapToVolumeGroupSourceDetails(fieldKeyFormat s
 	return baseObject, nil
 }
 
-func VolumeGroupSourceDetailsToMap(obj *oci_core.VolumeGroupSourceDetails) map[string]interface{} {
+func VolumeGroupSourceDetailsToMap(obj *oci_core.VolumeGroupSourceDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
 	case oci_core.VolumeGroupSourceFromVolumeGroupBackupDetails:
@@ -445,7 +445,11 @@ func VolumeGroupSourceDetailsToMap(obj *oci_core.VolumeGroupSourceDetails) map[s
 		for _, item := range v.VolumeIds {
 			volumeIds = append(volumeIds, item)
 		}
-		result["volume_ids"] = schema.NewSet(literalTypeHashCodeForSets, volumeIds)
+		if datasource {
+			result["volume_ids"] = volumeIds
+		} else {
+			result["volume_ids"] = schema.NewSet(literalTypeHashCodeForSets, volumeIds)
+		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
 		return nil
