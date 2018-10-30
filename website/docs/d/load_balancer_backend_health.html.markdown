@@ -16,8 +16,8 @@ Gets the current health status of the specified backend server.
 ```hcl
 data "oci_load_balancer_backend_health" "test_backend_health" {
 	#Required
-	backend_name = "${var.backend_health_backend_name}"
-	backend_set_name = "${var.backend_health_backend_set_name}"
+	backend_name = "${oci_load_balancer_backend.test_backend.name}"
+	backend_set_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 }
 ```

@@ -251,7 +251,6 @@ func (s *CertificateResourceCrud) Delete() error {
 	response, err := s.Client.DeleteCertificate(context.Background(), request)
 
 	workReqID := response.OpcWorkRequestId
-	s.D.SetId(*workReqID)
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
 	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
@@ -268,7 +267,20 @@ func (s *CertificateResourceCrud) Delete() error {
 }
 
 func (s *CertificateResourceCrud) SetData() error {
-	// Noop for this resource
+	if s.Res == nil {
+		return nil
+	}
+	if s.Res.CaCertificate != nil {
+		s.D.Set("ca_certificate", *s.Res.CaCertificate)
+	}
+
+	if s.Res.CertificateName != nil {
+		s.D.Set("certificate_name", *s.Res.CertificateName)
+	}
+
+	if s.Res.PublicCertificate != nil {
+		s.D.Set("public_certificate", *s.Res.PublicCertificate)
+	}
 
 	return nil
 }

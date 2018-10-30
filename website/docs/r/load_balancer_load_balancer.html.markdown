@@ -88,7 +88,14 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. It does not have to be unique, and it is changeable.  Example: `example_load_balancer` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer.
-* `ip_addresses` - An array of IP addresses. 
+* `ip_address_details` - An array of IP addresses. 
+	* `ip_address` - An IP address.  Example: `192.168.0.3` 
+	* `is_public` - Whether the IP address is public or private.
+
+		If "true", the IP address is public and accessible from the internet.
+
+		If "false", the IP address is private and accessible only from within the associated VCN. 
+* `ip_addresses` - An array of IP addresses. Deprecated: use ip_address_details instead 
 * `is_private` - Whether the load balancer has a VCN-local (private) IP address.
 
 	If "true", the service assigns a private IP address to the load balancer. The load balancer requires only one subnet to host both the primary and secondary load balancers. The private IP address is local to the subnet. The load balancer is accessible only from within the VCN that contains the associated subnet, or as further restricted by your security list rules. The load balancer can route traffic to any backend server that is reachable from the VCN.

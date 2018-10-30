@@ -46,7 +46,6 @@ func TestLoadBalancerLoadBalancerHealthResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "total_backend_set_count"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "unknown_state_backend_set_names.#"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "unknown_state_backend_set_names.0", "backendSet1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "warning_state_backend_set_names.#"),
 				),
 				ExpectNonEmptyPlan: true,
