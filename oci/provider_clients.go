@@ -23,9 +23,12 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 
-	"github.com/mitchellh/copystructure"
 	oci_common "github.com/oracle/oci-go-sdk/common"
 )
+
+type ConfigureClient func(client *oci_common.BaseClient) error
+
+var configureClient ConfigureClient
 
 func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_common.ConfigurationProvider, httpClient *http.Client, userAgent string) (err error) {
 	// Official Go SDK clients:
@@ -108,7 +111,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		oboTokenProvider = oboTokenProviderFromEnv{}
 	}
 
-	configureClient := func(client *oci_common.BaseClient) error {
+	configureClient = func(client *oci_common.BaseClient) error {
 		client.HTTPClient = httpClient
 		client.UserAgent = userAgent
 		client.Signer = requestSigner
@@ -269,22 +272,22 @@ type OracleClients struct {
 }
 
 func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManagementClient, error) {
-	if copyClient, err := copystructure.Copy(*m.kmsManagementClient); err == nil {
-		client := copyClient.(oci_kms.KmsManagementClient)
-		client.Host = endpoint
-
-		return &client, nil
+	if managementClient, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(*m.kmsManagementClient.ConfigurationProvider(), endpoint); err == nil {
+		if err = configureClient(&managementClient.BaseClient); err != nil {
+			return nil, err
+		}
+		return &managementClient, nil
 	} else {
 		return nil, err
 	}
 }
 
 func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClient, error) {
-	if copyClient, err := copystructure.Copy(*m.kmsCryptoClient); err == nil {
-		client := copyClient.(oci_kms.KmsCryptoClient)
-		client.Host = endpoint
-
-		return &client, nil
+	if cryptoClient, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(*m.kmsCryptoClient.ConfigurationProvider(), endpoint); err == nil {
+		if err = configureClient(&cryptoClient.BaseClient); err != nil {
+			return nil, err
+		}
+		return &cryptoClient, nil
 	} else {
 		return nil, err
 	}
