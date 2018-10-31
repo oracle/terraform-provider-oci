@@ -42,7 +42,7 @@ func (s *DatasourceCoreImageTestSuite) TestAccImage_basic() {
 				data "oci_core_images" "allOracleImages" {
 					compartment_id = "${var.tenancy_ocid}"
 					operating_system = "%s"
-					shape = "VM.Standard1.1"
+					shape = "VM.Standard1.8"
 				}
 
 				data "oci_core_images" "t" {

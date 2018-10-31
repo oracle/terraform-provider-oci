@@ -62,7 +62,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		compartment_id = "${var.compartment_id}"
 		display_name = "-tf-instance"
 		image = "${var.InstanceImageOCID[var.region]}"
-		shape = "VM.Standard1.1"
+		shape = "VM.Standard1.8"
 		subnet_id = "${oci_core_subnet.t.id}"
 		metadata {
 			ssh_authorized_keys = "${var.ssh_public_key}"
@@ -77,7 +77,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		compartment_id = "${var.compartment_id}"
 		display_name = "-tf-instance"
 		image = "${var.InstanceImageOCID[var.region]}"
-		shape = "VM.Standard1.1"
+		shape = "VM.Standard1.8"
 		subnet_id = "${oci_core_subnet.t.id}"
 		metadata {
 			ssh_authorized_keys = "${var.ssh_public_key}"

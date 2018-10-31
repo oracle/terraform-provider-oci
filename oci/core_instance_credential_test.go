@@ -60,7 +60,7 @@ var (
 		compartment_id = "${var.compartment_id}"
 		subnet_id = "${oci_core_subnet.t.id}"
 		image = "${var.InstanceImageOCID[var.region]}"
-		shape = "VM.Standard1.1"
+		shape = "VM.Standard1.8"
 		metadata {
 			ssh_authorized_keys = "${var.ssh_public_key}"
 		}

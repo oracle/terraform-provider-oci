@@ -223,7 +223,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "kms_key_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "size_in_gbs", "52"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "size_in_mbs", "53248"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
