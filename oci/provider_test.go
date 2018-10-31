@@ -166,7 +166,7 @@ resource "oci_core_instance" "t" {
 	compartment_id = "${var.compartment_id}"
 	display_name = "-tf-instance"
 	image = "${var.InstanceImageOCID[var.region]}"
-	shape = "VM.Standard1.1"
+	shape = "VM.Standard1.8"
 	subnet_id = "${oci_core_subnet.WebSubnetAD1.id}"
 	metadata {
 		ssh_authorized_keys = "${var.ssh_public_key}"
