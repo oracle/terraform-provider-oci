@@ -94,7 +94,11 @@ variable "InstanceImageOCID" {
 
 func TestCoreInstanceResource_basic(t *testing.T) {
 	provider := testAccProvider
-	config := testProviderConfig()
+	config := `
+		provider oci {
+			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+		}
+	` + commonTestVariables()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
@@ -114,13 +118,14 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + InstanceResourceDependencies +
+				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard1.2"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "time_maintenance_reboot_due", ""),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -167,6 +172,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_maintenance_reboot_due"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -250,6 +256,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.0.source_type", "image"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.time_maintenance_reboot_due"),
 				),
 			},
 			// verify singular datasource
@@ -277,6 +284,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_reboot_due"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),
