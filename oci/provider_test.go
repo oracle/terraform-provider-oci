@@ -4,6 +4,7 @@ package provider
 
 import (
 	"fmt"
+	"net/http"
 	"runtime"
 	"sort"
 	"strings"
@@ -23,8 +24,8 @@ var requiredKeyAuthEnvVars = []string{"tenancy_ocid", "user_ocid", "fingerprint"
 var requiredOboTokenAuthEnvVars = []string{"tenancy_ocid", "obo_token"}
 
 func init() {
-	testAccProvider = Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return GetTestProvider(), nil
+	testAccProvider = testProvider(func(d *schema.ResourceData) (interface{}, error) {
+		return GetTestClients(d), nil
 	}).(*schema.Provider)
 
 	testAccProviders = map[string]terraform.ResourceProvider{
@@ -32,12 +33,23 @@ func init() {
 	}
 }
 
-func testProviderConfig() string {
-	return `
-	# Need to have this block even though it's empty; for import testing
-	provider "oci" {
+// Provider is the adapter for terraform, that gives access to all the resources
+func testProvider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
+	result := &schema.Provider{
+		DataSourcesMap: dataSourcesMap(),
+		Schema:         schemaMap(),
+		ResourcesMap:   resourcesMap(),
+		ConfigureFunc:  configfn,
 	}
 
+	// Additions for test parameters
+	result.Schema["test_time_maintenance_reboot_due"] = &schema.Schema{Type: schema.TypeString, Optional: true}
+
+	return result
+}
+
+func commonTestVariables() string {
+	return `
 	variable "tenancy_ocid" {
 		default = "` + getEnvSettingWithBlankDefault("tenancy_ocid") + `"
 	}
@@ -51,6 +63,14 @@ func testProviderConfig() string {
 	}
 
 	`
+}
+
+func testProviderConfig() string {
+	return `
+	# Need to have this block even though it's empty; for import testing
+	provider "oci" {
+	}
+	` + commonTestVariables()
 }
 
 func testAccPreCheck(t *testing.T) {
@@ -216,7 +236,11 @@ resource "oci_core_instance" "t" {
 ` + DefinedTagsDependencies
 )
 
-func GetTestProvider() *OracleClients {
+const (
+	requestQueryOpcTimeMaintenanceRebootDue = "opc-time-maintenance-reboot-due"
+)
+
+func GetTestClients(data *schema.ResourceData) *OracleClients {
 	r := &schema.Resource{
 		Schema: schemaMap(),
 	}
@@ -240,6 +264,32 @@ func GetTestProvider() *OracleClients {
 	if err != nil {
 		panic(err)
 	}
+
+	// This is a test hook to support creating instances that have a maintenance reboot time set
+	// The test hook allows 'time_maintenance_reboot_due' field to be tested for instance datasources/resources
+	// This is controlled by a provider option rather than environment variable: so that the tests can run in parallel
+	// without affecting one another and also allow individual test steps to alter this
+	//
+	// If we have additional test hooks that need to be supported in this manner, then the following logic should be
+	// compartmentalized and registered with the test provider in a scalable manner.
+	maintenanceRebootTime, ok := data.GetOkExists("test_time_maintenance_reboot_due")
+	if ok {
+		computeClient := client.(*OracleClients).computeClient
+		baseInterceptor := computeClient.Interceptor
+		computeClient.Interceptor = func(r *http.Request) error {
+			if err := baseInterceptor(r); err != nil {
+				return err
+			}
+
+			if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/instances")) {
+				query := r.URL.Query()
+				query.Set(requestQueryOpcTimeMaintenanceRebootDue, maintenanceRebootTime.(string))
+				r.URL.RawQuery = query.Encode()
+			}
+			return nil
+		}
+	}
+
 	return client.(*OracleClients)
 }
 

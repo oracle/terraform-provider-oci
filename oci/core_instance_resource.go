@@ -714,7 +714,7 @@ func (s *InstanceResourceCrud) SetData() error {
 	if s.Res.TimeMaintenanceRebootDue != nil {
 		s.D.Set("time_maintenance_reboot_due", s.Res.TimeMaintenanceRebootDue.String())
 	} else {
-		// If the maintenance time is cleared after reboot, the service will return a nil. 
+		// If the maintenance time is cleared after reboot, the service will return a nil.
 		// We should explicitly zero it out to avoid returning the previously cached reboot time.
 		s.D.Set("time_maintenance_reboot_due", "")
 	}
