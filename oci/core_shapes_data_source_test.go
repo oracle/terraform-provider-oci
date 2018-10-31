@@ -30,7 +30,7 @@ func (s *DatasourceCoreShapeTestSuite) SetupTest() {
 		availability_domain = "${data.oci_identity_availability_domains.t.availability_domains.0.name}"
 		filter {
 			name = "name"
-			values = ["VM.Standard1.2"]
+			values = ["VM.Standard1.8"]
 		}
 	}`
 	s.ResourceName = "data.oci_core_shape.t"
@@ -47,7 +47,7 @@ func (s *DatasourceCoreShapeTestSuite) TestAccDatasourceCoreShape_basic() {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(s.ResourceName, "shapes.#", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "VM.Standard1.2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shapes.0.name", "VM.Standard1.8"),
 				),
 			},
 		},
