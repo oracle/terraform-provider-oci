@@ -1,4 +1,4 @@
-## 3.6.0 (Unreleased)
+## 3.6.0 (November 01, 2018)
 
 ### Added
 - New parameters `db_name` and `state` in `oci_database_database` data source
@@ -6,6 +6,10 @@
 - New parameter `state` parameter in `oci_database_db_nodes` data source
 - New parameters `availability_domain`, `display_name`, and `state` in `oci_database_db_systems` data source
 - Support for Partner Image Catalog
+- Support for Key Management Service
+- Support for encrypting the contents of an Object Storage bucket using a Key Management Service key
+- Support for specifying a Key Management Service key when launching a compute instance in the Compute service
+- Support for specifying a Key Management Service key when backing up or restoring a block storage volume in the Block Volume service
 
 ### Fixed
 - Data type for properties with type as TypeSet to TypeList in following datasources: `oci_core_route_tables`, `oci_core_security_lists`, `oci_core_volume`, and `oci_core_service_gateways` to allow referencing by indexes in Terraform configs.
