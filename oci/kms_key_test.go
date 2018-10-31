@@ -55,13 +55,9 @@ var (
 	KeyResourceDependencyConfig = KeyResourceDependencies + `
 	data "oci_kms_keys" "test_keys_dependency" {
 		#Required
-		compartment_id = "${var.compartment_id}"
+		compartment_id = "${var.tenancy_ocid}"
 		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
 
-        filter {
-    		name = "display_name"
-    		values = ["Key C"]
-        }
 		filter {
     		name = "state"
     		values = ["ENABLED"]
