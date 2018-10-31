@@ -40,10 +40,16 @@ var (
 		"length":    Representation{repType: Required, create: `16`},
 	}
 	KeyResourceDependencies = `
-	variable "vault_id" { default = "ocid1.vault.oc1.phx.avnzdivwaadfa.abyhqljrmb7herjt4gz64avusyue25grswwsqc5x75im7vtg4x7yfgszqkfa" }
+	variable "vault_ids" {
+		type = "map"
+		default = {
+			us-phoenix-1 = "ocid1.vault.oc1.phx.avnzdivwaadfa.abyhqljrmb7herjt4gz64avusyue25grswwsqc5x75im7vtg4x7yfgszqkfa"
+			us-ashburn-1 = "ocid1.vault.oc1.iad.annnb3f4aacuu.abuwcljrumuxamzquswnwvgvqdyc76v4e6lyo4372wcjvtdxrhxdc6qxlupq"
+		}
+	}
 	data "oci_kms_vault" "test_vault" {
 		#Required
-		vault_id = "${var.vault_id}"
+		vault_id = "${var.vault_ids[var.region]}"
 	}
 	`
 	KeyResourceDependencyConfig = KeyResourceDependencies + `
