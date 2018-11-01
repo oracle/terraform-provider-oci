@@ -1,4 +1,4 @@
-## 3.6.0 (Unreleased)
+## 3.6.0 (November 01, 2018)
 
 ### Added
 - New parameters `db_name` and `state` in `oci_database_database` data source
