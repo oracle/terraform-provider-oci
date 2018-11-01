@@ -89,7 +89,7 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
-					resource.TestCheckResourceAttr(resourceName, "volume_backup_ids.#", "2"),
+					resource.TestCheckResourceAttrSet(resourceName, "volume_backup_ids.#"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
 
 					func(s *terraform.State) (err error) {
@@ -112,7 +112,7 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttr(resourceName, "type", "INCREMENTAL"),
-					resource.TestCheckResourceAttr(resourceName, "volume_backup_ids.#", "2"),
+					resource.TestCheckResourceAttrSet(resourceName, "volume_backup_ids.#"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_group_id"),
 
 					func(s *terraform.State) (err error) {
@@ -144,7 +144,7 @@ func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.time_created"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.type", "INCREMENTAL"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_group_backups.0.volume_backup_ids.#", "2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.volume_backup_ids.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_backups.0.volume_group_id"),
 				),
 			},

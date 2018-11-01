@@ -29,7 +29,7 @@ var (
 	}
 
 	bootVolumeDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"filter":              RepresentationGroup{Required, bootVolumeDataSourceFilterRepresentation}}
 	bootVolumeDataSourceFilterRepresentation = map[string]interface{}{
@@ -38,10 +38,10 @@ var (
 	}
 
 	bootVolumeRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"source_details":      RepresentationGroup{Required, bootVolumeSourceDetailsRepresentation},
-		"backup_policy_id":    Representation{repType: Optional, create: `${data.oci_core_volume_backup_policies.test_boot_volume_backup_policies.volume_backup_policies.0.id}`},
+		"backup_policy_id":    Representation{repType: Optional, create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
@@ -54,7 +54,7 @@ var (
 	}
 
 	BootVolumeResourceDependencies = InstanceRequiredOnlyResource + KeyResourceDependencyConfig + VolumeGroupAsDependency + `
-data "oci_core_volume_backup_policies" "test_boot_volume_backup_policies" {
+data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
 	filter {
 		name = "display_name"
 		values = [ "silver" ]

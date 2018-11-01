@@ -28,18 +28,17 @@ var (
 
 	volumeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.ADs.availability_domains.0.name}`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":               Representation{repType: Optional, create: `AVAILABLE`},
-		//		"volume_group_id":     Representation{repType: Optional, create: `${oci_core_volume_group.test_volume_group.id}`},
-		"filter": RepresentationGroup{Required, volumeDataSourceFilterRepresentation}}
+		"filter":              RepresentationGroup{Required, volumeDataSourceFilterRepresentation}}
 	volumeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_core_volume.test_volume.id}`}},
 	}
 
 	volumeRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.ADs.availability_domains.0.name}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"backup_policy_id":    Representation{repType: Optional, create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -47,23 +46,17 @@ var (
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`, update: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[1], "id")}`},
 		"size_in_gbs":         Representation{repType: Optional, create: `51`, update: `52`},
-		//		"size_in_mbs":         Representation{repType: Optional, create: `10`},
-		"source_details": RepresentationGroup{Optional, sourceDetailsVolumeRepresentation},
-		//		"volume_backup_id":    Representation{repType: Optional, create: `${oci_core_volume_backup.test_volume_backup.id}`},
+		"source_details":      RepresentationGroup{Optional, sourceDetailsVolumeRepresentation},
 	}
 	sourceDetailsVolumeRepresentation = map[string]interface{}{
 		"id":   Representation{repType: Required, create: `${oci_core_volume.source_volume.id}`},
 		"type": Representation{repType: Required, create: `volume`},
 	}
 
-	VolumeResourceDependencies             = DefinedTagsDependencies + KeyResourceDependencyConfig + VolumeResourceRequiredOnlyDependencies
+	VolumeResourceDependencies             = DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig + VolumeResourceRequiredOnlyDependencies
 	VolumeResourceRequiredOnlyDependencies = `
-data "oci_identity_availability_domains" "ADs" {
-	compartment_id = "${var.compartment_id}"
-}
-
 resource "oci_core_volume" "source_volume" {
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 	size_in_gbs = "50"
 }
@@ -313,7 +306,7 @@ variable "volume_state" { default = "AVAILABLE" }
 				Config: config + `
 resource "oci_core_volume" "test_volume" {
 	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
@@ -370,7 +363,7 @@ data "oci_core_volumes" "test_volumes" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
 
 	filter {
 		name = "id"
@@ -380,7 +373,7 @@ data "oci_core_volumes" "test_volumes" {
 
 resource "oci_core_volume" "test_volume2" {
 	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 
 	size_in_gbs = "${data.oci_core_volumes.test_volumes.volumes.0.size_in_gbs}"
@@ -472,7 +465,7 @@ variable "volume_state" { default = "AVAILABLE" }
 				Config: config + `
 resource "oci_core_volume" "test_volume" {
 	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
@@ -500,7 +493,7 @@ variable "volume_state" { default = "AVAILABLE" }
 				Config: config + `
 resource "oci_core_volume" "test_volume" {
 	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
@@ -528,7 +521,7 @@ variable "volume_state" { default = "AVAILABLE" }
 				Config: config + `
 resource "oci_core_volume" "test_volume" {
 	#Required
-	availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
 	compartment_id = "${var.compartment_id}"
 
 	#Optional

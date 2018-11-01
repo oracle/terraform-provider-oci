@@ -210,7 +210,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.source_details.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.source_details.0.type", "volumeIds"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.time_created"),
-					resource.TestCheckResourceAttr(resourceName, "volume_ids.#", "2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_groups.0.volume_ids.#"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_groups.0.is_hydrated", "false"),
 				),
 			},

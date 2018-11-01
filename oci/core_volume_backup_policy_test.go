@@ -11,13 +11,7 @@ import (
 )
 
 var (
-	volumeBackupPolicyDataSourceRepresentation = map[string]interface{}{
-		"filter": RepresentationGroup{Required, volumeBackupPolicyDataSourceFilterRepresentation},
-	}
-	volumeBackupPolicyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `display_name`},
-		"values": Representation{repType: Required, create: []string{`silver`}},
-	}
+	volumeBackupPolicyDataSourceRepresentation = map[string]interface{}{}
 
 	VolumeBackupPolicyResourceConfig = ""
 )
@@ -44,10 +38,14 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 					compartmentIdVariableStr + VolumeBackupPolicyResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 
-					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.display_name", "silver"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.#"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.display_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.schedules.#", "3"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.schedules.#"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.schedules.0.backup_type"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.schedules.0.offset_seconds"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.schedules.0.period"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.schedules.0.retention_seconds"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.time_created"),
 				),
 			},

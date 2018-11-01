@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_kms_keys"
+page_title: "Oracle Cloud Infrastructure: oci_kms_keys"
 sidebar_current: "docs-oci-datasource-kms-keys"
 description: |-
-  Provides a list of Keys
+  Provides the list of Keys in Oracle Cloud Infrastructure Kms service
 ---
 
 # Data Source: oci_kms_keys
-The `oci_kms_keys` data source allows access to the list of OCI keys
+This data source provides the list of Keys in Oracle Cloud Infrastructure Kms service.
 
 Lists the keys in the specified vault and compartment.
 

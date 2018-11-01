@@ -13,7 +13,7 @@ import (
 var (
 	shapeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `availabilityDomain`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"image_id":            Representation{repType: Optional, create: `${oci_core_image.test_image.id}`},
 	}
 
@@ -41,9 +41,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", Required, Create, shapeDataSourceRepresentation) +
 					compartmentIdVariableStr + ShapeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					//resource.TestCheckResourceAttr(datasourceName, "availability_domain", "availabilityDomain"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttrSet(datasourceName, "image_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.name"),
