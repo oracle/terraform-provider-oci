@@ -41,11 +41,11 @@ func TestLoadBalancerBackendHealthResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_backend_health", "test_backend_health", Required, Create, backendHealthSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + BackendHealthResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(singularDatasourceName, "backend_name", "10.0.0.3:10"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "backend_set_name", "backendSet1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_name"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "health_check_results.#", "0"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "health_check_results.#"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
 				),
 			},

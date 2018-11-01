@@ -18,7 +18,7 @@ var (
 		generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation)
 
 	mountTargetDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":        Representation{repType: Optional, create: `mount-target-5`, update: `displayName2`},
 		"id":                  Representation{repType: Optional, create: `${oci_file_storage_mount_target.test_mount_target.id}`},
@@ -30,7 +30,7 @@ var (
 	}
 
 	mountTargetRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"subnet_id":           Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -125,7 +125,6 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
 					resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_ip_ids.0"),
 					resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -153,8 +152,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.export_set_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.private_ip_ids.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.private_ip_ids.0"),
+					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.private_ip_ids.#"),
 					resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.state", string(oci_file_storage.MountTargetLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.time_created"),

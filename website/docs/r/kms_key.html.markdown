@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_kms_key"
+page_title: "Oracle Cloud Infrastructure: oci_kms_key"
 sidebar_current: "docs-oci-resource-kms-key"
 description: |-
-  Creates and manages an OCI Key
+  Provides the Key resource in Oracle Cloud Infrastructure Kms service
 ---
 
 # oci_kms_key
-The `oci_kms_key` resource creates and manages an OCI Key
+This resource provides the Key resource in Oracle Cloud Infrastructure Kms service.
 
 Creates a new key.
 
@@ -32,8 +32,8 @@ resource "oci_kms_key" "test_key" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment that contains this key.
+* `desired_state` - (Optional) (Updatable) Desired state of the key. Possible values : `ENABLED` or `DISABLED`
 * `display_name` - (Required) (Updatable) A user-friendly name for the key. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
-* `desirede_state` - (Optional) (Updatable) Desired state of the key. Possible values : `ENABLED` or `DISABLED`
 * `key_shape` - (Required) 
 	* `algorithm` - (Required) The algorithm used by a key's KeyVersions to encrypt or decrypt.
 	* `length` - (Required) The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 

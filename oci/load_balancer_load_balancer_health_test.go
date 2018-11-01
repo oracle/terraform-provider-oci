@@ -42,12 +42,12 @@ func TestLoadBalancerLoadBalancerHealthResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "critical_state_backend_set_names.#", "0"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "critical_state_backend_set_names.#"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "total_backend_set_count", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "unknown_state_backend_set_names.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "total_backend_set_count"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "unknown_state_backend_set_names.#"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "unknown_state_backend_set_names.0", "backendSet1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "warning_state_backend_set_names.#", "0"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "warning_state_backend_set_names.#"),
 				),
 				ExpectNonEmptyPlan: true,
 			},

@@ -18,7 +18,7 @@ var (
 		generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Required, Create, backendRepresentation)
 
 	backendDataSourceRepresentation = map[string]interface{}{
-		"backendset_name":  Representation{repType: Required, create: `backendSet1`},
+		"backendset_name":  Representation{repType: Required, create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
 		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 	}
 

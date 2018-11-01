@@ -13,7 +13,7 @@ import (
 
 var (
 	bootVolumeAttachmentDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${oci_core_instance.test_instance.availability_domain}`, update: `${oci_core_instance.test_instance.availability_domain}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"boot_volume_id":      Representation{repType: Optional, create: `${oci_core_instance.test_instance.boot_volume_id}`},
 		"instance_id":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},

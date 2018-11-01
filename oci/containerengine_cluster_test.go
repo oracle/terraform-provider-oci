@@ -35,12 +35,12 @@ var (
 		"kubernetes_version": Representation{repType: Required, create: `v1.10.3`, update: `v1.11.1`},
 		"name":               Representation{repType: Required, create: `name`, update: `name2`},
 		"vcn_id":             Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"options":            RepresentationGroup{Required, clusterOptionsRepresentation},
+		"options":            RepresentationGroup{Optional, clusterOptionsRepresentation},
 	}
 	clusterOptionsRepresentation = map[string]interface{}{
 		"add_ons":                   RepresentationGroup{Optional, clusterOptionsAddOnsRepresentation},
 		"kubernetes_network_config": RepresentationGroup{Optional, clusterOptionsKubernetesNetworkConfigRepresentation},
-		"service_lb_subnet_ids":     Representation{repType: Required, create: []string{"${oci_core_subnet.clusterSubnet_1.id}", "${oci_core_subnet.clusterSubnet_2.id}"}},
+		"service_lb_subnet_ids":     Representation{repType: Optional, create: []string{`${oci_core_subnet.clusterSubnet_1.id}`, `${oci_core_subnet.clusterSubnet_2.id}`}},
 	}
 	clusterOptionsAddOnsRepresentation = map[string]interface{}{
 		"is_kubernetes_dashboard_enabled": Representation{repType: Optional, create: `true`},

@@ -19,7 +19,7 @@ var (
 
 	consoleHistoryDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${oci_core_instance.test_instance.availability_domain}`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"instance_id":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
 		"state":               Representation{repType: Optional, create: `SUCCEEDED`},
 		"filter":              RepresentationGroup{Required, consoleHistoryDataSourceFilterRepresentation}}

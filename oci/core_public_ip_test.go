@@ -34,7 +34,7 @@ var (
 	publicIpDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"scope":               Representation{repType: Required, create: string(oci_core.PublicIpScopeRegion), update: string(oci_core.PublicIpScopeAvailabilityDomain)},
-		"availability_domain": Representation{repType: Optional, create: `availabilityDomain`, update: `${data.oci_core_private_ips.test_private_ips.private_ips.0.availability_domain}`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"filter":              RepresentationGroup{Required, publicIpDataSourceFilterRepresentation}}
 	publicIpDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -84,7 +84,7 @@ var (
 		dns_label       = "testvcn"
 	}
 	resource "oci_core_subnet" "test_subnet" {
-		availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
+		availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
 		cidr_block          = "10.0.1.0/24"
 		display_name        = "-tf-subnet"
 		compartment_id      = "${var.compartment_id}"

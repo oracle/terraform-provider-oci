@@ -15,10 +15,10 @@ var (
 		generateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", Required, Create, exportSetRepresentation)
 
 	exportSetDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"id":                  Representation{repType: Optional, create: `${oci_file_storage_mount_target.test_mount_target.export_set_id}`},
+		"id":                  Representation{repType: Optional, create: `${oci_file_storage_export_set.test_export_set.id}`},
 		"state":               Representation{repType: Optional, create: `ACTIVE`},
 		"filter":              RepresentationGroup{Required, exportSetDataSourceFilterRepresentation}}
 	exportSetDataSourceFilterRepresentation = map[string]interface{}{
@@ -61,7 +61,6 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "max_fs_stat_bytes"),
 					resource.TestCheckResourceAttrSet(resourceName, "max_fs_stat_files"),
 					resource.TestCheckResourceAttrSet(resourceName, "mount_target_id"),
@@ -114,7 +113,6 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "export_sets.0.state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.time_created"),
-					// resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.vcn_id"),
 				),
 			},
 			// verify resource import

@@ -58,10 +58,8 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "key"),
-					//resource.TestCheckResourceAttrSet(resourceName, "inactive_state"), // not set by service
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					//resource.TestCheckResourceAttrSet(resourceName, "time_expires"), // not set by service
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
