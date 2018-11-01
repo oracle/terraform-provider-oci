@@ -100,7 +100,6 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 					compartmentIdVariableStr + IdpGroupMappingResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_idp_group_mapping", "test_idp_group_mapping", Optional, Update, idpGroupMappingRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					//resource.TestCheckResourceAttrSet(datasourceName, "group_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "identity_provider_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "idp_group_mappings.#", "1"),

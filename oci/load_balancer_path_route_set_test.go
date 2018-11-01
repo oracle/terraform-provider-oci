@@ -23,7 +23,7 @@ var (
 	}
 
 	pathRouteSetRepresentation = map[string]interface{}{
-		"load_balancer_id": Representation{repType: Required, create: "${oci_load_balancer_load_balancer.test_load_balancer.id}"},
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":             Representation{repType: Required, create: `example_path_route_set`},
 		"path_routes":      RepresentationGroup{Required, pathRouteSetPathRoutesRepresentation},
 	}

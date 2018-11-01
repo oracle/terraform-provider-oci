@@ -40,13 +40,10 @@ func TestCoreVirtualCircuitPublicPrefixResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_virtual_circuit_public_prefixes", "test_virtual_circuit_public_prefixes", Required, Create, virtualCircuitPublicPrefixDataSourceRepresentation) +
 					compartmentIdVariableStr + VirtualCircuitPublicPrefixResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					//resource.TestCheckResourceAttr(datasourceName, "verification_state", "COMPLETED"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_public_prefixes.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_public_prefixes.0.cidr_block"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_public_prefixes.0.verification_state"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_public_prefixes.0.virtual_circuit_id"),
 				),
 			},
 		},

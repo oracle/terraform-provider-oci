@@ -41,15 +41,14 @@ func TestLoadBalancerBackendSetHealthResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_backend_set_health", "test_backend_set_health", Required, Create, backendSetHealthSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + BackendSetHealthResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(singularDatasourceName, "backend_set_name", "backendSet1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "critical_state_backend_names.#", "0"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "critical_state_backend_names.#"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "total_backend_count", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "unknown_state_backend_names.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "unknown_state_backend_names.0", "10.0.0.3:10"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "warning_state_backend_names.#", "0"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "total_backend_count"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "unknown_state_backend_names.#"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "warning_state_backend_names.#"),
 				),
 				ExpectNonEmptyPlan: true,
 			},

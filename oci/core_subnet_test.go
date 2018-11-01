@@ -36,7 +36,7 @@ var (
 	}
 
 	subnetRepresentation = map[string]interface{}{
-		"availability_domain":        Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"availability_domain":        Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"cidr_block":                 Representation{repType: Required, create: `10.0.0.0/16`},
 		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
 		"vcn_id":                     Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
@@ -109,7 +109,6 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MySubnet"),
-					//resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
@@ -211,7 +210,6 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "prohibit_public_ip_on_vnic", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_domain_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_router_ip"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_router_mac"),

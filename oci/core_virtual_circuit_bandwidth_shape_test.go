@@ -46,11 +46,9 @@ data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_servi
 					generateDataSourceFromRepresentationMap("oci_core_virtual_circuit_bandwidth_shapes", "test_virtual_circuit_bandwidth_shapes", Required, Create, virtualCircuitBandwidthShapeDataSourceRepresentation) +
 					compartmentIdVariableStr + VirtualCircuitBandwidthShapeResourceDependencies,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					//resource.TestCheckResourceAttrSet(datasourceName, "provider_service_id"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_bandwidth_shapes.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_bandwidth_shapes.0.name"),
-					//resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_bandwidth_shapes.0.provider_service_id"),
 				),
 			},
 		},
