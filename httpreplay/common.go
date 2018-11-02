@@ -4,11 +4,12 @@ package httpreplay
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v2"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+
+	"gopkg.in/yaml.v2"
 )
 
 func initDebugStyle() {
@@ -26,7 +27,10 @@ var currentLogger *log.Logger
 // DebugLogf logs a formatted string to stderr.  It should be considered temporary, and in a release version either removed or replaced with a passed-in logging interface.
 func debugLogf(format string, v ...interface{}) {
 	if currentLogger != nil {
-		currentLogger.Output(2, fmt.Sprintf(format, v...))
+		err := currentLogger.Output(2, fmt.Sprintf(format, v...))
+		if err != nil {
+			log.Println("[WARN] Failed to write to current logger")
+		}
 	}
 	// debug.PrintStack()
 }
@@ -66,8 +70,6 @@ func save(d interface{}, fn string) error {
 		return err
 	}
 
-	defer f.Close()
-
 	// Honor the YAML structure specification
 	// http://www.yaml.org/spec/1.2/spec.html#id2760395
 	_, err = f.Write([]byte("---\n"))
@@ -80,5 +82,9 @@ func save(d interface{}, fn string) error {
 		return err
 	}
 
+	err = f.Close()
+	if err != nil {
+		return err
+	}
 	return nil
 }

@@ -5,7 +5,6 @@ package httpreplay
 import (
 	"errors"
 	"fmt"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -14,6 +13,8 @@ import (
 	"sort"
 	"strings"
 	"sync"
+
+	"gopkg.in/yaml.v2"
 )
 
 // Scenario format versions
@@ -431,9 +432,6 @@ func (s *Scenario) Save() error {
 	if err != nil {
 		return err
 	}
-	defer func() {
-		f.Close()
-	}()
 
 	_, err = f.Write([]byte("---\n"))
 	if err != nil {
@@ -455,6 +453,11 @@ func (s *Scenario) Save() error {
 	//if err != nil {
 	//	return err
 	//}
+
+	err = f.Close()
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

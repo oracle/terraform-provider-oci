@@ -322,7 +322,10 @@ func (r *Proxy) Stop() error {
 // HandleRequest determine the calling roundTrip in different mode
 func (r *Proxy) HandleRequest(req *http.Request, realTransport http.RoundTripper) (*http.Response, error) {
 	if r.mode == ByPassing {
-		realTransport.RoundTrip(req)
+		response, err := realTransport.RoundTrip(req)
+		if err != nil {
+			return response, err
+		}
 	}
 
 	_, resp, err := r.requestHandler(req, realTransport)
