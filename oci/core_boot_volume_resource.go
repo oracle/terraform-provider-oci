@@ -71,10 +71,11 @@ func BootVolumeResource() *schema.Resource {
 
 			// Optional
 			"backup_policy_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				ForceNew:   true,
+				Deprecated: FieldDeprecatedButSupportedTroughAnotherResource("backup_policy_id", "oci_core_volume_backup_policy_assignment"),
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
