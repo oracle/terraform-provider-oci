@@ -23,7 +23,7 @@ use [ImageSourceViaObjectStorageTupleDetails](https://docs.cloud.oracle.com/iaas
 
 When importing an image based on the Object Storage URL, use
 [ImageSourceViaObjectStorageUriDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/ImageSourceViaObjectStorageUriDetails).
-See [Object Storage URLs](/Content/Compute/Tasks/imageimportexport.htm#URLs) and [pre-authenticated requests](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/managingaccess.htm#pre-auth)
+See [Object Storage URLs](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm#URLs) and [pre-authenticated requests](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/managingaccess.htm#pre-auth)
 for constructing URLs for image import/export.
 
 For more information about importing exported images, see

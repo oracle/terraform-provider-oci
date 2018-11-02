@@ -27,10 +27,10 @@ Allow at least three IP addresses for each mount target.
 
 For information about access control and compartments, see
 [Overview of the IAM
-Service](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
+Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 
 For information about availability domains, see [Regions and
-Availability Domains](https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/regions.htm).
+Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).
 To get a list of availability domains, use the
 `ListAvailabilityDomains` operation in the Identity and Access
 Management Service API.
