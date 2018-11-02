@@ -1,4 +1,9 @@
 ## 3.6.1 (Unreleased)
+
+### Added
+- New parameter `is_hydrated` in `oci_core_volume_groups` resource and data source
+- Support for public IP prefixes (CIDRs) up to 31 
+
 ## 3.6.0 (November 01, 2018)
 
 ### Added
@@ -14,8 +19,6 @@
 - Support enabling cost tracking for tags using `is_cost_tracking` field
 - Support returning maintenance reboot time for compute instances using `time_maintenance_reboot_due` field
 - Support nesting and deleting compartments. Compartment delete requires opt in, see compartment documentation
-- New parameter `is_hydrated` in `oci_core_volume_groups` resource and data source
-- Support for public IP prefixes (CIDRs) up to 31 
 
 ### Fixed
 - Data type for properties with type as TypeSet to TypeList in following datasources: `oci_core_route_tables`, `oci_core_security_lists`, `oci_core_volume`, and `oci_core_service_gateways` to allow referencing by indexes in Terraform configs.
