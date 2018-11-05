@@ -4,13 +4,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 3.0.0 - 2018-11-01
+### Added
+- Support for modifying the route table, DHCP options and security lists associated with a subnet in the Networking service.
+- Support for tagging of File Systems, Mount Targets and Snapshots in the File Storage service.
+- Support for nested compartments in the Identity service
+
+### Notes
+- The version is bumped due to breaking changes in previous release.
+
 ## 2.7.0 - 2018-10-18
 ### Added
 - Support for cost tracking tags in the Identity service
 - Support for generating and downloading wallets in the Database service
 - Support for creating a standalone backup from an on-premises database in the Database service
 - Support for db version and additional connection strings in the Autonomous Transaction Processing and Autonomous Data Warehouse resources of the Database service
-- Support for copying volume backups across regions in the Block Storage service
+- Support for copying volume backups across regions in the Block Storage service (please see Known issue)
 - Support for deleting compartments in the Identity service
 - Support for reboot migration for virtual machines in the Compute service
 - Support for Instance Pools and Instance Configurations in the Compute service
@@ -18,6 +27,38 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 ### Fixed
 - The signing algorithm does not lower case the header fields [Github issue 132](https://github.com/oracle/oci-go-sdk/issues/132)
 - Raw configuration provider does not check for empty strings [Github issue 134](https://github.com/oracle/oci-go-sdk/issues/134)
+
+### Known issue
+-  Block Storage service for copying volume backups across regions is not enabled
+
+### Breaking change
+- DbDataSizeInMBs field in Backup and BackupSummary struct was renamed to DatabaseSizeInGBs and type changed from *int to *float64 
+    - Before
+    ```golang
+    // Size of the database in megabytes (MB) at the time the backup was taken.
+    DbDataSizeInMBs *int `mandatory:"false" json:"dbDataSizeInMBs"`
+    ```
+
+    - After
+
+    ```golang
+    // The size of the database in gigabytes at the time the backup was taken.
+    DatabaseSizeInGBs *float64 `mandatory:"false" json:"databaseSizeInGBs"`
+    ```
+- Data type for DatabaseEdition in Backup and BackupSummary struct was changed from *string to BackupDatabaseEditionEnum
+    - Before
+
+    ```golang
+    // The Oracle Database edition of the DB system from which the database backup was taken.
+    DatabaseEdition *string `mandatory:"false" json:"databaseEdition"`
+    ```
+
+    - After
+
+    ```golang
+     // The Oracle Database edition of the DB system from which the database backup was taken.
+     DatabaseEdition BackupDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
+    ```
 
 ## 2.6.0 - 2018-10-04
 ### Added
