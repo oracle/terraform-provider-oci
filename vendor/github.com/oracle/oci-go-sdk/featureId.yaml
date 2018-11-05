@@ -1,0 +1,67 @@
+# Add whitelisted feature ids here. Please include a comment describing what the feature is.
+# Example:
+# whitelisted:
+#   # comment
+#   - udx-123
+#   # comment
+#   - udx-456
+whitelisted:
+  # VNIC routes and Cavium Source Destination check
+  # Request by darryn.lavery@
+  - udx-174
+  # VCN to VCN Peering within region
+  # Request by darryn.lavery@
+  - udx-141
+  # Support option for second NIC on X7 BM
+  # Request by darryn.lavery@
+  - udx-473
+  # Block Storage:User-Managed Boot Volumes
+  # Request by darryn.lavery@ and 
+  # Aaron / Block Storage ok for this to go out 11/27
+  - udx-117
+  # C3 support
+  - udx-26
+  - udx-507
+  - udx-520
+  - udx-645
+  # Support public IP operations
+  # As of 1/17 this is still preview only but needs to be whitelisted to go into preview SDK / CLI
+  # As of 6 Feb 2018 this if now public: https://jira.oci.oraclecorp.com/browse/DEX-2467
+  - udx-136
+  # Make https://jira.oci.oraclecorp.com/browse/DEX-2437 work
+  - udx-637
+  - udx-123
+  - udx-643
+  - udx-729
+  # LBaaS path route sets: https://jira.oci.oraclecorp.com/browse/DEX-2467
+  - udx-491
+  # DBaaS backup ID in ListDbSystems: https://jira.oci.oraclecorp.com/browse/DEX-2467
+  - udx-667
+  # Block storage changes: https://jira.oci.oraclecorp.com/browse/DEX-2467 (doesn't look like these have feature IDs in the spec, but here for reference)
+  - udx-157
+  - udx-475
+  - udx-498
+  # https://jira.oci.oraclecorp.com/browse/DEX-2678
+  - udx-766
+  # VCN cross-region peering (https://jira.oci.oraclecorp.com/browse/DEX-2711)
+  - udx-176
+  # DBaaS list db system shape extended data (https://jira.oci.oraclecorp.com/browse/DEX-2711)
+  - udx-787
+  # Loadbalancer vHost support multiple serverNames (https://jira.oci.oraclecorp.com/browse/UDX-784)
+  - udx-784
+  # VNC Tagging: VCN Public IP
+  - udx-919
+  # VCN Tagging: DRG, IG, LPG, IPSec Connections, CPEs, VNICs
+  - udx-920
+  # Boot Volume Backup & Clone
+  - udx-775
+  # Service Gateway Launch
+  - udx-677
+  # Block Storage: Set Schedule Backup policy on Boot Volume creation
+  - udx-1192
+  # Compute: Adding Fault Domain
+  - udx-588
+  - 1240
+  - udx-834
+  - udx-1331
+  - udx-1328

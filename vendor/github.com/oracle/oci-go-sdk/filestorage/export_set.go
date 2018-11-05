@@ -14,6 +14,7 @@ import (
 
 // ExportSet A set of file systems to export through one or more mount
 // targets. Composed of zero or more export resources.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type ExportSet struct {
 
 	// The OCID of the compartment that contains the export set.

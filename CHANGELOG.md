@@ -2,7 +2,8 @@
 
 ### Added
 - New parameter `is_hydrated` in `oci_core_volume_groups` resource and data source
-- Support for public IP prefixes (CIDRs) up to 31 
+- Support for public IP prefixes (CIDRs) up to 31
+- Support for tagging in `oci_file_storage_file_system`, `oci_file_storage_mount_target`, and `oci_file_storage_snapshot`
 
 ### Deprecated
 - Volumes: The “backup_policy_id” attribute is now deprecated. Backup policy should be assigned through “volume_backup_policy_assignments” resource instead.
