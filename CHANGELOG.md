@@ -5,6 +5,10 @@
 - Support for public IP prefixes (CIDRs) up to 31
 - Support for tagging in `oci_file_storage_file_system`, `oci_file_storage_mount_target`, and `oci_file_storage_snapshot`
 
+### Changed
+- Make `route_table_id`, `dhcp_options_id` in `oci_core_subnet` updatable
+- Make `security_list_ids` in `oci_core_subnet` optional and updatable
+
 ### Deprecated
 - Volumes: The “backup_policy_id” attribute is now deprecated. Backup policy should be assigned through “volume_backup_policy_assignments” resource instead.
 - BootVolumes: The “backup_policy_id” attribute is now deprecated. Backup policy should be assigned through “volume_backup_policy_assignments” resource instead.
