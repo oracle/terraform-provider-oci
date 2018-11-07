@@ -141,7 +141,7 @@ func schemaMap() map[string]*schema.Schema {
 		},
 		"region": {
 			Type:        schema.TypeString,
-			Required:    true,
+			Optional:    true,
 			Description: descriptions["region"],
 			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_region", "OCI_REGION"}, nil),
 		},

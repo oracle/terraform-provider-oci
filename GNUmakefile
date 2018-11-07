@@ -10,7 +10,7 @@ skip_goimports_check_flag := $(if $(skip_goimports_check), -s, )
 
 default: build
 
-build: fmtcheck
+build: #fmtcheck
 	go install
 
 ### TODO: Fix this so that only unit tests are running
@@ -29,11 +29,10 @@ vet:
 	fi
 
 fmt:
-	gofmt -w $(GOFMT_FILES)
-	goimports -w -local github.com/oracle/terraform-provider-oci $(GOFMT_FILES)
+	gofmt -s -w ./$(PKG_NAME)
 
 fmtcheck:
-	@sh -c "'$(CURDIR)/scripts/gofmtcheck.sh' $(skip_goimports_check_flag)"
+	@sh -c "'$(CURDIR)/scripts/gofmtcheck.sh'"
 
 errcheck:
 	@sh -c "'$(CURDIR)/scripts/errcheck.sh'"

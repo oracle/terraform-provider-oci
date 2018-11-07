@@ -22,10 +22,10 @@ var (
 	}
 
 	backendSetRepresentation = map[string]interface{}{
-		"health_checker":   RepresentationGroup{Required, backendSetHealthCheckerRepresentation},
-		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"name":             Representation{repType: Required, create: `backendSet1`},
-		"policy":           Representation{repType: Required, create: `LEAST_CONNECTIONS`},
+		"health_checker":                    RepresentationGroup{Required, backendSetHealthCheckerRepresentation},
+		"load_balancer_id":                  Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":                              Representation{repType: Required, create: `backendSet1`},
+		"policy":                            Representation{repType: Required, create: `LEAST_CONNECTIONS`},
 		"session_persistence_configuration": RepresentationGroup{Optional, backendSetSessionPersistenceConfigurationRepresentation},
 		"ssl_configuration":                 RepresentationGroup{Optional, backendSetSslConfigurationRepresentation},
 	}
