@@ -43,6 +43,7 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_kms_key_version.test_key_version"
 	datasourceName := "data.oci_kms_key_versions.test_key_versions"
@@ -92,7 +93,7 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_version_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "management_endpoint"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
