@@ -12,6 +12,7 @@ resource "oci_core_volume_attachment" "TFBlockAttach" {
   compartment_id  = "${var.compartment_ocid}"
   instance_id     = "${oci_core_instance.TFInstance.*.id[count.index / var.NumIscsiVolumesPerInstance]}"
   volume_id       = "${oci_core_volume.TFBlock.*.id[count.index]}"
+  device          = "${count.index == 0 ? var.volume_attachment_device : ""}"
 
   # Set this to enable CHAP authentication for an ISCSI volume attachment. The oci_core_volume_attachment resource will
   # contain the CHAP authentication details via the "chap_secret" and "chap_username" attributes.
