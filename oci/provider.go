@@ -211,6 +211,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_instance_credentials":                  InstanceCredentialDataSource(),
 		"oci_core_instance_configuration":                InstanceConfigurationDataSource(),
 		"oci_core_instance_configurations":               InstanceConfigurationsDataSource(),
+		"oci_core_instance_devices":                      InstanceDevicesDataSource(),
 		"oci_core_instance_pool":                         InstancePoolDataSource(),
 		"oci_core_instance_pools":                        InstancePoolsDataSource(),
 		"oci_core_instance_pool_instances":               InstancePoolInstancesDataSource(),
