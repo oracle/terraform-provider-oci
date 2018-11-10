@@ -27,6 +27,7 @@ var (
 		"connection_configuration": RepresentationGroup{Optional, listenerConnectionConfigurationRepresentation},
 		"hostname_names":           Representation{repType: Optional, create: []string{`${oci_load_balancer_hostname.test_hostname.name}`}},
 		"path_route_set_name":      Representation{repType: Optional, create: `${oci_load_balancer_path_route_set.test_path_route_set.name}`},
+		"rule_set_names":           Representation{repType: Optional, create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
 		"ssl_configuration":        RepresentationGroup{Optional, listenerSslConfigurationRepresentation},
 	}
 	listenerConnectionConfigurationRepresentation = map[string]interface{}{
@@ -44,6 +45,7 @@ var (
 		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation) +
 		generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Required, Create, pathRouteSetRepresentation) +
 		generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Required, Create, hostnameRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetRepresentation) +
 		`
 	resource "oci_load_balancer_hostname" "test_hostname2" {
 		#Required
@@ -111,6 +113,7 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "port", "10"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+					resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "10"),
@@ -138,6 +141,7 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "path_route_set_name"),
 					resource.TestCheckResourceAttr(resourceName, "port", "11"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "HTTP"),
+					resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "11"),
