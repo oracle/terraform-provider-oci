@@ -1,7 +1,8 @@
-## 3.11.3 (Unreleased)
+## 3.12.0 (Unreleased)
 
 ### Added
 - Support for `retry_duration_seconds` option to configure length of retry in the face of HTTP 429 and 500 errors
+- Support for custom header insertion, extension, and removal for Load Balancer listener resource
 
 ### Fixed
 - Retried SDK calls are now jittered to avoid herding of retry requests in high parallelism scenarios
