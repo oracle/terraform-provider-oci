@@ -457,7 +457,8 @@ func copyObjectWaitForWorkRequest(wId *string, entityType string, timeout time.D
 }
 
 func objectStorageWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
-	stopTime := time.Now().Add(timeout)
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
 	return func(response oci_common.OCIOperationResponse) bool {
 
 		//Stop after timeout has elapsed
@@ -466,7 +467,7 @@ func objectStorageWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 		}
 
 		//Make sure we stop on default rules
-		if shouldRetry(response, false, "object_storage") {
+		if shouldRetry(response, false, "object_storage", startTime) {
 			return true
 		}
 

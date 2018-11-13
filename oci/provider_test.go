@@ -394,7 +394,6 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 		assert.NotNil(t, c.Signer)
 	}
 
-	assert.Exactly(t, disableAutoRetries, disableRetries)
 	testClient(&oracleClient.blockstorageClient.BaseClient)
 	testClient(&oracleClient.computeClient.BaseClient)
 	testClient(&oracleClient.databaseClient.BaseClient)

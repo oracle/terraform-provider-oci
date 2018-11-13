@@ -7,6 +7,7 @@ import (
 	"crypto/tls"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"net"
 	"net/http"
 	"os"
@@ -24,7 +25,6 @@ import (
 )
 
 var descriptions map[string]string
-var disableAutoRetries bool
 
 const (
 	authAPIKeySetting                     = "ApiKey"
@@ -76,8 +76,10 @@ func init() {
 		"private_key_path": "(Optional) The path to the user's PEM formatted private key.\n" +
 			fmt.Sprintf("A private_key or a private_key_path must be provided if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
 		"private_key_password": "(Optional) The password used to secure the private key.",
-		"disable_auto_retries": "(Optional) Disable Automatic retries for retriable errors.\n" +
-			"Auto retries were introduced to solve some eventual consistency problems but it also introduced performance issues on destroy operations.",
+		"disable_auto_retries": "(Optional) Disable automatic retries for retriable errors.\n" +
+			"Automatic retries were introduced to solve some eventual consistency problems but it also introduced performance issues on destroy operations.",
+		"retry_duration_seconds": "(Optional) The minimum duration (in seconds) to retry a resource operation in response to an error.\n" +
+			"The actual retry duration may be longer due to jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true.",
 	}
 }
 
@@ -153,6 +155,13 @@ func schemaMap() map[string]*schema.Schema {
 			Default:     false,
 			Description: descriptions["disable_auto_retries"],
 			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_disable_auto_retries", "OCI_DISABLE_AUTO_RETRIES"}, nil),
+		},
+		"retry_duration_seconds": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Default:     false,
+			Description: descriptions["retry_duration_seconds"],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_retry_duration_seconds", "OCI_RETRY_DURATION_SECONDS"}, nil),
 		},
 	}
 }
@@ -491,7 +500,19 @@ func getCertificateFileBytes(certificateFileFullPath string) (pemRaw []byte, err
 
 func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	clients = &OracleClients{configuration: map[string]string{}}
-	disableAutoRetries = d.Get("disable_auto_retries").(bool)
+
+	if d.Get("disable_auto_retries").(bool) {
+		shortRetryTime = 0
+		longRetryTime = 0
+	} else if retryDurationSeconds, exists := d.GetOkExists("retry_duration_seconds"); exists {
+		val := time.Duration(retryDurationSeconds.(int)) * time.Second
+		if retryDurationSeconds.(int) < 0 {
+			// Retry for maximum amount of time, if a negative value was specified
+			val = time.Duration(math.MaxInt64)
+		}
+		configuredRetryDuration = &val
+	}
+
 	auth := strings.ToLower(d.Get("auth").(string))
 	clients.(*OracleClients).configuration["auth"] = auth
 
