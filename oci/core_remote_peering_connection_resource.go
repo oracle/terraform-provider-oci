@@ -6,10 +6,9 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
-
-	"time"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -190,18 +189,12 @@ func (s *RemotePeeringConnectionResourceCrud) ConnectRemotePeeringConnection() e
 		return err
 	}
 
-	// wait for peering status to not be Pending
-	waitForPeerStatusPolicy := &oci_common.RetryPolicy{
-		ShouldRetryOperation:  waitForRPCPeeringStatusShouldRetry(s.D.Timeout(schema.TimeoutCreate)),
-		NextDuration:          nextDuration,
-		MaximumNumberAttempts: 0,
-	}
 	request := oci_core.GetRemotePeeringConnectionRequest{}
 
 	tmpId := s.D.Id()
 	request.RemotePeeringConnectionId = &tmpId
 
-	request.RequestMetadata.RetryPolicy = waitForPeerStatusPolicy
+	request.RequestMetadata.RetryPolicy = getRemotePeeringConnectionRetryPolicy(s.D.Timeout(schema.TimeoutCreate))
 
 	response, getError := s.Client.GetRemotePeeringConnection(context.Background(), request)
 	if getError != nil {
@@ -341,17 +334,25 @@ func (s *RemotePeeringConnectionResourceCrud) SetData() error {
 	return nil
 }
 
-func waitForRPCPeeringStatusShouldRetry(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
-	return func(response oci_common.OCIOperationResponse) bool {
-		if shouldRetry(response, false, "core") {
-			return true
-		}
-		if getRemotePeeringConnectionResponse, ok := response.Response.(oci_core.GetRemotePeeringConnectionResponse); ok {
-			if getRemotePeeringConnectionResponse.PeeringStatus == oci_core.RemotePeeringConnectionPeeringStatusPending {
-				timeWaited := getTimeWaited(response.AttemptNumber)
-				return timeWaited < timeout
+func getRemotePeeringConnectionRetryPolicy(timeout time.Duration) *oci_common.RetryPolicy {
+	startTime := time.Now()
+	// wait for peering status to not be Pending
+	return &oci_common.RetryPolicy{
+		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
+			if shouldRetry(response, false, "core", startTime) {
+				return true
 			}
-		}
-		return false
+			if getRemotePeeringConnectionResponse, ok := response.Response.(oci_core.GetRemotePeeringConnectionResponse); ok {
+				if getRemotePeeringConnectionResponse.PeeringStatus == oci_core.RemotePeeringConnectionPeeringStatusPending {
+					timeWaited := getElapsedRetryDuration(startTime)
+					return timeWaited < timeout
+				}
+			}
+			return false
+		},
+		NextDuration: func(response oci_common.OCIOperationResponse) time.Duration {
+			return getRetryBackoffDuration(response, false, "core", startTime)
+		},
+		MaximumNumberAttempts: 0,
 	}
 }
