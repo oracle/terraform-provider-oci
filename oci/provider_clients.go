@@ -271,23 +271,23 @@ type OracleClients struct {
 	virtualNetworkClient  *oci_core.VirtualNetworkClient
 }
 
-func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManagementClient, error) {
-	if managementClient, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(*m.kmsManagementClient.ConfigurationProvider(), endpoint); err == nil {
-		if err = configureClient(&managementClient.BaseClient); err != nil {
+func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClient, error) {
+	if client, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(*m.kmsCryptoClient.ConfigurationProvider(), endpoint); err == nil {
+		if err = configureClient(&client.BaseClient); err != nil {
 			return nil, err
 		}
-		return &managementClient, nil
+		return &client, nil
 	} else {
 		return nil, err
 	}
 }
 
-func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClient, error) {
-	if cryptoClient, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(*m.kmsCryptoClient.ConfigurationProvider(), endpoint); err == nil {
-		if err = configureClient(&cryptoClient.BaseClient); err != nil {
+func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManagementClient, error) {
+	if client, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(*m.kmsManagementClient.ConfigurationProvider(), endpoint); err == nil {
+		if err = configureClient(&client.BaseClient); err != nil {
 			return nil, err
 		}
-		return &cryptoClient, nil
+		return &client, nil
 	} else {
 		return nil, err
 	}
