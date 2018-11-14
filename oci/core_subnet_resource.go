@@ -55,7 +55,6 @@ func SubnetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -85,13 +84,11 @@ func SubnetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"security_list_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 5,
 				MinItems: 0,
 				Set:      literalTypeHashCodeForSets,
@@ -305,6 +302,11 @@ func (s *SubnetResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if dhcpOptionsId, ok := s.D.GetOkExists("dhcp_options_id"); ok {
+		tmp := dhcpOptionsId.(string)
+		request.DhcpOptionsId = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
@@ -312,6 +314,24 @@ func (s *SubnetResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
+	request.SecurityListIds = []string{}
+	if securityListIds, ok := s.D.GetOkExists("security_list_ids"); ok {
+		set := securityListIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.SecurityListIds = tmp
 	}
 
 	tmp := s.D.Id()

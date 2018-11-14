@@ -31,10 +31,12 @@ var (
 	fileSystemRepresentation = map[string]interface{}{
 		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
+		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	FileSystemResourceDependencies = AvailabilityDomainConfig
+	FileSystemResourceDependencies = AvailabilityDomainConfig + DefinedTagsDependencies
 )
 
 func TestFileStorageFileSystemResource_basic(t *testing.T) {
@@ -82,7 +84,9 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -102,7 +106,9 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),

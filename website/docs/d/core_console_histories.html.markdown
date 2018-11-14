@@ -30,7 +30,7 @@ data "oci_core_console_histories" "test_console_histories" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Optional) The name of the Availability Domain.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The OCID of the compartment.
 * `instance_id` - (Optional) The OCID of the instance.
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
@@ -46,7 +46,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `availability_domain` - The Availability Domain of an instance.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The availability domain of an instance.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My console history metadata` 

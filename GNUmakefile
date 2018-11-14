@@ -10,6 +10,7 @@ skip_goimports_check_flag := $(if $(skip_goimports_check), -s, )
 
 default: build
 
+## IMPORTANT: Do not modify the following `build` target. The following steps are a requirement of the provider release process.
 build: fmtcheck
 	go install
 
@@ -31,9 +32,25 @@ vet:
 fmt:
 	gofmt -w $(GOFMT_FILES)
 	goimports -w -local github.com/oracle/terraform-provider-oci $(GOFMT_FILES)
+	@if [ -x "$$(command -v terraform)" ]; then \
+		terraform fmt; \
+	else \
+		echo "No terraform command found. Not running 'terraform fmt'"; \
+	fi
 
+## IMPORTANT: Do not modify the following `fmtcheck` target. The following steps are a requirement of the provider release process.
+## To add custom checks, use the `ocicheck` target instead.
 fmtcheck:
 	@sh -c "'$(CURDIR)/scripts/gofmtcheck.sh' $(skip_goimports_check_flag)"
+
+ocicheck:
+	@if [ -x "$$(command -v terraform)" ]; then \
+		echo "==> Checking terraform formatting of files"; \
+		terraform fmt -check=true || (echo "Terraform files are not appropriately formatted. Please run make fmt to format them." && exit 1); \
+	else \
+		echo "No terraform command found. Make sure it is installed in your PATH"; \
+		exit 1; \
+	fi
 
 errcheck:
 	@sh -c "'$(CURDIR)/scripts/errcheck.sh'"

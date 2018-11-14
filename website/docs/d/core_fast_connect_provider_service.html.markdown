@@ -35,10 +35,10 @@ The following attributes are exported:
 
 * `description` - A description of the service offered by the provider. 
 * `id` - The OCID of the service offered by the provider. 
-* `private_peering_bgp_management` - Private peering BGP management. 
+* `private_peering_bgp_management` - Who is responsible for managing the private peering BGP information. 
 * `provider_name` - The name of the provider. 
 * `provider_service_name` - The name of the service offered by the provider. 
-* `public_peering_bgp_management` - Public peering BGP management. 
+* `public_peering_bgp_management` - Who is responsible for managing the public peering BGP information. 
 * `supported_virtual_circuit_types` - An array of virtual circuit types supported by this service. 
 * `type` - Provider service type. 
 

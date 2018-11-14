@@ -35,6 +35,7 @@ check_make_target 3 'errcheck'
 check_make_target 4 'vendor-status'
 check_make_target 5 'test-compile' 'TEST=./oci'
 check_make_target 6 'website-test'
+check_make_target 7 'ocicheck'
 
 echo "checking: make build ..."
 # check this branch builds cleanly (which internally also takes care of the formatting check)

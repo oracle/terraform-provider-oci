@@ -31,7 +31,7 @@ data "oci_core_boot_volume_attachments" "test_boot_volume_attachments" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The name of the Availability Domain.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - (Required) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `boot_volume_id` - (Optional) The OCID of the boot volume.
 * `compartment_id` - (Required) The OCID of the compartment.
 * `instance_id` - (Optional) The OCID of the instance.
@@ -47,7 +47,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `availability_domain` - The Availability Domain of an instance.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The availability domain of an instance.  Example: `Uocm:PHX-AD-1` 
 * `boot_volume_id` - The OCID of the boot volume.
 * `compartment_id` - The OCID of the compartment.
 * `display_name` - A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.  Example: `My boot volume` 

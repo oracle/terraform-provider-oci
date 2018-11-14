@@ -41,17 +41,18 @@ var (
 		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
 		"vcn_id":                     Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"dhcp_options_id":            Representation{repType: Optional, create: `${oci_core_dhcp_options.test_dhcp_options.id}`},
+		"dhcp_options_id":            Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`, update: `${oci_core_dhcp_options.test_dhcp_options.id}`},
 		"display_name":               Representation{repType: Optional, create: `MySubnet`, update: `displayName2`},
 		"dns_label":                  Representation{repType: Optional, create: `dnslabel`},
 		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"prohibit_public_ip_on_vnic": Representation{repType: Optional, create: `false`},
-		"route_table_id":             Representation{repType: Optional, create: `${oci_core_route_table.test_route_table.id}`},
-		"security_list_ids":          Representation{repType: Optional, create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}},
+		"route_table_id":             Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_route_table_id}`, update: `${oci_core_route_table.test_route_table.id}`},
+		"security_list_ids":          Representation{repType: Optional, create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}, update: []string{`${oci_core_security_list.test_security_list.id}`}},
 	}
 
-	SubnetRequiredOnlyResourceDependencies = AvailabilityDomainConfig + VcnResourceConfig
-	SubnetResourceDependencies             = AvailabilityDomainConfig + DhcpOptionsRequiredOnlyResource + RouteTableRequiredOnlyResource
+	AnotherSecurityListRequiredOnlyResource = generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation)
+	SubnetRequiredOnlyResourceDependencies  = AvailabilityDomainConfig + VcnResourceConfig
+	SubnetResourceDependencies              = AvailabilityDomainConfig + DhcpOptionsRequiredOnlyResource + RouteTableRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource
 )
 
 func TestCoreSubnetResource_basic(t *testing.T) {

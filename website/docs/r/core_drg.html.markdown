@@ -9,7 +9,7 @@ description: |-
 # oci_core_drg
 This resource provides the Drg resource in Oracle Cloud Infrastructure Core service.
 
-Creates a new Dynamic Routing Gateway (DRG) in the specified compartment. For more information,
+Creates a new dynamic routing gateway (DRG) in the specified compartment. For more information,
 see [Dynamic Routing Gateways (DRGs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
 
 For the purposes of access control, you must provide the OCID of the compartment where you want

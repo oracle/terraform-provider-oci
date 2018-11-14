@@ -33,7 +33,9 @@ var (
 		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"subnet_id":           Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `mount-target-5`, update: `displayName2`},
+		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"hostname_label":      Representation{repType: Optional, create: `hostnameLabel`},
 		"ip_address":          Representation{repType: Optional, create: `10.0.1.5`},
 	}
@@ -88,8 +90,10 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "mount-target-5"),
 					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
@@ -113,8 +117,10 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),

@@ -1057,3 +1057,45 @@ func (client FileStorageClient) updateMountTarget(ctx context.Context, request c
 	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
+
+// UpdateSnapshot Updates the specified snapshot's information.
+func (client FileStorageClient) UpdateSnapshot(ctx context.Context, request UpdateSnapshotRequest) (response UpdateSnapshotResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSnapshot, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateSnapshotResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSnapshotResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSnapshotResponse")
+	}
+	return
+}
+
+// updateSnapshot implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) updateSnapshot(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/snapshots/{snapshotId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSnapshotResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}

@@ -18,6 +18,7 @@ func SnapshotResource() *schema.Resource {
 		Timeouts: DefaultTimeout,
 		Create:   createSnapshot,
 		Read:     readSnapshot,
+		Update:   updateSnapshot,
 		Delete:   deleteSnapshot,
 		Schema: map[string]*schema.Schema{
 			// Required
@@ -33,6 +34,19 @@ func SnapshotResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"state": {
@@ -61,6 +75,14 @@ func readSnapshot(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return ReadResource(sync)
+}
+
+func updateSnapshot(d *schema.ResourceData, m interface{}) error {
+	sync := &SnapshotResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).fileStorageClient
+
+	return UpdateResource(d, sync)
 }
 
 func deleteSnapshot(d *schema.ResourceData, m interface{}) error {
@@ -110,9 +132,21 @@ func (s *SnapshotResourceCrud) DeletedTarget() []string {
 func (s *SnapshotResourceCrud) Create() error {
 	request := oci_file_storage.CreateSnapshotRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if fileSystemId, ok := s.D.GetOkExists("file_system_id"); ok {
 		tmp := fileSystemId.(string)
 		request.FileSystemId = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -148,6 +182,35 @@ func (s *SnapshotResourceCrud) Get() error {
 	return nil
 }
 
+func (s *SnapshotResourceCrud) Update() error {
+	request := oci_file_storage.UpdateSnapshotRequest{}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	tmp := s.D.Id()
+	request.SnapshotId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	response, err := s.Client.UpdateSnapshot(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Snapshot
+	return nil
+}
+
 func (s *SnapshotResourceCrud) Delete() error {
 	request := oci_file_storage.DeleteSnapshotRequest{}
 
@@ -161,9 +224,15 @@ func (s *SnapshotResourceCrud) Delete() error {
 }
 
 func (s *SnapshotResourceCrud) SetData() error {
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.FileSystemId != nil {
 		s.D.Set("file_system_id", *s.Res.FileSystemId)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)

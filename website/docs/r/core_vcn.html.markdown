@@ -41,7 +41,7 @@ The VCN automatically comes with a default route table, default security list, a
 The OCID for each is returned in the response. You can't delete these default objects, but you can change their
 contents (that is, change the route rules, security list rules, and so on).
 
-The VCN and subnets you create are not accessible until you attach an Internet Gateway or set up an IPSec VPN
+The VCN and subnets you create are not accessible until you attach an internet gateway or set up an IPSec VPN
 or FastConnect. For more information, see
 [Overview of the Networking Service](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm).
 

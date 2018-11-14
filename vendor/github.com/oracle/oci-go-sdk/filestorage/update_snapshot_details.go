@@ -12,13 +12,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateFileSystemDetails The representation of UpdateFileSystemDetails
-type UpdateFileSystemDetails struct {
-
-	// A user-friendly name. It does not have to be unique, and it is changeable.
-	// Avoid entering confidential information.
-	// Example: `My file system`
-	DisplayName *string `mandatory:"false" json:"displayName"`
+// UpdateSnapshotDetails The representation of UpdateSnapshotDetails
+type UpdateSnapshotDetails struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
@@ -32,6 +27,6 @@ type UpdateFileSystemDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-func (m UpdateFileSystemDetails) String() string {
+func (m UpdateSnapshotDetails) String() string {
 	return common.PointerString(m)
 }
