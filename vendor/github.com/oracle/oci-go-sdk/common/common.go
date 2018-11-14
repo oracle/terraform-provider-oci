@@ -4,8 +4,8 @@ package common
 
 import (
 	"fmt"
-	"strings"
 	"regexp"
+	"strings"
 )
 
 //Region type for regions
@@ -47,6 +47,7 @@ func StringToRegion(stringRegion string) (r Region) {
 // canStringBeRegion test if the string can be a region, if it can, returns the string as is, otherwise it
 // returns an error
 var blankRegex = regexp.MustCompile("\\s")
+
 func canStringBeRegion(stringRegion string) (region string, err error) {
 	if blankRegex.MatchString(stringRegion) || stringRegion == "" {
 		return "", fmt.Errorf("region can not be empty or have spaces")

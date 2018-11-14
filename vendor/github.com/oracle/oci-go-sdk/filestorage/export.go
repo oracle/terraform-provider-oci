@@ -37,6 +37,7 @@ import (
 // reference the same file system.
 // Use `exportOptions` to control access to an export. For more information, see
 // Export Options (https://docs.us-phoenix-1.oraclecloud.com/Content/File/Tasks/exportoptions.htm).
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type Export struct {
 
 	// Policies that apply to NFS requests made through this

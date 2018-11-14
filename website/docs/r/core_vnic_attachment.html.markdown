@@ -77,7 +77,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `availability_domain` - The Availability Domain of the instance.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment the VNIC attachment is in, which is the same compartment the instance is in. 
 * `display_name` - A user-friendly name. Does not have to be unique. Avoid entering confidential information. 
 * `id` - The OCID of the VNIC attachment.

@@ -40,10 +40,11 @@ func VolumeResource() *schema.Resource {
 
 			// Optional
 			"backup_policy_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				ForceNew:   true,
+				Deprecated: FieldDeprecatedButSupportedTroughAnotherResource("backup_policy_id", "oci_core_volume_backup_policy_assignment"),
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -369,7 +370,7 @@ func (s *VolumeResourceCrud) Update() error {
 		}
 	}
 
-	if sizeInGBs, ok := s.D.GetOkExists("size_in_gbs"); ok {
+	if sizeInGBs, ok := s.D.GetOkExists("size_in_gbs"); ok && s.D.HasChange("size_in_gbs") {
 		tmp := sizeInGBs.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {

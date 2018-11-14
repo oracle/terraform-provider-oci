@@ -20,7 +20,7 @@ var (
 	}
 
 	keyDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
 		"filter":              RepresentationGroup{Required, keyDataSourceFilterRepresentation}}
 	keyDataSourceFilterRepresentation = map[string]interface{}{
@@ -29,7 +29,7 @@ var (
 	}
 
 	keyRepresentation = map[string]interface{}{
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id":      Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"display_name":        Representation{repType: Required, create: `Key C`, update: `displayName2`},
 		"key_shape":           RepresentationGroup{Required, keyKeyShapeRepresentation},
 		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
@@ -55,13 +55,9 @@ var (
 	KeyResourceDependencyConfig = KeyResourceDependencies + `
 	data "oci_kms_keys" "test_keys_dependency" {
 		#Required
-		compartment_id = "${var.compartment_id}"
+		compartment_id = "${var.tenancy_ocid}"
 		management_endpoint = "${data.oci_kms_vault.test_vault.management_endpoint}"
 
-        filter {
-    		name = "display_name"
-    		values = ["Key C"]
-        }
 		filter {
     		name = "state"
     		values = ["ENABLED"]
@@ -76,6 +72,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_kms_key.test_key"
 	datasourceName := "data.oci_kms_keys.test_keys"
@@ -94,7 +91,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + KeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
@@ -112,7 +109,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + KeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -139,10 +136,10 @@ func TestKmsKeyResource_basic(t *testing.T) {
 					compartmentIdVariableStr + KeyResourceDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttr(datasourceName, "keys.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "keys.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "keys.0.compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "keys.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.state"),
@@ -158,7 +155,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "current_key_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

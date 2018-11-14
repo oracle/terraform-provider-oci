@@ -20,6 +20,10 @@ resource "oci_file_storage_snapshot" "test_snapshot" {
 	#Required
 	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
 	name = "${var.snapshot_name}"
+
+	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 
@@ -27,7 +31,9 @@ resource "oci_file_storage_snapshot" "test_snapshot" {
 
 The following arguments are supported:
 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `file_system_id` - (Required) The OCID of the file system to take a snapshot of.
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) Name of the snapshot. This value is immutable. It must also be unique with respect to all other non-DELETED snapshots on the associated file system.
 
 	Avoid entering confidential information.
@@ -42,7 +48,9 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `file_system_id` - The OCID of the file system from which the snapshot was created. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the snapshot.
 * `name` - Name of the snapshot. This value is immutable.
 

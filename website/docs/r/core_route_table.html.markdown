@@ -60,11 +60,19 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `route_rules` - (Required) (Updatable) The collection of rules used for routing destination IPs to network devices.
-	* `cidr_block` - (Optional) (Updatable) Deprecated, Destination and DestinationType should be used instead; request including both fields will be rejected. A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
-	* `destination` - (Optional) (Updatable) The destination service cidrBlock or destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).
+	* `cidr_block` - (Optional) (Updatable) Deprecated. Instead use `destination` and `destinationType`. Requests that include both `cidrBlock` and `destination` will be rejected.
 
-		Examples: `10.12.0.0/16` `oci-phx-objectstorage` 
-	* `destination_type` - (Optional) (Updatable) Type of destination for the route rule. SERVICE_CIDR_BLOCK should be used if destination is a service cidrBlock. CIDR_BLOCK should be used if destination is IP address range in CIDR notation. It must be provided along with `destination`. 
+		A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).
+
+		Example: `0.0.0.0/0` 
+	* `destination` - (Optional) (Updatable) Conceptually, this is the range of IP addresses used for matching when routing traffic. Required if you provide a `destinationType`.
+
+		Allowed values:
+		* IP address range in CIDR notation. For example: `192.168.1.0/24`
+		* The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/), if you're setting up a route rule for traffic destined for a particular service through a service gateway. For example: `oci-phx-objectstorage` 
+	* `destination_type` - (Optional) (Updatable) Type of destination for the rule. Required if you provide a `destination`.
+		* `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
+		* `SERVICE_CIDR_BLOCK`: If the rule's `destination` is the `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/) (the rule is for traffic destined for a particular service through a service gateway). 
 	* `network_entity_id` - (Required) (Updatable) The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm). 
 * `vcn_id` - (Required) The OCID of the VCN the route table belongs to.
 
@@ -82,11 +90,19 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The route table's Oracle ID (OCID).
 * `route_rules` - The collection of rules for routing destination IPs to network devices.
-	* `cidr_block` - Deprecated, Destination and DestinationType should be used instead; request including both fields will be rejected. A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).  Example: `0.0.0.0/0` 
-	* `destination` - The destination service cidrBlock or destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).
+	* `cidr_block` - Deprecated. Instead use `destination` and `destinationType`. Requests that include both `cidrBlock` and `destination` will be rejected.
 
-		Examples: `10.12.0.0/16` `oci-phx-objectstorage` 
-	* `destination_type` - Type of destination for the route rule. SERVICE_CIDR_BLOCK should be used if destination is a service cidrBlock. CIDR_BLOCK should be used if destination is IP address range in CIDR notation. It must be provided along with `destination`. 
+		A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).
+
+		Example: `0.0.0.0/0` 
+	* `destination` - Conceptually, this is the range of IP addresses used for matching when routing traffic. Required if you provide a `destinationType`.
+
+		Allowed values:
+		* IP address range in CIDR notation. For example: `192.168.1.0/24`
+		* The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/), if you're setting up a route rule for traffic destined for a particular service through a service gateway. For example: `oci-phx-objectstorage` 
+	* `destination_type` - Type of destination for the rule. Required if you provide a `destination`.
+		* `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
+		* `SERVICE_CIDR_BLOCK`: If the rule's `destination` is the `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/) (the rule is for traffic destined for a particular service through a service gateway). 
 	* `network_entity_id` - The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm). 
 * `state` - The route table's current state.
 * `time_created` - The date and time the route table was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 

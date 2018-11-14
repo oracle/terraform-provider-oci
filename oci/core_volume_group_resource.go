@@ -107,6 +107,10 @@ func VolumeGroupResource() *schema.Resource {
 			},
 
 			// Computed
+			"is_hydrated": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"size_in_gbs": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -347,6 +351,10 @@ func (s *VolumeGroupResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsHydrated != nil {
+		s.D.Set("is_hydrated", *s.Res.IsHydrated)
+	}
 
 	if s.Res.SizeInGBs != nil {
 		s.D.Set("size_in_gbs", strconv.FormatInt(*s.Res.SizeInGBs, 10))
