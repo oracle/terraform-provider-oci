@@ -1,4 +1,5 @@
-## 3.7.0 (Unreleased)
+## 3.7.1 (Unreleased)
+## 3.7.0 (November 14, 2018)
 
 ### Added
 - New parameter `is_hydrated` in `oci_core_volume_groups` resource and data source
