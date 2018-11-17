@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -86,6 +87,7 @@ func createGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &GroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
+	sync.Configuration = m.(*OracleClients).configuration
 
 	return CreateResource(d, sync)
 }
@@ -118,6 +120,7 @@ func deleteGroup(d *schema.ResourceData, m interface{}) error {
 type GroupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
+	Configuration          map[string]string
 	Res                    *oci_identity.Group
 	DisableNotFoundRetries bool
 }
@@ -156,7 +159,12 @@ func (s *GroupResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
-	} else {
+	} else { // @next-break: remove
+		// Prevent potentially inferring wrong TenancyOCID from InstancePrincipal
+		if auth := s.Configuration["auth"]; strings.ToLower(auth) == strings.ToLower(authInstancePrincipalSetting) {
+			return fmt.Errorf("compartment_id must be specified for this resource")
+		}
+		// Maintain legacy contract of compartment_id defaulting to tenancy ocid if not specified
 		c := *s.Client.ConfigurationProvider()
 		if c == nil {
 			return fmt.Errorf("cannot access tenancyOCID")

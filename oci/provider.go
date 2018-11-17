@@ -473,9 +473,10 @@ func validateConfigForAPIKeyAuth(d *schema.ResourceData) error {
 }
 
 func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
-	clients = &OracleClients{}
+	clients = &OracleClients{configuration: map[string]string{}}
 	disableAutoRetries = d.Get("disable_auto_retries").(bool)
 	auth := strings.ToLower(d.Get("auth").(string))
+	clients.(*OracleClients).configuration["auth"] = auth
 
 	userAgentProviderName := getEnvSettingWithDefault(userAgentProviderNameEnv, defaultUserAgentProviderName)
 	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), userAgentProviderName, Version)
