@@ -279,6 +279,7 @@ type OracleClients struct {
 	loadBalancerClient      *oci_load_balancer.LoadBalancerClient
 	objectStorageClient     *oci_object_storage.ObjectStorageClient
 	virtualNetworkClient    *oci_core.VirtualNetworkClient
+	configuration           map[string]string
 }
 
 func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClient, error) {
