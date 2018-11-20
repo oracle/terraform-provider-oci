@@ -119,7 +119,19 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					},
 				),
 			},
+			{
+				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "approximate_count"),
+					resource.TestCheckResourceAttrSet(resourceName, "approximate_size"),
 
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
 			// verify updates to compartment
 			{
 				Config: config + compartmentId2VariableStr + BucketResourceDependencies +
@@ -136,6 +148,8 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "approximate_count"),
+					resource.TestCheckResourceAttrSet(resourceName, "approximate_size"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -218,6 +232,8 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "object_lifecycle_policy_etag"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_count"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_size"),
 				),
 			},
 		},
