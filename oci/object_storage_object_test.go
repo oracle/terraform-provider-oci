@@ -609,7 +609,6 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 	resourceName := "oci_objectstorage_object.test_object"
 	resourceNameCopy := "oci_objectstorage_object.test_object_copy"
 
-	var resId string
 	hexSum := md5.Sum([]byte("content"))
 	md5sum := hex.EncodeToString(hexSum[:])
 
@@ -681,7 +680,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						_, err = fromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
