@@ -256,8 +256,6 @@ func TestCoreVolumeResource_expectError(t *testing.T) {
 
 	resourceName := "oci_core_volume.test_volume"
 
-	var resId string
-
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -281,7 +279,7 @@ variable "volume_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						_, err = fromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
@@ -402,8 +400,6 @@ func TestCoreVolumeResource_validations(t *testing.T) {
 
 	resourceName := "oci_core_volume.test_volume"
 
-	var resId string
-
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -427,7 +423,7 @@ variable "volume_state" { default = "AVAILABLE" }
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						_, err = fromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
