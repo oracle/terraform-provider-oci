@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
@@ -23,6 +24,14 @@ func BucketDataSource() *schema.Resource {
 			},
 			// Computed
 			"access_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"approximate_count": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"approximate_size": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -104,6 +113,7 @@ func (s *BucketDataSourceCrud) Get() error {
 		request.NamespaceName = &tmp
 	}
 
+	request.Fields = oci_object_storage.GetGetBucketFieldsEnumValues()
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
 
 	response, err := s.Client.GetBucket(context.Background(), request)
@@ -123,6 +133,14 @@ func (s *BucketDataSourceCrud) SetData() error {
 	s.D.SetId(GenerateDataSourceID())
 
 	s.D.Set("access_type", s.Res.PublicAccessType)
+
+	if s.Res.ApproximateCount != nil {
+		s.D.Set("approximate_count", strconv.FormatInt(*s.Res.ApproximateCount, 10))
+	}
+
+	if s.Res.ApproximateSize != nil {
+		s.D.Set("approximate_size", strconv.FormatInt(*s.Res.ApproximateSize, 10))
+	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
