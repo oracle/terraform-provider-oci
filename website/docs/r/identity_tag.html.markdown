@@ -70,3 +70,11 @@ The following attributes are exported:
 * `tag_namespace_id` - The OCID of the namespace that contains the tag definition.
 * `time_created` - Date and time the tag was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
 
+## Import
+
+Tags can be imported using the `tagNamespaceId` and `tagName`, e.g.
+
+```
+$ terraform import oci_identity_tag.test_tag "tagNamespaces/{tagNamespaceId}/tags/{tagName}" 
+```
+
