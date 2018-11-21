@@ -161,6 +161,26 @@ func TestIdentityTagResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.time_created"),
 				),
 			},
+			// verify resource import
+			{
+				Config:                  config,
+				ImportStateIdFunc:       getTagCompositeId(resourceName),
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
+			},
 		},
 	})
+}
+
+func getTagCompositeId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("Not found: %s", resourceName)
+		}
+
+		return fmt.Sprintf("tagNamespaces/%s/tags/%s", rs.Primary.Attributes["tag_namespace_id"], rs.Primary.Attributes["name"]), nil
+	}
 }

@@ -1,4 +1,8 @@
 ## 3.10.1 (Unreleased)
+
+### Added
+- Support for importing tag. Note tag uses custom Id(import only) format (tagNamespaces/{tagNamespaceId}/tags/{tagName}) to support import.
+
 ## 3.10.0 (December 11, 2018)
 
 ### Added
