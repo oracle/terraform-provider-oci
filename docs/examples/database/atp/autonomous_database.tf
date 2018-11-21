@@ -22,7 +22,7 @@ data "oci_database_autonomous_databases" "autonomous_databases" {
   compartment_id = "${var.compartment_ocid}"
 
   #Optional
-  display_name = "${var.autonomous_database_display_name}"
+  display_name = "${oci_database_autonomous_database.autonomous_database.display_name}"
 }
 
 output "autonomous_database_admin_password" {
