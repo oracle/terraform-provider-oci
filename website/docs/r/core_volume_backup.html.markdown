@@ -41,6 +41,9 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `type` - (Optional) The type of backup to create. If omitted, defaults to INCREMENTAL.
 * `volume_id` - (Required) The OCID of the volume that needs to be backed up.
+* `source_details` - (Optional) Details of the volume backup source in the cloud. 
+    * `region` - The region of the volume backup source.
+    * `volume_backup_id` - The OCID of the source volume backup.
 
 
 ** IMPORTANT **
@@ -59,6 +62,7 @@ The following attributes are exported:
 * `size_in_gbs` - The size of the volume, in GBs. 
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_type` - Specifies whether the backup was created manually, or via scheduled backup policy.
+* `source_volume_backup_id` - The OCID of the source volume backup.
 * `state` - The current state of a volume backup.
 * `time_created` - The date and time the volume backup was created. This is the time the actual point-in-time image of the volume data was taken. Format defined by RFC3339. 
 * `time_request_received` - The date and time the request to create the volume backup was received. Format defined by RFC3339. 

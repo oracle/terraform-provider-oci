@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -22,20 +23,45 @@ func VolumeBackupResource() *schema.Resource {
 		Update:   updateVolumeBackup,
 		Delete:   deleteVolumeBackup,
 		Schema: map[string]*schema.Schema{
-			// Required
-			"volume_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-
 			// Optional
+			"volume_id": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				Computed:      true,
+				ConflictsWith: []string{"source_details"},
+			},
+			"source_details": {
+				Type:          schema.TypeList,
+				Optional:      true,
+				ForceNew:      true,
+				MaxItems:      1,
+				MinItems:      1,
+				ConflictsWith: []string{"volume_id"},
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"region": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						// Required
+						"volume_backup_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
 				Computed:         true,
 				DiffSuppressFunc: definedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
+				ConflictsWith:    []string{"source_details"},
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -43,16 +69,18 @@ func VolumeBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Computed: true,
-				Elem:     schema.TypeString,
+				Type:          schema.TypeMap,
+				Optional:      true,
+				Computed:      true,
+				Elem:          schema.TypeString,
+				ConflictsWith: []string{"source_details"},
 			},
 			"type": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"source_details"},
 			},
 
 			// Computed
@@ -74,6 +102,10 @@ func VolumeBackupResource() *schema.Resource {
 				Deprecated: FieldDeprecatedForAnother("size_in_mbs", "size_in_gbs"),
 			},
 			"source_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"source_volume_backup_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -138,6 +170,7 @@ func deleteVolumeBackup(d *schema.ResourceData, m interface{}) error {
 type VolumeBackupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.BlockstorageClient
+	SourceRegionClient     *oci_core.BlockstorageClient
 	Res                    *oci_core.VolumeBackup
 	DisableNotFoundRetries bool
 }
@@ -174,6 +207,67 @@ func (s *VolumeBackupResourceCrud) DeletedTarget() []string {
 }
 
 func (s *VolumeBackupResourceCrud) Create() error {
+	if s.isCopyCreate() {
+		return s.createVolumeBackupCopy()
+	}
+
+	return s.CreateVolumeBackup()
+}
+
+func (s *VolumeBackupResourceCrud) isCopyCreate() bool {
+	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
+		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *VolumeBackupResourceCrud) createVolumeBackupCopy() error {
+	copyVolumeBackupRequest := oci_core.CopyVolumeBackupRequest{}
+
+	configProvider := *s.Client.ConfigurationProvider()
+	if configProvider == nil {
+		return fmt.Errorf("cannot access ConfigurationProvider")
+	}
+	currentRegion, error := configProvider.Region()
+	if error != nil {
+		return fmt.Errorf("cannot access Region for the current ConfigurationProvider")
+	}
+
+	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok && sourceDetails != nil {
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
+
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			err := s.createBlockStorageSourceRegionClient(tmp)
+			if err != nil {
+				return err
+			}
+		}
+		copyVolumeBackupRequest.DestinationRegion = &currentRegion
+
+		if volumeBackupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_backup_id")); ok {
+			tmp := volumeBackupId.(string)
+			copyVolumeBackupRequest.VolumeBackupId = &tmp
+		}
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		copyVolumeBackupRequest.DisplayName = &tmp
+	}
+
+	response, err := s.SourceRegionClient.CopyVolumeBackup(context.Background(), copyVolumeBackupRequest)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.VolumeBackup
+	return nil
+}
+
+func (s *VolumeBackupResourceCrud) CreateVolumeBackup() error {
 	request := oci_core.CreateVolumeBackupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -304,6 +398,10 @@ func (s *VolumeBackupResourceCrud) SetData() error {
 	}
 
 	s.D.Set("source_type", s.Res.SourceType)
+
+	if s.Res.SourceVolumeBackupId != nil {
+		s.D.Set("source_volume_backup_id", *s.Res.SourceVolumeBackupId)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

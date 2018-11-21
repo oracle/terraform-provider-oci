@@ -5,6 +5,8 @@ package provider
 import (
 	"context"
 
+	"fmt"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
@@ -67,4 +69,17 @@ func getBackupPolicyId(assetId *string, client *oci_core.BlockstorageClient) (*s
 	} else {
 		return nil, nil
 	}
+}
+
+func (s *VolumeBackupResourceCrud) createBlockStorageSourceRegionClient(region string) error {
+	if s.SourceRegionClient == nil {
+		sourceObjectStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
+		if err != nil {
+			return fmt.Errorf("cannot create client for the source region: %v", err)
+		}
+		s.SourceRegionClient = &sourceObjectStorageClient
+	}
+	s.SourceRegionClient.SetRegion(region)
+
+	return nil
 }

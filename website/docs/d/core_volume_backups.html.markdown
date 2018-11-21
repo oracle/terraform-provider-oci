@@ -21,6 +21,7 @@ data "oci_core_volume_backups" "test_volume_backups" {
 
 	#Optional
 	display_name = "${var.volume_backup_display_name}"
+	source_volume_backup_id = "${oci_core_source_volume_backup.test_source_volume_backup.id}"
 	state = "${var.volume_backup_state}"
 	volume_id = "${oci_core_volume.test_volume.id}"
 }
@@ -32,6 +33,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
+* `source_volume_backup_id` - (Optional) A filter to return only resources that originated from the given source volume backup. 
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
 * `volume_id` - (Optional) The OCID of the volume.
 
@@ -55,6 +57,7 @@ The following attributes are exported:
 * `size_in_gbs` - The size of the volume, in GBs. 
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_type` - Specifies whether the backup was created manually, or via scheduled backup policy.
+* `source_volume_backup_id` - The OCID of the source volume backup.
 * `state` - The current state of a volume backup.
 * `time_created` - The date and time the volume backup was created. This is the time the actual point-in-time image of the volume data was taken. Format defined by RFC3339. 
 * `time_request_received` - The date and time the request to create the volume backup was received. Format defined by RFC3339. 
