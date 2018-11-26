@@ -26,7 +26,7 @@ data "oci_database_autonomous_data_warehouse_wallet" "test_autonomous_data_wareh
 The following arguments are supported:
 
 * `autonomous_data_warehouse_id` - (Required) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `password` - (Required) The password to encrypt the keys inside the wallet.
+* `password` - (Required) The password to encrypt the keys inside the wallet. The password must be at least 8 characters long and must include at least 1 letter and either 1 numeric character or 1 special character.
 
 
 ## Attributes Reference
