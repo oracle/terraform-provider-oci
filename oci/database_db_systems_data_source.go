@@ -226,6 +226,10 @@ func (s *DbSystemsDataSourceCrud) SetData() error {
 			dbSystem["shape"] = *r.Shape
 		}
 
+		if r.SparseDiskgroup != nil {
+			dbSystem["sparse_diskgroup"] = *r.SparseDiskgroup
+		}
+
 		dbSystem["ssh_public_keys"] = r.SshPublicKeys
 
 		dbSystem["state"] = r.LifecycleState

@@ -131,7 +131,7 @@ func GetConfigPaths(t *testing.T, rootPath string) (pathList []string, err error
 }
 
 func shouldSkip(dir string) bool {
-	blackList := []string{"/db_systems", "/adw_backup", "/atp_backup", "/block", "launch_by_subscription", "subscription"}
+	blackList := []string{"/db_exadata", "/db_systems", "/adw_backup", "/atp_backup", "/block", "launch_by_subscription", "subscription"}
 	var flag bool
 	for _, blackDir := range blackList {
 		flag = flag || strings.HasSuffix(dir, blackDir)
