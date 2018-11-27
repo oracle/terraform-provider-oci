@@ -32,6 +32,7 @@ var (
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"route_table_id": Representation{repType: Required, create: `${oci_core_vcn.test_vcn.default_route_table_id}`},
 	}
 
 	secondLocalPeeringGatewayRepresentation = map[string]interface{}{
@@ -86,6 +87,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
@@ -111,6 +113,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
 					resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -134,6 +137,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
 					resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -165,6 +169,7 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.is_cross_tenancy_peering"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.peering_status"),
+					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.route_table_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.vcn_id"),
