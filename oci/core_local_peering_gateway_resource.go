@@ -57,6 +57,11 @@ func LocalPeeringGatewayResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"route_table_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			// @CODEGEN we use peer_id to do the connect action
 			"peer_id": {
 				Type:         schema.TypeString,
@@ -73,6 +78,13 @@ func LocalPeeringGatewayResource() *schema.Resource {
 			"peer_advertised_cidr": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"peer_advertised_cidr_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"peering_status": {
 				Type:     schema.TypeString,
@@ -245,6 +257,11 @@ func (s *LocalPeeringGatewayResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
 		tmp := vcnId.(string)
 		request.VcnId = &tmp
@@ -301,6 +318,11 @@ func (s *LocalPeeringGatewayResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.LocalPeeringGatewayId = &tmp
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateLocalPeeringGateway(context.Background(), request)
@@ -347,10 +369,16 @@ func (s *LocalPeeringGatewayResourceCrud) SetData() error {
 		s.D.Set("peer_advertised_cidr", *s.Res.PeerAdvertisedCidr)
 	}
 
+	s.D.Set("peer_advertised_cidr_details", s.Res.PeerAdvertisedCidrDetails)
+
 	s.D.Set("peering_status", s.Res.PeeringStatus)
 
 	if s.Res.PeeringStatusDetails != nil {
 		s.D.Set("peering_status_details", *s.Res.PeeringStatusDetails)
+	}
+
+	if s.Res.RouteTableId != nil {
+		s.D.Set("route_table_id", *s.Res.RouteTableId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

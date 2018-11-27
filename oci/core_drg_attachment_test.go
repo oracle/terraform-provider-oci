@@ -28,9 +28,10 @@ var (
 	}
 
 	drgAttachmentRepresentation = map[string]interface{}{
-		"drg_id":       Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
-		"vcn_id":       Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"display_name": Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"drg_id":         Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"route_table_id": Representation{repType: Required, create: `${oci_core_vcn.test_vcn.default_route_table_id}`},
 	}
 
 	DrgAttachmentResourceDependencies = DrgRequiredOnlyResource + VcnRequiredOnlyResource + VcnResourceDependencies
@@ -61,6 +62,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
@@ -83,6 +85,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -102,6 +105,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -130,6 +134,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "drg_attachments.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.drg_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.route_table_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.vcn_id"),
 				),
