@@ -42,13 +42,6 @@ var (
 		"name":           Representation{repType: Required, create: `Network`, update: `name2`},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"timeouts":       RepresentationGroup{Required, compartmentTimeoutsRepresentation},
-	}
-
-	compartmentTimeoutsRepresentation = map[string]interface{}{
-		"create": Representation{repType: Optional, create: `60m`},
-		"update": Representation{repType: Optional, create: `60m`},
-		"delete": Representation{repType: Optional, create: `60m`},
 	}
 
 	CompartmentResourceDependencies = DefinedTagsDependencies
@@ -178,11 +171,21 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"enable_delete",
+				},
+				ResourceName: resourceName,
+			},
+			// restore name of compartment
+			{
+				Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "name", "Network"),
+				),
 			},
 		},
 	})
@@ -203,7 +206,8 @@ func testAccCheckIdentityCompartmentDestroy(s *terraform.State) error {
 
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
-					string(oci_identity.CompartmentLifecycleStateDeleted): true,
+					string(oci_identity.CompartmentLifecycleStateDeleted): true, // target state when delete_enabled = true
+					string(oci_identity.CompartmentLifecycleStateActive):  true, // target state when delete_enabled = false or ""
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.

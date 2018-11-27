@@ -78,8 +78,12 @@ func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableN
 		if e != nil && strings.Contains(e.Error(), "InvalidatedRetryToken") {
 			return 0
 		}
-		if service == identityService && e != nil && (strings.Contains(e.Error(), "CompartmentAlreadyExists") || strings.Contains(e.Error(), "TagDefinitionAlreadyExists") || strings.Contains(e.Error(),
-			"TagNamespaceAlreadyExists")) {
+		if service == identityService && e != nil &&
+			(strings.Contains(e.Error(), "CompartmentAlreadyExists") ||
+				strings.Contains(e.Error(), "TagDefinitionAlreadyExists") ||
+				strings.Contains(e.Error(), "TenantCapacityExceeded") ||
+				strings.Contains(e.Error(),
+					"TagNamespaceAlreadyExists")) {
 			return 0
 		}
 		if e != nil && strings.Contains(e.Error(), "NotAuthorizedOrResourceAlreadyExists") && (service == identityService || service == objectstorageService) {

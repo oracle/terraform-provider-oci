@@ -221,13 +221,14 @@ func (s *CompartmentResourceCrud) Create() error {
 			if enableDelete, ok := s.D.GetOkExists("enable_delete"); !ok || !enableDelete.(bool) {
 
 				// React to name collisions by basically importing that pre-existing compartment into this plan.
-				if strings.Contains(err.Error(), "already exists") {
+				if strings.Contains(err.Error(), "already exists") ||
+					strings.Contains(err.Error(), "Maximum number of compartment") {
 					// List all compartments using the datasource to find that compartment with the matching name.
 					// CompartmentsDataSourceCrud requires a compartment_id, so forward whatever value was used in
 					// the create attempt above.
 					s.D.Set("compartment_id", request.CompartmentId)
 					dsCrud := &CompartmentsDataSourceCrud{s.D, s.Client, nil}
-					if err = dsCrud.Get(); err != nil {
+					if err := dsCrud.Get(); err != nil {
 						return err
 					}
 
@@ -241,14 +242,14 @@ func (s *CompartmentResourceCrud) Create() error {
 					}
 				}
 
-			}
-
-			return fmt.Errorf(`%s
+			} else {
+				return fmt.Errorf(`%s
 
 If you define a compartment resource in your configurations with 
 the same name as an existing compartment, the compartment will no
 longer be transparently imported. If you intended to manage 
 an existing compartment, use terraform import instead.`, err)
+			}
 		}
 		return err
 	}
