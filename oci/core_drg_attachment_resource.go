@@ -39,6 +39,11 @@ func DrgAttachmentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"route_table_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"compartment_id": {
@@ -142,6 +147,11 @@ func (s *DrgAttachmentResourceCrud) Create() error {
 		request.DrgId = &tmp
 	}
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
 		tmp := vcnId.(string)
 		request.VcnId = &tmp
@@ -186,6 +196,11 @@ func (s *DrgAttachmentResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.DrgAttachmentId = &tmp
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateDrgAttachment(context.Background(), request)
@@ -220,6 +235,10 @@ func (s *DrgAttachmentResourceCrud) SetData() error {
 
 	if s.Res.DrgId != nil {
 		s.D.Set("drg_id", *s.Res.DrgId)
+	}
+
+	if s.Res.RouteTableId != nil {
+		s.D.Set("route_table_id", *s.Res.RouteTableId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

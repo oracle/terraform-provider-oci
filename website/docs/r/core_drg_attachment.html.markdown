@@ -32,6 +32,7 @@ resource "oci_core_drg_attachment" "test_drg_attachment" {
 
 	#Optional
 	display_name = "${var.drg_attachment_display_name}"
+	route_table_id = "${oci_core_route_table.test_route_table.id}"
 }
 ```
 
@@ -41,6 +42,9 @@ The following arguments are supported:
 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique. Avoid entering confidential information.
 * `drg_id` - (Required) The OCID of the DRG.
+* `route_table_id` - (Optional) (Updatable) The OCID of the route table the DRG attachment will use.
+
+	If you don't specify a route table here, the DRG attachment is created without an associated route table. The Networking service does NOT automatically associate the attached VCN's default route table with the DRG attachment. 
 * `vcn_id` - (Required) The OCID of the VCN.
 
 
@@ -55,6 +59,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `drg_id` - The OCID of the DRG.
 * `id` - The DRG attachment's Oracle ID (OCID).
+* `route_table_id` - The OCID of the route table the DRG attachment is using.
 * `state` - The DRG attachment's current state.
 * `time_created` - The date and time the DRG attachment was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_id` - The OCID of the VCN.

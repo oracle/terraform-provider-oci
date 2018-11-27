@@ -139,6 +139,10 @@ func (s *DrgAttachmentsDataSourceCrud) SetData() error {
 			drgAttachment["id"] = *r.Id
 		}
 
+		if r.RouteTableId != nil {
+			drgAttachment["route_table_id"] = *r.RouteTableId
+		}
+
 		drgAttachment["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
