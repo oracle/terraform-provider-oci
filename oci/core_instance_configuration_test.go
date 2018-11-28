@@ -60,7 +60,7 @@ var (
 		"volume_id":      Representation{repType: Optional, create: `${oci_core_boot_volume.test_boot_volume.id}`},
 	}
 	instanceConfigurationInstanceDetailsLaunchDetailsRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Optional, create: `availabilityDomain`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Optional, create: `${var.compartment_id}`},
 		"create_vnic_details": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsRepresentation},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -84,8 +84,8 @@ var (
 		"use_chap":     Representation{repType: Optional, create: `false`},
 	}
 	instanceConfigurationInstanceDetailsBlockVolumesCreateDetailsRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Optional, create: `availabilityDomain`},
-		"backup_policy_id":    Representation{repType: Optional, create: `${data.oci_core_volume_backup_policies.test_boot_volume_backup_policies.volume_backup_policies.0.id}`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"backup_policy_id":    Representation{repType: Optional, create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
 		"compartment_id":      Representation{repType: Optional, create: `${var.compartment_id}`},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `backend-servers`},
@@ -180,7 +180,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.availability_domain", "availabilityDomain"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.assign_public_ip", "false"),
@@ -221,7 +221,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.create_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.create_details.0.availability_domain", "availabilityDomain"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.block_volumes.0.create_details.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.block_volumes.0.create_details.0.backup_policy_id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.create_details.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.block_volumes.0.create_details.0.defined_tags.%", "1"),
