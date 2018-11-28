@@ -37,6 +37,9 @@ type DrgAttachment struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The OCID of the route table the DRG attachment is using.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
 	// The date and time the DRG attachment was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
