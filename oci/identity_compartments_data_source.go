@@ -58,8 +58,7 @@ func (s *CompartmentsDataSourceCrud) Get() error {
 	request := oci_identity.ListCompartmentsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
-		tmp := accessLevel.(string)
-		request.AccessLevel = oci_identity.ListCompartmentsAccessLevelEnum(tmp)
+		request.AccessLevel = oci_identity.ListCompartmentsAccessLevelEnum(accessLevel.(string))
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
