@@ -1,4 +1,4 @@
-## 3.8.0 (Unreleased)
+## 3.8.0 (November 28, 2018)
 
 ### Added
 - Support VCN Transit
