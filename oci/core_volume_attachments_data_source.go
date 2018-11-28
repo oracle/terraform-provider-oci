@@ -178,6 +178,10 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
 				result["instance_id"] = string(*v.InstanceId)
 			}
 
+			if v.IsPvEncryptionInTransitEnabled != nil {
+				result["is_pv_encryption_in_transit_enabled"] = bool(*v.IsPvEncryptionInTransitEnabled)
+			}
+
 			if v.IsReadOnly != nil {
 				result["is_read_only"] = bool(*v.IsReadOnly)
 			}
@@ -212,6 +216,10 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
 
 			if v.InstanceId != nil {
 				result["instance_id"] = string(*v.InstanceId)
+			}
+
+			if v.IsPvEncryptionInTransitEnabled != nil {
+				result["is_pv_encryption_in_transit_enabled"] = bool(*v.IsPvEncryptionInTransitEnabled)
 			}
 
 			if v.IsReadOnly != nil {

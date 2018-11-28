@@ -29,11 +29,12 @@ var (
 	}
 
 	volumeAttachmentRepresentation = map[string]interface{}{
-		"attachment_type": Representation{repType: Required, create: `iscsi`},
-		"instance_id":     Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"volume_id":       Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
-		"display_name":    Representation{repType: Optional, create: `displayName`},
-		"is_read_only":    Representation{repType: Optional, create: `false`},
+		"attachment_type":                     Representation{repType: Required, create: `iscsi`},
+		"instance_id":                         Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"volume_id":                           Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
+		"display_name":                        Representation{repType: Optional, create: `displayName`},
+		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, create: `false`},
+		"is_read_only":                        Representation{repType: Optional, create: `false`},
 	}
 
 	VolumeAttachmentResourceDependencies = InstanceRequiredOnlyResource + VolumeRequiredOnlyResource
@@ -79,9 +80,11 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "device", "/dev/oracleoci/oraclevdb"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_read_only", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -108,6 +111,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.instance_id"),
+					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_read_only", "false"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.time_created"),

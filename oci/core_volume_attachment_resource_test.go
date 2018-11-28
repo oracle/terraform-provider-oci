@@ -49,11 +49,11 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 	  type = "map"
 	  default = {
 		// See https://docs.us-phoenix-1.oraclecloud.com/images/
-		// Oracle-provided image "Oracle-Linux-7.4-2018.02.21-1"
-		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaupbfz5f5hdvejulmalhyb6goieolullgkpumorbvxlwkaowglslq"
-		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaajlw3xfie2t5t52uegyhiq2npx7bqyu4uvi2zyu3w3mqayc2bxmaa"
-		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
-		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
+		// Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
+		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
+		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
+		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
+		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
 	  }
 	}
 
@@ -122,6 +122,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "false"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "chap_secret"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "chap_username"),
@@ -179,6 +180,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "use_chap", "true"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
@@ -222,6 +224,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "use_chap", "true"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
@@ -259,6 +262,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "use_chap", "true"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
@@ -290,12 +294,14 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					display_name = "tf-vol-attach-upd"
 					is_read_only = true
 					use_chap = true # This should be ignored for paravirtualized attachments
+					is_pv_encryption_in_transit_enabled = true
 				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_pv_encryption_in_transit_enabled", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "true"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "chap_secret"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "chap_username"),
