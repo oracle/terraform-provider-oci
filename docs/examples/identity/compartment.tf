@@ -6,10 +6,10 @@
  */
 
 resource "oci_identity_compartment" "compartment1" {
-  name        = "tf-example-compartment"
-  description = "compartment created by terraform"
+  name           = "tf-example-compartment"
+  description    = "compartment created by terraform"
   compartment_id = "${var.tenancy_ocid}"
-  enable_delete = false // true will cause this compartment to be deleted when running `terrafrom destroy`
+  enable_delete  = false                              // true will cause this compartment to be deleted when running `terrafrom destroy`
 }
 
 data "oci_identity_compartments" "compartments1" {
