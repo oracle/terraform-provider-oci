@@ -45,7 +45,7 @@ var (
 		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 	instancePoolPlacementConfigurationsRepresentation = map[string]interface{}{
-		"availability_domain":    Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
+		"availability_domain":    Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"primary_subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 		"secondary_vnic_subnets": RepresentationGroup{Optional, instancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation},
 	}
