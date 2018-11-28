@@ -3,8 +3,8 @@
  */
 
 resource "oci_identity_user" "user1" {
-  name        = "tf-example-user"
-  description = "user created by terraform"
+  name           = "tf-example-user"
+  description    = "user created by terraform"
   compartment_id = "${var.tenancy_ocid}"
 }
 

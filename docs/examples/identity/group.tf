@@ -3,8 +3,8 @@
  */
 
 resource "oci_identity_group" "group1" {
-  name        = "tf-example-group"
-  description = "group created by terraform"
+  name           = "tf-example-group"
+  description    = "group created by terraform"
   compartment_id = "${var.tenancy_ocid}"
 }
 
