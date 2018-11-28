@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 3.1.0 - 2018-11-15
+### Added
+- Support for VCN transit routing in the Networking service 
+
 ## 3.0.0 - 2018-11-01
 ### Added
 - Support for modifying the route table, DHCP options and security lists associated with a subnet in the Networking service.
