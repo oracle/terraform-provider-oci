@@ -111,7 +111,6 @@ func (s *AuthTokensDataSourceCrud) SetData() error {
 		resources = ApplyFilters(f.(*schema.Set), resources, AuthTokensDataSource().Schema["tokens"].Elem.(*schema.Resource).Schema)
 	}
 
-	// @CODEGEN 06/2018: auth_tokens => tokens
 	if err := s.D.Set("tokens", resources); err != nil {
 		return err
 	}
