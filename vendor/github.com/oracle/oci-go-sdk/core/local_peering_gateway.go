@@ -64,15 +64,24 @@ type LocalPeeringGateway struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The range of IP addresses available on the VCN at the other
-	// end of the peering from this LPG. The value is `null` if the LPG is not peered.
-	// You can use this as the destination CIDR for a route rule to route a subnet's
-	// traffic to this LPG.
-	// Example: `192.168.0.0/16`
+	// The smallest aggregate CIDR that contains all the CIDR routes advertised by the VCN
+	// at the other end of the peering from this LPG. See `peerAdvertisedCidrDetails` for
+	// the individual CIDRs. The value is `null` if the LPG is not peered.
+	// Example: `192.168.0.0/16`, or if aggregated with `172.16.0.0/24` then `128.0.0.0/1`
 	PeerAdvertisedCidr *string `mandatory:"false" json:"peerAdvertisedCidr"`
+
+	// The specific ranges of IP addresses available on or via the VCN at the other
+	// end of the peering from this LPG. The value is `null` if the LPG is not peered.
+	// You can use these as destination CIDRs for route rules to route a subnet's
+	// traffic to this LPG.
+	// Example: [`192.168.0.0/16`, `172.16.0.0/24`]
+	PeerAdvertisedCidrDetails []string `mandatory:"false" json:"peerAdvertisedCidrDetails"`
 
 	// Additional information regarding the peering status, if applicable.
 	PeeringStatusDetails *string `mandatory:"false" json:"peeringStatusDetails"`
+
+	// The OCID of the route table the LPG is using.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m LocalPeeringGateway) String() string {
