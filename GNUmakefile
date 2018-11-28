@@ -79,7 +79,7 @@ ifeq (,$(wildcard $(GOPATH)/src/$(WEBSITE_REPO)))
 	git clone https://$(WEBSITE_REPO) $(GOPATH)/src/$(WEBSITE_REPO)
 endif
 	@$(MAKE) -C $(GOPATH)/src/$(WEBSITE_REPO) website-provider-test PROVIDER_PATH=$(shell pwd) PROVIDER_NAME=$(PKG_NAME)
- 
+
 ## Additional OCI stuff that will need to be moved eventually
 get: ;go get -u github.com/kardianos/govendor; go get golang.org/x/tools/cmd/goimports; go get github.com/mitchellh/gox
 
