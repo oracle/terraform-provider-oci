@@ -115,8 +115,7 @@ func (s *ZonesDataSourceCrud) Get() error {
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		tmp := state.(string)
-		request.LifecycleState = oci_dns.ListZonesLifecycleStateEnum(tmp)
+		request.LifecycleState = oci_dns.ListZonesLifecycleStateEnum(state.(string))
 	}
 
 	if timeCreatedGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_created_greater_than_or_equal_to"); ok {
