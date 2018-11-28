@@ -60,6 +60,7 @@ The following attributes are exported:
 * `instance_id` - The OCID of the instance the volume is attached to.
 * `ipv4` - The volume's iSCSI IP address.  Example: `169.254.0.2` 
 * `iqn` - The target volume's iSCSI Qualified Name in the format defined by RFC 3720.  Example: `iqn.2015-12.us.oracle.com:456b0391-17b8-4122-bbf1-f85fc0bb97d9` 
+* `is_pv_encryption_in_transit_enabled` - Whether the enable encryption in transit for the PV volume attachment is on or not.
 * `is_read_only` - Whether the attachment was created in read-only mode.
 * `port` - The volume's iSCSI port.  Example: `3260` 
 * `state` - The current state of the volume attachment.

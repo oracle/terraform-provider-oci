@@ -1,0 +1,17 @@
+### Authentication details
+export TF_VAR_tenancy_ocid="<tenancy OCID>"
+export TF_VAR_user_ocid="<user OCID>"
+export TF_VAR_fingerprint="<PEM key fingerprint>"
+export TF_VAR_private_key_path="<path to the private key that matches the fingerprint above>"
+
+### Region
+export TF_VAR_region="<region in which to operate, example: us-ashburn-1, us-phoenix-1>"
+
+### Compartment
+export TF_VAR_compartment_ocid="<compartment OCID>"
+
+### Public/private keys used on the instance
+export TF_VAR_ssh_public_key=$(cat <path to public key>)
+export TF_VAR_ssh_private_key=$(cat <path to private key>)
+## NOTE: These are not your api keys. More info on the right keys see
+## https://docs.us-phoenix-1.oraclecloud.com/Content/Compute/Tasks/managingkeypairs.htm

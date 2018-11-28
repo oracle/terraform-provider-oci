@@ -184,6 +184,12 @@ func InstanceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_pv_encryption_in_transit_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"metadata": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -275,6 +281,10 @@ func InstanceResource() *schema.Resource {
 						},
 						"firmware": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_pv_encryption_in_transit_enabled": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"network_type": {
@@ -465,6 +475,11 @@ func (s *InstanceResourceCrud) Create() error {
 		request.IpxeScript = &tmp
 	}
 
+	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists("is_pv_encryption_in_transit_enabled"); ok {
+		tmp := isPvEncryptionInTransitEnabled.(bool)
+		request.IsPvEncryptionInTransitEnabled = &tmp
+	}
+
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		request.Metadata = objectMapToStringMap(metadata.(map[string]interface{}))
 	}
@@ -576,13 +591,13 @@ run apply again.`, err)
 
 	_, ok := s.D.GetOkExists("create_vnic_details")
 	if !s.D.HasChange("create_vnic_details") || !ok {
-		log.Printf("[DEBUG] No changes to primary VNIC. Instance ID: %q", s.Res.Id)
+		log.Printf("[DEBUG] No changes to primary VNIC. Instance ID: \"%v\"", s.Res.Id)
 		return nil
 	}
 
 	vnic, err := s.getPrimaryVnic()
 	if err != nil {
-		log.Printf("[ERROR] Primary VNIC could not be found during instance update: %q (Instance ID: %q, State: %q)", err, s.Res.Id, s.Res.LifecycleState)
+		log.Printf("[ERROR] Primary VNIC could not be found during instance update: %q (Instance ID: \"%v\", State: %q)", err, s.Res.Id, s.Res.LifecycleState)
 		return err
 	}
 
@@ -600,7 +615,7 @@ run apply again.`, err)
 	_, err = s.VirtualNetworkClient.UpdateVnic(context.Background(), vnicOpts)
 
 	if err != nil {
-		log.Printf("[ERROR] Primary VNIC could not be updated during instance update: %q (Instance ID: %q, State: %q)", err, s.Res.Id, s.Res.LifecycleState)
+		log.Printf("[ERROR] Primary VNIC could not be updated during instance update: %q (Instance ID: \"%v\", State: %q)", err, s.Res.Id, s.Res.LifecycleState)
 		return err
 	}
 

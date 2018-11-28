@@ -38,5 +38,5 @@ The following attributes are exported:
 * `cidr_block` - A string that represents the public endpoints for the service. When you set up a route rule to route traffic to the service gateway, use this value as the destination CIDR block for the rule. See [Route Table](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/). 
 * `description` - Description of the service. 
 * `id` - The service's [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `name` - Name of the service.
+* `name` - Name of the service. This name can change and is not guaranteed to be unique.
 
