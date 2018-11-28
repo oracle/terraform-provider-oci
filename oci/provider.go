@@ -363,6 +363,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_public_ip":                                      PublicIpResource(),
 		"oci_core_default_route_table":                            DefaultRouteTableResource(),
 		"oci_core_route_table":                                    RouteTableResource(),
+		"oci_core_route_table_attachment":                         RouteTableAttachmentResource(),
 		"oci_core_remote_peering_connection":                      RemotePeeringConnectionResource(),
 		"oci_core_default_security_list":                          DefaultSecurityListResource(),
 		"oci_core_security_list":                                  SecurityListResource(),
