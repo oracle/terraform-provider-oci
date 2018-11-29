@@ -47,7 +47,7 @@ variable "node_pool_node_image_name" {
 }
 
 variable "node_pool_node_shape" {
-  default = "VM.Standard1.1"
+  default = "VM.Standard2.1"
 }
 
 variable "node_pool_quantity_per_subnet" {

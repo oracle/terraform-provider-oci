@@ -48,7 +48,7 @@ variable "instance_image_id" {
 }
 
 variable "instance_shape" {
-  default = "VM.Standard1.1"
+  default = "VM.Standard2.1"
 }
 
 locals {
