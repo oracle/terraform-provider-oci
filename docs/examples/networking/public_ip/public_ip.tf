@@ -38,7 +38,7 @@ variable "instance_image_ocid" {
 }
 
 variable "instance_shape" {
-  default = "VM.Standard1.1"
+  default = "VM.Standard2.1"
 }
 
 data "oci_identity_availability_domains" "ADs" {
