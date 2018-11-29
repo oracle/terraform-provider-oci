@@ -28,7 +28,7 @@ resource "oci_core_service_gateway" "test_service_gateway" {
 	compartment_id = "${var.compartment_id}"
 	services {
 		#Required
-		service_id = "${oci_core_service.test_service.id}"
+		service_id = "${data.oci_core_services.test_services.services.0.id}"
 	}
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
