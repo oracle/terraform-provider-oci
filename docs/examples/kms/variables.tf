@@ -29,7 +29,7 @@ variable "availability_domain" {
 }
 
 variable "instance_shape" {
-  default = "VM.Standard1.1"
+  default = "VM.Standard2.1"
 }
 
 variable "volume_size" {
