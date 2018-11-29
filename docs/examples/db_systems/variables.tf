@@ -15,7 +15,7 @@ variable "availability_domain" {
 
 # DBSystem specific 
 variable "db_system_shape" {
-  default = "VM.Standard1.1"
+  default = "VM.Standard2.1"
 }
 
 variable "cpu_core_count" {

@@ -17,7 +17,7 @@ variable "availability_domain_2" {
 }
 
 variable "instance_shape" {
-  default = "VM.Standard1.1"
+  default = "VM.Standard2.1"
 }
 
 variable "instance_image_ocid" {
