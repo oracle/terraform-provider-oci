@@ -149,10 +149,110 @@ func (r *urlBasedX509CertificateRetriever) PrivateKey() *rsa.PrivateKey {
 	r.mux.Lock()
 	defer r.mux.Unlock()
 
+	//Nil Private keys are supported as part of a certificate
 	if r.privateKey == nil {
 		return nil
 	}
 
 	c := *r.privateKey
 	return &c
+}
+
+//staticCertificateRetriever serves certificates from static data
+type staticCertificateRetriever struct {
+	Passphrase     []byte
+	CertificatePem []byte
+	PrivateKeyPem  []byte
+	certificate    *x509.Certificate
+	privateKey     *rsa.PrivateKey
+	mux            sync.Mutex
+}
+
+//Refresh proccess the inputs into appropiate keys and certificates
+func (r *staticCertificateRetriever) Refresh() error {
+	r.mux.Lock()
+	defer r.mux.Unlock()
+
+	certifcate, err := r.readCertificate()
+	if err != nil {
+		r.certificate = nil
+		return err
+	}
+	r.certificate = certifcate
+
+	key, err := r.readPrivateKey()
+	if err != nil {
+		r.privateKey = nil
+		return err
+	}
+	r.privateKey = key
+
+	return nil
+}
+
+func (r *staticCertificateRetriever) Certificate() *x509.Certificate {
+	r.mux.Lock()
+	defer r.mux.Unlock()
+
+	return r.certificate
+}
+
+func (r *staticCertificateRetriever) PrivateKey() *rsa.PrivateKey {
+	r.mux.Lock()
+	defer r.mux.Unlock()
+
+	return r.privateKey
+}
+
+func (r *staticCertificateRetriever) CertificatePemRaw() []byte {
+	r.mux.Lock()
+	defer r.mux.Unlock()
+
+	if r.CertificatePem == nil {
+		return nil
+	}
+
+	c := make([]byte, len(r.CertificatePem))
+	copy(c, r.CertificatePem)
+	return c
+}
+
+func (r *staticCertificateRetriever) PrivateKeyPemRaw() []byte {
+	r.mux.Lock()
+	defer r.mux.Unlock()
+
+	if r.PrivateKeyPem == nil {
+		return nil
+	}
+
+	c := make([]byte, len(r.PrivateKeyPem))
+	copy(c, r.PrivateKeyPem)
+	return c
+}
+
+func (r *staticCertificateRetriever) readCertificate() (certificate *x509.Certificate, err error) {
+	block, _ := pem.Decode(r.CertificatePem)
+	if block == nil {
+		return nil, fmt.Errorf("failed to parse the new certificate, not valid pem data")
+	}
+
+	if certificate, err = x509.ParseCertificate(block.Bytes); err != nil {
+		return nil, fmt.Errorf("failed to parse the new certificate: %s", err.Error())
+	}
+	return certificate, nil
+}
+
+func (r *staticCertificateRetriever) readPrivateKey() (*rsa.PrivateKey, error) {
+	if r.PrivateKeyPem == nil {
+		return nil, nil
+	}
+
+	var pass *string
+	if r.Passphrase == nil {
+		pass = nil
+	} else {
+		ss := string(r.Passphrase)
+		pass = &ss
+	}
+	return common.PrivateKeyFromBytes(r.PrivateKeyPem, pass)
 }

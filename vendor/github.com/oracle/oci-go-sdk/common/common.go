@@ -24,6 +24,51 @@ const (
 	RegionLHR Region = "uk-london-1"
 )
 
+var realm = map[string]string{
+	"oc1": "oraclecloud.com",
+}
+
+var regionRealm = map[Region]string{
+	RegionPHX: "oc1",
+	RegionIAD: "oc1",
+	RegionFRA: "oc1",
+	RegionLHR: "oc1",
+}
+
+// Endpoint returns a endpoint for a service
+func (region Region) Endpoint(service string) string {
+	return fmt.Sprintf("%s.%s.%s", service, region, region.secondLevelDomain())
+}
+
+// EndpointForTemplate returns a endpoint for a service based on template
+func (region Region) EndpointForTemplate(service string, serviceEndpointTemplate string) string {
+	if serviceEndpointTemplate == "" {
+		return region.Endpoint(service)
+	}
+
+	// replace service prefix
+	endpoint := strings.Replace(serviceEndpointTemplate, "{serviceEndpointPrefix}", service, 1)
+
+	// replace region
+	endpoint = strings.Replace(endpoint, "{region}", string(region), 1)
+
+	// replace second level domain
+	endpoint = strings.Replace(endpoint, "{secondLevelDomain}", region.secondLevelDomain(), 1)
+
+	return endpoint
+}
+
+func (region Region) secondLevelDomain() string {
+	if realmID, ok := regionRealm[region]; ok {
+		if secondLevelDomain, ok := realm[realmID]; ok {
+			return secondLevelDomain
+		}
+	}
+
+	Debugf("cannot find realm for region : %s, return default realm value.", region)
+	return realm["oc1"]
+}
+
 //StringToRegion convert a string to Region type
 func StringToRegion(stringRegion string) (r Region) {
 	switch strings.ToLower(stringRegion) {

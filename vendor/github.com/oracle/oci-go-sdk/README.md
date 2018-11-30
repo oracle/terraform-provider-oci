@@ -27,6 +27,8 @@ To start working with the Go SDK, you import the service package, create a clien
 ### Configuring 
 Before using the SDK, set up a config file with the required credentials. See [SDK and Tool Configuration](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/sdkconfig.htm) for instructions.
 
+Note that the Go SDK does not support profile inheritance or defining custom values in the configuration file.
+
 Once a config file has been setup, call `common.DefaultConfigProvider()` function as follows:
 
  ```go

@@ -70,6 +70,14 @@ type Bucket struct {
 
 	// The entity tag for the live object lifecycle policy on the bucket.
 	ObjectLifecyclePolicyEtag *string `mandatory:"false" json:"objectLifecyclePolicyEtag"`
+
+	// The approximate number of objects in the bucket. Count statistics are reported periodically. You will see a
+	// lag between what is displayed and the actual object count.
+	ApproximateCount *int64 `mandatory:"false" json:"approximateCount"`
+
+	// The approximate total size of all objects in the bucket. Size statistics are reported periodically. You will
+	// see a lag between what is displayed and the actual size of the bucket.
+	ApproximateSize *int64 `mandatory:"false" json:"approximateSize"`
 }
 
 func (m Bucket) String() string {

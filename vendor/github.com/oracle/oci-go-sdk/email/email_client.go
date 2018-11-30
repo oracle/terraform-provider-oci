@@ -37,7 +37,7 @@ func NewEmailClientWithConfigurationProvider(configProvider common.Configuration
 
 // SetRegion overrides the region of this client.
 func (client *EmailClient) SetRegion(region string) {
-	client.Host = fmt.Sprintf(common.DefaultHostURLTemplate, "email", region)
+	client.Host = common.StringToRegion(region).Endpoint("email")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

@@ -46,6 +46,22 @@ func newX509FederationClient(region common.Region, tenancyID string, leafCertifi
 	return client
 }
 
+func newX509FederationClientWithCerts(region common.Region, tenancyID string, leafCertificate, leafPassphrase, leafPrivateKey []byte, intermediateCertificates [][]byte) (federationClient, error) {
+	intermediateRetrievers := make([]x509CertificateRetriever, len(intermediateCertificates))
+	for i, c := range intermediateCertificates {
+		intermediateRetrievers[i] = &staticCertificateRetriever{Passphrase: []byte(""), CertificatePem: c, PrivateKeyPem: nil}
+	}
+
+	client := x509FederationClient{
+		tenancyID:                         tenancyID,
+		leafCertificateRetriever:          &staticCertificateRetriever{Passphrase: leafPassphrase, CertificatePem: leafCertificate, PrivateKeyPem: leafPrivateKey},
+		intermediateCertificateRetrievers: intermediateRetrievers,
+	}
+	client.sessionKeySupplier = newSessionKeySupplier()
+	client.authClient = newAuthClient(region, &client)
+	return &client, nil
+}
+
 var (
 	genericHeaders = []string{"date", "(request-target)"} // "host" is not needed for the federation endpoint.  Don't ask me why.
 	bodyHeaders    = []string{"content-length", "content-type", "x-content-sha256"}
@@ -57,7 +73,7 @@ func newAuthClient(region common.Region, provider common.KeyProvider) *common.Ba
 	if regionURL, ok := os.LookupEnv("OCI_SDK_AUTH_CLIENT_REGION_URL"); ok {
 		client.Host = regionURL
 	} else {
-		client.Host = fmt.Sprintf(common.DefaultHostURLTemplate, "auth", string(region))
+		client.Host = region.Endpoint("auth")
 	}
 	client.BasePath = "v1/x509"
 	return &client
@@ -72,7 +88,12 @@ func (c *x509FederationClient) KeyID() (string, error) {
 
 // For authClient to sign requests to X509 Federation Endpoint
 func (c *x509FederationClient) PrivateRSAKey() (*rsa.PrivateKey, error) {
-	return c.leafCertificateRetriever.PrivateKey(), nil
+	key := c.leafCertificateRetriever.PrivateKey()
+	if key == nil {
+		return nil, fmt.Errorf("can not read private key from leaf certificate. Likely an error in the metadata service")
+	}
+
+	return key, nil
 }
 
 func (c *x509FederationClient) PrivateKey() (*rsa.PrivateKey, error) {

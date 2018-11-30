@@ -37,7 +37,7 @@ func NewKmsVaultClientWithConfigurationProvider(configProvider common.Configurat
 
 // SetRegion overrides the region of this client.
 func (client *KmsVaultClient) SetRegion(region string) {
-	client.Host = fmt.Sprintf(common.DefaultHostURLTemplate, "kms", region)
+	client.Host = common.StringToRegion(region).Endpoint("kms")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

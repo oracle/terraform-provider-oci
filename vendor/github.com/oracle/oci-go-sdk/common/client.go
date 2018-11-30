@@ -253,8 +253,19 @@ type OCIResponse interface {
 // OCIOperation is the generalization of a request-response cycle undergone by an OCI service.
 type OCIOperation func(context.Context, OCIRequest) (OCIResponse, error)
 
+//ClientCallDetails a set of settings used by the a single Call operation of the http Client
+type ClientCallDetails struct {
+	Signer HTTPRequestSigner
+}
+
 // Call executes the http request with the given context
 func (client BaseClient) Call(ctx context.Context, request *http.Request) (response *http.Response, err error) {
+	return client.CallWithDetails(ctx, request, ClientCallDetails{Signer: client.Signer})
+}
+
+// CallWithDetails executes the http request, the given context using details specified in the paremeters, this function
+// provides a way to override some settings present in the client
+func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Request, details ClientCallDetails) (response *http.Response, err error) {
 	Debugln("Atempting to call downstream service")
 	request = request.WithContext(ctx)
 
@@ -270,7 +281,7 @@ func (client BaseClient) Call(ctx context.Context, request *http.Request) (respo
 	}
 
 	//Sign the request
-	err = client.Signer.Sign(request)
+	err = details.Signer.Sign(request)
 	if err != nil {
 		return
 	}

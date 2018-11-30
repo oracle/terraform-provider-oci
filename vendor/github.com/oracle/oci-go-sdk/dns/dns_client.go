@@ -37,7 +37,7 @@ func NewDnsClientWithConfigurationProvider(configProvider common.ConfigurationPr
 
 // SetRegion overrides the region of this client.
 func (client *DnsClient) SetRegion(region string) {
-	client.Host = fmt.Sprintf(common.DefaultHostURLTemplate, "dns", region)
+	client.Host = common.StringToRegion(region).Endpoint("dns")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
