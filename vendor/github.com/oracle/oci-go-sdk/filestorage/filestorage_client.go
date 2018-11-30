@@ -37,7 +37,7 @@ func NewFileStorageClientWithConfigurationProvider(configProvider common.Configu
 
 // SetRegion overrides the region of this client.
 func (client *FileStorageClient) SetRegion(region string) {
-	client.Host = fmt.Sprintf(common.DefaultHostURLTemplate, "filestorage", region)
+	client.Host = common.StringToRegion(region).Endpoint("filestorage")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

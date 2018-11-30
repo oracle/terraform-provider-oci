@@ -37,7 +37,7 @@ func NewComputeClientWithConfigurationProvider(configProvider common.Configurati
 
 // SetRegion overrides the region of this client.
 func (client *ComputeClient) SetRegion(region string) {
-	client.Host = fmt.Sprintf(common.DefaultHostURLTemplate, "iaas", region)
+	client.Host = common.StringToRegion(region).Endpoint("iaas")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

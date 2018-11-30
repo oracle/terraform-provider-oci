@@ -37,7 +37,7 @@ func NewResourceSearchClientWithConfigurationProvider(configProvider common.Conf
 
 // SetRegion overrides the region of this client.
 func (client *ResourceSearchClient) SetRegion(region string) {
-	client.Host = fmt.Sprintf(common.DefaultHostURLTemplate, "query", region)
+	client.Host = common.StringToRegion(region).Endpoint("query")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
