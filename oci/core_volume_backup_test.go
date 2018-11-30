@@ -243,7 +243,7 @@ func TestCoreVolumeBackupResource_copy(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "id"),
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "state"),
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "time_created"),
-					resource.TestCheckResourceAttr(resourceNameCopy, "type", "INCREMENTAL"),
+					resource.TestCheckResourceAttrSet(resourceNameCopy, "type"),
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "volume_id"),
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "source_volume_backup_id"),
 
@@ -264,7 +264,7 @@ func TestCoreVolumeBackupResource_copy(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "id"),
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "state"),
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "time_created"),
-					resource.TestCheckResourceAttr(resourceNameCopy, "type", "INCREMENTAL"),
+					resource.TestCheckResourceAttrSet(resourceNameCopy, "type"),
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "volume_id"),
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "source_volume_backup_id"),
 
@@ -295,7 +295,7 @@ func TestCoreVolumeBackupResource_copy(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.type", "INCREMENTAL"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.type"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.volume_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.source_volume_backup_id"),
 				),
