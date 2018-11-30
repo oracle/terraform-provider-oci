@@ -29,6 +29,11 @@ type GetBucketRequest struct {
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
+	// Bucket summary includes the 'namespace', 'name', 'compartmentId', 'createdBy', 'timeCreated',
+	// and 'etag' fields. This parameter can also include 'approximateCount' (Approximate number of objects) and 'approximateSize'
+	// (total approximate size in bytes of all objects). For example 'approximateCount,approximateSize'
+	Fields []GetBucketFieldsEnum `contributesTo:"query" name:"fields" omitEmpty:"true" collectionFormat:"csv"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -81,4 +86,27 @@ func (response GetBucketResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetBucketResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetBucketFieldsEnum Enum with underlying type: string
+type GetBucketFieldsEnum string
+
+// Set of constants representing the allowable values for GetBucketFieldsEnum
+const (
+	GetBucketFieldsApproximatecount GetBucketFieldsEnum = "approximateCount"
+	GetBucketFieldsApproximatesize  GetBucketFieldsEnum = "approximateSize"
+)
+
+var mappingGetBucketFields = map[string]GetBucketFieldsEnum{
+	"approximateCount": GetBucketFieldsApproximatecount,
+	"approximateSize":  GetBucketFieldsApproximatesize,
+}
+
+// GetGetBucketFieldsEnumValues Enumerates the set of values for GetBucketFieldsEnum
+func GetGetBucketFieldsEnumValues() []GetBucketFieldsEnum {
+	values := make([]GetBucketFieldsEnum, 0)
+	for _, v := range mappingGetBucketFields {
+		values = append(values, v)
+	}
+	return values
 }

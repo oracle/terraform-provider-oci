@@ -74,6 +74,22 @@ func RequestSignerExcludeBody(provider KeyProvider) HTTPRequestSigner {
 	return RequestSignerWithBodyHashingPredicate(provider, defaultGenericHeaders, defaultBodyHeaders, bodyHashPredicate)
 }
 
+// NewSignerFromOCIRequestSigner creates a copy of the request signer and attaches the new SignerBodyHashPredicate
+// returns an error if the passed signer is not of type ociRequestSigner
+func NewSignerFromOCIRequestSigner(oldSigner HTTPRequestSigner, predicate SignerBodyHashPredicate) (HTTPRequestSigner, error) {
+	if oldS, ok := oldSigner.(ociRequestSigner); ok {
+		s := ociRequestSigner{
+			KeyProvider:    oldS.KeyProvider,
+			GenericHeaders: oldS.GenericHeaders,
+			BodyHeaders:    oldS.BodyHeaders,
+			ShouldHashBody: predicate,
+		}
+		return s, nil
+
+	}
+	return nil, fmt.Errorf("can not create a signer, input signer needs to be of type ociRequestSigner")
+}
+
 // RequestSigner creates a signer that utilizes the specified headers for signing
 // and the default predicate for using the body of the request as part of the signature
 func RequestSigner(provider KeyProvider, genericHeaders, bodyHeaders []string) HTTPRequestSigner {

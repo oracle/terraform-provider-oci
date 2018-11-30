@@ -25,9 +25,9 @@ const (
 // The region name of the endpoint for x509FederationClient is obtained from the metadata service on the compute
 // instance.
 type instancePrincipalKeyProvider struct {
-	regionForFederationClient common.Region
-	federationClient          federationClient
-	tenancyID                 string
+	Region           common.Region
+	FederationClient federationClient
+	TenancyID        string
 }
 
 // newInstancePrincipalKeyProvider creates and returns an instancePrincipalKeyProvider instance based on
@@ -62,7 +62,7 @@ func newInstancePrincipalKeyProvider() (provider *instancePrincipalKeyProvider, 
 	federationClient := newX509FederationClient(
 		region, tenancyID, leafCertificateRetriever, intermediateCertificateRetrievers)
 
-	provider = &instancePrincipalKeyProvider{regionForFederationClient: region, federationClient: federationClient, tenancyID: tenancyID}
+	provider = &instancePrincipalKeyProvider{Region: region, FederationClient: federationClient, TenancyID: tenancyID}
 	return
 }
 
@@ -75,11 +75,11 @@ func getRegionForFederationClient(url string) (r common.Region, err error) {
 }
 
 func (p *instancePrincipalKeyProvider) RegionForFederationClient() common.Region {
-	return p.regionForFederationClient
+	return p.Region
 }
 
 func (p *instancePrincipalKeyProvider) PrivateRSAKey() (privateKey *rsa.PrivateKey, err error) {
-	if privateKey, err = p.federationClient.PrivateKey(); err != nil {
+	if privateKey, err = p.FederationClient.PrivateKey(); err != nil {
 		err = fmt.Errorf("failed to get private key: %s", err.Error())
 		return nil, err
 	}
@@ -89,12 +89,12 @@ func (p *instancePrincipalKeyProvider) PrivateRSAKey() (privateKey *rsa.PrivateK
 func (p *instancePrincipalKeyProvider) KeyID() (string, error) {
 	var securityToken string
 	var err error
-	if securityToken, err = p.federationClient.SecurityToken(); err != nil {
+	if securityToken, err = p.FederationClient.SecurityToken(); err != nil {
 		return "", fmt.Errorf("failed to get security token: %s", err.Error())
 	}
 	return fmt.Sprintf("ST$%s", securityToken), nil
 }
 
 func (p *instancePrincipalKeyProvider) TenancyOCID() (string, error) {
-	return p.tenancyID, nil
+	return p.TenancyID, nil
 }
