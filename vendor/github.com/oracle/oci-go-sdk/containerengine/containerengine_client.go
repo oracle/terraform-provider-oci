@@ -37,7 +37,7 @@ func NewContainerEngineClientWithConfigurationProvider(configProvider common.Con
 
 // SetRegion overrides the region of this client.
 func (client *ContainerEngineClient) SetRegion(region string) {
-	client.Host = fmt.Sprintf(common.DefaultHostURLTemplate, "containerengine", region)
+	client.Host = common.StringToRegion(region).Endpoint("containerengine")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

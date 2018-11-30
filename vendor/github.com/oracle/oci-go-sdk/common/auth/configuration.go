@@ -9,7 +9,7 @@ import (
 )
 
 type instancePrincipalConfigurationProvider struct {
-	keyProvider *instancePrincipalKeyProvider
+	keyProvider instancePrincipalKeyProvider
 	region      *common.Region
 }
 
@@ -20,7 +20,7 @@ func InstancePrincipalConfigurationProvider() (common.ConfigurationProvider, err
 	if keyProvider, err = newInstancePrincipalKeyProvider(); err != nil {
 		return nil, fmt.Errorf("failed to create a new key provider for instance principal: %s", err.Error())
 	}
-	return instancePrincipalConfigurationProvider{keyProvider: keyProvider, region: nil}, nil
+	return instancePrincipalConfigurationProvider{keyProvider: *keyProvider, region: nil}, nil
 }
 
 //InstancePrincipalConfigurationProviderForRegion returns a configuration for instance principals with a given region
@@ -30,7 +30,37 @@ func InstancePrincipalConfigurationProviderForRegion(region common.Region) (comm
 	if keyProvider, err = newInstancePrincipalKeyProvider(); err != nil {
 		return nil, fmt.Errorf("failed to create a new key provider for instance principal: %s", err.Error())
 	}
-	return instancePrincipalConfigurationProvider{keyProvider: keyProvider, region: &region}, nil
+	return instancePrincipalConfigurationProvider{keyProvider: *keyProvider, region: &region}, nil
+}
+
+//InstancePrincipalConfigurationWithCerts returns a configuration for instance principals with a given region and hardcoded certificates in lieu of metadata service certs
+func InstancePrincipalConfigurationWithCerts(region common.Region, leafCertificate, leafPassphrase, leafPrivateKey []byte, intermediateCertificates [][]byte) (common.ConfigurationProvider, error) {
+	leafCertificateRetriever := staticCertificateRetriever{Passphrase: leafPassphrase, CertificatePem: leafCertificate, PrivateKeyPem: leafPrivateKey}
+
+	//The .Refresh() call actually reads the certificates from the inputs
+	err := leafCertificateRetriever.Refresh()
+	if err != nil {
+		return nil, err
+	}
+
+	certificate := leafCertificateRetriever.Certificate()
+
+	tenancyID := extractTenancyIDFromCertificate(certificate)
+	fedClient, err := newX509FederationClientWithCerts(region, tenancyID, leafCertificate, leafPassphrase, leafPrivateKey, intermediateCertificates)
+	if err != nil {
+		return nil, err
+	}
+
+	provider := instancePrincipalConfigurationProvider{
+		keyProvider: instancePrincipalKeyProvider{
+			Region:           region,
+			FederationClient: fedClient,
+			TenancyID:        tenancyID,
+		},
+		region: &region,
+	}
+	return provider, nil
+
 }
 
 func (p instancePrincipalConfigurationProvider) PrivateRSAKey() (*rsa.PrivateKey, error) {
