@@ -3,7 +3,7 @@
 ### Added
 - Support for the Instance Pools & Instance Configurations
 - Support for the Block Volume cross-region backups
-- Support for approximateCount and approximateSize for bucket
+- Support for 'approximate_count' and 'approximate_size' for bucket resource
 
 ## 3.8.0 (November 28, 2018)
 
