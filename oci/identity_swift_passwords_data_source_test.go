@@ -27,6 +27,7 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) SetupTest() {
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"
 		description = "tf test user"
+		compartment_id = "${var.tenancy_ocid}"
 	}
 	resource "oci_identity_swift_password" "t" {
 		user_id = "${oci_identity_user.t.id}"

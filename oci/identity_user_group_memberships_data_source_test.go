@@ -26,11 +26,13 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"
 		description = "tf test user"
+		compartment_id = "${var.tenancy_ocid}"
 	}
 	
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"
 		description = "tf test group"
+		compartment_id = "${var.tenancy_ocid}"
 	}
 	
 	resource "oci_identity_user_group_membership" "t" {

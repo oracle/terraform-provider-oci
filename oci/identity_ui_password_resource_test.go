@@ -27,6 +27,7 @@ func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
 	resource "oci_identity_user" "t" {
 		name = "-tf-user"
 		description = "tf test user"
+		compartment_id = "${var.tenancy_ocid}"
 	}`, nil)
 
 	s.ResourceName = "oci_identity_ui_password.t"

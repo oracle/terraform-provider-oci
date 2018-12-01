@@ -27,16 +27,19 @@ func (s *ResourceIdentityUserGroupMembershipTestSuite) SetupTest() {
 	resource "oci_identity_user" "t1" {
 		name = "{{.token}}"
 		description = "tf test user 1"
+		compartment_id = "${var.tenancy_ocid}"
 	}
 
 	resource "oci_identity_user" "t2" {
 		name = "{{.token2}}"
 		description = "tf test user 2"
+		compartment_id = "${var.tenancy_ocid}"
 	}
 	
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"
 		description = "tf test group"
+		compartment_id = "${var.tenancy_ocid}"
 	}`, map[string]string{"token2": token + "2"})
 	s.ResourceName = "oci_identity_user_group_membership.t"
 }

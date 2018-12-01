@@ -39,6 +39,7 @@ var (
 resource "oci_identity_compartment" "t" {
 	name = "Network"
 	description = "For network components"
+	compartment_id = "${var.tenancy_ocid}"
 }
 
 resource "oci_identity_group" "t" {

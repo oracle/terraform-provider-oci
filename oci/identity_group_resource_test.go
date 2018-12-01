@@ -3,7 +3,9 @@
 package provider
 
 import (
+	"os"
 	"regexp"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -63,11 +65,7 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 			},
 			// verify create w/o compartment, verify that it defaults to tenancy
 			{
-				Config: s.Config + tokenFn(`
-				resource "oci_identity_group" "t" {
-					name = "{{.token}}"
-					description = "tf test group"
-				}`, nil),
+				Config: s.Config + tokenFn(identityGroupTestStepConfigFn("tf test group"), nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", getEnvSettingWithBlankDefault("tenancy_ocid")),
 					resource.TestCheckResourceAttr(s.ResourceName, "name", token),
@@ -83,11 +81,7 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 			},
 			// verify update
 			{
-				Config: s.Config + tokenFn(`
-				resource "oci_identity_group" "t" {
-					name = "{{.token}}"
-					description = "tf test group (updated)"
-				}`, nil),
+				Config: s.Config + tokenFn(identityGroupTestStepConfigFn("tf test group (updated)"), nil),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "tf test group (updated)"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "compartment_id"),
@@ -106,6 +100,24 @@ func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 			},
 		},
 	})
+}
+
+func identityGroupTestStepConfigFn(description string) string {
+	useDelegationToken := strings.EqualFold(os.Getenv("DELEGATION_TOKEN"), "true")
+	if useDelegationToken {
+		return fmt.Sprintf(`
+				resource "oci_identity_group" "t" {
+					name = "{{.token}}"
+					description = "%s"
+					compartment_id = "${var.tenancy_ocid}"
+				}`, description)
+	}
+
+	return fmt.Sprintf(`
+				resource "oci_identity_group" "t" {
+					name = "{{.token}}"
+					description = "%s"
+				}`, description)
 }
 
 func TestResourceIdentityGroupTestSuite(t *testing.T) {

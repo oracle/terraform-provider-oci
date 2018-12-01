@@ -29,6 +29,7 @@ func (s *DatasourceIdentityUsersTestSuite) SetupTest() {
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"
 		description = "automated test user"
+		compartment_id = "${var.tenancy_ocid}"
 	}`, nil)
 	s.ResourceName = "data.oci_identity_users.t"
 }
