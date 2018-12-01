@@ -30,11 +30,13 @@ func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
 	resource "oci_identity_compartment" "t" {
 		name = "-tf-compartment"
 		description = "tf test compartment"
+		compartment_id = "${var.tenancy_ocid}"
 	}
 	
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"
 		description = "automated test group"
+		compartment_id = "${var.tenancy_ocid}"
 	}`, nil)
 	s.ResourceName = "oci_identity_policy.p"
 }

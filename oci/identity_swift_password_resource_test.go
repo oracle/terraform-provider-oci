@@ -28,10 +28,12 @@ func (s *ResourceIdentitySwiftPasswordTestSuite) SetupTest() {
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"
 		description = "tf test user"
+		compartment_id = "${var.tenancy_ocid}"
 	}
   resource "oci_identity_user" "t2" {
 		name = "{{.token}}2"
 		description = "tf test user 2"
+		compartment_id = "${var.tenancy_ocid}"
 	}`, nil)
 
 	s.ResourceName = "oci_identity_swift_password.t"

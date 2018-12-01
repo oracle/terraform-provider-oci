@@ -48,6 +48,7 @@ func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
 	resource "oci_identity_user" "t" {
 		name = "{{.token}}"
 		description = "automated test user"
+		compartment_id = "${var.tenancy_ocid}"
 	}`, nil)
 	s.ResourceName = "oci_identity_api_key.t"
 }

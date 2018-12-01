@@ -27,6 +27,7 @@ func (s *DatasourceIdentityAPIKeysTestSuite) SetupTest() {
 	resource "oci_identity_user" "t" {
 		name = "{{.userName}}"
 		description = "automated test user"
+		compartment_id = "${var.tenancy_ocid}"
 	}
 	
 	resource "oci_identity_api_key" "t" {
