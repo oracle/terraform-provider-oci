@@ -3,7 +3,9 @@
 package provider
 
 import (
+	"os"
 	"regexp"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -74,10 +76,7 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 			{
 				Config: s.Config +
 					tokenFn(
-						`resource "oci_identity_user" "t" {
-							name = "{{.token}}"
-							description = "{{.description}}"
-						}`,
+						identityUserTestStepConfigFn("{{.token}}"),
 						map[string]string{"description": "automated test user"}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "compartment_id", getRequiredEnvSetting("tenancy_ocid")),
@@ -95,10 +94,7 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 			// verify update
 			{
 				Config: s.Config + tokenFn(
-					`resource "oci_identity_user" "t" {
-						name = "{{.token}}"
-						description = "{{.description}}"
-					}`,
+					identityUserTestStepConfigFn("{{.token}}"),
 					map[string]string{"description": "automated test user (updated)"}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test user (updated)"),
@@ -115,10 +111,7 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 			// verify force new update
 			{
 				Config: s.Config + tokenFn(
-					`resource "oci_identity_user" "t" {
-						name  = "{{.new_name}}"
-						description = "{{.description}}"
-					}`,
+					identityUserTestStepConfigFn("{{.new_name}}"),
 					map[string]string{"new_name": token + "_new", "description": "automated test user (updated)"}),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "description", "automated test user (updated)"),
@@ -134,6 +127,22 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 			},
 		},
 	})
+}
+
+func identityUserTestStepConfigFn(name string) string {
+	useDelegationToken := strings.EqualFold(os.Getenv("DELEGATION_TOKEN"), "true")
+	if useDelegationToken {
+		return fmt.Sprintf(`resource "oci_identity_user" "t" {
+						name  = "%s"
+						description = "{{.description}}"
+						compartment_id = "${var.tenancy_ocid}"
+					}`, name)
+	}
+
+	return fmt.Sprintf(`resource "oci_identity_user" "t" {
+						name  = "%s"
+						description = "{{.description}}"
+					}`, name)
 }
 
 func TestResourceIdentityUserTestSuite(t *testing.T) {

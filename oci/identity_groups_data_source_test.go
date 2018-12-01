@@ -29,6 +29,7 @@ func (s *DatasourceIdentityGroupsTestSuite) SetupTest() {
 	resource "oci_identity_group" "t" {
 		name = "{{.token}}"
 		description = "automated test group"
+		compartment_id = "${var.tenancy_ocid}"
 	}`, nil)
 	s.ResourceName = "data.oci_identity_groups.t"
 }
