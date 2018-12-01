@@ -218,7 +218,7 @@ resource "oci_core_instance" "t" {
 	compartment_id = "${var.compartment_id}"
 	display_name = "-tf-instance"
 	image = "${var.InstanceImageOCID[var.region]}"
-	shape = "VM.Standard1.2"
+	shape = "VM.Standard1.8"
 	create_vnic_details {
         subnet_id = "${oci_core_subnet.t.id}"
         hostname_label = "testinstance"
