@@ -43,7 +43,7 @@ resource "oci_core_instance" "t" {
 locals {
   //Put all common tags here
   common_tags = "${map(
-                        "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}","value",
+                        "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}","value",
                         "HumanResources.Environment", "Production",
                         "Operations.Project", "Beta"
                         )}"
@@ -61,7 +61,7 @@ resource "oci_core_instance" t {
     defined_tags = "${merge(
                         local.common_tags,
                         map(
-                            "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag2.name}", "awesome-tag-example"
+                            "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag2.name}", "awesome-tag-example"
                         )
                     )}"
   
