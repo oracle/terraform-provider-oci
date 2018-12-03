@@ -1,5 +1,3 @@
-// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
-
 /*
  * This example file shows how to configure the oci provider to target a single region.
  */
@@ -16,9 +14,34 @@ variable "region" {
   default = "us-ashburn-1"
 }
 
-//the object can be created from the object data in the other region
-variable "source_region" {
-  default = "us-ashburn-1"
+variable "notification_topic_defined_tags_value" {
+  default = "value"
+}
+
+variable "notification_topic_description" {
+  default = "description"
+}
+
+variable "notification_topic_freeform_tags" {
+  default = {
+    "Department" = "Finance"
+  }
+}
+
+variable "notification_topic_name" {
+  default = "name"
+}
+
+variable "notification_topic_state" {
+  default = "ACTIVE"
+}
+
+variable "tag_namespace_description" {
+  default = "Just a test"
+}
+
+variable "tag_namespace_name" {
+  default = "exampletagns"
 }
 
 provider "oci" {

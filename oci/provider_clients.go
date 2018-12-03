@@ -23,6 +23,7 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+	oci_ons "github.com/oracle/oci-go-sdk/ons"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
@@ -92,6 +93,14 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 	loadBalancerClient, err := oci_load_balancer.NewLoadBalancerClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	notificationControlPlaneClient, err := oci_ons.NewNotificationControlPlaneClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	notificationDataPlaneClient, err := oci_ons.NewNotificationDataPlaneClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -247,6 +256,14 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&notificationControlPlaneClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&notificationDataPlaneClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&objectStorageClient.BaseClient)
 	if err != nil {
 		return
@@ -275,6 +292,8 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.kmsManagementClient = &kmsManagementClient
 	clients.kmsVaultClient = &kmsVaultClient
 	clients.loadBalancerClient = &loadBalancerClient
+	clients.notificationControlPlaneClient = &notificationControlPlaneClient
+	clients.notificationDataPlaneClient = &notificationDataPlaneClient
 	clients.objectStorageClient = &objectStorageClient
 	clients.streamAdminClient = &streamAdminClient
 	clients.virtualNetworkClient = &virtualNetworkClient
@@ -298,6 +317,8 @@ type OracleClients struct {
 	kmsManagementClient     *oci_kms.KmsManagementClient
 	kmsVaultClient          *oci_kms.KmsVaultClient
 	loadBalancerClient      *oci_load_balancer.LoadBalancerClient
+	notificationControlPlaneClient *oci_ons.NotificationControlPlaneClient
+	notificationDataPlaneClient    *oci_ons.NotificationDataPlaneClient
 	objectStorageClient     *oci_object_storage.ObjectStorageClient
 	streamAdminClient       *oci_streaming.StreamAdminClient
 	virtualNetworkClient    *oci_core.VirtualNetworkClient

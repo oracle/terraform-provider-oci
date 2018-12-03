@@ -68,6 +68,7 @@ func initDependencyGraph() {
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "CoreInstance")
 	DependencyGraph["tagNamespace"] = append(DependencyGraph["tagNamespace"], "IdentityTag")
 	DependencyGraph["tenancy"] = append(DependencyGraph["tenancy"], "IdentityRegionSubscription")
+	DependencyGraph["topic"] = append(DependencyGraph["topic"], "OnsSubscription")
 	DependencyGraph["user"] = append(DependencyGraph["user"], "IdentityApiKey")
 	DependencyGraph["user"] = append(DependencyGraph["user"], "IdentityAuthToken")
 	DependencyGraph["user"] = append(DependencyGraph["user"], "IdentityCustomerSecretKey")
