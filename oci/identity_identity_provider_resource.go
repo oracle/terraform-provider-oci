@@ -71,6 +71,12 @@ func IdentityProviderResource() *schema.Resource {
 				DiffSuppressFunc: definedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"freeform_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -242,6 +248,8 @@ func (s *IdentityProviderResourceCrud) SetData() error {
 	case oci_identity.Saml2IdentityProvider:
 		s.D.Set("protocol", "SAML2")
 
+		s.D.Set("freeform_attributes", v.FreeformAttributes)
+
 		if v.MetadataUrl != nil {
 			s.D.Set("metadata_url", *v.MetadataUrl)
 		}
@@ -308,6 +316,9 @@ func (s *IdentityProviderResourceCrud) populateTopLevelPolymorphicCreateIdentity
 	switch strings.ToLower(protocol) {
 	case strings.ToLower("SAML2"):
 		details := oci_identity.CreateSaml2IdentityProviderDetails{}
+		if freeformAttributes, ok := s.D.GetOkExists("freeform_attributes"); ok {
+			details.FreeformAttributes = objectMapToStringMap(freeformAttributes.(map[string]interface{}))
+		}
 		if metadata, ok := s.D.GetOkExists("metadata"); ok {
 			tmp := metadata.(string)
 			details.Metadata = &tmp
@@ -360,6 +371,9 @@ func (s *IdentityProviderResourceCrud) populateTopLevelPolymorphicUpdateIdentity
 	switch strings.ToLower(protocol) {
 	case strings.ToLower("SAML2"):
 		details := oci_identity.UpdateSaml2IdentityProviderDetails{}
+		if freeformAttributes, ok := s.D.GetOkExists("freeform_attributes"); ok {
+			details.FreeformAttributes = objectMapToStringMap(freeformAttributes.(map[string]interface{}))
+		}
 		if metadata, ok := s.D.GetOkExists("metadata"); ok {
 			tmp := metadata.(string)
 			details.Metadata = &tmp

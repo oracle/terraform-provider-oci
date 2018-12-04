@@ -37,15 +37,16 @@ var (
 	}
 
 	identityProviderRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
-		"description":    Representation{repType: Required, create: `description`, update: `description2`},
-		"metadata":       Representation{repType: Required, create: `${file("${var.identity_provider_metadata_file}")}`, update: `${file("${var.identity_provider_metadata_file}")}`},
-		"metadata_url":   Representation{repType: Required, create: `metadataUrl`, update: `metadataUrl2`},
-		"name":           Representation{repType: Required, create: `test-idp-saml2-adfs`},
-		"product_type":   Representation{repType: Required, create: `ADFS`},
-		"protocol":       Representation{repType: Required, create: `SAML2`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":      Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"description":         Representation{repType: Required, create: `description`, update: `description2`},
+		"metadata":            Representation{repType: Required, create: `${file("${var.identity_provider_metadata_file}")}`},
+		"metadata_url":        Representation{repType: Required, create: `metadataUrl`, update: `metadataUrl2`},
+		"name":                Representation{repType: Required, create: `test-idp-saml2-adfs`},
+		"product_type":        Representation{repType: Required, create: `ADFS`},
+		"protocol":            Representation{repType: Required, create: `SAML2`},
+		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_attributes": Representation{repType: Optional, create: map[string]string{"clientId": "app_sf3kdjf3"}},
+		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
 	IdentityProviderResourceDependencies = DefinedTagsDependencies + IdentityProviderPropertyVariables
@@ -115,6 +116,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_attributes.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "metadata", metadata),
@@ -141,6 +143,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_attributes.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "metadata", metadata),
@@ -175,6 +178,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.description", "description2"),
+					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.freeform_attributes.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "identity_providers.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "identity_providers.0.name", "test-idp-saml2-adfs"),

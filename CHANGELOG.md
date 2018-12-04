@@ -1,11 +1,14 @@
 ## 3.10.1 (Unreleased)
 
 ### Added
-- Support for importing tag. Note tag uses custom Id(import only) format (tagNamespaces/{tagNamespaceId}/tags/{tagName}) to support import.
 - Support for tagging in `oci_dns_zone`
 - New attribute `nameservers` is added to `oci_dns_zone`
 - Support for in-transit encryption for paravirtualized boot and data attachment
 - Identify latest database version with `oci_databse_db_versions` data source using `is_latest_for_major_version` property
+- Support for importing tag. Note tag uses custom Id(import only) format (tagNamespaces/{tagNamespaceId}/tags/{tagName}) to support import.
+- Support for provisioning user capabilities for native and federation shadow users
+- Support `id` attribute for `oci_identity_availability_domains` 
+- Support `freeform_attributes` attribute for the `oci_identity_identity_provider`
 
 ## 3.10.0 (December 11, 2018)
 
