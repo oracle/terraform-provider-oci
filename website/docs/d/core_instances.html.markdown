@@ -48,7 +48,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `availability_domain` - The availability domain the instance is running in.  Example: `Uocm:PHX-AD-1`
+* `agent_config` - 
+	* `is_monitoring_disabled` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
+* `availability_domain` - The availability domain the instance is running in.  Example: `Uocm:PHX-AD-1` 
 * `boot_volume_id` - The OCID of the attached boot volume. If the `source_type` is `bootVolume`, this will be the same OCID as the `source_id`.
 * `compartment_id` - The OCID of the compartment that contains the instance.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 

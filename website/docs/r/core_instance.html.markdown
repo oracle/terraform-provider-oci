@@ -52,6 +52,11 @@ resource "oci_core_instance" "test_instance" {
 	shape = "${var.instance_shape}"
 
 	#Optional
+	agent_config {
+
+		#Optional
+		is_monitoring_disabled = "${var.instance_agent_config_is_monitoring_disabled}"
+	}
 	create_vnic_details {
 		#Required
 		subnet_id = "${oci_core_subnet.test_subnet.id}"
@@ -97,6 +102,8 @@ resource "oci_core_instance" "test_instance" {
 
 The following arguments are supported:
 
+* `agent_config` - (Optional) (Updatable) 
+	* `is_monitoring_disabled` - (Optional) (Updatable) Whether the agent running on the instance can gather performance metrics and monitor the instance. Default value is false. 
 * `availability_domain` - (Required) The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The OCID of the compartment.
 * `create_vnic_details` - (Optional) Details for the primary VNIC, which is automatically created and attached when the instance is launched. 
@@ -201,6 +208,8 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `agent_config` - 
+	* `is_monitoring_disabled` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
 * `availability_domain` - The availability domain the instance is running in.  Example: `Uocm:PHX-AD-1` 
 * `boot_volume_id` - The OCID of the attached boot volume. If the `source_type` is `bootVolume`, this will be the same OCID as the `source_id`.
 * `compartment_id` - The OCID of the compartment that contains the instance.
