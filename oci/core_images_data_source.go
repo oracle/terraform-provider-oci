@@ -157,6 +157,12 @@ func (s *CoreImagesDataSourceCrud) SetData() error {
 			image["compartment_id"] = *r.CompartmentId
 		}
 
+		if r.AgentFeatures != nil {
+			image["agent_features"] = []interface{}{InstanceAgentFeaturesToMap(r.AgentFeatures)}
+		} else {
+			image["agent_features"] = nil
+		}
+
 		if r.BaseImageId != nil {
 			image["base_image_id"] = *r.BaseImageId
 		}
