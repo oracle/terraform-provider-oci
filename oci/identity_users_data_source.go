@@ -19,6 +19,14 @@ func UsersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"external_identifier": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"identity_provider_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"users": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -52,6 +60,16 @@ func (s *UsersDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if externalIdentifier, ok := s.D.GetOkExists("external_identifier"); ok {
+		tmp := externalIdentifier.(string)
+		request.ExternalIdentifier = &tmp
+	}
+
+	if identityProviderId, ok := s.D.GetOkExists("identity_provider_id"); ok {
+		tmp := identityProviderId.(string)
+		request.IdentityProviderId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
@@ -90,6 +108,12 @@ func (s *UsersDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.Capabilities != nil {
+			user["capabilities"] = []interface{}{UserCapabilitiesToMap(r.Capabilities)}
+		} else {
+			user["capabilities"] = nil
+		}
+
 		if r.DefinedTags != nil {
 			user["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
@@ -98,10 +122,18 @@ func (s *UsersDataSourceCrud) SetData() error {
 			user["description"] = *r.Description
 		}
 
+		if r.ExternalIdentifier != nil {
+			user["external_identifier"] = *r.ExternalIdentifier
+		}
+
 		user["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			user["id"] = *r.Id
+		}
+
+		if r.IdentityProviderId != nil {
+			user["identity_provider_id"] = *r.IdentityProviderId
 		}
 
 		if r.InactiveStatus != nil {
