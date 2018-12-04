@@ -1,4 +1,4 @@
-## 3.9.0 (Unreleased)
+## 3.9.0 (December 04, 2018)
 
 ### Added
 - Support for the Instance Pools & Instance Configurations
