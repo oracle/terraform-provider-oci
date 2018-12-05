@@ -21,7 +21,7 @@ data "oci_database_autonomous_data_warehouses" "autonomous_data_warehouses" {
   compartment_id = "${var.compartment_ocid}"
 
   #Optional
-  display_name = "${var.autonomous_data_warehouse_display_name}"
+  display_name = "${oci_database_autonomous_data_warehouse.autonomous_data_warehouse.display_name}"
 
   #state = "${var.autonomous_data_warehouse_state}"
 }

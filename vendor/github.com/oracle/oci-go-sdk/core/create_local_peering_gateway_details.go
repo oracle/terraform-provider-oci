@@ -35,6 +35,12 @@ type CreateLocalPeeringGatewayDetails struct {
 	// Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The OCID of the route table the LPG will use.
+	// If you don't specify a route table here, the LPG is created without an associated route
+	// table. The Networking service does NOT automatically associate the attached VCN's default route table
+	// with the LPG.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m CreateLocalPeeringGatewayDetails) String() string {

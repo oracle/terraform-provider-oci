@@ -37,7 +37,7 @@ func NewDatabaseClientWithConfigurationProvider(configProvider common.Configurat
 
 // SetRegion overrides the region of this client.
 func (client *DatabaseClient) SetRegion(region string) {
-	client.Host = fmt.Sprintf(common.DefaultHostURLTemplate, "database", region)
+	client.Host = common.StringToRegion(region).Endpoint("database")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

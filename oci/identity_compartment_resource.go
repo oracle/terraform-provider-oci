@@ -96,6 +96,7 @@ func createCompartment(d *schema.ResourceData, m interface{}) error {
 	sync := &CompartmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
+	sync.Configuration = m.(*OracleClients).configuration
 
 	return CreateResource(d, sync)
 }
@@ -132,6 +133,7 @@ func deleteCompartment(d *schema.ResourceData, m interface{}) error {
 type CompartmentResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
+	Configuration          map[string]string
 	Res                    *oci_identity.Compartment
 	DisableNotFoundRetries bool
 }
@@ -171,6 +173,10 @@ func (s *CompartmentResourceCrud) Create() error {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
 	} else { // @next-break: remove
+		// Prevent potentially inferring wrong TenancyOCID from InstancePrincipal
+		if auth := s.Configuration["auth"]; strings.ToLower(auth) == strings.ToLower(authInstancePrincipalSetting) {
+			return fmt.Errorf("compartment_id must be specified for this resource")
+		}
 		// Maintain legacy contract of compartment_id defaulting to tenancy ocid if not specified
 		c := *s.Client.ConfigurationProvider()
 		if c == nil {

@@ -198,6 +198,11 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_images":                                ImagesDataSource(),
 		"oci_core_instance":                              InstanceDataSource(),
 		"oci_core_instance_credentials":                  InstanceCredentialDataSource(),
+		"oci_core_instance_configuration":                InstanceConfigurationDataSource(),
+		"oci_core_instance_configurations":               InstanceConfigurationsDataSource(),
+		"oci_core_instance_pool":                         InstancePoolDataSource(),
+		"oci_core_instance_pools":                        InstancePoolsDataSource(),
+		"oci_core_instance_pool_instances":               InstancePoolInstancesDataSource(),
 		"oci_core_instances":                             InstancesDataSource(),
 		"oci_core_instance_console_connections":          InstanceConsoleConnectionsDataSource(),
 		"oci_core_internet_gateways":                     InternetGatewaysDataSource(),
@@ -348,6 +353,8 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_image":                                          ImageResource(),
 		"oci_core_instance":                                       InstanceResource(),
 		"oci_core_instance_console_connection":                    InstanceConsoleConnectionResource(),
+		"oci_core_instance_configuration":                         InstanceConfigurationResource(),
+		"oci_core_instance_pool":                                  InstancePoolResource(),
 		"oci_core_internet_gateway":                               InternetGatewayResource(),
 		"oci_core_ipsec":                                          IpSecConnectionResource(),
 		"oci_core_local_peering_gateway":                          LocalPeeringGatewayResource(),
@@ -466,9 +473,10 @@ func validateConfigForAPIKeyAuth(d *schema.ResourceData) error {
 }
 
 func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
-	clients = &OracleClients{}
+	clients = &OracleClients{configuration: map[string]string{}}
 	disableAutoRetries = d.Get("disable_auto_retries").(bool)
 	auth := strings.ToLower(d.Get("auth").(string))
+	clients.(*OracleClients).configuration["auth"] = auth
 
 	userAgentProviderName := getEnvSettingWithDefault(userAgentProviderNameEnv, defaultUserAgentProviderName)
 	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), userAgentProviderName, Version)

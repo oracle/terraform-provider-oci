@@ -45,6 +45,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	computeManagementClient, err := oci_core.NewComputeManagementClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
 	containerEngineClient, err := oci_containerengine.NewContainerEngineClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
@@ -185,6 +189,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&computeManagementClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&containerEngineClient.BaseClient)
 	if err != nil {
 		return
@@ -237,6 +245,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.auditClient = &auditClient
 	clients.blockstorageClient = &blockstorageClient
 	clients.computeClient = &computeClient
+	clients.computeManagementClient = &computeManagementClient
 	clients.containerEngineClient = &containerEngineClient
 	clients.databaseClient = &databaseClient
 	clients.dnsClient = &dnsClient
@@ -254,40 +263,42 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 }
 
 type OracleClients struct {
-	auditClient           *oci_audit.AuditClient
-	blockstorageClient    *oci_core.BlockstorageClient
-	computeClient         *oci_core.ComputeClient
-	containerEngineClient *oci_containerengine.ContainerEngineClient
-	databaseClient        *oci_database.DatabaseClient
-	dnsClient             *oci_dns.DnsClient
-	emailClient           *oci_email.EmailClient
-	fileStorageClient     *oci_file_storage.FileStorageClient
-	identityClient        *oci_identity.IdentityClient
-	kmsCryptoClient       *oci_kms.KmsCryptoClient
-	kmsManagementClient   *oci_kms.KmsManagementClient
-	kmsVaultClient        *oci_kms.KmsVaultClient
-	loadBalancerClient    *oci_load_balancer.LoadBalancerClient
-	objectStorageClient   *oci_object_storage.ObjectStorageClient
-	virtualNetworkClient  *oci_core.VirtualNetworkClient
+	auditClient             *oci_audit.AuditClient
+	blockstorageClient      *oci_core.BlockstorageClient
+	computeClient           *oci_core.ComputeClient
+	computeManagementClient *oci_core.ComputeManagementClient
+	containerEngineClient   *oci_containerengine.ContainerEngineClient
+	databaseClient          *oci_database.DatabaseClient
+	dnsClient               *oci_dns.DnsClient
+	emailClient             *oci_email.EmailClient
+	fileStorageClient       *oci_file_storage.FileStorageClient
+	identityClient          *oci_identity.IdentityClient
+	kmsCryptoClient         *oci_kms.KmsCryptoClient
+	kmsManagementClient     *oci_kms.KmsManagementClient
+	kmsVaultClient          *oci_kms.KmsVaultClient
+	loadBalancerClient      *oci_load_balancer.LoadBalancerClient
+	objectStorageClient     *oci_object_storage.ObjectStorageClient
+	virtualNetworkClient    *oci_core.VirtualNetworkClient
+	configuration           map[string]string
 }
 
-func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManagementClient, error) {
-	if managementClient, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(*m.kmsManagementClient.ConfigurationProvider(), endpoint); err == nil {
-		if err = configureClient(&managementClient.BaseClient); err != nil {
+func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClient, error) {
+	if client, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(*m.kmsCryptoClient.ConfigurationProvider(), endpoint); err == nil {
+		if err = configureClient(&client.BaseClient); err != nil {
 			return nil, err
 		}
-		return &managementClient, nil
+		return &client, nil
 	} else {
 		return nil, err
 	}
 }
 
-func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClient, error) {
-	if cryptoClient, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(*m.kmsCryptoClient.ConfigurationProvider(), endpoint); err == nil {
-		if err = configureClient(&cryptoClient.BaseClient); err != nil {
+func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManagementClient, error) {
+	if client, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(*m.kmsManagementClient.ConfigurationProvider(), endpoint); err == nil {
+		if err = configureClient(&client.BaseClient); err != nil {
 			return nil, err
 		}
-		return &cryptoClient, nil
+		return &client, nil
 	} else {
 		return nil, err
 	}

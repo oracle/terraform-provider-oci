@@ -12,7 +12,7 @@ Other supported legacy names/aliases:
 
 This data source provides the list of Vcns in Oracle Cloud Infrastructure Core service.
 
-Lists the Virtual Cloud Networks (VCNs) in the specified compartment.
+Lists the virtual cloud networks (VCNs) in the specified compartment.
 
 
 ## Example Usage

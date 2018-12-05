@@ -29,6 +29,9 @@ type UpdateLocalPeeringGatewayDetails struct {
 	// Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The OCID of the route table the LPG will use.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m UpdateLocalPeeringGatewayDetails) String() string {

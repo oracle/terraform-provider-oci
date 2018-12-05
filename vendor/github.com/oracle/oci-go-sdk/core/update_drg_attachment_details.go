@@ -18,6 +18,9 @@ type UpdateDrgAttachmentDetails struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The OCID of the route table the DRG attachment will use.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m UpdateDrgAttachmentDetails) String() string {

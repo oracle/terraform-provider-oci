@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"log"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -72,6 +73,14 @@ func BucketResource() *schema.Resource {
 			},
 
 			// Computed
+			"approximate_count": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"approximate_size": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"created_by": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -211,6 +220,7 @@ func (s *BucketResourceCrud) Get() error {
 		request.NamespaceName = &tmp
 	}
 
+	request.Fields = oci_object_storage.GetGetBucketFieldsEnumValues()
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.GetBucket(context.Background(), request)
@@ -313,6 +323,14 @@ func (s *BucketResourceCrud) Delete() error {
 
 func (s *BucketResourceCrud) SetData() error {
 	s.D.Set("access_type", s.Res.PublicAccessType)
+
+	if s.Res.ApproximateCount != nil {
+		s.D.Set("approximate_count", strconv.FormatInt(*s.Res.ApproximateCount, 10))
+	}
+
+	if s.Res.ApproximateSize != nil {
+		s.D.Set("approximate_size", strconv.FormatInt(*s.Res.ApproximateSize, 10))
+	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

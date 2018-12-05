@@ -31,7 +31,7 @@ var (
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"cpe_id":         Representation{repType: Required, create: `${oci_core_cpe.test_cpe.id}`},
 		"drg_id":         Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
-		"static_routes":  Representation{repType: Required, create: []string{"10.0.0.0/16"}},
+		"static_routes":  Representation{repType: Required, create: []string{`10.0.0.0/16`}},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   Representation{repType: Optional, create: `MyIPSecConnection`, update: `displayName2`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},

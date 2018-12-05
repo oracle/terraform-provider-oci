@@ -36,22 +36,23 @@ var (
 	}
 
 	subnetRepresentation = map[string]interface{}{
-		"availability_domain":        Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"availability_domain":        Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"cidr_block":                 Representation{repType: Required, create: `10.0.0.0/16`},
 		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
 		"vcn_id":                     Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"dhcp_options_id":            Representation{repType: Optional, create: `${oci_core_dhcp_options.test_dhcp_options.id}`},
+		"dhcp_options_id":            Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`, update: `${oci_core_dhcp_options.test_dhcp_options.id}`},
 		"display_name":               Representation{repType: Optional, create: `MySubnet`, update: `displayName2`},
 		"dns_label":                  Representation{repType: Optional, create: `dnslabel`},
 		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"prohibit_public_ip_on_vnic": Representation{repType: Optional, create: `false`},
-		"route_table_id":             Representation{repType: Optional, create: `${oci_core_route_table.test_route_table.id}`},
-		"security_list_ids":          Representation{repType: Optional, create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}},
+		"route_table_id":             Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_route_table_id}`, update: `${oci_core_route_table.test_route_table.id}`},
+		"security_list_ids":          Representation{repType: Optional, create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}, update: []string{`${oci_core_security_list.test_security_list.id}`}},
 	}
 
-	SubnetRequiredOnlyResourceDependencies = AvailabilityDomainConfig + VcnResourceConfig
-	SubnetResourceDependencies             = AvailabilityDomainConfig + DhcpOptionsRequiredOnlyResource + RouteTableRequiredOnlyResource
+	AnotherSecurityListRequiredOnlyResource = generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation)
+	SubnetRequiredOnlyResourceDependencies  = AvailabilityDomainConfig + VcnResourceConfig
+	SubnetResourceDependencies              = AvailabilityDomainConfig + DhcpOptionsRequiredOnlyResource + RouteTableRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource
 )
 
 func TestCoreSubnetResource_basic(t *testing.T) {
@@ -108,7 +109,6 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MySubnet"),
-					//resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
@@ -210,7 +210,6 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "prohibit_public_ip_on_vnic", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					//resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_domain_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_router_ip"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_router_mac"),

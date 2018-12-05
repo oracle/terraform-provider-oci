@@ -87,12 +87,6 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		}
 	}
 
-	resource "oci_core_volume" "t" {
-		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-		compartment_id = "${var.compartment_id}"
-		display_name = "display_name"
-	}
-
 	resource "oci_core_volume" "t2" {
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 		compartment_id = "${var.compartment_id}"
@@ -110,6 +104,13 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 			// verify create
 			{
 				Config: s.Config + `
+				
+				resource "oci_core_volume" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					display_name = "display_name"
+				}
+
 				resource "oci_core_volume_attachment" "t" {
 					attachment_type = "iSCSI"	# case-insensitive
 					compartment_id = "${var.compartment_id}"
@@ -139,6 +140,13 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 			// ensure that changing the case for attachment_type (polymorphic discriminator) is a no-op.
 			{
 				Config: s.Config + `
+				
+				resource "oci_core_volume" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					display_name = "display_name"
+				}
+
 				resource "oci_core_volume_attachment" "t" {
 					attachment_type = "IscSi"	# case-insensitive
 					compartment_id = "${var.compartment_id}"
@@ -148,8 +156,15 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 				PlanOnly: true,
 			},
 			// verify display_name, is_read_only, and use_chap update forces creation of a new resource
+			// verify when display name of attached volume is updates the operation should not error
 			{
 				Config: s.Config + `
+				resource "oci_core_volume" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					display_name = "updated_display_name"
+				}
+
 				resource "oci_core_volume_attachment" "t" {
 					attachment_type = "IscSi"	# case-insensitive
 					compartment_id = "${var.compartment_id}"
@@ -187,6 +202,12 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 			// verify instance id update forces new resource creation
 			{
 				Config: s.Config + `
+				resource "oci_core_volume" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					display_name = "updated_display_name"
+				}
+
 				resource "oci_core_volume_attachment" "t" {
 					attachment_type = "IscSi"	# case-insensitive
 					compartment_id = "${var.compartment_id}"

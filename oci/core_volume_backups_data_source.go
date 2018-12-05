@@ -23,6 +23,10 @@ func VolumeBackupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"source_volume_backup_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -79,6 +83,11 @@ func (s *VolumeBackupsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if sourceVolumeBackupId, ok := s.D.GetOkExists("source_volume_backup_id"); ok {
+		tmp := sourceVolumeBackupId.(string)
+		request.SourceVolumeBackupId = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -163,6 +172,10 @@ func (s *VolumeBackupsDataSourceCrud) SetData() error {
 		}
 
 		volumeBackup["source_type"] = r.SourceType
+
+		if r.SourceVolumeBackupId != nil {
+			volumeBackup["source_volume_backup_id"] = *r.SourceVolumeBackupId
+		}
 
 		volumeBackup["state"] = r.LifecycleState
 

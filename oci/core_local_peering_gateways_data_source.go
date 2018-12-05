@@ -121,10 +121,16 @@ func (s *LocalPeeringGatewaysDataSourceCrud) SetData() error {
 			localPeeringGateway["peer_advertised_cidr"] = *r.PeerAdvertisedCidr
 		}
 
+		localPeeringGateway["peer_advertised_cidr_details"] = r.PeerAdvertisedCidrDetails
+
 		localPeeringGateway["peering_status"] = r.PeeringStatus
 
 		if r.PeeringStatusDetails != nil {
 			localPeeringGateway["peering_status_details"] = *r.PeeringStatusDetails
+		}
+
+		if r.RouteTableId != nil {
+			localPeeringGateway["route_table_id"] = *r.RouteTableId
 		}
 
 		localPeeringGateway["state"] = r.LifecycleState

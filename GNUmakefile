@@ -11,6 +11,8 @@ skip_goimports_check_flag := $(if $(skip_goimports_check), -s, )
 default: build
 
 build: #fmtcheck
+## IMPORTANT: Do not modify the following `build` target. The following steps are a requirement of the provider release process.
+build: fmtcheck
 	go install
 
 ### TODO: Fix this so that only unit tests are running
@@ -31,8 +33,19 @@ vet:
 fmt:
 	gofmt -s -w ./$(PKG_NAME)
 
+## IMPORTANT: Do not modify the following `fmtcheck` target. The following steps are a requirement of the provider release process.
+## To add custom checks, use the `ocicheck` target instead.
 fmtcheck:
 	@sh -c "'$(CURDIR)/scripts/gofmtcheck.sh'"
+
+ocicheck:
+	@if [ -x "$$(command -v terraform)" ]; then \
+		echo "==> Checking terraform formatting of files"; \
+		terraform fmt -check=true || (echo "Terraform files are not appropriately formatted. Please run make fmt to format them." && exit 1); \
+	else \
+		echo "No terraform command found. Make sure it is installed in your PATH"; \
+		exit 1; \
+	fi
 
 errcheck:
 	@sh -c "'$(CURDIR)/scripts/errcheck.sh'"
@@ -59,9 +72,6 @@ website-test:
 ifeq (,$(wildcard $(GOPATH)/src/$(WEBSITE_REPO)))
 	echo "$(WEBSITE_REPO) not found in your GOPATH (necessary for layouts and assets), get-ting..."
 	git clone https://$(WEBSITE_REPO) $(GOPATH)/src/$(WEBSITE_REPO)
-	# Additional steps before registration is complete
-	ln -s ../../../../ext/providers/oci/website/docs $(GOPATH)/src/$(WEBSITE_REPO)/content/source/docs/providers/oci
-	ln -s ../../../ext/providers/oci/website/oci.erb $(GOPATH)/src/$(WEBSITE_REPO)/content/source/layouts/oci.erb
 endif
 	@$(MAKE) -C $(GOPATH)/src/$(WEBSITE_REPO) website-provider-test PROVIDER_PATH=$(shell pwd) PROVIDER_NAME=$(PKG_NAME)
 

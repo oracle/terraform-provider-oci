@@ -26,7 +26,7 @@ var (
 
 	instanceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"availability_domain": Representation{repType: Optional, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":               Representation{repType: Optional, create: `RUNNING`},
 		"filter":              RepresentationGroup{Required, instanceDataSourceFilterRepresentation}}
@@ -36,7 +36,7 @@ var (
 	}
 
 	instanceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}`},
+		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 		"shape":               Representation{repType: Required, create: `VM.Standard1.8`},
 		"create_vnic_details": RepresentationGroup{Optional, instanceCreateVnicDetailsRepresentation},
