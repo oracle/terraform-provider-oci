@@ -44,5 +44,5 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `is_available` - The flag denoting whether device is available.
-* `name` - The device name (for example, /dev/vdb).
+* `name` - The device name.
 
