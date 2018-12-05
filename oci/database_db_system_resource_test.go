@@ -677,7 +677,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					//backup_subnet_id = "${oci_core_subnet.t2.id}" // this requires a specific shape
 					database_edition = "ENTERPRISE_EDITION"
 					disk_redundancy = "NORMAL"
-					cpu_core_count = "1"
+					cpu_core_count = "8"
 					shape = "VM.Standard1.8"
 					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
 					display_name = "{{.token}}"
