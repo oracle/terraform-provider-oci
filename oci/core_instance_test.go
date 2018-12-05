@@ -38,7 +38,7 @@ var (
 	instanceRepresentation = map[string]interface{}{
 		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"shape":               Representation{repType: Required, create: `VM.Standard1.8`},
+		"shape":               Representation{repType: Required, create: `VM.Standard2.1`},
 		"create_vnic_details": RepresentationGroup{Optional, instanceCreateVnicDetailsRepresentation},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
@@ -98,7 +98,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 		provider oci {
 			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
 		}
-	` + commonTestVariables()
+	` + commonTestVariables() + KeyResourceDependencyConfig
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
@@ -123,7 +123,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "time_maintenance_reboot_due", ""),
 
@@ -165,7 +165,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "region"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
@@ -208,7 +208,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "region"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
@@ -250,7 +250,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.metadata.%", "2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.region"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.source_details.0.source_id"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.0.source_type", "image"),
@@ -279,7 +279,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "region"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
@@ -306,6 +306,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					"extended_metadata",
 					"hostname_label",
 					"subnet_id",
+					"source_details.0.kms_key_id", //TODO: Service is not returning this value, remove when the service returns it. COM-26394
 				},
 				ResourceName: resourceName,
 			},

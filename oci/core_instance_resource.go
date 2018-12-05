@@ -918,7 +918,11 @@ func (s *InstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat string)
 }
 
 func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume *oci_core.BootVolume, sourceDetailsFromConfig map[string]interface{}) map[string]interface{} {
-	result := map[string]interface{}{}
+	// We need to use the values provided by the customer to prevent force new in case the service does not return the value
+	result := sourceDetailsFromConfig
+	if result == nil {
+		result = map[string]interface{}{}
+	}
 	switch v := (*obj).(type) {
 	case oci_core.InstanceSourceViaBootVolumeDetails:
 		result["source_type"] = "bootVolume"
@@ -935,9 +939,6 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 			// The service could omit the boot volume size in the InstanceSourceViaImageDetails, so use the boot volume
 			// SizeInGBs property if that's the case.
 			result["boot_volume_size_in_gbs"] = strconv.FormatInt(*bootVolume.SizeInGBs, 10)
-		} else if sourceDetailsFromConfig != nil {
-			// Last resort. If we can't query the boot volume size from service, use the config value.
-			result["boot_volume_size_in_gbs"] = sourceDetailsFromConfig["boot_volume_size_in_gbs"]
 		}
 
 		if v.KmsKeyId != nil {
