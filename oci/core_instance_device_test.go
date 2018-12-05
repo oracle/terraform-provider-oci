@@ -14,7 +14,7 @@ var (
 	instanceDeviceDataSourceRepresentation = map[string]interface{}{
 		"instance_id":  Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
 		"is_available": Representation{repType: Optional, create: `true`},
-		"name":         Representation{repType: Optional, create: `/dev/vdb`},
+		"name":         Representation{repType: Optional, create: `/dev/oracleoci/oraclevdb`},
 	}
 
 	InstanceDeviceResourceConfig = InstanceRequiredOnlyResource
@@ -43,7 +43,7 @@ func TestCoreInstanceDeviceResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
 					resource.TestCheckResourceAttr(datasourceName, "is_available", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "name", "/dev/vdb"),
+					resource.TestCheckResourceAttr(datasourceName, "name", "/dev/oracleoci/oraclevdb"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "devices.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "devices.0.is_available"),
