@@ -557,6 +557,16 @@ func (s *InstanceResourceCrud) Update() error {
 
 	response, err := s.Client.UpdateInstance(context.Background(), request)
 	if err != nil {
+		if response.RawResponse.StatusCode == 400 &&
+			strings.Contains(err.Error(), "metadata field cannot be updated") {
+			return fmt.Errorf(`%s
+
+To change 'ssh_authorized_keys' or 'user_data' properties in the 
+'metadata' field, the resource must be tainted and recreated. 
+Use the terraform "taint" command to target this resource then
+run apply again.`, err)
+		}
+
 		return err
 	}
 
