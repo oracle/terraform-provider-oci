@@ -1,4 +1,4 @@
-## 3.9.1 (Unreleased)
+## 3.10.0 (Unreleased)
 
 ### Added
 - Support for attaching Route Table to Subnet. Issue [#270](https://github.com/terraform-providers/terraform-provider-oci/issues/270)
