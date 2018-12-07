@@ -249,7 +249,7 @@ func GetTestClients(data *schema.ResourceData) *OracleClients {
 	d.Set("tenancy_ocid", getEnvSettingWithBlankDefault("tenancy_ocid"))
 	d.Set("region", getEnvSettingWithDefault("region", "us-phoenix-1"))
 
-	if getEnvSettingWithDefault("use_obo_token", "false") == "false" {
+	if auth := getEnvSettingWithDefault("auth", authAPIKeySetting); auth == authAPIKeySetting {
 		d.Set("auth", getEnvSettingWithDefault("auth", authAPIKeySetting))
 		d.Set("user_ocid", getEnvSettingWithBlankDefault("user_ocid"))
 		d.Set("fingerprint", getEnvSettingWithBlankDefault("fingerprint"))
@@ -257,7 +257,7 @@ func GetTestClients(data *schema.ResourceData) *OracleClients {
 		d.Set("private_key_password", getEnvSettingWithBlankDefault("private_key_password"))
 		d.Set("private_key", getEnvSettingWithBlankDefault("private_key"))
 	} else {
-		d.Set("auth", getEnvSettingWithDefault("auth", authInstancePrincipalSetting))
+		d.Set("auth", getEnvSettingWithDefault("auth", auth))
 	}
 
 	client, err := ProviderConfig(d)
@@ -372,8 +372,11 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	case authInstancePrincipalSetting:
 		assert.Regexp(t, "failed to create a new key provider for instance principal.*", err.Error())
 		return
+	case authInstancePrincipalWithCertsSetting:
+		assert.Regexp(t, "failed to create a new key provider for instance principal.*", err.Error())
+		return
 	default:
-		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting))
+		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting))
 		return
 	}
 	assert.Nil(t, err)
