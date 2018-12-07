@@ -2,15 +2,15 @@
 
 ### Added
 - Support for importing tag. Note tag uses custom Id(import only) format (tagNamespaces/{tagNamespaceId}/tags/{tagName}) to support import.
+- Support for tagging in `oci_dns_zone`
+- New attribute `nameservers` is added to `oci_dns_zone`
+- Support for in-transit encryption for paravirtualized boot and data attachment
+- Identify latest database version with `oci_databse_db_versions` data source using `is_latest_for_major_version` property
 
 ## 3.10.0 (December 11, 2018)
 
 ### Added
 - Support for attaching Route Table to Subnet. Issue [#270](https://github.com/terraform-providers/terraform-provider-oci/issues/270)
-- Support for tagging in `oci_dns_zone`
-- New attribute `nameservers` is added to `oci_dns_zone`
-- Support for in-transit encryption for paravirtualized boot and data attachment
-
 
 ## 3.9.0 (December 04, 2018)
 
