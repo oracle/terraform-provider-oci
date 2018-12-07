@@ -59,6 +59,7 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName+"_by_db_system_shape", "db_system_shape", "BM.DenseIO1.36"),
 					resource.TestCheckResourceAttrSet(datasourceName+"_by_db_system_shape", "db_versions.#"),
+					resource.TestCheckResourceAttrSet(datasourceName+"_by_db_system_shape", "db_versions.0.is_latest_for_major_version"),
 					resource.TestCheckResourceAttrSet(datasourceName+"_by_db_system_shape", "db_versions.0.supports_pdb"),
 					resource.TestCheckResourceAttrSet(datasourceName+"_by_db_system_shape", "db_versions.0.version"),
 				),
