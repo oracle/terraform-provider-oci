@@ -10,6 +10,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"path/filepath"
 	"runtime"
 	"strings"
 	"time"
@@ -26,20 +27,21 @@ var descriptions map[string]string
 var disableAutoRetries bool
 
 const (
-	authAPIKeySetting            = "ApiKey"
-	authInstancePrincipalSetting = "InstancePrincipal"
-	requestHeaderOpcOboToken     = "opc-obo-token"
-	requestHeaderOpcHostSerial   = "opc-host-serial"
-	defaultRequestTimeout        = 0
-	defaultConnectionTimeout     = 10 * time.Second
-	defaultTLSHandshakeTimeout   = 5 * time.Second
-	defaultUserAgentProviderName = "Oracle-TerraformProvider"
-	userAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) %s/%s"
-	userAgentProviderNameEnv     = "USER_AGENT_PROVIDER_NAME"
-	domainNameOverrideEnv        = "domain_name_override"
-	customCertLocationEnv        = "custom_cert_location"
-	oracleR1DomainNameEnv        = "oracle_r1_domain_name" // deprecate
-	r1CertLocationEnv            = "R1_CERT_LOCATION"      // deprecate
+	authAPIKeySetting                     = "ApiKey"
+	authInstancePrincipalSetting          = "InstancePrincipal"
+	authInstancePrincipalWithCertsSetting = "InstancePrincipalWithCerts"
+	requestHeaderOpcOboToken              = "opc-obo-token"
+	requestHeaderOpcHostSerial            = "opc-host-serial"
+	defaultRequestTimeout                 = 0
+	defaultConnectionTimeout              = 10 * time.Second
+	defaultTLSHandshakeTimeout            = 5 * time.Second
+	defaultUserAgentProviderName          = "Oracle-TerraformProvider"
+	userAgentFormatter                    = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) %s/%s"
+	userAgentProviderNameEnv              = "USER_AGENT_PROVIDER_NAME"
+	domainNameOverrideEnv                 = "domain_name_override"
+	customCertLocationEnv                 = "custom_cert_location"
+	oracleR1DomainNameEnv                 = "oracle_r1_domain_name" // deprecate
+	r1CertLocationEnv                     = "R1_CERT_LOCATION"      // deprecate
 )
 
 // OboTokenProvider interface that wraps information about auth tokens so the sdk client can make calls
@@ -96,7 +98,7 @@ func schemaMap() map[string]*schema.Schema {
 			Optional:     true,
 			Description:  descriptions["auth"],
 			DefaultFunc:  schema.MultiEnvDefaultFunc([]string{"TF_VAR_auth", "OCI_AUTH"}, authAPIKeySetting),
-			ValidateFunc: validation.StringInSlice([]string{authAPIKeySetting, authInstancePrincipalSetting}, true),
+			ValidateFunc: validation.StringInSlice([]string{authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting}, true),
 		},
 		"tenancy_ocid": {
 			Type:        schema.TypeString,
@@ -473,6 +475,18 @@ func validateConfigForAPIKeyAuth(d *schema.ResourceData) error {
 	return nil
 }
 
+func getCertificateFileBytes(certificateFileFullPath string) (pemRaw []byte, err error) {
+	absFile, err := filepath.Abs(certificateFileFullPath)
+	if err != nil {
+		return nil, fmt.Errorf("can't form absolute path of %s: %v", certificateFileFullPath, err)
+	}
+
+	if pemRaw, err = ioutil.ReadFile(absFile); err != nil {
+		return nil, fmt.Errorf("can't read %s: %v", certificateFileFullPath, err)
+	}
+	return
+}
+
 func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	clients = &OracleClients{configuration: map[string]string{}}
 	disableAutoRetries = d.Get("disable_auto_retries").(bool)
@@ -511,8 +525,52 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 			return nil, err
 		}
 		configProviders = append(configProviders, cfg)
+	case strings.ToLower(authInstancePrincipalWithCertsSetting):
+		region, ok := d.GetOkExists("region")
+		if !ok {
+			return nil, fmt.Errorf("can not get region from Terraform configuration (InstancePrincipalWithCerts)")
+		}
+
+		defaultCertsDir, err := os.Getwd()
+		if err != nil {
+			return nil, fmt.Errorf("can not get working directory for current os platform")
+		}
+
+		certsDir := filepath.Clean(getEnvSettingWithDefault("test_certificates_location", defaultCertsDir))
+		leafCertificateBytes, err := getCertificateFileBytes(filepath.Join(certsDir, "ip_cert.pem"))
+		if err != nil {
+			return nil, fmt.Errorf("can not read leaf certificate from %s", filepath.Join(certsDir, "ip_cert.pem"))
+		}
+
+		leafPrivateKeyBytes, err := getCertificateFileBytes(filepath.Join(certsDir, "ip_key.pem"))
+		if err != nil {
+			return nil, fmt.Errorf("can not read leaf private key from %s", filepath.Join(certsDir, "ip_key.pem"))
+		}
+
+		leafPassphraseBytes := []byte{}
+		if _, err := os.Stat(certsDir + "/leaf_passphrase"); !os.IsNotExist(err) {
+			leafPassphraseBytes, err = getCertificateFileBytes(filepath.Join(certsDir + "leaf_passphrase"))
+			if err != nil {
+				return nil, fmt.Errorf("can not read leafPassphraseBytes from %s", filepath.Join(certsDir+"leaf_passphrase"))
+			}
+		}
+
+		intermediateCertificateBytes, err := getCertificateFileBytes(filepath.Join(certsDir, "intermediate.pem"))
+		if err != nil {
+			return nil, fmt.Errorf("can not read intermediate certificate from %s", filepath.Join(certsDir, "intermediate.pem"))
+		}
+
+		intermediateCertificatesBytes := [][]byte{
+			intermediateCertificateBytes,
+		}
+
+		cfg, err := oci_common_auth.InstancePrincipalConfigurationWithCerts(oci_common.StringToRegion(region.(string)), leafCertificateBytes, leafPassphraseBytes, leafPrivateKeyBytes, intermediateCertificatesBytes)
+		if err != nil {
+			return nil, err
+		}
+		configProviders = append(configProviders, cfg)
 	default:
-		return nil, fmt.Errorf("auth must be one of '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting)
+		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting)
 	}
 
 	configProviders = append(configProviders, ResourceDataConfigProvider{d})
