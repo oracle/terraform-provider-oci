@@ -38,7 +38,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Optional) (Updatable) The OCID of the compartment the resource belongs to. If supplied, it must match the Zone's compartment ocid. 
 * `domain` - (Optional) (Updatable) The fully qualified domain name where the record can be located.  
-* `rdata` - (Optional) (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format.  
+* `rdata` - (Optional) (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see [Supported DNS Resource Record Types](/iaas/Content/DNS/Reference/supporteddnsresource.htm) 
 * `rtype` - (Optional) (Updatable) The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
 * `ttl` - (Optional) (Updatable) The Time To Live for the record, in seconds.
 * `zone_name_or_id` - (Required) The name or OCID of the target zone.
@@ -54,7 +54,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment the resource belongs to.
 * `domain` - The fully qualified domain name where the record can be located. 
 * `is_protected` - A Boolean flag indicating whether or not parts of the record are unable to be explicitly managed. 
-* `rdata` - The record's data, as whitespace-delimited tokens in type-specific presentation format. 
+* `rdata` - The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see [Supported DNS Resource Record Types](/iaas/Content/DNS/Reference/supporteddnsresource.htm) 
 * `record_hash` - A unique identifier for the record within its zone. 
 * `rrset_version` - The latest version of the record's zone in which its RRSet differs from the preceding version. 
 * `rtype` - The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 

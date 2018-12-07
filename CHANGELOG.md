@@ -7,6 +7,8 @@
 
 ### Added
 - Support for attaching Route Table to Subnet. Issue [#270](https://github.com/terraform-providers/terraform-provider-oci/issues/270)
+- Support for tagging in `oci_dns_zone`
+- New attribute `nameservers` is added to `oci_dns_zone`
 
 
 ## 3.9.0 (December 04, 2018)
