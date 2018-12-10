@@ -18,35 +18,23 @@ var (
 		generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation)
 
 	imageDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":             Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
-		"operating_system":         Representation{repType: Optional, create: `operatingSystem`},
-		"operating_system_version": Representation{repType: Optional, create: `operatingSystemVersion`},
-		"shape":                    Representation{repType: Optional, create: `shape`},
-		"state":                    Representation{repType: Optional, create: `AVAILABLE`},
-		"filter":                   RepresentationGroup{Required, imageDataSourceFilterRepresentation}}
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
+		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"filter":         RepresentationGroup{Required, imageDataSourceFilterRepresentation}}
 	imageDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_core_image.test_image.id}`}},
 	}
 
 	imageRepresentation = map[string]interface{}{
-		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":         Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
-		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"image_source_details": RepresentationGroup{Optional, imageImageSourceDetailsRepresentation},
-		"instance_id":          Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"launch_mode":          Representation{repType: Optional, create: `NATIVE`},
-		"timeouts":             RepresentationGroup{Required, timeoutsRepresentation},
-	}
-	imageImageSourceDetailsRepresentation = map[string]interface{}{
-		"source_type":       Representation{repType: Required, create: `objectStorageTuple`},
-		"bucket_name":       Representation{repType: Optional, create: `MyBucket`},
-		"namespace_name":    Representation{repType: Optional, create: `MyNamespace`},
-		"object_name":       Representation{repType: Optional, create: `image-to-import.qcow2`},
-		"source_image_type": Representation{repType: Optional, create: `QCOW2`},
-		"source_uri":        Representation{repType: Optional, create: `https://objectstorage.us-phoenix-1.oraclecloud.com/n/MyNamespace/b/MyBucket/o/image-to-import.qcow2`},
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"instance_id":    Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"launch_mode":    Representation{repType: Optional, create: `NATIVE`},
+		"timeouts":       RepresentationGroup{Required, timeoutsRepresentation},
 	}
 
 	timeoutsRepresentation = map[string]interface{}{
@@ -57,7 +45,6 @@ var (
 )
 
 func TestCoreImageResource_basic(t *testing.T) {
-	t.Skip("Long running test")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -106,9 +93,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "QCOW2"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
@@ -133,9 +118,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "QCOW2"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
