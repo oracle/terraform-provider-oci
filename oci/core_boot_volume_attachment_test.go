@@ -19,15 +19,6 @@ var (
 		"instance_id":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
 	}
 
-	bootVolumeAttachmentDataSourceWithFilterRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"filter":              RepresentationGroup{Required, bootVolumeAttachmentDataSourceFilterRepresentation}}
-	bootVolumeAttachmentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `is_pv_encryption_in_transit_enabled`},
-		"values": Representation{repType: Required, create: []string{`true`}},
-	}
-
 	BootVolumeAttachmentResourceConfig = BootVolumeResourceConfig
 )
 
@@ -75,17 +66,6 @@ func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestMatchResourceAttr(datasourceName, "boot_volume_attachments.#", regexp.MustCompile("[1-9][0-9]*")),
-				),
-			},
-			// verify datasource can retrieve all boot volume attachments in a compartment and perform client-side filtering to list on is_pv_encryption_in_transit_enabled boot volume attachments
-			{
-				Config: config +
-					generateDataSourceFromRepresentationMap("oci_core_boot_volume_attachments", "test_boot_volume_attachments", Required, Update, bootVolumeAttachmentDataSourceWithFilterRepresentation) +
-					compartmentIdVariableStr + BootVolumeAttachmentResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestMatchResourceAttr(datasourceName, "boot_volume_attachments.#", regexp.MustCompile("[1-9][0-9]*")),
-					resource.TestCheckResourceAttr(datasourceName, "boot_volume_attachments.0.is_pv_encryption_in_transit_enabled", "true"),
 				),
 			},
 		},
