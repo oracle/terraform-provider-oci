@@ -1,4 +1,8 @@
 ## 3.12.0 (Unreleased)
+
+### Changed
+- LoadBalancer BackendSets to have TypeSet for Backends to avoid out of order diffs
+
 ## 3.11.0 (December 18, 2018)
 
 ### Added
@@ -8,7 +12,7 @@
 - Identify latest database version with `oci_databse_db_versions` data source using `is_latest_for_major_version` property
 - Support for importing tag. Note tag uses custom Id(import only) format (tagNamespaces/{tagNamespaceId}/tags/{tagName}) to support import.
 - Support for provisioning user capabilities for native and federation shadow users
-- Support `id` attribute for `oci_identity_availability_domains` 
+- Support `id` attribute for `oci_identity_availability_domains`
 - Support `freeform_attributes` attribute for the `oci_identity_identity_provider`
 - Support for `sparse_diskgroup` for Exadata dbsystem
 
