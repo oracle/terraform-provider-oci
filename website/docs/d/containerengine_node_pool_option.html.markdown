@@ -24,7 +24,7 @@ data "oci_containerengine_node_pool_option" "test_node_pool_option" {
 
 The following arguments are supported:
 
-* `node_pool_option_id` - (Required) The id of the option set to retrieve. Only "all" is supported.
+* `node_pool_option_id` - (Required) The id of the option set to retrieve. Use "all" get all options, or use a cluster ID to get options specific to the provided cluster.
 
 
 ## Attributes Reference

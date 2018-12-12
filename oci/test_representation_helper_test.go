@@ -173,6 +173,41 @@ const (
 	string_property = "update"
 	}
 `
+
+	updatedValueMultipleUpdateConfig = `{
+	array_property = ["update1", "update2"]
+	map_property = {
+		"map_property1" = "update1"
+	}
+	nested_property1 {
+		array_property = ["update1", "update2"]
+		map_property = {
+			"map_property1" = "update1"
+			"map_property2" = "update2"
+		}
+		nested_nested_property {
+			array_property = ["update1", "update2", "update3"]
+			map_create_only_property = {
+				"map_property1" = "create1"
+				"map_property2" = "create2"
+			}
+			string_property = "re_updated_by_changes_in_the_representation"
+		}
+		string_property = "update"
+	}
+	nested_property2 {
+		array_create_only_property = ["create1", "create2"]
+		map_property = {
+			"map_property1" = "update1"
+			"map_property2" = "update2"
+		}
+		string_property = "update"
+	}
+	string_create_only_property = "create"
+	string_property = "updated_update"
+	}
+`
+
 	allUpdateConfigWithAdditions = `{
 	added_property = "added"
 	another_added_property = "addedUpdate"
@@ -257,6 +292,14 @@ func TestGenerateResourceRepresentationFromMap(t *testing.T) {
 	assert.Equal(strings.Replace(updatedValueAllUpdateConfig, "\t", "", -1),
 		generateResourceFromMap(Optional, Update, getUpdatedRepresentationCopy("nested_property1.nested_nested_property.string_property", Representation{repType: Required, create: "updated_by_changes_in_the_representation"}, testMap)),
 		`"Updated All properties with Update values" Representation is wrong`)
+	//update multiple values in the representation
+	assert.Equal(strings.Replace(updatedValueMultipleUpdateConfig, "\t", "", -1),
+		generateResourceFromMap(Optional, Update,
+			getMultipleUpdatedRepresenationCopy(
+				[]string{"string_property", "nested_property1.nested_nested_property.string_property"},
+				[]interface{}{Representation{repType: Required, create: "updated_create", update: "updated_update"}, Representation{repType: Required, create: "re_updated_by_changes_in_the_representation"}},
+				testMap)),
+		`"Updated Multiple properties with Update values" Representation is wrong`)
 	//add new properties to the representation
 	assert.Equal(strings.Replace(allUpdateConfigWithAdditions, "\t", "", -1),
 		generateResourceFromMap(Optional, Update, representationCopyWithNewProperties(testMap, map[string]interface{}{
