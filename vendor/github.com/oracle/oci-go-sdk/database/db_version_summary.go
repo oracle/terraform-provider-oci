@@ -19,6 +19,9 @@ type DbVersionSummary struct {
 	// A valid Oracle Database version.
 	Version *string `mandatory:"true" json:"version"`
 
+	// True if this version of the Oracle Database software is the latest version for a release.
+	IsLatestForMajorVersion *bool `mandatory:"false" json:"isLatestForMajorVersion"`
+
 	// True if this version of the Oracle Database software supports pluggable databases.
 	SupportsPdb *bool `mandatory:"false" json:"supportsPdb"`
 }

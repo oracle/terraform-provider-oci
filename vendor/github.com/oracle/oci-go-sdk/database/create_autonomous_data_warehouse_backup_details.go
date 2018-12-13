@@ -16,11 +16,11 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateAutonomousDataWarehouseBackupDetails struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Data Warehouse backup.
-	AutonomousDataWarehouseId *string `mandatory:"true" json:"autonomousDataWarehouseId"`
-
 	// The user-friendly name for the backup. The name does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
+
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Data Warehouse backup.
+	AutonomousDataWarehouseId *string `mandatory:"true" json:"autonomousDataWarehouseId"`
 }
 
 func (m CreateAutonomousDataWarehouseBackupDetails) String() string {

@@ -5175,7 +5175,7 @@ func (client VirtualNetworkClient) updatePrivateIp(ctx context.Context, request 
 // * If you want to unassign an ephemeral public IP from its private IP, use
 // DeletePublicIp, which
 // unassigns and deletes the ephemeral public IP.
-// **Note:** If a public IP (either ephemeral or reserved) is assigned to a secondary private
+// **Note:** If a public IP is assigned to a secondary private
 // IP (see PrivateIp), and you move that secondary
 // private IP to another VNIC, the public IP moves with it.
 // **Note:** There's a limit to the number of PublicIp

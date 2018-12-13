@@ -18,11 +18,11 @@ type PatchHistoryEntrySummary struct {
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch history entry.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The current state of the action.
-	LifecycleState PatchHistoryEntrySummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
-
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch.
 	PatchId *string `mandatory:"true" json:"patchId"`
+
+	// The current state of the action.
+	LifecycleState PatchHistoryEntrySummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The date and time when the patch action started.
 	TimeStarted *common.SDKTime `mandatory:"true" json:"timeStarted"`

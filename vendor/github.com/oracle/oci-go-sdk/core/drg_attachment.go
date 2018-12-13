@@ -37,7 +37,9 @@ type DrgAttachment struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID of the route table the DRG attachment is using.
+	// The OCID of the route table the DRG attachment is using. For information about why you
+	// would associate a route table with a DRG attachment, see
+	// Advanced Scenario: Transit Routing (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/transitrouting.htm).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 
 	// The date and time the DRG attachment was created, in the format defined by RFC3339.

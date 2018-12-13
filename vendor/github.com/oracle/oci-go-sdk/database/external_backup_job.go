@@ -18,14 +18,14 @@ type ExternalBackupJob struct {
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the associated backup resource.
 	BackupId *string `mandatory:"true" json:"backupId"`
 
-	// The name of the Swift compartment bucket where the backup should be stored.
-	BucketName *string `mandatory:"true" json:"bucketName"`
-
 	// An indicator for the provisioning state of the resource. If `TRUE`, the resource is still being provisioned.
 	Provisioning *bool `mandatory:"true" json:"provisioning"`
 
 	// The Swift path to use as a destination for the standalone backup.
 	SwiftPath *string `mandatory:"true" json:"swiftPath"`
+
+	// The name of the Swift compartment bucket where the backup should be stored.
+	BucketName *string `mandatory:"true" json:"bucketName"`
 
 	// The tag for RMAN to apply to the backup.
 	Tag *string `mandatory:"true" json:"tag"`
