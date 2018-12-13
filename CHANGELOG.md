@@ -9,6 +9,7 @@
 - Support for provisioning user capabilities for native and federation shadow users
 - Support `id` attribute for `oci_identity_availability_domains` 
 - Support `freeform_attributes` attribute for the `oci_identity_identity_provider`
+- Support for `sparse_diskgroup` for Exadata dbsystem
 
 ## 3.10.0 (December 11, 2018)
 
