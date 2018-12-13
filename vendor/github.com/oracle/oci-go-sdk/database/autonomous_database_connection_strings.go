@@ -15,17 +15,17 @@ import (
 // AutonomousDatabaseConnectionStrings Connection strings to connect to an Oracle Autonomous Database.
 type AutonomousDatabaseConnectionStrings struct {
 
-	// All connection strings to use to connect to the Autonomous Database.
-	AllConnectionStrings map[string]string `mandatory:"false" json:"allConnectionStrings"`
-
 	// The High database service provides the highest level of resources to each SQL statement resulting in the highest performance, but supports the fewest number of concurrent SQL statements.
 	High *string `mandatory:"false" json:"high"`
+
+	// The Medium database service provides a lower level of resources to each SQL statement potentially resulting a lower level of performance, but supports more concurrent SQL statements.
+	Medium *string `mandatory:"false" json:"medium"`
 
 	// The Low database service provides the least level of resources to each SQL statement, but supports the most number of concurrent SQL statements.
 	Low *string `mandatory:"false" json:"low"`
 
-	// The Medium database service provides a lower level of resources to each SQL statement potentially resulting a lower level of performance, but supports more concurrent SQL statements.
-	Medium *string `mandatory:"false" json:"medium"`
+	// All connection strings to use to connect to the Autonomous Database.
+	AllConnectionStrings map[string]string `mandatory:"false" json:"allConnectionStrings"`
 }
 
 func (m AutonomousDatabaseConnectionStrings) String() string {
