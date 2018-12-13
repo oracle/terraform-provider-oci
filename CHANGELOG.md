@@ -1,4 +1,4 @@
-## 3.10.1 (Unreleased)
+## 3.11.0 (Unreleased)
 
 ### Added
 - Support for tagging in `oci_dns_zone`
