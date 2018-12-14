@@ -357,7 +357,7 @@ func TestCoreVolumeResource_int64_interpolation(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + VolumeRequiredOnlyResource + `
+				Config: config + compartmentIdVariableStr + VolumeResourceConfig + `
 data "oci_core_volumes" "test_volumes" {
 	#Required
 	compartment_id = "${var.compartment_id}"
@@ -380,10 +380,10 @@ resource "oci_core_volume" "test_volume2" {
 }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					// Check on default values used
-					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "51200"),
-					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "50"),
-					resource.TestCheckResourceAttr(resourceName2, "size_in_mbs", "51200"),
-					resource.TestCheckResourceAttr(resourceName2, "size_in_gbs", "50"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "53248"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "52"),
+					resource.TestCheckResourceAttr(resourceName2, "size_in_mbs", "53248"),
+					resource.TestCheckResourceAttr(resourceName2, "size_in_gbs", "52"),
 				),
 			},
 		},
