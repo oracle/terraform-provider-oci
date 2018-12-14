@@ -80,7 +80,6 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "device", "/dev/oracleoci/oraclevdb"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
