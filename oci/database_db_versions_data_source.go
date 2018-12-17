@@ -36,6 +36,10 @@ func DbVersionsDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"is_latest_for_major_version": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"supports_pdb": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -140,6 +144,10 @@ func (s *DbVersionsDataSourceCrud) SetData() error {
 
 	for _, r := range s.Res.Items {
 		dbVersion := map[string]interface{}{}
+
+		if r.IsLatestForMajorVersion != nil {
+			dbVersion["is_latest_for_major_version"] = *r.IsLatestForMajorVersion
+		}
 
 		if r.SupportsPdb != nil {
 			dbVersion["supports_pdb"] = *r.SupportsPdb

@@ -27,6 +27,9 @@ type AttachParavirtualizedVolumeDetails struct {
 
 	// Whether the attachment was created in read-only mode.
 	IsReadOnly *bool `mandatory:"false" json:"isReadOnly"`
+
+	// Whether to enable encryption in transit for the PV data volume attachment. Defaults to false.
+	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 }
 
 //GetDisplayName returns DisplayName

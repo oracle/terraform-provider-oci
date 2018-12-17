@@ -36,7 +36,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment the resource belongs to.
 * `name` - (Optional) A case-sensitive filter for zone names. Will match any zone with a name that equals the provided value. 
-* `name_contains` - (Optional) Search by zone name. Will match any zone whose name (case-insensitive) contains the provided value.
+* `name_contains` - (Optional) Search by zone name. Will match any zone whose name (case-insensitive) contains the provided value. 
 * `sort_by` - (Optional) The field by which to sort zones. Allowed values are: name|zoneType|timeCreated
 * `sort_order` - The order to sort the resources. Allowed values are: ASC|DESC  
 * `state` - (Optional) The state of a resource.
@@ -56,19 +56,23 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the zone.
-* `external_masters` - External master servers for the zone.
+* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `external_masters` - External master servers for the zone. `externalMasters` becomes a required parameter when the `zoneType` value is `SECONDARY`. 
 	* `address` - The server's IP address (IPv4 or IPv6).
-	* `port` - The server's port.
+	* `port` - The server's port. Port value must be a value of 53, otherwise omit the port value. 
 	* `tsig` - A TSIG key
-		* `algorithm` - TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. For a full list of TSIG algorithms, see [Secret Key Transaction Authentication for DNS (TSIG) Algorithm Names](http://www.iana.org/assignments/tsig-algorithm-names/tsig-algorithm-names.xhtml#tsig-algorithm-names-1) 
+		* `algorithm` - TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha512. For more information on these algorithms, see [RFC 4635](https://tools.ietf.org/html/rfc4635#section-2). 
 		* `name` - A domain name identifying the key for a given pair of hosts.
 		* `secret` - A base64 string encoding the binary shared secret.
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type, or scope. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}` 
 * `id` - The OCID of the zone.
 * `name` - The name of the zone.
+* `nameservers` - The authoritative nameservers for the zone.
+	* `hostname` - The hostname of the nameserver.
 * `self` - The canonical absolute URL of the resource.
 * `serial` - The current serial of the zone. As seen in the zone's SOA record. 
 * `state` - The current state of the zone resource.
-* `time_created` - The date and time the image was created in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339.
+* `time_created` - The date and time the resource was created in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339.
 
 	**Example:** `2016-07-22T17:23:59:60Z` 
 * `version` - Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived. 

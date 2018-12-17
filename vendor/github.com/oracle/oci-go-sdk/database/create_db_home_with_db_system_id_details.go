@@ -19,10 +19,10 @@ type CreateDbHomeWithDbSystemIdDetails struct {
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB system.
 	DbSystemId *string `mandatory:"true" json:"dbSystemId"`
 
-	Database *CreateDatabaseDetails `mandatory:"true" json:"database"`
-
 	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
+
+	Database *CreateDatabaseDetails `mandatory:"true" json:"database"`
 
 	// The user-provided name of the database home.
 	DisplayName *string `mandatory:"false" json:"displayName"`

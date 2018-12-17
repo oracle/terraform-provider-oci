@@ -4,18 +4,20 @@ package provider
 
 import (
 	"context"
-
-	"github.com/hashicorp/terraform/helper/schema"
-
+	"fmt"
+	"regexp"
+	"strconv"
 	"strings"
 
-	"strconv"
-
+	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 func TagResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createTag,
 		Read:     readTag,
@@ -197,6 +199,12 @@ func (s *TagResourceCrud) Create() error {
 func (s *TagResourceCrud) Get() error {
 	request := oci_identity.GetTagRequest{}
 
+	tagName, tagNamespaceId, parseTagCompositeIdErr := parseTagCompositeId(s.D.Id())
+	if parseTagCompositeIdErr == nil {
+		request.TagName = &tagName
+		request.TagNamespaceId = &tagNamespaceId
+	}
+
 	if tagName, ok := s.D.GetOkExists("name"); ok {
 		tmp := tagName.(string)
 		request.TagName = &tmp
@@ -215,6 +223,14 @@ func (s *TagResourceCrud) Get() error {
 	}
 
 	s.Res = &response.Tag
+	if parseTagCompositeIdErr == nil {
+		// Import sets the ID to composite ID and hence overwriting ID to OCID from response
+		id := response.Tag.Id
+		if id == nil {
+			return fmt.Errorf("error : received null value for id attribute for request %s, id attribute cannot be null", *response.OpcRequestId)
+		}
+		s.D.SetId(*id)
+	}
 	return nil
 }
 
@@ -301,4 +317,17 @@ func (s *TagResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func parseTagCompositeId(compositeId string) (tagName string, tagNamespaceId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("tagNamespaces/.*/tags/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	tagNamespaceId = parts[1]
+	tagName = parts[3]
+
+	return
 }

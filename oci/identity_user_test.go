@@ -89,6 +89,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -110,6 +111,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "capabilities.#", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -138,6 +140,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "users.0.name", "JohnSmith@example.com"),
 					resource.TestCheckResourceAttrSet(datasourceName, "users.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "users.0.time_created"),
+					resource.TestCheckResourceAttr(datasourceName, "users.0.capabilities.#", "1"),
 				),
 			},
 			// verify resource import

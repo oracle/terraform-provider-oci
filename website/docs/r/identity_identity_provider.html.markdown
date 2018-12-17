@@ -40,6 +40,7 @@ resource "oci_identity_identity_provider" "test_identity_provider" {
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
+	freeform_attributes = "${var.identity_provider_freeform_attributes}"
 	freeform_tags = {"Department"= "Finance"}
 }
 ```
@@ -51,6 +52,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of your tenancy.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) (Updatable) The description you assign to the `IdentityProvider` during creation. Does not have to be unique, and it's changeable. 
+* `freeform_attributes` - (Optional) (Updatable) Extra name value pairs associated with this identity provider. Example: `{"clientId": "app_sf3kdjf3"}` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `metadata` - (Required) (Updatable) The XML that contains the information required for federating. 
 * `metadata_url` - (Required) (Updatable) The URL for retrieving the identity provider's metadata, which contains information required for federating. 
@@ -69,6 +71,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the tenancy containing the `IdentityProvider`.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the `IdentityProvider` during creation. Does not have to be unique, and it's changeable. 
+* `freeform_attributes` - Extra name value pairs associated with this identity provider. Example: `{"clientId": "app_sf3kdjf3"}` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the `IdentityProvider`.
 * `inactive_state` - The detailed status of INACTIVE lifecycleState.

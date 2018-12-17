@@ -16,11 +16,36 @@ import (
 // LaunchDbSystemFromBackupDetails The representation of LaunchDbSystemFromBackupDetails
 type LaunchDbSystemFromBackupDetails struct {
 
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment the DB system  belongs in.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
 	// The availability domain where the DB system is located.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment the DB system  belongs in.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the subnet the DB system is associated with.
+	// **Subnet Restrictions:**
+	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
+	// - For Exadata and virtual machine 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.128.0/20.
+	// These subnets are used by the Oracle Clusterware private interconnect on the database instance.
+	// Specifying an overlapping subnet will cause the private interconnect to malfunction.
+	// This restriction applies to both the client subnet and the backup subnet.
+	SubnetId *string `mandatory:"true" json:"subnetId"`
+
+	// The shape of the DB system. The shape determines resources allocated to the DB system.
+	// - For virtual machine shapes, the number of CPU cores and memory
+	// - For bare metal and Exadata shapes, the number of CPU cores, memory, and storage
+	// To get a list of shapes, use the ListDbSystemShapes operation.
+	Shape *string `mandatory:"true" json:"shape"`
+
+	// The public key portion of the key pair to use for SSH access to the DB system. Multiple public keys can be provided. The length of the combined keys cannot exceed 10,000 characters.
+	SshPublicKeys []string `mandatory:"true" json:"sshPublicKeys"`
+
+	// The hostname for the DB system. The hostname must begin with an alphabetic character and
+	// can contain a maximum of 30 alphanumeric characters, including hyphens (-).
+	// The maximum length of the combined hostname and domain is 63 characters.
+	// **Note:** The hostname must be unique within the subnet. If it is not unique,
+	// the DB system will fail to provision.
+	Hostname *string `mandatory:"true" json:"hostname"`
 
 	// The number of CPU cores to enable for a bare metal or Exadata DB system. The valid values depend on the specified shape:
 	// - BM.DenseIO1.36 - Specify a multiple of 2, from 2 to 36.
@@ -35,36 +60,22 @@ type LaunchDbSystemFromBackupDetails struct {
 	// For information about the number of cores for a virtual machine DB system shape, see Virtual Machine DB Systems (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Concepts/overview.htm#virtualmachine)
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
-	// The hostname for the DB system. The hostname must begin with an alphabetic character and
-	// can contain a maximum of 30 alphanumeric characters, including hyphens (-).
-	// The maximum length of the combined hostname and domain is 63 characters.
-	// **Note:** The hostname must be unique within the subnet. If it is not unique,
-	// the DB system will fail to provision.
-	Hostname *string `mandatory:"true" json:"hostname"`
-
-	// The shape of the DB system. The shape determines resources allocated to the DB system.
-	// - For virtual machine shapes, the number of CPU cores and memory
-	// - For bare metal and Exadata shapes, the number of CPU cores, memory, and storage
-	// To get a list of shapes, use the ListDbSystemShapes operation.
-	Shape *string `mandatory:"true" json:"shape"`
-
-	// The public key portion of the key pair to use for SSH access to the DB system. Multiple public keys can be provided. The length of the combined keys cannot exceed 10,000 characters.
-	SshPublicKeys []string `mandatory:"true" json:"sshPublicKeys"`
-
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the subnet the DB system is associated with.
-	// **Subnet Restrictions:**
-	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
-	// - For Exadata and virtual machine 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.128.0/20.
-	// These subnets are used by the Oracle Clusterware private interconnect on the database instance.
-	// Specifying an overlapping subnet will cause the private interconnect to malfunction.
-	// This restriction applies to both the client subnet and the backup subnet.
-	SubnetId *string `mandatory:"true" json:"subnetId"`
-
 	DbHome *CreateDbHomeFromBackupDetails `mandatory:"true" json:"dbHome"`
+
+	// The user-friendly name for the DB system. The name does not have to be unique.
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the backup network subnet the DB system is associated with. Applicable only to Exadata DB systems.
 	// **Subnet Restrictions:** See the subnet restrictions information for **subnetId**.
 	BackupSubnetId *string `mandatory:"false" json:"backupSubnetId"`
+
+	// If true, Sparse Diskgroup is configured for Exadata dbsystem. If False, Sparse diskgroup is not configured.
+	SparseDiskgroup *bool `mandatory:"false" json:"sparseDiskgroup"`
+
+	// A domain name used for the DB system. If the Oracle-provided Internet and VCN
+	// Resolver is enabled for the specified subnet, the domain name for the subnet is used
+	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
+	Domain *string `mandatory:"false" json:"domain"`
 
 	// The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
 	ClusterName *string `mandatory:"false" json:"clusterName"`
@@ -74,29 +85,21 @@ type LaunchDbSystemFromBackupDetails struct {
 	// Specify 80 or 40. The default is 80 percent assigned to DATA storage. Not applicable for virtual machine DB systems.
 	DataStoragePercentage *int `mandatory:"false" json:"dataStoragePercentage"`
 
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	// Size (in GB) of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume.
+	InitialDataStorageSizeInGB *int `mandatory:"false" json:"initialDataStorageSizeInGB"`
 
-	// The user-friendly name for the DB system. The name does not have to be unique.
-	DisplayName *string `mandatory:"false" json:"displayName"`
-
-	// A domain name used for the DB system. If the Oracle-provided Internet and VCN
-	// Resolver is enabled for the specified subnet, the domain name for the subnet is used
-	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
-	Domain *string `mandatory:"false" json:"domain"`
+	// The number of nodes to launch for a 2-node RAC virtual machine DB system.
+	NodeCount *int `mandatory:"false" json:"nodeCount"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Size (in GB) of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume.
-	InitialDataStorageSizeInGB *int `mandatory:"false" json:"initialDataStorageSizeInGB"`
-
-	// The number of nodes to launch for a 2-node RAC virtual machine DB system.
-	NodeCount *int `mandatory:"false" json:"nodeCount"`
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The Oracle Database Edition that applies to all the databases on the DB system.
 	// Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
@@ -111,39 +114,9 @@ type LaunchDbSystemFromBackupDetails struct {
 	LicenseModel LaunchDbSystemFromBackupDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 }
 
-//GetAvailabilityDomain returns AvailabilityDomain
-func (m LaunchDbSystemFromBackupDetails) GetAvailabilityDomain() *string {
-	return m.AvailabilityDomain
-}
-
-//GetBackupSubnetId returns BackupSubnetId
-func (m LaunchDbSystemFromBackupDetails) GetBackupSubnetId() *string {
-	return m.BackupSubnetId
-}
-
-//GetClusterName returns ClusterName
-func (m LaunchDbSystemFromBackupDetails) GetClusterName() *string {
-	return m.ClusterName
-}
-
 //GetCompartmentId returns CompartmentId
 func (m LaunchDbSystemFromBackupDetails) GetCompartmentId() *string {
 	return m.CompartmentId
-}
-
-//GetCpuCoreCount returns CpuCoreCount
-func (m LaunchDbSystemFromBackupDetails) GetCpuCoreCount() *int {
-	return m.CpuCoreCount
-}
-
-//GetDataStoragePercentage returns DataStoragePercentage
-func (m LaunchDbSystemFromBackupDetails) GetDataStoragePercentage() *int {
-	return m.DataStoragePercentage
-}
-
-//GetDefinedTags returns DefinedTags
-func (m LaunchDbSystemFromBackupDetails) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
 }
 
 //GetDisplayName returns DisplayName
@@ -151,19 +124,59 @@ func (m LaunchDbSystemFromBackupDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDomain returns Domain
-func (m LaunchDbSystemFromBackupDetails) GetDomain() *string {
-	return m.Domain
+//GetAvailabilityDomain returns AvailabilityDomain
+func (m LaunchDbSystemFromBackupDetails) GetAvailabilityDomain() *string {
+	return m.AvailabilityDomain
 }
 
-//GetFreeformTags returns FreeformTags
-func (m LaunchDbSystemFromBackupDetails) GetFreeformTags() map[string]string {
-	return m.FreeformTags
+//GetSubnetId returns SubnetId
+func (m LaunchDbSystemFromBackupDetails) GetSubnetId() *string {
+	return m.SubnetId
+}
+
+//GetBackupSubnetId returns BackupSubnetId
+func (m LaunchDbSystemFromBackupDetails) GetBackupSubnetId() *string {
+	return m.BackupSubnetId
+}
+
+//GetShape returns Shape
+func (m LaunchDbSystemFromBackupDetails) GetShape() *string {
+	return m.Shape
+}
+
+//GetSparseDiskgroup returns SparseDiskgroup
+func (m LaunchDbSystemFromBackupDetails) GetSparseDiskgroup() *bool {
+	return m.SparseDiskgroup
+}
+
+//GetSshPublicKeys returns SshPublicKeys
+func (m LaunchDbSystemFromBackupDetails) GetSshPublicKeys() []string {
+	return m.SshPublicKeys
 }
 
 //GetHostname returns Hostname
 func (m LaunchDbSystemFromBackupDetails) GetHostname() *string {
 	return m.Hostname
+}
+
+//GetDomain returns Domain
+func (m LaunchDbSystemFromBackupDetails) GetDomain() *string {
+	return m.Domain
+}
+
+//GetCpuCoreCount returns CpuCoreCount
+func (m LaunchDbSystemFromBackupDetails) GetCpuCoreCount() *int {
+	return m.CpuCoreCount
+}
+
+//GetClusterName returns ClusterName
+func (m LaunchDbSystemFromBackupDetails) GetClusterName() *string {
+	return m.ClusterName
+}
+
+//GetDataStoragePercentage returns DataStoragePercentage
+func (m LaunchDbSystemFromBackupDetails) GetDataStoragePercentage() *int {
+	return m.DataStoragePercentage
 }
 
 //GetInitialDataStorageSizeInGB returns InitialDataStorageSizeInGB
@@ -176,19 +189,14 @@ func (m LaunchDbSystemFromBackupDetails) GetNodeCount() *int {
 	return m.NodeCount
 }
 
-//GetShape returns Shape
-func (m LaunchDbSystemFromBackupDetails) GetShape() *string {
-	return m.Shape
+//GetFreeformTags returns FreeformTags
+func (m LaunchDbSystemFromBackupDetails) GetFreeformTags() map[string]string {
+	return m.FreeformTags
 }
 
-//GetSshPublicKeys returns SshPublicKeys
-func (m LaunchDbSystemFromBackupDetails) GetSshPublicKeys() []string {
-	return m.SshPublicKeys
-}
-
-//GetSubnetId returns SubnetId
-func (m LaunchDbSystemFromBackupDetails) GetSubnetId() *string {
-	return m.SubnetId
+//GetDefinedTags returns DefinedTags
+func (m LaunchDbSystemFromBackupDetails) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m LaunchDbSystemFromBackupDetails) String() string {
