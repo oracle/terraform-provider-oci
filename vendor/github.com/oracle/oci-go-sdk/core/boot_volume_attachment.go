@@ -44,6 +44,9 @@ type BootVolumeAttachment struct {
 	// Avoid entering confidential information.
 	// Example: `My boot volume`
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Whether the enable encryption in transit for the PV volume attachment is on or not.
+	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 }
 
 func (m BootVolumeAttachment) String() string {

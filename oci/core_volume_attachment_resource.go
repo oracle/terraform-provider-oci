@@ -53,6 +53,12 @@ func VolumeAttachmentResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_pv_encryption_in_transit_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"is_read_only": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -263,6 +269,10 @@ func (s *VolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("instance_id", *v.InstanceId)
 		}
 
+		if v.IsPvEncryptionInTransitEnabled != nil {
+			s.D.Set("is_pv_encryption_in_transit_enabled", *v.IsPvEncryptionInTransitEnabled)
+		}
+
 		if v.IsReadOnly != nil {
 			s.D.Set("is_read_only", *v.IsReadOnly)
 		}
@@ -297,6 +307,10 @@ func (s *VolumeAttachmentResourceCrud) SetData() error {
 
 		if v.InstanceId != nil {
 			s.D.Set("instance_id", *v.InstanceId)
+		}
+
+		if v.IsPvEncryptionInTransitEnabled != nil {
+			s.D.Set("is_pv_encryption_in_transit_enabled", *v.IsPvEncryptionInTransitEnabled)
 		}
 
 		if v.IsReadOnly != nil {
@@ -361,6 +375,10 @@ func (s *VolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolumeRe
 		if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
 			tmp := instanceId.(string)
 			details.InstanceId = &tmp
+		}
+		if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists("is_pv_encryption_in_transit_enabled"); ok {
+			tmp := isPvEncryptionInTransitEnabled.(bool)
+			details.IsPvEncryptionInTransitEnabled = &tmp
 		}
 		if isReadOnly, ok := s.D.GetOkExists("is_read_only"); ok {
 			tmp := isReadOnly.(bool)

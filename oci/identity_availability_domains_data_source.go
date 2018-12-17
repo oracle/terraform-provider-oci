@@ -32,6 +32,10 @@ func AvailabilityDomainsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -91,6 +95,10 @@ func (s *AvailabilityDomainsDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		availabilityDomain := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
+		}
+
+		if r.Id != nil {
+			availabilityDomain["id"] = *r.Id
 		}
 
 		if r.Name != nil {

@@ -181,7 +181,6 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckNoResourceAttr(datasourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.availability_domain"),
@@ -190,7 +189,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.size_in_gbs", "i	51"),
+					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.size_in_gbs", "51"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.size_in_mbs"),
 					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.source_details.0.id"),
@@ -208,7 +207,6 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 					resource.TestCheckNoResourceAttr(singularDatasourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "volume_group_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

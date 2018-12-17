@@ -1,9 +1,10 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Public DNS Service
+// DNS API
 //
-// API for managing DNS zones, records, and policies.
+// API for the DNS service. Use this API to manage DNS zones, records, and other DNS resources.
+// For more information, see Overview of the DNS Service (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
 //
 
 package dns
@@ -19,7 +20,9 @@ type RecordDetails struct {
 	Domain *string `mandatory:"true" json:"domain"`
 
 	// The record's data, as whitespace-delimited tokens in
-	// type-specific presentation format.
+	// type-specific presentation format. All RDATA is normalized and the
+	// returned presentation of your RDATA may differ from its initial input.
+	// For more information about RDATA, see Supported DNS Resource Record Types (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/DNS/Reference/supporteddnsresource.htm)
 	Rdata *string `mandatory:"true" json:"rdata"`
 
 	// The canonical name for the record's type, such as A or CNAME. For more

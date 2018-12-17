@@ -73,6 +73,10 @@ type Saml2IdentityProvider struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Extra name value pairs associated with this identity provider.
+	// Example: `{"clientId": "app_sf3kdjf3"}`
+	FreeformAttributes map[string]string `mandatory:"false" json:"freeformAttributes"`
+
 	// The current state. After creating an `IdentityProvider`, make sure its
 	// `lifecycleState` changes from CREATING to ACTIVE before using it.
 	LifecycleState IdentityProviderLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`

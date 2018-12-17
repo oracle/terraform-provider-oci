@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 3.3.0 - 2018-12-13
+### Added 
+- Support for Data Guard for VM shapes in the Database service
+- Support for sparse disk groups for Exadata shapes in the Database service
+- Support for a new field, isLatestForMajorVersion, when listing DB versions in the Database service
+- Support for in-transit encryption for paravirtualized boot volume and data volume attachments in the Block Storage service
+- Support for tagging DNS Zones in the DNS service
+- Support for resetting credentials for SCIM clients associated with an Identity provider and updating user capabilities in the Identity service
+
 ## 3.2.0 - 2018-11-29
 ### Added 
 - Support for getting bucket statistics in the Object Storage service

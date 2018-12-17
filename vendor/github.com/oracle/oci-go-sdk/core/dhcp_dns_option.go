@@ -19,7 +19,7 @@ import (
 type DhcpDnsOption struct {
 
 	// If you set `serverType` to `CustomDnsServer`, specify the
-	// IP address of at least one DNS server of your choice (three maximum). gd
+	// IP address of at least one DNS server of your choice (three maximum).
 	CustomDnsServers []string `mandatory:"false" json:"customDnsServers"`
 
 	// * **VcnLocal:** Reserved for future use.

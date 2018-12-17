@@ -12,17 +12,17 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// PatchHistoryEntry The record of a patch action on a specified target.
+// PatchHistoryEntry The representation of PatchHistoryEntry
 type PatchHistoryEntry struct {
 
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch history entry.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The current state of the action.
-	LifecycleState PatchHistoryEntryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
-
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch.
 	PatchId *string `mandatory:"true" json:"patchId"`
+
+	// The current state of the action.
+	LifecycleState PatchHistoryEntryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The date and time when the patch action started.
 	TimeStarted *common.SDKTime `mandatory:"true" json:"timeStarted"`

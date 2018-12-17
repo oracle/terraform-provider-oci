@@ -36,6 +36,10 @@ type UpdateSaml2IdentityProviderDetails struct {
 
 	// The XML that contains the information required for federating.
 	Metadata *string `mandatory:"false" json:"metadata"`
+
+	// Extra name value pairs associated with this identity provider.
+	// Example: `{"clientId": "app_sf3kdjf3"}`
+	FreeformAttributes map[string]string `mandatory:"false" json:"freeformAttributes"`
 }
 
 //GetDescription returns Description

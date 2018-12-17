@@ -12,20 +12,17 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// DataGuardAssociation The properties that define a Data Guard association.
-// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an
-// administrator. If you're an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
-// For information about endpoints and signing API requests, see
-// About the API (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/usingapi.htm). For information about available SDKs and tools, see
-// SDKS and Other Tools (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/sdks.htm).
+// DataGuardAssociation The representation of DataGuardAssociation
 type DataGuardAssociation struct {
+
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Data Guard association.
+	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the reporting database.
 	DatabaseId *string `mandatory:"true" json:"databaseId"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Data Guard association.
-	Id *string `mandatory:"true" json:"id"`
+	// The role of the reporting database in this Data Guard association.
+	Role DataGuardAssociationRoleEnum `mandatory:"true" json:"role"`
 
 	// The current state of the Data Guard association.
 	LifecycleState DataGuardAssociationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -42,8 +39,17 @@ type DataGuardAssociation struct {
 	// in the Oracle Data Guard documentation.
 	ProtectionMode DataGuardAssociationProtectionModeEnum `mandatory:"true" json:"protectionMode"`
 
-	// The role of the reporting database in this Data Guard association.
-	Role DataGuardAssociationRoleEnum `mandatory:"true" json:"role"`
+	// Additional information about the current lifecycleState, if available.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database home containing the associated peer database.
+	PeerDbHomeId *string `mandatory:"false" json:"peerDbHomeId"`
+
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the associated peer database.
+	PeerDatabaseId *string `mandatory:"false" json:"peerDatabaseId"`
+
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the peer database's Data Guard association.
+	PeerDataGuardAssociationId *string `mandatory:"false" json:"peerDataGuardAssociationId"`
 
 	// The lag time between updates to the primary database and application of the redo data on the standby database,
 	// as computed by the reporting database.
@@ -54,29 +60,42 @@ type DataGuardAssociation struct {
 	// Example: `180 Mb per second`
 	ApplyRate *string `mandatory:"false" json:"applyRate"`
 
-	// Additional information about the current lifecycleState, if available.
-	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
-
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the peer database's Data Guard association.
-	PeerDataGuardAssociationId *string `mandatory:"false" json:"peerDataGuardAssociationId"`
-
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the associated peer database.
-	PeerDatabaseId *string `mandatory:"false" json:"peerDatabaseId"`
-
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database home containing the associated peer database.
-	PeerDbHomeId *string `mandatory:"false" json:"peerDbHomeId"`
-
-	// The date and time the Data Guard Association was created.
-	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
-
 	// The redo transport type used by this Data Guard association.  For more information, see
 	// Redo Transport Services (http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400)
 	// in the Oracle Data Guard documentation.
 	TransportType DataGuardAssociationTransportTypeEnum `mandatory:"false" json:"transportType,omitempty"`
+
+	// The date and time the Data Guard association was created.
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }
 
 func (m DataGuardAssociation) String() string {
 	return common.PointerString(m)
+}
+
+// DataGuardAssociationRoleEnum Enum with underlying type: string
+type DataGuardAssociationRoleEnum string
+
+// Set of constants representing the allowable values for DataGuardAssociationRoleEnum
+const (
+	DataGuardAssociationRolePrimary         DataGuardAssociationRoleEnum = "PRIMARY"
+	DataGuardAssociationRoleStandby         DataGuardAssociationRoleEnum = "STANDBY"
+	DataGuardAssociationRoleDisabledStandby DataGuardAssociationRoleEnum = "DISABLED_STANDBY"
+)
+
+var mappingDataGuardAssociationRole = map[string]DataGuardAssociationRoleEnum{
+	"PRIMARY":          DataGuardAssociationRolePrimary,
+	"STANDBY":          DataGuardAssociationRoleStandby,
+	"DISABLED_STANDBY": DataGuardAssociationRoleDisabledStandby,
+}
+
+// GetDataGuardAssociationRoleEnumValues Enumerates the set of values for DataGuardAssociationRoleEnum
+func GetDataGuardAssociationRoleEnumValues() []DataGuardAssociationRoleEnum {
+	values := make([]DataGuardAssociationRoleEnum, 0)
+	for _, v := range mappingDataGuardAssociationRole {
+		values = append(values, v)
+	}
+	return values
 }
 
 // DataGuardAssociationLifecycleStateEnum Enum with underlying type: string
@@ -155,31 +174,6 @@ var mappingDataGuardAssociationProtectionMode = map[string]DataGuardAssociationP
 func GetDataGuardAssociationProtectionModeEnumValues() []DataGuardAssociationProtectionModeEnum {
 	values := make([]DataGuardAssociationProtectionModeEnum, 0)
 	for _, v := range mappingDataGuardAssociationProtectionMode {
-		values = append(values, v)
-	}
-	return values
-}
-
-// DataGuardAssociationRoleEnum Enum with underlying type: string
-type DataGuardAssociationRoleEnum string
-
-// Set of constants representing the allowable values for DataGuardAssociationRoleEnum
-const (
-	DataGuardAssociationRolePrimary         DataGuardAssociationRoleEnum = "PRIMARY"
-	DataGuardAssociationRoleStandby         DataGuardAssociationRoleEnum = "STANDBY"
-	DataGuardAssociationRoleDisabledStandby DataGuardAssociationRoleEnum = "DISABLED_STANDBY"
-)
-
-var mappingDataGuardAssociationRole = map[string]DataGuardAssociationRoleEnum{
-	"PRIMARY":          DataGuardAssociationRolePrimary,
-	"STANDBY":          DataGuardAssociationRoleStandby,
-	"DISABLED_STANDBY": DataGuardAssociationRoleDisabledStandby,
-}
-
-// GetDataGuardAssociationRoleEnumValues Enumerates the set of values for DataGuardAssociationRoleEnum
-func GetDataGuardAssociationRoleEnumValues() []DataGuardAssociationRoleEnum {
-	values := make([]DataGuardAssociationRoleEnum, 0)
-	for _, v := range mappingDataGuardAssociationRole {
 		values = append(values, v)
 	}
 	return values

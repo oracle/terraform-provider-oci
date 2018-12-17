@@ -8,6 +8,22 @@ resource "oci_identity_user" "user1" {
   compartment_id = "${var.tenancy_ocid}"
 }
 
+// Use the "user2" to have non-default values of capabilities without corresponding authentication resources being actually created
+resource "oci_identity_user" "user2" {
+  name           = "tf-example-user2"
+  description    = "user2 created by terraform"
+  compartment_id = "${var.tenancy_ocid}"
+}
+
+resource "oci_identity_user_capabilities_management" "user2-capabilities-management" {
+  user_id                      = "${oci_identity_user.user2.id}"
+  can_use_api_keys             = "false"
+  can_use_auth_tokens          = "false"
+  can_use_console_password     = "false"
+  can_use_customer_secret_keys = "false"
+  can_use_smtp_credentials     = "false"
+}
+
 data "oci_identity_users" "users1" {
   compartment_id = "${oci_identity_user.user1.compartment_id}"
 
@@ -17,8 +33,21 @@ data "oci_identity_users" "users1" {
   }
 }
 
+data "oci_identity_users" "users2" {
+  compartment_id = "${oci_identity_user.user1.compartment_id}"
+
+  filter {
+    name   = "id"
+    values = ["${oci_identity_user.user2.id}"]
+  }
+}
+
 output "users1" {
   value = "${data.oci_identity_users.users1.users}"
+}
+
+output "users2" {
+  value = "${data.oci_identity_users.users2.users}"
 }
 
 resource "oci_identity_ui_password" "password1" {

@@ -21,11 +21,14 @@ import (
 // SDKS and Other Tools (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/sdks.htm).
 type DataGuardAssociationSummary struct {
 
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Data Guard association.
+	Id *string `mandatory:"true" json:"id"`
+
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the reporting database.
 	DatabaseId *string `mandatory:"true" json:"databaseId"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Data Guard association.
-	Id *string `mandatory:"true" json:"id"`
+	// The role of the reporting database in this Data Guard association.
+	Role DataGuardAssociationSummaryRoleEnum `mandatory:"true" json:"role"`
 
 	// The current state of the Data Guard association.
 	LifecycleState DataGuardAssociationSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -42,8 +45,17 @@ type DataGuardAssociationSummary struct {
 	// in the Oracle Data Guard documentation.
 	ProtectionMode DataGuardAssociationSummaryProtectionModeEnum `mandatory:"true" json:"protectionMode"`
 
-	// The role of the reporting database in this Data Guard association.
-	Role DataGuardAssociationSummaryRoleEnum `mandatory:"true" json:"role"`
+	// Additional information about the current lifecycleState, if available.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database home containing the associated peer database.
+	PeerDbHomeId *string `mandatory:"false" json:"peerDbHomeId"`
+
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the associated peer database.
+	PeerDatabaseId *string `mandatory:"false" json:"peerDatabaseId"`
+
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the peer database's Data Guard association.
+	PeerDataGuardAssociationId *string `mandatory:"false" json:"peerDataGuardAssociationId"`
 
 	// The lag time between updates to the primary database and application of the redo data on the standby database,
 	// as computed by the reporting database.
@@ -54,29 +66,42 @@ type DataGuardAssociationSummary struct {
 	// Example: `180 Mb per second`
 	ApplyRate *string `mandatory:"false" json:"applyRate"`
 
-	// Additional information about the current lifecycleState, if available.
-	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
-
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the peer database's Data Guard association.
-	PeerDataGuardAssociationId *string `mandatory:"false" json:"peerDataGuardAssociationId"`
-
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the associated peer database.
-	PeerDatabaseId *string `mandatory:"false" json:"peerDatabaseId"`
-
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database home containing the associated peer database.
-	PeerDbHomeId *string `mandatory:"false" json:"peerDbHomeId"`
-
-	// The date and time the Data Guard Association was created.
-	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
-
 	// The redo transport type used by this Data Guard association.  For more information, see
 	// Redo Transport Services (http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400)
 	// in the Oracle Data Guard documentation.
 	TransportType DataGuardAssociationSummaryTransportTypeEnum `mandatory:"false" json:"transportType,omitempty"`
+
+	// The date and time the Data Guard association was created.
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }
 
 func (m DataGuardAssociationSummary) String() string {
 	return common.PointerString(m)
+}
+
+// DataGuardAssociationSummaryRoleEnum Enum with underlying type: string
+type DataGuardAssociationSummaryRoleEnum string
+
+// Set of constants representing the allowable values for DataGuardAssociationSummaryRoleEnum
+const (
+	DataGuardAssociationSummaryRolePrimary         DataGuardAssociationSummaryRoleEnum = "PRIMARY"
+	DataGuardAssociationSummaryRoleStandby         DataGuardAssociationSummaryRoleEnum = "STANDBY"
+	DataGuardAssociationSummaryRoleDisabledStandby DataGuardAssociationSummaryRoleEnum = "DISABLED_STANDBY"
+)
+
+var mappingDataGuardAssociationSummaryRole = map[string]DataGuardAssociationSummaryRoleEnum{
+	"PRIMARY":          DataGuardAssociationSummaryRolePrimary,
+	"STANDBY":          DataGuardAssociationSummaryRoleStandby,
+	"DISABLED_STANDBY": DataGuardAssociationSummaryRoleDisabledStandby,
+}
+
+// GetDataGuardAssociationSummaryRoleEnumValues Enumerates the set of values for DataGuardAssociationSummaryRoleEnum
+func GetDataGuardAssociationSummaryRoleEnumValues() []DataGuardAssociationSummaryRoleEnum {
+	values := make([]DataGuardAssociationSummaryRoleEnum, 0)
+	for _, v := range mappingDataGuardAssociationSummaryRole {
+		values = append(values, v)
+	}
+	return values
 }
 
 // DataGuardAssociationSummaryLifecycleStateEnum Enum with underlying type: string
@@ -155,31 +180,6 @@ var mappingDataGuardAssociationSummaryProtectionMode = map[string]DataGuardAssoc
 func GetDataGuardAssociationSummaryProtectionModeEnumValues() []DataGuardAssociationSummaryProtectionModeEnum {
 	values := make([]DataGuardAssociationSummaryProtectionModeEnum, 0)
 	for _, v := range mappingDataGuardAssociationSummaryProtectionMode {
-		values = append(values, v)
-	}
-	return values
-}
-
-// DataGuardAssociationSummaryRoleEnum Enum with underlying type: string
-type DataGuardAssociationSummaryRoleEnum string
-
-// Set of constants representing the allowable values for DataGuardAssociationSummaryRoleEnum
-const (
-	DataGuardAssociationSummaryRolePrimary         DataGuardAssociationSummaryRoleEnum = "PRIMARY"
-	DataGuardAssociationSummaryRoleStandby         DataGuardAssociationSummaryRoleEnum = "STANDBY"
-	DataGuardAssociationSummaryRoleDisabledStandby DataGuardAssociationSummaryRoleEnum = "DISABLED_STANDBY"
-)
-
-var mappingDataGuardAssociationSummaryRole = map[string]DataGuardAssociationSummaryRoleEnum{
-	"PRIMARY":          DataGuardAssociationSummaryRolePrimary,
-	"STANDBY":          DataGuardAssociationSummaryRoleStandby,
-	"DISABLED_STANDBY": DataGuardAssociationSummaryRoleDisabledStandby,
-}
-
-// GetDataGuardAssociationSummaryRoleEnumValues Enumerates the set of values for DataGuardAssociationSummaryRoleEnum
-func GetDataGuardAssociationSummaryRoleEnumValues() []DataGuardAssociationSummaryRoleEnum {
-	values := make([]DataGuardAssociationSummaryRoleEnum, 0)
-	for _, v := range mappingDataGuardAssociationSummaryRole {
 		values = append(values, v)
 	}
 	return values

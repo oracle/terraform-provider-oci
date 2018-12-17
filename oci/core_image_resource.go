@@ -147,6 +147,10 @@ func ImageResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"is_pv_encryption_in_transit_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"network_type": {
 							Type:     schema.TypeString,
 							Computed: true,

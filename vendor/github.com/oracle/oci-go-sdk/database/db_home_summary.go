@@ -21,26 +21,26 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type DbHomeSummary struct {
 
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database home.
+	Id *string `mandatory:"true" json:"id"`
+
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
-	// The Oracle Database version.
-	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
 	// The user-provided name for the database home. The name does not need to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database home.
-	Id *string `mandatory:"true" json:"id"`
-
 	// The current state of the database home.
 	LifecycleState DbHomeSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB system.
-	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
+	// The Oracle Database version.
+	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation is started.
 	LastPatchHistoryEntryId *string `mandatory:"false" json:"lastPatchHistoryEntryId"`
+
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB system.
+	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
 
 	// The date and time the database home was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`

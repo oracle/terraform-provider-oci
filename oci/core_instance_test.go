@@ -50,14 +50,15 @@ var (
 			"nested_object": "{\\\"some_string\\\": \\\"stringB\\\", \\\"object\\\": {\\\"some_string\\\": \\\"stringC\\\"}}",
 			"other_string":  "stringD",
 		}},
-		"fault_domain":   Representation{repType: Optional, create: `FAULT-DOMAIN-2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"hostname_label": Representation{repType: Optional, create: `hostnamelabel`},
-		"image":          Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
-		"ipxe_script":    Representation{repType: Optional, create: `ipxeScript`},
-		"metadata":       Representation{repType: Optional, create: map[string]string{"user_data": "abcd"}, update: map[string]string{"user_data": "abcd", "volatile_data": "stringE"}},
-		"source_details": RepresentationGroup{Optional, instanceSourceDetailsRepresentation},
-		"subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"fault_domain":                        Representation{repType: Optional, create: `FAULT-DOMAIN-2`},
+		"freeform_tags":                       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":                      Representation{repType: Optional, create: `hostnamelabel`},
+		"image":                               Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
+		"ipxe_script":                         Representation{repType: Optional, create: `ipxeScript`},
+		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, create: `false`},
+		"metadata":                            Representation{repType: Optional, create: map[string]string{"user_data": "abcd"}, update: map[string]string{"user_data": "abcd", "volatile_data": "stringE"}},
+		"source_details":                      RepresentationGroup{Optional, instanceSourceDetailsRepresentation},
+		"subnet_id":                           Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	instanceCreateVnicDetailsRepresentation = map[string]interface{}{
 		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
@@ -80,14 +81,24 @@ variable "InstanceImageOCID" {
 	type = "map"
 	default = {
 		// See https://docs.us-phoenix-1.oraclecloud.com/images/
-		// Oracle-provided image "Oracle-Linux-7.4-2018.02.21-1"
-		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaupbfz5f5hdvejulmalhyb6goieolullgkpumorbvxlwkaowglslq"
-		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaajlw3xfie2t5t52uegyhiq2npx7bqyu4uvi2zyu3w3mqayc2bxmaa"
-		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
-		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
+		// Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
+		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
+		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
+		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
+		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
 	}
 }
 
+`
+	InstanceWithPVEncryptionInTransitEnabled = `
+resource "oci_core_instance" "test_instance" {
+	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
+	image = "${var.InstanceImageOCID[var.region]}"
+	is_pv_encryption_in_transit_enabled = "true"
+	shape = "VM.Standard2.1"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
+}
 `
 	InstanceResourceDependencies = SubnetResourceConfig + InstanceCommonVariables
 )
@@ -138,6 +149,27 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependencies,
 			},
+			// verify create with is_pv_encryption_in_transit_enabled = true
+			{
+				Config: config + compartmentIdVariableStr + InstanceResourceDependencies + InstanceWithPVEncryptionInTransitEnabled,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "true"),
+					resource.TestCheckResourceAttrSet(resourceName, "region"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependencies +
@@ -163,6 +195,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "image"),
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "region"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
@@ -206,6 +239,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "image"),
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "region"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
@@ -305,6 +339,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					// by GetInstance calls. Remove this when the issue is resolved.
 					"extended_metadata",
 					"hostname_label",
+					"is_pv_encryption_in_transit_enabled",
 					"subnet_id",
 					"source_details.0.kms_key_id", //TODO: Service is not returning this value, remove when the service returns it. COM-26394
 				},

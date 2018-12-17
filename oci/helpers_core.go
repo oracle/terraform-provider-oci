@@ -50,6 +50,10 @@ func LaunchOptionsToMap(obj *oci_core.LaunchOptions) map[string]interface{} {
 
 	result["remote_data_volume_type"] = string(obj.RemoteDataVolumeType)
 
+	if obj.IsPvEncryptionInTransitEnabled != nil {
+		result["is_pv_encryption_in_transit_enabled"] = bool(*obj.IsPvEncryptionInTransitEnabled)
+	}
+
 	return result
 }
 

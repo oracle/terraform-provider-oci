@@ -18,11 +18,11 @@ type RestoreDatabaseDetails struct {
 	// Restores using the backup with the System Change Number (SCN) specified.
 	DatabaseSCN *string `mandatory:"false" json:"databaseSCN"`
 
-	// Restores to the last known good state with the least possible data loss.
-	Latest *bool `mandatory:"false" json:"latest"`
-
 	// Restores to the timestamp specified.
 	Timestamp *common.SDKTime `mandatory:"false" json:"timestamp"`
+
+	// Restores to the last known good state with the least possible data loss.
+	Latest *bool `mandatory:"false" json:"latest"`
 }
 
 func (m RestoreDatabaseDetails) String() string {
