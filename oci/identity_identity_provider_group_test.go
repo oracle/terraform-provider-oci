@@ -19,6 +19,11 @@ var (
 )
 
 func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
+	metadataFile := getEnvSettingWithBlankDefault("identity_provider_metadata_file")
+	if metadataFile == "" {
+		t.Skip("Skipping generated test for now as it has a dependency on federation metadata file")
+	}
+
 	provider := testAccProvider
 	config := testProviderConfig()
 
