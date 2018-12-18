@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -168,6 +169,36 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 					"ip_address",
 				},
 				ResourceName: resourceName,
+			},
+		},
+	})
+}
+
+func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_file_storage_mount_target.test_mount_target2"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckFileStorageMountTargetDestroy,
+		Steps: []resource.TestStep{
+			// verify resource creation fails for the second mount target with the same ip_address
+			{
+				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", Optional, Create, mountTargetRepresentation) +
+					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", Optional, Create, mountTargetRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
+				),
+				ExpectError: regexp.MustCompile("Resource creation failed"),
 			},
 		},
 	})
