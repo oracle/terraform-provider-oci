@@ -47,11 +47,11 @@ func (s *DatabaseDBVersionTestSuite) TestAccDatasourceDatabaseDBVersion_basic() 
 				Config: s.Config + `
 					data "oci_database_db_versions" "t" {
 						compartment_id = "${var.compartment_id}"
-						db_system_shape = "BM.DenseIO1.36"
+						db_system_shape = "BM.DenseIO2.52"
 					}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "db_versions.#"),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_system_shape", "BM.DenseIO1.36"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_system_shape", "BM.DenseIO2.52"),
 				),
 			},
 			// Client-side filtering.
@@ -59,7 +59,7 @@ func (s *DatabaseDBVersionTestSuite) TestAccDatasourceDatabaseDBVersion_basic() 
 				Config: s.Config + `
 					data "oci_database_db_versions" "t" {
 						compartment_id = "${var.compartment_id}"
-						db_system_shape = "BM.DenseIO1.36"
+						db_system_shape = "BM.DenseIO2.52"
 						filter {
 							name = "version"
 							values = ["12\\.\\d+\\.\\d+\\.\\d+"]
@@ -75,7 +75,7 @@ func (s *DatabaseDBVersionTestSuite) TestAccDatasourceDatabaseDBVersion_basic() 
 				Config: s.Config + `
 					data "oci_database_db_versions" "t" {
 						compartment_id = "${var.compartment_id}"
-						db_system_shape = "BM.DenseIO1.36"
+						db_system_shape = "BM.DenseIO2.52"
 						filter {
 							name = "version"
 							values = ["non-existent-version"]
