@@ -24,7 +24,7 @@ resource "oci_database_db_system" "test_db_system" {
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	database_edition = "ENTERPRISE_EDITION"
 	disk_redundancy = "NORMAL"
-	shape = "BM.DenseIO1.36"
+	shape = "BM.DenseIO2.52"
 	cpu_core_count = "2"
 	ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
 	domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
@@ -124,7 +124,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_basi
 					subnet_id = "${oci_core_subnet.t.id}"
 					database_edition = "ENTERPRISE_EDITION"
 					disk_redundancy = "NORMAL"
-					shape = "BM.DenseIO1.36"
+					shape = "BM.DenseIO2.52"
 					cpu_core_count = "2"
 					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
 					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
@@ -149,7 +149,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_basi
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "database_edition", "ENTERPRISE_EDITION"),
 					resource.TestCheckResourceAttr(s.ResourceName, "disk_redundancy", "NORMAL"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shape", "BM.DenseIO1.36"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape", "BM.DenseIO2.52"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpu_core_count", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ssh_public_keys.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ssh_public_keys.0", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
@@ -193,7 +193,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 					//backup_subnet_id = "${oci_core_subnet.t2.id}" // this requires a specific shape
 					database_edition = "ENTERPRISE_EDITION"
 					disk_redundancy = "NORMAL"
-					shape = "BM.DenseIO1.36"
+					shape = "BM.DenseIO2.52"
 					cpu_core_count = "2"
 					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
 					display_name = "{{.token}}"
@@ -267,7 +267,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttr(s.ResourceName, "database_edition", "ENTERPRISE_EDITION"),
 					resource.TestCheckResourceAttr(s.ResourceName, "disk_redundancy", "NORMAL"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shape", "BM.DenseIO1.36"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape", "BM.DenseIO2.52"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cpu_core_count", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ssh_public_keys.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ssh_public_keys.0", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
@@ -299,7 +299,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 					resource.TestCheckResourceAttrSet("data.oci_database_db_systems.t", "db_systems.0.time_created"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.database_edition", "ENTERPRISE_EDITION"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.disk_redundancy", "NORMAL"),
-					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.shape", "BM.DenseIO1.36"),
+					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.shape", "BM.DenseIO2.52"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.cpu_core_count", "2"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.ssh_public_keys.0", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.display_name", s.Token),
