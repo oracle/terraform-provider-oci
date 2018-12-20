@@ -331,7 +331,7 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
   }
 
   load_balancer_id = "${oci_load_balancer.lb1.id}"
-  name             = "example-rule-set-name"
+  name             = "example_rule_set_name"
 }
 
 output "lb_public_ip" {
