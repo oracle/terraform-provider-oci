@@ -55,7 +55,6 @@ func init() {
 	initCorePublicIpSweeper()
 	initCoreRemotePeeringConnectionSweeper()
 	initCoreRouteTableSweeper()
-	initLoadBalancerRuleSetSweeper()
 	initCoreSecurityListSweeper()
 	initEmailSenderSweeper()
 	initCoreServiceGatewaySweeper()
