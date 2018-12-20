@@ -224,6 +224,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					// ResourceData to a state, Terraform strips it (possibly because ResourceData.Set stores it as a byte
 					// array, while the schema expects a string?) Ignore this check as part of import tests for now.
 					"content",
+					"state",
+					"work_request_id",
 				},
 				ResourceName: resourceName,
 			},
@@ -528,6 +530,8 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"source",
+					"state",
+					"work_request_id",
 				},
 				ResourceName: resourceName,
 			},
@@ -767,8 +771,8 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"source_uri_details",
-					"copy_state",
-					"copy_work_request_id",
+					"state",
+					"work_request_id",
 				},
 				ResourceName: resourceNameCopy,
 			},

@@ -252,7 +252,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
 		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
-			if stateful.State() == string(oci_load_balancer.WorkRequestLifecycleStateFailed) {
+			if stateful.State() == FAILED {
 				// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
 				// TODO: automatic retry on WorkRequestFailed
 				sync.VoidState()

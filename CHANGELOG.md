@@ -3,6 +3,9 @@
 ### Changed
 - LoadBalancer BackendSets to have TypeSet for Backends to avoid out of order diffs
 
+### Fixed
+- Regression in handling of failed work-requests to pass the errors to the user and fail the apply
+
 ## 3.11.0 (December 18, 2018)
 
 ### Added
