@@ -811,6 +811,40 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 	})
 }
 
+func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_failedByTimeout() {
+
+	testSteps := []resource.TestStep{
+		// verify create of an instance with source_details and that we can get a boot volume id
+		{
+			Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					source_details {
+						source_type = "image"
+						source_id = "${var.InstanceImageOCID[var.region]}"
+					}
+					shape = "VM.Standard1.8"
+					metadata {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+					}
+					timeouts {
+						create = "15s"
+					}
+				}`,
+			ExpectError: regexp.MustCompile("timeout while waiting for state"),
+		},
+	}
+
+	resource.Test(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps:     testSteps,
+	})
+}
+
 func TestIsStatefulResource(t *testing.T) {
 	var _ StatefulResource = (*InstanceResourceCrud)(nil)
 }
