@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -267,7 +266,10 @@ func testAccCheckCoreVolumeGroupDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreVolumeGroupSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreVolumeGroup", &resource.Sweeper{
 		Name:         "CoreVolumeGroup",
 		Dependencies: DependencyGraph["volumeGroup"],
@@ -276,6 +278,36 @@ func initCoreVolumeGroupSweeper() {
 }
 
 func sweepCoreVolumeGroupResource(compartment string) error {
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	volumeGroupIds, err := getVolumeGroupIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, volumeGroupId := range volumeGroupIds {
+		if ok := SweeperDefaultResourceId[volumeGroupId]; !ok {
+			deleteVolumeGroupRequest := oci_core.DeleteVolumeGroupRequest{}
+
+			deleteVolumeGroupRequest.VolumeGroupId = &volumeGroupId
+
+			deleteVolumeGroupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := blockstorageClient.DeleteVolumeGroup(context.Background(), deleteVolumeGroupRequest)
+			if error != nil {
+				fmt.Printf("Error deleting VolumeGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", volumeGroupId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &volumeGroupId, volumeGroupSweepWaitCondition, time.Duration(3*time.Minute),
+				volumeGroupSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getVolumeGroupIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "VolumeGroupId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
 
@@ -285,39 +317,14 @@ func sweepCoreVolumeGroupResource(compartment string) error {
 	listVolumeGroupsResponse, err := blockstorageClient.ListVolumeGroups(context.Background(), listVolumeGroupsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting VolumeGroup list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting VolumeGroup list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, volumeGroup := range listVolumeGroupsResponse.Items {
-		if volumeGroup.LifecycleState != oci_core.VolumeGroupLifecycleStateTerminated {
-			log.Printf("deleting volumeGroup %s ", *volumeGroup.Id)
-
-			deleteVolumeGroupRequest := oci_core.DeleteVolumeGroupRequest{}
-
-			deleteVolumeGroupRequest.VolumeGroupId = volumeGroup.Id
-
-			deleteVolumeGroupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := blockstorageClient.DeleteVolumeGroup(context.Background(), deleteVolumeGroupRequest)
-			if error != nil {
-				fmt.Printf("Error deleting VolumeGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", *volumeGroup.Id, error)
-				continue
-			}
-
-			getVolumeGroupRequest := oci_core.GetVolumeGroupRequest{}
-
-			getVolumeGroupRequest.VolumeGroupId = volumeGroup.Id
-
-			_, error = blockstorageClient.GetVolumeGroup(context.Background(), getVolumeGroupRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving VolumeGroup state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, volumeGroup.Id, volumeGroupSweepWaitCondition, time.Duration(3*time.Minute),
-				volumeGroupSweepResponseFetchOperation, "core", true)
-		}
+		id := *volumeGroup.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "VolumeGroupId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func volumeGroupSweepWaitCondition(response common.OCIOperationResponse) bool {

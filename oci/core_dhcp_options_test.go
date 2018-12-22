@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -214,7 +213,10 @@ func testAccCheckCoreDhcpOptionsDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreDhcpOptionsSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreDhcpOptions", &resource.Sweeper{
 		Name:         "CoreDhcpOptions",
 		Dependencies: DependencyGraph["dhcpOptions"],
@@ -223,48 +225,63 @@ func initCoreDhcpOptionsSweeper() {
 }
 
 func sweepCoreDhcpOptionsResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	dhcpOptionsIds, err := getDhcpOptionsIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, dhcpOptionsId := range dhcpOptionsIds {
+		if ok := SweeperDefaultResourceId[dhcpOptionsId]; !ok {
+			deleteDhcpOptionsRequest := oci_core.DeleteDhcpOptionsRequest{}
+
+			deleteDhcpOptionsRequest.DhcpId = &dhcpOptionsId
+
+			deleteDhcpOptionsRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteDhcpOptions(context.Background(), deleteDhcpOptionsRequest)
+			if error != nil {
+				fmt.Printf("Error deleting DhcpOptions %s %s, It is possible that the resource is already deleted. Please verify manually \n", dhcpOptionsId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &dhcpOptionsId, dhcpOptionsSweepWaitCondition, time.Duration(3*time.Minute),
+				dhcpOptionsSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getDhcpOptionsIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "DhcpOptionsId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
 	listDhcpOptionsRequest := oci_core.ListDhcpOptionsRequest{}
 	listDhcpOptionsRequest.CompartmentId = &compartmentId
-	listDhcpOptionsRequest.LifecycleState = oci_core.DhcpOptionsLifecycleStateAvailable
-	listDhcpOptionsResponse, err := virtualNetworkClient.ListDhcpOptions(context.Background(), listDhcpOptionsRequest)
 
-	if err != nil {
-		return fmt.Errorf("Error getting DhcpOptions list for compartment id : %s , %s \n", compartmentId, err)
+	vcnIds, error := getVcnIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting vcnId required for DhcpOptions resource requests \n")
 	}
+	for _, vcnId := range vcnIds {
+		listDhcpOptionsRequest.VcnId = &vcnId
 
-	for _, dhcpOptions := range listDhcpOptionsResponse.Items {
-		if dhcpOptions.LifecycleState != oci_core.DhcpOptionsLifecycleStateTerminated {
-			log.Printf("deleting dhcpOptions %s ", *dhcpOptions.Id)
+		listDhcpOptionsRequest.LifecycleState = oci_core.DhcpOptionsLifecycleStateAvailable
+		listDhcpOptionsResponse, err := virtualNetworkClient.ListDhcpOptions(context.Background(), listDhcpOptionsRequest)
 
-			deleteDhcpOptionsRequest := oci_core.DeleteDhcpOptionsRequest{}
-
-			deleteDhcpOptionsRequest.DhcpId = dhcpOptions.Id
-
-			deleteDhcpOptionsRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := virtualNetworkClient.DeleteDhcpOptions(context.Background(), deleteDhcpOptionsRequest)
-			if error != nil {
-				fmt.Printf("Error deleting DhcpOptions %s %s, It is possible that the resource is already deleted. Please verify manually \n", *dhcpOptions.Id, error)
-				continue
-			}
-
-			getDhcpOptionsRequest := oci_core.GetDhcpOptionsRequest{}
-
-			getDhcpOptionsRequest.DhcpId = dhcpOptions.Id
-
-			_, error = virtualNetworkClient.GetDhcpOptions(context.Background(), getDhcpOptionsRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving DhcpOptions state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, dhcpOptions.Id, dhcpOptionsSweepWaitCondition, time.Duration(3*time.Minute),
-				dhcpOptionsSweepResponseFetchOperation, "core", true)
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting DhcpOptions list for compartment id : %s , %s \n", compartmentId, err)
 		}
+		for _, dhcpOptions := range listDhcpOptionsResponse.Items {
+			id := *dhcpOptions.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "DhcpOptionsId", id)
+		}
+
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func dhcpOptionsSweepWaitCondition(response common.OCIOperationResponse) bool {

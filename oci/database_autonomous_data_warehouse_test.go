@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -253,7 +252,10 @@ func testAccCheckDatabaseAutonomousDataWarehouseDestroy(s *terraform.State) erro
 	return nil
 }
 
-func initDatabaseAutonomousDataWarehouseSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("DatabaseAutonomousDataWarehouse", &resource.Sweeper{
 		Name:         "DatabaseAutonomousDataWarehouse",
 		Dependencies: DependencyGraph["autonomousDataWarehouse"],
@@ -262,6 +264,36 @@ func initDatabaseAutonomousDataWarehouseSweeper() {
 }
 
 func sweepDatabaseAutonomousDataWarehouseResource(compartment string) error {
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	autonomousDataWarehouseIds, err := getAutonomousDataWarehouseIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, autonomousDataWarehouseId := range autonomousDataWarehouseIds {
+		if ok := SweeperDefaultResourceId[autonomousDataWarehouseId]; !ok {
+			deleteAutonomousDataWarehouseRequest := oci_database.DeleteAutonomousDataWarehouseRequest{}
+
+			deleteAutonomousDataWarehouseRequest.AutonomousDataWarehouseId = &autonomousDataWarehouseId
+
+			deleteAutonomousDataWarehouseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			_, error := databaseClient.DeleteAutonomousDataWarehouse(context.Background(), deleteAutonomousDataWarehouseRequest)
+			if error != nil {
+				fmt.Printf("Error deleting AutonomousDataWarehouse %s %s, It is possible that the resource is already deleted. Please verify manually \n", autonomousDataWarehouseId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &autonomousDataWarehouseId, autonomousDataWarehouseSweepWaitCondition, time.Duration(3*time.Minute),
+				autonomousDataWarehouseSweepResponseFetchOperation, "database", true)
+		}
+	}
+	return nil
+}
+
+func getAutonomousDataWarehouseIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "AutonomousDataWarehouseId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
 
@@ -271,39 +303,14 @@ func sweepDatabaseAutonomousDataWarehouseResource(compartment string) error {
 	listAutonomousDataWarehousesResponse, err := databaseClient.ListAutonomousDataWarehouses(context.Background(), listAutonomousDataWarehousesRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting AutonomousDataWarehouse list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting AutonomousDataWarehouse list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, autonomousDataWarehouse := range listAutonomousDataWarehousesResponse.Items {
-		if autonomousDataWarehouse.LifecycleState != oci_database.AutonomousDataWarehouseSummaryLifecycleStateTerminated {
-			log.Printf("deleting autonomousDataWarehouse %s ", *autonomousDataWarehouse.Id)
-
-			deleteAutonomousDataWarehouseRequest := oci_database.DeleteAutonomousDataWarehouseRequest{}
-
-			deleteAutonomousDataWarehouseRequest.AutonomousDataWarehouseId = autonomousDataWarehouse.Id
-
-			deleteAutonomousDataWarehouseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
-			_, error := databaseClient.DeleteAutonomousDataWarehouse(context.Background(), deleteAutonomousDataWarehouseRequest)
-			if error != nil {
-				fmt.Printf("Error deleting AutonomousDataWarehouse %s %s, It is possible that the resource is already deleted. Please verify manually \n", *autonomousDataWarehouse.Id, error)
-				continue
-			}
-
-			getAutonomousDataWarehouseRequest := oci_database.GetAutonomousDataWarehouseRequest{}
-
-			getAutonomousDataWarehouseRequest.AutonomousDataWarehouseId = autonomousDataWarehouse.Id
-
-			_, error = databaseClient.GetAutonomousDataWarehouse(context.Background(), getAutonomousDataWarehouseRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving AutonomousDataWarehouse state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, autonomousDataWarehouse.Id, autonomousDataWarehouseSweepWaitCondition, time.Duration(3*time.Minute),
-				autonomousDataWarehouseSweepResponseFetchOperation, "database", true)
-		}
+		id := *autonomousDataWarehouse.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "AutonomousDataWarehouseId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func autonomousDataWarehouseSweepWaitCondition(response common.OCIOperationResponse) bool {

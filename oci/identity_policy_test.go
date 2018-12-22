@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -218,4 +220,82 @@ func testAccCheckIdentityPolicyDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("IdentityPolicy", &resource.Sweeper{
+		Name:         "IdentityPolicy",
+		Dependencies: DependencyGraph["policy"],
+		F:            sweepIdentityPolicyResource,
+	})
+}
+
+func sweepIdentityPolicyResource(compartment string) error {
+	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+	policyIds, err := getPolicyIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, policyId := range policyIds {
+		if ok := SweeperDefaultResourceId[policyId]; !ok {
+			deletePolicyRequest := oci_identity.DeletePolicyRequest{}
+
+			deletePolicyRequest.PolicyId = &policyId
+
+			deletePolicyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			_, error := identityClient.DeletePolicy(context.Background(), deletePolicyRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Policy %s %s, It is possible that the resource is already deleted. Please verify manually \n", policyId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &policyId, policySweepWaitCondition, time.Duration(3*time.Minute),
+				policySweepResponseFetchOperation, "identity", true)
+		}
+	}
+	return nil
+}
+
+func getPolicyIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "PolicyId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+
+	listPoliciesRequest := oci_identity.ListPoliciesRequest{}
+	listPoliciesRequest.CompartmentId = &compartmentId
+	listPoliciesResponse, err := identityClient.ListPolicies(context.Background(), listPoliciesRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Policy list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, policy := range listPoliciesResponse.Items {
+		id := *policy.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "PolicyId", id)
+	}
+	return resourceIds, nil
+}
+
+func policySweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if policyResponse, ok := response.Response.(oci_identity.GetPolicyResponse); ok {
+		return policyResponse.LifecycleState == oci_identity.PolicyLifecycleStateDeleted
+	}
+	return false
+}
+
+func policySweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.identityClient.GetPolicy(context.Background(), oci_identity.GetPolicyRequest{
+		PolicyId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

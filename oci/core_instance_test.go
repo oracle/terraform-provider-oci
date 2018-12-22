@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -390,7 +389,10 @@ func testAccCheckCoreInstanceDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreInstanceSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreInstance", &resource.Sweeper{
 		Name:         "CoreInstance",
 		Dependencies: DependencyGraph["instance"],
@@ -399,6 +401,36 @@ func initCoreInstanceSweeper() {
 }
 
 func sweepCoreInstanceResource(compartment string) error {
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	instanceIds, err := getInstanceIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, instanceId := range instanceIds {
+		if ok := SweeperDefaultResourceId[instanceId]; !ok {
+			terminateInstanceRequest := oci_core.TerminateInstanceRequest{}
+
+			terminateInstanceRequest.InstanceId = &instanceId
+
+			terminateInstanceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeClient.TerminateInstance(context.Background(), terminateInstanceRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Instance %s %s, It is possible that the resource is already deleted. Please verify manually \n", instanceId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &instanceId, instanceSweepWaitCondition, time.Duration(3*time.Minute),
+				instanceSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getInstanceIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "InstanceId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
 
@@ -408,39 +440,14 @@ func sweepCoreInstanceResource(compartment string) error {
 	listInstancesResponse, err := computeClient.ListInstances(context.Background(), listInstancesRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting Instance list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting Instance list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, instance := range listInstancesResponse.Items {
-		if instance.LifecycleState != oci_core.InstanceLifecycleStateTerminated {
-			log.Printf("deleting instance %s ", *instance.Id)
-
-			terminateInstanceRequest := oci_core.TerminateInstanceRequest{}
-
-			terminateInstanceRequest.InstanceId = instance.Id
-
-			terminateInstanceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := computeClient.TerminateInstance(context.Background(), terminateInstanceRequest)
-			if error != nil {
-				fmt.Printf("Error deleting Instance %s %s, It is possible that the resource is already deleted. Please verify manually \n", *instance.Id, error)
-				continue
-			}
-
-			getInstanceRequest := oci_core.GetInstanceRequest{}
-
-			getInstanceRequest.InstanceId = instance.Id
-
-			_, error = computeClient.GetInstance(context.Background(), getInstanceRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving Instance state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, instance.Id, instanceSweepWaitCondition, time.Duration(3*time.Minute),
-				instanceSweepResponseFetchOperation, "core", true)
-		}
+		id := *instance.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "InstanceId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func instanceSweepWaitCondition(response common.OCIOperationResponse) bool {

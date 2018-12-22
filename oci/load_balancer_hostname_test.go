@@ -146,15 +146,3 @@ func testAccCheckLoadBalancerHostnameDestroy(s *terraform.State) error {
 
 	return nil
 }
-
-func initLoadBalancerHostnameSweeper() {
-	resource.AddTestSweepers("LoadBalancerHostname", &resource.Sweeper{
-		Name:         "LoadBalancerHostname",
-		Dependencies: DependencyGraph["hostname"],
-		F:            sweepLoadBalancerHostnameResource,
-	})
-}
-
-func sweepLoadBalancerHostnameResource(compartment string) error {
-	return nil
-}

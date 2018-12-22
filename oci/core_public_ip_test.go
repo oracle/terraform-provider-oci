@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -399,7 +398,10 @@ func testAccCheckCorePublicIpDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCorePublicIpSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CorePublicIp", &resource.Sweeper{
 		Name:         "CorePublicIp",
 		Dependencies: DependencyGraph["publicIp"],
@@ -408,6 +410,36 @@ func initCorePublicIpSweeper() {
 }
 
 func sweepCorePublicIpResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	publicIpIds, err := getPublicIpIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, publicIpId := range publicIpIds {
+		if ok := SweeperDefaultResourceId[publicIpId]; !ok {
+			deletePublicIpRequest := oci_core.DeletePublicIpRequest{}
+
+			deletePublicIpRequest.PublicIpId = &publicIpId
+
+			deletePublicIpRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeletePublicIp(context.Background(), deletePublicIpRequest)
+			if error != nil {
+				fmt.Printf("Error deleting PublicIp %s %s, It is possible that the resource is already deleted. Please verify manually \n", publicIpId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &publicIpId, publicIpSweepWaitCondition, time.Duration(3*time.Minute),
+				publicIpSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getPublicIpIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "PublicIpId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
@@ -416,39 +448,14 @@ func sweepCorePublicIpResource(compartment string) error {
 	listPublicIpsResponse, err := virtualNetworkClient.ListPublicIps(context.Background(), listPublicIpsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting PublicIp list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting PublicIp list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, publicIp := range listPublicIpsResponse.Items {
-		if publicIp.LifecycleState != oci_core.PublicIpLifecycleStateTerminated {
-			log.Printf("deleting publicIp %s ", *publicIp.Id)
-
-			deletePublicIpRequest := oci_core.DeletePublicIpRequest{}
-
-			deletePublicIpRequest.PublicIpId = publicIp.Id
-
-			deletePublicIpRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := virtualNetworkClient.DeletePublicIp(context.Background(), deletePublicIpRequest)
-			if error != nil {
-				fmt.Printf("Error deleting PublicIp %s %s, It is possible that the resource is already deleted. Please verify manually \n", *publicIp.Id, error)
-				continue
-			}
-
-			getPublicIpRequest := oci_core.GetPublicIpRequest{}
-
-			getPublicIpRequest.PublicIpId = publicIp.Id
-
-			_, error = virtualNetworkClient.GetPublicIp(context.Background(), getPublicIpRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving PublicIp state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, publicIp.Id, publicIpSweepWaitCondition, time.Duration(3*time.Minute),
-				publicIpSweepResponseFetchOperation, "core", true)
-		}
+		id := *publicIp.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "PublicIpId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func publicIpSweepWaitCondition(response common.OCIOperationResponse) bool {

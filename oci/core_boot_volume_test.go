@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -301,7 +300,10 @@ func bootVolumeWaitCondition(response oci_common.OCIOperationResponse) bool {
 	return false
 }
 
-func initCoreBootVolumeSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreBootVolume", &resource.Sweeper{
 		Name:         "CoreBootVolume",
 		Dependencies: DependencyGraph["bootVolume"],
@@ -310,6 +312,36 @@ func initCoreBootVolumeSweeper() {
 }
 
 func sweepCoreBootVolumeResource(compartment string) error {
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	bootVolumeIds, err := getBootVolumeIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, bootVolumeId := range bootVolumeIds {
+		if ok := SweeperDefaultResourceId[bootVolumeId]; !ok {
+			deleteBootVolumeRequest := oci_core.DeleteBootVolumeRequest{}
+
+			deleteBootVolumeRequest.BootVolumeId = &bootVolumeId
+
+			deleteBootVolumeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := blockstorageClient.DeleteBootVolume(context.Background(), deleteBootVolumeRequest)
+			if error != nil {
+				fmt.Printf("Error deleting BootVolume %s %s, It is possible that the resource is already deleted. Please verify manually \n", bootVolumeId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &bootVolumeId, bootVolumeSweepWaitCondition, time.Duration(3*time.Minute),
+				bootVolumeSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getBootVolumeIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "BootVolumeId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
 
@@ -318,39 +350,14 @@ func sweepCoreBootVolumeResource(compartment string) error {
 	listBootVolumesResponse, err := blockstorageClient.ListBootVolumes(context.Background(), listBootVolumesRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting BootVolume list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting BootVolume list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, bootVolume := range listBootVolumesResponse.Items {
-		if bootVolume.LifecycleState != oci_core.BootVolumeLifecycleStateTerminated {
-			log.Printf("deleting bootVolume %s ", *bootVolume.Id)
-
-			deleteBootVolumeRequest := oci_core.DeleteBootVolumeRequest{}
-
-			deleteBootVolumeRequest.BootVolumeId = bootVolume.Id
-
-			deleteBootVolumeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := blockstorageClient.DeleteBootVolume(context.Background(), deleteBootVolumeRequest)
-			if error != nil {
-				fmt.Printf("Error deleting BootVolume %s %s, It is possible that the resource is already deleted. Please verify manually \n", *bootVolume.Id, error)
-				continue
-			}
-
-			getBootVolumeRequest := oci_core.GetBootVolumeRequest{}
-
-			getBootVolumeRequest.BootVolumeId = bootVolume.Id
-
-			_, error = blockstorageClient.GetBootVolume(context.Background(), getBootVolumeRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving BootVolume state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, bootVolume.Id, bootVolumeSweepWaitCondition, time.Duration(3*time.Minute),
-				bootVolumeSweepResponseFetchOperation, "core", true)
-		}
+		id := *bootVolume.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "BootVolumeId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func bootVolumeSweepWaitCondition(response common.OCIOperationResponse) bool {

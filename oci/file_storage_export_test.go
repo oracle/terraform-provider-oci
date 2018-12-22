@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -211,7 +210,10 @@ func testAccCheckFileStorageExportDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initFileStorageExportSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("FileStorageExport", &resource.Sweeper{
 		Name:         "FileStorageExport",
 		Dependencies: DependencyGraph["export"],
@@ -220,6 +222,36 @@ func initFileStorageExportSweeper() {
 }
 
 func sweepFileStorageExportResource(compartment string) error {
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+	exportIds, err := getExportIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, exportId := range exportIds {
+		if ok := SweeperDefaultResourceId[exportId]; !ok {
+			deleteExportRequest := oci_file_storage.DeleteExportRequest{}
+
+			deleteExportRequest.ExportId = &exportId
+
+			deleteExportRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			_, error := fileStorageClient.DeleteExport(context.Background(), deleteExportRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Export %s %s, It is possible that the resource is already deleted. Please verify manually \n", exportId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &exportId, exportSweepWaitCondition, time.Duration(3*time.Minute),
+				exportSweepResponseFetchOperation, "file_storage", true)
+		}
+	}
+	return nil
+}
+
+func getExportIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "ExportId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
 
@@ -229,39 +261,14 @@ func sweepFileStorageExportResource(compartment string) error {
 	listExportsResponse, err := fileStorageClient.ListExports(context.Background(), listExportsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting Export list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting Export list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, export := range listExportsResponse.Items {
-		if export.LifecycleState != oci_file_storage.ExportSummaryLifecycleStateDeleted {
-			log.Printf("deleting export %s ", *export.Id)
-
-			deleteExportRequest := oci_file_storage.DeleteExportRequest{}
-
-			deleteExportRequest.ExportId = export.Id
-
-			deleteExportRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
-			_, error := fileStorageClient.DeleteExport(context.Background(), deleteExportRequest)
-			if error != nil {
-				fmt.Printf("Error deleting Export %s %s, It is possible that the resource is already deleted. Please verify manually \n", *export.Id, error)
-				continue
-			}
-
-			getExportRequest := oci_file_storage.GetExportRequest{}
-
-			getExportRequest.ExportId = export.Id
-
-			_, error = fileStorageClient.GetExport(context.Background(), getExportRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving Export state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, export.Id, exportSweepWaitCondition, time.Duration(3*time.Minute),
-				exportSweepResponseFetchOperation, "file_storage", true)
-		}
+		id := *export.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "ExportId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func exportSweepWaitCondition(response common.OCIOperationResponse) bool {

@@ -35,11 +35,10 @@ func initDependencyGraph() {
 	DependencyGraph["identityProvider"] = append(DependencyGraph["identityProvider"], "IdentityIdpGroupMapping")
 	DependencyGraph["instance"] = append(DependencyGraph["instance"], "CoreBootVolumeAttachment")
 	DependencyGraph["instance"] = append(DependencyGraph["instance"], "CoreConsoleHistory")
-	DependencyGraph["instance"] = append(DependencyGraph["instance"], "CoreImage")
 	DependencyGraph["instance"] = append(DependencyGraph["instance"], "CoreInstanceConsoleConnection")
-	DependencyGraph["instance"] = append(DependencyGraph["instance"], "CoreVnicAttachment")
 	DependencyGraph["instance"] = append(DependencyGraph["instance"], "CoreVolumeAttachment")
 	DependencyGraph["instanceConfiguration"] = append(DependencyGraph["instanceConfiguration"], "CoreInstancePool")
+	DependencyGraph["internetGateway"] = append(DependencyGraph["internetGateway"], "CoreRouteTable")
 	DependencyGraph["key"] = append(DependencyGraph["key"], "KmsDecryptedData")
 	DependencyGraph["key"] = append(DependencyGraph["key"], "KmsEncryptedData")
 	DependencyGraph["key"] = append(DependencyGraph["key"], "KmsGeneratedKey")
@@ -63,8 +62,6 @@ func initDependencyGraph() {
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreLocalPeeringGateway")
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreSubnet")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "CoreInstance")
-	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "DatabaseDbSystem")
-	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "FileStorageMountTarget")
 	DependencyGraph["tagNamespace"] = append(DependencyGraph["tagNamespace"], "IdentityTag")
 	DependencyGraph["tenancy"] = append(DependencyGraph["tenancy"], "IdentityRegionSubscription")
 	DependencyGraph["user"] = append(DependencyGraph["user"], "IdentityApiKey")
@@ -87,13 +84,5 @@ func initDependencyGraph() {
 	DependencyGraph["vnic"] = append(DependencyGraph["vnic"], "CorePrivateIp")
 	DependencyGraph["volume"] = append(DependencyGraph["volume"], "CoreVolumeAttachment")
 	DependencyGraph["volume"] = append(DependencyGraph["volume"], "CoreVolumeBackup")
-	DependencyGraph["volumeBackup"] = append(DependencyGraph["volumeBackup"], "CoreVolume")
 	DependencyGraph["volumeGroup"] = append(DependencyGraph["volumeGroup"], "CoreVolumeGroupBackup")
-}
-
-func getDependenciesForResource(resourceName string) []string {
-	if DependencyGraph == nil {
-		initDependencyGraph()
-	}
-	return DependencyGraph[resourceName]
 }

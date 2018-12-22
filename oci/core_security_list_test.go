@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -531,7 +530,10 @@ func testAccCheckCoreSecurityListDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreSecurityListSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreSecurityList", &resource.Sweeper{
 		Name:         "CoreSecurityList",
 		Dependencies: DependencyGraph["securityList"],
@@ -540,48 +542,63 @@ func initCoreSecurityListSweeper() {
 }
 
 func sweepCoreSecurityListResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	securityListIds, err := getSecurityListIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, securityListId := range securityListIds {
+		if ok := SweeperDefaultResourceId[securityListId]; !ok {
+			deleteSecurityListRequest := oci_core.DeleteSecurityListRequest{}
+
+			deleteSecurityListRequest.SecurityListId = &securityListId
+
+			deleteSecurityListRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteSecurityList(context.Background(), deleteSecurityListRequest)
+			if error != nil {
+				fmt.Printf("Error deleting SecurityList %s %s, It is possible that the resource is already deleted. Please verify manually \n", securityListId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &securityListId, securityListSweepWaitCondition, time.Duration(3*time.Minute),
+				securityListSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getSecurityListIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "SecurityListId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
 	listSecurityListsRequest := oci_core.ListSecurityListsRequest{}
 	listSecurityListsRequest.CompartmentId = &compartmentId
-	listSecurityListsRequest.LifecycleState = oci_core.SecurityListLifecycleStateAvailable
-	listSecurityListsResponse, err := virtualNetworkClient.ListSecurityLists(context.Background(), listSecurityListsRequest)
 
-	if err != nil {
-		return fmt.Errorf("Error getting SecurityList list for compartment id : %s , %s \n", compartmentId, err)
+	vcnIds, error := getVcnIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting vcnId required for SecurityList resource requests \n")
 	}
+	for _, vcnId := range vcnIds {
+		listSecurityListsRequest.VcnId = &vcnId
 
-	for _, securityList := range listSecurityListsResponse.Items {
-		if securityList.LifecycleState != oci_core.SecurityListLifecycleStateTerminated {
-			log.Printf("deleting securityList %s ", *securityList.Id)
+		listSecurityListsRequest.LifecycleState = oci_core.SecurityListLifecycleStateAvailable
+		listSecurityListsResponse, err := virtualNetworkClient.ListSecurityLists(context.Background(), listSecurityListsRequest)
 
-			deleteSecurityListRequest := oci_core.DeleteSecurityListRequest{}
-
-			deleteSecurityListRequest.SecurityListId = securityList.Id
-
-			deleteSecurityListRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := virtualNetworkClient.DeleteSecurityList(context.Background(), deleteSecurityListRequest)
-			if error != nil {
-				fmt.Printf("Error deleting SecurityList %s %s, It is possible that the resource is already deleted. Please verify manually \n", *securityList.Id, error)
-				continue
-			}
-
-			getSecurityListRequest := oci_core.GetSecurityListRequest{}
-
-			getSecurityListRequest.SecurityListId = securityList.Id
-
-			_, error = virtualNetworkClient.GetSecurityList(context.Background(), getSecurityListRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving SecurityList state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, securityList.Id, securityListSweepWaitCondition, time.Duration(3*time.Minute),
-				securityListSweepResponseFetchOperation, "core", true)
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting SecurityList list for compartment id : %s , %s \n", compartmentId, err)
 		}
+		for _, securityList := range listSecurityListsResponse.Items {
+			id := *securityList.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "SecurityListId", id)
+		}
+
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func securityListSweepWaitCondition(response common.OCIOperationResponse) bool {

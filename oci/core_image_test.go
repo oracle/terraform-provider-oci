@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -215,7 +214,10 @@ func testAccCheckCoreImageDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreImageSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreImage", &resource.Sweeper{
 		Name:         "CoreImage",
 		Dependencies: DependencyGraph["image"],
@@ -224,6 +226,36 @@ func initCoreImageSweeper() {
 }
 
 func sweepCoreImageResource(compartment string) error {
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	imageIds, err := getImageIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, imageId := range imageIds {
+		if ok := SweeperDefaultResourceId[imageId]; !ok {
+			deleteImageRequest := oci_core.DeleteImageRequest{}
+
+			deleteImageRequest.ImageId = &imageId
+
+			deleteImageRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeClient.DeleteImage(context.Background(), deleteImageRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Image %s %s, It is possible that the resource is already deleted. Please verify manually \n", imageId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &imageId, imageSweepWaitCondition, time.Duration(3*time.Minute),
+				imageSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getImageIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "ImageId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
 
@@ -233,39 +265,14 @@ func sweepCoreImageResource(compartment string) error {
 	listImagesResponse, err := computeClient.ListImages(context.Background(), listImagesRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting Image list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting Image list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, image := range listImagesResponse.Items {
-		if image.LifecycleState != oci_core.ImageLifecycleStateDeleted {
-			log.Printf("deleting image %s ", *image.Id)
-
-			deleteImageRequest := oci_core.DeleteImageRequest{}
-
-			deleteImageRequest.ImageId = image.Id
-
-			deleteImageRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := computeClient.DeleteImage(context.Background(), deleteImageRequest)
-			if error != nil {
-				fmt.Printf("Error deleting Image %s %s, It is possible that the resource is already deleted. Please verify manually \n", *image.Id, error)
-				continue
-			}
-
-			getImageRequest := oci_core.GetImageRequest{}
-
-			getImageRequest.ImageId = image.Id
-
-			_, error = computeClient.GetImage(context.Background(), getImageRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving Image state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, image.Id, imageSweepWaitCondition, time.Duration(3*time.Minute),
-				imageSweepResponseFetchOperation, "core", true)
-		}
+		id := *image.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "ImageId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func imageSweepWaitCondition(response common.OCIOperationResponse) bool {
