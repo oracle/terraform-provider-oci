@@ -426,15 +426,3 @@ func testAccCheckCoreInstanceConfigurationDestroy(s *terraform.State) error {
 
 	return nil
 }
-
-func initCoreInstanceConfigurationSweeper() {
-	resource.AddTestSweepers("CoreInstanceConfiguration", &resource.Sweeper{
-		Name:         "CoreInstanceConfiguration",
-		Dependencies: DependencyGraph["instanceConfiguration"],
-		F:            sweepCoreInstanceConfigurationResource,
-	})
-}
-
-func sweepCoreInstanceConfigurationResource(compartment string) error {
-	return nil
-}

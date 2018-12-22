@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -192,7 +191,10 @@ func testAccCheckCoreDrgAttachmentDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreDrgAttachmentSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreDrgAttachment", &resource.Sweeper{
 		Name:         "CoreDrgAttachment",
 		Dependencies: DependencyGraph["drgAttachment"],
@@ -201,6 +203,36 @@ func initCoreDrgAttachmentSweeper() {
 }
 
 func sweepCoreDrgAttachmentResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	drgAttachmentIds, err := getDrgAttachmentIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, drgAttachmentId := range drgAttachmentIds {
+		if ok := SweeperDefaultResourceId[drgAttachmentId]; !ok {
+			deleteDrgAttachmentRequest := oci_core.DeleteDrgAttachmentRequest{}
+
+			deleteDrgAttachmentRequest.DrgAttachmentId = &drgAttachmentId
+
+			deleteDrgAttachmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteDrgAttachment(context.Background(), deleteDrgAttachmentRequest)
+			if error != nil {
+				fmt.Printf("Error deleting DrgAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", drgAttachmentId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &drgAttachmentId, drgAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+				drgAttachmentSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getDrgAttachmentIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "DrgAttachmentId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
@@ -209,39 +241,14 @@ func sweepCoreDrgAttachmentResource(compartment string) error {
 	listDrgAttachmentsResponse, err := virtualNetworkClient.ListDrgAttachments(context.Background(), listDrgAttachmentsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting DrgAttachment list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting DrgAttachment list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, drgAttachment := range listDrgAttachmentsResponse.Items {
-		if drgAttachment.LifecycleState != oci_core.DrgAttachmentLifecycleStateDetached {
-			log.Printf("deleting drgAttachment %s ", *drgAttachment.Id)
-
-			deleteDrgAttachmentRequest := oci_core.DeleteDrgAttachmentRequest{}
-
-			deleteDrgAttachmentRequest.DrgAttachmentId = drgAttachment.Id
-
-			deleteDrgAttachmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := virtualNetworkClient.DeleteDrgAttachment(context.Background(), deleteDrgAttachmentRequest)
-			if error != nil {
-				fmt.Printf("Error deleting DrgAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", *drgAttachment.Id, error)
-				continue
-			}
-
-			getDrgAttachmentRequest := oci_core.GetDrgAttachmentRequest{}
-
-			getDrgAttachmentRequest.DrgAttachmentId = drgAttachment.Id
-
-			_, error = virtualNetworkClient.GetDrgAttachment(context.Background(), getDrgAttachmentRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving DrgAttachment state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, drgAttachment.Id, drgAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
-				drgAttachmentSweepResponseFetchOperation, "core", true)
-		}
+		id := *drgAttachment.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "DrgAttachmentId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func drgAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool {

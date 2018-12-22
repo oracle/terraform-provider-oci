@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -236,7 +235,10 @@ func testAccCheckCoreNatGatewayDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreNatGatewaySweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreNatGateway", &resource.Sweeper{
 		Name:         "CoreNatGateway",
 		Dependencies: DependencyGraph["natGateway"],
@@ -245,6 +247,36 @@ func initCoreNatGatewaySweeper() {
 }
 
 func sweepCoreNatGatewayResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	natGatewayIds, err := getNatGatewayIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, natGatewayId := range natGatewayIds {
+		if ok := SweeperDefaultResourceId[natGatewayId]; !ok {
+			deleteNatGatewayRequest := oci_core.DeleteNatGatewayRequest{}
+
+			deleteNatGatewayRequest.NatGatewayId = &natGatewayId
+
+			deleteNatGatewayRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteNatGateway(context.Background(), deleteNatGatewayRequest)
+			if error != nil {
+				fmt.Printf("Error deleting NatGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", natGatewayId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &natGatewayId, natGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+				natGatewaySweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getNatGatewayIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "NatGatewayId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
@@ -254,39 +286,14 @@ func sweepCoreNatGatewayResource(compartment string) error {
 	listNatGatewaysResponse, err := virtualNetworkClient.ListNatGateways(context.Background(), listNatGatewaysRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting NatGateway list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting NatGateway list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, natGateway := range listNatGatewaysResponse.Items {
-		if natGateway.LifecycleState != oci_core.NatGatewayLifecycleStateTerminated {
-			log.Printf("deleting natGateway %s ", *natGateway.Id)
-
-			deleteNatGatewayRequest := oci_core.DeleteNatGatewayRequest{}
-
-			deleteNatGatewayRequest.NatGatewayId = natGateway.Id
-
-			deleteNatGatewayRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := virtualNetworkClient.DeleteNatGateway(context.Background(), deleteNatGatewayRequest)
-			if error != nil {
-				fmt.Printf("Error deleting NatGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", *natGateway.Id, error)
-				continue
-			}
-
-			getNatGatewayRequest := oci_core.GetNatGatewayRequest{}
-
-			getNatGatewayRequest.NatGatewayId = natGateway.Id
-
-			_, error = virtualNetworkClient.GetNatGateway(context.Background(), getNatGatewayRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving NatGateway state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, natGateway.Id, natGatewaySweepWaitCondition, time.Duration(3*time.Minute),
-				natGatewaySweepResponseFetchOperation, "core", true)
-		}
+		id := *natGateway.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "NatGatewayId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func natGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {

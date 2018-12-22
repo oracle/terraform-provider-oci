@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -394,7 +393,10 @@ func testAccCheckCoreRouteTableDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreRouteTableSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreRouteTable", &resource.Sweeper{
 		Name:         "CoreRouteTable",
 		Dependencies: DependencyGraph["routeTable"],
@@ -403,48 +405,63 @@ func initCoreRouteTableSweeper() {
 }
 
 func sweepCoreRouteTableResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	routeTableIds, err := getRouteTableIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, routeTableId := range routeTableIds {
+		if ok := SweeperDefaultResourceId[routeTableId]; !ok {
+			deleteRouteTableRequest := oci_core.DeleteRouteTableRequest{}
+
+			deleteRouteTableRequest.RtId = &routeTableId
+
+			deleteRouteTableRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteRouteTable(context.Background(), deleteRouteTableRequest)
+			if error != nil {
+				fmt.Printf("Error deleting RouteTable %s %s, It is possible that the resource is already deleted. Please verify manually \n", routeTableId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &routeTableId, routeTableSweepWaitCondition, time.Duration(3*time.Minute),
+				routeTableSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getRouteTableIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "RouteTableId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
 	listRouteTablesRequest := oci_core.ListRouteTablesRequest{}
 	listRouteTablesRequest.CompartmentId = &compartmentId
-	listRouteTablesRequest.LifecycleState = oci_core.RouteTableLifecycleStateAvailable
-	listRouteTablesResponse, err := virtualNetworkClient.ListRouteTables(context.Background(), listRouteTablesRequest)
 
-	if err != nil {
-		return fmt.Errorf("Error getting RouteTable list for compartment id : %s , %s \n", compartmentId, err)
+	vcnIds, error := getVcnIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting vcnId required for RouteTable resource requests \n")
 	}
+	for _, vcnId := range vcnIds {
+		listRouteTablesRequest.VcnId = &vcnId
 
-	for _, routeTable := range listRouteTablesResponse.Items {
-		if routeTable.LifecycleState != oci_core.RouteTableLifecycleStateTerminated {
-			log.Printf("deleting routeTable %s ", *routeTable.Id)
+		listRouteTablesRequest.LifecycleState = oci_core.RouteTableLifecycleStateAvailable
+		listRouteTablesResponse, err := virtualNetworkClient.ListRouteTables(context.Background(), listRouteTablesRequest)
 
-			deleteRouteTableRequest := oci_core.DeleteRouteTableRequest{}
-
-			deleteRouteTableRequest.RtId = routeTable.Id
-
-			deleteRouteTableRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := virtualNetworkClient.DeleteRouteTable(context.Background(), deleteRouteTableRequest)
-			if error != nil {
-				fmt.Printf("Error deleting RouteTable %s %s, It is possible that the resource is already deleted. Please verify manually \n", *routeTable.Id, error)
-				continue
-			}
-
-			getRouteTableRequest := oci_core.GetRouteTableRequest{}
-
-			getRouteTableRequest.RtId = routeTable.Id
-
-			_, error = virtualNetworkClient.GetRouteTable(context.Background(), getRouteTableRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving RouteTable state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, routeTable.Id, routeTableSweepWaitCondition, time.Duration(3*time.Minute),
-				routeTableSweepResponseFetchOperation, "core", true)
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting RouteTable list for compartment id : %s , %s \n", compartmentId, err)
 		}
+		for _, routeTable := range listRouteTablesResponse.Items {
+			id := *routeTable.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "RouteTableId", id)
+		}
+
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func routeTableSweepWaitCondition(response common.OCIOperationResponse) bool {

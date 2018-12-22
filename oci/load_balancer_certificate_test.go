@@ -138,15 +138,3 @@ func testAccCheckLoadBalancerCertificateDestroy(s *terraform.State) error {
 
 	return nil
 }
-
-func initLoadBalancerCertificateSweeper() {
-	resource.AddTestSweepers("LoadBalancerCertificate", &resource.Sweeper{
-		Name:         "LoadBalancerCertificate",
-		Dependencies: DependencyGraph["certificate"],
-		F:            sweepLoadBalancerCertificateResource,
-	})
-}
-
-func sweepLoadBalancerCertificateResource(compartment string) error {
-	return nil
-}

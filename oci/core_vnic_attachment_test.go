@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -185,7 +184,10 @@ func testAccCheckCoreVnicAttachmentDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreVnicAttachmentSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreVnicAttachment", &resource.Sweeper{
 		Name:         "CoreVnicAttachment",
 		Dependencies: DependencyGraph["vnicAttachment"],
@@ -194,6 +196,36 @@ func initCoreVnicAttachmentSweeper() {
 }
 
 func sweepCoreVnicAttachmentResource(compartment string) error {
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	vnicAttachmentIds, err := getVnicAttachmentIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, vnicAttachmentId := range vnicAttachmentIds {
+		if ok := SweeperDefaultResourceId[vnicAttachmentId]; !ok {
+			detachVnicRequest := oci_core.DetachVnicRequest{}
+
+			detachVnicRequest.VnicAttachmentId = &vnicAttachmentId
+
+			detachVnicRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeClient.DetachVnic(context.Background(), detachVnicRequest)
+			if error != nil {
+				fmt.Printf("Error deleting VnicAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", vnicAttachmentId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &vnicAttachmentId, vnicAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+				vnicAttachmentSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getVnicAttachmentIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "VnicAttachmentId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
 
@@ -202,39 +234,14 @@ func sweepCoreVnicAttachmentResource(compartment string) error {
 	listVnicAttachmentsResponse, err := computeClient.ListVnicAttachments(context.Background(), listVnicAttachmentsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting VnicAttachment list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting VnicAttachment list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, vnicAttachment := range listVnicAttachmentsResponse.Items {
-		if vnicAttachment.LifecycleState != oci_core.VnicAttachmentLifecycleStateDetached {
-			log.Printf("deleting vnicAttachment %s ", *vnicAttachment.Id)
-
-			detachVnicRequest := oci_core.DetachVnicRequest{}
-
-			detachVnicRequest.VnicAttachmentId = vnicAttachment.Id
-
-			detachVnicRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := computeClient.DetachVnic(context.Background(), detachVnicRequest)
-			if error != nil {
-				fmt.Printf("Error deleting VnicAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", *vnicAttachment.Id, error)
-				continue
-			}
-
-			getVnicAttachmentRequest := oci_core.GetVnicAttachmentRequest{}
-
-			getVnicAttachmentRequest.VnicAttachmentId = vnicAttachment.Id
-
-			_, error = computeClient.GetVnicAttachment(context.Background(), getVnicAttachmentRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving VnicAttachment state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, vnicAttachment.Id, vnicAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
-				vnicAttachmentSweepResponseFetchOperation, "core", true)
-		}
+		id := *vnicAttachment.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "VnicAttachmentId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func vnicAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool {

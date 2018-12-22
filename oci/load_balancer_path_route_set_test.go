@@ -166,15 +166,3 @@ func testAccCheckLoadBalancerPathRouteSetDestroy(s *terraform.State) error {
 
 	return nil
 }
-
-func initLoadBalancerPathRouteSetSweeper() {
-	resource.AddTestSweepers("LoadBalancerPathRouteSet", &resource.Sweeper{
-		Name:         "LoadBalancerPathRouteSet",
-		Dependencies: DependencyGraph["pathRouteSet"],
-		F:            sweepLoadBalancerPathRouteSetResource,
-	})
-}
-
-func sweepLoadBalancerPathRouteSetResource(compartment string) error {
-	return nil
-}

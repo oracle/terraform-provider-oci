@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -254,7 +253,10 @@ func testAccCheckDatabaseAutonomousDatabaseDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initDatabaseAutonomousDatabaseSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("DatabaseAutonomousDatabase", &resource.Sweeper{
 		Name:         "DatabaseAutonomousDatabase",
 		Dependencies: DependencyGraph["autonomousDatabase"],
@@ -263,6 +265,36 @@ func initDatabaseAutonomousDatabaseSweeper() {
 }
 
 func sweepDatabaseAutonomousDatabaseResource(compartment string) error {
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	autonomousDatabaseIds, err := getAutonomousDatabaseIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, autonomousDatabaseId := range autonomousDatabaseIds {
+		if ok := SweeperDefaultResourceId[autonomousDatabaseId]; !ok {
+			deleteAutonomousDatabaseRequest := oci_database.DeleteAutonomousDatabaseRequest{}
+
+			deleteAutonomousDatabaseRequest.AutonomousDatabaseId = &autonomousDatabaseId
+
+			deleteAutonomousDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			_, error := databaseClient.DeleteAutonomousDatabase(context.Background(), deleteAutonomousDatabaseRequest)
+			if error != nil {
+				fmt.Printf("Error deleting AutonomousDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", autonomousDatabaseId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &autonomousDatabaseId, autonomousDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
+				autonomousDatabaseSweepResponseFetchOperation, "database", true)
+		}
+	}
+	return nil
+}
+
+func getAutonomousDatabaseIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "AutonomousDatabaseId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
 
@@ -272,39 +304,14 @@ func sweepDatabaseAutonomousDatabaseResource(compartment string) error {
 	listAutonomousDatabasesResponse, err := databaseClient.ListAutonomousDatabases(context.Background(), listAutonomousDatabasesRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting AutonomousDatabase list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting AutonomousDatabase list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, autonomousDatabase := range listAutonomousDatabasesResponse.Items {
-		if autonomousDatabase.LifecycleState != oci_database.AutonomousDatabaseSummaryLifecycleStateTerminated {
-			log.Printf("deleting autonomousDatabase %s ", *autonomousDatabase.Id)
-
-			deleteAutonomousDatabaseRequest := oci_database.DeleteAutonomousDatabaseRequest{}
-
-			deleteAutonomousDatabaseRequest.AutonomousDatabaseId = autonomousDatabase.Id
-
-			deleteAutonomousDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
-			_, error := databaseClient.DeleteAutonomousDatabase(context.Background(), deleteAutonomousDatabaseRequest)
-			if error != nil {
-				fmt.Printf("Error deleting AutonomousDatabase %s %s, It is possible that the resource is already deleted. Please verify manually \n", *autonomousDatabase.Id, error)
-				continue
-			}
-
-			getAutonomousDatabaseRequest := oci_database.GetAutonomousDatabaseRequest{}
-
-			getAutonomousDatabaseRequest.AutonomousDatabaseId = autonomousDatabase.Id
-
-			_, error = databaseClient.GetAutonomousDatabase(context.Background(), getAutonomousDatabaseRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving AutonomousDatabase state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, autonomousDatabase.Id, autonomousDatabaseSweepWaitCondition, time.Duration(3*time.Minute),
-				autonomousDatabaseSweepResponseFetchOperation, "database", true)
-		}
+		id := *autonomousDatabase.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "AutonomousDatabaseId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func autonomousDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {

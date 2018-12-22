@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -191,7 +190,10 @@ func testAccCheckCoreRemotePeeringConnectionDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreRemotePeeringConnectionSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreRemotePeeringConnection", &resource.Sweeper{
 		Name:         "CoreRemotePeeringConnection",
 		Dependencies: DependencyGraph["remotePeeringConnection"],
@@ -200,6 +202,36 @@ func initCoreRemotePeeringConnectionSweeper() {
 }
 
 func sweepCoreRemotePeeringConnectionResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	remotePeeringConnectionIds, err := getRemotePeeringConnectionIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, remotePeeringConnectionId := range remotePeeringConnectionIds {
+		if ok := SweeperDefaultResourceId[remotePeeringConnectionId]; !ok {
+			deleteRemotePeeringConnectionRequest := oci_core.DeleteRemotePeeringConnectionRequest{}
+
+			deleteRemotePeeringConnectionRequest.RemotePeeringConnectionId = &remotePeeringConnectionId
+
+			deleteRemotePeeringConnectionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteRemotePeeringConnection(context.Background(), deleteRemotePeeringConnectionRequest)
+			if error != nil {
+				fmt.Printf("Error deleting RemotePeeringConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", remotePeeringConnectionId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &remotePeeringConnectionId, remotePeeringConnectionSweepWaitCondition, time.Duration(3*time.Minute),
+				remotePeeringConnectionSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getRemotePeeringConnectionIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "RemotePeeringConnectionId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
@@ -208,39 +240,14 @@ func sweepCoreRemotePeeringConnectionResource(compartment string) error {
 	listRemotePeeringConnectionsResponse, err := virtualNetworkClient.ListRemotePeeringConnections(context.Background(), listRemotePeeringConnectionsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting RemotePeeringConnection list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting RemotePeeringConnection list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, remotePeeringConnection := range listRemotePeeringConnectionsResponse.Items {
-		if remotePeeringConnection.LifecycleState != oci_core.RemotePeeringConnectionLifecycleStateTerminated {
-			log.Printf("deleting remotePeeringConnection %s ", *remotePeeringConnection.Id)
-
-			deleteRemotePeeringConnectionRequest := oci_core.DeleteRemotePeeringConnectionRequest{}
-
-			deleteRemotePeeringConnectionRequest.RemotePeeringConnectionId = remotePeeringConnection.Id
-
-			deleteRemotePeeringConnectionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := virtualNetworkClient.DeleteRemotePeeringConnection(context.Background(), deleteRemotePeeringConnectionRequest)
-			if error != nil {
-				fmt.Printf("Error deleting RemotePeeringConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", *remotePeeringConnection.Id, error)
-				continue
-			}
-
-			getRemotePeeringConnectionRequest := oci_core.GetRemotePeeringConnectionRequest{}
-
-			getRemotePeeringConnectionRequest.RemotePeeringConnectionId = remotePeeringConnection.Id
-
-			_, error = virtualNetworkClient.GetRemotePeeringConnection(context.Background(), getRemotePeeringConnectionRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving RemotePeeringConnection state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, remotePeeringConnection.Id, remotePeeringConnectionSweepWaitCondition, time.Duration(3*time.Minute),
-				remotePeeringConnectionSweepResponseFetchOperation, "core", true)
-		}
+		id := *remotePeeringConnection.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "RemotePeeringConnectionId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func remotePeeringConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {

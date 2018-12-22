@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"regexp"
 	"testing"
 	"time"
@@ -245,7 +244,10 @@ func testAccCheckFileStorageMountTargetDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initFileStorageMountTargetSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("FileStorageMountTarget", &resource.Sweeper{
 		Name:         "FileStorageMountTarget",
 		Dependencies: DependencyGraph["mountTarget"],
@@ -254,6 +256,36 @@ func initFileStorageMountTargetSweeper() {
 }
 
 func sweepFileStorageMountTargetResource(compartment string) error {
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+	mountTargetIds, err := getMountTargetIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, mountTargetId := range mountTargetIds {
+		if ok := SweeperDefaultResourceId[mountTargetId]; !ok {
+			deleteMountTargetRequest := oci_file_storage.DeleteMountTargetRequest{}
+
+			deleteMountTargetRequest.MountTargetId = &mountTargetId
+
+			deleteMountTargetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			_, error := fileStorageClient.DeleteMountTarget(context.Background(), deleteMountTargetRequest)
+			if error != nil {
+				fmt.Printf("Error deleting MountTarget %s %s, It is possible that the resource is already deleted. Please verify manually \n", mountTargetId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &mountTargetId, mountTargetSweepWaitCondition, time.Duration(3*time.Minute),
+				mountTargetSweepResponseFetchOperation, "file_storage", true)
+		}
+	}
+	return nil
+}
+
+func getMountTargetIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "MountTargetId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
 
@@ -263,39 +295,14 @@ func sweepFileStorageMountTargetResource(compartment string) error {
 	listMountTargetsResponse, err := fileStorageClient.ListMountTargets(context.Background(), listMountTargetsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting MountTarget list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting MountTarget list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, mountTarget := range listMountTargetsResponse.Items {
-		if mountTarget.LifecycleState != oci_file_storage.MountTargetSummaryLifecycleStateDeleted {
-			log.Printf("deleting mountTarget %s ", *mountTarget.Id)
-
-			deleteMountTargetRequest := oci_file_storage.DeleteMountTargetRequest{}
-
-			deleteMountTargetRequest.MountTargetId = mountTarget.Id
-
-			deleteMountTargetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
-			_, error := fileStorageClient.DeleteMountTarget(context.Background(), deleteMountTargetRequest)
-			if error != nil {
-				fmt.Printf("Error deleting MountTarget %s %s, It is possible that the resource is already deleted. Please verify manually \n", *mountTarget.Id, error)
-				continue
-			}
-
-			getMountTargetRequest := oci_file_storage.GetMountTargetRequest{}
-
-			getMountTargetRequest.MountTargetId = mountTarget.Id
-
-			_, error = fileStorageClient.GetMountTarget(context.Background(), getMountTargetRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving MountTarget state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, mountTarget.Id, mountTargetSweepWaitCondition, time.Duration(3*time.Minute),
-				mountTargetSweepResponseFetchOperation, "file_storage", true)
-		}
+		id := *mountTarget.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "MountTargetId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func mountTargetSweepWaitCondition(response common.OCIOperationResponse) bool {
