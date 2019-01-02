@@ -167,6 +167,36 @@ func (s *ResourceLoadBalancerListenerTestSuite) TestAccResourceLoadBalancerListe
 					},
 				),
 			},
+			// test remove ssl configuration
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_listener" "t" {
+					load_balancer_id  = "${oci_load_balancer.t.id}"
+					name = "-tf-listener-updated"
+					default_backend_set_name = "${oci_load_balancer_backendset.t.name}"
+					port = 443
+					protocol = "HTTP"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-listener-updated"),
+					resource.TestCheckResourceAttr(s.ResourceName, "default_backend_set_name", "-tf-backend-set"),
+					resource.TestCheckResourceAttr(s.ResourceName, "protocol", "HTTP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "port", "443"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "ssl_configuration.0.certificate_name"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "ssl_configuration.0.verify_depth"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId2 != resId {
+							return fmt.Errorf("resource recreated when it should not have been")
+						}
+						resId = resId2
+						return err
+					},
+				),
+			},
 			// verify resource import
 			{
 				Config: s.Config + `

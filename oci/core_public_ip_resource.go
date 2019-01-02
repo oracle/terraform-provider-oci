@@ -55,7 +55,6 @@ func PublicIpResource() *schema.Resource {
 			"private_ip_id": {
 				Type:     schema.TypeString,
 				Optional: true,
-				// Computed: true, Commented out because we want to allow unsetting the value.
 			},
 
 			// Computed

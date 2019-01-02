@@ -58,8 +58,6 @@ func SecurityListResource() *schema.Resource {
 						"icmp_options": {
 							Type:     schema.TypeList,
 							Optional: true,
-							// @CODEGEN 2/2018: This should not be a computed field as generated, as it breaks how Terraform
-							// considers diffs when the number of icmp_options, tcp_options, and udp_options change.
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -89,8 +87,6 @@ func SecurityListResource() *schema.Resource {
 						"tcp_options": {
 							Type:     schema.TypeList,
 							Optional: true,
-							// @CODEGEN 2/2018: This should not be a computed field as generated, as it breaks how Terraform
-							// considers diffs when the number of icmp_options, tcp_options, and udp_options change.
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -143,8 +139,6 @@ func SecurityListResource() *schema.Resource {
 						"udp_options": {
 							Type:     schema.TypeList,
 							Optional: true,
-							// @CODEGEN 2/2018: This should not be a computed field as generated, as it breaks how Terraform
-							// considers diffs when the number of icmp_options, tcp_options, and udp_options change.
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -215,8 +209,6 @@ func SecurityListResource() *schema.Resource {
 						"icmp_options": {
 							Type:     schema.TypeList,
 							Optional: true,
-							// @CODEGEN 2/2018: This should not be a computed field as generated, as it breaks how Terraform
-							// considers diffs when the number of icmp_options, tcp_options, and udp_options change.
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -255,8 +247,6 @@ func SecurityListResource() *schema.Resource {
 						"tcp_options": {
 							Type:     schema.TypeList,
 							Optional: true,
-							// @CODEGEN 2/2018: This should not be a computed field as generated, as it breaks how Terraform
-							// considers diffs when the number of icmp_options, tcp_options, and udp_options change.
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -305,8 +295,6 @@ func SecurityListResource() *schema.Resource {
 						"udp_options": {
 							Type:     schema.TypeList,
 							Optional: true,
-							// @CODEGEN 2/2018: This should not be a computed field as generated, as it breaks how Terraform
-							// considers diffs when the number of icmp_options, tcp_options, and udp_options change.
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
