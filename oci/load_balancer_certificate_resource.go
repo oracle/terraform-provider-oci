@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"errors"
-	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -231,9 +230,6 @@ func (s *CertificateResourceCrud) Get() error {
 }
 
 func (s *CertificateResourceCrud) Delete() error {
-	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
-		return nil
-	}
 	request := oci_load_balancer.DeleteCertificateRequest{}
 
 	if certificateName, ok := s.D.GetOkExists("certificate_name"); ok {

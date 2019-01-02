@@ -143,11 +143,10 @@ func LoadBalancerResourceID(res interface{}, workReq *oci_load_balancer.WorkRequ
 }
 
 func LoadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) (id string, stillWorking bool, err error) {
-	id = d.Id()
 	// NOTE: if the id is for a work request, refresh its state and loadBalancerID.
-	if strings.HasPrefix(id, "ocid1.loadbalancerworkrequest.") {
+	if wr != nil && wr.Id != nil {
 		getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
-		getWorkRequestRequest.WorkRequestId = &id
+		getWorkRequestRequest.WorkRequestId = wr.Id
 		getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
 		updatedWorkRes, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 		if err != nil {

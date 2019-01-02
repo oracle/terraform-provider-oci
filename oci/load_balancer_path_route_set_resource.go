@@ -317,9 +317,6 @@ func (s *PathRouteSetResourceCrud) Update() error {
 }
 
 func (s *PathRouteSetResourceCrud) Delete() error {
-	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
-		return nil
-	}
 	request := oci_load_balancer.DeletePathRouteSetRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {

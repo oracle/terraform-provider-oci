@@ -4,7 +4,6 @@ package provider
 
 import (
 	"context"
-	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -339,9 +338,6 @@ func (s *LoadBalancerResourceCrud) Update() error {
 }
 
 func (s *LoadBalancerResourceCrud) Delete() error {
-	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
-		return nil
-	}
 	request := oci_load_balancer.DeleteLoadBalancerRequest{}
 
 	tmp := s.D.Id()
