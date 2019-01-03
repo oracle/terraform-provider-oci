@@ -429,23 +429,19 @@ func (s *BackendSetResourceCrud) Update() error {
 		backends = append(backends, BackendToMap(item))
 	}
 
-	// Set the state only if there are backends
-	if backends != nil && len(backends) > 0 {
-		set := schema.NewSet(backendHashCodeForSets, backends)
-
-		interfaces := set.List()
-		tmp := make([]oci_load_balancer.BackendDetails, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := backendHashCodeForSets(interfaces[i])
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backend", stateDataIndex)
-			converted, err := s.mapToBackendDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
+	set := schema.NewSet(backendHashCodeForSets, backends)
+	interfaces := set.List()
+	tmp := make([]oci_load_balancer.BackendDetails, len(interfaces))
+	for i := range interfaces {
+		stateDataIndex := backendHashCodeForSets(interfaces[i])
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backend", stateDataIndex)
+		converted, err := s.mapToBackendDetails(fieldKeyFormat)
+		if err != nil {
+			return err
 		}
-		request.Backends = tmp
+		tmp[i] = converted
 	}
+	request.Backends = tmp
 
 	if backendSetName, ok := s.D.GetOkExists("name"); ok {
 		tmp := backendSetName.(string)
