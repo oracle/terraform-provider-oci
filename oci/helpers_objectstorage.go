@@ -403,6 +403,10 @@ func (s *ObjectResourceCrud) createSourceRegionClient(region string) error {
 		if err != nil {
 			return fmt.Errorf("cannot create client for the source region: %v", err)
 		}
+		err = configureClient(&sourceObjectStorageClient.BaseClient)
+		if err != nil {
+			return fmt.Errorf("cannot configure client for the source region: %v", err)
+		}
 		s.SourceRegionClient = &sourceObjectStorageClient
 	}
 	s.SourceRegionClient.SetRegion(region)
