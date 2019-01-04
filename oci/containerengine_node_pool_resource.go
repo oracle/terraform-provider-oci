@@ -120,19 +120,7 @@ func NodePoolResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"lifecycle_details": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"node_error": {
+						"error": {
 							Type:     schema.TypeList,
 							Computed: true,
 							MaxItems: 1,
@@ -152,12 +140,20 @@ func NodePoolResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"status": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
 								},
 							},
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 						"node_pool_id": {
 							Type:     schema.TypeString,
@@ -558,6 +554,10 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
 	}
 
+	if obj.NodeError != nil {
+		result["error"] = []interface{}{NodeErrorToMap(obj.NodeError)}
+	}
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
@@ -568,10 +568,6 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
-	}
-
-	if obj.NodeError != nil {
-		result["node_error"] = []interface{}{NodeErrorToMap(obj.NodeError)}
 	}
 
 	if obj.NodePoolId != nil {
