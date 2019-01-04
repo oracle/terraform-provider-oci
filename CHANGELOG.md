@@ -1,10 +1,13 @@
-## 3.12.0 (Unreleased)
+## 3.11.1 (Unreleased)
 
 ### Changed
 - LoadBalancer BackendSets to have TypeSet for Backends to avoid out of order diffs
 
 ### Fixed
 - Regression in handling of failed work-requests to pass the errors to the user and fail the apply
+- Removing certificates from load balancer listeners can be done by omitting `ssl_configuration`
+- Load balancer resources that are stuck in failed state during deletion can now be deleted after upgrading
+- Modifying immutable `metadata` fields such as `ssh_authorized_keys` and `user_data` should result in new instances
 
 ## 3.11.0 (December 18, 2018)
 
