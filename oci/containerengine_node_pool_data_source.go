@@ -83,19 +83,7 @@ func NodePoolDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"lifecycle_details": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"node_error": {
+						"error": {
 							Type:     schema.TypeList,
 							Computed: true,
 							MaxItems: 1,
@@ -115,12 +103,20 @@ func NodePoolDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"status": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
 								},
 							},
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 						"node_pool_id": {
 							Type:     schema.TypeString,
