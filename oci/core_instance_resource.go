@@ -205,7 +205,7 @@ func InstanceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 				MaxItems: 1,
-				MinItems: 0,
+				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
