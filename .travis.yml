@@ -4,7 +4,7 @@ services:
 - docker
 language: go
 go:
-- "1.10.x"
+  - "1.11.x"
 
 install:
 # This script is used by the Travis build to install a cookie for
@@ -26,4 +26,6 @@ branches:
 matrix:
   fast_finish: true
   allow_failures:
+env:
+  - GO111MODULE=off
   - go: tip

@@ -429,7 +429,7 @@ func CheckResourceSetContainsElementWithProperties(name, setKey string, properti
 		}
 
 		orderedKeys := []string{}
-		for key, _ := range is.Attributes {
+		for key := range is.Attributes {
 			orderedKeys = append(orderedKeys, key)
 		}
 		sort.Strings(orderedKeys)
