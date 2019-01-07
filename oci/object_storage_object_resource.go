@@ -175,11 +175,13 @@ func ObjectResource() *schema.Resource {
 			},
 
 			// Computed
-			"copy_state": {
+			// @CODEGEN 12/20/2018 - Even though Object resource is not stateful for content and multi-part variations
+			// making those variations stateful to match the logic for copy case to ensure that provider does not fail during state polling due to missing state property
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"copy_work_request_id": {
+			"work_request_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -257,14 +259,18 @@ func (s *ObjectResourceCrud) createMultiPartObject() error {
 	}
 
 	multipartUploadData.ObjectStorageClient = s.Client
-
 	multipartUploadData.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	s.D.Set("work_request_id", "")
+	s.D.Set("state", oci_object_storage.WorkRequestStatusInProgress)
+
 	id, multipartInitErr := MultiPartUpload(multipartUploadData)
 	if multipartInitErr != nil {
 		return multipartInitErr
 	}
 
 	s.D.SetId(id)
+	s.D.Set("state", oci_object_storage.WorkRequestStatusCompleted)
 
 	return s.Get()
 }
@@ -347,9 +353,9 @@ func (s *ObjectResourceCrud) createCopyObject() error {
 	copyObjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	var workRequestId = ""
-	if copyState, ok := s.D.GetOkExists("copy_state"); ok {
-		if copyState == oci_object_storage.WorkRequestStatusInProgress {
-			workRequestIdStateValue := s.D.Get("copy_work_request_id")
+	if state, ok := s.D.GetOkExists("state"); ok {
+		if state == oci_object_storage.WorkRequestStatusInProgress {
+			workRequestIdStateValue := s.D.Get("work_request_id")
 			workRequestId = workRequestIdStateValue.(string)
 		}
 	}
@@ -357,27 +363,35 @@ func (s *ObjectResourceCrud) createCopyObject() error {
 	if workRequestId == "" {
 		copyObjectResponse, err := s.SourceRegionClient.CopyObject(context.Background(), copyObjectRequest)
 		if err != nil {
-			s.D.Set("copy_state", string(oci_object_storage.WorkRequestStatusCanceled))
+			s.D.Set("state", string(oci_object_storage.WorkRequestStatusCanceled))
 			return err
 		}
 		workRequestId = *copyObjectResponse.OpcWorkRequestId
 	}
 
-	s.D.Set("copy_work_request_id", workRequestId)
-	s.D.Set("copy_state", string(oci_object_storage.WorkRequestStatusInProgress))
+	s.D.Set("work_request_id", workRequestId)
+	s.D.Set("state", string(oci_object_storage.WorkRequestStatusInProgress))
+
+	getWorkRequestRequest := oci_object_storage.GetWorkRequestRequest{}
+	getWorkRequestRequest.WorkRequestId = &workRequestId
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	if err != nil {
+		return err
+	}
+	s.WorkRequest = &workRequestResponse.WorkRequest
 
 	copyTimeout := *DefaultTimeout.Create
-	err := copyObjectWaitForWorkRequest(&workRequestId, "object", copyTimeout, s.DisableNotFoundRetries, s.SourceRegionClient)
+	err = copyObjectWaitForWorkRequest(&workRequestId, "object", copyTimeout, s.DisableNotFoundRetries, s.SourceRegionClient)
 
 	if err != nil {
 		// we are not able to verify the state of workRequest
-		s.D.Set("copy_work_request_id", "")
-		s.D.Set("copy_state", string(oci_object_storage.WorkRequestStatusFailed))
+		s.D.Set("state", string(oci_object_storage.WorkRequestStatusFailed))
 		return err
 	}
 
-	s.D.Set("copy_work_request_id", "")
-	s.D.Set("copy_state", string(oci_object_storage.WorkRequestStatusCompleted))
+	s.D.Set("work_request_id", "")
+	s.D.Set("state", string(oci_object_storage.WorkRequestStatusCompleted))
 	id := getId(*copyObjectRequest.DestinationNamespace, *copyObjectRequest.DestinationBucket, *copyObjectRequest.DestinationObjectName)
 	s.D.SetId(id)
 	return s.Get()
@@ -408,13 +422,14 @@ func deleteObject(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-// There's no struct to represent this in SDK, so we define our own.
+// There's no struct to represent this in SDK, so we define our own including a fake LifecycleState
 type ObjectStorageObject struct {
-	namespaceName      string
-	bucketName         string
-	objectName         string
-	headObjectResponse oci_object_storage.HeadObjectResponse
-	objectResponse     oci_object_storage.GetObjectResponse
+	NamespaceName      string
+	BucketName         string
+	ObjectName         string
+	HeadObjectResponse oci_object_storage.HeadObjectResponse
+	ObjectResponse     oci_object_storage.GetObjectResponse
+	LifecycleState     string
 }
 
 type ObjectResourceCrud struct {
@@ -423,6 +438,7 @@ type ObjectResourceCrud struct {
 	SourceRegionClient     *oci_object_storage.ObjectStorageClient
 	Res                    *ObjectStorageObject
 	DisableNotFoundRetries bool
+	WorkRequest            *oci_object_storage.WorkRequest
 }
 
 // @CODEGEN 2/2018: The existing provider returns a custom Id in following format:
@@ -447,7 +463,7 @@ func parseId(id string) (namespaceName string, bucketName string, objectName str
 }
 
 func (s *ObjectResourceCrud) ID() string {
-	return getId(s.Res.namespaceName, s.Res.bucketName, s.Res.objectName)
+	return getId(s.Res.NamespaceName, s.Res.BucketName, s.Res.ObjectName)
 }
 
 func (s *ObjectResourceCrud) Create() error {
@@ -534,6 +550,9 @@ func (s *ObjectResourceCrud) createContentObject() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
+	s.D.Set("work_request_id", "")
+	s.D.Set("state", oci_object_storage.WorkRequestStatusInProgress)
+
 	_, err := s.Client.PutObject(context.Background(), request)
 	if err != nil {
 		return err
@@ -543,7 +562,9 @@ func (s *ObjectResourceCrud) createContentObject() error {
 	s.D.SetId(id)
 
 	// @CODEGEN 2/2018: PutObject() call doesn't return an object. Instead, use existing
-	// Get() implementation to retrieve the state of the object.
+	// Get() implementation to retrieve the state of the object and set its state to completed
+	s.D.Set("state", oci_object_storage.WorkRequestStatusCompleted)
+
 	return s.Get()
 }
 
@@ -572,27 +593,28 @@ func (s *ObjectResourceCrud) getObjectHead() error {
 	}
 
 	s.Res = &ObjectStorageObject{
-		namespaceName:      *headObjectRequest.NamespaceName,
-		bucketName:         *headObjectRequest.BucketName,
-		objectName:         *headObjectRequest.ObjectName,
-		headObjectResponse: headObjectResponse,
+		NamespaceName:      *headObjectRequest.NamespaceName,
+		BucketName:         *headObjectRequest.BucketName,
+		ObjectName:         *headObjectRequest.ObjectName,
+		HeadObjectResponse: headObjectResponse,
+		LifecycleState:     s.D.Get("state").(string),
 	}
 
 	return nil
 }
 
-func (s *ObjectResourceCrud) updateCopyState() (bool, error) {
-	if copyState, ok := s.D.GetOkExists("copy_state"); ok {
-		if copyState == oci_object_storage.WorkRequestStatusInProgress {
+func (s *ObjectResourceCrud) updateState() (bool, error) {
+	if state, ok := s.D.GetOkExists("state"); ok {
+		if state == oci_object_storage.WorkRequestStatusInProgress {
 
-			if copyWRID, ok := s.D.GetOkExists("copy_work_request_id"); ok {
+			if wrid, ok := s.D.GetOkExists("work_request_id"); ok {
 				retryPolicy := getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 				copyTimeout := DefaultTimeout.Create
 				retryPolicy.ShouldRetryOperation = objectStorageWorkRequestShouldRetryFunc(*copyTimeout)
 
 				getWorkRequestRequest := oci_object_storage.GetWorkRequestRequest{}
-				copyWRIDStr := copyWRID.(string)
-				getWorkRequestRequest.WorkRequestId = &copyWRIDStr
+				wridStr := wrid.(string)
+				getWorkRequestRequest.WorkRequestId = &wridStr
 				getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
 
 				if sourceURI, ok := s.D.GetOkExists("source_uri_details"); ok && sourceURI != nil {
@@ -615,18 +637,18 @@ func (s *ObjectResourceCrud) updateCopyState() (bool, error) {
 				}
 
 				wr := &workRequestResponse.WorkRequest
-				s.D.Set("copy_state", string(wr.Status))
+				s.D.Set("state", string(wr.Status))
 
 				if wr.Status == oci_object_storage.WorkRequestStatusInProgress {
 					return false, nil
 				}
 
-				s.D.Set("copy_work_request_id", "")
+				s.D.Set("work_request_id", "")
 				return true, nil
 
 			}
 
-			return false, fmt.Errorf("the state is incorrect. no copy_work_request_id found for the InProgress State")
+			return false, fmt.Errorf("the state is incorrect. no work_request_id found for the InProgress State")
 		}
 
 		return true, nil
@@ -656,7 +678,7 @@ func (s *ObjectResourceCrud) isCopyCreate() bool {
 
 func (s *ObjectResourceCrud) Get() error {
 
-	workRequestFinished, err := s.updateCopyState()
+	workRequestFinished, err := s.updateState()
 	if err != nil {
 		return err
 	}
@@ -701,10 +723,11 @@ func (s *ObjectResourceCrud) getObject() error {
 	// @CODEGEN 2/2018: We must store the response along with the identifiers that aren't
 	// returned in the GetResponse.
 	s.Res = &ObjectStorageObject{
-		objectResponse: response,
-		namespaceName:  *request.NamespaceName,
-		bucketName:     *request.BucketName,
-		objectName:     *request.ObjectName,
+		ObjectResponse: response,
+		NamespaceName:  *request.NamespaceName,
+		BucketName:     *request.BucketName,
+		ObjectName:     *request.ObjectName,
+		LifecycleState: s.D.Get("state").(string),
 	}
 
 	return nil
@@ -768,11 +791,11 @@ func (s *ObjectResourceCrud) SetData() error {
 }
 
 func (s *ObjectResourceCrud) setDataObjectHead() error {
-	s.D.Set("namespace", s.Res.namespaceName)
-	s.D.Set("bucket", s.Res.bucketName)
-	s.D.Set("object", s.Res.objectName)
+	s.D.Set("namespace", s.Res.NamespaceName)
+	s.D.Set("bucket", s.Res.BucketName)
+	s.D.Set("object", s.Res.ObjectName)
 
-	response := s.Res.headObjectResponse
+	response := s.Res.HeadObjectResponse
 
 	if response.ContentEncoding != nil {
 		s.D.Set("content_encoding", *response.ContentEncoding)
@@ -808,11 +831,11 @@ func (s *ObjectResourceCrud) setDataObjectHead() error {
 }
 
 func (s *ObjectResourceCrud) setDataObject() error {
-	s.D.Set("namespace", s.Res.namespaceName)
-	s.D.Set("bucket", s.Res.bucketName)
-	s.D.Set("object", s.Res.objectName)
+	s.D.Set("namespace", s.Res.NamespaceName)
+	s.D.Set("bucket", s.Res.BucketName)
+	s.D.Set("object", s.Res.ObjectName)
 
-	contentReader := s.Res.objectResponse.Content
+	contentReader := s.Res.ObjectResponse.Content
 	contentArray, err := ioutil.ReadAll(contentReader)
 	if err != nil {
 		log.Printf("Unable to read 'content' from response. Error: %q", err)
@@ -820,30 +843,30 @@ func (s *ObjectResourceCrud) setDataObject() error {
 	}
 	s.D.Set("content", contentArray)
 
-	if s.Res.objectResponse.ContentEncoding != nil {
-		s.D.Set("content_encoding", *s.Res.objectResponse.ContentEncoding)
+	if s.Res.ObjectResponse.ContentEncoding != nil {
+		s.D.Set("content_encoding", *s.Res.ObjectResponse.ContentEncoding)
 	}
 
-	if s.Res.objectResponse.ContentLanguage != nil {
-		s.D.Set("content_language", *s.Res.objectResponse.ContentLanguage)
+	if s.Res.ObjectResponse.ContentLanguage != nil {
+		s.D.Set("content_language", *s.Res.ObjectResponse.ContentLanguage)
 	}
 
-	if s.Res.objectResponse.ContentLength != nil {
-		s.D.Set("content_length", strconv.FormatInt(*s.Res.objectResponse.ContentLength, 10))
+	if s.Res.ObjectResponse.ContentLength != nil {
+		s.D.Set("content_length", strconv.FormatInt(*s.Res.ObjectResponse.ContentLength, 10))
 	}
 
-	if s.Res.objectResponse.ContentMd5 != nil {
-		s.D.Set("content_md5", *s.Res.objectResponse.ContentMd5)
+	if s.Res.ObjectResponse.ContentMd5 != nil {
+		s.D.Set("content_md5", *s.Res.ObjectResponse.ContentMd5)
 	}
 
-	if s.Res.objectResponse.ContentType != nil {
-		s.D.Set("content_type", *s.Res.objectResponse.ContentType)
+	if s.Res.ObjectResponse.ContentType != nil {
+		s.D.Set("content_type", *s.Res.ObjectResponse.ContentType)
 	}
 
-	if s.Res.objectResponse.OpcMeta != nil {
+	if s.Res.ObjectResponse.OpcMeta != nil {
 		// Note: regardless of what we sent to the SDK, the keys we get back from OpcMeta will always be
 		// converted to lower case
-		if err := s.D.Set("metadata", s.Res.objectResponse.OpcMeta); err != nil {
+		if err := s.D.Set("metadata", s.Res.ObjectResponse.OpcMeta); err != nil {
 			log.Printf("Unable to set 'metadata'. Error: %q", err)
 		}
 	}

@@ -90,7 +90,6 @@ func ListenerResource() *schema.Resource {
 			"ssl_configuration": {
 				Type:     schema.TypeList,
 				Optional: true,
-				Computed: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -436,9 +435,6 @@ func (s *ListenerResourceCrud) Update() error {
 }
 
 func (s *ListenerResourceCrud) Delete() error {
-	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
-		return nil
-	}
 	request := oci_load_balancer.DeleteListenerRequest{}
 
 	if listenerName, ok := s.D.GetOkExists("name"); ok {

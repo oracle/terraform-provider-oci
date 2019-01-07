@@ -63,7 +63,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "create_image_allowed", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.#", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.boot_volume_type", "ISCSI"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.boot_volume_type", "PARAVIRTUALIZED"),
 					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.firmware", "UEFI_64"),
 					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.network_type", "VFIO"),
 					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),

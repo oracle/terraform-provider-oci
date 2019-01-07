@@ -143,11 +143,10 @@ func LoadBalancerResourceID(res interface{}, workReq *oci_load_balancer.WorkRequ
 }
 
 func LoadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) (id string, stillWorking bool, err error) {
-	id = d.Id()
 	// NOTE: if the id is for a work request, refresh its state and loadBalancerID.
-	if strings.HasPrefix(id, "ocid1.loadbalancerworkrequest.") {
+	if wr != nil && wr.Id != nil {
 		getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
-		getWorkRequestRequest.WorkRequestId = &id
+		getWorkRequestRequest.WorkRequestId = wr.Id
 		getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
 		updatedWorkRes, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest)
 		if err != nil {
@@ -168,7 +167,7 @@ func LoadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *sc
 	return id, false, nil
 }
 
-func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) (e error) {
+func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) error {
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{
 			string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
@@ -189,17 +188,18 @@ func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient
 		Timeout: d.Timeout(schema.TimeoutCreate),
 	}
 
-	if _, e = stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForState(); e != nil {
 		return e
 	}
+
 	if wr.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateFailed {
 		return fmt.Errorf("WorkRequest FAILED: %+v", wr.ErrorDetails)
 	}
 	return nil
 }
 
-func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
-	if e = sync.Create(); e != nil {
+func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) error {
+	if e := sync.Create(); e != nil {
 		return e
 	}
 
@@ -217,11 +217,13 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) (e err
 		}
 	}
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		e = waitForStateRefresh(stateful, timeout, "creation", stateful.CreatedPending(), stateful.CreatedTarget())
+		if e := waitForStateRefresh(stateful, timeout, "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+			return e
+		}
 	}
 
 	d.SetId(sync.ID())
-	if e = sync.SetData(); e != nil {
+	if e := sync.SetData(); e != nil {
 		return e
 	}
 
@@ -232,7 +234,7 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) (e err
 	return nil
 }
 
-func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
+func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
 		if mutex := synchronizedResource.GetMutex(); mutex != nil {
 			mutex.Lock()
@@ -240,7 +242,7 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 		}
 	}
 
-	if e = sync.Create(); e != nil {
+	if e := sync.Create(); e != nil {
 		return e
 	}
 
@@ -248,17 +250,18 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 	d.SetId(sync.ID())
 
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
-		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget())
-		if stateful.State() == string(oci_load_balancer.WorkRequestLifecycleStateFailed) {
-			// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
-			// TODO: automatic retry on WorkRequestFailed
-			sync.VoidState()
-			return nil
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+			if stateful.State() == FAILED {
+				// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
+				// TODO: automatic retry on WorkRequestFailed
+				sync.VoidState()
+			}
+			return e
 		}
 	}
 
 	d.SetId(sync.ID())
-	if e = sync.SetData(); e != nil {
+	if e := sync.SetData(); e != nil {
 		return e
 	}
 
@@ -269,14 +272,14 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) (e error) {
 	return nil
 }
 
-func ReadResource(sync ResourceReader) (e error) {
-	if e = sync.Get(); e != nil {
+func ReadResource(sync ResourceReader) error {
+	if e := sync.Get(); e != nil {
 		log.Printf("ERROR IN GET: %v\n", e.Error())
 		handleMissingResourceError(sync, &e)
 		return e
 	}
 
-	if e = sync.SetData(); e != nil {
+	if e := sync.SetData(); e != nil {
 		return e
 	}
 
@@ -293,7 +296,7 @@ func ReadResource(sync ResourceReader) (e error) {
 	return nil
 }
 
-func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
+func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) error {
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
 		if mutex := synchronizedResource.GetMutex(); mutex != nil {
 			mutex.Lock()
@@ -302,16 +305,18 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
 	}
 
 	d.Partial(true)
-	if e = sync.Update(); e != nil {
+	if e := sync.Update(); e != nil {
 		return e
 	}
 	d.Partial(false)
 
 	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
-		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget())
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+			return e
+		}
 	}
 
-	if e = sync.SetData(); e != nil {
+	if e := sync.SetData(); e != nil {
 		return e
 	}
 
@@ -322,7 +327,7 @@ func UpdateResource(d *schema.ResourceData, sync ResourceUpdater) (e error) {
 // statefully (not immediately), poll State to ensure:
 // () -> Pending -> Deleted.
 // Finally, sets the ResourceData state to empty.
-func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
+func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
 		if mutex := synchronizedResource.GetMutex(); mutex != nil {
 			mutex.Lock()
@@ -330,26 +335,23 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) (e error) {
 		}
 	}
 
-	if e = sync.Delete(); e != nil {
+	if e := sync.Delete(); e != nil {
 		handleMissingResourceError(sync, &e)
 		return e
 	}
 
-	//d.SetId(sync.ID())
 	if stateful, ok := sync.(StatefullyDeletedResource); ok {
-		e = waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), "deletion", stateful.DeletedPending(), stateful.DeletedTarget())
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutDelete), "deletion", stateful.DeletedPending(), stateful.DeletedTarget()); e != nil {
+			handleMissingResourceError(sync, &e)
+			return e
+		}
 	}
 
 	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
 		time.Sleep(ew.ExtraWaitPostCreateDelete())
 	}
 
-	if e == nil {
-		sync.VoidState()
-	} else {
-		handleMissingResourceError(sync, &e)
-		return e
-	}
+	sync.VoidState()
 
 	return nil
 }
@@ -372,7 +374,7 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 //
 // sync.D.Id must be set.
 // It does not set state from that refreshed state.
-func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operationName string, pending, target []string) (e error) {
+func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operationName string, pending, target []string) error {
 	// TODO: try to move this onto sync
 	stateConf := &resource.StateChangeConf{
 		Pending: pending,
@@ -381,10 +383,11 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 		Timeout: timeout,
 	}
 
-	if _, e = stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForState(); e != nil {
 		handleMissingResourceError(sync, &e)
 		return e
 	}
+
 	if sync.State() == FAILED {
 		return fmt.Errorf("Resource %s failed, state FAILED", operationName)
 	}

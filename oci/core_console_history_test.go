@@ -186,3 +186,15 @@ func testAccCheckCoreConsoleHistoryDestroy(s *terraform.State) error {
 
 	return nil
 }
+
+func initCoreConsoleHistorySweeper() {
+	resource.AddTestSweepers("CoreConsoleHistory", &resource.Sweeper{
+		Name:         "CoreConsoleHistory",
+		Dependencies: DependencyGraph["consoleHistory"],
+		F:            sweepCoreConsoleHistoryResource,
+	})
+}
+
+func sweepCoreConsoleHistoryResource(compartment string) error {
+	return nil
+}

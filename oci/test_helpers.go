@@ -202,6 +202,13 @@ func getUpdatedRepresentationCopy(propertyNameStr string, newValue interface{}, 
 	return updateNestedRepresentation(0, propertyNames, newValue, cloneRepresentation(representations))
 }
 
+func getMultipleUpdatedRepresenationCopy(propertyNames []string, newValues []interface{}, representations map[string]interface{}) map[string]interface{} {
+	for i := 0; i < len(propertyNames); i++ {
+		representations = getUpdatedRepresentationCopy(propertyNames[i], newValues[i], representations)
+	}
+	return representations
+}
+
 func updateNestedRepresentation(currIndex int, propertyNames []string, newValue interface{}, representations map[string]interface{}) map[string]interface{} {
 	//recursively search the property to update
 	for prop := range representations {

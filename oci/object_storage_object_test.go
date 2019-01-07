@@ -224,6 +224,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					// ResourceData to a state, Terraform strips it (possibly because ResourceData.Set stores it as a byte
 					// array, while the schema expects a string?) Ignore this check as part of import tests for now.
 					"content",
+					"state",
+					"work_request_id",
 				},
 				ResourceName: resourceName,
 			},
@@ -528,6 +530,8 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"source",
+					"state",
+					"work_request_id",
 				},
 				ResourceName: resourceName,
 			},
@@ -609,7 +613,6 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 	resourceName := "oci_objectstorage_object.test_object"
 	resourceNameCopy := "oci_objectstorage_object.test_object_copy"
 
-	var resId string
 	hexSum := md5.Sum([]byte("content"))
 	md5sum := hex.EncodeToString(hexSum[:])
 
@@ -681,7 +684,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						_, err = fromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
@@ -768,12 +771,24 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"source_uri_details",
-					"copy_state",
-					"copy_work_request_id",
+					"state",
+					"work_request_id",
 				},
 				ResourceName: resourceNameCopy,
 			},
 		},
 	})
 
+}
+
+func initObjectStorageObjectSweeper() {
+	resource.AddTestSweepers("ObjectStorageObject", &resource.Sweeper{
+		Name:         "ObjectStorageObject",
+		Dependencies: DependencyGraph["object"],
+		F:            sweepObjectStorageObjectResource,
+	})
+}
+
+func sweepObjectStorageObjectResource(compartment string) error {
+	return nil
 }

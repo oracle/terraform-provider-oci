@@ -259,9 +259,6 @@ func (s *HostnameResourceCrud) Update() error {
 }
 
 func (s *HostnameResourceCrud) Delete() error {
-	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
-		return nil
-	}
 	request := oci_load_balancer.DeleteHostnameRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {

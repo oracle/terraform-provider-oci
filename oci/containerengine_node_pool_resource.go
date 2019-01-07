@@ -517,20 +517,6 @@ func (s *NodePoolResourceCrud) SetData() error {
 	return nil
 }
 
-func ErrorToMap(obj *oci_containerengine.NodeError) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Code != nil {
-		result["code"] = string(*obj.Code)
-	}
-
-	if obj.Message != nil {
-		result["message"] = string(*obj.Message)
-	}
-
-	return result
-}
-
 func (s *NodePoolResourceCrud) mapToKeyValue(fieldKeyFormat string) (oci_containerengine.KeyValue, error) {
 	result := oci_containerengine.KeyValue{}
 
@@ -569,7 +555,7 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 	}
 
 	if obj.NodeError != nil {
-		result["error"] = []interface{}{ErrorToMap(obj.NodeError)}
+		result["error"] = []interface{}{NodeErrorToMap(obj.NodeError)}
 	}
 
 	if obj.Id != nil {
@@ -596,6 +582,20 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	return result
+}
+
+func NodeErrorToMap(obj *oci_containerengine.NodeError) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Code != nil {
+		result["code"] = string(*obj.Code)
+	}
+
+	if obj.Message != nil {
+		result["message"] = string(*obj.Message)
 	}
 
 	return result

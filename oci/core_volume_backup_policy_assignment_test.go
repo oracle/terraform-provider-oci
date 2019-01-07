@@ -114,3 +114,15 @@ func testAccCheckCoreVolumeBackupPolicyAssignmentDestroy(s *terraform.State) err
 
 	return nil
 }
+
+func initCoreVolumeBackupPolicyAssignmentSweeper() {
+	resource.AddTestSweepers("CoreVolumeBackupPolicyAssignment", &resource.Sweeper{
+		Name:         "CoreVolumeBackupPolicyAssignment",
+		Dependencies: DependencyGraph["volumeBackupPolicyAssignment"],
+		F:            sweepCoreVolumeBackupPolicyAssignmentResource,
+	})
+}
+
+func sweepCoreVolumeBackupPolicyAssignmentResource(compartment string) error {
+	return nil
+}

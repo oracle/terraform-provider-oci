@@ -21,7 +21,7 @@ func BackendSetsDataSource() *schema.Resource {
 			"backendsets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     BackendSetResource(),
+				Elem:     GetDataSourceItemSchema(BackendSetResource()),
 			},
 		},
 	}

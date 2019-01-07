@@ -18,7 +18,7 @@ var (
 		"db_system_id": Representation{repType: Optional, create: `${oci_database_db_system.test_db_system.id}`},
 	})
 	dbVersionDataSourceRepresentationWithDbSystemShapeOptional = representationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
-		"db_system_shape": Representation{repType: Optional, create: `BM.DenseIO1.36`},
+		"db_system_shape": Representation{repType: Optional, create: `BM.DenseIO2.52`},
 	})
 
 	DbVersionResourceConfig = DbSystemResourceConfig
@@ -57,7 +57,7 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName+"_by_db_system_id", "db_versions.0.supports_pdb"),
 					resource.TestCheckResourceAttrSet(datasourceName+"_by_db_system_id", "db_versions.0.version"),
 
-					resource.TestCheckResourceAttr(datasourceName+"_by_db_system_shape", "db_system_shape", "BM.DenseIO1.36"),
+					resource.TestCheckResourceAttr(datasourceName+"_by_db_system_shape", "db_system_shape", "BM.DenseIO2.52"),
 					resource.TestCheckResourceAttrSet(datasourceName+"_by_db_system_shape", "db_versions.#"),
 					resource.TestCheckResourceAttrSet(datasourceName+"_by_db_system_shape", "db_versions.0.is_latest_for_major_version"),
 					resource.TestCheckResourceAttrSet(datasourceName+"_by_db_system_shape", "db_versions.0.supports_pdb"),

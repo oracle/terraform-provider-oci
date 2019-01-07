@@ -18,10 +18,18 @@ func createVolumeInRegion(clients *OracleClients, region string) (string, error)
 	if err != nil {
 		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
+	err = configureClient(&blockStorageClient.BaseClient)
+	if err != nil {
+		return "", fmt.Errorf("cannot configure client for the source region: %v", err)
+	}
 	blockStorageClient.SetRegion(region)
 	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(*clients.identityClient.ConfigurationProvider())
 	if err != nil {
 		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+	}
+	err = configureClient(&identityClient.BaseClient)
+	if err != nil {
+		return "", fmt.Errorf("cannot configure client for the source region: %v", err)
 	}
 	identityClient.SetRegion(region)
 	listAvailabilityDomainsResponse, err := identityClient.ListAvailabilityDomains(context.Background(),
@@ -69,6 +77,10 @@ func createVolumeBackupInRegion(clients *OracleClients, region string, volumeId 
 	if err != nil {
 		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
+	err = configureClient(&blockStorageClient.BaseClient)
+	if err != nil {
+		return "", fmt.Errorf("cannot configure client for the source region: %v", err)
+	}
 	blockStorageClient.SetRegion(region)
 
 	createVolumeBackupResponse, err := blockStorageClient.CreateVolumeBackup(context.Background(), oci_core.CreateVolumeBackupRequest{
@@ -104,6 +116,10 @@ func deleteVolumeInRegion(clients *OracleClients, region string, volumeId string
 	if err != nil {
 		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
+	err = configureClient(&blockStorageClient.BaseClient)
+	if err != nil {
+		return fmt.Errorf("cannot configure client for the source region: %v", err)
+	}
 	blockStorageClient.SetRegion(region)
 
 	if volumeId != "" {
@@ -124,6 +140,10 @@ func deleteVolumeBackupInRegion(clients *OracleClients, region string, volumeBac
 	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient.ConfigurationProvider())
 	if err != nil {
 		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
+	}
+	err = configureClient(&blockStorageClient.BaseClient)
+	if err != nil {
+		return fmt.Errorf("cannot configure client for the source region: %v", err)
 	}
 	blockStorageClient.SetRegion(region)
 

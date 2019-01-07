@@ -184,3 +184,15 @@ func testAccCheckCorePrivateIpDestroy(s *terraform.State) error {
 
 	return nil
 }
+
+func initCorePrivateIpSweeper() {
+	resource.AddTestSweepers("CorePrivateIp", &resource.Sweeper{
+		Name:         "CorePrivateIp",
+		Dependencies: DependencyGraph["privateIp"],
+		F:            sweepCorePrivateIpResource,
+	})
+}
+
+func sweepCorePrivateIpResource(compartment string) error {
+	return nil
+}

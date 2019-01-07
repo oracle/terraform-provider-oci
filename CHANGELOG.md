@@ -1,4 +1,14 @@
-## 3.12.0 (Unreleased)
+## 3.11.1 (Unreleased)
+
+### Changed
+- LoadBalancer BackendSets to have TypeSet for Backends to avoid out of order diffs
+
+### Fixed
+- Regression in handling of failed work-requests to pass the errors to the user and fail the apply
+- Removing certificates from load balancer listeners can be done by omitting `ssl_configuration`
+- Load balancer resources that are stuck in failed state during deletion can now be deleted after upgrading
+- Modifying immutable `metadata` fields such as `ssh_authorized_keys` and `user_data` should result in new instances
+
 ## 3.11.0 (December 18, 2018)
 
 ### Added
@@ -8,7 +18,7 @@
 - Identify latest database version with `oci_databse_db_versions` data source using `is_latest_for_major_version` property
 - Support for importing tag. Note tag uses custom Id(import only) format (tagNamespaces/{tagNamespaceId}/tags/{tagName}) to support import.
 - Support for provisioning user capabilities for native and federation shadow users
-- Support `id` attribute for `oci_identity_availability_domains` 
+- Support `id` attribute for `oci_identity_availability_domains`
 - Support `freeform_attributes` attribute for the `oci_identity_identity_provider`
 - Support for `sparse_diskgroup` for Exadata dbsystem
 

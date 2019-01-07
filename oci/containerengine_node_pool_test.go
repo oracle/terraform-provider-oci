@@ -37,11 +37,11 @@ var (
 	nodePoolRepresentation = map[string]interface{}{
 		"cluster_id":          Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"kubernetes_version":  Representation{repType: Required, create: `v1.10.3`},
+		"kubernetes_version":  Representation{repType: Required, create: `${data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions.0}`},
 		"name":                Representation{repType: Required, create: `name`, update: `name2`},
 		"node_image_name":     Representation{repType: Required, create: `Oracle-Linux-7.4`},
 		"node_shape":          Representation{repType: Required, create: `VM.Standard2.1`},
-		"subnet_ids":          Representation{repType: Required, create: []string{`${oci_core_subnet.lb_test_subnet_1.id}`, `${oci_core_subnet.lb_test_subnet_2.id}`}},
+		"subnet_ids":          Representation{repType: Required, create: []string{`${oci_core_subnet.nodePool_Subnet_1.id}`, `${oci_core_subnet.nodePool_Subnet_2.id}`}},
 		"initial_node_labels": RepresentationGroup{Optional, nodePoolInitialNodeLabelsRepresentation},
 		"quantity_per_subnet": Representation{repType: Optional, create: `1`, update: `2`},
 		"ssh_public_key":      Representation{repType: Optional, create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`},
@@ -51,11 +51,19 @@ var (
 		"value": Representation{repType: Optional, create: `value`, update: `value2`},
 	}
 
+	// @CODEGEN: OKE does not support regional subnets
 	NodePoolResourceDependencies = ClusterRequiredOnlyResource +
-		generateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_1", Required, Create,
-			getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.22.0/24`}, subnetRepresentation)) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_2", Required, Create,
-			getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.23.0/24`}, subnetRepresentation))
+		generateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_1", Optional, Create,
+			getMultipleUpdatedRepresenationCopy(
+				[]string{"cidr_block", "dns_label"},
+				[]interface{}{Representation{repType: Optional, create: `10.0.22.0/24`}, Representation{repType: Optional, create: `nodepool1`}},
+				subnetRepresentation)) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_2", Optional, Create,
+			getMultipleUpdatedRepresenationCopy(
+				[]string{"cidr_block", "dns_label"},
+				[]interface{}{Representation{repType: Optional, create: `10.0.23.0/24`}, Representation{repType: Optional, create: `nodepool2`}},
+				subnetRepresentation)) +
+		generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation)
 )
 
 func TestContainerengineNodePoolResource_basic(t *testing.T) {
@@ -85,7 +93,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "cluster_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.10.3"),
+					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.4"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
@@ -112,7 +120,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key"),
 					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value"),
-					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.10.3"),
+					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.4"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
@@ -137,7 +145,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.key", "key2"),
 					resource.TestCheckResourceAttr(resourceName, "initial_node_labels.0.value", "value2"),
-					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.10.3"),
+					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.4"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
@@ -171,7 +179,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.key", "key2"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.initial_node_labels.0.value", "value2"),
-					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.kubernetes_version", "v1.10.3"),
+					resource.TestCheckResourceAttrSet(datasourceName, "node_pools.0.kubernetes_version"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.name", "name2"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_image_name", "Oracle-Linux-7.4"),
 					resource.TestCheckResourceAttr(datasourceName, "node_pools.0.node_shape", "VM.Standard2.1"),
@@ -190,11 +198,10 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.key", "key2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "initial_node_labels.0.value", "value2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "kubernetes_version", "v1.10.3"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "node_image_name", "Oracle-Linux-7.4"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "node_shape", "VM.Standard2.1"),
@@ -246,5 +253,17 @@ func testAccCheckContainerengineNodePoolDestroy(s *terraform.State) error {
 		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
 	}
 
+	return nil
+}
+
+func initContainerengineNodePoolSweeper() {
+	resource.AddTestSweepers("ContainerengineNodePool", &resource.Sweeper{
+		Name:         "ContainerengineNodePool",
+		Dependencies: DependencyGraph["nodePool"],
+		F:            sweepContainerengineNodePoolResource,
+	})
+}
+
+func sweepContainerengineNodePoolResource(compartment string) error {
 	return nil
 }
