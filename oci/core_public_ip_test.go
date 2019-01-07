@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -394,4 +397,74 @@ func testAccCheckCorePublicIpDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initCorePublicIpSweeper() {
+	resource.AddTestSweepers("CorePublicIp", &resource.Sweeper{
+		Name:         "CorePublicIp",
+		Dependencies: DependencyGraph["publicIp"],
+		F:            sweepCorePublicIpResource,
+	})
+}
+
+func sweepCorePublicIpResource(compartment string) error {
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listPublicIpsRequest := oci_core.ListPublicIpsRequest{}
+	listPublicIpsRequest.CompartmentId = &compartmentId
+	listPublicIpsResponse, err := virtualNetworkClient.ListPublicIps(context.Background(), listPublicIpsRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting PublicIp list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, publicIp := range listPublicIpsResponse.Items {
+		if publicIp.LifecycleState != oci_core.PublicIpLifecycleStateTerminated {
+			log.Printf("deleting publicIp %s ", *publicIp.Id)
+
+			deletePublicIpRequest := oci_core.DeletePublicIpRequest{}
+
+			deletePublicIpRequest.PublicIpId = publicIp.Id
+
+			deletePublicIpRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeletePublicIp(context.Background(), deletePublicIpRequest)
+			if error != nil {
+				fmt.Printf("Error deleting PublicIp %s %s, It is possible that the resource is already deleted. Please verify manually \n", *publicIp.Id, error)
+				continue
+			}
+
+			getPublicIpRequest := oci_core.GetPublicIpRequest{}
+
+			getPublicIpRequest.PublicIpId = publicIp.Id
+
+			_, error = virtualNetworkClient.GetPublicIp(context.Background(), getPublicIpRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving PublicIp state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, publicIp.Id, publicIpSweepWaitCondition, time.Duration(3*time.Minute),
+				publicIpSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func publicIpSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if publicIpResponse, ok := response.Response.(oci_core.GetPublicIpResponse); ok {
+		return publicIpResponse.LifecycleState == oci_core.PublicIpLifecycleStateTerminated
+	}
+	return false
+}
+
+func publicIpSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetPublicIp(context.Background(), oci_core.GetPublicIpRequest{
+		PublicIpId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

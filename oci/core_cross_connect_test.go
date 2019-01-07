@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -223,4 +226,75 @@ func testAccCheckCoreCrossConnectDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initCoreCrossConnectSweeper() {
+	resource.AddTestSweepers("CoreCrossConnect", &resource.Sweeper{
+		Name:         "CoreCrossConnect",
+		Dependencies: DependencyGraph["crossConnect"],
+		F:            sweepCoreCrossConnectResource,
+	})
+}
+
+func sweepCoreCrossConnectResource(compartment string) error {
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listCrossConnectsRequest := oci_core.ListCrossConnectsRequest{}
+	listCrossConnectsRequest.CompartmentId = &compartmentId
+	listCrossConnectsRequest.LifecycleState = oci_core.CrossConnectLifecycleStateProvisioned
+	listCrossConnectsResponse, err := virtualNetworkClient.ListCrossConnects(context.Background(), listCrossConnectsRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting CrossConnect list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, crossConnect := range listCrossConnectsResponse.Items {
+		if crossConnect.LifecycleState != oci_core.CrossConnectLifecycleStateTerminated {
+			log.Printf("deleting crossConnect %s ", *crossConnect.Id)
+
+			deleteCrossConnectRequest := oci_core.DeleteCrossConnectRequest{}
+
+			deleteCrossConnectRequest.CrossConnectId = crossConnect.Id
+
+			deleteCrossConnectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteCrossConnect(context.Background(), deleteCrossConnectRequest)
+			if error != nil {
+				fmt.Printf("Error deleting CrossConnect %s %s, It is possible that the resource is already deleted. Please verify manually \n", *crossConnect.Id, error)
+				continue
+			}
+
+			getCrossConnectRequest := oci_core.GetCrossConnectRequest{}
+
+			getCrossConnectRequest.CrossConnectId = crossConnect.Id
+
+			_, error = virtualNetworkClient.GetCrossConnect(context.Background(), getCrossConnectRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving CrossConnect state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, crossConnect.Id, crossConnectSweepWaitCondition, time.Duration(3*time.Minute),
+				crossConnectSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func crossConnectSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if crossConnectResponse, ok := response.Response.(oci_core.GetCrossConnectResponse); ok {
+		return crossConnectResponse.LifecycleState == oci_core.CrossConnectLifecycleStateTerminated
+	}
+	return false
+}
+
+func crossConnectSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetCrossConnect(context.Background(), oci_core.GetCrossConnectRequest{
+		CrossConnectId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

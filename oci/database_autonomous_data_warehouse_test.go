@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -248,4 +251,75 @@ func testAccCheckDatabaseAutonomousDataWarehouseDestroy(s *terraform.State) erro
 	}
 
 	return nil
+}
+
+func initDatabaseAutonomousDataWarehouseSweeper() {
+	resource.AddTestSweepers("DatabaseAutonomousDataWarehouse", &resource.Sweeper{
+		Name:         "DatabaseAutonomousDataWarehouse",
+		Dependencies: DependencyGraph["autonomousDataWarehouse"],
+		F:            sweepDatabaseAutonomousDataWarehouseResource,
+	})
+}
+
+func sweepDatabaseAutonomousDataWarehouseResource(compartment string) error {
+	compartmentId := compartment
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+
+	listAutonomousDataWarehousesRequest := oci_database.ListAutonomousDataWarehousesRequest{}
+	listAutonomousDataWarehousesRequest.CompartmentId = &compartmentId
+	listAutonomousDataWarehousesRequest.LifecycleState = oci_database.AutonomousDataWarehouseSummaryLifecycleStateAvailable
+	listAutonomousDataWarehousesResponse, err := databaseClient.ListAutonomousDataWarehouses(context.Background(), listAutonomousDataWarehousesRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting AutonomousDataWarehouse list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, autonomousDataWarehouse := range listAutonomousDataWarehousesResponse.Items {
+		if autonomousDataWarehouse.LifecycleState != oci_database.AutonomousDataWarehouseSummaryLifecycleStateTerminated {
+			log.Printf("deleting autonomousDataWarehouse %s ", *autonomousDataWarehouse.Id)
+
+			deleteAutonomousDataWarehouseRequest := oci_database.DeleteAutonomousDataWarehouseRequest{}
+
+			deleteAutonomousDataWarehouseRequest.AutonomousDataWarehouseId = autonomousDataWarehouse.Id
+
+			deleteAutonomousDataWarehouseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			_, error := databaseClient.DeleteAutonomousDataWarehouse(context.Background(), deleteAutonomousDataWarehouseRequest)
+			if error != nil {
+				fmt.Printf("Error deleting AutonomousDataWarehouse %s %s, It is possible that the resource is already deleted. Please verify manually \n", *autonomousDataWarehouse.Id, error)
+				continue
+			}
+
+			getAutonomousDataWarehouseRequest := oci_database.GetAutonomousDataWarehouseRequest{}
+
+			getAutonomousDataWarehouseRequest.AutonomousDataWarehouseId = autonomousDataWarehouse.Id
+
+			_, error = databaseClient.GetAutonomousDataWarehouse(context.Background(), getAutonomousDataWarehouseRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving AutonomousDataWarehouse state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, autonomousDataWarehouse.Id, autonomousDataWarehouseSweepWaitCondition, time.Duration(3*time.Minute),
+				autonomousDataWarehouseSweepResponseFetchOperation, "database", true)
+		}
+	}
+	return nil
+}
+
+func autonomousDataWarehouseSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if autonomousDataWarehouseResponse, ok := response.Response.(oci_database.GetAutonomousDataWarehouseResponse); ok {
+		return autonomousDataWarehouseResponse.LifecycleState == oci_database.AutonomousDataWarehouseLifecycleStateTerminated
+	}
+	return false
+}
+
+func autonomousDataWarehouseSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.databaseClient.GetAutonomousDataWarehouse(context.Background(), oci_database.GetAutonomousDataWarehouseRequest{
+		AutonomousDataWarehouseId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

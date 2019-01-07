@@ -5,10 +5,13 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"regexp"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
@@ -310,4 +313,73 @@ func testAccCheckDnsZoneDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initDnsZoneSweeper() {
+	resource.AddTestSweepers("DnsZone", &resource.Sweeper{
+		Name:         "DnsZone",
+		Dependencies: DependencyGraph["zone"],
+		F:            sweepDnsZoneResource,
+	})
+}
+
+func sweepDnsZoneResource(compartment string) error {
+	compartmentId := compartment
+	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
+
+	listZonesRequest := oci_dns.ListZonesRequest{}
+	listZonesRequest.CompartmentId = &compartmentId
+	listZonesRequest.LifecycleState = oci_dns.ListZonesLifecycleStateActive
+	listZonesResponse, err := dnsClient.ListZones(context.Background(), listZonesRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting Zone list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, zone := range listZonesResponse.Items {
+		log.Printf("deleting zone %s ", *zone.Id)
+
+		deleteZoneRequest := oci_dns.DeleteZoneRequest{}
+
+		deleteZoneRequest.ZoneNameOrId = zone.Id
+
+		deleteZoneRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+		_, error := dnsClient.DeleteZone(context.Background(), deleteZoneRequest)
+		if error != nil {
+			fmt.Printf("Error deleting Zone %s %s, It is possible that the resource is already deleted. Please verify manually \n", *zone.Id, error)
+			continue
+		}
+
+		getZoneRequest := oci_dns.GetZoneRequest{}
+
+		getZoneRequest.ZoneNameOrId = zone.Id
+
+		_, error = dnsClient.GetZone(context.Background(), getZoneRequest)
+		if error != nil {
+			fmt.Printf("Error retrieving Zone state %s \n", error)
+			continue
+		}
+
+		waitTillCondition(testAccProvider, zone.Id, zoneSweepWaitCondition, time.Duration(3*time.Minute),
+			zoneSweepResponseFetchOperation, "dns", true)
+	}
+	return nil
+}
+
+func zoneSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if zoneResponse, ok := response.Response.(oci_dns.GetZoneResponse); ok {
+		return zoneResponse.LifecycleState == oci_dns.ZoneLifecycleStateDeleted
+	}
+	return false
+}
+
+func zoneSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.dnsClient.GetZone(context.Background(), oci_dns.GetZoneRequest{
+		ZoneNameOrId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

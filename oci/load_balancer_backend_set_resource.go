@@ -3,6 +3,7 @@
 package provider
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
@@ -11,6 +12,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -99,9 +101,10 @@ func BackendSetResource() *schema.Resource {
 
 			// Optional
 			"backend": {
-				Type: schema.TypeList,
-				//Optional: true, // @CODEGEN Having 2 ways to specify backends (this and backend resource) is bad because they will override each other. Leaving computed for now.
+				Type: schema.TypeSet,
+				//Optional: true, // @CODEGEN Marking this computed only as backend should be created using the `backend` resource
 				Computed: true,
+				Set:      backendHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -299,24 +302,6 @@ func (s *BackendSetResourceCrud) DeletedTarget() []string {
 func (s *BackendSetResourceCrud) Create() error {
 	request := oci_load_balancer.CreateBackendSetRequest{}
 
-	/*  // @CODEGEN Having 2 ways to specify backends (this and backend resource) is bad because they will override each other. Leaving computed for now.
-	request.Backends = []oci_load_balancer.BackendDetails{}
-	if backend, ok := s.D.GetOkExists("backend"); ok {
-		interfaces := backend.([]interface{})
-		tmp := make([]oci_load_balancer.BackendDetails, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backend", stateDataIndex)
-			converted, err := s.mapToBackendDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		request.Backends = tmp
-	}
-	*/
-
 	if healthChecker, ok := s.D.GetOkExists("health_checker"); ok {
 		if tmpList := healthChecker.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "health_checker", 0)
@@ -432,29 +417,31 @@ func (s *BackendSetResourceCrud) Get() error {
 func (s *BackendSetResourceCrud) Update() error {
 	request := oci_load_balancer.UpdateBackendSetRequest{}
 
-	/*  // @CODEGEN Having 2 ways to specify backends (this and backend resource) is bad because they will override each other. Reverting to old logic.
-	request.Backends = []oci_load_balancer.BackendDetails{}
-	if backend, ok := s.D.GetOkExists("backend"); ok {
-		interfaces := backend.([]interface{})
-		tmp := make([]oci_load_balancer.BackendDetails, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backend", stateDataIndex)
-			converted, err := s.mapToBackendDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		request.Backends = tmp
-	}
-	*/
-	// This is hacky and a race condition, but works for now. Ideally backends are not a required parameter to a backendset update
+	// @CODEGEN: Backends are marked computed in this resource, so will do a GET and include the results in the UPDATE, although they are not a required parameter
+	// Side-note: There is a potential for a race condition if the backend are added at the same time outside Terraform
 	err := s.Get()
 	if err != nil {
 		return err
 	}
-	request.Backends = backendArrayToBackendDetailsArray(s.Res.Backends)
+
+	backends := []interface{}{}
+	for _, item := range s.Res.Backends {
+		backends = append(backends, BackendToMap(item))
+	}
+
+	set := schema.NewSet(backendHashCodeForSets, backends)
+	interfaces := set.List()
+	tmp := make([]oci_load_balancer.BackendDetails, len(interfaces))
+	for i := range interfaces {
+		stateDataIndex := backendHashCodeForSets(interfaces[i])
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backend", stateDataIndex)
+		converted, err := s.mapToBackendDetails(fieldKeyFormat)
+		if err != nil {
+			return err
+		}
+		tmp[i] = converted
+	}
+	request.Backends = tmp
 
 	if backendSetName, ok := s.D.GetOkExists("name"); ok {
 		tmp := backendSetName.(string)
@@ -529,9 +516,6 @@ func (s *BackendSetResourceCrud) Update() error {
 }
 
 func (s *BackendSetResourceCrud) Delete() error {
-	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
-		return nil
-	}
 	request := oci_load_balancer.DeleteBackendSetRequest{}
 
 	if backendSetName, ok := s.D.GetOkExists("name"); ok {
@@ -581,7 +565,7 @@ func (s *BackendSetResourceCrud) SetData() error {
 	for _, item := range s.Res.Backends {
 		backend = append(backend, BackendToMap(item))
 	}
-	s.D.Set("backend", backend)
+	s.D.Set("backend", schema.NewSet(backendHashCodeForSets, backend))
 
 	if s.Res.HealthChecker != nil {
 		s.D.Set("health_checker", []interface{}{HealthCheckerToMap(s.Res.HealthChecker)})
@@ -630,6 +614,42 @@ func parseBackendSetCompositeId(compositeId string) (backendSetName string, load
 	backendSetName, _ = url.PathUnescape(parts[3])
 
 	return
+}
+
+func (s *BackendSetResourceCrud) mapToBackendDetails(fieldKeyFormat string) (oci_load_balancer.BackendDetails, error) {
+	result := oci_load_balancer.BackendDetails{}
+
+	if backup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup")); ok {
+		tmp := backup.(bool)
+		result.Backup = &tmp
+	}
+
+	if drain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "drain")); ok {
+		tmp := drain.(bool)
+		result.Drain = &tmp
+	}
+
+	if ipAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ip_address")); ok {
+		tmp := ipAddress.(string)
+		result.IpAddress = &tmp
+	}
+
+	if offline, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "offline")); ok {
+		tmp := offline.(bool)
+		result.Offline = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	if weight, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weight")); ok {
+		tmp := weight.(int)
+		result.Weight = &tmp
+	}
+
+	return result, nil
 }
 
 func BackendToMap(obj oci_load_balancer.Backend) map[string]interface{} {
@@ -819,23 +839,26 @@ func SessionPersistenceConfigurationDetailsToMap(obj *oci_load_balancer.SessionP
 	return result
 }
 
-func backendArrayToBackendDetailsArray(backends []oci_load_balancer.Backend) []oci_load_balancer.BackendDetails {
-	backendDetailsArr := make([]oci_load_balancer.BackendDetails, len(backends))
-	for i, backend := range backends {
-		backendDetailsArr[i] = backendToBackendDetails(backend)
+func backendHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if backup, ok := m["backup"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", backup))
 	}
-	return backendDetailsArr
-}
-
-func backendToBackendDetails(backend oci_load_balancer.Backend) oci_load_balancer.BackendDetails {
-	result := oci_load_balancer.BackendDetails{}
-
-	result.Backup = backend.Backup
-	result.Drain = backend.Drain
-	result.IpAddress = backend.IpAddress
-	result.Offline = backend.Offline
-	result.Port = backend.Port
-	result.Weight = backend.Weight
-
-	return result
+	if drain, ok := m["drain"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", drain))
+	}
+	if ipAddress, ok := m["ip_address"]; ok && ipAddress != "" {
+		buf.WriteString(fmt.Sprintf("%v-", ipAddress))
+	}
+	if offline, ok := m["offline"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", offline))
+	}
+	if port, ok := m["port"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", port))
+	}
+	if weight, ok := m["weight"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", weight))
+	}
+	return hashcode.String(buf.String())
 }

@@ -235,8 +235,6 @@ func TestObjectStorageObjectLifecyclePolicyResource_validations(t *testing.T) {
 
 	resourceName := "oci_objectstorage_object_lifecycle_policy.test_object_lifecycle_policy"
 
-	var resId string
-
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -262,7 +260,7 @@ variable "object_lifecycle_policy_rules_time_unit" { default = "DAYS" }
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						_, err = fromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
@@ -333,5 +331,17 @@ func testAccCheckObjectStorageObjectLifecyclePolicyDestroy(s *terraform.State) e
 		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
 	}
 
+	return nil
+}
+
+func initObjectStorageObjectLifecyclePolicySweeper() {
+	resource.AddTestSweepers("ObjectStorageObjectLifecyclePolicy", &resource.Sweeper{
+		Name:         "ObjectStorageObjectLifecyclePolicy",
+		Dependencies: DependencyGraph["objectLifecyclePolicy"],
+		F:            sweepObjectStorageObjectLifecyclePolicyResource,
+	})
+}
+
+func sweepObjectStorageObjectLifecyclePolicyResource(compartment string) error {
 	return nil
 }

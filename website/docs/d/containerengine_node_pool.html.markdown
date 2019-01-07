@@ -45,8 +45,8 @@ The following attributes are exported:
 * `nodes` - The nodes in the node pool.
 	* `availability_domain` - The name of the availability domain in which this node is placed.
 	* `error` - An error that may be associated with the node.
-		* `code` - A short error code that defines the error, meant for programmatic parsing. See [API Errors](https://docs.cloud.oracle.com/iaas/Content/API/References/apierrors.htm).
-		* `message` - A human-readable error string.
+		* `code` - A short error code that defines the upstream error, meant for programmatic parsing. See [API Errors](https://docs.cloud.oracle.com/iaas/Content/API/References/apierrors.htm).
+		* `message` - A human-readable error string of the upstream error.
 	* `id` - The OCID of the compute instance backing this node.
 	* `lifecycle_details` - Details about the state of the node.
 	* `name` - The name of the node.

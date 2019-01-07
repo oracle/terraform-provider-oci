@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -526,4 +529,75 @@ func testAccCheckCoreSecurityListDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initCoreSecurityListSweeper() {
+	resource.AddTestSweepers("CoreSecurityList", &resource.Sweeper{
+		Name:         "CoreSecurityList",
+		Dependencies: DependencyGraph["securityList"],
+		F:            sweepCoreSecurityListResource,
+	})
+}
+
+func sweepCoreSecurityListResource(compartment string) error {
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listSecurityListsRequest := oci_core.ListSecurityListsRequest{}
+	listSecurityListsRequest.CompartmentId = &compartmentId
+	listSecurityListsRequest.LifecycleState = oci_core.SecurityListLifecycleStateAvailable
+	listSecurityListsResponse, err := virtualNetworkClient.ListSecurityLists(context.Background(), listSecurityListsRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting SecurityList list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, securityList := range listSecurityListsResponse.Items {
+		if securityList.LifecycleState != oci_core.SecurityListLifecycleStateTerminated {
+			log.Printf("deleting securityList %s ", *securityList.Id)
+
+			deleteSecurityListRequest := oci_core.DeleteSecurityListRequest{}
+
+			deleteSecurityListRequest.SecurityListId = securityList.Id
+
+			deleteSecurityListRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteSecurityList(context.Background(), deleteSecurityListRequest)
+			if error != nil {
+				fmt.Printf("Error deleting SecurityList %s %s, It is possible that the resource is already deleted. Please verify manually \n", *securityList.Id, error)
+				continue
+			}
+
+			getSecurityListRequest := oci_core.GetSecurityListRequest{}
+
+			getSecurityListRequest.SecurityListId = securityList.Id
+
+			_, error = virtualNetworkClient.GetSecurityList(context.Background(), getSecurityListRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving SecurityList state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, securityList.Id, securityListSweepWaitCondition, time.Duration(3*time.Minute),
+				securityListSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func securityListSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if securityListResponse, ok := response.Response.(oci_core.GetSecurityListResponse); ok {
+		return securityListResponse.LifecycleState == oci_core.SecurityListLifecycleStateTerminated
+	}
+	return false
+}
+
+func securityListSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetSecurityList(context.Background(), oci_core.GetSecurityListRequest{
+		SecurityListId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

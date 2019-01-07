@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -231,4 +234,75 @@ func testAccCheckCoreBootVolumeBackupDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func initCoreBootVolumeBackupSweeper() {
+	resource.AddTestSweepers("CoreBootVolumeBackup", &resource.Sweeper{
+		Name:         "CoreBootVolumeBackup",
+		Dependencies: DependencyGraph["bootVolumeBackup"],
+		F:            sweepCoreBootVolumeBackupResource,
+	})
+}
+
+func sweepCoreBootVolumeBackupResource(compartment string) error {
+	compartmentId := compartment
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+
+	listBootVolumeBackupsRequest := oci_core.ListBootVolumeBackupsRequest{}
+	listBootVolumeBackupsRequest.CompartmentId = &compartmentId
+	listBootVolumeBackupsRequest.LifecycleState = oci_core.BootVolumeBackupLifecycleStateAvailable
+	listBootVolumeBackupsResponse, err := blockstorageClient.ListBootVolumeBackups(context.Background(), listBootVolumeBackupsRequest)
+
+	if err != nil {
+		return fmt.Errorf("Error getting BootVolumeBackup list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	for _, bootVolumeBackup := range listBootVolumeBackupsResponse.Items {
+		if bootVolumeBackup.LifecycleState != oci_core.BootVolumeBackupLifecycleStateTerminated {
+			log.Printf("deleting bootVolumeBackup %s ", *bootVolumeBackup.Id)
+
+			deleteBootVolumeBackupRequest := oci_core.DeleteBootVolumeBackupRequest{}
+
+			deleteBootVolumeBackupRequest.BootVolumeBackupId = bootVolumeBackup.Id
+
+			deleteBootVolumeBackupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := blockstorageClient.DeleteBootVolumeBackup(context.Background(), deleteBootVolumeBackupRequest)
+			if error != nil {
+				fmt.Printf("Error deleting BootVolumeBackup %s %s, It is possible that the resource is already deleted. Please verify manually \n", *bootVolumeBackup.Id, error)
+				continue
+			}
+
+			getBootVolumeBackupRequest := oci_core.GetBootVolumeBackupRequest{}
+
+			getBootVolumeBackupRequest.BootVolumeBackupId = bootVolumeBackup.Id
+
+			_, error = blockstorageClient.GetBootVolumeBackup(context.Background(), getBootVolumeBackupRequest)
+			if error != nil {
+				fmt.Printf("Error retrieving BootVolumeBackup state %s \n", error)
+				continue
+			}
+
+			waitTillCondition(testAccProvider, bootVolumeBackup.Id, bootVolumeBackupSweepWaitCondition, time.Duration(3*time.Minute),
+				bootVolumeBackupSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func bootVolumeBackupSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if bootVolumeBackupResponse, ok := response.Response.(oci_core.GetBootVolumeBackupResponse); ok {
+		return bootVolumeBackupResponse.LifecycleState == oci_core.BootVolumeBackupLifecycleStateTerminated
+	}
+	return false
+}
+
+func bootVolumeBackupSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.blockstorageClient.GetBootVolumeBackup(context.Background(), oci_core.GetBootVolumeBackupRequest{
+		BootVolumeBackupId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }
