@@ -13,7 +13,7 @@ resource "oci_core_instance" "TFInstance" {
 
   source_details {
     source_type = "image"
-    source_id   = "${lookup(data.oci_core_images.TFSupportedShapeImages.images[0], "id")}"
+    source_id   = "${var.instance_image_ocid[var.region]}"
   }
 
   metadata {
