@@ -7,6 +7,7 @@
 
 ### Fixed
 - Retried SDK calls are now jittered to avoid herding of retry requests in high parallelism scenarios
+- Fail the initialization of the provider if either of `user_ocid`, `fingerprint`, `private_key`, `private_key_path` or `private_key_password` are specified for `InstancePrincipal` or `InstancePrincipalWithCerts` auth mode.
 
 ## 3.11.2 (January 10, 2019)
 

@@ -370,10 +370,10 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 			return
 		}
 	case authInstancePrincipalSetting:
-		assert.Regexp(t, "failed to create a new key provider for instance principal.*", err.Error())
+		assert.Regexp(t, "authentication .* is set to .* To use .* authentication user credentials should be removed from the configuration.*", err.Error())
 		return
 	case authInstancePrincipalWithCertsSetting:
-		assert.Regexp(t, "failed to create a new key provider for instance principal.*", err.Error())
+		assert.Regexp(t, "authentication .* is set to .* To use .* authentication user credentials should be removed from the configuration.*", err.Error())
 		return
 	default:
 		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting))
@@ -408,6 +408,50 @@ func TestProviderConfig(t *testing.T) {
 	providerConfigTest(t, false, true, authAPIKeySetting)             // ApiKey without required fields
 	providerConfigTest(t, false, false, authInstancePrincipalSetting) // InstancePrincipal
 	providerConfigTest(t, true, false, "invalid-auth-setting")        // Invalid auth + disable auto-retries
+}
+
+func TestVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
+	r := &schema.Resource{
+		Schema: schemaMap(),
+	}
+	d := r.Data(nil)
+	d.SetId("tenancy_ocid")
+	d.Set("auth", "InstancePrincipal")
+	d.Set("region", "us-phoenix-1")
+
+	apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.True(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0)
+
+	d.Set("tenancy_ocid", testTenancyOCID)
+	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.True(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0)
+
+	d.Set("user_ocid", testUserOCID)
+	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.False(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 1)
+
+	d.Set("fingerprint", testKeyFingerPrint)
+	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.False(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 2)
+
+	d.Set("private_key", testPrivateKey)
+	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.False(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 3)
+
+	d.Set("private_key_path", "path")
+	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.False(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 4)
+
+	d.Set("private_key_password", "password")
+	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.False(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 5)
 }
 
 /* This function is used in the test asserts to verify that an element in a set contains certain properties
