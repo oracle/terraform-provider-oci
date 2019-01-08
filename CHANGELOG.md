@@ -1,4 +1,5 @@
-## 3.11.1 (Unreleased)
+## 3.11.2 (Unreleased)
+## 3.11.1 (January 08, 2019)
 
 ### Changed
 - LoadBalancer BackendSets to have TypeSet for Backends to avoid out of order diffs
