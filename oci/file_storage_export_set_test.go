@@ -30,7 +30,7 @@ var (
 		"mount_target_id":   Representation{repType: Required, create: `${oci_file_storage_mount_target.test_mount_target.id}`},
 		"display_name":      Representation{repType: Optional, create: `export set display name`},
 		"max_fs_stat_bytes": Representation{repType: Optional, create: `23843202333`},
-		"max_fs_stat_files": Representation{repType: Optional, create: `9223372036854775807`},
+		"max_fs_stat_files": Representation{repType: Optional, create: `223442`},
 	}
 
 	ExportSetResourceDependencies = MountTargetRequiredOnlyResource
@@ -83,7 +83,7 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "export set display name"),
 					resource.TestCheckResourceAttr(resourceName, "max_fs_stat_bytes", "23843202333"),
-					resource.TestCheckResourceAttr(resourceName, "max_fs_stat_files", "9223372036854775807"),
+					resource.TestCheckResourceAttr(resourceName, "max_fs_stat_files", "223442"),
 					resource.TestCheckResourceAttrSet(resourceName, "mount_target_id"),
 					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
