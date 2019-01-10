@@ -5,6 +5,7 @@ package provider
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"regexp"
 
@@ -728,6 +729,10 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 		// We didn't set preserve flag in the previous step, so the boot volume should be deleted and
 		// this should result in an error from service.
 		{
+			PreConfig: func() {
+				waitTillCondition(testAccProvider, &preservedBootVolumeId, bootVolumeSweepWaitCondition, time.Duration(3*time.Minute),
+					bootVolumeSweepResponseFetchOperation, "core", true)
+			},
 			Config: s.Config + `
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
