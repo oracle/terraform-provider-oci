@@ -41,15 +41,15 @@ var (
 	}
 
 	virtualCircuitPublicRequiredOnlyRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"type":           Representation{repType: Required, create: `${var.virtual_circuit_type}`},
+		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
+		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
 		"cross_connect_mappings": RepresentationGroup{Required, crossConnectMappingsPublicRequiredOnlyRepresentation},
 		"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
 		"public_prefixes":        RepresentationGroup{Required, virtualCircuitPublicPrefixesRepresentation},
 	}
 	virtualCircuitRequiredOnlyRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"type":           Representation{repType: Required, create: `${var.virtual_circuit_type}`},
+		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
+		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
 		"cross_connect_mappings": RepresentationGroup{Required, crossConnectMappingsRequiredOnlyRepresentation},
 		"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
 		"gateway_id":             Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
