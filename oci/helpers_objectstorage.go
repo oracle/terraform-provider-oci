@@ -222,8 +222,8 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 
 	for i := 0; i < workerCount; i++ {
 		go uploadPartsWorker(objectStorageMultiPartUploadContext{
-			client: *client,
-			wg:     wg,
+			client:                  *client,
+			wg:                      wg,
 			multipartUploadResponse: multipartUploadResponse,
 			multipartUploadRequest:  *multipartUploadRequest,
 			sourceBlocks:            sourceBlocksChan,
