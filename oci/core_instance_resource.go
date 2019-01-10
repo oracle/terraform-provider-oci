@@ -1004,7 +1004,7 @@ func (s *InstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 		CompartmentId: s.Res.CompartmentId,
 		InstanceId:    s.Res.Id,
 	}
-
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 	var attachments []oci_core.VnicAttachment
 
 	for {
