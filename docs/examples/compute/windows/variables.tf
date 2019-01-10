@@ -50,13 +50,13 @@ variable instance_image_ocid {
   type = "map"
 
   default = {
-    # Images released in and after July 2018 have cloudbase-init and winrm enabled by default, refer to the release notes - https://docs.cloud.oracle.com/iaas/images/
-    # Image OCIDs for Windows-Server-2012-R2-Standard-Edition-VM-2018.07.19-0 - https://docs.cloud.oracle.com/iaas/images/image/256a6d7c-4fc0-47c7-a61c-b6bbf25c8aba/
-    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa3nh5j3l3ip62tb2z4gkcrfn23yhwucui5do5abrk4ttvwclxu7ja"
-
-    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaauybkm3gymmgenl3e7eqjcjuh324hbocftnxhyn5o2ghpy4st6xza"
-    uk-london-1  = "ocid1.image.oc1.uk-london-1.aaaaaaaad3q2sx2ngclnggc4nvpop6szposwxnljvuswhimiszwcsltsvi2q"
-    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaqcty27fjcgov3a2hl6bimama5l3isv2ejs7utulnpfw5btyyb7gq"
+    # Images released after June 2018 have cloudbase-init and winrm enabled by default, refer to the release notes - https://docs.cloud.oracle.com/iaas/images/
+    # The below Image OCIDs are for Windows-Server-2012-R2-Standard-Edition-VM-Gen2-2018.12.12-0
+    # See https://docs.cloud.oracle.com/iaas/images/image/5e34cde5-6cef-4cc3-b8f1-c8fc3a088302/
+    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaarlo3ace3wq34aompwj3u2z2xteonboapg663woz6d2iovarowhja"
+    us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaabzwak2haqxh3r7h6dajgu4enp7q7hcrreql45awryd5frjsd5l6a"
+    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaourcjktoe3gprvwfksxc36r4rxgbcjs5qvtrja6w6euivci635vq"
+    uk-london-1  = "ocid1.image.oc1.uk-london-1.aaaaaaaadb4mg7ii73wkrntmiunr7x7qrh7ompczvy3xbggm27pkhotpgj2q"
   }
 }
 

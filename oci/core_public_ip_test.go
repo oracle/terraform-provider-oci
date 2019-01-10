@@ -101,7 +101,7 @@ var (
 		compartment_id      = "${var.compartment_id}"
 		display_name        = "-tf-instance"
 		image               = "${var.InstanceImageOCID[var.region]}"
-		shape               = "VM.Standard1.8"
+		shape               = "VM.Standard2.1"
 		create_vnic_details {
 			assign_public_ip = false
 			subnet_id        = "${oci_core_subnet.test_subnet.id}"

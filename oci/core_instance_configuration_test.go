@@ -119,7 +119,7 @@ var (
 	}
 
 	InstanceConfigurationResourceDependencies = InstanceRequiredOnlyResource
-	InstanceConfigurationVmShape              = `VM.Standard1.8`
+	InstanceConfigurationVmShape              = `VM.Standard2.1`
 
 	InstanceConfigurationResourceImageConfig = ImageRequiredOnlyResource +
 		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,

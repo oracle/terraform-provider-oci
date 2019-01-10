@@ -80,7 +80,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					subnet_id = "${oci_core_subnet.t.id}"
 					hostname_label = "hostname1"
 					image = "${var.InstanceImageOCID[var.region]}"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
                     defined_tags = "${map(
 									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
 									)}"
@@ -115,7 +115,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckNoResourceAttr(s.ResourceName, "ipxe_script"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "hostname_label", "hostname1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.user_data", "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "metadata.ssh_authorized_keys"),
@@ -156,7 +156,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					}
 					image = "${var.InstanceImageOCID[var.region]}"
 					hostname_label = "HOSTName1"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
@@ -185,7 +185,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						source_type = "ImAgE"
 						source_id = "${var.InstanceImageOCID[var.region]}"
 					}
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
@@ -210,7 +210,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					subnet_id = "${oci_core_subnet.t.id}"
 					hostname_label = "hostname1"
 					image = "${var.InstanceImageOCID[var.region]}"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
 					defined_tags = "${map(
 									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value2"
@@ -243,7 +243,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
 					image = "${var.InstanceImageOCID[var.region]}"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
 					subnet_id = "${oci_core_subnet.t.id}"
 					metadata {
@@ -290,7 +290,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
 					image = "${var.InstanceImageOCID[var.region]}"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
 					subnet_id = "${oci_core_subnet.t.id}"
 					metadata {
@@ -324,7 +324,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
 					image = "${var.InstanceImageOCID[var.region]}"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
 					subnet_id = "${oci_core_subnet.t.id}"
 					metadata {
@@ -373,7 +373,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
 					image = "${var.InstanceImageOCID[var.region]}"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
@@ -428,7 +428,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
 					image = "${var.InstanceImageOCID[var.region]}"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
@@ -499,7 +499,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						source_type = "image"
 						source_id = "${var.InstanceImageOCID[var.region]}"
 					}
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
@@ -526,7 +526,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				resource.TestCheckNoResourceAttr(s.ResourceName, "ipxe_script"),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
 				resource.TestCheckResourceAttr(s.ResourceName, "hostname_label", "hostname1"),
-				resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard1.8"),
+				resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "2"),
 				resource.TestCheckResourceAttr(s.ResourceName, "metadata.user_data", "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="),
 				resource.TestCheckResourceAttrSet(s.ResourceName, "metadata.ssh_authorized_keys"),
@@ -560,7 +560,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 					subnet_id = "${oci_core_subnet.t.id}"
 					hostname_label = "hostname1"
 					image = "${var.InstanceImageOCID[var.region]}"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
@@ -585,7 +585,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						source_id = "${var.InstanceImageOCID[var.region]}"
 					}
 					preserve_boot_volume = "true"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
@@ -635,7 +635,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						boot_volume_size_in_gbs = "60"
 					}
 					preserve_boot_volume = "false"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
@@ -692,7 +692,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						source_id = "{{.preservedBootVolumeId}}"
 					}
 					preserve_boot_volume = "false"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
@@ -739,7 +739,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						source_id = "{{.preservedBootVolumeId}}"
 					}
 					preserve_boot_volume = "false"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
@@ -774,7 +774,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_failedByTime
 						source_type = "image"
 						source_id = "${var.InstanceImageOCID[var.region]}"
 					}
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="

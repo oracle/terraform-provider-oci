@@ -103,7 +103,7 @@ func (s *ResourceCoreBootVolumeTestSuite) SetupTest() {
 		availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
 		compartment_id = "${var.compartment_id}"
 		image = "${var.InstanceImageOCID[var.region]}"
-		shape = "VM.Standard1.8"
+		shape = "VM.Standard2.1"
 		subnet_id = "${oci_core_subnet.test_subnet.id}"
 		display_name = "-tf-instance"
 	}
@@ -134,7 +134,7 @@ func (s *ResourceCoreBootVolumeTestSuite) TestResourceCoreBootVolume_basic() {
 						resource "oci_core_instance" "test_instance_new" {
 							availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
 							compartment_id = "${var.compartment_id}"
-							shape = "VM.Standard1.8"
+							shape = "VM.Standard2.1"
 							subnet_id = "${oci_core_subnet.test_subnet.id}"
 							source_details {
 								source_id = "${oci_core_boot_volume.test_boot_volume.id}"
@@ -171,7 +171,7 @@ func (s *ResourceCoreBootVolumeTestSuite) TestResourceCoreBootVolume_basic() {
 						resource "oci_core_instance" "test_instance_new" {
 							availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[0],"name")}"
 							compartment_id = "${var.compartment_id}"
-							shape = "VM.Standard1.8"
+							shape = "VM.Standard2.1"
 							subnet_id = "${oci_core_subnet.test_subnet.id}"
 							source_details {
 								source_id = "${oci_core_boot_volume.test_boot_volume.id}"
