@@ -1,4 +1,5 @@
-## 3.11.2 (Unreleased)
+## 3.11.3 (Unreleased)
+## 3.11.2 (January 10, 2019)
 
 ### Fixed
 - Reverted previous fix for immutable `metadata` fields `ssh_authorized_keys` and `user_data` that results in new instances due to a crash when using interpolations in TypeMap with customdiff (Issue #685)
