@@ -82,10 +82,10 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					hostname_label = "hostname1"
 					image = "${var.InstanceImageOCID[var.region]}"
 					shape = "VM.Standard2.1"
-                    defined_tags = "${map(
+					defined_tags = "${map(
 									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
 									)}"
-                    freeform_tags = { "Department" = "Accounting"}
+					freeform_tags = { "Department" = "Accounting"}
 					metadata {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
@@ -471,18 +471,37 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					},
 				),
 			},
-			// verify force new by changing ssh_authorized_keys and user_data in metadata
+		},
+	})
+}
+
+func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff() {
+
+	var instanceId string
+
+	resource.Test(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			// create a new instance with metadata interpolations so that no state exists
 			{
 				Config: s.Config + `
+				locals {
+				  nat_offset          = "4"
+				}
+
 				resource "oci_core_instance" "t" {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
 					image = "${var.InstanceImageOCID[var.region]}"
-					shape = "VM.Standard1.8"
+					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
 					metadata {
-						ssh_authorized_keys = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"
-						user_data = "ZWNobyB3b3JsZA=="
+						should_observe_dependency = "${jsonencode(cidrhost(oci_core_subnet.t.cidr_block, local.nat_offset))}"
+						this_should_also = "${oci_core_subnet.t.time_created}"
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+						subnet_id = "${oci_core_subnet.t.id}"
 					}
 					extended_metadata {
 						keyA = "valA"
@@ -510,7 +529,63 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "10.0.1.20"),
-					resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "6"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "metadata.ssh_authorized_keys"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.user_data", "ZWNobyBoZWxsbw=="),
+					func(ts *terraform.State) (err error) {
+						instanceId, err = fromInstanceState(ts, s.ResourceName, "id")
+						return err
+					},
+				),
+			},
+			// verify force new by changing ssh_authorized_keys and user_data in metadata
+			{
+				Config: s.Config + `
+				locals {
+				  nat_offset          = "4"
+				}
+
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					metadata {
+						should_observe_dependency = "${jsonencode(cidrhost(oci_core_subnet.t.cidr_block, local.nat_offset + 1))}"
+						this_should_also = "${oci_core_subnet.t.time_created}"
+						ssh_authorized_keys = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"
+						user_data = "ZWNobyB3b3JsZA=="
+						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+						subnet_id = "${oci_core_subnet.t.id}"
+					}
+					extended_metadata {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic-2"
+						assign_public_ip = false
+						private_ip = "10.0.1.20"
+						skip_source_dest_check = true
+						defined_tags = "${map(
+							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
+							)}"
+						freeform_tags = { "Department" = "Finance" }
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-instance"),
+					resource.TestCheckResourceAttr(s.ResourceName, "private_ip", "10.0.1.20"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "6"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.ssh_authorized_keys", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.user_data", "ZWNobyB3b3JsZA=="),
 					func(ts *terraform.State) (err error) {
