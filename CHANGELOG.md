@@ -1,4 +1,11 @@
 ## 3.11.3 (Unreleased)
+
+### Added
+- Support for `retry_duration_seconds` option to configure length of retry in the face of HTTP 429 and 500 errors
+
+### Fixed
+- Retried SDK calls are now jittered to avoid herding of retry requests in high parallelism scenarios
+
 ## 3.11.2 (January 10, 2019)
 
 ### Fixed
