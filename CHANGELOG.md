@@ -9,6 +9,10 @@
 - Retried SDK calls are now jittered to avoid herding of retry requests in high parallelism scenarios
 - Fail the initialization of the provider if either of `user_ocid`, `fingerprint`, `private_key`, `private_key_path` or `private_key_password` are specified for `InstancePrincipal` or `InstancePrincipalWithCerts` auth mode.
 
+### Note
+- Examples and test updated to use VM.Standard2.1
+- Windows example image updated to Windows-Server-2012-R2-Standard-Edition-VM-Gen2-2018.12.12-0 
+
 ## 3.11.2 (January 10, 2019)
 
 ### Fixed
