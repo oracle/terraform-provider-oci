@@ -1,9 +1,10 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Load Balancing Service API
+// Load Balancing API
 //
-// API for the Load Balancing Service
+// API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
+// information, see Overview of Load Balancing (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -15,20 +16,20 @@ import (
 // HealthCheckResult Information about a single backend server health check result reported by a load balancer.
 type HealthCheckResult struct {
 
-	// The result of the most recent health check.
-	HealthCheckStatus HealthCheckResultHealthCheckStatusEnum `mandatory:"true" json:"healthCheckStatus"`
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the subnet hosting the load balancer that reported this health check status.
+	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// The IP address of the health check status report provider. This identifier helps you differentiate same-subnet
 	// (private) load balancers that report health check status.
 	// Example: `10.0.0.7`
 	SourceIpAddress *string `mandatory:"true" json:"sourceIpAddress"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the subnet hosting the load balancer that reported this health check status.
-	SubnetId *string `mandatory:"true" json:"subnetId"`
-
 	// The date and time the data was retrieved, in the format defined by RFC3339.
 	// Example: `2017-06-02T18:28:11+00:00`
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
+
+	// The result of the most recent health check.
+	HealthCheckStatus HealthCheckResultHealthCheckStatusEnum `mandatory:"true" json:"healthCheckStatus"`
 }
 
 func (m HealthCheckResult) String() string {

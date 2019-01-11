@@ -36,6 +36,9 @@ type ParavirtualizedVolumeAttachment struct {
 	// The OCID of the volume.
 	VolumeId *string `mandatory:"true" json:"volumeId"`
 
+	// The device name.
+	Device *string `mandatory:"false" json:"device"`
+
 	// A user-friendly name. Does not have to be unique, and it cannot be changed.
 	// Avoid entering confidential information.
 	// Example: `My volume attachment`
@@ -59,6 +62,11 @@ func (m ParavirtualizedVolumeAttachment) GetAvailabilityDomain() *string {
 //GetCompartmentId returns CompartmentId
 func (m ParavirtualizedVolumeAttachment) GetCompartmentId() *string {
 	return m.CompartmentId
+}
+
+//GetDevice returns Device
+func (m ParavirtualizedVolumeAttachment) GetDevice() *string {
+	return m.Device
 }
 
 //GetDisplayName returns DisplayName

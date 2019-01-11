@@ -48,6 +48,9 @@ type IScsiVolumeAttachment struct {
 	// Example: `3260`
 	Port *int `mandatory:"true" json:"port"`
 
+	// The device name.
+	Device *string `mandatory:"false" json:"device"`
+
 	// A user-friendly name. Does not have to be unique, and it cannot be changed.
 	// Avoid entering confidential information.
 	// Example: `My volume attachment`
@@ -80,6 +83,11 @@ func (m IScsiVolumeAttachment) GetAvailabilityDomain() *string {
 //GetCompartmentId returns CompartmentId
 func (m IScsiVolumeAttachment) GetCompartmentId() *string {
 	return m.CompartmentId
+}
+
+//GetDevice returns Device
+func (m IScsiVolumeAttachment) GetDevice() *string {
+	return m.Device
 }
 
 //GetDisplayName returns DisplayName

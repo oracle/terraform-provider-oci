@@ -1,9 +1,10 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Load Balancing Service API
+// Load Balancing API
 //
-// API for the Load Balancing Service
+// API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
+// information, see Overview of Load Balancing (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -16,28 +17,13 @@ import (
 // For more information, see Managing Backend Servers (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingbackendservers.htm).
 type Backend struct {
 
-	// Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress
-	// traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
-	// Example: `false`
-	Backup *bool `mandatory:"true" json:"backup"`
-
-	// Whether the load balancer should drain this server. Servers marked "drain" receive no new
-	// incoming traffic.
-	// Example: `false`
-	Drain *bool `mandatory:"true" json:"drain"`
-
-	// The IP address of the backend server.
-	// Example: `10.0.0.3`
-	IpAddress *string `mandatory:"true" json:"ipAddress"`
-
 	// A read-only field showing the IP address and port that uniquely identify this backend server in the backend set.
 	// Example: `10.0.0.3:8080`
 	Name *string `mandatory:"true" json:"name"`
 
-	// Whether the load balancer should treat this server as offline. Offline servers receive no incoming
-	// traffic.
-	// Example: `false`
-	Offline *bool `mandatory:"true" json:"offline"`
+	// The IP address of the backend server.
+	// Example: `10.0.0.3`
+	IpAddress *string `mandatory:"true" json:"ipAddress"`
 
 	// The communication port for the backend server.
 	// Example: `8080`
@@ -50,6 +36,21 @@ type Backend struct {
 	// How Load Balancing Policies Work (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Reference/lbpolicies.htm).
 	// Example: `3`
 	Weight *int `mandatory:"true" json:"weight"`
+
+	// Whether the load balancer should drain this server. Servers marked "drain" receive no new
+	// incoming traffic.
+	// Example: `false`
+	Drain *bool `mandatory:"true" json:"drain"`
+
+	// Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress
+	// traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
+	// Example: `false`
+	Backup *bool `mandatory:"true" json:"backup"`
+
+	// Whether the load balancer should treat this server as offline. Offline servers receive no incoming
+	// traffic.
+	// Example: `false`
+	Offline *bool `mandatory:"true" json:"offline"`
 }
 
 func (m Backend) String() string {
