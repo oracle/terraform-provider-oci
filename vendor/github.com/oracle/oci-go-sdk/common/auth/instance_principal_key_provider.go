@@ -7,6 +7,7 @@ import (
 	"crypto/rsa"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/common"
+	"net/http"
 )
 
 const (
@@ -38,19 +39,29 @@ type instancePrincipalKeyProvider struct {
 // The x509FederationClient caches the security token in memory until it is expired.  Thus, even if a client obtains a
 // KeyID that is not expired at the moment, the PrivateRSAKey that the client acquires at a next moment could be
 // invalid because the KeyID could be already expired.
-func newInstancePrincipalKeyProvider() (provider *instancePrincipalKeyProvider, err error) {
+func newInstancePrincipalKeyProvider(modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher, error)) (provider *instancePrincipalKeyProvider, err error) {
+	clientModifier := newDispatcherModifier(modifier)
+
+	client, err := clientModifier.Modify(&http.Client{})
+	if err != nil {
+		err = fmt.Errorf("failed to modify client: %s", err.Error())
+		return nil, err
+	}
+
 	var region common.Region
-	if region, err = getRegionForFederationClient(regionURL); err != nil {
+
+	if region, err = getRegionForFederationClient(client, regionURL); err != nil {
 		err = fmt.Errorf("failed to get the region name from %s: %s", regionURL, err.Error())
 		common.Logln(err)
 		return nil, err
 	}
 
-	leafCertificateRetriever := newURLBasedX509CertificateRetriever(
+	leafCertificateRetriever := newURLBasedX509CertificateRetriever(client,
 		leafCertificateURL, leafCertificateKeyURL, leafCertificateKeyPassphrase)
 	intermediateCertificateRetrievers := []x509CertificateRetriever{
 		newURLBasedX509CertificateRetriever(
-			intermediateCertificateURL, intermediateCertificateKeyURL, intermediateCertificateKeyPassphrase),
+			client, intermediateCertificateURL, intermediateCertificateKeyURL,
+			intermediateCertificateKeyPassphrase),
 	}
 
 	if err = leafCertificateRetriever.Refresh(); err != nil {
@@ -59,16 +70,20 @@ func newInstancePrincipalKeyProvider() (provider *instancePrincipalKeyProvider, 
 	}
 	tenancyID := extractTenancyIDFromCertificate(leafCertificateRetriever.Certificate())
 
-	federationClient := newX509FederationClient(
-		region, tenancyID, leafCertificateRetriever, intermediateCertificateRetrievers)
+	federationClient, err := newX509FederationClient(region, tenancyID, leafCertificateRetriever, intermediateCertificateRetrievers, *clientModifier)
 
-	provider = &instancePrincipalKeyProvider{Region: region, FederationClient: federationClient, TenancyID: tenancyID}
+	if err != nil {
+		err = fmt.Errorf("failed to create federation client: %s", err.Error())
+		return nil, err
+	}
+
+	provider = &instancePrincipalKeyProvider{FederationClient: federationClient, TenancyID: tenancyID}
 	return
 }
 
-func getRegionForFederationClient(url string) (r common.Region, err error) {
+func getRegionForFederationClient(dispatcher common.HTTPRequestDispatcher, url string) (r common.Region, err error) {
 	var body bytes.Buffer
-	if body, err = httpGet(url); err != nil {
+	if body, err = httpGet(dispatcher, url); err != nil {
 		return
 	}
 	return common.StringToRegion(body.String()), nil

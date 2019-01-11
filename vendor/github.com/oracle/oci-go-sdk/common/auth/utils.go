@@ -15,9 +15,11 @@ import (
 
 // httpGet makes a simple HTTP GET request to the given URL, expecting only "200 OK" status code.
 // This is basically for the Instance Metadata Service.
-func httpGet(url string) (body bytes.Buffer, err error) {
+func httpGet(dispatcher common.HTTPRequestDispatcher, url string) (body bytes.Buffer, err error) {
 	var response *http.Response
-	if response, err = http.Get(url); err != nil {
+	request, err := http.NewRequest(http.MethodGet, url, nil)
+
+	if response, err = dispatcher.Do(request); err != nil {
 		return
 	}
 

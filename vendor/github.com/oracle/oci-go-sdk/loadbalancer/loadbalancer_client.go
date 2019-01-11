@@ -1,9 +1,10 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Load Balancing Service API
+// Load Balancing API
 //
-// API for the Load Balancing Service
+// API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
+// information, see Overview of Load Balancing (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -37,7 +38,7 @@ func NewLoadBalancerClientWithConfigurationProvider(configProvider common.Config
 
 // SetRegion overrides the region of this client.
 func (client *LoadBalancerClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).Endpoint("iaas")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("iaas", "https://iaas.{region}.oraclecloud.com")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -409,6 +410,48 @@ func (client LoadBalancerClient) createPathRouteSet(ctx context.Context, request
 	return response, err
 }
 
+// CreateRuleSet Creates a new rule set associated with the specified load balancer.
+func (client LoadBalancerClient) CreateRuleSet(ctx context.Context, request CreateRuleSetRequest) (response CreateRuleSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createRuleSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateRuleSetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateRuleSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateRuleSetResponse")
+	}
+	return
+}
+
+// createRuleSet implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) createRuleSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/ruleSets")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateRuleSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteBackend Removes a backend server from a given load balancer and backend set.
 func (client LoadBalancerClient) DeleteBackend(ctx context.Context, request DeleteBackendRequest) (response DeleteBackendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -694,6 +737,50 @@ func (client LoadBalancerClient) deletePathRouteSet(ctx context.Context, request
 	}
 
 	var response DeletePathRouteSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteRuleSet Deletes a rule set from the specified load balancer.
+// To delete a rule from a rule set, use the
+// UpdateRuleSet operation.
+func (client LoadBalancerClient) DeleteRuleSet(ctx context.Context, request DeleteRuleSetRequest) (response DeleteRuleSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRuleSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteRuleSetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRuleSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRuleSetResponse")
+	}
+	return
+}
+
+// deleteRuleSet implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) deleteRuleSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/loadBalancers/{loadBalancerId}/ruleSets/{ruleSetName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteRuleSetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1072,6 +1159,48 @@ func (client LoadBalancerClient) getPathRouteSet(ctx context.Context, request co
 	}
 
 	var response GetPathRouteSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetRuleSet Gets the specified set of rules.
+func (client LoadBalancerClient) GetRuleSet(ctx context.Context, request GetRuleSetRequest) (response GetRuleSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRuleSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetRuleSetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRuleSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRuleSetResponse")
+	}
+	return
+}
+
+// getRuleSet implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) getRuleSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/ruleSets/{ruleSetName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRuleSetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1504,6 +1633,48 @@ func (client LoadBalancerClient) listProtocols(ctx context.Context, request comm
 	return response, err
 }
 
+// ListRuleSets Lists all rule sets associated with the specified load balancer.
+func (client LoadBalancerClient) ListRuleSets(ctx context.Context, request ListRuleSetsRequest) (response ListRuleSetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRuleSets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListRuleSetsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRuleSetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRuleSetsResponse")
+	}
+	return
+}
+
+// listRuleSets implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listRuleSets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/ruleSets")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRuleSetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListShapes Lists the valid load balancer shapes.
 func (client LoadBalancerClient) ListShapes(ctx context.Context, request ListShapesRequest) (response ListShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1905,6 +2076,50 @@ func (client LoadBalancerClient) updatePathRouteSet(ctx context.Context, request
 	}
 
 	var response UpdatePathRouteSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateRuleSet Overwrites an existing set of rules on the specified load balancer. Use this operation to add or alter
+// the rules in a rule set.
+// To add a new rule to a set, the body must include both the new rule to add and the existing rules to retain.
+func (client LoadBalancerClient) UpdateRuleSet(ctx context.Context, request UpdateRuleSetRequest) (response UpdateRuleSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRuleSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateRuleSetResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRuleSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRuleSetResponse")
+	}
+	return
+}
+
+// updateRuleSet implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) updateRuleSet(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/ruleSets/{ruleSetName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRuleSetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

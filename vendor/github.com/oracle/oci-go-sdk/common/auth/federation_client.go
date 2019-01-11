@@ -35,31 +35,49 @@ type x509FederationClient struct {
 	mux                               sync.Mutex
 }
 
-func newX509FederationClient(region common.Region, tenancyID string, leafCertificateRetriever x509CertificateRetriever, intermediateCertificateRetrievers []x509CertificateRetriever) federationClient {
+func newX509FederationClient(region common.Region, tenancyID string, leafCertificateRetriever x509CertificateRetriever, intermediateCertificateRetrievers []x509CertificateRetriever, modifier dispatcherModifier) (federationClient, error) {
 	client := &x509FederationClient{
 		tenancyID:                         tenancyID,
 		leafCertificateRetriever:          leafCertificateRetriever,
 		intermediateCertificateRetrievers: intermediateCertificateRetrievers,
 	}
 	client.sessionKeySupplier = newSessionKeySupplier()
-	client.authClient = newAuthClient(region, client)
-	return client
+	authClient := newAuthClient(region, client)
+
+	var err error
+
+	if authClient.HTTPClient, err = modifier.Modify(authClient.HTTPClient); err != nil {
+		err = fmt.Errorf("failed to modify client: %s", err.Error())
+		return nil, err
+	}
+
+	client.authClient = authClient
+	return client, nil
 }
 
-func newX509FederationClientWithCerts(region common.Region, tenancyID string, leafCertificate, leafPassphrase, leafPrivateKey []byte, intermediateCertificates [][]byte) (federationClient, error) {
+func newX509FederationClientWithCerts(region common.Region, tenancyID string, leafCertificate, leafPassphrase, leafPrivateKey []byte, intermediateCertificates [][]byte, modifier dispatcherModifier) (federationClient, error) {
 	intermediateRetrievers := make([]x509CertificateRetriever, len(intermediateCertificates))
 	for i, c := range intermediateCertificates {
 		intermediateRetrievers[i] = &staticCertificateRetriever{Passphrase: []byte(""), CertificatePem: c, PrivateKeyPem: nil}
 	}
 
-	client := x509FederationClient{
+	client := &x509FederationClient{
 		tenancyID:                         tenancyID,
 		leafCertificateRetriever:          &staticCertificateRetriever{Passphrase: leafPassphrase, CertificatePem: leafCertificate, PrivateKeyPem: leafPrivateKey},
 		intermediateCertificateRetrievers: intermediateRetrievers,
 	}
 	client.sessionKeySupplier = newSessionKeySupplier()
-	client.authClient = newAuthClient(region, &client)
-	return &client, nil
+	authClient := newAuthClient(region, client)
+
+	var err error
+
+	if authClient.HTTPClient, err = modifier.Modify(authClient.HTTPClient); err != nil {
+		err = fmt.Errorf("failed to modify client: %s", err.Error())
+		return nil, err
+	}
+
+	client.authClient = authClient
+	return client, nil
 }
 
 var (

@@ -1,9 +1,10 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Load Balancing Service API
+// Load Balancing API
 //
-// API for the Load Balancing Service
+// API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
+// information, see Overview of Load Balancing (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -13,12 +14,8 @@ import (
 )
 
 // UpdateLoadBalancerDetails Configuration details to update a load balancer.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type UpdateLoadBalancerDetails struct {
-
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The user-friendly display name for the load balancer. It does not have to be unique, and it is changeable.
 	// Avoid entering confidential information.
@@ -29,6 +26,11 @@ type UpdateLoadBalancerDetails struct {
 	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m UpdateLoadBalancerDetails) String() string {
