@@ -22,6 +22,9 @@ type AttachIScsiVolumeDetails struct {
 	// The OCID of the volume.
 	VolumeId *string `mandatory:"true" json:"volumeId"`
 
+	// The device name.
+	Device *string `mandatory:"false" json:"device"`
+
 	// A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -30,6 +33,11 @@ type AttachIScsiVolumeDetails struct {
 
 	// Whether to use CHAP authentication for the volume attachment. Defaults to false.
 	UseChap *bool `mandatory:"false" json:"useChap"`
+}
+
+//GetDevice returns Device
+func (m AttachIScsiVolumeDetails) GetDevice() *string {
+	return m.Device
 }
 
 //GetDisplayName returns DisplayName

@@ -283,6 +283,10 @@ func InstanceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"is_consistent_volume_naming_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_pv_encryption_in_transit_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -1000,7 +1004,7 @@ func (s *InstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 		CompartmentId: s.Res.CompartmentId,
 		InstanceId:    s.Res.Id,
 	}
-
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 	var attachments []oci_core.VnicAttachment
 
 	for {

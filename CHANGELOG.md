@@ -1,4 +1,18 @@
-## 3.11.3 (Unreleased)
+## 3.12.0 (Unreleased)
+
+### Added
+- Support for `retry_duration_seconds` option to configure length of retry in the face of HTTP 429 and 500 errors
+- Support for custom header insertion, extension, and removal for Load Balancer listener resource
+- Support for consistent volume names in the Block Volume attachments
+
+### Fixed
+- Retried SDK calls are now jittered to avoid herding of retry requests in high parallelism scenarios
+- Fail the initialization of the provider if either of `user_ocid`, `fingerprint`, `private_key`, `private_key_path` or `private_key_password` are specified for `InstancePrincipal` or `InstancePrincipalWithCerts` auth mode.
+
+### Note
+- Examples and test updated to use VM.Standard2.1
+- Windows example image updated to Windows-Server-2012-R2-Standard-Edition-VM-Gen2-2018.12.12-0 
+
 ## 3.11.2 (January 10, 2019)
 
 ### Fixed

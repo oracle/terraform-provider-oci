@@ -1,9 +1,10 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Load Balancing Service API
+// Load Balancing API
 //
-// API for the Load Balancing Service
+// API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
+// information, see Overview of Load Balancing (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -15,15 +16,15 @@ import (
 // BackendHealth The health status of the specified backend server as reported by the primary and standby load balancers.
 type BackendHealth struct {
 
-	// A list of the most recent health check results returned for the specified backend server.
-	HealthCheckResults []HealthCheckResult `mandatory:"true" json:"healthCheckResults"`
-
 	// The general health status of the specified backend server as reported by the primary and standby load balancers.
 	// *   **OK:** Both health checks returned `OK`.
 	// *   **WARNING:** One health check returned `OK` and one did not.
 	// *   **CRITICAL:** Neither health check returned `OK`.
 	// *   **UNKNOWN:** One or both health checks returned `UNKNOWN`, or the system was unable to retrieve metrics at this time.
 	Status BackendHealthStatusEnum `mandatory:"true" json:"status"`
+
+	// A list of the most recent health check results returned for the specified backend server.
+	HealthCheckResults []HealthCheckResult `mandatory:"true" json:"healthCheckResults"`
 }
 
 func (m BackendHealth) String() string {

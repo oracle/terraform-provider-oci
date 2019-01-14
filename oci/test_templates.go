@@ -56,7 +56,7 @@ func testInstance1() string {
 		compartment_id = "${var.compartment_id}"
 		subnet_id = "${oci_core_subnet.t.id}"
 		image = "${var.InstanceImageOCID[var.region]}"
-		shape = "VM.Standard1.8"
+		shape = "VM.Standard2.1"
 		metadata {}
 		timeouts {
 			create = "15m"

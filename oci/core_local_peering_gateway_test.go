@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -254,7 +253,10 @@ func testAccCheckCoreLocalPeeringGatewayDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreLocalPeeringGatewaySweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreLocalPeeringGateway", &resource.Sweeper{
 		Name:         "CoreLocalPeeringGateway",
 		Dependencies: DependencyGraph["localPeeringGateway"],
@@ -263,47 +265,62 @@ func initCoreLocalPeeringGatewaySweeper() {
 }
 
 func sweepCoreLocalPeeringGatewayResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	localPeeringGatewayIds, err := getLocalPeeringGatewayIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, localPeeringGatewayId := range localPeeringGatewayIds {
+		if ok := SweeperDefaultResourceId[localPeeringGatewayId]; !ok {
+			deleteLocalPeeringGatewayRequest := oci_core.DeleteLocalPeeringGatewayRequest{}
+
+			deleteLocalPeeringGatewayRequest.LocalPeeringGatewayId = &localPeeringGatewayId
+
+			deleteLocalPeeringGatewayRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteLocalPeeringGateway(context.Background(), deleteLocalPeeringGatewayRequest)
+			if error != nil {
+				fmt.Printf("Error deleting LocalPeeringGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", localPeeringGatewayId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &localPeeringGatewayId, localPeeringGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+				localPeeringGatewaySweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getLocalPeeringGatewayIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "LocalPeeringGatewayId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
 	listLocalPeeringGatewaysRequest := oci_core.ListLocalPeeringGatewaysRequest{}
 	listLocalPeeringGatewaysRequest.CompartmentId = &compartmentId
-	listLocalPeeringGatewaysResponse, err := virtualNetworkClient.ListLocalPeeringGateways(context.Background(), listLocalPeeringGatewaysRequest)
 
-	if err != nil {
-		return fmt.Errorf("Error getting LocalPeeringGateway list for compartment id : %s , %s \n", compartmentId, err)
+	vcnIds, error := getVcnIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting vcnId required for LocalPeeringGateway resource requests \n")
 	}
+	for _, vcnId := range vcnIds {
+		listLocalPeeringGatewaysRequest.VcnId = &vcnId
 
-	for _, localPeeringGateway := range listLocalPeeringGatewaysResponse.Items {
-		if localPeeringGateway.LifecycleState != oci_core.LocalPeeringGatewayLifecycleStateTerminated {
-			log.Printf("deleting localPeeringGateway %s ", *localPeeringGateway.Id)
+		listLocalPeeringGatewaysResponse, err := virtualNetworkClient.ListLocalPeeringGateways(context.Background(), listLocalPeeringGatewaysRequest)
 
-			deleteLocalPeeringGatewayRequest := oci_core.DeleteLocalPeeringGatewayRequest{}
-
-			deleteLocalPeeringGatewayRequest.LocalPeeringGatewayId = localPeeringGateway.Id
-
-			deleteLocalPeeringGatewayRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := virtualNetworkClient.DeleteLocalPeeringGateway(context.Background(), deleteLocalPeeringGatewayRequest)
-			if error != nil {
-				fmt.Printf("Error deleting LocalPeeringGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", *localPeeringGateway.Id, error)
-				continue
-			}
-
-			getLocalPeeringGatewayRequest := oci_core.GetLocalPeeringGatewayRequest{}
-
-			getLocalPeeringGatewayRequest.LocalPeeringGatewayId = localPeeringGateway.Id
-
-			_, error = virtualNetworkClient.GetLocalPeeringGateway(context.Background(), getLocalPeeringGatewayRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving LocalPeeringGateway state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, localPeeringGateway.Id, localPeeringGatewaySweepWaitCondition, time.Duration(3*time.Minute),
-				localPeeringGatewaySweepResponseFetchOperation, "core", true)
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting LocalPeeringGateway list for compartment id : %s , %s \n", compartmentId, err)
 		}
+		for _, localPeeringGateway := range listLocalPeeringGatewaysResponse.Items {
+			id := *localPeeringGateway.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "LocalPeeringGatewayId", id)
+		}
+
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func localPeeringGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {

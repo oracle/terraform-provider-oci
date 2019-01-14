@@ -47,6 +47,12 @@ func VolumeAttachmentResource() *schema.Resource {
 			},
 
 			// Optional
+			"device": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -257,6 +263,10 @@ func (s *VolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
 
+		if v.Device != nil {
+			s.D.Set("device", *v.Device)
+		}
+
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
 		}
@@ -295,6 +305,10 @@ func (s *VolumeAttachmentResourceCrud) SetData() error {
 
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.Device != nil {
+			s.D.Set("device", *v.Device)
 		}
 
 		if v.DisplayName != nil {
@@ -349,6 +363,10 @@ func (s *VolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolumeRe
 			tmp := useChap.(bool)
 			details.UseChap = &tmp
 		}
+		if device, ok := s.D.GetOkExists("device"); ok {
+			tmp := device.(string)
+			details.Device = &tmp
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
@@ -368,6 +386,10 @@ func (s *VolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolumeRe
 		request.AttachVolumeDetails = details
 	case strings.ToLower("paravirtualized"):
 		details := oci_core.AttachParavirtualizedVolumeDetails{}
+		if device, ok := s.D.GetOkExists("device"); ok {
+			tmp := device.(string)
+			details.Device = &tmp
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp

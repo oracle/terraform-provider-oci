@@ -22,6 +22,7 @@ resource "oci_core_volume_attachment" "test_volume_attachment" {
 	volume_id = "${oci_core_volume.test_volume.id}"
 
 	#Optional
+	device = "${var.volume_attachment_device}"
 	display_name = "${var.volume_attachment_display_name}"
 	is_pv_encryption_in_transit_enabled = "${var.volume_attachment_is_pv_encryption_in_transit_enabled}"
 	is_read_only = "${var.volume_attachment_is_read_only}"
@@ -34,6 +35,7 @@ resource "oci_core_volume_attachment" "test_volume_attachment" {
 The following arguments are supported:
 
 * `attachment_type` - (Required) The type of volume. The only supported value are "iscsi" and "paravirtualized".
+* `device` - (Optional) The device name.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information. 
 * `instance_id` - (Required) The OCID of the instance.
 * `is_pv_encryption_in_transit_enabled` - (Applicable when attachment_type=paravirtualized) Whether to enable encryption in transit for the PV data volume attachment. Defaults to false.
@@ -54,6 +56,7 @@ The following attributes are exported:
 * `chap_secret` - The Challenge-Handshake-Authentication-Protocol (CHAP) secret valid for the associated CHAP user name. (Also called the "CHAP password".)  Example: `d6866c0d-298b-48ba-95af-309b4faux45e` 
 * `chap_username` - The volume's system-generated Challenge-Handshake-Authentication-Protocol (CHAP) user name.  Example: `ocid1.volume.oc1.phx.abyhqljrgvttnlx73nmrwfaux7kcvzfs3s66izvxf2h4lgvyndsdsnoiwr5q` 
 * `compartment_id` - The OCID of the compartment.
+* `device` - The device name.
 * `display_name` - A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.  Example: `My volume attachment` 
 * `id` - The OCID of the volume attachment.
 * `instance_id` - The OCID of the instance the volume is attached to.

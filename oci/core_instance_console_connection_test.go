@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -150,7 +149,10 @@ func testAccCheckCoreInstanceConsoleConnectionDestroy(s *terraform.State) error 
 	return nil
 }
 
-func initCoreInstanceConsoleConnectionSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreInstanceConsoleConnection", &resource.Sweeper{
 		Name:         "CoreInstanceConsoleConnection",
 		Dependencies: DependencyGraph["instanceConsoleConnection"],
@@ -159,6 +161,36 @@ func initCoreInstanceConsoleConnectionSweeper() {
 }
 
 func sweepCoreInstanceConsoleConnectionResource(compartment string) error {
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	instanceConsoleConnectionIds, err := getInstanceConsoleConnectionIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, instanceConsoleConnectionId := range instanceConsoleConnectionIds {
+		if ok := SweeperDefaultResourceId[instanceConsoleConnectionId]; !ok {
+			deleteInstanceConsoleConnectionRequest := oci_core.DeleteInstanceConsoleConnectionRequest{}
+
+			deleteInstanceConsoleConnectionRequest.InstanceConsoleConnectionId = &instanceConsoleConnectionId
+
+			deleteInstanceConsoleConnectionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeClient.DeleteInstanceConsoleConnection(context.Background(), deleteInstanceConsoleConnectionRequest)
+			if error != nil {
+				fmt.Printf("Error deleting InstanceConsoleConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", instanceConsoleConnectionId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &instanceConsoleConnectionId, instanceConsoleConnectionSweepWaitCondition, time.Duration(3*time.Minute),
+				instanceConsoleConnectionSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getInstanceConsoleConnectionIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "InstanceConsoleConnectionId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
 
@@ -167,39 +199,14 @@ func sweepCoreInstanceConsoleConnectionResource(compartment string) error {
 	listInstanceConsoleConnectionsResponse, err := computeClient.ListInstanceConsoleConnections(context.Background(), listInstanceConsoleConnectionsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting InstanceConsoleConnection list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting InstanceConsoleConnection list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, instanceConsoleConnection := range listInstanceConsoleConnectionsResponse.Items {
-		if instanceConsoleConnection.LifecycleState != oci_core.InstanceConsoleConnectionLifecycleStateDeleted {
-			log.Printf("deleting instanceConsoleConnection %s ", *instanceConsoleConnection.Id)
-
-			deleteInstanceConsoleConnectionRequest := oci_core.DeleteInstanceConsoleConnectionRequest{}
-
-			deleteInstanceConsoleConnectionRequest.InstanceConsoleConnectionId = instanceConsoleConnection.Id
-
-			deleteInstanceConsoleConnectionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := computeClient.DeleteInstanceConsoleConnection(context.Background(), deleteInstanceConsoleConnectionRequest)
-			if error != nil {
-				fmt.Printf("Error deleting InstanceConsoleConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", *instanceConsoleConnection.Id, error)
-				continue
-			}
-
-			getInstanceConsoleConnectionRequest := oci_core.GetInstanceConsoleConnectionRequest{}
-
-			getInstanceConsoleConnectionRequest.InstanceConsoleConnectionId = instanceConsoleConnection.Id
-
-			_, error = computeClient.GetInstanceConsoleConnection(context.Background(), getInstanceConsoleConnectionRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving InstanceConsoleConnection state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, instanceConsoleConnection.Id, instanceConsoleConnectionSweepWaitCondition, time.Duration(3*time.Minute),
-				instanceConsoleConnectionSweepResponseFetchOperation, "core", true)
-		}
+		id := *instanceConsoleConnection.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "InstanceConsoleConnectionId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func instanceConsoleConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {

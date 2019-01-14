@@ -22,6 +22,9 @@ type AttachVolumeDetails interface {
 	// The OCID of the volume.
 	GetVolumeId() *string
 
+	// The device name.
+	GetDevice() *string
+
 	// A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.
 	GetDisplayName() *string
 
@@ -33,6 +36,7 @@ type attachvolumedetails struct {
 	JsonData    []byte
 	InstanceId  *string `mandatory:"true" json:"instanceId"`
 	VolumeId    *string `mandatory:"true" json:"volumeId"`
+	Device      *string `mandatory:"false" json:"device"`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 	IsReadOnly  *bool   `mandatory:"false" json:"isReadOnly"`
 	Type        string  `json:"type"`
@@ -51,6 +55,7 @@ func (m *attachvolumedetails) UnmarshalJSON(data []byte) error {
 	}
 	m.InstanceId = s.Model.InstanceId
 	m.VolumeId = s.Model.VolumeId
+	m.Device = s.Model.Device
 	m.DisplayName = s.Model.DisplayName
 	m.IsReadOnly = s.Model.IsReadOnly
 	m.Type = s.Model.Type
@@ -88,6 +93,11 @@ func (m attachvolumedetails) GetInstanceId() *string {
 //GetVolumeId returns VolumeId
 func (m attachvolumedetails) GetVolumeId() *string {
 	return m.VolumeId
+}
+
+//GetDevice returns Device
+func (m attachvolumedetails) GetDevice() *string {
+	return m.Device
 }
 
 //GetDisplayName returns DisplayName

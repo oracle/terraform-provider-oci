@@ -54,6 +54,10 @@ func LaunchOptionsToMap(obj *oci_core.LaunchOptions) map[string]interface{} {
 		result["is_pv_encryption_in_transit_enabled"] = bool(*obj.IsPvEncryptionInTransitEnabled)
 	}
 
+	if obj.IsConsistentVolumeNamingEnabled != nil {
+		result["is_consistent_volume_naming_enabled"] = bool(*obj.IsConsistentVolumeNamingEnabled)
+	}
+
 	return result
 }
 

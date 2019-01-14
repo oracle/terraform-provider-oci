@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -199,7 +198,10 @@ func testAccCheckFileStorageFileSystemDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initFileStorageFileSystemSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("FileStorageFileSystem", &resource.Sweeper{
 		Name:         "FileStorageFileSystem",
 		Dependencies: DependencyGraph["fileSystem"],
@@ -208,6 +210,36 @@ func initFileStorageFileSystemSweeper() {
 }
 
 func sweepFileStorageFileSystemResource(compartment string) error {
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+	fileSystemIds, err := getFileSystemIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, fileSystemId := range fileSystemIds {
+		if ok := SweeperDefaultResourceId[fileSystemId]; !ok {
+			deleteFileSystemRequest := oci_file_storage.DeleteFileSystemRequest{}
+
+			deleteFileSystemRequest.FileSystemId = &fileSystemId
+
+			deleteFileSystemRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			_, error := fileStorageClient.DeleteFileSystem(context.Background(), deleteFileSystemRequest)
+			if error != nil {
+				fmt.Printf("Error deleting FileSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", fileSystemId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &fileSystemId, fileSystemSweepWaitCondition, time.Duration(3*time.Minute),
+				fileSystemSweepResponseFetchOperation, "file_storage", true)
+		}
+	}
+	return nil
+}
+
+func getFileSystemIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "FileSystemId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
 
@@ -217,39 +249,14 @@ func sweepFileStorageFileSystemResource(compartment string) error {
 	listFileSystemsResponse, err := fileStorageClient.ListFileSystems(context.Background(), listFileSystemsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting FileSystem list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting FileSystem list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, fileSystem := range listFileSystemsResponse.Items {
-		if fileSystem.LifecycleState != oci_file_storage.FileSystemSummaryLifecycleStateDeleted {
-			log.Printf("deleting fileSystem %s ", *fileSystem.Id)
-
-			deleteFileSystemRequest := oci_file_storage.DeleteFileSystemRequest{}
-
-			deleteFileSystemRequest.FileSystemId = fileSystem.Id
-
-			deleteFileSystemRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
-			_, error := fileStorageClient.DeleteFileSystem(context.Background(), deleteFileSystemRequest)
-			if error != nil {
-				fmt.Printf("Error deleting FileSystem %s %s, It is possible that the resource is already deleted. Please verify manually \n", *fileSystem.Id, error)
-				continue
-			}
-
-			getFileSystemRequest := oci_file_storage.GetFileSystemRequest{}
-
-			getFileSystemRequest.FileSystemId = fileSystem.Id
-
-			_, error = fileStorageClient.GetFileSystem(context.Background(), getFileSystemRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving FileSystem state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, fileSystem.Id, fileSystemSweepWaitCondition, time.Duration(3*time.Minute),
-				fileSystemSweepResponseFetchOperation, "file_storage", true)
-		}
+		id := *fileSystem.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "FileSystemId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func fileSystemSweepWaitCondition(response common.OCIOperationResponse) bool {

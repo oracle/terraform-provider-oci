@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -355,7 +354,10 @@ func testAccCheckCoreInstancePoolDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreInstancePoolSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreInstancePool", &resource.Sweeper{
 		Name:         "CoreInstancePool",
 		Dependencies: DependencyGraph["instancePool"],
@@ -364,6 +366,36 @@ func initCoreInstancePoolSweeper() {
 }
 
 func sweepCoreInstancePoolResource(compartment string) error {
+	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient
+	instancePoolIds, err := getInstancePoolIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, instancePoolId := range instancePoolIds {
+		if ok := SweeperDefaultResourceId[instancePoolId]; !ok {
+			terminateInstancePoolRequest := oci_core.TerminateInstancePoolRequest{}
+
+			terminateInstancePoolRequest.InstancePoolId = &instancePoolId
+
+			terminateInstancePoolRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeManagementClient.TerminateInstancePool(context.Background(), terminateInstancePoolRequest)
+			if error != nil {
+				fmt.Printf("Error deleting InstancePool %s %s, It is possible that the resource is already deleted. Please verify manually \n", instancePoolId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &instancePoolId, instancePoolSweepWaitCondition, time.Duration(3*time.Minute),
+				instancePoolSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getInstancePoolIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "InstancePoolId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient
 
@@ -373,39 +405,14 @@ func sweepCoreInstancePoolResource(compartment string) error {
 	listInstancePoolsResponse, err := computeManagementClient.ListInstancePools(context.Background(), listInstancePoolsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting InstancePool list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting InstancePool list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, instancePool := range listInstancePoolsResponse.Items {
-		if instancePool.LifecycleState != oci_core.InstancePoolSummaryLifecycleStateTerminated {
-			log.Printf("deleting instancePool %s ", *instancePool.Id)
-
-			terminateInstancePoolRequest := oci_core.TerminateInstancePoolRequest{}
-
-			terminateInstancePoolRequest.InstancePoolId = instancePool.Id
-
-			terminateInstancePoolRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := computeManagementClient.TerminateInstancePool(context.Background(), terminateInstancePoolRequest)
-			if error != nil {
-				fmt.Printf("Error deleting InstancePool %s %s, It is possible that the resource is already deleted. Please verify manually \n", *instancePool.Id, error)
-				continue
-			}
-
-			getInstancePoolRequest := oci_core.GetInstancePoolRequest{}
-
-			getInstancePoolRequest.InstancePoolId = instancePool.Id
-
-			_, error = computeManagementClient.GetInstancePool(context.Background(), getInstancePoolRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving InstancePool state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, instancePool.Id, instancePoolSweepWaitCondition, time.Duration(3*time.Minute),
-				instancePoolSweepResponseFetchOperation, "core", true)
-		}
+		id := *instancePool.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "InstancePoolId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func instancePoolSweepWaitCondition(response common.OCIOperationResponse) bool {

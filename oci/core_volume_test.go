@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -585,7 +584,10 @@ func testAccCheckCoreVolumeDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreVolumeSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreVolume", &resource.Sweeper{
 		Name:         "CoreVolume",
 		Dependencies: DependencyGraph["volume"],
@@ -594,6 +596,36 @@ func initCoreVolumeSweeper() {
 }
 
 func sweepCoreVolumeResource(compartment string) error {
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	volumeIds, err := getVolumeIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, volumeId := range volumeIds {
+		if ok := SweeperDefaultResourceId[volumeId]; !ok {
+			deleteVolumeRequest := oci_core.DeleteVolumeRequest{}
+
+			deleteVolumeRequest.VolumeId = &volumeId
+
+			deleteVolumeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := blockstorageClient.DeleteVolume(context.Background(), deleteVolumeRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Volume %s %s, It is possible that the resource is already deleted. Please verify manually \n", volumeId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &volumeId, volumeSweepWaitCondition, time.Duration(3*time.Minute),
+				volumeSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getVolumeIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "VolumeId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
 
@@ -603,39 +635,14 @@ func sweepCoreVolumeResource(compartment string) error {
 	listVolumesResponse, err := blockstorageClient.ListVolumes(context.Background(), listVolumesRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting Volume list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting Volume list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, volume := range listVolumesResponse.Items {
-		if volume.LifecycleState != oci_core.VolumeLifecycleStateTerminated {
-			log.Printf("deleting volume %s ", *volume.Id)
-
-			deleteVolumeRequest := oci_core.DeleteVolumeRequest{}
-
-			deleteVolumeRequest.VolumeId = volume.Id
-
-			deleteVolumeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := blockstorageClient.DeleteVolume(context.Background(), deleteVolumeRequest)
-			if error != nil {
-				fmt.Printf("Error deleting Volume %s %s, It is possible that the resource is already deleted. Please verify manually \n", *volume.Id, error)
-				continue
-			}
-
-			getVolumeRequest := oci_core.GetVolumeRequest{}
-
-			getVolumeRequest.VolumeId = volume.Id
-
-			_, error = blockstorageClient.GetVolume(context.Background(), getVolumeRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving Volume state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, volume.Id, volumeSweepWaitCondition, time.Duration(3*time.Minute),
-				volumeSweepResponseFetchOperation, "core", true)
-		}
+		id := *volume.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "VolumeId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func volumeSweepWaitCondition(response common.OCIOperationResponse) bool {

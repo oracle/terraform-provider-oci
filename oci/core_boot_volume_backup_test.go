@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -236,7 +235,10 @@ func testAccCheckCoreBootVolumeBackupDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreBootVolumeBackupSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreBootVolumeBackup", &resource.Sweeper{
 		Name:         "CoreBootVolumeBackup",
 		Dependencies: DependencyGraph["bootVolumeBackup"],
@@ -245,6 +247,36 @@ func initCoreBootVolumeBackupSweeper() {
 }
 
 func sweepCoreBootVolumeBackupResource(compartment string) error {
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	bootVolumeBackupIds, err := getBootVolumeBackupIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, bootVolumeBackupId := range bootVolumeBackupIds {
+		if ok := SweeperDefaultResourceId[bootVolumeBackupId]; !ok {
+			deleteBootVolumeBackupRequest := oci_core.DeleteBootVolumeBackupRequest{}
+
+			deleteBootVolumeBackupRequest.BootVolumeBackupId = &bootVolumeBackupId
+
+			deleteBootVolumeBackupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := blockstorageClient.DeleteBootVolumeBackup(context.Background(), deleteBootVolumeBackupRequest)
+			if error != nil {
+				fmt.Printf("Error deleting BootVolumeBackup %s %s, It is possible that the resource is already deleted. Please verify manually \n", bootVolumeBackupId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &bootVolumeBackupId, bootVolumeBackupSweepWaitCondition, time.Duration(3*time.Minute),
+				bootVolumeBackupSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getBootVolumeBackupIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "BootVolumeBackupId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
 
@@ -254,39 +286,14 @@ func sweepCoreBootVolumeBackupResource(compartment string) error {
 	listBootVolumeBackupsResponse, err := blockstorageClient.ListBootVolumeBackups(context.Background(), listBootVolumeBackupsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting BootVolumeBackup list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting BootVolumeBackup list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, bootVolumeBackup := range listBootVolumeBackupsResponse.Items {
-		if bootVolumeBackup.LifecycleState != oci_core.BootVolumeBackupLifecycleStateTerminated {
-			log.Printf("deleting bootVolumeBackup %s ", *bootVolumeBackup.Id)
-
-			deleteBootVolumeBackupRequest := oci_core.DeleteBootVolumeBackupRequest{}
-
-			deleteBootVolumeBackupRequest.BootVolumeBackupId = bootVolumeBackup.Id
-
-			deleteBootVolumeBackupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := blockstorageClient.DeleteBootVolumeBackup(context.Background(), deleteBootVolumeBackupRequest)
-			if error != nil {
-				fmt.Printf("Error deleting BootVolumeBackup %s %s, It is possible that the resource is already deleted. Please verify manually \n", *bootVolumeBackup.Id, error)
-				continue
-			}
-
-			getBootVolumeBackupRequest := oci_core.GetBootVolumeBackupRequest{}
-
-			getBootVolumeBackupRequest.BootVolumeBackupId = bootVolumeBackup.Id
-
-			_, error = blockstorageClient.GetBootVolumeBackup(context.Background(), getBootVolumeBackupRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving BootVolumeBackup state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, bootVolumeBackup.Id, bootVolumeBackupSweepWaitCondition, time.Duration(3*time.Minute),
-				bootVolumeBackupSweepResponseFetchOperation, "core", true)
-		}
+		id := *bootVolumeBackup.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "BootVolumeBackupId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func bootVolumeBackupSweepWaitCondition(response common.OCIOperationResponse) bool {

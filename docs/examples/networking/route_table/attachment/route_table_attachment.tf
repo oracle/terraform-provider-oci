@@ -28,7 +28,7 @@ data "oci_identity_availability_domains" "ADs" {
 }
 
 variable "instance_shape" {
-  default = "VM.Standard1.8"
+  default = "VM.Standard2.1"
 }
 
 provider "oci" {

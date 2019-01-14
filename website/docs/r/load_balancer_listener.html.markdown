@@ -29,6 +29,7 @@ resource "oci_load_balancer_listener" "test_listener" {
 	}
 	hostname_names = ["${oci_load_balancer_hostname.test_hostname.name}"]
 	path_route_set_name = "${oci_load_balancer_path_route_set.test_path_route_set.name}"
+	rule_set_names = ["${oci_load_balancer_rule_set.test_rule_set.name}"]
 	ssl_configuration {
 		#Required
 		certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
@@ -57,6 +58,7 @@ The following arguments are supported:
 * `path_route_set_name` - (Optional) (Updatable) The name of the set of path-based routing rules, [PathRouteSet](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/PathRouteSet/), applied to this listener's traffic.  Example: `example_path_route_set` 
 * `port` - (Required) (Updatable) The communication port for the listener.  Example: `80` 
 * `protocol` - (Required) (Updatable) The protocol on which the listener accepts connection requests. To get a list of valid protocols, use the [ListProtocols](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerProtocol/ListProtocols) operation.  Example: `HTTP` 
+* `rule_set_names` - (Optional) (Updatable) The names of the [rule sets](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/RuleSet/) to apply to the listener.  Example: ["example_rule_set"] 
 * `ssl_configuration` - (Optional) (Updatable) 
 	* `certificate_name` - (Required) (Updatable) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
 	* `verify_depth` - (Optional) (Updatable) The maximum depth for peer certificate chain verification.  Example: `3` 

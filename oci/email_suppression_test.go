@@ -151,15 +151,3 @@ func testAccCheckEmailSuppressionDestroy(s *terraform.State) error {
 
 	return nil
 }
-
-func initEmailSuppressionSweeper() {
-	resource.AddTestSweepers("EmailSuppression", &resource.Sweeper{
-		Name:         "EmailSuppression",
-		Dependencies: DependencyGraph["suppression"],
-		F:            sweepEmailSuppressionResource,
-	})
-}
-
-func sweepEmailSuppressionResource(compartment string) error {
-	return nil
-}

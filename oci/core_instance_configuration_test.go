@@ -119,7 +119,7 @@ var (
 	}
 
 	InstanceConfigurationResourceDependencies = InstanceRequiredOnlyResource
-	InstanceConfigurationVmShape              = `VM.Standard1.8`
+	InstanceConfigurationVmShape              = `VM.Standard2.1`
 
 	InstanceConfigurationResourceImageConfig = ImageRequiredOnlyResource +
 		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
@@ -424,17 +424,5 @@ func testAccCheckCoreInstanceConfigurationDestroy(s *terraform.State) error {
 		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
 	}
 
-	return nil
-}
-
-func initCoreInstanceConfigurationSweeper() {
-	resource.AddTestSweepers("CoreInstanceConfiguration", &resource.Sweeper{
-		Name:         "CoreInstanceConfiguration",
-		Dependencies: DependencyGraph["instanceConfiguration"],
-		F:            sweepCoreInstanceConfigurationResource,
-	})
-}
-
-func sweepCoreInstanceConfigurationResource(compartment string) error {
 	return nil
 }

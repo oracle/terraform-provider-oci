@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -238,7 +237,10 @@ func testAccCheckContainerengineClusterDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initContainerengineClusterSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("ContainerengineCluster", &resource.Sweeper{
 		Name:         "ContainerengineCluster",
 		Dependencies: DependencyGraph["cluster"],
@@ -247,6 +249,36 @@ func initContainerengineClusterSweeper() {
 }
 
 func sweepContainerengineClusterResource(compartment string) error {
+	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient
+	clusterIds, err := getClusterIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, clusterId := range clusterIds {
+		if ok := SweeperDefaultResourceId[clusterId]; !ok {
+			deleteClusterRequest := oci_containerengine.DeleteClusterRequest{}
+
+			deleteClusterRequest.ClusterId = &clusterId
+
+			deleteClusterRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "containerengine")
+			_, error := containerEngineClient.DeleteCluster(context.Background(), deleteClusterRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Cluster %s %s, It is possible that the resource is already deleted. Please verify manually \n", clusterId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &clusterId, clusterSweepWaitCondition, time.Duration(3*time.Minute),
+				clusterSweepResponseFetchOperation, "containerengine", true)
+		}
+	}
+	return nil
+}
+
+func getClusterIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "ClusterId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient
 
@@ -255,39 +287,14 @@ func sweepContainerengineClusterResource(compartment string) error {
 	listClustersResponse, err := containerEngineClient.ListClusters(context.Background(), listClustersRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting Cluster list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting Cluster list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, cluster := range listClustersResponse.Items {
-		if cluster.LifecycleState != oci_containerengine.ClusterSummaryLifecycleStateDeleted {
-			log.Printf("deleting cluster %s ", *cluster.Id)
-
-			deleteClusterRequest := oci_containerengine.DeleteClusterRequest{}
-
-			deleteClusterRequest.ClusterId = cluster.Id
-
-			deleteClusterRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "containerengine")
-			_, error := containerEngineClient.DeleteCluster(context.Background(), deleteClusterRequest)
-			if error != nil {
-				fmt.Printf("Error deleting Cluster %s %s, It is possible that the resource is already deleted. Please verify manually \n", *cluster.Id, error)
-				continue
-			}
-
-			getClusterRequest := oci_containerengine.GetClusterRequest{}
-
-			getClusterRequest.ClusterId = cluster.Id
-
-			_, error = containerEngineClient.GetCluster(context.Background(), getClusterRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving Cluster state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, cluster.Id, clusterSweepWaitCondition, time.Duration(3*time.Minute),
-				clusterSweepResponseFetchOperation, "containerengine", true)
-		}
+		id := *cluster.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "ClusterId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func clusterSweepWaitCondition(response common.OCIOperationResponse) bool {

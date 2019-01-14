@@ -6,12 +6,11 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"time"
-
-	"github.com/oracle/oci-go-sdk/common"
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -201,18 +200,12 @@ func (s *LocalPeeringGatewayResourceCrud) ConnectLocalPeeringGateway() error {
 			return err
 		}
 
-		// wait for peering status to not be Pending
-		waitForPeerStatusPolicy := &common.RetryPolicy{
-			ShouldRetryOperation:  waitForLPGPeeringStatusShouldRetry(s.D.Timeout(schema.TimeoutCreate)),
-			NextDuration:          nextDuration,
-			MaximumNumberAttempts: 0,
-		}
 		request := oci_core.GetLocalPeeringGatewayRequest{}
 
 		tmpId := s.D.Id()
 		request.LocalPeeringGatewayId = &tmpId
 
-		request.RequestMetadata.RetryPolicy = waitForPeerStatusPolicy
+		request.RequestMetadata.RetryPolicy = getLocalPeeringGatewayRetryPolicy(s.D.Timeout(schema.TimeoutCreate))
 
 		response, getError := s.Client.GetLocalPeeringGateway(context.Background(), request)
 		if getError != nil {
@@ -394,17 +387,25 @@ func (s *LocalPeeringGatewayResourceCrud) SetData() error {
 	return nil
 }
 
-func waitForLPGPeeringStatusShouldRetry(timeout time.Duration) func(response common.OCIOperationResponse) bool {
-	return func(response common.OCIOperationResponse) bool {
-		if shouldRetry(response, false, "core") {
-			return true
-		}
-		if getLocalPeeringGatewayResponse, ok := response.Response.(oci_core.GetLocalPeeringGatewayResponse); ok {
-			if getLocalPeeringGatewayResponse.PeeringStatus == oci_core.LocalPeeringGatewayPeeringStatusPending {
-				timeWaited := getTimeWaited(response.AttemptNumber)
-				return timeWaited < timeout
+func getLocalPeeringGatewayRetryPolicy(timeout time.Duration) *oci_common.RetryPolicy {
+	startTime := time.Now()
+	// wait for peering status to not be Pending
+	return &oci_common.RetryPolicy{
+		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
+			if shouldRetry(response, false, "core", startTime) {
+				return true
 			}
-		}
-		return false
+			if getLocalPeeringGatewayResponse, ok := response.Response.(oci_core.GetLocalPeeringGatewayResponse); ok {
+				if getLocalPeeringGatewayResponse.PeeringStatus == oci_core.LocalPeeringGatewayPeeringStatusPending {
+					timeWaited := getElapsedRetryDuration(startTime)
+					return timeWaited < timeout
+				}
+			}
+			return false
+		},
+		NextDuration: func(response oci_common.OCIOperationResponse) time.Duration {
+			return getRetryBackoffDuration(response, false, "core", startTime)
+		},
+		MaximumNumberAttempts: 0,
 	}
 }
