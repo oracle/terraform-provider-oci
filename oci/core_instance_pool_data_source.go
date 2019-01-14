@@ -40,6 +40,51 @@ func CoreInstancePoolDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"load_balancers": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"backend_set_name": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"load_balancer_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"port": {
+							Type:     schema.TypeInt,
+							Required: true,
+							ForceNew: true,
+						},
+						"vnic_selection": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+
+						// Computed
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"instance_pool_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"placement_configurations": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -161,6 +206,12 @@ func (s *CoreInstancePoolDataSourceCrud) SetData() error {
 	if s.Res.InstanceConfigurationId != nil {
 		s.D.Set("instance_configuration_id", *s.Res.InstanceConfigurationId)
 	}
+
+	loadBalancers := []interface{}{}
+	for _, item := range s.Res.LoadBalancers {
+		loadBalancers = append(loadBalancers, InstancePoolLoadBalancerAttachmentToMap(item))
+	}
+	s.D.Set("load_balancers", loadBalancers)
 
 	placementConfigurations := []interface{}{}
 	for _, item := range s.Res.PlacementConfigurations {

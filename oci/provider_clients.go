@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoScaling"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -40,6 +41,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	// Official Go SDK clients:
 
 	auditClient, err := oci_audit.NewAuditClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	autoScalingClient, err := oci_auto_scaling.NewAutoScalingClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -209,6 +214,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&autoScalingClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&blockstorageClient.BaseClient)
 	if err != nil {
 		return
@@ -291,6 +300,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	}
 
 	clients.auditClient = &auditClient
+	clients.autoScalingClient = &autoScalingClient
 	clients.blockstorageClient = &blockstorageClient
 	clients.computeClient = &computeClient
 	clients.computeManagementClient = &computeManagementClient
@@ -316,28 +326,29 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 }
 
 type OracleClients struct {
-	auditClient             *oci_audit.AuditClient
-	blockstorageClient      *oci_core.BlockstorageClient
-	computeClient           *oci_core.ComputeClient
-	computeManagementClient *oci_core.ComputeManagementClient
-	containerEngineClient   *oci_containerengine.ContainerEngineClient
-	databaseClient          *oci_database.DatabaseClient
-	dnsClient               *oci_dns.DnsClient
-	emailClient             *oci_email.EmailClient
-	fileStorageClient       *oci_file_storage.FileStorageClient
-	healthChecksClient      *oci_health_checks.HealthChecksClient
-	identityClient          *oci_identity.IdentityClient
-	kmsCryptoClient         *oci_kms.KmsCryptoClient
-	kmsManagementClient     *oci_kms.KmsManagementClient
-	kmsVaultClient          *oci_kms.KmsVaultClient
-	loadBalancerClient      *oci_load_balancer.LoadBalancerClient
+	auditClient                    *oci_audit.AuditClient
+	autoScalingClient              *oci_auto_scaling.AutoScalingClient
+	blockstorageClient             *oci_core.BlockstorageClient
+	computeClient                  *oci_core.ComputeClient
+	computeManagementClient        *oci_core.ComputeManagementClient
+	containerEngineClient          *oci_containerengine.ContainerEngineClient
+	databaseClient                 *oci_database.DatabaseClient
+	dnsClient                      *oci_dns.DnsClient
+	emailClient                    *oci_email.EmailClient
+	fileStorageClient              *oci_file_storage.FileStorageClient
+	healthChecksClient             *oci_health_checks.HealthChecksClient
+	identityClient                 *oci_identity.IdentityClient
+	kmsCryptoClient                *oci_kms.KmsCryptoClient
+	kmsManagementClient            *oci_kms.KmsManagementClient
+	kmsVaultClient                 *oci_kms.KmsVaultClient
+	loadBalancerClient             *oci_load_balancer.LoadBalancerClient
 	monitoringClient               *oci_monitoring.MonitoringClient
 	notificationControlPlaneClient *oci_ons.NotificationControlPlaneClient
 	notificationDataPlaneClient    *oci_ons.NotificationDataPlaneClient
-	objectStorageClient     *oci_object_storage.ObjectStorageClient
-	streamAdminClient       *oci_streaming.StreamAdminClient
-	virtualNetworkClient    *oci_core.VirtualNetworkClient
-	configuration           map[string]string
+	objectStorageClient            *oci_object_storage.ObjectStorageClient
+	streamAdminClient              *oci_streaming.StreamAdminClient
+	virtualNetworkClient           *oci_core.VirtualNetworkClient
+	configuration                  map[string]string
 }
 
 func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClient, error) {
