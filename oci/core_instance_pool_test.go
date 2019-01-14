@@ -45,11 +45,18 @@ var (
 		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":              Representation{repType: Optional, create: `backend-servers-pool`, update: `displayName2`},
 		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"load_balancers":            RepresentationGroup{Optional, instancePoolLoadBalancersRepresentation},
 	}
 	instancePoolPlacementConfigurationsRepresentation = map[string]interface{}{
 		"availability_domain":    Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"primary_subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 		"secondary_vnic_subnets": RepresentationGroup{Optional, instancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation},
+	}
+	instancePoolLoadBalancersRepresentation = map[string]interface{}{
+		"backend_set_name": Representation{repType: Required, create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
+		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"port":             Representation{repType: Required, create: `10`},
+		"vnic_selection":   Representation{repType: Required, create: `PrimaryVnic`},
 	}
 	instancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation = map[string]interface{}{
 		"subnet_id": Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
@@ -67,14 +74,14 @@ var (
 	instanceConfigurationInstanceDetailsPoolRepresentation = map[string]interface{}{
 		"instance_type":   Representation{repType: Required, create: `compute`},
 		"secondary_vnics": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsSecondaryVnicsPoolRepresentation},
-		"launch_details":  RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentationn},
+		"launch_details":  RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentation},
 	}
 	instanceConfigurationInstanceDetailsSecondaryVnicsPoolRepresentation = map[string]interface{}{
 		"create_vnic_details": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation},
 		//the display_name should be the same as in the secondary_vnic_subnets
 		"display_name": Representation{repType: Optional, create: `backend-servers-pool`},
 	}
-	instanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentationn = map[string]interface{}{
+	instanceConfigurationInstanceDetailsLaunchDetailsPoolRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Optional, create: `${var.compartment_id}`},
 		"create_vnic_details": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPoolRepresentation},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -92,8 +99,7 @@ var (
 		"skip_source_dest_check": Representation{repType: Optional, create: `false`},
 	}
 
-	InstancePoolResourceDependenciesWithoutSecondaryVnic = ImageRequiredOnlyResource +
-		`
+	InstancePoolResourceDependenciesWithoutSecondaryVnic = SubnetResourceConfig + InstanceCommonVariables + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}` +
@@ -101,11 +107,8 @@ var (
 			getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional,
 				representationCopyWithRemovedProperties(instanceConfigurationInstanceDetailsPoolRepresentation, []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
 
-	InstancePoolResourceDependencies = ImageRequiredOnlyResource +
-		`
-	data "oci_identity_availability_domains" "ADs" {
-		compartment_id = "${var.compartment_id}"
-	}` +
+	InstancePoolResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.2.0/24`}, subnetRepresentation)) +
+		InstanceCommonVariables + BackendSetRequiredOnlyResource +
 		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, instanceConfigurationPoolRepresentation)
 )
 
@@ -150,7 +153,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies,
+				Config: config,
 			},
 			// verify create with optionals
 			{
@@ -163,6 +166,14 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
 					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
@@ -176,7 +187,6 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					},
 				),
 			},
-
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +
@@ -188,6 +198,14 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
 					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
@@ -293,6 +311,12 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.instance_pool_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.0.port", "10"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancers.0.state"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configurations.0.availability_domain"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "size", "3"),
@@ -306,7 +330,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + compartmentIdVariableStr + InstancePoolResourceConfig,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},

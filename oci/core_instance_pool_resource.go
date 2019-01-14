@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -107,6 +108,53 @@ func CoreInstancePoolResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"load_balancers": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"backend_set_name": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"load_balancer_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"port": {
+							Type:     schema.TypeInt,
+							Required: true,
+							ForceNew: true,
+						},
+						"vnic_selection": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+
+						// Computed
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"instance_pool_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 
 			// Computed
 			"state": {
@@ -118,6 +166,10 @@ func CoreInstancePoolResource() *schema.Resource {
 					instancePoolRunningState,
 					instancePoolStoppedState,
 				}, true),
+			},
+			"actual_size": {
+				Type:     schema.TypeInt,
+				Computed: true,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -245,6 +297,22 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 		request.InstanceConfigurationId = &tmp
 	}
 
+	request.LoadBalancers = []oci_core.AttachLoadBalancerDetails{}
+	if loadBalancers, ok := s.D.GetOkExists("load_balancers"); ok {
+		interfaces := loadBalancers.([]interface{})
+		tmp := make([]oci_core.AttachLoadBalancerDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "load_balancers", stateDataIndex)
+			converted, err := s.mapToAttachLoadBalancerDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		request.LoadBalancers = tmp
+	}
+
 	request.PlacementConfigurations = []oci_core.CreateInstancePoolPlacementConfigurationDetails{}
 	if placementConfigurations, ok := s.D.GetOkExists("placement_configurations"); ok {
 		interfaces := placementConfigurations.([]interface{})
@@ -324,7 +392,6 @@ func (s *CoreInstancePoolResourceCrud) Get() error {
 	if err != nil {
 		return err
 	}
-
 	s.Res = &response.InstancePool
 	return nil
 }
@@ -431,14 +498,34 @@ func (s *CoreInstancePoolResourceCrud) SetData() error {
 		s.D.Set("instance_configuration_id", *s.Res.InstanceConfigurationId)
 	}
 
+	loadBalancers := []interface{}{}
+	for _, item := range s.Res.LoadBalancers {
+		loadBalancers = append(loadBalancers, InstancePoolLoadBalancerAttachmentToMap(item))
+	}
+	s.D.Set("load_balancers", loadBalancers)
+
 	placementConfigurations := []interface{}{}
 	for _, item := range s.Res.PlacementConfigurations {
 		placementConfigurations = append(placementConfigurations, InstancePoolPlacementConfigurationToMap(item))
 	}
 	s.D.Set("placement_configurations", placementConfigurations)
 
+	// We update value of size in state file only if the size of the
+	// instance pool is modified in the TF config by the user.
+	// As there could a scenario where the instance pool size on the cloud could be different due to autoscaling configuration.
+	// Then we do not update the size but instead update the actual_size in the state file.
 	if s.Res.Size != nil {
-		s.D.Set("size", *s.Res.Size)
+		_, ok := s.D.GetOk("size") // This checks if size is in the state or not. If not and size in response is not nil it could be that user is importing and hence we need to updated the size
+		// s.D.HasChange("size"): This checks if the value in config is different from state. Which is an update by the user and hence we need to updated the size
+		if !ok {
+			log.Printf("[DEBUG] size does not exists in state, hence assuming user is importing resource")
+		}
+		if s.D.HasChange("size") || !ok {
+			oldValue, newValue := s.D.GetChange("size")
+			log.Printf("[DEBUG] size has been updated in config from %v to %v", oldValue, newValue)
+			s.D.Set("size", *s.Res.Size)
+		}
+		s.D.Set("actual_size", *s.Res.Size)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -448,6 +535,64 @@ func (s *CoreInstancePoolResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *CoreInstancePoolResourceCrud) mapToAttachLoadBalancerDetails(fieldKeyFormat string) (oci_core.AttachLoadBalancerDetails, error) {
+	result := oci_core.AttachLoadBalancerDetails{}
+
+	if backendSetName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backend_set_name")); ok {
+		tmp := backendSetName.(string)
+		result.BackendSetName = &tmp
+	}
+
+	if loadBalancerId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "load_balancer_id")); ok {
+		tmp := loadBalancerId.(string)
+		result.LoadBalancerId = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	if vnicSelection, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vnic_selection")); ok {
+		tmp := vnicSelection.(string)
+		result.VnicSelection = &tmp
+	}
+
+	return result, nil
+}
+
+func InstancePoolLoadBalancerAttachmentToMap(obj oci_core.InstancePoolLoadBalancerAttachment) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BackendSetName != nil {
+		result["backend_set_name"] = string(*obj.BackendSetName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.InstancePoolId != nil {
+		result["instance_pool_id"] = string(*obj.InstancePoolId)
+	}
+
+	if obj.LoadBalancerId != nil {
+		result["load_balancer_id"] = string(*obj.LoadBalancerId)
+	}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.VnicSelection != nil {
+		result["vnic_selection"] = string(*obj.VnicSelection)
+	}
+
+	return result
 }
 
 func (s *CoreInstancePoolResourceCrud) mapToCreateInstancePoolPlacementConfigurationDetails(fieldKeyFormat string) (oci_core.CreateInstancePoolPlacementConfigurationDetails, error) {

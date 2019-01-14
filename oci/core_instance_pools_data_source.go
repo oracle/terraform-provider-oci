@@ -120,6 +120,7 @@ func (s *CoreInstancePoolsDataSourceCrud) SetData() error {
 
 		if r.Size != nil {
 			instancePool["size"] = *r.Size
+			instancePool["actual_size"] = *r.Size
 		}
 
 		instancePool["state"] = r.LifecycleState

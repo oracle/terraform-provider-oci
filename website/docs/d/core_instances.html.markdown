@@ -107,7 +107,11 @@ The following attributes are exported:
 		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. 
 * `metadata` - Custom metadata that you provide.
-* `region` - The region that contains the availability domain the instance is running in.  Example: `phx` 
+* `region` - The region that contains the availability domain the instance is running in.
+
+	For the us-phoenix-1 and us-ashburn-1 regions, `phx` and `iad` are returned, respectively. For all other regions, the full region name is returned.
+
+	Examples: `phx`, `eu-frankfurt-1` 
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `source_details` - Details for creating an instance
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB). This should only be specified when `source_type` is `image`.
