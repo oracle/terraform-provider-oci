@@ -222,7 +222,9 @@ func (s *SubscriptionResourceCrud) Update() error {
 	if deliveryPolicy, ok := s.D.GetOkExists("delivery_policy"); ok {
 		res := oci_ons.DeliveryPolicy{}
 		// due to deliveryPolicy's difference between Update and Get Api
-		json.Unmarshal([]byte(deliveryPolicy.(string)), &res)
+		if err := json.Unmarshal([]byte(deliveryPolicy.(string)), &res); err != nil {
+			return err
+		}
 		request.DeliveryPolicy = &res
 	}
 
@@ -317,8 +319,12 @@ func jsonStringDiffSuppresionFunction(key string, old string, new string, d *sch
 		}
 		oldValue := oci_ons.DeliveryPolicy{}
 		newValue := oci_ons.DeliveryPolicy{}
-		json.Unmarshal([]byte(old), &oldValue)
-		json.Unmarshal([]byte(new), &newValue)
+		if err := json.Unmarshal([]byte(old), &oldValue); err != nil {
+			return false
+		}
+		if err := json.Unmarshal([]byte(new), &newValue); err != nil {
+			return false
+		}
 		return reflect.DeepEqual(oldValue, newValue)
 	}
 }
