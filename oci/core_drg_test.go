@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -182,7 +181,10 @@ func testAccCheckCoreDrgDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreDrgSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreDrg", &resource.Sweeper{
 		Name:         "CoreDrg",
 		Dependencies: DependencyGraph["drg"],
@@ -191,6 +193,36 @@ func initCoreDrgSweeper() {
 }
 
 func sweepCoreDrgResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	drgIds, err := getDrgIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, drgId := range drgIds {
+		if ok := SweeperDefaultResourceId[drgId]; !ok {
+			deleteDrgRequest := oci_core.DeleteDrgRequest{}
+
+			deleteDrgRequest.DrgId = &drgId
+
+			deleteDrgRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteDrg(context.Background(), deleteDrgRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Drg %s %s, It is possible that the resource is already deleted. Please verify manually \n", drgId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &drgId, drgSweepWaitCondition, time.Duration(3*time.Minute),
+				drgSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getDrgIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "DrgId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
@@ -199,39 +231,14 @@ func sweepCoreDrgResource(compartment string) error {
 	listDrgsResponse, err := virtualNetworkClient.ListDrgs(context.Background(), listDrgsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting Drg list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting Drg list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, drg := range listDrgsResponse.Items {
-		if drg.LifecycleState != oci_core.DrgLifecycleStateTerminated {
-			log.Printf("deleting drg %s ", *drg.Id)
-
-			deleteDrgRequest := oci_core.DeleteDrgRequest{}
-
-			deleteDrgRequest.DrgId = drg.Id
-
-			deleteDrgRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := virtualNetworkClient.DeleteDrg(context.Background(), deleteDrgRequest)
-			if error != nil {
-				fmt.Printf("Error deleting Drg %s %s, It is possible that the resource is already deleted. Please verify manually \n", *drg.Id, error)
-				continue
-			}
-
-			getDrgRequest := oci_core.GetDrgRequest{}
-
-			getDrgRequest.DrgId = drg.Id
-
-			_, error = virtualNetworkClient.GetDrg(context.Background(), getDrgRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving Drg state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, drg.Id, drgSweepWaitCondition, time.Duration(3*time.Minute),
-				drgSweepResponseFetchOperation, "core", true)
-		}
+		id := *drg.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "DrgId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func drgSweepWaitCondition(response common.OCIOperationResponse) bool {

@@ -166,6 +166,10 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
 				result["compartment_id"] = string(*v.CompartmentId)
 			}
 
+			if v.Device != nil {
+				result["device"] = string(*v.Device)
+			}
+
 			if v.DisplayName != nil {
 				result["display_name"] = string(*v.DisplayName)
 			}
@@ -204,6 +208,10 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
 
 			if v.CompartmentId != nil {
 				result["compartment_id"] = string(*v.CompartmentId)
+			}
+
+			if v.Device != nil {
+				result["device"] = string(*v.Device)
 			}
 
 			if v.DisplayName != nil {

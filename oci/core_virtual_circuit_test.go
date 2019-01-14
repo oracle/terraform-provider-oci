@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -393,7 +392,10 @@ func testAccCheckCoreVirtualCircuitDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreVirtualCircuitSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreVirtualCircuit", &resource.Sweeper{
 		Name:         "CoreVirtualCircuit",
 		Dependencies: DependencyGraph["virtualCircuit"],
@@ -402,6 +404,36 @@ func initCoreVirtualCircuitSweeper() {
 }
 
 func sweepCoreVirtualCircuitResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualCircuitIds, err := getVirtualCircuitIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, virtualCircuitId := range virtualCircuitIds {
+		if ok := SweeperDefaultResourceId[virtualCircuitId]; !ok {
+			deleteVirtualCircuitRequest := oci_core.DeleteVirtualCircuitRequest{}
+
+			deleteVirtualCircuitRequest.VirtualCircuitId = &virtualCircuitId
+
+			deleteVirtualCircuitRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteVirtualCircuit(context.Background(), deleteVirtualCircuitRequest)
+			if error != nil {
+				fmt.Printf("Error deleting VirtualCircuit %s %s, It is possible that the resource is already deleted. Please verify manually \n", virtualCircuitId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &virtualCircuitId, virtualCircuitSweepWaitCondition, time.Duration(3*time.Minute),
+				virtualCircuitSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getVirtualCircuitIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "VirtualCircuitId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
@@ -411,39 +443,14 @@ func sweepCoreVirtualCircuitResource(compartment string) error {
 	listVirtualCircuitsResponse, err := virtualNetworkClient.ListVirtualCircuits(context.Background(), listVirtualCircuitsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting VirtualCircuit list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting VirtualCircuit list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, virtualCircuit := range listVirtualCircuitsResponse.Items {
-		if virtualCircuit.LifecycleState != oci_core.VirtualCircuitLifecycleStateTerminated {
-			log.Printf("deleting virtualCircuit %s ", *virtualCircuit.Id)
-
-			deleteVirtualCircuitRequest := oci_core.DeleteVirtualCircuitRequest{}
-
-			deleteVirtualCircuitRequest.VirtualCircuitId = virtualCircuit.Id
-
-			deleteVirtualCircuitRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := virtualNetworkClient.DeleteVirtualCircuit(context.Background(), deleteVirtualCircuitRequest)
-			if error != nil {
-				fmt.Printf("Error deleting VirtualCircuit %s %s, It is possible that the resource is already deleted. Please verify manually \n", *virtualCircuit.Id, error)
-				continue
-			}
-
-			getVirtualCircuitRequest := oci_core.GetVirtualCircuitRequest{}
-
-			getVirtualCircuitRequest.VirtualCircuitId = virtualCircuit.Id
-
-			_, error = virtualNetworkClient.GetVirtualCircuit(context.Background(), getVirtualCircuitRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving VirtualCircuit state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, virtualCircuit.Id, virtualCircuitSweepWaitCondition, time.Duration(3*time.Minute),
-				virtualCircuitSweepResponseFetchOperation, "core", true)
-		}
+		id := *virtualCircuit.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "VirtualCircuitId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func virtualCircuitSweepWaitCondition(response common.OCIOperationResponse) bool {

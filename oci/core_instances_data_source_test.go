@@ -65,7 +65,7 @@ func (s *DatasourceCoreInstanceTestSuite) SetupTest() {
 		display_name = "{{.token}}"
 		subnet_id = "${oci_core_subnet.t.id}"
 		image = "${var.InstanceImageOCID[var.region]}"
-		shape = "VM.Standard1.8"
+		shape = "VM.Standard2.1"
 		metadata {
 			ssh_authorized_keys = "${var.ssh_public_key}"
 		}
@@ -98,7 +98,7 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.display_name", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.state", string(core.InstanceLifecycleStateRunning)),
-					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.region"),

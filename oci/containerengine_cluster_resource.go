@@ -297,7 +297,8 @@ func (s *ClusterResourceCrud) DeletedTarget() []string {
 
 //containerEngineWorkRequestShouldRetryFunc Custom retry function for containerengine service
 func containerEngineWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
-	stopTime := time.Now().Add(timeout)
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
 	return func(response oci_common.OCIOperationResponse) bool {
 
 		//Stop after timeout has elapsed
@@ -306,7 +307,7 @@ func containerEngineWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 		}
 
 		//Make sure we stop on default rules
-		if shouldRetry(response, false, "containerengine") {
+		if shouldRetry(response, false, "containerengine", startTime) {
 			return true
 		}
 

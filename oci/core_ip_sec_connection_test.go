@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -202,7 +201,10 @@ func testAccCheckCoreIpSecConnectionDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreIpSecConnectionSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreIpSecConnection", &resource.Sweeper{
 		Name:         "CoreIpSecConnection",
 		Dependencies: DependencyGraph["ipSecConnection"],
@@ -211,6 +213,36 @@ func initCoreIpSecConnectionSweeper() {
 }
 
 func sweepCoreIpSecConnectionResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	ipSecConnectionIds, err := getIpSecConnectionIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, ipSecConnectionId := range ipSecConnectionIds {
+		if ok := SweeperDefaultResourceId[ipSecConnectionId]; !ok {
+			deleteIPSecConnectionRequest := oci_core.DeleteIPSecConnectionRequest{}
+
+			deleteIPSecConnectionRequest.IpscId = &ipSecConnectionId
+
+			deleteIPSecConnectionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteIPSecConnection(context.Background(), deleteIPSecConnectionRequest)
+			if error != nil {
+				fmt.Printf("Error deleting IpSecConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", ipSecConnectionId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &ipSecConnectionId, ipSecConnectionSweepWaitCondition, time.Duration(3*time.Minute),
+				ipSecConnectionSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getIpSecConnectionIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "IpSecConnectionId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
@@ -219,39 +251,14 @@ func sweepCoreIpSecConnectionResource(compartment string) error {
 	listIPSecConnectionsResponse, err := virtualNetworkClient.ListIPSecConnections(context.Background(), listIPSecConnectionsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting IpSecConnection list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting IpSecConnection list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, ipSecConnection := range listIPSecConnectionsResponse.Items {
-		if ipSecConnection.LifecycleState != oci_core.IpSecConnectionLifecycleStateTerminated {
-			log.Printf("deleting ipSecConnection %s ", *ipSecConnection.Id)
-
-			deleteIPSecConnectionRequest := oci_core.DeleteIPSecConnectionRequest{}
-
-			deleteIPSecConnectionRequest.IpscId = ipSecConnection.Id
-
-			deleteIPSecConnectionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := virtualNetworkClient.DeleteIPSecConnection(context.Background(), deleteIPSecConnectionRequest)
-			if error != nil {
-				fmt.Printf("Error deleting IpSecConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", *ipSecConnection.Id, error)
-				continue
-			}
-
-			getIPSecConnectionRequest := oci_core.GetIPSecConnectionRequest{}
-
-			getIPSecConnectionRequest.IpscId = ipSecConnection.Id
-
-			_, error = virtualNetworkClient.GetIPSecConnection(context.Background(), getIPSecConnectionRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving IpSecConnection state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, ipSecConnection.Id, ipSecConnectionSweepWaitCondition, time.Duration(3*time.Minute),
-				ipSecConnectionSweepResponseFetchOperation, "core", true)
-		}
+		id := *ipSecConnection.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "IpSecConnectionId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func ipSecConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {

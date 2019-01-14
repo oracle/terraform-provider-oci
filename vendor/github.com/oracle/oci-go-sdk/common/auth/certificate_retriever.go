@@ -31,14 +31,16 @@ type urlBasedX509CertificateRetriever struct {
 	privateKeyPemRaw  []byte
 	privateKey        *rsa.PrivateKey
 	mux               sync.Mutex
+	dispatcher        common.HTTPRequestDispatcher
 }
 
-func newURLBasedX509CertificateRetriever(certURL, privateKeyURL, passphrase string) x509CertificateRetriever {
+func newURLBasedX509CertificateRetriever(dispatcher common.HTTPRequestDispatcher, certURL, privateKeyURL, passphrase string) x509CertificateRetriever {
 	return &urlBasedX509CertificateRetriever{
 		certURL:       certURL,
 		privateKeyURL: privateKeyURL,
 		passphrase:    passphrase,
 		mux:           sync.Mutex{},
+		dispatcher:    dispatcher,
 	}
 }
 
@@ -75,7 +77,7 @@ func (r *urlBasedX509CertificateRetriever) Refresh() error {
 
 func (r *urlBasedX509CertificateRetriever) renewCertificate(url string) (certificatePemRaw []byte, certificate *x509.Certificate, err error) {
 	var body bytes.Buffer
-	if body, err = httpGet(url); err != nil {
+	if body, err = httpGet(r.dispatcher, url); err != nil {
 		return nil, nil, fmt.Errorf("failed to get certificate from %s: %s", url, err.Error())
 	}
 
@@ -95,7 +97,7 @@ func (r *urlBasedX509CertificateRetriever) renewCertificate(url string) (certifi
 
 func (r *urlBasedX509CertificateRetriever) renewPrivateKey(url, passphrase string) (privateKeyPemRaw []byte, privateKey *rsa.PrivateKey, err error) {
 	var body bytes.Buffer
-	if body, err = httpGet(url); err != nil {
+	if body, err = httpGet(r.dispatcher, url); err != nil {
 		return nil, nil, fmt.Errorf("failed to get private key from %s: %s", url, err.Error())
 	}
 

@@ -7,8 +7,10 @@ import (
 	"fmt"
 	"regexp"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -172,4 +174,82 @@ func testAccCheckIdentityDynamicGroupDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("IdentityDynamicGroup", &resource.Sweeper{
+		Name:         "IdentityDynamicGroup",
+		Dependencies: DependencyGraph["dynamicGroup"],
+		F:            sweepIdentityDynamicGroupResource,
+	})
+}
+
+func sweepIdentityDynamicGroupResource(compartment string) error {
+	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+	dynamicGroupIds, err := getDynamicGroupIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, dynamicGroupId := range dynamicGroupIds {
+		if ok := SweeperDefaultResourceId[dynamicGroupId]; !ok {
+			deleteDynamicGroupRequest := oci_identity.DeleteDynamicGroupRequest{}
+
+			deleteDynamicGroupRequest.DynamicGroupId = &dynamicGroupId
+
+			deleteDynamicGroupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			_, error := identityClient.DeleteDynamicGroup(context.Background(), deleteDynamicGroupRequest)
+			if error != nil {
+				fmt.Printf("Error deleting DynamicGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", dynamicGroupId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &dynamicGroupId, dynamicGroupSweepWaitCondition, time.Duration(3*time.Minute),
+				dynamicGroupSweepResponseFetchOperation, "identity", true)
+		}
+	}
+	return nil
+}
+
+func getDynamicGroupIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "DynamicGroupId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+
+	listDynamicGroupsRequest := oci_identity.ListDynamicGroupsRequest{}
+	listDynamicGroupsRequest.CompartmentId = &compartmentId
+	listDynamicGroupsResponse, err := identityClient.ListDynamicGroups(context.Background(), listDynamicGroupsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting DynamicGroup list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, dynamicGroup := range listDynamicGroupsResponse.Items {
+		id := *dynamicGroup.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "DynamicGroupId", id)
+	}
+	return resourceIds, nil
+}
+
+func dynamicGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if dynamicGroupResponse, ok := response.Response.(oci_identity.GetDynamicGroupResponse); ok {
+		return dynamicGroupResponse.LifecycleState == oci_identity.DynamicGroupLifecycleStateDeleted
+	}
+	return false
+}
+
+func dynamicGroupSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.identityClient.GetDynamicGroup(context.Background(), oci_identity.GetDynamicGroupRequest{
+		DynamicGroupId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

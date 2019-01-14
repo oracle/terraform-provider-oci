@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -156,7 +155,10 @@ func testAccCheckEmailSenderDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initEmailSenderSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("EmailSender", &resource.Sweeper{
 		Name:         "EmailSender",
 		Dependencies: DependencyGraph["sender"],
@@ -165,6 +167,36 @@ func initEmailSenderSweeper() {
 }
 
 func sweepEmailSenderResource(compartment string) error {
+	emailClient := GetTestClients(&schema.ResourceData{}).emailClient
+	senderIds, err := getSenderIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, senderId := range senderIds {
+		if ok := SweeperDefaultResourceId[senderId]; !ok {
+			deleteSenderRequest := oci_email.DeleteSenderRequest{}
+
+			deleteSenderRequest.SenderId = &senderId
+
+			deleteSenderRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
+			_, error := emailClient.DeleteSender(context.Background(), deleteSenderRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Sender %s %s, It is possible that the resource is already deleted. Please verify manually \n", senderId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &senderId, senderSweepWaitCondition, time.Duration(3*time.Minute),
+				senderSweepResponseFetchOperation, "email", true)
+		}
+	}
+	return nil
+}
+
+func getSenderIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "SenderId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	emailClient := GetTestClients(&schema.ResourceData{}).emailClient
 
@@ -174,39 +206,14 @@ func sweepEmailSenderResource(compartment string) error {
 	listSendersResponse, err := emailClient.ListSenders(context.Background(), listSendersRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting Sender list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting Sender list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, sender := range listSendersResponse.Items {
-		if sender.LifecycleState != oci_email.SenderSummaryLifecycleStateDeleted {
-			log.Printf("deleting sender %s ", *sender.Id)
-
-			deleteSenderRequest := oci_email.DeleteSenderRequest{}
-
-			deleteSenderRequest.SenderId = sender.Id
-
-			deleteSenderRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
-			_, error := emailClient.DeleteSender(context.Background(), deleteSenderRequest)
-			if error != nil {
-				fmt.Printf("Error deleting Sender %s %s, It is possible that the resource is already deleted. Please verify manually \n", *sender.Id, error)
-				continue
-			}
-
-			getSenderRequest := oci_email.GetSenderRequest{}
-
-			getSenderRequest.SenderId = sender.Id
-
-			_, error = emailClient.GetSender(context.Background(), getSenderRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving Sender state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, sender.Id, senderSweepWaitCondition, time.Duration(3*time.Minute),
-				senderSweepResponseFetchOperation, "email", true)
-		}
+		id := *sender.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "SenderId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func senderSweepWaitCondition(response common.OCIOperationResponse) bool {

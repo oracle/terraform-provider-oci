@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"regexp"
 	"testing"
 	"time"
@@ -315,7 +314,10 @@ func testAccCheckDnsZoneDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initDnsZoneSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("DnsZone", &resource.Sweeper{
 		Name:         "DnsZone",
 		Dependencies: DependencyGraph["zone"],
@@ -324,6 +326,36 @@ func initDnsZoneSweeper() {
 }
 
 func sweepDnsZoneResource(compartment string) error {
+	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
+	zoneIds, err := getZoneIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, zoneId := range zoneIds {
+		if ok := SweeperDefaultResourceId[zoneId]; !ok {
+			deleteZoneRequest := oci_dns.DeleteZoneRequest{}
+
+			deleteZoneRequest.ZoneNameOrId = &zoneId
+
+			deleteZoneRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+			_, error := dnsClient.DeleteZone(context.Background(), deleteZoneRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Zone %s %s, It is possible that the resource is already deleted. Please verify manually \n", zoneId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &zoneId, zoneSweepWaitCondition, time.Duration(3*time.Minute),
+				zoneSweepResponseFetchOperation, "dns", true)
+		}
+	}
+	return nil
+}
+
+func getZoneIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "ZoneId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
 
@@ -333,37 +365,14 @@ func sweepDnsZoneResource(compartment string) error {
 	listZonesResponse, err := dnsClient.ListZones(context.Background(), listZonesRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting Zone list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting Zone list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, zone := range listZonesResponse.Items {
-		log.Printf("deleting zone %s ", *zone.Id)
-
-		deleteZoneRequest := oci_dns.DeleteZoneRequest{}
-
-		deleteZoneRequest.ZoneNameOrId = zone.Id
-
-		deleteZoneRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
-		_, error := dnsClient.DeleteZone(context.Background(), deleteZoneRequest)
-		if error != nil {
-			fmt.Printf("Error deleting Zone %s %s, It is possible that the resource is already deleted. Please verify manually \n", *zone.Id, error)
-			continue
-		}
-
-		getZoneRequest := oci_dns.GetZoneRequest{}
-
-		getZoneRequest.ZoneNameOrId = zone.Id
-
-		_, error = dnsClient.GetZone(context.Background(), getZoneRequest)
-		if error != nil {
-			fmt.Printf("Error retrieving Zone state %s \n", error)
-			continue
-		}
-
-		waitTillCondition(testAccProvider, zone.Id, zoneSweepWaitCondition, time.Duration(3*time.Minute),
-			zoneSweepResponseFetchOperation, "dns", true)
+		id := *zone.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "ZoneId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func zoneSweepWaitCondition(response common.OCIOperationResponse) bool {

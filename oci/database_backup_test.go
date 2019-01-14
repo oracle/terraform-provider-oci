@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -128,7 +127,10 @@ func testAccCheckDatabaseBackupDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initDatabaseBackupSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("DatabaseBackup", &resource.Sweeper{
 		Name:         "DatabaseBackup",
 		Dependencies: DependencyGraph["backup"],
@@ -137,6 +139,36 @@ func initDatabaseBackupSweeper() {
 }
 
 func sweepDatabaseBackupResource(compartment string) error {
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	backupIds, err := getBackupIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, backupId := range backupIds {
+		if ok := SweeperDefaultResourceId[backupId]; !ok {
+			deleteBackupRequest := oci_database.DeleteBackupRequest{}
+
+			deleteBackupRequest.BackupId = &backupId
+
+			deleteBackupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			_, error := databaseClient.DeleteBackup(context.Background(), deleteBackupRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Backup %s %s, It is possible that the resource is already deleted. Please verify manually \n", backupId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &backupId, backupSweepWaitCondition, time.Duration(3*time.Minute),
+				backupSweepResponseFetchOperation, "database", true)
+		}
+	}
+	return nil
+}
+
+func getBackupIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "BackupId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
 
@@ -145,39 +177,14 @@ func sweepDatabaseBackupResource(compartment string) error {
 	listBackupsResponse, err := databaseClient.ListBackups(context.Background(), listBackupsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting Backup list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting Backup list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, backup := range listBackupsResponse.Items {
-		if backup.LifecycleState != oci_database.BackupSummaryLifecycleStateDeleted {
-			log.Printf("deleting backup %s ", *backup.Id)
-
-			deleteBackupRequest := oci_database.DeleteBackupRequest{}
-
-			deleteBackupRequest.BackupId = backup.Id
-
-			deleteBackupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
-			_, error := databaseClient.DeleteBackup(context.Background(), deleteBackupRequest)
-			if error != nil {
-				fmt.Printf("Error deleting Backup %s %s, It is possible that the resource is already deleted. Please verify manually \n", *backup.Id, error)
-				continue
-			}
-
-			getBackupRequest := oci_database.GetBackupRequest{}
-
-			getBackupRequest.BackupId = backup.Id
-
-			_, error = databaseClient.GetBackup(context.Background(), getBackupRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving Backup state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, backup.Id, backupSweepWaitCondition, time.Duration(3*time.Minute),
-				backupSweepResponseFetchOperation, "database", true)
-		}
+		id := *backup.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "BackupId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func backupSweepWaitCondition(response common.OCIOperationResponse) bool {

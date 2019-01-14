@@ -173,15 +173,3 @@ func testAccCheckCoreCpeDestroy(s *terraform.State) error {
 
 	return nil
 }
-
-func initCoreCpeSweeper() {
-	resource.AddTestSweepers("CoreCpe", &resource.Sweeper{
-		Name:         "CoreCpe",
-		Dependencies: DependencyGraph["cpe"],
-		F:            sweepCoreCpeResource,
-	})
-}
-
-func sweepCoreCpeResource(compartment string) error {
-	return nil
-}

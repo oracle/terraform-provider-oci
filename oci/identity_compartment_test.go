@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -40,13 +42,6 @@ var (
 		"name":           Representation{repType: Required, create: `Network`, update: `name2`},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"timeouts":       RepresentationGroup{Required, compartmentTimeoutsRepresentation},
-	}
-
-	compartmentTimeoutsRepresentation = map[string]interface{}{
-		"create": Representation{repType: Optional, create: `60m`},
-		"update": Representation{repType: Optional, create: `60m`},
-		"delete": Representation{repType: Optional, create: `60m`},
 	}
 
 	CompartmentResourceDependencies = DefinedTagsDependencies
@@ -176,11 +171,21 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"enable_delete",
+				},
+				ResourceName: resourceName,
+			},
+			// restore name of compartment
+			{
+				Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "name", "Network"),
+				),
 			},
 		},
 	})
@@ -201,7 +206,8 @@ func testAccCheckIdentityCompartmentDestroy(s *terraform.State) error {
 
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
-					string(oci_identity.CompartmentLifecycleStateDeleted): true,
+					string(oci_identity.CompartmentLifecycleStateDeleted): true, // target state when delete_enabled = true
+					string(oci_identity.CompartmentLifecycleStateActive):  true, // target state when delete_enabled = false or ""
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.
@@ -222,4 +228,82 @@ func testAccCheckIdentityCompartmentDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("IdentityCompartment", &resource.Sweeper{
+		Name:         "IdentityCompartment",
+		Dependencies: DependencyGraph["compartment"],
+		F:            sweepIdentityCompartmentResource,
+	})
+}
+
+func sweepIdentityCompartmentResource(compartment string) error {
+	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+	compartmentIds, err := getCompartmentIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, compartmentId := range compartmentIds {
+		if ok := SweeperDefaultResourceId[compartmentId]; !ok {
+			deleteCompartmentRequest := oci_identity.DeleteCompartmentRequest{}
+
+			deleteCompartmentRequest.CompartmentId = &compartmentId
+
+			deleteCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+			_, error := identityClient.DeleteCompartment(context.Background(), deleteCompartmentRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Compartment %s %s, It is possible that the resource is already deleted. Please verify manually \n", compartmentId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &compartmentId, compartmentSweepWaitCondition, time.Duration(3*time.Minute),
+				compartmentSweepResponseFetchOperation, "identity", true)
+		}
+	}
+	return nil
+}
+
+func getCompartmentIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "CompartmentId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+
+	listCompartmentsRequest := oci_identity.ListCompartmentsRequest{}
+	listCompartmentsRequest.CompartmentId = &compartmentId
+	listCompartmentsResponse, err := identityClient.ListCompartments(context.Background(), listCompartmentsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Compartment list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, compartment := range listCompartmentsResponse.Items {
+		id := *compartment.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "CompartmentId", id)
+	}
+	return resourceIds, nil
+}
+
+func compartmentSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if compartmentResponse, ok := response.Response.(oci_identity.GetCompartmentResponse); ok {
+		return compartmentResponse.LifecycleState == oci_identity.CompartmentLifecycleStateDeleted
+	}
+	return false
+}
+
+func compartmentSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.identityClient.GetCompartment(context.Background(), oci_identity.GetCompartmentRequest{
+		CompartmentId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

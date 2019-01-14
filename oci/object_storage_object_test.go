@@ -780,15 +780,3 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 	})
 
 }
-
-func initObjectStorageObjectSweeper() {
-	resource.AddTestSweepers("ObjectStorageObject", &resource.Sweeper{
-		Name:         "ObjectStorageObject",
-		Dependencies: DependencyGraph["object"],
-		F:            sweepObjectStorageObjectResource,
-	})
-}
-
-func sweepObjectStorageObjectResource(compartment string) error {
-	return nil
-}

@@ -62,3 +62,7 @@ variable "tag_namespace_description" {
 variable "tag_namespace_name" {
   default = "exampletagns"
 }
+
+variable "volume_attachment_device" {
+  default = "/dev/oracleoci/oraclevdb"
+}

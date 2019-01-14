@@ -255,15 +255,3 @@ func testAccCheckContainerengineNodePoolDestroy(s *terraform.State) error {
 
 	return nil
 }
-
-func initContainerengineNodePoolSweeper() {
-	resource.AddTestSweepers("ContainerengineNodePool", &resource.Sweeper{
-		Name:         "ContainerengineNodePool",
-		Dependencies: DependencyGraph["nodePool"],
-		F:            sweepContainerengineNodePoolResource,
-	})
-}
-
-func sweepContainerengineNodePoolResource(compartment string) error {
-	return nil
-}

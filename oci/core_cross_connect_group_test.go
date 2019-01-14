@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -197,7 +196,10 @@ func testAccCheckCoreCrossConnectGroupDestroy(s *terraform.State) error {
 	return nil
 }
 
-func initCoreCrossConnectGroupSweeper() {
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
 	resource.AddTestSweepers("CoreCrossConnectGroup", &resource.Sweeper{
 		Name:         "CoreCrossConnectGroup",
 		Dependencies: DependencyGraph["crossConnectGroup"],
@@ -206,6 +208,36 @@ func initCoreCrossConnectGroupSweeper() {
 }
 
 func sweepCoreCrossConnectGroupResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	crossConnectGroupIds, err := getCrossConnectGroupIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, crossConnectGroupId := range crossConnectGroupIds {
+		if ok := SweeperDefaultResourceId[crossConnectGroupId]; !ok {
+			deleteCrossConnectGroupRequest := oci_core.DeleteCrossConnectGroupRequest{}
+
+			deleteCrossConnectGroupRequest.CrossConnectGroupId = &crossConnectGroupId
+
+			deleteCrossConnectGroupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteCrossConnectGroup(context.Background(), deleteCrossConnectGroupRequest)
+			if error != nil {
+				fmt.Printf("Error deleting CrossConnectGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", crossConnectGroupId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &crossConnectGroupId, crossConnectGroupSweepWaitCondition, time.Duration(3*time.Minute),
+				crossConnectGroupSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getCrossConnectGroupIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "CrossConnectGroupId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
 	compartmentId := compartment
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
@@ -215,39 +247,14 @@ func sweepCoreCrossConnectGroupResource(compartment string) error {
 	listCrossConnectGroupsResponse, err := virtualNetworkClient.ListCrossConnectGroups(context.Background(), listCrossConnectGroupsRequest)
 
 	if err != nil {
-		return fmt.Errorf("Error getting CrossConnectGroup list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting CrossConnectGroup list for compartment id : %s , %s \n", compartmentId, err)
 	}
-
 	for _, crossConnectGroup := range listCrossConnectGroupsResponse.Items {
-		if crossConnectGroup.LifecycleState != oci_core.CrossConnectGroupLifecycleStateTerminated {
-			log.Printf("deleting crossConnectGroup %s ", *crossConnectGroup.Id)
-
-			deleteCrossConnectGroupRequest := oci_core.DeleteCrossConnectGroupRequest{}
-
-			deleteCrossConnectGroupRequest.CrossConnectGroupId = crossConnectGroup.Id
-
-			deleteCrossConnectGroupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
-			_, error := virtualNetworkClient.DeleteCrossConnectGroup(context.Background(), deleteCrossConnectGroupRequest)
-			if error != nil {
-				fmt.Printf("Error deleting CrossConnectGroup %s %s, It is possible that the resource is already deleted. Please verify manually \n", *crossConnectGroup.Id, error)
-				continue
-			}
-
-			getCrossConnectGroupRequest := oci_core.GetCrossConnectGroupRequest{}
-
-			getCrossConnectGroupRequest.CrossConnectGroupId = crossConnectGroup.Id
-
-			_, error = virtualNetworkClient.GetCrossConnectGroup(context.Background(), getCrossConnectGroupRequest)
-			if error != nil {
-				fmt.Printf("Error retrieving CrossConnectGroup state %s \n", error)
-				continue
-			}
-
-			waitTillCondition(testAccProvider, crossConnectGroup.Id, crossConnectGroupSweepWaitCondition, time.Duration(3*time.Minute),
-				crossConnectGroupSweepResponseFetchOperation, "core", true)
-		}
+		id := *crossConnectGroup.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "CrossConnectGroupId", id)
 	}
-	return nil
+	return resourceIds, nil
 }
 
 func crossConnectGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
