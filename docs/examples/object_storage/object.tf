@@ -54,6 +54,21 @@ data "oci_objectstorage_objects" "objects1" {
   bucket    = "${oci_objectstorage_bucket.bucket1.name}"
 }
 
+data "oci_objectstorage_object" "object" {
+  namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket    = "${oci_objectstorage_bucket.bucket1.name}"
+  object    = "index.html"
+}
+
+output object-data {
+  value = <<EOF
+
+  content = ${data.oci_objectstorage_object.object.content}
+  content-length = ${data.oci_objectstorage_object.object.content_length}
+  content-type = ${data.oci_objectstorage_object.object.content_type}
+EOF
+}
+
 output object-head-data {
   value = <<EOF
 

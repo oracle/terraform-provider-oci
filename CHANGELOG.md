@@ -1,4 +1,8 @@
-## 3.12.1 (Unreleased)
+## 3.13.0 (Unreleased)
+
+### Added
+- Added singular data source for Object Storage objects
+
 ## 3.12.0 (January 15, 2019)
 
 ### Added
