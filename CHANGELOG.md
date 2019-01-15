@@ -1,4 +1,4 @@
-## 3.12.0 (Unreleased)
+## 3.12.0 (January 15, 2019)
 
 ### Added
 - Support for `retry_duration_seconds` option to configure length of retry in the face of HTTP 429 and 500 errors
