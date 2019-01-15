@@ -38,6 +38,13 @@ var (
 		"values": Representation{repType: Required, create: []string{`${oci_objectstorage_object.test_object.object}`}},
 	}
 
+	objectSingularDataSourceRepresentation = map[string]interface{}{
+		"bucket":               Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace":            Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"object":               Representation{repType: Required, create: `my-test-object-3`},
+		"content_length_limit": Representation{repType: Optional, create: `17`, update: `15`},
+	}
+
 	objectRepresentation = map[string]interface{}{
 		"bucket":           Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"content":          Representation{repType: Optional, create: `content`, update: `<a1>content</a1>`},
@@ -61,6 +68,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 
 	resourceName := "oci_objectstorage_object.test_object"
 	datasourceName := "data.oci_objectstorage_objects.test_objects"
+	singularDatasourceName := "data.oci_objectstorage_object.test_object"
 
 	var resId, resId2 string
 	hexSum := md5.Sum([]byte("content"))
@@ -183,6 +191,47 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					},
 				),
 			},
+			// verify singular datasource
+			{
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
+					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectSingularDataSourceRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-CA"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "content_md5"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/xml"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content", "<a1>content</a1>"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.content-type", "text/xml"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "object", "my-test-object-3"),
+				),
+			},
+			{
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
+					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectSingularDataSourceRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-CA"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "content_md5"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/xml"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content", "<a1>content</a1>"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.content-type", "text/xml"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "object", "my-test-object-3"),
+				),
+			},
 			// verify datasource
 			{
 				Config: config +
@@ -231,6 +280,70 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 			},
 		},
 	})
+}
+
+func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	var resourceName = "oci_objectstorage_object.test_object"
+	var failObjectName, failBucketName, failNamespaceName string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			{
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					func(s *terraform.State) (err error) {
+						failObjectName, err = fromInstanceState(s, resourceName, "object")
+						if err != nil {
+							return err
+						}
+						failBucketName, err = fromInstanceState(s, resourceName, "bucket")
+						if err != nil {
+							return err
+						}
+						failNamespaceName, err = fromInstanceState(s, resourceName, "namespace")
+						return err
+					}),
+			},
+			{
+				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
+						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
+					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectSingularDataSourceRepresentation),
+				ExpectError: regexp.MustCompile("the requested object's content length is"),
+			},
+		},
+	})
+
+	//destroy test will be skipped since there is no state after the error in Get
+	if failObjectName != "" && failBucketName != "" && failNamespaceName != "" {
+		client := testAccProvider.Meta().(*OracleClients).objectStorageClient
+		_, objectErr := client.DeleteObject(context.Background(), oci_object_storage.DeleteObjectRequest{
+			NamespaceName: &failNamespaceName,
+			BucketName:    &failBucketName,
+			ObjectName:    &failObjectName,
+		})
+
+		_, bucketErr := client.DeleteBucket(context.Background(), oci_object_storage.DeleteBucketRequest{
+			NamespaceName: &failNamespaceName,
+			BucketName:    &failBucketName,
+		})
+
+		if objectErr != nil || bucketErr != nil {
+			t.Errorf("failed to delete resources for the test: %v, %v", objectErr, bucketErr)
+		}
+	}
 }
 
 // This test is separated from the above test due to weird behavior from Terraform test framework.
