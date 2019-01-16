@@ -18,6 +18,10 @@ build: fmtcheck
 ### TODO: Fix this so that only unit tests are running
 test: fmtcheck
 
+sweep: fmtcheck
+	@echo "WARNING: This will destroy infrastructure. Use only in development accounts."
+	TF_ACC=1 $(prefix) go test $(TEST) -v -run TestMain -sweep=$(sweep) -sweep-run=$(sweep-run) -timeout $(timeout)
+
 testacc: fmtcheck
 	TF_ACC=1 $(prefix) go test $(TEST) -v $(TESTARGS) $(run_regex) -timeout $(timeout)
 
@@ -31,7 +35,13 @@ vet:
 	fi
 
 fmt:
-	gofmt -s -w ./$(PKG_NAME)
+	gofmt -w $(GOFMT_FILES)
+	goimports -w -local github.com/terraform-providers/terraform-provider-oci $(GOFMT_FILES)
+	@if [ -x "$$(command -v terraform)" ]; then \
+		terraform fmt; \
+	else \
+		echo "No terraform command found. Not running 'terraform fmt'"; \
+	fi
 
 ## IMPORTANT: Do not modify the following `fmtcheck` target. The following steps are a requirement of the provider release process.
 ## To add custom checks, use the `ocicheck` target instead.

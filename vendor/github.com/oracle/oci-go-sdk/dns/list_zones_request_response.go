@@ -40,14 +40,14 @@ type ListZonesRequest struct {
 	// all returned resources were created before the indicated time.
 	TimeCreatedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedLessThan"`
 
+	// The state of a resource.
+	LifecycleState ListZonesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
 	// The field by which to sort zones.
 	SortBy ListZonesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The order to sort the resources.
 	SortOrder ListZonesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
-
-	// The state of a resource.
-	LifecycleState ListZonesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -81,10 +81,9 @@ type ListZonesResponse struct {
 	// A list of []ZoneSummary instances
 	Items []ZoneSummary `presentIn:"body"`
 
-	// For pagination of a list of items. When paging through a list, if
-	// this header appears in the response, then a partial list might have
-	// been returned. Include this value as the `page` parameter for the
-	// subsequent GET request to get the next batch of items.
+	// For list pagination. When this header appears in the response, additional pages
+	// of results remain. For important details about how pagination works,
+	// see List Pagination (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// The total number of items that match the query.
@@ -123,6 +122,35 @@ var mappingListZonesZoneType = map[string]ListZonesZoneTypeEnum{
 func GetListZonesZoneTypeEnumValues() []ListZonesZoneTypeEnum {
 	values := make([]ListZonesZoneTypeEnum, 0)
 	for _, v := range mappingListZonesZoneType {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListZonesLifecycleStateEnum Enum with underlying type: string
+type ListZonesLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListZonesLifecycleStateEnum
+const (
+	ListZonesLifecycleStateActive   ListZonesLifecycleStateEnum = "ACTIVE"
+	ListZonesLifecycleStateCreating ListZonesLifecycleStateEnum = "CREATING"
+	ListZonesLifecycleStateDeleted  ListZonesLifecycleStateEnum = "DELETED"
+	ListZonesLifecycleStateDeleting ListZonesLifecycleStateEnum = "DELETING"
+	ListZonesLifecycleStateFailed   ListZonesLifecycleStateEnum = "FAILED"
+)
+
+var mappingListZonesLifecycleState = map[string]ListZonesLifecycleStateEnum{
+	"ACTIVE":   ListZonesLifecycleStateActive,
+	"CREATING": ListZonesLifecycleStateCreating,
+	"DELETED":  ListZonesLifecycleStateDeleted,
+	"DELETING": ListZonesLifecycleStateDeleting,
+	"FAILED":   ListZonesLifecycleStateFailed,
+}
+
+// GetListZonesLifecycleStateEnumValues Enumerates the set of values for ListZonesLifecycleStateEnum
+func GetListZonesLifecycleStateEnumValues() []ListZonesLifecycleStateEnum {
+	values := make([]ListZonesLifecycleStateEnum, 0)
+	for _, v := range mappingListZonesLifecycleState {
 		values = append(values, v)
 	}
 	return values
@@ -171,35 +199,6 @@ var mappingListZonesSortOrder = map[string]ListZonesSortOrderEnum{
 func GetListZonesSortOrderEnumValues() []ListZonesSortOrderEnum {
 	values := make([]ListZonesSortOrderEnum, 0)
 	for _, v := range mappingListZonesSortOrder {
-		values = append(values, v)
-	}
-	return values
-}
-
-// ListZonesLifecycleStateEnum Enum with underlying type: string
-type ListZonesLifecycleStateEnum string
-
-// Set of constants representing the allowable values for ListZonesLifecycleStateEnum
-const (
-	ListZonesLifecycleStateActive   ListZonesLifecycleStateEnum = "ACTIVE"
-	ListZonesLifecycleStateCreating ListZonesLifecycleStateEnum = "CREATING"
-	ListZonesLifecycleStateDeleted  ListZonesLifecycleStateEnum = "DELETED"
-	ListZonesLifecycleStateDeleting ListZonesLifecycleStateEnum = "DELETING"
-	ListZonesLifecycleStateFailed   ListZonesLifecycleStateEnum = "FAILED"
-)
-
-var mappingListZonesLifecycleState = map[string]ListZonesLifecycleStateEnum{
-	"ACTIVE":   ListZonesLifecycleStateActive,
-	"CREATING": ListZonesLifecycleStateCreating,
-	"DELETED":  ListZonesLifecycleStateDeleted,
-	"DELETING": ListZonesLifecycleStateDeleting,
-	"FAILED":   ListZonesLifecycleStateFailed,
-}
-
-// GetListZonesLifecycleStateEnumValues Enumerates the set of values for ListZonesLifecycleStateEnum
-func GetListZonesLifecycleStateEnumValues() []ListZonesLifecycleStateEnum {
-	values := make([]ListZonesLifecycleStateEnum, 0)
-	for _, v := range mappingListZonesLifecycleState {
 		values = append(values, v)
 	}
 	return values

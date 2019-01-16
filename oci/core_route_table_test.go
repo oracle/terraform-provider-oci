@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -389,4 +391,93 @@ func testAccCheckCoreRouteTableDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreRouteTable", &resource.Sweeper{
+		Name:         "CoreRouteTable",
+		Dependencies: DependencyGraph["routeTable"],
+		F:            sweepCoreRouteTableResource,
+	})
+}
+
+func sweepCoreRouteTableResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	routeTableIds, err := getRouteTableIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, routeTableId := range routeTableIds {
+		if ok := SweeperDefaultResourceId[routeTableId]; !ok {
+			deleteRouteTableRequest := oci_core.DeleteRouteTableRequest{}
+
+			deleteRouteTableRequest.RtId = &routeTableId
+
+			deleteRouteTableRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteRouteTable(context.Background(), deleteRouteTableRequest)
+			if error != nil {
+				fmt.Printf("Error deleting RouteTable %s %s, It is possible that the resource is already deleted. Please verify manually \n", routeTableId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &routeTableId, routeTableSweepWaitCondition, time.Duration(3*time.Minute),
+				routeTableSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getRouteTableIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "RouteTableId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listRouteTablesRequest := oci_core.ListRouteTablesRequest{}
+	listRouteTablesRequest.CompartmentId = &compartmentId
+
+	vcnIds, error := getVcnIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting vcnId required for RouteTable resource requests \n")
+	}
+	for _, vcnId := range vcnIds {
+		listRouteTablesRequest.VcnId = &vcnId
+
+		listRouteTablesRequest.LifecycleState = oci_core.RouteTableLifecycleStateAvailable
+		listRouteTablesResponse, err := virtualNetworkClient.ListRouteTables(context.Background(), listRouteTablesRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting RouteTable list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, routeTable := range listRouteTablesResponse.Items {
+			id := *routeTable.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "RouteTableId", id)
+		}
+
+	}
+	return resourceIds, nil
+}
+
+func routeTableSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if routeTableResponse, ok := response.Response.(oci_core.GetRouteTableResponse); ok {
+		return routeTableResponse.LifecycleState == oci_core.RouteTableLifecycleStateTerminated
+	}
+	return false
+}
+
+func routeTableSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetRouteTable(context.Background(), oci_core.GetRouteTableRequest{
+		RtId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

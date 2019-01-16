@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -248,4 +250,83 @@ func testAccCheckDatabaseAutonomousDataWarehouseDestroy(s *terraform.State) erro
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("DatabaseAutonomousDataWarehouse", &resource.Sweeper{
+		Name:         "DatabaseAutonomousDataWarehouse",
+		Dependencies: DependencyGraph["autonomousDataWarehouse"],
+		F:            sweepDatabaseAutonomousDataWarehouseResource,
+	})
+}
+
+func sweepDatabaseAutonomousDataWarehouseResource(compartment string) error {
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	autonomousDataWarehouseIds, err := getAutonomousDataWarehouseIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, autonomousDataWarehouseId := range autonomousDataWarehouseIds {
+		if ok := SweeperDefaultResourceId[autonomousDataWarehouseId]; !ok {
+			deleteAutonomousDataWarehouseRequest := oci_database.DeleteAutonomousDataWarehouseRequest{}
+
+			deleteAutonomousDataWarehouseRequest.AutonomousDataWarehouseId = &autonomousDataWarehouseId
+
+			deleteAutonomousDataWarehouseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			_, error := databaseClient.DeleteAutonomousDataWarehouse(context.Background(), deleteAutonomousDataWarehouseRequest)
+			if error != nil {
+				fmt.Printf("Error deleting AutonomousDataWarehouse %s %s, It is possible that the resource is already deleted. Please verify manually \n", autonomousDataWarehouseId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &autonomousDataWarehouseId, autonomousDataWarehouseSweepWaitCondition, time.Duration(3*time.Minute),
+				autonomousDataWarehouseSweepResponseFetchOperation, "database", true)
+		}
+	}
+	return nil
+}
+
+func getAutonomousDataWarehouseIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "AutonomousDataWarehouseId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+
+	listAutonomousDataWarehousesRequest := oci_database.ListAutonomousDataWarehousesRequest{}
+	listAutonomousDataWarehousesRequest.CompartmentId = &compartmentId
+	listAutonomousDataWarehousesRequest.LifecycleState = oci_database.AutonomousDataWarehouseSummaryLifecycleStateAvailable
+	listAutonomousDataWarehousesResponse, err := databaseClient.ListAutonomousDataWarehouses(context.Background(), listAutonomousDataWarehousesRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting AutonomousDataWarehouse list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, autonomousDataWarehouse := range listAutonomousDataWarehousesResponse.Items {
+		id := *autonomousDataWarehouse.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "AutonomousDataWarehouseId", id)
+	}
+	return resourceIds, nil
+}
+
+func autonomousDataWarehouseSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if autonomousDataWarehouseResponse, ok := response.Response.(oci_database.GetAutonomousDataWarehouseResponse); ok {
+		return autonomousDataWarehouseResponse.LifecycleState == oci_database.AutonomousDataWarehouseLifecycleStateTerminated
+	}
+	return false
+}
+
+func autonomousDataWarehouseSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.databaseClient.GetAutonomousDataWarehouse(context.Background(), oci_database.GetAutonomousDataWarehouseRequest{
+		AutonomousDataWarehouseId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

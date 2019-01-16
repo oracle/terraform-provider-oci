@@ -44,6 +44,13 @@ func ZoneResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"external_masters": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -95,8 +102,31 @@ func ZoneResource() *schema.Resource {
 					},
 				},
 			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
+			"nameservers": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"hostname": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"self": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -173,6 +203,14 @@ func (s *ZoneResourceCrud) Create() error {
 		request.CreateZoneDetails.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	request.ExternalMasters = []oci_dns.ExternalMaster{}
 	if externalMasters, ok := s.D.GetOkExists("external_masters"); ok {
 		interfaces := externalMasters.([]interface{})
@@ -189,6 +227,10 @@ func (s *ZoneResourceCrud) Create() error {
 		request.ExternalMasters = tmp
 	}
 
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
@@ -199,6 +241,7 @@ func (s *ZoneResourceCrud) Create() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+
 	response, err := s.Client.CreateZone(context.Background(), request)
 	if err != nil {
 		return err
@@ -220,6 +263,7 @@ func (s *ZoneResourceCrud) Get() error {
 	request.ZoneNameOrId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+
 	response, err := s.Client.GetZone(context.Background(), request)
 	if err != nil {
 		return err
@@ -232,12 +276,17 @@ func (s *ZoneResourceCrud) Get() error {
 func (s *ZoneResourceCrud) Update() error {
 	request := oci_dns.UpdateZoneRequest{}
 
-	tmp := s.D.Id()
-	request.ZoneNameOrId = &tmp
-
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
 	}
 
 	request.ExternalMasters = []oci_dns.ExternalMaster{}
@@ -256,7 +305,15 @@ func (s *ZoneResourceCrud) Update() error {
 		request.ExternalMasters = tmp
 	}
 
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	tmp := s.D.Id()
+	request.ZoneNameOrId = &tmp
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+
 	response, err := s.Client.UpdateZone(context.Background(), request)
 	if err != nil {
 		return err
@@ -289,11 +346,27 @@ func (s *ZoneResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
+	externalMasters := []interface{}{}
+	for _, item := range s.Res.ExternalMasters {
+		externalMasters = append(externalMasters, ExternalMasterToMap(item))
+	}
+	s.D.Set("external_masters", externalMasters)
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
 
-	// todo: zone entities have a "nameservers" list which is missing from the spec and should be added here when sdk is regenerated
+	nameservers := []interface{}{}
+	for _, item := range s.Res.Nameservers {
+		nameservers = append(nameservers, NameserverToMap(item))
+	}
+	s.D.Set("nameservers", nameservers)
 
 	if s.Res.Self != nil {
 		s.D.Set("self", *s.Res.Self)
@@ -308,12 +381,6 @@ func (s *ZoneResourceCrud) SetData() error {
 	}
 
 	s.D.Set("zone_type", s.Res.ZoneType)
-
-	externalMasters := []interface{}{}
-	for _, item := range s.Res.ExternalMasters {
-		externalMasters = append(externalMasters, ExternalMasterToMap(item))
-	}
-	s.D.Set("external_masters", externalMasters)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -362,6 +429,16 @@ func ExternalMasterToMap(obj oci_dns.ExternalMaster) map[string]interface{} {
 
 	if obj.Tsig != nil {
 		result["tsig"] = []interface{}{TSIGToMap(obj.Tsig)}
+	}
+
+	return result
+}
+
+func NameserverToMap(obj oci_dns.Nameserver) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Hostname != nil {
+		result["hostname"] = string(*obj.Hostname)
 	}
 
 	return result

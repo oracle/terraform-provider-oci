@@ -60,6 +60,49 @@ func UserResource() *schema.Resource {
 			},
 
 			// Computed
+			"capabilities": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"can_use_api_keys": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"can_use_auth_tokens": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"can_use_console_password": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"can_use_customer_secret_keys": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"can_use_smtp_credentials": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"external_identifier": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"identity_provider_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"inactive_state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -272,6 +315,12 @@ func (s *UserResourceCrud) Delete() error {
 }
 
 func (s *UserResourceCrud) SetData() error {
+	if s.Res.Capabilities != nil {
+		s.D.Set("capabilities", []interface{}{UserCapabilitiesToMap(s.Res.Capabilities)})
+	} else {
+		s.D.Set("capabilities", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -284,7 +333,15 @@ func (s *UserResourceCrud) SetData() error {
 		s.D.Set("description", *s.Res.Description)
 	}
 
+	if s.Res.ExternalIdentifier != nil {
+		s.D.Set("external_identifier", *s.Res.ExternalIdentifier)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IdentityProviderId != nil {
+		s.D.Set("identity_provider_id", *s.Res.IdentityProviderId)
+	}
 
 	if s.Res.InactiveStatus != nil {
 		s.D.Set("inactive_state", strconv.FormatInt(*s.Res.InactiveStatus, 10))
@@ -301,4 +358,30 @@ func (s *UserResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func UserCapabilitiesToMap(obj *oci_identity.UserCapabilities) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CanUseApiKeys != nil {
+		result["can_use_api_keys"] = bool(*obj.CanUseApiKeys)
+	}
+
+	if obj.CanUseAuthTokens != nil {
+		result["can_use_auth_tokens"] = bool(*obj.CanUseAuthTokens)
+	}
+
+	if obj.CanUseConsolePassword != nil {
+		result["can_use_console_password"] = bool(*obj.CanUseConsolePassword)
+	}
+
+	if obj.CanUseCustomerSecretKeys != nil {
+		result["can_use_customer_secret_keys"] = bool(*obj.CanUseCustomerSecretKeys)
+	}
+
+	if obj.CanUseSmtpCredentials != nil {
+		result["can_use_smtp_credentials"] = bool(*obj.CanUseSmtpCredentials)
+	}
+
+	return result
 }

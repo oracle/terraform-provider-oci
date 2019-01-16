@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -235,4 +237,83 @@ func testAccCheckLoadBalancerLoadBalancerDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("LoadBalancerLoadBalancer", &resource.Sweeper{
+		Name:         "LoadBalancerLoadBalancer",
+		Dependencies: DependencyGraph["loadBalancer"],
+		F:            sweepLoadBalancerLoadBalancerResource,
+	})
+}
+
+func sweepLoadBalancerLoadBalancerResource(compartment string) error {
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	loadBalancerIds, err := getLoadBalancerIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, loadBalancerId := range loadBalancerIds {
+		if ok := SweeperDefaultResourceId[loadBalancerId]; !ok {
+			deleteLoadBalancerRequest := oci_load_balancer.DeleteLoadBalancerRequest{}
+
+			deleteLoadBalancerRequest.LoadBalancerId = &loadBalancerId
+
+			deleteLoadBalancerRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			_, error := loadBalancerClient.DeleteLoadBalancer(context.Background(), deleteLoadBalancerRequest)
+			if error != nil {
+				fmt.Printf("Error deleting LoadBalancer %s %s, It is possible that the resource is already deleted. Please verify manually \n", loadBalancerId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &loadBalancerId, loadBalancerSweepWaitCondition, time.Duration(3*time.Minute),
+				loadBalancerSweepResponseFetchOperation, "load_balancer", true)
+		}
+	}
+	return nil
+}
+
+func getLoadBalancerIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "LoadBalancerId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+
+	listLoadBalancersRequest := oci_load_balancer.ListLoadBalancersRequest{}
+	listLoadBalancersRequest.CompartmentId = &compartmentId
+	listLoadBalancersRequest.LifecycleState = oci_load_balancer.LoadBalancerLifecycleStateActive
+	listLoadBalancersResponse, err := loadBalancerClient.ListLoadBalancers(context.Background(), listLoadBalancersRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting LoadBalancer list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, loadBalancer := range listLoadBalancersResponse.Items {
+		id := *loadBalancer.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "LoadBalancerId", id)
+	}
+	return resourceIds, nil
+}
+
+func loadBalancerSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if loadBalancerResponse, ok := response.Response.(oci_load_balancer.GetLoadBalancerResponse); ok {
+		return loadBalancerResponse.LifecycleState == oci_load_balancer.LoadBalancerLifecycleStateDeleted
+	}
+	return false
+}
+
+func loadBalancerSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.loadBalancerClient.GetLoadBalancer(context.Background(), oci_load_balancer.GetLoadBalancerRequest{
+		LoadBalancerId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

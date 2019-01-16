@@ -7,9 +7,11 @@ import (
 	"crypto/tls"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"net"
 	"net/http"
 	"os"
+	"path/filepath"
 	"runtime"
 	"strings"
 	"time"
@@ -23,23 +25,39 @@ import (
 )
 
 var descriptions map[string]string
-var disableAutoRetries bool
+var apiKeyConfigAttributes = [...]string{userOcidAttrName, fingerprintAttrName, privateKeyAttrName, privateKeyPathAttrName, privateKeyPasswordAttrName}
 
 const (
-	authAPIKeySetting            = "ApiKey"
-	authInstancePrincipalSetting = "InstancePrincipal"
-	requestHeaderOpcOboToken     = "opc-obo-token"
-	requestHeaderOpcHostSerial   = "opc-host-serial"
-	defaultRequestTimeout        = 0
-	defaultConnectionTimeout     = 10 * time.Second
-	defaultTLSHandshakeTimeout   = 5 * time.Second
-	defaultUserAgentProviderName = "Oracle-TerraformProvider"
-	userAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) %s/%s"
-	userAgentProviderNameEnv     = "USER_AGENT_PROVIDER_NAME"
-	domainNameOverrideEnv        = "domain_name_override"
-	customCertLocationEnv        = "custom_cert_location"
-	oracleR1DomainNameEnv        = "oracle_r1_domain_name" // deprecate
-	r1CertLocationEnv            = "R1_CERT_LOCATION"      // deprecate
+	authAPIKeySetting                     = "ApiKey"
+	authInstancePrincipalSetting          = "InstancePrincipal"
+	authInstancePrincipalWithCertsSetting = "InstancePrincipalWithCerts"
+	requestHeaderOpcOboToken              = "opc-obo-token"
+	requestHeaderOpcHostSerial            = "opc-host-serial"
+	defaultRequestTimeout                 = 0
+	defaultConnectionTimeout              = 10 * time.Second
+	defaultTLSHandshakeTimeout            = 5 * time.Second
+	defaultUserAgentProviderName          = "Oracle-TerraformProvider"
+	userAgentFormatter                    = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) %s/%s"
+	userAgentProviderNameEnv              = "USER_AGENT_PROVIDER_NAME"
+	domainNameOverrideEnv                 = "domain_name_override"
+	customCertLocationEnv                 = "custom_cert_location"
+	oracleR1DomainNameEnv                 = "oracle_r1_domain_name" // deprecate
+	r1CertLocationEnv                     = "R1_CERT_LOCATION"      // deprecate
+
+	authAttrName                 = "auth"
+	tenancyOcidAttrName          = "tenancy_ocid"
+	userOcidAttrName             = "user_ocid"
+	fingerprintAttrName          = "fingerprint"
+	privateKeyAttrName           = "private_key"
+	privateKeyPathAttrName       = "private_key_path"
+	privateKeyPasswordAttrName   = "private_key_password"
+	regionAttrName               = "region"
+	disableAutoRetriesAttrName   = "disable_auto_retries"
+	retryDurationSecondsAttrName = "retry_duration_seconds"
+	oboTokenAttrName             = "obo_token"
+
+	tfEnvPrefix  = "TF_VAR_"
+	ociEnvPrefix = "OCI_"
 )
 
 // OboTokenProvider interface that wraps information about auth tokens so the sdk client can make calls
@@ -59,23 +77,33 @@ func (provider emptyOboTokenProvider) OboToken() (string, error) {
 type oboTokenProviderFromEnv struct{}
 
 func (p oboTokenProviderFromEnv) OboToken() (string, error) {
-	return getEnvSettingWithBlankDefault("obo_token"), nil
+	return getEnvSettingWithBlankDefault(oboTokenAttrName), nil
+}
+
+func tfVarName(attrName string) string {
+	return tfEnvPrefix + attrName
+}
+
+func ociVarName(attrName string) string {
+	return ociEnvPrefix + strings.ToUpper(attrName)
 }
 
 func init() {
 	descriptions = map[string]string{
-		"auth":         fmt.Sprintf("(Optional) The type of auth to use. Options are '%s' and '%s'. By default, '%s' will be used.", authAPIKeySetting, authInstancePrincipalSetting, authAPIKeySetting),
-		"tenancy_ocid": fmt.Sprintf("(Optional) The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
-		"user_ocid":    fmt.Sprintf("(Optional) The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
-		"fingerprint":  fmt.Sprintf("(Optional) The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
-		"region":       "(Required) The region for API connections (e.g. us-ashburn-1).",
-		"private_key": "(Optional) A PEM formatted RSA private key for the user.\n" +
+		authAttrName:        fmt.Sprintf("(Optional) The type of auth to use. Options are '%s' and '%s'. By default, '%s' will be used.", authAPIKeySetting, authInstancePrincipalSetting, authAPIKeySetting),
+		tenancyOcidAttrName: fmt.Sprintf("(Optional) The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
+		userOcidAttrName:    fmt.Sprintf("(Optional) The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
+		fingerprintAttrName: fmt.Sprintf("(Optional) The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
+		regionAttrName:      "(Required) The region for API connections (e.g. us-ashburn-1).",
+		privateKeyAttrName: "(Optional) A PEM formatted RSA private key for the user.\n" +
 			fmt.Sprintf("A private_key or a private_key_path must be provided if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
-		"private_key_path": "(Optional) The path to the user's PEM formatted private key.\n" +
+		privateKeyPathAttrName: "(Optional) The path to the user's PEM formatted private key.\n" +
 			fmt.Sprintf("A private_key or a private_key_path must be provided if auth is set to '%s', ignored otherwise.", authAPIKeySetting),
-		"private_key_password": "(Optional) The password used to secure the private key.",
-		"disable_auto_retries": "(Optional) Disable Automatic retries for retriable errors.\n" +
-			"Auto retries were introduced to solve some eventual consistency problems but it also introduced performance issues on destroy operations.",
+		privateKeyPasswordAttrName: "(Optional) The password used to secure the private key.",
+		disableAutoRetriesAttrName: "(Optional) Disable automatic retries for retriable errors.\n" +
+			"Automatic retries were introduced to solve some eventual consistency problems but it also introduced performance issues on destroy operations.",
+		retryDurationSecondsAttrName: "(Optional) The minimum duration (in seconds) to retry a resource operation in response to an error.\n" +
+			"The actual retry duration may be longer due to jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true.",
 	}
 }
 
@@ -91,66 +119,73 @@ func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
 
 func schemaMap() map[string]*schema.Schema {
 	return map[string]*schema.Schema{
-		"auth": {
+		authAttrName: {
 			Type:         schema.TypeString,
 			Optional:     true,
-			Description:  descriptions["auth"],
-			DefaultFunc:  schema.MultiEnvDefaultFunc([]string{"TF_VAR_auth", "OCI_AUTH"}, authAPIKeySetting),
-			ValidateFunc: validation.StringInSlice([]string{authAPIKeySetting, authInstancePrincipalSetting}, true),
+			Description:  descriptions[authAttrName],
+			DefaultFunc:  schema.MultiEnvDefaultFunc([]string{tfVarName(authAttrName), ociVarName(authAttrName)}, authAPIKeySetting),
+			ValidateFunc: validation.StringInSlice([]string{authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting}, true),
 		},
-		"tenancy_ocid": {
+		tenancyOcidAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Description: descriptions["tenancy_ocid"],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_tenancy_ocid", "OCI_TENANCY_OCID"}, nil),
+			Description: descriptions[tenancyOcidAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(tenancyOcidAttrName), ociVarName(tenancyOcidAttrName)}, nil),
 		},
-		"user_ocid": {
+		userOcidAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Description: descriptions["user_ocid"],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_user_ocid", "OCI_USER_OCID"}, nil),
+			Description: descriptions[userOcidAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(userOcidAttrName), ociVarName(userOcidAttrName)}, nil),
 		},
-		"fingerprint": {
+		fingerprintAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Description: descriptions["fingerprint"],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_fingerprint", "OCI_FINGERPRINT"}, nil),
+			Description: descriptions[fingerprintAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(fingerprintAttrName), ociVarName(fingerprintAttrName)}, nil),
 		},
 		// Mostly used for testing. Don't put keys in your .tf files
-		"private_key": {
+		privateKeyAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Default:     "",
 			Sensitive:   true,
-			Description: descriptions["private_key"],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_private_key", "OCI_PRIVATE_KEY"}, nil),
+			Description: descriptions[privateKeyAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(privateKeyAttrName), ociVarName(privateKeyAttrName)}, nil),
 		},
-		"private_key_path": {
+		privateKeyPathAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Description: descriptions["private_key_path"],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_private_key_path", "OCI_PRIVATE_KEY_PATH"}, nil),
+			Description: descriptions[privateKeyPathAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(privateKeyPathAttrName), ociVarName(privateKeyPathAttrName)}, nil),
 		},
-		"private_key_password": {
+		privateKeyPasswordAttrName: {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Sensitive:   true,
 			Default:     "",
-			Description: descriptions["private_key_password"],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_private_key_password", "OCI_PRIVATE_KEY_PASSWORD"}, nil),
+			Description: descriptions[privateKeyPasswordAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(privateKeyPasswordAttrName), ociVarName(privateKeyPasswordAttrName)}, nil),
 		},
-		"region": {
+		regionAttrName: {
 			Type:        schema.TypeString,
-			Optional:    true,
-			Description: descriptions["region"],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_region", "OCI_REGION"}, nil),
+			Required:    true,
+			Description: descriptions[regionAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(regionAttrName), ociVarName(regionAttrName)}, nil),
 		},
-		"disable_auto_retries": {
+		disableAutoRetriesAttrName: {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Default:     false,
-			Description: descriptions["disable_auto_retries"],
-			DefaultFunc: schema.MultiEnvDefaultFunc([]string{"TF_VAR_disable_auto_retries", "OCI_DISABLE_AUTO_RETRIES"}, nil),
+			Description: descriptions[disableAutoRetriesAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(disableAutoRetriesAttrName), ociVarName(disableAutoRetriesAttrName)}, nil),
+		},
+		retryDurationSecondsAttrName: {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Default:     false,
+			Description: descriptions[retryDurationSecondsAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(retryDurationSecondsAttrName), ociVarName(retryDurationSecondsAttrName)}, nil),
 		},
 	}
 }
@@ -200,6 +235,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_instance_credentials":                  InstanceCredentialDataSource(),
 		"oci_core_instance_configuration":                InstanceConfigurationDataSource(),
 		"oci_core_instance_configurations":               InstanceConfigurationsDataSource(),
+		"oci_core_instance_devices":                      InstanceDevicesDataSource(),
 		"oci_core_instance_pool":                         InstancePoolDataSource(),
 		"oci_core_instance_pools":                        InstancePoolsDataSource(),
 		"oci_core_instance_pool_instances":               InstancePoolInstancesDataSource(),
@@ -287,6 +323,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_identity_fault_domains":                     FaultDomainsDataSource(),
 		"oci_identity_groups":                            GroupsDataSource(),
 		"oci_identity_identity_providers":                IdentityProvidersDataSource(),
+		"oci_identity_identity_provider_groups":          IdentityProviderGroupsDataSource(),
 		"oci_identity_idp_group_mappings":                IdpGroupMappingsDataSource(),
 		"oci_identity_policies":                          IdentityPoliciesDataSource(),
 		"oci_identity_regions":                           RegionsDataSource(),
@@ -320,6 +357,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_load_balancer_load_balancers":               LoadBalancersDataSource(),
 		"oci_load_balancers":                             LoadBalancersDataSource(),
 		"oci_load_balancer_path_route_sets":              PathRouteSetsDataSource(),
+		"oci_load_balancer_rule_sets":                    RuleSetsDataSource(),
+		"oci_load_balancer_rule_set":                     RuleSetDataSource(),
 		"oci_objectstorage_bucket":                       BucketDataSource(),
 		"oci_objectstorage_bucket_summaries":             BucketsDataSource(),
 		"oci_objectstorage_object_lifecycle_policy":      ObjectLifecyclePolicyDataSource(),
@@ -363,6 +402,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_public_ip":                                      PublicIpResource(),
 		"oci_core_default_route_table":                            DefaultRouteTableResource(),
 		"oci_core_route_table":                                    RouteTableResource(),
+		"oci_core_route_table_attachment":                         RouteTableAttachmentResource(),
 		"oci_core_remote_peering_connection":                      RemotePeeringConnectionResource(),
 		"oci_core_default_security_list":                          DefaultSecurityListResource(),
 		"oci_core_security_list":                                  SecurityListResource(),
@@ -410,6 +450,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_identity_tag":                          TagResource(),
 		"oci_identity_ui_password":                  UiPasswordResource(),
 		"oci_identity_user":                         UserResource(),
+		"oci_identity_user_capabilities_management": UserCapabilitiesManagementResource(),
 		"oci_identity_user_group_membership":        UserGroupMembershipResource(),
 		"oci_kms_encrypted_data":                    EncryptedDataResource(),
 		"oci_kms_generated_key":                     GeneratedKeyResource(),
@@ -425,6 +466,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_load_balancer_listener":                ListenerResource(),
 		"oci_load_balancer_hostname":                HostnameResource(),
 		"oci_load_balancer_path_route_set":          PathRouteSetResource(),
+		"oci_load_balancer_rule_set":                RuleSetResource(),
 		"oci_objectstorage_bucket":                  BucketResource(),
 		"oci_objectstorage_object_lifecycle_policy": ObjectLifecyclePolicyResource(),
 		"oci_objectstorage_object":                  ObjectResource(),
@@ -438,11 +480,11 @@ func getEnvSettingWithBlankDefault(s string) string {
 }
 
 func getEnvSettingWithDefault(s string, dv string) string {
-	v := os.Getenv("TF_VAR_" + s)
+	v := os.Getenv(tfEnvPrefix + s)
 	if v != "" {
 		return v
 	}
-	v = os.Getenv("OCI_" + s)
+	v = os.Getenv(ociEnvPrefix + s)
 	if v != "" {
 		return v
 	}
@@ -463,20 +505,55 @@ func getRequiredEnvSetting(s string) string {
 }
 
 func validateConfigForAPIKeyAuth(d *schema.ResourceData) error {
-	_, hasTenancyOCID := d.GetOkExists("tenancy_ocid")
-	_, hasUserOCID := d.GetOkExists("user_ocid")
-	_, hasFingerprint := d.GetOkExists("fingerprint")
+	_, hasTenancyOCID := d.GetOkExists(tenancyOcidAttrName)
+	_, hasUserOCID := d.GetOkExists(userOcidAttrName)
+	_, hasFingerprint := d.GetOkExists(fingerprintAttrName)
 	if !hasTenancyOCID || !hasUserOCID || !hasFingerprint {
 		return fmt.Errorf("when auth is set to '%s', tenancy_ocid, user_ocid, and fingerprint are required", authAPIKeySetting)
 	}
 	return nil
 }
 
+func checkIncompatibleAttrsForApiKeyAuth(d *schema.ResourceData) ([]string, bool) {
+	var apiKeyConfigAttributesToUnset []string
+	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
+		apiKeyConfigAttributeValue, hasConfigVariable := d.GetOkExists(apiKeyConfigAttribute)
+		if (hasConfigVariable && apiKeyConfigAttributeValue != "") || getEnvSettingWithBlankDefault(apiKeyConfigAttribute) != "" {
+			apiKeyConfigAttributesToUnset = append(apiKeyConfigAttributesToUnset, apiKeyConfigAttribute)
+		}
+	}
+	return apiKeyConfigAttributesToUnset, len(apiKeyConfigAttributesToUnset) == 0
+}
+
+func getCertificateFileBytes(certificateFileFullPath string) (pemRaw []byte, err error) {
+	absFile, err := filepath.Abs(certificateFileFullPath)
+	if err != nil {
+		return nil, fmt.Errorf("can't form absolute path of %s: %v", certificateFileFullPath, err)
+	}
+
+	if pemRaw, err = ioutil.ReadFile(absFile); err != nil {
+		return nil, fmt.Errorf("can't read %s: %v", certificateFileFullPath, err)
+	}
+	return
+}
+
 func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	clients = &OracleClients{configuration: map[string]string{}}
-	disableAutoRetries = d.Get("disable_auto_retries").(bool)
-	auth := strings.ToLower(d.Get("auth").(string))
-	clients.(*OracleClients).configuration["auth"] = auth
+
+	if d.Get(disableAutoRetriesAttrName).(bool) {
+		shortRetryTime = 0
+		longRetryTime = 0
+	} else if retryDurationSeconds, exists := d.GetOkExists(retryDurationSecondsAttrName); exists {
+		val := time.Duration(retryDurationSeconds.(int)) * time.Second
+		if retryDurationSeconds.(int) < 0 {
+			// Retry for maximum amount of time, if a negative value was specified
+			val = time.Duration(math.MaxInt64)
+		}
+		configuredRetryDuration = &val
+	}
+
+	auth := strings.ToLower(d.Get(authAttrName).(string))
+	clients.(*OracleClients).configuration[authAttrName] = auth
 
 	userAgentProviderName := getEnvSettingWithDefault(userAgentProviderNameEnv, defaultUserAgentProviderName)
 	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), userAgentProviderName, Version)
@@ -501,17 +578,73 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 			return nil, err
 		}
 	case strings.ToLower(authInstancePrincipalSetting):
-		region, ok := d.GetOkExists("region")
+		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
 		if !ok {
-			return nil, fmt.Errorf("can not get region from Terraform configuration (InstancePrincipal)")
+			return nil, fmt.Errorf(`authentication (%s) is set to "%s". To use "%s" authentication user credentials should be removed from the configuration. 
+The values for the %v are provided now.`, ociVarName(authAttrName), authInstancePrincipalSetting, authInstancePrincipalSetting, apiKeyConfigVariablesToUnset)
+		}
+
+		region, ok := d.GetOkExists(regionAttrName)
+		if !ok {
+			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipal)", regionAttrName)
 		}
 		cfg, err := oci_common_auth.InstancePrincipalConfigurationProviderForRegion(oci_common.StringToRegion(region.(string)))
 		if err != nil {
 			return nil, err
 		}
 		configProviders = append(configProviders, cfg)
+	case strings.ToLower(authInstancePrincipalWithCertsSetting):
+		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
+		if !ok {
+			return nil, fmt.Errorf(`authentication (%s) is set to "%s". To use "%s" authentication user credentials should be removed from the configuration. 
+The values for the %v are provided now.`, ociVarName(authAttrName), authInstancePrincipalWithCertsSetting, authInstancePrincipalWithCertsSetting, apiKeyConfigVariablesToUnset)
+		}
+
+		region, ok := d.GetOkExists(regionAttrName)
+		if !ok {
+			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipalWithCerts)", regionAttrName)
+		}
+
+		defaultCertsDir, err := os.Getwd()
+		if err != nil {
+			return nil, fmt.Errorf("can not get working directory for current os platform")
+		}
+
+		certsDir := filepath.Clean(getEnvSettingWithDefault("test_certificates_location", defaultCertsDir))
+		leafCertificateBytes, err := getCertificateFileBytes(filepath.Join(certsDir, "ip_cert.pem"))
+		if err != nil {
+			return nil, fmt.Errorf("can not read leaf certificate from %s", filepath.Join(certsDir, "ip_cert.pem"))
+		}
+
+		leafPrivateKeyBytes, err := getCertificateFileBytes(filepath.Join(certsDir, "ip_key.pem"))
+		if err != nil {
+			return nil, fmt.Errorf("can not read leaf private key from %s", filepath.Join(certsDir, "ip_key.pem"))
+		}
+
+		leafPassphraseBytes := []byte{}
+		if _, err := os.Stat(certsDir + "/leaf_passphrase"); !os.IsNotExist(err) {
+			leafPassphraseBytes, err = getCertificateFileBytes(filepath.Join(certsDir + "leaf_passphrase"))
+			if err != nil {
+				return nil, fmt.Errorf("can not read leafPassphraseBytes from %s", filepath.Join(certsDir+"leaf_passphrase"))
+			}
+		}
+
+		intermediateCertificateBytes, err := getCertificateFileBytes(filepath.Join(certsDir, "intermediate.pem"))
+		if err != nil {
+			return nil, fmt.Errorf("can not read intermediate certificate from %s", filepath.Join(certsDir, "intermediate.pem"))
+		}
+
+		intermediateCertificatesBytes := [][]byte{
+			intermediateCertificateBytes,
+		}
+
+		cfg, err := oci_common_auth.InstancePrincipalConfigurationWithCerts(oci_common.StringToRegion(region.(string)), leafCertificateBytes, leafPassphraseBytes, leafPrivateKeyBytes, intermediateCertificatesBytes)
+		if err != nil {
+			return nil, err
+		}
+		configProviders = append(configProviders, cfg)
 	default:
-		return nil, fmt.Errorf("auth must be one of '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting)
+		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting)
 	}
 
 	configProviders = append(configProviders, ResourceDataConfigProvider{d})
@@ -543,31 +676,31 @@ type ResourceDataConfigProvider struct {
 // The ComposingConfigurationProvider in SDK should log the errors as debug statements instead.
 
 func (p ResourceDataConfigProvider) TenancyOCID() (string, error) {
-	if tenancyOCID, ok := p.D.GetOkExists("tenancy_ocid"); ok {
+	if tenancyOCID, ok := p.D.GetOkExists(tenancyOcidAttrName); ok {
 		return tenancyOCID.(string), nil
 	}
-	return "", fmt.Errorf("can not get tenancy_ocid from Terraform configuration")
+	return "", fmt.Errorf("can not get %s from Terraform configuration", tenancyOcidAttrName)
 }
 
 func (p ResourceDataConfigProvider) UserOCID() (string, error) {
-	if userOCID, ok := p.D.GetOkExists("user_ocid"); ok {
+	if userOCID, ok := p.D.GetOkExists(userOcidAttrName); ok {
 		return userOCID.(string), nil
 	}
-	return "", fmt.Errorf("can not get user_ocid from Terraform configuration")
+	return "", fmt.Errorf("can not get %s from Terraform configuration", userOcidAttrName)
 }
 
 func (p ResourceDataConfigProvider) KeyFingerprint() (string, error) {
-	if fingerprint, ok := p.D.GetOkExists("fingerprint"); ok {
+	if fingerprint, ok := p.D.GetOkExists(fingerprintAttrName); ok {
 		return fingerprint.(string), nil
 	}
-	return "", fmt.Errorf("can not get fingerprint from Terraform configuration")
+	return "", fmt.Errorf("can not get %s from Terraform configuration", fingerprintAttrName)
 }
 
 func (p ResourceDataConfigProvider) Region() (string, error) {
-	if region, ok := p.D.GetOkExists("region"); ok {
+	if region, ok := p.D.GetOkExists(regionAttrName); ok {
 		return region.(string), nil
 	}
-	return "", fmt.Errorf("can not get region from Terraform configuration")
+	return "", fmt.Errorf("can not get %s from Terraform configuration", regionAttrName)
 }
 
 func (p ResourceDataConfigProvider) KeyID() (string, error) {
@@ -591,15 +724,15 @@ func (p ResourceDataConfigProvider) KeyID() (string, error) {
 
 func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err error) {
 	password := ""
-	if privateKeyPassword, hasPrivateKeyPassword := p.D.GetOkExists("private_key_password"); hasPrivateKeyPassword {
+	if privateKeyPassword, hasPrivateKeyPassword := p.D.GetOkExists(privateKeyPasswordAttrName); hasPrivateKeyPassword {
 		password = privateKeyPassword.(string)
 	}
 
-	if privateKey, hasPrivateKey := p.D.GetOkExists("private_key"); hasPrivateKey {
+	if privateKey, hasPrivateKey := p.D.GetOkExists(privateKeyAttrName); hasPrivateKey {
 		return oci_common.PrivateKeyFromBytes([]byte(privateKey.(string)), &password)
 	}
 
-	if privateKeyPath, hasPrivateKeyPath := p.D.GetOkExists("private_key_path"); hasPrivateKeyPath {
+	if privateKeyPath, hasPrivateKeyPath := p.D.GetOkExists(privateKeyPathAttrName); hasPrivateKeyPath {
 		pemFileContent, readFileErr := ioutil.ReadFile(privateKeyPath.(string))
 		if readFileErr != nil {
 			return nil, fmt.Errorf("Can not read private key from: '%s', Error: %q", privateKeyPath, readFileErr)

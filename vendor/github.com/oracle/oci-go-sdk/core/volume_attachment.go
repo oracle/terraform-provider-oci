@@ -45,6 +45,9 @@ type VolumeAttachment interface {
 	// The OCID of the volume.
 	GetVolumeId() *string
 
+	// The device name.
+	GetDevice() *string
+
 	// A user-friendly name. Does not have to be unique, and it cannot be changed.
 	// Avoid entering confidential information.
 	// Example: `My volume attachment`
@@ -52,20 +55,25 @@ type VolumeAttachment interface {
 
 	// Whether the attachment was created in read-only mode.
 	GetIsReadOnly() *bool
+
+	// Whether the enable encryption in transit for the PV volume attachment is on or not.
+	GetIsPvEncryptionInTransitEnabled() *bool
 }
 
 type volumeattachment struct {
-	JsonData           []byte
-	AvailabilityDomain *string                            `mandatory:"true" json:"availabilityDomain"`
-	CompartmentId      *string                            `mandatory:"true" json:"compartmentId"`
-	Id                 *string                            `mandatory:"true" json:"id"`
-	InstanceId         *string                            `mandatory:"true" json:"instanceId"`
-	LifecycleState     VolumeAttachmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
-	TimeCreated        *common.SDKTime                    `mandatory:"true" json:"timeCreated"`
-	VolumeId           *string                            `mandatory:"true" json:"volumeId"`
-	DisplayName        *string                            `mandatory:"false" json:"displayName"`
-	IsReadOnly         *bool                              `mandatory:"false" json:"isReadOnly"`
-	AttachmentType     string                             `json:"attachmentType"`
+	JsonData                       []byte
+	AvailabilityDomain             *string                            `mandatory:"true" json:"availabilityDomain"`
+	CompartmentId                  *string                            `mandatory:"true" json:"compartmentId"`
+	Id                             *string                            `mandatory:"true" json:"id"`
+	InstanceId                     *string                            `mandatory:"true" json:"instanceId"`
+	LifecycleState                 VolumeAttachmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	TimeCreated                    *common.SDKTime                    `mandatory:"true" json:"timeCreated"`
+	VolumeId                       *string                            `mandatory:"true" json:"volumeId"`
+	Device                         *string                            `mandatory:"false" json:"device"`
+	DisplayName                    *string                            `mandatory:"false" json:"displayName"`
+	IsReadOnly                     *bool                              `mandatory:"false" json:"isReadOnly"`
+	IsPvEncryptionInTransitEnabled *bool                              `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
+	AttachmentType                 string                             `json:"attachmentType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -86,8 +94,10 @@ func (m *volumeattachment) UnmarshalJSON(data []byte) error {
 	m.LifecycleState = s.Model.LifecycleState
 	m.TimeCreated = s.Model.TimeCreated
 	m.VolumeId = s.Model.VolumeId
+	m.Device = s.Model.Device
 	m.DisplayName = s.Model.DisplayName
 	m.IsReadOnly = s.Model.IsReadOnly
+	m.IsPvEncryptionInTransitEnabled = s.Model.IsPvEncryptionInTransitEnabled
 	m.AttachmentType = s.Model.AttachmentType
 
 	return err
@@ -150,6 +160,11 @@ func (m volumeattachment) GetVolumeId() *string {
 	return m.VolumeId
 }
 
+//GetDevice returns Device
+func (m volumeattachment) GetDevice() *string {
+	return m.Device
+}
+
 //GetDisplayName returns DisplayName
 func (m volumeattachment) GetDisplayName() *string {
 	return m.DisplayName
@@ -158,6 +173,11 @@ func (m volumeattachment) GetDisplayName() *string {
 //GetIsReadOnly returns IsReadOnly
 func (m volumeattachment) GetIsReadOnly() *bool {
 	return m.IsReadOnly
+}
+
+//GetIsPvEncryptionInTransitEnabled returns IsPvEncryptionInTransitEnabled
+func (m volumeattachment) GetIsPvEncryptionInTransitEnabled() *bool {
+	return m.IsPvEncryptionInTransitEnabled
 }
 
 func (m volumeattachment) String() string {

@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -145,4 +147,82 @@ func testAccCheckCoreInstanceConsoleConnectionDestroy(s *terraform.State) error 
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreInstanceConsoleConnection", &resource.Sweeper{
+		Name:         "CoreInstanceConsoleConnection",
+		Dependencies: DependencyGraph["instanceConsoleConnection"],
+		F:            sweepCoreInstanceConsoleConnectionResource,
+	})
+}
+
+func sweepCoreInstanceConsoleConnectionResource(compartment string) error {
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	instanceConsoleConnectionIds, err := getInstanceConsoleConnectionIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, instanceConsoleConnectionId := range instanceConsoleConnectionIds {
+		if ok := SweeperDefaultResourceId[instanceConsoleConnectionId]; !ok {
+			deleteInstanceConsoleConnectionRequest := oci_core.DeleteInstanceConsoleConnectionRequest{}
+
+			deleteInstanceConsoleConnectionRequest.InstanceConsoleConnectionId = &instanceConsoleConnectionId
+
+			deleteInstanceConsoleConnectionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeClient.DeleteInstanceConsoleConnection(context.Background(), deleteInstanceConsoleConnectionRequest)
+			if error != nil {
+				fmt.Printf("Error deleting InstanceConsoleConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", instanceConsoleConnectionId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &instanceConsoleConnectionId, instanceConsoleConnectionSweepWaitCondition, time.Duration(3*time.Minute),
+				instanceConsoleConnectionSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getInstanceConsoleConnectionIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "InstanceConsoleConnectionId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+
+	listInstanceConsoleConnectionsRequest := oci_core.ListInstanceConsoleConnectionsRequest{}
+	listInstanceConsoleConnectionsRequest.CompartmentId = &compartmentId
+	listInstanceConsoleConnectionsResponse, err := computeClient.ListInstanceConsoleConnections(context.Background(), listInstanceConsoleConnectionsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting InstanceConsoleConnection list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, instanceConsoleConnection := range listInstanceConsoleConnectionsResponse.Items {
+		id := *instanceConsoleConnection.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "InstanceConsoleConnectionId", id)
+	}
+	return resourceIds, nil
+}
+
+func instanceConsoleConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if instanceConsoleConnectionResponse, ok := response.Response.(oci_core.GetInstanceConsoleConnectionResponse); ok {
+		return instanceConsoleConnectionResponse.LifecycleState == oci_core.InstanceConsoleConnectionLifecycleStateDeleted
+	}
+	return false
+}
+
+func instanceConsoleConnectionSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.computeClient.GetInstanceConsoleConnection(context.Background(), oci_core.GetInstanceConsoleConnectionRequest{
+		InstanceConsoleConnectionId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

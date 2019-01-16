@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
@@ -32,10 +34,10 @@ var (
 
 	clusterRepresentation = map[string]interface{}{
 		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"kubernetes_version": Representation{repType: Required, create: `v1.10.3`, update: `v1.11.1`},
+		"kubernetes_version": Representation{repType: Required, create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions.0}`, update: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions.1}`},
 		"name":               Representation{repType: Required, create: `name`, update: `name2`},
 		"vcn_id":             Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"options":            RepresentationGroup{Optional, clusterOptionsRepresentation},
+		"options":            RepresentationGroup{Required, clusterOptionsRepresentation}, // @CODEGEN: Change to Optional once service fixes the regression
 	}
 	clusterOptionsRepresentation = map[string]interface{}{
 		"add_ons":                   RepresentationGroup{Optional, clusterOptionsAddOnsRepresentation},
@@ -51,11 +53,19 @@ var (
 		"services_cidr": Representation{repType: Optional, create: `10.2.0.0/16`},
 	}
 
-	ClusterResourceDependencies = VcnRequiredOnlyResource + AvailabilityDomainConfig +
-		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", Required, Create,
-			getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.20.0/24`}, subnetRepresentation)) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", Required, Create,
-			getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.21.0/24`}, subnetRepresentation))
+	// @CODEGEN: OKE does not support regional subnets
+	ClusterResourceDependencies = AvailabilityDomainConfig + VcnResourceConfig + VcnResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", Optional, Create,
+			getMultipleUpdatedRepresenationCopy(
+				[]string{"cidr_block", "dns_label"},
+				[]interface{}{Representation{repType: Optional, create: `10.0.20.0/24`}, Representation{repType: Optional, create: `cluster1`}},
+				subnetRepresentation)) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", Optional, Create,
+			getMultipleUpdatedRepresenationCopy(
+				[]string{"cidr_block", "dns_label"},
+				[]interface{}{Representation{repType: Optional, create: `10.0.21.0/24`}, Representation{repType: Optional, create: `cluster2`}},
+				subnetRepresentation)) +
+		generateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Required, Create, clusterOptionSingularDataSourceRepresentation)
 )
 
 func TestContainerengineClusterResource_basic(t *testing.T) {
@@ -83,7 +93,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.10.3"),
+					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.#", "1"),
@@ -105,7 +115,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.10.3"),
+					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.#", "1"),
@@ -130,7 +140,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "kubernetes_version", "v1.11.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 					resource.TestCheckResourceAttr(resourceName, "options.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.#", "1"),
@@ -163,7 +173,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "clusters.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "clusters.0.kubernetes_version", "v1.11.1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.kubernetes_version"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.name", "name2"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.add_ons.#", "1"),
@@ -225,4 +235,82 @@ func testAccCheckContainerengineClusterDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("ContainerengineCluster", &resource.Sweeper{
+		Name:         "ContainerengineCluster",
+		Dependencies: DependencyGraph["cluster"],
+		F:            sweepContainerengineClusterResource,
+	})
+}
+
+func sweepContainerengineClusterResource(compartment string) error {
+	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient
+	clusterIds, err := getClusterIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, clusterId := range clusterIds {
+		if ok := SweeperDefaultResourceId[clusterId]; !ok {
+			deleteClusterRequest := oci_containerengine.DeleteClusterRequest{}
+
+			deleteClusterRequest.ClusterId = &clusterId
+
+			deleteClusterRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "containerengine")
+			_, error := containerEngineClient.DeleteCluster(context.Background(), deleteClusterRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Cluster %s %s, It is possible that the resource is already deleted. Please verify manually \n", clusterId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &clusterId, clusterSweepWaitCondition, time.Duration(3*time.Minute),
+				clusterSweepResponseFetchOperation, "containerengine", true)
+		}
+	}
+	return nil
+}
+
+func getClusterIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "ClusterId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient
+
+	listClustersRequest := oci_containerengine.ListClustersRequest{}
+	listClustersRequest.CompartmentId = &compartmentId
+	listClustersResponse, err := containerEngineClient.ListClusters(context.Background(), listClustersRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Cluster list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, cluster := range listClustersResponse.Items {
+		id := *cluster.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "ClusterId", id)
+	}
+	return resourceIds, nil
+}
+
+func clusterSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if clusterResponse, ok := response.Response.(oci_containerengine.GetClusterResponse); ok {
+		return clusterResponse.LifecycleState == oci_containerengine.ClusterLifecycleStateDeleted
+	}
+	return false
+}
+
+func clusterSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.containerEngineClient.GetCluster(context.Background(), oci_containerengine.GetClusterRequest{
+		ClusterId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

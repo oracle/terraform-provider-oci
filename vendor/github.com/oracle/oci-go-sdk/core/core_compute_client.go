@@ -1715,6 +1715,48 @@ func (client ComputeClient) listInstanceConsoleConnections(ctx context.Context, 
 	return response, err
 }
 
+// ListInstanceDevices Gets a list of all the devices for given instance. You can optionally filter results by device availability.
+func (client ComputeClient) ListInstanceDevices(ctx context.Context, request ListInstanceDevicesRequest) (response ListInstanceDevicesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInstanceDevices, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListInstanceDevicesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInstanceDevicesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInstanceDevicesResponse")
+	}
+	return
+}
+
+// listInstanceDevices implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listInstanceDevices(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/devices")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInstanceDevicesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListInstances Lists the instances in the specified compartment and the specified availability domain.
 // You can filter the results by specifying an instance name (the list will include all the identically-named
 // instances in the compartment).

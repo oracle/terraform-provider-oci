@@ -17,17 +17,20 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type AutonomousDatabaseBackupSummary struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
-	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
+
 	// The user-friendly name for the backup. The name does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
-	Id *string `mandatory:"true" json:"id"`
+	// The type of backup.
+	Type AutonomousDatabaseBackupSummaryTypeEnum `mandatory:"true" json:"type"`
 
 	// Indicates whether the backup is user-initiated or automatic.
 	IsAutomatic *bool `mandatory:"true" json:"isAutomatic"`
@@ -35,21 +38,41 @@ type AutonomousDatabaseBackupSummary struct {
 	// The current state of the backup.
 	LifecycleState AutonomousDatabaseBackupSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The type of backup.
-	Type AutonomousDatabaseBackupSummaryTypeEnum `mandatory:"true" json:"type"`
-
-	// Additional information about the current lifecycle state.
-	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+	// The date and time the backup started.
+	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
 	// The date and time the backup completed.
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
 
-	// The date and time the backup started.
-	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
+	// Additional information about the current lifecycle state.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 }
 
 func (m AutonomousDatabaseBackupSummary) String() string {
 	return common.PointerString(m)
+}
+
+// AutonomousDatabaseBackupSummaryTypeEnum Enum with underlying type: string
+type AutonomousDatabaseBackupSummaryTypeEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseBackupSummaryTypeEnum
+const (
+	AutonomousDatabaseBackupSummaryTypeIncremental AutonomousDatabaseBackupSummaryTypeEnum = "INCREMENTAL"
+	AutonomousDatabaseBackupSummaryTypeFull        AutonomousDatabaseBackupSummaryTypeEnum = "FULL"
+)
+
+var mappingAutonomousDatabaseBackupSummaryType = map[string]AutonomousDatabaseBackupSummaryTypeEnum{
+	"INCREMENTAL": AutonomousDatabaseBackupSummaryTypeIncremental,
+	"FULL":        AutonomousDatabaseBackupSummaryTypeFull,
+}
+
+// GetAutonomousDatabaseBackupSummaryTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupSummaryTypeEnum
+func GetAutonomousDatabaseBackupSummaryTypeEnumValues() []AutonomousDatabaseBackupSummaryTypeEnum {
+	values := make([]AutonomousDatabaseBackupSummaryTypeEnum, 0)
+	for _, v := range mappingAutonomousDatabaseBackupSummaryType {
+		values = append(values, v)
+	}
+	return values
 }
 
 // AutonomousDatabaseBackupSummaryLifecycleStateEnum Enum with underlying type: string
@@ -76,29 +99,6 @@ var mappingAutonomousDatabaseBackupSummaryLifecycleState = map[string]Autonomous
 func GetAutonomousDatabaseBackupSummaryLifecycleStateEnumValues() []AutonomousDatabaseBackupSummaryLifecycleStateEnum {
 	values := make([]AutonomousDatabaseBackupSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingAutonomousDatabaseBackupSummaryLifecycleState {
-		values = append(values, v)
-	}
-	return values
-}
-
-// AutonomousDatabaseBackupSummaryTypeEnum Enum with underlying type: string
-type AutonomousDatabaseBackupSummaryTypeEnum string
-
-// Set of constants representing the allowable values for AutonomousDatabaseBackupSummaryTypeEnum
-const (
-	AutonomousDatabaseBackupSummaryTypeIncremental AutonomousDatabaseBackupSummaryTypeEnum = "INCREMENTAL"
-	AutonomousDatabaseBackupSummaryTypeFull        AutonomousDatabaseBackupSummaryTypeEnum = "FULL"
-)
-
-var mappingAutonomousDatabaseBackupSummaryType = map[string]AutonomousDatabaseBackupSummaryTypeEnum{
-	"INCREMENTAL": AutonomousDatabaseBackupSummaryTypeIncremental,
-	"FULL":        AutonomousDatabaseBackupSummaryTypeFull,
-}
-
-// GetAutonomousDatabaseBackupSummaryTypeEnumValues Enumerates the set of values for AutonomousDatabaseBackupSummaryTypeEnum
-func GetAutonomousDatabaseBackupSummaryTypeEnumValues() []AutonomousDatabaseBackupSummaryTypeEnum {
-	values := make([]AutonomousDatabaseBackupSummaryTypeEnum, 0)
-	for _, v := range mappingAutonomousDatabaseBackupSummaryType {
 		values = append(values, v)
 	}
 	return values

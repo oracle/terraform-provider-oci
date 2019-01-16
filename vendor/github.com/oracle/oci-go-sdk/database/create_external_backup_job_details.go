@@ -18,33 +18,33 @@ type CreateExternalBackupJobDetails struct {
 	// The targeted availability domain for the backup.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The character set for the database.
-	CharacterSet *string `mandatory:"true" json:"characterSet"`
-
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment where this backup should be created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
-	// The Oracle Database edition to use for creating a database from this standalone backup.
-	// Note that 2-node RAC DB systems require Enterprise Edition - Extreme Performance.
-	DatabaseEdition CreateExternalBackupJobDetailsDatabaseEditionEnum `mandatory:"true" json:"databaseEdition"`
-
-	// The mode (single instance or RAC) of the database being backed up.
-	DatabaseMode CreateExternalBackupJobDetailsDatabaseModeEnum `mandatory:"true" json:"databaseMode"`
-
-	// The name of the database from which the backup is being taken.
-	DbName *string `mandatory:"true" json:"dbName"`
-
-	// A valid Oracle Database version.
-	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
 	// A user-friendly name for the backup. This name does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
+	// A valid Oracle Database version.
+	DbVersion *string `mandatory:"true" json:"dbVersion"`
+
+	// The name of the database from which the backup is being taken.
+	DbName *string `mandatory:"true" json:"dbName"`
+
 	// The `DBID` of the Oracle Database being backed up.
 	ExternalDatabaseIdentifier *int64 `mandatory:"true" json:"externalDatabaseIdentifier"`
 
+	// The character set for the database.
+	CharacterSet *string `mandatory:"true" json:"characterSet"`
+
 	// The national character set for the database.
 	NcharacterSet *string `mandatory:"true" json:"ncharacterSet"`
+
+	// The mode (single instance or RAC) of the database being backed up.
+	DatabaseMode CreateExternalBackupJobDetailsDatabaseModeEnum `mandatory:"true" json:"databaseMode"`
+
+	// The Oracle Database edition to use for creating a database from this standalone backup.
+	// Note that 2-node RAC DB systems require Enterprise Edition - Extreme Performance.
+	DatabaseEdition CreateExternalBackupJobDetailsDatabaseEditionEnum `mandatory:"true" json:"databaseEdition"`
 
 	// The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
@@ -55,6 +55,29 @@ type CreateExternalBackupJobDetails struct {
 
 func (m CreateExternalBackupJobDetails) String() string {
 	return common.PointerString(m)
+}
+
+// CreateExternalBackupJobDetailsDatabaseModeEnum Enum with underlying type: string
+type CreateExternalBackupJobDetailsDatabaseModeEnum string
+
+// Set of constants representing the allowable values for CreateExternalBackupJobDetailsDatabaseModeEnum
+const (
+	CreateExternalBackupJobDetailsDatabaseModeSi  CreateExternalBackupJobDetailsDatabaseModeEnum = "SI"
+	CreateExternalBackupJobDetailsDatabaseModeRac CreateExternalBackupJobDetailsDatabaseModeEnum = "RAC"
+)
+
+var mappingCreateExternalBackupJobDetailsDatabaseMode = map[string]CreateExternalBackupJobDetailsDatabaseModeEnum{
+	"SI":  CreateExternalBackupJobDetailsDatabaseModeSi,
+	"RAC": CreateExternalBackupJobDetailsDatabaseModeRac,
+}
+
+// GetCreateExternalBackupJobDetailsDatabaseModeEnumValues Enumerates the set of values for CreateExternalBackupJobDetailsDatabaseModeEnum
+func GetCreateExternalBackupJobDetailsDatabaseModeEnumValues() []CreateExternalBackupJobDetailsDatabaseModeEnum {
+	values := make([]CreateExternalBackupJobDetailsDatabaseModeEnum, 0)
+	for _, v := range mappingCreateExternalBackupJobDetailsDatabaseMode {
+		values = append(values, v)
+	}
+	return values
 }
 
 // CreateExternalBackupJobDetailsDatabaseEditionEnum Enum with underlying type: string
@@ -79,29 +102,6 @@ var mappingCreateExternalBackupJobDetailsDatabaseEdition = map[string]CreateExte
 func GetCreateExternalBackupJobDetailsDatabaseEditionEnumValues() []CreateExternalBackupJobDetailsDatabaseEditionEnum {
 	values := make([]CreateExternalBackupJobDetailsDatabaseEditionEnum, 0)
 	for _, v := range mappingCreateExternalBackupJobDetailsDatabaseEdition {
-		values = append(values, v)
-	}
-	return values
-}
-
-// CreateExternalBackupJobDetailsDatabaseModeEnum Enum with underlying type: string
-type CreateExternalBackupJobDetailsDatabaseModeEnum string
-
-// Set of constants representing the allowable values for CreateExternalBackupJobDetailsDatabaseModeEnum
-const (
-	CreateExternalBackupJobDetailsDatabaseModeSi  CreateExternalBackupJobDetailsDatabaseModeEnum = "SI"
-	CreateExternalBackupJobDetailsDatabaseModeRac CreateExternalBackupJobDetailsDatabaseModeEnum = "RAC"
-)
-
-var mappingCreateExternalBackupJobDetailsDatabaseMode = map[string]CreateExternalBackupJobDetailsDatabaseModeEnum{
-	"SI":  CreateExternalBackupJobDetailsDatabaseModeSi,
-	"RAC": CreateExternalBackupJobDetailsDatabaseModeRac,
-}
-
-// GetCreateExternalBackupJobDetailsDatabaseModeEnumValues Enumerates the set of values for CreateExternalBackupJobDetailsDatabaseModeEnum
-func GetCreateExternalBackupJobDetailsDatabaseModeEnumValues() []CreateExternalBackupJobDetailsDatabaseModeEnum {
-	values := make([]CreateExternalBackupJobDetailsDatabaseModeEnum, 0)
-	for _, v := range mappingCreateExternalBackupJobDetailsDatabaseMode {
 		values = append(values, v)
 	}
 	return values

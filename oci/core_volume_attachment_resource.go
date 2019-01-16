@@ -47,8 +47,20 @@ func VolumeAttachmentResource() *schema.Resource {
 			},
 
 			// Optional
+			"device": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"is_pv_encryption_in_transit_enabled": {
+				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
@@ -251,6 +263,10 @@ func (s *VolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
 
+		if v.Device != nil {
+			s.D.Set("device", *v.Device)
+		}
+
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
 		}
@@ -261,6 +277,10 @@ func (s *VolumeAttachmentResourceCrud) SetData() error {
 
 		if v.InstanceId != nil {
 			s.D.Set("instance_id", *v.InstanceId)
+		}
+
+		if v.IsPvEncryptionInTransitEnabled != nil {
+			s.D.Set("is_pv_encryption_in_transit_enabled", *v.IsPvEncryptionInTransitEnabled)
 		}
 
 		if v.IsReadOnly != nil {
@@ -287,6 +307,10 @@ func (s *VolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
 
+		if v.Device != nil {
+			s.D.Set("device", *v.Device)
+		}
+
 		if v.DisplayName != nil {
 			s.D.Set("display_name", *v.DisplayName)
 		}
@@ -297,6 +321,10 @@ func (s *VolumeAttachmentResourceCrud) SetData() error {
 
 		if v.InstanceId != nil {
 			s.D.Set("instance_id", *v.InstanceId)
+		}
+
+		if v.IsPvEncryptionInTransitEnabled != nil {
+			s.D.Set("is_pv_encryption_in_transit_enabled", *v.IsPvEncryptionInTransitEnabled)
 		}
 
 		if v.IsReadOnly != nil {
@@ -335,6 +363,10 @@ func (s *VolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolumeRe
 			tmp := useChap.(bool)
 			details.UseChap = &tmp
 		}
+		if device, ok := s.D.GetOkExists("device"); ok {
+			tmp := device.(string)
+			details.Device = &tmp
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
@@ -354,6 +386,10 @@ func (s *VolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolumeRe
 		request.AttachVolumeDetails = details
 	case strings.ToLower("paravirtualized"):
 		details := oci_core.AttachParavirtualizedVolumeDetails{}
+		if device, ok := s.D.GetOkExists("device"); ok {
+			tmp := device.(string)
+			details.Device = &tmp
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
@@ -361,6 +397,10 @@ func (s *VolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolumeRe
 		if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
 			tmp := instanceId.(string)
 			details.InstanceId = &tmp
+		}
+		if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists("is_pv_encryption_in_transit_enabled"); ok {
+			tmp := isPvEncryptionInTransitEnabled.(bool)
+			details.IsPvEncryptionInTransitEnabled = &tmp
 		}
 		if isReadOnly, ok := s.D.GetOkExists("is_read_only"); ok {
 			tmp := isReadOnly.(bool)

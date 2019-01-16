@@ -110,3 +110,21 @@ Principals, see [this document](https://docs.cloud.oracle.com/iaas/Content/Ident
 
 ## Testing
 Credentials must be provided via the environment variables as shown above in order to run acceptance tests.
+
+## Configuring Automatic Retries
+While applying, refreshing, or destroying a plan, Terraform may encounter some intermittent OCI errors (such as 429 or 500 errors) that could succeed on retry. 
+By default, the Terraform OCI provider will automatically retry such operations for up to 10 minutes. 
+The following fields can be specified in the provider block to further configure the retry behavior:
+
+- `disable_auto_retries` - Disable automatic retries for retriable errors.
+- `retry_duration_seconds` - The minimum duration (in seconds) to retry a resource operation in response to HTTP 429 and HTTP 500 errors. The actual retry duration may be slightly longer due to jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true.
+
+### Concurrency Control using Retry Backoff and Jitter
+To alleviate contention between parallel operations against OCI services; the Terraform OCI provider schedules retry attempts using quadratic backoff and full jitter.
+Quadratic backoff increases the maximum interval between subsequent retry attempts, while full jitter randomly selects a retry interval within the backoff range.
+
+For example, the wait time between the 1st and 2nd retry attempts is chosen randomly between 1 and 8 seconds. The wait time between the 2nd and 3rd retry attempts is chosen
+randomly between 1 and 18 seconds. Regardless of the number of retry attempts, the retry interval time is capped after the 12th attempt at 288 seconds.
+
+Note that the `retry_duration_seconds` field only affects retry duration in response to HTTP 429 and 500 errors; as these errors are more likely to result in success after a long retry duration.
+Other HTTP errors (such as 400, 401, 403, 404, and 409) are unlikely to succeed on retry. The `retry_duration_seconds` field does not affect the retry behavior for such errors.

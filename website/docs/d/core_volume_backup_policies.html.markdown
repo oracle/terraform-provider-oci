@@ -32,7 +32,7 @@ The following attributes are exported:
 * `id` - The OCID of the volume backup policy.
 * `schedules` - The collection of schedules that this policy will apply.
 	* `backup_type` - The type of backup to create.
-	* `offset_seconds` - The number of seconds (positive or negative) that the backup time should be shifted from the default interval boundaries specified by the period.
+	* `offset_seconds` - The number of seconds (positive or negative) that the backup time should be shifted from the default interval boundaries specified by the period. Backup time = Frequency start time + Offset.
 	* `period` - How often the backup should occur.
 	* `retention_seconds` - How long, in seconds, backups created by this schedule should be kept until being automatically deleted.
 * `time_created` - The date and time the volume backup policy was created. Format defined by RFC3339. 

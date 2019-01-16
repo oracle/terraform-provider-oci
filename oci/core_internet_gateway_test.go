@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -194,4 +196,93 @@ func testAccCheckCoreInternetGatewayDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreInternetGateway", &resource.Sweeper{
+		Name:         "CoreInternetGateway",
+		Dependencies: DependencyGraph["internetGateway"],
+		F:            sweepCoreInternetGatewayResource,
+	})
+}
+
+func sweepCoreInternetGatewayResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	internetGatewayIds, err := getInternetGatewayIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, internetGatewayId := range internetGatewayIds {
+		if ok := SweeperDefaultResourceId[internetGatewayId]; !ok {
+			deleteInternetGatewayRequest := oci_core.DeleteInternetGatewayRequest{}
+
+			deleteInternetGatewayRequest.IgId = &internetGatewayId
+
+			deleteInternetGatewayRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteInternetGateway(context.Background(), deleteInternetGatewayRequest)
+			if error != nil {
+				fmt.Printf("Error deleting InternetGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", internetGatewayId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &internetGatewayId, internetGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+				internetGatewaySweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getInternetGatewayIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "InternetGatewayId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listInternetGatewaysRequest := oci_core.ListInternetGatewaysRequest{}
+	listInternetGatewaysRequest.CompartmentId = &compartmentId
+
+	vcnIds, error := getVcnIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting vcnId required for InternetGateway resource requests \n")
+	}
+	for _, vcnId := range vcnIds {
+		listInternetGatewaysRequest.VcnId = &vcnId
+
+		listInternetGatewaysRequest.LifecycleState = oci_core.InternetGatewayLifecycleStateAvailable
+		listInternetGatewaysResponse, err := virtualNetworkClient.ListInternetGateways(context.Background(), listInternetGatewaysRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting InternetGateway list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, internetGateway := range listInternetGatewaysResponse.Items {
+			id := *internetGateway.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "InternetGatewayId", id)
+		}
+
+	}
+	return resourceIds, nil
+}
+
+func internetGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if internetGatewayResponse, ok := response.Response.(oci_core.GetInternetGatewayResponse); ok {
+		return internetGatewayResponse.LifecycleState == oci_core.InternetGatewayLifecycleStateTerminated
+	}
+	return false
+}
+
+func internetGatewaySweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetInternetGateway(context.Background(), oci_core.GetInternetGatewayRequest{
+		IgId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

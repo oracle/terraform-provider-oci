@@ -87,10 +87,17 @@ func ListenerResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			"ssl_configuration": {
+			"rule_set_names": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"ssl_configuration": {
+				Type:     schema.TypeList,
+				Optional: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -263,6 +270,18 @@ func (s *ListenerResourceCrud) Create() error {
 		request.Protocol = &tmp
 	}
 
+	request.RuleSetNames = []string{}
+	if ruleSetNames, ok := s.D.GetOkExists("rule_set_names"); ok {
+		interfaces := ruleSetNames.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.RuleSetNames = tmp
+	}
+
 	if sslConfiguration, ok := s.D.GetOkExists("ssl_configuration"); ok {
 		if tmpList := sslConfiguration.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ssl_configuration", 0)
@@ -400,6 +419,18 @@ func (s *ListenerResourceCrud) Update() error {
 		request.Protocol = &tmp
 	}
 
+	request.RuleSetNames = []string{}
+	if ruleSetNames, ok := s.D.GetOkExists("rule_set_names"); ok {
+		interfaces := ruleSetNames.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.RuleSetNames = tmp
+	}
+
 	if sslConfiguration, ok := s.D.GetOkExists("ssl_configuration"); ok {
 		if tmpList := sslConfiguration.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ssl_configuration", 0)
@@ -436,9 +467,6 @@ func (s *ListenerResourceCrud) Update() error {
 }
 
 func (s *ListenerResourceCrud) Delete() error {
-	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
-		return nil
-	}
 	request := oci_load_balancer.DeleteListenerRequest{}
 
 	if listenerName, ok := s.D.GetOkExists("name"); ok {
@@ -500,6 +528,9 @@ func (s *ListenerResourceCrud) SetData() error {
 	}
 	if s.Res.PathRouteSetName != nil {
 		s.D.Set("path_route_set_name", *s.Res.PathRouteSetName)
+	}
+	if s.Res.RuleSetNames != nil {
+		s.D.Set("rule_set_names", s.Res.RuleSetNames)
 	}
 	if s.Res.Port != nil {
 		s.D.Set("port", *s.Res.Port)

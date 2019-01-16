@@ -5,9 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
@@ -173,6 +176,36 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 	})
 }
 
+func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
+	provider := testAccProvider
+	config := testProviderConfig()
+
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_file_storage_mount_target.test_mount_target2"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckFileStorageMountTargetDestroy,
+		Steps: []resource.TestStep{
+			// verify resource creation fails for the second mount target with the same ip_address
+			{
+				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", Optional, Create, mountTargetRepresentation) +
+					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", Optional, Create, mountTargetRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
+				),
+				ExpectError: regexp.MustCompile("Resource creation failed"),
+			},
+		},
+	})
+}
+
 func testAccCheckFileStorageMountTargetDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := testAccProvider.Meta().(*OracleClients).fileStorageClient
@@ -209,4 +242,83 @@ func testAccCheckFileStorageMountTargetDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("FileStorageMountTarget", &resource.Sweeper{
+		Name:         "FileStorageMountTarget",
+		Dependencies: DependencyGraph["mountTarget"],
+		F:            sweepFileStorageMountTargetResource,
+	})
+}
+
+func sweepFileStorageMountTargetResource(compartment string) error {
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+	mountTargetIds, err := getMountTargetIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, mountTargetId := range mountTargetIds {
+		if ok := SweeperDefaultResourceId[mountTargetId]; !ok {
+			deleteMountTargetRequest := oci_file_storage.DeleteMountTargetRequest{}
+
+			deleteMountTargetRequest.MountTargetId = &mountTargetId
+
+			deleteMountTargetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+			_, error := fileStorageClient.DeleteMountTarget(context.Background(), deleteMountTargetRequest)
+			if error != nil {
+				fmt.Printf("Error deleting MountTarget %s %s, It is possible that the resource is already deleted. Please verify manually \n", mountTargetId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &mountTargetId, mountTargetSweepWaitCondition, time.Duration(3*time.Minute),
+				mountTargetSweepResponseFetchOperation, "file_storage", true)
+		}
+	}
+	return nil
+}
+
+func getMountTargetIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "MountTargetId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+
+	listMountTargetsRequest := oci_file_storage.ListMountTargetsRequest{}
+	listMountTargetsRequest.CompartmentId = &compartmentId
+	listMountTargetsRequest.LifecycleState = oci_file_storage.ListMountTargetsLifecycleStateActive
+	listMountTargetsResponse, err := fileStorageClient.ListMountTargets(context.Background(), listMountTargetsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting MountTarget list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, mountTarget := range listMountTargetsResponse.Items {
+		id := *mountTarget.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "MountTargetId", id)
+	}
+	return resourceIds, nil
+}
+
+func mountTargetSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if mountTargetResponse, ok := response.Response.(oci_file_storage.GetMountTargetResponse); ok {
+		return mountTargetResponse.LifecycleState == oci_file_storage.MountTargetLifecycleStateDeleted
+	}
+	return false
+}
+
+func mountTargetSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.fileStorageClient.GetMountTarget(context.Background(), oci_file_storage.GetMountTargetRequest{
+		MountTargetId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

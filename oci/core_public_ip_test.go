@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -67,11 +69,11 @@ var (
 		type = "map"
 		default = {
 			// See https://docs.us-phoenix-1.oraclecloud.com/images/
-			// Oracle-provided image "Oracle-Linux-7.4-2018.02.21-1"
-			us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaupbfz5f5hdvejulmalhyb6goieolullgkpumorbvxlwkaowglslq"
-			us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaajlw3xfie2t5t52uegyhiq2npx7bqyu4uvi2zyu3w3mqayc2bxmaa"
-			eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
-			uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
+			// Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
+			us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
+			us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
+			eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
+			uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
 		}
 	}
 	data "oci_identity_availability_domains" "test_availability_domains" {
@@ -99,7 +101,7 @@ var (
 		compartment_id      = "${var.compartment_id}"
 		display_name        = "-tf-instance"
 		image               = "${var.InstanceImageOCID[var.region]}"
-		shape               = "VM.Standard1.8"
+		shape               = "VM.Standard2.1"
 		create_vnic_details {
 			assign_public_ip = false
 			subnet_id        = "${oci_core_subnet.test_subnet.id}"
@@ -394,4 +396,82 @@ func testAccCheckCorePublicIpDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CorePublicIp", &resource.Sweeper{
+		Name:         "CorePublicIp",
+		Dependencies: DependencyGraph["publicIp"],
+		F:            sweepCorePublicIpResource,
+	})
+}
+
+func sweepCorePublicIpResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	publicIpIds, err := getPublicIpIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, publicIpId := range publicIpIds {
+		if ok := SweeperDefaultResourceId[publicIpId]; !ok {
+			deletePublicIpRequest := oci_core.DeletePublicIpRequest{}
+
+			deletePublicIpRequest.PublicIpId = &publicIpId
+
+			deletePublicIpRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeletePublicIp(context.Background(), deletePublicIpRequest)
+			if error != nil {
+				fmt.Printf("Error deleting PublicIp %s %s, It is possible that the resource is already deleted. Please verify manually \n", publicIpId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &publicIpId, publicIpSweepWaitCondition, time.Duration(3*time.Minute),
+				publicIpSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getPublicIpIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "PublicIpId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listPublicIpsRequest := oci_core.ListPublicIpsRequest{}
+	listPublicIpsRequest.CompartmentId = &compartmentId
+	listPublicIpsResponse, err := virtualNetworkClient.ListPublicIps(context.Background(), listPublicIpsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting PublicIp list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, publicIp := range listPublicIpsResponse.Items {
+		id := *publicIp.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "PublicIpId", id)
+	}
+	return resourceIds, nil
+}
+
+func publicIpSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if publicIpResponse, ok := response.Response.(oci_core.GetPublicIpResponse); ok {
+		return publicIpResponse.LifecycleState == oci_core.PublicIpLifecycleStateTerminated
+	}
+	return false
+}
+
+func publicIpSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetPublicIp(context.Background(), oci_core.GetPublicIpRequest{
+		PublicIpId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

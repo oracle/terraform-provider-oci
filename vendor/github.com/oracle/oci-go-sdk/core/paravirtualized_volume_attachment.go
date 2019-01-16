@@ -36,6 +36,9 @@ type ParavirtualizedVolumeAttachment struct {
 	// The OCID of the volume.
 	VolumeId *string `mandatory:"true" json:"volumeId"`
 
+	// The device name.
+	Device *string `mandatory:"false" json:"device"`
+
 	// A user-friendly name. Does not have to be unique, and it cannot be changed.
 	// Avoid entering confidential information.
 	// Example: `My volume attachment`
@@ -43,6 +46,9 @@ type ParavirtualizedVolumeAttachment struct {
 
 	// Whether the attachment was created in read-only mode.
 	IsReadOnly *bool `mandatory:"false" json:"isReadOnly"`
+
+	// Whether the enable encryption in transit for the PV volume attachment is on or not.
+	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 
 	// The current state of the volume attachment.
 	LifecycleState VolumeAttachmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -56,6 +62,11 @@ func (m ParavirtualizedVolumeAttachment) GetAvailabilityDomain() *string {
 //GetCompartmentId returns CompartmentId
 func (m ParavirtualizedVolumeAttachment) GetCompartmentId() *string {
 	return m.CompartmentId
+}
+
+//GetDevice returns Device
+func (m ParavirtualizedVolumeAttachment) GetDevice() *string {
+	return m.Device
 }
 
 //GetDisplayName returns DisplayName
@@ -91,6 +102,11 @@ func (m ParavirtualizedVolumeAttachment) GetTimeCreated() *common.SDKTime {
 //GetVolumeId returns VolumeId
 func (m ParavirtualizedVolumeAttachment) GetVolumeId() *string {
 	return m.VolumeId
+}
+
+//GetIsPvEncryptionInTransitEnabled returns IsPvEncryptionInTransitEnabled
+func (m ParavirtualizedVolumeAttachment) GetIsPvEncryptionInTransitEnabled() *bool {
+	return m.IsPvEncryptionInTransitEnabled
 }
 
 func (m ParavirtualizedVolumeAttachment) String() string {

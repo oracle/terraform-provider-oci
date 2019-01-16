@@ -75,6 +75,7 @@ resource "oci_core_instance" "test_instance" {
 	freeform_tags = {"Department"= "Finance"}
 	hostname_label = "${var.instance_hostname_label}"
 	ipxe_script = "${var.instance_ipxe_script}"
+	is_pv_encryption_in_transit_enabled = "${var.instance_is_pv_encryption_in_transit_enabled}"
 	metadata {
 		ssh_authorized_keys = "${var.ssh_public_key}"
 		user_data = "${base64encode(file(var.custom_bootstrap_file_name))}"
@@ -149,6 +150,7 @@ The following arguments are supported:
 	For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 	For more information about iPXE, see http://ipxe.org. 
+* `is_pv_encryption_in_transit_enabled` - (Optional) Whether to enable encryption in transit for the PV boot volume attachment. Defaults to false.
 * `metadata` - (Optional) (Updatable) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 	A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -177,7 +179,9 @@ The following arguments are supported:
 
 	curl http://169.254.169.254/opc/v1/instance/ curl http://169.254.169.254/opc/v1/instance/metadata/ curl http://169.254.169.254/opc/v1/instance/metadata/<any-key-name>
 
-	You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively. 
+	You'll get back a response that includes all the instance information; only the metadata information; or the metadata information for the specified key name, respectively.
+	
+	**Note:** Both the 'user_data' and 'ssh_authorized_keys' fields cannot be changed after an instance has launched. Any request which updates, removes, or adds either of these fields will be rejected. You must provide the same values for 'user_data' and 'ssh_authorized_keys' that already exist on the instance. 
 * `preserve_boot_volume` - (Optional) Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
 * `shape` - (Required) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
@@ -243,6 +247,8 @@ The following attributes are exported:
 	* `firmware` - Firmware used to boot VM.  Select the option that matches your operating system.
 		* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
+	* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
+	* `is_pv_encryption_in_transit_enabled` - Whether to enable encryption in transit for the PV boot volume attachment. Defaults to false.
 	* `network_type` - Emulation type for NIC.
 		* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller.  Default for Oracle provided images.

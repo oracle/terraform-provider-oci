@@ -1,9 +1,10 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Load Balancing Service API
+// Load Balancing API
 //
-// API for the Load Balancing Service
+// API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
+// information, see Overview of Load Balancing (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -17,17 +18,20 @@ import (
 // for in-progress work flows.
 // For more information about work requests, see Viewing the State of a Work Request (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/viewingworkrequest.htm).
 type WorkRequest struct {
-	ErrorDetails []WorkRequestError `mandatory:"true" json:"errorDetails"`
 
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The current state of the work request.
-	LifecycleState WorkRequestLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
-
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer with which the work request
 	// is associated.
 	LoadBalancerId *string `mandatory:"true" json:"loadBalancerId"`
+
+	// The type of action the work request represents.
+	// Example: `CreateListener`
+	Type *string `mandatory:"true" json:"type"`
+
+	// The current state of the work request.
+	LifecycleState WorkRequestLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// A collection of data, related to the load balancer provisioning process, that helps with debugging in the event of failure.
 	// Possible data elements include:
@@ -42,9 +46,7 @@ type WorkRequest struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
-	// The type of action the work request represents.
-	// Example: `CreateListener`
-	Type *string `mandatory:"true" json:"type"`
+	ErrorDetails []WorkRequestError `mandatory:"true" json:"errorDetails"`
 
 	// The date and time the work request was completed, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`

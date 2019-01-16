@@ -193,18 +193,18 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 
 	file, err := os.Open(*source)
 	if err != nil {
-		return "", fmt.Errorf("error opening source file for upload %q: %s", source, err)
+		return "", fmt.Errorf("error opening source file for upload \"%v\": %s", source, err)
 	}
 	defer safeClose(file, &err)
 
 	sourceBlocks, err := objectMultiPartSplit(file)
 	if err != nil {
-		return "", fmt.Errorf("error splitting source file for upload %q: %s", source, err)
+		return "", fmt.Errorf("error splitting source file for upload \"%v\": %s", source, err)
 	}
 
 	multipartUploadResponse, err := client.CreateMultipartUpload(context.Background(), *multipartUploadRequest)
 	if err != nil {
-		return "", fmt.Errorf("error creating object in the Oracle cloud %q: %s", source, err)
+		return "", fmt.Errorf("error creating object in the Oracle cloud \"%v\": %s", source, err)
 	}
 
 	workerCount := defaultNumberOfGoroutines
@@ -269,7 +269,7 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 			log.Println("[WARN] Aborting the multi part upload failed")
 		}
 
-		return "", fmt.Errorf("failed to upload object parts of %q to the Oracle cloud: %s", source, uploadPartRespErr)
+		return "", fmt.Errorf("failed to upload object parts of \"%v\" to the Oracle cloud: %s", source, uploadPartRespErr)
 	}
 
 	commitMultipartUploadRequest := oci_object_storage.CommitMultipartUploadRequest{
@@ -284,7 +284,7 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 
 	_, err = client.CommitMultipartUpload(context.Background(), commitMultipartUploadRequest)
 	if err != nil {
-		return "", fmt.Errorf("failed to commit multi part upload of %q to the service: %s", source, err)
+		return "", fmt.Errorf("failed to commit multi part upload of \"%v\" to the service: %s", source, err)
 	}
 
 	id := getId(*commitMultipartUploadRequest.NamespaceName, *commitMultipartUploadRequest.BucketName, *commitMultipartUploadRequest.ObjectName)
@@ -403,6 +403,10 @@ func (s *ObjectResourceCrud) createSourceRegionClient(region string) error {
 		if err != nil {
 			return fmt.Errorf("cannot create client for the source region: %v", err)
 		}
+		err = configureClient(&sourceObjectStorageClient.BaseClient)
+		if err != nil {
+			return fmt.Errorf("cannot configure client for the source region: %v", err)
+		}
 		s.SourceRegionClient = &sourceObjectStorageClient
 	}
 	s.SourceRegionClient.SetRegion(region)
@@ -453,7 +457,8 @@ func copyObjectWaitForWorkRequest(wId *string, entityType string, timeout time.D
 }
 
 func objectStorageWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
-	stopTime := time.Now().Add(timeout)
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
 	return func(response oci_common.OCIOperationResponse) bool {
 
 		//Stop after timeout has elapsed
@@ -462,7 +467,7 @@ func objectStorageWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 		}
 
 		//Make sure we stop on default rules
-		if shouldRetry(response, false, "object_storage") {
+		if shouldRetry(response, false, "object_storage", startTime) {
 			return true
 		}
 

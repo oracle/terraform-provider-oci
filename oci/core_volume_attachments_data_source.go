@@ -166,6 +166,10 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
 				result["compartment_id"] = string(*v.CompartmentId)
 			}
 
+			if v.Device != nil {
+				result["device"] = string(*v.Device)
+			}
+
 			if v.DisplayName != nil {
 				result["display_name"] = string(*v.DisplayName)
 			}
@@ -176,6 +180,10 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
 
 			if v.InstanceId != nil {
 				result["instance_id"] = string(*v.InstanceId)
+			}
+
+			if v.IsPvEncryptionInTransitEnabled != nil {
+				result["is_pv_encryption_in_transit_enabled"] = bool(*v.IsPvEncryptionInTransitEnabled)
 			}
 
 			if v.IsReadOnly != nil {
@@ -202,6 +210,10 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
 				result["compartment_id"] = string(*v.CompartmentId)
 			}
 
+			if v.Device != nil {
+				result["device"] = string(*v.Device)
+			}
+
 			if v.DisplayName != nil {
 				result["display_name"] = string(*v.DisplayName)
 			}
@@ -212,6 +224,10 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
 
 			if v.InstanceId != nil {
 				result["instance_id"] = string(*v.InstanceId)
+			}
+
+			if v.IsPvEncryptionInTransitEnabled != nil {
+				result["is_pv_encryption_in_transit_enabled"] = bool(*v.IsPvEncryptionInTransitEnabled)
 			}
 
 			if v.IsReadOnly != nil {

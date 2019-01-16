@@ -72,14 +72,14 @@ The following arguments are supported:
 * `cross_connect_mappings` - (Optional) (Updatable) Create a `CrossConnectMapping` for each cross-connect or cross-connect group this virtual circuit will run on. 
 	* `bgp_md5auth_key` - (Optional) (Updatable) The key for BGP MD5 authentication. Only applicable if your system requires MD5 authentication. If empty or not set (null), that means you don't use BGP MD5 authentication. 
 	* `cross_connect_or_cross_connect_group_id` - (Optional) (Updatable) The OCID of the cross-connect or cross-connect group for this mapping. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider). 
-	* `customer_bgp_peering_ip` - (Optional) (Updatable) The BGP IP address for the router on the other end of the BGP session from Oracle. Specified by the owner of that router. If the session goes from Oracle to a customer, this is the BGP IP address of the customer's edge router. If the session goes from Oracle to a provider, this is the BGP IP address of the provider's edge router. Must use a /30 or /31 subnet mask.
+	* `customer_bgp_peering_ip` - (Optional) (Updatable) The BGP IPv4 address for the router on the other end of the BGP session from Oracle. Specified by the owner of that router. If the session goes from Oracle to a customer, this is the BGP IPv4 address of the customer's edge router. If the session goes from Oracle to a provider, this is the BGP IPv4 address of the provider's edge router. Must use a /30 or /31 subnet mask.
 
-		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv4 addresses.
 
 		Example: `10.0.0.18/31` 
-	* `oracle_bgp_peering_ip` - (Optional) (Updatable) The IP address for Oracle's end of the BGP session. Must use a /30 or /31 subnet mask. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
+	* `oracle_bgp_peering_ip` - (Optional) (Updatable) The IPv4 address for Oracle's end of the BGP session. Must use a /30 or /31 subnet mask. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
 
-		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv4 addresses.
 
 		Example: `10.0.0.19/31` 
 	* `vlan` - (Optional) (Updatable) The number of the specific VLAN (on the cross-connect or cross-connect group) that is assigned to this virtual circuit. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider).  Example: `200` 
@@ -107,14 +107,14 @@ The following attributes are exported:
 * `cross_connect_mappings` - An array of mappings, each containing properties for a cross-connect or cross-connect group that is associated with this virtual circuit. 
 	* `bgp_md5auth_key` - The key for BGP MD5 authentication. Only applicable if your system requires MD5 authentication. If empty or not set (null), that means you don't use BGP MD5 authentication. 
 	* `cross_connect_or_cross_connect_group_id` - The OCID of the cross-connect or cross-connect group for this mapping. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider). 
-	* `customer_bgp_peering_ip` - The BGP IP address for the router on the other end of the BGP session from Oracle. Specified by the owner of that router. If the session goes from Oracle to a customer, this is the BGP IP address of the customer's edge router. If the session goes from Oracle to a provider, this is the BGP IP address of the provider's edge router. Must use a /30 or /31 subnet mask.
+	* `customer_bgp_peering_ip` - The BGP IPv4 address for the router on the other end of the BGP session from Oracle. Specified by the owner of that router. If the session goes from Oracle to a customer, this is the BGP IPv4 address of the customer's edge router. If the session goes from Oracle to a provider, this is the BGP IPv4 address of the provider's edge router. Must use a /30 or /31 subnet mask.
 
-		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv4 addresses.
 
 		Example: `10.0.0.18/31` 
-	* `oracle_bgp_peering_ip` - The IP address for Oracle's end of the BGP session. Must use a /30 or /31 subnet mask. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
+	* `oracle_bgp_peering_ip` - The IPv4 address for Oracle's end of the BGP session. Must use a /30 or /31 subnet mask. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
 
-		There's one exception: for a public virtual circuit, Oracle specifies the BGP IP addresses.
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv4 addresses.
 
 		Example: `10.0.0.19/31` 
 	* `vlan` - The number of the specific VLAN (on the cross-connect or cross-connect group) that is assigned to this virtual circuit. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider).  Example: `200` 

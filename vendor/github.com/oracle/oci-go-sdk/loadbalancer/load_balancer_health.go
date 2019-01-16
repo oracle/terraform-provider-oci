@@ -1,9 +1,10 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Load Balancing Service API
+// Load Balancing API
 //
-// API for the Load Balancing Service
+// API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
+// information, see Overview of Load Balancing (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -16,11 +17,6 @@ import (
 // This object does not explicitly enumerate backend sets with a status of `OK`. However, they are included in the
 // `totalBackendSetCount` sum.
 type LoadBalancerHealth struct {
-
-	// A list of backend sets that are currently in the `CRITICAL` health state. The list identifies each backend set by the
-	// friendly name you assigned when you created it.
-	// Example: `example_backend_set`
-	CriticalStateBackendSetNames []string `mandatory:"true" json:"criticalStateBackendSetNames"`
 
 	// The overall health status of the load balancer.
 	// *  **OK:** All backend sets associated with the load balancer return a status of `OK`.
@@ -35,19 +31,24 @@ type LoadBalancerHealth struct {
 	//     *  The system could not retrieve metrics for any reason.
 	Status LoadBalancerHealthStatusEnum `mandatory:"true" json:"status"`
 
-	// The total number of backend sets associated with this load balancer.
-	// Example: `4`
-	TotalBackendSetCount *int `mandatory:"true" json:"totalBackendSetCount"`
+	// A list of backend sets that are currently in the `WARNING` health state. The list identifies each backend set by the
+	// friendly name you assigned when you created it.
+	// Example: `example_backend_set3`
+	WarningStateBackendSetNames []string `mandatory:"true" json:"warningStateBackendSetNames"`
+
+	// A list of backend sets that are currently in the `CRITICAL` health state. The list identifies each backend set by the
+	// friendly name you assigned when you created it.
+	// Example: `example_backend_set`
+	CriticalStateBackendSetNames []string `mandatory:"true" json:"criticalStateBackendSetNames"`
 
 	// A list of backend sets that are currently in the `UNKNOWN` health state. The list identifies each backend set by the
 	// friendly name you assigned when you created it.
 	// Example: `example_backend_set2`
 	UnknownStateBackendSetNames []string `mandatory:"true" json:"unknownStateBackendSetNames"`
 
-	// A list of backend sets that are currently in the `WARNING` health state. The list identifies each backend set by the
-	// friendly name you assigned when you created it.
-	// Example: `example_backend_set3`
-	WarningStateBackendSetNames []string `mandatory:"true" json:"warningStateBackendSetNames"`
+	// The total number of backend sets associated with this load balancer.
+	// Example: `4`
+	TotalBackendSetCount *int `mandatory:"true" json:"totalBackendSetCount"`
 }
 
 func (m LoadBalancerHealth) String() string {

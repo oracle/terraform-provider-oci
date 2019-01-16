@@ -352,9 +352,6 @@ func (s *BackendResourceCrud) Update() error {
 }
 
 func (s *BackendResourceCrud) Delete() error {
-	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
-		return nil
-	}
 	request := oci_load_balancer.DeleteBackendRequest{}
 
 	if backendName, ok := s.D.GetOkExists("name"); ok {

@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -18,35 +20,23 @@ var (
 		generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation)
 
 	imageDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":             Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
-		"operating_system":         Representation{repType: Optional, create: `operatingSystem`},
-		"operating_system_version": Representation{repType: Optional, create: `operatingSystemVersion`},
-		"shape":                    Representation{repType: Optional, create: `shape`},
-		"state":                    Representation{repType: Optional, create: `AVAILABLE`},
-		"filter":                   RepresentationGroup{Required, imageDataSourceFilterRepresentation}}
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
+		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"filter":         RepresentationGroup{Required, imageDataSourceFilterRepresentation}}
 	imageDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_core_image.test_image.id}`}},
 	}
 
 	imageRepresentation = map[string]interface{}{
-		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
-		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":         Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
-		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"image_source_details": RepresentationGroup{Optional, imageImageSourceDetailsRepresentation},
-		"instance_id":          Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"launch_mode":          Representation{repType: Optional, create: `NATIVE`},
-		"timeouts":             RepresentationGroup{Required, timeoutsRepresentation},
-	}
-	imageImageSourceDetailsRepresentation = map[string]interface{}{
-		"source_type":       Representation{repType: Required, create: `objectStorageTuple`},
-		"bucket_name":       Representation{repType: Optional, create: `MyBucket`},
-		"namespace_name":    Representation{repType: Optional, create: `MyNamespace`},
-		"object_name":       Representation{repType: Optional, create: `image-to-import.qcow2`},
-		"source_image_type": Representation{repType: Optional, create: `QCOW2`},
-		"source_uri":        Representation{repType: Optional, create: `https://objectstorage.us-phoenix-1.oraclecloud.com/n/MyNamespace/b/MyBucket/o/image-to-import.qcow2`},
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `MyCustomImage`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"instance_id":    Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"launch_mode":    Representation{repType: Optional, create: `NATIVE`},
+		"timeouts":       RepresentationGroup{Required, timeoutsRepresentation},
 	}
 
 	timeoutsRepresentation = map[string]interface{}{
@@ -57,7 +47,6 @@ var (
 )
 
 func TestCoreImageResource_basic(t *testing.T) {
-	t.Skip("Long running test")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -106,9 +95,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCustomImage"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "QCOW2"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
@@ -133,9 +120,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_image_type", "QCOW2"),
-					resource.TestCheckResourceAttr(resourceName, "image_source_details.0.source_type", "objectStorageTuple"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system"),
 					resource.TestCheckResourceAttrSet(resourceName, "operating_system_version"),
@@ -227,4 +212,83 @@ func testAccCheckCoreImageDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreImage", &resource.Sweeper{
+		Name:         "CoreImage",
+		Dependencies: DependencyGraph["image"],
+		F:            sweepCoreImageResource,
+	})
+}
+
+func sweepCoreImageResource(compartment string) error {
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	imageIds, err := getImageIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, imageId := range imageIds {
+		if ok := SweeperDefaultResourceId[imageId]; !ok {
+			deleteImageRequest := oci_core.DeleteImageRequest{}
+
+			deleteImageRequest.ImageId = &imageId
+
+			deleteImageRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeClient.DeleteImage(context.Background(), deleteImageRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Image %s %s, It is possible that the resource is already deleted. Please verify manually \n", imageId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &imageId, imageSweepWaitCondition, time.Duration(3*time.Minute),
+				imageSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getImageIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "ImageId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+
+	listImagesRequest := oci_core.ListImagesRequest{}
+	listImagesRequest.CompartmentId = &compartmentId
+	listImagesRequest.LifecycleState = oci_core.ImageLifecycleStateAvailable
+	listImagesResponse, err := computeClient.ListImages(context.Background(), listImagesRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Image list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, image := range listImagesResponse.Items {
+		id := *image.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "ImageId", id)
+	}
+	return resourceIds, nil
+}
+
+func imageSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if imageResponse, ok := response.Response.(oci_core.GetImageResponse); ok {
+		return imageResponse.LifecycleState == oci_core.ImageLifecycleStateDeleted
+	}
+	return false
+}
+
+func imageSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.computeClient.GetImage(context.Background(), oci_core.GetImageRequest{
+		ImageId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

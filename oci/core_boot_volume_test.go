@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_common "github.com/oracle/oci-go-sdk/common"
@@ -181,7 +182,6 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
 					resource.TestCheckNoResourceAttr(datasourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_group_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.availability_domain"),
@@ -190,7 +190,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.size_in_gbs", "i	51"),
+					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.size_in_gbs", "51"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.size_in_mbs"),
 					resource.TestCheckResourceAttr(datasourceName, "boot_volumes.0.source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volumes.0.source_details.0.id"),
@@ -208,7 +208,6 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 					resource.TestCheckNoResourceAttr(singularDatasourceName, "backup_policy_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "volume_group_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
@@ -299,4 +298,82 @@ func bootVolumeWaitCondition(response oci_common.OCIOperationResponse) bool {
 		return *bootVolumeResponse.IsHydrated == false
 	}
 	return false
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreBootVolume", &resource.Sweeper{
+		Name:         "CoreBootVolume",
+		Dependencies: DependencyGraph["bootVolume"],
+		F:            sweepCoreBootVolumeResource,
+	})
+}
+
+func sweepCoreBootVolumeResource(compartment string) error {
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	bootVolumeIds, err := getBootVolumeIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, bootVolumeId := range bootVolumeIds {
+		if ok := SweeperDefaultResourceId[bootVolumeId]; !ok {
+			deleteBootVolumeRequest := oci_core.DeleteBootVolumeRequest{}
+
+			deleteBootVolumeRequest.BootVolumeId = &bootVolumeId
+
+			deleteBootVolumeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := blockstorageClient.DeleteBootVolume(context.Background(), deleteBootVolumeRequest)
+			if error != nil {
+				fmt.Printf("Error deleting BootVolume %s %s, It is possible that the resource is already deleted. Please verify manually \n", bootVolumeId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &bootVolumeId, bootVolumeSweepWaitCondition, time.Duration(3*time.Minute),
+				bootVolumeSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getBootVolumeIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "BootVolumeId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+
+	listBootVolumesRequest := oci_core.ListBootVolumesRequest{}
+	listBootVolumesRequest.CompartmentId = &compartmentId
+	listBootVolumesResponse, err := blockstorageClient.ListBootVolumes(context.Background(), listBootVolumesRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting BootVolume list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, bootVolume := range listBootVolumesResponse.Items {
+		id := *bootVolume.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "BootVolumeId", id)
+	}
+	return resourceIds, nil
+}
+
+func bootVolumeSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if bootVolumeResponse, ok := response.Response.(oci_core.GetBootVolumeResponse); ok {
+		return bootVolumeResponse.LifecycleState == oci_core.BootVolumeLifecycleStateTerminated
+	}
+	return false
+}
+
+func bootVolumeSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.blockstorageClient.GetBootVolume(context.Background(), oci_core.GetBootVolumeRequest{
+		BootVolumeId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

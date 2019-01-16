@@ -184,6 +184,12 @@ func InstanceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_pv_encryption_in_transit_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"metadata": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -275,6 +281,14 @@ func InstanceResource() *schema.Resource {
 						},
 						"firmware": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_consistent_volume_naming_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_pv_encryption_in_transit_enabled": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"network_type": {
@@ -465,6 +479,11 @@ func (s *InstanceResourceCrud) Create() error {
 		request.IpxeScript = &tmp
 	}
 
+	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists("is_pv_encryption_in_transit_enabled"); ok {
+		tmp := isPvEncryptionInTransitEnabled.(bool)
+		request.IsPvEncryptionInTransitEnabled = &tmp
+	}
+
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		request.Metadata = objectMapToStringMap(metadata.(map[string]interface{}))
 	}
@@ -557,6 +576,16 @@ func (s *InstanceResourceCrud) Update() error {
 
 	response, err := s.Client.UpdateInstance(context.Background(), request)
 	if err != nil {
+		if response.RawResponse.StatusCode == 400 &&
+			strings.Contains(err.Error(), "metadata field cannot be updated") {
+			return fmt.Errorf(`%s
+
+To change 'ssh_authorized_keys' or 'user_data' properties in the 
+'metadata' field, the resource must be tainted and recreated. 
+Use the terraform "taint" command to target this resource then
+run apply again.`, err)
+		}
+
 		return err
 	}
 
@@ -566,13 +595,13 @@ func (s *InstanceResourceCrud) Update() error {
 
 	_, ok := s.D.GetOkExists("create_vnic_details")
 	if !s.D.HasChange("create_vnic_details") || !ok {
-		log.Printf("[DEBUG] No changes to primary VNIC. Instance ID: %q", s.Res.Id)
+		log.Printf("[DEBUG] No changes to primary VNIC. Instance ID: \"%v\"", s.Res.Id)
 		return nil
 	}
 
 	vnic, err := s.getPrimaryVnic()
 	if err != nil {
-		log.Printf("[ERROR] Primary VNIC could not be found during instance update: %q (Instance ID: %q, State: %q)", err, s.Res.Id, s.Res.LifecycleState)
+		log.Printf("[ERROR] Primary VNIC could not be found during instance update: %q (Instance ID: \"%v\", State: %q)", err, s.Res.Id, s.Res.LifecycleState)
 		return err
 	}
 
@@ -590,7 +619,7 @@ func (s *InstanceResourceCrud) Update() error {
 	_, err = s.VirtualNetworkClient.UpdateVnic(context.Background(), vnicOpts)
 
 	if err != nil {
-		log.Printf("[ERROR] Primary VNIC could not be updated during instance update: %q (Instance ID: %q, State: %q)", err, s.Res.Id, s.Res.LifecycleState)
+		log.Printf("[ERROR] Primary VNIC could not be updated during instance update: %q (Instance ID: \"%v\", State: %q)", err, s.Res.Id, s.Res.LifecycleState)
 		return err
 	}
 
@@ -918,7 +947,11 @@ func (s *InstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat string)
 }
 
 func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume *oci_core.BootVolume, sourceDetailsFromConfig map[string]interface{}) map[string]interface{} {
-	result := map[string]interface{}{}
+	// We need to use the values provided by the customer to prevent force new in case the service does not return the value
+	result := sourceDetailsFromConfig
+	if result == nil {
+		result = map[string]interface{}{}
+	}
 	switch v := (*obj).(type) {
 	case oci_core.InstanceSourceViaBootVolumeDetails:
 		result["source_type"] = "bootVolume"
@@ -935,9 +968,6 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 			// The service could omit the boot volume size in the InstanceSourceViaImageDetails, so use the boot volume
 			// SizeInGBs property if that's the case.
 			result["boot_volume_size_in_gbs"] = strconv.FormatInt(*bootVolume.SizeInGBs, 10)
-		} else if sourceDetailsFromConfig != nil {
-			// Last resort. If we can't query the boot volume size from service, use the config value.
-			result["boot_volume_size_in_gbs"] = sourceDetailsFromConfig["boot_volume_size_in_gbs"]
 		}
 
 		if v.KmsKeyId != nil {
@@ -974,7 +1004,7 @@ func (s *InstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 		CompartmentId: s.Res.CompartmentId,
 		InstanceId:    s.Res.Id,
 	}
-
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 	var attachments []oci_core.VnicAttachment
 
 	for {

@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -249,4 +251,92 @@ func testAccCheckCoreLocalPeeringGatewayDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreLocalPeeringGateway", &resource.Sweeper{
+		Name:         "CoreLocalPeeringGateway",
+		Dependencies: DependencyGraph["localPeeringGateway"],
+		F:            sweepCoreLocalPeeringGatewayResource,
+	})
+}
+
+func sweepCoreLocalPeeringGatewayResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	localPeeringGatewayIds, err := getLocalPeeringGatewayIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, localPeeringGatewayId := range localPeeringGatewayIds {
+		if ok := SweeperDefaultResourceId[localPeeringGatewayId]; !ok {
+			deleteLocalPeeringGatewayRequest := oci_core.DeleteLocalPeeringGatewayRequest{}
+
+			deleteLocalPeeringGatewayRequest.LocalPeeringGatewayId = &localPeeringGatewayId
+
+			deleteLocalPeeringGatewayRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteLocalPeeringGateway(context.Background(), deleteLocalPeeringGatewayRequest)
+			if error != nil {
+				fmt.Printf("Error deleting LocalPeeringGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", localPeeringGatewayId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &localPeeringGatewayId, localPeeringGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+				localPeeringGatewaySweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getLocalPeeringGatewayIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "LocalPeeringGatewayId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listLocalPeeringGatewaysRequest := oci_core.ListLocalPeeringGatewaysRequest{}
+	listLocalPeeringGatewaysRequest.CompartmentId = &compartmentId
+
+	vcnIds, error := getVcnIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting vcnId required for LocalPeeringGateway resource requests \n")
+	}
+	for _, vcnId := range vcnIds {
+		listLocalPeeringGatewaysRequest.VcnId = &vcnId
+
+		listLocalPeeringGatewaysResponse, err := virtualNetworkClient.ListLocalPeeringGateways(context.Background(), listLocalPeeringGatewaysRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting LocalPeeringGateway list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, localPeeringGateway := range listLocalPeeringGatewaysResponse.Items {
+			id := *localPeeringGateway.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "LocalPeeringGatewayId", id)
+		}
+
+	}
+	return resourceIds, nil
+}
+
+func localPeeringGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if localPeeringGatewayResponse, ok := response.Response.(oci_core.GetLocalPeeringGatewayResponse); ok {
+		return localPeeringGatewayResponse.LifecycleState == oci_core.LocalPeeringGatewayLifecycleStateTerminated
+	}
+	return false
+}
+
+func localPeeringGatewaySweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetLocalPeeringGateway(context.Background(), oci_core.GetLocalPeeringGatewayRequest{
+		LocalPeeringGatewayId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

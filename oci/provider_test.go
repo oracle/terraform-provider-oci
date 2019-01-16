@@ -139,11 +139,11 @@ variable "InstanceImageOCID" {
   type = "map"
   default = {
 	// See https://docs.us-phoenix-1.oraclecloud.com/images/
-	// Oracle-provided image "Oracle-Linux-7.4-2018.02.21-1"
-	us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaupbfz5f5hdvejulmalhyb6goieolullgkpumorbvxlwkaowglslq"
-	us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaajlw3xfie2t5t52uegyhiq2npx7bqyu4uvi2zyu3w3mqayc2bxmaa"
-	eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
-	uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
+	// Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
+	us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
+	us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
+	eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
+	uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
   }
 }
 
@@ -166,7 +166,7 @@ resource "oci_core_instance" "t" {
 	compartment_id = "${var.compartment_id}"
 	display_name = "-tf-instance"
 	image = "${var.InstanceImageOCID[var.region]}"
-	shape = "VM.Standard1.8"
+	shape = "VM.Standard2.1"
 	subnet_id = "${oci_core_subnet.WebSubnetAD1.id}"
 	metadata {
 		ssh_authorized_keys = "${var.ssh_public_key}"
@@ -218,7 +218,7 @@ resource "oci_core_instance" "t" {
 	compartment_id = "${var.compartment_id}"
 	display_name = "-tf-instance"
 	image = "${var.InstanceImageOCID[var.region]}"
-	shape = "VM.Standard1.8"
+	shape = "VM.Standard2.1"
 	create_vnic_details {
         subnet_id = "${oci_core_subnet.t.id}"
         hostname_label = "testinstance"
@@ -249,7 +249,7 @@ func GetTestClients(data *schema.ResourceData) *OracleClients {
 	d.Set("tenancy_ocid", getEnvSettingWithBlankDefault("tenancy_ocid"))
 	d.Set("region", getEnvSettingWithDefault("region", "us-phoenix-1"))
 
-	if getEnvSettingWithDefault("use_obo_token", "false") == "false" {
+	if auth := getEnvSettingWithDefault("auth", authAPIKeySetting); auth == authAPIKeySetting {
 		d.Set("auth", getEnvSettingWithDefault("auth", authAPIKeySetting))
 		d.Set("user_ocid", getEnvSettingWithBlankDefault("user_ocid"))
 		d.Set("fingerprint", getEnvSettingWithBlankDefault("fingerprint"))
@@ -257,7 +257,7 @@ func GetTestClients(data *schema.ResourceData) *OracleClients {
 		d.Set("private_key_password", getEnvSettingWithBlankDefault("private_key_password"))
 		d.Set("private_key", getEnvSettingWithBlankDefault("private_key"))
 	} else {
-		d.Set("auth", getEnvSettingWithDefault("auth", authInstancePrincipalSetting))
+		d.Set("auth", getEnvSettingWithDefault("auth", auth))
 	}
 
 	client, err := ProviderConfig(d)
@@ -370,10 +370,13 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 			return
 		}
 	case authInstancePrincipalSetting:
-		assert.Regexp(t, "failed to create a new key provider for instance principal.*", err.Error())
+		assert.Regexp(t, "authentication .* is set to .* To use .* authentication user credentials should be removed from the configuration.*", err.Error())
+		return
+	case authInstancePrincipalWithCertsSetting:
+		assert.Regexp(t, "authentication .* is set to .* To use .* authentication user credentials should be removed from the configuration.*", err.Error())
 		return
 	default:
-		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting))
+		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting))
 		return
 	}
 	assert.Nil(t, err)
@@ -391,7 +394,6 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 		assert.NotNil(t, c.Signer)
 	}
 
-	assert.Exactly(t, disableAutoRetries, disableRetries)
 	testClient(&oracleClient.blockstorageClient.BaseClient)
 	testClient(&oracleClient.computeClient.BaseClient)
 	testClient(&oracleClient.databaseClient.BaseClient)
@@ -406,6 +408,50 @@ func TestProviderConfig(t *testing.T) {
 	providerConfigTest(t, false, true, authAPIKeySetting)             // ApiKey without required fields
 	providerConfigTest(t, false, false, authInstancePrincipalSetting) // InstancePrincipal
 	providerConfigTest(t, true, false, "invalid-auth-setting")        // Invalid auth + disable auto-retries
+}
+
+func TestVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
+	r := &schema.Resource{
+		Schema: schemaMap(),
+	}
+	d := r.Data(nil)
+	d.SetId("tenancy_ocid")
+	d.Set("auth", "InstancePrincipal")
+	d.Set("region", "us-phoenix-1")
+
+	apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.True(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0)
+
+	d.Set("tenancy_ocid", testTenancyOCID)
+	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.True(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0)
+
+	d.Set("user_ocid", testUserOCID)
+	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.False(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 1)
+
+	d.Set("fingerprint", testKeyFingerPrint)
+	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.False(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 2)
+
+	d.Set("private_key", testPrivateKey)
+	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.False(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 3)
+
+	d.Set("private_key_path", "path")
+	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.False(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 4)
+
+	d.Set("private_key_password", "password")
+	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
+	assert.False(t, ok)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 5)
 }
 
 /* This function is used in the test asserts to verify that an element in a set contains certain properties

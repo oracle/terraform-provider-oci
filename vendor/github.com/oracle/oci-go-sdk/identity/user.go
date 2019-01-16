@@ -50,6 +50,12 @@ type User struct {
 	// ACTIVE before using it.
 	LifecycleState UserLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// The OCID of the `IdentityProvider` this user belongs to.
+	IdentityProviderId *string `mandatory:"false" json:"identityProviderId"`
+
+	// Identifier of the user in the identity provider
+	ExternalIdentifier *string `mandatory:"false" json:"externalIdentifier"`
+
 	// Returned only if the user's `lifecycleState` is INACTIVE. A 16-bit value showing the reason why the user
 	// is inactive:
 	// - bit 0: SUSPENDED (reserved for future use)
@@ -66,6 +72,9 @@ type User struct {
 	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Properties indicating how the user is allowed to authenticate.
+	Capabilities *UserCapabilities `mandatory:"false" json:"capabilities"`
 }
 
 func (m User) String() string {

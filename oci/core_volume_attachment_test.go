@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -29,11 +31,13 @@ var (
 	}
 
 	volumeAttachmentRepresentation = map[string]interface{}{
-		"attachment_type": Representation{repType: Required, create: `iscsi`},
-		"instance_id":     Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
-		"volume_id":       Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
-		"display_name":    Representation{repType: Optional, create: `displayName`},
-		"is_read_only":    Representation{repType: Optional, create: `false`},
+		"attachment_type":                     Representation{repType: Required, create: `iscsi`},
+		"instance_id":                         Representation{repType: Required, create: `${oci_core_instance.test_instance.id}`},
+		"volume_id":                           Representation{repType: Required, create: `${oci_core_volume.test_volume.id}`},
+		"device":                              Representation{repType: Optional, create: `/dev/oracleoci/oraclevdb`},
+		"display_name":                        Representation{repType: Optional, create: `displayName`},
+		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, create: `false`},
+		"is_read_only":                        Representation{repType: Optional, create: `false`},
 	}
 
 	VolumeAttachmentResourceDependencies = InstanceRequiredOnlyResource + VolumeRequiredOnlyResource
@@ -79,9 +83,11 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "attachment_type", "iscsi"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "device", "/dev/oracleoci/oraclevdb"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_read_only", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -105,9 +111,11 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.attachment_type", "iscsi"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.compartment_id"),
+					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.device", "/dev/oracleoci/oraclevdb"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.instance_id"),
+					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_read_only", "false"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.time_created"),
@@ -164,4 +172,82 @@ func testAccCheckCoreVolumeAttachmentDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreVolumeAttachment", &resource.Sweeper{
+		Name:         "CoreVolumeAttachment",
+		Dependencies: DependencyGraph["volumeAttachment"],
+		F:            sweepCoreVolumeAttachmentResource,
+	})
+}
+
+func sweepCoreVolumeAttachmentResource(compartment string) error {
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	volumeAttachmentIds, err := getVolumeAttachmentIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, volumeAttachmentId := range volumeAttachmentIds {
+		if ok := SweeperDefaultResourceId[volumeAttachmentId]; !ok {
+			detachVolumeRequest := oci_core.DetachVolumeRequest{}
+
+			detachVolumeRequest.VolumeAttachmentId = &volumeAttachmentId
+
+			detachVolumeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeClient.DetachVolume(context.Background(), detachVolumeRequest)
+			if error != nil {
+				fmt.Printf("Error deleting VolumeAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", volumeAttachmentId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &volumeAttachmentId, volumeAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+				volumeAttachmentSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getVolumeAttachmentIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "VolumeAttachmentId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+
+	listVolumeAttachmentsRequest := oci_core.ListVolumeAttachmentsRequest{}
+	listVolumeAttachmentsRequest.CompartmentId = &compartmentId
+	listVolumeAttachmentsResponse, err := computeClient.ListVolumeAttachments(context.Background(), listVolumeAttachmentsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting VolumeAttachment list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, volumeAttachment := range listVolumeAttachmentsResponse.Items {
+		id := *volumeAttachment.GetId()
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "VolumeAttachmentId", id)
+	}
+	return resourceIds, nil
+}
+
+func volumeAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if volumeAttachmentResponse, ok := response.Response.(oci_core.GetVolumeAttachmentResponse); ok {
+		return volumeAttachmentResponse.GetLifecycleState() == oci_core.VolumeAttachmentLifecycleStateDetached
+	}
+	return false
+}
+
+func volumeAttachmentSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.computeClient.GetVolumeAttachment(context.Background(), oci_core.GetVolumeAttachmentRequest{
+		VolumeAttachmentId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

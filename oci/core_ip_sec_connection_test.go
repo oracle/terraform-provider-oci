@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -197,4 +199,82 @@ func testAccCheckCoreIpSecConnectionDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreIpSecConnection", &resource.Sweeper{
+		Name:         "CoreIpSecConnection",
+		Dependencies: DependencyGraph["ipSecConnection"],
+		F:            sweepCoreIpSecConnectionResource,
+	})
+}
+
+func sweepCoreIpSecConnectionResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	ipSecConnectionIds, err := getIpSecConnectionIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, ipSecConnectionId := range ipSecConnectionIds {
+		if ok := SweeperDefaultResourceId[ipSecConnectionId]; !ok {
+			deleteIPSecConnectionRequest := oci_core.DeleteIPSecConnectionRequest{}
+
+			deleteIPSecConnectionRequest.IpscId = &ipSecConnectionId
+
+			deleteIPSecConnectionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteIPSecConnection(context.Background(), deleteIPSecConnectionRequest)
+			if error != nil {
+				fmt.Printf("Error deleting IpSecConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", ipSecConnectionId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &ipSecConnectionId, ipSecConnectionSweepWaitCondition, time.Duration(3*time.Minute),
+				ipSecConnectionSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getIpSecConnectionIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "IpSecConnectionId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listIPSecConnectionsRequest := oci_core.ListIPSecConnectionsRequest{}
+	listIPSecConnectionsRequest.CompartmentId = &compartmentId
+	listIPSecConnectionsResponse, err := virtualNetworkClient.ListIPSecConnections(context.Background(), listIPSecConnectionsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting IpSecConnection list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, ipSecConnection := range listIPSecConnectionsResponse.Items {
+		id := *ipSecConnection.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "IpSecConnectionId", id)
+	}
+	return resourceIds, nil
+}
+
+func ipSecConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if ipSecConnectionResponse, ok := response.Response.(oci_core.GetIPSecConnectionResponse); ok {
+		return ipSecConnectionResponse.LifecycleState == oci_core.IpSecConnectionLifecycleStateTerminated
+	}
+	return false
+}
+
+func ipSecConnectionSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetIPSecConnection(context.Background(), oci_core.GetIPSecConnectionRequest{
+		IpscId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

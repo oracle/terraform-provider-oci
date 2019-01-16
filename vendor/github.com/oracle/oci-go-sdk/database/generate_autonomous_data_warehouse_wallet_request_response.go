@@ -56,18 +56,18 @@ type GenerateAutonomousDataWarehouseWalletResponse struct {
 	// The io.ReadCloser instance
 	Content io.ReadCloser `presentIn:"body" encoding:"binary"`
 
-	// Size of the file.
-	ContentLength *int64 `presentIn:"header" name:"content-length"`
-
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
-
-	// The date and time the wallet was created, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
-	LastModified *common.SDKTime `presentIn:"header" name:"last-modified"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
 	// a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Size of the file.
+	ContentLength *int64 `presentIn:"header" name:"content-length"`
+
+	// The date and time the wallet was created, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	LastModified *common.SDKTime `presentIn:"header" name:"last-modified"`
 }
 
 func (response GenerateAutonomousDataWarehouseWalletResponse) String() string {

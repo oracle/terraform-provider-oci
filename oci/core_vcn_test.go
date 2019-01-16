@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -194,4 +196,87 @@ func testAccCheckCoreVcnDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreVcn", &resource.Sweeper{
+		Name:         "CoreVcn",
+		Dependencies: DependencyGraph["vcn"],
+		F:            sweepCoreVcnResource,
+	})
+}
+
+func sweepCoreVcnResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	vcnIds, err := getVcnIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, vcnId := range vcnIds {
+		if ok := SweeperDefaultResourceId[vcnId]; !ok {
+			deleteVcnRequest := oci_core.DeleteVcnRequest{}
+
+			deleteVcnRequest.VcnId = &vcnId
+
+			deleteVcnRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteVcn(context.Background(), deleteVcnRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Vcn %s %s, It is possible that the resource is already deleted. Please verify manually \n", vcnId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &vcnId, vcnSweepWaitCondition, time.Duration(3*time.Minute),
+				vcnSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getVcnIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "VcnId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listVcnsRequest := oci_core.ListVcnsRequest{}
+	listVcnsRequest.CompartmentId = &compartmentId
+	listVcnsRequest.LifecycleState = oci_core.VcnLifecycleStateAvailable
+	listVcnsResponse, err := virtualNetworkClient.ListVcns(context.Background(), listVcnsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Vcn list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, vcn := range listVcnsResponse.Items {
+		id := *vcn.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "VcnId", id)
+		SweeperDefaultResourceId[*vcn.DefaultDhcpOptionsId] = true
+		SweeperDefaultResourceId[*vcn.DefaultRouteTableId] = true
+		SweeperDefaultResourceId[*vcn.DefaultSecurityListId] = true
+
+	}
+	return resourceIds, nil
+}
+
+func vcnSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if vcnResponse, ok := response.Response.(oci_core.GetVcnResponse); ok {
+		return vcnResponse.LifecycleState == oci_core.VcnLifecycleStateTerminated
+	}
+	return false
+}
+
+func vcnSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetVcn(context.Background(), oci_core.GetVcnRequest{
+		VcnId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

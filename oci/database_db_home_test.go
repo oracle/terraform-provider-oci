@@ -7,10 +7,11 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+
+	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/terraform"
 )
 
 var (
@@ -244,7 +245,6 @@ func testAccCheckDatabaseDbHomeDestroy(s *terraform.State) error {
 		if rs.Type == "oci_database_db_home" {
 			noResourceFound = false
 			request := oci_database.GetDbHomeRequest{}
-
 			tmp := rs.Primary.ID
 			request.DbHomeId = &tmp
 

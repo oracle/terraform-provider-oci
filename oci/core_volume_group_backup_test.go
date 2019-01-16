@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -196,4 +198,82 @@ func testAccCheckCoreVolumeGroupBackupDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreVolumeGroupBackup", &resource.Sweeper{
+		Name:         "CoreVolumeGroupBackup",
+		Dependencies: DependencyGraph["volumeGroupBackup"],
+		F:            sweepCoreVolumeGroupBackupResource,
+	})
+}
+
+func sweepCoreVolumeGroupBackupResource(compartment string) error {
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+	volumeGroupBackupIds, err := getVolumeGroupBackupIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, volumeGroupBackupId := range volumeGroupBackupIds {
+		if ok := SweeperDefaultResourceId[volumeGroupBackupId]; !ok {
+			deleteVolumeGroupBackupRequest := oci_core.DeleteVolumeGroupBackupRequest{}
+
+			deleteVolumeGroupBackupRequest.VolumeGroupBackupId = &volumeGroupBackupId
+
+			deleteVolumeGroupBackupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := blockstorageClient.DeleteVolumeGroupBackup(context.Background(), deleteVolumeGroupBackupRequest)
+			if error != nil {
+				fmt.Printf("Error deleting VolumeGroupBackup %s %s, It is possible that the resource is already deleted. Please verify manually \n", volumeGroupBackupId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &volumeGroupBackupId, volumeGroupBackupSweepWaitCondition, time.Duration(3*time.Minute),
+				volumeGroupBackupSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getVolumeGroupBackupIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "VolumeGroupBackupId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	blockstorageClient := GetTestClients(&schema.ResourceData{}).blockstorageClient
+
+	listVolumeGroupBackupsRequest := oci_core.ListVolumeGroupBackupsRequest{}
+	listVolumeGroupBackupsRequest.CompartmentId = &compartmentId
+	listVolumeGroupBackupsResponse, err := blockstorageClient.ListVolumeGroupBackups(context.Background(), listVolumeGroupBackupsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting VolumeGroupBackup list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, volumeGroupBackup := range listVolumeGroupBackupsResponse.Items {
+		id := *volumeGroupBackup.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "VolumeGroupBackupId", id)
+	}
+	return resourceIds, nil
+}
+
+func volumeGroupBackupSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if volumeGroupBackupResponse, ok := response.Response.(oci_core.GetVolumeGroupBackupResponse); ok {
+		return volumeGroupBackupResponse.LifecycleState == oci_core.VolumeGroupBackupLifecycleStateTerminated
+	}
+	return false
+}
+
+func volumeGroupBackupSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.blockstorageClient.GetVolumeGroupBackup(context.Background(), oci_core.GetVolumeGroupBackupRequest{
+		VolumeGroupBackupId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

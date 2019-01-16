@@ -1,4 +1,53 @@
-## 3.9.1 (Unreleased)
+## 3.12.1 (Unreleased)
+## 3.12.0 (January 15, 2019)
+
+### Added
+- Support for `retry_duration_seconds` option to configure length of retry in the face of HTTP 429 and 500 errors
+- Support for custom header insertion, extension, and removal for Load Balancer listener resource
+- Support for consistent volume names in the Block Volume attachments
+
+### Fixed
+- Retried SDK calls are now jittered to avoid herding of retry requests in high parallelism scenarios
+- Fail the initialization of the provider if either of `user_ocid`, `fingerprint`, `private_key`, `private_key_path` or `private_key_password` are specified for `InstancePrincipal` or `InstancePrincipalWithCerts` auth mode.
+
+### Note
+- Examples and test updated to use VM.Standard2.1
+- Windows example image updated to Windows-Server-2012-R2-Standard-Edition-VM-Gen2-2018.12.12-0 
+
+## 3.11.2 (January 10, 2019)
+
+### Fixed
+- Reverted previous fix for immutable `metadata` fields `ssh_authorized_keys` and `user_data` that results in new instances due to a crash when using interpolations in TypeMap with customdiff (Issue #685)
+
+## 3.11.1 (January 08, 2019)
+
+### Changed
+- LoadBalancer BackendSets to have TypeSet for Backends to avoid out of order diffs
+
+### Fixed
+- Regression in handling of failed work-requests to pass the errors to the user and fail the apply
+- Removing certificates from load balancer listeners can be done by omitting `ssl_configuration`
+- Load balancer resources that are stuck in failed state during deletion can now be deleted after upgrading
+- Modifying immutable `metadata` fields such as `ssh_authorized_keys` and `user_data` should result in new instances
+
+## 3.11.0 (December 18, 2018)
+
+### Added
+- Support for tagging in `oci_dns_zone`
+- New attribute `nameservers` is added to `oci_dns_zone`
+- Support for in-transit encryption for paravirtualized boot and data attachment
+- Identify latest database version with `oci_databse_db_versions` data source using `is_latest_for_major_version` property
+- Support for importing tag. Note tag uses custom Id(import only) format (tagNamespaces/{tagNamespaceId}/tags/{tagName}) to support import.
+- Support for provisioning user capabilities for native and federation shadow users
+- Support `id` attribute for `oci_identity_availability_domains`
+- Support `freeform_attributes` attribute for the `oci_identity_identity_provider`
+- Support for `sparse_diskgroup` for Exadata dbsystem
+
+## 3.10.0 (December 11, 2018)
+
+### Added
+- Support for attaching Route Table to Subnet. Issue [#270](https://github.com/terraform-providers/terraform-provider-oci/issues/270)
+
 ## 3.9.0 (December 04, 2018)
 
 ### Added

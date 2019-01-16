@@ -229,7 +229,13 @@ func omitNilFieldsInJSON(data interface{}, value reflect.Value) (interface{}, er
 // that are nil
 func removeNilFieldsInJSONWithTaggedStruct(rawJSON []byte, value reflect.Value) ([]byte, error) {
 	rawMap := make(map[string]interface{})
-	json.Unmarshal(rawJSON, &rawMap)
+	decoder := json.NewDecoder(bytes.NewBuffer(rawJSON))
+	decoder.UseNumber()
+	var err error
+	if err = decoder.Decode(&rawMap); err != nil {
+		return nil, err
+	}
+
 	fixedMap, err := omitNilFieldsInJSON(rawMap, value)
 	if err != nil {
 		return nil, err
@@ -631,7 +637,7 @@ func intSizeFromKind(kind reflect.Kind) int {
 	case reflect.Int, reflect.Uint:
 		return strconv.IntSize
 	default:
-		Debugln("The type is not valid: %v. Returing int size for arch", kind.String())
+		Debugf("The type is not valid: %v. Returing int size for arch\n", kind.String())
 		return strconv.IntSize
 	}
 

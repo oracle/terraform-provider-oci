@@ -51,11 +51,11 @@ func (s *DatasourceCoreInstanceTestSuite) SetupTest() {
 	  type = "map"
 	  default = {
 		// See https://docs.us-phoenix-1.oraclecloud.com/images/
-		// Oracle-provided image "Oracle-Linux-7.4-2018.02.21-1"
-		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaupbfz5f5hdvejulmalhyb6goieolullgkpumorbvxlwkaowglslq"
-		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaajlw3xfie2t5t52uegyhiq2npx7bqyu4uvi2zyu3w3mqayc2bxmaa"
-		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
-		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
+		// Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
+		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
+		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
+		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
+		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
 	  }
 	}
 
@@ -65,7 +65,7 @@ func (s *DatasourceCoreInstanceTestSuite) SetupTest() {
 		display_name = "{{.token}}"
 		subnet_id = "${oci_core_subnet.t.id}"
 		image = "${var.InstanceImageOCID[var.region]}"
-		shape = "VM.Standard1.8"
+		shape = "VM.Standard2.1"
 		metadata {
 			ssh_authorized_keys = "${var.ssh_public_key}"
 		}
@@ -98,7 +98,7 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.display_name", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.state", string(core.InstanceLifecycleStateRunning)),
-					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.id"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "instances.0.region"),
@@ -115,7 +115,7 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.hostname_label", ""),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_mode", "NATIVE"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_options.#", "1"),
-					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_options.0.boot_volume_type", "ISCSI"),
+					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_options.0.boot_volume_type", "PARAVIRTUALIZED"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_options.0.firmware", "UEFI_64"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_options.0.network_type", "VFIO"),
 					resource.TestCheckResourceAttr(s.ResourceName, "instances.0.launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),

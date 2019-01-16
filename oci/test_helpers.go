@@ -122,7 +122,8 @@ func waitTillCondition(testAccProvider *schema.Provider, resourceId *string, con
 
 // This function is responsible for the actual check for WaitConditionFunc and the aborting
 func conditionShouldRetry(timeout time.Duration, condition WaitConditionFunc, service string, disableNotFoundRetries bool) func(response oci_common.OCIOperationResponse) bool {
-	stopTime := time.Now().Add(timeout)
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
 	return func(response oci_common.OCIOperationResponse) bool {
 
 		//Stop after timeout has elapsed
@@ -131,7 +132,7 @@ func conditionShouldRetry(timeout time.Duration, condition WaitConditionFunc, se
 		}
 
 		//Make sure we stop on default rules
-		if shouldRetry(response, disableNotFoundRetries, service) {
+		if shouldRetry(response, disableNotFoundRetries, service, startTime) {
 			return true
 		}
 
@@ -200,6 +201,13 @@ func representationCopyWithNewProperties(representations map[string]interface{},
 func getUpdatedRepresentationCopy(propertyNameStr string, newValue interface{}, representations map[string]interface{}) map[string]interface{} {
 	propertyNames := strings.Split(propertyNameStr, ".")
 	return updateNestedRepresentation(0, propertyNames, newValue, cloneRepresentation(representations))
+}
+
+func getMultipleUpdatedRepresenationCopy(propertyNames []string, newValues []interface{}, representations map[string]interface{}) map[string]interface{} {
+	for i := 0; i < len(propertyNames); i++ {
+		representations = getUpdatedRepresentationCopy(propertyNames[i], newValues[i], representations)
+	}
+	return representations
 }
 
 func updateNestedRepresentation(currIndex int, propertyNames []string, newValue interface{}, representations map[string]interface{}) map[string]interface{} {

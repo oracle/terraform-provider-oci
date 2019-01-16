@@ -48,6 +48,9 @@ type IScsiVolumeAttachment struct {
 	// Example: `3260`
 	Port *int `mandatory:"true" json:"port"`
 
+	// The device name.
+	Device *string `mandatory:"false" json:"device"`
+
 	// A user-friendly name. Does not have to be unique, and it cannot be changed.
 	// Avoid entering confidential information.
 	// Example: `My volume attachment`
@@ -55,6 +58,9 @@ type IScsiVolumeAttachment struct {
 
 	// Whether the attachment was created in read-only mode.
 	IsReadOnly *bool `mandatory:"false" json:"isReadOnly"`
+
+	// Whether the enable encryption in transit for the PV volume attachment is on or not.
+	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 
 	// The Challenge-Handshake-Authentication-Protocol (CHAP) secret valid for the associated CHAP user name.
 	// (Also called the "CHAP password".)
@@ -77,6 +83,11 @@ func (m IScsiVolumeAttachment) GetAvailabilityDomain() *string {
 //GetCompartmentId returns CompartmentId
 func (m IScsiVolumeAttachment) GetCompartmentId() *string {
 	return m.CompartmentId
+}
+
+//GetDevice returns Device
+func (m IScsiVolumeAttachment) GetDevice() *string {
+	return m.Device
 }
 
 //GetDisplayName returns DisplayName
@@ -112,6 +123,11 @@ func (m IScsiVolumeAttachment) GetTimeCreated() *common.SDKTime {
 //GetVolumeId returns VolumeId
 func (m IScsiVolumeAttachment) GetVolumeId() *string {
 	return m.VolumeId
+}
+
+//GetIsPvEncryptionInTransitEnabled returns IsPvEncryptionInTransitEnabled
+func (m IScsiVolumeAttachment) GetIsPvEncryptionInTransitEnabled() *bool {
+	return m.IsPvEncryptionInTransitEnabled
 }
 
 func (m IScsiVolumeAttachment) String() string {

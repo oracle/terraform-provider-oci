@@ -1,9 +1,10 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Public DNS Service
+// DNS API
 //
-// API for managing DNS zones, records, and policies.
+// API for the DNS service. Use this API to manage DNS zones, records, and other DNS resources.
+// For more information, see Overview of the DNS Service (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
 //
 
 package dns
@@ -186,8 +187,8 @@ func (client DnsClient) deleteRRSet(ctx context.Context, request common.OCIReque
 	return response, err
 }
 
-// DeleteZone Deletes the specified zone. A `204` response indicates that zone has been
-// successfully deleted.
+// DeleteZone Deletes the specified zone. A `204` response indicates that zone has been successfully
+// deleted.
 func (client DnsClient) DeleteZone(ctx context.Context, request DeleteZoneRequest) (response DeleteZoneResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -361,7 +362,7 @@ func (client DnsClient) getZone(ctx context.Context, request common.OCIRequest) 
 
 // GetZoneRecords Gets all records in the specified zone. The results are
 // sorted by `domain` in alphabetical order by default. For more
-// information about records, please see Resource Record (RR) TYPEs (https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
+// information about records, see Resource Record (RR) TYPEs (https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4).
 func (client DnsClient) GetZoneRecords(ctx context.Context, request GetZoneRecordsRequest) (response GetZoneRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -446,7 +447,7 @@ func (client DnsClient) listZones(ctx context.Context, request common.OCIRequest
 	return response, err
 }
 
-// PatchDomainRecords Replaces records in the specified zone at a domain. You can update one record or all records for the specified zone depending on the changes provided in the request body. You can also add or remove records using this function.
+// PatchDomainRecords Updates records in the specified zone at a domain. You can update one record or all records for the specified zone depending on the changes provided in the request body. You can also add or remove records using this function.
 func (client DnsClient) PatchDomainRecords(ctx context.Context, request PatchDomainRecordsRequest) (response PatchDomainRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -666,7 +667,7 @@ func (client DnsClient) updateRRSet(ctx context.Context, request common.OCIReque
 
 // UpdateZone Updates the specified secondary zone with your new external master
 // server information. For more information about secondary zone, see
-// Manage DNS Service Zone (https://docs.us-phoenix-1.oraclecloud.com/Content/DNS/Tasks/managingdnszones.htm).
+// Manage DNS Service Zone (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/DNS/Tasks/managingdnszones.htm).
 func (client DnsClient) UpdateZone(ctx context.Context, request UpdateZoneRequest) (response UpdateZoneResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

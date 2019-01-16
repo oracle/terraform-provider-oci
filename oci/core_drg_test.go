@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -177,4 +179,82 @@ func testAccCheckCoreDrgDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreDrg", &resource.Sweeper{
+		Name:         "CoreDrg",
+		Dependencies: DependencyGraph["drg"],
+		F:            sweepCoreDrgResource,
+	})
+}
+
+func sweepCoreDrgResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	drgIds, err := getDrgIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, drgId := range drgIds {
+		if ok := SweeperDefaultResourceId[drgId]; !ok {
+			deleteDrgRequest := oci_core.DeleteDrgRequest{}
+
+			deleteDrgRequest.DrgId = &drgId
+
+			deleteDrgRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteDrg(context.Background(), deleteDrgRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Drg %s %s, It is possible that the resource is already deleted. Please verify manually \n", drgId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &drgId, drgSweepWaitCondition, time.Duration(3*time.Minute),
+				drgSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getDrgIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "DrgId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listDrgsRequest := oci_core.ListDrgsRequest{}
+	listDrgsRequest.CompartmentId = &compartmentId
+	listDrgsResponse, err := virtualNetworkClient.ListDrgs(context.Background(), listDrgsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Drg list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, drg := range listDrgsResponse.Items {
+		id := *drg.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "DrgId", id)
+	}
+	return resourceIds, nil
+}
+
+func drgSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if drgResponse, ok := response.Response.(oci_core.GetDrgResponse); ok {
+		return drgResponse.LifecycleState == oci_core.DrgLifecycleStateTerminated
+	}
+	return false
+}
+
+func drgSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetDrg(context.Background(), oci_core.GetDrgRequest{
+		DrgId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

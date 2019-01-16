@@ -47,6 +47,12 @@ type LaunchOptions struct {
 	// volumes on Oracle provided images.
 	// * `PARAVIRTUALIZED` - Paravirtualized disk.
 	RemoteDataVolumeType LaunchOptionsRemoteDataVolumeTypeEnum `mandatory:"true" json:"remoteDataVolumeType"`
+
+	// Whether to enable encryption in transit for the PV boot volume attachment. Defaults to false.
+	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
+
+	// Whether to enable consistent volume naming feature. Defaults to false.
+	IsConsistentVolumeNamingEnabled *bool `mandatory:"false" json:"isConsistentVolumeNamingEnabled"`
 }
 
 func (m LaunchOptions) String() string {

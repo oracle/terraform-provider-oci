@@ -100,6 +100,8 @@ func (s *IdentityProvidersDataSourceCrud) SetData() error {
 		case oci_identity.Saml2IdentityProvider:
 			result["protocol"] = "SAML2"
 
+			result["freeform_attributes"] = v.FreeformAttributes
+
 			if v.MetadataUrl != nil {
 				result["metadata_url"] = string(*v.MetadataUrl)
 			}

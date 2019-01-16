@@ -275,6 +275,12 @@ func DbSystemResource() *schema.Resource {
 					"NONE",
 				}, true),
 			},
+			"sparse_diskgroup": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"last_patch_history_entry_id": {
@@ -588,6 +594,10 @@ func (s *DbSystemResourceCrud) SetData() error {
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
+	}
+
+	if s.Res.SparseDiskgroup != nil {
+		s.D.Set("sparse_diskgroup", *s.Res.SparseDiskgroup)
 	}
 
 	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)
@@ -922,6 +932,11 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 			tmp := shape.(string)
 			details.Shape = &tmp
 		}
+		if sparseDiskgroup, ok := s.D.GetOkExists("sparse_diskgroup"); ok {
+			tmp := sparseDiskgroup.(bool)
+			details.SparseDiskgroup = &tmp
+		}
+		details.SshPublicKeys = []string{}
 		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 			interfaces := sshPublicKeys.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -1016,6 +1031,11 @@ func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(
 			tmp := shape.(string)
 			details.Shape = &tmp
 		}
+		if sparseDiskgroup, ok := s.D.GetOkExists("sparse_diskgroup"); ok {
+			tmp := sparseDiskgroup.(bool)
+			details.SparseDiskgroup = &tmp
+		}
+		details.SshPublicKeys = []string{}
 		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 			interfaces := sshPublicKeys.([]interface{})
 			tmp := make([]string, len(interfaces))

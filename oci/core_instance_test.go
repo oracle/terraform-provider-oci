@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -38,7 +40,7 @@ var (
 	instanceRepresentation = map[string]interface{}{
 		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"shape":               Representation{repType: Required, create: `VM.Standard1.8`},
+		"shape":               Representation{repType: Required, create: `VM.Standard2.1`},
 		"create_vnic_details": RepresentationGroup{Optional, instanceCreateVnicDetailsRepresentation},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
@@ -50,14 +52,15 @@ var (
 			"nested_object": "{\\\"some_string\\\": \\\"stringB\\\", \\\"object\\\": {\\\"some_string\\\": \\\"stringC\\\"}}",
 			"other_string":  "stringD",
 		}},
-		"fault_domain":   Representation{repType: Optional, create: `FAULT-DOMAIN-2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"hostname_label": Representation{repType: Optional, create: `hostnamelabel`},
-		"image":          Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
-		"ipxe_script":    Representation{repType: Optional, create: `ipxeScript`},
-		"metadata":       Representation{repType: Optional, create: map[string]string{"user_data": "abcd"}, update: map[string]string{"user_data": "abcd", "volatile_data": "stringE"}},
-		"source_details": RepresentationGroup{Optional, instanceSourceDetailsRepresentation},
-		"subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"fault_domain":                        Representation{repType: Optional, create: `FAULT-DOMAIN-2`},
+		"freeform_tags":                       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":                      Representation{repType: Optional, create: `hostnamelabel`},
+		"image":                               Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
+		"ipxe_script":                         Representation{repType: Optional, create: `ipxeScript`},
+		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, create: `false`},
+		"metadata":                            Representation{repType: Optional, create: map[string]string{"user_data": "abcd"}, update: map[string]string{"user_data": "abcd", "volatile_data": "stringE"}},
+		"source_details":                      RepresentationGroup{Optional, instanceSourceDetailsRepresentation},
+		"subnet_id":                           Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	instanceCreateVnicDetailsRepresentation = map[string]interface{}{
 		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
@@ -80,14 +83,24 @@ variable "InstanceImageOCID" {
 	type = "map"
 	default = {
 		// See https://docs.us-phoenix-1.oraclecloud.com/images/
-		// Oracle-provided image "Oracle-Linux-7.4-2018.02.21-1"
-		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaupbfz5f5hdvejulmalhyb6goieolullgkpumorbvxlwkaowglslq"
-		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaajlw3xfie2t5t52uegyhiq2npx7bqyu4uvi2zyu3w3mqayc2bxmaa"
-		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7d3fsb6272srnftyi4dphdgfjf6gurxqhmv6ileds7ba3m2gltxq"
-		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaaa6h6gj6v4n56mqrbgnosskq63blyv2752g36zerymy63cfkojiiq"
+		// Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
+		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
+		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
+		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
+		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
 	}
 }
 
+`
+	InstanceWithPVEncryptionInTransitEnabled = `
+resource "oci_core_instance" "test_instance" {
+	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
+	compartment_id = "${var.compartment_id}"
+	image = "${var.InstanceImageOCID[var.region]}"
+	is_pv_encryption_in_transit_enabled = "true"
+	shape = "VM.Standard2.1"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
+}
 `
 	InstanceResourceDependencies = SubnetResourceConfig + InstanceCommonVariables
 )
@@ -98,7 +111,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 		provider oci {
 			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
 		}
-	` + commonTestVariables()
+	` + commonTestVariables() + KeyResourceDependencyConfig
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
@@ -123,7 +136,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "time_maintenance_reboot_due", ""),
 
@@ -137,6 +150,27 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 			// delete before next create
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependencies,
+			},
+			// verify create with is_pv_encryption_in_transit_enabled = true
+			{
+				Config: config + compartmentIdVariableStr + InstanceResourceDependencies + InstanceWithPVEncryptionInTransitEnabled,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "image"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "true"),
+					resource.TestCheckResourceAttrSet(resourceName, "region"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
 			},
 			// verify create with optionals
 			{
@@ -163,9 +197,10 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "image"),
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "region"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
@@ -206,9 +241,10 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "image"),
 					resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
+					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "region"),
-					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
 					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
@@ -250,7 +286,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.metadata.%", "2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.region"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.source_details.0.source_id"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.0.source_type", "image"),
@@ -279,7 +315,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "ipxe_script", "ipxeScript"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "region"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "VM.Standard1.8"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
@@ -305,7 +341,9 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					// by GetInstance calls. Remove this when the issue is resolved.
 					"extended_metadata",
 					"hostname_label",
+					"is_pv_encryption_in_transit_enabled",
 					"subnet_id",
+					"source_details.0.kms_key_id", //TODO: Service is not returning this value, remove when the service returns it. COM-26394
 				},
 				ResourceName: resourceName,
 			},
@@ -349,4 +387,83 @@ func testAccCheckCoreInstanceDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreInstance", &resource.Sweeper{
+		Name:         "CoreInstance",
+		Dependencies: DependencyGraph["instance"],
+		F:            sweepCoreInstanceResource,
+	})
+}
+
+func sweepCoreInstanceResource(compartment string) error {
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	instanceIds, err := getInstanceIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, instanceId := range instanceIds {
+		if ok := SweeperDefaultResourceId[instanceId]; !ok {
+			terminateInstanceRequest := oci_core.TerminateInstanceRequest{}
+
+			terminateInstanceRequest.InstanceId = &instanceId
+
+			terminateInstanceRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeClient.TerminateInstance(context.Background(), terminateInstanceRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Instance %s %s, It is possible that the resource is already deleted. Please verify manually \n", instanceId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &instanceId, instanceSweepWaitCondition, time.Duration(3*time.Minute),
+				instanceSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getInstanceIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "InstanceId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+
+	listInstancesRequest := oci_core.ListInstancesRequest{}
+	listInstancesRequest.CompartmentId = &compartmentId
+	listInstancesRequest.LifecycleState = oci_core.InstanceLifecycleStateRunning
+	listInstancesResponse, err := computeClient.ListInstances(context.Background(), listInstancesRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Instance list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, instance := range listInstancesResponse.Items {
+		id := *instance.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "InstanceId", id)
+	}
+	return resourceIds, nil
+}
+
+func instanceSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if instanceResponse, ok := response.Response.(oci_core.GetInstanceResponse); ok {
+		return instanceResponse.LifecycleState == oci_core.InstanceLifecycleStateTerminated
+	}
+	return false
+}
+
+func instanceSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.computeClient.GetInstance(context.Background(), oci_core.GetInstanceRequest{
+		InstanceId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

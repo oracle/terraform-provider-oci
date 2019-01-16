@@ -2390,6 +2390,48 @@ func (client IdentityClient) listGroups(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// ListIdentityProviderGroups Lists the identity provider groups.
+func (client IdentityClient) ListIdentityProviderGroups(ctx context.Context, request ListIdentityProviderGroupsRequest) (response ListIdentityProviderGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listIdentityProviderGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListIdentityProviderGroupsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListIdentityProviderGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListIdentityProviderGroupsResponse")
+	}
+	return
+}
+
+// listIdentityProviderGroups implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listIdentityProviderGroups(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/identityProviders/{identityProviderId}/groups/")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListIdentityProviderGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 //listidentityprovider allows to unmarshal list of polymorphic IdentityProvider
 type listidentityprovider []identityprovider
 
@@ -2965,6 +3007,48 @@ func (client IdentityClient) removeUserFromGroup(ctx context.Context, request co
 	return response, err
 }
 
+// ResetIdpScimClient Resets the OAuth2 client credentials for the SCIM client associated with this identity provider.
+func (client IdentityClient) ResetIdpScimClient(ctx context.Context, request ResetIdpScimClientRequest) (response ResetIdpScimClientResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.resetIdpScimClient, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ResetIdpScimClientResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ResetIdpScimClientResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ResetIdpScimClientResponse")
+	}
+	return
+}
+
+// resetIdpScimClient implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) resetIdpScimClient(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/identityProviders/{identityProviderId}/actions/resetScimClient/")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ResetIdpScimClientResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateAuthToken Updates the specified auth token's description.
 func (client IdentityClient) UpdateAuthToken(ctx context.Context, request UpdateAuthTokenRequest) (response UpdateAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3507,6 +3591,48 @@ func (client IdentityClient) updateUser(ctx context.Context, request common.OCIR
 	}
 
 	var response UpdateUserResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateUserCapabilities Updates the capabilities of the specified user.
+func (client IdentityClient) UpdateUserCapabilities(ctx context.Context, request UpdateUserCapabilitiesRequest) (response UpdateUserCapabilitiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateUserCapabilities, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateUserCapabilitiesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateUserCapabilitiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateUserCapabilitiesResponse")
+	}
+	return
+}
+
+// updateUserCapabilities implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) updateUserCapabilities(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/users/{userId}/capabilities/")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateUserCapabilitiesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

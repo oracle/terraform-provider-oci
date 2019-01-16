@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -180,4 +182,82 @@ func testAccCheckCoreVnicAttachmentDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreVnicAttachment", &resource.Sweeper{
+		Name:         "CoreVnicAttachment",
+		Dependencies: DependencyGraph["vnicAttachment"],
+		F:            sweepCoreVnicAttachmentResource,
+	})
+}
+
+func sweepCoreVnicAttachmentResource(compartment string) error {
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	vnicAttachmentIds, err := getVnicAttachmentIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, vnicAttachmentId := range vnicAttachmentIds {
+		if ok := SweeperDefaultResourceId[vnicAttachmentId]; !ok {
+			detachVnicRequest := oci_core.DetachVnicRequest{}
+
+			detachVnicRequest.VnicAttachmentId = &vnicAttachmentId
+
+			detachVnicRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeClient.DetachVnic(context.Background(), detachVnicRequest)
+			if error != nil {
+				fmt.Printf("Error deleting VnicAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", vnicAttachmentId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &vnicAttachmentId, vnicAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+				vnicAttachmentSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getVnicAttachmentIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "VnicAttachmentId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+
+	listVnicAttachmentsRequest := oci_core.ListVnicAttachmentsRequest{}
+	listVnicAttachmentsRequest.CompartmentId = &compartmentId
+	listVnicAttachmentsResponse, err := computeClient.ListVnicAttachments(context.Background(), listVnicAttachmentsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting VnicAttachment list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, vnicAttachment := range listVnicAttachmentsResponse.Items {
+		id := *vnicAttachment.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "VnicAttachmentId", id)
+	}
+	return resourceIds, nil
+}
+
+func vnicAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if vnicAttachmentResponse, ok := response.Response.(oci_core.GetVnicAttachmentResponse); ok {
+		return vnicAttachmentResponse.LifecycleState == oci_core.VnicAttachmentLifecycleStateDetached
+	}
+	return false
+}
+
+func vnicAttachmentSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.computeClient.GetVnicAttachment(context.Background(), oci_core.GetVnicAttachmentRequest{
+		VnicAttachmentId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

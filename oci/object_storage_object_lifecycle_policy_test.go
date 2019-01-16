@@ -14,50 +14,37 @@ import (
 )
 
 var (
-	ObjectLifecyclePolicyRequiredOnlyResource = ObjectLifecyclePolicyResourceDependencies + `
-resource "oci_objectstorage_object_lifecycle_policy" "test_object_lifecycle_policy" {
-	#Required
-	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
-}
-`
+	ObjectLifecyclePolicyRequiredOnlyResource = ObjectLifecyclePolicyResourceDependencies +
+		generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Required, Create, objectLifecyclePolicyRepresentation)
 
-	ObjectLifecyclePolicyResourceConfig = ObjectLifecyclePolicyResourceDependencies + `
-resource "oci_objectstorage_object_lifecycle_policy" "test_object_lifecycle_policy" {
-	#Required
-	bucket = "${oci_objectstorage_bucket.test_bucket.name}"
-	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
+	ObjectLifecyclePolicyResourceConfig = ObjectLifecyclePolicyResourceDependencies +
+		generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Update, objectLifecyclePolicyRepresentation)
 
-	#Optional
-	rules {
-		#Required
-		action = "${var.object_lifecycle_policy_rules_action}"
-		is_enabled = "${var.object_lifecycle_policy_rules_is_enabled}"
-		name = "${var.object_lifecycle_policy_rules_name}"
-		time_amount = "${var.object_lifecycle_policy_rules_time_amount}"
-		time_unit = "${var.object_lifecycle_policy_rules_time_unit}"
-
-		#Optional
-		object_name_filter {
-
-			#Optional
-			inclusion_prefixes = "${var.object_lifecycle_policy_rules_object_name_filter_inclusion_prefixes}"
-		}
+	objectLifecyclePolicySingularDataSourceRepresentation = map[string]interface{}{
+		"bucket":    Representation{repType: Required, create: `lifecycle-policy-test-1`},
+		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
 	}
-}
-`
-	ObjectLifecyclePolicyPropertyVariables = `
-variable "object_lifecycle_policy_bucket" { default = "my-test-1" }
-variable "object_lifecycle_policy_namespace" { default = "namespace" }
-variable "object_lifecycle_policy_rules_action" { default = "ARCHIVE" }
-variable "object_lifecycle_policy_rules_is_enabled" { default = false }
-variable "object_lifecycle_policy_rules_name" { default = "sampleRule" }
-variable "object_lifecycle_policy_rules_object_name_filter_inclusion_prefixes" { default = ["my-test-1","my-test-2"] }
-variable "object_lifecycle_policy_rules_time_amount" { default = 10 }
-variable "object_lifecycle_policy_rules_time_unit" { default = "DAYS" }
 
-`
-	ObjectLifecyclePolicyResourceDependencies = BucketRequiredOnlyResource
+	objectLifecyclePolicyRepresentation = map[string]interface{}{
+		"bucket":    Representation{repType: Required, create: `lifecycle-policy-test-1`},
+		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
+		"rules":     RepresentationGroup{Optional, objectLifecyclePolicyRulesRepresentation},
+	}
+	objectLifecyclePolicyRulesRepresentation = map[string]interface{}{
+		"action":             Representation{repType: Required, create: `ARCHIVE`, update: `DELETE`},
+		"is_enabled":         Representation{repType: Required, create: `false`, update: `true`},
+		"name":               Representation{repType: Required, create: `sampleRule`, update: `name2`},
+		"time_amount":        Representation{repType: Required, create: `10`, update: `11`},
+		"time_unit":          Representation{repType: Required, create: `DAYS`, update: `YEARS`},
+		"object_name_filter": RepresentationGroup{Optional, objectLifecyclePolicyRulesObjectNameFilterRepresentation},
+	}
+	objectLifecyclePolicyRulesObjectNameFilterRepresentation = map[string]interface{}{
+		"inclusion_prefixes": Representation{repType: Optional, create: []string{`lifecycle-policy-test-1`, `lifecycle-policy-test-2`}, update: []string{`lifecycle-policy-test-1`, `lifecycle-policy-test-2`, `lifecycle-policy-test-3`}},
+	}
+
+	ObjectLifecyclePolicyResourceDependencies = BucketResourceDependencies +
+		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create,
+			getUpdatedRepresentationCopy("name", Representation{repType: Required, create: `lifecycle-policy-test-1`}, bucketRepresentation))
 )
 
 func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
@@ -82,9 +69,10 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + ObjectLifecyclePolicyPropertyVariables + compartmentIdVariableStr + ObjectLifecyclePolicyRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Required, Create, objectLifecyclePolicyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", "lifecycle-policy-test-1"),
 					resource.TestCheckResourceAttr(resourceName, "rules.#", "0"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
@@ -101,9 +89,10 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + ObjectLifecyclePolicyPropertyVariables + compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create, objectLifecyclePolicyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", "lifecycle-policy-test-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "rules", map[string]string{
@@ -126,19 +115,10 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + `
-variable "object_lifecycle_policy_bucket" { default = "my-test-1" }
-variable "object_lifecycle_policy_namespace" { default = "namespace" }
-variable "object_lifecycle_policy_rules_action" { default = "DELETE" }
-variable "object_lifecycle_policy_rules_is_enabled" { default = true }
-variable "object_lifecycle_policy_rules_name" { default = "name2" }
-variable "object_lifecycle_policy_rules_object_name_filter_inclusion_prefixes" { default = ["my-test-1","my-test-2","my-test-3"] }
-variable "object_lifecycle_policy_rules_time_amount" { default = 11 }
-variable "object_lifecycle_policy_rules_time_unit" { default = "YEARS" }
-
-                ` + compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Update, objectLifecyclePolicyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", "lifecycle-policy-test-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "rules", map[string]string{
@@ -163,24 +143,11 @@ variable "object_lifecycle_policy_rules_time_unit" { default = "YEARS" }
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "object_lifecycle_policy_bucket" { default = "my-test-1" }
-variable "object_lifecycle_policy_namespace" { default = "namespace" }
-variable "object_lifecycle_policy_rules_action" { default = "DELETE" }
-variable "object_lifecycle_policy_rules_is_enabled" { default = true }
-variable "object_lifecycle_policy_rules_name" { default = "name2" }
-variable "object_lifecycle_policy_rules_object_name_filter_inclusion_prefixes" { default = ["my-test-1","my-test-2","my-test-3"] }
-variable "object_lifecycle_policy_rules_time_amount" { default = 11 }
-variable "object_lifecycle_policy_rules_time_unit" { default = "YEARS" }
-
-data "oci_objectstorage_object_lifecycle_policy" "test_object_lifecycle_policy" {
-	#Required
-	bucket = "${var.object_lifecycle_policy_bucket}"
-	namespace = "${data.oci_objectstorage_namespace.t.namespace}"
-}
-                ` + compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Required, Create, objectLifecyclePolicySingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", "lifecycle-policy-test-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "rules", map[string]string{},
@@ -202,17 +169,7 @@ data "oci_objectstorage_object_lifecycle_policy" "test_object_lifecycle_policy" 
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + `
-variable "object_lifecycle_policy_bucket" { default = "my-test-1" }
-variable "object_lifecycle_policy_namespace" { default = "namespace" }
-variable "object_lifecycle_policy_rules_action" { default = "DELETE" }
-variable "object_lifecycle_policy_rules_is_enabled" { default = true }
-variable "object_lifecycle_policy_rules_name" { default = "name2" }
-variable "object_lifecycle_policy_rules_object_name_filter_inclusion_prefixes" { default = ["my-test-1","my-test-2","my-test-3"] }
-variable "object_lifecycle_policy_rules_time_amount" { default = 11 }
-variable "object_lifecycle_policy_rules_time_unit" { default = "YEARS" }
-
-                ` + compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig,
 			},
 			// verify resource import
 			{
@@ -235,8 +192,6 @@ func TestObjectStorageObjectLifecyclePolicyResource_validations(t *testing.T) {
 
 	resourceName := "oci_objectstorage_object_lifecycle_policy.test_object_lifecycle_policy"
 
-	var resId string
-
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -246,54 +201,32 @@ func TestObjectStorageObjectLifecyclePolicyResource_validations(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify baseline create
 			{
-				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig + `
-variable "object_lifecycle_policy_bucket" { default = "my-test-1" }
-variable "object_lifecycle_policy_namespace" { default = "namespace" }
-variable "object_lifecycle_policy_rules_action" { default = "ARCHIVE" }
-variable "object_lifecycle_policy_rules_is_enabled" { default = false }
-variable "object_lifecycle_policy_rules_name" { default = "sampleRule" }
-variable "object_lifecycle_policy_rules_object_name_filter_inclusion_prefixes" { default = ["my-test-1","my-test-2"] }
-variable "object_lifecycle_policy_rules_time_amount" { default = 10 }
-variable "object_lifecycle_policy_rules_time_unit" { default = "DAYS" }
-`,
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create, objectLifecyclePolicyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", "lifecycle-policy-test-1"),
 					resource.TestCheckResourceAttr(resourceName, "rules.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
+						_, err = fromInstanceState(s, resourceName, "id")
 						return err
 					},
 				),
 			},
 			// change order of inclusion prefixes
 			{
-				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig + `
-variable "object_lifecycle_policy_bucket" { default = "my-test-1" }
-variable "object_lifecycle_policy_namespace" { default = "namespace" }
-variable "object_lifecycle_policy_rules_action" { default = "ARCHIVE" }
-variable "object_lifecycle_policy_rules_is_enabled" { default = false }
-variable "object_lifecycle_policy_rules_name" { default = "sampleRule" }
-variable "object_lifecycle_policy_rules_object_name_filter_inclusion_prefixes" { default = ["my-test-2", "my-test-1"] }
-variable "object_lifecycle_policy_rules_time_amount" { default = 10 }
-variable "object_lifecycle_policy_rules_time_unit" { default = "DAYS" }
-`,
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
+						getUpdatedRepresentationCopy("rules.object_name_filter.inclusion_prefixes", Representation{repType: Optional, create: []string{`lifecycle-policy-test-2`, `lifecycle-policy-test-1`}}, objectLifecyclePolicyRepresentation)),
 				PlanOnly:           true,
 				ExpectNonEmptyPlan: false,
 			},
 			// Remove inclusion prefixes to see plan has changed
 			{
-				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceConfig + `
-variable "object_lifecycle_policy_bucket" { default = "my-test-1" }
-variable "object_lifecycle_policy_namespace" { default = "namespace" }
-variable "object_lifecycle_policy_rules_action" { default = "ARCHIVE" }
-variable "object_lifecycle_policy_rules_is_enabled" { default = false }
-variable "object_lifecycle_policy_rules_name" { default = "sampleRule" }
-variable "object_lifecycle_policy_rules_object_name_filter_inclusion_prefixes" { default = [] }
-variable "object_lifecycle_policy_rules_time_amount" { default = 10 }
-variable "object_lifecycle_policy_rules_time_unit" { default = "DAYS" }
-`,
+				Config: config + compartmentIdVariableStr + ObjectLifecyclePolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Create,
+						getUpdatedRepresentationCopy("rules.object_name_filter.inclusion_prefixes", Representation{repType: Optional, create: []string{}}, objectLifecyclePolicyRepresentation)),
 				PlanOnly:           true,
 				ExpectNonEmptyPlan: true,
 			},

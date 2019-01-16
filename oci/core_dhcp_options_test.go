@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -209,4 +211,93 @@ func testAccCheckCoreDhcpOptionsDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreDhcpOptions", &resource.Sweeper{
+		Name:         "CoreDhcpOptions",
+		Dependencies: DependencyGraph["dhcpOptions"],
+		F:            sweepCoreDhcpOptionsResource,
+	})
+}
+
+func sweepCoreDhcpOptionsResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	dhcpOptionsIds, err := getDhcpOptionsIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, dhcpOptionsId := range dhcpOptionsIds {
+		if ok := SweeperDefaultResourceId[dhcpOptionsId]; !ok {
+			deleteDhcpOptionsRequest := oci_core.DeleteDhcpOptionsRequest{}
+
+			deleteDhcpOptionsRequest.DhcpId = &dhcpOptionsId
+
+			deleteDhcpOptionsRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteDhcpOptions(context.Background(), deleteDhcpOptionsRequest)
+			if error != nil {
+				fmt.Printf("Error deleting DhcpOptions %s %s, It is possible that the resource is already deleted. Please verify manually \n", dhcpOptionsId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &dhcpOptionsId, dhcpOptionsSweepWaitCondition, time.Duration(3*time.Minute),
+				dhcpOptionsSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getDhcpOptionsIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "DhcpOptionsId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listDhcpOptionsRequest := oci_core.ListDhcpOptionsRequest{}
+	listDhcpOptionsRequest.CompartmentId = &compartmentId
+
+	vcnIds, error := getVcnIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting vcnId required for DhcpOptions resource requests \n")
+	}
+	for _, vcnId := range vcnIds {
+		listDhcpOptionsRequest.VcnId = &vcnId
+
+		listDhcpOptionsRequest.LifecycleState = oci_core.DhcpOptionsLifecycleStateAvailable
+		listDhcpOptionsResponse, err := virtualNetworkClient.ListDhcpOptions(context.Background(), listDhcpOptionsRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting DhcpOptions list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, dhcpOptions := range listDhcpOptionsResponse.Items {
+			id := *dhcpOptions.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "DhcpOptionsId", id)
+		}
+
+	}
+	return resourceIds, nil
+}
+
+func dhcpOptionsSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if dhcpOptionsResponse, ok := response.Response.(oci_core.GetDhcpOptionsResponse); ok {
+		return dhcpOptionsResponse.LifecycleState == oci_core.DhcpOptionsLifecycleStateTerminated
+	}
+	return false
+}
+
+func dhcpOptionsSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetDhcpOptions(context.Background(), oci_core.GetDhcpOptionsRequest{
+		DhcpId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

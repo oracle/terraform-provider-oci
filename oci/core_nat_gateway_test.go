@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -231,4 +233,83 @@ func testAccCheckCoreNatGatewayDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreNatGateway", &resource.Sweeper{
+		Name:         "CoreNatGateway",
+		Dependencies: DependencyGraph["natGateway"],
+		F:            sweepCoreNatGatewayResource,
+	})
+}
+
+func sweepCoreNatGatewayResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	natGatewayIds, err := getNatGatewayIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, natGatewayId := range natGatewayIds {
+		if ok := SweeperDefaultResourceId[natGatewayId]; !ok {
+			deleteNatGatewayRequest := oci_core.DeleteNatGatewayRequest{}
+
+			deleteNatGatewayRequest.NatGatewayId = &natGatewayId
+
+			deleteNatGatewayRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteNatGateway(context.Background(), deleteNatGatewayRequest)
+			if error != nil {
+				fmt.Printf("Error deleting NatGateway %s %s, It is possible that the resource is already deleted. Please verify manually \n", natGatewayId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &natGatewayId, natGatewaySweepWaitCondition, time.Duration(3*time.Minute),
+				natGatewaySweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getNatGatewayIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "NatGatewayId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listNatGatewaysRequest := oci_core.ListNatGatewaysRequest{}
+	listNatGatewaysRequest.CompartmentId = &compartmentId
+	listNatGatewaysRequest.LifecycleState = oci_core.NatGatewayLifecycleStateAvailable
+	listNatGatewaysResponse, err := virtualNetworkClient.ListNatGateways(context.Background(), listNatGatewaysRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting NatGateway list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, natGateway := range listNatGatewaysResponse.Items {
+		id := *natGateway.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "NatGatewayId", id)
+	}
+	return resourceIds, nil
+}
+
+func natGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if natGatewayResponse, ok := response.Response.(oci_core.GetNatGatewayResponse); ok {
+		return natGatewayResponse.LifecycleState == oci_core.NatGatewayLifecycleStateTerminated
+	}
+	return false
+}
+
+func natGatewaySweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetNatGateway(context.Background(), oci_core.GetNatGatewayRequest{
+		NatGatewayId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

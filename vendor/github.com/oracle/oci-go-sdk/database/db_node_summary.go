@@ -17,20 +17,20 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type DbNodeSummary struct {
 
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database node.
+	Id *string `mandatory:"true" json:"id"`
+
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB system.
 	DbSystemId *string `mandatory:"true" json:"dbSystemId"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the database node.
-	Id *string `mandatory:"true" json:"id"`
+	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the VNIC.
+	VnicId *string `mandatory:"true" json:"vnicId"`
 
 	// The current state of the database node.
 	LifecycleState DbNodeSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The date and time that the database node was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
-
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the VNIC.
-	VnicId *string `mandatory:"true" json:"vnicId"`
 
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the backup VNIC.
 	BackupVnicId *string `mandatory:"false" json:"backupVnicId"`

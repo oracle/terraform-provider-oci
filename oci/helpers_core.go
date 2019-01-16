@@ -50,6 +50,14 @@ func LaunchOptionsToMap(obj *oci_core.LaunchOptions) map[string]interface{} {
 
 	result["remote_data_volume_type"] = string(obj.RemoteDataVolumeType)
 
+	if obj.IsPvEncryptionInTransitEnabled != nil {
+		result["is_pv_encryption_in_transit_enabled"] = bool(*obj.IsPvEncryptionInTransitEnabled)
+	}
+
+	if obj.IsConsistentVolumeNamingEnabled != nil {
+		result["is_consistent_volume_naming_enabled"] = bool(*obj.IsConsistentVolumeNamingEnabled)
+	}
+
 	return result
 }
 
@@ -73,11 +81,15 @@ func getBackupPolicyId(assetId *string, client *oci_core.BlockstorageClient) (*s
 
 func (s *VolumeBackupResourceCrud) createBlockStorageSourceRegionClient(region string) error {
 	if s.SourceRegionClient == nil {
-		sourceObjectStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
+		sourceBlockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
 		if err != nil {
 			return fmt.Errorf("cannot create client for the source region: %v", err)
 		}
-		s.SourceRegionClient = &sourceObjectStorageClient
+		err = configureClient(&sourceBlockStorageClient.BaseClient)
+		if err != nil {
+			return fmt.Errorf("cannot configure client for the source region: %v", err)
+		}
+		s.SourceRegionClient = &sourceBlockStorageClient
 	}
 	s.SourceRegionClient.SetRegion(region)
 

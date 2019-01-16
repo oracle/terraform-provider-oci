@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -187,4 +189,82 @@ func testAccCheckCoreDrgAttachmentDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreDrgAttachment", &resource.Sweeper{
+		Name:         "CoreDrgAttachment",
+		Dependencies: DependencyGraph["drgAttachment"],
+		F:            sweepCoreDrgAttachmentResource,
+	})
+}
+
+func sweepCoreDrgAttachmentResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	drgAttachmentIds, err := getDrgAttachmentIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, drgAttachmentId := range drgAttachmentIds {
+		if ok := SweeperDefaultResourceId[drgAttachmentId]; !ok {
+			deleteDrgAttachmentRequest := oci_core.DeleteDrgAttachmentRequest{}
+
+			deleteDrgAttachmentRequest.DrgAttachmentId = &drgAttachmentId
+
+			deleteDrgAttachmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteDrgAttachment(context.Background(), deleteDrgAttachmentRequest)
+			if error != nil {
+				fmt.Printf("Error deleting DrgAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", drgAttachmentId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &drgAttachmentId, drgAttachmentSweepWaitCondition, time.Duration(3*time.Minute),
+				drgAttachmentSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getDrgAttachmentIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "DrgAttachmentId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listDrgAttachmentsRequest := oci_core.ListDrgAttachmentsRequest{}
+	listDrgAttachmentsRequest.CompartmentId = &compartmentId
+	listDrgAttachmentsResponse, err := virtualNetworkClient.ListDrgAttachments(context.Background(), listDrgAttachmentsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting DrgAttachment list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, drgAttachment := range listDrgAttachmentsResponse.Items {
+		id := *drgAttachment.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "DrgAttachmentId", id)
+	}
+	return resourceIds, nil
+}
+
+func drgAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if drgAttachmentResponse, ok := response.Response.(oci_core.GetDrgAttachmentResponse); ok {
+		return drgAttachmentResponse.LifecycleState == oci_core.DrgAttachmentLifecycleStateDetached
+	}
+	return false
+}
+
+func drgAttachmentSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetDrgAttachment(context.Background(), oci_core.GetDrgAttachmentRequest{
+		DrgAttachmentId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

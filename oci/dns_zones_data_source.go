@@ -157,6 +157,7 @@ func (s *ZonesDataSourceCrud) Get() error {
 		s.Res.Items = append(s.Res.Items, listResponse.Items...)
 		request.Page = listResponse.OpcNextPage
 	}
+
 	return nil
 }
 
@@ -172,6 +173,12 @@ func (s *ZonesDataSourceCrud) SetData() error {
 		zone := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
 		}
+
+		if r.DefinedTags != nil {
+			zone["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
+		zone["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			zone["id"] = *r.Id

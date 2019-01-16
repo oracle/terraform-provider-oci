@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -388,4 +390,83 @@ func testAccCheckCoreVirtualCircuitDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreVirtualCircuit", &resource.Sweeper{
+		Name:         "CoreVirtualCircuit",
+		Dependencies: DependencyGraph["virtualCircuit"],
+		F:            sweepCoreVirtualCircuitResource,
+	})
+}
+
+func sweepCoreVirtualCircuitResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualCircuitIds, err := getVirtualCircuitIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, virtualCircuitId := range virtualCircuitIds {
+		if ok := SweeperDefaultResourceId[virtualCircuitId]; !ok {
+			deleteVirtualCircuitRequest := oci_core.DeleteVirtualCircuitRequest{}
+
+			deleteVirtualCircuitRequest.VirtualCircuitId = &virtualCircuitId
+
+			deleteVirtualCircuitRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteVirtualCircuit(context.Background(), deleteVirtualCircuitRequest)
+			if error != nil {
+				fmt.Printf("Error deleting VirtualCircuit %s %s, It is possible that the resource is already deleted. Please verify manually \n", virtualCircuitId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &virtualCircuitId, virtualCircuitSweepWaitCondition, time.Duration(3*time.Minute),
+				virtualCircuitSweepResponseFetchOperation, "core", true)
+		}
+	}
+	return nil
+}
+
+func getVirtualCircuitIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "VirtualCircuitId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listVirtualCircuitsRequest := oci_core.ListVirtualCircuitsRequest{}
+	listVirtualCircuitsRequest.CompartmentId = &compartmentId
+	listVirtualCircuitsRequest.LifecycleState = oci_core.VirtualCircuitLifecycleStateProvisioned
+	listVirtualCircuitsResponse, err := virtualNetworkClient.ListVirtualCircuits(context.Background(), listVirtualCircuitsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting VirtualCircuit list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, virtualCircuit := range listVirtualCircuitsResponse.Items {
+		id := *virtualCircuit.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "VirtualCircuitId", id)
+	}
+	return resourceIds, nil
+}
+
+func virtualCircuitSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if virtualCircuitResponse, ok := response.Response.(oci_core.GetVirtualCircuitResponse); ok {
+		return virtualCircuitResponse.LifecycleState == oci_core.VirtualCircuitLifecycleStateTerminated
+	}
+	return false
+}
+
+func virtualCircuitSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.virtualNetworkClient.GetVirtualCircuit(context.Background(), oci_core.GetVirtualCircuitRequest{
+		VirtualCircuitId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }

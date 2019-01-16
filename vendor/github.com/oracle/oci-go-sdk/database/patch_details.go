@@ -17,11 +17,11 @@ import (
 // as DB system, database home, etc.
 type PatchDetails struct {
 
-	// The action to perform on the patch.
-	Action PatchDetailsActionEnum `mandatory:"false" json:"action,omitempty"`
-
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch.
 	PatchId *string `mandatory:"false" json:"patchId"`
+
+	// The action to perform on the patch.
+	Action PatchDetailsActionEnum `mandatory:"false" json:"action,omitempty"`
 }
 
 func (m PatchDetails) String() string {

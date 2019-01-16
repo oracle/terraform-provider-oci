@@ -1,9 +1,10 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Load Balancing Service API
+// Load Balancing API
 //
-// API for the Load Balancing Service
+// API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
+// information, see Overview of Load Balancing (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -16,10 +17,6 @@ import (
 // Path route rules apply only to HTTP and HTTPS requests. They have no effect on TCP requests.
 type PathRoute struct {
 
-	// The name of the target backend set for requests where the incoming URI matches the specified path.
-	// Example: `example_backend_set`
-	BackendSetName *string `mandatory:"true" json:"backendSetName"`
-
 	// The path string to match against the incoming URI path.
 	// *  Path strings are case-insensitive.
 	// *  Asterisk (*) wildcards are not supported.
@@ -29,6 +26,10 @@ type PathRoute struct {
 
 	// The type of matching to apply to incoming URIs.
 	PathMatchType *PathMatchType `mandatory:"true" json:"pathMatchType"`
+
+	// The name of the target backend set for requests where the incoming URI matches the specified path.
+	// Example: `example_backend_set`
+	BackendSetName *string `mandatory:"true" json:"backendSetName"`
 }
 
 func (m PathRoute) String() string {
