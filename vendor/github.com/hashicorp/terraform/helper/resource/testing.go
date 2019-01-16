@@ -1,6 +1,7 @@
 package resource
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"io"
@@ -14,21 +15,22 @@ import (
 	"syscall"
 	"testing"
 
-	"github.com/hashicorp/terraform/configs/configschema"
-
-	"github.com/hashicorp/terraform/providers"
-
 	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/errwrap"
 	"github.com/hashicorp/go-multierror"
 	"github.com/hashicorp/logutils"
+	"github.com/mitchellh/colorstring"
 
 	"github.com/hashicorp/terraform/addrs"
+	"github.com/hashicorp/terraform/command/format"
 	"github.com/hashicorp/terraform/configs"
 	"github.com/hashicorp/terraform/configs/configload"
 	"github.com/hashicorp/terraform/helper/logging"
+	"github.com/hashicorp/terraform/internal/initwd"
+	"github.com/hashicorp/terraform/providers"
 	"github.com/hashicorp/terraform/states"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform/tfdiags"
 )
 
 // flagSweep is a flag available when running tests on the command line. It
@@ -381,6 +383,10 @@ type TestStep struct {
 	// be refreshed and don't matter.
 	ImportStateVerify       bool
 	ImportStateVerifyIgnore []string
+
+	// provider s is used internally to maintain a reference to the
+	// underlying providers during the tests
+	providers map[string]terraform.ResourceProvider
 }
 
 // Set to a file mask in sprintf format where %s is test name
@@ -475,45 +481,20 @@ func Test(t TestT, c TestCase) {
 		c.PreCheck()
 	}
 
-	providerResolver, err := testProviderResolver(c)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	// collect the provider schemas
-	schemas := &terraform.Schemas{
-		Providers: make(map[string]*terraform.ProviderSchema),
-	}
-	factories, err := testProviderFactories(c)
-	if err != nil {
-		t.Fatal(err)
-	}
-	for providerName, f := range factories {
-		p, err := f()
+	// get instances of all providers, so we can use the individual
+	// resources to shim the state during the tests.
+	providers := make(map[string]terraform.ResourceProvider)
+	for name, pf := range testProviderFactories(c) {
+		p, err := pf()
 		if err != nil {
 			t.Fatal(err)
 		}
+		providers[name] = p
+	}
 
-		resp := p.GetSchema()
-		if resp.Diagnostics.HasErrors() {
-			t.Fatal(fmt.Sprintf("error fetching schema for %q: %v", providerName, resp.Diagnostics.Err()))
-		}
-
-		providerSchema := &terraform.ProviderSchema{
-			Provider:      resp.Provider.Block,
-			ResourceTypes: make(map[string]*configschema.Block),
-			DataSources:   make(map[string]*configschema.Block),
-		}
-
-		for r, s := range resp.ResourceTypes {
-			providerSchema.ResourceTypes[r] = s.Block
-		}
-
-		for d, s := range resp.DataSources {
-			providerSchema.DataSources[d] = s.Block
-		}
-
-		schemas.Providers[providerName] = providerSchema
+	providerResolver, err := testProviderResolver(c)
+	if err != nil {
+		t.Fatal(err)
 	}
 
 	opts := terraform.ContextOpts{ProviderResolver: providerResolver}
@@ -526,6 +507,10 @@ func Test(t TestT, c TestCase) {
 	idRefresh := c.IDRefreshName != ""
 	errored := false
 	for i, step := range c.Steps {
+		// insert the providers into the step so we can get the resources for
+		// shimming the state
+		step.providers = providers
+
 		var err error
 		log.Printf("[DEBUG] Test: Executing step %d", i)
 
@@ -552,9 +537,9 @@ func Test(t TestT, c TestCase) {
 
 				// Can optionally set step.Config in addition to
 				// step.ImportState, to provide config for the import.
-				state, err = testStepImportState(opts, state, step, schemas)
+				state, err = testStepImportState(opts, state, step)
 			} else {
-				state, err = testStepConfig(opts, state, step, schemas)
+				state, err = testStepConfig(opts, state, step)
 			}
 		}
 
@@ -580,8 +565,7 @@ func Test(t TestT, c TestCase) {
 				}
 			} else {
 				errored = true
-				t.Error(fmt.Sprintf(
-					"Step %d error: %s", i, err))
+				t.Error(fmt.Sprintf("Step %d error: %s", i, detailedErrorMessage(err)))
 				break
 			}
 		}
@@ -636,10 +620,11 @@ func Test(t TestT, c TestCase) {
 			Destroy:                   true,
 			PreventDiskCleanup:        lastStep.PreventDiskCleanup,
 			PreventPostDestroyRefresh: c.PreventPostDestroyRefresh,
+			providers:                 providers,
 		}
 
 		log.Printf("[WARN] Test: Executing destroy step")
-		state, err := testStep(opts, state, destroyStep, schemas)
+		state, err := testStep(opts, state, destroyStep)
 		if err != nil {
 			t.Error(fmt.Sprintf(
 				"Error destroying resource! WARNING: Dangling resources\n"+
@@ -665,76 +650,50 @@ func testProviderConfig(c TestCase) string {
 	return strings.Join(lines, "")
 }
 
-// testProviderResolver is a helper to build a ResourceProviderResolver
-// with pre instantiated ResourceProviders, so that we can reset them for the
-// test, while only calling the factory function once.
-// Any errors are stored so that they can be returned by the factory in
-// terraform to match non-test behavior.
-func testProviderResolver(c TestCase) (providers.Resolver, error) {
-	ctxProviders := c.ProviderFactories
-	if ctxProviders == nil {
-		ctxProviders = make(map[string]terraform.ResourceProviderFactory)
+// testProviderFactories combines the fixed Providers and
+// ResourceProviderFactory functions into a single map of
+// ResourceProviderFactory functions.
+func testProviderFactories(c TestCase) map[string]terraform.ResourceProviderFactory {
+	ctxProviders := make(map[string]terraform.ResourceProviderFactory)
+	for k, pf := range c.ProviderFactories {
+		ctxProviders[k] = pf
 	}
 
 	// add any fixed providers
 	for k, p := range c.Providers {
 		ctxProviders[k] = terraform.ResourceProviderFactoryFixed(p)
 	}
+	return ctxProviders
+}
+
+// testProviderResolver is a helper to build a ResourceProviderResolver
+// with pre instantiated ResourceProviders, so that we can reset them for the
+// test, while only calling the factory function once.
+// Any errors are stored so that they can be returned by the factory in
+// terraform to match non-test behavior.
+func testProviderResolver(c TestCase) (providers.Resolver, error) {
+	ctxProviders := testProviderFactories(c)
 
 	// wrap the old provider factories in the test grpc server so they can be
 	// called from terraform.
 	newProviders := make(map[string]providers.Factory)
 
-	// reset the providers if needed
 	for k, pf := range ctxProviders {
-		// we can ignore any errors here, if we don't have a provider to reset
-		// the error will be handled later
-		p, err := pf()
-		if err != nil {
-			return nil, err
-		}
-
-		// FIXME: verify if this is still needed with the new plugins being
-		// closed after every walk.
-		if p, ok := p.(TestProvider); ok {
-			err := p.TestReset()
+		factory := pf // must copy to ensure each closure sees its own value
+		newProviders[k] = func() (providers.Interface, error) {
+			p, err := factory()
 			if err != nil {
-				return nil, fmt.Errorf("[ERROR] failed to reset provider %q: %s", k, err)
+				return nil, err
 			}
-		}
 
-		// The provider is wrapped in a GRPCTestProvider so that it can be
-		// passed back to terraform core as a providers.Interface, rather
-		// than the legacy ResourceProvider.
-		newProviders[k] = providers.FactoryFixed(GRPCTestProvider(p))
+			// The provider is wrapped in a GRPCTestProvider so that it can be
+			// passed back to terraform core as a providers.Interface, rather
+			// than the legacy ResourceProvider.
+			return GRPCTestProvider(p), nil
+		}
 	}
 
 	return providers.ResolverFixed(newProviders), nil
-}
-
-// testProviderFactores returns a fixed and reset factories for creating a resolver
-func testProviderFactories(c TestCase) (map[string]providers.Factory, error) {
-	factories := c.ProviderFactories
-	if factories == nil {
-		factories = make(map[string]terraform.ResourceProviderFactory)
-	}
-
-	// add any fixed providers
-	for k, p := range c.Providers {
-		factories[k] = terraform.ResourceProviderFactoryFixed(p)
-	}
-
-	// now that the provider are all loaded in factories, fix each of them into
-	// a providers.Factory
-	newFactories := make(map[string]providers.Factory)
-	for k, pf := range factories {
-		p, err := pf()
-		if err != nil {
-			return nil, err
-		}
-		newFactories[k] = providers.FactoryFixed(GRPCTestProvider(p))
-	}
-	return newFactories, nil
 }
 
 // UnitTest is a helper to force the acceptance testing harness to run in the
@@ -874,16 +833,17 @@ func testConfig(opts terraform.ContextOpts, step TestStep) (*configs.Config, err
 		return nil, fmt.Errorf("Error creating child modules directory: %s", err)
 	}
 
+	inst := initwd.NewModuleInstaller(modulesDir, nil)
+	_, installDiags := inst.InstallModules(cfgPath, true, initwd.ModuleInstallHooksImpl{})
+	if installDiags.HasErrors() {
+		return nil, installDiags.Err()
+	}
+
 	loader, err := configload.NewLoader(&configload.Config{
 		ModulesDir: modulesDir,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to create config loader: %s", err)
-	}
-
-	installDiags := loader.InstallModules(cfgPath, true, configload.InstallHooksImpl{})
-	if installDiags.HasErrors() {
-		return nil, installDiags
 	}
 
 	config, configDiags := loader.LoadConfig(cfgPath)
@@ -1015,7 +975,19 @@ func TestCheckModuleResourceAttr(mp []string, name string, key string, value str
 }
 
 func testCheckResourceAttr(is *terraform.InstanceState, name string, key string, value string) error {
+	// Empty containers may be elided from the state.
+	// If the intent here is to check for an empty container, allow the key to
+	// also be non-existent.
+	emptyCheck := false
+	if value == "0" && (strings.HasSuffix(key, ".#") || strings.HasSuffix(key, ".%")) {
+		emptyCheck = true
+	}
+
 	if v, ok := is.Attributes[key]; !ok || v != value {
+		if emptyCheck && !ok {
+			return nil
+		}
+
 		if !ok {
 			return fmt.Errorf("%s: Attribute '%s' not found", name, key)
 		}
@@ -1058,7 +1030,20 @@ func TestCheckModuleNoResourceAttr(mp []string, name string, key string) TestChe
 }
 
 func testCheckNoResourceAttr(is *terraform.InstanceState, name string, key string) error {
-	if _, ok := is.Attributes[key]; ok {
+	// Empty containers may sometimes be included in the state.
+	// If the intent here is to check for an empty container, allow the value to
+	// also be "0".
+	emptyCheck := false
+	if strings.HasSuffix(key, ".#") || strings.HasSuffix(key, ".%") {
+		emptyCheck = true
+	}
+
+	val, exists := is.Attributes[key]
+	if emptyCheck && val == "0" {
+		return nil
+	}
+
+	if exists {
 		return fmt.Errorf("%s: Attribute '%s' found when not expected", name, key)
 	}
 
@@ -1270,4 +1255,48 @@ func modulePathPrimaryInstanceState(s *terraform.State, mp addrs.ModuleInstance,
 func primaryInstanceState(s *terraform.State, name string) (*terraform.InstanceState, error) {
 	ms := s.RootModule()
 	return modulePrimaryInstanceState(s, ms, name)
+}
+
+// operationError is a specialized implementation of error used to describe
+// failures during one of the several operations performed for a particular
+// test case.
+type operationError struct {
+	OpName string
+	Diags  tfdiags.Diagnostics
+}
+
+func newOperationError(opName string, diags tfdiags.Diagnostics) error {
+	return operationError{opName, diags}
+}
+
+// Error returns a terse error string containing just the basic diagnostic
+// messages, for situations where normal Go error behavior is appropriate.
+func (err operationError) Error() string {
+	return fmt.Sprintf("errors during %s: %s", err.OpName, err.Diags.Err().Error())
+}
+
+// ErrorDetail is like Error except it includes verbosely-rendered diagnostics
+// similar to what would come from a normal Terraform run, which include
+// additional context not included in Error().
+func (err operationError) ErrorDetail() string {
+	var buf bytes.Buffer
+	fmt.Fprintf(&buf, "errors during %s:", err.OpName)
+	clr := &colorstring.Colorize{Disable: true, Colors: colorstring.DefaultColors}
+	for _, diag := range err.Diags {
+		diagStr := format.Diagnostic(diag, nil, clr, 78)
+		buf.WriteByte('\n')
+		buf.WriteString(diagStr)
+	}
+	return buf.String()
+}
+
+// detailedErrorMessage is a helper for calling ErrorDetail on an error if
+// it is an operationError or just taking Error otherwise.
+func detailedErrorMessage(err error) string {
+	switch tErr := err.(type) {
+	case operationError:
+		return tErr.ErrorDetail()
+	default:
+		return err.Error()
+	}
 }

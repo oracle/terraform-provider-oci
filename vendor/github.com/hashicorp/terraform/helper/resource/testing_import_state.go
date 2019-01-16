@@ -19,8 +19,8 @@ import (
 func testStepImportState(
 	opts terraform.ContextOpts,
 	state *terraform.State,
-	step TestStep,
-	schemas *terraform.Schemas) (*terraform.State, error) {
+	step TestStep) (*terraform.State, error) {
+
 	// Determine the ID to import
 	var importId string
 	switch {
@@ -91,7 +91,7 @@ func testStepImportState(
 		return state, stepDiags.Err()
 	}
 
-	newState, err := shimNewState(importedState, schemas)
+	newState, err := shimNewState(importedState, step.providers)
 	if err != nil {
 		return nil, err
 	}

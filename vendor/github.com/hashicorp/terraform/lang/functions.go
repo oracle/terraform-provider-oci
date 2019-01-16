@@ -58,6 +58,7 @@ func (s *Scope) Functions() map[string]function.Function {
 			"flatten":      funcs.FlattenFunc,
 			"floor":        funcs.FloorFunc,
 			"format":       stdlib.FormatFunc,
+			"formatdate":   stdlib.FormatDateFunc,
 			"formatlist":   stdlib.FormatListFunc,
 			"indent":       funcs.IndentFunc,
 			"index":        funcs.IndexFunc,
@@ -99,6 +100,12 @@ func (s *Scope) Functions() map[string]function.Function {
 			"values":       funcs.ValuesFunc,
 			"zipmap":       funcs.ZipmapFunc,
 		}
+
+		s.funcs["templatefile"] = funcs.MakeTemplateFileFunc(s.BaseDir, func() map[string]function.Function {
+			// The templatefile function prevents recursive calls to itself
+			// by copying this map and overwriting the "templatefile" entry.
+			return s.funcs
+		})
 
 		if s.PureOnly {
 			// Force our few impure functions to return unknown so that we

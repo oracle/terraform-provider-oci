@@ -13,6 +13,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/hashicorp/errwrap"
 	getter "github.com/hashicorp/go-getter"
 	multierror "github.com/hashicorp/go-multierror"
 	"github.com/hashicorp/terraform/httpclient"
@@ -20,6 +21,7 @@ import (
 	"github.com/hashicorp/terraform/registry/regsrc"
 	"github.com/hashicorp/terraform/registry/response"
 	"github.com/hashicorp/terraform/svchost/disco"
+	tfversion "github.com/hashicorp/terraform/version"
 	"github.com/mitchellh/cli"
 )
 
@@ -160,20 +162,29 @@ func (i *ProviderInstaller) Get(provider string, req Constraints) (PluginMeta, e
 
 	// check protocol compatibility
 	if err := i.checkPluginProtocol(versionMeta); err != nil {
-		closestMatch, err := i.findProtocolCompatibleVersion(versions)
-		if err == nil {
-			if err := i.checkPlatformCompatibility(closestMatch); err != nil {
-				// At this point, we have protocol compatibility but not platform,
-				// and we give up trying to find a compatible version.
-				// This error message should be improved.
-				return PluginMeta{}, ErrorNoSuitableVersion
-			}
-			// TODO: This is a placeholder UI message. We must choose to send
-			// providerProtocolTooOld or providerProtocolTooNew message to the UI
-			i.Ui.Error(fmt.Sprintf("the most recent version of %s to match your platform is %s", provider, closestMatch))
-			return PluginMeta{}, ErrorNoVersionCompatible
+		closestMatch, err := i.findClosestProtocolCompatibleVersion(allVersions.Versions)
+		if err != nil {
+			// No operation here if we can't find a version with compatible protocol
+			return PluginMeta{}, err
 		}
-		return PluginMeta{}, ErrorNoVersionCompatibleWithPlatform
+
+		// Prompt version suggestion to UI based on closest protocol match
+		var errMsg string
+		closestVersion := VersionStr(closestMatch.Version).MustParse()
+		if v.NewerThan(closestVersion) {
+			errMsg = providerProtocolTooNew
+		} else {
+			errMsg = providerProtocolTooOld
+		}
+
+		constraintStr := req.String()
+		if constraintStr == "" {
+			constraintStr = "(any version)"
+		}
+
+		return PluginMeta{}, errwrap.Wrap(ErrorVersionIncompatible, fmt.Errorf(fmt.Sprintf(
+			errMsg, provider, v.String(), tfversion.String(),
+			closestVersion.String(), closestVersion.MinorUpgradeConstraintStr(), constraintStr)))
 	}
 
 	downloadURLs, err := i.listProviderDownloadURLs(providerSource, versionMeta.Version)
@@ -411,16 +422,54 @@ func (i *ProviderInstaller) listProviderDownloadURLs(name, version string) (*res
 	return urls, err
 }
 
-// REVIEWER QUESTION: this ends up swallowing a bunch of errors from
-// checkPluginProtocol. Do they need to be percolated up better, or would
-// debug messages would suffice in these situations?
-func (i *ProviderInstaller) findProtocolCompatibleVersion(versions []*response.TerraformProviderVersion) (*response.TerraformProviderVersion, error) {
+// findClosestProtocolCompatibleVersion searches for the provider version with the closest protocol match.
+// Prerelease versions are filtered.
+func (i *ProviderInstaller) findClosestProtocolCompatibleVersion(versions []*response.TerraformProviderVersion) (*response.TerraformProviderVersion, error) {
+	// Loop through all the provider versions to find the earliest and latest
+	// versions that match the installer protocol to then select the closest of the two
+	var latest, earliest *response.TerraformProviderVersion
 	for _, version := range versions {
+		// Prereleases are filtered and will not be suggested
+		v, err := VersionStr(version.Version).Parse()
+		if err != nil || v.IsPrerelease() {
+			continue
+		}
+
 		if err := i.checkPluginProtocol(version); err == nil {
-			return version, nil
+			if earliest == nil {
+				// Found the first provider version with compatible protocol
+				earliest = version
+			}
+			// Update the latest protocol compatible version
+			latest = version
 		}
 	}
-	return nil, ErrorNoVersionCompatible
+	if earliest == nil {
+		// No compatible protocol was found for any version
+		return nil, ErrorNoVersionCompatible
+	}
+
+	// Convert protocols to comparable types
+	protoString := strconv.Itoa(int(i.PluginProtocolVersion))
+	protocolVersion, err := VersionStr(protoString).Parse()
+	if err != nil {
+		return nil, fmt.Errorf("invalid plugin protocol version: %q", i.PluginProtocolVersion)
+	}
+
+	earliestVersionProtocol, err := VersionStr(earliest.Protocols[0]).Parse()
+	if err != nil {
+		return nil, err
+	}
+
+	// Compare installer protocol version with the first protocol listed of the earliest match
+	// [A, B] where A is assumed the earliest compatible major version of the protocol pair
+	if protocolVersion.NewerThan(earliestVersionProtocol) {
+		// Provider protocols are too old, the closest version is the earliest compatible version
+		return earliest, nil
+	}
+
+	// Provider protocols are too new, the closest version is the latest compatible version
+	return latest, nil
 }
 
 func (i *ProviderInstaller) checkPluginProtocol(versionMeta *response.TerraformProviderVersion) error {
@@ -540,27 +589,41 @@ func getFile(url string) ([]byte, error) {
 	return data, nil
 }
 
-// ProviderProtocolTooOld is a message sent to the CLI UI if the provider's
+// providerProtocolTooOld is a message sent to the CLI UI if the provider's
 // supported protocol versions are too old for the user's version of terraform,
 // but an older version of the provider is compatible.
-const providerProtocolTooOld = `Provider %q v%s is not compatible with Terraform %s.
+const providerProtocolTooOld = `
+[reset][bold][red]Provider %q v%s is not compatible with Terraform %s.[reset][red]
 
-Provider version %s is the earliest compatible version.
-Select it with the following version constraint:
+Provider version %s is the earliest compatible version. Select it with 
+the following version constraint:
 
-    version = %q
+	version = %q
+
+Terraform checked all of the plugin versions matching the given constraint:
+    %s
+
+Consult the documentation for this provider for more information on
+compatibility between provider and Terraform versions.
 `
 
-// ProviderProtocolTooNew is a message sent to the CLI UI if the provider's
+// providerProtocolTooNew is a message sent to the CLI UI if the provider's
 // supported protocol versions are too new for the user's version of terraform,
 // and the user could either upgrade terraform or choose an older version of the
 // provider
-const providerProtocolTooNew = `Provider %q v%s is not compatible with Terraform %s.
+const providerProtocolTooNew = `
+[reset][bold][red]Provider %q v%s is not compatible with Terraform %s.[reset][red]
 
-Provider version v%s is the latest compatible version. Select 
-it with the following constraint:
+Provider version %s is the latest compatible version. Select it with 
+the following constraint:
 
     version = %q
+
+Terraform checked all of the plugin versions matching the given constraint:
+    %s
+
+Consult the documentation for this provider for more information on
+compatibility between provider and Terraform versions.
 
 Alternatively, upgrade to the latest version of Terraform for compatibility with newer provider releases.
 `

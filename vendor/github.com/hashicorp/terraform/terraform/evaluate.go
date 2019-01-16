@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"strconv"
 	"sync"
 
@@ -91,6 +92,10 @@ type evaluationStateData struct {
 	// since the user specifies in that case which variable name to locally
 	// shadow.)
 	InstanceKeyData InstanceKeyEvalData
+
+	// Operation records the type of walk the evaluationStateData is being used
+	// for.
+	Operation walkOperation
 }
 
 // InstanceKeyEvalData is used during evaluation to specify which values,
@@ -419,7 +424,7 @@ func (d *evaluationStateData) GetPathAttr(addr addrs.PathAttr, rng tfdiags.Sourc
 			})
 			return cty.DynamicVal, diags
 		}
-		return cty.StringVal(wd), diags
+		return cty.StringVal(filepath.ToSlash(wd)), diags
 
 	case "module":
 		moduleConfig := d.Evaluator.Config.DescendentForInstance(d.ModulePath)
@@ -429,11 +434,11 @@ func (d *evaluationStateData) GetPathAttr(addr addrs.PathAttr, rng tfdiags.Sourc
 			panic(fmt.Sprintf("module.path read from module %s, which has no configuration", d.ModulePath))
 		}
 		sourceDir := moduleConfig.Module.SourceDir
-		return cty.StringVal(sourceDir), diags
+		return cty.StringVal(filepath.ToSlash(sourceDir)), diags
 
 	case "root":
 		sourceDir := d.Evaluator.Config.Module.SourceDir
-		return cty.StringVal(sourceDir), diags
+		return cty.StringVal(filepath.ToSlash(sourceDir)), diags
 
 	default:
 		suggestion := nameSuggestion(addr.Name, []string{"cwd", "module", "root"})
@@ -503,6 +508,12 @@ func (d *evaluationStateData) GetResourceInstance(addr addrs.ResourceInstance, r
 		// (In practice we should only end up here during the validate walk,
 		// since later walks should have at least partial states populated
 		// for all resources in the configuration.)
+		return cty.DynamicVal, diags
+	}
+
+	// Break out early during validation, because resource may not be expanded
+	// yet and indexed references may show up as invalid.
+	if d.Operation == walkValidate {
 		return cty.DynamicVal, diags
 	}
 

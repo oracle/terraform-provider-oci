@@ -24,12 +24,11 @@ import (
 func testStepConfig(
 	opts terraform.ContextOpts,
 	state *terraform.State,
-	step TestStep,
-	schemas *terraform.Schemas) (*terraform.State, error) {
-	return testStep(opts, state, step, schemas)
+	step TestStep) (*terraform.State, error) {
+	return testStep(opts, state, step)
 }
 
-func testStep(opts terraform.ContextOpts, state *terraform.State, step TestStep, schemas *terraform.Schemas) (*terraform.State, error) {
+func testStep(opts terraform.ContextOpts, state *terraform.State, step TestStep) (*terraform.State, error) {
 	if !step.Destroy {
 		if err := testStepTaint(state, step); err != nil {
 			return state, err
@@ -66,12 +65,13 @@ func testStep(opts terraform.ContextOpts, state *terraform.State, step TestStep,
 	// Refresh!
 	newState, stepDiags := ctx.Refresh()
 	// shim the state first so the test can check the state on errors
-	state, err = shimNewState(newState, schemas)
+
+	state, err = shimNewState(newState, step.providers)
 	if err != nil {
 		return nil, err
 	}
 	if stepDiags.HasErrors() {
-		return state, fmt.Errorf("Error refreshing: %s", stepDiags.Err())
+		return state, newOperationError("refresh", stepDiags)
 	}
 
 	// If this step is a PlanOnly step, skip over this first Plan and subsequent
@@ -79,7 +79,7 @@ func testStep(opts terraform.ContextOpts, state *terraform.State, step TestStep,
 	if !step.PlanOnly {
 		// Plan!
 		if p, stepDiags := ctx.Plan(); stepDiags.HasErrors() {
-			return state, fmt.Errorf("Error planning: %s", stepDiags.Err())
+			return state, newOperationError("plan", stepDiags)
 		} else {
 			log.Printf("[WARN] Test: Step plan: %s", legacyPlanComparisonString(newState, p.Changes))
 		}
@@ -92,12 +92,12 @@ func testStep(opts terraform.ContextOpts, state *terraform.State, step TestStep,
 		// Apply the diff, creating real resources.
 		newState, stepDiags = ctx.Apply()
 		// shim the state first so the test can check the state on errors
-		state, err = shimNewState(newState, schemas)
+		state, err = shimNewState(newState, step.providers)
 		if err != nil {
 			return nil, err
 		}
 		if stepDiags.HasErrors() {
-			return state, fmt.Errorf("Error applying: %s", stepDiags.Err())
+			return state, newOperationError("apply", stepDiags)
 		}
 
 		// Run any configured checks
@@ -118,7 +118,7 @@ func testStep(opts terraform.ContextOpts, state *terraform.State, step TestStep,
 	// We do this with TWO plans. One without a refresh.
 	var p *plans.Plan
 	if p, stepDiags = ctx.Plan(); stepDiags.HasErrors() {
-		return state, fmt.Errorf("Error on follow-up plan: %s", stepDiags.Err())
+		return state, newOperationError("follow-up plan", stepDiags)
 	}
 	if !p.Changes.Empty() {
 		if step.ExpectNonEmptyPlan {
@@ -133,16 +133,16 @@ func testStep(opts terraform.ContextOpts, state *terraform.State, step TestStep,
 	if !step.Destroy || (step.Destroy && !step.PreventPostDestroyRefresh) {
 		newState, stepDiags = ctx.Refresh()
 		if stepDiags.HasErrors() {
-			return state, fmt.Errorf("Error on follow-up refresh: %s", stepDiags.Err())
+			return state, newOperationError("follow-up refresh", stepDiags)
 		}
 
-		state, err = shimNewState(newState, schemas)
+		state, err = shimNewState(newState, step.providers)
 		if err != nil {
 			return nil, err
 		}
 	}
 	if p, stepDiags = ctx.Plan(); stepDiags.HasErrors() {
-		return state, fmt.Errorf("Error on second follow-up plan: %s", stepDiags.Err())
+		return state, newOperationError("second follow-up refresh", stepDiags)
 	}
 	empty := p.Changes.Empty()
 
@@ -187,7 +187,7 @@ func testStep(opts terraform.ContextOpts, state *terraform.State, step TestStep,
 //
 // This is here only for compatibility with existing tests that predate our
 // new plan and state types, and should not be used in new tests. Instead, use
-// a library like "cmp" to do a deep equality check and diff on the two
+// a library like "cmp" to do a deep equality  and diff on the two
 // data structures.
 func legacyPlanComparisonString(state *states.State, changes *plans.Changes) string {
 	return fmt.Sprintf(
