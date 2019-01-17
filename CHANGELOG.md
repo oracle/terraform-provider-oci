@@ -3,6 +3,7 @@
 
 ### Added
 - Added singular data source for Object Storage objects
+- Adding support for the database renaming during restore from incremental backup
 
 ### Fixed
 - Fixed an issue where the default retry timeout is zero seconds if `retry_duration_seconds` isn't specified
