@@ -718,6 +718,11 @@ func (s *DbSystemResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldKeyForm
 		result.BackupTDEPassword = &tmp
 	}
 
+	if dbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_name")); ok {
+		tmp := dbName.(string)
+		result.DbName = &tmp
+	}
+
 	return result, nil
 }
 
@@ -734,6 +739,10 @@ func CreateDatabaseFromBackupDetailsToMap(obj *oci_database.CreateDatabaseFromBa
 
 	if obj.BackupTDEPassword != nil {
 		result["backup_tde_password"] = string(*obj.BackupTDEPassword)
+	}
+
+	if obj.DbName != nil {
+		result["db_name"] = string(*obj.DbName)
 	}
 
 	return result
