@@ -6,7 +6,7 @@ description: |-
   Provides details about a specific AppCatalogListingResourceVersionAgreement
 ---
 
-#oci_core_app_catalog_listing_resource_version_agreement
+# oci_core_app_catalog_listing_resource_version_agreement
 The `oci_core_app_catalog_listing_resource_version_agreement` resource creates AppCatalogListingResourceVersionAgreement for a particular resource version of a listing.
 
 ## Example Usage
