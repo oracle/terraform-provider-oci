@@ -28,7 +28,6 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 
 	resourceName := "oci_core_route_table_attachment.test_route_table_attachment"
 
-	var resId string
 	var routeTableIdFromRT string
 
 	resource.Test(t, resource.TestCase{
@@ -43,11 +42,6 @@ func TestCoreRouteTableAttachmentResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_route_table_attachment", "test_route_table_attachment", Required, Create, routeTableAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if err != nil {
-							return err
-						}
-
 						routeTableIdFromRT, err := fromInstanceState(s, "oci_core_route_table.test_route_table", "id")
 						if err != nil {
 							return err

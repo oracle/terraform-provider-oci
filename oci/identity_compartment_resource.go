@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -175,9 +176,9 @@ func (s *CompartmentResourceCrud) Create() error {
 	} else { // @next-break: remove
 		// Prevent potentially inferring wrong TenancyOCID from InstancePrincipal
 		if auth := s.Configuration["auth"]; strings.ToLower(auth) == strings.ToLower(authInstancePrincipalSetting) {
-			return fmt.Errorf("compartment_id must be specified for this resource")
+			return fmt.Errorf("compartment_id must be specified for this resource when using with auth as '%s'", authInstancePrincipalSetting)
 		}
-		// Maintain legacy contract of compartment_id defaulting to tenancy ocid if not specified
+		// Maintain legacy contract of compartment_id defaulting to tenancy_ocid if not specified
 		c := *s.Client.ConfigurationProvider()
 		if c == nil {
 			return fmt.Errorf("cannot access tenancyOCID")
@@ -217,43 +218,49 @@ func (s *CompartmentResourceCrud) Create() error {
 	if err != nil {
 		if response.RawResponse != nil && response.RawResponse.StatusCode == 409 {
 
-			// It was determined that not enabling delete should also preserve the implicit importing behavior
-			if enableDelete, ok := s.D.GetOkExists("enable_delete"); !ok || !enableDelete.(bool) {
-
-				// React to name collisions by basically importing that pre-existing compartment into this plan.
-				if strings.Contains(err.Error(), "already exists") ||
-					strings.Contains(err.Error(), "Maximum number of compartment") {
-					// List all compartments using the datasource to find that compartment with the matching name.
-					// CompartmentsDataSourceCrud requires a compartment_id, so forward whatever value was used in
-					// the create attempt above.
-					s.D.Set("compartment_id", request.CompartmentId)
-					dsCrud := &CompartmentsDataSourceCrud{s.D, s.Client, nil}
-					if err := dsCrud.Get(); err != nil {
-						return err
-					}
-
-					for _, compartment := range dsCrud.Res.Items {
-						if *compartment.Name == *request.Name {
-							s.Res = &compartment
-							//Update with correct description
-							s.D.SetId(s.ID())
-							return s.Update()
-						}
-					}
-				}
-
-			} else {
+			// Return an error if 'enable_delete' was explicitly set to 'true' in case of automatic import on conflict
+			if enableDelete, ok := s.D.GetOkExists("enable_delete"); ok && enableDelete.(bool) {
 				return fmt.Errorf(`%s
 
 If you define a compartment resource in your configurations with 
-the same name as an existing compartment, the compartment will no
-longer be transparently imported. If you intended to manage 
-an existing compartment, use terraform import instead.`, err)
+the same name as an existing compartment with 'enable_delete' set to 'true', 
+the compartment will no longer be automatically imported. 
+If you intended to manage an existing compartment, use terraform import instead.`, err)
+			}
+
+			// React to name collisions or conflict errors by importing pre-existing compartment into this plan if the name matches.
+			if strings.Contains(err.Error(), "already exists") ||
+				strings.Contains(err.Error(), "Maximum number of compartment") {
+				// List all compartments using the datasource to find that compartment with the matching name.
+				// CompartmentsDataSourceCrud requires a compartment_id, so forward whatever value was used in
+				// the create attempt above.
+				s.D.Set("compartment_id", request.CompartmentId)
+				log.Println(fmt.Sprintf("[DEBUG] The specified compartment with name '%s' may already exist, listing compartments to lookup with name instead.",
+					*request.Name))
+				dsCrud := &CompartmentsDataSourceCrud{s.D, s.Client, nil}
+				if err := dsCrud.Get(); err != nil {
+					return err
+				}
+
+				for _, compartment := range dsCrud.Res.Items {
+					if *compartment.Name == *request.Name {
+						s.Res = &compartment
+						//Update with correct description
+						s.D.SetId(s.ID())
+						return s.Update()
+					}
+				}
+				// Return an error if the lookup failed, to provide user with information on which compartment id and name were used for lookup
+				return fmt.Errorf(`%s
+
+failed to lookup the compartment with name: '%s' in compartment_id: '%s'.
+Verify your configuration if the correct 'compartment_id' and 'name' were specified.
+In most cases, the 'compartment_id' will be your 'tenancy_ocid' with the exception of nested compartments.
+Refer to the 'oci_identity_compartment' documentation for more information.`, err, *request.Name, *request.CompartmentId)
 			}
 		}
 		return err
 	}
-
 	s.Res = &response.Compartment
 	return nil
 }

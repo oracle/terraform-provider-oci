@@ -59,17 +59,6 @@ func TestApplyFiltersIntegration_basic(t *testing.T) {
 			// verify datasource id
 			{
 				Config: config + `
-variable "InstanceImageOCID" {
-	  type = "map"
-	  default = {
-		// See https://docs.us-phoenix-1.oraclecloud.com/images/
-		// Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
-		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
-		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
-		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
-	  }
-}
 variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
 variable "instance_create_vnic_details_display_name" { default = "displayName" }
 variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
@@ -153,7 +142,7 @@ data "oci_core_instances" "test_instances_filter_out_with_map" {
     	values = ["${oci_core_instance.test_instance.id}"]
     }
 	
-		filter {
+	filter {
     	name = "defined_tags.${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}"
     	values = ["${var.instance_defined_tags_value}.blah"]
     }
