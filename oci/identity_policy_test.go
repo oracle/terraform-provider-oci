@@ -31,26 +31,13 @@ var (
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"description":    Representation{repType: Required, create: `Policy for users who need to launch instances, attach volumes, manage images`, update: `description2`},
 		"name":           Representation{repType: Required, create: `LaunchInstances`},
-		"statements":     Representation{repType: Required, create: []string{`Allow group ${oci_identity_group.t.name} to read instances in compartment ${oci_identity_compartment.t.name}`}},
+		"statements":     Representation{repType: Required, create: []string{`Allow group Administrators to read instances in tenancy`}},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"version_date":   Representation{repType: Optional, create: ``, update: `2018-01-01`},
 	}
 
-	PolicyResourceDependencies = DefinedTagsDependencies + `
-resource "oci_identity_compartment" "t" {
-	name = "Network"
-	description = "For network components"
-	compartment_id = "${var.tenancy_ocid}"
-}
-
-resource "oci_identity_group" "t" {
-	#Required
-	compartment_id = "${var.tenancy_ocid}"
-	description = "group for policy test"
-	name = "GroupName"
-}
-`
+	PolicyResourceDependencies = DefinedTagsDependencies
 )
 
 func TestIdentityPolicyResource_basic(t *testing.T) {

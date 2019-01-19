@@ -40,11 +40,11 @@ var (
 		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
 		"instance_configuration_id": Representation{repType: Required, create: `${oci_core_instance_configuration.test_instance_configuration.id}`},
 		"placement_configurations":  RepresentationGroup{Required, instancePoolPlacementConfigurationsRepresentation},
-		"size":          Representation{repType: Required, create: `2`, update: `3`},
-		"state":         Representation{repType: Optional, create: `Running`},
-		"defined_tags":  Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":  Representation{repType: Optional, create: `backend-servers-pool`, update: `displayName2`},
-		"freeform_tags": Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"size":                      Representation{repType: Required, create: `2`, update: `3`},
+		"state":                     Representation{repType: Optional, create: `Running`},
+		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              Representation{repType: Optional, create: `backend-servers-pool`, update: `displayName2`},
+		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 	instancePoolPlacementConfigurationsRepresentation = map[string]interface{}{
 		"availability_domain":    Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},

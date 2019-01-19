@@ -365,6 +365,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_objectstorage_namespace":                    NamespaceDataSource(),
 		"oci_objectstorage_namespace_metadata":           NamespaceMetadataDataSource(),
 		"oci_objectstorage_object_head":                  ObjectHeadDataSource(),
+		"oci_objectstorage_object":                       ObjectDataSource(),
 		"oci_objectstorage_objects":                      ObjectsDataSource(),
 		"oci_objectstorage_preauthrequest":               PreauthenticatedRequestDataSource(),
 		"oci_objectstorage_preauthrequests":              PreauthenticatedRequestsDataSource(),
