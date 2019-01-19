@@ -3,6 +3,9 @@
 ### Added
 - Added singular data source for Object Storage objects
 
+### Fixed
+- Fixed an issue where the default retry timeout is zero seconds if `retry_duration_seconds` isn't specified
+
 ## 3.12.0 (January 15, 2019)
 
 ### Added
