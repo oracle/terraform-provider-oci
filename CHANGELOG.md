@@ -5,6 +5,8 @@
 
 ### Fixed
 - Fixed an issue where the default retry timeout is zero seconds if `retry_duration_seconds` isn't specified
+- Modifying immutable `metadata` fields such as `ssh_authorized_keys` and `user_data` should result in new instances. [Issue #673](https://github.com/terraform-providers/terraform-provider-oci/issues/673)
+- Vendored Terraform helper/schema SDK to return matching data type for maps in case of empty state. [Issue #685](https://github.com/terraform-providers/terraform-provider-oci/issues/685)
 
 ## 3.12.0 (January 15, 2019)
 
