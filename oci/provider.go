@@ -183,7 +183,6 @@ func schemaMap() map[string]*schema.Schema {
 		retryDurationSecondsAttrName: {
 			Type:        schema.TypeInt,
 			Optional:    true,
-			Default:     false,
 			Description: descriptions[retryDurationSecondsAttrName],
 			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(retryDurationSecondsAttrName), ociVarName(retryDurationSecondsAttrName)}, nil),
 		},
