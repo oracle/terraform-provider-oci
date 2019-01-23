@@ -465,6 +465,14 @@
 			"revisionTime": "2018-07-12T17:48:35Z"
 		},
 		{
+			"checksumSHA1": "qVmQPoZmJ2w2OnaxIheWfuwun6g=",
+			"path": "github.com/hashicorp/terraform/helper/customdiff",
+			"revision": "41e50bd32a8825a84535e353c3674af8ce799161",
+			"revisionTime": "2018-04-10T16:50:42Z",
+			"version": "=v0.11.7",
+			"versionExact": "v0.11.7"
+		},
+		{
 			"checksumSHA1": "KNvbU1r5jv0CBeQLnEtDoL3dRtc=",
 			"path": "github.com/hashicorp/terraform/helper/hashcode",
 			"revision": "41e50bd32a8825a84535e353c3674af8ce799161",
@@ -493,12 +501,11 @@
 			"versionExact": "v0.11.7"
 		},
 		{
-			"checksumSHA1": "JHxGzmxcIS8NyLX9pGhK5beIra4=",
+			"__comment": "This package has been modified locally in vendor folder due to Terraform Issue: https://github.com/hashicorp/terraform/issues/19978",
+			"checksumSHA1": "pL2ZDLpzWq1UxqZIc2ucNEROIMc=",
 			"path": "github.com/hashicorp/terraform/helper/schema",
-			"revision": "41e50bd32a8825a84535e353c3674af8ce799161",
-			"revisionTime": "2018-04-10T16:50:42Z",
-			"version": "=v0.11.7",
-			"versionExact": "v0.11.7"
+			"revision": "b9950eb68da97c05e061df3acf51b2480110b65e",
+			"revisionTime": "2019-01-11T00:36:54Z"
 		},
 		{
 			"checksumSHA1": "Fzbv+N7hFXOtrR6E7ZcHT3jEE9s=",
