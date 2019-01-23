@@ -18,6 +18,10 @@ func EmailSuppressionDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"email_address": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -77,6 +81,10 @@ func (s *EmailSuppressionDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
 
 	if s.Res.EmailAddress != nil {
 		s.D.Set("email_address", *s.Res.EmailAddress)

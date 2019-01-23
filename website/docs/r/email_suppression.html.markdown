@@ -10,6 +10,9 @@ description: |-
 This resource provides the Suppression resource in Oracle Cloud Infrastructure Email service.
 
 Adds recipient email addresses to the suppression list for a tenancy.
+Addresses added to the suppression list via the API are denoted as
+"MANUAL" in the `reason` field. *Note:* All email addresses added to the
+suppression list are normalized to include only lowercase letters.
 
 
 ## Example Usage
@@ -37,9 +40,10 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `compartment_id` - The OCID of the compartment to contain the suppression. Since suppressions are at the customer level, this must be the tenancy OCID. 
 * `email_address` - The email address of the suppression.
 * `id` - The unique OCID of the suppression.
-* `reason` - The reason that the email address was suppressed. For more information on the types of bounces, see [Suppresion List](https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/emaildeliveryoverview.htm#suppressionlist).
+* `reason` - The reason that the email address was suppressed. For more information on the types of bounces, see [Suppression List](https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm#components).
 * `time_created` - The date and time a recipient's email address was added to the suppression list, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339. 
 
 ## Import

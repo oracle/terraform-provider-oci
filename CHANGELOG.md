@@ -9,6 +9,7 @@
 
 ### Added
 - Adding support for the database renaming during restore from incremental backup
+- Adding support for the tagging of Email Delivery service approved senders
 
 ## 3.13.0 (January 23, 2019)
 
