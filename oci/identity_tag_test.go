@@ -38,7 +38,7 @@ var (
 		generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation)
 
 	tagDataSourceRepresentation = map[string]interface{}{
-		"tag_namespace_id": Representation{repType: Required, create: `${oci_identity_tag_namespace.test_tag_namespace.id}`},
+		"tag_namespace_id": Representation{repType: Required, create: `${oci_identity_tag_namespace.tag-namespace1.id}`},
 		"filter":           RepresentationGroup{Required, tagDataSourceFilterRepresentation}}
 	tagDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -48,13 +48,13 @@ var (
 	tagRepresentation = map[string]interface{}{
 		"description":      Representation{repType: Required, create: `This tag will show the cost center that will be used for billing of associated resources.`, update: `description2`},
 		"name":             Representation{repType: Required, create: `CostCenter`},
-		"tag_namespace_id": Representation{repType: Required, create: `${oci_identity_tag_namespace.test_tag_namespace.id}`},
+		"tag_namespace_id": Representation{repType: Required, create: `${oci_identity_tag_namespace.tag-namespace1.id}`},
 		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"is_cost_tracking": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 
-	TagResourceDependencies = TagNamespaceRequiredOnlyResource
+	TagResourceDependencies = DefinedTagsDependencies
 )
 
 func TestIdentityTagResource_basic(t *testing.T) {
