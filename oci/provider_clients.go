@@ -18,6 +18,7 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
+	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -66,6 +67,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 	fileStorageClient, err := oci_file_storage.NewFileStorageClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	healthChecksClient, err := oci_health_checks.NewHealthChecksClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -213,6 +218,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&healthChecksClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&identityClient.BaseClient)
 	if err != nil {
 		return
@@ -251,6 +260,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.dnsClient = &dnsClient
 	clients.emailClient = &emailClient
 	clients.fileStorageClient = &fileStorageClient
+	clients.healthChecksClient = &healthChecksClient
 	clients.identityClient = &identityClient
 	clients.kmsCryptoClient = &kmsCryptoClient
 	clients.kmsManagementClient = &kmsManagementClient
@@ -263,23 +273,24 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 }
 
 type OracleClients struct {
-	auditClient             *oci_audit.AuditClient
-	blockstorageClient      *oci_core.BlockstorageClient
-	computeClient           *oci_core.ComputeClient
-	computeManagementClient *oci_core.ComputeManagementClient
-	containerEngineClient   *oci_containerengine.ContainerEngineClient
-	databaseClient          *oci_database.DatabaseClient
-	dnsClient               *oci_dns.DnsClient
-	emailClient             *oci_email.EmailClient
-	fileStorageClient       *oci_file_storage.FileStorageClient
-	identityClient          *oci_identity.IdentityClient
-	kmsCryptoClient         *oci_kms.KmsCryptoClient
-	kmsManagementClient     *oci_kms.KmsManagementClient
-	kmsVaultClient          *oci_kms.KmsVaultClient
-	loadBalancerClient      *oci_load_balancer.LoadBalancerClient
-	objectStorageClient     *oci_object_storage.ObjectStorageClient
-	virtualNetworkClient    *oci_core.VirtualNetworkClient
-	configuration           map[string]string
+	auditClient                    *oci_audit.AuditClient
+	blockstorageClient             *oci_core.BlockstorageClient
+	computeClient                  *oci_core.ComputeClient
+	computeManagementClient        *oci_core.ComputeManagementClient
+	containerEngineClient          *oci_containerengine.ContainerEngineClient
+	databaseClient                 *oci_database.DatabaseClient
+	dnsClient                      *oci_dns.DnsClient
+	emailClient                    *oci_email.EmailClient
+	fileStorageClient              *oci_file_storage.FileStorageClient
+	healthChecksClient             *oci_health_checks.HealthChecksClient
+	identityClient                 *oci_identity.IdentityClient
+	kmsCryptoClient                *oci_kms.KmsCryptoClient
+	kmsManagementClient            *oci_kms.KmsManagementClient
+	kmsVaultClient                 *oci_kms.KmsVaultClient
+	loadBalancerClient             *oci_load_balancer.LoadBalancerClient
+	objectStorageClient            *oci_object_storage.ObjectStorageClient
+	virtualNetworkClient           *oci_core.VirtualNetworkClient
+	configuration                  map[string]string
 }
 
 func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClient, error) {
