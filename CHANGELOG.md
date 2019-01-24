@@ -1,9 +1,12 @@
-## 3.13.1 (Unreleased)
+## 3.14.0 (Unreleased)
+
+### Added
+- Adding support for the database renaming during restore from incremental backup
+
 ## 3.13.0 (January 23, 2019)
 
 ### Added
 - Added singular data source for Object Storage objects
-- Adding support for the database renaming during restore from incremental backup
 
 ### Fixed
 - Fixed an issue where the default retry timeout is zero seconds if `retry_duration_seconds` isn't specified
