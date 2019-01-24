@@ -14,6 +14,8 @@ type Region string
 const (
 	//RegionSEA region SEA
 	RegionSEA Region = "sea"
+	//RegionCAToronto1 region for toronto
+	RegionCAToronto1 Region = "ca-toronto-1"
 	//RegionPHX region PHX
 	RegionPHX Region = "us-phoenix-1"
 	//RegionIAD region IAD
@@ -29,10 +31,11 @@ var realm = map[string]string{
 }
 
 var regionRealm = map[Region]string{
-	RegionPHX: "oc1",
-	RegionIAD: "oc1",
-	RegionFRA: "oc1",
-	RegionLHR: "oc1",
+	RegionPHX:        "oc1",
+	RegionIAD:        "oc1",
+	RegionFRA:        "oc1",
+	RegionLHR:        "oc1",
+	RegionCAToronto1: "oc1",
 }
 
 // Endpoint returns a endpoint for a service
@@ -74,6 +77,8 @@ func StringToRegion(stringRegion string) (r Region) {
 	switch strings.ToLower(stringRegion) {
 	case "sea":
 		r = RegionSEA
+	case "ca-toronto-1":
+		r = RegionCAToronto1
 	case "phx", "us-phoenix-1":
 		r = RegionPHX
 	case "iad", "us-ashburn-1":

@@ -23,6 +23,9 @@ type CreateDatabaseFromBackupDetails struct {
 
 	// A strong password for SYS, SYSTEM, PDB Admin and TDE Wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
 	AdminPassword *string `mandatory:"true" json:"adminPassword"`
+
+	// The display name of the database to be created from the backup. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
+	DbName *string `mandatory:"false" json:"dbName"`
 }
 
 func (m CreateDatabaseFromBackupDetails) String() string {

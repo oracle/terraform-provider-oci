@@ -52,7 +52,7 @@ func newInstancePrincipalKeyProvider(modifier func(common.HTTPRequestDispatcher)
 
 	if region, err = getRegionForFederationClient(client, regionURL); err != nil {
 		err = fmt.Errorf("failed to get the region name from %s: %s", regionURL, err.Error())
-		common.Logln(err)
+		common.Logf("%v\n", err)
 		return nil, err
 	}
 
