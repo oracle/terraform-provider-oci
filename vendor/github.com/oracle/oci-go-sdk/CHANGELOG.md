@@ -4,9 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 3.5.0 - 2019-01-24
+### Added
+
+- Support for renaming databases during restore-from-backup operations in the Database service
+- Built-in logging now supports log levels. More information about the changes can be found in the [go-docs page](https://godoc.org/github.com/oracle/oci-go-sdk#hdr-Logging_and_Debugging)
+- Support for calling Oracle Cloud Infrastructure services in the ca-toronto-1 region
+
 ## 3.4.0 - 2019-01-10
 ### Added 
-- Support for device attributes on volumes in the Block Storage service
+- Support for device attributes on volume attachments in the Compute service
 - Support for custom header rulesets in the Load Balancing service
 
 
