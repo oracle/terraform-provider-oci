@@ -12,6 +12,8 @@ resource "oci_identity_tag" "tag1" {
   description      = "tf example tag"
   name             = "tf-example-tag"
   tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace1.id}"
+  is_cost_tracking = false          // the value "true" is only permitted if the associated tag namespace is part of the root compartment
+
 
   is_retired = false
 }
