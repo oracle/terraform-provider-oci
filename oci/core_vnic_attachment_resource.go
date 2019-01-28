@@ -13,16 +13,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VnicAttachmentResource() *schema.Resource {
+func CoreVnicAttachmentResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createVnicAttachment,
-		Read:     readVnicAttachment,
-		Update:   updateVnicAttachment,
-		Delete:   deleteVnicAttachment,
+		Create:   createCoreVnicAttachment,
+		Read:     readCoreVnicAttachment,
+		Update:   updateCoreVnicAttachment,
+		Delete:   deleteCoreVnicAttachment,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"create_vnic_details": {
@@ -162,8 +162,8 @@ func VnicAttachmentResource() *schema.Resource {
 	}
 }
 
-func createVnicAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &VnicAttachmentResourceCrud{}
+func createCoreVnicAttachment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVnicAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
@@ -171,8 +171,8 @@ func createVnicAttachment(d *schema.ResourceData, m interface{}) error {
 	return CreateResource(d, sync)
 }
 
-func readVnicAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &VnicAttachmentResourceCrud{}
+func readCoreVnicAttachment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVnicAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
@@ -180,8 +180,8 @@ func readVnicAttachment(d *schema.ResourceData, m interface{}) error {
 	return ReadResource(sync)
 }
 
-func updateVnicAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &VnicAttachmentResourceCrud{}
+func updateCoreVnicAttachment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVnicAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
@@ -189,8 +189,8 @@ func updateVnicAttachment(d *schema.ResourceData, m interface{}) error {
 	return UpdateResource(d, sync)
 }
 
-func deleteVnicAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &VnicAttachmentResourceCrud{}
+func deleteCoreVnicAttachment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVnicAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
@@ -199,7 +199,7 @@ func deleteVnicAttachment(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type VnicAttachmentResourceCrud struct {
+type CoreVnicAttachmentResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.ComputeClient
 	VirtualNetworkClient   *oci_core.VirtualNetworkClient
@@ -207,35 +207,35 @@ type VnicAttachmentResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-func (s *VnicAttachmentResourceCrud) ID() string {
+func (s *CoreVnicAttachmentResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *VnicAttachmentResourceCrud) CreatedPending() []string {
+func (s *CoreVnicAttachmentResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.VnicAttachmentLifecycleStateAttaching),
 	}
 }
 
-func (s *VnicAttachmentResourceCrud) CreatedTarget() []string {
+func (s *CoreVnicAttachmentResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.VnicAttachmentLifecycleStateAttached),
 	}
 }
 
-func (s *VnicAttachmentResourceCrud) DeletedPending() []string {
+func (s *CoreVnicAttachmentResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.VnicAttachmentLifecycleStateDetaching),
 	}
 }
 
-func (s *VnicAttachmentResourceCrud) DeletedTarget() []string {
+func (s *CoreVnicAttachmentResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.VnicAttachmentLifecycleStateDetached),
 	}
 }
 
-func (s *VnicAttachmentResourceCrud) Create() error {
+func (s *CoreVnicAttachmentResourceCrud) Create() error {
 	request := oci_core.AttachVnicRequest{}
 
 	if createVnicDetails, ok := s.D.GetOkExists("create_vnic_details"); ok {
@@ -278,7 +278,7 @@ func (s *VnicAttachmentResourceCrud) Create() error {
 // @CODEGEN 1/2018: Generator doesn't give us an Update method for VnicAttachment.
 // However, the existing behavior allows vnic to be updated through the create_vnic_details.
 // So keep this Update functionality in the provider.
-func (s *VnicAttachmentResourceCrud) Update() error {
+func (s *CoreVnicAttachmentResourceCrud) Update() error {
 	// We should fetch the VnicAttachment in order to update
 	// the state data after the update call.
 	err := s.Get()
@@ -313,7 +313,7 @@ func (s *VnicAttachmentResourceCrud) Update() error {
 	return err
 }
 
-func (s *VnicAttachmentResourceCrud) Get() error {
+func (s *CoreVnicAttachmentResourceCrud) Get() error {
 	request := oci_core.GetVnicAttachmentRequest{}
 
 	tmp := s.D.Id()
@@ -330,7 +330,7 @@ func (s *VnicAttachmentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *VnicAttachmentResourceCrud) Delete() error {
+func (s *CoreVnicAttachmentResourceCrud) Delete() error {
 	request := oci_core.DetachVnicRequest{}
 
 	tmp := s.D.Id()
@@ -342,7 +342,7 @@ func (s *VnicAttachmentResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VnicAttachmentResourceCrud) SetData() error {
+func (s *CoreVnicAttachmentResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -407,7 +407,7 @@ func (s *VnicAttachmentResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *VnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat string) (oci_core.CreateVnicDetails, error) {
+func (s *CoreVnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat string) (oci_core.CreateVnicDetails, error) {
 	result := oci_core.CreateVnicDetails{}
 
 	if assignPublicIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_public_ip")); ok {
@@ -459,7 +459,7 @@ func (s *VnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat strin
 	return result, nil
 }
 
-func (s *VnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat string) (oci_core.UpdateVnicDetails, error) {
+func (s *CoreVnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat string) (oci_core.UpdateVnicDetails, error) {
 	result := oci_core.UpdateVnicDetails{}
 
 	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {

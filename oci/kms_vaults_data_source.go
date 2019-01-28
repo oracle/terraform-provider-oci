@@ -9,9 +9,9 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
-func VaultsDataSource() *schema.Resource {
+func KmsVaultsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVaults,
+		Read: readKmsVaults,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -21,31 +21,31 @@ func VaultsDataSource() *schema.Resource {
 			"vaults": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(VaultResource()),
+				Elem:     GetDataSourceItemSchema(KmsVaultResource()),
 			},
 		},
 	}
 }
 
-func readVaults(d *schema.ResourceData, m interface{}) error {
-	sync := &VaultsDataSourceCrud{}
+func readKmsVaults(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsVaultsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).kmsVaultClient
 
 	return ReadResource(sync)
 }
 
-type VaultsDataSourceCrud struct {
+type KmsVaultsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_kms.KmsVaultClient
 	Res    *oci_kms.ListVaultsResponse
 }
 
-func (s *VaultsDataSourceCrud) VoidState() {
+func (s *KmsVaultsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VaultsDataSourceCrud) Get() error {
+func (s *KmsVaultsDataSourceCrud) Get() error {
 	request := oci_kms.ListVaultsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +76,7 @@ func (s *VaultsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VaultsDataSourceCrud) SetData() error {
+func (s *KmsVaultsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -117,7 +117,7 @@ func (s *VaultsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, VaultsDataSource().Schema["vaults"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, KmsVaultsDataSource().Schema["vaults"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("vaults", resources); err != nil {

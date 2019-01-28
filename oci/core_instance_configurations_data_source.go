@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InstanceConfigurationsDataSource() *schema.Resource {
+func CoreInstanceConfigurationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readInstanceConfigurations,
+		Read: readCoreInstanceConfigurations,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -21,31 +21,31 @@ func InstanceConfigurationsDataSource() *schema.Resource {
 			"instance_configurations": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(InstanceConfigurationResource()),
+				Elem:     GetDataSourceItemSchema(CoreInstanceConfigurationResource()),
 			},
 		},
 	}
 }
 
-func readInstanceConfigurations(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceConfigurationsDataSourceCrud{}
+func readCoreInstanceConfigurations(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceConfigurationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient
 
 	return ReadResource(sync)
 }
 
-type InstanceConfigurationsDataSourceCrud struct {
+type CoreInstanceConfigurationsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeManagementClient
 	Res    *oci_core.ListInstanceConfigurationsResponse
 }
 
-func (s *InstanceConfigurationsDataSourceCrud) VoidState() {
+func (s *CoreInstanceConfigurationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *InstanceConfigurationsDataSourceCrud) Get() error {
+func (s *CoreInstanceConfigurationsDataSourceCrud) Get() error {
 	request := oci_core.ListInstanceConfigurationsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +76,7 @@ func (s *InstanceConfigurationsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstanceConfigurationsDataSourceCrud) SetData() error {
+func (s *CoreInstanceConfigurationsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -105,7 +105,7 @@ func (s *InstanceConfigurationsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, InstanceConfigurationsDataSource().Schema["instance_configurations"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreInstanceConfigurationsDataSource().Schema["instance_configurations"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("instance_configurations", resources); err != nil {

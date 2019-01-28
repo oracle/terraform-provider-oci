@@ -16,16 +16,16 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
-func KeyResource() *schema.Resource {
+func KmsKeyResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createKey,
-		Read:     readKey,
-		Update:   updateKey,
-		Delete:   deleteKey,
+		Create:   createKmsKey,
+		Read:     readKmsKey,
+		Update:   updateKmsKey,
+		Delete:   deleteKmsKey,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -100,8 +100,8 @@ func KeyResource() *schema.Resource {
 	}
 }
 
-func createKey(d *schema.ResourceData, m interface{}) error {
-	sync := &KeyResourceCrud{}
+func createKmsKey(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsKeyResourceCrud{}
 	sync.D = d
 	endpoint, ok := d.GetOkExists("management_endpoint")
 	if !ok {
@@ -116,8 +116,8 @@ func createKey(d *schema.ResourceData, m interface{}) error {
 	return CreateResource(d, sync)
 }
 
-func readKey(d *schema.ResourceData, m interface{}) error {
-	sync := &KeyResourceCrud{}
+func readKmsKey(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsKeyResourceCrud{}
 	sync.D = d
 	endpoint, ok := d.GetOkExists("management_endpoint")
 	if !ok {
@@ -143,8 +143,8 @@ func readKey(d *schema.ResourceData, m interface{}) error {
 	return ReadResource(sync)
 }
 
-func updateKey(d *schema.ResourceData, m interface{}) error {
-	sync := &KeyResourceCrud{}
+func updateKmsKey(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsKeyResourceCrud{}
 	sync.D = d
 	endpoint, ok := d.GetOkExists("management_endpoint")
 	if !ok {
@@ -159,35 +159,35 @@ func updateKey(d *schema.ResourceData, m interface{}) error {
 	return UpdateResource(d, sync)
 }
 
-func deleteKey(d *schema.ResourceData, m interface{}) error {
+func deleteKmsKey(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-type KeyResourceCrud struct {
+type KmsKeyResourceCrud struct {
 	BaseCrud
 	Client                 *oci_kms.KmsManagementClient
 	Res                    *oci_kms.Key
 	DisableNotFoundRetries bool
 }
 
-func (s *KeyResourceCrud) ID() string {
+func (s *KmsKeyResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *KeyResourceCrud) CreatedPending() []string {
+func (s *KmsKeyResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_kms.KeyLifecycleStateCreating),
 		string(oci_kms.KeyLifecycleStateEnabling),
 	}
 }
 
-func (s *KeyResourceCrud) CreatedTarget() []string {
+func (s *KmsKeyResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_kms.KeyLifecycleStateEnabled),
 	}
 }
 
-func (s *KeyResourceCrud) DeletedPending() []string {
+func (s *KmsKeyResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_kms.KeyLifecycleStateDisabled),
 		string(oci_kms.KeyLifecycleStateDeleting),
@@ -195,28 +195,28 @@ func (s *KeyResourceCrud) DeletedPending() []string {
 	}
 }
 
-func (s *KeyResourceCrud) DeletedTarget() []string {
+func (s *KmsKeyResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_kms.KeyLifecycleStateDeleted),
 		string(oci_kms.KeyLifecycleStatePendingDeletion),
 	}
 }
 
-func (s *KeyResourceCrud) UpdatedPending() []string {
+func (s *KmsKeyResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_kms.KeyLifecycleStateEnabling),
 		string(oci_kms.KeyLifecycleStateDisabling),
 	}
 }
 
-func (s *KeyResourceCrud) UpdatedTarget() []string {
+func (s *KmsKeyResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_kms.KeyLifecycleStateEnabled),
 		string(oci_kms.KeyLifecycleStateDisabled),
 	}
 }
 
-func (s *KeyResourceCrud) Create() error {
+func (s *KmsKeyResourceCrud) Create() error {
 	if desiredState, ok := s.D.GetOkExists("desired_state"); ok && !strings.EqualFold(desiredState.(string), "ENABLED") {
 		return fmt.Errorf("oci_kms_keys can only be created in ENABLED state")
 	}
@@ -255,7 +255,7 @@ func (s *KeyResourceCrud) Create() error {
 	return nil
 }
 
-func (s *KeyResourceCrud) Get() error {
+func (s *KmsKeyResourceCrud) Get() error {
 	request := oci_kms.GetKeyRequest{}
 
 	tmp := s.D.Id()
@@ -272,7 +272,7 @@ func (s *KeyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *KeyResourceCrud) Update() error {
+func (s *KmsKeyResourceCrud) Update() error {
 	request := oci_kms.UpdateKeyRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -323,7 +323,7 @@ func (s *KeyResourceCrud) Update() error {
 	return nil
 }
 
-func (s *KeyResourceCrud) SetData() error {
+func (s *KmsKeyResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -357,7 +357,7 @@ func (s *KeyResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *KeyResourceCrud) mapToKeyShape(fieldKeyFormat string) (oci_kms.KeyShape, error) {
+func (s *KmsKeyResourceCrud) mapToKeyShape(fieldKeyFormat string) (oci_kms.KeyShape, error) {
 	result := oci_kms.KeyShape{}
 
 	if algorithm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "algorithm")); ok {

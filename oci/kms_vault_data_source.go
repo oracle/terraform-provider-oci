@@ -9,9 +9,9 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
-func VaultDataSource() *schema.Resource {
+func KmsVaultDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularVault,
+		Read: readSingularKmsVault,
 		Schema: map[string]*schema.Schema{
 			"vault_id": {
 				Type:     schema.TypeString,
@@ -54,25 +54,25 @@ func VaultDataSource() *schema.Resource {
 	}
 }
 
-func readSingularVault(d *schema.ResourceData, m interface{}) error {
-	sync := &VaultDataSourceCrud{}
+func readSingularKmsVault(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsVaultDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).kmsVaultClient
 
 	return ReadResource(sync)
 }
 
-type VaultDataSourceCrud struct {
+type KmsVaultDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_kms.KmsVaultClient
 	Res    *oci_kms.GetVaultResponse
 }
 
-func (s *VaultDataSourceCrud) VoidState() {
+func (s *KmsVaultDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VaultDataSourceCrud) Get() error {
+func (s *KmsVaultDataSourceCrud) Get() error {
 	request := oci_kms.GetVaultRequest{}
 
 	if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
@@ -91,7 +91,7 @@ func (s *VaultDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VaultDataSourceCrud) SetData() error {
+func (s *KmsVaultDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

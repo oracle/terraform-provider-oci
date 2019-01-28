@@ -9,9 +9,9 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-func ClusterOptionDataSource() *schema.Resource {
+func ContainerengineClusterOptionDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularClusterOption,
+		Read: readSingularContainerengineClusterOption,
 		Schema: map[string]*schema.Schema{
 			"cluster_option_id": {
 				Type:     schema.TypeString,
@@ -29,25 +29,25 @@ func ClusterOptionDataSource() *schema.Resource {
 	}
 }
 
-func readSingularClusterOption(d *schema.ResourceData, m interface{}) error {
-	sync := &ClusterOptionDataSourceCrud{}
+func readSingularContainerengineClusterOption(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineClusterOptionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return ReadResource(sync)
 }
 
-type ClusterOptionDataSourceCrud struct {
+type ContainerengineClusterOptionDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_containerengine.ContainerEngineClient
 	Res    *oci_containerengine.GetClusterOptionsResponse
 }
 
-func (s *ClusterOptionDataSourceCrud) VoidState() {
+func (s *ContainerengineClusterOptionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ClusterOptionDataSourceCrud) Get() error {
+func (s *ContainerengineClusterOptionDataSourceCrud) Get() error {
 	request := oci_containerengine.GetClusterOptionsRequest{}
 
 	if clusterOptionId, ok := s.D.GetOkExists("cluster_option_id"); ok {
@@ -66,7 +66,7 @@ func (s *ClusterOptionDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ClusterOptionDataSourceCrud) SetData() error {
+func (s *ContainerengineClusterOptionDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

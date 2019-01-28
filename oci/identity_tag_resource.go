@@ -13,16 +13,16 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func TagResource() *schema.Resource {
+func IdentityTagResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createTag,
-		Read:     readTag,
-		Update:   updateTag,
-		Delete:   deleteTag,
+		Create:   createIdentityTag,
+		Read:     readIdentityTag,
+		Update:   updateIdentityTag,
+		Delete:   deleteIdentityTag,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"description": {
@@ -75,46 +75,46 @@ func TagResource() *schema.Resource {
 	}
 }
 
-func createTag(d *schema.ResourceData, m interface{}) error {
-	sync := &TagResourceCrud{}
+func createIdentityTag(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityTagResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readTag(d *schema.ResourceData, m interface{}) error {
-	sync := &TagResourceCrud{}
+func readIdentityTag(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityTagResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateTag(d *schema.ResourceData, m interface{}) error {
-	sync := &TagResourceCrud{}
+func updateIdentityTag(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityTagResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteTag(d *schema.ResourceData, m interface{}) error {
+func deleteIdentityTag(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-type TagResourceCrud struct {
+type IdentityTagResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.Tag
 	DisableNotFoundRetries bool
 }
 
-func (s *TagResourceCrud) ID() string {
+func (s *IdentityTagResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *TagResourceCrud) Create() error {
+func (s *IdentityTagResourceCrud) Create() error {
 	request := oci_identity.CreateTagRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -172,7 +172,7 @@ func (s *TagResourceCrud) Create() error {
 		// List all tag definitions using the datasource to find that tag definition which matches
 		s.D.Set("tag_namespace_id", request.TagNamespaceId)
 		s.D.Set("name", request.Name)
-		dsCrud := &TagsDataSourceCrud{s.D, s.Client, nil}
+		dsCrud := &IdentityTagsDataSourceCrud{s.D, s.Client, nil}
 		if dsErr := dsCrud.Get(); dsErr != nil {
 			//return original error when datasource call fails
 			return err
@@ -196,7 +196,7 @@ func (s *TagResourceCrud) Create() error {
 
 }
 
-func (s *TagResourceCrud) Get() error {
+func (s *IdentityTagResourceCrud) Get() error {
 	request := oci_identity.GetTagRequest{}
 
 	tagName, tagNamespaceId, parseTagCompositeIdErr := parseTagCompositeId(s.D.Id())
@@ -234,7 +234,7 @@ func (s *TagResourceCrud) Get() error {
 	return nil
 }
 
-func (s *TagResourceCrud) Update() error {
+func (s *IdentityTagResourceCrud) Update() error {
 	request := oci_identity.UpdateTagRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -285,7 +285,7 @@ func (s *TagResourceCrud) Update() error {
 	return nil
 }
 
-func (s *TagResourceCrud) SetData() error {
+func (s *IdentityTagResourceCrud) SetData() error {
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}

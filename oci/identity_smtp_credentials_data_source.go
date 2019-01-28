@@ -10,9 +10,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func SmtpCredentialsDataSource() *schema.Resource {
+func IdentitySmtpCredentialsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSmtpCredentials,
+		Read: readIdentitySmtpCredentials,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"user_id": {
@@ -22,31 +22,31 @@ func SmtpCredentialsDataSource() *schema.Resource {
 			"smtp_credentials": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(SmtpCredentialResource()),
+				Elem:     GetDataSourceItemSchema(IdentitySmtpCredentialResource()),
 			},
 		},
 	}
 }
 
-func readSmtpCredentials(d *schema.ResourceData, m interface{}) error {
-	sync := &SmtpCredentialsDataSourceCrud{}
+func readIdentitySmtpCredentials(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentitySmtpCredentialsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type SmtpCredentialsDataSourceCrud struct {
+type IdentitySmtpCredentialsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListSmtpCredentialsResponse
 }
 
-func (s *SmtpCredentialsDataSourceCrud) VoidState() {
+func (s *IdentitySmtpCredentialsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SmtpCredentialsDataSourceCrud) Get() error {
+func (s *IdentitySmtpCredentialsDataSourceCrud) Get() error {
 	request := oci_identity.ListSmtpCredentialsRequest{}
 
 	if userId, ok := s.D.GetOkExists("user_id"); ok {
@@ -65,7 +65,7 @@ func (s *SmtpCredentialsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SmtpCredentialsDataSourceCrud) SetData() error {
+func (s *IdentitySmtpCredentialsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -108,7 +108,7 @@ func (s *SmtpCredentialsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, SmtpCredentialsDataSource().Schema["smtp_credentials"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentitySmtpCredentialsDataSource().Schema["smtp_credentials"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("smtp_credentials", resources); err != nil {

@@ -15,16 +15,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VirtualCircuitResource() *schema.Resource {
+func CoreVirtualCircuitResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createVirtualCircuit,
-		Read:     readVirtualCircuit,
-		Update:   updateVirtualCircuit,
-		Delete:   deleteVirtualCircuit,
+		Create:   createCoreVirtualCircuit,
+		Read:     readCoreVirtualCircuit,
+		Update:   updateCoreVirtualCircuit,
+		Delete:   deleteCoreVirtualCircuit,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -169,32 +169,32 @@ func VirtualCircuitResource() *schema.Resource {
 	}
 }
 
-func createVirtualCircuit(d *schema.ResourceData, m interface{}) error {
-	sync := &VirtualCircuitResourceCrud{}
+func createCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVirtualCircuitResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readVirtualCircuit(d *schema.ResourceData, m interface{}) error {
-	sync := &VirtualCircuitResourceCrud{}
+func readCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVirtualCircuitResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateVirtualCircuit(d *schema.ResourceData, m interface{}) error {
-	sync := &VirtualCircuitResourceCrud{}
+func updateCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVirtualCircuitResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteVirtualCircuit(d *schema.ResourceData, m interface{}) error {
-	sync := &VirtualCircuitResourceCrud{}
+func deleteCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVirtualCircuitResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -202,57 +202,57 @@ func deleteVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type VirtualCircuitResourceCrud struct {
+type CoreVirtualCircuitResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.VirtualCircuit
 	DisableNotFoundRetries bool
 }
 
-func (s *VirtualCircuitResourceCrud) ID() string {
+func (s *CoreVirtualCircuitResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *VirtualCircuitResourceCrud) CreatedPending() []string {
+func (s *CoreVirtualCircuitResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.VirtualCircuitLifecycleStateVerifying),
 		string(oci_core.VirtualCircuitLifecycleStateProvisioning),
 	}
 }
 
-func (s *VirtualCircuitResourceCrud) CreatedTarget() []string {
+func (s *CoreVirtualCircuitResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.VirtualCircuitLifecycleStatePendingProvider),
 		string(oci_core.VirtualCircuitLifecycleStateProvisioned),
 	}
 }
 
-func (s *VirtualCircuitResourceCrud) DeletedPending() []string {
+func (s *CoreVirtualCircuitResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.VirtualCircuitLifecycleStateTerminating),
 	}
 }
 
-func (s *VirtualCircuitResourceCrud) DeletedTarget() []string {
+func (s *CoreVirtualCircuitResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.VirtualCircuitLifecycleStateTerminated),
 	}
 }
 
-func (s *VirtualCircuitResourceCrud) UpdatedPending() []string {
+func (s *CoreVirtualCircuitResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_core.VirtualCircuitLifecycleStateProvisioning),
 	}
 }
 
-func (s *VirtualCircuitResourceCrud) UpdatedTarget() []string {
+func (s *CoreVirtualCircuitResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_core.VirtualCircuitLifecycleStatePendingProvider),
 		string(oci_core.VirtualCircuitLifecycleStateProvisioned),
 	}
 }
 
-func (s *VirtualCircuitResourceCrud) Create() error {
+func (s *CoreVirtualCircuitResourceCrud) Create() error {
 	request := oci_core.CreateVirtualCircuitRequest{}
 
 	if bandwidthShapeName, ok := s.D.GetOkExists("bandwidth_shape_name"); ok {
@@ -341,7 +341,7 @@ func (s *VirtualCircuitResourceCrud) Create() error {
 	return nil
 }
 
-func (s *VirtualCircuitResourceCrud) Get() error {
+func (s *CoreVirtualCircuitResourceCrud) Get() error {
 	request := oci_core.GetVirtualCircuitRequest{}
 
 	tmp := s.D.Id()
@@ -376,7 +376,7 @@ func (s *VirtualCircuitResourceCrud) Get() error {
 	return nil
 }
 
-func (s *VirtualCircuitResourceCrud) Update() error {
+func (s *CoreVirtualCircuitResourceCrud) Update() error {
 	request := oci_core.UpdateVirtualCircuitRequest{}
 
 	if bandwidthShapeName, ok := s.D.GetOkExists("bandwidth_shape_name"); ok {
@@ -439,7 +439,7 @@ func (s *VirtualCircuitResourceCrud) Update() error {
 	return nil
 }
 
-func (s *VirtualCircuitResourceCrud) Delete() error {
+func (s *CoreVirtualCircuitResourceCrud) Delete() error {
 	request := oci_core.DeleteVirtualCircuitRequest{}
 
 	tmp := s.D.Id()
@@ -451,7 +451,7 @@ func (s *VirtualCircuitResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VirtualCircuitResourceCrud) SetData() error {
+func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 	if s.Res.BandwidthShapeName != nil {
 		s.D.Set("bandwidth_shape_name", *s.Res.BandwidthShapeName)
 	}
@@ -521,7 +521,7 @@ func (s *VirtualCircuitResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *VirtualCircuitResourceCrud) mapToCreateVirtualCircuitPublicPrefixDetails(fieldKeyFormat string) (oci_core.CreateVirtualCircuitPublicPrefixDetails, error) {
+func (s *CoreVirtualCircuitResourceCrud) mapToCreateVirtualCircuitPublicPrefixDetails(fieldKeyFormat string) (oci_core.CreateVirtualCircuitPublicPrefixDetails, error) {
 	result := oci_core.CreateVirtualCircuitPublicPrefixDetails{}
 
 	if cidrBlock, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cidr_block")); ok {
@@ -540,7 +540,7 @@ func CreateVirtualCircuitPublicPrefixDetailsToMap(obj string) map[string]interfa
 	return result
 }
 
-func (s *VirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat string) (oci_core.CrossConnectMapping, error) {
+func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat string) (oci_core.CrossConnectMapping, error) {
 	result := oci_core.CrossConnectMapping{}
 
 	if bgpMd5AuthKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bgp_md5auth_key")); ok && bgpMd5AuthKey != "" {

@@ -9,9 +9,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func RegionsDataSource() *schema.Resource {
+func IdentityRegionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readRegions,
+		Read: readIdentityRegions,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"regions": {
@@ -39,25 +39,25 @@ func RegionsDataSource() *schema.Resource {
 	}
 }
 
-func readRegions(d *schema.ResourceData, m interface{}) error {
-	sync := &RegionsDataSourceCrud{}
+func readIdentityRegions(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityRegionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type RegionsDataSourceCrud struct {
+type IdentityRegionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListRegionsResponse
 }
 
-func (s *RegionsDataSourceCrud) VoidState() {
+func (s *IdentityRegionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RegionsDataSourceCrud) Get() error {
+func (s *IdentityRegionsDataSourceCrud) Get() error {
 	request := oci_identity.ListRegionsRequest{}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
@@ -71,7 +71,7 @@ func (s *RegionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *RegionsDataSourceCrud) SetData() error {
+func (s *IdentityRegionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -94,7 +94,7 @@ func (s *RegionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, RegionsDataSource().Schema["regions"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityRegionsDataSource().Schema["regions"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("regions", resources); err != nil {

@@ -10,15 +10,15 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDatabaseBackupResource() *schema.Resource {
+func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createAutonomousDatabaseBackup,
-		Read:     readAutonomousDatabaseBackup,
-		Delete:   deleteAutonomousDatabaseBackup,
+		Create:   createDatabaseAutonomousDatabaseBackup,
+		Read:     readDatabaseAutonomousDatabaseBackup,
+		Delete:   deleteDatabaseAutonomousDatabaseBackup,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"autonomous_database_id": {
@@ -67,62 +67,62 @@ func AutonomousDatabaseBackupResource() *schema.Resource {
 	}
 }
 
-func createAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDatabaseBackupResourceCrud{}
+func createDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return CreateResource(d, sync)
 }
 
-func readAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDatabaseBackupResourceCrud{}
+func readDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-func deleteAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-type AutonomousDatabaseBackupResourceCrud struct {
+type DatabaseAutonomousDatabaseBackupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.AutonomousDatabaseBackup
 	DisableNotFoundRetries bool
 }
 
-func (s *AutonomousDatabaseBackupResourceCrud) ID() string {
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *AutonomousDatabaseBackupResourceCrud) CreatedPending() []string {
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseBackupLifecycleStateCreating),
 	}
 }
 
-func (s *AutonomousDatabaseBackupResourceCrud) CreatedTarget() []string {
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseBackupLifecycleStateActive),
 	}
 }
 
-func (s *AutonomousDatabaseBackupResourceCrud) DeletedPending() []string {
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseBackupLifecycleStateDeleting),
 	}
 }
 
-func (s *AutonomousDatabaseBackupResourceCrud) DeletedTarget() []string {
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseBackupLifecycleStateDeleted),
 	}
 }
 
-func (s *AutonomousDatabaseBackupResourceCrud) Create() error {
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Create() error {
 	request := oci_database.CreateAutonomousDatabaseBackupRequest{}
 
 	if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
@@ -146,7 +146,7 @@ func (s *AutonomousDatabaseBackupResourceCrud) Create() error {
 	return nil
 }
 
-func (s *AutonomousDatabaseBackupResourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Get() error {
 	request := oci_database.GetAutonomousDatabaseBackupRequest{}
 
 	tmp := s.D.Id()
@@ -163,7 +163,7 @@ func (s *AutonomousDatabaseBackupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutonomousDatabaseBackupResourceCrud) SetData() error {
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 	if s.Res.AutonomousDatabaseId != nil {
 		s.D.Set("autonomous_database_id", *s.Res.AutonomousDatabaseId)
 	}

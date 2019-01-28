@@ -10,16 +10,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func NatGatewayResource() *schema.Resource {
+func CoreNatGatewayResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createNatGateway,
-		Read:     readNatGateway,
-		Update:   updateNatGateway,
-		Delete:   deleteNatGateway,
+		Create:   createCoreNatGateway,
+		Read:     readCoreNatGateway,
+		Update:   updateCoreNatGateway,
+		Delete:   deleteCoreNatGateway,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -75,32 +75,32 @@ func NatGatewayResource() *schema.Resource {
 	}
 }
 
-func createNatGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &NatGatewayResourceCrud{}
+func createCoreNatGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreNatGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readNatGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &NatGatewayResourceCrud{}
+func readCoreNatGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreNatGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateNatGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &NatGatewayResourceCrud{}
+func updateCoreNatGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreNatGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteNatGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &NatGatewayResourceCrud{}
+func deleteCoreNatGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreNatGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -108,42 +108,42 @@ func deleteNatGateway(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type NatGatewayResourceCrud struct {
+type CoreNatGatewayResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.NatGateway
 	DisableNotFoundRetries bool
 }
 
-func (s *NatGatewayResourceCrud) ID() string {
+func (s *CoreNatGatewayResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *NatGatewayResourceCrud) CreatedPending() []string {
+func (s *CoreNatGatewayResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.NatGatewayLifecycleStateProvisioning),
 	}
 }
 
-func (s *NatGatewayResourceCrud) CreatedTarget() []string {
+func (s *CoreNatGatewayResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.NatGatewayLifecycleStateAvailable),
 	}
 }
 
-func (s *NatGatewayResourceCrud) DeletedPending() []string {
+func (s *CoreNatGatewayResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.NatGatewayLifecycleStateTerminating),
 	}
 }
 
-func (s *NatGatewayResourceCrud) DeletedTarget() []string {
+func (s *CoreNatGatewayResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.NatGatewayLifecycleStateTerminated),
 	}
 }
 
-func (s *NatGatewayResourceCrud) Create() error {
+func (s *CoreNatGatewayResourceCrud) Create() error {
 	request := oci_core.CreateNatGatewayRequest{}
 
 	if blockTraffic, ok := s.D.GetOkExists("block_traffic"); ok {
@@ -189,7 +189,7 @@ func (s *NatGatewayResourceCrud) Create() error {
 	return nil
 }
 
-func (s *NatGatewayResourceCrud) Get() error {
+func (s *CoreNatGatewayResourceCrud) Get() error {
 	request := oci_core.GetNatGatewayRequest{}
 
 	tmp := s.D.Id()
@@ -206,7 +206,7 @@ func (s *NatGatewayResourceCrud) Get() error {
 	return nil
 }
 
-func (s *NatGatewayResourceCrud) Update() error {
+func (s *CoreNatGatewayResourceCrud) Update() error {
 	request := oci_core.UpdateNatGatewayRequest{}
 
 	if blockTraffic, ok := s.D.GetOkExists("block_traffic"); ok {
@@ -245,7 +245,7 @@ func (s *NatGatewayResourceCrud) Update() error {
 	return nil
 }
 
-func (s *NatGatewayResourceCrud) Delete() error {
+func (s *CoreNatGatewayResourceCrud) Delete() error {
 	request := oci_core.DeleteNatGatewayRequest{}
 
 	tmp := s.D.Id()
@@ -257,7 +257,7 @@ func (s *NatGatewayResourceCrud) Delete() error {
 	return err
 }
 
-func (s *NatGatewayResourceCrud) SetData() error {
+func (s *CoreNatGatewayResourceCrud) SetData() error {
 	if s.Res.BlockTraffic != nil {
 		s.D.Set("block_traffic", *s.Res.BlockTraffic)
 	}

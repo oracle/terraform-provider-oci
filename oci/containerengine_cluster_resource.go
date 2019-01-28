@@ -20,16 +20,16 @@ var (
 	clusterOperationMaxTime = 60 * time.Minute
 )
 
-func ClusterResource() *schema.Resource {
+func ContainerengineClusterResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createCluster,
-		Read:     readCluster,
-		Update:   updateCluster,
-		Delete:   deleteCluster,
+		Create:   createContainerengineCluster,
+		Read:     readContainerengineCluster,
+		Update:   updateContainerengineCluster,
+		Delete:   deleteContainerengineCluster,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -227,32 +227,32 @@ func ClusterResource() *schema.Resource {
 	}
 }
 
-func createCluster(d *schema.ResourceData, m interface{}) error {
-	sync := &ClusterResourceCrud{}
+func createContainerengineCluster(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return CreateResource(d, sync)
 }
 
-func readCluster(d *schema.ResourceData, m interface{}) error {
-	sync := &ClusterResourceCrud{}
+func readContainerengineCluster(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return ReadResource(sync)
 }
 
-func updateCluster(d *schema.ResourceData, m interface{}) error {
-	sync := &ClusterResourceCrud{}
+func updateContainerengineCluster(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteCluster(d *schema.ResourceData, m interface{}) error {
-	sync := &ClusterResourceCrud{}
+func deleteContainerengineCluster(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 	sync.DisableNotFoundRetries = true
@@ -260,36 +260,36 @@ func deleteCluster(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type ClusterResourceCrud struct {
+type ContainerengineClusterResourceCrud struct {
 	BaseCrud
 	Client                 *oci_containerengine.ContainerEngineClient
 	Res                    *oci_containerengine.Cluster
 	DisableNotFoundRetries bool
 }
 
-func (s *ClusterResourceCrud) ID() string {
+func (s *ContainerengineClusterResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *ClusterResourceCrud) CreatedPending() []string {
+func (s *ContainerengineClusterResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_containerengine.ClusterLifecycleStateCreating),
 	}
 }
 
-func (s *ClusterResourceCrud) CreatedTarget() []string {
+func (s *ContainerengineClusterResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_containerengine.ClusterLifecycleStateActive),
 	}
 }
 
-func (s *ClusterResourceCrud) DeletedPending() []string {
+func (s *ContainerengineClusterResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_containerengine.ClusterLifecycleStateDeleting),
 	}
 }
 
-func (s *ClusterResourceCrud) DeletedTarget() []string {
+func (s *ContainerengineClusterResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_containerengine.ClusterLifecycleStateDeleted),
 	}
@@ -352,7 +352,7 @@ func containerEngineWaitForWorkRequest(wId *string, entityType string, action oc
 	return identifier, fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
 }
 
-func (s *ClusterResourceCrud) Create() error {
+func (s *ContainerengineClusterResourceCrud) Create() error {
 	request := oci_containerengine.CreateClusterRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -431,7 +431,7 @@ func (s *ClusterResourceCrud) Create() error {
 	return nil
 }
 
-func (s *ClusterResourceCrud) Get() error {
+func (s *ContainerengineClusterResourceCrud) Get() error {
 	id := s.D.Id()
 	request := oci_containerengine.GetClusterRequest{}
 	request.ClusterId = &id
@@ -446,7 +446,7 @@ func (s *ClusterResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ClusterResourceCrud) Update() error {
+func (s *ContainerengineClusterResourceCrud) Update() error {
 	request := oci_containerengine.UpdateClusterRequest{}
 
 	tmp := s.D.Id()
@@ -491,7 +491,7 @@ func (s *ClusterResourceCrud) Update() error {
 	return nil
 }
 
-func (s *ClusterResourceCrud) Delete() error {
+func (s *ContainerengineClusterResourceCrud) Delete() error {
 	request := oci_containerengine.DeleteClusterRequest{}
 	tmp := s.D.Id()
 	request.ClusterId = &tmp
@@ -511,7 +511,7 @@ func (s *ClusterResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ClusterResourceCrud) SetData() error {
+func (s *ContainerengineClusterResourceCrud) SetData() error {
 	s.D.Set("available_kubernetes_upgrades", s.Res.AvailableKubernetesUpgrades)
 
 	if s.Res.CompartmentId != nil {
@@ -557,7 +557,7 @@ func (s *ClusterResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *ClusterResourceCrud) mapToAddOnOptions(fieldKeyFormat string) (oci_containerengine.AddOnOptions, error) {
+func (s *ContainerengineClusterResourceCrud) mapToAddOnOptions(fieldKeyFormat string) (oci_containerengine.AddOnOptions, error) {
 	result := oci_containerengine.AddOnOptions{}
 
 	if isKubernetesDashboardEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_kubernetes_dashboard_enabled")); ok {
@@ -587,7 +587,7 @@ func AddOnOptionsToMap(obj *oci_containerengine.AddOnOptions) map[string]interfa
 	return result
 }
 
-func (s *ClusterResourceCrud) mapToClusterCreateOptions(fieldKeyFormat string) (oci_containerengine.ClusterCreateOptions, error) {
+func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyFormat string) (oci_containerengine.ClusterCreateOptions, error) {
 	result := oci_containerengine.ClusterCreateOptions{}
 
 	if addOns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "add_ons")); ok {
@@ -692,7 +692,7 @@ func ClusterMetadataToMap(obj *oci_containerengine.ClusterMetadata) map[string]i
 	return result
 }
 
-func (s *ClusterResourceCrud) mapToKubernetesNetworkConfig(fieldKeyFormat string) (oci_containerengine.KubernetesNetworkConfig, error) {
+func (s *ContainerengineClusterResourceCrud) mapToKubernetesNetworkConfig(fieldKeyFormat string) (oci_containerengine.KubernetesNetworkConfig, error) {
 	result := oci_containerengine.KubernetesNetworkConfig{}
 
 	if podsCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pods_cidr")); ok {

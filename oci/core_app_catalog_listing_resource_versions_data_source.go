@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func AppCatalogListingResourceVersionsDataSource() *schema.Resource {
+func CoreAppCatalogListingResourceVersionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAppCatalogListingResourceVersions,
+		Read: readCoreAppCatalogListingResourceVersions,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"listing_id": {
@@ -79,25 +79,25 @@ func AppCatalogListingResourceVersionsDataSource() *schema.Resource {
 	}
 }
 
-func readAppCatalogListingResourceVersions(d *schema.ResourceData, m interface{}) error {
-	sync := &AppCatalogListingResourceVersionsDataSourceCrud{}
+func readCoreAppCatalogListingResourceVersions(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreAppCatalogListingResourceVersionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type AppCatalogListingResourceVersionsDataSourceCrud struct {
+type CoreAppCatalogListingResourceVersionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListAppCatalogListingResourceVersionsResponse
 }
 
-func (s *AppCatalogListingResourceVersionsDataSourceCrud) VoidState() {
+func (s *CoreAppCatalogListingResourceVersionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AppCatalogListingResourceVersionsDataSourceCrud) Get() error {
+func (s *CoreAppCatalogListingResourceVersionsDataSourceCrud) Get() error {
 	request := oci_core.ListAppCatalogListingResourceVersionsRequest{}
 
 	if listingId, ok := s.D.GetOkExists("listing_id"); ok {
@@ -128,7 +128,7 @@ func (s *AppCatalogListingResourceVersionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AppCatalogListingResourceVersionsDataSourceCrud) SetData() error {
+func (s *CoreAppCatalogListingResourceVersionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -157,7 +157,7 @@ func (s *AppCatalogListingResourceVersionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AppCatalogListingResourceVersionsDataSource().Schema["app_catalog_listing_resource_versions"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreAppCatalogListingResourceVersionsDataSource().Schema["app_catalog_listing_resource_versions"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("app_catalog_listing_resource_versions", resources); err != nil {

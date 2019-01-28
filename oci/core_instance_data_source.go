@@ -12,9 +12,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InstanceDataSource() *schema.Resource {
+func CoreInstanceDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularInstance,
+		Read: readSingularCoreInstance,
 		Schema: map[string]*schema.Schema{
 			"instance_id": {
 				Type:     schema.TypeString,
@@ -195,8 +195,8 @@ func InstanceDataSource() *schema.Resource {
 	}
 }
 
-func readSingularInstance(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceDataSourceCrud{}
+func readSingularCoreInstance(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
@@ -205,15 +205,15 @@ func readSingularInstance(d *schema.ResourceData, m interface{}) error {
 	return ReadResource(sync)
 }
 
-type InstanceDataSourceCrud struct {
-	InstanceResourceCrud
+type CoreInstanceDataSourceCrud struct {
+	CoreInstanceResourceCrud
 }
 
-func (s *InstanceDataSourceCrud) VoidState() {
+func (s *CoreInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *InstanceDataSourceCrud) Get() error {
+func (s *CoreInstanceDataSourceCrud) Get() error {
 	request := oci_core.GetInstanceRequest{}
 
 	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
@@ -232,7 +232,7 @@ func (s *InstanceDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstanceDataSourceCrud) SetData() error {
+func (s *CoreInstanceDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

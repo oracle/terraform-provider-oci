@@ -10,9 +10,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func AuthTokensDataSource() *schema.Resource {
+func IdentityAuthTokensDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAuthTokens,
+		Read: readIdentityAuthTokens,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"user_id": {
@@ -22,31 +22,31 @@ func AuthTokensDataSource() *schema.Resource {
 			"tokens": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(AuthTokenResource()),
+				Elem:     GetDataSourceItemSchema(IdentityAuthTokenResource()),
 			},
 		},
 	}
 }
 
-func readAuthTokens(d *schema.ResourceData, m interface{}) error {
-	sync := &AuthTokensDataSourceCrud{}
+func readIdentityAuthTokens(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityAuthTokensDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type AuthTokensDataSourceCrud struct {
+type IdentityAuthTokensDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListAuthTokensResponse
 }
 
-func (s *AuthTokensDataSourceCrud) VoidState() {
+func (s *IdentityAuthTokensDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AuthTokensDataSourceCrud) Get() error {
+func (s *IdentityAuthTokensDataSourceCrud) Get() error {
 	request := oci_identity.ListAuthTokensRequest{}
 
 	if userId, ok := s.D.GetOkExists("user_id"); ok {
@@ -65,7 +65,7 @@ func (s *AuthTokensDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AuthTokensDataSourceCrud) SetData() error {
+func (s *IdentityAuthTokensDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -108,7 +108,7 @@ func (s *AuthTokensDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AuthTokensDataSource().Schema["tokens"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityAuthTokensDataSource().Schema["tokens"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("tokens", resources); err != nil {

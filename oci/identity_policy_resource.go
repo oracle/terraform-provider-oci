@@ -14,16 +14,16 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func PolicyResource() *schema.Resource {
+func IdentityPolicyResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createPolicy,
-		Read:     readPolicy,
-		Update:   updatePolicy,
-		Delete:   deletePolicy,
+		Create:   createIdentityPolicy,
+		Read:     readIdentityPolicy,
+		Update:   updateIdentityPolicy,
+		Delete:   deleteIdentityPolicy,
 		Schema: map[string]*schema.Schema{
 			// Required
 			// The legacy provider required this and the API requires. Do not make it optional or swap tenancy OCID in behind the scenes
@@ -115,32 +115,32 @@ func PolicyResource() *schema.Resource {
 	}
 }
 
-func createPolicy(d *schema.ResourceData, m interface{}) error {
-	sync := &PolicyResourceCrud{}
+func createIdentityPolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readPolicy(d *schema.ResourceData, m interface{}) error {
-	sync := &PolicyResourceCrud{}
+func readIdentityPolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updatePolicy(d *schema.ResourceData, m interface{}) error {
-	sync := &PolicyResourceCrud{}
+func updateIdentityPolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deletePolicy(d *schema.ResourceData, m interface{}) error {
-	sync := &PolicyResourceCrud{}
+func deleteIdentityPolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -148,7 +148,7 @@ func deletePolicy(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type PolicyResourceCrud struct {
+type IdentityPolicyResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.Policy
@@ -157,35 +157,35 @@ type PolicyResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-func (s *PolicyResourceCrud) ID() string {
+func (s *IdentityPolicyResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *PolicyResourceCrud) CreatedPending() []string {
+func (s *IdentityPolicyResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.PolicyLifecycleStateCreating),
 	}
 }
 
-func (s *PolicyResourceCrud) CreatedTarget() []string {
+func (s *IdentityPolicyResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.PolicyLifecycleStateActive),
 	}
 }
 
-func (s *PolicyResourceCrud) DeletedPending() []string {
+func (s *IdentityPolicyResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.PolicyLifecycleStateDeleting),
 	}
 }
 
-func (s *PolicyResourceCrud) DeletedTarget() []string {
+func (s *IdentityPolicyResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.PolicyLifecycleStateDeleted),
 	}
 }
 
-func (s *PolicyResourceCrud) Create() error {
+func (s *IdentityPolicyResourceCrud) Create() error {
 	request := oci_identity.CreatePolicyRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -253,7 +253,7 @@ func (s *PolicyResourceCrud) Create() error {
 	return nil
 }
 
-func (s *PolicyResourceCrud) Get() error {
+func (s *IdentityPolicyResourceCrud) Get() error {
 	request := oci_identity.GetPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -274,7 +274,7 @@ func (s *PolicyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *PolicyResourceCrud) Update() error {
+func (s *IdentityPolicyResourceCrud) Update() error {
 	request := oci_identity.UpdatePolicyRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -335,7 +335,7 @@ func (s *PolicyResourceCrud) Update() error {
 	return nil
 }
 
-func (s *PolicyResourceCrud) Delete() error {
+func (s *IdentityPolicyResourceCrud) Delete() error {
 	request := oci_identity.DeletePolicyRequest{}
 
 	tmp := s.D.Id()
@@ -347,7 +347,7 @@ func (s *PolicyResourceCrud) Delete() error {
 	return err
 }
 
-func (s *PolicyResourceCrud) SetData() error {
+func (s *IdentityPolicyResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -10,9 +10,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func ConsoleHistoryContentDataSource() *schema.Resource {
+func CoreConsoleHistoryContentDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularConsoleHistoryContent,
+		Read: readSingularCoreConsoleHistoryContent,
 		Schema: map[string]*schema.Schema{
 			"console_history_id": {
 				Type:     schema.TypeString,
@@ -50,25 +50,25 @@ func ConsoleHistoryContentDataSource() *schema.Resource {
 	}
 }
 
-func readSingularConsoleHistoryContent(d *schema.ResourceData, m interface{}) error {
-	sync := &ConsoleHistoryContentDataSourceCrud{}
+func readSingularCoreConsoleHistoryContent(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreConsoleHistoryContentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type ConsoleHistoryContentDataSourceCrud struct {
+type CoreConsoleHistoryContentDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.GetConsoleHistoryContentResponse
 }
 
-func (s *ConsoleHistoryContentDataSourceCrud) VoidState() {
+func (s *CoreConsoleHistoryContentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ConsoleHistoryContentDataSourceCrud) Get() error {
+func (s *CoreConsoleHistoryContentDataSourceCrud) Get() error {
 	request := oci_core.GetConsoleHistoryContentRequest{}
 
 	if consoleHistoryId, ok := s.D.GetOkExists("console_history_id"); ok {
@@ -97,7 +97,7 @@ func (s *ConsoleHistoryContentDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ConsoleHistoryContentDataSourceCrud) SetData() error {
+func (s *CoreConsoleHistoryContentDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

@@ -19,7 +19,7 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InstanceResource() *schema.Resource {
+func CoreInstanceResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
@@ -29,10 +29,10 @@ func InstanceResource() *schema.Resource {
 			Update: &TwoHours,
 			Delete: &TwoHours,
 		},
-		Create: createInstance,
-		Read:   readInstance,
-		Update: updateInstance,
-		Delete: deleteInstance,
+		Create: createCoreInstance,
+		Read:   readCoreInstance,
+		Update: updateCoreInstance,
+		Delete: deleteCoreInstance,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -342,8 +342,8 @@ func InstanceResource() *schema.Resource {
 	}
 }
 
-func createInstance(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceResourceCrud{}
+func createCoreInstance(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
@@ -352,8 +352,8 @@ func createInstance(d *schema.ResourceData, m interface{}) error {
 	return CreateResource(d, sync)
 }
 
-func readInstance(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceResourceCrud{}
+func readCoreInstance(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
@@ -362,8 +362,8 @@ func readInstance(d *schema.ResourceData, m interface{}) error {
 	return ReadResource(sync)
 }
 
-func updateInstance(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceResourceCrud{}
+func updateCoreInstance(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
@@ -372,8 +372,8 @@ func updateInstance(d *schema.ResourceData, m interface{}) error {
 	return UpdateResource(d, sync)
 }
 
-func deleteInstance(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceResourceCrud{}
+func deleteCoreInstance(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
@@ -383,7 +383,7 @@ func deleteInstance(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type InstanceResourceCrud struct {
+type CoreInstanceResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.ComputeClient
 	VirtualNetworkClient   *oci_core.VirtualNetworkClient
@@ -392,36 +392,36 @@ type InstanceResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-func (s *InstanceResourceCrud) ID() string {
+func (s *CoreInstanceResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *InstanceResourceCrud) CreatedPending() []string {
+func (s *CoreInstanceResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.InstanceLifecycleStateProvisioning),
 		string(oci_core.InstanceLifecycleStateStarting),
 	}
 }
 
-func (s *InstanceResourceCrud) CreatedTarget() []string {
+func (s *CoreInstanceResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.InstanceLifecycleStateRunning),
 	}
 }
 
-func (s *InstanceResourceCrud) DeletedPending() []string {
+func (s *CoreInstanceResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.InstanceLifecycleStateTerminating),
 	}
 }
 
-func (s *InstanceResourceCrud) DeletedTarget() []string {
+func (s *CoreInstanceResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.InstanceLifecycleStateTerminated),
 	}
 }
 
-func (s *InstanceResourceCrud) Create() error {
+func (s *CoreInstanceResourceCrud) Create() error {
 	request := oci_core.LaunchInstanceRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -531,7 +531,7 @@ func (s *InstanceResourceCrud) Create() error {
 	return nil
 }
 
-func (s *InstanceResourceCrud) Get() error {
+func (s *CoreInstanceResourceCrud) Get() error {
 	request := oci_core.GetInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -548,7 +548,7 @@ func (s *InstanceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstanceResourceCrud) Update() error {
+func (s *CoreInstanceResourceCrud) Update() error {
 	request := oci_core.UpdateInstanceRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -627,7 +627,7 @@ func (s *InstanceResourceCrud) Update() error {
 	return nil
 }
 
-func (s *InstanceResourceCrud) Delete() error {
+func (s *CoreInstanceResourceCrud) Delete() error {
 	request := oci_core.TerminateInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -644,7 +644,7 @@ func (s *InstanceResourceCrud) Delete() error {
 	return err
 }
 
-func (s *InstanceResourceCrud) SetData() error {
+func (s *CoreInstanceResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -776,7 +776,7 @@ func (s *InstanceResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *InstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat string) (oci_core.CreateVnicDetails, error) {
+func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat string) (oci_core.CreateVnicDetails, error) {
 	result := oci_core.CreateVnicDetails{}
 
 	if assignPublicIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_public_ip")); ok {
@@ -871,7 +871,7 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 	return result
 }
 
-func (s *InstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat string) (oci_core.UpdateVnicDetails, error) {
+func (s *CoreInstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat string) (oci_core.UpdateVnicDetails, error) {
 	result := oci_core.UpdateVnicDetails{}
 
 	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
@@ -904,7 +904,7 @@ func (s *InstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat str
 	return result, nil
 }
 
-func (s *InstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat string) (oci_core.InstanceSourceDetails, error) {
+func (s *CoreInstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat string) (oci_core.InstanceSourceDetails, error) {
 	var baseObject oci_core.InstanceSourceDetails
 	//discriminator
 	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
@@ -1000,7 +1000,7 @@ func mapToExtendedMetadata(rm map[string]interface{}) (map[string]interface{}, e
 	return result, nil
 }
 
-func (s *InstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
+func (s *CoreInstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 	request := oci_core.ListVnicAttachmentsRequest{
 		CompartmentId: s.Res.CompartmentId,
 		InstanceId:    s.Res.Id,
@@ -1042,7 +1042,7 @@ func (s *InstanceResourceCrud) getPrimaryVnic() (*oci_core.Vnic, error) {
 	return nil, errors.New("Primary VNIC not found.")
 }
 
-func (s *InstanceResourceCrud) getBootVolume() (*oci_core.BootVolume, error) {
+func (s *CoreInstanceResourceCrud) getBootVolume() (*oci_core.BootVolume, error) {
 	request := oci_core.ListBootVolumeAttachmentsRequest{
 		AvailabilityDomain: s.Res.AvailabilityDomain,
 		CompartmentId:      s.Res.CompartmentId,

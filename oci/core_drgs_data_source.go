@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func DrgsDataSource() *schema.Resource {
+func CoreDrgsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDrgs,
+		Read: readCoreDrgs,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -21,7 +21,7 @@ func DrgsDataSource() *schema.Resource {
 			"drgs": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(DrgResource()),
+				Elem:     GetDataSourceItemSchema(CoreDrgResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -37,25 +37,25 @@ func DrgsDataSource() *schema.Resource {
 	}
 }
 
-func readDrgs(d *schema.ResourceData, m interface{}) error {
-	sync := &DrgsDataSourceCrud{}
+func readCoreDrgs(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type DrgsDataSourceCrud struct {
+type CoreDrgsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListDrgsResponse
 }
 
-func (s *DrgsDataSourceCrud) VoidState() {
+func (s *CoreDrgsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DrgsDataSourceCrud) Get() error {
+func (s *CoreDrgsDataSourceCrud) Get() error {
 	request := oci_core.ListDrgsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -96,7 +96,7 @@ func (s *DrgsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DrgsDataSourceCrud) SetData() error {
+func (s *CoreDrgsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -133,7 +133,7 @@ func (s *DrgsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DrgsDataSource().Schema["drgs"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreDrgsDataSource().Schema["drgs"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("drgs", resources); err != nil {

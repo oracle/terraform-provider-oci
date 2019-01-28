@@ -10,9 +10,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func CustomerSecretKeysDataSource() *schema.Resource {
+func IdentityCustomerSecretKeysDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCustomerSecretKeys,
+		Read: readIdentityCustomerSecretKeys,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"user_id": {
@@ -22,31 +22,31 @@ func CustomerSecretKeysDataSource() *schema.Resource {
 			"customer_secret_keys": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(CustomerSecretKeyResource()),
+				Elem:     GetDataSourceItemSchema(IdentityCustomerSecretKeyResource()),
 			},
 		},
 	}
 }
 
-func readCustomerSecretKeys(d *schema.ResourceData, m interface{}) error {
-	sync := &CustomerSecretKeysDataSourceCrud{}
+func readIdentityCustomerSecretKeys(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCustomerSecretKeysDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type CustomerSecretKeysDataSourceCrud struct {
+type IdentityCustomerSecretKeysDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListCustomerSecretKeysResponse
 }
 
-func (s *CustomerSecretKeysDataSourceCrud) VoidState() {
+func (s *IdentityCustomerSecretKeysDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CustomerSecretKeysDataSourceCrud) Get() error {
+func (s *IdentityCustomerSecretKeysDataSourceCrud) Get() error {
 	request := oci_identity.ListCustomerSecretKeysRequest{}
 
 	if userId, ok := s.D.GetOkExists("user_id"); ok {
@@ -65,7 +65,7 @@ func (s *CustomerSecretKeysDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CustomerSecretKeysDataSourceCrud) SetData() error {
+func (s *IdentityCustomerSecretKeysDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -104,7 +104,7 @@ func (s *CustomerSecretKeysDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, CustomerSecretKeysDataSource().Schema["customer_secret_keys"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityCustomerSecretKeysDataSource().Schema["customer_secret_keys"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("customer_secret_keys", resources); err != nil {

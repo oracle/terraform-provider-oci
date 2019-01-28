@@ -10,9 +10,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDatabaseWalletDataSource() *schema.Resource {
+func DatabaseAutonomousDatabaseWalletDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularAutonomousDatabaseWallet,
+		Read: readSingularDatabaseAutonomousDatabaseWallet,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"autonomous_database_id": {
@@ -34,25 +34,25 @@ func AutonomousDatabaseWalletDataSource() *schema.Resource {
 	}
 }
 
-func readSingularAutonomousDatabaseWallet(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDatabaseWalletDataSourceCrud{}
+func readSingularDatabaseAutonomousDatabaseWallet(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDatabaseWalletDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type AutonomousDatabaseWalletDataSourceCrud struct {
+type DatabaseAutonomousDatabaseWalletDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *[]byte
 }
 
-func (s *AutonomousDatabaseWalletDataSourceCrud) VoidState() {
+func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AutonomousDatabaseWalletDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) Get() error {
 	request := oci_database.GenerateAutonomousDatabaseWalletRequest{}
 
 	if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
@@ -84,7 +84,7 @@ func (s *AutonomousDatabaseWalletDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutonomousDatabaseWalletDataSourceCrud) SetData() error {
+func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

@@ -10,9 +10,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InstancesDataSource() *schema.Resource {
+func CoreInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readInstances,
+		Read: readCoreInstances,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -34,7 +34,7 @@ func InstancesDataSource() *schema.Resource {
 			"instances": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(InstanceResource()),
+				Elem:     GetDataSourceItemSchema(CoreInstanceResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -50,25 +50,25 @@ func InstancesDataSource() *schema.Resource {
 	}
 }
 
-func readInstances(d *schema.ResourceData, m interface{}) error {
-	sync := &InstancesDataSourceCrud{}
+func readCoreInstances(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type InstancesDataSourceCrud struct {
+type CoreInstancesDataSourceCrud struct {
 	BaseCrud
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListInstancesResponse
 }
 
-func (s *InstancesDataSourceCrud) VoidState() {
+func (s *CoreInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *InstancesDataSourceCrud) Get() error {
+func (s *CoreInstancesDataSourceCrud) Get() error {
 	request := oci_core.ListInstancesRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -113,7 +113,7 @@ func (s *InstancesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstancesDataSourceCrud) SetData() error {
+func (s *CoreInstancesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -204,7 +204,7 @@ func (s *InstancesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, InstancesDataSource().Schema["instances"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreInstancesDataSource().Schema["instances"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("instances", resources); err != nil {

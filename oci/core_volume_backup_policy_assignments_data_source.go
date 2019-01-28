@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumeBackupPolicyAssignmentsDataSource() *schema.Resource {
+func CoreVolumeBackupPolicyAssignmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVolumeBackupPolicyAssignments,
+		Read: readCoreVolumeBackupPolicyAssignments,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"asset_id": {
@@ -21,31 +21,31 @@ func VolumeBackupPolicyAssignmentsDataSource() *schema.Resource {
 			"volume_backup_policy_assignments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(VolumeBackupPolicyAssignmentResource()),
+				Elem:     GetDataSourceItemSchema(CoreVolumeBackupPolicyAssignmentResource()),
 			},
 		},
 	}
 }
 
-func readVolumeBackupPolicyAssignments(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeBackupPolicyAssignmentsDataSourceCrud{}
+func readCoreVolumeBackupPolicyAssignments(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeBackupPolicyAssignmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-type VolumeBackupPolicyAssignmentsDataSourceCrud struct {
+type CoreVolumeBackupPolicyAssignmentsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
 	Res    *oci_core.GetVolumeBackupPolicyAssetAssignmentResponse
 }
 
-func (s *VolumeBackupPolicyAssignmentsDataSourceCrud) VoidState() {
+func (s *CoreVolumeBackupPolicyAssignmentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VolumeBackupPolicyAssignmentsDataSourceCrud) Get() error {
+func (s *CoreVolumeBackupPolicyAssignmentsDataSourceCrud) Get() error {
 	request := oci_core.GetVolumeBackupPolicyAssetAssignmentRequest{}
 
 	if assetId, ok := s.D.GetOkExists("asset_id"); ok {
@@ -76,7 +76,7 @@ func (s *VolumeBackupPolicyAssignmentsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeBackupPolicyAssignmentsDataSourceCrud) SetData() error {
+func (s *CoreVolumeBackupPolicyAssignmentsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -105,7 +105,7 @@ func (s *VolumeBackupPolicyAssignmentsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, VolumeBackupPolicyAssignmentsDataSource().Schema["volume_backup_policy_assignments"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreVolumeBackupPolicyAssignmentsDataSource().Schema["volume_backup_policy_assignments"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("volume_backup_policy_assignments", resources); err != nil {

@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func DhcpOptionsDataSource() *schema.Resource {
+func CoreDhcpOptionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDhcpOptionsList,
+		Read: readCoreDhcpOptionsList,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -33,7 +33,7 @@ func DhcpOptionsDataSource() *schema.Resource {
 			"options": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(DhcpOptionsResource()),
+				Elem:     GetDataSourceItemSchema(CoreDhcpOptionsResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -49,25 +49,25 @@ func DhcpOptionsDataSource() *schema.Resource {
 	}
 }
 
-func readDhcpOptionsList(d *schema.ResourceData, m interface{}) error {
-	sync := &DhcpOptionsDataSourceCrud{}
+func readCoreDhcpOptionsList(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDhcpOptionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type DhcpOptionsDataSourceCrud struct {
+type CoreDhcpOptionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListDhcpOptionsResponse
 }
 
-func (s *DhcpOptionsDataSourceCrud) VoidState() {
+func (s *CoreDhcpOptionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DhcpOptionsDataSourceCrud) Get() error {
+func (s *CoreDhcpOptionsDataSourceCrud) Get() error {
 	request := oci_core.ListDhcpOptionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -122,7 +122,7 @@ func (s *DhcpOptionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DhcpOptionsDataSourceCrud) SetData() error {
+func (s *CoreDhcpOptionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -166,7 +166,7 @@ func (s *DhcpOptionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DhcpOptionsDataSource().Schema["options"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreDhcpOptionsDataSource().Schema["options"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("options", resources); err != nil {

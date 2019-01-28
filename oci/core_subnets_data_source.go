@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func SubnetsDataSource() *schema.Resource {
+func CoreSubnetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSubnets,
+		Read: readCoreSubnets,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -33,7 +33,7 @@ func SubnetsDataSource() *schema.Resource {
 			"subnets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(SubnetResource()),
+				Elem:     GetDataSourceItemSchema(CoreSubnetResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -49,25 +49,25 @@ func SubnetsDataSource() *schema.Resource {
 	}
 }
 
-func readSubnets(d *schema.ResourceData, m interface{}) error {
-	sync := &SubnetsDataSourceCrud{}
+func readCoreSubnets(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreSubnetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type SubnetsDataSourceCrud struct {
+type CoreSubnetsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListSubnetsResponse
 }
 
-func (s *SubnetsDataSourceCrud) VoidState() {
+func (s *CoreSubnetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SubnetsDataSourceCrud) Get() error {
+func (s *CoreSubnetsDataSourceCrud) Get() error {
 	request := oci_core.ListSubnetsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -122,7 +122,7 @@ func (s *SubnetsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SubnetsDataSourceCrud) SetData() error {
+func (s *CoreSubnetsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -198,7 +198,7 @@ func (s *SubnetsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, SubnetsDataSource().Schema["subnets"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreSubnetsDataSource().Schema["subnets"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("subnets", resources); err != nil {

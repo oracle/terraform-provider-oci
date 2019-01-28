@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func PeerRegionForRemotePeeringsDataSource() *schema.Resource {
+func CorePeerRegionForRemotePeeringsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readPeerRegionForRemotePeerings,
+		Read: readCorePeerRegionForRemotePeerings,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"peer_region_for_remote_peerings": {
@@ -35,25 +35,25 @@ func PeerRegionForRemotePeeringsDataSource() *schema.Resource {
 	}
 }
 
-func readPeerRegionForRemotePeerings(d *schema.ResourceData, m interface{}) error {
-	sync := &PeerRegionForRemotePeeringsDataSourceCrud{}
+func readCorePeerRegionForRemotePeerings(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePeerRegionForRemotePeeringsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type PeerRegionForRemotePeeringsDataSourceCrud struct {
+type CorePeerRegionForRemotePeeringsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListAllowedPeerRegionsForRemotePeeringResponse
 }
 
-func (s *PeerRegionForRemotePeeringsDataSourceCrud) VoidState() {
+func (s *CorePeerRegionForRemotePeeringsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PeerRegionForRemotePeeringsDataSourceCrud) Get() error {
+func (s *CorePeerRegionForRemotePeeringsDataSourceCrud) Get() error {
 	request := oci_core.ListAllowedPeerRegionsForRemotePeeringRequest{}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
@@ -67,7 +67,7 @@ func (s *PeerRegionForRemotePeeringsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PeerRegionForRemotePeeringsDataSourceCrud) SetData() error {
+func (s *CorePeerRegionForRemotePeeringsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -86,7 +86,7 @@ func (s *PeerRegionForRemotePeeringsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, PeerRegionForRemotePeeringsDataSource().Schema["peer_region_for_remote_peerings"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CorePeerRegionForRemotePeeringsDataSource().Schema["peer_region_for_remote_peerings"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("peer_region_for_remote_peerings", resources); err != nil {

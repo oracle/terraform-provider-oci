@@ -9,9 +9,9 @@ import (
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 )
 
-func ConfigurationDataSource() *schema.Resource {
+func AuditConfigurationDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularConfiguration,
+		Read: readSingularAuditConfiguration,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -26,25 +26,25 @@ func ConfigurationDataSource() *schema.Resource {
 	}
 }
 
-func readSingularConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &ConfigurationDataSourceCrud{}
+func readSingularAuditConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &AuditConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).auditClient
 
 	return ReadResource(sync)
 }
 
-type ConfigurationDataSourceCrud struct {
+type AuditConfigurationDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_audit.AuditClient
 	Res    *oci_audit.GetConfigurationResponse
 }
 
-func (s *ConfigurationDataSourceCrud) VoidState() {
+func (s *AuditConfigurationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ConfigurationDataSourceCrud) Get() error {
+func (s *AuditConfigurationDataSourceCrud) Get() error {
 	request := oci_audit.GetConfigurationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -63,7 +63,7 @@ func (s *ConfigurationDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ConfigurationDataSourceCrud) SetData() error {
+func (s *AuditConfigurationDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

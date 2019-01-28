@@ -354,7 +354,7 @@ func testAccCheckDnsRecordDestroy(s *terraform.State) error {
 			if err == nil {
 				// Convert the InstanceState attributes to a ResourceData expected by the lookup function
 				attributes := convertToObjectMap(rs.Primary.Attributes)
-				resourceData := schema.TestResourceDataRaw(&testing.T{}, RecordResource().Schema, attributes)
+				resourceData := schema.TestResourceDataRaw(&testing.T{}, DnsRecordResource().Schema, attributes)
 
 				//page through records
 				recordCollection := response.RecordCollection

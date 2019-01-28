@@ -9,9 +9,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func AvailabilityDomainsDataSource() *schema.Resource {
+func IdentityAvailabilityDomainsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAvailabilityDomains,
+		Read: readIdentityAvailabilityDomains,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -47,25 +47,25 @@ func AvailabilityDomainsDataSource() *schema.Resource {
 	}
 }
 
-func readAvailabilityDomains(d *schema.ResourceData, m interface{}) error {
-	sync := &AvailabilityDomainsDataSourceCrud{}
+func readIdentityAvailabilityDomains(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityAvailabilityDomainsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type AvailabilityDomainsDataSourceCrud struct {
+type IdentityAvailabilityDomainsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListAvailabilityDomainsResponse
 }
 
-func (s *AvailabilityDomainsDataSourceCrud) VoidState() {
+func (s *IdentityAvailabilityDomainsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AvailabilityDomainsDataSourceCrud) Get() error {
+func (s *IdentityAvailabilityDomainsDataSourceCrud) Get() error {
 	request := oci_identity.ListAvailabilityDomainsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -84,7 +84,7 @@ func (s *AvailabilityDomainsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AvailabilityDomainsDataSourceCrud) SetData() error {
+func (s *IdentityAvailabilityDomainsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -109,7 +109,7 @@ func (s *AvailabilityDomainsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AvailabilityDomainsDataSource().Schema["availability_domains"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityAvailabilityDomainsDataSource().Schema["availability_domains"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("availability_domains", resources); err != nil {

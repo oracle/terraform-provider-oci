@@ -12,13 +12,13 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func SmtpCredentialResource() *schema.Resource {
+func IdentitySmtpCredentialResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createSmtpCredential,
-		Read:     readSmtpCredential,
-		Update:   updateSmtpCredential,
-		Delete:   deleteSmtpCredential,
+		Create:   createIdentitySmtpCredential,
+		Read:     readIdentitySmtpCredential,
+		Update:   updateIdentitySmtpCredential,
+		Delete:   deleteIdentitySmtpCredential,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"description": {
@@ -62,32 +62,32 @@ func SmtpCredentialResource() *schema.Resource {
 	}
 }
 
-func createSmtpCredential(d *schema.ResourceData, m interface{}) error {
-	sync := &SmtpCredentialResourceCrud{}
+func createIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentitySmtpCredentialResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readSmtpCredential(d *schema.ResourceData, m interface{}) error {
-	sync := &SmtpCredentialResourceCrud{}
+func readIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentitySmtpCredentialResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateSmtpCredential(d *schema.ResourceData, m interface{}) error {
-	sync := &SmtpCredentialResourceCrud{}
+func updateIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentitySmtpCredentialResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteSmtpCredential(d *schema.ResourceData, m interface{}) error {
-	sync := &SmtpCredentialResourceCrud{}
+func deleteIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentitySmtpCredentialResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -95,46 +95,46 @@ func deleteSmtpCredential(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type SmtpCredentialResourceCrud struct {
+type IdentitySmtpCredentialResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.SmtpCredential
 	DisableNotFoundRetries bool
 }
 
-func (s *SmtpCredentialResourceCrud) ID() string {
+func (s *IdentitySmtpCredentialResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *SmtpCredentialResourceCrud) State() oci_identity.SmtpCredentialLifecycleStateEnum {
+func (s *IdentitySmtpCredentialResourceCrud) State() oci_identity.SmtpCredentialLifecycleStateEnum {
 	return s.Res.LifecycleState
 }
 
-func (s *SmtpCredentialResourceCrud) CreatedPending() []string {
+func (s *IdentitySmtpCredentialResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.SmtpCredentialLifecycleStateCreating),
 	}
 }
 
-func (s *SmtpCredentialResourceCrud) CreatedTarget() []string {
+func (s *IdentitySmtpCredentialResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.SmtpCredentialLifecycleStateActive),
 	}
 }
 
-func (s *SmtpCredentialResourceCrud) DeletedPending() []string {
+func (s *IdentitySmtpCredentialResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.SmtpCredentialLifecycleStateDeleting),
 	}
 }
 
-func (s *SmtpCredentialResourceCrud) DeletedTarget() []string {
+func (s *IdentitySmtpCredentialResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.SmtpCredentialLifecycleStateDeleted),
 	}
 }
 
-func (s *SmtpCredentialResourceCrud) Create() error {
+func (s *IdentitySmtpCredentialResourceCrud) Create() error {
 	request := oci_identity.CreateSmtpCredentialRequest{}
 
 	if description, ok := s.D.GetOkExists("description"); ok {
@@ -169,7 +169,7 @@ func fromSmtpCredentialSummary(c oci_identity.SmtpCredentialSummary) *oci_identi
 		InactiveStatus: c.InactiveStatus}
 }
 
-func (s *SmtpCredentialResourceCrud) Get() error {
+func (s *IdentitySmtpCredentialResourceCrud) Get() error {
 	request := oci_identity.ListSmtpCredentialsRequest{}
 
 	if userId, ok := s.D.GetOkExists("user_id"); ok {
@@ -195,7 +195,7 @@ func (s *SmtpCredentialResourceCrud) Get() error {
 
 }
 
-func (s *SmtpCredentialResourceCrud) Update() error {
+func (s *IdentitySmtpCredentialResourceCrud) Update() error {
 	request := oci_identity.UpdateSmtpCredentialRequest{}
 
 	if description, ok := s.D.GetOkExists("description"); ok {
@@ -222,7 +222,7 @@ func (s *SmtpCredentialResourceCrud) Update() error {
 	return nil
 }
 
-func (s *SmtpCredentialResourceCrud) Delete() error {
+func (s *IdentitySmtpCredentialResourceCrud) Delete() error {
 	request := oci_identity.DeleteSmtpCredentialRequest{}
 
 	tmp := s.D.Id()
@@ -239,7 +239,7 @@ func (s *SmtpCredentialResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SmtpCredentialResourceCrud) SetData() error {
+func (s *IdentitySmtpCredentialResourceCrud) SetData() error {
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
