@@ -19,9 +19,9 @@ import (
 	"time"
 )
 
-func AuditEventsDataSource() *schema.Resource {
+func AuditAuditEventsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAuditEvents,
+		Read: readAuditAuditEvents,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -142,25 +142,25 @@ func AuditEventsDataSource() *schema.Resource {
 	}
 }
 
-func readAuditEvents(d *schema.ResourceData, m interface{}) error {
-	sync := &AuditEventsDataSourceCrud{}
+func readAuditAuditEvents(d *schema.ResourceData, m interface{}) error {
+	sync := &AuditAuditEventsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).auditClient
 
 	return ReadResource(sync)
 }
 
-type AuditEventsDataSourceCrud struct {
+type AuditAuditEventsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_audit.AuditClient
 	Res    *oci_audit.ListEventsResponse
 }
 
-func (s *AuditEventsDataSourceCrud) VoidState() {
+func (s *AuditAuditEventsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AuditEventsDataSourceCrud) Get() error {
+func (s *AuditAuditEventsDataSourceCrud) Get() error {
 	request := oci_audit.ListEventsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -210,7 +210,7 @@ func (s *AuditEventsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AuditEventsDataSourceCrud) SetData() error {
+func (s *AuditAuditEventsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -295,7 +295,7 @@ func (s *AuditEventsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AuditEventsDataSource().Schema["audit_events"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, AuditAuditEventsDataSource().Schema["audit_events"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("audit_events", resources); err != nil {

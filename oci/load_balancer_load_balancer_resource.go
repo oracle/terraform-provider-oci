@@ -10,16 +10,16 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func LoadBalancerResource() *schema.Resource {
+func LoadBalancerLoadBalancerResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createLoadBalancer,
-		Read:     readLoadBalancer,
-		Update:   updateLoadBalancer,
-		Delete:   deleteLoadBalancer,
+		Create:   createLoadBalancerLoadBalancer,
+		Read:     readLoadBalancerLoadBalancer,
+		Update:   updateLoadBalancerLoadBalancer,
+		Delete:   deleteLoadBalancerLoadBalancer,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -108,32 +108,32 @@ func LoadBalancerResource() *schema.Resource {
 	}
 }
 
-func createLoadBalancer(d *schema.ResourceData, m interface{}) error {
-	sync := &LoadBalancerResourceCrud{}
+func createLoadBalancerLoadBalancer(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerLoadBalancerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return CreateResource(d, sync)
 }
 
-func readLoadBalancer(d *schema.ResourceData, m interface{}) error {
-	sync := &LoadBalancerResourceCrud{}
+func readLoadBalancerLoadBalancer(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerLoadBalancerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-func updateLoadBalancer(d *schema.ResourceData, m interface{}) error {
-	sync := &LoadBalancerResourceCrud{}
+func updateLoadBalancerLoadBalancer(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerLoadBalancerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteLoadBalancer(d *schema.ResourceData, m interface{}) error {
-	sync := &LoadBalancerResourceCrud{}
+func deleteLoadBalancerLoadBalancer(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerLoadBalancerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 	sync.DisableNotFoundRetries = true
@@ -141,7 +141,7 @@ func deleteLoadBalancer(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type LoadBalancerResourceCrud struct {
+type LoadBalancerLoadBalancerResourceCrud struct {
 	BaseCrud
 	Client                 *oci_load_balancer.LoadBalancerClient
 	Res                    *oci_load_balancer.LoadBalancer
@@ -149,7 +149,7 @@ type LoadBalancerResourceCrud struct {
 	WorkRequest            *oci_load_balancer.WorkRequest
 }
 
-func (s *LoadBalancerResourceCrud) ID() string {
+func (s *LoadBalancerLoadBalancerResourceCrud) ID() string {
 	id, workSuccess := LoadBalancerResourceID(s.Res, s.WorkRequest)
 	if id != nil {
 		return *id
@@ -160,7 +160,7 @@ func (s *LoadBalancerResourceCrud) ID() string {
 	return ""
 }
 
-func (s *LoadBalancerResourceCrud) CreatedPending() []string {
+func (s *LoadBalancerLoadBalancerResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_load_balancer.LoadBalancerLifecycleStateCreating),
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
@@ -168,7 +168,7 @@ func (s *LoadBalancerResourceCrud) CreatedPending() []string {
 	}
 }
 
-func (s *LoadBalancerResourceCrud) CreatedTarget() []string {
+func (s *LoadBalancerLoadBalancerResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_load_balancer.LoadBalancerLifecycleStateActive),
 		string(oci_load_balancer.LoadBalancerLifecycleStateFailed),
@@ -177,7 +177,7 @@ func (s *LoadBalancerResourceCrud) CreatedTarget() []string {
 	}
 }
 
-func (s *LoadBalancerResourceCrud) DeletedPending() []string {
+func (s *LoadBalancerLoadBalancerResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_load_balancer.LoadBalancerLifecycleStateDeleting),
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
@@ -185,13 +185,13 @@ func (s *LoadBalancerResourceCrud) DeletedPending() []string {
 	}
 }
 
-func (s *LoadBalancerResourceCrud) DeletedTarget() []string {
+func (s *LoadBalancerLoadBalancerResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_load_balancer.LoadBalancerLifecycleStateDeleted),
 	}
 }
 
-func (s *LoadBalancerResourceCrud) Create() error {
+func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 	request := oci_load_balancer.CreateLoadBalancerRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -261,7 +261,7 @@ func (s *LoadBalancerResourceCrud) Create() error {
 	return nil
 }
 
-func (s *LoadBalancerResourceCrud) Get() error {
+func (s *LoadBalancerLoadBalancerResourceCrud) Get() error {
 	id, stillWorking, err := LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
@@ -290,7 +290,7 @@ func (s *LoadBalancerResourceCrud) Get() error {
 	return nil
 }
 
-func (s *LoadBalancerResourceCrud) Update() error {
+func (s *LoadBalancerLoadBalancerResourceCrud) Update() error {
 	request := oci_load_balancer.UpdateLoadBalancerRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -337,7 +337,7 @@ func (s *LoadBalancerResourceCrud) Update() error {
 	return s.Get()
 }
 
-func (s *LoadBalancerResourceCrud) Delete() error {
+func (s *LoadBalancerLoadBalancerResourceCrud) Delete() error {
 	request := oci_load_balancer.DeleteLoadBalancerRequest{}
 
 	tmp := s.D.Id()
@@ -363,7 +363,7 @@ func (s *LoadBalancerResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *LoadBalancerResourceCrud) SetData() error {
+func (s *LoadBalancerLoadBalancerResourceCrud) SetData() error {
 	if s.Res == nil || s.Res.Id == nil {
 		return nil
 	}

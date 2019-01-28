@@ -10,16 +10,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func ConsoleHistoryResource() *schema.Resource {
+func CoreConsoleHistoryResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createConsoleHistory,
-		Read:     readConsoleHistory,
-		Update:   updateConsoleHistory,
-		Delete:   deleteConsoleHistory,
+		Create:   createCoreConsoleHistory,
+		Read:     readCoreConsoleHistory,
+		Update:   updateCoreConsoleHistory,
+		Delete:   deleteCoreConsoleHistory,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"instance_id": {
@@ -69,32 +69,32 @@ func ConsoleHistoryResource() *schema.Resource {
 	}
 }
 
-func createConsoleHistory(d *schema.ResourceData, m interface{}) error {
-	sync := &ConsoleHistoryResourceCrud{}
+func createCoreConsoleHistory(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreConsoleHistoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return CreateResource(d, sync)
 }
 
-func readConsoleHistory(d *schema.ResourceData, m interface{}) error {
-	sync := &ConsoleHistoryResourceCrud{}
+func readCoreConsoleHistory(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreConsoleHistoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-func updateConsoleHistory(d *schema.ResourceData, m interface{}) error {
-	sync := &ConsoleHistoryResourceCrud{}
+func updateCoreConsoleHistory(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreConsoleHistoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteConsoleHistory(d *schema.ResourceData, m interface{}) error {
-	sync := &ConsoleHistoryResourceCrud{}
+func deleteCoreConsoleHistory(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreConsoleHistoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.DisableNotFoundRetries = true
@@ -102,31 +102,31 @@ func deleteConsoleHistory(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type ConsoleHistoryResourceCrud struct {
+type CoreConsoleHistoryResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.ComputeClient
 	Res                    *oci_core.ConsoleHistory
 	DisableNotFoundRetries bool
 }
 
-func (s *ConsoleHistoryResourceCrud) ID() string {
+func (s *CoreConsoleHistoryResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *ConsoleHistoryResourceCrud) CreatedPending() []string {
+func (s *CoreConsoleHistoryResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.ConsoleHistoryLifecycleStateRequested),
 		string(oci_core.ConsoleHistoryLifecycleStateGettingHistory),
 	}
 }
 
-func (s *ConsoleHistoryResourceCrud) CreatedTarget() []string {
+func (s *CoreConsoleHistoryResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.ConsoleHistoryLifecycleStateSucceeded),
 	}
 }
 
-func (s *ConsoleHistoryResourceCrud) Create() error {
+func (s *CoreConsoleHistoryResourceCrud) Create() error {
 	request := oci_core.CaptureConsoleHistoryRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -162,7 +162,7 @@ func (s *ConsoleHistoryResourceCrud) Create() error {
 	return nil
 }
 
-func (s *ConsoleHistoryResourceCrud) Get() error {
+func (s *CoreConsoleHistoryResourceCrud) Get() error {
 	request := oci_core.GetConsoleHistoryRequest{}
 
 	tmp := s.D.Id()
@@ -179,7 +179,7 @@ func (s *ConsoleHistoryResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ConsoleHistoryResourceCrud) Update() error {
+func (s *CoreConsoleHistoryResourceCrud) Update() error {
 	request := oci_core.UpdateConsoleHistoryRequest{}
 
 	tmp := s.D.Id()
@@ -213,7 +213,7 @@ func (s *ConsoleHistoryResourceCrud) Update() error {
 	return nil
 }
 
-func (s *ConsoleHistoryResourceCrud) Delete() error {
+func (s *CoreConsoleHistoryResourceCrud) Delete() error {
 	request := oci_core.DeleteConsoleHistoryRequest{}
 
 	tmp := s.D.Id()
@@ -225,7 +225,7 @@ func (s *ConsoleHistoryResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ConsoleHistoryResourceCrud) SetData() error {
+func (s *CoreConsoleHistoryResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}

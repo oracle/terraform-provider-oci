@@ -11,16 +11,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumeGroupBackupResource() *schema.Resource {
+func CoreVolumeGroupBackupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createVolumeGroupBackup,
-		Read:     readVolumeGroupBackup,
-		Update:   updateVolumeGroupBackup,
-		Delete:   deleteVolumeGroupBackup,
+		Create:   createCoreVolumeGroupBackup,
+		Read:     readCoreVolumeGroupBackup,
+		Update:   updateCoreVolumeGroupBackup,
+		Delete:   deleteCoreVolumeGroupBackup,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"volume_group_id": {
@@ -101,32 +101,32 @@ func VolumeGroupBackupResource() *schema.Resource {
 	}
 }
 
-func createVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeGroupBackupResourceCrud{}
+func createCoreVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeGroupBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeGroupBackupResourceCrud{}
+func readCoreVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeGroupBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-func updateVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeGroupBackupResourceCrud{}
+func updateCoreVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeGroupBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeGroupBackupResourceCrud{}
+func deleteCoreVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeGroupBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
@@ -134,44 +134,44 @@ func deleteVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type VolumeGroupBackupResourceCrud struct {
+type CoreVolumeGroupBackupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	Res                    *oci_core.VolumeGroupBackup
 	DisableNotFoundRetries bool
 }
 
-func (s *VolumeGroupBackupResourceCrud) ID() string {
+func (s *CoreVolumeGroupBackupResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *VolumeGroupBackupResourceCrud) CreatedPending() []string {
+func (s *CoreVolumeGroupBackupResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.VolumeGroupBackupLifecycleStateCreating),
 		string(oci_core.VolumeGroupBackupLifecycleStateRequestReceived),
 	}
 }
 
-func (s *VolumeGroupBackupResourceCrud) CreatedTarget() []string {
+func (s *CoreVolumeGroupBackupResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.VolumeGroupBackupLifecycleStateCommitted),
 		string(oci_core.VolumeGroupBackupLifecycleStateAvailable),
 	}
 }
 
-func (s *VolumeGroupBackupResourceCrud) DeletedPending() []string {
+func (s *CoreVolumeGroupBackupResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.VolumeGroupBackupLifecycleStateTerminating),
 	}
 }
 
-func (s *VolumeGroupBackupResourceCrud) DeletedTarget() []string {
+func (s *CoreVolumeGroupBackupResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.VolumeGroupBackupLifecycleStateTerminated),
 	}
 }
 
-func (s *VolumeGroupBackupResourceCrud) Create() error {
+func (s *CoreVolumeGroupBackupResourceCrud) Create() error {
 	request := oci_core.CreateVolumeGroupBackupRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -216,7 +216,7 @@ func (s *VolumeGroupBackupResourceCrud) Create() error {
 	return nil
 }
 
-func (s *VolumeGroupBackupResourceCrud) Get() error {
+func (s *CoreVolumeGroupBackupResourceCrud) Get() error {
 	request := oci_core.GetVolumeGroupBackupRequest{}
 
 	tmp := s.D.Id()
@@ -233,7 +233,7 @@ func (s *VolumeGroupBackupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeGroupBackupResourceCrud) Update() error {
+func (s *CoreVolumeGroupBackupResourceCrud) Update() error {
 	request := oci_core.UpdateVolumeGroupBackupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -267,7 +267,7 @@ func (s *VolumeGroupBackupResourceCrud) Update() error {
 	return nil
 }
 
-func (s *VolumeGroupBackupResourceCrud) Delete() error {
+func (s *CoreVolumeGroupBackupResourceCrud) Delete() error {
 	request := oci_core.DeleteVolumeGroupBackupRequest{}
 
 	tmp := s.D.Id()
@@ -279,7 +279,7 @@ func (s *VolumeGroupBackupResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VolumeGroupBackupResourceCrud) SetData() error {
+func (s *CoreVolumeGroupBackupResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -10,9 +10,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumeGroupsDataSource() *schema.Resource {
+func CoreVolumeGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVolumeGroups,
+		Read: readCoreVolumeGroups,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -34,31 +34,31 @@ func VolumeGroupsDataSource() *schema.Resource {
 			"volume_groups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(VolumeGroupResource()),
+				Elem:     GetDataSourceItemSchema(CoreVolumeGroupResource()),
 			},
 		},
 	}
 }
 
-func readVolumeGroups(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeGroupsDataSourceCrud{}
+func readCoreVolumeGroups(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-type VolumeGroupsDataSourceCrud struct {
+type CoreVolumeGroupsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
 	Res    *oci_core.ListVolumeGroupsResponse
 }
 
-func (s *VolumeGroupsDataSourceCrud) VoidState() {
+func (s *CoreVolumeGroupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VolumeGroupsDataSourceCrud) Get() error {
+func (s *CoreVolumeGroupsDataSourceCrud) Get() error {
 	request := oci_core.ListVolumeGroupsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -103,7 +103,7 @@ func (s *VolumeGroupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeGroupsDataSourceCrud) SetData() error {
+func (s *CoreVolumeGroupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -168,7 +168,7 @@ func (s *VolumeGroupsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, VolumeGroupsDataSource().Schema["volume_groups"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreVolumeGroupsDataSource().Schema["volume_groups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("volume_groups", resources); err != nil {

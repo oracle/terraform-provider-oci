@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func ConsoleHistoriesDataSource() *schema.Resource {
+func CoreConsoleHistoriesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readConsoleHistories,
+		Read: readCoreConsoleHistories,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -33,31 +33,31 @@ func ConsoleHistoriesDataSource() *schema.Resource {
 			"console_histories": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(ConsoleHistoryResource()),
+				Elem:     GetDataSourceItemSchema(CoreConsoleHistoryResource()),
 			},
 		},
 	}
 }
 
-func readConsoleHistories(d *schema.ResourceData, m interface{}) error {
-	sync := &ConsoleHistoriesDataSourceCrud{}
+func readCoreConsoleHistories(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreConsoleHistoriesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type ConsoleHistoriesDataSourceCrud struct {
+type CoreConsoleHistoriesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListConsoleHistoriesResponse
 }
 
-func (s *ConsoleHistoriesDataSourceCrud) VoidState() {
+func (s *CoreConsoleHistoriesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ConsoleHistoriesDataSourceCrud) Get() error {
+func (s *CoreConsoleHistoriesDataSourceCrud) Get() error {
 	request := oci_core.ListConsoleHistoriesRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -102,7 +102,7 @@ func (s *ConsoleHistoriesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ConsoleHistoriesDataSourceCrud) SetData() error {
+func (s *CoreConsoleHistoriesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -147,7 +147,7 @@ func (s *ConsoleHistoriesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, ConsoleHistoriesDataSource().Schema["console_histories"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreConsoleHistoriesDataSource().Schema["console_histories"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("console_histories", resources); err != nil {

@@ -9,9 +9,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func TagsDataSource() *schema.Resource {
+func IdentityTagsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readTags,
+		Read: readIdentityTags,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"tag_namespace_id": {
@@ -21,31 +21,31 @@ func TagsDataSource() *schema.Resource {
 			"tags": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(TagResource()),
+				Elem:     GetDataSourceItemSchema(IdentityTagResource()),
 			},
 		},
 	}
 }
 
-func readTags(d *schema.ResourceData, m interface{}) error {
-	sync := &TagsDataSourceCrud{}
+func readIdentityTags(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityTagsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type TagsDataSourceCrud struct {
+type IdentityTagsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListTagsResponse
 }
 
-func (s *TagsDataSourceCrud) VoidState() {
+func (s *IdentityTagsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *TagsDataSourceCrud) Get() error {
+func (s *IdentityTagsDataSourceCrud) Get() error {
 	request := oci_identity.ListTagsRequest{}
 
 	if tagNamespaceId, ok := s.D.GetOkExists("tag_namespace_id"); ok {
@@ -76,7 +76,7 @@ func (s *TagsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *TagsDataSourceCrud) SetData() error {
+func (s *IdentityTagsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -121,7 +121,7 @@ func (s *TagsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, TagsDataSource().Schema["tags"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityTagsDataSource().Schema["tags"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("tags", resources); err != nil {

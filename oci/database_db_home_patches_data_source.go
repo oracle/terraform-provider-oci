@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func DbHomePatchesDataSource() *schema.Resource {
+func DatabaseDbHomePatchesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbHomePatches,
+		Read: readDatabaseDbHomePatches,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"db_home_id": {
@@ -70,25 +70,25 @@ func DbHomePatchesDataSource() *schema.Resource {
 	}
 }
 
-func readDbHomePatches(d *schema.ResourceData, m interface{}) error {
-	sync := &DbHomePatchesDataSourceCrud{}
+func readDatabaseDbHomePatches(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbHomePatchesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type DbHomePatchesDataSourceCrud struct {
+type DatabaseDbHomePatchesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListDbHomePatchesResponse
 }
 
-func (s *DbHomePatchesDataSourceCrud) VoidState() {
+func (s *DatabaseDbHomePatchesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbHomePatchesDataSourceCrud) Get() error {
+func (s *DatabaseDbHomePatchesDataSourceCrud) Get() error {
 	request := oci_database.ListDbHomePatchesRequest{}
 
 	if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
@@ -119,7 +119,7 @@ func (s *DbHomePatchesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbHomePatchesDataSourceCrud) SetData() error {
+func (s *DatabaseDbHomePatchesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -160,7 +160,7 @@ func (s *DbHomePatchesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DbHomePatchesDataSource().Schema["patches"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DatabaseDbHomePatchesDataSource().Schema["patches"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("patches", resources); err != nil {

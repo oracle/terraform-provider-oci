@@ -10,9 +10,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func BootVolumesDataSource() *schema.Resource {
+func CoreBootVolumesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBootVolumes,
+		Read: readCoreBootVolumes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -30,31 +30,31 @@ func BootVolumesDataSource() *schema.Resource {
 			"boot_volumes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(BootVolumeResource()),
+				Elem:     GetDataSourceItemSchema(CoreBootVolumeResource()),
 			},
 		},
 	}
 }
 
-func readBootVolumes(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumesDataSourceCrud{}
+func readCoreBootVolumes(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-type BootVolumesDataSourceCrud struct {
+type CoreBootVolumesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
 	Res    *oci_core.ListBootVolumesResponse
 }
 
-func (s *BootVolumesDataSourceCrud) VoidState() {
+func (s *CoreBootVolumesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BootVolumesDataSourceCrud) Get() error {
+func (s *CoreBootVolumesDataSourceCrud) Get() error {
 	request := oci_core.ListBootVolumesRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -95,7 +95,7 @@ func (s *BootVolumesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BootVolumesDataSourceCrud) SetData() error {
+func (s *CoreBootVolumesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -167,7 +167,7 @@ func (s *BootVolumesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, BootVolumesDataSource().Schema["boot_volumes"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreBootVolumesDataSource().Schema["boot_volumes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("boot_volumes", resources); err != nil {

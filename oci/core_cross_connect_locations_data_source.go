@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func CrossConnectLocationsDataSource() *schema.Resource {
+func CoreCrossConnectLocationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCrossConnectLocations,
+		Read: readCoreCrossConnectLocations,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -43,25 +43,25 @@ func CrossConnectLocationsDataSource() *schema.Resource {
 	}
 }
 
-func readCrossConnectLocations(d *schema.ResourceData, m interface{}) error {
-	sync := &CrossConnectLocationsDataSourceCrud{}
+func readCoreCrossConnectLocations(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCrossConnectLocationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type CrossConnectLocationsDataSourceCrud struct {
+type CoreCrossConnectLocationsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListCrossConnectLocationsResponse
 }
 
-func (s *CrossConnectLocationsDataSourceCrud) VoidState() {
+func (s *CoreCrossConnectLocationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CrossConnectLocationsDataSourceCrud) Get() error {
+func (s *CoreCrossConnectLocationsDataSourceCrud) Get() error {
 	request := oci_core.ListCrossConnectLocationsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -92,7 +92,7 @@ func (s *CrossConnectLocationsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CrossConnectLocationsDataSourceCrud) SetData() error {
+func (s *CoreCrossConnectLocationsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -115,7 +115,7 @@ func (s *CrossConnectLocationsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, CrossConnectLocationsDataSource().Schema["cross_connect_locations"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreCrossConnectLocationsDataSource().Schema["cross_connect_locations"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("cross_connect_locations", resources); err != nil {

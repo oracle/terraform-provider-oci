@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func NatGatewayDataSource() *schema.Resource {
+func CoreNatGatewayDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularNatGateway,
+		Read: readSingularCoreNatGateway,
 		Schema: map[string]*schema.Schema{
 			"nat_gateway_id": {
 				Type:     schema.TypeString,
@@ -60,25 +60,25 @@ func NatGatewayDataSource() *schema.Resource {
 	}
 }
 
-func readSingularNatGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &NatGatewayDataSourceCrud{}
+func readSingularCoreNatGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreNatGatewayDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type NatGatewayDataSourceCrud struct {
+type CoreNatGatewayDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.GetNatGatewayResponse
 }
 
-func (s *NatGatewayDataSourceCrud) VoidState() {
+func (s *CoreNatGatewayDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NatGatewayDataSourceCrud) Get() error {
+func (s *CoreNatGatewayDataSourceCrud) Get() error {
 	request := oci_core.GetNatGatewayRequest{}
 
 	if natGatewayId, ok := s.D.GetOkExists("nat_gateway_id"); ok {
@@ -97,7 +97,7 @@ func (s *NatGatewayDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *NatGatewayDataSourceCrud) SetData() error {
+func (s *CoreNatGatewayDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

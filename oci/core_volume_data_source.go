@@ -11,9 +11,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumeDataSource() *schema.Resource {
+func CoreVolumeDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularVolume,
+		Read: readSingularCoreVolume,
 		Schema: map[string]*schema.Schema{
 			"volume_id": {
 				Type:     schema.TypeString,
@@ -102,25 +102,25 @@ func VolumeDataSource() *schema.Resource {
 	}
 }
 
-func readSingularVolume(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeDataSourceCrud{}
+func readSingularCoreVolume(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-type VolumeDataSourceCrud struct {
+type CoreVolumeDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
 	Res    *oci_core.GetVolumeResponse
 }
 
-func (s *VolumeDataSourceCrud) VoidState() {
+func (s *CoreVolumeDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VolumeDataSourceCrud) Get() error {
+func (s *CoreVolumeDataSourceCrud) Get() error {
 	request := oci_core.GetVolumeRequest{}
 
 	if volumeId, ok := s.D.GetOkExists("volume_id"); ok {
@@ -139,7 +139,7 @@ func (s *VolumeDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeDataSourceCrud) SetData() error {
+func (s *CoreVolumeDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

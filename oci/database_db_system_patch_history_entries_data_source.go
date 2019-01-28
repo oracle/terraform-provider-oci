@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func DbSystemPatchHistoryEntriesDataSource() *schema.Resource {
+func DatabaseDbSystemPatchHistoryEntriesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbSystemPatchHistoryEntries,
+		Read: readDatabaseDbSystemPatchHistoryEntries,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"db_system_id": {
@@ -63,25 +63,25 @@ func DbSystemPatchHistoryEntriesDataSource() *schema.Resource {
 	}
 }
 
-func readDbSystemPatchHistoryEntries(d *schema.ResourceData, m interface{}) error {
-	sync := &DbSystemPatchHistoryEntriesDataSourceCrud{}
+func readDatabaseDbSystemPatchHistoryEntries(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbSystemPatchHistoryEntriesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type DbSystemPatchHistoryEntriesDataSourceCrud struct {
+type DatabaseDbSystemPatchHistoryEntriesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListDbSystemPatchHistoryEntriesResponse
 }
 
-func (s *DbSystemPatchHistoryEntriesDataSourceCrud) VoidState() {
+func (s *DatabaseDbSystemPatchHistoryEntriesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbSystemPatchHistoryEntriesDataSourceCrud) Get() error {
+func (s *DatabaseDbSystemPatchHistoryEntriesDataSourceCrud) Get() error {
 	request := oci_database.ListDbSystemPatchHistoryEntriesRequest{}
 
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
@@ -112,7 +112,7 @@ func (s *DbSystemPatchHistoryEntriesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbSystemPatchHistoryEntriesDataSourceCrud) SetData() error {
+func (s *DatabaseDbSystemPatchHistoryEntriesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -151,7 +151,7 @@ func (s *DbSystemPatchHistoryEntriesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DbSystemPatchHistoryEntriesDataSource().Schema["patch_history_entries"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DatabaseDbSystemPatchHistoryEntriesDataSource().Schema["patch_history_entries"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("patch_history_entries", resources); err != nil {

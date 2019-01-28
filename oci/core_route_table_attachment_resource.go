@@ -12,7 +12,7 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func RouteTableAttachmentResource() *schema.Resource {
+func CoreRouteTableAttachmentResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

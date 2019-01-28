@@ -11,12 +11,12 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func CertificateResource() *schema.Resource {
+func LoadBalancerCertificateResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createCertificate,
-		Read:     readCertificate,
-		Delete:   deleteCertificate,
+		Create:   createLoadBalancerCertificate,
+		Read:     readLoadBalancerCertificate,
+		Delete:   deleteLoadBalancerCertificate,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"certificate_name": {
@@ -68,24 +68,24 @@ func CertificateResource() *schema.Resource {
 	}
 }
 
-func createCertificate(d *schema.ResourceData, m interface{}) error {
-	sync := &CertificateResourceCrud{}
+func createLoadBalancerCertificate(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return CreateResource(d, sync)
 }
 
-func readCertificate(d *schema.ResourceData, m interface{}) error {
-	sync := &CertificateResourceCrud{}
+func readLoadBalancerCertificate(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-func deleteCertificate(d *schema.ResourceData, m interface{}) error {
-	sync := &CertificateResourceCrud{}
+func deleteLoadBalancerCertificate(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerCertificateResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 	sync.DisableNotFoundRetries = true
@@ -93,7 +93,7 @@ func deleteCertificate(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type CertificateResourceCrud struct {
+type LoadBalancerCertificateResourceCrud struct {
 	BaseCrud
 	Client                 *oci_load_balancer.LoadBalancerClient
 	Res                    *oci_load_balancer.Certificate
@@ -101,7 +101,7 @@ type CertificateResourceCrud struct {
 	WorkRequest            *oci_load_balancer.WorkRequest
 }
 
-func (s *CertificateResourceCrud) ID() string {
+func (s *LoadBalancerCertificateResourceCrud) ID() string {
 	id, workSuccess := LoadBalancerResourceID(s.Res, s.WorkRequest)
 	if id != nil {
 		return *id
@@ -112,35 +112,35 @@ func (s *CertificateResourceCrud) ID() string {
 	return ""
 }
 
-func (s *CertificateResourceCrud) CreatedPending() []string {
+func (s *LoadBalancerCertificateResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *CertificateResourceCrud) CreatedTarget() []string {
+func (s *LoadBalancerCertificateResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *CertificateResourceCrud) DeletedPending() []string {
+func (s *LoadBalancerCertificateResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *CertificateResourceCrud) DeletedTarget() []string {
+func (s *LoadBalancerCertificateResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *CertificateResourceCrud) Create() error {
+func (s *LoadBalancerCertificateResourceCrud) Create() error {
 	request := oci_load_balancer.CreateCertificateRequest{}
 
 	if caCertificate, ok := s.D.GetOkExists("ca_certificate"); ok {
@@ -196,7 +196,7 @@ func (s *CertificateResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CertificateResourceCrud) Get() error {
+func (s *LoadBalancerCertificateResourceCrud) Get() error {
 	_, stillWorking, err := LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
@@ -229,7 +229,7 @@ func (s *CertificateResourceCrud) Get() error {
 
 }
 
-func (s *CertificateResourceCrud) Delete() error {
+func (s *LoadBalancerCertificateResourceCrud) Delete() error {
 	request := oci_load_balancer.DeleteCertificateRequest{}
 
 	if certificateName, ok := s.D.GetOkExists("certificate_name"); ok {
@@ -262,7 +262,7 @@ func (s *CertificateResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *CertificateResourceCrud) SetData() error {
+func (s *LoadBalancerCertificateResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

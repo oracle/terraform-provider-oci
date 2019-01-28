@@ -11,9 +11,9 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
-func KeyDataSource() *schema.Resource {
+func KmsKeyDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularKey,
+		Read: readSingularKmsKey,
 		Schema: map[string]*schema.Schema{
 			"key_id": {
 				Type:     schema.TypeString,
@@ -75,8 +75,8 @@ func KeyDataSource() *schema.Resource {
 	}
 }
 
-func readSingularKey(d *schema.ResourceData, m interface{}) error {
-	sync := &KeyDataSourceCrud{}
+func readSingularKmsKey(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsKeyDataSourceCrud{}
 	sync.D = d
 	endpoint, ok := d.GetOkExists("management_endpoint")
 	if !ok {
@@ -92,17 +92,17 @@ func readSingularKey(d *schema.ResourceData, m interface{}) error {
 	return ReadResource(sync)
 }
 
-type KeyDataSourceCrud struct {
+type KmsKeyDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_kms.KmsManagementClient
 	Res    *oci_kms.GetKeyResponse
 }
 
-func (s *KeyDataSourceCrud) VoidState() {
+func (s *KmsKeyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *KeyDataSourceCrud) Get() error {
+func (s *KmsKeyDataSourceCrud) Get() error {
 	request := oci_kms.GetKeyRequest{}
 
 	if keyId, ok := s.D.GetOkExists("key_id"); ok {
@@ -121,7 +121,7 @@ func (s *KeyDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *KeyDataSourceCrud) SetData() error {
+func (s *KmsKeyDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

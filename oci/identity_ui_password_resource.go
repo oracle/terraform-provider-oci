@@ -11,15 +11,15 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func UiPasswordResource() *schema.Resource {
+func IdentityUiPasswordResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createUiPassword,
-		Read:     readUiPassword,
-		Delete:   deleteUiPassword,
+		Create:   createIdentityUiPassword,
+		Read:     readIdentityUiPassword,
+		Delete:   deleteIdentityUiPassword,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"user_id": {
@@ -51,58 +51,58 @@ func UiPasswordResource() *schema.Resource {
 	}
 }
 
-func createUiPassword(d *schema.ResourceData, m interface{}) error {
-	sync := &UiPasswordResourceCrud{}
+func createIdentityUiPassword(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityUiPasswordResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readUiPassword(d *schema.ResourceData, m interface{}) error {
+func readIdentityUiPassword(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func deleteUiPassword(d *schema.ResourceData, m interface{}) error {
+func deleteIdentityUiPassword(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-type UiPasswordResourceCrud struct {
+type IdentityUiPasswordResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.UiPassword
 	DisableNotFoundRetries bool
 }
 
-func (s *UiPasswordResourceCrud) ID() string {
+func (s *IdentityUiPasswordResourceCrud) ID() string {
 	return *s.Res.UserId
 }
 
-func (s *UiPasswordResourceCrud) CreatedPending() []string {
+func (s *IdentityUiPasswordResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.UiPasswordLifecycleStateCreating),
 	}
 }
 
-func (s *UiPasswordResourceCrud) CreatedTarget() []string {
+func (s *IdentityUiPasswordResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.UiPasswordLifecycleStateActive),
 	}
 }
 
-func (s *UiPasswordResourceCrud) DeletedPending() []string {
+func (s *IdentityUiPasswordResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.UiPasswordLifecycleStateDeleting),
 	}
 }
 
-func (s *UiPasswordResourceCrud) DeletedTarget() []string {
+func (s *IdentityUiPasswordResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.UiPasswordLifecycleStateDeleted),
 	}
 }
 
-func (s *UiPasswordResourceCrud) Create() error {
+func (s *IdentityUiPasswordResourceCrud) Create() error {
 	request := oci_identity.CreateOrResetUIPasswordRequest{}
 
 	if userId, ok := s.D.GetOkExists("user_id"); ok {
@@ -121,7 +121,7 @@ func (s *UiPasswordResourceCrud) Create() error {
 	return nil
 }
 
-func (s *UiPasswordResourceCrud) SetData() error {
+func (s *IdentityUiPasswordResourceCrud) SetData() error {
 	if s.Res.InactiveStatus != nil {
 		s.D.Set("inactive_status", strconv.FormatInt(*s.Res.InactiveStatus, 10))
 	}

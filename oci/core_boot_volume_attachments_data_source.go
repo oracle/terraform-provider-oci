@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func BootVolumeAttachmentsDataSource() *schema.Resource {
+func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBootVolumeAttachments,
+		Read: readCoreBootVolumeAttachments,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -87,25 +87,25 @@ func BootVolumeAttachmentsDataSource() *schema.Resource {
 	}
 }
 
-func readBootVolumeAttachments(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumeAttachmentsDataSourceCrud{}
+func readCoreBootVolumeAttachments(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumeAttachmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type BootVolumeAttachmentsDataSourceCrud struct {
+type CoreBootVolumeAttachmentsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListBootVolumeAttachmentsResponse
 }
 
-func (s *BootVolumeAttachmentsDataSourceCrud) VoidState() {
+func (s *CoreBootVolumeAttachmentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BootVolumeAttachmentsDataSourceCrud) Get() error {
+func (s *CoreBootVolumeAttachmentsDataSourceCrud) Get() error {
 	request := oci_core.ListBootVolumeAttachmentsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -151,7 +151,7 @@ func (s *BootVolumeAttachmentsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BootVolumeAttachmentsDataSourceCrud) SetData() error {
+func (s *CoreBootVolumeAttachmentsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -195,7 +195,7 @@ func (s *BootVolumeAttachmentsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, BootVolumeAttachmentsDataSource().Schema["boot_volume_attachments"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreBootVolumeAttachmentsDataSource().Schema["boot_volume_attachments"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("boot_volume_attachments", resources); err != nil {

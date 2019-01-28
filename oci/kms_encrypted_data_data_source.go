@@ -11,7 +11,7 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
-func EncryptedDataDataSource() *schema.Resource {
+func KmsEncryptedDataDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularEncryptedData,
 		Schema: map[string]*schema.Schema{

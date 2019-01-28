@@ -9,9 +9,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func CertificatesDataSource() *schema.Resource {
+func LoadBalancerCertificatesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCertificates,
+		Read: readLoadBalancerCertificates,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"load_balancer_id": {
@@ -21,31 +21,31 @@ func CertificatesDataSource() *schema.Resource {
 			"certificates": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     CertificateResource(),
+				Elem:     LoadBalancerCertificateResource(),
 			},
 		},
 	}
 }
 
-func readCertificates(d *schema.ResourceData, m interface{}) error {
-	sync := &CertificatesDataSourceCrud{}
+func readLoadBalancerCertificates(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerCertificatesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-type CertificatesDataSourceCrud struct {
+type LoadBalancerCertificatesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
 	Res    *oci_load_balancer.ListCertificatesResponse
 }
 
-func (s *CertificatesDataSourceCrud) VoidState() {
+func (s *LoadBalancerCertificatesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CertificatesDataSourceCrud) Get() error {
+func (s *LoadBalancerCertificatesDataSourceCrud) Get() error {
 	request := oci_load_balancer.ListCertificatesRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -64,7 +64,7 @@ func (s *CertificatesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CertificatesDataSourceCrud) SetData() error {
+func (s *LoadBalancerCertificatesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -91,7 +91,7 @@ func (s *CertificatesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, CertificatesDataSource().Schema["certificates"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerCertificatesDataSource().Schema["certificates"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("certificates", resources); err != nil {

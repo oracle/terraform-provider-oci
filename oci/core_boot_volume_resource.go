@@ -15,16 +15,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func BootVolumeResource() *schema.Resource {
+func CoreBootVolumeResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createBootVolume,
-		Read:     readBootVolume,
-		Update:   updateBootVolume,
-		Delete:   deleteBootVolume,
+		Create:   createCoreBootVolume,
+		Read:     readCoreBootVolume,
+		Update:   updateCoreBootVolume,
+		Delete:   deleteCoreBootVolume,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -137,32 +137,32 @@ func BootVolumeResource() *schema.Resource {
 	}
 }
 
-func createBootVolume(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumeResourceCrud{}
+func createCoreBootVolume(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readBootVolume(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumeResourceCrud{}
+func readCoreBootVolume(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-func updateBootVolume(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumeResourceCrud{}
+func updateCoreBootVolume(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteBootVolume(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumeResourceCrud{}
+func deleteCoreBootVolume(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
@@ -170,55 +170,55 @@ func deleteBootVolume(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type BootVolumeResourceCrud struct {
+type CoreBootVolumeResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	Res                    *oci_core.BootVolume
 	DisableNotFoundRetries bool
 }
 
-func (s *BootVolumeResourceCrud) ID() string {
+func (s *CoreBootVolumeResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *BootVolumeResourceCrud) CreatedPending() []string {
+func (s *CoreBootVolumeResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.BootVolumeLifecycleStateProvisioning),
 		string(oci_core.BootVolumeLifecycleStateRestoring),
 	}
 }
 
-func (s *BootVolumeResourceCrud) CreatedTarget() []string {
+func (s *CoreBootVolumeResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.BootVolumeLifecycleStateAvailable),
 	}
 }
 
-func (s *BootVolumeResourceCrud) DeletedPending() []string {
+func (s *CoreBootVolumeResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.BootVolumeLifecycleStateTerminating),
 	}
 }
 
-func (s *BootVolumeResourceCrud) DeletedTarget() []string {
+func (s *CoreBootVolumeResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.BootVolumeLifecycleStateTerminated),
 	}
 }
 
-func (s *BootVolumeResourceCrud) UpdatedPending() []string {
+func (s *CoreBootVolumeResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_core.BootVolumeLifecycleStateProvisioning),
 	}
 }
 
-func (s *BootVolumeResourceCrud) UpdatedTarget() []string {
+func (s *CoreBootVolumeResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_core.BootVolumeLifecycleStateAvailable),
 	}
 }
 
-func (s *BootVolumeResourceCrud) Create() error {
+func (s *CoreBootVolumeResourceCrud) Create() error {
 	request := oci_core.CreateBootVolumeRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -289,7 +289,7 @@ func (s *BootVolumeResourceCrud) Create() error {
 	return nil
 }
 
-func (s *BootVolumeResourceCrud) Get() error {
+func (s *CoreBootVolumeResourceCrud) Get() error {
 	request := oci_core.GetBootVolumeRequest{}
 
 	tmp := s.D.Id()
@@ -306,7 +306,7 @@ func (s *BootVolumeResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BootVolumeResourceCrud) Update() error {
+func (s *CoreBootVolumeResourceCrud) Update() error {
 	request := oci_core.UpdateBootVolumeRequest{}
 
 	tmp := s.D.Id()
@@ -366,7 +366,7 @@ func (s *BootVolumeResourceCrud) Update() error {
 	return nil
 }
 
-func (s *BootVolumeResourceCrud) Delete() error {
+func (s *CoreBootVolumeResourceCrud) Delete() error {
 	request := oci_core.DeleteBootVolumeRequest{}
 
 	tmp := s.D.Id()
@@ -378,7 +378,7 @@ func (s *BootVolumeResourceCrud) Delete() error {
 	return err
 }
 
-func (s *BootVolumeResourceCrud) SetData() error {
+func (s *CoreBootVolumeResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -447,7 +447,7 @@ func (s *BootVolumeResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *BootVolumeResourceCrud) mapToBootVolumeSourceDetails(fieldKeyFormat string) (oci_core.BootVolumeSourceDetails, error) {
+func (s *CoreBootVolumeResourceCrud) mapToBootVolumeSourceDetails(fieldKeyFormat string) (oci_core.BootVolumeSourceDetails, error) {
 	var baseObject oci_core.BootVolumeSourceDetails
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))

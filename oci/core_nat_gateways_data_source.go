@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func NatGatewaysDataSource() *schema.Resource {
+func CoreNatGatewaysDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readNatGateways,
+		Read: readCoreNatGateways,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -33,31 +33,31 @@ func NatGatewaysDataSource() *schema.Resource {
 			"nat_gateways": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(NatGatewayResource()),
+				Elem:     GetDataSourceItemSchema(CoreNatGatewayResource()),
 			},
 		},
 	}
 }
 
-func readNatGateways(d *schema.ResourceData, m interface{}) error {
-	sync := &NatGatewaysDataSourceCrud{}
+func readCoreNatGateways(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreNatGatewaysDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type NatGatewaysDataSourceCrud struct {
+type CoreNatGatewaysDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListNatGatewaysResponse
 }
 
-func (s *NatGatewaysDataSourceCrud) VoidState() {
+func (s *CoreNatGatewaysDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NatGatewaysDataSourceCrud) Get() error {
+func (s *CoreNatGatewaysDataSourceCrud) Get() error {
 	request := oci_core.ListNatGatewaysRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -102,7 +102,7 @@ func (s *NatGatewaysDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *NatGatewaysDataSourceCrud) SetData() error {
+func (s *CoreNatGatewaysDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -151,7 +151,7 @@ func (s *NatGatewaysDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, NatGatewaysDataSource().Schema["nat_gateways"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreNatGatewaysDataSource().Schema["nat_gateways"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("nat_gateways", resources); err != nil {

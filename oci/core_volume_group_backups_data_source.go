@@ -10,9 +10,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumeGroupBackupsDataSource() *schema.Resource {
+func CoreVolumeGroupBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVolumeGroupBackups,
+		Read: readCoreVolumeGroupBackups,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -30,31 +30,31 @@ func VolumeGroupBackupsDataSource() *schema.Resource {
 			"volume_group_backups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(VolumeGroupBackupResource()),
+				Elem:     GetDataSourceItemSchema(CoreVolumeGroupBackupResource()),
 			},
 		},
 	}
 }
 
-func readVolumeGroupBackups(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeGroupBackupsDataSourceCrud{}
+func readCoreVolumeGroupBackups(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeGroupBackupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-type VolumeGroupBackupsDataSourceCrud struct {
+type CoreVolumeGroupBackupsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
 	Res    *oci_core.ListVolumeGroupBackupsResponse
 }
 
-func (s *VolumeGroupBackupsDataSourceCrud) VoidState() {
+func (s *CoreVolumeGroupBackupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VolumeGroupBackupsDataSourceCrud) Get() error {
+func (s *CoreVolumeGroupBackupsDataSourceCrud) Get() error {
 	request := oci_core.ListVolumeGroupBackupsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +95,7 @@ func (s *VolumeGroupBackupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeGroupBackupsDataSourceCrud) SetData() error {
+func (s *CoreVolumeGroupBackupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -160,7 +160,7 @@ func (s *VolumeGroupBackupsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, VolumeGroupBackupsDataSource().Schema["volume_group_backups"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreVolumeGroupBackupsDataSource().Schema["volume_group_backups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("volume_group_backups", resources); err != nil {

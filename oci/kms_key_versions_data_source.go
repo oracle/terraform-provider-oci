@@ -11,9 +11,9 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
-func KeyVersionsDataSource() *schema.Resource {
+func KmsKeyVersionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readKeyVersions,
+		Read: readKmsKeyVersions,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"key_id": {
@@ -27,14 +27,14 @@ func KeyVersionsDataSource() *schema.Resource {
 			"key_versions": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(KeyVersionResource()),
+				Elem:     GetDataSourceItemSchema(KmsKeyVersionResource()),
 			},
 		},
 	}
 }
 
-func readKeyVersions(d *schema.ResourceData, m interface{}) error {
-	sync := &KeyVersionsDataSourceCrud{}
+func readKmsKeyVersions(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsKeyVersionsDataSourceCrud{}
 	sync.D = d
 	endpoint, ok := d.GetOkExists("management_endpoint")
 	if !ok {
@@ -49,17 +49,17 @@ func readKeyVersions(d *schema.ResourceData, m interface{}) error {
 	return ReadResource(sync)
 }
 
-type KeyVersionsDataSourceCrud struct {
+type KmsKeyVersionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_kms.KmsManagementClient
 	Res    *oci_kms.ListKeyVersionsResponse
 }
 
-func (s *KeyVersionsDataSourceCrud) VoidState() {
+func (s *KmsKeyVersionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *KeyVersionsDataSourceCrud) Get() error {
+func (s *KmsKeyVersionsDataSourceCrud) Get() error {
 	request := oci_kms.ListKeyVersionsRequest{}
 
 	if keyId, ok := s.D.GetOkExists("key_id"); ok {
@@ -90,7 +90,7 @@ func (s *KeyVersionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *KeyVersionsDataSourceCrud) SetData() error {
+func (s *KmsKeyVersionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -123,7 +123,7 @@ func (s *KeyVersionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, KeyVersionsDataSource().Schema["key_versions"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, KmsKeyVersionsDataSource().Schema["key_versions"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("key_versions", resources); err != nil {

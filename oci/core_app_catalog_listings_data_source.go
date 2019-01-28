@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func AppCatalogListingsDataSource() *schema.Resource {
+func CoreAppCatalogListingsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAppCatalogListings,
+		Read: readCoreAppCatalogListings,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"display_name": {
@@ -75,25 +75,25 @@ func AppCatalogListingsDataSource() *schema.Resource {
 	}
 }
 
-func readAppCatalogListings(d *schema.ResourceData, m interface{}) error {
-	sync := &AppCatalogListingsDataSourceCrud{}
+func readCoreAppCatalogListings(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreAppCatalogListingsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type AppCatalogListingsDataSourceCrud struct {
+type CoreAppCatalogListingsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListAppCatalogListingsResponse
 }
 
-func (s *AppCatalogListingsDataSourceCrud) VoidState() {
+func (s *CoreAppCatalogListingsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AppCatalogListingsDataSourceCrud) Get() error {
+func (s *CoreAppCatalogListingsDataSourceCrud) Get() error {
 	request := oci_core.ListAppCatalogListingsRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -134,7 +134,7 @@ func (s *AppCatalogListingsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AppCatalogListingsDataSourceCrud) SetData() error {
+func (s *CoreAppCatalogListingsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -165,7 +165,7 @@ func (s *AppCatalogListingsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AppCatalogListingsDataSource().Schema["app_catalog_listings"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreAppCatalogListingsDataSource().Schema["app_catalog_listings"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("app_catalog_listings", resources); err != nil {

@@ -9,9 +9,9 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-func ExportsDataSource() *schema.Resource {
+func FileStorageExportsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readExports,
+		Read: readFileStorageExports,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -37,31 +37,31 @@ func ExportsDataSource() *schema.Resource {
 			"exports": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(ExportResource()),
+				Elem:     GetDataSourceItemSchema(FileStorageExportResource()),
 			},
 		},
 	}
 }
 
-func readExports(d *schema.ResourceData, m interface{}) error {
-	sync := &ExportsDataSourceCrud{}
+func readFileStorageExports(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageExportsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return ReadResource(sync)
 }
 
-type ExportsDataSourceCrud struct {
+type FileStorageExportsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_file_storage.FileStorageClient
 	Res    *oci_file_storage.ListExportsResponse
 }
 
-func (s *ExportsDataSourceCrud) VoidState() {
+func (s *FileStorageExportsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ExportsDataSourceCrud) Get() error {
+func (s *FileStorageExportsDataSourceCrud) Get() error {
 	request := oci_file_storage.ListExportsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -111,7 +111,7 @@ func (s *ExportsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ExportsDataSourceCrud) SetData() error {
+func (s *FileStorageExportsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -148,7 +148,7 @@ func (s *ExportsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, ExportsDataSource().Schema["exports"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, FileStorageExportsDataSource().Schema["exports"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("exports", resources); err != nil {

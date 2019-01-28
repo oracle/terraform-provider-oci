@@ -13,12 +13,12 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func ApiKeyResource() *schema.Resource {
+func IdentityApiKeyResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createApiKey,
-		Read:     readApiKey,
-		Delete:   deleteApiKey,
+		Create:   createIdentityApiKey,
+		Read:     readIdentityApiKey,
+		Delete:   deleteIdentityApiKey,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"key_value": {
@@ -61,24 +61,24 @@ func ApiKeyResource() *schema.Resource {
 	}
 }
 
-func createApiKey(d *schema.ResourceData, m interface{}) error {
-	sync := &ApiKeyResourceCrud{}
+func createIdentityApiKey(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityApiKeyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readApiKey(d *schema.ResourceData, m interface{}) error {
-	sync := &ApiKeyResourceCrud{}
+func readIdentityApiKey(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityApiKeyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func deleteApiKey(d *schema.ResourceData, m interface{}) error {
-	sync := &ApiKeyResourceCrud{}
+func deleteIdentityApiKey(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityApiKeyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -86,46 +86,46 @@ func deleteApiKey(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type ApiKeyResourceCrud struct {
+type IdentityApiKeyResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.ApiKey
 	DisableNotFoundRetries bool
 }
 
-func (s *ApiKeyResourceCrud) ID() string {
+func (s *IdentityApiKeyResourceCrud) ID() string {
 	return *s.Res.KeyId
 }
 
-func (s *ApiKeyResourceCrud) State() oci_identity.ApiKeyLifecycleStateEnum {
+func (s *IdentityApiKeyResourceCrud) State() oci_identity.ApiKeyLifecycleStateEnum {
 	return s.Res.LifecycleState
 }
 
-func (s *ApiKeyResourceCrud) CreatedPending() []string {
+func (s *IdentityApiKeyResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.ApiKeyLifecycleStateCreating),
 	}
 }
 
-func (s *ApiKeyResourceCrud) CreatedTarget() []string {
+func (s *IdentityApiKeyResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.ApiKeyLifecycleStateActive),
 	}
 }
 
-func (s *ApiKeyResourceCrud) DeletedPending() []string {
+func (s *IdentityApiKeyResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.ApiKeyLifecycleStateDeleting),
 	}
 }
 
-func (s *ApiKeyResourceCrud) DeletedTarget() []string {
+func (s *IdentityApiKeyResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.ApiKeyLifecycleStateDeleted),
 	}
 }
 
-func (s *ApiKeyResourceCrud) Create() error {
+func (s *IdentityApiKeyResourceCrud) Create() error {
 	request := oci_identity.UploadApiKeyRequest{}
 
 	if keyValue, ok := s.D.GetOkExists("key_value"); ok {
@@ -149,7 +149,7 @@ func (s *ApiKeyResourceCrud) Create() error {
 	return nil
 }
 
-func (s *ApiKeyResourceCrud) Get() error {
+func (s *IdentityApiKeyResourceCrud) Get() error {
 	request := oci_identity.ListApiKeysRequest{}
 
 	if userId, ok := s.D.GetOkExists("user_id"); ok {
@@ -175,7 +175,7 @@ func (s *ApiKeyResourceCrud) Get() error {
 
 }
 
-func (s *ApiKeyResourceCrud) Delete() error {
+func (s *IdentityApiKeyResourceCrud) Delete() error {
 	request := oci_identity.DeleteApiKeyRequest{}
 
 	if fingerprint, ok := s.D.GetOkExists("fingerprint"); ok {
@@ -194,7 +194,7 @@ func (s *ApiKeyResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ApiKeyResourceCrud) SetData() error {
+func (s *IdentityApiKeyResourceCrud) SetData() error {
 	if s.Res.Fingerprint != nil {
 		s.D.Set("fingerprint", *s.Res.Fingerprint)
 	}

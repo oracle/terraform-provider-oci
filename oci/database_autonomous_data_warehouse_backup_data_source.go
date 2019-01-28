@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDataWarehouseBackupDataSource() *schema.Resource {
+func DatabaseAutonomousDataWarehouseBackupDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularAutonomousDataWarehouseBackup,
+		Read: readSingularDatabaseAutonomousDataWarehouseBackup,
 		Schema: map[string]*schema.Schema{
 			"autonomous_data_warehouse_backup_id": {
 				Type:     schema.TypeString,
@@ -58,25 +58,25 @@ func AutonomousDataWarehouseBackupDataSource() *schema.Resource {
 	}
 }
 
-func readSingularAutonomousDataWarehouseBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseBackupDataSourceCrud{}
+func readSingularDatabaseAutonomousDataWarehouseBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDataWarehouseBackupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type AutonomousDataWarehouseBackupDataSourceCrud struct {
+type DatabaseAutonomousDataWarehouseBackupDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.GetAutonomousDataWarehouseBackupResponse
 }
 
-func (s *AutonomousDataWarehouseBackupDataSourceCrud) VoidState() {
+func (s *DatabaseAutonomousDataWarehouseBackupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AutonomousDataWarehouseBackupDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDataWarehouseBackupDataSourceCrud) Get() error {
 	request := oci_database.GetAutonomousDataWarehouseBackupRequest{}
 
 	if autonomousDataWarehouseBackupId, ok := s.D.GetOkExists("autonomous_data_warehouse_backup_id"); ok {
@@ -95,7 +95,7 @@ func (s *AutonomousDataWarehouseBackupDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutonomousDataWarehouseBackupDataSourceCrud) SetData() error {
+func (s *DatabaseAutonomousDataWarehouseBackupDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

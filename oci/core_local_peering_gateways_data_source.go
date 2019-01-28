@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func LocalPeeringGatewaysDataSource() *schema.Resource {
+func CoreLocalPeeringGatewaysDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readLocalPeeringGateways,
+		Read: readCoreLocalPeeringGateways,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -25,31 +25,31 @@ func LocalPeeringGatewaysDataSource() *schema.Resource {
 			"local_peering_gateways": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(LocalPeeringGatewayResource()),
+				Elem:     GetDataSourceItemSchema(CoreLocalPeeringGatewayResource()),
 			},
 		},
 	}
 }
 
-func readLocalPeeringGateways(d *schema.ResourceData, m interface{}) error {
-	sync := &LocalPeeringGatewaysDataSourceCrud{}
+func readCoreLocalPeeringGateways(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreLocalPeeringGatewaysDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type LocalPeeringGatewaysDataSourceCrud struct {
+type CoreLocalPeeringGatewaysDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListLocalPeeringGatewaysResponse
 }
 
-func (s *LocalPeeringGatewaysDataSourceCrud) VoidState() {
+func (s *CoreLocalPeeringGatewaysDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LocalPeeringGatewaysDataSourceCrud) Get() error {
+func (s *CoreLocalPeeringGatewaysDataSourceCrud) Get() error {
 	request := oci_core.ListLocalPeeringGatewaysRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +85,7 @@ func (s *LocalPeeringGatewaysDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *LocalPeeringGatewaysDataSourceCrud) SetData() error {
+func (s *CoreLocalPeeringGatewaysDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -143,7 +143,7 @@ func (s *LocalPeeringGatewaysDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, LocalPeeringGatewaysDataSource().Schema["local_peering_gateways"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreLocalPeeringGatewaysDataSource().Schema["local_peering_gateways"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("local_peering_gateways", resources); err != nil {

@@ -10,16 +10,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func DrgResource() *schema.Resource {
+func CoreDrgResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createDrg,
-		Read:     readDrg,
-		Update:   updateDrg,
-		Delete:   deleteDrg,
+		Create:   createCoreDrg,
+		Read:     readCoreDrg,
+		Update:   updateCoreDrg,
+		Delete:   deleteCoreDrg,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -61,32 +61,32 @@ func DrgResource() *schema.Resource {
 	}
 }
 
-func createDrg(d *schema.ResourceData, m interface{}) error {
-	sync := &DrgResourceCrud{}
+func createCoreDrg(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readDrg(d *schema.ResourceData, m interface{}) error {
-	sync := &DrgResourceCrud{}
+func readCoreDrg(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateDrg(d *schema.ResourceData, m interface{}) error {
-	sync := &DrgResourceCrud{}
+func updateCoreDrg(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteDrg(d *schema.ResourceData, m interface{}) error {
-	sync := &DrgResourceCrud{}
+func deleteCoreDrg(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -94,42 +94,42 @@ func deleteDrg(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type DrgResourceCrud struct {
+type CoreDrgResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.Drg
 	DisableNotFoundRetries bool
 }
 
-func (s *DrgResourceCrud) ID() string {
+func (s *CoreDrgResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *DrgResourceCrud) CreatedPending() []string {
+func (s *CoreDrgResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.DrgLifecycleStateProvisioning),
 	}
 }
 
-func (s *DrgResourceCrud) CreatedTarget() []string {
+func (s *CoreDrgResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.DrgLifecycleStateAvailable),
 	}
 }
 
-func (s *DrgResourceCrud) DeletedPending() []string {
+func (s *CoreDrgResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.DrgLifecycleStateTerminating),
 	}
 }
 
-func (s *DrgResourceCrud) DeletedTarget() []string {
+func (s *CoreDrgResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.DrgLifecycleStateTerminated),
 	}
 }
 
-func (s *DrgResourceCrud) Create() error {
+func (s *CoreDrgResourceCrud) Create() error {
 	request := oci_core.CreateDrgRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -165,7 +165,7 @@ func (s *DrgResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DrgResourceCrud) Get() error {
+func (s *CoreDrgResourceCrud) Get() error {
 	request := oci_core.GetDrgRequest{}
 
 	tmp := s.D.Id()
@@ -182,7 +182,7 @@ func (s *DrgResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DrgResourceCrud) Update() error {
+func (s *CoreDrgResourceCrud) Update() error {
 	request := oci_core.UpdateDrgRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -216,7 +216,7 @@ func (s *DrgResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DrgResourceCrud) Delete() error {
+func (s *CoreDrgResourceCrud) Delete() error {
 	request := oci_core.DeleteDrgRequest{}
 
 	tmp := s.D.Id()
@@ -228,7 +228,7 @@ func (s *DrgResourceCrud) Delete() error {
 	return err
 }
 
-func (s *DrgResourceCrud) SetData() error {
+func (s *CoreDrgResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

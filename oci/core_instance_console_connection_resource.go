@@ -10,15 +10,15 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InstanceConsoleConnectionResource() *schema.Resource {
+func CoreInstanceConsoleConnectionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createInstanceConsoleConnection,
-		Read:     readInstanceConsoleConnection,
-		Delete:   deleteInstanceConsoleConnection,
+		Create:   createCoreInstanceConsoleConnection,
+		Read:     readCoreInstanceConsoleConnection,
+		Delete:   deleteCoreInstanceConsoleConnection,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"instance_id": {
@@ -74,24 +74,24 @@ func InstanceConsoleConnectionResource() *schema.Resource {
 	}
 }
 
-func createInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceConsoleConnectionResourceCrud{}
+func createCoreInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceConsoleConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return CreateResource(d, sync)
 }
 
-func readInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceConsoleConnectionResourceCrud{}
+func readCoreInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceConsoleConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-func deleteInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceConsoleConnectionResourceCrud{}
+func deleteCoreInstanceConsoleConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceConsoleConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.DisableNotFoundRetries = true
@@ -99,42 +99,42 @@ func deleteInstanceConsoleConnection(d *schema.ResourceData, m interface{}) erro
 	return DeleteResource(d, sync)
 }
 
-type InstanceConsoleConnectionResourceCrud struct {
+type CoreInstanceConsoleConnectionResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.ComputeClient
 	Res                    *oci_core.InstanceConsoleConnection
 	DisableNotFoundRetries bool
 }
 
-func (s *InstanceConsoleConnectionResourceCrud) ID() string {
+func (s *CoreInstanceConsoleConnectionResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *InstanceConsoleConnectionResourceCrud) CreatedPending() []string {
+func (s *CoreInstanceConsoleConnectionResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.InstanceConsoleConnectionLifecycleStateCreating),
 	}
 }
 
-func (s *InstanceConsoleConnectionResourceCrud) CreatedTarget() []string {
+func (s *CoreInstanceConsoleConnectionResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.InstanceConsoleConnectionLifecycleStateActive),
 	}
 }
 
-func (s *InstanceConsoleConnectionResourceCrud) DeletedPending() []string {
+func (s *CoreInstanceConsoleConnectionResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.InstanceConsoleConnectionLifecycleStateDeleting),
 	}
 }
 
-func (s *InstanceConsoleConnectionResourceCrud) DeletedTarget() []string {
+func (s *CoreInstanceConsoleConnectionResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.InstanceConsoleConnectionLifecycleStateDeleted),
 	}
 }
 
-func (s *InstanceConsoleConnectionResourceCrud) Create() error {
+func (s *CoreInstanceConsoleConnectionResourceCrud) Create() error {
 	request := oci_core.CreateInstanceConsoleConnectionRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -170,7 +170,7 @@ func (s *InstanceConsoleConnectionResourceCrud) Create() error {
 	return nil
 }
 
-func (s *InstanceConsoleConnectionResourceCrud) Get() error {
+func (s *CoreInstanceConsoleConnectionResourceCrud) Get() error {
 	request := oci_core.GetInstanceConsoleConnectionRequest{}
 
 	tmp := s.D.Id()
@@ -187,7 +187,7 @@ func (s *InstanceConsoleConnectionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstanceConsoleConnectionResourceCrud) Delete() error {
+func (s *CoreInstanceConsoleConnectionResourceCrud) Delete() error {
 	request := oci_core.DeleteInstanceConsoleConnectionRequest{}
 
 	tmp := s.D.Id()
@@ -199,7 +199,7 @@ func (s *InstanceConsoleConnectionResourceCrud) Delete() error {
 	return err
 }
 
-func (s *InstanceConsoleConnectionResourceCrud) SetData() error {
+func (s *CoreInstanceConsoleConnectionResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

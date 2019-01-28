@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func CrossConnectPortSpeedShapesDataSource() *schema.Resource {
+func CoreCrossConnectPortSpeedShapesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCrossConnectPortSpeedShapes,
+		Read: readCoreCrossConnectPortSpeedShapes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -43,25 +43,25 @@ func CrossConnectPortSpeedShapesDataSource() *schema.Resource {
 	}
 }
 
-func readCrossConnectPortSpeedShapes(d *schema.ResourceData, m interface{}) error {
-	sync := &CrossConnectPortSpeedShapesDataSourceCrud{}
+func readCoreCrossConnectPortSpeedShapes(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCrossConnectPortSpeedShapesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type CrossConnectPortSpeedShapesDataSourceCrud struct {
+type CoreCrossConnectPortSpeedShapesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListCrossconnectPortSpeedShapesResponse
 }
 
-func (s *CrossConnectPortSpeedShapesDataSourceCrud) VoidState() {
+func (s *CoreCrossConnectPortSpeedShapesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CrossConnectPortSpeedShapesDataSourceCrud) Get() error {
+func (s *CoreCrossConnectPortSpeedShapesDataSourceCrud) Get() error {
 	request := oci_core.ListCrossconnectPortSpeedShapesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -92,7 +92,7 @@ func (s *CrossConnectPortSpeedShapesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CrossConnectPortSpeedShapesDataSourceCrud) SetData() error {
+func (s *CoreCrossConnectPortSpeedShapesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -115,7 +115,7 @@ func (s *CrossConnectPortSpeedShapesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, CrossConnectPortSpeedShapesDataSource().Schema["cross_connect_port_speed_shapes"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreCrossConnectPortSpeedShapesDataSource().Schema["cross_connect_port_speed_shapes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("cross_connect_port_speed_shapes", resources); err != nil {

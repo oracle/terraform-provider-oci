@@ -11,7 +11,7 @@ import (
 	"log"
 )
 
-func ObjectHeadDataSource() *schema.Resource {
+func ObjectStorageObjectHeadDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readObjectHead,
 		Schema: map[string]*schema.Schema{
