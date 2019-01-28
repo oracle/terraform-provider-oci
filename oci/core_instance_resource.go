@@ -929,7 +929,7 @@ func (s *CoreInstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat str
 			tmp := bootVolumeSizeInGBs.(string)
 			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 			if err != nil {
-				return nil, fmt.Errorf("unable to convert bootVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
+				return details, fmt.Errorf("unable to convert bootVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
 			}
 			details.BootVolumeSizeInGBs = &tmpInt64
 		}

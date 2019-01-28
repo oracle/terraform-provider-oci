@@ -49,6 +49,12 @@ var (
 	NotificationTopicResourceDependencies = DefinedTagsDependencies
 )
 
+func getTopicRepresentationCopyWithRandomName() map[string]interface{} {
+	return representationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
+		"name": Representation{repType: Required, create: randomString(10, charset)},
+	})
+}
+
 func TestOnsNotificationTopicResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()

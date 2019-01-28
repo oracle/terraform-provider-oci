@@ -2,6 +2,8 @@
 
 ### Added
 - Add singular Availability Domain data source with related example updates
+- Support for Monitoring service 
+- Adding ability to disable monitoring in instances
 
 ## 3.16.0 (February 26, 2019)
 
