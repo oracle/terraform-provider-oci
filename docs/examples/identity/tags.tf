@@ -14,8 +14,8 @@ resource "oci_identity_tag" "tag1" {
   tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace1.id}"
 
   #Optional
-  is_cost_tracking = false          // default is "false". The value "true" is only permitted if the associated tag namespace is part of the root compartment. 
-  is_retired = false
+  is_cost_tracking = false // default is "false". The value "true" is only permitted if the associated tag namespace is part of the root compartment. 
+  is_retired       = false
 }
 
 output "tag_namespaces" {

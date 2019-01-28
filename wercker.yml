@@ -1,4 +1,4 @@
-box: golang:1.9
+box: golang:1.11
 build:
   base-path: /go/src/github.com/terraform-providers/terraform-provider-oci
   steps:
