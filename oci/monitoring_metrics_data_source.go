@@ -9,9 +9,9 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 )
 
-func MetricsDataSource() *schema.Resource {
+func MonitoringMetricsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readMetrics,
+		Read: readMonitoringMetrics,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -103,25 +103,25 @@ func MetricsDataSource() *schema.Resource {
 	}
 }
 
-func readMetrics(d *schema.ResourceData, m interface{}) error {
-	sync := &MetricsDataSourceCrud{}
+func readMonitoringMetrics(d *schema.ResourceData, m interface{}) error {
+	sync := &MonitoringMetricsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).monitoringClient
 
 	return ReadResource(sync)
 }
 
-type MetricsDataSourceCrud struct {
+type MonitoringMetricsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_monitoring.MonitoringClient
 	Res    *oci_monitoring.ListMetricsResponse
 }
 
-func (s *MetricsDataSourceCrud) VoidState() {
+func (s *MonitoringMetricsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *MetricsDataSourceCrud) Get() error {
+func (s *MonitoringMetricsDataSourceCrud) Get() error {
 	request := oci_monitoring.ListMetricsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -183,7 +183,7 @@ func (s *MetricsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *MetricsDataSourceCrud) SetData() error {
+func (s *MonitoringMetricsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -212,7 +212,7 @@ func (s *MetricsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, MetricsDataSource().Schema["metrics"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, MonitoringMetricsDataSource().Schema["metrics"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("metrics", resources); err != nil {

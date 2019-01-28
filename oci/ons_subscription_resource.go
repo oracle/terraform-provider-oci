@@ -15,10 +15,10 @@ import (
 func OnsSubscriptionResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createSubscription,
-		Read:     readSubscription,
-		Update:   updateSubscription,
-		Delete:   deleteSubscription,
+		Create:   createOnsSubscription,
+		Read:     readOnsSubscription,
+		Update:   updateOnsSubscription,
+		Delete:   deleteOnsSubscription,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -77,32 +77,32 @@ func OnsSubscriptionResource() *schema.Resource {
 	}
 }
 
-func createSubscription(d *schema.ResourceData, m interface{}) error {
-	sync := &SubscriptionResourceCrud{}
+func createOnsSubscription(d *schema.ResourceData, m interface{}) error {
+	sync := &OnsSubscriptionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).notificationDataPlaneClient
 
 	return CreateResource(d, sync)
 }
 
-func readSubscription(d *schema.ResourceData, m interface{}) error {
-	sync := &SubscriptionResourceCrud{}
+func readOnsSubscription(d *schema.ResourceData, m interface{}) error {
+	sync := &OnsSubscriptionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).notificationDataPlaneClient
 
 	return ReadResource(sync)
 }
 
-func updateSubscription(d *schema.ResourceData, m interface{}) error {
-	sync := &SubscriptionResourceCrud{}
+func updateOnsSubscription(d *schema.ResourceData, m interface{}) error {
+	sync := &OnsSubscriptionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).notificationDataPlaneClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteSubscription(d *schema.ResourceData, m interface{}) error {
-	sync := &SubscriptionResourceCrud{}
+func deleteOnsSubscription(d *schema.ResourceData, m interface{}) error {
+	sync := &OnsSubscriptionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).notificationDataPlaneClient
 	sync.DisableNotFoundRetries = true
@@ -110,39 +110,39 @@ func deleteSubscription(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type SubscriptionResourceCrud struct {
+type OnsSubscriptionResourceCrud struct {
 	BaseCrud
 	Client                 *oci_ons.NotificationDataPlaneClient
 	Res                    *oci_ons.Subscription
 	DisableNotFoundRetries bool
 }
 
-func (s *SubscriptionResourceCrud) ID() string {
+func (s *OnsSubscriptionResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *SubscriptionResourceCrud) CreatedPending() []string {
+func (s *OnsSubscriptionResourceCrud) CreatedPending() []string {
 	return []string{}
 }
 
-func (s *SubscriptionResourceCrud) CreatedTarget() []string {
+func (s *OnsSubscriptionResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_ons.SubscriptionLifecycleStatePending),
 		string(oci_ons.SubscriptionLifecycleStateActive),
 	}
 }
 
-func (s *SubscriptionResourceCrud) DeletedPending() []string {
+func (s *OnsSubscriptionResourceCrud) DeletedPending() []string {
 	return []string{}
 }
 
-func (s *SubscriptionResourceCrud) DeletedTarget() []string {
+func (s *OnsSubscriptionResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_ons.SubscriptionLifecycleStateDeleted),
 	}
 }
 
-func (s *SubscriptionResourceCrud) Create() error {
+func (s *OnsSubscriptionResourceCrud) Create() error {
 	request := oci_ons.CreateSubscriptionRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -188,7 +188,7 @@ func (s *SubscriptionResourceCrud) Create() error {
 	return nil
 }
 
-func (s *SubscriptionResourceCrud) Get() error {
+func (s *OnsSubscriptionResourceCrud) Get() error {
 	request := oci_ons.GetSubscriptionRequest{}
 
 	tmp := s.D.Id()
@@ -205,7 +205,7 @@ func (s *SubscriptionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *SubscriptionResourceCrud) Update() error {
+func (s *OnsSubscriptionResourceCrud) Update() error {
 	request := oci_ons.UpdateSubscriptionRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -242,7 +242,7 @@ func (s *SubscriptionResourceCrud) Update() error {
 	return err
 }
 
-func (s *SubscriptionResourceCrud) Delete() error {
+func (s *OnsSubscriptionResourceCrud) Delete() error {
 	request := oci_ons.DeleteSubscriptionRequest{}
 
 	tmp := s.D.Id()
@@ -254,7 +254,7 @@ func (s *SubscriptionResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SubscriptionResourceCrud) SetData() error {
+func (s *OnsSubscriptionResourceCrud) SetData() error {
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}

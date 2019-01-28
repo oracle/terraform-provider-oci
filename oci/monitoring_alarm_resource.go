@@ -13,16 +13,16 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 )
 
-func AlarmResource() *schema.Resource {
+func MonitoringAlarmResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createAlarm,
-		Read:     readAlarm,
-		Update:   updateAlarm,
-		Delete:   deleteAlarm,
+		Create:   createMonitoringAlarm,
+		Read:     readMonitoringAlarm,
+		Update:   updateMonitoringAlarm,
+		Delete:   deleteMonitoringAlarm,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -149,32 +149,32 @@ func AlarmResource() *schema.Resource {
 	}
 }
 
-func createAlarm(d *schema.ResourceData, m interface{}) error {
-	sync := &AlarmResourceCrud{}
+func createMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
+	sync := &MonitoringAlarmResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).monitoringClient
 
 	return CreateResource(d, sync)
 }
 
-func readAlarm(d *schema.ResourceData, m interface{}) error {
-	sync := &AlarmResourceCrud{}
+func readMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
+	sync := &MonitoringAlarmResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).monitoringClient
 
 	return ReadResource(sync)
 }
 
-func updateAlarm(d *schema.ResourceData, m interface{}) error {
-	sync := &AlarmResourceCrud{}
+func updateMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
+	sync := &MonitoringAlarmResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).monitoringClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteAlarm(d *schema.ResourceData, m interface{}) error {
-	sync := &AlarmResourceCrud{}
+func deleteMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
+	sync := &MonitoringAlarmResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).monitoringClient
 	sync.DisableNotFoundRetries = true
@@ -182,40 +182,40 @@ func deleteAlarm(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type AlarmResourceCrud struct {
+type MonitoringAlarmResourceCrud struct {
 	BaseCrud
 	Client                 *oci_monitoring.MonitoringClient
 	Res                    *oci_monitoring.Alarm
 	DisableNotFoundRetries bool
 }
 
-func (s *AlarmResourceCrud) ID() string {
+func (s *MonitoringAlarmResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *AlarmResourceCrud) CreatedPending() []string {
+func (s *MonitoringAlarmResourceCrud) CreatedPending() []string {
 	return []string{}
 }
 
-func (s *AlarmResourceCrud) CreatedTarget() []string {
+func (s *MonitoringAlarmResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_monitoring.AlarmLifecycleStateActive),
 	}
 }
 
-func (s *AlarmResourceCrud) DeletedPending() []string {
+func (s *MonitoringAlarmResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_monitoring.AlarmLifecycleStateDeleting),
 	}
 }
 
-func (s *AlarmResourceCrud) DeletedTarget() []string {
+func (s *MonitoringAlarmResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_monitoring.AlarmLifecycleStateDeleted),
 	}
 }
 
-func (s *AlarmResourceCrud) Create() error {
+func (s *MonitoringAlarmResourceCrud) Create() error {
 	request := oci_monitoring.CreateAlarmRequest{}
 
 	if body, ok := s.D.GetOkExists("body"); ok {
@@ -323,7 +323,7 @@ func (s *AlarmResourceCrud) Create() error {
 	return nil
 }
 
-func (s *AlarmResourceCrud) Get() error {
+func (s *MonitoringAlarmResourceCrud) Get() error {
 	request := oci_monitoring.GetAlarmRequest{}
 
 	tmp := s.D.Id()
@@ -340,7 +340,7 @@ func (s *AlarmResourceCrud) Get() error {
 	return nil
 }
 
-func (s *AlarmResourceCrud) Update() error {
+func (s *MonitoringAlarmResourceCrud) Update() error {
 	request := oci_monitoring.UpdateAlarmRequest{}
 
 	tmp := s.D.Id()
@@ -451,7 +451,7 @@ func (s *AlarmResourceCrud) Update() error {
 	return nil
 }
 
-func (s *AlarmResourceCrud) Delete() error {
+func (s *MonitoringAlarmResourceCrud) Delete() error {
 	request := oci_monitoring.DeleteAlarmRequest{}
 
 	tmp := s.D.Id()
@@ -463,7 +463,7 @@ func (s *AlarmResourceCrud) Delete() error {
 	return err
 }
 
-func (s *AlarmResourceCrud) SetData() error {
+func (s *MonitoringAlarmResourceCrud) SetData() error {
 	if s.Res.Body != nil {
 		s.D.Set("body", *s.Res.Body)
 	}
@@ -537,7 +537,7 @@ func (s *AlarmResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *AlarmResourceCrud) mapToSuppression(fieldKeyFormat string) (oci_monitoring.Suppression, error) {
+func (s *MonitoringAlarmResourceCrud) mapToSuppression(fieldKeyFormat string) (oci_monitoring.Suppression, error) {
 	result := oci_monitoring.Suppression{}
 
 	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {

@@ -11,9 +11,9 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 )
 
-func MetricDataDataSource() *schema.Resource {
+func MonitoringMetricDataDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readMetricData,
+		Read: readMonitoringMetricData,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -137,25 +137,25 @@ func MetricDataDataSource() *schema.Resource {
 	}
 }
 
-func readMetricData(d *schema.ResourceData, m interface{}) error {
-	sync := &MetricDataDataSourceCrud{}
+func readMonitoringMetricData(d *schema.ResourceData, m interface{}) error {
+	sync := &MonitoringMetricDataDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).monitoringClient
 
 	return ReadResource(sync)
 }
 
-type MetricDataDataSourceCrud struct {
+type MonitoringMetricDataDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_monitoring.MonitoringClient
 	Res    *oci_monitoring.SummarizeMetricsDataResponse
 }
 
-func (s *MetricDataDataSourceCrud) VoidState() {
+func (s *MonitoringMetricDataDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *MetricDataDataSourceCrud) Get() error {
+func (s *MonitoringMetricDataDataSourceCrud) Get() error {
 	request := oci_monitoring.SummarizeMetricsDataRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -210,7 +210,7 @@ func (s *MetricDataDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *MetricDataDataSourceCrud) SetData() error {
+func (s *MonitoringMetricDataDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -246,7 +246,7 @@ func (s *MetricDataDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, MetricDataDataSource().Schema["metric_data"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, MonitoringMetricDataDataSource().Schema["metric_data"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("metric_data", resources); err != nil {

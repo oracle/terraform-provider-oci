@@ -11,9 +11,9 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 )
 
-func AlarmHistoryCollectionDataSource() *schema.Resource {
+func MonitoringAlarmHistoryCollectionDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularAlarmHistoryCollection,
+		Read: readSingularMonitoringAlarmHistoryCollection,
 		Schema: map[string]*schema.Schema{
 			"alarm_historytype": {
 				Type:     schema.TypeString,
@@ -65,25 +65,25 @@ func AlarmHistoryCollectionDataSource() *schema.Resource {
 	}
 }
 
-func readSingularAlarmHistoryCollection(d *schema.ResourceData, m interface{}) error {
-	sync := &AlarmHistoryCollectionDataSourceCrud{}
+func readSingularMonitoringAlarmHistoryCollection(d *schema.ResourceData, m interface{}) error {
+	sync := &MonitoringAlarmHistoryCollectionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).monitoringClient
 
 	return ReadResource(sync)
 }
 
-type AlarmHistoryCollectionDataSourceCrud struct {
+type MonitoringAlarmHistoryCollectionDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_monitoring.MonitoringClient
 	Res    *oci_monitoring.GetAlarmHistoryResponse
 }
 
-func (s *AlarmHistoryCollectionDataSourceCrud) VoidState() {
+func (s *MonitoringAlarmHistoryCollectionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AlarmHistoryCollectionDataSourceCrud) Get() error {
+func (s *MonitoringAlarmHistoryCollectionDataSourceCrud) Get() error {
 	request := oci_monitoring.GetAlarmHistoryRequest{}
 
 	if alarmHistorytype, ok := s.D.GetOkExists("alarm_historytype"); ok {
@@ -122,7 +122,7 @@ func (s *AlarmHistoryCollectionDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AlarmHistoryCollectionDataSourceCrud) SetData() error {
+func (s *MonitoringAlarmHistoryCollectionDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

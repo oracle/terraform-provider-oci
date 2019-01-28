@@ -9,9 +9,9 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 )
 
-func AlarmStatusesDataSource() *schema.Resource {
+func MonitoringAlarmStatusesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAlarmStatuses,
+		Read: readMonitoringAlarmStatuses,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -90,25 +90,25 @@ func AlarmStatusesDataSource() *schema.Resource {
 	}
 }
 
-func readAlarmStatuses(d *schema.ResourceData, m interface{}) error {
-	sync := &AlarmStatusesDataSourceCrud{}
+func readMonitoringAlarmStatuses(d *schema.ResourceData, m interface{}) error {
+	sync := &MonitoringAlarmStatusesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).monitoringClient
 
 	return ReadResource(sync)
 }
 
-type AlarmStatusesDataSourceCrud struct {
+type MonitoringAlarmStatusesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_monitoring.MonitoringClient
 	Res    *oci_monitoring.ListAlarmsStatusResponse
 }
 
-func (s *AlarmStatusesDataSourceCrud) VoidState() {
+func (s *MonitoringAlarmStatusesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AlarmStatusesDataSourceCrud) Get() error {
+func (s *MonitoringAlarmStatusesDataSourceCrud) Get() error {
 	request := oci_monitoring.ListAlarmsStatusRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -149,7 +149,7 @@ func (s *AlarmStatusesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AlarmStatusesDataSourceCrud) SetData() error {
+func (s *MonitoringAlarmStatusesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -186,7 +186,7 @@ func (s *AlarmStatusesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AlarmStatusesDataSource().Schema["alarm_statuses"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, MonitoringAlarmStatusesDataSource().Schema["alarm_statuses"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("alarm_statuses", resources); err != nil {
