@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -116,6 +117,10 @@ func (s *ConfigurationResourceCrud) Update() error {
 	if err != nil {
 		return err
 	}
+
+	// Workaround: Sleep for some time before polling the configuration. Because update happens asynchronously, polling too
+	// soon may result in service returning stale configuration values.
+	time.Sleep(time.Second * 5)
 
 	// Requests to update the retention policy may succeed instantly but may not see the actual update take effect
 	// until minutes later. Add polling here to return only when the change has taken effect.

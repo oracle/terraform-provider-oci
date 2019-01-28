@@ -222,7 +222,15 @@ Logging and Debugging
 The SDK has a built-in logging mechanism used internally. The internal logging logic is used to record the raw http
 requests, responses and potential errors when (un)marshalling request and responses.
 
-To expose debugging logs, set the environment variable "OCI_GO_SDK_DEBUG" to "1", or some other non empty string.
+Built-in logging in the SDK is controlled via the environment variable "OCI_GO_SDK_DEBUG" and its contents. The below are possible values for the "OCI_GO_SDK_DEBUG" variable
+1. "info" or "i" enables all info logging messages
+2. "debug" or "d", or "1" enables all debug and info logging messages
+3. "verbose" or "v" enables all verbose, debug and info logging messages
+4. "null" turns all logging messages off.
+
+If the value of the environment variable does not match any of the above then default logging level is "info".
+If the environment variable is not present then no logging messages are emitted.
+
 
 Retry
 
