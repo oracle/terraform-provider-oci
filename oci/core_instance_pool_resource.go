@@ -9,6 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
+
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -467,7 +468,8 @@ func (s *CoreInstancePoolResourceCrud) mapToCreateInstancePoolPlacementConfigura
 		interfaces := secondaryVnicSubnets.([]interface{})
 		tmp := make([]oci_core.InstancePoolPlacementSecondaryVnicSubnet, len(interfaces))
 		for i := range interfaces {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "secondary_vnic_subnets"), i)
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "secondary_vnic_subnets"), stateDataIndex)
 			converted, err := s.mapToInstancePoolPlacementSecondaryVnicSubnet(fieldKeyFormatNextLevel)
 			if err != nil {
 				return result, err

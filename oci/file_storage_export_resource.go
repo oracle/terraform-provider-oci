@@ -309,8 +309,7 @@ func (s *FileStorageExportResourceCrud) mapToClientOptions(fieldKeyFormat string
 	result := oci_file_storage.ClientOptions{}
 
 	if access, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access")); ok {
-		tmp := oci_file_storage.ClientOptionsAccessEnum(access.(string))
-		result.Access = tmp
+		result.Access = oci_file_storage.ClientOptionsAccessEnum(access.(string))
 	}
 
 	if anonymousGid, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "anonymous_gid")); ok {
@@ -332,8 +331,7 @@ func (s *FileStorageExportResourceCrud) mapToClientOptions(fieldKeyFormat string
 	}
 
 	if identitySquash, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "identity_squash")); ok {
-		tmp := oci_file_storage.ClientOptionsIdentitySquashEnum(identitySquash.(string))
-		result.IdentitySquash = tmp
+		result.IdentitySquash = oci_file_storage.ClientOptionsIdentitySquashEnum(identitySquash.(string))
 	}
 
 	if requirePrivilegedSourcePort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "require_privileged_source_port")); ok {

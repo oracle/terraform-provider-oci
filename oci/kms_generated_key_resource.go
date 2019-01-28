@@ -181,8 +181,7 @@ func (s *KmsGeneratedKeyResourceCrud) mapToKeyShape(fieldKeyFormat string) (oci_
 	result := oci_kms.KeyShape{}
 
 	if algorithm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "algorithm")); ok {
-		tmp := oci_kms.KeyShapeAlgorithmEnum(algorithm.(string))
-		result.Algorithm = tmp
+		result.Algorithm = oci_kms.KeyShapeAlgorithmEnum(algorithm.(string))
 	}
 
 	if length, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "length")); ok {

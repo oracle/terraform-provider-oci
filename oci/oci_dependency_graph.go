@@ -57,6 +57,7 @@ func initDependencyGraph() {
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerListener")
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerPathRouteSet")
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerRuleSet")
+	DependencyGraph["metricCompartment"] = append(DependencyGraph["metricCompartment"], "MonitoringAlarm")
 	DependencyGraph["nearCrossConnectOrCrossConnectGroup"] = append(DependencyGraph["nearCrossConnectOrCrossConnectGroup"], "CoreCrossConnect")
 	DependencyGraph["policy"] = append(DependencyGraph["policy"], "CoreVolumeBackupPolicyAssignment")
 	DependencyGraph["privateIp"] = append(DependencyGraph["privateIp"], "CorePublicIp")

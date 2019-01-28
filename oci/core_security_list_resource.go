@@ -673,8 +673,7 @@ func (s *CoreSecurityListResourceCrud) mapToEgressSecurityRule(fieldKeyFormat st
 	}
 
 	if destinationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_type")); ok && destinationType != "" {
-		tmp := oci_core.EgressSecurityRuleDestinationTypeEnum(destinationType.(string))
-		result.DestinationType = tmp
+		result.DestinationType = oci_core.EgressSecurityRuleDestinationTypeEnum(destinationType.(string))
 	}
 
 	if icmpOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "icmp_options")); ok {
@@ -814,8 +813,7 @@ func (s *CoreSecurityListResourceCrud) mapToIngressSecurityRule(fieldKeyFormat s
 	}
 
 	if sourceType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type")); ok {
-		tmp := oci_core.IngressSecurityRuleSourceTypeEnum(sourceType.(string))
-		result.SourceType = tmp
+		result.SourceType = oci_core.IngressSecurityRuleSourceTypeEnum(sourceType.(string))
 	}
 
 	if stateless, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "stateless")); ok {

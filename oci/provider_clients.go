@@ -22,6 +22,7 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
@@ -93,6 +94,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 	loadBalancerClient, err := oci_load_balancer.NewLoadBalancerClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	monitoringClient, err := oci_monitoring.NewMonitoringClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -256,6 +261,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&monitoringClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&notificationControlPlaneClient.BaseClient)
 	if err != nil {
 		return
@@ -292,6 +301,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.kmsManagementClient = &kmsManagementClient
 	clients.kmsVaultClient = &kmsVaultClient
 	clients.loadBalancerClient = &loadBalancerClient
+	clients.monitoringClient = &monitoringClient
 	clients.notificationControlPlaneClient = &notificationControlPlaneClient
 	clients.notificationDataPlaneClient = &notificationDataPlaneClient
 	clients.objectStorageClient = &objectStorageClient
@@ -317,6 +327,7 @@ type OracleClients struct {
 	kmsManagementClient     *oci_kms.KmsManagementClient
 	kmsVaultClient          *oci_kms.KmsVaultClient
 	loadBalancerClient      *oci_load_balancer.LoadBalancerClient
+	monitoringClient               *oci_monitoring.MonitoringClient
 	notificationControlPlaneClient *oci_ons.NotificationControlPlaneClient
 	notificationDataPlaneClient    *oci_ons.NotificationDataPlaneClient
 	objectStorageClient     *oci_object_storage.ObjectStorageClient

@@ -642,7 +642,9 @@ func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyF
 		interfaces := serviceLbSubnetIds.([]interface{})
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
-			tmp[i] = interfaces[i].(string)
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
 		}
 		result.ServiceLbSubnetIds = tmp
 	}

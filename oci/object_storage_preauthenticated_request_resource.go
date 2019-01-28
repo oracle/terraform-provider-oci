@@ -48,9 +48,10 @@ func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"time_expires": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: timeDiffSuppressFunction,
 			},
 
 			// Optional

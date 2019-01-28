@@ -378,8 +378,7 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) mapToObjectLifecycleRul
 	}
 
 	if timeUnit, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_unit")); ok {
-		tmp := oci_object_storage.ObjectLifecycleRuleTimeUnitEnum(timeUnit.(string))
-		result.TimeUnit = tmp
+		result.TimeUnit = oci_object_storage.ObjectLifecycleRuleTimeUnitEnum(timeUnit.(string))
 	}
 
 	return result, nil
@@ -422,7 +421,9 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) mapToObjectNameFilter(f
 		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
-			tmp[i] = interfaces[i].(string)
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
 		}
 		result.InclusionPrefixes = tmp
 	}
