@@ -289,13 +289,14 @@ func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Requ
 	IfDebug(func() {
 		dumpBody := true
 		if request.ContentLength > maxBodyLenForDebug {
-			Logln("not dumping body too big")
+			Debugf("not dumping body too big\n")
 			dumpBody = false
 		}
+		dumpBody = dumpBody && defaultLogger.LogLevel() == verboseLogging
 		if dump, e := httputil.DumpRequestOut(request, dumpBody); e == nil {
-			Logf("Dump Request %v", string(dump))
+			Debugf("Dump Request %s", string(dump))
 		} else {
-			Debugln(e)
+			Debugf("%v\n", e)
 		}
 	})
 
@@ -304,20 +305,21 @@ func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Requ
 
 	IfDebug(func() {
 		if err != nil {
-			Logln(err)
+			Debugf("%v\n", err)
 			return
 		}
 
 		dumpBody := true
 		if response.ContentLength > maxBodyLenForDebug {
-			Logln("not dumping body too big")
+			Debugf("not dumping body too big\n")
 			dumpBody = false
 		}
 
+		dumpBody = dumpBody && defaultLogger.LogLevel() == verboseLogging
 		if dump, e := httputil.DumpResponse(response, dumpBody); e == nil {
-			Logf("Dump Response %v", string(dump))
+			Debugf("Dump Response %s", string(dump))
 		} else {
-			Debugln(e)
+			Debugf("%v\n", e)
 		}
 	})
 
