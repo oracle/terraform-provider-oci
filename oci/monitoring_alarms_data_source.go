@@ -9,9 +9,9 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 )
 
-func AlarmsDataSource() *schema.Resource {
+func MonitoringAlarmsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAlarms,
+		Read: readMonitoringAlarms,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -33,31 +33,31 @@ func AlarmsDataSource() *schema.Resource {
 			"alarms": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(AlarmResource()),
+				Elem:     GetDataSourceItemSchema(MonitoringAlarmResource()),
 			},
 		},
 	}
 }
 
-func readAlarms(d *schema.ResourceData, m interface{}) error {
-	sync := &AlarmsDataSourceCrud{}
+func readMonitoringAlarms(d *schema.ResourceData, m interface{}) error {
+	sync := &MonitoringAlarmsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).monitoringClient
 
 	return ReadResource(sync)
 }
 
-type AlarmsDataSourceCrud struct {
+type MonitoringAlarmsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_monitoring.MonitoringClient
 	Res    *oci_monitoring.ListAlarmsResponse
 }
 
-func (s *AlarmsDataSourceCrud) VoidState() {
+func (s *MonitoringAlarmsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AlarmsDataSourceCrud) Get() error {
+func (s *MonitoringAlarmsDataSourceCrud) Get() error {
 	request := oci_monitoring.ListAlarmsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -102,7 +102,7 @@ func (s *AlarmsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AlarmsDataSourceCrud) SetData() error {
+func (s *MonitoringAlarmsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -161,7 +161,7 @@ func (s *AlarmsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AlarmsDataSource().Schema["alarms"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, MonitoringAlarmsDataSource().Schema["alarms"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("alarms", resources); err != nil {

@@ -12,7 +12,7 @@ import (
 
 func OnsSubscriptionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSubscriptions,
+		Read: readOnsSubscriptions,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -32,25 +32,25 @@ func OnsSubscriptionsDataSource() *schema.Resource {
 	}
 }
 
-func readSubscriptions(d *schema.ResourceData, m interface{}) error {
-	sync := &SubscriptionsDataSourceCrud{}
+func readOnsSubscriptions(d *schema.ResourceData, m interface{}) error {
+	sync := &OnsSubscriptionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).notificationDataPlaneClient
 
 	return ReadResource(sync)
 }
 
-type SubscriptionsDataSourceCrud struct {
+type OnsSubscriptionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_ons.NotificationDataPlaneClient
 	Res    *oci_ons.ListSubscriptionsResponse
 }
 
-func (s *SubscriptionsDataSourceCrud) VoidState() {
+func (s *OnsSubscriptionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SubscriptionsDataSourceCrud) Get() error {
+func (s *OnsSubscriptionsDataSourceCrud) Get() error {
 	request := oci_ons.ListSubscriptionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -86,7 +86,7 @@ func (s *SubscriptionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SubscriptionsDataSourceCrud) SetData() error {
+func (s *OnsSubscriptionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

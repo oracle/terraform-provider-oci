@@ -11,7 +11,7 @@ import (
 
 func OnsNotificationTopicsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readNotificationTopics,
+		Read: readOnsNotificationTopics,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,25 +39,25 @@ func OnsNotificationTopicsDataSource() *schema.Resource {
 	}
 }
 
-func readNotificationTopics(d *schema.ResourceData, m interface{}) error {
-	sync := &NotificationTopicsDataSourceCrud{}
+func readOnsNotificationTopics(d *schema.ResourceData, m interface{}) error {
+	sync := &OnsNotificationTopicsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).notificationControlPlaneClient
 
 	return ReadResource(sync)
 }
 
-type NotificationTopicsDataSourceCrud struct {
+type OnsNotificationTopicsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_ons.NotificationControlPlaneClient
 	Res    *oci_ons.ListTopicsResponse
 }
 
-func (s *NotificationTopicsDataSourceCrud) VoidState() {
+func (s *OnsNotificationTopicsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NotificationTopicsDataSourceCrud) Get() error {
+func (s *OnsNotificationTopicsDataSourceCrud) Get() error {
 	request := oci_ons.ListTopicsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -102,7 +102,7 @@ func (s *NotificationTopicsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *NotificationTopicsDataSourceCrud) SetData() error {
+func (s *OnsNotificationTopicsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

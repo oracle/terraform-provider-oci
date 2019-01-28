@@ -11,7 +11,7 @@ import (
 
 func OnsSubscriptionDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularSubscription,
+		Read: readSingularOnsSubscription,
 		Schema: map[string]*schema.Schema{
 			"subscription_id": {
 				Type:     schema.TypeString,
@@ -52,25 +52,25 @@ func OnsSubscriptionDataSource() *schema.Resource {
 	}
 }
 
-func readSingularSubscription(d *schema.ResourceData, m interface{}) error {
-	sync := &SubscriptionDataSourceCrud{}
+func readSingularOnsSubscription(d *schema.ResourceData, m interface{}) error {
+	sync := &OnsSubscriptionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).notificationDataPlaneClient
 
 	return ReadResource(sync)
 }
 
-type SubscriptionDataSourceCrud struct {
+type OnsSubscriptionDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_ons.NotificationDataPlaneClient
 	Res    *oci_ons.GetSubscriptionResponse
 }
 
-func (s *SubscriptionDataSourceCrud) VoidState() {
+func (s *OnsSubscriptionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SubscriptionDataSourceCrud) Get() error {
+func (s *OnsSubscriptionDataSourceCrud) Get() error {
 	request := oci_ons.GetSubscriptionRequest{}
 
 	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
@@ -89,7 +89,7 @@ func (s *SubscriptionDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SubscriptionDataSourceCrud) SetData() error {
+func (s *OnsSubscriptionDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

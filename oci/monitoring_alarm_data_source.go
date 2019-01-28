@@ -9,9 +9,9 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 )
 
-func AlarmDataSource() *schema.Resource {
+func MonitoringAlarmDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularAlarm,
+		Read: readSingularMonitoringAlarm,
 		Schema: map[string]*schema.Schema{
 			"alarm_id": {
 				Type:     schema.TypeString,
@@ -127,25 +127,25 @@ func AlarmDataSource() *schema.Resource {
 	}
 }
 
-func readSingularAlarm(d *schema.ResourceData, m interface{}) error {
-	sync := &AlarmDataSourceCrud{}
+func readSingularMonitoringAlarm(d *schema.ResourceData, m interface{}) error {
+	sync := &MonitoringAlarmDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).monitoringClient
 
 	return ReadResource(sync)
 }
 
-type AlarmDataSourceCrud struct {
+type MonitoringAlarmDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_monitoring.MonitoringClient
 	Res    *oci_monitoring.GetAlarmResponse
 }
 
-func (s *AlarmDataSourceCrud) VoidState() {
+func (s *MonitoringAlarmDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AlarmDataSourceCrud) Get() error {
+func (s *MonitoringAlarmDataSourceCrud) Get() error {
 	request := oci_monitoring.GetAlarmRequest{}
 
 	if alarmId, ok := s.D.GetOkExists("alarm_id"); ok {
@@ -164,7 +164,7 @@ func (s *AlarmDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AlarmDataSourceCrud) SetData() error {
+func (s *MonitoringAlarmDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

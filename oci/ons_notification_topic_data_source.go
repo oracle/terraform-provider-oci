@@ -11,7 +11,7 @@ import (
 
 func OnsNotificationTopicDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularNotificationTopic,
+		Read: readSingularOnsNotificationTopic,
 		Schema: map[string]*schema.Schema{
 			"topic_id": {
 				Type:     schema.TypeString,
@@ -60,25 +60,25 @@ func OnsNotificationTopicDataSource() *schema.Resource {
 	}
 }
 
-func readSingularNotificationTopic(d *schema.ResourceData, m interface{}) error {
-	sync := &NotificationTopicDataSourceCrud{}
+func readSingularOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {
+	sync := &OnsNotificationTopicDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).notificationControlPlaneClient
 
 	return ReadResource(sync)
 }
 
-type NotificationTopicDataSourceCrud struct {
+type OnsNotificationTopicDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_ons.NotificationControlPlaneClient
 	Res    *oci_ons.GetTopicResponse
 }
 
-func (s *NotificationTopicDataSourceCrud) VoidState() {
+func (s *OnsNotificationTopicDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NotificationTopicDataSourceCrud) Get() error {
+func (s *OnsNotificationTopicDataSourceCrud) Get() error {
 	request := oci_ons.GetTopicRequest{}
 
 	if topicId, ok := s.D.GetOkExists("topic_id"); ok {
@@ -97,7 +97,7 @@ func (s *NotificationTopicDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *NotificationTopicDataSourceCrud) SetData() error {
+func (s *OnsNotificationTopicDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
