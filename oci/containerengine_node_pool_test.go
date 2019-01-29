@@ -216,7 +216,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
+				Config:                  config + compartmentIdVariableStr + NodePoolResourceConfig,
 				ImportState:             true,
 				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{},
