@@ -91,7 +91,7 @@ var (
 		"oracle_bgp_peering_ip":   Representation{repType: Required, create: `10.0.0.19/31`, update: `10.0.0.21/31`},
 	}
 	virtualCircuitPublicPrefixesRepresentation = map[string]interface{}{
-		"cidr_block": Representation{repType: Required, create: `0.0.0.0/5`},
+		"cidr_block": Representation{repType: Required, create: `0.0.0.0/5`, update: `0.0.0.0/6`},
 	}
 
 	VirtualCircuitWithProviderResourceConfigFilter = `
@@ -171,6 +171,32 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			// verify update - PUBLIC Virtual Circuit
+			{
+				Config: config + VirtualCircuitPublicPropertyVariables + compartmentIdVariableStr + VirtualCircuitResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Update, virtualCircuitPublicRequiredOnlyRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
+					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "300"),
+					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "11"),
+					resource.TestCheckResourceAttr(resourceName, "public_prefixes.#", "1"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "public_prefixes", map[string]string{
+						"cidr_block": "0.0.0.0/6",
+					},
+						[]string{}),
+					resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
 						return err
 					},
 				),
@@ -341,14 +367,11 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Update, virtualCircuitRepresentation),
+				Config:            config,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
-					"public_prefixes",
 					"region",
-					"virtual_circuit_id",
 				},
 				ResourceName: resourceName,
 			},

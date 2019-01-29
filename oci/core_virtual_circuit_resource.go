@@ -6,11 +6,10 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
-
-	"strings"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
@@ -107,8 +106,6 @@ func CoreVirtualCircuitResource() *schema.Resource {
 			"public_prefixes": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				Computed: true,
-				ForceNew: true,
 				Set:      publicPrefixesHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -116,7 +113,6 @@ func CoreVirtualCircuitResource() *schema.Resource {
 						"cidr_block": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
@@ -356,27 +352,35 @@ func (s *CoreVirtualCircuitResourceCrud) Get() error {
 
 	s.Res = &response.VirtualCircuit
 
-	// VirtualCircuitPublicPrefixes are returned from another API, make a List call on them if the VirtualCircuit is of type 'PUBLIC'
-	if type_, ok := s.D.GetOkExists("type"); ok && strings.EqualFold(type_.(string), string(oci_core.VirtualCircuitTypePublic)) && s.Res.PublicPrefixes == nil {
-		request2 := oci_core.ListVirtualCircuitPublicPrefixesRequest{}
-		request2.VirtualCircuitId = request.VirtualCircuitId
+	ppRequest := oci_core.ListVirtualCircuitPublicPrefixesRequest{}
+	ppRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	ppRequest.VirtualCircuitId = request.VirtualCircuitId
 
-		response2, err2 := s.Client.ListVirtualCircuitPublicPrefixes(context.Background(), request2)
-
-		publicPrefixes := []string{}
-		for _, item := range response2.Items {
-			publicPrefixes = append(publicPrefixes, *item.CidrBlock)
-		}
-
-		s.Res.PublicPrefixes = publicPrefixes
-		if err2 != nil {
-			return err2
-		}
+	ppResponse, ppErr := s.Client.ListVirtualCircuitPublicPrefixes(context.Background(), ppRequest)
+	if ppErr != nil {
+		return ppErr
 	}
+
+	publicPrefixes := []string{}
+	for _, item := range ppResponse.Items {
+		publicPrefixes = append(publicPrefixes, *item.CidrBlock)
+	}
+
+	s.Res.PublicPrefixes = publicPrefixes
+
 	return nil
 }
 
 func (s *CoreVirtualCircuitResourceCrud) Update() error {
+	// Update public prefixes, if changed
+	// Cannot update PublicPrefix when the VirtualCircuit is in state PROVISIONING so public prefixes should be updated first
+	if s.D.HasChange("public_prefixes") {
+		err := s.updatePublicPrefixes()
+		if err != nil {
+			return fmt.Errorf("unable to update 'public_prefixes', error: %v", err)
+		}
+	}
+
 	request := oci_core.UpdateVirtualCircuitRequest{}
 
 	if bandwidthShapeName, ok := s.D.GetOkExists("bandwidth_shape_name"); ok {
@@ -435,6 +439,73 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 	}
 
 	s.Res = &response.VirtualCircuit
+	return nil
+}
+
+// Update public prefixes using BulkAdd and BulkDelete APIs by computing the diff
+func (s *CoreVirtualCircuitResourceCrud) updatePublicPrefixes() error {
+	virtualCircuitId := s.D.Id()
+
+	o, n := s.D.GetChange("public_prefixes")
+	if o == nil {
+		o = new(schema.Set)
+	}
+	if n == nil {
+		n = new(schema.Set)
+	}
+
+	os := o.(*schema.Set)
+	ns := n.(*schema.Set)
+
+	newPublicPrefixesToAdd := ns.Difference(os).List()
+	oldPublicPrefixesToDelete := os.Difference(ns).List()
+
+	var publicPrefixesToAdd []oci_core.CreateVirtualCircuitPublicPrefixDetails
+	var publicPrefixesToDelete []oci_core.DeleteVirtualCircuitPublicPrefixDetails
+
+	for _, nppMap := range newPublicPrefixesToAdd {
+		npp := mapToCreateVirtualCircuitPublicPrefixDetails(nppMap.(map[string]interface{}))
+		publicPrefixesToAdd = append(publicPrefixesToAdd, npp)
+	}
+
+	for _, oppMap := range oldPublicPrefixesToDelete {
+		opp := mapToDeleteVirtualCircuitPublicPrefixDetails(oppMap.(map[string]interface{}))
+		publicPrefixesToDelete = append(publicPrefixesToDelete, opp)
+	}
+
+	// Add the public prefixes first, if any
+	// And, wait for the update to complete before proceeding for subsequent updates if state is PROVISIONING
+	if len(publicPrefixesToAdd) > 0 {
+		addRequest := oci_core.BulkAddVirtualCircuitPublicPrefixesRequest{}
+		addRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		addRequest.PublicPrefixes = publicPrefixesToAdd
+		addRequest.VirtualCircuitId = &virtualCircuitId
+		addErr := s.Client.BulkAddVirtualCircuitPublicPrefixes(context.Background(), addRequest)
+		if addErr != nil {
+			return fmt.Errorf("failed to add public prefixes, error: %v", addErr)
+		}
+
+		if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+			return waitErr
+		}
+	}
+
+	// Delete the old public prefixes, if any, after adding new ones
+	// And, wait for the update to complete before proceeding for subsequent updates if state is PROVISIONING
+	if len(publicPrefixesToDelete) > 0 {
+		deleteRequest := oci_core.BulkDeleteVirtualCircuitPublicPrefixesRequest{}
+		deleteRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+		deleteRequest.PublicPrefixes = publicPrefixesToDelete
+		deleteRequest.VirtualCircuitId = &virtualCircuitId
+		deleteErr := s.Client.BulkDeleteVirtualCircuitPublicPrefixes(context.Background(), deleteRequest)
+		if deleteErr != nil {
+			return fmt.Errorf("failed to delete public prefixes, error: %v", deleteErr)
+		}
+
+		if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+			return waitErr
+		}
+	}
 
 	return nil
 }
@@ -492,13 +563,11 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 
 	s.D.Set("provider_state", s.Res.ProviderState)
 
-	if s.Res.PublicPrefixes != nil {
-		publicPrefixes := []interface{}{}
-		for _, item := range s.Res.PublicPrefixes {
-			publicPrefixes = append(publicPrefixes, CreateVirtualCircuitPublicPrefixDetailsToMap(item))
-		}
-		s.D.Set("public_prefixes", schema.NewSet(publicPrefixesHashCodeForSets, publicPrefixes))
+	publicPrefixes := []interface{}{}
+	for _, item := range s.Res.PublicPrefixes {
+		publicPrefixes = append(publicPrefixes, CreateVirtualCircuitPublicPrefixDetailsToMap(item))
 	}
+	s.D.Set("public_prefixes", schema.NewSet(publicPrefixesHashCodeForSets, publicPrefixes))
 
 	if s.Res.ReferenceComment != nil {
 		s.D.Set("reference_comment", *s.Res.ReferenceComment)
@@ -519,6 +588,30 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 	s.D.Set("type", s.Res.Type)
 
 	return nil
+}
+
+// Converting raw set data from state diff to DeleteVirtualCircuitPublicPrefixDetails
+func mapToDeleteVirtualCircuitPublicPrefixDetails(publicPrefix map[string]interface{}) oci_core.DeleteVirtualCircuitPublicPrefixDetails {
+	result := oci_core.DeleteVirtualCircuitPublicPrefixDetails{}
+
+	if cidrBlock, ok := publicPrefix["cidr_block"]; ok {
+		tmp := cidrBlock.(string)
+		result.CidrBlock = &tmp
+	}
+
+	return result
+}
+
+// Converting raw set data from state diff to CreateVirtualCircuitPublicPrefixDetails
+func mapToCreateVirtualCircuitPublicPrefixDetails(publicPrefix map[string]interface{}) oci_core.CreateVirtualCircuitPublicPrefixDetails {
+	result := oci_core.CreateVirtualCircuitPublicPrefixDetails{}
+
+	if cidrBlock, ok := publicPrefix["cidr_block"]; ok {
+		tmp := cidrBlock.(string)
+		result.CidrBlock = &tmp
+	}
+
+	return result
 }
 
 func (s *CoreVirtualCircuitResourceCrud) mapToCreateVirtualCircuitPublicPrefixDetails(fieldKeyFormat string) (oci_core.CreateVirtualCircuitPublicPrefixDetails, error) {
@@ -553,20 +646,24 @@ func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat
 		result.CrossConnectOrCrossConnectGroupId = &tmp
 	}
 
-	if customerBgpPeeringIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_bgp_peering_ip")); ok {
-		tmp := customerBgpPeeringIp.(string)
-		result.CustomerBgpPeeringIp = &tmp
-	}
+	// customer_bgp_peering_ip, oracleBgpPeeringIp are not allowed in requests for PUBLIC virtual circuit
+	if vcType, ok := s.D.GetOkExists("type"); ok && !strings.EqualFold(vcType.(string), string(oci_core.VirtualCircuitTypePublic)) {
+		if customerBgpPeeringIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_bgp_peering_ip")); ok {
+			tmp := customerBgpPeeringIp.(string)
+			result.CustomerBgpPeeringIp = &tmp
+		}
 
-	if oracleBgpPeeringIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_bgp_peering_ip")); ok {
-		tmp := oracleBgpPeeringIp.(string)
-		result.OracleBgpPeeringIp = &tmp
+		if oracleBgpPeeringIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_bgp_peering_ip")); ok {
+			tmp := oracleBgpPeeringIp.(string)
+			result.OracleBgpPeeringIp = &tmp
+		}
 	}
 
 	if vlan, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vlan")); ok {
 		tmp := vlan.(int)
-		//Vlan value must be greater than or equal to 100. It cannot be specified for certain circuit types.
-		if tmp >= 100 {
+		// Vlan value must be greater than or equal to 100.
+		// It cannot be specified for certain circuit types, hence protecting against default '0' values
+		if tmp > 0 {
 			result.Vlan = &tmp
 		}
 	}
