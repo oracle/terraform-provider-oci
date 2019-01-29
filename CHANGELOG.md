@@ -1,4 +1,4 @@
-## 3.14.0 (Unreleased)
+## 3.14.0 (January 29, 2019)
 
 ### Added
 - Adding support for the database renaming during restore from incremental backup
