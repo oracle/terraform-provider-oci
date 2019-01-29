@@ -45,6 +45,7 @@ resource "oci_core_virtual_circuit" "virtual_circuit_public" {
   display_name     = "${var.virtual_circuit_display_name}"
 
   #provider_service_id = "${oci_core_provider_service.provider_service.id}"
+
   public_prefixes = [
     {
       #Required
@@ -53,8 +54,10 @@ resource "oci_core_virtual_circuit" "virtual_circuit_public" {
     {
       cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block2}"
     },
+    {
+      cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block3}"
+    },
   ]
-
   region = "${var.virtual_circuit_region}"
 }
 
