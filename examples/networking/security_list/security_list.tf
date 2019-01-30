@@ -48,8 +48,8 @@ resource "oci_core_security_list" "ExampleSecurityList" {
 
     udp_options {
       // These values correspond to the destination port range.
-      "min" = 319
-      "max" = 320
+      min = 319
+      max = 320
     }
   }
 
@@ -61,13 +61,13 @@ resource "oci_core_security_list" "ExampleSecurityList" {
 
     tcp_options {
       source_port_range {
-        "min" = 100
-        "max" = 100
+        min = 100
+        max = 100
       }
 
       // These values correspond to the destination port range.
-      "min" = 22
-      "max" = 22
+      min = 22
+      max = 22
     }
   }
 
@@ -78,8 +78,8 @@ resource "oci_core_security_list" "ExampleSecurityList" {
     stateless = true
 
     icmp_options {
-      "type" = 3
-      "code" = 4
+      type = 3
+      code = 4
     }
   }
 }

@@ -14,8 +14,9 @@ output "BootVolumeIDs" {
   value = ["${oci_core_instance.TFInstance.*.boot_volume_id}"]
 }
 
+# Output all the devices for all instances
 output "InstanceDevices" {
-  value = ["${data.oci_core_instance_devices.TFInstanceDevices.devices}"]
+  value = ["${data.oci_core_instance_devices.TFInstanceDevices.*.devices}"]
 }
 
 # Output the chap secret information for ISCSI volume attachments. This can be used to output

@@ -11,7 +11,7 @@ resource "random_string" "instance_password" {
 
 # Use the cloudinit.ps1 as a template and pass the instance name, user and password as variables to same
 data "template_file" "cloudinit_ps1" {
-  vars {
+  vars = {
     instance_user     = "${var.instance_user}"
     instance_password = "${random_string.instance_password.result}"
     instance_name     = "${var.instance_name}"
@@ -51,7 +51,7 @@ resource "oci_core_instance" "TFInstance" {
   hostname_label      = "winmachine"
 
   # Refer cloud-init in https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchInstanceDetails
-  metadata {
+  metadata = {
     # Base64 encoded YAML based user_data to be passed to cloud-init
     user_data = "${data.template_cloudinit_config.cloudinit_config.rendered}"
   }

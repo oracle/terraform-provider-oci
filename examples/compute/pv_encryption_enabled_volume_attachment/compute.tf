@@ -18,7 +18,7 @@ resource "oci_core_instance" "TFInstance" {
     source_id   = "${lookup(data.oci_core_images.TFSupportedShapeImages.images[0], "id")}"
   }
 
-  metadata {
+  metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
   }
 

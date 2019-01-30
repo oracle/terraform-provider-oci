@@ -8,7 +8,7 @@ resource "oci_core_instance" "my_instance" {
   shape               = "${var.instance_shape}"
   subnet_id           = "${oci_core_subnet.my_subnet.id}"
 
-  metadata {
+  metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
   }
 

@@ -120,31 +120,30 @@ resource "oci_core_security_list" "securitylist1" {
   compartment_id = "${oci_core_virtual_network.vcn1.compartment_id}"
   vcn_id         = "${oci_core_virtual_network.vcn1.id}"
 
-  egress_security_rules = [{
+  egress_security_rules {
     protocol    = "all"
     destination = "0.0.0.0/0"
-  }]
+  }
 
-  ingress_security_rules = [
-    {
-      protocol = "6"
-      source   = "0.0.0.0/0"
+  ingress_security_rules {
+    protocol = "6"
+    source   = "0.0.0.0/0"
 
-      tcp_options {
-        "min" = 80
-        "max" = 80
-      }
-    },
-    {
-      protocol = "6"
-      source   = "0.0.0.0/0"
+    tcp_options {
+      min = 80
+      max = 80
+    }
+  }
 
-      tcp_options {
-        "min" = 443
-        "max" = 443
-      }
-    },
-  ]
+  ingress_security_rules {
+    protocol = "6"
+    source   = "0.0.0.0/0"
+
+    tcp_options {
+      min = 443
+      max = 443
+    }
+  }
 }
 
 /* Instances */
@@ -157,7 +156,7 @@ resource "oci_core_instance" "instance1" {
   subnet_id           = "${oci_core_subnet.subnet1.id}"
   hostname_label      = "be-instance1"
 
-  metadata {
+  metadata = {
     user_data = "${base64encode(var.user-data)}"
   }
 
@@ -175,7 +174,7 @@ resource "oci_core_instance" "instance2" {
   subnet_id           = "${oci_core_subnet.subnet2.id}"
   hostname_label      = "be-instance2"
 
-  metadata {
+  metadata = {
     user_data = "${base64encode(var.user-data)}"
   }
 

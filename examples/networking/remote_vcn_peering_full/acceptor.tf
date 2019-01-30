@@ -149,7 +149,7 @@ resource "oci_core_instance" "acceptor_instance" {
     source_id   = "${var.instance_image_ocid[var.acceptor_region]}"
   }
 
-  metadata {
+  metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
   }
 }

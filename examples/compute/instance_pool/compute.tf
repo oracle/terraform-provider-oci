@@ -10,7 +10,7 @@ resource "oci_core_instance" "TFInstance" {
     subnet_id        = "${oci_core_subnet.ExampleSubnet.id}"
     display_name     = "primaryvnic"
     assign_public_ip = true
-    hostname_label   = "tfexampleinstance${count.index}"
+    hostname_label   = "tfexampleinstance"
   }
 
   source_details {
@@ -52,7 +52,7 @@ resource "oci_core_instance_configuration" "TFInstanceConfiguration" {
         skip_source_dest_check = false
       }
 
-      extended_metadata {
+      extended_metadata = {
         some_string   = "stringA"
         nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
       }
@@ -72,8 +72,8 @@ resource "oci_core_instance_pool" "TFInstancePool" {
   state                     = "RUNNING"
   display_name              = "TFInstancePool"
 
-  placement_configurations = [{
+  placement_configurations {
     availability_domain = "${data.oci_identity_availability_domain.ad.name}"
     primary_subnet_id   = "${oci_core_subnet.ExampleSubnet.id}"
-  }]
+  }
 }

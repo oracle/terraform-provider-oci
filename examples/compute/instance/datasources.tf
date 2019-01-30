@@ -16,6 +16,7 @@ data "oci_core_boot_volume_attachments" "TFBootVolumeAttachments" {
 }
 
 data "oci_core_instance_devices" "TFInstanceDevices" {
+  count       = "${var.NumInstances}"
   instance_id = "${oci_core_instance.TFInstance.*.id[count.index]}"
 }
 

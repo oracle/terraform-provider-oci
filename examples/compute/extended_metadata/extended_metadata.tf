@@ -101,7 +101,7 @@ resource "oci_core_instance" "TFInstance1" {
     source_id   = "${var.instance_image_ocid[var.region]}"
   }
 
-  extended_metadata {
+  extended_metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
     some_string         = "stringA"
     nested_object       = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"

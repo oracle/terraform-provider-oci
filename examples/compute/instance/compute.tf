@@ -29,7 +29,7 @@ resource "oci_core_instance" "TFInstance" {
   # When changing this value, make sure to run 'terraform apply' so that it takes effect before the resource is destroyed.
   #preserve_boot_volume = true
 
-  metadata {
+  metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
     user_data           = "${base64encode(file(var.BootStrapFile))}"
   }
