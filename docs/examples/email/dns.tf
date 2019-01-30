@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 // Configure a DNS that has the TXT record to setup the SPF for the email
 resource "oci_dns_zone" "zone1" {
   compartment_id = "${var.compartment_ocid}"

@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 /*
  * This example file shows how to list available OCI regions, as well as region subscriptions of your tenancy
  */
