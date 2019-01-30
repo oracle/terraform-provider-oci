@@ -90,6 +90,8 @@ resource "oci_core_volume_group" "test_volume_group_from_vol_ids" {
     type = "volumeIds"
 
     // Mix of named volume and splatted multiple volumes
+    // If using with Terraform v0.12, supply the following line instead.
+    // volume_ids = concat(["${oci_core_volume.t.id}"], "${oci_core_volume.test_volume.*.id}")
     volume_ids = ["${oci_core_volume.t.id}", "${oci_core_volume.test_volume.*.id}"]
   }
 

@@ -79,7 +79,7 @@ resource "oci_core_instance" "ExampleInstance" {
     hostname_label = "exampleinstance"
   }
 
-  metadata {
+  metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
   }
 

@@ -18,7 +18,7 @@ resource "oci_core_instance" "pic_instance" {
     source_id   = "${lookup(data.oci_core_app_catalog_subscriptions.test_app_catalog_subscriptions.app_catalog_subscriptions[0], "listing_resource_id")}"
   }
 
-  metadata {
+  metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
   }
 

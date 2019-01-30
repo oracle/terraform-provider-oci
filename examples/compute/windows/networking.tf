@@ -47,8 +47,8 @@ resource "oci_core_security_list" "ExampleSecurityList" {
 
     tcp_options {
       // These values correspond to the destination port range.
-      "min" = 3389
-      "max" = 3389
+      min = 3389
+      max = 3389
     }
   }
 
@@ -60,8 +60,8 @@ resource "oci_core_security_list" "ExampleSecurityList" {
 
     tcp_options {
       // These values correspond to the destination port range.
-      "min" = 5985
-      "max" = 5986
+      min = 5985
+      max = 5986
     }
   }
 

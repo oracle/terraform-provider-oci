@@ -2,7 +2,7 @@
 
 # Use the setup.ps1 as a template and pass the block volume ipv4 and iqn for ISCSI
 data "template_file" "setup_ps1" {
-  vars {
+  vars = {
     volume_ipv4 = "${oci_core_volume_attachment.TFVolumeAttachment.ipv4}"
     volume_iqn  = "${oci_core_volume_attachment.TFVolumeAttachment.iqn}"
   }
@@ -84,7 +84,7 @@ resource "null_resource" "remote-exec-windows" {
   count = "${var.IsWinRMConfiguredForImage == "true" ? 1 : 0}"
 
   provisioner "file" {
-    connection = {
+    connection {
       type     = "winrm"
       agent    = false
       timeout  = "1m"
