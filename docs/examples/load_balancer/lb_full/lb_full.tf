@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 /*
  * This example demonstrates round robin load balancing behavior by creating two instances, a configured
  * vcn and a load balancer. The public IP of the load balancer is outputted after a successful run, curl
