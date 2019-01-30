@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 resource "oci_core_boot_volume" "TFBootVolumeFromSourceBootVolume" {
   availability_domain = "${oci_core_instance.TFInstance.availability_domain}"
   compartment_id      = "${oci_core_instance.TFInstance.compartment_id}"

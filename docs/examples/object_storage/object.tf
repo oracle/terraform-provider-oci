@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 /* This example demonstrates object store object management. It uses Terraforms built-in `file` function to upload a file.
  * 
  * WARNING: This should only be used with small files. The file helper does stringification so large files

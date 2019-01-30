@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 resource "null_resource" "remote-exec" {
   depends_on = ["oci_core_instance.TFInstance", "oci_core_volume_attachment.TFBlockAttach"]
   count      = "${var.NumInstances * var.NumIscsiVolumesPerInstance}"

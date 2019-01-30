@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 resource "oci_identity_identity_provider" "test_identity_provider" {
   #Required
   compartment_id = "${var.tenancy_ocid}"

@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 resource "oci_core_virtual_network" "my_vcn" {
   cidr_block     = "10.1.0.0/16"
   dns_label      = "myvcn"

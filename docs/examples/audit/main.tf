@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 /*
  * This example shows how to use the audit_configuration Resource to set the event retention period and list events with
  * the audit_events Data Source.

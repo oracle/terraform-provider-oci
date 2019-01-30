@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 variable "identity_provider_defined_tags_value" {
   default = "value"
 }

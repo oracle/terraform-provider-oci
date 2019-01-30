@@ -5,7 +5,7 @@
 #       Oracle Cloud Infrastructure
 #
 # 20 April 2017
-# Copyright Oracle, Inc.  All rights reserved.
+# Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 BASEADDR="169.254.2.2"
 
@@ -40,14 +40,14 @@ do
 		(( addrCount = addrCount + 1 ))
 		continue
 	fi
-	 
+
 	# Loop through the list (via the named FIFO pipe below)
 	while read target
 	do
 	    mkfifo sesspipe
 	    # Get the list of the currently attached Block Storage volumes
 	    iscsiadm -m session -P 0 | grep -v uefi | awk '{print $4}' > sesspipe 2> /dev/null &
-	     
+
 	    # Set a flag, and loop through the sessions (attached, but not configured)
 	    # and see if the volumes match.  If so, skip to the next until we get
 	    # through the list.  Session list is via the pipe.
@@ -60,7 +60,7 @@ do
 		    break
 		fi
 	    done < sesspipe
-	     
+
 	    # If the volume is not found, configure it.  Get the resulting device file.
 	    if [ ${found} = "false" ]
 	    then
@@ -70,7 +70,7 @@ do
 		sleep 10
 	    fi
 	done < discpipe
-	
+
 	(( addrCount = addrCount + 1 ))
 	find . -maxdepth 1 -type p -exec rm {} \;
 done

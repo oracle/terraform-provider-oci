@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 /*
  * This example file shows how to create a policy pertaining to a compartment and group. It is important to
  * note the use of interpolation syntax in the statement field, this ensures Terraform creates the group and 

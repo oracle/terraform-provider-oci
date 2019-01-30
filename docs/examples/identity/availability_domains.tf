@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 /*
  * This example file demonstrates how to read AD values from a region and employ filters
  * to isolate specific ADs.

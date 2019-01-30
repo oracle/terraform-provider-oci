@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 resource "oci_core_cross_connect" "cross_connect" {
   #Required
   compartment_id        = "${var.compartment_ocid}"

@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 data "oci_core_letter_of_authority" "letter_of_authority" {
   #Required
   cross_connect_id = "${oci_core_cross_connect.cross_connect.id}"

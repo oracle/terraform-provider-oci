@@ -1,3 +1,5 @@
+# Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 TEST?=./...
 GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 PKG_NAME=oci
@@ -124,4 +126,3 @@ zip:
 	tar -czvf solaris_amd64.tar.gz solaris_amd64
 
 .PHONY: build test testacc vet fmt fmtcheck errcheck vendor-status test-compile website website-test
-

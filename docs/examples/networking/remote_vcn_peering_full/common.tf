@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 variable "ssh_public_key" {}
 
 variable "instance_shape" {

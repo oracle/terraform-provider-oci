@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 variable "cluster_kube_config_expiration" {
   default = 2592000
 }

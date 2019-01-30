@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 resource "oci_file_storage_export_set" "my_export_set_1" {
   # Required
   mount_target_id = "${oci_file_storage_mount_target.my_mount_target_1.id}"
