@@ -1,6 +1,5 @@
-# Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
-
 #!/usr/bin/env bash
+# Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 touch ~/.gitcookies
 chmod 0600 ~/.gitcookies
