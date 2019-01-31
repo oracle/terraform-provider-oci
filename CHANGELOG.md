@@ -1,4 +1,8 @@
 ## 3.14.1 (Unreleased)
+
+### Fixed
+- Timeout should be updatable for the `oci_containerengine_cluster` and `oci_containerengine_node_pool` resources
+
 ## 3.14.0 (January 29, 2019)
 
 ### Added

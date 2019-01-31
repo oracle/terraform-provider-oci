@@ -21,6 +21,8 @@ import (
 
 var (
 	FifteenMinutes               = 15 * time.Minute
+	TwentyMinutes                = 20 * time.Minute
+	OneHour                      = 60 * time.Minute
 	TwoHours                     = 120 * time.Minute
 	ZeroTime       time.Duration = 0
 

@@ -5,7 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 
+	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"strings"
@@ -16,20 +18,20 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-var (
-	clusterOperationMaxTime = 60 * time.Minute
-)
-
 func ContainerengineClusterResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createContainerengineCluster,
-		Read:     readContainerengineCluster,
-		Update:   updateContainerengineCluster,
-		Delete:   deleteContainerengineCluster,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &OneHour,
+			Update: &OneHour,
+			Delete: &OneHour,
+		},
+		Create: createContainerengineCluster,
+		Read:   readContainerengineCluster,
+		Update: updateContainerengineCluster,
+		Delete: deleteContainerengineCluster,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -325,15 +327,37 @@ func containerEngineWaitForWorkRequest(wId *string, entityType string, action oc
 	retryPolicy := getRetryPolicy(disableFoundRetries, "containerengine")
 	retryPolicy.ShouldRetryOperation = containerEngineWorkRequestShouldRetryFunc(timeout)
 
-	response, err := client.GetWorkRequest(context.Background(),
-		oci_containerengine.GetWorkRequestRequest{
-			WorkRequestId: wId,
-			RequestMetadata: oci_common.RequestMetadata{
-				RetryPolicy: retryPolicy,
-			},
-		})
-	if err != nil {
-		return nil, err
+	response := oci_containerengine.GetWorkRequestResponse{}
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_containerengine.WorkRequestStatusInProgress),
+			string(oci_containerengine.WorkRequestStatusAccepted),
+			string(oci_containerengine.WorkRequestStatusCanceling),
+		},
+		Target: []string{
+			string(oci_containerengine.WorkRequestStatusSucceeded),
+			string(oci_containerengine.WorkRequestStatusFailed),
+			string(oci_containerengine.WorkRequestStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			getWorkRequestRequest := oci_containerengine.GetWorkRequestRequest{}
+			getWorkRequestRequest.WorkRequestId = wId
+			getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
+			var err error
+			response, err = client.GetWorkRequest(context.Background(),
+				oci_containerengine.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
 	}
 
 	var identifier *string
@@ -395,7 +419,7 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 	workId := response.OpcWorkRequestId
 	//Wait until it finishes
 	clusterID, err := containerEngineWaitForWorkRequest(workId, "cluster",
-		oci_containerengine.WorkRequestResourceActionTypeCreated, clusterOperationMaxTime, s.DisableNotFoundRetries, s.Client)
+		oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		if clusterID != nil {
@@ -411,9 +435,13 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 			}
 			delWorkRequest := delRes.OpcWorkRequestId
 
+			log.Printf("[DEBUG] creation failed, attempting to delete the cluster: %v\n", clusterID)
 			//Wait until request finishes
-			_, _ = containerEngineWaitForWorkRequest(delWorkRequest, "cluster",
-				oci_containerengine.WorkRequestResourceActionTypeDeleted, clusterOperationMaxTime, s.DisableNotFoundRetries, s.Client)
+			_, delErr = containerEngineWaitForWorkRequest(delWorkRequest, "cluster",
+				oci_containerengine.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
+			if delErr != nil {
+				log.Printf("[DEBUG] cleanup delWorkRequest failed with the error: %v\n", delErr)
+			}
 		}
 		return err
 	}
@@ -473,7 +501,7 @@ func (s *ContainerengineClusterResourceCrud) Update() error {
 	//Wait until request finishes
 	clusterID, err := containerEngineWaitForWorkRequest(workRequest, "cluster",
 		oci_containerengine.WorkRequestResourceActionTypeUpdated,
-		clusterOperationMaxTime, s.DisableNotFoundRetries, s.Client)
+		s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	if err != nil {
 		return err
 	}
@@ -506,7 +534,7 @@ func (s *ContainerengineClusterResourceCrud) Delete() error {
 
 	//Wait until request finishes
 	_, err = containerEngineWaitForWorkRequest(workRequest, "cluster",
-		oci_containerengine.WorkRequestResourceActionTypeDeleted, clusterOperationMaxTime, s.DisableNotFoundRetries, s.Client)
+		oci_containerengine.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 
 	return err
 }
