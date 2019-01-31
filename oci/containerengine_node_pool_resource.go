@@ -312,6 +312,8 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	if err != nil {
 		if nodePoolID != nil {
 			//Try to clean up
+			log.Printf("[DEBUG] creation failed, attempting to delete the node pool: %v\n", nodePoolID)
+
 			delReq := oci_containerengine.DeleteNodePoolRequest{}
 			delReq.NodePoolId = nodePoolID
 			delReq.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
@@ -323,7 +325,6 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 			}
 			delWorkRequest := delRes.OpcWorkRequestId
 
-			log.Printf("[DEBUG] creation failed, attempting to delete the node pool: %v\n", nodePoolID)
 			//Wait until delRequest finishes
 			_, delErr = containerEngineWaitForWorkRequest(delWorkRequest, "nodepool",
 				oci_containerengine.WorkRequestResourceActionTypeDeleted,

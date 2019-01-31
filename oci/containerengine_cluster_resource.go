@@ -424,6 +424,8 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 	if err != nil {
 		if clusterID != nil {
 			//Try to clean up
+			log.Printf("[DEBUG] creation failed, attempting to delete the cluster: %v\n", clusterID)
+
 			delReq := oci_containerengine.DeleteClusterRequest{}
 			delReq.ClusterId = clusterID
 			delReq.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
@@ -435,7 +437,6 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 			}
 			delWorkRequest := delRes.OpcWorkRequestId
 
-			log.Printf("[DEBUG] creation failed, attempting to delete the cluster: %v\n", clusterID)
 			//Wait until request finishes
 			_, delErr = containerEngineWaitForWorkRequest(delWorkRequest, "cluster",
 				oci_containerengine.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
