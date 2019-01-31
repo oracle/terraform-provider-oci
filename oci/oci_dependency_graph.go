@@ -34,6 +34,7 @@ func initDependencyGraph() {
 	DependencyGraph["gateway"] = append(DependencyGraph["gateway"], "CoreVirtualCircuit")
 	DependencyGraph["group"] = append(DependencyGraph["group"], "IdentityIdpGroupMapping")
 	DependencyGraph["group"] = append(DependencyGraph["group"], "IdentityUserGroupMembership")
+	DependencyGraph["healthCheckMonitor"] = append(DependencyGraph["healthCheckMonitor"], "DnsSteeringPolicy")
 	DependencyGraph["identityProvider"] = append(DependencyGraph["identityProvider"], "IdentityIdpGroupMapping")
 	DependencyGraph["instance"] = append(DependencyGraph["instance"], "CoreBootVolumeAttachment")
 	DependencyGraph["instance"] = append(DependencyGraph["instance"], "CoreConsoleHistory")
@@ -63,6 +64,7 @@ func initDependencyGraph() {
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreDrgAttachment")
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreLocalPeeringGateway")
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreSubnet")
+	DependencyGraph["steeringPolicy"] = append(DependencyGraph["steeringPolicy"], "DnsSteeringPolicyAttachment")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "CoreInstance")
 	DependencyGraph["tagNamespace"] = append(DependencyGraph["tagNamespace"], "IdentityTag")
 	DependencyGraph["tenancy"] = append(DependencyGraph["tenancy"], "IdentityRegionSubscription")
@@ -87,4 +89,5 @@ func initDependencyGraph() {
 	DependencyGraph["volume"] = append(DependencyGraph["volume"], "CoreVolumeAttachment")
 	DependencyGraph["volume"] = append(DependencyGraph["volume"], "CoreVolumeBackup")
 	DependencyGraph["volumeGroup"] = append(DependencyGraph["volumeGroup"], "CoreVolumeGroupBackup")
+	DependencyGraph["zone"] = append(DependencyGraph["zone"], "DnsSteeringPolicyAttachment")
 }
