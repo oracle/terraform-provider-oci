@@ -5,26 +5,27 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"time"
-
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
-
-var nodePoolOperationMaxTime = 20 * time.Minute
 
 func ContainerengineNodePoolResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createContainerengineNodePool,
-		Read:     readContainerengineNodePool,
-		Update:   updateContainerengineNodePool,
-		Delete:   deleteContainerengineNodePool,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &TwentyMinutes,
+			Update: &TwentyMinutes,
+			Delete: &TwentyMinutes,
+		},
+		Create: createContainerengineNodePool,
+		Read:   readContainerengineNodePool,
+		Update: updateContainerengineNodePool,
+		Delete: deleteContainerengineNodePool,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cluster_id": {
@@ -306,7 +307,7 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 
 	//Wait until it finishes
 	nodePoolID, err := containerEngineWaitForWorkRequest(workID, "nodepool",
-		oci_containerengine.WorkRequestResourceActionTypeCreated, nodePoolOperationMaxTime, s.DisableNotFoundRetries,
+		oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries,
 		s.Client)
 	if err != nil {
 		if nodePoolID != nil {
@@ -322,10 +323,14 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 			}
 			delWorkRequest := delRes.OpcWorkRequestId
 
+			log.Printf("[DEBUG] creation failed, attempting to delete the node pool: %v\n", nodePoolID)
 			//Wait until delRequest finishes
-			_, _ = containerEngineWaitForWorkRequest(delWorkRequest, "nodepool",
+			_, delErr = containerEngineWaitForWorkRequest(delWorkRequest, "nodepool",
 				oci_containerengine.WorkRequestResourceActionTypeDeleted,
-				nodePoolOperationMaxTime, s.DisableNotFoundRetries, s.Client)
+				s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
+			if delErr != nil {
+				log.Printf("[DEBUG] cleanup delWorkRequest failed with the error: %v\n", delErr)
+			}
 		}
 		return err
 	}
@@ -420,7 +425,7 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	//Wait until request finishes
 	nodePoolID, err := containerEngineWaitForWorkRequest(workRequest, "nodepool",
 		oci_containerengine.WorkRequestResourceActionTypeUpdated,
-		nodePoolOperationMaxTime, s.DisableNotFoundRetries, s.Client)
+		s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	if err != nil {
 		return err
 	}
@@ -453,7 +458,7 @@ func (s *ContainerengineNodePoolResourceCrud) Delete() error {
 	//Wait until request finishes
 	_, err = containerEngineWaitForWorkRequest(workRequest, "nodepool",
 		oci_containerengine.WorkRequestResourceActionTypeDeleted,
-		nodePoolOperationMaxTime, s.DisableNotFoundRetries, s.Client)
+		s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 
 	return err
 
