@@ -38,14 +38,14 @@ var (
 
 	crossConnectRepresentation = map[string]interface{}{
 		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"location_name":          Representation{repType: Required, create: `Fake Location, Phoenix, AZ`},
+		"location_name":          Representation{repType: Required, create: `${data.oci_core_cross_connect_locations.test_cross_connect_locations.cross_connect_locations.0.name}`},
 		"port_speed_shape_name":  Representation{repType: Required, create: `10 Gbps`},
 		"cross_connect_group_id": Representation{repType: Optional, create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
 		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"is_active":              Representation{repType: Optional, create: `true`},
 	}
 
-	CrossConnectResourceDependencies = CrossConnectGroupResourceConfig
+	CrossConnectResourceDependencies = CrossConnectGroupResourceConfig + generateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation)
 )
 
 func TestCoreCrossConnectResource_basic(t *testing.T) {
@@ -74,7 +74,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "location_name", "Fake Location, Phoenix, AZ"),
+					resource.TestCheckResourceAttrSet(resourceName, "location_name"),
 					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
 					resource.TestCheckResourceAttr(resourceName, "state", "PENDING_CUSTOMER"),
 
@@ -97,7 +97,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "location_name", "Fake Location, Phoenix, AZ"),
+					resource.TestCheckResourceAttrSet(resourceName, "location_name"),
 					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
 					resource.TestCheckResourceAttr(resourceName, "state", "PROVISIONED"),
 
@@ -116,7 +116,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "location_name", "Fake Location, Phoenix, AZ"),
+					resource.TestCheckResourceAttrSet(resourceName, "location_name"),
 					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
 					resource.TestCheckResourceAttr(resourceName, "state", "PROVISIONED"),
 
@@ -144,7 +144,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.cross_connect_group_id"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.location_name", "Fake Location, Phoenix, AZ"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.location_name"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.port_speed_shape_name", "10 Gbps"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.state", "PROVISIONED"),
 				),
@@ -161,7 +161,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "location_name", "Fake Location, Phoenix, AZ"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "location_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "port_name"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "port_speed_shape_name", "10 Gbps"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "state", "PROVISIONED"),
