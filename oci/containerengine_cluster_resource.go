@@ -340,9 +340,6 @@ func containerEngineWaitForWorkRequest(wId *string, entityType string, action oc
 			string(oci_containerengine.WorkRequestStatusCanceled),
 		},
 		Refresh: func() (interface{}, string, error) {
-			getWorkRequestRequest := oci_containerengine.GetWorkRequestRequest{}
-			getWorkRequestRequest.WorkRequestId = wId
-			getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
 			var err error
 			response, err = client.GetWorkRequest(context.Background(),
 				oci_containerengine.GetWorkRequestRequest{
