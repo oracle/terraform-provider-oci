@@ -224,8 +224,8 @@ requests, responses and potential errors when (un)marshalling request and respon
 
 Built-in logging in the SDK is controlled via the environment variable "OCI_GO_SDK_DEBUG" and its contents. The below are possible values for the "OCI_GO_SDK_DEBUG" variable
 1. "info" or "i" enables all info logging messages
-2. "debug" or "d", or "1" enables all debug and info logging messages
-3. "verbose" or "v" enables all verbose, debug and info logging messages
+2. "debug" or "d"  enables all debug and info logging messages
+3. "verbose" or "v" or "1" enables all verbose, debug and info logging messages
 4. "null" turns all logging messages off.
 
 If the value of the environment variable does not match any of the above then default logging level is "info".

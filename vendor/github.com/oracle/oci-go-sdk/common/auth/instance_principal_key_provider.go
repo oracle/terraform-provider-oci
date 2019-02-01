@@ -77,7 +77,7 @@ func newInstancePrincipalKeyProvider(modifier func(common.HTTPRequestDispatcher)
 		return nil, err
 	}
 
-	provider = &instancePrincipalKeyProvider{FederationClient: federationClient, TenancyID: tenancyID}
+	provider = &instancePrincipalKeyProvider{FederationClient: federationClient, TenancyID: tenancyID, Region: region}
 	return
 }
 

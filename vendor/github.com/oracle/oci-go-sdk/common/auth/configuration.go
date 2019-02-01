@@ -97,7 +97,9 @@ func (p instancePrincipalConfigurationProvider) KeyFingerprint() (string, error)
 
 func (p instancePrincipalConfigurationProvider) Region() (string, error) {
 	if p.region == nil {
-		return string(p.keyProvider.RegionForFederationClient()), nil
+		region := p.keyProvider.RegionForFederationClient()
+		common.Debugf("Region in instance principal configuration provider is nil. Returning federation clients region: %s", region)
+		return string(region), nil
 	}
 	return string(*p.region), nil
 }
