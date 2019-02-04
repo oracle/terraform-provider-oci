@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VirtualCircuitBandwidthShapesDataSource() *schema.Resource {
+func CoreVirtualCircuitBandwidthShapesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVirtualCircuitBandwidthShapes,
+		Read: readCoreVirtualCircuitBandwidthShapes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"provider_service_id": {
@@ -43,25 +43,25 @@ func VirtualCircuitBandwidthShapesDataSource() *schema.Resource {
 	}
 }
 
-func readVirtualCircuitBandwidthShapes(d *schema.ResourceData, m interface{}) error {
-	sync := &VirtualCircuitBandwidthShapesDataSourceCrud{}
+func readCoreVirtualCircuitBandwidthShapes(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVirtualCircuitBandwidthShapesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type VirtualCircuitBandwidthShapesDataSourceCrud struct {
+type CoreVirtualCircuitBandwidthShapesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListFastConnectProviderVirtualCircuitBandwidthShapesResponse
 }
 
-func (s *VirtualCircuitBandwidthShapesDataSourceCrud) VoidState() {
+func (s *CoreVirtualCircuitBandwidthShapesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VirtualCircuitBandwidthShapesDataSourceCrud) Get() error {
+func (s *CoreVirtualCircuitBandwidthShapesDataSourceCrud) Get() error {
 	request := oci_core.ListFastConnectProviderVirtualCircuitBandwidthShapesRequest{}
 
 	if providerServiceId, ok := s.D.GetOkExists("provider_service_id"); ok {
@@ -92,7 +92,7 @@ func (s *VirtualCircuitBandwidthShapesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VirtualCircuitBandwidthShapesDataSourceCrud) SetData() error {
+func (s *CoreVirtualCircuitBandwidthShapesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -115,7 +115,7 @@ func (s *VirtualCircuitBandwidthShapesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, VirtualCircuitBandwidthShapesDataSource().Schema["virtual_circuit_bandwidth_shapes"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreVirtualCircuitBandwidthShapesDataSource().Schema["virtual_circuit_bandwidth_shapes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("virtual_circuit_bandwidth_shapes", resources); err != nil {

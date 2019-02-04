@@ -9,9 +9,9 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/email"
 )
 
-func SenderDataSource() *schema.Resource {
+func EmailSenderDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularSender,
+		Read: readSingularEmailSender,
 		Schema: map[string]*schema.Schema{
 			"sender_id": {
 				Type:     schema.TypeString,
@@ -38,25 +38,25 @@ func SenderDataSource() *schema.Resource {
 	}
 }
 
-func readSingularSender(d *schema.ResourceData, m interface{}) error {
-	sync := &SenderDataSourceCrud{}
+func readSingularEmailSender(d *schema.ResourceData, m interface{}) error {
+	sync := &EmailSenderDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
 	return ReadResource(sync)
 }
 
-type SenderDataSourceCrud struct {
+type EmailSenderDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_email.EmailClient
 	Res    *oci_email.GetSenderResponse
 }
 
-func (s *SenderDataSourceCrud) VoidState() {
+func (s *EmailSenderDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SenderDataSourceCrud) Get() error {
+func (s *EmailSenderDataSourceCrud) Get() error {
 	request := oci_email.GetSenderRequest{}
 
 	if senderId, ok := s.D.GetOkExists("sender_id"); ok {
@@ -75,7 +75,7 @@ func (s *SenderDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SenderDataSourceCrud) SetData() error {
+func (s *EmailSenderDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

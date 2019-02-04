@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func AppCatalogListingResourceVersionDataSource() *schema.Resource {
+func CoreAppCatalogListingResourceVersionDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularAppCatalogListingResourceVersion,
+		Read: readSingularCoreAppCatalogListingResourceVersion,
 		Schema: map[string]*schema.Schema{
 			"listing_id": {
 				Type:     schema.TypeString,
@@ -66,25 +66,25 @@ func AppCatalogListingResourceVersionDataSource() *schema.Resource {
 	}
 }
 
-func readSingularAppCatalogListingResourceVersion(d *schema.ResourceData, m interface{}) error {
-	sync := &AppCatalogListingResourceVersionDataSourceCrud{}
+func readSingularCoreAppCatalogListingResourceVersion(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreAppCatalogListingResourceVersionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type AppCatalogListingResourceVersionDataSourceCrud struct {
+type CoreAppCatalogListingResourceVersionDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.GetAppCatalogListingResourceVersionResponse
 }
 
-func (s *AppCatalogListingResourceVersionDataSourceCrud) VoidState() {
+func (s *CoreAppCatalogListingResourceVersionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AppCatalogListingResourceVersionDataSourceCrud) Get() error {
+func (s *CoreAppCatalogListingResourceVersionDataSourceCrud) Get() error {
 	request := oci_core.GetAppCatalogListingResourceVersionRequest{}
 
 	if listingId, ok := s.D.GetOkExists("listing_id"); ok {
@@ -108,7 +108,7 @@ func (s *AppCatalogListingResourceVersionDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AppCatalogListingResourceVersionDataSourceCrud) SetData() error {
+func (s *CoreAppCatalogListingResourceVersionDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

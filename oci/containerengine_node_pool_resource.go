@@ -5,26 +5,27 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/hashicorp/terraform/helper/schema"
-
-	"time"
 
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-var nodePoolOperationMaxTime = 20 * time.Minute
-
-func NodePoolResource() *schema.Resource {
+func ContainerengineNodePoolResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createNodePool,
-		Read:     readNodePool,
-		Update:   updateNodePool,
-		Delete:   deleteNodePool,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &TwentyMinutes,
+			Update: &TwentyMinutes,
+			Delete: &TwentyMinutes,
+		},
+		Create: createContainerengineNodePool,
+		Read:   readContainerengineNodePool,
+		Update: updateContainerengineNodePool,
+		Delete: deleteContainerengineNodePool,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cluster_id": {
@@ -178,32 +179,32 @@ func NodePoolResource() *schema.Resource {
 	}
 }
 
-func createNodePool(d *schema.ResourceData, m interface{}) error {
-	sync := &NodePoolResourceCrud{}
+func createContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineNodePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return CreateResource(d, sync)
 }
 
-func readNodePool(d *schema.ResourceData, m interface{}) error {
-	sync := &NodePoolResourceCrud{}
+func readContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineNodePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return ReadResource(sync)
 }
 
-func updateNodePool(d *schema.ResourceData, m interface{}) error {
-	sync := &NodePoolResourceCrud{}
+func updateContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineNodePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteNodePool(d *schema.ResourceData, m interface{}) error {
-	sync := &NodePoolResourceCrud{}
+func deleteContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineNodePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 	sync.DisableNotFoundRetries = true
@@ -211,18 +212,18 @@ func deleteNodePool(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type NodePoolResourceCrud struct {
+type ContainerengineNodePoolResourceCrud struct {
 	BaseCrud
 	Client                 *oci_containerengine.ContainerEngineClient
 	Res                    *oci_containerengine.NodePool
 	DisableNotFoundRetries bool
 }
 
-func (s *NodePoolResourceCrud) ID() string {
+func (s *ContainerengineNodePoolResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *NodePoolResourceCrud) Create() error {
+func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	request := oci_containerengine.CreateNodePoolRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -306,11 +307,13 @@ func (s *NodePoolResourceCrud) Create() error {
 
 	//Wait until it finishes
 	nodePoolID, err := containerEngineWaitForWorkRequest(workID, "nodepool",
-		oci_containerengine.WorkRequestResourceActionTypeCreated, nodePoolOperationMaxTime, s.DisableNotFoundRetries,
+		oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries,
 		s.Client)
 	if err != nil {
 		if nodePoolID != nil {
 			//Try to clean up
+			log.Printf("[DEBUG] creation failed, attempting to delete the node pool: %v\n", nodePoolID)
+
 			delReq := oci_containerengine.DeleteNodePoolRequest{}
 			delReq.NodePoolId = nodePoolID
 			delReq.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
@@ -323,9 +326,12 @@ func (s *NodePoolResourceCrud) Create() error {
 			delWorkRequest := delRes.OpcWorkRequestId
 
 			//Wait until delRequest finishes
-			_, _ = containerEngineWaitForWorkRequest(delWorkRequest, "nodepool",
+			_, delErr = containerEngineWaitForWorkRequest(delWorkRequest, "nodepool",
 				oci_containerengine.WorkRequestResourceActionTypeDeleted,
-				nodePoolOperationMaxTime, s.DisableNotFoundRetries, s.Client)
+				s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
+			if delErr != nil {
+				log.Printf("[DEBUG] cleanup delWorkRequest failed with the error: %v\n", delErr)
+			}
 		}
 		return err
 	}
@@ -342,7 +348,7 @@ func (s *NodePoolResourceCrud) Create() error {
 	return nil
 }
 
-func (s *NodePoolResourceCrud) Get() error {
+func (s *ContainerengineNodePoolResourceCrud) Get() error {
 	request := oci_containerengine.GetNodePoolRequest{}
 
 	tmp := s.D.Id()
@@ -359,7 +365,7 @@ func (s *NodePoolResourceCrud) Get() error {
 	return nil
 }
 
-func (s *NodePoolResourceCrud) Update() error {
+func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	request := oci_containerengine.UpdateNodePoolRequest{}
 
 	request.InitialNodeLabels = []oci_containerengine.KeyValue{}
@@ -420,7 +426,7 @@ func (s *NodePoolResourceCrud) Update() error {
 	//Wait until request finishes
 	nodePoolID, err := containerEngineWaitForWorkRequest(workRequest, "nodepool",
 		oci_containerengine.WorkRequestResourceActionTypeUpdated,
-		nodePoolOperationMaxTime, s.DisableNotFoundRetries, s.Client)
+		s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	if err != nil {
 		return err
 	}
@@ -438,7 +444,7 @@ func (s *NodePoolResourceCrud) Update() error {
 	return nil
 }
 
-func (s *NodePoolResourceCrud) Delete() error {
+func (s *ContainerengineNodePoolResourceCrud) Delete() error {
 	request := oci_containerengine.DeleteNodePoolRequest{}
 
 	tmp := s.D.Id()
@@ -453,13 +459,13 @@ func (s *NodePoolResourceCrud) Delete() error {
 	//Wait until request finishes
 	_, err = containerEngineWaitForWorkRequest(workRequest, "nodepool",
 		oci_containerengine.WorkRequestResourceActionTypeDeleted,
-		nodePoolOperationMaxTime, s.DisableNotFoundRetries, s.Client)
+		s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 
 	return err
 
 }
 
-func (s *NodePoolResourceCrud) SetData() error {
+func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 	if s.Res.ClusterId != nil {
 		s.D.Set("cluster_id", *s.Res.ClusterId)
 	}
@@ -517,7 +523,7 @@ func (s *NodePoolResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *NodePoolResourceCrud) mapToKeyValue(fieldKeyFormat string) (oci_containerengine.KeyValue, error) {
+func (s *ContainerengineNodePoolResourceCrud) mapToKeyValue(fieldKeyFormat string) (oci_containerengine.KeyValue, error) {
 	result := oci_containerengine.KeyValue{}
 
 	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {

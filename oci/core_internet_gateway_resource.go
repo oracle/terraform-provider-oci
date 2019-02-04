@@ -10,16 +10,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InternetGatewayResource() *schema.Resource {
+func CoreInternetGatewayResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createInternetGateway,
-		Read:     readInternetGateway,
-		Update:   updateInternetGateway,
-		Delete:   deleteInternetGateway,
+		Create:   createCoreInternetGateway,
+		Read:     readCoreInternetGateway,
+		Update:   updateCoreInternetGateway,
+		Delete:   deleteCoreInternetGateway,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -78,32 +78,32 @@ func InternetGatewayResource() *schema.Resource {
 	}
 }
 
-func createInternetGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &InternetGatewayResourceCrud{}
+func createCoreInternetGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInternetGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readInternetGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &InternetGatewayResourceCrud{}
+func readCoreInternetGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInternetGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateInternetGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &InternetGatewayResourceCrud{}
+func updateCoreInternetGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInternetGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteInternetGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &InternetGatewayResourceCrud{}
+func deleteCoreInternetGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInternetGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -111,42 +111,42 @@ func deleteInternetGateway(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type InternetGatewayResourceCrud struct {
+type CoreInternetGatewayResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.InternetGateway
 	DisableNotFoundRetries bool
 }
 
-func (s *InternetGatewayResourceCrud) ID() string {
+func (s *CoreInternetGatewayResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *InternetGatewayResourceCrud) CreatedPending() []string {
+func (s *CoreInternetGatewayResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.InternetGatewayLifecycleStateProvisioning),
 	}
 }
 
-func (s *InternetGatewayResourceCrud) CreatedTarget() []string {
+func (s *CoreInternetGatewayResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.InternetGatewayLifecycleStateAvailable),
 	}
 }
 
-func (s *InternetGatewayResourceCrud) DeletedPending() []string {
+func (s *CoreInternetGatewayResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.InternetGatewayLifecycleStateTerminating),
 	}
 }
 
-func (s *InternetGatewayResourceCrud) DeletedTarget() []string {
+func (s *CoreInternetGatewayResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.InternetGatewayLifecycleStateTerminated),
 	}
 }
 
-func (s *InternetGatewayResourceCrud) Create() error {
+func (s *CoreInternetGatewayResourceCrud) Create() error {
 	request := oci_core.CreateInternetGatewayRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -192,7 +192,7 @@ func (s *InternetGatewayResourceCrud) Create() error {
 	return nil
 }
 
-func (s *InternetGatewayResourceCrud) Get() error {
+func (s *CoreInternetGatewayResourceCrud) Get() error {
 	request := oci_core.GetInternetGatewayRequest{}
 
 	tmp := s.D.Id()
@@ -209,7 +209,7 @@ func (s *InternetGatewayResourceCrud) Get() error {
 	return nil
 }
 
-func (s *InternetGatewayResourceCrud) Update() error {
+func (s *CoreInternetGatewayResourceCrud) Update() error {
 	request := oci_core.UpdateInternetGatewayRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -248,7 +248,7 @@ func (s *InternetGatewayResourceCrud) Update() error {
 	return nil
 }
 
-func (s *InternetGatewayResourceCrud) Delete() error {
+func (s *CoreInternetGatewayResourceCrud) Delete() error {
 	request := oci_core.DeleteInternetGatewayRequest{}
 
 	tmp := s.D.Id()
@@ -260,7 +260,7 @@ func (s *InternetGatewayResourceCrud) Delete() error {
 	return err
 }
 
-func (s *InternetGatewayResourceCrud) SetData() error {
+func (s *CoreInternetGatewayResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

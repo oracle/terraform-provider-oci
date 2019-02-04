@@ -9,9 +9,9 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-func SnapshotsDataSource() *schema.Resource {
+func FileStorageSnapshotsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSnapshots,
+		Read: readFileStorageSnapshots,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"file_system_id": {
@@ -29,31 +29,31 @@ func SnapshotsDataSource() *schema.Resource {
 			"snapshots": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(SnapshotResource()),
+				Elem:     GetDataSourceItemSchema(FileStorageSnapshotResource()),
 			},
 		},
 	}
 }
 
-func readSnapshots(d *schema.ResourceData, m interface{}) error {
-	sync := &SnapshotsDataSourceCrud{}
+func readFileStorageSnapshots(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageSnapshotsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return ReadResource(sync)
 }
 
-type SnapshotsDataSourceCrud struct {
+type FileStorageSnapshotsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_file_storage.FileStorageClient
 	Res    *oci_file_storage.ListSnapshotsResponse
 }
 
-func (s *SnapshotsDataSourceCrud) VoidState() {
+func (s *FileStorageSnapshotsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SnapshotsDataSourceCrud) Get() error {
+func (s *FileStorageSnapshotsDataSourceCrud) Get() error {
 	request := oci_file_storage.ListSnapshotsRequest{}
 
 	if fileSystemId, ok := s.D.GetOkExists("file_system_id"); ok {
@@ -93,7 +93,7 @@ func (s *SnapshotsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SnapshotsDataSourceCrud) SetData() error {
+func (s *FileStorageSnapshotsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -124,7 +124,7 @@ func (s *SnapshotsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, SnapshotsDataSource().Schema["snapshots"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, FileStorageSnapshotsDataSource().Schema["snapshots"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("snapshots", resources); err != nil {

@@ -15,16 +15,16 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func IdentityProviderResource() *schema.Resource {
+func IdentityIdentityProviderResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createIdentityProvider,
-		Read:     readIdentityProvider,
-		Update:   updateIdentityProvider,
-		Delete:   deleteIdentityProvider,
+		Create:   createIdentityIdentityProvider,
+		Read:     readIdentityIdentityProvider,
+		Update:   updateIdentityIdentityProvider,
+		Delete:   deleteIdentityIdentityProvider,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -109,32 +109,32 @@ func IdentityProviderResource() *schema.Resource {
 	}
 }
 
-func createIdentityProvider(d *schema.ResourceData, m interface{}) error {
-	sync := &IdentityProviderResourceCrud{}
+func createIdentityIdentityProvider(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityIdentityProviderResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readIdentityProvider(d *schema.ResourceData, m interface{}) error {
-	sync := &IdentityProviderResourceCrud{}
+func readIdentityIdentityProvider(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityIdentityProviderResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateIdentityProvider(d *schema.ResourceData, m interface{}) error {
-	sync := &IdentityProviderResourceCrud{}
+func updateIdentityIdentityProvider(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityIdentityProviderResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteIdentityProvider(d *schema.ResourceData, m interface{}) error {
-	sync := &IdentityProviderResourceCrud{}
+func deleteIdentityIdentityProvider(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityIdentityProviderResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -142,43 +142,43 @@ func deleteIdentityProvider(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type IdentityProviderResourceCrud struct {
+type IdentityIdentityProviderResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.IdentityProvider
 	DisableNotFoundRetries bool
 }
 
-func (s *IdentityProviderResourceCrud) ID() string {
+func (s *IdentityIdentityProviderResourceCrud) ID() string {
 	identityProvider := *s.Res
 	return *identityProvider.GetId()
 }
 
-func (s *IdentityProviderResourceCrud) CreatedPending() []string {
+func (s *IdentityIdentityProviderResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.IdentityProviderLifecycleStateCreating),
 	}
 }
 
-func (s *IdentityProviderResourceCrud) CreatedTarget() []string {
+func (s *IdentityIdentityProviderResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.IdentityProviderLifecycleStateActive),
 	}
 }
 
-func (s *IdentityProviderResourceCrud) DeletedPending() []string {
+func (s *IdentityIdentityProviderResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.IdentityProviderLifecycleStateDeleting),
 	}
 }
 
-func (s *IdentityProviderResourceCrud) DeletedTarget() []string {
+func (s *IdentityIdentityProviderResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.IdentityProviderLifecycleStateDeleted),
 	}
 }
 
-func (s *IdentityProviderResourceCrud) Create() error {
+func (s *IdentityIdentityProviderResourceCrud) Create() error {
 	request := oci_identity.CreateIdentityProviderRequest{}
 	err := s.populateTopLevelPolymorphicCreateIdentityProviderRequest(&request)
 	if err != nil {
@@ -196,7 +196,7 @@ func (s *IdentityProviderResourceCrud) Create() error {
 	return nil
 }
 
-func (s *IdentityProviderResourceCrud) Get() error {
+func (s *IdentityIdentityProviderResourceCrud) Get() error {
 	request := oci_identity.GetIdentityProviderRequest{}
 
 	tmp := s.D.Id()
@@ -213,7 +213,7 @@ func (s *IdentityProviderResourceCrud) Get() error {
 	return nil
 }
 
-func (s *IdentityProviderResourceCrud) Update() error {
+func (s *IdentityIdentityProviderResourceCrud) Update() error {
 	request := oci_identity.UpdateIdentityProviderRequest{}
 	err := s.populateTopLevelPolymorphicUpdateIdentityProviderRequest(&request)
 	if err != nil {
@@ -231,7 +231,7 @@ func (s *IdentityProviderResourceCrud) Update() error {
 	return nil
 }
 
-func (s *IdentityProviderResourceCrud) Delete() error {
+func (s *IdentityIdentityProviderResourceCrud) Delete() error {
 	request := oci_identity.DeleteIdentityProviderRequest{}
 
 	tmp := s.D.Id()
@@ -243,7 +243,7 @@ func (s *IdentityProviderResourceCrud) Delete() error {
 	return err
 }
 
-func (s *IdentityProviderResourceCrud) SetData() error {
+func (s *IdentityIdentityProviderResourceCrud) SetData() error {
 	switch v := (*s.Res).(type) {
 	case oci_identity.Saml2IdentityProvider:
 		s.D.Set("protocol", "SAML2")
@@ -304,7 +304,7 @@ func (s *IdentityProviderResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *IdentityProviderResourceCrud) populateTopLevelPolymorphicCreateIdentityProviderRequest(request *oci_identity.CreateIdentityProviderRequest) error {
+func (s *IdentityIdentityProviderResourceCrud) populateTopLevelPolymorphicCreateIdentityProviderRequest(request *oci_identity.CreateIdentityProviderRequest) error {
 	//discriminator
 	protocolRaw, ok := s.D.GetOkExists("protocol")
 	var protocol string
@@ -359,7 +359,7 @@ func (s *IdentityProviderResourceCrud) populateTopLevelPolymorphicCreateIdentity
 	return nil
 }
 
-func (s *IdentityProviderResourceCrud) populateTopLevelPolymorphicUpdateIdentityProviderRequest(request *oci_identity.UpdateIdentityProviderRequest) error {
+func (s *IdentityIdentityProviderResourceCrud) populateTopLevelPolymorphicUpdateIdentityProviderRequest(request *oci_identity.UpdateIdentityProviderRequest) error {
 	//discriminator
 	protocolRaw, ok := s.D.GetOkExists("protocol")
 	var protocol string

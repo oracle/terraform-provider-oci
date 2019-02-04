@@ -12,9 +12,9 @@ import (
 	"time"
 )
 
-func SuppressionsDataSource() *schema.Resource {
+func EmailSuppressionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSuppressions,
+		Read: readEmailSuppressions,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -36,31 +36,31 @@ func SuppressionsDataSource() *schema.Resource {
 			"suppressions": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(SuppressionResource()),
+				Elem:     GetDataSourceItemSchema(EmailSuppressionResource()),
 			},
 		},
 	}
 }
 
-func readSuppressions(d *schema.ResourceData, m interface{}) error {
-	sync := &SuppressionsDataSourceCrud{}
+func readEmailSuppressions(d *schema.ResourceData, m interface{}) error {
+	sync := &EmailSuppressionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
 	return ReadResource(sync)
 }
 
-type SuppressionsDataSourceCrud struct {
+type EmailSuppressionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_email.EmailClient
 	Res    *oci_email.ListSuppressionsResponse
 }
 
-func (s *SuppressionsDataSourceCrud) VoidState() {
+func (s *EmailSuppressionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SuppressionsDataSourceCrud) Get() error {
+func (s *EmailSuppressionsDataSourceCrud) Get() error {
 	request := oci_email.ListSuppressionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -112,7 +112,7 @@ func (s *SuppressionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SuppressionsDataSourceCrud) SetData() error {
+func (s *EmailSuppressionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -141,7 +141,7 @@ func (s *SuppressionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, SuppressionsDataSource().Schema["suppressions"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, EmailSuppressionsDataSource().Schema["suppressions"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("suppressions", resources); err != nil {

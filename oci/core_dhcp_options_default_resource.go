@@ -12,8 +12,8 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func DefaultDhcpOptionsResource() *schema.Resource {
-	defaultResourceSchema := ConvertToDefaultVcnResourceSchema(DhcpOptionsResource())
+func DefaultCoreDhcpOptionsResource() *schema.Resource {
+	defaultResourceSchema := ConvertToDefaultVcnResourceSchema(CoreDhcpOptionsResource())
 
 	defaultResourceSchema.Create = createDefaultDhcpOptions
 	defaultResourceSchema.Delete = deleteDefaultDhcpOptions
@@ -22,7 +22,7 @@ func DefaultDhcpOptionsResource() *schema.Resource {
 }
 
 type DefaultDhcpOptionsResourceCrud struct {
-	DhcpOptionsResourceCrud
+	CoreDhcpOptionsResourceCrud
 }
 
 func createDefaultDhcpOptions(d *schema.ResourceData, m interface{}) error {

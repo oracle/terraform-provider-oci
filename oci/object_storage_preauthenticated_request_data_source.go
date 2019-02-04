@@ -9,9 +9,9 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-func PreauthenticatedRequestDataSource() *schema.Resource {
+func ObjectStoragePreauthenticatedRequestDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularPreauthenticatedRequest,
+		Read: readSingularObjectStoragePreauthenticatedRequest,
 		Schema: map[string]*schema.Schema{
 			"bucket": {
 				Type:     schema.TypeString,
@@ -50,25 +50,25 @@ func PreauthenticatedRequestDataSource() *schema.Resource {
 	}
 }
 
-func readSingularPreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
-	sync := &PreauthenticatedRequestDataSourceCrud{}
+func readSingularObjectStoragePreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStoragePreauthenticatedRequestDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return ReadResource(sync)
 }
 
-type PreauthenticatedRequestDataSourceCrud struct {
+type ObjectStoragePreauthenticatedRequestDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_object_storage.ObjectStorageClient
 	Res    *oci_object_storage.GetPreauthenticatedRequestResponse
 }
 
-func (s *PreauthenticatedRequestDataSourceCrud) VoidState() {
+func (s *ObjectStoragePreauthenticatedRequestDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PreauthenticatedRequestDataSourceCrud) Get() error {
+func (s *ObjectStoragePreauthenticatedRequestDataSourceCrud) Get() error {
 	request := oci_object_storage.GetPreauthenticatedRequestRequest{}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
@@ -97,7 +97,7 @@ func (s *PreauthenticatedRequestDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PreauthenticatedRequestDataSourceCrud) SetData() error {
+func (s *ObjectStoragePreauthenticatedRequestDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

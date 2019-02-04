@@ -9,15 +9,15 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/email"
 )
 
-func SuppressionResource() *schema.Resource {
+func EmailSuppressionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createSuppression,
-		Read:     readSuppression,
-		Delete:   deleteSuppression,
+		Create:   createEmailSuppression,
+		Read:     readEmailSuppression,
+		Delete:   deleteEmailSuppression,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -47,24 +47,24 @@ func SuppressionResource() *schema.Resource {
 	}
 }
 
-func createSuppression(d *schema.ResourceData, m interface{}) error {
-	sync := &SuppressionResourceCrud{}
+func createEmailSuppression(d *schema.ResourceData, m interface{}) error {
+	sync := &EmailSuppressionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
 	return CreateResource(d, sync)
 }
 
-func readSuppression(d *schema.ResourceData, m interface{}) error {
-	sync := &SuppressionResourceCrud{}
+func readEmailSuppression(d *schema.ResourceData, m interface{}) error {
+	sync := &EmailSuppressionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
 	return ReadResource(sync)
 }
 
-func deleteSuppression(d *schema.ResourceData, m interface{}) error {
-	sync := &SuppressionResourceCrud{}
+func deleteEmailSuppression(d *schema.ResourceData, m interface{}) error {
+	sync := &EmailSuppressionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 	sync.DisableNotFoundRetries = true
@@ -72,18 +72,18 @@ func deleteSuppression(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type SuppressionResourceCrud struct {
+type EmailSuppressionResourceCrud struct {
 	BaseCrud
 	Client                 *oci_email.EmailClient
 	Res                    *oci_email.Suppression
 	DisableNotFoundRetries bool
 }
 
-func (s *SuppressionResourceCrud) ID() string {
+func (s *EmailSuppressionResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *SuppressionResourceCrud) Create() error {
+func (s *EmailSuppressionResourceCrud) Create() error {
 	request := oci_email.CreateSuppressionRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -107,7 +107,7 @@ func (s *SuppressionResourceCrud) Create() error {
 	return nil
 }
 
-func (s *SuppressionResourceCrud) Get() error {
+func (s *EmailSuppressionResourceCrud) Get() error {
 	request := oci_email.GetSuppressionRequest{}
 
 	tmp := s.D.Id()
@@ -124,7 +124,7 @@ func (s *SuppressionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *SuppressionResourceCrud) Delete() error {
+func (s *EmailSuppressionResourceCrud) Delete() error {
 	request := oci_email.DeleteSuppressionRequest{}
 
 	tmp := s.D.Id()
@@ -136,7 +136,7 @@ func (s *SuppressionResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SuppressionResourceCrud) SetData() error {
+func (s *EmailSuppressionResourceCrud) SetData() error {
 	if s.Res.EmailAddress != nil {
 		s.D.Set("email_address", *s.Res.EmailAddress)
 	}

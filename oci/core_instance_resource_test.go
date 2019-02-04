@@ -926,7 +926,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_failedByTime
 }
 
 func TestIsStatefulResource(t *testing.T) {
-	var _ StatefulResource = (*InstanceResourceCrud)(nil)
+	var _ StatefulResource = (*CoreInstanceResourceCrud)(nil)
 }
 
 func TestResourceCoreInstanceTestSuite(t *testing.T) {

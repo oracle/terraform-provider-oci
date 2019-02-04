@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VcnsDataSource() *schema.Resource {
+func CoreVcnsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVcns,
+		Read: readCoreVcns,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -29,7 +29,7 @@ func VcnsDataSource() *schema.Resource {
 			"virtual_networks": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(VcnResource()),
+				Elem:     GetDataSourceItemSchema(CoreVcnResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -45,25 +45,25 @@ func VcnsDataSource() *schema.Resource {
 	}
 }
 
-func readVcns(d *schema.ResourceData, m interface{}) error {
-	sync := &VcnsDataSourceCrud{}
+func readCoreVcns(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVcnsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type VcnsDataSourceCrud struct {
+type CoreVcnsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListVcnsResponse
 }
 
-func (s *VcnsDataSourceCrud) VoidState() {
+func (s *CoreVcnsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VcnsDataSourceCrud) Get() error {
+func (s *CoreVcnsDataSourceCrud) Get() error {
 	request := oci_core.ListVcnsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -113,7 +113,7 @@ func (s *VcnsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VcnsDataSourceCrud) SetData() error {
+func (s *CoreVcnsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -174,7 +174,7 @@ func (s *VcnsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, VcnsDataSource().Schema["virtual_networks"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreVcnsDataSource().Schema["virtual_networks"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("virtual_networks", resources); err != nil {

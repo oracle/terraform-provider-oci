@@ -9,7 +9,7 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-func NamespaceMetadataResource() *schema.Resource {
+func ObjectStorageNamespaceMetadataResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
 		Create:   readNamespaceMetadata,

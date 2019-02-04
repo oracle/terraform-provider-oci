@@ -10,16 +10,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VcnResource() *schema.Resource {
+func CoreVcnResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createVcn,
-		Read:     readVcn,
-		Update:   updateVcn,
-		Delete:   deleteVcn,
+		Create:   createCoreVcn,
+		Read:     readCoreVcn,
+		Update:   updateCoreVcn,
+		Delete:   deleteCoreVcn,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cidr_block": {
@@ -89,32 +89,32 @@ func VcnResource() *schema.Resource {
 	}
 }
 
-func createVcn(d *schema.ResourceData, m interface{}) error {
-	sync := &VcnResourceCrud{}
+func createCoreVcn(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVcnResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readVcn(d *schema.ResourceData, m interface{}) error {
-	sync := &VcnResourceCrud{}
+func readCoreVcn(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVcnResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateVcn(d *schema.ResourceData, m interface{}) error {
-	sync := &VcnResourceCrud{}
+func updateCoreVcn(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVcnResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteVcn(d *schema.ResourceData, m interface{}) error {
-	sync := &VcnResourceCrud{}
+func deleteCoreVcn(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVcnResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -122,42 +122,42 @@ func deleteVcn(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type VcnResourceCrud struct {
+type CoreVcnResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.Vcn
 	DisableNotFoundRetries bool
 }
 
-func (s *VcnResourceCrud) ID() string {
+func (s *CoreVcnResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *VcnResourceCrud) CreatedPending() []string {
+func (s *CoreVcnResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.VcnLifecycleStateProvisioning),
 	}
 }
 
-func (s *VcnResourceCrud) CreatedTarget() []string {
+func (s *CoreVcnResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.VcnLifecycleStateAvailable),
 	}
 }
 
-func (s *VcnResourceCrud) DeletedPending() []string {
+func (s *CoreVcnResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.VcnLifecycleStateTerminating),
 	}
 }
 
-func (s *VcnResourceCrud) DeletedTarget() []string {
+func (s *CoreVcnResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.VcnLifecycleStateTerminated),
 	}
 }
 
-func (s *VcnResourceCrud) Create() error {
+func (s *CoreVcnResourceCrud) Create() error {
 	request := oci_core.CreateVcnRequest{}
 
 	if cidrBlock, ok := s.D.GetOkExists("cidr_block"); ok {
@@ -203,7 +203,7 @@ func (s *VcnResourceCrud) Create() error {
 	return nil
 }
 
-func (s *VcnResourceCrud) Get() error {
+func (s *CoreVcnResourceCrud) Get() error {
 	request := oci_core.GetVcnRequest{}
 
 	tmp := s.D.Id()
@@ -220,7 +220,7 @@ func (s *VcnResourceCrud) Get() error {
 	return nil
 }
 
-func (s *VcnResourceCrud) Update() error {
+func (s *CoreVcnResourceCrud) Update() error {
 	request := oci_core.UpdateVcnRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -254,7 +254,7 @@ func (s *VcnResourceCrud) Update() error {
 	return nil
 }
 
-func (s *VcnResourceCrud) Delete() error {
+func (s *CoreVcnResourceCrud) Delete() error {
 	request := oci_core.DeleteVcnRequest{}
 
 	tmp := s.D.Id()
@@ -266,7 +266,7 @@ func (s *VcnResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VcnResourceCrud) SetData() error {
+func (s *CoreVcnResourceCrud) SetData() error {
 	if s.Res.CidrBlock != nil {
 		s.D.Set("cidr_block", *s.Res.CidrBlock)
 	}

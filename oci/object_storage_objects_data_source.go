@@ -9,9 +9,9 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-func ObjectsDataSource() *schema.Resource {
+func ObjectStorageObjectsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readObjects,
+		Read: readObjectStorageObjects,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"bucket": {
@@ -80,27 +80,27 @@ func ObjectsDataSource() *schema.Resource {
 	}
 }
 
-func readObjects(d *schema.ResourceData, m interface{}) error {
-	sync := &ObjectsDataSourceCrud{}
+func readObjectStorageObjects(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageObjectsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return ReadResource(sync)
 }
 
-type ObjectsDataSourceCrud struct {
+type ObjectStorageObjectsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_object_storage.ObjectStorageClient
 	Res    *oci_object_storage.ListObjects
 }
 
-func (s *ObjectsDataSourceCrud) VoidState() {
+func (s *ObjectStorageObjectsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
 var listObjectsFields = "name,size,md5,timeCreated"
 
-func (s *ObjectsDataSourceCrud) Get() error {
+func (s *ObjectStorageObjectsDataSourceCrud) Get() error {
 	request := oci_object_storage.ListObjectsRequest{
 		// @CODEGEN 2/2018: Need to specify all the fields we want from the ObjectSummaries
 		Fields: &listObjectsFields,
@@ -165,7 +165,7 @@ func (s *ObjectsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ObjectsDataSourceCrud) SetData() error {
+func (s *ObjectStorageObjectsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -181,7 +181,7 @@ func (s *ObjectsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOk("filter"); fOk {
-		objects = ApplyFilters(f.(*schema.Set), objects, ObjectsDataSource().Schema["objects"].Elem.(*schema.Resource).Schema)
+		objects = ApplyFilters(f.(*schema.Set), objects, ObjectStorageObjectsDataSource().Schema["objects"].Elem.(*schema.Resource).Schema)
 	}
 
 	s.D.Set("objects", objects)

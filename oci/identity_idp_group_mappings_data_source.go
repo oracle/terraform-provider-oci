@@ -10,9 +10,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func IdpGroupMappingsDataSource() *schema.Resource {
+func IdentityIdpGroupMappingsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readIdpGroupMappings,
+		Read: readIdentityIdpGroupMappings,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"identity_provider_id": {
@@ -22,31 +22,31 @@ func IdpGroupMappingsDataSource() *schema.Resource {
 			"idp_group_mappings": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdpGroupMappingResource()),
+				Elem:     GetDataSourceItemSchema(IdentityIdpGroupMappingResource()),
 			},
 		},
 	}
 }
 
-func readIdpGroupMappings(d *schema.ResourceData, m interface{}) error {
-	sync := &IdpGroupMappingsDataSourceCrud{}
+func readIdentityIdpGroupMappings(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityIdpGroupMappingsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type IdpGroupMappingsDataSourceCrud struct {
+type IdentityIdpGroupMappingsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListIdpGroupMappingsResponse
 }
 
-func (s *IdpGroupMappingsDataSourceCrud) VoidState() {
+func (s *IdentityIdpGroupMappingsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *IdpGroupMappingsDataSourceCrud) Get() error {
+func (s *IdentityIdpGroupMappingsDataSourceCrud) Get() error {
 	request := oci_identity.ListIdpGroupMappingsRequest{}
 
 	if identityProviderId, ok := s.D.GetOkExists("identity_provider_id"); ok {
@@ -77,7 +77,7 @@ func (s *IdpGroupMappingsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *IdpGroupMappingsDataSourceCrud) SetData() error {
+func (s *IdentityIdpGroupMappingsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -120,7 +120,7 @@ func (s *IdpGroupMappingsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdpGroupMappingsDataSource().Schema["idp_group_mappings"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityIdpGroupMappingsDataSource().Schema["idp_group_mappings"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("idp_group_mappings", resources); err != nil {

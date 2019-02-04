@@ -10,9 +10,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func BootVolumeBackupDataSource() *schema.Resource {
+func CoreBootVolumeBackupDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularBootVolumeBackup,
+		Read: readSingularCoreBootVolumeBackup,
 		Schema: map[string]*schema.Schema{
 			"boot_volume_backup_id": {
 				Type:     schema.TypeString,
@@ -81,25 +81,25 @@ func BootVolumeBackupDataSource() *schema.Resource {
 	}
 }
 
-func readSingularBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumeBackupDataSourceCrud{}
+func readSingularCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumeBackupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-type BootVolumeBackupDataSourceCrud struct {
+type CoreBootVolumeBackupDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
 	Res    *oci_core.GetBootVolumeBackupResponse
 }
 
-func (s *BootVolumeBackupDataSourceCrud) VoidState() {
+func (s *CoreBootVolumeBackupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BootVolumeBackupDataSourceCrud) Get() error {
+func (s *CoreBootVolumeBackupDataSourceCrud) Get() error {
 	request := oci_core.GetBootVolumeBackupRequest{}
 
 	if bootVolumeBackupId, ok := s.D.GetOkExists("boot_volume_backup_id"); ok {
@@ -118,7 +118,7 @@ func (s *BootVolumeBackupDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BootVolumeBackupDataSourceCrud) SetData() error {
+func (s *CoreBootVolumeBackupDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

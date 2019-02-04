@@ -12,8 +12,8 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func DefaultRouteTableResource() *schema.Resource {
-	defaultResourceSchema := ConvertToDefaultVcnResourceSchema(RouteTableResource())
+func DefaultCoreRouteTableResource() *schema.Resource {
+	defaultResourceSchema := ConvertToDefaultVcnResourceSchema(CoreRouteTableResource())
 
 	defaultResourceSchema.Create = createDefaultRouteTable
 	defaultResourceSchema.Delete = deleteDefaultRouteTable
@@ -22,7 +22,7 @@ func DefaultRouteTableResource() *schema.Resource {
 }
 
 type DefaultRouteTableResourceCrud struct {
-	RouteTableResourceCrud
+	CoreRouteTableResourceCrud
 }
 
 func createDefaultRouteTable(d *schema.ResourceData, m interface{}) error {

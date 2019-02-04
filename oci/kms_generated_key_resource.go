@@ -12,12 +12,12 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
-func GeneratedKeyResource() *schema.Resource {
+func KmsGeneratedKeyResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createGeneratedKey,
-		Read:     readGeneratedKey,
-		Delete:   deleteGeneratedKey,
+		Create:   createKmsGeneratedKey,
+		Read:     readKmsGeneratedKey,
+		Delete:   deleteKmsGeneratedKey,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"crypto_endpoint": {
@@ -87,8 +87,8 @@ func GeneratedKeyResource() *schema.Resource {
 	}
 }
 
-func createGeneratedKey(d *schema.ResourceData, m interface{}) error {
-	sync := &GeneratedKeyResourceCrud{}
+func createKmsGeneratedKey(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsGeneratedKeyResourceCrud{}
 	sync.D = d
 	endpoint, ok := d.GetOkExists("crypto_endpoint")
 	if !ok {
@@ -103,26 +103,26 @@ func createGeneratedKey(d *schema.ResourceData, m interface{}) error {
 	return CreateResource(d, sync)
 }
 
-func readGeneratedKey(d *schema.ResourceData, m interface{}) error {
+func readKmsGeneratedKey(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func deleteGeneratedKey(d *schema.ResourceData, m interface{}) error {
+func deleteKmsGeneratedKey(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-type GeneratedKeyResourceCrud struct {
+type KmsGeneratedKeyResourceCrud struct {
 	BaseCrud
 	Client                 *oci_kms.KmsCryptoClient
 	Res                    *oci_kms.GeneratedKey
 	DisableNotFoundRetries bool
 }
 
-func (s *GeneratedKeyResourceCrud) ID() string {
+func (s *KmsGeneratedKeyResourceCrud) ID() string {
 	return string(hashcode.String(*s.Res.Ciphertext))
 }
 
-func (s *GeneratedKeyResourceCrud) Create() error {
+func (s *KmsGeneratedKeyResourceCrud) Create() error {
 	request := oci_kms.GenerateDataEncryptionKeyRequest{}
 
 	if associatedData, ok := s.D.GetOkExists("associated_data"); ok {
@@ -161,7 +161,7 @@ func (s *GeneratedKeyResourceCrud) Create() error {
 	return nil
 }
 
-func (s *GeneratedKeyResourceCrud) SetData() error {
+func (s *KmsGeneratedKeyResourceCrud) SetData() error {
 	if s.Res.Ciphertext != nil {
 		s.D.Set("ciphertext", *s.Res.Ciphertext)
 	}
@@ -177,7 +177,7 @@ func (s *GeneratedKeyResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *GeneratedKeyResourceCrud) mapToKeyShape(fieldKeyFormat string) (oci_kms.KeyShape, error) {
+func (s *KmsGeneratedKeyResourceCrud) mapToKeyShape(fieldKeyFormat string) (oci_kms.KeyShape, error) {
 	result := oci_kms.KeyShape{}
 
 	if algorithm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "algorithm")); ok {

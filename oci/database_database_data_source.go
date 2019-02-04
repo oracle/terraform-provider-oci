@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func DatabaseDataSource() *schema.Resource {
+func DatabaseDatabaseDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularDatabase,
+		Read: readSingularDatabaseDatabase,
 		Schema: map[string]*schema.Schema{
 			"database_id": {
 				Type:     schema.TypeString,
@@ -95,25 +95,25 @@ func DatabaseDataSource() *schema.Resource {
 	}
 }
 
-func readSingularDatabase(d *schema.ResourceData, m interface{}) error {
-	sync := &DatabaseDataSourceCrud{}
+func readSingularDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDatabaseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type DatabaseDataSourceCrud struct {
+type DatabaseDatabaseDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.GetDatabaseResponse
 }
 
-func (s *DatabaseDataSourceCrud) VoidState() {
+func (s *DatabaseDatabaseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseDataSourceCrud) Get() error {
+func (s *DatabaseDatabaseDataSourceCrud) Get() error {
 	request := oci_database.GetDatabaseRequest{}
 
 	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
@@ -132,7 +132,7 @@ func (s *DatabaseDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseDataSourceCrud) SetData() error {
+func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

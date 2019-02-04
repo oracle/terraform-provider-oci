@@ -16,15 +16,15 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
-func KeyVersionResource() *schema.Resource {
+func KmsKeyVersionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createKeyVersion,
-		Read:     readKeyVersion,
-		Delete:   deleteKeyVersion,
+		Create:   createKmsKeyVersion,
+		Read:     readKmsKeyVersion,
+		Delete:   deleteKmsKeyVersion,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"key_id": {
@@ -61,8 +61,8 @@ func KeyVersionResource() *schema.Resource {
 	}
 }
 
-func createKeyVersion(d *schema.ResourceData, m interface{}) error {
-	sync := &KeyVersionResourceCrud{}
+func createKmsKeyVersion(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsKeyVersionResourceCrud{}
 	sync.D = d
 	endpoint, ok := d.GetOkExists("management_endpoint")
 	if !ok {
@@ -77,8 +77,8 @@ func createKeyVersion(d *schema.ResourceData, m interface{}) error {
 	return CreateResource(d, sync)
 }
 
-func readKeyVersion(d *schema.ResourceData, m interface{}) error {
-	sync := &KeyVersionResourceCrud{}
+func readKmsKeyVersion(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsKeyVersionResourceCrud{}
 	sync.D = d
 	endpoint, ok := d.GetOkExists("management_endpoint")
 	if !ok {
@@ -105,22 +105,22 @@ func readKeyVersion(d *schema.ResourceData, m interface{}) error {
 	return ReadResource(sync)
 }
 
-func deleteKeyVersion(d *schema.ResourceData, m interface{}) error {
+func deleteKmsKeyVersion(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-type KeyVersionResourceCrud struct {
+type KmsKeyVersionResourceCrud struct {
 	BaseCrud
 	Client                 *oci_kms.KmsManagementClient
 	Res                    *oci_kms.KeyVersion
 	DisableNotFoundRetries bool
 }
 
-func (s *KeyVersionResourceCrud) ID() string {
+func (s *KmsKeyVersionResourceCrud) ID() string {
 	return getKeyVersionCompositeId(*s.Res.KeyId, *s.Res.Id)
 }
 
-func (s *KeyVersionResourceCrud) Create() error {
+func (s *KmsKeyVersionResourceCrud) Create() error {
 	request := oci_kms.CreateKeyVersionRequest{}
 
 	if keyId, ok := s.D.GetOkExists("key_id"); ok {
@@ -139,7 +139,7 @@ func (s *KeyVersionResourceCrud) Create() error {
 	return nil
 }
 
-func (s *KeyVersionResourceCrud) Get() error {
+func (s *KmsKeyVersionResourceCrud) Get() error {
 	request := oci_kms.GetKeyVersionRequest{}
 
 	keyId, keyVersionId, err := parseKeyVersionCompositeId(s.D.Id())
@@ -162,7 +162,7 @@ func (s *KeyVersionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *KeyVersionResourceCrud) SetData() error {
+func (s *KmsKeyVersionResourceCrud) SetData() error {
 
 	keyId, keyVersionId, err := parseKeyVersionCompositeId(s.D.Id())
 	if err == nil {

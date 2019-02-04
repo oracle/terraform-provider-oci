@@ -14,7 +14,7 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func CompartmentResource() *schema.Resource {
+func IdentityCompartmentResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
@@ -22,10 +22,10 @@ func CompartmentResource() *schema.Resource {
 		Timeouts: &schema.ResourceTimeout{
 			Delete: schema.DefaultTimeout(90 * time.Minute), // service team states: p50: 30 min, p90: 60 min, max: 180 min
 		},
-		Create: createCompartment,
-		Read:   readCompartment,
-		Update: updateCompartment,
-		Delete: deleteCompartment,
+		Create: createIdentityCompartment,
+		Read:   readIdentityCompartment,
+		Update: updateIdentityCompartment,
+		Delete: deleteIdentityCompartment,
 		Schema: map[string]*schema.Schema{
 			// Required
 			// @next-break: remove customizations
@@ -93,8 +93,8 @@ func CompartmentResource() *schema.Resource {
 	}
 }
 
-func createCompartment(d *schema.ResourceData, m interface{}) error {
-	sync := &CompartmentResourceCrud{}
+func createIdentityCompartment(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.Configuration = m.(*OracleClients).configuration
@@ -102,28 +102,28 @@ func createCompartment(d *schema.ResourceData, m interface{}) error {
 	return CreateResource(d, sync)
 }
 
-func readCompartment(d *schema.ResourceData, m interface{}) error {
-	sync := &CompartmentResourceCrud{}
+func readIdentityCompartment(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateCompartment(d *schema.ResourceData, m interface{}) error {
-	sync := &CompartmentResourceCrud{}
+func updateIdentityCompartment(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteCompartment(d *schema.ResourceData, m interface{}) error {
+func deleteIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 	if enableDelete, ok := d.GetOkExists("enable_delete"); !ok || !enableDelete.(bool) {
 		return nil
 	}
 
-	sync := &CompartmentResourceCrud{}
+	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -131,7 +131,7 @@ func deleteCompartment(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type CompartmentResourceCrud struct {
+type IdentityCompartmentResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Configuration          map[string]string
@@ -139,35 +139,35 @@ type CompartmentResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-func (s *CompartmentResourceCrud) ID() string {
+func (s *IdentityCompartmentResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *CompartmentResourceCrud) CreatedPending() []string {
+func (s *IdentityCompartmentResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.CompartmentLifecycleStateCreating),
 	}
 }
 
-func (s *CompartmentResourceCrud) CreatedTarget() []string {
+func (s *IdentityCompartmentResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.CompartmentLifecycleStateActive),
 	}
 }
 
-func (s *CompartmentResourceCrud) DeletedPending() []string {
+func (s *IdentityCompartmentResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.CompartmentLifecycleStateDeleting),
 	}
 }
 
-func (s *CompartmentResourceCrud) DeletedTarget() []string {
+func (s *IdentityCompartmentResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.CompartmentLifecycleStateDeleted),
 	}
 }
 
-func (s *CompartmentResourceCrud) Create() error {
+func (s *IdentityCompartmentResourceCrud) Create() error {
 	request := oci_identity.CreateCompartmentRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -237,7 +237,7 @@ If you intended to manage an existing compartment, use terraform import instead.
 				s.D.Set("compartment_id", request.CompartmentId)
 				log.Println(fmt.Sprintf("[DEBUG] The specified compartment with name '%s' may already exist, listing compartments to lookup with name instead.",
 					*request.Name))
-				dsCrud := &CompartmentsDataSourceCrud{s.D, s.Client, nil}
+				dsCrud := &IdentityCompartmentsDataSourceCrud{s.D, s.Client, nil}
 				if err := dsCrud.Get(); err != nil {
 					return err
 				}
@@ -265,7 +265,7 @@ Refer to the 'oci_identity_compartment' documentation for more information.`, er
 	return nil
 }
 
-func (s *CompartmentResourceCrud) Get() error {
+func (s *IdentityCompartmentResourceCrud) Get() error {
 	request := oci_identity.GetCompartmentRequest{}
 
 	tmp := s.D.Id()
@@ -282,7 +282,7 @@ func (s *CompartmentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CompartmentResourceCrud) Update() error {
+func (s *IdentityCompartmentResourceCrud) Update() error {
 	request := oci_identity.UpdateCompartmentRequest{}
 
 	tmp := s.D.Id()
@@ -321,7 +321,7 @@ func (s *CompartmentResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CompartmentResourceCrud) Delete() error {
+func (s *IdentityCompartmentResourceCrud) Delete() error {
 	request := oci_identity.DeleteCompartmentRequest{}
 
 	tmp := s.D.Id()
@@ -333,7 +333,7 @@ func (s *CompartmentResourceCrud) Delete() error {
 	return err
 }
 
-func (s *CompartmentResourceCrud) SetData() error {
+func (s *IdentityCompartmentResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

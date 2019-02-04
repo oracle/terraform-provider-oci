@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func DatabasesDataSource() *schema.Resource {
+func DatabaseDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabases,
+		Read: readDatabaseDatabases,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -33,7 +33,7 @@ func DatabasesDataSource() *schema.Resource {
 			"databases": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(DatabaseDataSource()),
+				Elem:     GetDataSourceItemSchema(DatabaseDatabaseDataSource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -49,25 +49,25 @@ func DatabasesDataSource() *schema.Resource {
 	}
 }
 
-func readDatabases(d *schema.ResourceData, m interface{}) error {
-	sync := &DatabasesDataSourceCrud{}
+func readDatabaseDatabases(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDatabasesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type DatabasesDataSourceCrud struct {
+type DatabaseDatabasesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListDatabasesResponse
 }
 
-func (s *DatabasesDataSourceCrud) VoidState() {
+func (s *DatabaseDatabasesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabasesDataSourceCrud) Get() error {
+func (s *DatabaseDatabasesDataSourceCrud) Get() error {
 	request := oci_database.ListDatabasesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -119,7 +119,7 @@ func (s *DatabasesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabasesDataSourceCrud) SetData() error {
+func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -187,7 +187,7 @@ func (s *DatabasesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DatabasesDataSource().Schema["databases"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DatabaseDatabasesDataSource().Schema["databases"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("databases", resources); err != nil {

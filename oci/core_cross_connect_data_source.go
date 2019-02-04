@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func CrossConnectDataSource() *schema.Resource {
+func CoreCrossConnectDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularCrossConnect,
+		Read: readSingularCoreCrossConnect,
 		Schema: map[string]*schema.Schema{
 			"cross_connect_id": {
 				Type:     schema.TypeString,
@@ -54,25 +54,25 @@ func CrossConnectDataSource() *schema.Resource {
 	}
 }
 
-func readSingularCrossConnect(d *schema.ResourceData, m interface{}) error {
-	sync := &CrossConnectDataSourceCrud{}
+func readSingularCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCrossConnectDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type CrossConnectDataSourceCrud struct {
+type CoreCrossConnectDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.GetCrossConnectResponse
 }
 
-func (s *CrossConnectDataSourceCrud) VoidState() {
+func (s *CoreCrossConnectDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CrossConnectDataSourceCrud) Get() error {
+func (s *CoreCrossConnectDataSourceCrud) Get() error {
 	request := oci_core.GetCrossConnectRequest{}
 
 	if crossConnectId, ok := s.D.GetOkExists("cross_connect_id"); ok {
@@ -91,7 +91,7 @@ func (s *CrossConnectDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CrossConnectDataSourceCrud) SetData() error {
+func (s *CoreCrossConnectDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

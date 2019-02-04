@@ -9,9 +9,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func BackendSetsDataSource() *schema.Resource {
+func LoadBalancerBackendSetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBackendSets,
+		Read: readLoadBalancerBackendSets,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"load_balancer_id": {
@@ -21,31 +21,31 @@ func BackendSetsDataSource() *schema.Resource {
 			"backendsets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(BackendSetResource()),
+				Elem:     GetDataSourceItemSchema(LoadBalancerBackendSetResource()),
 			},
 		},
 	}
 }
 
-func readBackendSets(d *schema.ResourceData, m interface{}) error {
-	sync := &BackendSetsDataSourceCrud{}
+func readLoadBalancerBackendSets(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerBackendSetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-type BackendSetsDataSourceCrud struct {
+type LoadBalancerBackendSetsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
 	Res    *oci_load_balancer.ListBackendSetsResponse
 }
 
-func (s *BackendSetsDataSourceCrud) VoidState() {
+func (s *LoadBalancerBackendSetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BackendSetsDataSourceCrud) Get() error {
+func (s *LoadBalancerBackendSetsDataSourceCrud) Get() error {
 	request := oci_load_balancer.ListBackendSetsRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -64,7 +64,7 @@ func (s *BackendSetsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BackendSetsDataSourceCrud) SetData() error {
+func (s *LoadBalancerBackendSetsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -111,7 +111,7 @@ func (s *BackendSetsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, BackendSetsDataSource().Schema["backendsets"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerBackendSetsDataSource().Schema["backendsets"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("backendsets", resources); err != nil {

@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func DbHomesDataSource() *schema.Resource {
+func DatabaseDbHomesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbHomes,
+		Read: readDatabaseDbHomes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -33,31 +33,31 @@ func DbHomesDataSource() *schema.Resource {
 			"db_homes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(DbHomeDataSource()),
+				Elem:     GetDataSourceItemSchema(DatabaseDbHomeDataSource()),
 			},
 		},
 	}
 }
 
-func readDbHomes(d *schema.ResourceData, m interface{}) error {
-	sync := &DbHomesDataSourceCrud{}
+func readDatabaseDbHomes(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbHomesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type DbHomesDataSourceCrud struct {
+type DatabaseDbHomesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListDbHomesResponse
 }
 
-func (s *DbHomesDataSourceCrud) VoidState() {
+func (s *DatabaseDbHomesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbHomesDataSourceCrud) Get() error {
+func (s *DatabaseDbHomesDataSourceCrud) Get() error {
 	request := oci_database.ListDbHomesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -112,7 +112,7 @@ func (s *DbHomesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbHomesDataSourceCrud) SetData() error {
+func (s *DatabaseDbHomesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -153,7 +153,7 @@ func (s *DbHomesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DbHomesDataSource().Schema["db_homes"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DatabaseDbHomesDataSource().Schema["db_homes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("db_homes", resources); err != nil {

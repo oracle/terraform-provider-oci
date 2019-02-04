@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDataWarehouseDataSource() *schema.Resource {
+func DatabaseAutonomousDataWarehouseDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularAutonomousDataWarehouse,
+		Read: readSingularDatabaseAutonomousDataWarehouse,
 		Schema: map[string]*schema.Schema{
 			"autonomous_data_warehouse_id": {
 				Type:     schema.TypeString,
@@ -106,25 +106,25 @@ func AutonomousDataWarehouseDataSource() *schema.Resource {
 	}
 }
 
-func readSingularAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseDataSourceCrud{}
+func readSingularDatabaseAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDataWarehouseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type AutonomousDataWarehouseDataSourceCrud struct {
+type DatabaseAutonomousDataWarehouseDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.GetAutonomousDataWarehouseResponse
 }
 
-func (s *AutonomousDataWarehouseDataSourceCrud) VoidState() {
+func (s *DatabaseAutonomousDataWarehouseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AutonomousDataWarehouseDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDataWarehouseDataSourceCrud) Get() error {
 	request := oci_database.GetAutonomousDataWarehouseRequest{}
 
 	if autonomousDataWarehouseId, ok := s.D.GetOkExists("autonomous_data_warehouse_id"); ok {
@@ -143,7 +143,7 @@ func (s *AutonomousDataWarehouseDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutonomousDataWarehouseDataSourceCrud) SetData() error {
+func (s *DatabaseAutonomousDataWarehouseDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func DbSystemShapesDataSource() *schema.Resource {
+func DatabaseDbSystemShapesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbSystemShapes,
+		Read: readDatabaseDbSystemShapes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -77,25 +77,25 @@ func DbSystemShapesDataSource() *schema.Resource {
 	}
 }
 
-func readDbSystemShapes(d *schema.ResourceData, m interface{}) error {
-	sync := &DbSystemShapesDataSourceCrud{}
+func readDatabaseDbSystemShapes(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbSystemShapesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type DbSystemShapesDataSourceCrud struct {
+type DatabaseDbSystemShapesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListDbSystemShapesResponse
 }
 
-func (s *DbSystemShapesDataSourceCrud) VoidState() {
+func (s *DatabaseDbSystemShapesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbSystemShapesDataSourceCrud) Get() error {
+func (s *DatabaseDbSystemShapesDataSourceCrud) Get() error {
 	request := oci_database.ListDbSystemShapesRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -141,7 +141,7 @@ func (s *DbSystemShapesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbSystemShapesDataSourceCrud) SetData() error {
+func (s *DatabaseDbSystemShapesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -184,7 +184,7 @@ func (s *DbSystemShapesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DbSystemShapesDataSource().Schema["db_system_shapes"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DatabaseDbSystemShapesDataSource().Schema["db_system_shapes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("db_system_shapes", resources); err != nil {

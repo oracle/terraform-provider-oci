@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func SecurityListsDataSource() *schema.Resource {
+func CoreSecurityListsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSecurityLists,
+		Read: readCoreSecurityLists,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -33,7 +33,7 @@ func SecurityListsDataSource() *schema.Resource {
 			"security_lists": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(SecurityListResource()),
+				Elem:     GetDataSourceItemSchema(CoreSecurityListResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -49,25 +49,25 @@ func SecurityListsDataSource() *schema.Resource {
 	}
 }
 
-func readSecurityLists(d *schema.ResourceData, m interface{}) error {
-	sync := &SecurityListsDataSourceCrud{}
+func readCoreSecurityLists(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreSecurityListsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type SecurityListsDataSourceCrud struct {
+type CoreSecurityListsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListSecurityListsResponse
 }
 
-func (s *SecurityListsDataSourceCrud) VoidState() {
+func (s *CoreSecurityListsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SecurityListsDataSourceCrud) Get() error {
+func (s *CoreSecurityListsDataSourceCrud) Get() error {
 	request := oci_core.ListSecurityListsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -122,7 +122,7 @@ func (s *SecurityListsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SecurityListsDataSourceCrud) SetData() error {
+func (s *CoreSecurityListsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -172,7 +172,7 @@ func (s *SecurityListsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, SecurityListsDataSource().Schema["security_lists"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreSecurityListsDataSource().Schema["security_lists"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("security_lists", resources); err != nil {

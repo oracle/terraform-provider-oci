@@ -19,16 +19,16 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-func ObjectLifecyclePolicyResource() *schema.Resource {
+func ObjectStorageObjectLifecyclePolicyResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createObjectLifecyclePolicy,
-		Read:     readObjectLifecyclePolicy,
-		Update:   updateObjectLifecyclePolicy,
-		Delete:   deleteObjectLifecyclePolicy,
+		Create:   createObjectStorageObjectLifecyclePolicy,
+		Read:     readObjectStorageObjectLifecyclePolicy,
+		Update:   updateObjectStorageObjectLifecyclePolicy,
+		Delete:   deleteObjectStorageObjectLifecyclePolicy,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bucket": {
@@ -119,32 +119,32 @@ func ObjectLifecyclePolicyResource() *schema.Resource {
 	}
 }
 
-func createObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
-	sync := &ObjectLifecyclePolicyResourceCrud{}
+func createObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageObjectLifecyclePolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
-	sync := &ObjectLifecyclePolicyResourceCrud{}
+func readObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageObjectLifecyclePolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return ReadResource(sync)
 }
 
-func updateObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
-	sync := &ObjectLifecyclePolicyResourceCrud{}
+func updateObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageObjectLifecyclePolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
-	sync := &ObjectLifecyclePolicyResourceCrud{}
+func deleteObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageObjectLifecyclePolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 	sync.DisableNotFoundRetries = true
@@ -152,18 +152,18 @@ func deleteObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type ObjectLifecyclePolicyResourceCrud struct {
+type ObjectStorageObjectLifecyclePolicyResourceCrud struct {
 	BaseCrud
 	Client                 *oci_object_storage.ObjectStorageClient
 	Res                    *oci_object_storage.ObjectLifecyclePolicy
 	DisableNotFoundRetries bool
 }
 
-func (s *ObjectLifecyclePolicyResourceCrud) ID() string {
+func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) ID() string {
 	return getObjectLifecyclePolicyCompositeId(s.D.Get("bucket").(string), s.D.Get("namespace").(string))
 }
 
-func (s *ObjectLifecyclePolicyResourceCrud) Create() error {
+func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) Create() error {
 	request := oci_object_storage.PutObjectLifecyclePolicyRequest{}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
@@ -204,7 +204,7 @@ func (s *ObjectLifecyclePolicyResourceCrud) Create() error {
 	return nil
 }
 
-func (s *ObjectLifecyclePolicyResourceCrud) Get() error {
+func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) Get() error {
 	request := oci_object_storage.GetObjectLifecyclePolicyRequest{}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
@@ -236,7 +236,7 @@ func (s *ObjectLifecyclePolicyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ObjectLifecyclePolicyResourceCrud) Update() error {
+func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) Update() error {
 	request := oci_object_storage.PutObjectLifecyclePolicyRequest{}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
@@ -277,7 +277,7 @@ func (s *ObjectLifecyclePolicyResourceCrud) Update() error {
 	return nil
 }
 
-func (s *ObjectLifecyclePolicyResourceCrud) Delete() error {
+func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) Delete() error {
 	request := oci_object_storage.DeleteObjectLifecyclePolicyRequest{}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
@@ -296,7 +296,7 @@ func (s *ObjectLifecyclePolicyResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ObjectLifecyclePolicyResourceCrud) SetData() error {
+func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) SetData() error {
 
 	bucket, namespace, err := parseObjectLifecyclePolicyCompositeId(s.D.Id())
 	if err == nil {
@@ -339,7 +339,7 @@ func parseObjectLifecyclePolicyCompositeId(compositeId string) (bucket string, n
 	return
 }
 
-func (s *ObjectLifecyclePolicyResourceCrud) mapToObjectLifecycleRule(fieldKeyFormat string) (oci_object_storage.ObjectLifecycleRule, error) {
+func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) mapToObjectLifecycleRule(fieldKeyFormat string) (oci_object_storage.ObjectLifecycleRule, error) {
 	result := oci_object_storage.ObjectLifecycleRule{}
 
 	if action, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action")); ok {
@@ -413,7 +413,7 @@ func ObjectLifecycleRuleToMap(obj oci_object_storage.ObjectLifecycleRule) map[st
 	return result
 }
 
-func (s *ObjectLifecyclePolicyResourceCrud) mapToObjectNameFilter(fieldKeyFormat string) (oci_object_storage.ObjectNameFilter, error) {
+func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) mapToObjectNameFilter(fieldKeyFormat string) (oci_object_storage.ObjectNameFilter, error) {
 	result := oci_object_storage.ObjectNameFilter{}
 
 	result.InclusionPrefixes = []string{}

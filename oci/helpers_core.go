@@ -79,7 +79,7 @@ func getBackupPolicyId(assetId *string, client *oci_core.BlockstorageClient) (*s
 	}
 }
 
-func (s *VolumeBackupResourceCrud) createBlockStorageSourceRegionClient(region string) error {
+func (s *CoreVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(region string) error {
 	if s.SourceRegionClient == nil {
 		sourceBlockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
 		if err != nil {
