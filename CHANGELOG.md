@@ -1,12 +1,9 @@
-## 3.14.2 (Unreleased)
+## 3.15.0 (Unreleased)
 
 ### Added
-- Support for Monitoring service 
-- Adding ability to disable monitoring in instances
-- Enable regional Subnets by making Availability Domain optional when creating a Subnet
-- Adding support for the database renaming during restore from incremental backup
 - Adding support for the tagging of Email Delivery service approved senders
 - Support for Health Check Service
+- Adding database connection information to the `oci_database_database` and `oci_database_databases` data sources
 
 ## 3.14.1 (February 05, 2019)
 

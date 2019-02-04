@@ -524,6 +524,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.state", string(database.DatabaseLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.time_created"),
+					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.connection_strings.0.cdb_default"),
+					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.connection_strings.0.all_connection_strings.cdbDefault"),
 
 					// Database
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "id"),
@@ -541,6 +543,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "pdb_name", "pdbName"),
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "state", string(database.DatabaseLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "time_created"),
+					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "connection_strings.0.cdb_default"),
+					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "connection_strings.0.all_connection_strings.cdbDefault"),
 
 					// DB Nodes
 					resource.TestCheckResourceAttrSet("data.oci_database_db_nodes.t", "db_system_id"),
@@ -776,6 +780,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.state"),
 					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.time_created"),
+					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.connection_strings.0.cdb_default"),
+					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.connection_strings.0.all_connection_strings.cdbDefault"),
 
 					// Database
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "id"),
@@ -793,6 +799,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "pdb_name", "pdbName"),
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "state", string(database.DatabaseLifecycleStateAvailable)),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "time_created"),
+					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "connection_strings.0.cdb_default"),
+					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "connection_strings.0.all_connection_strings.cdbDefault"),
 
 					// DB Nodes
 					resource.TestCheckResourceAttrSet("data.oci_database_db_nodes.t", "db_system_id"),
