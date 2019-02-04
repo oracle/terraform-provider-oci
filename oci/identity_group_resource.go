@@ -14,16 +14,16 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func GroupResource() *schema.Resource {
+func IdentityGroupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createGroup,
-		Read:     readGroup,
-		Update:   updateGroup,
-		Delete:   deleteGroup,
+		Create:   createIdentityGroup,
+		Read:     readIdentityGroup,
+		Update:   updateIdentityGroup,
+		Delete:   deleteIdentityGroup,
 		Schema: map[string]*schema.Schema{
 			// The legacy provider exposed this as read-only/computed. The API requires this param. For legacy users who are
 			// not supplying a value, make it optional, behind the scenes it will use the tenancy ocid if not supplied.
@@ -83,8 +83,8 @@ func GroupResource() *schema.Resource {
 	}
 }
 
-func createGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &GroupResourceCrud{}
+func createIdentityGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.Configuration = m.(*OracleClients).configuration
@@ -92,24 +92,24 @@ func createGroup(d *schema.ResourceData, m interface{}) error {
 	return CreateResource(d, sync)
 }
 
-func readGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &GroupResourceCrud{}
+func readIdentityGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &GroupResourceCrud{}
+func updateIdentityGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &GroupResourceCrud{}
+func deleteIdentityGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -117,7 +117,7 @@ func deleteGroup(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type GroupResourceCrud struct {
+type IdentityGroupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Configuration          map[string]string
@@ -125,35 +125,35 @@ type GroupResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-func (s *GroupResourceCrud) ID() string {
+func (s *IdentityGroupResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *GroupResourceCrud) CreatedPending() []string {
+func (s *IdentityGroupResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.GroupLifecycleStateCreating),
 	}
 }
 
-func (s *GroupResourceCrud) CreatedTarget() []string {
+func (s *IdentityGroupResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.GroupLifecycleStateActive),
 	}
 }
 
-func (s *GroupResourceCrud) DeletedPending() []string {
+func (s *IdentityGroupResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.GroupLifecycleStateDeleting),
 	}
 }
 
-func (s *GroupResourceCrud) DeletedTarget() []string {
+func (s *IdentityGroupResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.GroupLifecycleStateDeleted),
 	}
 }
 
-func (s *GroupResourceCrud) Create() error {
+func (s *IdentityGroupResourceCrud) Create() error {
 	request := oci_identity.CreateGroupRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -209,7 +209,7 @@ func (s *GroupResourceCrud) Create() error {
 	return nil
 }
 
-func (s *GroupResourceCrud) Get() error {
+func (s *IdentityGroupResourceCrud) Get() error {
 	request := oci_identity.GetGroupRequest{}
 
 	tmp := s.D.Id()
@@ -226,7 +226,7 @@ func (s *GroupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *GroupResourceCrud) Update() error {
+func (s *IdentityGroupResourceCrud) Update() error {
 	request := oci_identity.UpdateGroupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -260,7 +260,7 @@ func (s *GroupResourceCrud) Update() error {
 	return nil
 }
 
-func (s *GroupResourceCrud) Delete() error {
+func (s *IdentityGroupResourceCrud) Delete() error {
 	request := oci_identity.DeleteGroupRequest{}
 
 	tmp := s.D.Id()
@@ -272,7 +272,7 @@ func (s *GroupResourceCrud) Delete() error {
 	return err
 }
 
-func (s *GroupResourceCrud) SetData() error {
+func (s *IdentityGroupResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -304,6 +304,6 @@ func (s *GroupResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *GroupResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
+func (s *IdentityGroupResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
 	return time.Duration(2 * time.Second)
 }

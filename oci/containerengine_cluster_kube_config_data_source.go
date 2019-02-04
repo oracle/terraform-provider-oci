@@ -11,9 +11,9 @@ import (
 	"io/ioutil"
 )
 
-func ClusterKubeConfigDataSource() *schema.Resource {
+func ContainerengineClusterKubeConfigDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularClusterKubeConfig,
+		Read: readSingularContainerengineClusterKubeConfig,
 		Schema: map[string]*schema.Schema{
 			"cluster_id": {
 				Type:     schema.TypeString,
@@ -37,25 +37,25 @@ func ClusterKubeConfigDataSource() *schema.Resource {
 	}
 }
 
-func readSingularClusterKubeConfig(d *schema.ResourceData, m interface{}) error {
-	sync := &ClusterKubeConfigDataSourceCrud{}
+func readSingularContainerengineClusterKubeConfig(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineClusterKubeConfigDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return ReadResource(sync)
 }
 
-type ClusterKubeConfigDataSourceCrud struct {
+type ContainerengineClusterKubeConfigDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_containerengine.ContainerEngineClient
 	Res    *[]byte
 }
 
-func (s *ClusterKubeConfigDataSourceCrud) VoidState() {
+func (s *ContainerengineClusterKubeConfigDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ClusterKubeConfigDataSourceCrud) Get() error {
+func (s *ContainerengineClusterKubeConfigDataSourceCrud) Get() error {
 	request := oci_containerengine.CreateKubeconfigRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -92,7 +92,7 @@ func (s *ClusterKubeConfigDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ClusterKubeConfigDataSourceCrud) SetData() error {
+func (s *ContainerengineClusterKubeConfigDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

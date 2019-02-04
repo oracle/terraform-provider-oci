@@ -10,9 +10,9 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-func ObjectLifecyclePolicyDataSource() *schema.Resource {
+func ObjectStorageObjectLifecyclePolicyDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularObjectLifecyclePolicy,
+		Read: readSingularObjectStorageObjectLifecyclePolicy,
 		Schema: map[string]*schema.Schema{
 			"bucket": {
 				Type:     schema.TypeString,
@@ -94,25 +94,25 @@ func ObjectLifecyclePolicyDataSource() *schema.Resource {
 	}
 }
 
-func readSingularObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
-	sync := &ObjectLifecyclePolicyDataSourceCrud{}
+func readSingularObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageObjectLifecyclePolicyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return ReadResource(sync)
 }
 
-type ObjectLifecyclePolicyDataSourceCrud struct {
+type ObjectStorageObjectLifecyclePolicyDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_object_storage.ObjectStorageClient
 	Res    *oci_object_storage.GetObjectLifecyclePolicyResponse
 }
 
-func (s *ObjectLifecyclePolicyDataSourceCrud) VoidState() {
+func (s *ObjectStorageObjectLifecyclePolicyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ObjectLifecyclePolicyDataSourceCrud) Get() error {
+func (s *ObjectStorageObjectLifecyclePolicyDataSourceCrud) Get() error {
 	request := oci_object_storage.GetObjectLifecyclePolicyRequest{}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
@@ -136,7 +136,7 @@ func (s *ObjectLifecyclePolicyDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ObjectLifecyclePolicyDataSourceCrud) SetData() error {
+func (s *ObjectStorageObjectLifecyclePolicyDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

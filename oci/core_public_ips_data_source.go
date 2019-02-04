@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func PublicIpsDataSource() *schema.Resource {
+func CorePublicIpsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readPublicIps,
+		Read: readCorePublicIps,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -33,31 +33,31 @@ func PublicIpsDataSource() *schema.Resource {
 			"public_ips": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(PublicIpResource()),
+				Elem:     GetDataSourceItemSchema(CorePublicIpResource()),
 			},
 		},
 	}
 }
 
-func readPublicIps(d *schema.ResourceData, m interface{}) error {
-	sync := &PublicIpsDataSourceCrud{}
+func readCorePublicIps(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePublicIpsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type PublicIpsDataSourceCrud struct {
+type CorePublicIpsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListPublicIpsResponse
 }
 
-func (s *PublicIpsDataSourceCrud) VoidState() {
+func (s *CorePublicIpsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PublicIpsDataSourceCrud) Get() error {
+func (s *CorePublicIpsDataSourceCrud) Get() error {
 	request := oci_core.ListPublicIpsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -101,7 +101,7 @@ func (s *PublicIpsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PublicIpsDataSourceCrud) SetData() error {
+func (s *CorePublicIpsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -159,7 +159,7 @@ func (s *PublicIpsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, PublicIpsDataSource().Schema["public_ips"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CorePublicIpsDataSource().Schema["public_ips"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("public_ips", resources); err != nil {

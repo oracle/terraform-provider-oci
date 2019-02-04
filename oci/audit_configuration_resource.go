@@ -11,13 +11,13 @@ import (
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 )
 
-func ConfigurationResource() *schema.Resource {
+func AuditConfigurationResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createConfiguration,
-		Read:     readConfiguration,
-		Update:   updateConfiguration,
-		Delete:   deleteConfiguration,
+		Create:   createAuditConfiguration,
+		Read:     readAuditConfiguration,
+		Update:   updateAuditConfiguration,
+		Delete:   deleteAuditConfiguration,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -35,51 +35,51 @@ func ConfigurationResource() *schema.Resource {
 	}
 }
 
-func createConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &ConfigurationResourceCrud{}
+func createAuditConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &AuditConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).auditClient
 
 	return CreateResource(d, sync)
 }
 
-func readConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &ConfigurationResourceCrud{}
+func readAuditConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &AuditConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).auditClient
 
 	return ReadResource(sync)
 }
 
-func updateConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &ConfigurationResourceCrud{}
+func updateAuditConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &AuditConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).auditClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteConfiguration(d *schema.ResourceData, m interface{}) error {
+func deleteAuditConfiguration(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-type ConfigurationResourceCrud struct {
+type AuditConfigurationResourceCrud struct {
 	BaseCrud
 	Client                 *oci_audit.AuditClient
 	Res                    *oci_audit.Configuration
 	DisableNotFoundRetries bool
 }
 
-func (s *ConfigurationResourceCrud) ID() string {
+func (s *AuditConfigurationResourceCrud) ID() string {
 	return s.D.Get("compartment_id").(string)
 }
 
-func (s *ConfigurationResourceCrud) Create() error {
+func (s *AuditConfigurationResourceCrud) Create() error {
 	// This resource can't actually be created. So treat it as an update instead.
 	return s.Update()
 }
 
-func (s *ConfigurationResourceCrud) Get() error {
+func (s *AuditConfigurationResourceCrud) Get() error {
 	request := oci_audit.GetConfigurationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -98,7 +98,7 @@ func (s *ConfigurationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ConfigurationResourceCrud) Update() error {
+func (s *AuditConfigurationResourceCrud) Update() error {
 	request := oci_audit.UpdateConfigurationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -128,7 +128,7 @@ func (s *ConfigurationResourceCrud) Update() error {
 	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ConfigurationResourceCrud) SetData() error {
+func (s *AuditConfigurationResourceCrud) SetData() error {
 	if s.Res.RetentionPeriodDays != nil {
 		s.D.Set("retention_period_days", *s.Res.RetentionPeriodDays)
 	}

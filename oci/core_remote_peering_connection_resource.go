@@ -14,16 +14,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func RemotePeeringConnectionResource() *schema.Resource {
+func CoreRemotePeeringConnectionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createRemotePeeringConnection,
-		Read:     readRemotePeeringConnection,
-		Update:   updateRemotePeeringConnection,
-		Delete:   deleteRemotePeeringConnection,
+		Create:   createCoreRemotePeeringConnection,
+		Read:     readCoreRemotePeeringConnection,
+		Update:   updateCoreRemotePeeringConnection,
+		Delete:   deleteCoreRemotePeeringConnection,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -84,8 +84,8 @@ func RemotePeeringConnectionResource() *schema.Resource {
 	}
 }
 
-func createRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
-	sync := &RemotePeeringConnectionResourceCrud{}
+func createCoreRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreRemotePeeringConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
@@ -98,24 +98,24 @@ func createRemotePeeringConnection(d *schema.ResourceData, m interface{}) error 
 	return sync.ConnectRemotePeeringConnection()
 }
 
-func readRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
-	sync := &RemotePeeringConnectionResourceCrud{}
+func readCoreRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreRemotePeeringConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
-	sync := &RemotePeeringConnectionResourceCrud{}
+func updateCoreRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreRemotePeeringConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
-	sync := &RemotePeeringConnectionResourceCrud{}
+func deleteCoreRemotePeeringConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreRemotePeeringConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -123,42 +123,42 @@ func deleteRemotePeeringConnection(d *schema.ResourceData, m interface{}) error 
 	return DeleteResource(d, sync)
 }
 
-type RemotePeeringConnectionResourceCrud struct {
+type CoreRemotePeeringConnectionResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.RemotePeeringConnection
 	DisableNotFoundRetries bool
 }
 
-func (s *RemotePeeringConnectionResourceCrud) ID() string {
+func (s *CoreRemotePeeringConnectionResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *RemotePeeringConnectionResourceCrud) CreatedPending() []string {
+func (s *CoreRemotePeeringConnectionResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.RemotePeeringConnectionLifecycleStateProvisioning),
 	}
 }
 
-func (s *RemotePeeringConnectionResourceCrud) CreatedTarget() []string {
+func (s *CoreRemotePeeringConnectionResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.RemotePeeringConnectionLifecycleStateAvailable),
 	}
 }
 
-func (s *RemotePeeringConnectionResourceCrud) DeletedPending() []string {
+func (s *CoreRemotePeeringConnectionResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.RemotePeeringConnectionLifecycleStateTerminating),
 	}
 }
 
-func (s *RemotePeeringConnectionResourceCrud) DeletedTarget() []string {
+func (s *CoreRemotePeeringConnectionResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.RemotePeeringConnectionLifecycleStateTerminated),
 	}
 }
 
-func (s *RemotePeeringConnectionResourceCrud) ConnectRemotePeeringConnection() error {
+func (s *CoreRemotePeeringConnectionResourceCrud) ConnectRemotePeeringConnection() error {
 	if s.Res == nil || s.Res.Id == nil {
 		return fmt.Errorf("CreateRemotePeeringConnection returned a nil RemotePeeringConnection or a RemotePeeringConnection without an ID")
 	}
@@ -214,7 +214,7 @@ func (s *RemotePeeringConnectionResourceCrud) ConnectRemotePeeringConnection() e
 	return nil
 }
 
-func (s *RemotePeeringConnectionResourceCrud) Create() error {
+func (s *CoreRemotePeeringConnectionResourceCrud) Create() error {
 	request := oci_core.CreateRemotePeeringConnectionRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -243,7 +243,7 @@ func (s *RemotePeeringConnectionResourceCrud) Create() error {
 	return nil
 }
 
-func (s *RemotePeeringConnectionResourceCrud) Get() error {
+func (s *CoreRemotePeeringConnectionResourceCrud) Get() error {
 	request := oci_core.GetRemotePeeringConnectionRequest{}
 
 	tmp := s.D.Id()
@@ -260,7 +260,7 @@ func (s *RemotePeeringConnectionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *RemotePeeringConnectionResourceCrud) Update() error {
+func (s *CoreRemotePeeringConnectionResourceCrud) Update() error {
 	request := oci_core.UpdateRemotePeeringConnectionRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -282,7 +282,7 @@ func (s *RemotePeeringConnectionResourceCrud) Update() error {
 	return nil
 }
 
-func (s *RemotePeeringConnectionResourceCrud) Delete() error {
+func (s *CoreRemotePeeringConnectionResourceCrud) Delete() error {
 	request := oci_core.DeleteRemotePeeringConnectionRequest{}
 
 	tmp := s.D.Id()
@@ -294,7 +294,7 @@ func (s *RemotePeeringConnectionResourceCrud) Delete() error {
 	return err
 }
 
-func (s *RemotePeeringConnectionResourceCrud) SetData() error {
+func (s *CoreRemotePeeringConnectionResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

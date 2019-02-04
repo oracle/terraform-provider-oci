@@ -16,15 +16,15 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func AppCatalogSubscriptionResource() *schema.Resource {
+func CoreAppCatalogSubscriptionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createAppCatalogSubscription,
-		Read:     readAppCatalogSubscription,
-		Delete:   deleteAppCatalogSubscription,
+		Create:   createCoreAppCatalogSubscription,
+		Read:     readCoreAppCatalogSubscription,
+		Delete:   deleteCoreAppCatalogSubscription,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -88,24 +88,24 @@ func AppCatalogSubscriptionResource() *schema.Resource {
 	}
 }
 
-func createAppCatalogSubscription(d *schema.ResourceData, m interface{}) error {
-	sync := &AppCatalogSubscriptionResourceCrud{}
+func createCoreAppCatalogSubscription(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreAppCatalogSubscriptionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return CreateResource(d, sync)
 }
 
-func readAppCatalogSubscription(d *schema.ResourceData, m interface{}) error {
-	sync := &AppCatalogSubscriptionResourceCrud{}
+func readCoreAppCatalogSubscription(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreAppCatalogSubscriptionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-func deleteAppCatalogSubscription(d *schema.ResourceData, m interface{}) error {
-	sync := &AppCatalogSubscriptionResourceCrud{}
+func deleteCoreAppCatalogSubscription(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreAppCatalogSubscriptionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.DisableNotFoundRetries = true
@@ -113,18 +113,18 @@ func deleteAppCatalogSubscription(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type AppCatalogSubscriptionResourceCrud struct {
+type CoreAppCatalogSubscriptionResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.ComputeClient
 	Res                    *oci_core.AppCatalogSubscription
 	DisableNotFoundRetries bool
 }
 
-func (s *AppCatalogSubscriptionResourceCrud) ID() string {
+func (s *CoreAppCatalogSubscriptionResourceCrud) ID() string {
 	return getSubscriptionCompositeId(*s.Res.CompartmentId, *s.Res.ListingId, *s.Res.ListingResourceVersion)
 }
 
-func (s *AppCatalogSubscriptionResourceCrud) Create() error {
+func (s *CoreAppCatalogSubscriptionResourceCrud) Create() error {
 	request := oci_core.CreateAppCatalogSubscriptionRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -174,7 +174,7 @@ func (s *AppCatalogSubscriptionResourceCrud) Create() error {
 	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *AppCatalogSubscriptionResourceCrud) Get() error {
+func (s *CoreAppCatalogSubscriptionResourceCrud) Get() error {
 	compartmentId, listingId, listingResourceVersion, err := parseSubscriptionCompositeId(s.D.Id())
 	if err != nil {
 		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
@@ -238,7 +238,7 @@ func (s *AppCatalogSubscriptionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *AppCatalogSubscriptionResourceCrud) Delete() error {
+func (s *CoreAppCatalogSubscriptionResourceCrud) Delete() error {
 	request := oci_core.DeleteAppCatalogSubscriptionRequest{}
 	compartmentId, listingId, listingResourceVersion, err := parseSubscriptionCompositeId(s.D.Id())
 	if err != nil {
@@ -258,7 +258,7 @@ func (s *AppCatalogSubscriptionResourceCrud) Delete() error {
 	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutDelete))
 }
 
-func (s *AppCatalogSubscriptionResourceCrud) SetData() error {
+func (s *CoreAppCatalogSubscriptionResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

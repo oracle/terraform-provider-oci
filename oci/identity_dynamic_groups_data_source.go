@@ -10,9 +10,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func DynamicGroupsDataSource() *schema.Resource {
+func IdentityDynamicGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDynamicGroups,
+		Read: readIdentityDynamicGroups,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -22,31 +22,31 @@ func DynamicGroupsDataSource() *schema.Resource {
 			"dynamic_groups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(DynamicGroupResource()),
+				Elem:     GetDataSourceItemSchema(IdentityDynamicGroupResource()),
 			},
 		},
 	}
 }
 
-func readDynamicGroups(d *schema.ResourceData, m interface{}) error {
-	sync := &DynamicGroupsDataSourceCrud{}
+func readIdentityDynamicGroups(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityDynamicGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type DynamicGroupsDataSourceCrud struct {
+type IdentityDynamicGroupsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListDynamicGroupsResponse
 }
 
-func (s *DynamicGroupsDataSourceCrud) VoidState() {
+func (s *IdentityDynamicGroupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DynamicGroupsDataSourceCrud) Get() error {
+func (s *IdentityDynamicGroupsDataSourceCrud) Get() error {
 	request := oci_identity.ListDynamicGroupsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -77,7 +77,7 @@ func (s *DynamicGroupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DynamicGroupsDataSourceCrud) SetData() error {
+func (s *IdentityDynamicGroupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -120,7 +120,7 @@ func (s *DynamicGroupsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DynamicGroupsDataSource().Schema["dynamic_groups"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityDynamicGroupsDataSource().Schema["dynamic_groups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("dynamic_groups", resources); err != nil {

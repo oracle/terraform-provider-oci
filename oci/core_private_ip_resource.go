@@ -10,16 +10,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func PrivateIpResource() *schema.Resource {
+func CorePrivateIpResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createPrivateIp,
-		Read:     readPrivateIp,
-		Update:   updatePrivateIp,
-		Delete:   deletePrivateIp,
+		Create:   createCorePrivateIp,
+		Read:     readCorePrivateIp,
+		Update:   updateCorePrivateIp,
+		Delete:   deleteCorePrivateIp,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"vnic_id": {
@@ -84,32 +84,32 @@ func PrivateIpResource() *schema.Resource {
 	}
 }
 
-func createPrivateIp(d *schema.ResourceData, m interface{}) error {
-	sync := &PrivateIpResourceCrud{}
+func createCorePrivateIp(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePrivateIpResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readPrivateIp(d *schema.ResourceData, m interface{}) error {
-	sync := &PrivateIpResourceCrud{}
+func readCorePrivateIp(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePrivateIpResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updatePrivateIp(d *schema.ResourceData, m interface{}) error {
-	sync := &PrivateIpResourceCrud{}
+func updateCorePrivateIp(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePrivateIpResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deletePrivateIp(d *schema.ResourceData, m interface{}) error {
-	sync := &PrivateIpResourceCrud{}
+func deleteCorePrivateIp(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePrivateIpResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -117,18 +117,18 @@ func deletePrivateIp(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type PrivateIpResourceCrud struct {
+type CorePrivateIpResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.PrivateIp
 	DisableNotFoundRetries bool
 }
 
-func (s *PrivateIpResourceCrud) ID() string {
+func (s *CorePrivateIpResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *PrivateIpResourceCrud) Create() error {
+func (s *CorePrivateIpResourceCrud) Create() error {
 	request := oci_core.CreatePrivateIpRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -174,7 +174,7 @@ func (s *PrivateIpResourceCrud) Create() error {
 	return nil
 }
 
-func (s *PrivateIpResourceCrud) Get() error {
+func (s *CorePrivateIpResourceCrud) Get() error {
 	request := oci_core.GetPrivateIpRequest{}
 
 	tmp := s.D.Id()
@@ -191,7 +191,7 @@ func (s *PrivateIpResourceCrud) Get() error {
 	return nil
 }
 
-func (s *PrivateIpResourceCrud) Update() error {
+func (s *CorePrivateIpResourceCrud) Update() error {
 	request := oci_core.UpdatePrivateIpRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -235,7 +235,7 @@ func (s *PrivateIpResourceCrud) Update() error {
 	return nil
 }
 
-func (s *PrivateIpResourceCrud) Delete() error {
+func (s *CorePrivateIpResourceCrud) Delete() error {
 	request := oci_core.DeletePrivateIpRequest{}
 
 	tmp := s.D.Id()
@@ -247,7 +247,7 @@ func (s *PrivateIpResourceCrud) Delete() error {
 	return err
 }
 
-func (s *PrivateIpResourceCrud) SetData() error {
+func (s *CorePrivateIpResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}

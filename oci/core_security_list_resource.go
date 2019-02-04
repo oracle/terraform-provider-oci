@@ -13,16 +13,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func SecurityListResource() *schema.Resource {
+func CoreSecurityListResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createSecurityList,
-		Read:     readSecurityList,
-		Update:   updateSecurityList,
-		Delete:   deleteSecurityList,
+		Create:   createCoreSecurityList,
+		Read:     readCoreSecurityList,
+		Update:   updateCoreSecurityList,
+		Delete:   deleteCoreSecurityList,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -384,32 +384,32 @@ func SecurityListResource() *schema.Resource {
 	}
 }
 
-func createSecurityList(d *schema.ResourceData, m interface{}) error {
-	sync := &SecurityListResourceCrud{}
+func createCoreSecurityList(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreSecurityListResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readSecurityList(d *schema.ResourceData, m interface{}) error {
-	sync := &SecurityListResourceCrud{}
+func readCoreSecurityList(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreSecurityListResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateSecurityList(d *schema.ResourceData, m interface{}) error {
-	sync := &SecurityListResourceCrud{}
+func updateCoreSecurityList(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreSecurityListResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteSecurityList(d *schema.ResourceData, m interface{}) error {
-	sync := &SecurityListResourceCrud{}
+func deleteCoreSecurityList(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreSecurityListResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -417,42 +417,42 @@ func deleteSecurityList(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type SecurityListResourceCrud struct {
+type CoreSecurityListResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.SecurityList
 	DisableNotFoundRetries bool
 }
 
-func (s *SecurityListResourceCrud) ID() string {
+func (s *CoreSecurityListResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *SecurityListResourceCrud) CreatedPending() []string {
+func (s *CoreSecurityListResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.SecurityListLifecycleStateProvisioning),
 	}
 }
 
-func (s *SecurityListResourceCrud) CreatedTarget() []string {
+func (s *CoreSecurityListResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.SecurityListLifecycleStateAvailable),
 	}
 }
 
-func (s *SecurityListResourceCrud) DeletedPending() []string {
+func (s *CoreSecurityListResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.SecurityListLifecycleStateTerminating),
 	}
 }
 
-func (s *SecurityListResourceCrud) DeletedTarget() []string {
+func (s *CoreSecurityListResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.SecurityListLifecycleStateTerminated),
 	}
 }
 
-func (s *SecurityListResourceCrud) Create() error {
+func (s *CoreSecurityListResourceCrud) Create() error {
 	request := oci_core.CreateSecurityListRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -527,7 +527,7 @@ func (s *SecurityListResourceCrud) Create() error {
 	return nil
 }
 
-func (s *SecurityListResourceCrud) Get() error {
+func (s *CoreSecurityListResourceCrud) Get() error {
 	request := oci_core.GetSecurityListRequest{}
 
 	tmp := s.D.Id()
@@ -544,7 +544,7 @@ func (s *SecurityListResourceCrud) Get() error {
 	return nil
 }
 
-func (s *SecurityListResourceCrud) Update() error {
+func (s *CoreSecurityListResourceCrud) Update() error {
 	request := oci_core.UpdateSecurityListRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -612,7 +612,7 @@ func (s *SecurityListResourceCrud) Update() error {
 	return nil
 }
 
-func (s *SecurityListResourceCrud) Delete() error {
+func (s *CoreSecurityListResourceCrud) Delete() error {
 	request := oci_core.DeleteSecurityListRequest{}
 
 	tmp := s.D.Id()
@@ -624,7 +624,7 @@ func (s *SecurityListResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SecurityListResourceCrud) SetData() error {
+func (s *CoreSecurityListResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -664,7 +664,7 @@ func (s *SecurityListResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *SecurityListResourceCrud) mapToEgressSecurityRule(fieldKeyFormat string) (oci_core.EgressSecurityRule, error) {
+func (s *CoreSecurityListResourceCrud) mapToEgressSecurityRule(fieldKeyFormat string) (oci_core.EgressSecurityRule, error) {
 	result := oci_core.EgressSecurityRule{}
 
 	if destination, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination")); ok && destination != "" {
@@ -755,7 +755,7 @@ func EgressSecurityRuleToMap(obj oci_core.EgressSecurityRule) map[string]interfa
 	return result
 }
 
-func (s *SecurityListResourceCrud) mapToIcmpOptions(fieldKeyFormat string) (oci_core.IcmpOptions, error) {
+func (s *CoreSecurityListResourceCrud) mapToIcmpOptions(fieldKeyFormat string) (oci_core.IcmpOptions, error) {
 	result := oci_core.IcmpOptions{}
 
 	if code, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "code")); ok {
@@ -789,7 +789,7 @@ func IcmpOptionsToMap(obj *oci_core.IcmpOptions) map[string]interface{} {
 	return result
 }
 
-func (s *SecurityListResourceCrud) mapToIngressSecurityRule(fieldKeyFormat string) (oci_core.IngressSecurityRule, error) {
+func (s *CoreSecurityListResourceCrud) mapToIngressSecurityRule(fieldKeyFormat string) (oci_core.IngressSecurityRule, error) {
 	result := oci_core.IngressSecurityRule{}
 
 	if icmpOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "icmp_options")); ok {
@@ -880,7 +880,7 @@ func IngressSecurityRuleToMap(obj oci_core.IngressSecurityRule) map[string]inter
 	return result
 }
 
-func (s *SecurityListResourceCrud) mapToPortRange(fieldKeyFormat string) (oci_core.PortRange, error) {
+func (s *CoreSecurityListResourceCrud) mapToPortRange(fieldKeyFormat string) (oci_core.PortRange, error) {
 	result := oci_core.PortRange{}
 
 	if max, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max")); ok {
@@ -910,7 +910,7 @@ func PortRangeToMap(obj *oci_core.PortRange) map[string]interface{} {
 	return result
 }
 
-func (s *SecurityListResourceCrud) mapToTcpOptions(fieldKeyFormat string) (oci_core.TcpOptions, error) {
+func (s *CoreSecurityListResourceCrud) mapToTcpOptions(fieldKeyFormat string) (oci_core.TcpOptions, error) {
 	result := oci_core.TcpOptions{}
 
 	max, maxExists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max"))
@@ -957,7 +957,7 @@ func TcpOptionsToMap(obj *oci_core.TcpOptions) map[string]interface{} {
 	return result
 }
 
-func (s *SecurityListResourceCrud) mapToUdpOptions(fieldKeyFormat string) (oci_core.UdpOptions, error) {
+func (s *CoreSecurityListResourceCrud) mapToUdpOptions(fieldKeyFormat string) (oci_core.UdpOptions, error) {
 	result := oci_core.UdpOptions{}
 
 	max, maxExists := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max"))

@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InstanceCredentialDataSource() *schema.Resource {
+func CoreInstanceCredentialDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularInstanceCredential,
+		Read: readSingularCoreInstanceCredential,
 		Schema: map[string]*schema.Schema{
 			"instance_id": {
 				Type:     schema.TypeString,
@@ -30,25 +30,25 @@ func InstanceCredentialDataSource() *schema.Resource {
 	}
 }
 
-func readSingularInstanceCredential(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceCredentialDataSourceCrud{}
+func readSingularCoreInstanceCredential(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceCredentialDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type InstanceCredentialDataSourceCrud struct {
+type CoreInstanceCredentialDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.GetWindowsInstanceInitialCredentialsResponse
 }
 
-func (s *InstanceCredentialDataSourceCrud) VoidState() {
+func (s *CoreInstanceCredentialDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *InstanceCredentialDataSourceCrud) Get() error {
+func (s *CoreInstanceCredentialDataSourceCrud) Get() error {
 	request := oci_core.GetWindowsInstanceInitialCredentialsRequest{}
 
 	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
@@ -67,7 +67,7 @@ func (s *InstanceCredentialDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstanceCredentialDataSourceCrud) SetData() error {
+func (s *CoreInstanceCredentialDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

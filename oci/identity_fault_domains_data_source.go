@@ -9,9 +9,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func FaultDomainsDataSource() *schema.Resource {
+func IdentityFaultDomainsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFaultDomains,
+		Read: readIdentityFaultDomains,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -55,25 +55,25 @@ func FaultDomainsDataSource() *schema.Resource {
 	}
 }
 
-func readFaultDomains(d *schema.ResourceData, m interface{}) error {
-	sync := &FaultDomainsDataSourceCrud{}
+func readIdentityFaultDomains(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityFaultDomainsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type FaultDomainsDataSourceCrud struct {
+type IdentityFaultDomainsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListFaultDomainsResponse
 }
 
-func (s *FaultDomainsDataSourceCrud) VoidState() {
+func (s *IdentityFaultDomainsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FaultDomainsDataSourceCrud) Get() error {
+func (s *IdentityFaultDomainsDataSourceCrud) Get() error {
 	request := oci_identity.ListFaultDomainsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -97,7 +97,7 @@ func (s *FaultDomainsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *FaultDomainsDataSourceCrud) SetData() error {
+func (s *IdentityFaultDomainsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -123,7 +123,7 @@ func (s *FaultDomainsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, FaultDomainsDataSource().Schema["fault_domains"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityFaultDomainsDataSource().Schema["fault_domains"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("fault_domains", resources); err != nil {

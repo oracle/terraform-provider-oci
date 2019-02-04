@@ -9,9 +9,9 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-func WorkRequestsDataSource() *schema.Resource {
+func ContainerengineWorkRequestsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readWorkRequests,
+		Read: readContainerengineWorkRequests,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"cluster_id": {
@@ -111,25 +111,25 @@ func WorkRequestsDataSource() *schema.Resource {
 	}
 }
 
-func readWorkRequests(d *schema.ResourceData, m interface{}) error {
-	sync := &WorkRequestsDataSourceCrud{}
+func readContainerengineWorkRequests(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineWorkRequestsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return ReadResource(sync)
 }
 
-type WorkRequestsDataSourceCrud struct {
+type ContainerengineWorkRequestsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_containerengine.ContainerEngineClient
 	Res    *oci_containerengine.ListWorkRequestsResponse
 }
 
-func (s *WorkRequestsDataSourceCrud) VoidState() {
+func (s *ContainerengineWorkRequestsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WorkRequestsDataSourceCrud) Get() error {
+func (s *ContainerengineWorkRequestsDataSourceCrud) Get() error {
 	request := oci_containerengine.ListWorkRequestsRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -183,7 +183,7 @@ func (s *WorkRequestsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *WorkRequestsDataSourceCrud) SetData() error {
+func (s *ContainerengineWorkRequestsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -226,7 +226,7 @@ func (s *WorkRequestsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, WorkRequestsDataSource().Schema["work_requests"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, ContainerengineWorkRequestsDataSource().Schema["work_requests"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("work_requests", resources); err != nil {

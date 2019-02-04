@@ -9,9 +9,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func LoadBalancerPoliciesDataSource() *schema.Resource {
+func LoadBalancerLoadBalancerPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readLoadBalancerPolicies,
+		Read: readLoadBalancerLoadBalancerPolicies,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,25 +39,25 @@ func LoadBalancerPoliciesDataSource() *schema.Resource {
 	}
 }
 
-func readLoadBalancerPolicies(d *schema.ResourceData, m interface{}) error {
-	sync := &LoadBalancerPoliciesDataSourceCrud{}
+func readLoadBalancerLoadBalancerPolicies(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerLoadBalancerPoliciesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-type LoadBalancerPoliciesDataSourceCrud struct {
+type LoadBalancerLoadBalancerPoliciesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
 	Res    *oci_load_balancer.ListPoliciesResponse
 }
 
-func (s *LoadBalancerPoliciesDataSourceCrud) VoidState() {
+func (s *LoadBalancerLoadBalancerPoliciesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoadBalancerPoliciesDataSourceCrud) Get() error {
+func (s *LoadBalancerLoadBalancerPoliciesDataSourceCrud) Get() error {
 	request := oci_load_balancer.ListPoliciesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +76,7 @@ func (s *LoadBalancerPoliciesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *LoadBalancerPoliciesDataSourceCrud) SetData() error {
+func (s *LoadBalancerLoadBalancerPoliciesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -95,7 +95,7 @@ func (s *LoadBalancerPoliciesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerPoliciesDataSource().Schema["policies"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerLoadBalancerPoliciesDataSource().Schema["policies"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("policies", resources); err != nil {

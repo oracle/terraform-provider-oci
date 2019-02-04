@@ -9,9 +9,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func TagNamespacesDataSource() *schema.Resource {
+func IdentityTagNamespacesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readTagNamespaces,
+		Read: readIdentityTagNamespaces,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -25,31 +25,31 @@ func TagNamespacesDataSource() *schema.Resource {
 			"tag_namespaces": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(TagNamespaceResource()),
+				Elem:     GetDataSourceItemSchema(IdentityTagNamespaceResource()),
 			},
 		},
 	}
 }
 
-func readTagNamespaces(d *schema.ResourceData, m interface{}) error {
-	sync := &TagNamespacesDataSourceCrud{}
+func readIdentityTagNamespaces(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityTagNamespacesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type TagNamespacesDataSourceCrud struct {
+type IdentityTagNamespacesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListTagNamespacesResponse
 }
 
-func (s *TagNamespacesDataSourceCrud) VoidState() {
+func (s *IdentityTagNamespacesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *TagNamespacesDataSourceCrud) Get() error {
+func (s *IdentityTagNamespacesDataSourceCrud) Get() error {
 	request := oci_identity.ListTagNamespacesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +85,7 @@ func (s *TagNamespacesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *TagNamespacesDataSourceCrud) SetData() error {
+func (s *IdentityTagNamespacesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -128,7 +128,7 @@ func (s *TagNamespacesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, TagNamespacesDataSource().Schema["tag_namespaces"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityTagNamespacesDataSource().Schema["tag_namespaces"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("tag_namespaces", resources); err != nil {

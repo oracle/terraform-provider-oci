@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func DbVersionsDataSource() *schema.Resource {
+func DatabaseDbVersionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbVersions,
+		Read: readDatabaseDbVersions,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -65,25 +65,25 @@ func DbVersionsDataSource() *schema.Resource {
 	}
 }
 
-func readDbVersions(d *schema.ResourceData, m interface{}) error {
-	sync := &DbVersionsDataSourceCrud{}
+func readDatabaseDbVersions(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbVersionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type DbVersionsDataSourceCrud struct {
+type DatabaseDbVersionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListDbVersionsResponse
 }
 
-func (s *DbVersionsDataSourceCrud) VoidState() {
+func (s *DatabaseDbVersionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbVersionsDataSourceCrud) Get() error {
+func (s *DatabaseDbVersionsDataSourceCrud) Get() error {
 	request := oci_database.ListDbVersionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -134,7 +134,7 @@ func (s *DbVersionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbVersionsDataSourceCrud) SetData() error {
+func (s *DatabaseDbVersionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -161,7 +161,7 @@ func (s *DbVersionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DbVersionsDataSource().Schema["db_versions"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DatabaseDbVersionsDataSource().Schema["db_versions"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("db_versions", resources); err != nil {

@@ -15,16 +15,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumeGroupResource() *schema.Resource {
+func CoreVolumeGroupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createVolumeGroup,
-		Read:     readVolumeGroup,
-		Update:   updateVolumeGroup,
-		Delete:   deleteVolumeGroup,
+		Create:   createCoreVolumeGroup,
+		Read:     readCoreVolumeGroup,
+		Update:   updateCoreVolumeGroup,
+		Delete:   deleteCoreVolumeGroup,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -138,32 +138,32 @@ func VolumeGroupResource() *schema.Resource {
 	}
 }
 
-func createVolumeGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeGroupResourceCrud{}
+func createCoreVolumeGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readVolumeGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeGroupResourceCrud{}
+func readCoreVolumeGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-func updateVolumeGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeGroupResourceCrud{}
+func updateCoreVolumeGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteVolumeGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeGroupResourceCrud{}
+func deleteCoreVolumeGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
@@ -171,42 +171,42 @@ func deleteVolumeGroup(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type VolumeGroupResourceCrud struct {
+type CoreVolumeGroupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	Res                    *oci_core.VolumeGroup
 	DisableNotFoundRetries bool
 }
 
-func (s *VolumeGroupResourceCrud) ID() string {
+func (s *CoreVolumeGroupResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *VolumeGroupResourceCrud) CreatedPending() []string {
+func (s *CoreVolumeGroupResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.VolumeGroupLifecycleStateProvisioning),
 	}
 }
 
-func (s *VolumeGroupResourceCrud) CreatedTarget() []string {
+func (s *CoreVolumeGroupResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.VolumeGroupLifecycleStateAvailable),
 	}
 }
 
-func (s *VolumeGroupResourceCrud) DeletedPending() []string {
+func (s *CoreVolumeGroupResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.VolumeGroupLifecycleStateTerminating),
 	}
 }
 
-func (s *VolumeGroupResourceCrud) DeletedTarget() []string {
+func (s *CoreVolumeGroupResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.VolumeGroupLifecycleStateTerminated),
 	}
 }
 
-func (s *VolumeGroupResourceCrud) Create() error {
+func (s *CoreVolumeGroupResourceCrud) Create() error {
 	request := oci_core.CreateVolumeGroupRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -258,7 +258,7 @@ func (s *VolumeGroupResourceCrud) Create() error {
 	return nil
 }
 
-func (s *VolumeGroupResourceCrud) Get() error {
+func (s *CoreVolumeGroupResourceCrud) Get() error {
 	request := oci_core.GetVolumeGroupRequest{}
 
 	tmp := s.D.Id()
@@ -275,7 +275,7 @@ func (s *VolumeGroupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeGroupResourceCrud) Update() error {
+func (s *CoreVolumeGroupResourceCrud) Update() error {
 	request := oci_core.UpdateVolumeGroupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -321,7 +321,7 @@ func (s *VolumeGroupResourceCrud) Update() error {
 	return nil
 }
 
-func (s *VolumeGroupResourceCrud) Delete() error {
+func (s *CoreVolumeGroupResourceCrud) Delete() error {
 	request := oci_core.DeleteVolumeGroupRequest{}
 
 	tmp := s.D.Id()
@@ -333,7 +333,7 @@ func (s *VolumeGroupResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VolumeGroupResourceCrud) SetData() error {
+func (s *CoreVolumeGroupResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -385,7 +385,7 @@ func (s *VolumeGroupResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *VolumeGroupResourceCrud) mapToVolumeGroupSourceDetails(fieldKeyFormat string) (oci_core.VolumeGroupSourceDetails, error) {
+func (s *CoreVolumeGroupResourceCrud) mapToVolumeGroupSourceDetails(fieldKeyFormat string) (oci_core.VolumeGroupSourceDetails, error) {
 	var baseObject oci_core.VolumeGroupSourceDetails
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))

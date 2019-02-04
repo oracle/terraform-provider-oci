@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func FastConnectProviderServiceDataSource() *schema.Resource {
+func CoreFastConnectProviderServiceDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularFastConnectProviderService,
+		Read: readSingularCoreFastConnectProviderService,
 		Schema: map[string]*schema.Schema{
 			"provider_service_id": {
 				Type:     schema.TypeString,
@@ -53,25 +53,25 @@ func FastConnectProviderServiceDataSource() *schema.Resource {
 	}
 }
 
-func readSingularFastConnectProviderService(d *schema.ResourceData, m interface{}) error {
-	sync := &FastConnectProviderServiceDataSourceCrud{}
+func readSingularCoreFastConnectProviderService(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreFastConnectProviderServiceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type FastConnectProviderServiceDataSourceCrud struct {
+type CoreFastConnectProviderServiceDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.GetFastConnectProviderServiceResponse
 }
 
-func (s *FastConnectProviderServiceDataSourceCrud) VoidState() {
+func (s *CoreFastConnectProviderServiceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FastConnectProviderServiceDataSourceCrud) Get() error {
+func (s *CoreFastConnectProviderServiceDataSourceCrud) Get() error {
 	request := oci_core.GetFastConnectProviderServiceRequest{}
 
 	if providerServiceId, ok := s.D.GetOkExists("provider_service_id"); ok {
@@ -90,7 +90,7 @@ func (s *FastConnectProviderServiceDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *FastConnectProviderServiceDataSourceCrud) SetData() error {
+func (s *CoreFastConnectProviderServiceDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

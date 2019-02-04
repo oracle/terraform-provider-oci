@@ -21,6 +21,8 @@ import (
 
 var (
 	FifteenMinutes               = 15 * time.Minute
+	TwentyMinutes                = 20 * time.Minute
+	OneHour                      = 60 * time.Minute
 	TwoHours                     = 120 * time.Minute
 	ZeroTime       time.Duration = 0
 
@@ -368,6 +370,18 @@ func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
 		}
 		return sync, sync.State(), e
 	}
+}
+
+// Helper function to wait for update to reach terminal state before doing another update
+// Useful in situations where more than one update is needed and prior update needs to complete
+func waitForUpdatedState(d *schema.ResourceData, sync ResourceUpdater) error {
+	if stateful, ok := sync.(StatefullyUpdatedResource); ok {
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutUpdate), "update", stateful.UpdatedPending(), stateful.UpdatedTarget()); e != nil {
+			return e
+		}
+	}
+
+	return nil
 }
 
 // waitForStateRefresh takes a StatefulResource, a timeout duration, a list of states to treat as Pending, and a list of states to treat as Target. It uses those to wrap resource.StateChangeConf.WaitForState(). If the resource returns a missing status, it will not be treated as an error.

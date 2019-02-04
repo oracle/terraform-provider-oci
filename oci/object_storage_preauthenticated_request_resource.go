@@ -13,12 +13,12 @@ import (
 	"time"
 )
 
-func PreauthenticatedRequestResource() *schema.Resource {
+func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createPreauthenticatedRequest,
-		Read:     readPreauthenticatedRequest,
-		Delete:   deletePreauthenticatedRequest,
+		Create:   createObjectStoragePreauthenticatedRequest,
+		Read:     readObjectStoragePreauthenticatedRequest,
+		Delete:   deleteObjectStoragePreauthenticatedRequest,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"access_type": {
@@ -74,24 +74,24 @@ func PreauthenticatedRequestResource() *schema.Resource {
 	}
 }
 
-func createPreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
-	sync := &PreauthenticatedRequestResourceCrud{}
+func createObjectStoragePreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStoragePreauthenticatedRequestResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readPreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
-	sync := &PreauthenticatedRequestResourceCrud{}
+func readObjectStoragePreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStoragePreauthenticatedRequestResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return ReadResource(sync)
 }
 
-func deletePreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
-	sync := &PreauthenticatedRequestResourceCrud{}
+func deleteObjectStoragePreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStoragePreauthenticatedRequestResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 	sync.DisableNotFoundRetries = true
@@ -99,18 +99,18 @@ func deletePreauthenticatedRequest(d *schema.ResourceData, m interface{}) error 
 	return DeleteResource(d, sync)
 }
 
-type PreauthenticatedRequestResourceCrud struct {
+type ObjectStoragePreauthenticatedRequestResourceCrud struct {
 	BaseCrud
 	Client                 *oci_object_storage.ObjectStorageClient
 	Res                    *oci_object_storage.PreauthenticatedRequest
 	DisableNotFoundRetries bool
 }
 
-func (s *PreauthenticatedRequestResourceCrud) ID() string {
+func (s *ObjectStoragePreauthenticatedRequestResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *PreauthenticatedRequestResourceCrud) Create() error {
+func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Create() error {
 	request := oci_object_storage.CreatePreauthenticatedRequestRequest{}
 
 	if accessType, ok := s.D.GetOkExists("access_type"); ok {
@@ -157,7 +157,7 @@ func (s *PreauthenticatedRequestResourceCrud) Create() error {
 	return nil
 }
 
-func (s *PreauthenticatedRequestResourceCrud) Get() error {
+func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Get() error {
 	request := oci_object_storage.GetPreauthenticatedRequestRequest{}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
@@ -195,7 +195,7 @@ func (s *PreauthenticatedRequestResourceCrud) Get() error {
 	return nil
 }
 
-func (s *PreauthenticatedRequestResourceCrud) Delete() error {
+func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Delete() error {
 	request := oci_object_storage.DeletePreauthenticatedRequestRequest{}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
@@ -217,7 +217,7 @@ func (s *PreauthenticatedRequestResourceCrud) Delete() error {
 	return err
 }
 
-func (s *PreauthenticatedRequestResourceCrud) SetData() error {
+func (s *ObjectStoragePreauthenticatedRequestResourceCrud) SetData() error {
 	s.D.Set("access_type", s.Res.AccessType)
 
 	if s.Res.AccessUri != nil {

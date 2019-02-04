@@ -16,16 +16,16 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func ListenerResource() *schema.Resource {
+func LoadBalancerListenerResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createListener,
-		Read:     readListener,
-		Update:   updateListener,
-		Delete:   deleteListener,
+		Create:   createLoadBalancerListener,
+		Read:     readLoadBalancerListener,
+		Update:   updateLoadBalancerListener,
+		Delete:   deleteLoadBalancerListener,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"default_backend_set_name": {
@@ -135,31 +135,31 @@ func ListenerResource() *schema.Resource {
 	}
 }
 
-func createListener(d *schema.ResourceData, m interface{}) error {
-	sync := &ListenerResourceCrud{}
+func createLoadBalancerListener(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return CreateResource(d, sync)
 }
 
-func readListener(d *schema.ResourceData, m interface{}) error {
-	sync := &ListenerResourceCrud{}
+func readLoadBalancerListener(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 	return ReadResource(sync)
 }
 
-func updateListener(d *schema.ResourceData, m interface{}) error {
-	sync := &ListenerResourceCrud{}
+func updateLoadBalancerListener(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteListener(d *schema.ResourceData, m interface{}) error {
-	sync := &ListenerResourceCrud{}
+func deleteLoadBalancerListener(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 	sync.DisableNotFoundRetries = true
@@ -167,7 +167,7 @@ func deleteListener(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type ListenerResourceCrud struct {
+type LoadBalancerListenerResourceCrud struct {
 	BaseCrud
 	Client                 *oci_load_balancer.LoadBalancerClient
 	Res                    *oci_load_balancer.Listener
@@ -175,7 +175,7 @@ type ListenerResourceCrud struct {
 	WorkRequest            *oci_load_balancer.WorkRequest
 }
 
-func (s *ListenerResourceCrud) ID() string {
+func (s *LoadBalancerListenerResourceCrud) ID() string {
 	if s.WorkRequest != nil {
 		if s.WorkRequest.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
 			return getListenerCompositeId(s.D.Get("name").(string), s.D.Get("load_balancer_id").(string))
@@ -186,35 +186,35 @@ func (s *ListenerResourceCrud) ID() string {
 	return ""
 }
 
-func (s *ListenerResourceCrud) CreatedPending() []string {
+func (s *LoadBalancerListenerResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *ListenerResourceCrud) CreatedTarget() []string {
+func (s *LoadBalancerListenerResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *ListenerResourceCrud) DeletedPending() []string {
+func (s *LoadBalancerListenerResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *ListenerResourceCrud) DeletedTarget() []string {
+func (s *LoadBalancerListenerResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *ListenerResourceCrud) Create() error {
+func (s *LoadBalancerListenerResourceCrud) Create() error {
 	request := oci_load_balancer.CreateListenerRequest{}
 
 	if connectionConfiguration, ok := s.D.GetOkExists("connection_configuration"); ok {
@@ -316,7 +316,7 @@ func (s *ListenerResourceCrud) Create() error {
 	return nil
 }
 
-func (s *ListenerResourceCrud) Get() (e error) {
+func (s *LoadBalancerListenerResourceCrud) Get() (e error) {
 	// key: {workRequestID} || {loadBalancerID,name}
 	_, stillWorking, err := LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
@@ -343,7 +343,7 @@ func (s *ListenerResourceCrud) Get() (e error) {
 	return
 }
 
-func (s *ListenerResourceCrud) GetListener(loadBalancerID, name string) (*oci_load_balancer.Listener, error) {
+func (s *LoadBalancerListenerResourceCrud) GetListener(loadBalancerID, name string) (*oci_load_balancer.Listener, error) {
 	request := oci_load_balancer.GetLoadBalancerRequest{}
 	request.LoadBalancerId = &loadBalancerID
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
@@ -363,7 +363,7 @@ func (s *ListenerResourceCrud) GetListener(loadBalancerID, name string) (*oci_lo
 	return nil, fmt.Errorf("Listener %s on load balancer %s does not exist", name, loadBalancerID)
 }
 
-func (s *ListenerResourceCrud) Update() error {
+func (s *LoadBalancerListenerResourceCrud) Update() error {
 	request := oci_load_balancer.UpdateListenerRequest{}
 
 	if connectionConfiguration, ok := s.D.GetOkExists("connection_configuration"); ok {
@@ -466,7 +466,7 @@ func (s *ListenerResourceCrud) Update() error {
 	return s.Get()
 }
 
-func (s *ListenerResourceCrud) Delete() error {
+func (s *LoadBalancerListenerResourceCrud) Delete() error {
 	request := oci_load_balancer.DeleteListenerRequest{}
 
 	if listenerName, ok := s.D.GetOkExists("name"); ok {
@@ -499,7 +499,7 @@ func (s *ListenerResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *ListenerResourceCrud) SetData() error {
+func (s *LoadBalancerListenerResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -567,7 +567,7 @@ func parseListenerCompositeId(compositeId string) (listenerName string, loadBala
 	return
 }
 
-func (s *ListenerResourceCrud) mapToConnectionConfiguration(fieldKeyFormat string) (oci_load_balancer.ConnectionConfiguration, error) {
+func (s *LoadBalancerListenerResourceCrud) mapToConnectionConfiguration(fieldKeyFormat string) (oci_load_balancer.ConnectionConfiguration, error) {
 	result := oci_load_balancer.ConnectionConfiguration{}
 
 	if idleTimeoutInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "idle_timeout_in_seconds")); ok {
@@ -592,7 +592,7 @@ func ConnectionConfigurationToMap(obj *oci_load_balancer.ConnectionConfiguration
 	return result
 }
 
-func (s *ListenerResourceCrud) mapToSSLConfigurationDetails(fieldKeyFormat string) (oci_load_balancer.SslConfigurationDetails, error) {
+func (s *LoadBalancerListenerResourceCrud) mapToSSLConfigurationDetails(fieldKeyFormat string) (oci_load_balancer.SslConfigurationDetails, error) {
 	result := oci_load_balancer.SslConfigurationDetails{}
 
 	if certificateName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_name")); ok {

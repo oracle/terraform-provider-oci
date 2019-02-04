@@ -14,16 +14,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func LocalPeeringGatewayResource() *schema.Resource {
+func CoreLocalPeeringGatewayResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createLocalPeeringGateway,
-		Read:     readLocalPeeringGateway,
-		Update:   updateLocalPeeringGateway,
-		Delete:   deleteLocalPeeringGateway,
+		Create:   createCoreLocalPeeringGateway,
+		Read:     readCoreLocalPeeringGateway,
+		Update:   updateCoreLocalPeeringGateway,
+		Delete:   deleteCoreLocalPeeringGateway,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -105,8 +105,8 @@ func LocalPeeringGatewayResource() *schema.Resource {
 	}
 }
 
-func createLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &LocalPeeringGatewayResourceCrud{}
+func createCoreLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreLocalPeeringGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
@@ -118,24 +118,24 @@ func createLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
 	return sync.ConnectLocalPeeringGateway()
 }
 
-func readLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &LocalPeeringGatewayResourceCrud{}
+func readCoreLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreLocalPeeringGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &LocalPeeringGatewayResourceCrud{}
+func updateCoreLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreLocalPeeringGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &LocalPeeringGatewayResourceCrud{}
+func deleteCoreLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreLocalPeeringGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -143,42 +143,42 @@ func deleteLocalPeeringGateway(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type LocalPeeringGatewayResourceCrud struct {
+type CoreLocalPeeringGatewayResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.LocalPeeringGateway
 	DisableNotFoundRetries bool
 }
 
-func (s *LocalPeeringGatewayResourceCrud) ID() string {
+func (s *CoreLocalPeeringGatewayResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *LocalPeeringGatewayResourceCrud) CreatedPending() []string {
+func (s *CoreLocalPeeringGatewayResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.LocalPeeringGatewayLifecycleStateProvisioning),
 	}
 }
 
-func (s *LocalPeeringGatewayResourceCrud) CreatedTarget() []string {
+func (s *CoreLocalPeeringGatewayResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.LocalPeeringGatewayLifecycleStateAvailable),
 	}
 }
 
-func (s *LocalPeeringGatewayResourceCrud) DeletedPending() []string {
+func (s *CoreLocalPeeringGatewayResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.LocalPeeringGatewayLifecycleStateTerminating),
 	}
 }
 
-func (s *LocalPeeringGatewayResourceCrud) DeletedTarget() []string {
+func (s *CoreLocalPeeringGatewayResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.LocalPeeringGatewayLifecycleStateTerminated),
 	}
 }
 
-func (s *LocalPeeringGatewayResourceCrud) ConnectLocalPeeringGateway() error {
+func (s *CoreLocalPeeringGatewayResourceCrud) ConnectLocalPeeringGateway() error {
 	if s.Res == nil || s.Res.Id == nil {
 		return fmt.Errorf("CreateLocalPeeringGateway returned a nil LocalPeeringGateway or a LocalPeeringGateway without an ID")
 	}
@@ -225,7 +225,7 @@ func (s *LocalPeeringGatewayResourceCrud) ConnectLocalPeeringGateway() error {
 	return nil
 }
 
-func (s *LocalPeeringGatewayResourceCrud) Create() error {
+func (s *CoreLocalPeeringGatewayResourceCrud) Create() error {
 	request := oci_core.CreateLocalPeeringGatewayRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -271,7 +271,7 @@ func (s *LocalPeeringGatewayResourceCrud) Create() error {
 	return nil
 }
 
-func (s *LocalPeeringGatewayResourceCrud) Get() error {
+func (s *CoreLocalPeeringGatewayResourceCrud) Get() error {
 	request := oci_core.GetLocalPeeringGatewayRequest{}
 
 	tmp := s.D.Id()
@@ -288,7 +288,7 @@ func (s *LocalPeeringGatewayResourceCrud) Get() error {
 	return nil
 }
 
-func (s *LocalPeeringGatewayResourceCrud) Update() error {
+func (s *CoreLocalPeeringGatewayResourceCrud) Update() error {
 	request := oci_core.UpdateLocalPeeringGatewayRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -327,7 +327,7 @@ func (s *LocalPeeringGatewayResourceCrud) Update() error {
 	return nil
 }
 
-func (s *LocalPeeringGatewayResourceCrud) Delete() error {
+func (s *CoreLocalPeeringGatewayResourceCrud) Delete() error {
 	request := oci_core.DeleteLocalPeeringGatewayRequest{}
 
 	tmp := s.D.Id()
@@ -339,7 +339,7 @@ func (s *LocalPeeringGatewayResourceCrud) Delete() error {
 	return err
 }
 
-func (s *LocalPeeringGatewayResourceCrud) SetData() error {
+func (s *CoreLocalPeeringGatewayResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

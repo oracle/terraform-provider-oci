@@ -14,16 +14,16 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func TagNamespaceResource() *schema.Resource {
+func IdentityTagNamespaceResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createTagNamespace,
-		Read:     readTagNamespace,
-		Update:   updateTagNamespace,
-		Delete:   deleteTagNamespace,
+		Create:   createIdentityTagNamespace,
+		Read:     readIdentityTagNamespace,
+		Update:   updateIdentityTagNamespace,
+		Delete:   deleteIdentityTagNamespace,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -71,46 +71,46 @@ func TagNamespaceResource() *schema.Resource {
 	}
 }
 
-func createTagNamespace(d *schema.ResourceData, m interface{}) error {
-	sync := &TagNamespaceResourceCrud{}
+func createIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readTagNamespace(d *schema.ResourceData, m interface{}) error {
-	sync := &TagNamespaceResourceCrud{}
+func readIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateTagNamespace(d *schema.ResourceData, m interface{}) error {
-	sync := &TagNamespaceResourceCrud{}
+func updateIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityTagNamespaceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteTagNamespace(d *schema.ResourceData, m interface{}) error {
+func deleteIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-type TagNamespaceResourceCrud struct {
+type IdentityTagNamespaceResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.TagNamespace
 	DisableNotFoundRetries bool
 }
 
-func (s *TagNamespaceResourceCrud) ID() string {
+func (s *IdentityTagNamespaceResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *TagNamespaceResourceCrud) Create() error {
+func (s *IdentityTagNamespaceResourceCrud) Create() error {
 	request := oci_identity.CreateTagNamespaceRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -163,7 +163,7 @@ func (s *TagNamespaceResourceCrud) Create() error {
 		s.D.Set("compartment_id", request.CompartmentId)
 		s.D.Set("name", request.Name)
 		s.D.Set("include_subcompartments", false)
-		dsCrud := &TagNamespacesDataSourceCrud{s.D, s.Client, nil}
+		dsCrud := &IdentityTagNamespacesDataSourceCrud{s.D, s.Client, nil}
 		if dsErr := dsCrud.Get(); dsErr != nil {
 			//return original error when datasource call fails
 			return err
@@ -186,7 +186,7 @@ func (s *TagNamespaceResourceCrud) Create() error {
 	return err
 }
 
-func (s *TagNamespaceResourceCrud) Get() error {
+func (s *IdentityTagNamespaceResourceCrud) Get() error {
 	request := oci_identity.GetTagNamespaceRequest{}
 
 	tmp := s.D.Id()
@@ -203,7 +203,7 @@ func (s *TagNamespaceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *TagNamespaceResourceCrud) Update() error {
+func (s *IdentityTagNamespaceResourceCrud) Update() error {
 	request := oci_identity.UpdateTagNamespaceRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -242,7 +242,7 @@ func (s *TagNamespaceResourceCrud) Update() error {
 	return nil
 }
 
-func (s *TagNamespaceResourceCrud) SetData() error {
+func (s *IdentityTagNamespaceResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

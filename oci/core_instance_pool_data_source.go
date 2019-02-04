@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InstancePoolDataSource() *schema.Resource {
+func CoreInstancePoolDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularInstancePool,
+		Read: readSingularCoreInstancePool,
 		Schema: map[string]*schema.Schema{
 			"instance_pool_id": {
 				Type:     schema.TypeString,
@@ -100,25 +100,25 @@ func InstancePoolDataSource() *schema.Resource {
 	}
 }
 
-func readSingularInstancePool(d *schema.ResourceData, m interface{}) error {
-	sync := &InstancePoolDataSourceCrud{}
+func readSingularCoreInstancePool(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstancePoolDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient
 
 	return ReadResource(sync)
 }
 
-type InstancePoolDataSourceCrud struct {
+type CoreInstancePoolDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeManagementClient
 	Res    *oci_core.GetInstancePoolResponse
 }
 
-func (s *InstancePoolDataSourceCrud) VoidState() {
+func (s *CoreInstancePoolDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *InstancePoolDataSourceCrud) Get() error {
+func (s *CoreInstancePoolDataSourceCrud) Get() error {
 	request := oci_core.GetInstancePoolRequest{}
 
 	if instancePoolId, ok := s.D.GetOkExists("instance_pool_id"); ok {
@@ -137,7 +137,7 @@ func (s *InstancePoolDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstancePoolDataSourceCrud) SetData() error {
+func (s *CoreInstancePoolDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

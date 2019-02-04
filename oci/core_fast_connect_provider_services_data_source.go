@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func FastConnectProviderServicesDataSource() *schema.Resource {
+func CoreFastConnectProviderServicesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFastConnectProviderServices,
+		Read: readCoreFastConnectProviderServices,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -70,25 +70,25 @@ func FastConnectProviderServicesDataSource() *schema.Resource {
 	}
 }
 
-func readFastConnectProviderServices(d *schema.ResourceData, m interface{}) error {
-	sync := &FastConnectProviderServicesDataSourceCrud{}
+func readCoreFastConnectProviderServices(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreFastConnectProviderServicesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type FastConnectProviderServicesDataSourceCrud struct {
+type CoreFastConnectProviderServicesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListFastConnectProviderServicesResponse
 }
 
-func (s *FastConnectProviderServicesDataSourceCrud) VoidState() {
+func (s *CoreFastConnectProviderServicesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FastConnectProviderServicesDataSourceCrud) Get() error {
+func (s *CoreFastConnectProviderServicesDataSourceCrud) Get() error {
 	request := oci_core.ListFastConnectProviderServicesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -119,7 +119,7 @@ func (s *FastConnectProviderServicesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *FastConnectProviderServicesDataSourceCrud) SetData() error {
+func (s *CoreFastConnectProviderServicesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -158,7 +158,7 @@ func (s *FastConnectProviderServicesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, FastConnectProviderServicesDataSource().Schema["fast_connect_provider_services"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreFastConnectProviderServicesDataSource().Schema["fast_connect_provider_services"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("fast_connect_provider_services", resources); err != nil {

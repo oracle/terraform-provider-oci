@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDataWarehousesDataSource() *schema.Resource {
+func DatabaseAutonomousDataWarehousesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAutonomousDataWarehouses,
+		Read: readDatabaseAutonomousDataWarehouses,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -29,31 +29,31 @@ func AutonomousDataWarehousesDataSource() *schema.Resource {
 			"autonomous_data_warehouses": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(AutonomousDataWarehouseResource()),
+				Elem:     GetDataSourceItemSchema(DatabaseAutonomousDataWarehouseResource()),
 			},
 		},
 	}
 }
 
-func readAutonomousDataWarehouses(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehousesDataSourceCrud{}
+func readDatabaseAutonomousDataWarehouses(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDataWarehousesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type AutonomousDataWarehousesDataSourceCrud struct {
+type DatabaseAutonomousDataWarehousesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListAutonomousDataWarehousesResponse
 }
 
-func (s *AutonomousDataWarehousesDataSourceCrud) VoidState() {
+func (s *DatabaseAutonomousDataWarehousesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AutonomousDataWarehousesDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDataWarehousesDataSourceCrud) Get() error {
 	request := oci_database.ListAutonomousDataWarehousesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -93,7 +93,7 @@ func (s *AutonomousDataWarehousesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutonomousDataWarehousesDataSourceCrud) SetData() error {
+func (s *DatabaseAutonomousDataWarehousesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -162,7 +162,7 @@ func (s *AutonomousDataWarehousesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AutonomousDataWarehousesDataSource().Schema["autonomous_data_warehouses"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DatabaseAutonomousDataWarehousesDataSource().Schema["autonomous_data_warehouses"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("autonomous_data_warehouses", resources); err != nil {

@@ -12,13 +12,13 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func CustomerSecretKeyResource() *schema.Resource {
+func IdentityCustomerSecretKeyResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createCustomerSecretKey,
-		Read:     readCustomerSecretKey,
-		Update:   updateCustomerSecretKey,
-		Delete:   deleteCustomerSecretKey,
+		Create:   createIdentityCustomerSecretKey,
+		Read:     readIdentityCustomerSecretKey,
+		Update:   updateIdentityCustomerSecretKey,
+		Delete:   deleteIdentityCustomerSecretKey,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"display_name": {
@@ -58,32 +58,32 @@ func CustomerSecretKeyResource() *schema.Resource {
 	}
 }
 
-func createCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
-	sync := &CustomerSecretKeyResourceCrud{}
+func createIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCustomerSecretKeyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
-	sync := &CustomerSecretKeyResourceCrud{}
+func readIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCustomerSecretKeyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
-	sync := &CustomerSecretKeyResourceCrud{}
+func updateIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCustomerSecretKeyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
-	sync := &CustomerSecretKeyResourceCrud{}
+func deleteIdentityCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCustomerSecretKeyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -91,46 +91,46 @@ func deleteCustomerSecretKey(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type CustomerSecretKeyResourceCrud struct {
+type IdentityCustomerSecretKeyResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.CustomerSecretKey
 	DisableNotFoundRetries bool
 }
 
-func (s *CustomerSecretKeyResourceCrud) ID() string {
+func (s *IdentityCustomerSecretKeyResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *CustomerSecretKeyResourceCrud) State() oci_identity.CustomerSecretKeyLifecycleStateEnum {
+func (s *IdentityCustomerSecretKeyResourceCrud) State() oci_identity.CustomerSecretKeyLifecycleStateEnum {
 	return s.Res.LifecycleState
 }
 
-func (s *CustomerSecretKeyResourceCrud) CreatedPending() []string {
+func (s *IdentityCustomerSecretKeyResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.CustomerSecretKeyLifecycleStateCreating),
 	}
 }
 
-func (s *CustomerSecretKeyResourceCrud) CreatedTarget() []string {
+func (s *IdentityCustomerSecretKeyResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.CustomerSecretKeyLifecycleStateActive),
 	}
 }
 
-func (s *CustomerSecretKeyResourceCrud) DeletedPending() []string {
+func (s *IdentityCustomerSecretKeyResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.CustomerSecretKeyLifecycleStateDeleting),
 	}
 }
 
-func (s *CustomerSecretKeyResourceCrud) DeletedTarget() []string {
+func (s *IdentityCustomerSecretKeyResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.CustomerSecretKeyLifecycleStateDeleted),
 	}
 }
 
-func (s *CustomerSecretKeyResourceCrud) Create() error {
+func (s *IdentityCustomerSecretKeyResourceCrud) Create() error {
 	request := oci_identity.CreateCustomerSecretKeyRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -154,7 +154,7 @@ func (s *CustomerSecretKeyResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CustomerSecretKeyResourceCrud) Get() error {
+func (s *IdentityCustomerSecretKeyResourceCrud) Get() error {
 	request := oci_identity.ListCustomerSecretKeysRequest{}
 
 	if userId, ok := s.D.GetOkExists("user_id"); ok {
@@ -180,7 +180,7 @@ func (s *CustomerSecretKeyResourceCrud) Get() error {
 
 }
 
-func (s *CustomerSecretKeyResourceCrud) Update() error {
+func (s *IdentityCustomerSecretKeyResourceCrud) Update() error {
 	request := oci_identity.UpdateCustomerSecretKeyRequest{}
 
 	tmp := s.D.Id()
@@ -207,7 +207,7 @@ func (s *CustomerSecretKeyResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CustomerSecretKeyResourceCrud) Delete() error {
+func (s *IdentityCustomerSecretKeyResourceCrud) Delete() error {
 	request := oci_identity.DeleteCustomerSecretKeyRequest{}
 
 	tmp := s.D.Id()
@@ -224,7 +224,7 @@ func (s *CustomerSecretKeyResourceCrud) Delete() error {
 	return err
 }
 
-func (s *CustomerSecretKeyResourceCrud) SetData() error {
+func (s *IdentityCustomerSecretKeyResourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}

@@ -1,4 +1,9 @@
 ## 3.14.1 (Unreleased)
+
+### Fixed
+- Timeout should be updatable for the `oci_containerengine_cluster` and `oci_containerengine_node_pool` resources
+- Virtual Circuit `public_prefixes` to be updatable and importable. [Issue #700](https://github.com/terraform-providers/terraform-provider-oci/issues/700)
+
 ## 3.14.0 (January 29, 2019)
 
 ### Added

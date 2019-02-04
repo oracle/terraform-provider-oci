@@ -397,7 +397,7 @@ func uploadPartsWorker(ctx objectStorageMultiPartUploadContext) {
 	}
 }
 
-func (s *ObjectResourceCrud) createSourceRegionClient(region string) error {
+func (s *ObjectStorageObjectResourceCrud) createSourceRegionClient(region string) error {
 	if s.SourceRegionClient == nil {
 		sourceObjectStorageClient, err := oci_object_storage.NewObjectStorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
 		if err != nil {

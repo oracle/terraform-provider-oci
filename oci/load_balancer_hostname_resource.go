@@ -15,16 +15,16 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func HostnameResource() *schema.Resource {
+func LoadBalancerHostnameResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createHostname,
-		Read:     readHostname,
-		Update:   updateHostname,
-		Delete:   deleteHostname,
+		Create:   createLoadBalancerHostname,
+		Read:     readLoadBalancerHostname,
+		Update:   updateLoadBalancerHostname,
+		Delete:   deleteLoadBalancerHostname,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"hostname": {
@@ -54,32 +54,32 @@ func HostnameResource() *schema.Resource {
 	}
 }
 
-func createHostname(d *schema.ResourceData, m interface{}) error {
-	sync := &HostnameResourceCrud{}
+func createLoadBalancerHostname(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerHostnameResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return CreateResource(d, sync)
 }
 
-func readHostname(d *schema.ResourceData, m interface{}) error {
-	sync := &HostnameResourceCrud{}
+func readLoadBalancerHostname(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerHostnameResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-func updateHostname(d *schema.ResourceData, m interface{}) error {
-	sync := &HostnameResourceCrud{}
+func updateLoadBalancerHostname(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerHostnameResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteHostname(d *schema.ResourceData, m interface{}) error {
-	sync := &HostnameResourceCrud{}
+func deleteLoadBalancerHostname(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerHostnameResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 	sync.DisableNotFoundRetries = true
@@ -87,7 +87,7 @@ func deleteHostname(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type HostnameResourceCrud struct {
+type LoadBalancerHostnameResourceCrud struct {
 	BaseCrud
 	Client                 *oci_load_balancer.LoadBalancerClient
 	Res                    *oci_load_balancer.Hostname
@@ -95,7 +95,7 @@ type HostnameResourceCrud struct {
 	WorkRequest            *oci_load_balancer.WorkRequest
 }
 
-func (s *HostnameResourceCrud) ID() string {
+func (s *LoadBalancerHostnameResourceCrud) ID() string {
 	if s.WorkRequest != nil {
 		if s.WorkRequest.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
 			return getHostnameCompositeId(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
@@ -106,35 +106,35 @@ func (s *HostnameResourceCrud) ID() string {
 	return ""
 }
 
-func (s *HostnameResourceCrud) CreatedPending() []string {
+func (s *LoadBalancerHostnameResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *HostnameResourceCrud) CreatedTarget() []string {
+func (s *LoadBalancerHostnameResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *HostnameResourceCrud) DeletedPending() []string {
+func (s *LoadBalancerHostnameResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *HostnameResourceCrud) DeletedTarget() []string {
+func (s *LoadBalancerHostnameResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *HostnameResourceCrud) Create() error {
+func (s *LoadBalancerHostnameResourceCrud) Create() error {
 	request := oci_load_balancer.CreateHostnameRequest{}
 
 	if hostname, ok := s.D.GetOkExists("hostname"); ok {
@@ -175,7 +175,7 @@ func (s *HostnameResourceCrud) Create() error {
 	return nil
 }
 
-func (s *HostnameResourceCrud) Get() error {
+func (s *LoadBalancerHostnameResourceCrud) Get() error {
 	_, stillWorking, err := LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
@@ -216,7 +216,7 @@ func (s *HostnameResourceCrud) Get() error {
 	return nil
 }
 
-func (s *HostnameResourceCrud) Update() error {
+func (s *LoadBalancerHostnameResourceCrud) Update() error {
 	request := oci_load_balancer.UpdateHostnameRequest{}
 
 	if hostname, ok := s.D.GetOkExists("hostname"); ok {
@@ -258,7 +258,7 @@ func (s *HostnameResourceCrud) Update() error {
 	return s.Get()
 }
 
-func (s *HostnameResourceCrud) Delete() error {
+func (s *LoadBalancerHostnameResourceCrud) Delete() error {
 	request := oci_load_balancer.DeleteHostnameRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -291,7 +291,7 @@ func (s *HostnameResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *HostnameResourceCrud) SetData() error {
+func (s *LoadBalancerHostnameResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

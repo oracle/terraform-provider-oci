@@ -4,6 +4,8 @@ package provider
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 
 	"strconv"
 
@@ -12,6 +14,9 @@ import (
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 )
+
+const charset = "abcdefghijklmnopqrstuvwxyz" +
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 func literalTypeHashCodeForSets(m interface{}) int {
 	return hashcode.String(fmt.Sprintf("%v", m))
@@ -82,6 +87,18 @@ func int64StringDiffSuppressFunction(key string, old string, new string, d *sche
 	return oldIntVal == newIntVal
 }
 
+func timeDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
+	oldTime, err := time.Parse(time.RFC3339Nano, old)
+	if err != nil {
+		return false
+	}
+	newTime, err := time.Parse(time.RFC3339Nano, new)
+	if err != nil {
+		return false
+	}
+	return oldTime.Equal(newTime)
+}
+
 func convertMapOfStringSlicesToMapOfStrings(rm map[string][]string) (map[string]string, error) {
 	result := map[string]string{}
 	for k, v := range rm {
@@ -93,4 +110,14 @@ func convertMapOfStringSlicesToMapOfStrings(rm map[string][]string) (map[string]
 		}
 	}
 	return result, nil
+}
+
+func randomString(length int, charset string) string {
+	var seededRand *rand.Rand = rand.New(
+		rand.NewSource(time.Now().UnixNano()))
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[seededRand.Intn(len(charset))]
+	}
+	return string(b)
 }

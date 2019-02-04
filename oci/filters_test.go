@@ -679,40 +679,40 @@ func TestGetValue_MultiLevelMap(t *testing.T) {
 }
 
 func TestGetPathElements_EmptyFilterName(t *testing.T) {
-	if _, error := getFieldPathElements(InstanceResource().Schema, ""); error == nil {
+	if _, error := getFieldPathElements(CoreInstanceResource().Schema, ""); error == nil {
 		t.Error("expected non nil error")
 	}
 }
 
 func TestGetPathElements_NonExistentPropertyTopLevel(t *testing.T) {
-	if _, error := getFieldPathElements(InstanceResource().Schema, "non_existent"); error == nil {
+	if _, error := getFieldPathElements(CoreInstanceResource().Schema, "non_existent"); error == nil {
 		t.Error("expected non nil error")
 	}
 }
 
 func TestGetPathElements_NonExistentPropertyNestedLevel(t *testing.T) {
-	if _, error := getFieldPathElements(InstanceResource().Schema, "create_vnic_details.non_existent"); error == nil {
+	if _, error := getFieldPathElements(CoreInstanceResource().Schema, "create_vnic_details.non_existent"); error == nil {
 		t.Error("expected non nil error")
 	}
 }
 
 func TestGetPathElements_TopLevelPrimitive(t *testing.T) {
-	if path, error := getFieldPathElements(InstanceResource().Schema, "boot_volume_id"); error != nil || !reflect.DeepEqual(path, []string{"boot_volume_id"}) {
+	if path, error := getFieldPathElements(CoreInstanceResource().Schema, "boot_volume_id"); error != nil || !reflect.DeepEqual(path, []string{"boot_volume_id"}) {
 		t.Errorf("unexpected path value %s found", path)
 	}
 }
 
 func TestGetPathElements_MultiLevelMap(t *testing.T) {
-	if path, error := getFieldPathElements(InstanceResource().Schema, "create_vnic_details.defined_tags.namespace.key"); error != nil || !reflect.DeepEqual(path, []string{"create_vnic_details", "defined_tags", "namespace.key"}) {
+	if path, error := getFieldPathElements(CoreInstanceResource().Schema, "create_vnic_details.defined_tags.namespace.key"); error != nil || !reflect.DeepEqual(path, []string{"create_vnic_details", "defined_tags", "namespace.key"}) {
 		t.Errorf("unexpected path value %s found", path)
 	}
 }
 
 func TestGetPathElements_MultiLevelNonMap(t *testing.T) {
-	if path, error := getFieldPathElements(InstanceResource().Schema, "launch_options.firmware"); error != nil || !reflect.DeepEqual(path, []string{"launch_options", "firmware"}) {
+	if path, error := getFieldPathElements(CoreInstanceResource().Schema, "launch_options.firmware"); error != nil || !reflect.DeepEqual(path, []string{"launch_options", "firmware"}) {
 		t.Errorf("unexpected path value %s found", path)
 	}
-	if _, error := getFieldPathElements(InstanceResource().Schema, "launch_options.firmware.XYZ"); error == nil {
+	if _, error := getFieldPathElements(CoreInstanceResource().Schema, "launch_options.firmware.XYZ"); error == nil {
 		t.Errorf("Expected Error")
 	}
 }

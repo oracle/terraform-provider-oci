@@ -12,13 +12,13 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func SwiftPasswordResource() *schema.Resource {
+func IdentitySwiftPasswordResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createSwiftPassword,
-		Read:     readSwiftPassword,
-		Update:   updateSwiftPassword,
-		Delete:   deleteSwiftPassword,
+		Create:   createIdentitySwiftPassword,
+		Read:     readIdentitySwiftPassword,
+		Update:   updateIdentitySwiftPassword,
+		Delete:   deleteIdentitySwiftPassword,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"description": {
@@ -58,32 +58,32 @@ func SwiftPasswordResource() *schema.Resource {
 	}
 }
 
-func createSwiftPassword(d *schema.ResourceData, m interface{}) error {
-	sync := &SwiftPasswordResourceCrud{}
+func createIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentitySwiftPasswordResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readSwiftPassword(d *schema.ResourceData, m interface{}) error {
-	sync := &SwiftPasswordResourceCrud{}
+func readIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentitySwiftPasswordResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateSwiftPassword(d *schema.ResourceData, m interface{}) error {
-	sync := &SwiftPasswordResourceCrud{}
+func updateIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentitySwiftPasswordResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteSwiftPassword(d *schema.ResourceData, m interface{}) error {
-	sync := &SwiftPasswordResourceCrud{}
+func deleteIdentitySwiftPassword(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentitySwiftPasswordResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -91,46 +91,46 @@ func deleteSwiftPassword(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type SwiftPasswordResourceCrud struct {
+type IdentitySwiftPasswordResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.SwiftPassword
 	DisableNotFoundRetries bool
 }
 
-func (s *SwiftPasswordResourceCrud) ID() string {
+func (s *IdentitySwiftPasswordResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *SwiftPasswordResourceCrud) State() oci_identity.SwiftPasswordLifecycleStateEnum {
+func (s *IdentitySwiftPasswordResourceCrud) State() oci_identity.SwiftPasswordLifecycleStateEnum {
 	return s.Res.LifecycleState
 }
 
-func (s *SwiftPasswordResourceCrud) CreatedPending() []string {
+func (s *IdentitySwiftPasswordResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.SwiftPasswordLifecycleStateCreating),
 	}
 }
 
-func (s *SwiftPasswordResourceCrud) CreatedTarget() []string {
+func (s *IdentitySwiftPasswordResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.SwiftPasswordLifecycleStateActive),
 	}
 }
 
-func (s *SwiftPasswordResourceCrud) DeletedPending() []string {
+func (s *IdentitySwiftPasswordResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.SwiftPasswordLifecycleStateDeleting),
 	}
 }
 
-func (s *SwiftPasswordResourceCrud) DeletedTarget() []string {
+func (s *IdentitySwiftPasswordResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.SwiftPasswordLifecycleStateDeleted),
 	}
 }
 
-func (s *SwiftPasswordResourceCrud) Create() error {
+func (s *IdentitySwiftPasswordResourceCrud) Create() error {
 	request := oci_identity.CreateSwiftPasswordRequest{}
 
 	if description, ok := s.D.GetOkExists("description"); ok {
@@ -154,7 +154,7 @@ func (s *SwiftPasswordResourceCrud) Create() error {
 	return nil
 }
 
-func (s *SwiftPasswordResourceCrud) Get() error {
+func (s *IdentitySwiftPasswordResourceCrud) Get() error {
 	request := oci_identity.ListSwiftPasswordsRequest{}
 
 	if userId, ok := s.D.GetOkExists("user_id"); ok {
@@ -180,7 +180,7 @@ func (s *SwiftPasswordResourceCrud) Get() error {
 
 }
 
-func (s *SwiftPasswordResourceCrud) Update() error {
+func (s *IdentitySwiftPasswordResourceCrud) Update() error {
 	request := oci_identity.UpdateSwiftPasswordRequest{}
 
 	if description, ok := s.D.GetOkExists("description"); ok {
@@ -207,7 +207,7 @@ func (s *SwiftPasswordResourceCrud) Update() error {
 	return nil
 }
 
-func (s *SwiftPasswordResourceCrud) Delete() error {
+func (s *IdentitySwiftPasswordResourceCrud) Delete() error {
 	request := oci_identity.DeleteSwiftPasswordRequest{}
 
 	tmp := s.D.Id()
@@ -224,7 +224,7 @@ func (s *SwiftPasswordResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SwiftPasswordResourceCrud) SetData() error {
+func (s *IdentitySwiftPasswordResourceCrud) SetData() error {
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}

@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func AppCatalogSubscriptionsDataSource() *schema.Resource {
+func CoreAppCatalogSubscriptionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAppCatalogSubscriptions,
+		Read: readCoreAppCatalogSubscriptions,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -25,31 +25,31 @@ func AppCatalogSubscriptionsDataSource() *schema.Resource {
 			"app_catalog_subscriptions": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     AppCatalogSubscriptionResource(),
+				Elem:     CoreAppCatalogSubscriptionResource(),
 			},
 		},
 	}
 }
 
-func readAppCatalogSubscriptions(d *schema.ResourceData, m interface{}) error {
-	sync := &AppCatalogSubscriptionsDataSourceCrud{}
+func readCoreAppCatalogSubscriptions(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreAppCatalogSubscriptionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type AppCatalogSubscriptionsDataSourceCrud struct {
+type CoreAppCatalogSubscriptionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListAppCatalogSubscriptionsResponse
 }
 
-func (s *AppCatalogSubscriptionsDataSourceCrud) VoidState() {
+func (s *CoreAppCatalogSubscriptionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AppCatalogSubscriptionsDataSourceCrud) Get() error {
+func (s *CoreAppCatalogSubscriptionsDataSourceCrud) Get() error {
 	request := oci_core.ListAppCatalogSubscriptionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +85,7 @@ func (s *AppCatalogSubscriptionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AppCatalogSubscriptionsDataSourceCrud) SetData() error {
+func (s *CoreAppCatalogSubscriptionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -130,7 +130,7 @@ func (s *AppCatalogSubscriptionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AppCatalogSubscriptionsDataSource().Schema["app_catalog_subscriptions"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreAppCatalogSubscriptionsDataSource().Schema["app_catalog_subscriptions"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("app_catalog_subscriptions", resources); err != nil {

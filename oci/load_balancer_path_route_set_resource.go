@@ -15,16 +15,16 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func PathRouteSetResource() *schema.Resource {
+func LoadBalancerPathRouteSetResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createPathRouteSet,
-		Read:     readPathRouteSet,
-		Update:   updatePathRouteSet,
-		Delete:   deletePathRouteSet,
+		Create:   createLoadBalancerPathRouteSet,
+		Read:     readLoadBalancerPathRouteSet,
+		Update:   updateLoadBalancerPathRouteSet,
+		Delete:   deleteLoadBalancerPathRouteSet,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"load_balancer_id": {
@@ -90,32 +90,32 @@ func PathRouteSetResource() *schema.Resource {
 	}
 }
 
-func createPathRouteSet(d *schema.ResourceData, m interface{}) error {
-	sync := &PathRouteSetResourceCrud{}
+func createLoadBalancerPathRouteSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerPathRouteSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return CreateResource(d, sync)
 }
 
-func readPathRouteSet(d *schema.ResourceData, m interface{}) error {
-	sync := &PathRouteSetResourceCrud{}
+func readLoadBalancerPathRouteSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerPathRouteSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-func updatePathRouteSet(d *schema.ResourceData, m interface{}) error {
-	sync := &PathRouteSetResourceCrud{}
+func updateLoadBalancerPathRouteSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerPathRouteSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return UpdateResource(d, sync)
 }
 
-func deletePathRouteSet(d *schema.ResourceData, m interface{}) error {
-	sync := &PathRouteSetResourceCrud{}
+func deleteLoadBalancerPathRouteSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerPathRouteSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 	sync.DisableNotFoundRetries = true
@@ -123,7 +123,7 @@ func deletePathRouteSet(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type PathRouteSetResourceCrud struct {
+type LoadBalancerPathRouteSetResourceCrud struct {
 	BaseCrud
 	Client                 *oci_load_balancer.LoadBalancerClient
 	Res                    *oci_load_balancer.PathRouteSet
@@ -131,7 +131,7 @@ type PathRouteSetResourceCrud struct {
 	WorkRequest            *oci_load_balancer.WorkRequest
 }
 
-func (s *PathRouteSetResourceCrud) ID() string {
+func (s *LoadBalancerPathRouteSetResourceCrud) ID() string {
 	if s.WorkRequest != nil {
 		if s.WorkRequest.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
 			return getPathRouteSetCompositeId(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
@@ -142,35 +142,35 @@ func (s *PathRouteSetResourceCrud) ID() string {
 	return ""
 }
 
-func (s *PathRouteSetResourceCrud) CreatedPending() []string {
+func (s *LoadBalancerPathRouteSetResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *PathRouteSetResourceCrud) CreatedTarget() []string {
+func (s *LoadBalancerPathRouteSetResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *PathRouteSetResourceCrud) DeletedPending() []string {
+func (s *LoadBalancerPathRouteSetResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *PathRouteSetResourceCrud) DeletedTarget() []string {
+func (s *LoadBalancerPathRouteSetResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *PathRouteSetResourceCrud) Create() error {
+func (s *LoadBalancerPathRouteSetResourceCrud) Create() error {
 	request := oci_load_balancer.CreatePathRouteSetRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -222,7 +222,7 @@ func (s *PathRouteSetResourceCrud) Create() error {
 	return nil
 }
 
-func (s *PathRouteSetResourceCrud) Get() error {
+func (s *LoadBalancerPathRouteSetResourceCrud) Get() error {
 	_, stillWorking, err := LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
@@ -263,7 +263,7 @@ func (s *PathRouteSetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *PathRouteSetResourceCrud) Update() error {
+func (s *LoadBalancerPathRouteSetResourceCrud) Update() error {
 	request := oci_load_balancer.UpdatePathRouteSetRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -316,7 +316,7 @@ func (s *PathRouteSetResourceCrud) Update() error {
 	return s.Get()
 }
 
-func (s *PathRouteSetResourceCrud) Delete() error {
+func (s *LoadBalancerPathRouteSetResourceCrud) Delete() error {
 	request := oci_load_balancer.DeletePathRouteSetRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -349,7 +349,7 @@ func (s *PathRouteSetResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *PathRouteSetResourceCrud) SetData() error {
+func (s *LoadBalancerPathRouteSetResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -395,7 +395,7 @@ func parsePathRouteSetCompositeId(compositeId string) (loadBalancerId string, pa
 	return
 }
 
-func (s *PathRouteSetResourceCrud) mapToPathMatchType(fieldKeyFormat string) (oci_load_balancer.PathMatchType, error) {
+func (s *LoadBalancerPathRouteSetResourceCrud) mapToPathMatchType(fieldKeyFormat string) (oci_load_balancer.PathMatchType, error) {
 	result := oci_load_balancer.PathMatchType{}
 
 	if matchType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "match_type")); ok {
@@ -414,7 +414,7 @@ func PathMatchTypeToMap(obj *oci_load_balancer.PathMatchType) map[string]interfa
 	return result
 }
 
-func (s *PathRouteSetResourceCrud) mapToPathRoute(fieldKeyFormat string) (oci_load_balancer.PathRoute, error) {
+func (s *LoadBalancerPathRouteSetResourceCrud) mapToPathRoute(fieldKeyFormat string) (oci_load_balancer.PathRoute, error) {
 	result := oci_load_balancer.PathRoute{}
 
 	if backendSetName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backend_set_name")); ok {

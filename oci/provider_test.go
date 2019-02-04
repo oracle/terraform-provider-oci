@@ -411,6 +411,14 @@ func TestProviderConfig(t *testing.T) {
 }
 
 func TestVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
+
+	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
+		apiKeyConfigAttributeEnvValue := getEnvSettingWithBlankDefault(apiKeyConfigAttribute)
+		if apiKeyConfigAttributeEnvValue != "" {
+			t.Skip("apiKeyConfigAttributes are set through environment variables, skip the test")
+		}
+	}
+
 	r := &schema.Resource{
 		Schema: schemaMap(),
 	}
@@ -421,37 +429,37 @@ func TestVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 
 	apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.True(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("tenancy_ocid", testTenancyOCID)
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.True(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("user_ocid", testUserOCID)
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 1)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 1, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("fingerprint", testKeyFingerPrint)
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 2)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 2, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("private_key", testPrivateKey)
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 3)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 3, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("private_key_path", "path")
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 4)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 4, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("private_key_password", "password")
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 5)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 5, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 }
 
 /* This function is used in the test asserts to verify that an element in a set contains certain properties

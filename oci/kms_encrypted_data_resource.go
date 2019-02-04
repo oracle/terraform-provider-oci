@@ -13,12 +13,12 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
-func EncryptedDataResource() *schema.Resource {
+func KmsEncryptedDataResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createEncryptedData,
-		Read:     readEncryptedData,
-		Delete:   deleteEncryptedData,
+		Create:   createKmsEncryptedData,
+		Read:     readKmsEncryptedData,
+		Delete:   deleteKmsEncryptedData,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"crypto_endpoint": {
@@ -54,8 +54,8 @@ func EncryptedDataResource() *schema.Resource {
 	}
 }
 
-func createEncryptedData(d *schema.ResourceData, m interface{}) error {
-	sync := &EncryptedDataResourceCrud{}
+func createKmsEncryptedData(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsEncryptedDataResourceCrud{}
 	sync.D = d
 	endpoint, ok := d.GetOkExists("crypto_endpoint")
 	if !ok {
@@ -70,8 +70,8 @@ func createEncryptedData(d *schema.ResourceData, m interface{}) error {
 	return CreateResource(d, sync)
 }
 
-func readEncryptedData(d *schema.ResourceData, m interface{}) error {
-	sync := &EncryptedDataResourceCrud{}
+func readKmsEncryptedData(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsEncryptedDataResourceCrud{}
 	sync.D = d
 	endpoint, ok := d.GetOkExists("crypto_endpoint")
 	if !ok {
@@ -86,22 +86,22 @@ func readEncryptedData(d *schema.ResourceData, m interface{}) error {
 	return ReadResource(sync)
 }
 
-func deleteEncryptedData(d *schema.ResourceData, m interface{}) error {
+func deleteKmsEncryptedData(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-type EncryptedDataResourceCrud struct {
+type KmsEncryptedDataResourceCrud struct {
 	BaseCrud
 	Client                 *oci_kms.KmsCryptoClient
 	Res                    *oci_kms.EncryptedData
 	DisableNotFoundRetries bool
 }
 
-func (s *EncryptedDataResourceCrud) ID() string {
+func (s *KmsEncryptedDataResourceCrud) ID() string {
 	return string(hashcode.String(*s.Res.Ciphertext))
 }
 
-func (s *EncryptedDataResourceCrud) Create() error {
+func (s *KmsEncryptedDataResourceCrud) Create() error {
 	request := oci_kms.EncryptRequest{}
 
 	if associatedData, ok := s.D.GetOkExists("associated_data"); ok {
@@ -129,7 +129,7 @@ func (s *EncryptedDataResourceCrud) Create() error {
 	return nil
 }
 
-func (s *EncryptedDataResourceCrud) Get() error {
+func (s *KmsEncryptedDataResourceCrud) Get() error {
 
 	if cipherText, ok := s.D.GetOkExists("ciphertext"); ok {
 		tmp := cipherText.(string)
@@ -142,7 +142,7 @@ func (s *EncryptedDataResourceCrud) Get() error {
 	return nil
 }
 
-func (s *EncryptedDataResourceCrud) SetData() error {
+func (s *KmsEncryptedDataResourceCrud) SetData() error {
 	if s.Res.Ciphertext != nil {
 		s.D.Set("ciphertext", *s.Res.Ciphertext)
 	}

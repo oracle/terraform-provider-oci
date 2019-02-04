@@ -16,16 +16,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func DhcpOptionsResource() *schema.Resource {
+func CoreDhcpOptionsResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createDhcpOptions,
-		Read:     readDhcpOptions,
-		Update:   updateDhcpOptions,
-		Delete:   deleteDhcpOptions,
+		Create:   createCoreDhcpOptions,
+		Read:     readCoreDhcpOptions,
+		Update:   updateCoreDhcpOptions,
+		Delete:   deleteCoreDhcpOptions,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -117,32 +117,32 @@ func DhcpOptionsResource() *schema.Resource {
 	}
 }
 
-func createDhcpOptions(d *schema.ResourceData, m interface{}) error {
-	sync := &DhcpOptionsResourceCrud{}
+func createCoreDhcpOptions(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDhcpOptionsResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readDhcpOptions(d *schema.ResourceData, m interface{}) error {
-	sync := &DhcpOptionsResourceCrud{}
+func readCoreDhcpOptions(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDhcpOptionsResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateDhcpOptions(d *schema.ResourceData, m interface{}) error {
-	sync := &DhcpOptionsResourceCrud{}
+func updateCoreDhcpOptions(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDhcpOptionsResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteDhcpOptions(d *schema.ResourceData, m interface{}) error {
-	sync := &DhcpOptionsResourceCrud{}
+func deleteCoreDhcpOptions(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDhcpOptionsResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -150,42 +150,42 @@ func deleteDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type DhcpOptionsResourceCrud struct {
+type CoreDhcpOptionsResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.DhcpOptions
 	DisableNotFoundRetries bool
 }
 
-func (s *DhcpOptionsResourceCrud) ID() string {
+func (s *CoreDhcpOptionsResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *DhcpOptionsResourceCrud) CreatedPending() []string {
+func (s *CoreDhcpOptionsResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.DhcpOptionsLifecycleStateProvisioning),
 	}
 }
 
-func (s *DhcpOptionsResourceCrud) CreatedTarget() []string {
+func (s *CoreDhcpOptionsResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.DhcpOptionsLifecycleStateAvailable),
 	}
 }
 
-func (s *DhcpOptionsResourceCrud) DeletedPending() []string {
+func (s *CoreDhcpOptionsResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.DhcpOptionsLifecycleStateTerminating),
 	}
 }
 
-func (s *DhcpOptionsResourceCrud) DeletedTarget() []string {
+func (s *CoreDhcpOptionsResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.DhcpOptionsLifecycleStateTerminated),
 	}
 }
 
-func (s *DhcpOptionsResourceCrud) Create() error {
+func (s *CoreDhcpOptionsResourceCrud) Create() error {
 	request := oci_core.CreateDhcpOptionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -242,7 +242,7 @@ func (s *DhcpOptionsResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DhcpOptionsResourceCrud) Get() error {
+func (s *CoreDhcpOptionsResourceCrud) Get() error {
 	request := oci_core.GetDhcpOptionsRequest{}
 
 	tmp := s.D.Id()
@@ -259,7 +259,7 @@ func (s *DhcpOptionsResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DhcpOptionsResourceCrud) Update() error {
+func (s *CoreDhcpOptionsResourceCrud) Update() error {
 	request := oci_core.UpdateDhcpOptionsRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -309,7 +309,7 @@ func (s *DhcpOptionsResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DhcpOptionsResourceCrud) Delete() error {
+func (s *CoreDhcpOptionsResourceCrud) Delete() error {
 	request := oci_core.DeleteDhcpOptionsRequest{}
 
 	tmp := s.D.Id()
@@ -321,7 +321,7 @@ func (s *DhcpOptionsResourceCrud) Delete() error {
 	return err
 }
 
-func (s *DhcpOptionsResourceCrud) SetData() error {
+func (s *CoreDhcpOptionsResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -355,7 +355,7 @@ func (s *DhcpOptionsResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DhcpOptionsResourceCrud) mapToDhcpOption(fieldKeyFormat string) (oci_core.DhcpOption, error) {
+func (s *CoreDhcpOptionsResourceCrud) mapToDhcpOption(fieldKeyFormat string) (oci_core.DhcpOption, error) {
 	var baseObject oci_core.DhcpOption
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 3.6.0 - 2019-01-31
+### Added
+- Support for the Announcements service
+
 ## 3.5.0 - 2019-01-24
 ### Added
 

@@ -13,9 +13,9 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-func ObjectDataSource() *schema.Resource {
+func ObjectStorageObjectDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularObject,
+		Read: readSingularObjectStorageObject,
 		Schema: map[string]*schema.Schema{
 			"bucket": {
 				Type:     schema.TypeString,
@@ -70,25 +70,25 @@ func ObjectDataSource() *schema.Resource {
 	}
 }
 
-func readSingularObject(d *schema.ResourceData, m interface{}) error {
-	sync := &ObjectDataSourceCrud{}
+func readSingularObjectStorageObject(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageObjectDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return ReadResource(sync)
 }
 
-type ObjectDataSourceCrud struct {
+type ObjectStorageObjectDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_object_storage.ObjectStorageClient
 	Res    *oci_object_storage.GetObjectResponse
 }
 
-func (s *ObjectDataSourceCrud) VoidState() {
+func (s *ObjectStorageObjectDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ObjectDataSourceCrud) Get() error {
+func (s *ObjectStorageObjectDataSourceCrud) Get() error {
 
 	headObjectRequest := &oci_object_storage.HeadObjectRequest{}
 
@@ -137,7 +137,7 @@ func (s *ObjectDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ObjectDataSourceCrud) SetData() error {
+func (s *ObjectStorageObjectDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

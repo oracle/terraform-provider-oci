@@ -10,9 +10,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func CompartmentDataSource() *schema.Resource {
+func IdentityCompartmentDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularCompartment,
+		Read: readSingularIdentityCompartment,
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:     schema.TypeString,
@@ -61,25 +61,25 @@ func CompartmentDataSource() *schema.Resource {
 	}
 }
 
-func readSingularCompartment(d *schema.ResourceData, m interface{}) error {
-	sync := &CompartmentDataSourceCrud{}
+func readSingularIdentityCompartment(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCompartmentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type CompartmentDataSourceCrud struct {
+type IdentityCompartmentDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.GetCompartmentResponse
 }
 
-func (s *CompartmentDataSourceCrud) VoidState() {
+func (s *IdentityCompartmentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CompartmentDataSourceCrud) Get() error {
+func (s *IdentityCompartmentDataSourceCrud) Get() error {
 	request := oci_identity.GetCompartmentRequest{}
 
 	// API ambiguity: the GET identifier for a single compartment is "compartmentId", but on the returned object
@@ -100,7 +100,7 @@ func (s *CompartmentDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CompartmentDataSourceCrud) SetData() error {
+func (s *IdentityCompartmentDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

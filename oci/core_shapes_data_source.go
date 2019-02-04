@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InstanceShapesDataSource() *schema.Resource {
+func CoreShapesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readInstanceShapes,
+		Read: readCoreShapes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -57,25 +57,25 @@ func InstanceShapesDataSource() *schema.Resource {
 	}
 }
 
-func readInstanceShapes(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceShapesDataSourceCrud{}
+func readCoreShapes(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreShapesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type InstanceShapesDataSourceCrud struct {
+type CoreShapesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListShapesResponse
 }
 
-func (s *InstanceShapesDataSourceCrud) VoidState() {
+func (s *CoreShapesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *InstanceShapesDataSourceCrud) Get() error {
+func (s *CoreShapesDataSourceCrud) Get() error {
 	request := oci_core.ListShapesRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -122,10 +122,11 @@ func (s *InstanceShapesDataSourceCrud) Get() error {
 		s.Res.Items = append(s.Res.Items, listResponse.Items...)
 		request.Page = listResponse.OpcNextPage
 	}
+
 	return nil
 }
 
-func (s *InstanceShapesDataSourceCrud) SetData() error {
+func (s *CoreShapesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -144,7 +145,7 @@ func (s *InstanceShapesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, InstanceShapesDataSource().Schema["shapes"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreShapesDataSource().Schema["shapes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("shapes", resources); err != nil {

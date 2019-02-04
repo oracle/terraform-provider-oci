@@ -10,9 +10,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func RuleSetDataSource() *schema.Resource {
+func LoadBalancerRuleSetDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularRuleSet,
+		Read: readSingularLoadBalancerRuleSet,
 		Schema: map[string]*schema.Schema{
 			"load_balancer_id": {
 				Type:     schema.TypeString,
@@ -72,25 +72,25 @@ func RuleSetDataSource() *schema.Resource {
 	}
 }
 
-func readSingularRuleSet(d *schema.ResourceData, m interface{}) error {
-	sync := &RuleSetDataSourceCrud{}
+func readSingularLoadBalancerRuleSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerRuleSetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-type RuleSetDataSourceCrud struct {
+type LoadBalancerRuleSetDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
 	Res    *oci_load_balancer.GetRuleSetResponse
 }
 
-func (s *RuleSetDataSourceCrud) VoidState() {
+func (s *LoadBalancerRuleSetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RuleSetDataSourceCrud) Get() error {
+func (s *LoadBalancerRuleSetDataSourceCrud) Get() error {
 	request := oci_load_balancer.GetRuleSetRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -114,7 +114,7 @@ func (s *RuleSetDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *RuleSetDataSourceCrud) SetData() error {
+func (s *LoadBalancerRuleSetDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

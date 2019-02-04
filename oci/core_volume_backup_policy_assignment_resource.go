@@ -10,15 +10,15 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumeBackupPolicyAssignmentResource() *schema.Resource {
+func CoreVolumeBackupPolicyAssignmentResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createVolumeBackupPolicyAssignment,
-		Read:     readVolumeBackupPolicyAssignment,
-		Delete:   deleteVolumeBackupPolicyAssignment,
+		Create:   createCoreVolumeBackupPolicyAssignment,
+		Read:     readCoreVolumeBackupPolicyAssignment,
+		Delete:   deleteCoreVolumeBackupPolicyAssignment,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"asset_id": {
@@ -43,24 +43,24 @@ func VolumeBackupPolicyAssignmentResource() *schema.Resource {
 	}
 }
 
-func createVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeBackupPolicyAssignmentResourceCrud{}
+func createCoreVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeBackupPolicyAssignmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeBackupPolicyAssignmentResourceCrud{}
+func readCoreVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeBackupPolicyAssignmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-func deleteVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeBackupPolicyAssignmentResourceCrud{}
+func deleteCoreVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeBackupPolicyAssignmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
@@ -68,18 +68,18 @@ func deleteVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) e
 	return DeleteResource(d, sync)
 }
 
-type VolumeBackupPolicyAssignmentResourceCrud struct {
+type CoreVolumeBackupPolicyAssignmentResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	Res                    *oci_core.VolumeBackupPolicyAssignment
 	DisableNotFoundRetries bool
 }
 
-func (s *VolumeBackupPolicyAssignmentResourceCrud) ID() string {
+func (s *CoreVolumeBackupPolicyAssignmentResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *VolumeBackupPolicyAssignmentResourceCrud) Create() error {
+func (s *CoreVolumeBackupPolicyAssignmentResourceCrud) Create() error {
 	request := oci_core.CreateVolumeBackupPolicyAssignmentRequest{}
 
 	if assetId, ok := s.D.GetOkExists("asset_id"); ok {
@@ -103,7 +103,7 @@ func (s *VolumeBackupPolicyAssignmentResourceCrud) Create() error {
 	return nil
 }
 
-func (s *VolumeBackupPolicyAssignmentResourceCrud) Get() error {
+func (s *CoreVolumeBackupPolicyAssignmentResourceCrud) Get() error {
 	request := oci_core.GetVolumeBackupPolicyAssignmentRequest{}
 
 	tmp := s.D.Id()
@@ -120,7 +120,7 @@ func (s *VolumeBackupPolicyAssignmentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeBackupPolicyAssignmentResourceCrud) Delete() error {
+func (s *CoreVolumeBackupPolicyAssignmentResourceCrud) Delete() error {
 	request := oci_core.DeleteVolumeBackupPolicyAssignmentRequest{}
 
 	tmp := s.D.Id()
@@ -132,7 +132,7 @@ func (s *VolumeBackupPolicyAssignmentResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VolumeBackupPolicyAssignmentResourceCrud) SetData() error {
+func (s *CoreVolumeBackupPolicyAssignmentResourceCrud) SetData() error {
 	if s.Res.AssetId != nil {
 		s.D.Set("asset_id", *s.Res.AssetId)
 	}

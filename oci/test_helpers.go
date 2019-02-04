@@ -307,15 +307,6 @@ func generateResourceFromMap(representationType RepresentationType, representati
 	return buffer.String()
 }
 
-func GenerateTestResourceName(prefix string, maxLength int) string {
-	t := time.Now()
-	resourceName := fmt.Sprintf("%s%d", prefix, t.Unix())
-	if len(resourceName) > maxLength {
-		resourceName = resourceName[:maxLength]
-	}
-	return resourceName
-}
-
 func setEnvSetting(s, v string) error {
 	error := os.Setenv(s, v)
 	if error != nil {

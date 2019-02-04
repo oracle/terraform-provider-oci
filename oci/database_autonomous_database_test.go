@@ -36,7 +36,7 @@ var (
 		"values": Representation{repType: Required, create: []string{`${oci_database_autonomous_database.test_autonomous_database.id}`}},
 	}
 
-	adbName = GenerateTestResourceName("adb", 14)
+	adbName = randomString(14, charset)
 
 	autonomousDatabaseRepresentation = map[string]interface{}{
 		"admin_password":           Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
