@@ -19,16 +19,13 @@ variable "DBSize" {
   default = "50" // size in GBs, min: 50, max 16384
 }
 
-variable "availability_domain" {
-  default = 3
-}
-
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
 
 resource "oci_core_volume" "t" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "-tf-volume"
   size_in_gbs         = "${var.DBSize}"

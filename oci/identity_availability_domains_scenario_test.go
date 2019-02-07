@@ -32,7 +32,7 @@ func (s *DatasourceIdentityAvailabilityDomainsTestSuite) TestAccIdentityAvailabi
 		PreventPostDestroyRefresh: true,
 		Providers:                 s.Providers,
 		Steps: []resource.TestStep{
-			// Verify expected number of ADs in expected order
+			// Verify expected number of ADs in expected order. Expect this to fail in single AD regions
 			{
 				Config: s.Config + `
 				data "oci_identity_availability_domains" "t" {

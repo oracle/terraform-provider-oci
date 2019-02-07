@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 resource "oci_core_instance" "my_instance" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_id}"
   display_name        = "my instance with FSS access"
   hostname_label      = "myinstance"

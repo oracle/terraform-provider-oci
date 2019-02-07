@@ -20,11 +20,6 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-# Choose an Availability Domain
-variable "availability_domain" {
-  default = "3"
-}
-
 variable "instance_image_ocid" {
   type = "map"
 
@@ -43,8 +38,9 @@ variable "instance_shape" {
   default = "VM.Standard2.1"
 }
 
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
 
 # Creates a VCN
@@ -57,7 +53,7 @@ resource "oci_core_virtual_network" "TFVcn" {
 
 # Creates a subnet
 resource "oci_core_subnet" "TFSubnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "10.1.20.0/24"
   display_name        = "TFSubnet"
   dns_label           = "tfsubnet"
@@ -70,7 +66,7 @@ resource "oci_core_subnet" "TFSubnet" {
 
 # Creates an instance (without assigning a public IP to the primary private IP on the VNIC)
 resource "oci_core_instance" "TFInstance" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TFInstance"
   hostname_label      = "instance"
@@ -104,7 +100,7 @@ resource "oci_core_vnic_attachment" "TFSecondaryVnicAttachment" {
 # Gets a list of VNIC attachments on the instance
 data "oci_core_vnic_attachments" "TFInstanceVnics" {
   compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   instance_id         = "${oci_core_instance.TFInstance.id}"
 }
 
@@ -160,7 +156,7 @@ resource "oci_core_public_ip" "ReservedPublicIPUnassigned" {
 data "oci_core_public_ips" "AvailabilityDomainPublicIPsList" {
   compartment_id      = "${var.compartment_ocid}"
   scope               = "AVAILABILITY_DOMAIN"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
 
   filter {
     name   = "id"

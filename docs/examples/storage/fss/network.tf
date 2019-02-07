@@ -27,7 +27,7 @@ resource "oci_core_route_table" "my_route_table" {
 }
 
 resource "oci_core_subnet" "my_subnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "${var.my_subnet_cidr}"
   display_name        = "mysubnet"
   dns_label           = "mysubnet"

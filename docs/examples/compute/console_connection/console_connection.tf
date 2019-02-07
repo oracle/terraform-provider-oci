@@ -9,11 +9,6 @@ variable "region" {}
 variable "compartment_ocid" {}
 variable "ssh_public_key" {}
 
-# Choose an Availability Domain
-variable "availability_domain" {
-  default = "3"
-}
-
 variable "instance_image_ocid" {
   type = "map"
 
@@ -40,9 +35,9 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-# Gets a list of Availability Domains
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
 
 resource "oci_core_virtual_network" "ExampleVCN" {
@@ -53,7 +48,7 @@ resource "oci_core_virtual_network" "ExampleVCN" {
 }
 
 resource "oci_core_subnet" "ExampleSubnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "10.1.20.0/24"
   display_name        = "TFExampleSubnet"
   dns_label           = "tfexamplesubnet"
@@ -83,7 +78,7 @@ resource "oci_core_default_route_table" "ExampleRT" {
 # Gets a list of vNIC attachments on the instance
 data "oci_core_vnic_attachments" "InstanceVnics" {
   compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   instance_id         = "${oci_core_instance.TFInstance.id}"
 }
 
@@ -93,7 +88,7 @@ data "oci_core_vnic" "InstanceVnic" {
 }
 
 resource "oci_core_instance" "TFInstance" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TFInstance"
   shape               = "${var.instance_shape}"

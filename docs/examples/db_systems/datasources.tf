@@ -1,8 +1,8 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-# Gets a list of Availability Domains
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
 
 # Get DB node list
@@ -72,7 +72,7 @@ data "oci_database_db_versions" "test_db_versions_by_db_system_id" {
 }
 
 data "oci_database_db_system_shapes" "test_db_system_shapes" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
 
   filter {
