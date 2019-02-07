@@ -186,12 +186,12 @@ func omitNilFieldsInJSON(data interface{}, value reflect.Value) (interface{}, er
 		return jsonMap, nil
 	case reflect.Slice, reflect.Array:
 		// Special case: a []byte may have been marshalled as a string
-		if reflect.TypeOf(data).Kind() == reflect.String && value.Type().Elem().Kind() == reflect.Uint8 {
+		if data != nil && reflect.TypeOf(data).Kind() == reflect.String && value.Type().Elem().Kind() == reflect.Uint8 {
 			return data, nil
 		}
 		jsonList, ok := data.([]interface{})
 		if !ok {
-			return nil, fmt.Errorf("can not omit nil fields, data was expected to be a list")
+			return nil, fmt.Errorf("can not omit nil fields, data was expected to be a not-nil list")
 		}
 		newList := make([]interface{}, len(jsonList))
 		var err error
@@ -205,7 +205,7 @@ func omitNilFieldsInJSON(data interface{}, value reflect.Value) (interface{}, er
 	case reflect.Map:
 		jsonMap, ok := data.(map[string]interface{})
 		if !ok {
-			return nil, fmt.Errorf("can not omit nil fields, data was expected to be a map")
+			return nil, fmt.Errorf("can not omit nil fields, data was expected to be a not-nil map")
 		}
 		newMap := make(map[string]interface{}, len(jsonMap))
 		var err error
@@ -228,15 +228,15 @@ func omitNilFieldsInJSON(data interface{}, value reflect.Value) (interface{}, er
 // removeNilFieldsInJSONWithTaggedStruct remove struct fields tagged with json and mandatory false
 // that are nil
 func removeNilFieldsInJSONWithTaggedStruct(rawJSON []byte, value reflect.Value) ([]byte, error) {
-	rawMap := make(map[string]interface{})
+	var rawInterface interface{}
 	decoder := json.NewDecoder(bytes.NewBuffer(rawJSON))
 	decoder.UseNumber()
 	var err error
-	if err = decoder.Decode(&rawMap); err != nil {
+	if err = decoder.Decode(&rawInterface); err != nil {
 		return nil, err
 	}
 
-	fixedMap, err := omitNilFieldsInJSON(rawMap, value)
+	fixedMap, err := omitNilFieldsInJSON(rawInterface, value)
 	if err != nil {
 		return nil, err
 	}
