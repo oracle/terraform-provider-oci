@@ -325,6 +325,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_health_checks_vantage_points":               HealthChecksVantagePointsDataSource(),
 		"oci_identity_api_keys":                          IdentityApiKeysDataSource(),
 		"oci_identity_auth_tokens":                       IdentityAuthTokensDataSource(),
+		"oci_identity_availability_domain":               IdentityAvailabilityDomainDataSource(),
 		"oci_identity_availability_domains":              IdentityAvailabilityDomainsDataSource(),
 		"oci_identity_compartment":                       IdentityCompartmentDataSource(),
 		"oci_identity_compartments":                      IdentityCompartmentsDataSource(),

@@ -15,8 +15,9 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-variable "availability_domain" {
-  default = 3
+data "oci_identity_availability_domain" "ad" {
+  compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
 
 resource "oci_core_virtual_network" "vcn1" {
@@ -40,7 +41,7 @@ resource "oci_core_subnet" "subnet1" {
 
 // An AD based subnet will supply an Availability Domain
 resource "oci_core_subnet" "subnet2" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "10.0.2.0/24"
   display_name        = "TFADSubnet"
   dns_label           = "adsubnet"
@@ -49,8 +50,4 @@ resource "oci_core_subnet" "subnet2" {
   security_list_ids   = ["${oci_core_virtual_network.vcn1.default_security_list_id}"]
   route_table_id      = "${oci_core_virtual_network.vcn1.default_route_table_id}"
   dhcp_options_id     = "${oci_core_virtual_network.vcn1.default_dhcp_options_id}"
-}
-
-data "oci_identity_availability_domains" "ADs" {
-  compartment_id = "${var.tenancy_ocid}"
 }

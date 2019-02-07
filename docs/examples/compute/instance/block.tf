@@ -2,7 +2,7 @@
 
 resource "oci_core_volume" "TFBlock" {
   count               = "${var.NumInstances * var.NumIscsiVolumesPerInstance}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TFBlock${count.index}"
   size_in_gbs         = "${var.DBSize}"
@@ -26,7 +26,7 @@ resource "oci_core_volume_attachment" "TFBlockAttach" {
 
 resource "oci_core_volume" "TFBlockParavirtualized" {
   count               = "${var.NumInstances * var.NumParavirtualizedVolumesPerInstance}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TFBlockParavirtualized${count.index}"
   size_in_gbs         = "${var.DBSize}"

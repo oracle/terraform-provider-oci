@@ -5,6 +5,8 @@ package provider
 import (
 	"context"
 
+	"sort"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
@@ -92,7 +94,14 @@ func (s *IdentityAvailabilityDomainsDataSourceCrud) SetData() error {
 	s.D.SetId(GenerateDataSourceID())
 	resources := []map[string]interface{}{}
 
-	for _, r := range s.Res.Items {
+	items := s.Res.Items
+
+	// sort ADs by name
+	sort.Slice(items, func(i, j int) bool {
+		return *items[i].Name < *items[j].Name
+	})
+
+	for _, r := range items {
 		availabilityDomain := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
 		}

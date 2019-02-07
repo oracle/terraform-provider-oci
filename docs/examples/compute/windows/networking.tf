@@ -3,8 +3,9 @@
 #############
 # Networking
 #############
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
 
 resource "oci_core_virtual_network" "ExampleVCN" {
@@ -76,7 +77,7 @@ resource "oci_core_security_list" "ExampleSecurityList" {
 # Subnet
 ###########
 resource "oci_core_subnet" "ExampleSubnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "10.1.20.0/24"
   display_name        = "TFExampleSubnet"
   dns_label           = "tfexamplesubnet"

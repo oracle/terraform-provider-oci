@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 resource "oci_core_volume" "TFBlock0" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "2TB NFS"
   size_in_gbs         = "${var.2TB}"

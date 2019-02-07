@@ -1,7 +1,13 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-data "oci_identity_availability_domains" "test_availability_domains" {
-  compartment_id = "${var.compartment_ocid}"
+data "oci_identity_availability_domain" "ad1" {
+  compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
+}
+
+data "oci_identity_availability_domain" "ad2" {
+  compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 2
 }
 
 data "oci_containerengine_cluster_option" "test_cluster_option" {

@@ -28,11 +28,8 @@ variable "ssh_port" {
   default = "22"
 }
 
-variable "availability_domain" {
-  default = 3
-}
-
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad" {
   provider       = "oci.admin"
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }

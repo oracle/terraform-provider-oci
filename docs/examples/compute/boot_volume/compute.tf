@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 resource "oci_core_instance" "TFInstance" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TFInstance"
   shape               = "${var.instance_shape}"
@@ -27,6 +27,7 @@ resource "oci_core_instance" "TFInstance" {
   }
 }
 
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
