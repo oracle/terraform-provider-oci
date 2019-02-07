@@ -406,6 +406,11 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_ons_subscriptions":                          OnsSubscriptionsDataSource(),
 		"oci_streaming_stream":                           StreamingStreamDataSource(),
 		"oci_streaming_streams":                          StreamingStreamsDataSource(),
+		"oci_waas_waas_policy":                           WaasWaasPolicyDataSource(),
+		"oci_waas_waas_policies":                         WaasWaasPoliciesDataSource(),
+		"oci_waas_certificate":                           WaasCertificateDataSource(),
+		"oci_waas_certificates":                          WaasCertificatesDataSource(),
+		"oci_waas_edge_subnets":                          WaasEdgeSubnetsDataSource(),
 	}
 }
 
@@ -527,6 +532,8 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_ons_notification_topic":                OnsNotificationTopicResource(),
 		"oci_ons_subscription":                      OnsSubscriptionResource(),
 		"oci_streaming_stream":                      StreamingStreamResource(),
+		"oci_waas_waas_policy":                      WaasWaasPolicyResource(),
+		"oci_waas_certificate":                      WaasCertificateResource(),
 	}
 }
 
