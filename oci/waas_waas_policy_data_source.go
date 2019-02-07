@@ -1,0 +1,881 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
+package provider
+
+import (
+	"context"
+
+	"github.com/hashicorp/terraform/helper/schema"
+	oci_waas "github.com/oracle/oci-go-sdk/waas"
+)
+
+func WaasWaasPolicyDataSource() *schema.Resource {
+	return &schema.Resource{
+		Read: readSingularWaasWaasPolicy,
+		Schema: map[string]*schema.Schema{
+			"waas_policy_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			// Computed
+			"additional_domains": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"cname": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"origins": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"label": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						"uri": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"http_port": {
+							Type:     schema.TypeInt,
+							Default:  80,
+							Optional: true,
+						},
+						"https_port": {
+							Type:     schema.TypeInt,
+							Default:  443,
+							Optional: true,
+						},
+						"custom_headers": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
+			"policy_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"certificate_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"is_https_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_https_forced": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"waf_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"access_rules": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"action": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"criteria": {
+										Type:     schema.TypeList,
+										Required: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"condition": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"block_action": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"block_error_page_code": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"block_error_page_description": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"block_error_page_message": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"block_response_code": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"address_rate_limiting": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"is_enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+
+									// Optional
+									"allowed_rate_per_address": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"block_response_code": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"max_delayed_count_per_address": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"captchas": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"failure_message": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"session_expiration_in_seconds": {
+										Type:     schema.TypeInt,
+										Required: true,
+									},
+									"submit_label": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"title": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"url": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"footer_text": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"header_text": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"device_fingerprint_challenge": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"is_enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+
+									// Optional
+									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"action_expiration_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"challenge_settings": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"block_action": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"block_error_page_code": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"block_error_page_description": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"block_error_page_message": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"block_response_code": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"captcha_footer": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"captcha_header": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"captcha_submit_label": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"captcha_title": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"failure_threshold": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"failure_threshold_expiration_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"max_address_count": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"max_address_count_expiration_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"human_interaction_challenge": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"is_enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+
+									// Optional
+									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"action_expiration_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"challenge_settings": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"block_action": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"block_error_page_code": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"block_error_page_description": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"block_error_page_message": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"block_response_code": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"captcha_footer": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"captcha_header": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"captcha_submit_label": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"captcha_title": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"failure_threshold": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"failure_threshold_expiration_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"interaction_threshold": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"recording_period_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"set_http_header": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"name": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"js_challenge": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"is_enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+
+									// Optional
+									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"action_expiration_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"challenge_settings": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"block_action": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"block_error_page_code": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"block_error_page_description": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"block_error_page_message": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"block_response_code": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"captcha_footer": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"captcha_header": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"captcha_submit_label": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"captcha_title": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"failure_threshold": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"set_http_header": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"name": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"origin": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"protection_settings": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"allowed_http_methods": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"block_action": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"block_error_page_code": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"block_error_page_description": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"block_error_page_message": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"block_response_code": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"is_response_inspected": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"max_argument_count": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"max_name_length_per_argument": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"max_response_size_in_ki_b": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"max_total_name_length_of_arguments": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"media_types": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"recommendations_period_in_days": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"whitelists": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"addresses": {
+										Type:     schema.TypeList,
+										Required: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
+		},
+	}
+}
+
+func readSingularWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &WaasWaasPolicyDataSourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).waasClient
+
+	return ReadResource(sync)
+}
+
+type WaasWaasPolicyDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_waas.WaasClient
+	Res    *oci_waas.GetWaasPolicyResponse
+}
+
+func (s *WaasWaasPolicyDataSourceCrud) VoidState() {
+	s.D.SetId("")
+}
+
+func (s *WaasWaasPolicyDataSourceCrud) Get() error {
+	request := oci_waas.GetWaasPolicyRequest{}
+
+	if waasPolicyId, ok := s.D.GetOkExists("waas_policy_id"); ok {
+		tmp := waasPolicyId.(string)
+		request.WaasPolicyId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "waas")
+
+	response, err := s.Client.GetWaasPolicy(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	return nil
+}
+
+func (s *WaasWaasPolicyDataSourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
+
+	s.D.SetId(*s.Res.Id)
+
+	s.D.Set("additional_domains", s.Res.AdditionalDomains)
+
+	if s.Res.Cname != nil {
+		s.D.Set("cname", *s.Res.Cname)
+	}
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.Domain != nil {
+		s.D.Set("domain", *s.Res.Domain)
+	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.Origins != nil {
+		s.D.Set("origins", OriginMapToMap(s.Res.Origins))
+	} else {
+		s.D.Set("origins", nil)
+	}
+
+	if s.Res.PolicyConfig != nil {
+		s.D.Set("policy_config", []interface{}{PolicyConfigToMap(s.Res.PolicyConfig)})
+	} else {
+		s.D.Set("policy_config", nil)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.WafConfig != nil {
+		s.D.Set("waf_config", []interface{}{WafConfigToMap(s.Res.WafConfig)})
+	} else {
+		s.D.Set("waf_config", nil)
+	}
+
+	return nil
+}
