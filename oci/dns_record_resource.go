@@ -340,6 +340,8 @@ func (s *DnsRecordResourceCrud) SetData() error {
 func findItem(rc *oci_dns.RecordCollection, r *schema.ResourceData) (*oci_dns.Record, error) {
 	rType := r.Get("rtype").(string)
 	rData := r.Get("rdata").(string)
+	rDomain := r.Get("domain").(string)
+	rTtl := r.Get("ttl").(int)
 	rData = normalizeRData(rType, rData)
 	rHash, rHashOk := r.GetOk("record_hash")
 
@@ -350,7 +352,7 @@ func findItem(rc *oci_dns.RecordCollection, r *schema.ResourceData) (*oci_dns.Re
 		}
 
 		// accept match by type and data match
-		if *item.Rtype == rType && normalizeRData(rType, *item.Rdata) == rData {
+		if *item.Rtype == rType && normalizeRData(rType, *item.Rdata) == rData && *item.Domain == rDomain && *item.Ttl == rTtl {
 			return &item, nil
 		}
 	}

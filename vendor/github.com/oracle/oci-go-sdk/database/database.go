@@ -62,6 +62,9 @@ type Database struct {
 	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The Connection strings used to connect to the Oracle Database.
+	ConnectionStrings *DatabaseConnectionStrings `mandatory:"false" json:"connectionStrings"`
 }
 
 func (m Database) String() string {
