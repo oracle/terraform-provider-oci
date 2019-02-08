@@ -83,6 +83,7 @@ The following attributes are exported:
 		* `should_keep` - Keep the answer if the value is `true`.
 		* `value` - 
 	* `default_count` - Defines a default count if `cases` is not defined for the rule or a matching case does not define `count`. `defaultCount` is **not** applied if `cases` is defined and there are no matching cases. 
+	* `description` - Your description of the rule's purpose and/or behavior.
 	* `rule_type` - The type of a rule determines its sorting/filtering behavior.
 		* FILTER rules filter the list of answers (e.g., to remove those with hosts that are down for maintenance). Answers remain if and only if their associated data is `true`.
 		* HEALTH rules remove answers from the list if their `rdata` matches a target in the health check monitor referenced by the steering policy and the target is reported down.
