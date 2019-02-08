@@ -4,6 +4,7 @@
 - Adding support for the tagging of Email Delivery service approved senders
 - Support for Health Check Service
 - Adding database connection information to the `oci_database_database` and `oci_database_databases` data sources
+- Adding support for Steering Policies in DNS
 
 ## 3.14.1 (February 05, 2019)
 
