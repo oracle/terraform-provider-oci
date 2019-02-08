@@ -82,7 +82,7 @@ func readEmailSender(d *schema.ResourceData, m interface{}) error {
 }
 
 func updateEmailSender(d *schema.ResourceData, m interface{}) error {
-	sync := &SenderResourceCrud{}
+	sync := &EmailSenderResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
@@ -90,7 +90,7 @@ func updateEmailSender(d *schema.ResourceData, m interface{}) error {
 }
 
 func deleteEmailSender(d *schema.ResourceData, m interface{}) error {
-	sync := &SenderResourceCrud{}
+	sync := &EmailSenderResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 	sync.DisableNotFoundRetries = true
