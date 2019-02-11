@@ -141,6 +141,10 @@ func ContainerengineNodePoolResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -602,6 +606,14 @@ func NodeErrorToMap(obj *oci_containerengine.NodeError) map[string]interface{} {
 
 	if obj.Message != nil {
 		result["message"] = string(*obj.Message)
+	}
+
+	if obj.OpcRequestId != nil {
+		result["opc_request_id"] = string(*obj.OpcRequestId)
+	}
+
+	if obj.Status != nil {
+		result["status"] = string(*obj.Status)
 	}
 
 	return result
