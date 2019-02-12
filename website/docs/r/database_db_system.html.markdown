@@ -89,7 +89,7 @@ The following arguments are supported:
 	**Subnet Restrictions:** See the subnet restrictions information for **subnetId**. 
 * `cluster_name` - (Optional) The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment the DB system  belongs in.
-* `cpu_core_count` - (Required) (Updatable) The number of CPU cores to enable for a bare metal or Exadata DB system. The valid values depend on the specified shape:
+* `cpu_core_count` - (Optional) (Updatable) The number of CPU cores to enable for a bare metal or Exadata DB system. The service ignores this value when a VM shape is specified. The valid values depend on the specified shape:
 	* BM.DenseIO1.36 - Specify a multiple of 2, from 2 to 36.
 	* BM.DenseIO2.52 - Specify a multiple of 2, from 2 to 52.
 	* Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
