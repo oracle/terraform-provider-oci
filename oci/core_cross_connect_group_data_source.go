@@ -22,6 +22,10 @@ func CoreCrossConnectGroupDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"customer_reference_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -84,6 +88,10 @@ func (s *CoreCrossConnectGroupDataSourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.CustomerReferenceName != nil {
+		s.D.Set("customer_reference_name", *s.Res.CustomerReferenceName)
 	}
 
 	if s.Res.DisplayName != nil {

@@ -33,12 +33,16 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `bandwith_shape_management` - Who is responsible for managing the virtual circuit bandwidth. 
+* `customer_asn_management` - Who is responsible for managing the ASN information for the network at the other end of the connection from Oracle. 
 * `description` - A description of the service offered by the provider. 
 * `id` - The OCID of the service offered by the provider. 
 * `private_peering_bgp_management` - Who is responsible for managing the private peering BGP information. 
 * `provider_name` - The name of the provider. 
+* `provider_service_key_management` - Who is responsible for managing the provider service key. 
 * `provider_service_name` - The name of the service offered by the provider. 
 * `public_peering_bgp_management` - Who is responsible for managing the public peering BGP information. 
+* `required_total_cross_connects` - Total number of cross-connect or cross-connect groups required for the virtual circuit. 
 * `supported_virtual_circuit_types` - An array of virtual circuit types supported by this service. 
 * `type` - Provider service type. 
 
