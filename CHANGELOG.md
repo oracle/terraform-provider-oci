@@ -1,4 +1,4 @@
-## 3.15.0 (Unreleased)
+## 3.15.0 (February 12, 2019)
 
 ### Added
 - Adding support for the tagging of Email Delivery service approved senders
