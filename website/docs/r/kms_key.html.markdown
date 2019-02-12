@@ -24,6 +24,10 @@ resource "oci_kms_key" "test_key" {
 		length = "${var.key_key_shape_length}"
 	}
 	management_endpoint = "${var.key_management_endpoint}"
+
+	#Optional
+	defined_tags = {"foo-namespace.bar-key"= "foo-value"}
+	freeform_tags = {"bar-key"= "value"}
 }
 ```
 
@@ -32,8 +36,10 @@ resource "oci_kms_key" "test_key" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment that contains this key.
+* `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "foo-value"}` 
 * `desired_state` - (Optional) (Updatable) Desired state of the key. Possible values : `ENABLED` or `DISABLED`
 * `display_name` - (Required) (Updatable) A user-friendly name for the key. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
+* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `key_shape` - (Required) 
 	* `algorithm` - (Required) The algorithm used by a key's KeyVersions to encrypt or decrypt.
 	* `length` - (Required) The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 
@@ -49,7 +55,9 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains this key.
 * `current_key_version` - The OCID of the KeyVersion resource used in cryptographic operations. During key rotation, service may be in transitional state where this or a newer KeyVersion are used intermittently, and currentKeyVersion field is updated once service is guaranteed to use new KeyVersion for all consequent encrypt operations. 
+* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "foo-value"}` 
 * `display_name` - A user-friendly name for the key. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The OCID of the key.
 * `key_shape` - 
 	* `algorithm` - The algorithm used by a key's KeyVersions to encrypt or decrypt.

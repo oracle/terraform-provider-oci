@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_kms_key"
+page_title: "Oracle Cloud Infrastructure: oci_kms_key"
 sidebar_current: "docs-oci-datasource-kms-key"
 description: |-
-  Provides details about a specific Key
+  Provides details about a specific Key in Oracle Cloud Infrastructure Kms service
 ---
 
 # Data Source: oci_kms_key
-The `oci_kms_key` data source provides details about a specific Key
+This data source provides details about a specific Key resource in Oracle Cloud Infrastructure Kms service.
 
 Gets information about the specified key.
 
@@ -36,7 +36,9 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains this key.
 * `current_key_version` - The OCID of the KeyVersion resource used in cryptographic operations. During key rotation, service may be in transitional state where this or a newer KeyVersion are used intermittently, and currentKeyVersion field is updated once service is guaranteed to use new KeyVersion for all consequent encrypt operations. 
+* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "foo-value"}` 
 * `display_name` - A user-friendly name for the key. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The OCID of the key.
 * `key_shape` - 
 	* `algorithm` - The algorithm used by a key's KeyVersions to encrypt or decrypt.
