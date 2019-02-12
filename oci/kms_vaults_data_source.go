@@ -93,9 +93,15 @@ func (s *KmsVaultsDataSourceCrud) SetData() error {
 			vault["crypto_endpoint"] = *r.CryptoEndpoint
 		}
 
+		if r.DefinedTags != nil {
+			vault["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			vault["display_name"] = *r.DisplayName
 		}
+
+		vault["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			vault["id"] = *r.Id

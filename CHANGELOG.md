@@ -14,6 +14,7 @@ Enable regional Subnets by making Availability Domain optional when creating a S
 - Support for Health Check Service
 - Adding database connection information to the `oci_database_database` and `oci_database_databases` data sources
 - Adding support for Steering Policies in DNS
+- Support for the tagging of applicable KMS resources
 
 ## 3.14.1 (February 05, 2019)
 
