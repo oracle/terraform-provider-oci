@@ -26,6 +26,32 @@ func DatabaseDatabaseDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"connection_strings": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"all_connection_strings": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"cdb_default": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"cdb_ip_default": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"db_backup_config": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -147,6 +173,12 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.ConnectionStrings != nil {
+		s.D.Set("connection_strings", []interface{}{DatabaseConnectionStringsToMap(s.Res.ConnectionStrings)})
+	} else {
+		s.D.Set("connection_strings", nil)
+	}
+
 	if s.Res.DbBackupConfig != nil {
 		s.D.Set("db_backup_config", []interface{}{DbBackupConfigToMap(s.Res.DbBackupConfig)})
 	} else {
@@ -194,6 +226,22 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func DatabaseConnectionStringsToMap(obj *oci_database.DatabaseConnectionStrings) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["all_connection_strings"] = obj.AllConnectionStrings
+
+	if obj.CdbDefault != nil {
+		result["cdb_default"] = string(*obj.CdbDefault)
+	}
+
+	if obj.CdbIpDefault != nil {
+		result["cdb_ip_default"] = string(*obj.CdbIpDefault)
+	}
+
+	return result
 }
 
 // @CODEGEN 08/2018: Method DbBackupConfigToMap is available in database_db_system_resource.go

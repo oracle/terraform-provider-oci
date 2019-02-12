@@ -137,6 +137,10 @@ func (s *EmailSuppressionResourceCrud) Delete() error {
 }
 
 func (s *EmailSuppressionResourceCrud) SetData() error {
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
 	if s.Res.EmailAddress != nil {
 		s.D.Set("email_address", *s.Res.EmailAddress)
 	}

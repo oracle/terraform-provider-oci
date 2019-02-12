@@ -1,9 +1,10 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Email Delivery Service API
+// Email Delivery API
 //
-// API spec for managing OCI Email Delivery services.
+// API for the Email Delivery service. Use this API to send high-volume, application-generated
+// emails. For more information, see Overview of the Email Delivery Service (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Email/Concepts/overview.htm).
 //
 
 package email

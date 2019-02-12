@@ -1,9 +1,10 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Email Delivery Service API
+// Email Delivery API
 //
-// API spec for managing OCI Email Delivery services.
+// API for the Email Delivery service. Use this API to send high-volume, application-generated
+// emails. For more information, see Overview of the Email Delivery Service (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Email/Concepts/overview.htm).
 //
 
 package email
@@ -37,7 +38,7 @@ func NewEmailClientWithConfigurationProvider(configProvider common.Configuration
 
 // SetRegion overrides the region of this client.
 func (client *EmailClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).Endpoint("email")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("email", "https://email.{region}.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -101,6 +102,9 @@ func (client EmailClient) createSender(ctx context.Context, request common.OCIRe
 }
 
 // CreateSuppression Adds recipient email addresses to the suppression list for a tenancy.
+// Addresses added to the suppression list via the API are denoted as
+// "MANUAL" in the `reason` field. *Note:* All email addresses added to the
+// suppression list are normalized to include only lowercase letters.
 func (client EmailClient) CreateSuppression(ctx context.Context, request CreateSuppressionRequest) (response CreateSuppressionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -387,6 +391,51 @@ func (client EmailClient) listSuppressions(ctx context.Context, request common.O
 	}
 
 	var response ListSuppressionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSender Replaces the set of tags for a sender with the tags provided. If either freeform
+// or defined tags are omitted, the tags for that set remain the same. Each set must
+// include the full set of tags for the sender, partial updates are not permitted.
+// For more information about tagging, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+func (client EmailClient) UpdateSender(ctx context.Context, request UpdateSenderRequest) (response UpdateSenderResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSender, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateSenderResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSenderResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSenderResponse")
+	}
+	return
+}
+
+// updateSender implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) updateSender(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/senders/{senderId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSenderResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

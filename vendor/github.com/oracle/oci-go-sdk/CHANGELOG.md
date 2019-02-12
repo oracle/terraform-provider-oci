@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 3.7.0 - 2019-02-07
+### Added
+- Support for the Web Application Acceleration and Security (WAAS) service
+- Support for the Health Checks service
+- Support for connection strings on Database resources in the Database service
+- Support for traffic management in the DNS service
+- Support for tagging in the Email service
+### Fixed
+- Retry context in now cancelable during wait for new retry
+
 ## 3.6.0 - 2019-01-31
 ### Added
 - Support for the Announcements service

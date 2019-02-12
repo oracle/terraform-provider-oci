@@ -16,6 +16,9 @@ import (
 )
 
 var (
+	SenderRequiredOnlyResource = SenderResourceDependencies +
+		generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Required, Create, senderRepresentation)
+
 	SenderResourceConfig = SenderResourceDependencies +
 		generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation)
 
@@ -36,9 +39,11 @@ var (
 	senderRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"email_address":  Representation{repType: Required, create: `JohnSmith@example.com`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	SenderResourceDependencies = ""
+	SenderResourceDependencies = DefinedTagsDependencies
 )
 
 func TestEmailSenderResource_basic(t *testing.T) {
@@ -51,6 +56,8 @@ func TestEmailSenderResource_basic(t *testing.T) {
 	resourceName := "oci_email_sender.test_sender"
 	datasourceName := "data.oci_email_senders.test_senders"
 	singularDatasourceName := "data.oci_email_sender.test_sender"
+
+	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -66,9 +73,54 @@ func TestEmailSenderResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "email_address", "JohnSmith@example.com"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
 				),
 			},
 
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + SenderResourceDependencies,
+			},
+			// verify create with optionals
+			{
+				Config: config + compartmentIdVariableStr + SenderResourceDependencies +
+					generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Create, senderRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "email_address", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + SenderResourceDependencies +
+					generateResourceFromRepresentationMap("oci_email_sender", "test_sender", Optional, Update, senderRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "email_address", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
 			// verify datasource
 			{
 				Config: config +
@@ -81,7 +133,9 @@ func TestEmailSenderResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "senders.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "senders.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "senders.0.email_address", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(datasourceName, "senders.0.freeform_tags.%", "1"),
 				),
 			},
 			// verify singular datasource
@@ -92,7 +146,10 @@ func TestEmailSenderResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "sender_id"),
 
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "email_address", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_spf", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
@@ -105,13 +162,11 @@ func TestEmailSenderResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"compartment_id",
-				},
-				ResourceName: resourceName,
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
 			},
 		},
 	})
