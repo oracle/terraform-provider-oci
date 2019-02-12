@@ -36,8 +36,9 @@ var (
 	}
 
 	crossConnectGroupRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
+		"customer_reference_name": Representation{repType: Optional, create: `customerReferenceName`, update: `customerReferenceName2`},
+		"display_name":            Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 	}
 
 	CrossConnectGroupResourceDependencies = ""
@@ -87,6 +88,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Create, crossConnectGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 
 					func(s *terraform.State) (err error) {
@@ -102,6 +104,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Update, crossConnectGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 
 					func(s *terraform.State) (err error) {
@@ -125,6 +128,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.customer_reference_name", "customerReferenceName2"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.display_name", "displayName2"),
 				),
 			},
@@ -137,6 +141,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_group_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "customer_reference_name", "customerReferenceName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

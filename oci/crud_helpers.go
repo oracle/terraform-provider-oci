@@ -434,8 +434,12 @@ func FieldDeprecatedForAnother(deprecatedFieldName string, newFieldName string) 
 	return fmt.Sprintf("The '%s' field has been deprecated. Please use '%s' instead.", deprecatedFieldName, newFieldName)
 }
 
-func FieldDeprecatedButSupportedTroughAnotherResource(deprecatedFieldName string, newResourceName string) string {
+func FieldDeprecatedButSupportedThroughAnotherResource(deprecatedFieldName string, newResourceName string) string {
 	return fmt.Sprintf("The '%s' field has been deprecated. Please use the '%s' resource instead.", deprecatedFieldName, newResourceName)
+}
+
+func FieldDeprecatedButSupportedThroughAnotherDataSource(deprecatedFieldName string, newDataSourceName string) string {
+	return fmt.Sprintf("The '%s' field has been deprecated. Please use the '%s' data source instead.", deprecatedFieldName, newDataSourceName)
 }
 
 func FieldDeprecatedAndOverridenByAnother(deprecatedFieldName string, newFieldName string) string {

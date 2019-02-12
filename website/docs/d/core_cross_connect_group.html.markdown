@@ -32,6 +32,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the cross-connect group.
+* `customer_reference_name` - A reference name or identifier for the physical fiber connection that this cross-connect group uses. 
 * `display_name` - The display name of A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `id` - The cross-connect group's Oracle ID (OCID).
 * `state` - The cross-connect group's current state.

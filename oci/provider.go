@@ -237,6 +237,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_drgs":                                  CoreDrgsDataSource(),
 		"oci_core_fast_connect_provider_service":         CoreFastConnectProviderServiceDataSource(),
 		"oci_core_fast_connect_provider_services":        CoreFastConnectProviderServicesDataSource(),
+		"oci_core_fast_connect_provider_service_key":     CoreFastConnectProviderServiceKeyDataSource(),
 		"oci_core_images":                                CoreImagesDataSource(),
 		"oci_core_instance":                              CoreInstanceDataSource(),
 		"oci_core_instance_credentials":                  CoreInstanceCredentialDataSource(),

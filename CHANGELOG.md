@@ -4,6 +4,7 @@
 - Support for additional dbHomes/databases in a BM Db System
 - Support for tags in databases
 - Support for updates to database auto_backup_enabled 
+- Support for provider service keys in Fast Connect Provider Services
 
 ## 3.20.0 (March 27, 2019)
 

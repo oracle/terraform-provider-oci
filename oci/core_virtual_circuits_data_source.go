@@ -144,6 +144,10 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 			virtualCircuit["provider_service_id"] = *r.ProviderServiceId
 		}
 
+		if r.ProviderServiceKeyName != nil {
+			virtualCircuit["provider_service_key_name"] = *r.ProviderServiceKeyName
+		}
+
 		virtualCircuit["provider_state"] = r.ProviderState
 
 		publicPrefixes := []interface{}{}

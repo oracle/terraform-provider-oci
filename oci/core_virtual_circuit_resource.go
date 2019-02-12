@@ -103,6 +103,11 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"provider_service_key_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"public_prefixes": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -130,8 +135,9 @@ func CoreVirtualCircuitResource() *schema.Resource {
 
 			// Computed
 			"bgp_management": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:       schema.TypeString,
+				Computed:   true,
+				Deprecated: FieldDeprecatedButSupportedThroughAnotherDataSource("bgp_management", "oci_core_fast_connect_provider_service"),
 			},
 			"bgp_session_state": {
 				Type:     schema.TypeString,
@@ -296,6 +302,11 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 		request.ProviderServiceId = &tmp
 	}
 
+	if providerServiceKeyName, ok := s.D.GetOkExists("provider_service_key_name"); ok {
+		tmp := providerServiceKeyName.(string)
+		request.ProviderServiceKeyName = &tmp
+	}
+
 	if publicPrefixes, ok := s.D.GetOkExists("public_prefixes"); ok {
 		set := publicPrefixes.(*schema.Set)
 		interfaces := set.List()
@@ -417,6 +428,11 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 	if gatewayId, ok := s.D.GetOkExists("gateway_id"); ok {
 		tmp := gatewayId.(string)
 		request.GatewayId = &tmp
+	}
+
+	if providerServiceKeyName, ok := s.D.GetOkExists("provider_service_key_name"); ok {
+		tmp := providerServiceKeyName.(string)
+		request.ProviderServiceKeyName = &tmp
 	}
 
 	if providerState, ok := s.D.GetOkExists("provider_state"); ok {
@@ -559,6 +575,10 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 
 	if s.Res.ProviderServiceId != nil {
 		s.D.Set("provider_service_id", *s.Res.ProviderServiceId)
+	}
+
+	if s.Res.ProviderServiceKeyName != nil {
+		s.D.Set("provider_service_key_name", *s.Res.ProviderServiceKeyName)
 	}
 
 	s.D.Set("provider_state", s.Res.ProviderState)
