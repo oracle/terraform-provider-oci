@@ -137,6 +137,12 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["character_set"] = *r.CharacterSet
 		}
 
+		if r.ConnectionStrings != nil {
+			database["connection_strings"] = []interface{}{DatabaseConnectionStringsToMap(r.ConnectionStrings)}
+		} else {
+			database["connection_strings"] = nil
+		}
+
 		if r.DbBackupConfig != nil {
 			database["db_backup_config"] = []interface{}{DbBackupConfigToMap(r.DbBackupConfig)}
 		} else {

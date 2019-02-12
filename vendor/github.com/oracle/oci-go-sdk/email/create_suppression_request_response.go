@@ -14,8 +14,7 @@ type CreateSuppressionRequest struct {
 	// Adds a single email address to the suppression list for a compartment's tenancy.
 	CreateSuppressionDetails `contributesTo:"body"`
 
-	// Unique Oracle-assigned identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
+	// The request ID for tracing from the system
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

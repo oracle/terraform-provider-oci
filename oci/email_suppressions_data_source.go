@@ -4,12 +4,11 @@ package provider
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_email "github.com/oracle/oci-go-sdk/email"
-
-	"time"
 )
 
 func EmailSuppressionsDataSource() *schema.Resource {

@@ -18,9 +18,23 @@ func EmailSenderDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"email_address": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"is_spf": {
 				Type:     schema.TypeBool,
@@ -82,9 +96,19 @@ func (s *EmailSenderDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.EmailAddress != nil {
 		s.D.Set("email_address", *s.Res.EmailAddress)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsSpf != nil {
 		s.D.Set("is_spf", *s.Res.IsSpf)

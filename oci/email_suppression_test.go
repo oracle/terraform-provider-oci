@@ -97,6 +97,7 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "suppression_id"),
 
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					// email address is converted to lower case by the service
 					resource.TestCheckResourceAttr(singularDatasourceName, "email_address", "johnsmith@example.com"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
@@ -110,13 +111,11 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"compartment_id",
-				},
-				ResourceName: resourceName,
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
 			},
 		},
 	})

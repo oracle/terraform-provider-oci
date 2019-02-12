@@ -265,7 +265,7 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
+				Config:            config + compartmentIdVariableStr + RuleSetResourceConfig,
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{

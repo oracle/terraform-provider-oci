@@ -22,7 +22,7 @@ If you specify a name that's already in use in the tenancy, a 409 error is retur
 
 You must also specify a *description* for the namespace.
 It does not have to be unique, and you can change it with
-[UpdateTagNamespace](https://docs.cloud.oracle.com/iaas/api/#/en/tagging/20160918/TagNamespace/UpdateTagNamespace).
+[UpdateTagNamespace](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/TagNamespace/UpdateTagNamespace).
 
 Tag namespaces cannot be deleted, but they can be retired.
 See [Retiring Key Definitions and Namespace Definitions](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Retiring) for more information.
