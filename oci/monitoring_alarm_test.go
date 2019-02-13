@@ -46,7 +46,7 @@ var (
 		"namespace":                        Representation{repType: Required, create: `oci_computeagent`, update: `oci_lbaas`},
 		"query":                            Representation{repType: Required, create: `CpuUtilization[10m].percentile(0.9) < 85`, update: `AcceptedConnections[10m].count() <= 0`},
 		"severity":                         Representation{repType: Required, create: `WARNING`, update: `INFO`},
-		"body":                             Representation{repType: Optional, create: `High CPU utilization reached`, update: `body2`},
+		"body":                             Representation{repType: Optional, create: `CPU utilization has reached high values.`, update: `body2`},
 		"defined_tags":                     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                    Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"metric_compartment_id_in_subtree": Representation{repType: Optional, create: `false`, update: `true`},
@@ -116,7 +116,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AlarmResourceDependencies +
 					generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create, alarmRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "body", "High CPU utilization reached"),
+					resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),

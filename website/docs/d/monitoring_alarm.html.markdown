@@ -85,8 +85,8 @@ The following attributes are exported:
 		Oracle recommends including tracking information for the event or associated work, such as a ticket number.
 
 		Example: `Planned outage due to change IT-1234.` 
-	* `time_suppress_from` - The start date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: `2018-02-01T01:02:29.600Z` 
-	* `time_suppress_until` - The end date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: `2018-02-01T02:02:29.600Z` 
-* `time_created` - The date and time the alarm was created. Format defined by RFC3339.  Example: `2018-02-01T01:02:29.600Z` 
-* `time_updated` - The date and time the alarm was last updated. Format defined by RFC3339.  Example: `2018-02-03T01:02:29.600Z` 
+	* `time_suppress_from` - The start date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: `2019-02-01T01:02:29.600Z` 
+	* `time_suppress_until` - The end date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: `2019-02-01T02:02:29.600Z` 
+* `time_created` - The date and time the alarm was created. Format defined by RFC3339.  Example: `2019-02-01T01:02:29.600Z` 
+* `time_updated` - The date and time the alarm was last updated. Format defined by RFC3339.  Example: `2019-02-03T01:02:29.600Z` 
 
