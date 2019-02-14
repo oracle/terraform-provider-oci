@@ -57,8 +57,9 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"shape": {
-							Type:     schema.TypeString,
-							Computed: true,
+							Type:       schema.TypeString,
+							Computed:   true,
+							Deprecated: FieldDeprecatedForAnother("shape", "name"),
 						},
 					},
 				},
