@@ -600,8 +600,7 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	case strings.ToLower(authInstancePrincipalSetting):
 		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
 		if !ok {
-			return nil, fmt.Errorf(`authentication (%s) is set to "%s". To use "%s" authentication user credentials should be removed from the configuration. 
-The values for the %v are provided now.`, ociVarName(authAttrName), authInstancePrincipalSetting, authInstancePrincipalSetting, apiKeyConfigVariablesToUnset)
+			return nil, fmt.Errorf(`user credentials %v should be removed from the configuration`, apiKeyConfigVariablesToUnset)
 		}
 
 		region, ok := d.GetOkExists(regionAttrName)
@@ -616,8 +615,7 @@ The values for the %v are provided now.`, ociVarName(authAttrName), authInstance
 	case strings.ToLower(authInstancePrincipalWithCertsSetting):
 		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
 		if !ok {
-			return nil, fmt.Errorf(`authentication (%s) is set to "%s". To use "%s" authentication user credentials should be removed from the configuration. 
-The values for the %v are provided now.`, ociVarName(authAttrName), authInstancePrincipalWithCertsSetting, authInstancePrincipalWithCertsSetting, apiKeyConfigVariablesToUnset)
+			return nil, fmt.Errorf(`user credentials %v should be removed from the configuration`, apiKeyConfigVariablesToUnset)
 		}
 
 		region, ok := d.GetOkExists(regionAttrName)
