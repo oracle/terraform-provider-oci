@@ -5,6 +5,7 @@
 - Support for Monitoring service 
 - Adding ability to disable monitoring in instances
 - Adding support for Metrics-based Dynamic Auto-scaling
+- Support for listing and specifying Fault Domains in Database resources
 
 ## 3.16.0 (February 26, 2019)
 

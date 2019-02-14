@@ -26,6 +26,10 @@ func DatabaseDbNodeDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"fault_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"hostname": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -100,6 +104,10 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 
 	if s.Res.DbSystemId != nil {
 		s.D.Set("db_system_id", *s.Res.DbSystemId)
+	}
+
+	if s.Res.FaultDomain != nil {
+		s.D.Set("fault_domain", *s.Res.FaultDomain)
 	}
 
 	if s.Res.Hostname != nil {
