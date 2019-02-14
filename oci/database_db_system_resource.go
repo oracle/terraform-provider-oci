@@ -243,6 +243,16 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"fault_domains": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type:             schema.TypeString,
+					DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -558,6 +568,8 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	if s.Res.Domain != nil {
 		s.D.Set("domain", *s.Res.Domain)
 	}
+
+	s.D.Set("fault_domains", s.Res.FaultDomains)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
@@ -925,6 +937,17 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := domain.(string)
 			details.Domain = &tmp
 		}
+		details.FaultDomains = []string{}
+		if faultDomains, ok := s.D.GetOkExists("fault_domains"); ok {
+			interfaces := faultDomains.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.FaultDomains = tmp
+		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
@@ -1023,6 +1046,17 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if domain, ok := s.D.GetOkExists("domain"); ok {
 			tmp := domain.(string)
 			details.Domain = &tmp
+		}
+		details.FaultDomains = []string{}
+		if faultDomains, ok := s.D.GetOkExists("fault_domains"); ok {
+			interfaces := faultDomains.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.FaultDomains = tmp
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))

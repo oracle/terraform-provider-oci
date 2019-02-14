@@ -184,6 +184,8 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 			dbSystem["domain"] = *r.Domain
 		}
 
+		dbSystem["fault_domains"] = r.FaultDomains
+
 		dbSystem["freeform_tags"] = r.FreeformTags
 
 		if r.Hostname != nil {
