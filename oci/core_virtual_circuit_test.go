@@ -61,7 +61,7 @@ var (
 	virtualCircuitWithProviderRepresentation = map[string]interface{}{
 		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
 		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
-		"bandwidth_shape_name":   Representation{repType: Optional, create: `10 Gbps`, update: `20 Gbps`},
+		"bandwidth_shape_name":   Representation{repType: Optional, create: "${data.oci_core_virtual_circuit_bandwidth_shapes.test_virtual_circuit_bandwidth_shapes.virtual_circuit_bandwidth_shapes.0.name}"},
 		"cross_connect_mappings": RepresentationGroup{Required, virtualCircuitCrossConnectMappingsRepresentation},
 		"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
 		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
