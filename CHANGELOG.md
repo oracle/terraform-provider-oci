@@ -1,4 +1,8 @@
 ## 3.15.1 (Unreleased)
+
+### Added
+- Adding description property to rules in Steering Policies in DNS
+
 ## 3.15.0 (February 12, 2019)
 
 ### Added
