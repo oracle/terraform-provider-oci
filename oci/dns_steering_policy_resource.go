@@ -222,14 +222,13 @@ func DnsSteeringPolicyResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
-						/* @CODEGEN description is removed because the service does not return and there is a diff on every apply if specified
 						"description": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-						    ForceNew: true,
+							ForceNew: true,
 						},
-						*/
+
 						// Computed
 					},
 				},
@@ -1060,6 +1059,10 @@ func SteeringPolicyRuleToMap(obj oci_dns.SteeringPolicyRule) map[string]interfac
 	default:
 		log.Printf("[WARN] Received 'rule_type' of unknown type %v", obj)
 		return nil
+	}
+
+	if obj.GetDescription() != nil {
+		result["description"] = *obj.GetDescription()
 	}
 
 	return result
