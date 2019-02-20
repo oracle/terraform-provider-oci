@@ -11,7 +11,7 @@ This data source provides the list of Availability Domains in Oracle Cloud Infra
 
 Lists the availability domains in your tenancy. Specify the OCID of either the tenancy or another
 of your compartments as the value for the compartment ID (remember that the tenancy is simply the root compartment).
-See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#five). 
+See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#five).
 Note that the order of the results returned can change if availability domains are added or removed; therefore, do not
 create a dependency on the list order.
 
@@ -29,7 +29,7 @@ data "oci_identity_availability_domains" "test_availability_domains" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment). 
+* `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
 
 
 ## Attributes Reference
