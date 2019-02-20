@@ -316,6 +316,13 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_file_storage_file_systems":                  FileStorageFileSystemsDataSource(),
 		"oci_file_storage_mount_targets":                 FileStorageMountTargetsDataSource(),
 		"oci_file_storage_snapshots":                     FileStorageSnapshotsDataSource(),
+		"oci_health_checks_http_monitor":                 HealthChecksHttpMonitorDataSource(),
+		"oci_health_checks_http_monitors":                HealthChecksHttpMonitorsDataSource(),
+		"oci_health_checks_ping_monitor":                 HealthChecksPingMonitorDataSource(),
+		"oci_health_checks_ping_monitors":                HealthChecksPingMonitorsDataSource(),
+		"oci_health_checks_http_probe_results":           HealthChecksHttpProbeResultsDataSource(),
+		"oci_health_checks_ping_probe_results":           HealthChecksPingProbeResultsDataSource(),
+		"oci_health_checks_vantage_points":               HealthChecksVantagePointsDataSource(),
 		"oci_identity_api_keys":                          IdentityApiKeysDataSource(),
 		"oci_identity_auth_tokens":                       IdentityAuthTokensDataSource(),
 		"oci_identity_availability_domains":              IdentityAvailabilityDomainsDataSource(),
@@ -372,13 +379,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_objectstorage_objects":                      ObjectStorageObjectsDataSource(),
 		"oci_objectstorage_preauthrequest":               ObjectStoragePreauthenticatedRequestDataSource(),
 		"oci_objectstorage_preauthrequests":              ObjectStoragePreauthenticatedRequestsDataSource(),
-		"oci_health_checks_http_monitor":                 HealthChecksHttpMonitorDataSource(),
-		"oci_health_checks_http_monitors":                HealthChecksHttpMonitorsDataSource(),
-		"oci_health_checks_ping_monitor":                 HealthChecksPingMonitorDataSource(),
-		"oci_health_checks_ping_monitors":                HealthChecksPingMonitorsDataSource(),
-		"oci_health_checks_http_probe_results":           HealthChecksHttpProbeResultsDataSource(),
-		"oci_health_checks_ping_probe_results":           HealthChecksPingProbeResultsDataSource(),
-		"oci_health_checks_vantage_points":               HealthChecksVantagePointsDataSource(),
+		"oci_streaming_stream":                           StreamingStreamDataSource(),
+		"oci_streaming_streams":                          StreamingStreamsDataSource(),
 	}
 }
 
@@ -448,6 +450,10 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_file_storage_file_system":              FileStorageFileSystemResource(),
 		"oci_file_storage_mount_target":             FileStorageMountTargetResource(),
 		"oci_file_storage_snapshot":                 FileStorageSnapshotResource(),
+		"oci_health_checks_http_monitor":            HealthChecksHttpMonitorResource(),
+		"oci_health_checks_ping_monitor":            HealthChecksPingMonitorResource(),
+		"oci_health_checks_http_probe":              HealthChecksHttpProbeResource(),
+		"oci_health_checks_ping_probe":              HealthChecksPingProbeResource(),
 		"oci_identity_api_key":                      IdentityApiKeyResource(),
 		"oci_identity_auth_token":                   IdentityAuthTokenResource(),
 		"oci_identity_compartment":                  IdentityCompartmentResource(),
@@ -485,10 +491,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_objectstorage_object":                  ObjectStorageObjectResource(),
 		"oci_objectstorage_namespace_metadata":      ObjectStorageNamespaceMetadataResource(),
 		"oci_objectstorage_preauthrequest":          ObjectStoragePreauthenticatedRequestResource(),
-		"oci_health_checks_http_monitor":            HealthChecksHttpMonitorResource(),
-		"oci_health_checks_ping_monitor":            HealthChecksPingMonitorResource(),
-		"oci_health_checks_http_probe":              HealthChecksHttpProbeResource(),
-		"oci_health_checks_ping_probe":              HealthChecksPingProbeResource(),
+		"oci_streaming_stream":                      StreamingStreamResource(),
 	}
 }
 

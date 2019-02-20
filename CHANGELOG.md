@@ -1,8 +1,9 @@
-## 3.15.1 (Unreleased)
-Enable regional Subnets by making Availability Domain optional when creating a Subnet
+## 3.16.0 (Unreleased)
 
 ### Added
 - Adding description property to rules in Steering Policies in DNS
+- Enable regional Subnets by making Availability Domain optional when creating a Subnet
+- Support for Streaming service
 
 ### Fixed
 - DNS Record now requires domain and rtype as mandatory arguments. Managing DNS record resources now requires DNS_RECORD* level policy entitlements instead of DNS_ZONE*. [Permissions List](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/dnspolicyreference.htm) 

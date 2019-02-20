@@ -23,6 +23,7 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
 )
@@ -95,6 +96,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 	objectStorageClient, err := oci_object_storage.NewObjectStorageClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	streamAdminClient, err := oci_streaming.NewStreamAdminClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -246,6 +251,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&streamAdminClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&virtualNetworkClient.BaseClient)
 	if err != nil {
 		return
@@ -267,6 +276,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.kmsVaultClient = &kmsVaultClient
 	clients.loadBalancerClient = &loadBalancerClient
 	clients.objectStorageClient = &objectStorageClient
+	clients.streamAdminClient = &streamAdminClient
 	clients.virtualNetworkClient = &virtualNetworkClient
 
 	return
@@ -289,6 +299,7 @@ type OracleClients struct {
 	kmsVaultClient          *oci_kms.KmsVaultClient
 	loadBalancerClient      *oci_load_balancer.LoadBalancerClient
 	objectStorageClient     *oci_object_storage.ObjectStorageClient
+	streamAdminClient       *oci_streaming.StreamAdminClient
 	virtualNetworkClient    *oci_core.VirtualNetworkClient
 	configuration           map[string]string
 }
