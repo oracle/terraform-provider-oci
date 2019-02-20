@@ -331,8 +331,14 @@ func CoreInstanceResource() *schema.Resource {
 				Computed: true,
 			},
 			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:             schema.TypeString,
+				Computed:         true,
+				Optional:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_core.InstanceLifecycleStateStopped),
+					string(oci_core.InstanceLifecycleStateRunning),
+				}, true),
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -371,7 +377,30 @@ func createCoreInstance(d *schema.ResourceData, m interface{}) error {
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
 	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
 
-	return CreateResource(d, sync)
+	var powerOff = false
+	if powerState, ok := sync.D.GetOkExists("state"); ok {
+		wantedPowerState := oci_core.InstanceLifecycleStateEnum(strings.ToUpper(powerState.(string)))
+		if wantedPowerState == oci_core.InstanceLifecycleStateStopped {
+			powerOff = true
+		}
+	}
+
+	if e := CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	return powerOffIfNeeded(sync.D, sync, powerOff)
+}
+
+func powerOffIfNeeded(d *schema.ResourceData, sync *CoreInstanceResourceCrud, powerOff bool) error {
+
+	if powerOff {
+		if err := sync.InstanceAction(oci_core.InstanceActionActionStop, oci_core.InstanceLifecycleStateStopped); err != nil {
+			return err
+		}
+		return ReadResource(sync)
+	}
+	return nil
 }
 
 func readCoreInstance(d *schema.ResourceData, m interface{}) error {
@@ -391,7 +420,35 @@ func updateCoreInstance(d *schema.ResourceData, m interface{}) error {
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
 	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
 
-	return UpdateResource(d, sync)
+	// switch to power on
+	powerOn, powerOff := false, false
+
+	if sync.D.HasChange("state") {
+		wantedState := strings.ToUpper(sync.D.Get("state").(string))
+		if oci_core.InstanceLifecycleStateRunning == oci_core.InstanceLifecycleStateEnum(wantedState) {
+			powerOn = true
+		} else if oci_core.InstanceLifecycleStateStopped == oci_core.InstanceLifecycleStateEnum(wantedState) {
+			powerOff = true
+		}
+	}
+
+	if powerOn {
+		if err := sync.InstanceAction(oci_core.InstanceActionActionStart, oci_core.InstanceLifecycleStateRunning); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_core.InstanceLifecycleStateRunning)
+	}
+	if err := UpdateResource(d, sync); err != nil {
+		return err
+	}
+	// switch to power off
+	if powerOff {
+		if err := sync.InstanceAction(oci_core.InstanceActionActionStop, oci_core.InstanceLifecycleStateStopped); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_core.InstanceLifecycleStateStopped)
+	}
+	return nil
 }
 
 func deleteCoreInstance(d *schema.ResourceData, m interface{}) error {
@@ -669,6 +726,25 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	}
 
 	return nil
+}
+
+func (s *CoreInstanceResourceCrud) InstanceAction(action oci_core.InstanceActionActionEnum, state oci_core.InstanceLifecycleStateEnum) error {
+	request := oci_core.InstanceActionRequest{}
+	request.Action = action
+
+	tmp := s.D.Id()
+	request.InstanceId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.InstanceAction(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
+	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+
 }
 
 func (s *CoreInstanceResourceCrud) Delete() error {
