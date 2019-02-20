@@ -4,6 +4,9 @@ Enable regional Subnets by making Availability Domain optional when creating a S
 ### Added
 - Adding description property to rules in Steering Policies in DNS
 
+### Fixed
+- DNS Record now requires domain and rtype as mandatory arguments. Managing DNS record resources now requires DNS_RECORD* level policy entitlements instead of DNS_ZONE*. [Permissions List](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/dnspolicyreference.htm) 
+
 ## 3.15.0 (February 12, 2019)
 
 ### Added

@@ -22,12 +22,12 @@ request body, the record will be removed from the zone.
 resource "oci_dns_record" "test_record" {
 	#Required
 	zone_name_or_id = "${oci_dns_zone_name_or.test_zone_name_or.id}"
+	domain = "${var.record_items_domain}"
+	rtype = "${var.record_items_rtype}"
 
 	#Optional
 	compartment_id = "${var.compartment_id}"
-	domain = "${var.record_items_domain}"
 	rdata = "${var.record_items_rdata}"
-	rtype = "${var.record_items_rtype}"
 	ttl = "${var.record_items_ttl}"
 }
 ```
@@ -37,9 +37,9 @@ resource "oci_dns_record" "test_record" {
 The following arguments are supported:
 
 * `compartment_id` - (Optional) (Updatable) The OCID of the compartment the resource belongs to. If supplied, it must match the Zone's compartment ocid. 
-* `domain` - (Optional) (Updatable) The fully qualified domain name where the record can be located.  
+* `domain` - (Required) The fully qualified domain name where the record can be located.  
 * `rdata` - (Optional) (Updatable) The record's data, as whitespace-delimited tokens in type-specific presentation format. All RDATA is normalized and the returned presentation of your RDATA may differ from its initial input. For more information about RDATA, see [Supported DNS Resource Record Types](https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm) 
-* `rtype` - (Optional) (Updatable) The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
+* `rtype` - (Required) The canonical name for the record's type, such as A or CNAME. For more information, see [Resource Record (RR) TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4). 
 * `ttl` - (Optional) (Updatable) The Time To Live for the record, in seconds.
 * `zone_name_or_id` - (Required) The name or OCID of the target zone.
 
