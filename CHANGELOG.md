@@ -9,6 +9,7 @@
 - Support for creating Autonomous Data Warehouses through Autonomous Database resource `oci_database_autonomous_database` using the field `db_workload`
 - Support for authentication policy
 - Support for Defined Tag defaults through the `oci_identity_tag_default` resource
+- Support for updating the compartment on a Tag Namespace
 
 ### Fixed
 - Marked oci_identity_ui_password resource as not importable
