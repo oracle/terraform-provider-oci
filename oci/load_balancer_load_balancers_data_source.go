@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func LoadBalancersDataSource() *schema.Resource {
+func LoadBalancerLoadBalancersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readLoadBalancers,
+		Read: readLoadBalancerLoadBalancers,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -33,31 +33,31 @@ func LoadBalancersDataSource() *schema.Resource {
 			"load_balancers": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(LoadBalancerResource()),
+				Elem:     GetDataSourceItemSchema(LoadBalancerLoadBalancerResource()),
 			},
 		},
 	}
 }
 
-func readLoadBalancers(d *schema.ResourceData, m interface{}) error {
-	sync := &LoadBalancersDataSourceCrud{}
+func readLoadBalancerLoadBalancers(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerLoadBalancersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-type LoadBalancersDataSourceCrud struct {
+type LoadBalancerLoadBalancersDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
 	Res    *oci_load_balancer.ListLoadBalancersResponse
 }
 
-func (s *LoadBalancersDataSourceCrud) VoidState() {
+func (s *LoadBalancerLoadBalancersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoadBalancersDataSourceCrud) Get() error {
+func (s *LoadBalancerLoadBalancersDataSourceCrud) Get() error {
 	request := oci_load_balancer.ListLoadBalancersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -102,7 +102,7 @@ func (s *LoadBalancersDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *LoadBalancersDataSourceCrud) SetData() error {
+func (s *LoadBalancerLoadBalancersDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -163,7 +163,7 @@ func (s *LoadBalancersDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancersDataSource().Schema["load_balancers"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerLoadBalancersDataSource().Schema["load_balancers"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("load_balancers", resources); err != nil {

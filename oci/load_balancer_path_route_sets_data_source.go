@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func PathRouteSetsDataSource() *schema.Resource {
+func LoadBalancerPathRouteSetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readPathRouteSets,
+		Read: readLoadBalancerPathRouteSets,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"load_balancer_id": {
@@ -21,31 +21,31 @@ func PathRouteSetsDataSource() *schema.Resource {
 			"path_route_sets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     PathRouteSetResource(),
+				Elem:     LoadBalancerPathRouteSetResource(),
 			},
 		},
 	}
 }
 
-func readPathRouteSets(d *schema.ResourceData, m interface{}) error {
-	sync := &PathRouteSetsDataSourceCrud{}
+func readLoadBalancerPathRouteSets(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerPathRouteSetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-type PathRouteSetsDataSourceCrud struct {
+type LoadBalancerPathRouteSetsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
 	Res    *oci_load_balancer.ListPathRouteSetsResponse
 }
 
-func (s *PathRouteSetsDataSourceCrud) VoidState() {
+func (s *LoadBalancerPathRouteSetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PathRouteSetsDataSourceCrud) Get() error {
+func (s *LoadBalancerPathRouteSetsDataSourceCrud) Get() error {
 	request := oci_load_balancer.ListPathRouteSetsRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -64,7 +64,7 @@ func (s *PathRouteSetsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PathRouteSetsDataSourceCrud) SetData() error {
+func (s *LoadBalancerPathRouteSetsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -89,7 +89,7 @@ func (s *PathRouteSetsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, PathRouteSetsDataSource().Schema["path_route_sets"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerPathRouteSetsDataSource().Schema["path_route_sets"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("path_route_sets", resources); err != nil {

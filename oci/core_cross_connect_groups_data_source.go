@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func CrossConnectGroupsDataSource() *schema.Resource {
+func CoreCrossConnectGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCrossConnectGroups,
+		Read: readCoreCrossConnectGroups,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -29,31 +29,31 @@ func CrossConnectGroupsDataSource() *schema.Resource {
 			"cross_connect_groups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(CrossConnectGroupResource()),
+				Elem:     GetDataSourceItemSchema(CoreCrossConnectGroupResource()),
 			},
 		},
 	}
 }
 
-func readCrossConnectGroups(d *schema.ResourceData, m interface{}) error {
-	sync := &CrossConnectGroupsDataSourceCrud{}
+func readCoreCrossConnectGroups(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCrossConnectGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type CrossConnectGroupsDataSourceCrud struct {
+type CoreCrossConnectGroupsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListCrossConnectGroupsResponse
 }
 
-func (s *CrossConnectGroupsDataSourceCrud) VoidState() {
+func (s *CoreCrossConnectGroupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CrossConnectGroupsDataSourceCrud) Get() error {
+func (s *CoreCrossConnectGroupsDataSourceCrud) Get() error {
 	request := oci_core.ListCrossConnectGroupsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -93,7 +93,7 @@ func (s *CrossConnectGroupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CrossConnectGroupsDataSourceCrud) SetData() error {
+func (s *CoreCrossConnectGroupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -124,7 +124,7 @@ func (s *CrossConnectGroupsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, CrossConnectGroupsDataSource().Schema["cross_connect_groups"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreCrossConnectGroupsDataSource().Schema["cross_connect_groups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("cross_connect_groups", resources); err != nil {

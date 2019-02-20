@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 resource "oci_file_storage_export" "my_export_fs1_mt1" {
   #Required
   export_set_id  = "${oci_file_storage_export_set.my_export_set_1.id}"

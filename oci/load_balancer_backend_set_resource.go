@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -18,16 +18,16 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func BackendSetResource() *schema.Resource {
+func LoadBalancerBackendSetResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createBackendSet,
-		Read:     readBackendSet,
-		Update:   updateBackendSet,
-		Delete:   deleteBackendSet,
+		Create:   createLoadBalancerBackendSet,
+		Read:     readLoadBalancerBackendSet,
+		Update:   updateLoadBalancerBackendSet,
+		Delete:   deleteLoadBalancerBackendSet,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"health_checker": {
@@ -213,32 +213,32 @@ func BackendSetResource() *schema.Resource {
 	}
 }
 
-func createBackendSet(d *schema.ResourceData, m interface{}) error {
-	sync := &BackendSetResourceCrud{}
+func createLoadBalancerBackendSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerBackendSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return CreateResource(d, sync)
 }
 
-func readBackendSet(d *schema.ResourceData, m interface{}) error {
-	sync := &BackendSetResourceCrud{}
+func readLoadBalancerBackendSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerBackendSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-func updateBackendSet(d *schema.ResourceData, m interface{}) error {
-	sync := &BackendSetResourceCrud{}
+func updateLoadBalancerBackendSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerBackendSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteBackendSet(d *schema.ResourceData, m interface{}) error {
-	sync := &BackendSetResourceCrud{}
+func deleteLoadBalancerBackendSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerBackendSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 	sync.DisableNotFoundRetries = true
@@ -246,7 +246,7 @@ func deleteBackendSet(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type BackendSetResourceCrud struct {
+type LoadBalancerBackendSetResourceCrud struct {
 	BaseCrud
 	Client                 *oci_load_balancer.LoadBalancerClient
 	Res                    *oci_load_balancer.BackendSet
@@ -256,11 +256,11 @@ type BackendSetResourceCrud struct {
 
 // The oci_loadbalancer_backend resource may implicitly modify this backend set and this could happen concurrently.
 // Use a per-backend set mutex to synchronize accesses to the backend set.
-func (s *BackendSetResourceCrud) GetMutex() *sync.Mutex {
+func (s *LoadBalancerBackendSetResourceCrud) GetMutex() *sync.Mutex {
 	return lbBackendSetMutexes.GetOrCreateBackendSetMutex(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
 }
 
-func (s *BackendSetResourceCrud) ID() string {
+func (s *LoadBalancerBackendSetResourceCrud) ID() string {
 	if s.WorkRequest != nil {
 		if s.WorkRequest.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
 			return getBackendSetCompositeId(s.D.Get("name").(string), s.D.Get("load_balancer_id").(string))
@@ -271,35 +271,35 @@ func (s *BackendSetResourceCrud) ID() string {
 	return ""
 }
 
-func (s *BackendSetResourceCrud) CreatedPending() []string {
+func (s *LoadBalancerBackendSetResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *BackendSetResourceCrud) CreatedTarget() []string {
+func (s *LoadBalancerBackendSetResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *BackendSetResourceCrud) DeletedPending() []string {
+func (s *LoadBalancerBackendSetResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *BackendSetResourceCrud) DeletedTarget() []string {
+func (s *LoadBalancerBackendSetResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *BackendSetResourceCrud) Create() error {
+func (s *LoadBalancerBackendSetResourceCrud) Create() error {
 	request := oci_load_balancer.CreateBackendSetRequest{}
 
 	if healthChecker, ok := s.D.GetOkExists("health_checker"); ok {
@@ -373,7 +373,7 @@ func (s *BackendSetResourceCrud) Create() error {
 	return nil
 }
 
-func (s *BackendSetResourceCrud) Get() error {
+func (s *LoadBalancerBackendSetResourceCrud) Get() error {
 	_, stillWorking, err := LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
@@ -414,7 +414,7 @@ func (s *BackendSetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BackendSetResourceCrud) Update() error {
+func (s *LoadBalancerBackendSetResourceCrud) Update() error {
 	request := oci_load_balancer.UpdateBackendSetRequest{}
 
 	// @CODEGEN: Backends are marked computed in this resource, so will do a GET and include the results in the UPDATE, although they are not a required parameter
@@ -515,7 +515,7 @@ func (s *BackendSetResourceCrud) Update() error {
 	return s.Get()
 }
 
-func (s *BackendSetResourceCrud) Delete() error {
+func (s *LoadBalancerBackendSetResourceCrud) Delete() error {
 	request := oci_load_balancer.DeleteBackendSetRequest{}
 
 	if backendSetName, ok := s.D.GetOkExists("name"); ok {
@@ -548,7 +548,7 @@ func (s *BackendSetResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *BackendSetResourceCrud) SetData() error {
+func (s *LoadBalancerBackendSetResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -616,7 +616,7 @@ func parseBackendSetCompositeId(compositeId string) (backendSetName string, load
 	return
 }
 
-func (s *BackendSetResourceCrud) mapToBackendDetails(fieldKeyFormat string) (oci_load_balancer.BackendDetails, error) {
+func (s *LoadBalancerBackendSetResourceCrud) mapToBackendDetails(fieldKeyFormat string) (oci_load_balancer.BackendDetails, error) {
 	result := oci_load_balancer.BackendDetails{}
 
 	if backup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup")); ok {
@@ -686,7 +686,7 @@ func BackendToMap(obj oci_load_balancer.Backend) map[string]interface{} {
 	return result
 }
 
-func (s *BackendSetResourceCrud) mapToHealthCheckerDetails(fieldKeyFormat string) (oci_load_balancer.HealthCheckerDetails, error) {
+func (s *LoadBalancerBackendSetResourceCrud) mapToHealthCheckerDetails(fieldKeyFormat string) (oci_load_balancer.HealthCheckerDetails, error) {
 	result := oci_load_balancer.HealthCheckerDetails{}
 
 	if intervalMs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "interval_ms")); ok {
@@ -770,7 +770,7 @@ func HealthCheckerToMap(obj *oci_load_balancer.HealthChecker) map[string]interfa
 	return result
 }
 
-func (s *BackendSetResourceCrud) mapToSSLConfigurationDetails(fieldKeyFormat string) (oci_load_balancer.SslConfigurationDetails, error) {
+func (s *LoadBalancerBackendSetResourceCrud) mapToSSLConfigurationDetails(fieldKeyFormat string) (oci_load_balancer.SslConfigurationDetails, error) {
 	result := oci_load_balancer.SslConfigurationDetails{}
 
 	if certificateName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_name")); ok {
@@ -809,7 +809,7 @@ func SSLConfigurationToMap(obj *oci_load_balancer.SslConfiguration) map[string]i
 	return result
 }
 
-func (s *BackendSetResourceCrud) mapToSessionPersistenceConfigurationDetails(fieldKeyFormat string) (oci_load_balancer.SessionPersistenceConfigurationDetails, error) {
+func (s *LoadBalancerBackendSetResourceCrud) mapToSessionPersistenceConfigurationDetails(fieldKeyFormat string) (oci_load_balancer.SessionPersistenceConfigurationDetails, error) {
 	result := oci_load_balancer.SessionPersistenceConfigurationDetails{}
 
 	if cookieName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cookie_name")); ok {

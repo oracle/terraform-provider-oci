@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-func NamespaceDataSource() *schema.Resource {
+func ObjectStorageNamespaceDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularNamespace,
+		Read: readSingularObjectStorageNamespace,
 		Schema: map[string]*schema.Schema{
 			// Computed
 			// @CODEGEN 2/2018: No computed values are generated because the generator doesn't know what to do with
@@ -25,25 +25,25 @@ func NamespaceDataSource() *schema.Resource {
 	}
 }
 
-func readSingularNamespace(d *schema.ResourceData, m interface{}) error {
-	sync := &NamespaceDataSourceCrud{}
+func readSingularObjectStorageNamespace(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageNamespaceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return ReadResource(sync)
 }
 
-type NamespaceDataSourceCrud struct {
+type ObjectStorageNamespaceDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_object_storage.ObjectStorageClient
 	Res    *oci_object_storage.GetNamespaceResponse
 }
 
-func (s *NamespaceDataSourceCrud) VoidState() {
+func (s *ObjectStorageNamespaceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NamespaceDataSourceCrud) Get() error {
+func (s *ObjectStorageNamespaceDataSourceCrud) Get() error {
 	request := oci_object_storage.GetNamespaceRequest{}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
@@ -57,7 +57,7 @@ func (s *NamespaceDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *NamespaceDataSourceCrud) SetData() error {
+func (s *ObjectStorageNamespaceDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func AppCatalogListingDataSource() *schema.Resource {
+func CoreAppCatalogListingDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularAppCatalogListing,
+		Read: readSingularCoreAppCatalogListing,
 		Schema: map[string]*schema.Schema{
 			"listing_id": {
 				Type:     schema.TypeString,
@@ -50,25 +50,25 @@ func AppCatalogListingDataSource() *schema.Resource {
 	}
 }
 
-func readSingularAppCatalogListing(d *schema.ResourceData, m interface{}) error {
-	sync := &AppCatalogListingDataSourceCrud{}
+func readSingularCoreAppCatalogListing(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreAppCatalogListingDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type AppCatalogListingDataSourceCrud struct {
+type CoreAppCatalogListingDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.GetAppCatalogListingResponse
 }
 
-func (s *AppCatalogListingDataSourceCrud) VoidState() {
+func (s *CoreAppCatalogListingDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AppCatalogListingDataSourceCrud) Get() error {
+func (s *CoreAppCatalogListingDataSourceCrud) Get() error {
 	request := oci_core.GetAppCatalogListingRequest{}
 
 	if listingId, ok := s.D.GetOkExists("listing_id"); ok {
@@ -87,7 +87,7 @@ func (s *AppCatalogListingDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AppCatalogListingDataSourceCrud) SetData() error {
+func (s *CoreAppCatalogListingDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

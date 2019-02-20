@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -18,16 +18,16 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func RuleSetResource() *schema.Resource {
+func LoadBalancerRuleSetResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createRuleSet,
-		Read:     readRuleSet,
-		Update:   updateRuleSet,
-		Delete:   deleteRuleSet,
+		Create:   createLoadBalancerRuleSet,
+		Read:     readLoadBalancerRuleSet,
+		Update:   updateLoadBalancerRuleSet,
+		Delete:   deleteLoadBalancerRuleSet,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"items": {
@@ -99,32 +99,32 @@ func RuleSetResource() *schema.Resource {
 	}
 }
 
-func createRuleSet(d *schema.ResourceData, m interface{}) error {
-	sync := &RuleSetResourceCrud{}
+func createLoadBalancerRuleSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerRuleSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return CreateResource(d, sync)
 }
 
-func readRuleSet(d *schema.ResourceData, m interface{}) error {
-	sync := &RuleSetResourceCrud{}
+func readLoadBalancerRuleSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerRuleSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-func updateRuleSet(d *schema.ResourceData, m interface{}) error {
-	sync := &RuleSetResourceCrud{}
+func updateLoadBalancerRuleSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerRuleSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteRuleSet(d *schema.ResourceData, m interface{}) error {
-	sync := &RuleSetResourceCrud{}
+func deleteLoadBalancerRuleSet(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerRuleSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 	sync.DisableNotFoundRetries = true
@@ -132,7 +132,7 @@ func deleteRuleSet(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type RuleSetResourceCrud struct {
+type LoadBalancerRuleSetResourceCrud struct {
 	BaseCrud
 	Client                 *oci_load_balancer.LoadBalancerClient
 	Res                    *oci_load_balancer.RuleSet
@@ -140,7 +140,7 @@ type RuleSetResourceCrud struct {
 	WorkRequest            *oci_load_balancer.WorkRequest
 }
 
-func (s *RuleSetResourceCrud) ID() string {
+func (s *LoadBalancerRuleSetResourceCrud) ID() string {
 	if s.WorkRequest != nil {
 		if s.WorkRequest.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
 			return getRuleSetCompositeId(s.D.Get("load_balancer_id").(string), s.D.Get("name").(string))
@@ -151,35 +151,35 @@ func (s *RuleSetResourceCrud) ID() string {
 	return ""
 }
 
-func (s *RuleSetResourceCrud) CreatedPending() []string {
+func (s *LoadBalancerRuleSetResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *RuleSetResourceCrud) CreatedTarget() []string {
+func (s *LoadBalancerRuleSetResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *RuleSetResourceCrud) DeletedPending() []string {
+func (s *LoadBalancerRuleSetResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
 		string(oci_load_balancer.WorkRequestLifecycleStateAccepted),
 	}
 }
 
-func (s *RuleSetResourceCrud) DeletedTarget() []string {
+func (s *LoadBalancerRuleSetResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_load_balancer.WorkRequestLifecycleStateSucceeded),
 		string(oci_load_balancer.WorkRequestLifecycleStateFailed),
 	}
 }
 
-func (s *RuleSetResourceCrud) Create() error {
+func (s *LoadBalancerRuleSetResourceCrud) Create() error {
 	request := oci_load_balancer.CreateRuleSetRequest{}
 
 	request.Items = []oci_load_balancer.Rule{}
@@ -232,7 +232,7 @@ func (s *RuleSetResourceCrud) Create() error {
 	return nil
 }
 
-func (s *RuleSetResourceCrud) Get() error {
+func (s *LoadBalancerRuleSetResourceCrud) Get() error {
 	_, stillWorking, err := LoadBalancerResourceGet(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
@@ -273,7 +273,7 @@ func (s *RuleSetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *RuleSetResourceCrud) Update() error {
+func (s *LoadBalancerRuleSetResourceCrud) Update() error {
 	request := oci_load_balancer.UpdateRuleSetRequest{}
 
 	request.Items = []oci_load_balancer.Rule{}
@@ -327,7 +327,7 @@ func (s *RuleSetResourceCrud) Update() error {
 	return s.Get()
 }
 
-func (s *RuleSetResourceCrud) Delete() error {
+func (s *LoadBalancerRuleSetResourceCrud) Delete() error {
 	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
 		return nil
 	}
@@ -363,7 +363,7 @@ func (s *RuleSetResourceCrud) Delete() error {
 	return nil
 }
 
-func (s *RuleSetResourceCrud) SetData() error {
+func (s *LoadBalancerRuleSetResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -409,7 +409,7 @@ func parseRuleSetCompositeId(compositeId string) (loadBalancerId string, name st
 	return
 }
 
-func (s *RuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_load_balancer.Rule, error) {
+func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_load_balancer.Rule, error) {
 	var baseObject oci_load_balancer.Rule
 	//discriminator
 	actionRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action"))

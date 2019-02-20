@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 data "oci_identity_availability_domains" "test_availability_domains" {
   compartment_id = "${var.compartment_ocid}"
 }

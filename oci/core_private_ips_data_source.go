@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func PrivateIpsDataSource() *schema.Resource {
+func CorePrivateIpsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readPrivateIps,
+		Read: readCorePrivateIps,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"ip_address": {
@@ -29,31 +29,31 @@ func PrivateIpsDataSource() *schema.Resource {
 			"private_ips": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(PrivateIpResource()),
+				Elem:     GetDataSourceItemSchema(CorePrivateIpResource()),
 			},
 		},
 	}
 }
 
-func readPrivateIps(d *schema.ResourceData, m interface{}) error {
-	sync := &PrivateIpsDataSourceCrud{}
+func readCorePrivateIps(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePrivateIpsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type PrivateIpsDataSourceCrud struct {
+type CorePrivateIpsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListPrivateIpsResponse
 }
 
-func (s *PrivateIpsDataSourceCrud) VoidState() {
+func (s *CorePrivateIpsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PrivateIpsDataSourceCrud) Get() error {
+func (s *CorePrivateIpsDataSourceCrud) Get() error {
 	request := oci_core.ListPrivateIpsRequest{}
 
 	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
@@ -94,7 +94,7 @@ func (s *PrivateIpsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PrivateIpsDataSourceCrud) SetData() error {
+func (s *CorePrivateIpsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -155,7 +155,7 @@ func (s *PrivateIpsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, PrivateIpsDataSource().Schema["private_ips"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CorePrivateIpsDataSource().Schema["private_ips"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("private_ips", resources); err != nil {

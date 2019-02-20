@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VirtualCircuitDataSource() *schema.Resource {
+func CoreVirtualCircuitDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularVirtualCircuit,
+		Read: readSingularCoreVirtualCircuit,
 		Schema: map[string]*schema.Schema{
 			"virtual_circuit_id": {
 				Type:     schema.TypeString,
@@ -142,25 +142,25 @@ func VirtualCircuitDataSource() *schema.Resource {
 	}
 }
 
-func readSingularVirtualCircuit(d *schema.ResourceData, m interface{}) error {
-	sync := &VirtualCircuitDataSourceCrud{}
+func readSingularCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVirtualCircuitDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type VirtualCircuitDataSourceCrud struct {
+type CoreVirtualCircuitDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.GetVirtualCircuitResponse
 }
 
-func (s *VirtualCircuitDataSourceCrud) VoidState() {
+func (s *CoreVirtualCircuitDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VirtualCircuitDataSourceCrud) Get() error {
+func (s *CoreVirtualCircuitDataSourceCrud) Get() error {
 	request := oci_core.GetVirtualCircuitRequest{}
 
 	if virtualCircuitId, ok := s.D.GetOkExists("virtual_circuit_id"); ok {
@@ -179,7 +179,7 @@ func (s *VirtualCircuitDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VirtualCircuitDataSourceCrud) SetData() error {
+func (s *CoreVirtualCircuitDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

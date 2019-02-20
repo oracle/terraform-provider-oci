@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDatabaseBackupsDataSource() *schema.Resource {
+func DatabaseAutonomousDatabaseBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAutonomousDatabaseBackups,
+		Read: readDatabaseAutonomousDatabaseBackups,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"autonomous_database_id": {
@@ -33,31 +33,31 @@ func AutonomousDatabaseBackupsDataSource() *schema.Resource {
 			"autonomous_database_backups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(AutonomousDatabaseBackupResource()),
+				Elem:     GetDataSourceItemSchema(DatabaseAutonomousDatabaseBackupResource()),
 			},
 		},
 	}
 }
 
-func readAutonomousDatabaseBackups(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDatabaseBackupsDataSourceCrud{}
+func readDatabaseAutonomousDatabaseBackups(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDatabaseBackupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type AutonomousDatabaseBackupsDataSourceCrud struct {
+type DatabaseAutonomousDatabaseBackupsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListAutonomousDatabaseBackupsResponse
 }
 
-func (s *AutonomousDatabaseBackupsDataSourceCrud) VoidState() {
+func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AutonomousDatabaseBackupsDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) Get() error {
 	request := oci_database.ListAutonomousDatabaseBackupsRequest{}
 
 	if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
@@ -102,7 +102,7 @@ func (s *AutonomousDatabaseBackupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutonomousDatabaseBackupsDataSourceCrud) SetData() error {
+func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -153,7 +153,7 @@ func (s *AutonomousDatabaseBackupsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AutonomousDatabaseBackupsDataSource().Schema["autonomous_database_backups"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DatabaseAutonomousDatabaseBackupsDataSource().Schema["autonomous_database_backups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("autonomous_database_backups", resources); err != nil {

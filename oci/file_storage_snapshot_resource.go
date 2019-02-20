@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,16 +10,16 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-func SnapshotResource() *schema.Resource {
+func FileStorageSnapshotResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createSnapshot,
-		Read:     readSnapshot,
-		Update:   updateSnapshot,
-		Delete:   deleteSnapshot,
+		Create:   createFileStorageSnapshot,
+		Read:     readFileStorageSnapshot,
+		Update:   updateFileStorageSnapshot,
+		Delete:   deleteFileStorageSnapshot,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"file_system_id": {
@@ -61,32 +61,32 @@ func SnapshotResource() *schema.Resource {
 	}
 }
 
-func createSnapshot(d *schema.ResourceData, m interface{}) error {
-	sync := &SnapshotResourceCrud{}
+func createFileStorageSnapshot(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageSnapshotResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readSnapshot(d *schema.ResourceData, m interface{}) error {
-	sync := &SnapshotResourceCrud{}
+func readFileStorageSnapshot(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageSnapshotResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return ReadResource(sync)
 }
 
-func updateSnapshot(d *schema.ResourceData, m interface{}) error {
-	sync := &SnapshotResourceCrud{}
+func updateFileStorageSnapshot(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageSnapshotResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteSnapshot(d *schema.ResourceData, m interface{}) error {
-	sync := &SnapshotResourceCrud{}
+func deleteFileStorageSnapshot(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageSnapshotResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 	sync.DisableNotFoundRetries = true
@@ -94,42 +94,42 @@ func deleteSnapshot(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type SnapshotResourceCrud struct {
+type FileStorageSnapshotResourceCrud struct {
 	BaseCrud
 	Client                 *oci_file_storage.FileStorageClient
 	Res                    *oci_file_storage.Snapshot
 	DisableNotFoundRetries bool
 }
 
-func (s *SnapshotResourceCrud) ID() string {
+func (s *FileStorageSnapshotResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *SnapshotResourceCrud) CreatedPending() []string {
+func (s *FileStorageSnapshotResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_file_storage.SnapshotLifecycleStateCreating),
 	}
 }
 
-func (s *SnapshotResourceCrud) CreatedTarget() []string {
+func (s *FileStorageSnapshotResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_file_storage.SnapshotLifecycleStateActive),
 	}
 }
 
-func (s *SnapshotResourceCrud) DeletedPending() []string {
+func (s *FileStorageSnapshotResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_file_storage.SnapshotLifecycleStateDeleting),
 	}
 }
 
-func (s *SnapshotResourceCrud) DeletedTarget() []string {
+func (s *FileStorageSnapshotResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_file_storage.SnapshotLifecycleStateDeleted),
 	}
 }
 
-func (s *SnapshotResourceCrud) Create() error {
+func (s *FileStorageSnapshotResourceCrud) Create() error {
 	request := oci_file_storage.CreateSnapshotRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -165,7 +165,7 @@ func (s *SnapshotResourceCrud) Create() error {
 	return nil
 }
 
-func (s *SnapshotResourceCrud) Get() error {
+func (s *FileStorageSnapshotResourceCrud) Get() error {
 	request := oci_file_storage.GetSnapshotRequest{}
 
 	tmp := s.D.Id()
@@ -182,7 +182,7 @@ func (s *SnapshotResourceCrud) Get() error {
 	return nil
 }
 
-func (s *SnapshotResourceCrud) Update() error {
+func (s *FileStorageSnapshotResourceCrud) Update() error {
 	request := oci_file_storage.UpdateSnapshotRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -211,7 +211,7 @@ func (s *SnapshotResourceCrud) Update() error {
 	return nil
 }
 
-func (s *SnapshotResourceCrud) Delete() error {
+func (s *FileStorageSnapshotResourceCrud) Delete() error {
 	request := oci_file_storage.DeleteSnapshotRequest{}
 
 	tmp := s.D.Id()
@@ -223,7 +223,7 @@ func (s *SnapshotResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SnapshotResourceCrud) SetData() error {
+func (s *FileStorageSnapshotResourceCrud) SetData() error {
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}

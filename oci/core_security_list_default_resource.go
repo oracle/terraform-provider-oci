@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -12,8 +12,8 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func DefaultSecurityListResource() *schema.Resource {
-	defaultResourceSchema := ConvertToDefaultVcnResourceSchema(SecurityListResource())
+func CoreDefaultSecurityListResource() *schema.Resource {
+	defaultResourceSchema := ConvertToDefaultVcnResourceSchema(CoreSecurityListResource())
 
 	defaultResourceSchema.Create = createDefaultSecurityList
 	defaultResourceSchema.Delete = deleteDefaultSecurityList
@@ -22,7 +22,7 @@ func DefaultSecurityListResource() *schema.Resource {
 }
 
 type DefaultSecurityListResourceCrud struct {
-	SecurityListResourceCrud
+	CoreSecurityListResourceCrud
 }
 
 func createDefaultSecurityList(d *schema.ResourceData, m interface{}) error {

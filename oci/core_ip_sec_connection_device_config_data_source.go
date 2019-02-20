@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func IpSecConnectionDeviceConfigDataSource() *schema.Resource {
+func CoreIpSecConnectionDeviceConfigDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularIpSecConnectionDeviceConfig,
+		Read: readSingularCoreIpSecConnectionDeviceConfig,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"ipsec_id": {
@@ -51,25 +51,25 @@ func IpSecConnectionDeviceConfigDataSource() *schema.Resource {
 	}
 }
 
-func readSingularIpSecConnectionDeviceConfig(d *schema.ResourceData, m interface{}) error {
-	sync := &IpSecConnectionDeviceConfigDataSourceCrud{}
+func readSingularCoreIpSecConnectionDeviceConfig(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreIpSecConnectionDeviceConfigDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type IpSecConnectionDeviceConfigDataSourceCrud struct {
+type CoreIpSecConnectionDeviceConfigDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.GetIPSecConnectionDeviceConfigResponse
 }
 
-func (s *IpSecConnectionDeviceConfigDataSourceCrud) VoidState() {
+func (s *CoreIpSecConnectionDeviceConfigDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *IpSecConnectionDeviceConfigDataSourceCrud) Get() error {
+func (s *CoreIpSecConnectionDeviceConfigDataSourceCrud) Get() error {
 	request := oci_core.GetIPSecConnectionDeviceConfigRequest{}
 
 	if ipsecId, ok := s.D.GetOkExists("ipsec_id"); ok {
@@ -88,7 +88,7 @@ func (s *IpSecConnectionDeviceConfigDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *IpSecConnectionDeviceConfigDataSourceCrud) SetData() error {
+func (s *CoreIpSecConnectionDeviceConfigDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -109,7 +109,7 @@ func (s *IpSecConnectionDeviceConfigDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		tunnels = ApplyFilters(f.(*schema.Set), tunnels, IpSecConnectionDeviceConfigDataSource().Schema["tunnels"].Elem.(*schema.Resource).Schema)
+		tunnels = ApplyFilters(f.(*schema.Set), tunnels, CoreIpSecConnectionDeviceConfigDataSource().Schema["tunnels"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("tunnels", tunnels); err != nil {

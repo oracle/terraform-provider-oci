@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/email"
 )
 
-func SendersDataSource() *schema.Resource {
+func EmailSendersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSenders,
+		Read: readEmailSenders,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -29,31 +29,31 @@ func SendersDataSource() *schema.Resource {
 			"senders": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(SenderResource()),
+				Elem:     GetDataSourceItemSchema(EmailSenderResource()),
 			},
 		},
 	}
 }
 
-func readSenders(d *schema.ResourceData, m interface{}) error {
-	sync := &SendersDataSourceCrud{}
+func readEmailSenders(d *schema.ResourceData, m interface{}) error {
+	sync := &EmailSendersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
 	return ReadResource(sync)
 }
 
-type SendersDataSourceCrud struct {
+type EmailSendersDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_email.EmailClient
 	Res    *oci_email.ListSendersResponse
 }
 
-func (s *SendersDataSourceCrud) VoidState() {
+func (s *EmailSendersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SendersDataSourceCrud) Get() error {
+func (s *EmailSendersDataSourceCrud) Get() error {
 	request := oci_email.ListSendersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -93,7 +93,7 @@ func (s *SendersDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SendersDataSourceCrud) SetData() error {
+func (s *EmailSendersDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -104,9 +104,15 @@ func (s *SendersDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		sender := map[string]interface{}{}
 
+		if r.DefinedTags != nil {
+			sender["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.EmailAddress != nil {
 			sender["email_address"] = *r.EmailAddress
 		}
+
+		sender["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			sender["id"] = *r.Id
@@ -122,7 +128,7 @@ func (s *SendersDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, SendersDataSource().Schema["senders"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, EmailSendersDataSource().Schema["senders"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("senders", resources); err != nil {

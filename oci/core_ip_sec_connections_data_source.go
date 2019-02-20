@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func IpSecConnectionsDataSource() *schema.Resource {
+func CoreIpSecConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readIpSecConnections,
+		Read: readCoreIpSecConnections,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -29,7 +29,7 @@ func IpSecConnectionsDataSource() *schema.Resource {
 			"connections": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IpSecConnectionResource()),
+				Elem:     GetDataSourceItemSchema(CoreIpSecConnectionResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -45,25 +45,25 @@ func IpSecConnectionsDataSource() *schema.Resource {
 	}
 }
 
-func readIpSecConnections(d *schema.ResourceData, m interface{}) error {
-	sync := &IpSecConnectionsDataSourceCrud{}
+func readCoreIpSecConnections(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreIpSecConnectionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type IpSecConnectionsDataSourceCrud struct {
+type CoreIpSecConnectionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListIPSecConnectionsResponse
 }
 
-func (s *IpSecConnectionsDataSourceCrud) VoidState() {
+func (s *CoreIpSecConnectionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *IpSecConnectionsDataSourceCrud) Get() error {
+func (s *CoreIpSecConnectionsDataSourceCrud) Get() error {
 	request := oci_core.ListIPSecConnectionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -114,7 +114,7 @@ func (s *IpSecConnectionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *IpSecConnectionsDataSourceCrud) SetData() error {
+func (s *CoreIpSecConnectionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -161,7 +161,7 @@ func (s *IpSecConnectionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IpSecConnectionsDataSource().Schema["connections"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreIpSecConnectionsDataSource().Schema["connections"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("connections", resources); err != nil {

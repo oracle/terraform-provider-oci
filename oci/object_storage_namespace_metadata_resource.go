@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,7 +9,7 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-func NamespaceMetadataResource() *schema.Resource {
+func ObjectStorageNamespaceMetadataResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
 		Create:   readNamespaceMetadata,

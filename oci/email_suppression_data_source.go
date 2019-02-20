@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,15 +9,19 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/email"
 )
 
-func SuppressionDataSource() *schema.Resource {
+func EmailSuppressionDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularSuppression,
+		Read: readSingularEmailSuppression,
 		Schema: map[string]*schema.Schema{
 			"suppression_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
 			// Computed
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"email_address": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -34,25 +38,25 @@ func SuppressionDataSource() *schema.Resource {
 	}
 }
 
-func readSingularSuppression(d *schema.ResourceData, m interface{}) error {
-	sync := &SuppressionDataSourceCrud{}
+func readSingularEmailSuppression(d *schema.ResourceData, m interface{}) error {
+	sync := &EmailSuppressionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
 	return ReadResource(sync)
 }
 
-type SuppressionDataSourceCrud struct {
+type EmailSuppressionDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_email.EmailClient
 	Res    *oci_email.GetSuppressionResponse
 }
 
-func (s *SuppressionDataSourceCrud) VoidState() {
+func (s *EmailSuppressionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SuppressionDataSourceCrud) Get() error {
+func (s *EmailSuppressionDataSourceCrud) Get() error {
 	request := oci_email.GetSuppressionRequest{}
 
 	if suppressionId, ok := s.D.GetOkExists("suppression_id"); ok {
@@ -71,12 +75,16 @@ func (s *SuppressionDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SuppressionDataSourceCrud) SetData() error {
+func (s *EmailSuppressionDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
 
 	if s.Res.EmailAddress != nil {
 		s.D.Set("email_address", *s.Res.EmailAddress)

@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 /* This example demonstrates object store object management. It uses Terraforms built-in `file` function to upload a file.
  * 
  * WARNING: This should only be used with small files. The file helper does stringification so large files
@@ -52,6 +54,21 @@ data "oci_objectstorage_object_head" "source-object-head" {
 data "oci_objectstorage_objects" "objects1" {
   namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
   bucket    = "${oci_objectstorage_bucket.bucket1.name}"
+}
+
+data "oci_objectstorage_object" "object" {
+  namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket    = "${oci_objectstorage_bucket.bucket1.name}"
+  object    = "index.html"
+}
+
+output object-data {
+  value = <<EOF
+
+  content = ${data.oci_objectstorage_object.object.content}
+  content-length = ${data.oci_objectstorage_object.object.content_length}
+  content-type = ${data.oci_objectstorage_object.object.content_type}
+EOF
 }
 
 output object-head-data {

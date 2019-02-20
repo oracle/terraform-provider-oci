@@ -1,10 +1,11 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -13,7 +14,7 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func CompartmentResource() *schema.Resource {
+func IdentityCompartmentResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
@@ -21,10 +22,10 @@ func CompartmentResource() *schema.Resource {
 		Timeouts: &schema.ResourceTimeout{
 			Delete: schema.DefaultTimeout(90 * time.Minute), // service team states: p50: 30 min, p90: 60 min, max: 180 min
 		},
-		Create: createCompartment,
-		Read:   readCompartment,
-		Update: updateCompartment,
-		Delete: deleteCompartment,
+		Create: createIdentityCompartment,
+		Read:   readIdentityCompartment,
+		Update: updateIdentityCompartment,
+		Delete: deleteIdentityCompartment,
 		Schema: map[string]*schema.Schema{
 			// Required
 			// @next-break: remove customizations
@@ -92,8 +93,8 @@ func CompartmentResource() *schema.Resource {
 	}
 }
 
-func createCompartment(d *schema.ResourceData, m interface{}) error {
-	sync := &CompartmentResourceCrud{}
+func createIdentityCompartment(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.Configuration = m.(*OracleClients).configuration
@@ -101,28 +102,28 @@ func createCompartment(d *schema.ResourceData, m interface{}) error {
 	return CreateResource(d, sync)
 }
 
-func readCompartment(d *schema.ResourceData, m interface{}) error {
-	sync := &CompartmentResourceCrud{}
+func readIdentityCompartment(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateCompartment(d *schema.ResourceData, m interface{}) error {
-	sync := &CompartmentResourceCrud{}
+func updateIdentityCompartment(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteCompartment(d *schema.ResourceData, m interface{}) error {
+func deleteIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 	if enableDelete, ok := d.GetOkExists("enable_delete"); !ok || !enableDelete.(bool) {
 		return nil
 	}
 
-	sync := &CompartmentResourceCrud{}
+	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -130,7 +131,7 @@ func deleteCompartment(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type CompartmentResourceCrud struct {
+type IdentityCompartmentResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Configuration          map[string]string
@@ -138,35 +139,35 @@ type CompartmentResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-func (s *CompartmentResourceCrud) ID() string {
+func (s *IdentityCompartmentResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *CompartmentResourceCrud) CreatedPending() []string {
+func (s *IdentityCompartmentResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.CompartmentLifecycleStateCreating),
 	}
 }
 
-func (s *CompartmentResourceCrud) CreatedTarget() []string {
+func (s *IdentityCompartmentResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.CompartmentLifecycleStateActive),
 	}
 }
 
-func (s *CompartmentResourceCrud) DeletedPending() []string {
+func (s *IdentityCompartmentResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.CompartmentLifecycleStateDeleting),
 	}
 }
 
-func (s *CompartmentResourceCrud) DeletedTarget() []string {
+func (s *IdentityCompartmentResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.CompartmentLifecycleStateDeleted),
 	}
 }
 
-func (s *CompartmentResourceCrud) Create() error {
+func (s *IdentityCompartmentResourceCrud) Create() error {
 	request := oci_identity.CreateCompartmentRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -175,9 +176,9 @@ func (s *CompartmentResourceCrud) Create() error {
 	} else { // @next-break: remove
 		// Prevent potentially inferring wrong TenancyOCID from InstancePrincipal
 		if auth := s.Configuration["auth"]; strings.ToLower(auth) == strings.ToLower(authInstancePrincipalSetting) {
-			return fmt.Errorf("compartment_id must be specified for this resource")
+			return fmt.Errorf("compartment_id must be specified for this resource when using with auth as '%s'", authInstancePrincipalSetting)
 		}
-		// Maintain legacy contract of compartment_id defaulting to tenancy ocid if not specified
+		// Maintain legacy contract of compartment_id defaulting to tenancy_ocid if not specified
 		c := *s.Client.ConfigurationProvider()
 		if c == nil {
 			return fmt.Errorf("cannot access tenancyOCID")
@@ -217,48 +218,54 @@ func (s *CompartmentResourceCrud) Create() error {
 	if err != nil {
 		if response.RawResponse != nil && response.RawResponse.StatusCode == 409 {
 
-			// It was determined that not enabling delete should also preserve the implicit importing behavior
-			if enableDelete, ok := s.D.GetOkExists("enable_delete"); !ok || !enableDelete.(bool) {
-
-				// React to name collisions by basically importing that pre-existing compartment into this plan.
-				if strings.Contains(err.Error(), "already exists") ||
-					strings.Contains(err.Error(), "Maximum number of compartment") {
-					// List all compartments using the datasource to find that compartment with the matching name.
-					// CompartmentsDataSourceCrud requires a compartment_id, so forward whatever value was used in
-					// the create attempt above.
-					s.D.Set("compartment_id", request.CompartmentId)
-					dsCrud := &CompartmentsDataSourceCrud{s.D, s.Client, nil}
-					if err := dsCrud.Get(); err != nil {
-						return err
-					}
-
-					for _, compartment := range dsCrud.Res.Items {
-						if *compartment.Name == *request.Name {
-							s.Res = &compartment
-							//Update with correct description
-							s.D.SetId(s.ID())
-							return s.Update()
-						}
-					}
-				}
-
-			} else {
+			// Return an error if 'enable_delete' was explicitly set to 'true' in case of automatic import on conflict
+			if enableDelete, ok := s.D.GetOkExists("enable_delete"); ok && enableDelete.(bool) {
 				return fmt.Errorf(`%s
 
 If you define a compartment resource in your configurations with 
-the same name as an existing compartment, the compartment will no
-longer be transparently imported. If you intended to manage 
-an existing compartment, use terraform import instead.`, err)
+the same name as an existing compartment with 'enable_delete' set to 'true', 
+the compartment will no longer be automatically imported. 
+If you intended to manage an existing compartment, use terraform import instead.`, err)
+			}
+
+			// React to name collisions or conflict errors by importing pre-existing compartment into this plan if the name matches.
+			if strings.Contains(err.Error(), "already exists") ||
+				strings.Contains(err.Error(), "Maximum number of compartment") {
+				// List all compartments using the datasource to find that compartment with the matching name.
+				// CompartmentsDataSourceCrud requires a compartment_id, so forward whatever value was used in
+				// the create attempt above.
+				s.D.Set("compartment_id", request.CompartmentId)
+				log.Println(fmt.Sprintf("[DEBUG] The specified compartment with name '%s' may already exist, listing compartments to lookup with name instead.",
+					*request.Name))
+				dsCrud := &IdentityCompartmentsDataSourceCrud{s.D, s.Client, nil}
+				if err := dsCrud.Get(); err != nil {
+					return err
+				}
+
+				for _, compartment := range dsCrud.Res.Items {
+					if *compartment.Name == *request.Name {
+						s.Res = &compartment
+						//Update with correct description
+						s.D.SetId(s.ID())
+						return s.Update()
+					}
+				}
+				// Return an error if the lookup failed, to provide user with information on which compartment id and name were used for lookup
+				return fmt.Errorf(`%s
+
+failed to lookup the compartment with name: '%s' in compartment_id: '%s'.
+Verify your configuration if the correct 'compartment_id' and 'name' were specified.
+In most cases, the 'compartment_id' will be your 'tenancy_ocid' with the exception of nested compartments.
+Refer to the 'oci_identity_compartment' documentation for more information.`, err, *request.Name, *request.CompartmentId)
 			}
 		}
 		return err
 	}
-
 	s.Res = &response.Compartment
 	return nil
 }
 
-func (s *CompartmentResourceCrud) Get() error {
+func (s *IdentityCompartmentResourceCrud) Get() error {
 	request := oci_identity.GetCompartmentRequest{}
 
 	tmp := s.D.Id()
@@ -275,7 +282,7 @@ func (s *CompartmentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CompartmentResourceCrud) Update() error {
+func (s *IdentityCompartmentResourceCrud) Update() error {
 	request := oci_identity.UpdateCompartmentRequest{}
 
 	tmp := s.D.Id()
@@ -314,7 +321,7 @@ func (s *CompartmentResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CompartmentResourceCrud) Delete() error {
+func (s *IdentityCompartmentResourceCrud) Delete() error {
 	request := oci_identity.DeleteCompartmentRequest{}
 
 	tmp := s.D.Id()
@@ -326,7 +333,7 @@ func (s *CompartmentResourceCrud) Delete() error {
 	return err
 }
 
-func (s *CompartmentResourceCrud) SetData() error {
+func (s *IdentityCompartmentResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

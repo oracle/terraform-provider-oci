@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -27,7 +27,6 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIdentityUserCapabilitiesManagement_basic() {
-	var resId string
 	_, tokenFn := tokenize()
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -57,10 +56,6 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIde
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_console_password", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_customer_secret_keys", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_smtp_credentials", "false"),
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_identity_user_capabilities_management.t", "id")
-						return err
-					},
 				),
 			},
 			// verify update with capabilities all as true
@@ -88,10 +83,6 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIde
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_console_password", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_customer_secret_keys", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_smtp_credentials", "true"),
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, "oci_identity_user_capabilities_management.t", "id")
-						return err
-					},
 				),
 			},
 		},

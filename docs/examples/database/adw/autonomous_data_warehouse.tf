@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 resource "random_string" "autonomous_data_warehouse_admin_password" {
   length  = 16
   special = true

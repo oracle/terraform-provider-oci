@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -17,16 +17,16 @@ const (
 	instancePoolStoppedState = "stopped"
 )
 
-func InstancePoolResource() *schema.Resource {
+func CoreInstancePoolResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createInstancePool,
-		Read:     readInstancePool,
-		Update:   updateInstancePool,
-		Delete:   deleteInstancePool,
+		Create:   createCoreInstancePool,
+		Read:     readCoreInstancePool,
+		Update:   updateCoreInstancePool,
+		Delete:   deleteCoreInstancePool,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -126,32 +126,32 @@ func InstancePoolResource() *schema.Resource {
 	}
 }
 
-func createInstancePool(d *schema.ResourceData, m interface{}) error {
-	sync := &InstancePoolResourceCrud{}
+func createCoreInstancePool(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstancePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient
 
 	return CreateResource(d, sync)
 }
 
-func readInstancePool(d *schema.ResourceData, m interface{}) error {
-	sync := &InstancePoolResourceCrud{}
+func readCoreInstancePool(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstancePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient
 
 	return ReadResource(sync)
 }
 
-func updateInstancePool(d *schema.ResourceData, m interface{}) error {
-	sync := &InstancePoolResourceCrud{}
+func updateCoreInstancePool(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstancePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteInstancePool(d *schema.ResourceData, m interface{}) error {
-	sync := &InstancePoolResourceCrud{}
+func deleteCoreInstancePool(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstancePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient
 	sync.DisableNotFoundRetries = true
@@ -159,18 +159,18 @@ func deleteInstancePool(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type InstancePoolResourceCrud struct {
+type CoreInstancePoolResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.ComputeManagementClient
 	Res                    *oci_core.InstancePool
 	DisableNotFoundRetries bool
 }
 
-func (s *InstancePoolResourceCrud) ID() string {
+func (s *CoreInstancePoolResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *InstancePoolResourceCrud) CreatedPending() []string {
+func (s *CoreInstancePoolResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.InstancePoolLifecycleStateProvisioning),
 		string(oci_core.InstancePoolLifecycleStateScaling),
@@ -179,26 +179,26 @@ func (s *InstancePoolResourceCrud) CreatedPending() []string {
 	}
 }
 
-func (s *InstancePoolResourceCrud) CreatedTarget() []string {
+func (s *CoreInstancePoolResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.InstancePoolLifecycleStateRunning),
 		string(oci_core.InstancePoolLifecycleStateStopped),
 	}
 }
 
-func (s *InstancePoolResourceCrud) DeletedPending() []string {
+func (s *CoreInstancePoolResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.InstancePoolLifecycleStateTerminating),
 	}
 }
 
-func (s *InstancePoolResourceCrud) DeletedTarget() []string {
+func (s *CoreInstancePoolResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.InstancePoolLifecycleStateTerminated),
 	}
 }
 
-func (s *InstancePoolResourceCrud) UpdatedPending() []string {
+func (s *CoreInstancePoolResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_core.InstancePoolLifecycleStateProvisioning),
 		string(oci_core.InstancePoolLifecycleStateScaling),
@@ -207,14 +207,14 @@ func (s *InstancePoolResourceCrud) UpdatedPending() []string {
 	}
 }
 
-func (s *InstancePoolResourceCrud) UpdatedTarget() []string {
+func (s *CoreInstancePoolResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_core.InstancePoolLifecycleStateStopped),
 		string(oci_core.InstancePoolLifecycleStateRunning),
 	}
 }
 
-func (s *InstancePoolResourceCrud) Create() error {
+func (s *CoreInstancePoolResourceCrud) Create() error {
 	request := oci_core.CreateInstancePoolRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -287,7 +287,7 @@ func (s *InstancePoolResourceCrud) Create() error {
 	return nil
 }
 
-func (s *InstancePoolResourceCrud) setInstancePoolDesiredState(instancePoolId *string, desiredState string) (*oci_core.InstancePool, error) {
+func (s *CoreInstancePoolResourceCrud) setInstancePoolDesiredState(instancePoolId *string, desiredState string) (*oci_core.InstancePool, error) {
 	switch strings.ToLower(desiredState) {
 	case instancePoolRunningState:
 		startRequest := oci_core.StartInstancePoolRequest{}
@@ -311,7 +311,7 @@ func (s *InstancePoolResourceCrud) setInstancePoolDesiredState(instancePoolId *s
 
 }
 
-func (s *InstancePoolResourceCrud) Get() error {
+func (s *CoreInstancePoolResourceCrud) Get() error {
 	request := oci_core.GetInstancePoolRequest{}
 
 	tmp := s.D.Id()
@@ -328,7 +328,7 @@ func (s *InstancePoolResourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstancePoolResourceCrud) Update() error {
+func (s *CoreInstancePoolResourceCrud) Update() error {
 	request := oci_core.UpdateInstancePoolRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -399,7 +399,7 @@ func (s *InstancePoolResourceCrud) Update() error {
 	return nil
 }
 
-func (s *InstancePoolResourceCrud) Delete() error {
+func (s *CoreInstancePoolResourceCrud) Delete() error {
 	request := oci_core.TerminateInstancePoolRequest{}
 
 	tmp := s.D.Id()
@@ -411,7 +411,7 @@ func (s *InstancePoolResourceCrud) Delete() error {
 	return err
 }
 
-func (s *InstancePoolResourceCrud) SetData() error {
+func (s *CoreInstancePoolResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -449,7 +449,7 @@ func (s *InstancePoolResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *InstancePoolResourceCrud) mapToCreateInstancePoolPlacementConfigurationDetails(fieldKeyFormat string) (oci_core.CreateInstancePoolPlacementConfigurationDetails, error) {
+func (s *CoreInstancePoolResourceCrud) mapToCreateInstancePoolPlacementConfigurationDetails(fieldKeyFormat string) (oci_core.CreateInstancePoolPlacementConfigurationDetails, error) {
 	result := oci_core.CreateInstancePoolPlacementConfigurationDetails{}
 
 	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
@@ -480,7 +480,7 @@ func (s *InstancePoolResourceCrud) mapToCreateInstancePoolPlacementConfiguration
 	return result, nil
 }
 
-func (s *InstancePoolResourceCrud) mapToUpdateInstancePoolPlacementConfigurationDetails(fieldKeyFormat string) (oci_core.UpdateInstancePoolPlacementConfigurationDetails, error) {
+func (s *CoreInstancePoolResourceCrud) mapToUpdateInstancePoolPlacementConfigurationDetails(fieldKeyFormat string) (oci_core.UpdateInstancePoolPlacementConfigurationDetails, error) {
 	result := oci_core.UpdateInstancePoolPlacementConfigurationDetails{}
 
 	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
@@ -531,7 +531,7 @@ func InstancePoolPlacementConfigurationToMap(obj oci_core.InstancePoolPlacementC
 	return result
 }
 
-func (s *InstancePoolResourceCrud) mapToInstancePoolPlacementSecondaryVnicSubnet(fieldKeyFormat string) (oci_core.InstancePoolPlacementSecondaryVnicSubnet, error) {
+func (s *CoreInstancePoolResourceCrud) mapToInstancePoolPlacementSecondaryVnicSubnet(fieldKeyFormat string) (oci_core.InstancePoolPlacementSecondaryVnicSubnet, error) {
 	result := oci_core.InstancePoolPlacementSecondaryVnicSubnet{}
 
 	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {

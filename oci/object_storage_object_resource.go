@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -24,16 +24,16 @@ const (
 	ObjIdPrefix = "tfobm-object-"
 )
 
-func ObjectResource() *schema.Resource {
+func ObjectStorageObjectResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createObject,
-		Read:     readObject,
-		Update:   updateObject,
-		Delete:   deleteObject,
+		Create:   createObjectStorageObject,
+		Read:     readObjectStorageObject,
+		Update:   updateObjectStorageObject,
+		Delete:   deleteObjectStorageObject,
 		Schema: map[string]*schema.Schema{
 			// @CODEGEN 2/2018:
 			// Previous provider doesn't provide an Update method and sets all non-Computed fields to ForceNew.
@@ -189,8 +189,8 @@ func ObjectResource() *schema.Resource {
 	}
 }
 
-func createObject(d *schema.ResourceData, m interface{}) error {
-	sync := &ObjectResourceCrud{}
+func createObjectStorageObject(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageObjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
@@ -208,7 +208,7 @@ func setSourceState(source interface{}) string {
 	return sourcePath + " " + sourceInfo.ModTime().String()
 }
 
-func (s *ObjectResourceCrud) createMultiPartObject() error {
+func (s *ObjectStorageObjectResourceCrud) createMultiPartObject() error {
 	multipartUploadData := MultipartUploadData{}
 
 	source, ok := s.D.GetOkExists("source")
@@ -275,7 +275,7 @@ func (s *ObjectResourceCrud) createMultiPartObject() error {
 	return s.Get()
 }
 
-func (s *ObjectResourceCrud) createCopyObject() error {
+func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 
 	copyObjectRequest := oci_object_storage.CopyObjectRequest{}
 
@@ -397,24 +397,24 @@ func (s *ObjectResourceCrud) createCopyObject() error {
 	return s.Get()
 }
 
-func readObject(d *schema.ResourceData, m interface{}) error {
-	sync := &ObjectResourceCrud{}
+func readObjectStorageObject(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageObjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return ReadResource(sync)
 }
 
-func updateObject(d *schema.ResourceData, m interface{}) error {
-	sync := &ObjectResourceCrud{}
+func updateObjectStorageObject(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageObjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteObject(d *schema.ResourceData, m interface{}) error {
-	sync := &ObjectResourceCrud{}
+func deleteObjectStorageObject(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageObjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 	sync.DisableNotFoundRetries = true
@@ -432,7 +432,7 @@ type ObjectStorageObject struct {
 	LifecycleState     string
 }
 
-type ObjectResourceCrud struct {
+type ObjectStorageObjectResourceCrud struct {
 	BaseCrud
 	Client                 *oci_object_storage.ObjectStorageClient
 	SourceRegionClient     *oci_object_storage.ObjectStorageClient
@@ -462,11 +462,11 @@ func parseId(id string) (namespaceName string, bucketName string, objectName str
 	return
 }
 
-func (s *ObjectResourceCrud) ID() string {
+func (s *ObjectStorageObjectResourceCrud) ID() string {
 	return getId(s.Res.NamespaceName, s.Res.BucketName, s.Res.ObjectName)
 }
 
-func (s *ObjectResourceCrud) Create() error {
+func (s *ObjectStorageObjectResourceCrud) Create() error {
 
 	if s.isCopyCreate() {
 		return s.createCopyObject()
@@ -479,7 +479,7 @@ func (s *ObjectResourceCrud) Create() error {
 	return s.createContentObject()
 }
 
-func (s *ObjectResourceCrud) CreatedPending() []string {
+func (s *ObjectStorageObjectResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_object_storage.WorkRequestStatusAccepted),
 		string(oci_object_storage.WorkRequestStatusInProgress),
@@ -487,7 +487,7 @@ func (s *ObjectResourceCrud) CreatedPending() []string {
 	}
 }
 
-func (s *ObjectResourceCrud) CreatedTarget() []string {
+func (s *ObjectStorageObjectResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_object_storage.WorkRequestSummaryStatusCompleted),
 		string(oci_object_storage.WorkRequestSummaryStatusCanceled),
@@ -495,7 +495,7 @@ func (s *ObjectResourceCrud) CreatedTarget() []string {
 	}
 }
 
-func (s *ObjectResourceCrud) createContentObject() error {
+func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 	request := oci_object_storage.PutObjectRequest{}
 
 	if contentEncoding, ok := s.D.GetOkExists("content_encoding"); ok {
@@ -568,7 +568,7 @@ func (s *ObjectResourceCrud) createContentObject() error {
 	return s.Get()
 }
 
-func (s *ObjectResourceCrud) getObjectHead() error {
+func (s *ObjectStorageObjectResourceCrud) getObjectHead() error {
 
 	headObjectRequest := &oci_object_storage.HeadObjectRequest{}
 
@@ -603,7 +603,7 @@ func (s *ObjectResourceCrud) getObjectHead() error {
 	return nil
 }
 
-func (s *ObjectResourceCrud) updateState() (bool, error) {
+func (s *ObjectStorageObjectResourceCrud) updateState() (bool, error) {
 	if state, ok := s.D.GetOkExists("state"); ok {
 		if state == oci_object_storage.WorkRequestStatusInProgress {
 
@@ -657,17 +657,17 @@ func (s *ObjectResourceCrud) updateState() (bool, error) {
 	return true, nil
 }
 
-func (s *ObjectResourceCrud) shouldUseObjectHeadForGet() bool {
+func (s *ObjectStorageObjectResourceCrud) shouldUseObjectHeadForGet() bool {
 	content, _ := s.D.GetOkExists("content")
 	return content == ""
 }
 
-func (s *ObjectResourceCrud) isMultiPartCreate() bool {
+func (s *ObjectStorageObjectResourceCrud) isMultiPartCreate() bool {
 	source, _ := s.D.GetOkExists("source")
 	return source != ""
 }
 
-func (s *ObjectResourceCrud) isCopyCreate() bool {
+func (s *ObjectStorageObjectResourceCrud) isCopyCreate() bool {
 	if sourceURI, ok := s.D.GetOkExists("source_uri_details"); ok {
 		if tmpList := sourceURI.([]interface{}); len(tmpList) > 0 {
 			return true
@@ -676,7 +676,7 @@ func (s *ObjectResourceCrud) isCopyCreate() bool {
 	return false
 }
 
-func (s *ObjectResourceCrud) Get() error {
+func (s *ObjectStorageObjectResourceCrud) Get() error {
 
 	workRequestFinished, err := s.updateState()
 	if err != nil {
@@ -695,7 +695,7 @@ func (s *ObjectResourceCrud) Get() error {
 	return s.getObject()
 }
 
-func (s *ObjectResourceCrud) getObject() error {
+func (s *ObjectStorageObjectResourceCrud) getObject() error {
 	request := oci_object_storage.GetObjectRequest{}
 
 	namespaceName, bucketName, objectName, err := parseId(s.D.Id())
@@ -733,7 +733,7 @@ func (s *ObjectResourceCrud) getObject() error {
 	return nil
 }
 
-func (s *ObjectResourceCrud) Update() error {
+func (s *ObjectStorageObjectResourceCrud) Update() error {
 	id := s.D.Id()
 	namespaceName, bucketName, objectName, err := parseId(id)
 	if err != nil {
@@ -764,7 +764,7 @@ func (s *ObjectResourceCrud) Update() error {
 	return s.Get()
 }
 
-func (s *ObjectResourceCrud) Delete() error {
+func (s *ObjectStorageObjectResourceCrud) Delete() error {
 	request := oci_object_storage.DeleteObjectRequest{}
 
 	namespaceName, bucketName, objectName, err := parseId(s.D.Id())
@@ -782,7 +782,7 @@ func (s *ObjectResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ObjectResourceCrud) SetData() error {
+func (s *ObjectStorageObjectResourceCrud) SetData() error {
 	if s.shouldUseObjectHeadForGet() {
 		return s.setDataObjectHead()
 	}
@@ -790,7 +790,7 @@ func (s *ObjectResourceCrud) SetData() error {
 	return s.setDataObject()
 }
 
-func (s *ObjectResourceCrud) setDataObjectHead() error {
+func (s *ObjectStorageObjectResourceCrud) setDataObjectHead() error {
 	s.D.Set("namespace", s.Res.NamespaceName)
 	s.D.Set("bucket", s.Res.BucketName)
 	s.D.Set("object", s.Res.ObjectName)
@@ -830,7 +830,7 @@ func (s *ObjectResourceCrud) setDataObjectHead() error {
 	return nil
 }
 
-func (s *ObjectResourceCrud) setDataObject() error {
+func (s *ObjectStorageObjectResourceCrud) setDataObject() error {
 	s.D.Set("namespace", s.Res.NamespaceName)
 	s.D.Set("bucket", s.Res.BucketName)
 	s.D.Set("object", s.Res.ObjectName)

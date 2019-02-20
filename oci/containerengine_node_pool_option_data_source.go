@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-func NodePoolOptionDataSource() *schema.Resource {
+func ContainerengineNodePoolOptionDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularNodePoolOption,
+		Read: readSingularContainerengineNodePoolOption,
 		Schema: map[string]*schema.Schema{
 			"node_pool_option_id": {
 				Type:     schema.TypeString,
@@ -43,25 +43,25 @@ func NodePoolOptionDataSource() *schema.Resource {
 	}
 }
 
-func readSingularNodePoolOption(d *schema.ResourceData, m interface{}) error {
-	sync := &NodePoolOptionDataSourceCrud{}
+func readSingularContainerengineNodePoolOption(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineNodePoolOptionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return ReadResource(sync)
 }
 
-type NodePoolOptionDataSourceCrud struct {
+type ContainerengineNodePoolOptionDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_containerengine.ContainerEngineClient
 	Res    *oci_containerengine.GetNodePoolOptionsResponse
 }
 
-func (s *NodePoolOptionDataSourceCrud) VoidState() {
+func (s *ContainerengineNodePoolOptionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NodePoolOptionDataSourceCrud) Get() error {
+func (s *ContainerengineNodePoolOptionDataSourceCrud) Get() error {
 	request := oci_containerengine.GetNodePoolOptionsRequest{}
 
 	if nodePoolOptionId, ok := s.D.GetOkExists("node_pool_option_id"); ok {
@@ -80,7 +80,7 @@ func (s *NodePoolOptionDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *NodePoolOptionDataSourceCrud) SetData() error {
+func (s *ContainerengineNodePoolOptionDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

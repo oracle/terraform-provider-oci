@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-func BucketDataSource() *schema.Resource {
+func ObjectStorageBucketDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularBucket,
+		Read: readSingularObjectStorageBucket,
 		Schema: map[string]*schema.Schema{
 			"name": {
 				Type:     schema.TypeString,
@@ -82,25 +82,25 @@ func BucketDataSource() *schema.Resource {
 	}
 }
 
-func readSingularBucket(d *schema.ResourceData, m interface{}) error {
-	sync := &BucketDataSourceCrud{}
+func readSingularObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageBucketDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return ReadResource(sync)
 }
 
-type BucketDataSourceCrud struct {
+type ObjectStorageBucketDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_object_storage.ObjectStorageClient
 	Res    *oci_object_storage.GetBucketResponse
 }
 
-func (s *BucketDataSourceCrud) VoidState() {
+func (s *ObjectStorageBucketDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BucketDataSourceCrud) Get() error {
+func (s *ObjectStorageBucketDataSourceCrud) Get() error {
 	request := oci_object_storage.GetBucketRequest{}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -125,7 +125,7 @@ func (s *BucketDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BucketDataSourceCrud) SetData() error {
+func (s *ObjectStorageBucketDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

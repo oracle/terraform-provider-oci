@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 /*
  * This file demonstrates dns record usage
  */
@@ -26,6 +28,9 @@ resource "oci_dns_record" "record-cname" {
   ttl             = 86400
 }
 
+// Domains that have ALIAS record cannot have steering policies attached. Otherwise, this is how an ALIAS record can be
+// created.
+/*
 resource "oci_dns_record" "record-alias" {
   zone_name_or_id = "${oci_dns_zone.zone1.name}"
   domain          = "${oci_dns_zone.zone1.name}"
@@ -33,6 +38,7 @@ resource "oci_dns_record" "record-alias" {
   rdata           = "red.zone"
   ttl             = 86400
 }
+*/
 
 resource "oci_dns_record" "record-ns" {
   zone_name_or_id = "${oci_dns_zone.zone1.name}"

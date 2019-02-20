@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -11,15 +11,15 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func UserGroupMembershipResource() *schema.Resource {
+func IdentityUserGroupMembershipResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createUserGroupMembership,
-		Read:     readUserGroupMembership,
-		Delete:   deleteUserGroupMembership,
+		Create:   createIdentityUserGroupMembership,
+		Read:     readIdentityUserGroupMembership,
+		Delete:   deleteIdentityUserGroupMembership,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"group_id": {
@@ -59,24 +59,24 @@ func UserGroupMembershipResource() *schema.Resource {
 	}
 }
 
-func createUserGroupMembership(d *schema.ResourceData, m interface{}) error {
-	sync := &UserGroupMembershipResourceCrud{}
+func createIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityUserGroupMembershipResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readUserGroupMembership(d *schema.ResourceData, m interface{}) error {
-	sync := &UserGroupMembershipResourceCrud{}
+func readIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityUserGroupMembershipResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func deleteUserGroupMembership(d *schema.ResourceData, m interface{}) error {
-	sync := &UserGroupMembershipResourceCrud{}
+func deleteIdentityUserGroupMembership(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityUserGroupMembershipResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -84,42 +84,42 @@ func deleteUserGroupMembership(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type UserGroupMembershipResourceCrud struct {
+type IdentityUserGroupMembershipResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.UserGroupMembership
 	DisableNotFoundRetries bool
 }
 
-func (s *UserGroupMembershipResourceCrud) ID() string {
+func (s *IdentityUserGroupMembershipResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *UserGroupMembershipResourceCrud) CreatedPending() []string {
+func (s *IdentityUserGroupMembershipResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.UserGroupMembershipLifecycleStateCreating),
 	}
 }
 
-func (s *UserGroupMembershipResourceCrud) CreatedTarget() []string {
+func (s *IdentityUserGroupMembershipResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.UserGroupMembershipLifecycleStateActive),
 	}
 }
 
-func (s *UserGroupMembershipResourceCrud) DeletedPending() []string {
+func (s *IdentityUserGroupMembershipResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.UserGroupMembershipLifecycleStateDeleting),
 	}
 }
 
-func (s *UserGroupMembershipResourceCrud) DeletedTarget() []string {
+func (s *IdentityUserGroupMembershipResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.UserGroupMembershipLifecycleStateDeleted),
 	}
 }
 
-func (s *UserGroupMembershipResourceCrud) Create() error {
+func (s *IdentityUserGroupMembershipResourceCrud) Create() error {
 	request := oci_identity.AddUserToGroupRequest{}
 
 	if groupId, ok := s.D.GetOkExists("group_id"); ok {
@@ -143,7 +143,7 @@ func (s *UserGroupMembershipResourceCrud) Create() error {
 	return nil
 }
 
-func (s *UserGroupMembershipResourceCrud) Get() error {
+func (s *IdentityUserGroupMembershipResourceCrud) Get() error {
 	request := oci_identity.GetUserGroupMembershipRequest{}
 
 	tmp := s.D.Id()
@@ -160,7 +160,7 @@ func (s *UserGroupMembershipResourceCrud) Get() error {
 	return nil
 }
 
-func (s *UserGroupMembershipResourceCrud) Delete() error {
+func (s *IdentityUserGroupMembershipResourceCrud) Delete() error {
 	request := oci_identity.RemoveUserFromGroupRequest{}
 
 	tmp := s.D.Id()
@@ -172,7 +172,7 @@ func (s *UserGroupMembershipResourceCrud) Delete() error {
 	return err
 }
 
-func (s *UserGroupMembershipResourceCrud) SetData() error {
+func (s *IdentityUserGroupMembershipResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

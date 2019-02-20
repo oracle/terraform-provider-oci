@@ -1,10 +1,11 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"testing"
 	"time"
 
@@ -186,6 +187,15 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "name", "Network"),
 				),
+			},
+			// verify error on existing compartment name where automatic import fails due to enable_delete
+			{
+				Config: config + compartmentIdVariableStr + CompartmentResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment", Required, Create, compartmentRepresentation) +
+					generateResourceFromRepresentationMap("oci_identity_compartment", "test_compartment2", Required, Create,
+						representationCopyWithNewProperties(compartmentRepresentation, map[string]interface{}{
+							"enable_delete": Representation{repType: Required, create: `true`}})),
+				ExpectError: regexp.MustCompile("If you intended to manage an existing compartment, use terraform import instead."),
 			},
 		},
 	})

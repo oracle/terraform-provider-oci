@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func CrossConnectsDataSource() *schema.Resource {
+func CoreCrossConnectsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCrossConnects,
+		Read: readCoreCrossConnects,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -33,31 +33,31 @@ func CrossConnectsDataSource() *schema.Resource {
 			"cross_connects": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(CrossConnectResource()),
+				Elem:     GetDataSourceItemSchema(CoreCrossConnectResource()),
 			},
 		},
 	}
 }
 
-func readCrossConnects(d *schema.ResourceData, m interface{}) error {
-	sync := &CrossConnectsDataSourceCrud{}
+func readCoreCrossConnects(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCrossConnectsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type CrossConnectsDataSourceCrud struct {
+type CoreCrossConnectsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListCrossConnectsResponse
 }
 
-func (s *CrossConnectsDataSourceCrud) VoidState() {
+func (s *CoreCrossConnectsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CrossConnectsDataSourceCrud) Get() error {
+func (s *CoreCrossConnectsDataSourceCrud) Get() error {
 	request := oci_core.ListCrossConnectsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -102,7 +102,7 @@ func (s *CrossConnectsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CrossConnectsDataSourceCrud) SetData() error {
+func (s *CoreCrossConnectsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -149,7 +149,7 @@ func (s *CrossConnectsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, CrossConnectsDataSource().Schema["cross_connects"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreCrossConnectsDataSource().Schema["cross_connects"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("cross_connects", resources); err != nil {

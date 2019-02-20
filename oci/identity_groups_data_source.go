@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func GroupsDataSource() *schema.Resource {
+func IdentityGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGroups,
+		Read: readIdentityGroups,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -22,31 +22,31 @@ func GroupsDataSource() *schema.Resource {
 			"groups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(GroupResource()),
+				Elem:     GetDataSourceItemSchema(IdentityGroupResource()),
 			},
 		},
 	}
 }
 
-func readGroups(d *schema.ResourceData, m interface{}) error {
-	sync := &GroupsDataSourceCrud{}
+func readIdentityGroups(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type GroupsDataSourceCrud struct {
+type IdentityGroupsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListGroupsResponse
 }
 
-func (s *GroupsDataSourceCrud) VoidState() {
+func (s *IdentityGroupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GroupsDataSourceCrud) Get() error {
+func (s *IdentityGroupsDataSourceCrud) Get() error {
 	request := oci_identity.ListGroupsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -77,7 +77,7 @@ func (s *GroupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *GroupsDataSourceCrud) SetData() error {
+func (s *IdentityGroupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -122,7 +122,7 @@ func (s *GroupsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, GroupsDataSource().Schema["groups"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityGroupsDataSource().Schema["groups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("groups", resources); err != nil {

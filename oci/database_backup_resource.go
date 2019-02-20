@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,15 +10,15 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func BackupResource() *schema.Resource {
+func DatabaseBackupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createBackup,
-		Read:     readBackup,
-		Delete:   deleteBackup,
+		Create:   createDatabaseBackup,
+		Read:     readDatabaseBackup,
+		Delete:   deleteDatabaseBackup,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"database_id": {
@@ -80,24 +80,24 @@ func BackupResource() *schema.Resource {
 	}
 }
 
-func createBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &BackupResourceCrud{}
+func createDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return CreateResource(d, sync)
 }
 
-func readBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &BackupResourceCrud{}
+func readDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-func deleteBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &BackupResourceCrud{}
+func deleteDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 	sync.DisableNotFoundRetries = true
@@ -105,43 +105,43 @@ func deleteBackup(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type BackupResourceCrud struct {
+type DatabaseBackupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.Backup
 	DisableNotFoundRetries bool
 }
 
-func (s *BackupResourceCrud) ID() string {
+func (s *DatabaseBackupResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *BackupResourceCrud) CreatedPending() []string {
+func (s *DatabaseBackupResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_database.BackupLifecycleStateCreating),
 		string(oci_database.BackupLifecycleStateRestoring),
 	}
 }
 
-func (s *BackupResourceCrud) CreatedTarget() []string {
+func (s *DatabaseBackupResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_database.BackupLifecycleStateActive),
 	}
 }
 
-func (s *BackupResourceCrud) DeletedPending() []string {
+func (s *DatabaseBackupResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.BackupLifecycleStateDeleting),
 	}
 }
 
-func (s *BackupResourceCrud) DeletedTarget() []string {
+func (s *DatabaseBackupResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_database.BackupLifecycleStateDeleted),
 	}
 }
 
-func (s *BackupResourceCrud) Create() error {
+func (s *DatabaseBackupResourceCrud) Create() error {
 	request := oci_database.CreateBackupRequest{}
 
 	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
@@ -165,7 +165,7 @@ func (s *BackupResourceCrud) Create() error {
 	return nil
 }
 
-func (s *BackupResourceCrud) Get() error {
+func (s *DatabaseBackupResourceCrud) Get() error {
 	request := oci_database.GetBackupRequest{}
 
 	tmp := s.D.Id()
@@ -182,7 +182,7 @@ func (s *BackupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BackupResourceCrud) Delete() error {
+func (s *DatabaseBackupResourceCrud) Delete() error {
 	request := oci_database.DeleteBackupRequest{}
 
 	tmp := s.D.Id()
@@ -194,7 +194,7 @@ func (s *BackupResourceCrud) Delete() error {
 	return err
 }
 
-func (s *BackupResourceCrud) SetData() error {
+func (s *DatabaseBackupResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}

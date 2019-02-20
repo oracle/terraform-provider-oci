@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -11,7 +11,7 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
-func EncryptedDataDataSource() *schema.Resource {
+func KmsEncryptedDataDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularEncryptedData,
 		Schema: map[string]*schema.Schema{

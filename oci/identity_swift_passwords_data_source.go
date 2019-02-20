@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func SwiftPasswordsDataSource() *schema.Resource {
+func IdentitySwiftPasswordsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSwiftPasswords,
+		Read: readIdentitySwiftPasswords,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"user_id": {
@@ -22,31 +22,31 @@ func SwiftPasswordsDataSource() *schema.Resource {
 			"passwords": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(SwiftPasswordResource()),
+				Elem:     GetDataSourceItemSchema(IdentitySwiftPasswordResource()),
 			},
 		},
 	}
 }
 
-func readSwiftPasswords(d *schema.ResourceData, m interface{}) error {
-	sync := &SwiftPasswordsDataSourceCrud{}
+func readIdentitySwiftPasswords(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentitySwiftPasswordsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type SwiftPasswordsDataSourceCrud struct {
+type IdentitySwiftPasswordsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListSwiftPasswordsResponse
 }
 
-func (s *SwiftPasswordsDataSourceCrud) VoidState() {
+func (s *IdentitySwiftPasswordsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SwiftPasswordsDataSourceCrud) Get() error {
+func (s *IdentitySwiftPasswordsDataSourceCrud) Get() error {
 	request := oci_identity.ListSwiftPasswordsRequest{}
 
 	if userId, ok := s.D.GetOkExists("user_id"); ok {
@@ -65,7 +65,7 @@ func (s *SwiftPasswordsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SwiftPasswordsDataSourceCrud) SetData() error {
+func (s *IdentitySwiftPasswordsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -108,7 +108,7 @@ func (s *SwiftPasswordsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, SwiftPasswordsDataSource().Schema["passwords"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentitySwiftPasswordsDataSource().Schema["passwords"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("passwords", resources); err != nil {

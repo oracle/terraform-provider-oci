@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package main
 
@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/plugin"
 	"github.com/hashicorp/terraform/terraform"
 
-	"github.com/terraform-providers/terraform-provider-oci/oci"
+	provider "github.com/terraform-providers/terraform-provider-oci/oci"
 )
 
 func main() {

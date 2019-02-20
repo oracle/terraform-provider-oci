@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func DbHomeDataSource() *schema.Resource {
+func DatabaseDbHomeDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularDbHome,
+		Read: readSingularDatabaseDbHome,
 		Schema: map[string]*schema.Schema{
 			"db_home_id": {
 				Type:     schema.TypeString,
@@ -51,25 +51,25 @@ func DbHomeDataSource() *schema.Resource {
 	}
 }
 
-func readSingularDbHome(d *schema.ResourceData, m interface{}) error {
-	sync := &DbHomeDataSourceCrud{}
+func readSingularDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbHomeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type DbHomeDataSourceCrud struct {
+type DatabaseDbHomeDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.GetDbHomeResponse
 }
 
-func (s *DbHomeDataSourceCrud) VoidState() {
+func (s *DatabaseDbHomeDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbHomeDataSourceCrud) Get() error {
+func (s *DatabaseDbHomeDataSourceCrud) Get() error {
 	request := oci_database.GetDbHomeRequest{}
 
 	if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
@@ -92,7 +92,7 @@ func (s *DbHomeDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbHomeDataSourceCrud) SetData() error {
+func (s *DatabaseDbHomeDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

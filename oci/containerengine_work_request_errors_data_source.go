@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-func WorkRequestErrorsDataSource() *schema.Resource {
+func ContainerengineWorkRequestErrorsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readWorkRequestErrors,
+		Read: readContainerengineWorkRequestErrors,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -51,25 +51,25 @@ func WorkRequestErrorsDataSource() *schema.Resource {
 	}
 }
 
-func readWorkRequestErrors(d *schema.ResourceData, m interface{}) error {
-	sync := &WorkRequestErrorsDataSourceCrud{}
+func readContainerengineWorkRequestErrors(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineWorkRequestErrorsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return ReadResource(sync)
 }
 
-type WorkRequestErrorsDataSourceCrud struct {
+type ContainerengineWorkRequestErrorsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_containerengine.ContainerEngineClient
 	Res    *oci_containerengine.ListWorkRequestErrorsResponse
 }
 
-func (s *WorkRequestErrorsDataSourceCrud) VoidState() {
+func (s *ContainerengineWorkRequestErrorsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WorkRequestErrorsDataSourceCrud) Get() error {
+func (s *ContainerengineWorkRequestErrorsDataSourceCrud) Get() error {
 	request := oci_containerengine.ListWorkRequestErrorsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -93,7 +93,7 @@ func (s *WorkRequestErrorsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *WorkRequestErrorsDataSourceCrud) SetData() error {
+func (s *ContainerengineWorkRequestErrorsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -120,7 +120,7 @@ func (s *WorkRequestErrorsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, WorkRequestErrorsDataSource().Schema["work_request_errors"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, ContainerengineWorkRequestErrorsDataSource().Schema["work_request_errors"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("work_request_errors", resources); err != nil {

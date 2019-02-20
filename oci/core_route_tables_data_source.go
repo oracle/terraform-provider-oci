@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func RouteTablesDataSource() *schema.Resource {
+func CoreRouteTablesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readRouteTables,
+		Read: readCoreRouteTables,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -33,7 +33,7 @@ func RouteTablesDataSource() *schema.Resource {
 			"route_tables": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(RouteTableResource()),
+				Elem:     GetDataSourceItemSchema(CoreRouteTableResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -49,25 +49,25 @@ func RouteTablesDataSource() *schema.Resource {
 	}
 }
 
-func readRouteTables(d *schema.ResourceData, m interface{}) error {
-	sync := &RouteTablesDataSourceCrud{}
+func readCoreRouteTables(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreRouteTablesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type RouteTablesDataSourceCrud struct {
+type CoreRouteTablesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListRouteTablesResponse
 }
 
-func (s *RouteTablesDataSourceCrud) VoidState() {
+func (s *CoreRouteTablesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RouteTablesDataSourceCrud) Get() error {
+func (s *CoreRouteTablesDataSourceCrud) Get() error {
 	request := oci_core.ListRouteTablesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -122,7 +122,7 @@ func (s *RouteTablesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *RouteTablesDataSourceCrud) SetData() error {
+func (s *CoreRouteTablesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -166,7 +166,7 @@ func (s *RouteTablesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, RouteTablesDataSource().Schema["route_tables"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreRouteTablesDataSource().Schema["route_tables"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("route_tables", resources); err != nil {

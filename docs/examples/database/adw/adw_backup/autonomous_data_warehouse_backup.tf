@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 # If you receive a service error indicating: Failed to create Autonomous Transaction Processing manual backup because Object Storage credentials and tenancy URL are not defined. Refer to:
 # https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/atpbackingup.htm#creatingbucket
 resource "oci_database_autonomous_data_warehouse_backup" "test_autonomous_data_warehouse_backup" {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -11,9 +11,9 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
-func KeysDataSource() *schema.Resource {
+func KmsKeysDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readKeys,
+		Read: readKmsKeys,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -27,14 +27,14 @@ func KeysDataSource() *schema.Resource {
 			"keys": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(KeyResource()),
+				Elem:     GetDataSourceItemSchema(KmsKeyResource()),
 			},
 		},
 	}
 }
 
-func readKeys(d *schema.ResourceData, m interface{}) error {
-	sync := &KeysDataSourceCrud{}
+func readKmsKeys(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsKeysDataSourceCrud{}
 	sync.D = d
 	endpoint, ok := d.GetOkExists("management_endpoint")
 	if !ok {
@@ -49,17 +49,17 @@ func readKeys(d *schema.ResourceData, m interface{}) error {
 	return ReadResource(sync)
 }
 
-type KeysDataSourceCrud struct {
+type KmsKeysDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_kms.KmsManagementClient
 	Res    *oci_kms.ListKeysResponse
 }
 
-func (s *KeysDataSourceCrud) VoidState() {
+func (s *KmsKeysDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *KeysDataSourceCrud) Get() error {
+func (s *KmsKeysDataSourceCrud) Get() error {
 	request := oci_kms.ListKeysRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -90,7 +90,7 @@ func (s *KeysDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *KeysDataSourceCrud) SetData() error {
+func (s *KmsKeysDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -125,7 +125,7 @@ func (s *KeysDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, KeysDataSource().Schema["keys"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, KmsKeysDataSource().Schema["keys"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("keys", resources); err != nil {

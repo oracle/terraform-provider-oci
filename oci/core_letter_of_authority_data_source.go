@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func LetterOfAuthorityDataSource() *schema.Resource {
+func CoreLetterOfAuthorityDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularLetterOfAuthority,
+		Read: readSingularCoreLetterOfAuthority,
 		Schema: map[string]*schema.Schema{
 			"cross_connect_id": {
 				Type:     schema.TypeString,
@@ -46,25 +46,25 @@ func LetterOfAuthorityDataSource() *schema.Resource {
 	}
 }
 
-func readSingularLetterOfAuthority(d *schema.ResourceData, m interface{}) error {
-	sync := &LetterOfAuthorityDataSourceCrud{}
+func readSingularCoreLetterOfAuthority(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreLetterOfAuthorityDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type LetterOfAuthorityDataSourceCrud struct {
+type CoreLetterOfAuthorityDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.GetCrossConnectLetterOfAuthorityResponse
 }
 
-func (s *LetterOfAuthorityDataSourceCrud) VoidState() {
+func (s *CoreLetterOfAuthorityDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LetterOfAuthorityDataSourceCrud) Get() error {
+func (s *CoreLetterOfAuthorityDataSourceCrud) Get() error {
 	request := oci_core.GetCrossConnectLetterOfAuthorityRequest{}
 
 	if crossConnectId, ok := s.D.GetOkExists("cross_connect_id"); ok {
@@ -83,7 +83,7 @@ func (s *LetterOfAuthorityDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *LetterOfAuthorityDataSourceCrud) SetData() error {
+func (s *CoreLetterOfAuthorityDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

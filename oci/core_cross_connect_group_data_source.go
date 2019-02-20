@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func CrossConnectGroupDataSource() *schema.Resource {
+func CoreCrossConnectGroupDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularCrossConnectGroup,
+		Read: readSingularCoreCrossConnectGroup,
 		Schema: map[string]*schema.Schema{
 			"cross_connect_group_id": {
 				Type:     schema.TypeString,
@@ -38,25 +38,25 @@ func CrossConnectGroupDataSource() *schema.Resource {
 	}
 }
 
-func readSingularCrossConnectGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &CrossConnectGroupDataSourceCrud{}
+func readSingularCoreCrossConnectGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCrossConnectGroupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type CrossConnectGroupDataSourceCrud struct {
+type CoreCrossConnectGroupDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.GetCrossConnectGroupResponse
 }
 
-func (s *CrossConnectGroupDataSourceCrud) VoidState() {
+func (s *CoreCrossConnectGroupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CrossConnectGroupDataSourceCrud) Get() error {
+func (s *CoreCrossConnectGroupDataSourceCrud) Get() error {
 	request := oci_core.GetCrossConnectGroupRequest{}
 
 	if crossConnectGroupId, ok := s.D.GetOkExists("cross_connect_group_id"); ok {
@@ -75,7 +75,7 @@ func (s *CrossConnectGroupDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CrossConnectGroupDataSourceCrud) SetData() error {
+func (s *CoreCrossConnectGroupDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

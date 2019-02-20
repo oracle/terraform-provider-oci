@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -11,9 +11,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func BootVolumeDataSource() *schema.Resource {
+func CoreBootVolumeDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularBootVolume,
+		Read: readSingularCoreBootVolume,
 		Schema: map[string]*schema.Schema{
 			"boot_volume_id": {
 				Type:     schema.TypeString,
@@ -106,25 +106,25 @@ func BootVolumeDataSource() *schema.Resource {
 	}
 }
 
-func readSingularBootVolume(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumeDataSourceCrud{}
+func readSingularCoreBootVolume(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-type BootVolumeDataSourceCrud struct {
+type CoreBootVolumeDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
 	Res    *oci_core.GetBootVolumeResponse
 }
 
-func (s *BootVolumeDataSourceCrud) VoidState() {
+func (s *CoreBootVolumeDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BootVolumeDataSourceCrud) Get() error {
+func (s *CoreBootVolumeDataSourceCrud) Get() error {
 	request := oci_core.GetBootVolumeRequest{}
 
 	if bootVolumeId, ok := s.D.GetOkExists("boot_volume_id"); ok {
@@ -143,7 +143,7 @@ func (s *BootVolumeDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BootVolumeDataSourceCrud) SetData() error {
+func (s *CoreBootVolumeDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

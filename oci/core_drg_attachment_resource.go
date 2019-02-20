@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,16 +10,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func DrgAttachmentResource() *schema.Resource {
+func CoreDrgAttachmentResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createDrgAttachment,
-		Read:     readDrgAttachment,
-		Update:   updateDrgAttachment,
-		Delete:   deleteDrgAttachment,
+		Create:   createCoreDrgAttachment,
+		Read:     readCoreDrgAttachment,
+		Update:   updateCoreDrgAttachment,
+		Delete:   deleteCoreDrgAttachment,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"drg_id": {
@@ -66,32 +66,32 @@ func DrgAttachmentResource() *schema.Resource {
 	}
 }
 
-func createDrgAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &DrgAttachmentResourceCrud{}
+func createCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readDrgAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &DrgAttachmentResourceCrud{}
+func readCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateDrgAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &DrgAttachmentResourceCrud{}
+func updateCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteDrgAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &DrgAttachmentResourceCrud{}
+func deleteCoreDrgAttachment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -99,42 +99,42 @@ func deleteDrgAttachment(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type DrgAttachmentResourceCrud struct {
+type CoreDrgAttachmentResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.DrgAttachment
 	DisableNotFoundRetries bool
 }
 
-func (s *DrgAttachmentResourceCrud) ID() string {
+func (s *CoreDrgAttachmentResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *DrgAttachmentResourceCrud) CreatedPending() []string {
+func (s *CoreDrgAttachmentResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.DrgAttachmentLifecycleStateAttaching),
 	}
 }
 
-func (s *DrgAttachmentResourceCrud) CreatedTarget() []string {
+func (s *CoreDrgAttachmentResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.DrgAttachmentLifecycleStateAttached),
 	}
 }
 
-func (s *DrgAttachmentResourceCrud) DeletedPending() []string {
+func (s *CoreDrgAttachmentResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.DrgAttachmentLifecycleStateDetaching),
 	}
 }
 
-func (s *DrgAttachmentResourceCrud) DeletedTarget() []string {
+func (s *CoreDrgAttachmentResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.DrgAttachmentLifecycleStateDetached),
 	}
 }
 
-func (s *DrgAttachmentResourceCrud) Create() error {
+func (s *CoreDrgAttachmentResourceCrud) Create() error {
 	request := oci_core.CreateDrgAttachmentRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -168,7 +168,7 @@ func (s *DrgAttachmentResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DrgAttachmentResourceCrud) Get() error {
+func (s *CoreDrgAttachmentResourceCrud) Get() error {
 	request := oci_core.GetDrgAttachmentRequest{}
 
 	tmp := s.D.Id()
@@ -185,7 +185,7 @@ func (s *DrgAttachmentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DrgAttachmentResourceCrud) Update() error {
+func (s *CoreDrgAttachmentResourceCrud) Update() error {
 	request := oci_core.UpdateDrgAttachmentRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -212,7 +212,7 @@ func (s *DrgAttachmentResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DrgAttachmentResourceCrud) Delete() error {
+func (s *CoreDrgAttachmentResourceCrud) Delete() error {
 	request := oci_core.DeleteDrgAttachmentRequest{}
 
 	tmp := s.D.Id()
@@ -224,7 +224,7 @@ func (s *DrgAttachmentResourceCrud) Delete() error {
 	return err
 }
 
-func (s *DrgAttachmentResourceCrud) SetData() error {
+func (s *CoreDrgAttachmentResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -11,16 +11,16 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-func FileSystemResource() *schema.Resource {
+func FileStorageFileSystemResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createFileSystem,
-		Read:     readFileSystem,
-		Update:   updateFileSystem,
-		Delete:   deleteFileSystem,
+		Create:   createFileStorageFileSystem,
+		Read:     readFileStorageFileSystem,
+		Update:   updateFileStorageFileSystem,
+		Delete:   deleteFileStorageFileSystem,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -71,32 +71,32 @@ func FileSystemResource() *schema.Resource {
 	}
 }
 
-func createFileSystem(d *schema.ResourceData, m interface{}) error {
-	sync := &FileSystemResourceCrud{}
+func createFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageFileSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readFileSystem(d *schema.ResourceData, m interface{}) error {
-	sync := &FileSystemResourceCrud{}
+func readFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageFileSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return ReadResource(sync)
 }
 
-func updateFileSystem(d *schema.ResourceData, m interface{}) error {
-	sync := &FileSystemResourceCrud{}
+func updateFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageFileSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteFileSystem(d *schema.ResourceData, m interface{}) error {
-	sync := &FileSystemResourceCrud{}
+func deleteFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageFileSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 	sync.DisableNotFoundRetries = true
@@ -104,42 +104,42 @@ func deleteFileSystem(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type FileSystemResourceCrud struct {
+type FileStorageFileSystemResourceCrud struct {
 	BaseCrud
 	Client                 *oci_file_storage.FileStorageClient
 	Res                    *oci_file_storage.FileSystem
 	DisableNotFoundRetries bool
 }
 
-func (s *FileSystemResourceCrud) ID() string {
+func (s *FileStorageFileSystemResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *FileSystemResourceCrud) CreatedPending() []string {
+func (s *FileStorageFileSystemResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_file_storage.FileSystemLifecycleStateCreating),
 	}
 }
 
-func (s *FileSystemResourceCrud) CreatedTarget() []string {
+func (s *FileStorageFileSystemResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_file_storage.FileSystemLifecycleStateActive),
 	}
 }
 
-func (s *FileSystemResourceCrud) DeletedPending() []string {
+func (s *FileStorageFileSystemResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_file_storage.FileSystemLifecycleStateDeleting),
 	}
 }
 
-func (s *FileSystemResourceCrud) DeletedTarget() []string {
+func (s *FileStorageFileSystemResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_file_storage.FileSystemLifecycleStateDeleted),
 	}
 }
 
-func (s *FileSystemResourceCrud) Create() error {
+func (s *FileStorageFileSystemResourceCrud) Create() error {
 	request := oci_file_storage.CreateFileSystemRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -180,7 +180,7 @@ func (s *FileSystemResourceCrud) Create() error {
 	return nil
 }
 
-func (s *FileSystemResourceCrud) Get() error {
+func (s *FileStorageFileSystemResourceCrud) Get() error {
 	request := oci_file_storage.GetFileSystemRequest{}
 
 	tmp := s.D.Id()
@@ -197,7 +197,7 @@ func (s *FileSystemResourceCrud) Get() error {
 	return nil
 }
 
-func (s *FileSystemResourceCrud) Update() error {
+func (s *FileStorageFileSystemResourceCrud) Update() error {
 	request := oci_file_storage.UpdateFileSystemRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -231,7 +231,7 @@ func (s *FileSystemResourceCrud) Update() error {
 	return nil
 }
 
-func (s *FileSystemResourceCrud) Delete() error {
+func (s *FileStorageFileSystemResourceCrud) Delete() error {
 	request := oci_file_storage.DeleteFileSystemRequest{}
 
 	tmp := s.D.Id()
@@ -243,7 +243,7 @@ func (s *FileSystemResourceCrud) Delete() error {
 	return err
 }
 
-func (s *FileSystemResourceCrud) SetData() error {
+func (s *FileStorageFileSystemResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}

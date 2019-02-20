@@ -1,10 +1,9 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
 import (
 	"context"
-
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -12,9 +11,9 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
-func ZonesDataSource() *schema.Resource {
+func DnsZonesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readZones,
+		Read: readDnsZones,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 
@@ -62,31 +61,31 @@ func ZonesDataSource() *schema.Resource {
 			"zones": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(ZoneResource()),
+				Elem:     GetDataSourceItemSchema(DnsZoneResource()),
 			},
 		},
 	}
 }
 
-func readZones(d *schema.ResourceData, m interface{}) error {
-	sync := &ZonesDataSourceCrud{}
+func readDnsZones(d *schema.ResourceData, m interface{}) error {
+	sync := &DnsZonesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
 	return ReadResource(sync)
 }
 
-type ZonesDataSourceCrud struct {
+type DnsZonesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_dns.DnsClient
 	Res    *oci_dns.ListZonesResponse
 }
 
-func (s *ZonesDataSourceCrud) VoidState() {
+func (s *DnsZonesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ZonesDataSourceCrud) Get() error {
+func (s *DnsZonesDataSourceCrud) Get() error {
 	request := oci_dns.ListZonesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -161,7 +160,7 @@ func (s *ZonesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ZonesDataSourceCrud) SetData() error {
+func (s *DnsZonesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -208,7 +207,7 @@ func (s *ZonesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, ZonesDataSource().Schema["zones"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DnsZonesDataSource().Schema["zones"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("zones", resources); err != nil {

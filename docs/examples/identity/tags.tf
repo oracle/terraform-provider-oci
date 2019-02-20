@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 resource "oci_identity_tag_namespace" "tag-namespace1" {
   #Required
   compartment_id = "${var.compartment_ocid}"
@@ -13,7 +15,9 @@ resource "oci_identity_tag" "tag1" {
   name             = "tf-example-tag"
   tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace1.id}"
 
-  is_retired = false
+  #Optional
+  is_cost_tracking = false // default is "false". The value "true" is only permitted if the associated tag namespace is part of the root compartment. 
+  is_retired       = false
 }
 
 output "tag_namespaces" {

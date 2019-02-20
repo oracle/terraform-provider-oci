@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -299,10 +299,9 @@ func testAccCheckDnsZoneDestroy(s *terraform.State) error {
 			if err == nil {
 				return fmt.Errorf("resource still exists")
 			}
-			//Verify that exception is for 400.
-			// Normally expect 404, but DNS service returns a "InvalidParameter. Bad Request - Invalid domain name. http status code: 400"
+			//Verify that exception is for 404.
 			// after destruction
-			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 400 {
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
 				return err
 			}
 		}

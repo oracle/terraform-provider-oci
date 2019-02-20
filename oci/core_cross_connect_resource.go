@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -11,16 +11,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func CrossConnectResource() *schema.Resource {
+func CoreCrossConnectResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createCrossConnect,
-		Read:     readCrossConnect,
-		Update:   updateCrossConnect,
-		Delete:   deleteCrossConnect,
+		Create:   createCoreCrossConnect,
+		Read:     readCoreCrossConnect,
+		Update:   updateCoreCrossConnect,
+		Delete:   deleteCoreCrossConnect,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -86,8 +86,8 @@ func CrossConnectResource() *schema.Resource {
 	}
 }
 
-func createCrossConnect(d *schema.ResourceData, m interface{}) error {
-	sync := &CrossConnectResourceCrud{}
+func createCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCrossConnectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
@@ -105,24 +105,24 @@ func createCrossConnect(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func readCrossConnect(d *schema.ResourceData, m interface{}) error {
-	sync := &CrossConnectResourceCrud{}
+func readCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCrossConnectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateCrossConnect(d *schema.ResourceData, m interface{}) error {
-	sync := &CrossConnectResourceCrud{}
+func updateCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCrossConnectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteCrossConnect(d *schema.ResourceData, m interface{}) error {
-	sync := &CrossConnectResourceCrud{}
+func deleteCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCrossConnectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -130,37 +130,37 @@ func deleteCrossConnect(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type CrossConnectResourceCrud struct {
+type CoreCrossConnectResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.CrossConnect
 	DisableNotFoundRetries bool
 }
 
-func (s *CrossConnectResourceCrud) ID() string {
+func (s *CoreCrossConnectResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *CrossConnectResourceCrud) CreatedPending() []string {
+func (s *CoreCrossConnectResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.CrossConnectLifecycleStateProvisioning),
 	}
 }
 
-func (s *CrossConnectResourceCrud) CreatedTarget() []string {
+func (s *CoreCrossConnectResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.CrossConnectLifecycleStatePendingCustomer),
 		string(oci_core.CrossConnectLifecycleStateProvisioned),
 	}
 }
 
-func (s *CrossConnectResourceCrud) UpdatedPending() []string {
+func (s *CoreCrossConnectResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_core.CrossConnectLifecycleStateProvisioning),
 	}
 }
 
-func (s *CrossConnectResourceCrud) UpdatedTarget() []string {
+func (s *CoreCrossConnectResourceCrud) UpdatedTarget() []string {
 	if _, ok := s.D.GetOkExists("is_active"); ok {
 		log.Printf("[DEBUG] CrossConnect resource is set to be active, wait until the state is '%s'", string(oci_core.CrossConnectLifecycleStateProvisioned))
 		return []string{
@@ -174,19 +174,19 @@ func (s *CrossConnectResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *CrossConnectResourceCrud) DeletedPending() []string {
+func (s *CoreCrossConnectResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.CrossConnectLifecycleStateTerminating),
 	}
 }
 
-func (s *CrossConnectResourceCrud) DeletedTarget() []string {
+func (s *CoreCrossConnectResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.CrossConnectLifecycleStateTerminated),
 	}
 }
 
-func (s *CrossConnectResourceCrud) Create() error {
+func (s *CoreCrossConnectResourceCrud) Create() error {
 	request := oci_core.CreateCrossConnectRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -236,7 +236,7 @@ func (s *CrossConnectResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CrossConnectResourceCrud) Get() error {
+func (s *CoreCrossConnectResourceCrud) Get() error {
 	request := oci_core.GetCrossConnectRequest{}
 
 	tmp := s.D.Id()
@@ -253,7 +253,7 @@ func (s *CrossConnectResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CrossConnectResourceCrud) Update() error {
+func (s *CoreCrossConnectResourceCrud) Update() error {
 	request := oci_core.UpdateCrossConnectRequest{}
 
 	tmp := s.D.Id()
@@ -284,7 +284,7 @@ func (s *CrossConnectResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CrossConnectResourceCrud) Delete() error {
+func (s *CoreCrossConnectResourceCrud) Delete() error {
 	request := oci_core.DeleteCrossConnectRequest{}
 
 	tmp := s.D.Id()
@@ -296,7 +296,7 @@ func (s *CrossConnectResourceCrud) Delete() error {
 	return err
 }
 
-func (s *CrossConnectResourceCrud) SetData() error {
+func (s *CoreCrossConnectResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

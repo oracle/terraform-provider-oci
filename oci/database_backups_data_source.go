@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func BackupsDataSource() *schema.Resource {
+func DatabaseBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBackups,
+		Read: readDatabaseBackups,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -25,31 +25,31 @@ func BackupsDataSource() *schema.Resource {
 			"backups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(BackupResource()),
+				Elem:     GetDataSourceItemSchema(DatabaseBackupResource()),
 			},
 		},
 	}
 }
 
-func readBackups(d *schema.ResourceData, m interface{}) error {
-	sync := &BackupsDataSourceCrud{}
+func readDatabaseBackups(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseBackupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type BackupsDataSourceCrud struct {
+type DatabaseBackupsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListBackupsResponse
 }
 
-func (s *BackupsDataSourceCrud) VoidState() {
+func (s *DatabaseBackupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BackupsDataSourceCrud) Get() error {
+func (s *DatabaseBackupsDataSourceCrud) Get() error {
 	request := oci_database.ListBackupsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +85,7 @@ func (s *BackupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BackupsDataSourceCrud) SetData() error {
+func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -143,7 +143,7 @@ func (s *BackupsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, BackupsDataSource().Schema["backups"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DatabaseBackupsDataSource().Schema["backups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("backups", resources); err != nil {

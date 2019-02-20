@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -11,16 +11,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func BootVolumeBackupResource() *schema.Resource {
+func CoreBootVolumeBackupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createBootVolumeBackup,
-		Read:     readBootVolumeBackup,
-		Update:   updateBootVolumeBackup,
-		Delete:   deleteBootVolumeBackup,
+		Create:   createCoreBootVolumeBackup,
+		Read:     readCoreBootVolumeBackup,
+		Update:   updateCoreBootVolumeBackup,
+		Delete:   deleteCoreBootVolumeBackup,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"boot_volume_id": {
@@ -96,32 +96,32 @@ func BootVolumeBackupResource() *schema.Resource {
 	}
 }
 
-func createBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumeBackupResourceCrud{}
+func createCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumeBackupResourceCrud{}
+func readCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-func updateBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumeBackupResourceCrud{}
+func updateCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumeBackupResourceCrud{}
+func deleteCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
@@ -129,43 +129,43 @@ func deleteBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type BootVolumeBackupResourceCrud struct {
+type CoreBootVolumeBackupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	Res                    *oci_core.BootVolumeBackup
 	DisableNotFoundRetries bool
 }
 
-func (s *BootVolumeBackupResourceCrud) ID() string {
+func (s *CoreBootVolumeBackupResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *BootVolumeBackupResourceCrud) CreatedPending() []string {
+func (s *CoreBootVolumeBackupResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.BootVolumeBackupLifecycleStateCreating),
 		string(oci_core.BootVolumeBackupLifecycleStateRequestReceived),
 	}
 }
 
-func (s *BootVolumeBackupResourceCrud) CreatedTarget() []string {
+func (s *CoreBootVolumeBackupResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.BootVolumeBackupLifecycleStateAvailable),
 	}
 }
 
-func (s *BootVolumeBackupResourceCrud) DeletedPending() []string {
+func (s *CoreBootVolumeBackupResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.BootVolumeBackupLifecycleStateTerminating),
 	}
 }
 
-func (s *BootVolumeBackupResourceCrud) DeletedTarget() []string {
+func (s *CoreBootVolumeBackupResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.BootVolumeBackupLifecycleStateTerminated),
 	}
 }
 
-func (s *BootVolumeBackupResourceCrud) Create() error {
+func (s *CoreBootVolumeBackupResourceCrud) Create() error {
 	request := oci_core.CreateBootVolumeBackupRequest{}
 
 	if bootVolumeId, ok := s.D.GetOkExists("boot_volume_id"); ok {
@@ -205,7 +205,7 @@ func (s *BootVolumeBackupResourceCrud) Create() error {
 	return nil
 }
 
-func (s *BootVolumeBackupResourceCrud) Get() error {
+func (s *CoreBootVolumeBackupResourceCrud) Get() error {
 	request := oci_core.GetBootVolumeBackupRequest{}
 
 	tmp := s.D.Id()
@@ -222,7 +222,7 @@ func (s *BootVolumeBackupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BootVolumeBackupResourceCrud) Update() error {
+func (s *CoreBootVolumeBackupResourceCrud) Update() error {
 	request := oci_core.UpdateBootVolumeBackupRequest{}
 
 	tmp := s.D.Id()
@@ -256,7 +256,7 @@ func (s *BootVolumeBackupResourceCrud) Update() error {
 	return nil
 }
 
-func (s *BootVolumeBackupResourceCrud) Delete() error {
+func (s *CoreBootVolumeBackupResourceCrud) Delete() error {
 	request := oci_core.DeleteBootVolumeBackupRequest{}
 
 	tmp := s.D.Id()
@@ -268,7 +268,7 @@ func (s *BootVolumeBackupResourceCrud) Delete() error {
 	return err
 }
 
-func (s *BootVolumeBackupResourceCrud) SetData() error {
+func (s *CoreBootVolumeBackupResourceCrud) SetData() error {
 	if s.Res.BootVolumeId != nil {
 		s.D.Set("boot_volume_id", *s.Res.BootVolumeId)
 	}

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func ServicesDataSource() *schema.Resource {
+func CoreServicesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readServices,
+		Read: readCoreServices,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"services": {
@@ -47,25 +47,25 @@ func ServicesDataSource() *schema.Resource {
 	}
 }
 
-func readServices(d *schema.ResourceData, m interface{}) error {
-	sync := &ServicesDataSourceCrud{}
+func readCoreServices(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreServicesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type ServicesDataSourceCrud struct {
+type CoreServicesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListServicesResponse
 }
 
-func (s *ServicesDataSourceCrud) VoidState() {
+func (s *CoreServicesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ServicesDataSourceCrud) Get() error {
+func (s *CoreServicesDataSourceCrud) Get() error {
 	request := oci_core.ListServicesRequest{}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
@@ -91,7 +91,7 @@ func (s *ServicesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ServicesDataSourceCrud) SetData() error {
+func (s *CoreServicesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -122,7 +122,7 @@ func (s *ServicesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, ServicesDataSource().Schema["services"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreServicesDataSource().Schema["services"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("services", resources); err != nil {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-func PreauthenticatedRequestsDataSource() *schema.Resource {
+func ObjectStoragePreauthenticatedRequestsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readPreauthenticatedRequests,
+		Read: readObjectStoragePreauthenticatedRequests,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"bucket": {
@@ -29,31 +29,31 @@ func PreauthenticatedRequestsDataSource() *schema.Resource {
 			"preauthenticated_requests": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(PreauthenticatedRequestResource()),
+				Elem:     GetDataSourceItemSchema(ObjectStoragePreauthenticatedRequestResource()),
 			},
 		},
 	}
 }
 
-func readPreauthenticatedRequests(d *schema.ResourceData, m interface{}) error {
-	sync := &PreauthenticatedRequestsDataSourceCrud{}
+func readObjectStoragePreauthenticatedRequests(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStoragePreauthenticatedRequestsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return ReadResource(sync)
 }
 
-type PreauthenticatedRequestsDataSourceCrud struct {
+type ObjectStoragePreauthenticatedRequestsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_object_storage.ObjectStorageClient
 	Res    *oci_object_storage.ListPreauthenticatedRequestsResponse
 }
 
-func (s *PreauthenticatedRequestsDataSourceCrud) VoidState() {
+func (s *ObjectStoragePreauthenticatedRequestsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PreauthenticatedRequestsDataSourceCrud) Get() error {
+func (s *ObjectStoragePreauthenticatedRequestsDataSourceCrud) Get() error {
 	request := oci_object_storage.ListPreauthenticatedRequestsRequest{}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
@@ -94,7 +94,7 @@ func (s *PreauthenticatedRequestsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *PreauthenticatedRequestsDataSourceCrud) SetData() error {
+func (s *ObjectStoragePreauthenticatedRequestsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -131,7 +131,7 @@ func (s *PreauthenticatedRequestsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, PreauthenticatedRequestsDataSource().Schema["preauthenticated_requests"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, ObjectStoragePreauthenticatedRequestsDataSource().Schema["preauthenticated_requests"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("preauthenticated_requests", resources); err != nil {

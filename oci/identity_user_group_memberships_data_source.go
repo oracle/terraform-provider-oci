@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func UserGroupMembershipsDataSource() *schema.Resource {
+func IdentityUserGroupMembershipsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readUserGroupMemberships,
+		Read: readIdentityUserGroupMemberships,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -30,31 +30,31 @@ func UserGroupMembershipsDataSource() *schema.Resource {
 			"memberships": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(UserGroupMembershipResource()),
+				Elem:     GetDataSourceItemSchema(IdentityUserGroupMembershipResource()),
 			},
 		},
 	}
 }
 
-func readUserGroupMemberships(d *schema.ResourceData, m interface{}) error {
-	sync := &UserGroupMembershipsDataSourceCrud{}
+func readIdentityUserGroupMemberships(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityUserGroupMembershipsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type UserGroupMembershipsDataSourceCrud struct {
+type IdentityUserGroupMembershipsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListUserGroupMembershipsResponse
 }
 
-func (s *UserGroupMembershipsDataSourceCrud) VoidState() {
+func (s *IdentityUserGroupMembershipsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *UserGroupMembershipsDataSourceCrud) Get() error {
+func (s *IdentityUserGroupMembershipsDataSourceCrud) Get() error {
 	request := oci_identity.ListUserGroupMembershipsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +95,7 @@ func (s *UserGroupMembershipsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *UserGroupMembershipsDataSourceCrud) SetData() error {
+func (s *IdentityUserGroupMembershipsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -134,7 +134,7 @@ func (s *UserGroupMembershipsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, UserGroupMembershipsDataSource().Schema["memberships"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityUserGroupMembershipsDataSource().Schema["memberships"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("memberships", resources); err != nil {

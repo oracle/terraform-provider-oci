@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func CpesDataSource() *schema.Resource {
+func CoreCpesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCpes,
+		Read: readCoreCpes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -21,7 +21,7 @@ func CpesDataSource() *schema.Resource {
 			"cpes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(CpeResource()),
+				Elem:     GetDataSourceItemSchema(CoreCpeResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -37,25 +37,25 @@ func CpesDataSource() *schema.Resource {
 	}
 }
 
-func readCpes(d *schema.ResourceData, m interface{}) error {
-	sync := &CpesDataSourceCrud{}
+func readCoreCpes(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCpesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type CpesDataSourceCrud struct {
+type CoreCpesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListCpesResponse
 }
 
-func (s *CpesDataSourceCrud) VoidState() {
+func (s *CoreCpesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CpesDataSourceCrud) Get() error {
+func (s *CoreCpesDataSourceCrud) Get() error {
 	request := oci_core.ListCpesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -96,7 +96,7 @@ func (s *CpesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CpesDataSourceCrud) SetData() error {
+func (s *CoreCpesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -135,7 +135,7 @@ func (s *CpesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, CpesDataSource().Schema["cpes"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreCpesDataSource().Schema["cpes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("cpes", resources); err != nil {

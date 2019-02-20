@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -13,16 +13,16 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func UserResource() *schema.Resource {
+func IdentityUserResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createUser,
-		Read:     readUser,
-		Update:   updateUser,
-		Delete:   deleteUser,
+		Create:   createIdentityUser,
+		Read:     readIdentityUser,
+		Update:   updateIdentityUser,
+		Delete:   deleteIdentityUser,
 		Schema: map[string]*schema.Schema{
 			// The legacy provider exposed this as read-only/computed. The API requires this param. For legacy users who are
 			// not supplying a value, make it optional, behind the scenes it will use the tenancy ocid if not supplied.
@@ -125,8 +125,8 @@ func UserResource() *schema.Resource {
 	}
 }
 
-func createUser(d *schema.ResourceData, m interface{}) error {
-	sync := &UserResourceCrud{}
+func createIdentityUser(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.Configuration = m.(*OracleClients).configuration
@@ -134,24 +134,24 @@ func createUser(d *schema.ResourceData, m interface{}) error {
 	return CreateResource(d, sync)
 }
 
-func readUser(d *schema.ResourceData, m interface{}) error {
-	sync := &UserResourceCrud{}
+func readIdentityUser(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateUser(d *schema.ResourceData, m interface{}) error {
-	sync := &UserResourceCrud{}
+func updateIdentityUser(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteUser(d *schema.ResourceData, m interface{}) error {
-	sync := &UserResourceCrud{}
+func deleteIdentityUser(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -159,7 +159,7 @@ func deleteUser(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type UserResourceCrud struct {
+type IdentityUserResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Configuration          map[string]string
@@ -167,35 +167,35 @@ type UserResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-func (s *UserResourceCrud) ID() string {
+func (s *IdentityUserResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *UserResourceCrud) CreatedPending() []string {
+func (s *IdentityUserResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.UserLifecycleStateCreating),
 	}
 }
 
-func (s *UserResourceCrud) CreatedTarget() []string {
+func (s *IdentityUserResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.UserLifecycleStateActive),
 	}
 }
 
-func (s *UserResourceCrud) DeletedPending() []string {
+func (s *IdentityUserResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.UserLifecycleStateDeleting),
 	}
 }
 
-func (s *UserResourceCrud) DeletedTarget() []string {
+func (s *IdentityUserResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.UserLifecycleStateDeleted),
 	}
 }
 
-func (s *UserResourceCrud) Create() error {
+func (s *IdentityUserResourceCrud) Create() error {
 	request := oci_identity.CreateUserRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -251,7 +251,7 @@ func (s *UserResourceCrud) Create() error {
 	return nil
 }
 
-func (s *UserResourceCrud) Get() error {
+func (s *IdentityUserResourceCrud) Get() error {
 	request := oci_identity.GetUserRequest{}
 
 	tmp := s.D.Id()
@@ -268,7 +268,7 @@ func (s *UserResourceCrud) Get() error {
 	return nil
 }
 
-func (s *UserResourceCrud) Update() error {
+func (s *IdentityUserResourceCrud) Update() error {
 	request := oci_identity.UpdateUserRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -302,7 +302,7 @@ func (s *UserResourceCrud) Update() error {
 	return nil
 }
 
-func (s *UserResourceCrud) Delete() error {
+func (s *IdentityUserResourceCrud) Delete() error {
 	request := oci_identity.DeleteUserRequest{}
 
 	tmp := s.D.Id()
@@ -314,7 +314,7 @@ func (s *UserResourceCrud) Delete() error {
 	return err
 }
 
-func (s *UserResourceCrud) SetData() error {
+func (s *IdentityUserResourceCrud) SetData() error {
 	if s.Res.Capabilities != nil {
 		s.D.Set("capabilities", []interface{}{UserCapabilitiesToMap(s.Res.Capabilities)})
 	} else {

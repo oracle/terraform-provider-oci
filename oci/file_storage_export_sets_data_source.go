@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-func ExportSetsDataSource() *schema.Resource {
+func FileStorageExportSetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readExportSets,
+		Read: readFileStorageExportSets,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -37,31 +37,31 @@ func ExportSetsDataSource() *schema.Resource {
 			"export_sets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(ExportSetResource()),
+				Elem:     GetDataSourceItemSchema(FileStorageExportSetResource()),
 			},
 		},
 	}
 }
 
-func readExportSets(d *schema.ResourceData, m interface{}) error {
-	sync := &ExportSetsDataSourceCrud{}
+func readFileStorageExportSets(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageExportSetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return ReadResource(sync)
 }
 
-type ExportSetsDataSourceCrud struct {
+type FileStorageExportSetsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_file_storage.FileStorageClient
 	Res    *oci_file_storage.ListExportSetsResponse
 }
 
-func (s *ExportSetsDataSourceCrud) VoidState() {
+func (s *FileStorageExportSetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ExportSetsDataSourceCrud) Get() error {
+func (s *FileStorageExportSetsDataSourceCrud) Get() error {
 	request := oci_file_storage.ListExportSetsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -111,7 +111,7 @@ func (s *ExportSetsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ExportSetsDataSourceCrud) SetData() error {
+func (s *FileStorageExportSetsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -147,7 +147,7 @@ func (s *ExportSetsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, ExportSetsDataSource().Schema["export_sets"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, FileStorageExportSetsDataSource().Schema["export_sets"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("export_sets", resources); err != nil {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDatabaseDataSource() *schema.Resource {
+func DatabaseAutonomousDatabaseDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularAutonomousDatabase,
+		Read: readSingularDatabaseAutonomousDatabase,
 		Schema: map[string]*schema.Schema{
 			"autonomous_database_id": {
 				Type:     schema.TypeString,
@@ -106,25 +106,25 @@ func AutonomousDatabaseDataSource() *schema.Resource {
 	}
 }
 
-func readSingularAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDatabaseDataSourceCrud{}
+func readSingularDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDatabaseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type AutonomousDatabaseDataSourceCrud struct {
+type DatabaseAutonomousDatabaseDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.GetAutonomousDatabaseResponse
 }
 
-func (s *AutonomousDatabaseDataSourceCrud) VoidState() {
+func (s *DatabaseAutonomousDatabaseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AutonomousDatabaseDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseDataSourceCrud) Get() error {
 	request := oci_database.GetAutonomousDatabaseRequest{}
 
 	if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
@@ -143,7 +143,7 @@ func (s *AutonomousDatabaseDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutonomousDatabaseDataSourceCrud) SetData() error {
+func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

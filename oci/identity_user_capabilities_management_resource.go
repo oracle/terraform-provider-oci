@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -15,7 +15,7 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func UserCapabilitiesManagementResource() *schema.Resource {
+func IdentityUserCapabilitiesManagementResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,16 +10,16 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDatabaseResource() *schema.Resource {
+func DatabaseAutonomousDatabaseResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createAutonomousDatabase,
-		Read:     readAutonomousDatabase,
-		Update:   updateAutonomousDatabase,
-		Delete:   deleteAutonomousDatabase,
+		Create:   createDatabaseAutonomousDatabase,
+		Read:     readDatabaseAutonomousDatabase,
+		Update:   updateDatabaseAutonomousDatabase,
+		Delete:   deleteDatabaseAutonomousDatabase,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"admin_password": {
@@ -129,32 +129,32 @@ func AutonomousDatabaseResource() *schema.Resource {
 	}
 }
 
-func createAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDatabaseResourceCrud{}
+func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return CreateResource(d, sync)
 }
 
-func readAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDatabaseResourceCrud{}
+func readDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-func updateAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDatabaseResourceCrud{}
+func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDatabaseResourceCrud{}
+func deleteDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 	sync.DisableNotFoundRetries = true
@@ -162,44 +162,44 @@ func deleteAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type AutonomousDatabaseResourceCrud struct {
+type DatabaseAutonomousDatabaseResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.AutonomousDatabase
 	DisableNotFoundRetries bool
 }
 
-func (s *AutonomousDatabaseResourceCrud) ID() string {
+func (s *DatabaseAutonomousDatabaseResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *AutonomousDatabaseResourceCrud) CreatedPending() []string {
+func (s *DatabaseAutonomousDatabaseResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseLifecycleStateProvisioning),
 		string(oci_database.AutonomousDatabaseLifecycleStateStarting),
 	}
 }
 
-func (s *AutonomousDatabaseResourceCrud) CreatedTarget() []string {
+func (s *DatabaseAutonomousDatabaseResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseLifecycleStateAvailable),
 	}
 }
 
-func (s *AutonomousDatabaseResourceCrud) DeletedPending() []string {
+func (s *DatabaseAutonomousDatabaseResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseLifecycleStateTerminating),
 		string(oci_database.AutonomousDatabaseLifecycleStateUnavailable),
 	}
 }
 
-func (s *AutonomousDatabaseResourceCrud) DeletedTarget() []string {
+func (s *DatabaseAutonomousDatabaseResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseLifecycleStateTerminated),
 	}
 }
 
-func (s *AutonomousDatabaseResourceCrud) UpdatedPending() []string {
+func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseLifecycleStateProvisioning),
 		string(oci_database.AutonomousDatabaseLifecycleStateUnavailable),
@@ -207,13 +207,13 @@ func (s *AutonomousDatabaseResourceCrud) UpdatedPending() []string {
 	}
 }
 
-func (s *AutonomousDatabaseResourceCrud) UpdatedTarget() []string {
+func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_database.AutonomousDatabaseLifecycleStateAvailable),
 	}
 }
 
-func (s *AutonomousDatabaseResourceCrud) Create() error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) Create() error {
 	request := oci_database.CreateAutonomousDatabaseRequest{}
 
 	if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
@@ -273,7 +273,7 @@ func (s *AutonomousDatabaseResourceCrud) Create() error {
 	return nil
 }
 
-func (s *AutonomousDatabaseResourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) Get() error {
 	request := oci_database.GetAutonomousDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -290,7 +290,7 @@ func (s *AutonomousDatabaseResourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutonomousDatabaseResourceCrud) Update() error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	request := oci_database.UpdateAutonomousDatabaseRequest{}
 
 	// @CODEGEN 09/2018: Cannot update the password and scale the Autonomous Transaction Processing in same request, only include changed properties in request
@@ -340,7 +340,7 @@ func (s *AutonomousDatabaseResourceCrud) Update() error {
 	return nil
 }
 
-func (s *AutonomousDatabaseResourceCrud) Delete() error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) Delete() error {
 	request := oci_database.DeleteAutonomousDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -352,7 +352,7 @@ func (s *AutonomousDatabaseResourceCrud) Delete() error {
 	return err
 }
 
-func (s *AutonomousDatabaseResourceCrud) SetData() error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

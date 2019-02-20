@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,16 +10,16 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
-func VaultResource() *schema.Resource {
+func KmsVaultResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createVault,
-		Read:     readVault,
-		Update:   updateVault,
-		Delete:   deleteVault,
+		Create:   createKmsVault,
+		Read:     readKmsVault,
+		Update:   updateKmsVault,
+		Delete:   deleteKmsVault,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -64,76 +64,76 @@ func VaultResource() *schema.Resource {
 	}
 }
 
-func createVault(d *schema.ResourceData, m interface{}) error {
-	sync := &VaultResourceCrud{}
+func createKmsVault(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsVaultResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).kmsVaultClient
 
 	return CreateResource(d, sync)
 }
 
-func readVault(d *schema.ResourceData, m interface{}) error {
-	sync := &VaultResourceCrud{}
+func readKmsVault(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsVaultResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).kmsVaultClient
 
 	return ReadResource(sync)
 }
 
-func updateVault(d *schema.ResourceData, m interface{}) error {
-	sync := &VaultResourceCrud{}
+func updateKmsVault(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsVaultResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).kmsVaultClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteVault(d *schema.ResourceData, m interface{}) error {
-	sync := &VaultResourceCrud{}
+func deleteKmsVault(d *schema.ResourceData, m interface{}) error {
+	sync := &KmsVaultResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).kmsVaultClient
 
 	return DeleteResource(d, sync)
 }
 
-type VaultResourceCrud struct {
+type KmsVaultResourceCrud struct {
 	BaseCrud
 	Client                 *oci_kms.KmsVaultClient
 	Res                    *oci_kms.Vault
 	DisableNotFoundRetries bool
 }
 
-func (s *VaultResourceCrud) ID() string {
+func (s *KmsVaultResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *VaultResourceCrud) CreatedPending() []string {
+func (s *KmsVaultResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_kms.VaultLifecycleStateCreating),
 	}
 }
 
-func (s *VaultResourceCrud) CreatedTarget() []string {
+func (s *KmsVaultResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_kms.VaultLifecycleStateActive),
 	}
 }
 
-func (s *VaultResourceCrud) DeletedPending() []string {
+func (s *KmsVaultResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_kms.VaultLifecycleStateDeleting),
 		string(oci_kms.VaultLifecycleStateSchedulingDeletion),
 	}
 }
 
-func (s *VaultResourceCrud) DeletedTarget() []string {
+func (s *KmsVaultResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_kms.VaultLifecycleStateDeleted),
 		string(oci_kms.VaultLifecycleStatePendingDeletion),
 	}
 }
 
-func (s *VaultResourceCrud) Create() error {
+func (s *KmsVaultResourceCrud) Create() error {
 	request := oci_kms.CreateVaultRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -161,7 +161,7 @@ func (s *VaultResourceCrud) Create() error {
 	return nil
 }
 
-func (s *VaultResourceCrud) Get() error {
+func (s *KmsVaultResourceCrud) Get() error {
 	request := oci_kms.GetVaultRequest{}
 
 	tmp := s.D.Id()
@@ -178,7 +178,7 @@ func (s *VaultResourceCrud) Get() error {
 	return nil
 }
 
-func (s *VaultResourceCrud) Update() error {
+func (s *KmsVaultResourceCrud) Update() error {
 	request := oci_kms.UpdateVaultRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -200,7 +200,7 @@ func (s *VaultResourceCrud) Update() error {
 	return nil
 }
 
-func (s *VaultResourceCrud) Delete() error {
+func (s *KmsVaultResourceCrud) Delete() error {
 	request := oci_kms.ScheduleVaultDeletionRequest{}
 
 	tmp := s.D.Id()
@@ -212,7 +212,7 @@ func (s *VaultResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VaultResourceCrud) SetData() error {
+func (s *KmsVaultResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func TenancyDataSource() *schema.Resource {
+func IdentityTenancyDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularTenancy,
+		Read: readSingularIdentityTenancy,
 		Schema: map[string]*schema.Schema{
 			"tenancy_id": {
 				Type:     schema.TypeString,
@@ -44,25 +44,25 @@ func TenancyDataSource() *schema.Resource {
 	}
 }
 
-func readSingularTenancy(d *schema.ResourceData, m interface{}) error {
-	sync := &TenancyDataSourceCrud{}
+func readSingularIdentityTenancy(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityTenancyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type TenancyDataSourceCrud struct {
+type IdentityTenancyDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.GetTenancyResponse
 }
 
-func (s *TenancyDataSourceCrud) VoidState() {
+func (s *IdentityTenancyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *TenancyDataSourceCrud) Get() error {
+func (s *IdentityTenancyDataSourceCrud) Get() error {
 	request := oci_identity.GetTenancyRequest{}
 
 	if tenancyId, ok := s.D.GetOkExists("tenancy_id"); ok {
@@ -81,7 +81,7 @@ func (s *TenancyDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *TenancyDataSourceCrud) SetData() error {
+func (s *IdentityTenancyDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

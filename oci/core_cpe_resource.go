@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,16 +10,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func CpeResource() *schema.Resource {
+func CoreCpeResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createCpe,
-		Read:     readCpe,
-		Update:   updateCpe,
-		Delete:   deleteCpe,
+		Create:   createCoreCpe,
+		Read:     readCoreCpe,
+		Update:   updateCoreCpe,
+		Delete:   deleteCoreCpe,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -62,32 +62,32 @@ func CpeResource() *schema.Resource {
 	}
 }
 
-func createCpe(d *schema.ResourceData, m interface{}) error {
-	sync := &CpeResourceCrud{}
+func createCoreCpe(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCpeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readCpe(d *schema.ResourceData, m interface{}) error {
-	sync := &CpeResourceCrud{}
+func readCoreCpe(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCpeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateCpe(d *schema.ResourceData, m interface{}) error {
-	sync := &CpeResourceCrud{}
+func updateCoreCpe(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCpeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteCpe(d *schema.ResourceData, m interface{}) error {
-	sync := &CpeResourceCrud{}
+func deleteCoreCpe(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreCpeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -95,18 +95,18 @@ func deleteCpe(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type CpeResourceCrud struct {
+type CoreCpeResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.Cpe
 	DisableNotFoundRetries bool
 }
 
-func (s *CpeResourceCrud) ID() string {
+func (s *CoreCpeResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *CpeResourceCrud) Create() error {
+func (s *CoreCpeResourceCrud) Create() error {
 	request := oci_core.CreateCpeRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -147,7 +147,7 @@ func (s *CpeResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CpeResourceCrud) Get() error {
+func (s *CoreCpeResourceCrud) Get() error {
 	request := oci_core.GetCpeRequest{}
 
 	tmp := s.D.Id()
@@ -164,7 +164,7 @@ func (s *CpeResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CpeResourceCrud) Update() error {
+func (s *CoreCpeResourceCrud) Update() error {
 	request := oci_core.UpdateCpeRequest{}
 
 	tmp := s.D.Id()
@@ -198,7 +198,7 @@ func (s *CpeResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CpeResourceCrud) Delete() error {
+func (s *CoreCpeResourceCrud) Delete() error {
 	request := oci_core.DeleteCpeRequest{}
 
 	tmp := s.D.Id()
@@ -210,7 +210,7 @@ func (s *CpeResourceCrud) Delete() error {
 	return err
 }
 
-func (s *CpeResourceCrud) SetData() error {
+func (s *CoreCpeResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

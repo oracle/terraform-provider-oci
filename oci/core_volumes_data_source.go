@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumesDataSource() *schema.Resource {
+func CoreVolumesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVolumes,
+		Read: readCoreVolumes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -38,7 +38,7 @@ func VolumesDataSource() *schema.Resource {
 			"volumes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(VolumeResource()),
+				Elem:     GetDataSourceItemSchema(CoreVolumeResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -54,25 +54,25 @@ func VolumesDataSource() *schema.Resource {
 	}
 }
 
-func readVolumes(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumesDataSourceCrud{}
+func readCoreVolumes(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-type VolumesDataSourceCrud struct {
+type CoreVolumesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
 	Res    *oci_core.ListVolumesResponse
 }
 
-func (s *VolumesDataSourceCrud) VoidState() {
+func (s *CoreVolumesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VolumesDataSourceCrud) Get() error {
+func (s *CoreVolumesDataSourceCrud) Get() error {
 	request := oci_core.ListVolumesRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -132,7 +132,7 @@ func (s *VolumesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumesDataSourceCrud) SetData() error {
+func (s *CoreVolumesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -203,7 +203,7 @@ func (s *VolumesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, VolumesDataSource().Schema["volumes"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreVolumesDataSource().Schema["volumes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("volumes", resources); err != nil {

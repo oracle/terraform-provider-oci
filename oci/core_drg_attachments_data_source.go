@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func DrgAttachmentsDataSource() *schema.Resource {
+func CoreDrgAttachmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDrgAttachments,
+		Read: readCoreDrgAttachments,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -29,7 +29,7 @@ func DrgAttachmentsDataSource() *schema.Resource {
 			"drg_attachments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(DrgAttachmentResource()),
+				Elem:     GetDataSourceItemSchema(CoreDrgAttachmentResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -45,25 +45,25 @@ func DrgAttachmentsDataSource() *schema.Resource {
 	}
 }
 
-func readDrgAttachments(d *schema.ResourceData, m interface{}) error {
-	sync := &DrgAttachmentsDataSourceCrud{}
+func readCoreDrgAttachments(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreDrgAttachmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type DrgAttachmentsDataSourceCrud struct {
+type CoreDrgAttachmentsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListDrgAttachmentsResponse
 }
 
-func (s *DrgAttachmentsDataSourceCrud) VoidState() {
+func (s *CoreDrgAttachmentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DrgAttachmentsDataSourceCrud) Get() error {
+func (s *CoreDrgAttachmentsDataSourceCrud) Get() error {
 	request := oci_core.ListDrgAttachmentsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -114,7 +114,7 @@ func (s *DrgAttachmentsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DrgAttachmentsDataSourceCrud) SetData() error {
+func (s *CoreDrgAttachmentsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -157,7 +157,7 @@ func (s *DrgAttachmentsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DrgAttachmentsDataSource().Schema["drg_attachments"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreDrgAttachmentsDataSource().Schema["drg_attachments"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("drg_attachments", resources); err != nil {

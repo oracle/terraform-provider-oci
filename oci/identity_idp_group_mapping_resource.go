@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -11,13 +11,13 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func IdpGroupMappingResource() *schema.Resource {
+func IdentityIdpGroupMappingResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createIdpGroupMapping,
-		Read:     readIdpGroupMapping,
-		Update:   updateIdpGroupMapping,
-		Delete:   deleteIdpGroupMapping,
+		Create:   createIdentityIdpGroupMapping,
+		Read:     readIdentityIdpGroupMapping,
+		Update:   updateIdentityIdpGroupMapping,
+		Delete:   deleteIdentityIdpGroupMapping,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"group_id": {
@@ -57,32 +57,32 @@ func IdpGroupMappingResource() *schema.Resource {
 	}
 }
 
-func createIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
-	sync := &IdpGroupMappingResourceCrud{}
+func createIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityIdpGroupMappingResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
-	sync := &IdpGroupMappingResourceCrud{}
+func readIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityIdpGroupMappingResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
-	sync := &IdpGroupMappingResourceCrud{}
+func updateIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityIdpGroupMappingResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
-	sync := &IdpGroupMappingResourceCrud{}
+func deleteIdentityIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityIdpGroupMappingResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -90,42 +90,42 @@ func deleteIdpGroupMapping(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type IdpGroupMappingResourceCrud struct {
+type IdentityIdpGroupMappingResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.IdpGroupMapping
 	DisableNotFoundRetries bool
 }
 
-func (s *IdpGroupMappingResourceCrud) ID() string {
+func (s *IdentityIdpGroupMappingResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *IdpGroupMappingResourceCrud) CreatedPending() []string {
+func (s *IdentityIdpGroupMappingResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.IdpGroupMappingLifecycleStateCreating),
 	}
 }
 
-func (s *IdpGroupMappingResourceCrud) CreatedTarget() []string {
+func (s *IdentityIdpGroupMappingResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.IdpGroupMappingLifecycleStateActive),
 	}
 }
 
-func (s *IdpGroupMappingResourceCrud) DeletedPending() []string {
+func (s *IdentityIdpGroupMappingResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.IdpGroupMappingLifecycleStateDeleting),
 	}
 }
 
-func (s *IdpGroupMappingResourceCrud) DeletedTarget() []string {
+func (s *IdentityIdpGroupMappingResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.IdpGroupMappingLifecycleStateDeleted),
 	}
 }
 
-func (s *IdpGroupMappingResourceCrud) Create() error {
+func (s *IdentityIdpGroupMappingResourceCrud) Create() error {
 	request := oci_identity.CreateIdpGroupMappingRequest{}
 
 	if groupId, ok := s.D.GetOkExists("group_id"); ok {
@@ -154,7 +154,7 @@ func (s *IdpGroupMappingResourceCrud) Create() error {
 	return nil
 }
 
-func (s *IdpGroupMappingResourceCrud) Get() error {
+func (s *IdentityIdpGroupMappingResourceCrud) Get() error {
 	request := oci_identity.GetIdpGroupMappingRequest{}
 
 	if identityProviderId, ok := s.D.GetOkExists("identity_provider_id"); ok {
@@ -176,7 +176,7 @@ func (s *IdpGroupMappingResourceCrud) Get() error {
 	return nil
 }
 
-func (s *IdpGroupMappingResourceCrud) Update() error {
+func (s *IdentityIdpGroupMappingResourceCrud) Update() error {
 	request := oci_identity.UpdateIdpGroupMappingRequest{}
 
 	if groupId, ok := s.D.GetOkExists("group_id"); ok {
@@ -208,7 +208,7 @@ func (s *IdpGroupMappingResourceCrud) Update() error {
 	return nil
 }
 
-func (s *IdpGroupMappingResourceCrud) Delete() error {
+func (s *IdentityIdpGroupMappingResourceCrud) Delete() error {
 	request := oci_identity.DeleteIdpGroupMappingRequest{}
 
 	if identityProviderId, ok := s.D.GetOkExists("identity_provider_id"); ok {
@@ -225,7 +225,7 @@ func (s *IdpGroupMappingResourceCrud) Delete() error {
 	return err
 }
 
-func (s *IdpGroupMappingResourceCrud) SetData() error {
+func (s *IdentityIdpGroupMappingResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

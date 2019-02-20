@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func LoadBalancerShapesDataSource() *schema.Resource {
+func LoadBalancerLoadBalancerShapesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readLoadBalancerShapes,
+		Read: readLoadBalancerLoadBalancerShapes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,25 +39,25 @@ func LoadBalancerShapesDataSource() *schema.Resource {
 	}
 }
 
-func readLoadBalancerShapes(d *schema.ResourceData, m interface{}) error {
-	sync := &LoadBalancerShapesDataSourceCrud{}
+func readLoadBalancerLoadBalancerShapes(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerLoadBalancerShapesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-type LoadBalancerShapesDataSourceCrud struct {
+type LoadBalancerLoadBalancerShapesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
 	Res    *oci_load_balancer.ListShapesResponse
 }
 
-func (s *LoadBalancerShapesDataSourceCrud) VoidState() {
+func (s *LoadBalancerLoadBalancerShapesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoadBalancerShapesDataSourceCrud) Get() error {
+func (s *LoadBalancerLoadBalancerShapesDataSourceCrud) Get() error {
 	request := oci_load_balancer.ListShapesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +76,7 @@ func (s *LoadBalancerShapesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *LoadBalancerShapesDataSourceCrud) SetData() error {
+func (s *LoadBalancerLoadBalancerShapesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -95,7 +95,7 @@ func (s *LoadBalancerShapesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerShapesDataSource().Schema["shapes"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerLoadBalancerShapesDataSource().Schema["shapes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("shapes", resources); err != nil {

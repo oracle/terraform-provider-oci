@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -12,13 +12,13 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func AuthTokenResource() *schema.Resource {
+func IdentityAuthTokenResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createAuthToken,
-		Read:     readAuthToken,
-		Update:   updateAuthToken,
-		Delete:   deleteAuthToken,
+		Create:   createIdentityAuthToken,
+		Read:     readIdentityAuthToken,
+		Update:   updateIdentityAuthToken,
+		Delete:   deleteIdentityAuthToken,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"description": {
@@ -58,32 +58,32 @@ func AuthTokenResource() *schema.Resource {
 	}
 }
 
-func createAuthToken(d *schema.ResourceData, m interface{}) error {
-	sync := &AuthTokenResourceCrud{}
+func createIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityAuthTokenResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readAuthToken(d *schema.ResourceData, m interface{}) error {
-	sync := &AuthTokenResourceCrud{}
+func readIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityAuthTokenResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateAuthToken(d *schema.ResourceData, m interface{}) error {
-	sync := &AuthTokenResourceCrud{}
+func updateIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityAuthTokenResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteAuthToken(d *schema.ResourceData, m interface{}) error {
-	sync := &AuthTokenResourceCrud{}
+func deleteIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityAuthTokenResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -91,46 +91,46 @@ func deleteAuthToken(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type AuthTokenResourceCrud struct {
+type IdentityAuthTokenResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.AuthToken
 	DisableNotFoundRetries bool
 }
 
-func (s *AuthTokenResourceCrud) ID() string {
+func (s *IdentityAuthTokenResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *AuthTokenResourceCrud) State() oci_identity.AuthTokenLifecycleStateEnum {
+func (s *IdentityAuthTokenResourceCrud) State() oci_identity.AuthTokenLifecycleStateEnum {
 	return s.Res.LifecycleState
 }
 
-func (s *AuthTokenResourceCrud) CreatedPending() []string {
+func (s *IdentityAuthTokenResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.AuthTokenLifecycleStateCreating),
 	}
 }
 
-func (s *AuthTokenResourceCrud) CreatedTarget() []string {
+func (s *IdentityAuthTokenResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.AuthTokenLifecycleStateActive),
 	}
 }
 
-func (s *AuthTokenResourceCrud) DeletedPending() []string {
+func (s *IdentityAuthTokenResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.AuthTokenLifecycleStateDeleting),
 	}
 }
 
-func (s *AuthTokenResourceCrud) DeletedTarget() []string {
+func (s *IdentityAuthTokenResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.AuthTokenLifecycleStateDeleted),
 	}
 }
 
-func (s *AuthTokenResourceCrud) Create() error {
+func (s *IdentityAuthTokenResourceCrud) Create() error {
 	request := oci_identity.CreateAuthTokenRequest{}
 
 	if description, ok := s.D.GetOkExists("description"); ok {
@@ -154,7 +154,7 @@ func (s *AuthTokenResourceCrud) Create() error {
 	return nil
 }
 
-func (s *AuthTokenResourceCrud) Get() error {
+func (s *IdentityAuthTokenResourceCrud) Get() error {
 	request := oci_identity.ListAuthTokensRequest{}
 
 	if userId, ok := s.D.GetOkExists("user_id"); ok {
@@ -180,7 +180,7 @@ func (s *AuthTokenResourceCrud) Get() error {
 
 }
 
-func (s *AuthTokenResourceCrud) Update() error {
+func (s *IdentityAuthTokenResourceCrud) Update() error {
 	request := oci_identity.UpdateAuthTokenRequest{}
 
 	tmp := s.D.Id()
@@ -207,7 +207,7 @@ func (s *AuthTokenResourceCrud) Update() error {
 	return nil
 }
 
-func (s *AuthTokenResourceCrud) Delete() error {
+func (s *IdentityAuthTokenResourceCrud) Delete() error {
 	request := oci_identity.DeleteAuthTokenRequest{}
 
 	tmp := s.D.Id()
@@ -224,7 +224,7 @@ func (s *AuthTokenResourceCrud) Delete() error {
 	return err
 }
 
-func (s *AuthTokenResourceCrud) SetData() error {
+func (s *IdentityAuthTokenResourceCrud) SetData() error {
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}

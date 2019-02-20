@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -11,16 +11,16 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func DynamicGroupResource() *schema.Resource {
+func IdentityDynamicGroupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createDynamicGroup,
-		Read:     readDynamicGroup,
-		Update:   updateDynamicGroup,
-		Delete:   deleteDynamicGroup,
+		Create:   createIdentityDynamicGroup,
+		Read:     readIdentityDynamicGroup,
+		Update:   updateIdentityDynamicGroup,
+		Delete:   deleteIdentityDynamicGroup,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -61,32 +61,32 @@ func DynamicGroupResource() *schema.Resource {
 	}
 }
 
-func createDynamicGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &DynamicGroupResourceCrud{}
+func createIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityDynamicGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return CreateResource(d, sync)
 }
 
-func readDynamicGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &DynamicGroupResourceCrud{}
+func readIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityDynamicGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-func updateDynamicGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &DynamicGroupResourceCrud{}
+func updateIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityDynamicGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteDynamicGroup(d *schema.ResourceData, m interface{}) error {
-	sync := &DynamicGroupResourceCrud{}
+func deleteIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityDynamicGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 	sync.DisableNotFoundRetries = true
@@ -94,42 +94,42 @@ func deleteDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type DynamicGroupResourceCrud struct {
+type IdentityDynamicGroupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_identity.IdentityClient
 	Res                    *oci_identity.DynamicGroup
 	DisableNotFoundRetries bool
 }
 
-func (s *DynamicGroupResourceCrud) ID() string {
+func (s *IdentityDynamicGroupResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *DynamicGroupResourceCrud) CreatedPending() []string {
+func (s *IdentityDynamicGroupResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_identity.DynamicGroupLifecycleStateCreating),
 	}
 }
 
-func (s *DynamicGroupResourceCrud) CreatedTarget() []string {
+func (s *IdentityDynamicGroupResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_identity.DynamicGroupLifecycleStateActive),
 	}
 }
 
-func (s *DynamicGroupResourceCrud) DeletedPending() []string {
+func (s *IdentityDynamicGroupResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_identity.DynamicGroupLifecycleStateDeleting),
 	}
 }
 
-func (s *DynamicGroupResourceCrud) DeletedTarget() []string {
+func (s *IdentityDynamicGroupResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_identity.DynamicGroupLifecycleStateDeleted),
 	}
 }
 
-func (s *DynamicGroupResourceCrud) Create() error {
+func (s *IdentityDynamicGroupResourceCrud) Create() error {
 	request := oci_identity.CreateDynamicGroupRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -163,7 +163,7 @@ func (s *DynamicGroupResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DynamicGroupResourceCrud) Get() error {
+func (s *IdentityDynamicGroupResourceCrud) Get() error {
 	request := oci_identity.GetDynamicGroupRequest{}
 
 	tmp := s.D.Id()
@@ -180,7 +180,7 @@ func (s *DynamicGroupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DynamicGroupResourceCrud) Update() error {
+func (s *IdentityDynamicGroupResourceCrud) Update() error {
 	request := oci_identity.UpdateDynamicGroupRequest{}
 
 	if description, ok := s.D.GetOkExists("description"); ok {
@@ -207,7 +207,7 @@ func (s *DynamicGroupResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DynamicGroupResourceCrud) Delete() error {
+func (s *IdentityDynamicGroupResourceCrud) Delete() error {
 	request := oci_identity.DeleteDynamicGroupRequest{}
 
 	tmp := s.D.Id()
@@ -219,7 +219,7 @@ func (s *DynamicGroupResourceCrud) Delete() error {
 	return err
 }
 
-func (s *DynamicGroupResourceCrud) SetData() error {
+func (s *IdentityDynamicGroupResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

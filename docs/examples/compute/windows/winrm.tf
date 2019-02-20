@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 # Use the setup.ps1 as a template and pass the block volume ipv4 and iqn for ISCSI
 data "template_file" "setup_ps1" {
   vars {

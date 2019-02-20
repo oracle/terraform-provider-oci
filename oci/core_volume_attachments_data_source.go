@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumeAttachmentsDataSource() *schema.Resource {
+func CoreVolumeAttachmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVolumeAttachments,
+		Read: readCoreVolumeAttachments,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -34,7 +34,7 @@ func VolumeAttachmentsDataSource() *schema.Resource {
 			"volume_attachments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(VolumeAttachmentResource()),
+				Elem:     GetDataSourceItemSchema(CoreVolumeAttachmentResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -50,25 +50,25 @@ func VolumeAttachmentsDataSource() *schema.Resource {
 	}
 }
 
-func readVolumeAttachments(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeAttachmentsDataSourceCrud{}
+func readCoreVolumeAttachments(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeAttachmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type VolumeAttachmentsDataSourceCrud struct {
+type CoreVolumeAttachmentsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListVolumeAttachmentsResponse
 }
 
-func (s *VolumeAttachmentsDataSourceCrud) VoidState() {
+func (s *CoreVolumeAttachmentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VolumeAttachmentsDataSourceCrud) Get() error {
+func (s *CoreVolumeAttachmentsDataSourceCrud) Get() error {
 	request := oci_core.ListVolumeAttachmentsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -124,7 +124,7 @@ func (s *VolumeAttachmentsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
+func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -252,7 +252,7 @@ func (s *VolumeAttachmentsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, VolumeAttachmentsDataSource().Schema["volume_attachments"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreVolumeAttachmentsDataSource().Schema["volume_attachments"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("volume_attachments", resources); err != nil {

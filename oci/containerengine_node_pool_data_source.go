@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-func NodePoolDataSource() *schema.Resource {
+func ContainerengineNodePoolDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularNodePool,
+		Read: readSingularContainerengineNodePool,
 		Schema: map[string]*schema.Schema{
 			"node_pool_id": {
 				Type:     schema.TypeString,
@@ -103,6 +103,10 @@ func NodePoolDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -156,25 +160,25 @@ func NodePoolDataSource() *schema.Resource {
 	}
 }
 
-func readSingularNodePool(d *schema.ResourceData, m interface{}) error {
-	sync := &NodePoolDataSourceCrud{}
+func readSingularContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineNodePoolDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return ReadResource(sync)
 }
 
-type NodePoolDataSourceCrud struct {
+type ContainerengineNodePoolDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_containerengine.ContainerEngineClient
 	Res    *oci_containerengine.GetNodePoolResponse
 }
 
-func (s *NodePoolDataSourceCrud) VoidState() {
+func (s *ContainerengineNodePoolDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NodePoolDataSourceCrud) Get() error {
+func (s *ContainerengineNodePoolDataSourceCrud) Get() error {
 	request := oci_containerengine.GetNodePoolRequest{}
 
 	if nodePoolId, ok := s.D.GetOkExists("node_pool_id"); ok {
@@ -193,7 +197,7 @@ func (s *NodePoolDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *NodePoolDataSourceCrud) SetData() error {
+func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

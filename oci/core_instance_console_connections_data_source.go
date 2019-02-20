@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InstanceConsoleConnectionsDataSource() *schema.Resource {
+func CoreInstanceConsoleConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readInstanceConsoleConnections,
+		Read: readCoreInstanceConsoleConnections,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -25,31 +25,31 @@ func InstanceConsoleConnectionsDataSource() *schema.Resource {
 			"instance_console_connections": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(InstanceConsoleConnectionResource()),
+				Elem:     GetDataSourceItemSchema(CoreInstanceConsoleConnectionResource()),
 			},
 		},
 	}
 }
 
-func readInstanceConsoleConnections(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceConsoleConnectionsDataSourceCrud{}
+func readCoreInstanceConsoleConnections(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceConsoleConnectionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type InstanceConsoleConnectionsDataSourceCrud struct {
+type CoreInstanceConsoleConnectionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListInstanceConsoleConnectionsResponse
 }
 
-func (s *InstanceConsoleConnectionsDataSourceCrud) VoidState() {
+func (s *CoreInstanceConsoleConnectionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *InstanceConsoleConnectionsDataSourceCrud) Get() error {
+func (s *CoreInstanceConsoleConnectionsDataSourceCrud) Get() error {
 	request := oci_core.ListInstanceConsoleConnectionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +85,7 @@ func (s *InstanceConsoleConnectionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstanceConsoleConnectionsDataSourceCrud) SetData() error {
+func (s *CoreInstanceConsoleConnectionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -130,7 +130,7 @@ func (s *InstanceConsoleConnectionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, InstanceConsoleConnectionsDataSource().Schema["instance_console_connections"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreInstanceConsoleConnectionsDataSource().Schema["instance_console_connections"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("instance_console_connections", resources); err != nil {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func RuleSetsDataSource() *schema.Resource {
+func LoadBalancerRuleSetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readRuleSets,
+		Read: readLoadBalancerRuleSets,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"load_balancer_id": {
@@ -21,31 +21,31 @@ func RuleSetsDataSource() *schema.Resource {
 			"rule_sets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(RuleSetResource()),
+				Elem:     GetDataSourceItemSchema(LoadBalancerRuleSetResource()),
 			},
 		},
 	}
 }
 
-func readRuleSets(d *schema.ResourceData, m interface{}) error {
-	sync := &RuleSetsDataSourceCrud{}
+func readLoadBalancerRuleSets(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerRuleSetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-type RuleSetsDataSourceCrud struct {
+type LoadBalancerRuleSetsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
 	Res    *oci_load_balancer.ListRuleSetsResponse
 }
 
-func (s *RuleSetsDataSourceCrud) VoidState() {
+func (s *LoadBalancerRuleSetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RuleSetsDataSourceCrud) Get() error {
+func (s *LoadBalancerRuleSetsDataSourceCrud) Get() error {
 	request := oci_load_balancer.ListRuleSetsRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -64,7 +64,7 @@ func (s *RuleSetsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *RuleSetsDataSourceCrud) SetData() error {
+func (s *LoadBalancerRuleSetsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -89,7 +89,7 @@ func (s *RuleSetsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, RuleSetsDataSource().Schema["rule_sets"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerRuleSetsDataSource().Schema["rule_sets"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("rule_sets", resources); err != nil {

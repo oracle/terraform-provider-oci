@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-func ClustersDataSource() *schema.Resource {
+func ContainerengineClustersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readClusters,
+		Read: readContainerengineClusters,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -32,31 +32,31 @@ func ClustersDataSource() *schema.Resource {
 			"clusters": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(ClusterResource()),
+				Elem:     GetDataSourceItemSchema(ContainerengineClusterResource()),
 			},
 		},
 	}
 }
 
-func readClusters(d *schema.ResourceData, m interface{}) error {
-	sync := &ClustersDataSourceCrud{}
+func readContainerengineClusters(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineClustersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return ReadResource(sync)
 }
 
-type ClustersDataSourceCrud struct {
+type ContainerengineClustersDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_containerengine.ContainerEngineClient
 	Res    *oci_containerengine.ListClustersResponse
 }
 
-func (s *ClustersDataSourceCrud) VoidState() {
+func (s *ContainerengineClustersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ClustersDataSourceCrud) Get() error {
+func (s *ContainerengineClustersDataSourceCrud) Get() error {
 	request := oci_containerengine.ListClustersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -100,7 +100,7 @@ func (s *ClustersDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ClustersDataSourceCrud) SetData() error {
+func (s *ContainerengineClustersDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -159,7 +159,7 @@ func (s *ClustersDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, ClustersDataSource().Schema["clusters"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, ContainerengineClustersDataSource().Schema["clusters"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("clusters", resources); err != nil {

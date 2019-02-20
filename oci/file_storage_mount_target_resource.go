@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,16 +10,16 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-func MountTargetResource() *schema.Resource {
+func FileStorageMountTargetResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createMountTarget,
-		Read:     readMountTarget,
-		Update:   updateMountTarget,
-		Delete:   deleteMountTarget,
+		Create:   createFileStorageMountTarget,
+		Read:     readFileStorageMountTarget,
+		Update:   updateFileStorageMountTarget,
+		Delete:   deleteFileStorageMountTarget,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -98,32 +98,32 @@ func MountTargetResource() *schema.Resource {
 	}
 }
 
-func createMountTarget(d *schema.ResourceData, m interface{}) error {
-	sync := &MountTargetResourceCrud{}
+func createFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readMountTarget(d *schema.ResourceData, m interface{}) error {
-	sync := &MountTargetResourceCrud{}
+func readFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return ReadResource(sync)
 }
 
-func updateMountTarget(d *schema.ResourceData, m interface{}) error {
-	sync := &MountTargetResourceCrud{}
+func updateFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteMountTarget(d *schema.ResourceData, m interface{}) error {
-	sync := &MountTargetResourceCrud{}
+func deleteFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 	sync.DisableNotFoundRetries = true
@@ -131,44 +131,44 @@ func deleteMountTarget(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type MountTargetResourceCrud struct {
+type FileStorageMountTargetResourceCrud struct {
 	BaseCrud
 	Client                 *oci_file_storage.FileStorageClient
 	Res                    *oci_file_storage.MountTarget
 	DisableNotFoundRetries bool
 }
 
-func (s *MountTargetResourceCrud) ID() string {
+func (s *FileStorageMountTargetResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *MountTargetResourceCrud) CreatedPending() []string {
+func (s *FileStorageMountTargetResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_file_storage.MountTargetLifecycleStateCreating),
 	}
 }
 
-func (s *MountTargetResourceCrud) CreatedTarget() []string {
+func (s *FileStorageMountTargetResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_file_storage.MountTargetLifecycleStateActive),
 		string(oci_file_storage.MountTargetLifecycleStateFailed),
 	}
 }
 
-func (s *MountTargetResourceCrud) DeletedPending() []string {
+func (s *FileStorageMountTargetResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_file_storage.MountTargetLifecycleStateDeleting),
 	}
 }
 
-func (s *MountTargetResourceCrud) DeletedTarget() []string {
+func (s *FileStorageMountTargetResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_file_storage.MountTargetLifecycleStateDeleted),
 		string(oci_file_storage.MountTargetLifecycleStateFailed),
 	}
 }
 
-func (s *MountTargetResourceCrud) Create() error {
+func (s *FileStorageMountTargetResourceCrud) Create() error {
 	request := oci_file_storage.CreateMountTargetRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -224,7 +224,7 @@ func (s *MountTargetResourceCrud) Create() error {
 	return nil
 }
 
-func (s *MountTargetResourceCrud) Get() error {
+func (s *FileStorageMountTargetResourceCrud) Get() error {
 	request := oci_file_storage.GetMountTargetRequest{}
 
 	tmp := s.D.Id()
@@ -241,7 +241,7 @@ func (s *MountTargetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *MountTargetResourceCrud) Update() error {
+func (s *FileStorageMountTargetResourceCrud) Update() error {
 	request := oci_file_storage.UpdateMountTargetRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -275,7 +275,7 @@ func (s *MountTargetResourceCrud) Update() error {
 	return nil
 }
 
-func (s *MountTargetResourceCrud) Delete() error {
+func (s *FileStorageMountTargetResourceCrud) Delete() error {
 	request := oci_file_storage.DeleteMountTargetRequest{}
 
 	tmp := s.D.Id()
@@ -287,7 +287,7 @@ func (s *MountTargetResourceCrud) Delete() error {
 	return err
 }
 
-func (s *MountTargetResourceCrud) SetData() error {
+func (s *FileStorageMountTargetResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}

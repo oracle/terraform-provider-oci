@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-func MountTargetsDataSource() *schema.Resource {
+func FileStorageMountTargetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readMountTargets,
+		Read: readFileStorageMountTargets,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -41,31 +41,31 @@ func MountTargetsDataSource() *schema.Resource {
 			"mount_targets": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(MountTargetResource()),
+				Elem:     GetDataSourceItemSchema(FileStorageMountTargetResource()),
 			},
 		},
 	}
 }
 
-func readMountTargets(d *schema.ResourceData, m interface{}) error {
-	sync := &MountTargetsDataSourceCrud{}
+func readFileStorageMountTargets(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageMountTargetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return ReadResource(sync)
 }
 
-type MountTargetsDataSourceCrud struct {
+type FileStorageMountTargetsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_file_storage.FileStorageClient
 	Res    *oci_file_storage.ListMountTargetsResponse
 }
 
-func (s *MountTargetsDataSourceCrud) VoidState() {
+func (s *FileStorageMountTargetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *MountTargetsDataSourceCrud) Get() error {
+func (s *FileStorageMountTargetsDataSourceCrud) Get() error {
 	request := oci_file_storage.ListMountTargetsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -120,7 +120,7 @@ func (s *MountTargetsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *MountTargetsDataSourceCrud) SetData() error {
+func (s *FileStorageMountTargetsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -162,7 +162,7 @@ func (s *MountTargetsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, MountTargetsDataSource().Schema["mount_targets"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, FileStorageMountTargetsDataSource().Schema["mount_targets"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("mount_targets", resources); err != nil {

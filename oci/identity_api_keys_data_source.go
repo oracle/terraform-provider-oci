@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func ApiKeysDataSource() *schema.Resource {
+func IdentityApiKeysDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readApiKeys,
+		Read: readIdentityApiKeys,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"user_id": {
@@ -22,31 +22,31 @@ func ApiKeysDataSource() *schema.Resource {
 			"api_keys": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(ApiKeyResource()),
+				Elem:     GetDataSourceItemSchema(IdentityApiKeyResource()),
 			},
 		},
 	}
 }
 
-func readApiKeys(d *schema.ResourceData, m interface{}) error {
-	sync := &ApiKeysDataSourceCrud{}
+func readIdentityApiKeys(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityApiKeysDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type ApiKeysDataSourceCrud struct {
+type IdentityApiKeysDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListApiKeysResponse
 }
 
-func (s *ApiKeysDataSourceCrud) VoidState() {
+func (s *IdentityApiKeysDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApiKeysDataSourceCrud) Get() error {
+func (s *IdentityApiKeysDataSourceCrud) Get() error {
 	request := oci_identity.ListApiKeysRequest{}
 
 	if userId, ok := s.D.GetOkExists("user_id"); ok {
@@ -65,7 +65,7 @@ func (s *ApiKeysDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ApiKeysDataSourceCrud) SetData() error {
+func (s *IdentityApiKeysDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -104,7 +104,7 @@ func (s *ApiKeysDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, ApiKeysDataSource().Schema["api_keys"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityApiKeysDataSource().Schema["api_keys"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("api_keys", resources); err != nil {

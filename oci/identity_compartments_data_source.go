@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func CompartmentsDataSource() *schema.Resource {
+func IdentityCompartmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCompartments,
+		Read: readIdentityCompartments,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"access_level": {
@@ -30,31 +30,31 @@ func CompartmentsDataSource() *schema.Resource {
 			"compartments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(CompartmentResource()),
+				Elem:     GetDataSourceItemSchema(IdentityCompartmentResource()),
 			},
 		},
 	}
 }
 
-func readCompartments(d *schema.ResourceData, m interface{}) error {
-	sync := &CompartmentsDataSourceCrud{}
+func readIdentityCompartments(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityCompartmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type CompartmentsDataSourceCrud struct {
+type IdentityCompartmentsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListCompartmentsResponse
 }
 
-func (s *CompartmentsDataSourceCrud) VoidState() {
+func (s *IdentityCompartmentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CompartmentsDataSourceCrud) Get() error {
+func (s *IdentityCompartmentsDataSourceCrud) Get() error {
 	request := oci_identity.ListCompartmentsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -94,7 +94,7 @@ func (s *CompartmentsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *CompartmentsDataSourceCrud) SetData() error {
+func (s *IdentityCompartmentsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -143,7 +143,7 @@ func (s *CompartmentsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, CompartmentsDataSource().Schema["compartments"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityCompartmentsDataSource().Schema["compartments"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("compartments", resources); err != nil {

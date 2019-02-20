@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,16 +10,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func SubnetResource() *schema.Resource {
+func CoreSubnetResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createSubnet,
-		Read:     readSubnet,
-		Update:   updateSubnet,
-		Delete:   deleteSubnet,
+		Create:   createCoreSubnet,
+		Read:     readCoreSubnet,
+		Update:   updateCoreSubnet,
+		Delete:   deleteCoreSubnet,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -122,32 +122,32 @@ func SubnetResource() *schema.Resource {
 	}
 }
 
-func createSubnet(d *schema.ResourceData, m interface{}) error {
-	sync := &SubnetResourceCrud{}
+func createCoreSubnet(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readSubnet(d *schema.ResourceData, m interface{}) error {
-	sync := &SubnetResourceCrud{}
+func readCoreSubnet(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateSubnet(d *schema.ResourceData, m interface{}) error {
-	sync := &SubnetResourceCrud{}
+func updateCoreSubnet(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteSubnet(d *schema.ResourceData, m interface{}) error {
-	sync := &SubnetResourceCrud{}
+func deleteCoreSubnet(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -155,42 +155,42 @@ func deleteSubnet(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type SubnetResourceCrud struct {
+type CoreSubnetResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.Subnet
 	DisableNotFoundRetries bool
 }
 
-func (s *SubnetResourceCrud) ID() string {
+func (s *CoreSubnetResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *SubnetResourceCrud) CreatedPending() []string {
+func (s *CoreSubnetResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.SubnetLifecycleStateProvisioning),
 	}
 }
 
-func (s *SubnetResourceCrud) CreatedTarget() []string {
+func (s *CoreSubnetResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.SubnetLifecycleStateAvailable),
 	}
 }
 
-func (s *SubnetResourceCrud) DeletedPending() []string {
+func (s *CoreSubnetResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.SubnetLifecycleStateTerminating),
 	}
 }
 
-func (s *SubnetResourceCrud) DeletedTarget() []string {
+func (s *CoreSubnetResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.SubnetLifecycleStateTerminated),
 	}
 }
 
-func (s *SubnetResourceCrud) Create() error {
+func (s *CoreSubnetResourceCrud) Create() error {
 	request := oci_core.CreateSubnetRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -274,7 +274,7 @@ func (s *SubnetResourceCrud) Create() error {
 	return nil
 }
 
-func (s *SubnetResourceCrud) Get() error {
+func (s *CoreSubnetResourceCrud) Get() error {
 	request := oci_core.GetSubnetRequest{}
 
 	tmp := s.D.Id()
@@ -291,7 +291,7 @@ func (s *SubnetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *SubnetResourceCrud) Update() error {
+func (s *CoreSubnetResourceCrud) Update() error {
 	request := oci_core.UpdateSubnetRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -348,7 +348,7 @@ func (s *SubnetResourceCrud) Update() error {
 	return nil
 }
 
-func (s *SubnetResourceCrud) Delete() error {
+func (s *CoreSubnetResourceCrud) Delete() error {
 	request := oci_core.DeleteSubnetRequest{}
 
 	tmp := s.D.Id()
@@ -360,7 +360,7 @@ func (s *SubnetResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SubnetResourceCrud) SetData() error {
+func (s *CoreSubnetResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}

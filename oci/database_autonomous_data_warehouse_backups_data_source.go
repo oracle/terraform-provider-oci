@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDataWarehouseBackupsDataSource() *schema.Resource {
+func DatabaseAutonomousDataWarehouseBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAutonomousDataWarehouseBackups,
+		Read: readDatabaseAutonomousDataWarehouseBackups,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"autonomous_data_warehouse_id": {
@@ -33,31 +33,31 @@ func AutonomousDataWarehouseBackupsDataSource() *schema.Resource {
 			"autonomous_data_warehouse_backups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(AutonomousDataWarehouseBackupResource()),
+				Elem:     GetDataSourceItemSchema(DatabaseAutonomousDataWarehouseBackupResource()),
 			},
 		},
 	}
 }
 
-func readAutonomousDataWarehouseBackups(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseBackupsDataSourceCrud{}
+func readDatabaseAutonomousDataWarehouseBackups(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDataWarehouseBackupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type AutonomousDataWarehouseBackupsDataSourceCrud struct {
+type DatabaseAutonomousDataWarehouseBackupsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListAutonomousDataWarehouseBackupsResponse
 }
 
-func (s *AutonomousDataWarehouseBackupsDataSourceCrud) VoidState() {
+func (s *DatabaseAutonomousDataWarehouseBackupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AutonomousDataWarehouseBackupsDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDataWarehouseBackupsDataSourceCrud) Get() error {
 	request := oci_database.ListAutonomousDataWarehouseBackupsRequest{}
 
 	if autonomousDataWarehouseId, ok := s.D.GetOkExists("autonomous_data_warehouse_id"); ok {
@@ -102,7 +102,7 @@ func (s *AutonomousDataWarehouseBackupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutonomousDataWarehouseBackupsDataSourceCrud) SetData() error {
+func (s *DatabaseAutonomousDataWarehouseBackupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -153,7 +153,7 @@ func (s *AutonomousDataWarehouseBackupsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AutonomousDataWarehouseBackupsDataSource().Schema["autonomous_data_warehouse_backups"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DatabaseAutonomousDataWarehouseBackupsDataSource().Schema["autonomous_data_warehouse_backups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("autonomous_data_warehouse_backups", resources); err != nil {

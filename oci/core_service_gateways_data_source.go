@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func ServiceGatewaysDataSource() *schema.Resource {
+func CoreServiceGatewaysDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readServiceGateways,
+		Read: readCoreServiceGateways,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -29,31 +29,31 @@ func ServiceGatewaysDataSource() *schema.Resource {
 			"service_gateways": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(ServiceGatewayResource()),
+				Elem:     GetDataSourceItemSchema(CoreServiceGatewayResource()),
 			},
 		},
 	}
 }
 
-func readServiceGateways(d *schema.ResourceData, m interface{}) error {
-	sync := &ServiceGatewaysDataSourceCrud{}
+func readCoreServiceGateways(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreServiceGatewaysDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type ServiceGatewaysDataSourceCrud struct {
+type CoreServiceGatewaysDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListServiceGatewaysResponse
 }
 
-func (s *ServiceGatewaysDataSourceCrud) VoidState() {
+func (s *CoreServiceGatewaysDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ServiceGatewaysDataSourceCrud) Get() error {
+func (s *CoreServiceGatewaysDataSourceCrud) Get() error {
 	request := oci_core.ListServiceGatewaysRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -93,7 +93,7 @@ func (s *ServiceGatewaysDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ServiceGatewaysDataSourceCrud) SetData() error {
+func (s *CoreServiceGatewaysDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -144,7 +144,7 @@ func (s *ServiceGatewaysDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, ServiceGatewaysDataSource().Schema["service_gateways"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreServiceGatewaysDataSource().Schema["service_gateways"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("service_gateways", resources); err != nil {

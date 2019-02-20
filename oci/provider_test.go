@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -140,10 +140,10 @@ variable "InstanceImageOCID" {
   default = {
 	// See https://docs.us-phoenix-1.oraclecloud.com/images/
 	// Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-	us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
-	us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
-	eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
-	uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
+	us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaadjnj3da72bztpxinmqpih62c2woscbp6l3wjn36by2cvmdhjub6a"
+	us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaawufnve5jxze4xf7orejupw5iq3pms6cuadzjc7klojix6vmk42va"
+	eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaagbrvhganmn7awcr7plaaf5vhabmzhx763z5afiitswjwmzh7upna"
+	uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaajwtut4l7fo3cvyraate6erdkyf2wdk5vpk6fp6ycng3dv2y3ymvq"
   }
 }
 
@@ -411,6 +411,14 @@ func TestProviderConfig(t *testing.T) {
 }
 
 func TestVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
+
+	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
+		apiKeyConfigAttributeEnvValue := getEnvSettingWithBlankDefault(apiKeyConfigAttribute)
+		if apiKeyConfigAttributeEnvValue != "" {
+			t.Skip("apiKeyConfigAttributes are set through environment variables, skip the test")
+		}
+	}
+
 	r := &schema.Resource{
 		Schema: schemaMap(),
 	}
@@ -421,37 +429,37 @@ func TestVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 
 	apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.True(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("tenancy_ocid", testTenancyOCID)
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.True(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 0, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("user_ocid", testUserOCID)
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 1)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 1, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("fingerprint", testKeyFingerPrint)
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 2)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 2, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("private_key", testPrivateKey)
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 3)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 3, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("private_key_path", "path")
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 4)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 4, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 
 	d.Set("private_key_password", "password")
 	apiKeyConfigVariablesToUnset, ok = checkIncompatibleAttrsForApiKeyAuth(d)
 	assert.False(t, ok)
-	assert.True(t, len(apiKeyConfigVariablesToUnset) == 5)
+	assert.True(t, len(apiKeyConfigVariablesToUnset) == 5, "apiKey config variables to unset: %v", apiKeyConfigVariablesToUnset)
 }
 
 /* This function is used in the test asserts to verify that an element in a set contains certain properties
@@ -524,4 +532,89 @@ func CheckResourceSetContainsElementWithProperties(name, setKey string, properti
 
 		return fmt.Errorf("%s: Set Attribute '%s' does not contain an element with attributes %v %v\nAttributesInStatefile: %v", name, setKey, properties, presentProperties, is.Attributes)
 	}
+}
+
+func CheckResourceSetContainsElementWithPropertiesContainingNestedSets(name, setKey string, properties map[string]interface{}, presentProperties []string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		rm := s.RootModule()
+		rs, ok := rm.Resources[name]
+		if !ok {
+			return fmt.Errorf("Not found: %s", name)
+		}
+		is := rs.Primary
+		if is == nil {
+			return fmt.Errorf("No primary instance: %s", name)
+		}
+
+		orderedKeys := []string{}
+		for key, _ := range is.Attributes {
+			orderedKeys = append(orderedKeys, key)
+		}
+		sort.Strings(orderedKeys)
+		var currSetElementId string
+		currMatchedAttributes := []string{}
+		currMatchedPresentProperties := []string{}
+		leafProperties := 0
+		for _, value := range properties {
+			if _, ok := value.(string); ok {
+				leafProperties++
+			}
+		}
+		setElementMatch := func() bool {
+			return len(currMatchedAttributes) == leafProperties && (presentProperties == nil || len(currMatchedPresentProperties) == len(presentProperties))
+		}
+		for _, key := range orderedKeys {
+			prefix := fmt.Sprintf("%s.", setKey)
+			if !strings.HasPrefix(key, prefix) {
+				continue
+			}
+			attrWithSetIdRaw := strings.TrimPrefix(key, prefix)
+
+			attrWithSetIdRawArr := strings.Split(attrWithSetIdRaw, ".")
+			if len(attrWithSetIdRawArr) < 2 {
+				continue
+			}
+			if attrWithSetIdRawArr[0] != currSetElementId {
+				if setElementMatch() {
+					return nil
+				}
+				currMatchedPresentProperties = []string{}
+				currMatchedAttributes = []string{}
+				currSetElementId = attrWithSetIdRawArr[0]
+
+				//check nested set properties, we do it in this if statement to avoid repeating the same checks for each key in the loop. We only need to check once per set element id
+				for propName, value := range properties {
+					if valueSet, ok := value.([]map[string]interface{}); ok {
+						for _, nestedSetElement := range valueSet {
+							nestedSetCheck := CheckResourceSetContainsElementWithPropertiesContainingNestedSets(name, fmt.Sprintf("%s.%s.%s", setKey, currSetElementId, propName), nestedSetElement, nil)
+							if err := nestedSetCheck(s); err != nil {
+								return err
+							}
+						}
+					}
+				}
+			}
+			attributeName := strings.Join(attrWithSetIdRawArr[1:], ".")
+			for propName, value := range properties {
+				if valueStr, ok := value.(string); ok {
+					if propName == attributeName && valueStr == is.Attributes[key] {
+						currMatchedAttributes = append(currMatchedAttributes, propName)
+					}
+				}
+			}
+			if presentProperties != nil {
+				for _, propName := range presentProperties {
+					if propName == attributeName {
+						currMatchedPresentProperties = append(currMatchedPresentProperties, propName)
+					}
+				}
+			}
+		}
+		if setElementMatch() {
+			return nil
+		}
+
+		return fmt.Errorf("%s: Set Attribute '%s' does not contain an element with attributes %v %v\nAttributesInStatefile: %v", name, setKey, properties, presentProperties, is.Attributes)
+	}
+
 }

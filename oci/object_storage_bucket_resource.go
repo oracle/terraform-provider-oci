@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -12,13 +12,13 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-func BucketResource() *schema.Resource {
+func ObjectStorageBucketResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createBucket,
-		Read:     readBucket,
-		Update:   updateBucket,
-		Delete:   deleteBucket,
+		Create:   createObjectStorageBucket,
+		Read:     readObjectStorageBucket,
+		Update:   updateObjectStorageBucket,
+		Delete:   deleteObjectStorageBucket,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -101,32 +101,32 @@ func BucketResource() *schema.Resource {
 	}
 }
 
-func createBucket(d *schema.ResourceData, m interface{}) error {
-	sync := &BucketResourceCrud{}
+func createObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageBucketResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readBucket(d *schema.ResourceData, m interface{}) error {
-	sync := &BucketResourceCrud{}
+func readObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageBucketResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return ReadResource(sync)
 }
 
-func updateBucket(d *schema.ResourceData, m interface{}) error {
-	sync := &BucketResourceCrud{}
+func updateObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageBucketResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteBucket(d *schema.ResourceData, m interface{}) error {
-	sync := &BucketResourceCrud{}
+func deleteObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageBucketResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 	sync.DisableNotFoundRetries = true
@@ -134,14 +134,14 @@ func deleteBucket(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type BucketResourceCrud struct {
+type ObjectStorageBucketResourceCrud struct {
 	BaseCrud
 	Client                 *oci_object_storage.ObjectStorageClient
 	Res                    *oci_object_storage.Bucket
 	DisableNotFoundRetries bool
 }
 
-func (s *BucketResourceCrud) ID() string {
+func (s *ObjectStorageBucketResourceCrud) ID() string {
 	if s.Res.Namespace == nil || s.Res.Name == nil {
 		log.Printf("Could not get ID for bucket. The bucket namespace and/or name is nil")
 	}
@@ -149,7 +149,7 @@ func (s *BucketResourceCrud) ID() string {
 	return *s.Res.Namespace + "/" + *s.Res.Name
 }
 
-func (s *BucketResourceCrud) Create() error {
+func (s *ObjectStorageBucketResourceCrud) Create() error {
 	request := oci_object_storage.CreateBucketRequest{}
 
 	if accessType, ok := s.D.GetOkExists("access_type"); ok {
@@ -207,7 +207,7 @@ func (s *BucketResourceCrud) Create() error {
 	return nil
 }
 
-func (s *BucketResourceCrud) Get() error {
+func (s *ObjectStorageBucketResourceCrud) Get() error {
 	request := oci_object_storage.GetBucketRequest{}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -232,7 +232,7 @@ func (s *BucketResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BucketResourceCrud) Update() error {
+func (s *ObjectStorageBucketResourceCrud) Update() error {
 	request := oci_object_storage.UpdateBucketRequest{}
 
 	if accessType, ok := s.D.GetOkExists("access_type"); ok {
@@ -302,7 +302,7 @@ func (s *BucketResourceCrud) Update() error {
 	return nil
 }
 
-func (s *BucketResourceCrud) Delete() error {
+func (s *ObjectStorageBucketResourceCrud) Delete() error {
 	request := oci_object_storage.DeleteBucketRequest{}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -321,7 +321,7 @@ func (s *BucketResourceCrud) Delete() error {
 	return err
 }
 
-func (s *BucketResourceCrud) SetData() error {
+func (s *ObjectStorageBucketResourceCrud) SetData() error {
 	s.D.Set("access_type", s.Res.PublicAccessType)
 
 	if s.Res.ApproximateCount != nil {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumeBackupPoliciesDataSource() *schema.Resource {
+func CoreVolumeBackupPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVolumeBackupPolicies,
+		Read: readCoreVolumeBackupPolicies,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"volume_backup_policies": {
@@ -73,25 +73,25 @@ func VolumeBackupPoliciesDataSource() *schema.Resource {
 	}
 }
 
-func readVolumeBackupPolicies(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeBackupPoliciesDataSourceCrud{}
+func readCoreVolumeBackupPolicies(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeBackupPoliciesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-type VolumeBackupPoliciesDataSourceCrud struct {
+type CoreVolumeBackupPoliciesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
 	Res    *oci_core.ListVolumeBackupPoliciesResponse
 }
 
-func (s *VolumeBackupPoliciesDataSourceCrud) VoidState() {
+func (s *CoreVolumeBackupPoliciesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VolumeBackupPoliciesDataSourceCrud) Get() error {
+func (s *CoreVolumeBackupPoliciesDataSourceCrud) Get() error {
 	request := oci_core.ListVolumeBackupPoliciesRequest{}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
@@ -117,7 +117,7 @@ func (s *VolumeBackupPoliciesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeBackupPoliciesDataSourceCrud) SetData() error {
+func (s *CoreVolumeBackupPoliciesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -150,7 +150,7 @@ func (s *VolumeBackupPoliciesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, VolumeBackupPoliciesDataSource().Schema["volume_backup_policies"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreVolumeBackupPoliciesDataSource().Schema["volume_backup_policies"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("volume_backup_policies", resources); err != nil {

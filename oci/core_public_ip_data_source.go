@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,10 +10,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func PublicIpDataSource() *schema.Resource {
+func CorePublicIpDataSource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Read:     readSingularPublicIp,
+		Read:     readSingularCorePublicIp,
 		Schema: map[string]*schema.Schema{
 			"id": {
 				Type:     schema.TypeString,
@@ -84,25 +84,25 @@ func PublicIpDataSource() *schema.Resource {
 	}
 }
 
-func readSingularPublicIp(d *schema.ResourceData, m interface{}) error {
-	sync := &PublicIpDataSourceCrud{}
+func readSingularCorePublicIp(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePublicIpDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type PublicIpDataSourceCrud struct {
+type CorePublicIpDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.PublicIp
 }
 
-func (s *PublicIpDataSourceCrud) VoidState() {
+func (s *CorePublicIpDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *PublicIpDataSourceCrud) Get() error {
+func (s *CorePublicIpDataSourceCrud) Get() error {
 	// public ip resource fetching strategies ordered by specificity
 	if id, ok := s.D.GetOkExists("id"); ok {
 		return s.getById(id.(string))
@@ -119,7 +119,7 @@ func (s *PublicIpDataSourceCrud) Get() error {
 	return errors.New("require at least an id, private_ip_id, or ip_address to get a public ip data source")
 }
 
-func (s *PublicIpDataSourceCrud) getById(id string) error {
+func (s *CorePublicIpDataSourceCrud) getById(id string) error {
 	request := oci_core.GetPublicIpRequest{}
 	request.PublicIpId = &id
 
@@ -134,7 +134,7 @@ func (s *PublicIpDataSourceCrud) getById(id string) error {
 	return nil
 }
 
-func (s *PublicIpDataSourceCrud) getByPrivateIpId(privateIpId string) error {
+func (s *CorePublicIpDataSourceCrud) getByPrivateIpId(privateIpId string) error {
 	request := oci_core.GetPublicIpByPrivateIpIdRequest{}
 	if privateIpId, ok := s.D.GetOkExists("private_ip_id"); ok {
 		tmp := privateIpId.(string)
@@ -151,7 +151,7 @@ func (s *PublicIpDataSourceCrud) getByPrivateIpId(privateIpId string) error {
 	return nil
 }
 
-func (s *PublicIpDataSourceCrud) getByPublicIp(ipAddress string) error {
+func (s *CorePublicIpDataSourceCrud) getByPublicIp(ipAddress string) error {
 	request := oci_core.GetPublicIpByIpAddressRequest{}
 	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
 		tmp := ipAddress.(string)
@@ -169,7 +169,7 @@ func (s *PublicIpDataSourceCrud) getByPublicIp(ipAddress string) error {
 	return nil
 }
 
-func (s *PublicIpDataSourceCrud) SetData() error {
+func (s *CorePublicIpDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

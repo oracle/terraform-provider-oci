@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func BootVolumeBackupsDataSource() *schema.Resource {
+func CoreBootVolumeBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBootVolumeBackups,
+		Read: readCoreBootVolumeBackups,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"boot_volume_id": {
@@ -34,31 +34,31 @@ func BootVolumeBackupsDataSource() *schema.Resource {
 			"boot_volume_backups": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(BootVolumeBackupResource()),
+				Elem:     GetDataSourceItemSchema(CoreBootVolumeBackupResource()),
 			},
 		},
 	}
 }
 
-func readBootVolumeBackups(d *schema.ResourceData, m interface{}) error {
-	sync := &BootVolumeBackupsDataSourceCrud{}
+func readCoreBootVolumeBackups(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreBootVolumeBackupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-type BootVolumeBackupsDataSourceCrud struct {
+type CoreBootVolumeBackupsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.BlockstorageClient
 	Res    *oci_core.ListBootVolumeBackupsResponse
 }
 
-func (s *BootVolumeBackupsDataSourceCrud) VoidState() {
+func (s *CoreBootVolumeBackupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BootVolumeBackupsDataSourceCrud) Get() error {
+func (s *CoreBootVolumeBackupsDataSourceCrud) Get() error {
 	request := oci_core.ListBootVolumeBackupsRequest{}
 
 	if bootVolumeId, ok := s.D.GetOkExists("boot_volume_id"); ok {
@@ -103,7 +103,7 @@ func (s *BootVolumeBackupsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BootVolumeBackupsDataSourceCrud) SetData() error {
+func (s *CoreBootVolumeBackupsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -168,7 +168,7 @@ func (s *BootVolumeBackupsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, BootVolumeBackupsDataSource().Schema["boot_volume_backups"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreBootVolumeBackupsDataSource().Schema["boot_volume_backups"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("boot_volume_backups", resources); err != nil {

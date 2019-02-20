@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -12,16 +12,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumeBackupResource() *schema.Resource {
+func CoreVolumeBackupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createVolumeBackup,
-		Read:     readVolumeBackup,
-		Update:   updateVolumeBackup,
-		Delete:   deleteVolumeBackup,
+		Create:   createCoreVolumeBackup,
+		Read:     readCoreVolumeBackup,
+		Update:   updateCoreVolumeBackup,
+		Delete:   deleteCoreVolumeBackup,
 		Schema: map[string]*schema.Schema{
 			// Optional
 			"volume_id": {
@@ -134,32 +134,32 @@ func VolumeBackupResource() *schema.Resource {
 	}
 }
 
-func createVolumeBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeBackupResourceCrud{}
+func createCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readVolumeBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeBackupResourceCrud{}
+func readCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-func updateVolumeBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeBackupResourceCrud{}
+func updateCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteVolumeBackup(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeBackupResourceCrud{}
+func deleteCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
@@ -167,7 +167,7 @@ func deleteVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type VolumeBackupResourceCrud struct {
+type CoreVolumeBackupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	SourceRegionClient     *oci_core.BlockstorageClient
@@ -175,11 +175,11 @@ type VolumeBackupResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-func (s *VolumeBackupResourceCrud) ID() string {
+func (s *CoreVolumeBackupResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *VolumeBackupResourceCrud) CreatedPending() []string {
+func (s *CoreVolumeBackupResourceCrud) CreatedPending() []string {
 	// Creating is considered "Created" because it can take some time to finish
 	// actually creating and uploading the backup.
 	return []string{
@@ -188,25 +188,25 @@ func (s *VolumeBackupResourceCrud) CreatedPending() []string {
 	}
 }
 
-func (s *VolumeBackupResourceCrud) CreatedTarget() []string {
+func (s *CoreVolumeBackupResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.VolumeBackupLifecycleStateAvailable),
 	}
 }
 
-func (s *VolumeBackupResourceCrud) DeletedPending() []string {
+func (s *CoreVolumeBackupResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.VolumeBackupLifecycleStateTerminating),
 	}
 }
 
-func (s *VolumeBackupResourceCrud) DeletedTarget() []string {
+func (s *CoreVolumeBackupResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.VolumeBackupLifecycleStateTerminated),
 	}
 }
 
-func (s *VolumeBackupResourceCrud) Create() error {
+func (s *CoreVolumeBackupResourceCrud) Create() error {
 	if s.isCopyCreate() {
 		return s.createVolumeBackupCopy()
 	}
@@ -214,7 +214,7 @@ func (s *VolumeBackupResourceCrud) Create() error {
 	return s.CreateVolumeBackup()
 }
 
-func (s *VolumeBackupResourceCrud) isCopyCreate() bool {
+func (s *CoreVolumeBackupResourceCrud) isCopyCreate() bool {
 	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
 		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
 			return true
@@ -223,7 +223,7 @@ func (s *VolumeBackupResourceCrud) isCopyCreate() bool {
 	return false
 }
 
-func (s *VolumeBackupResourceCrud) createVolumeBackupCopy() error {
+func (s *CoreVolumeBackupResourceCrud) createVolumeBackupCopy() error {
 	copyVolumeBackupRequest := oci_core.CopyVolumeBackupRequest{}
 
 	configProvider := *s.Client.ConfigurationProvider()
@@ -267,7 +267,7 @@ func (s *VolumeBackupResourceCrud) createVolumeBackupCopy() error {
 	return nil
 }
 
-func (s *VolumeBackupResourceCrud) CreateVolumeBackup() error {
+func (s *CoreVolumeBackupResourceCrud) CreateVolumeBackup() error {
 	request := oci_core.CreateVolumeBackupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -307,7 +307,7 @@ func (s *VolumeBackupResourceCrud) CreateVolumeBackup() error {
 	return nil
 }
 
-func (s *VolumeBackupResourceCrud) Get() error {
+func (s *CoreVolumeBackupResourceCrud) Get() error {
 	request := oci_core.GetVolumeBackupRequest{}
 
 	tmp := s.D.Id()
@@ -324,7 +324,7 @@ func (s *VolumeBackupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeBackupResourceCrud) Update() error {
+func (s *CoreVolumeBackupResourceCrud) Update() error {
 	request := oci_core.UpdateVolumeBackupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -358,7 +358,7 @@ func (s *VolumeBackupResourceCrud) Update() error {
 	return nil
 }
 
-func (s *VolumeBackupResourceCrud) Delete() error {
+func (s *CoreVolumeBackupResourceCrud) Delete() error {
 	request := oci_core.DeleteVolumeBackupRequest{}
 
 	tmp := s.D.Id()
@@ -370,7 +370,7 @@ func (s *VolumeBackupResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VolumeBackupResourceCrud) SetData() error {
+func (s *CoreVolumeBackupResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

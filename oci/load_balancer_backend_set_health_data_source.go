@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func BackendSetHealthDataSource() *schema.Resource {
+func LoadBalancerBackendSetHealthDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularBackendSetHealth,
+		Read: readSingularLoadBalancerBackendSetHealth,
 		Schema: map[string]*schema.Schema{
 			"backend_set_name": {
 				Type:     schema.TypeString,
@@ -55,25 +55,25 @@ func BackendSetHealthDataSource() *schema.Resource {
 	}
 }
 
-func readSingularBackendSetHealth(d *schema.ResourceData, m interface{}) error {
-	sync := &BackendSetHealthDataSourceCrud{}
+func readSingularLoadBalancerBackendSetHealth(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerBackendSetHealthDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-type BackendSetHealthDataSourceCrud struct {
+type LoadBalancerBackendSetHealthDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
 	Res    *oci_load_balancer.GetBackendSetHealthResponse
 }
 
-func (s *BackendSetHealthDataSourceCrud) VoidState() {
+func (s *LoadBalancerBackendSetHealthDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BackendSetHealthDataSourceCrud) Get() error {
+func (s *LoadBalancerBackendSetHealthDataSourceCrud) Get() error {
 	request := oci_load_balancer.GetBackendSetHealthRequest{}
 
 	if backendSetName, ok := s.D.GetOkExists("backend_set_name"); ok {
@@ -97,7 +97,7 @@ func (s *BackendSetHealthDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BackendSetHealthDataSourceCrud) SetData() error {
+func (s *LoadBalancerBackendSetHealthDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

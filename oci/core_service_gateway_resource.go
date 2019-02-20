@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -13,16 +13,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func ServiceGatewayResource() *schema.Resource {
+func CoreServiceGatewayResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createServiceGateway,
-		Read:     readServiceGateway,
-		Update:   updateServiceGateway,
-		Delete:   deleteServiceGateway,
+		Create:   createCoreServiceGateway,
+		Read:     readCoreServiceGateway,
+		Update:   updateCoreServiceGateway,
+		Delete:   deleteCoreServiceGateway,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -95,32 +95,32 @@ func ServiceGatewayResource() *schema.Resource {
 	}
 }
 
-func createServiceGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &ServiceGatewayResourceCrud{}
+func createCoreServiceGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreServiceGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readServiceGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &ServiceGatewayResourceCrud{}
+func readCoreServiceGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreServiceGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateServiceGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &ServiceGatewayResourceCrud{}
+func updateCoreServiceGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreServiceGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteServiceGateway(d *schema.ResourceData, m interface{}) error {
-	sync := &ServiceGatewayResourceCrud{}
+func deleteCoreServiceGateway(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreServiceGatewayResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -128,42 +128,42 @@ func deleteServiceGateway(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type ServiceGatewayResourceCrud struct {
+type CoreServiceGatewayResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.ServiceGateway
 	DisableNotFoundRetries bool
 }
 
-func (s *ServiceGatewayResourceCrud) ID() string {
+func (s *CoreServiceGatewayResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *ServiceGatewayResourceCrud) CreatedPending() []string {
+func (s *CoreServiceGatewayResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.ServiceGatewayLifecycleStateProvisioning),
 	}
 }
 
-func (s *ServiceGatewayResourceCrud) CreatedTarget() []string {
+func (s *CoreServiceGatewayResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.ServiceGatewayLifecycleStateAvailable),
 	}
 }
 
-func (s *ServiceGatewayResourceCrud) DeletedPending() []string {
+func (s *CoreServiceGatewayResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.ServiceGatewayLifecycleStateTerminating),
 	}
 }
 
-func (s *ServiceGatewayResourceCrud) DeletedTarget() []string {
+func (s *CoreServiceGatewayResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.ServiceGatewayLifecycleStateTerminated),
 	}
 }
 
-func (s *ServiceGatewayResourceCrud) Create() error {
+func (s *CoreServiceGatewayResourceCrud) Create() error {
 	request := oci_core.CreateServiceGatewayRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -221,7 +221,7 @@ func (s *ServiceGatewayResourceCrud) Create() error {
 	return nil
 }
 
-func (s *ServiceGatewayResourceCrud) Get() error {
+func (s *CoreServiceGatewayResourceCrud) Get() error {
 	request := oci_core.GetServiceGatewayRequest{}
 
 	tmp := s.D.Id()
@@ -238,7 +238,7 @@ func (s *ServiceGatewayResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ServiceGatewayResourceCrud) Update() error {
+func (s *CoreServiceGatewayResourceCrud) Update() error {
 	request := oci_core.UpdateServiceGatewayRequest{}
 
 	if blockTraffic, ok := s.D.GetOkExists("block_traffic"); ok {
@@ -294,7 +294,7 @@ func (s *ServiceGatewayResourceCrud) Update() error {
 	return nil
 }
 
-func (s *ServiceGatewayResourceCrud) Delete() error {
+func (s *CoreServiceGatewayResourceCrud) Delete() error {
 	request := oci_core.DeleteServiceGatewayRequest{}
 
 	tmp := s.D.Id()
@@ -306,7 +306,7 @@ func (s *ServiceGatewayResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ServiceGatewayResourceCrud) SetData() error {
+func (s *CoreServiceGatewayResourceCrud) SetData() error {
 	if s.Res.BlockTraffic != nil {
 		s.D.Set("block_traffic", *s.Res.BlockTraffic)
 	}
@@ -344,7 +344,7 @@ func (s *ServiceGatewayResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *ServiceGatewayResourceCrud) mapToServiceIdRequestDetails(fieldKeyFormat string) (oci_core.ServiceIdRequestDetails, error) {
+func (s *CoreServiceGatewayResourceCrud) mapToServiceIdRequestDetails(fieldKeyFormat string) (oci_core.ServiceIdRequestDetails, error) {
 	result := oci_core.ServiceIdRequestDetails{}
 
 	if serviceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_id")); ok {

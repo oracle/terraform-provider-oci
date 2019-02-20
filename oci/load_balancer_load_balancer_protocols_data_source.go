@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func LoadBalancerProtocolsDataSource() *schema.Resource {
+func LoadBalancerLoadBalancerProtocolsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readLoadBalancerProtocols,
+		Read: readLoadBalancerLoadBalancerProtocols,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,25 +39,25 @@ func LoadBalancerProtocolsDataSource() *schema.Resource {
 	}
 }
 
-func readLoadBalancerProtocols(d *schema.ResourceData, m interface{}) error {
-	sync := &LoadBalancerProtocolsDataSourceCrud{}
+func readLoadBalancerLoadBalancerProtocols(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerLoadBalancerProtocolsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-type LoadBalancerProtocolsDataSourceCrud struct {
+type LoadBalancerLoadBalancerProtocolsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
 	Res    *oci_load_balancer.ListProtocolsResponse
 }
 
-func (s *LoadBalancerProtocolsDataSourceCrud) VoidState() {
+func (s *LoadBalancerLoadBalancerProtocolsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoadBalancerProtocolsDataSourceCrud) Get() error {
+func (s *LoadBalancerLoadBalancerProtocolsDataSourceCrud) Get() error {
 	request := oci_load_balancer.ListProtocolsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +76,7 @@ func (s *LoadBalancerProtocolsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *LoadBalancerProtocolsDataSourceCrud) SetData() error {
+func (s *LoadBalancerLoadBalancerProtocolsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -95,7 +95,7 @@ func (s *LoadBalancerProtocolsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerProtocolsDataSource().Schema["protocols"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerLoadBalancerProtocolsDataSource().Schema["protocols"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("protocols", resources); err != nil {

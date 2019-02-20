@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VirtualCircuitPublicPrefixesDataSource() *schema.Resource {
+func CoreVirtualCircuitPublicPrefixesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVirtualCircuitPublicPrefixes,
+		Read: readCoreVirtualCircuitPublicPrefixes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"verification_state": {
@@ -47,25 +47,25 @@ func VirtualCircuitPublicPrefixesDataSource() *schema.Resource {
 	}
 }
 
-func readVirtualCircuitPublicPrefixes(d *schema.ResourceData, m interface{}) error {
-	sync := &VirtualCircuitPublicPrefixesDataSourceCrud{}
+func readCoreVirtualCircuitPublicPrefixes(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVirtualCircuitPublicPrefixesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type VirtualCircuitPublicPrefixesDataSourceCrud struct {
+type CoreVirtualCircuitPublicPrefixesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListVirtualCircuitPublicPrefixesResponse
 }
 
-func (s *VirtualCircuitPublicPrefixesDataSourceCrud) VoidState() {
+func (s *CoreVirtualCircuitPublicPrefixesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VirtualCircuitPublicPrefixesDataSourceCrud) Get() error {
+func (s *CoreVirtualCircuitPublicPrefixesDataSourceCrud) Get() error {
 	request := oci_core.ListVirtualCircuitPublicPrefixesRequest{}
 
 	if verificationState, ok := s.D.GetOkExists("verification_state"); ok {
@@ -88,7 +88,7 @@ func (s *VirtualCircuitPublicPrefixesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VirtualCircuitPublicPrefixesDataSourceCrud) SetData() error {
+func (s *CoreVirtualCircuitPublicPrefixesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -109,7 +109,7 @@ func (s *VirtualCircuitPublicPrefixesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, VirtualCircuitPublicPrefixesDataSource().Schema["virtual_circuit_public_prefixes"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreVirtualCircuitPublicPrefixesDataSource().Schema["virtual_circuit_public_prefixes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("virtual_circuit_public_prefixes", resources); err != nil {

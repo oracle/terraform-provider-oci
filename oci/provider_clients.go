@@ -1,4 +1,4 @@
-// Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -18,6 +18,7 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
+	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -66,6 +67,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 	fileStorageClient, err := oci_file_storage.NewFileStorageClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	healthChecksClient, err := oci_health_checks.NewHealthChecksClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -213,6 +218,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&healthChecksClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&identityClient.BaseClient)
 	if err != nil {
 		return
@@ -251,6 +260,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.dnsClient = &dnsClient
 	clients.emailClient = &emailClient
 	clients.fileStorageClient = &fileStorageClient
+	clients.healthChecksClient = &healthChecksClient
 	clients.identityClient = &identityClient
 	clients.kmsCryptoClient = &kmsCryptoClient
 	clients.kmsManagementClient = &kmsManagementClient
@@ -272,6 +282,7 @@ type OracleClients struct {
 	dnsClient               *oci_dns.DnsClient
 	emailClient             *oci_email.EmailClient
 	fileStorageClient       *oci_file_storage.FileStorageClient
+	healthChecksClient      *oci_health_checks.HealthChecksClient
 	identityClient          *oci_identity.IdentityClient
 	kmsCryptoClient         *oci_kms.KmsCryptoClient
 	kmsManagementClient     *oci_kms.KmsManagementClient

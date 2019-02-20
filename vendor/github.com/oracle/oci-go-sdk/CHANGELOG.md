@@ -4,9 +4,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 3.7.0 - 2019-02-07
+### Added
+- Support for the Web Application Acceleration and Security (WAAS) service
+- Support for the Health Checks service
+- Support for connection strings on Database resources in the Database service
+- Support for traffic management in the DNS service
+- Support for tagging in the Email service
+### Fixed
+- Retry context in now cancelable during wait for new retry
+
+## 3.6.0 - 2019-01-31
+### Added
+- Support for the Announcements service
+
+## 3.5.0 - 2019-01-24
+### Added
+
+- Support for renaming databases during restore-from-backup operations in the Database service
+- Built-in logging now supports log levels. More information about the changes can be found in the [go-docs page](https://godoc.org/github.com/oracle/oci-go-sdk#hdr-Logging_and_Debugging)
+- Support for calling Oracle Cloud Infrastructure services in the ca-toronto-1 region
+
 ## 3.4.0 - 2019-01-10
 ### Added 
-- Support for device attributes on volumes in the Block Storage service
+- Support for device attributes on volume attachments in the Compute service
 - Support for custom header rulesets in the Load Balancing service
 
 

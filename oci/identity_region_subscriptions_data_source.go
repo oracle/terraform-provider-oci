@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func RegionSubscriptionsDataSource() *schema.Resource {
+func IdentityRegionSubscriptionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readRegionSubscriptions,
+		Read: readIdentityRegionSubscriptions,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"tenancy_id": {
@@ -57,25 +57,25 @@ func RegionSubscriptionsDataSource() *schema.Resource {
 	}
 }
 
-func readRegionSubscriptions(d *schema.ResourceData, m interface{}) error {
-	sync := &RegionSubscriptionsDataSourceCrud{}
+func readIdentityRegionSubscriptions(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityRegionSubscriptionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type RegionSubscriptionsDataSourceCrud struct {
+type IdentityRegionSubscriptionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListRegionSubscriptionsResponse
 }
 
-func (s *RegionSubscriptionsDataSourceCrud) VoidState() {
+func (s *IdentityRegionSubscriptionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RegionSubscriptionsDataSourceCrud) Get() error {
+func (s *IdentityRegionSubscriptionsDataSourceCrud) Get() error {
 	request := oci_identity.ListRegionSubscriptionsRequest{}
 
 	if tenancyId, ok := s.D.GetOkExists("tenancy_id"); ok {
@@ -94,7 +94,7 @@ func (s *RegionSubscriptionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *RegionSubscriptionsDataSourceCrud) SetData() error {
+func (s *IdentityRegionSubscriptionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -123,7 +123,7 @@ func (s *RegionSubscriptionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, RegionSubscriptionsDataSource().Schema["region_subscriptions"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityRegionSubscriptionsDataSource().Schema["region_subscriptions"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("region_subscriptions", resources); err != nil {

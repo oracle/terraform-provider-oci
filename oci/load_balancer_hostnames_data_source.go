@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func HostnamesDataSource() *schema.Resource {
+func LoadBalancerHostnamesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readHostnames,
+		Read: readLoadBalancerHostnames,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"load_balancer_id": {
@@ -21,31 +21,31 @@ func HostnamesDataSource() *schema.Resource {
 			"hostnames": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     HostnameResource(),
+				Elem:     LoadBalancerHostnameResource(),
 			},
 		},
 	}
 }
 
-func readHostnames(d *schema.ResourceData, m interface{}) error {
-	sync := &HostnamesDataSourceCrud{}
+func readLoadBalancerHostnames(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerHostnamesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-type HostnamesDataSourceCrud struct {
+type LoadBalancerHostnamesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
 	Res    *oci_load_balancer.ListHostnamesResponse
 }
 
-func (s *HostnamesDataSourceCrud) VoidState() {
+func (s *LoadBalancerHostnamesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *HostnamesDataSourceCrud) Get() error {
+func (s *LoadBalancerHostnamesDataSourceCrud) Get() error {
 	request := oci_load_balancer.ListHostnamesRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -64,7 +64,7 @@ func (s *HostnamesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *HostnamesDataSourceCrud) SetData() error {
+func (s *LoadBalancerHostnamesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -87,7 +87,7 @@ func (s *HostnamesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, HostnamesDataSource().Schema["hostnames"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, LoadBalancerHostnamesDataSource().Schema["hostnames"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("hostnames", resources); err != nil {

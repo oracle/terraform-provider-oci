@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -12,16 +12,16 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
-func ZoneResource() *schema.Resource {
+func DnsZoneResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createZone,
-		Read:     readZone,
-		Update:   updateZone,
-		Delete:   deleteZone,
+		Create:   createDnsZone,
+		Read:     readDnsZone,
+		Update:   updateDnsZone,
+		Delete:   deleteDnsZone,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -151,32 +151,32 @@ func ZoneResource() *schema.Resource {
 	}
 }
 
-func createZone(d *schema.ResourceData, m interface{}) error {
-	sync := &ZoneResourceCrud{}
+func createDnsZone(d *schema.ResourceData, m interface{}) error {
+	sync := &DnsZoneResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
 	return CreateResource(d, sync)
 }
 
-func readZone(d *schema.ResourceData, m interface{}) error {
-	sync := &ZoneResourceCrud{}
+func readDnsZone(d *schema.ResourceData, m interface{}) error {
+	sync := &DnsZoneResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
 	return ReadResource(sync)
 }
 
-func updateZone(d *schema.ResourceData, m interface{}) error {
-	sync := &ZoneResourceCrud{}
+func updateDnsZone(d *schema.ResourceData, m interface{}) error {
+	sync := &DnsZoneResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteZone(d *schema.ResourceData, m interface{}) error {
-	sync := &ZoneResourceCrud{}
+func deleteDnsZone(d *schema.ResourceData, m interface{}) error {
+	sync := &DnsZoneResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 	sync.DisableNotFoundRetries = true
@@ -184,18 +184,18 @@ func deleteZone(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type ZoneResourceCrud struct {
+type DnsZoneResourceCrud struct {
 	BaseCrud
 	Client                 *oci_dns.DnsClient
 	Res                    *oci_dns.Zone
 	DisableNotFoundRetries bool
 }
 
-func (s *ZoneResourceCrud) ID() string {
+func (s *DnsZoneResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *ZoneResourceCrud) Create() error {
+func (s *DnsZoneResourceCrud) Create() error {
 	request := oci_dns.CreateZoneRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -251,7 +251,7 @@ func (s *ZoneResourceCrud) Create() error {
 	return nil
 }
 
-func (s *ZoneResourceCrud) Get() error {
+func (s *DnsZoneResourceCrud) Get() error {
 	request := oci_dns.GetZoneRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -273,7 +273,7 @@ func (s *ZoneResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ZoneResourceCrud) Update() error {
+func (s *DnsZoneResourceCrud) Update() error {
 	request := oci_dns.UpdateZoneRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -323,7 +323,7 @@ func (s *ZoneResourceCrud) Update() error {
 	return nil
 }
 
-func (s *ZoneResourceCrud) Delete() error {
+func (s *DnsZoneResourceCrud) Delete() error {
 	request := oci_dns.DeleteZoneRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -339,7 +339,7 @@ func (s *ZoneResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ZoneResourceCrud) SetData() error {
+func (s *DnsZoneResourceCrud) SetData() error {
 	s.D.SetId(*s.Res.Id)
 
 	if s.Res.CompartmentId != nil {
@@ -389,7 +389,7 @@ func (s *ZoneResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *ZoneResourceCrud) mapToExternalMaster(fieldKeyFormat string) (oci_dns.ExternalMaster, error) {
+func (s *DnsZoneResourceCrud) mapToExternalMaster(fieldKeyFormat string) (oci_dns.ExternalMaster, error) {
 	result := oci_dns.ExternalMaster{}
 
 	if address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "address")); ok {
@@ -444,7 +444,7 @@ func NameserverToMap(obj oci_dns.Nameserver) map[string]interface{} {
 	return result
 }
 
-func (s *ZoneResourceCrud) mapToTSIG(fieldKeyFormat string) (oci_dns.Tsig, error) {
+func (s *DnsZoneResourceCrud) mapToTSIG(fieldKeyFormat string) (oci_dns.Tsig, error) {
 	result := oci_dns.Tsig{}
 
 	if algorithm, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "algorithm")); ok {

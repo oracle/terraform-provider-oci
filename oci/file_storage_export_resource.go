@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -12,16 +12,16 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-func ExportResource() *schema.Resource {
+func FileStorageExportResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createExport,
-		Read:     readExport,
-		Update:   updateExport,
-		Delete:   deleteExport,
+		Create:   createFileStorageExport,
+		Read:     readFileStorageExport,
+		Update:   updateFileStorageExport,
+		Delete:   deleteFileStorageExport,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"export_set_id": {
@@ -102,32 +102,32 @@ func ExportResource() *schema.Resource {
 	}
 }
 
-func createExport(d *schema.ResourceData, m interface{}) error {
-	sync := &ExportResourceCrud{}
+func createFileStorageExport(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageExportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readExport(d *schema.ResourceData, m interface{}) error {
-	sync := &ExportResourceCrud{}
+func readFileStorageExport(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageExportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return ReadResource(sync)
 }
 
-func updateExport(d *schema.ResourceData, m interface{}) error {
-	sync := &ExportResourceCrud{}
+func updateFileStorageExport(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageExportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteExport(d *schema.ResourceData, m interface{}) error {
-	sync := &ExportResourceCrud{}
+func deleteFileStorageExport(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageExportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 	sync.DisableNotFoundRetries = true
@@ -135,42 +135,42 @@ func deleteExport(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type ExportResourceCrud struct {
+type FileStorageExportResourceCrud struct {
 	BaseCrud
 	Client                 *oci_file_storage.FileStorageClient
 	Res                    *oci_file_storage.Export
 	DisableNotFoundRetries bool
 }
 
-func (s *ExportResourceCrud) ID() string {
+func (s *FileStorageExportResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *ExportResourceCrud) CreatedPending() []string {
+func (s *FileStorageExportResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_file_storage.ExportLifecycleStateCreating),
 	}
 }
 
-func (s *ExportResourceCrud) CreatedTarget() []string {
+func (s *FileStorageExportResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_file_storage.ExportLifecycleStateActive),
 	}
 }
 
-func (s *ExportResourceCrud) DeletedPending() []string {
+func (s *FileStorageExportResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_file_storage.ExportLifecycleStateDeleting),
 	}
 }
 
-func (s *ExportResourceCrud) DeletedTarget() []string {
+func (s *FileStorageExportResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_file_storage.ExportLifecycleStateDeleted),
 	}
 }
 
-func (s *ExportResourceCrud) Create() error {
+func (s *FileStorageExportResourceCrud) Create() error {
 	request := oci_file_storage.CreateExportRequest{}
 
 	request.ExportOptions = []oci_file_storage.ClientOptions{}
@@ -215,7 +215,7 @@ func (s *ExportResourceCrud) Create() error {
 	return nil
 }
 
-func (s *ExportResourceCrud) Get() error {
+func (s *FileStorageExportResourceCrud) Get() error {
 	request := oci_file_storage.GetExportRequest{}
 
 	tmp := s.D.Id()
@@ -232,7 +232,7 @@ func (s *ExportResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ExportResourceCrud) Update() error {
+func (s *FileStorageExportResourceCrud) Update() error {
 	request := oci_file_storage.UpdateExportRequest{}
 
 	tmp := s.D.Id()
@@ -265,7 +265,7 @@ func (s *ExportResourceCrud) Update() error {
 	return nil
 }
 
-func (s *ExportResourceCrud) Delete() error {
+func (s *FileStorageExportResourceCrud) Delete() error {
 	request := oci_file_storage.DeleteExportRequest{}
 
 	tmp := s.D.Id()
@@ -277,7 +277,7 @@ func (s *ExportResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ExportResourceCrud) SetData() error {
+func (s *FileStorageExportResourceCrud) SetData() error {
 	exportOptions := []interface{}{}
 	for _, item := range s.Res.ExportOptions {
 		exportOptions = append(exportOptions, ClientOptionsToMap(item))
@@ -305,7 +305,7 @@ func (s *ExportResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *ExportResourceCrud) mapToClientOptions(fieldKeyFormat string) (oci_file_storage.ClientOptions, error) {
+func (s *FileStorageExportResourceCrud) mapToClientOptions(fieldKeyFormat string) (oci_file_storage.ClientOptions, error) {
 	result := oci_file_storage.ClientOptions{}
 
 	if access, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access")); ok {

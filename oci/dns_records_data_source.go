@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
-func RecordsDataSource() *schema.Resource {
+func DnsRecordsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readRecords,
+		Read: readDnsRecords,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 
@@ -55,31 +55,31 @@ func RecordsDataSource() *schema.Resource {
 			"records": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     RecordResource(),
+				Elem:     DnsRecordResource(),
 			},
 		},
 	}
 }
 
-func readRecords(d *schema.ResourceData, m interface{}) error {
-	sync := &RecordsDataSourceCrud{}
+func readDnsRecords(d *schema.ResourceData, m interface{}) error {
+	sync := &DnsRecordsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
 	return ReadResource(sync)
 }
 
-type RecordsDataSourceCrud struct {
+type DnsRecordsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_dns.DnsClient
 	Res    *oci_dns.GetZoneRecordsResponse
 }
 
-func (s *RecordsDataSourceCrud) VoidState() {
+func (s *DnsRecordsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RecordsDataSourceCrud) Get() error {
+func (s *DnsRecordsDataSourceCrud) Get() error {
 	request := oci_dns.GetZoneRecordsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -144,7 +144,7 @@ func (s *RecordsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *RecordsDataSourceCrud) SetData() error {
+func (s *DnsRecordsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -187,7 +187,7 @@ func (s *RecordsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, RecordsDataSource().Schema["records"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DnsRecordsDataSource().Schema["records"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("records", resources); err != nil {

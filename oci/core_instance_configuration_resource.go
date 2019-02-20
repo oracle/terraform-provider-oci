@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -14,16 +14,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InstanceConfigurationResource() *schema.Resource {
+func CoreInstanceConfigurationResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createInstanceConfiguration,
-		Read:     readInstanceConfiguration,
-		Update:   updateInstanceConfiguration,
-		Delete:   deleteInstanceConfiguration,
+		Create:   createCoreInstanceConfiguration,
+		Read:     readCoreInstanceConfiguration,
+		Update:   updateCoreInstanceConfiguration,
+		Delete:   deleteCoreInstanceConfiguration,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -504,32 +504,32 @@ func InstanceConfigurationResource() *schema.Resource {
 	}
 }
 
-func createInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceConfigurationResourceCrud{}
+func createCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient
 
 	return CreateResource(d, sync)
 }
 
-func readInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceConfigurationResourceCrud{}
+func readCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient
 
 	return ReadResource(sync)
 }
 
-func updateInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceConfigurationResourceCrud{}
+func updateCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceConfigurationResourceCrud{}
+func deleteCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient
 	sync.DisableNotFoundRetries = true
@@ -537,18 +537,18 @@ func deleteInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type InstanceConfigurationResourceCrud struct {
+type CoreInstanceConfigurationResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.ComputeManagementClient
 	Res                    *oci_core.InstanceConfiguration
 	DisableNotFoundRetries bool
 }
 
-func (s *InstanceConfigurationResourceCrud) ID() string {
+func (s *CoreInstanceConfigurationResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *InstanceConfigurationResourceCrud) Create() error {
+func (s *CoreInstanceConfigurationResourceCrud) Create() error {
 	request := oci_core.CreateInstanceConfigurationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -595,7 +595,7 @@ func (s *InstanceConfigurationResourceCrud) Create() error {
 	return nil
 }
 
-func (s *InstanceConfigurationResourceCrud) Get() error {
+func (s *CoreInstanceConfigurationResourceCrud) Get() error {
 	request := oci_core.GetInstanceConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -612,7 +612,7 @@ func (s *InstanceConfigurationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstanceConfigurationResourceCrud) Update() error {
+func (s *CoreInstanceConfigurationResourceCrud) Update() error {
 	request := oci_core.UpdateInstanceConfigurationRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -646,7 +646,7 @@ func (s *InstanceConfigurationResourceCrud) Update() error {
 	return nil
 }
 
-func (s *InstanceConfigurationResourceCrud) Delete() error {
+func (s *CoreInstanceConfigurationResourceCrud) Delete() error {
 	request := oci_core.DeleteInstanceConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -658,7 +658,7 @@ func (s *InstanceConfigurationResourceCrud) Delete() error {
 	return err
 }
 
-func (s *InstanceConfigurationResourceCrud) SetData() error {
+func (s *CoreInstanceConfigurationResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -692,7 +692,7 @@ func (s *InstanceConfigurationResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *InstanceConfigurationResourceCrud) mapToInstanceConfigurationAttachVnicDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationAttachVnicDetails, error) {
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAttachVnicDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationAttachVnicDetails, error) {
 	result := oci_core.InstanceConfigurationAttachVnicDetails{}
 
 	if createVnicDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "create_vnic_details")); ok {
@@ -737,7 +737,7 @@ func InstanceConfigurationAttachVnicDetailsToMap(obj oci_core.InstanceConfigurat
 	return result
 }
 
-func (s *InstanceConfigurationResourceCrud) mapToInstanceConfigurationAttachVolumeDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationAttachVolumeDetails, error) {
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAttachVolumeDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationAttachVolumeDetails, error) {
 	var baseObject oci_core.InstanceConfigurationAttachVolumeDetails
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
@@ -812,7 +812,7 @@ func InstanceConfigurationAttachVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 	return result
 }
 
-func (s *InstanceConfigurationResourceCrud) mapToInstanceConfigurationBlockVolumeDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationBlockVolumeDetails, error) {
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationBlockVolumeDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationBlockVolumeDetails, error) {
 	result := oci_core.InstanceConfigurationBlockVolumeDetails{}
 
 	if attachDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "attach_details")); ok {
@@ -867,7 +867,7 @@ func InstanceConfigurationBlockVolumeDetailsToMap(obj oci_core.InstanceConfigura
 	return result
 }
 
-func (s *InstanceConfigurationResourceCrud) mapToInstanceConfigurationCreateVnicDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationCreateVnicDetails, error) {
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreateVnicDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationCreateVnicDetails, error) {
 	result := oci_core.InstanceConfigurationCreateVnicDetails{}
 
 	if assignPublicIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_public_ip")); ok {
@@ -933,7 +933,7 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 	return result
 }
 
-func (s *InstanceConfigurationResourceCrud) mapToInstanceConfigurationCreateVolumeDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationCreateVolumeDetails, error) {
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreateVolumeDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationCreateVolumeDetails, error) {
 	result := oci_core.InstanceConfigurationCreateVolumeDetails{}
 
 	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
@@ -1031,7 +1031,7 @@ func InstanceConfigurationCreateVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 	return result
 }
 
-func (s *InstanceConfigurationResourceCrud) mapToInstanceConfigurationInstanceDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationInstanceDetails, error) {
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstanceDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationInstanceDetails, error) {
 	var baseObject oci_core.InstanceConfigurationInstanceDetails
 	//discriminator
 	instanceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_type"))
@@ -1120,7 +1120,7 @@ func InstanceConfigurationInstanceDetailsToMap(obj *oci_core.InstanceConfigurati
 	return result
 }
 
-func (s *InstanceConfigurationResourceCrud) mapToInstanceConfigurationInstanceSourceDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationInstanceSourceDetails, error) {
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstanceSourceDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationInstanceSourceDetails, error) {
 	var baseObject oci_core.InstanceConfigurationInstanceSourceDetails
 	//discriminator
 	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
@@ -1174,7 +1174,7 @@ func InstanceConfigurationInstanceSourceDetailsToMap(obj *oci_core.InstanceConfi
 	return result
 }
 
-func (s *InstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunchInstanceDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationLaunchInstanceDetails, error) {
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunchInstanceDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationLaunchInstanceDetails, error) {
 	result := oci_core.InstanceConfigurationLaunchInstanceDetails{}
 
 	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
@@ -1299,7 +1299,7 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 	return result
 }
 
-func (s *InstanceConfigurationResourceCrud) mapToInstanceConfigurationVolumeSourceDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationVolumeSourceDetails, error) {
+func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationVolumeSourceDetails(fieldKeyFormat string) (oci_core.InstanceConfigurationVolumeSourceDetails, error) {
 	var baseObject oci_core.InstanceConfigurationVolumeSourceDetails
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))

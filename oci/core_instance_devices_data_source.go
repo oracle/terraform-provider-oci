@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InstanceDevicesDataSource() *schema.Resource {
+func CoreInstanceDevicesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readInstanceDevices,
+		Read: readCoreInstanceDevices,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"instance_id": {
@@ -51,25 +51,25 @@ func InstanceDevicesDataSource() *schema.Resource {
 	}
 }
 
-func readInstanceDevices(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceDevicesDataSourceCrud{}
+func readCoreInstanceDevices(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceDevicesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type InstanceDevicesDataSourceCrud struct {
+type CoreInstanceDevicesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListInstanceDevicesResponse
 }
 
-func (s *InstanceDevicesDataSourceCrud) VoidState() {
+func (s *CoreInstanceDevicesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *InstanceDevicesDataSourceCrud) Get() error {
+func (s *CoreInstanceDevicesDataSourceCrud) Get() error {
 	request := oci_core.ListInstanceDevicesRequest{}
 
 	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
@@ -110,7 +110,7 @@ func (s *InstanceDevicesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstanceDevicesDataSourceCrud) SetData() error {
+func (s *CoreInstanceDevicesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -133,7 +133,7 @@ func (s *InstanceDevicesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, InstanceDevicesDataSource().Schema["devices"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreInstanceDevicesDataSource().Schema["devices"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("devices", resources); err != nil {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -13,7 +13,7 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func DbSystemResource() *schema.Resource {
+func DatabaseDbSystemResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
@@ -24,10 +24,10 @@ func DbSystemResource() *schema.Resource {
 			Delete: &TwoHours,
 			Update: &TwoHours,
 		},
-		Create: createDbSystem,
-		Read:   readDbSystem,
-		Update: updateDbSystem,
-		Delete: deleteDbSystem,
+		Create: createDatabaseDbSystem,
+		Read:   readDatabaseDbSystem,
+		Update: updateDatabaseDbSystem,
+		Delete: deleteDatabaseDbSystem,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -333,32 +333,32 @@ func DbSystemResource() *schema.Resource {
 	}
 }
 
-func createDbSystem(d *schema.ResourceData, m interface{}) error {
-	sync := &DbSystemResourceCrud{}
+func createDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return CreateDBSystemResource(d, sync)
 }
 
-func readDbSystem(d *schema.ResourceData, m interface{}) error {
-	sync := &DbSystemResourceCrud{}
+func readDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-func updateDbSystem(d *schema.ResourceData, m interface{}) error {
-	sync := &DbSystemResourceCrud{}
+func updateDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteDbSystem(d *schema.ResourceData, m interface{}) error {
-	sync := &DbSystemResourceCrud{}
+func deleteDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 	sync.DisableNotFoundRetries = true
@@ -366,54 +366,54 @@ func deleteDbSystem(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type DbSystemResourceCrud struct {
+type DatabaseDbSystemResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.DbSystem
 	DisableNotFoundRetries bool
 }
 
-func (s *DbSystemResourceCrud) ID() string {
+func (s *DatabaseDbSystemResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *DbSystemResourceCrud) CreatedPending() []string {
+func (s *DatabaseDbSystemResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_database.DbSystemLifecycleStateProvisioning),
 	}
 }
 
-func (s *DbSystemResourceCrud) CreatedTarget() []string {
+func (s *DatabaseDbSystemResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_database.DbSystemLifecycleStateAvailable),
 	}
 }
 
-func (s *DbSystemResourceCrud) UpdatedPending() []string {
+func (s *DatabaseDbSystemResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_database.DbSystemLifecycleStateUpdating),
 	}
 }
 
-func (s *DbSystemResourceCrud) UpdatedTarget() []string {
+func (s *DatabaseDbSystemResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_database.DbSystemLifecycleStateAvailable),
 	}
 }
 
-func (s *DbSystemResourceCrud) DeletedPending() []string {
+func (s *DatabaseDbSystemResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.DbSystemLifecycleStateTerminating),
 	}
 }
 
-func (s *DbSystemResourceCrud) DeletedTarget() []string {
+func (s *DatabaseDbSystemResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_database.DbSystemLifecycleStateTerminated),
 	}
 }
 
-func (s *DbSystemResourceCrud) Create() error {
+func (s *DatabaseDbSystemResourceCrud) Create() error {
 	request := oci_database.LaunchDbSystemRequest{}
 	err := s.populateTopLevelPolymorphicLaunchDbSystemRequest(&request)
 	if err != nil {
@@ -431,7 +431,7 @@ func (s *DbSystemResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DbSystemResourceCrud) Get() error {
+func (s *DatabaseDbSystemResourceCrud) Get() error {
 	request := oci_database.GetDbSystemRequest{}
 
 	tmp := s.D.Id()
@@ -448,7 +448,7 @@ func (s *DbSystemResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbSystemResourceCrud) Update() error {
+func (s *DatabaseDbSystemResourceCrud) Update() error {
 	request := oci_database.UpdateDbSystemRequest{}
 
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
@@ -499,7 +499,7 @@ func (s *DbSystemResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DbSystemResourceCrud) Delete() error {
+func (s *DatabaseDbSystemResourceCrud) Delete() error {
 	request := oci_database.TerminateDbSystemRequest{}
 
 	tmp := s.D.Id()
@@ -511,7 +511,7 @@ func (s *DbSystemResourceCrud) Delete() error {
 	return err
 }
 
-func (s *DbSystemResourceCrud) SetData() error {
+func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -621,7 +621,7 @@ func (s *DbSystemResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat string) (oci_database.CreateDatabaseDetails, error) {
+func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat string) (oci_database.CreateDatabaseDetails, error) {
 	result := oci_database.CreateDatabaseDetails{}
 
 	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
@@ -700,7 +700,7 @@ func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[str
 	return result
 }
 
-func (s *DbSystemResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromBackupDetails, error) {
+func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromBackupDetails, error) {
 	result := oci_database.CreateDatabaseFromBackupDetails{}
 
 	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
@@ -716,6 +716,11 @@ func (s *DbSystemResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldKeyForm
 	if backupTDEPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_tde_password")); ok {
 		tmp := backupTDEPassword.(string)
 		result.BackupTDEPassword = &tmp
+	}
+
+	if dbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_name")); ok {
+		tmp := dbName.(string)
+		result.DbName = &tmp
 	}
 
 	return result, nil
@@ -736,10 +741,14 @@ func CreateDatabaseFromBackupDetailsToMap(obj *oci_database.CreateDatabaseFromBa
 		result["backup_tde_password"] = string(*obj.BackupTDEPassword)
 	}
 
+	if obj.DbName != nil {
+		result["db_name"] = string(*obj.DbName)
+	}
+
 	return result
 }
 
-func (s *DbSystemResourceCrud) mapToCreateDbHomeDetails(fieldKeyFormat string) (oci_database.CreateDbHomeDetails, error) {
+func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeDetails(fieldKeyFormat string) (oci_database.CreateDbHomeDetails, error) {
 	result := oci_database.CreateDbHomeDetails{}
 
 	if database, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database")); ok {
@@ -784,7 +793,7 @@ func CreateDbHomeDetailsToMap(obj *oci_database.CreateDbHomeDetails) map[string]
 	return result
 }
 
-func (s *DbSystemResourceCrud) mapToCreateDbHomeFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDbHomeFromBackupDetails, error) {
+func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDbHomeFromBackupDetails, error) {
 	result := oci_database.CreateDbHomeFromBackupDetails{}
 
 	if database, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database")); ok {
@@ -820,7 +829,7 @@ func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackup
 	return result
 }
 
-func (s *DbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
+func (s *DatabaseDbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
 	result := oci_database.DbBackupConfig{}
 
 	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok {
@@ -843,7 +852,7 @@ func DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{
 
 // @CODEGEN 08/2018: mapToPatchDetails and PatchDetailsToMap are not yet supported
 
-func (s *DbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(request *oci_database.LaunchDbSystemRequest) error {
+func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(request *oci_database.LaunchDbSystemRequest) error {
 	//discriminator
 	sourceRaw, ok := s.D.GetOkExists("source")
 	var source string

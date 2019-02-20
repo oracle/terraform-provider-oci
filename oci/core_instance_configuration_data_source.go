@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InstanceConfigurationDataSource() *schema.Resource {
+func CoreInstanceConfigurationDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularInstanceConfiguration,
+		Read: readSingularCoreInstanceConfiguration,
 		Schema: map[string]*schema.Schema{
 			"instance_configuration_id": {
 				Type:     schema.TypeString,
@@ -485,25 +485,25 @@ func InstanceConfigurationDataSource() *schema.Resource {
 	}
 }
 
-func readSingularInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &InstanceConfigurationDataSourceCrud{}
+func readSingularCoreInstanceConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInstanceConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeManagementClient
 
 	return ReadResource(sync)
 }
 
-type InstanceConfigurationDataSourceCrud struct {
+type CoreInstanceConfigurationDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeManagementClient
 	Res    *oci_core.GetInstanceConfigurationResponse
 }
 
-func (s *InstanceConfigurationDataSourceCrud) VoidState() {
+func (s *CoreInstanceConfigurationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *InstanceConfigurationDataSourceCrud) Get() error {
+func (s *CoreInstanceConfigurationDataSourceCrud) Get() error {
 	request := oci_core.GetInstanceConfigurationRequest{}
 
 	if instanceConfigurationId, ok := s.D.GetOkExists("instance_configuration_id"); ok {
@@ -522,7 +522,7 @@ func (s *InstanceConfigurationDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InstanceConfigurationDataSourceCrud) SetData() error {
+func (s *CoreInstanceConfigurationDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

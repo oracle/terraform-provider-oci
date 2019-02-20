@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-func WorkRequestLogEntriesDataSource() *schema.Resource {
+func ContainerengineWorkRequestLogEntriesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readWorkRequestLogEntries,
+		Read: readContainerengineWorkRequestLogEntries,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -47,25 +47,25 @@ func WorkRequestLogEntriesDataSource() *schema.Resource {
 	}
 }
 
-func readWorkRequestLogEntries(d *schema.ResourceData, m interface{}) error {
-	sync := &WorkRequestLogEntriesDataSourceCrud{}
+func readContainerengineWorkRequestLogEntries(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineWorkRequestLogEntriesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return ReadResource(sync)
 }
 
-type WorkRequestLogEntriesDataSourceCrud struct {
+type ContainerengineWorkRequestLogEntriesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_containerengine.ContainerEngineClient
 	Res    *oci_containerengine.ListWorkRequestLogsResponse
 }
 
-func (s *WorkRequestLogEntriesDataSourceCrud) VoidState() {
+func (s *ContainerengineWorkRequestLogEntriesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *WorkRequestLogEntriesDataSourceCrud) Get() error {
+func (s *ContainerengineWorkRequestLogEntriesDataSourceCrud) Get() error {
 	request := oci_containerengine.ListWorkRequestLogsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -89,7 +89,7 @@ func (s *WorkRequestLogEntriesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *WorkRequestLogEntriesDataSourceCrud) SetData() error {
+func (s *ContainerengineWorkRequestLogEntriesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -112,7 +112,7 @@ func (s *WorkRequestLogEntriesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, WorkRequestLogEntriesDataSource().Schema["work_request_log_entries"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, ContainerengineWorkRequestLogEntriesDataSource().Schema["work_request_log_entries"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("work_request_log_entries", resources); err != nil {

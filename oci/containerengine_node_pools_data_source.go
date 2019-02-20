@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
-func NodePoolsDataSource() *schema.Resource {
+func ContainerengineNodePoolsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readNodePools,
+		Read: readContainerengineNodePools,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"cluster_id": {
@@ -29,31 +29,31 @@ func NodePoolsDataSource() *schema.Resource {
 			"node_pools": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(NodePoolDataSource()),
+				Elem:     GetDataSourceItemSchema(ContainerengineNodePoolDataSource()),
 			},
 		},
 	}
 }
 
-func readNodePools(d *schema.ResourceData, m interface{}) error {
-	sync := &NodePoolsDataSourceCrud{}
+func readContainerengineNodePools(d *schema.ResourceData, m interface{}) error {
+	sync := &ContainerengineNodePoolsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).containerEngineClient
 
 	return ReadResource(sync)
 }
 
-type NodePoolsDataSourceCrud struct {
+type ContainerengineNodePoolsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_containerengine.ContainerEngineClient
 	Res    *oci_containerengine.ListNodePoolsResponse
 }
 
-func (s *NodePoolsDataSourceCrud) VoidState() {
+func (s *ContainerengineNodePoolsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NodePoolsDataSourceCrud) Get() error {
+func (s *ContainerengineNodePoolsDataSourceCrud) Get() error {
 	request := oci_containerengine.ListNodePoolsRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -94,7 +94,7 @@ func (s *NodePoolsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *NodePoolsDataSourceCrud) SetData() error {
+func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -155,7 +155,7 @@ func (s *NodePoolsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, NodePoolsDataSource().Schema["node_pools"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, ContainerengineNodePoolsDataSource().Schema["node_pools"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("node_pools", resources); err != nil {

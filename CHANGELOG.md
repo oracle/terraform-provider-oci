@@ -1,4 +1,37 @@
-## 3.12.1 (Unreleased)
+## 3.15.1 (Unreleased)
+
+### Added
+- Adding description property to rules in Steering Policies in DNS
+
+## 3.15.0 (February 12, 2019)
+
+### Added
+- Adding support for the tagging of Email Delivery service approved senders
+- Support for Health Check Service
+- Adding database connection information to the `oci_database_database` and `oci_database_databases` data sources
+- Adding support for Steering Policies in DNS
+
+## 3.14.1 (February 05, 2019)
+
+### Fixed
+- Timeout should be updatable for the `oci_containerengine_cluster` and `oci_containerengine_node_pool` resources
+- Virtual Circuit `public_prefixes` to be updatable and importable. [Issue #700](https://github.com/terraform-providers/terraform-provider-oci/issues/700)
+
+## 3.14.0 (January 29, 2019)
+
+### Added
+- Adding support for the database renaming during restore from incremental backup
+
+## 3.13.0 (January 23, 2019)
+
+### Added
+- Added singular data source for Object Storage objects
+
+### Fixed
+- Fixed an issue where the default retry timeout is zero seconds if `retry_duration_seconds` isn't specified
+- Modifying immutable `metadata` fields such as `ssh_authorized_keys` and `user_data` should result in new instances. [Issue #673](https://github.com/terraform-providers/terraform-provider-oci/issues/673)
+- Vendored Terraform helper/schema SDK to return matching data type for maps in case of empty state. [Issue #685](https://github.com/terraform-providers/terraform-provider-oci/issues/685)
+
 ## 3.12.0 (January 15, 2019)
 
 ### Added

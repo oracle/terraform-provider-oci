@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
-func LoadBalancerHealthDataSource() *schema.Resource {
+func LoadBalancerLoadBalancerHealthDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularLoadBalancerHealth,
+		Read: readSingularLoadBalancerLoadBalancerHealth,
 		Schema: map[string]*schema.Schema{
 			"load_balancer_id": {
 				Type:     schema.TypeString,
@@ -51,25 +51,25 @@ func LoadBalancerHealthDataSource() *schema.Resource {
 	}
 }
 
-func readSingularLoadBalancerHealth(d *schema.ResourceData, m interface{}) error {
-	sync := &LoadBalancerHealthDataSourceCrud{}
+func readSingularLoadBalancerLoadBalancerHealth(d *schema.ResourceData, m interface{}) error {
+	sync := &LoadBalancerLoadBalancerHealthDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).loadBalancerClient
 
 	return ReadResource(sync)
 }
 
-type LoadBalancerHealthDataSourceCrud struct {
+type LoadBalancerLoadBalancerHealthDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_load_balancer.LoadBalancerClient
 	Res    *oci_load_balancer.GetLoadBalancerHealthResponse
 }
 
-func (s *LoadBalancerHealthDataSourceCrud) VoidState() {
+func (s *LoadBalancerLoadBalancerHealthDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoadBalancerHealthDataSourceCrud) Get() error {
+func (s *LoadBalancerLoadBalancerHealthDataSourceCrud) Get() error {
 	request := oci_load_balancer.GetLoadBalancerHealthRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -88,7 +88,7 @@ func (s *LoadBalancerHealthDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *LoadBalancerHealthDataSourceCrud) SetData() error {
+func (s *LoadBalancerLoadBalancerHealthDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

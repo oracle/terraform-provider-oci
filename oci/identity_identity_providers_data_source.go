@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -11,9 +11,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func IdentityProvidersDataSource() *schema.Resource {
+func IdentityIdentityProvidersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readIdentityProviders,
+		Read: readIdentityIdentityProviders,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -27,31 +27,31 @@ func IdentityProvidersDataSource() *schema.Resource {
 			"identity_providers": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(IdentityProviderResource()),
+				Elem:     GetDataSourceItemSchema(IdentityIdentityProviderResource()),
 			},
 		},
 	}
 }
 
-func readIdentityProviders(d *schema.ResourceData, m interface{}) error {
-	sync := &IdentityProvidersDataSourceCrud{}
+func readIdentityIdentityProviders(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityIdentityProvidersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type IdentityProvidersDataSourceCrud struct {
+type IdentityIdentityProvidersDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListIdentityProvidersResponse
 }
 
-func (s *IdentityProvidersDataSourceCrud) VoidState() {
+func (s *IdentityIdentityProvidersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *IdentityProvidersDataSourceCrud) Get() error {
+func (s *IdentityIdentityProvidersDataSourceCrud) Get() error {
 	request := oci_identity.ListIdentityProvidersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -86,7 +86,7 @@ func (s *IdentityProvidersDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *IdentityProvidersDataSourceCrud) SetData() error {
+func (s *IdentityIdentityProvidersDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -158,7 +158,7 @@ func (s *IdentityProvidersDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, IdentityProvidersDataSource().Schema["identity_providers"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityIdentityProvidersDataSource().Schema["identity_providers"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("identity_providers", resources); err != nil {

@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 # If you receive a service error indicating backup cannot be created. Refer to:
 # https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/adwbackingup.htm#CreatingaBuckettoStoreManualBackups
 resource "oci_database_autonomous_database_backup" "autonomous_database_backup" {

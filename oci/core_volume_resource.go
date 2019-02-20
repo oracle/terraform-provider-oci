@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -15,16 +15,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumeResource() *schema.Resource {
+func CoreVolumeResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createVolume,
-		Read:     readVolume,
-		Update:   updateVolume,
-		Delete:   deleteVolume,
+		Create:   createCoreVolume,
+		Read:     readCoreVolume,
+		Update:   updateCoreVolume,
+		Delete:   deleteCoreVolume,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -145,32 +145,32 @@ func VolumeResource() *schema.Resource {
 	}
 }
 
-func createVolume(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeResourceCrud{}
+func createCoreVolume(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readVolume(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeResourceCrud{}
+func readCoreVolume(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return ReadResource(sync)
 }
 
-func updateVolume(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeResourceCrud{}
+func updateCoreVolume(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteVolume(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeResourceCrud{}
+func deleteCoreVolume(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 	sync.DisableNotFoundRetries = true
@@ -178,55 +178,55 @@ func deleteVolume(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type VolumeResourceCrud struct {
+type CoreVolumeResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.BlockstorageClient
 	Res                    *oci_core.Volume
 	DisableNotFoundRetries bool
 }
 
-func (s *VolumeResourceCrud) ID() string {
+func (s *CoreVolumeResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *VolumeResourceCrud) CreatedPending() []string {
+func (s *CoreVolumeResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.VolumeLifecycleStateProvisioning),
 		string(oci_core.VolumeLifecycleStateRestoring),
 	}
 }
 
-func (s *VolumeResourceCrud) CreatedTarget() []string {
+func (s *CoreVolumeResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.VolumeLifecycleStateAvailable),
 	}
 }
 
-func (s *VolumeResourceCrud) DeletedPending() []string {
+func (s *CoreVolumeResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.VolumeLifecycleStateTerminating),
 	}
 }
 
-func (s *VolumeResourceCrud) DeletedTarget() []string {
+func (s *CoreVolumeResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.VolumeLifecycleStateTerminated),
 	}
 }
 
-func (s *VolumeResourceCrud) UpdatedPending() []string {
+func (s *CoreVolumeResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_core.VolumeLifecycleStateProvisioning),
 	}
 }
 
-func (s *VolumeResourceCrud) UpdatedTarget() []string {
+func (s *CoreVolumeResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_core.VolumeLifecycleStateAvailable),
 	}
 }
 
-func (s *VolumeResourceCrud) Create() error {
+func (s *CoreVolumeResourceCrud) Create() error {
 	request := oci_core.CreateVolumeRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -316,7 +316,7 @@ func (s *VolumeResourceCrud) Create() error {
 	return nil
 }
 
-func (s *VolumeResourceCrud) Get() error {
+func (s *CoreVolumeResourceCrud) Get() error {
 	request := oci_core.GetVolumeRequest{}
 
 	tmp := s.D.Id()
@@ -333,7 +333,7 @@ func (s *VolumeResourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeResourceCrud) Update() error {
+func (s *CoreVolumeResourceCrud) Update() error {
 	request := oci_core.UpdateVolumeRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -393,7 +393,7 @@ func (s *VolumeResourceCrud) Update() error {
 	return nil
 }
 
-func (s *VolumeResourceCrud) Delete() error {
+func (s *CoreVolumeResourceCrud) Delete() error {
 	request := oci_core.DeleteVolumeRequest{}
 
 	tmp := s.D.Id()
@@ -405,7 +405,7 @@ func (s *VolumeResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VolumeResourceCrud) SetData() error {
+func (s *CoreVolumeResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -470,7 +470,7 @@ func (s *VolumeResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *VolumeResourceCrud) mapToVolumeSourceDetails(fieldKeyFormat string) (oci_core.VolumeSourceDetails, error) {
+func (s *CoreVolumeResourceCrud) mapToVolumeSourceDetails(fieldKeyFormat string) (oci_core.VolumeSourceDetails, error) {
 	var baseObject oci_core.VolumeSourceDetails
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))

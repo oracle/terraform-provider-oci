@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDataWarehouseWalletDataSource() *schema.Resource {
+func DatabaseAutonomousDataWarehouseWalletDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularAutonomousDataWarehouseWallet,
+		Read: readSingularDatabaseAutonomousDataWarehouseWallet,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"autonomous_data_warehouse_id": {
@@ -34,25 +34,25 @@ func AutonomousDataWarehouseWalletDataSource() *schema.Resource {
 	}
 }
 
-func readSingularAutonomousDataWarehouseWallet(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseWalletDataSourceCrud{}
+func readSingularDatabaseAutonomousDataWarehouseWallet(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDataWarehouseWalletDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type AutonomousDataWarehouseWalletDataSourceCrud struct {
+type DatabaseAutonomousDataWarehouseWalletDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *[]byte
 }
 
-func (s *AutonomousDataWarehouseWalletDataSourceCrud) VoidState() {
+func (s *DatabaseAutonomousDataWarehouseWalletDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AutonomousDataWarehouseWalletDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDataWarehouseWalletDataSourceCrud) Get() error {
 	request := oci_database.GenerateAutonomousDataWarehouseWalletRequest{}
 
 	if autonomousDataWarehouseId, ok := s.D.GetOkExists("autonomous_data_warehouse_id"); ok {
@@ -84,7 +84,7 @@ func (s *AutonomousDataWarehouseWalletDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutonomousDataWarehouseWalletDataSourceCrud) SetData() error {
+func (s *DatabaseAutonomousDataWarehouseWalletDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

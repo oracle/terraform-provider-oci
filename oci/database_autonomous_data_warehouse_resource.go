@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,16 +10,16 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func AutonomousDataWarehouseResource() *schema.Resource {
+func DatabaseAutonomousDataWarehouseResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createAutonomousDataWarehouse,
-		Read:     readAutonomousDataWarehouse,
-		Update:   updateAutonomousDataWarehouse,
-		Delete:   deleteAutonomousDataWarehouse,
+		Create:   createDatabaseAutonomousDataWarehouse,
+		Read:     readDatabaseAutonomousDataWarehouse,
+		Update:   updateDatabaseAutonomousDataWarehouse,
+		Delete:   deleteDatabaseAutonomousDataWarehouse,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"admin_password": {
@@ -129,32 +129,32 @@ func AutonomousDataWarehouseResource() *schema.Resource {
 	}
 }
 
-func createAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseResourceCrud{}
+func createDatabaseAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDataWarehouseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return CreateResource(d, sync)
 }
 
-func readAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseResourceCrud{}
+func readDatabaseAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDataWarehouseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-func updateAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseResourceCrud{}
+func updateDatabaseAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDataWarehouseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
-	sync := &AutonomousDataWarehouseResourceCrud{}
+func deleteDatabaseAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseAutonomousDataWarehouseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 	sync.DisableNotFoundRetries = true
@@ -162,44 +162,44 @@ func deleteAutonomousDataWarehouse(d *schema.ResourceData, m interface{}) error 
 	return DeleteResource(d, sync)
 }
 
-type AutonomousDataWarehouseResourceCrud struct {
+type DatabaseAutonomousDataWarehouseResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.AutonomousDataWarehouse
 	DisableNotFoundRetries bool
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) ID() string {
+func (s *DatabaseAutonomousDataWarehouseResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) CreatedPending() []string {
+func (s *DatabaseAutonomousDataWarehouseResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_database.AutonomousDataWarehouseLifecycleStateProvisioning),
 		string(oci_database.AutonomousDataWarehouseLifecycleStateStarting),
 	}
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) CreatedTarget() []string {
+func (s *DatabaseAutonomousDataWarehouseResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_database.AutonomousDataWarehouseLifecycleStateAvailable),
 	}
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) DeletedPending() []string {
+func (s *DatabaseAutonomousDataWarehouseResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.AutonomousDataWarehouseLifecycleStateTerminating),
 		string(oci_database.AutonomousDataWarehouseLifecycleStateUnavailable),
 	}
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) DeletedTarget() []string {
+func (s *DatabaseAutonomousDataWarehouseResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_database.AutonomousDataWarehouseLifecycleStateTerminated),
 	}
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) UpdatedPending() []string {
+func (s *DatabaseAutonomousDataWarehouseResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_database.AutonomousDataWarehouseLifecycleStateProvisioning),
 		string(oci_database.AutonomousDataWarehouseLifecycleStateUnavailable),
@@ -207,13 +207,13 @@ func (s *AutonomousDataWarehouseResourceCrud) UpdatedPending() []string {
 	}
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) UpdatedTarget() []string {
+func (s *DatabaseAutonomousDataWarehouseResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_database.AutonomousDataWarehouseLifecycleStateAvailable),
 	}
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) Create() error {
+func (s *DatabaseAutonomousDataWarehouseResourceCrud) Create() error {
 	request := oci_database.CreateAutonomousDataWarehouseRequest{}
 
 	if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
@@ -273,7 +273,7 @@ func (s *AutonomousDataWarehouseResourceCrud) Create() error {
 	return nil
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) Get() error {
+func (s *DatabaseAutonomousDataWarehouseResourceCrud) Get() error {
 	request := oci_database.GetAutonomousDataWarehouseRequest{}
 
 	tmp := s.D.Id()
@@ -290,7 +290,7 @@ func (s *AutonomousDataWarehouseResourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) Update() error {
+func (s *DatabaseAutonomousDataWarehouseResourceCrud) Update() error {
 	request := oci_database.UpdateAutonomousDataWarehouseRequest{}
 
 	// @CODEGEN 09/2018: Cannot update the password and scale the ATP/ADW in the same request, only include changed properties in request
@@ -338,7 +338,7 @@ func (s *AutonomousDataWarehouseResourceCrud) Update() error {
 	return nil
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) Delete() error {
+func (s *DatabaseAutonomousDataWarehouseResourceCrud) Delete() error {
 	request := oci_database.DeleteAutonomousDataWarehouseRequest{}
 
 	tmp := s.D.Id()
@@ -350,7 +350,7 @@ func (s *AutonomousDataWarehouseResourceCrud) Delete() error {
 	return err
 }
 
-func (s *AutonomousDataWarehouseResourceCrud) SetData() error {
+func (s *DatabaseAutonomousDataWarehouseResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func InternetGatewaysDataSource() *schema.Resource {
+func CoreInternetGatewaysDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readInternetGateways,
+		Read: readCoreInternetGateways,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -33,7 +33,7 @@ func InternetGatewaysDataSource() *schema.Resource {
 			"gateways": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(InternetGatewayResource()),
+				Elem:     GetDataSourceItemSchema(CoreInternetGatewayResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -49,25 +49,25 @@ func InternetGatewaysDataSource() *schema.Resource {
 	}
 }
 
-func readInternetGateways(d *schema.ResourceData, m interface{}) error {
-	sync := &InternetGatewaysDataSourceCrud{}
+func readCoreInternetGateways(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreInternetGatewaysDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type InternetGatewaysDataSourceCrud struct {
+type CoreInternetGatewaysDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListInternetGatewaysResponse
 }
 
-func (s *InternetGatewaysDataSourceCrud) VoidState() {
+func (s *CoreInternetGatewaysDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *InternetGatewaysDataSourceCrud) Get() error {
+func (s *CoreInternetGatewaysDataSourceCrud) Get() error {
 	request := oci_core.ListInternetGatewaysRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -122,7 +122,7 @@ func (s *InternetGatewaysDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *InternetGatewaysDataSourceCrud) SetData() error {
+func (s *CoreInternetGatewaysDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -164,7 +164,7 @@ func (s *InternetGatewaysDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, InternetGatewaysDataSource().Schema["gateways"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreInternetGatewaysDataSource().Schema["gateways"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("gateways", resources); err != nil {

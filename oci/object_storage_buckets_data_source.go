@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
-func BucketsDataSource() *schema.Resource {
+func ObjectStorageBucketsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBuckets,
+		Read: readObjectStorageBuckets,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -25,7 +25,7 @@ func BucketsDataSource() *schema.Resource {
 			"bucket_summaries": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     BucketResource(),
+				Elem:     ObjectStorageBucketResource(),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -41,25 +41,25 @@ func BucketsDataSource() *schema.Resource {
 	}
 }
 
-func readBuckets(d *schema.ResourceData, m interface{}) error {
-	sync := &BucketsDataSourceCrud{}
+func readObjectStorageBuckets(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageBucketsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return ReadResource(sync)
 }
 
-type BucketsDataSourceCrud struct {
+type ObjectStorageBucketsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_object_storage.ObjectStorageClient
 	Res    *oci_object_storage.ListBucketsResponse
 }
 
-func (s *BucketsDataSourceCrud) VoidState() {
+func (s *ObjectStorageBucketsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BucketsDataSourceCrud) Get() error {
+func (s *ObjectStorageBucketsDataSourceCrud) Get() error {
 	request := oci_object_storage.ListBucketsRequest{
 		// @CODEGEN 6/2018: Need to specify all the fields we want from the BucketSummaries
 		Fields: oci_object_storage.GetListBucketsFieldsEnumValues(),
@@ -108,7 +108,7 @@ func (s *BucketsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *BucketsDataSourceCrud) SetData() error {
+func (s *ObjectStorageBucketsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -148,7 +148,7 @@ func (s *BucketsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, BucketsDataSource().Schema["bucket_summaries"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, ObjectStorageBucketsDataSource().Schema["bucket_summaries"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("bucket_summaries", resources); err != nil {

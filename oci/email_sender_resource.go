@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,15 +10,16 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/email"
 )
 
-func SenderResource() *schema.Resource {
+func EmailSenderResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createSender,
-		Read:     readSender,
-		Delete:   deleteSender,
+		Create:   createEmailSender,
+		Read:     readEmailSender,
+		Update:   updateEmailSender,
+		Delete:   deleteEmailSender,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -33,6 +34,19 @@ func SenderResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"is_spf": {
@@ -51,24 +65,32 @@ func SenderResource() *schema.Resource {
 	}
 }
 
-func createSender(d *schema.ResourceData, m interface{}) error {
-	sync := &SenderResourceCrud{}
+func createEmailSender(d *schema.ResourceData, m interface{}) error {
+	sync := &EmailSenderResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
 	return CreateResource(d, sync)
 }
 
-func readSender(d *schema.ResourceData, m interface{}) error {
-	sync := &SenderResourceCrud{}
+func readEmailSender(d *schema.ResourceData, m interface{}) error {
+	sync := &EmailSenderResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 
 	return ReadResource(sync)
 }
 
-func deleteSender(d *schema.ResourceData, m interface{}) error {
-	sync := &SenderResourceCrud{}
+func updateEmailSender(d *schema.ResourceData, m interface{}) error {
+	sync := &EmailSenderResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).emailClient
+
+	return UpdateResource(d, sync)
+}
+
+func deleteEmailSender(d *schema.ResourceData, m interface{}) error {
+	sync := &EmailSenderResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).emailClient
 	sync.DisableNotFoundRetries = true
@@ -76,42 +98,42 @@ func deleteSender(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type SenderResourceCrud struct {
+type EmailSenderResourceCrud struct {
 	BaseCrud
 	Client                 *oci_email.EmailClient
 	Res                    *oci_email.Sender
 	DisableNotFoundRetries bool
 }
 
-func (s *SenderResourceCrud) ID() string {
+func (s *EmailSenderResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *SenderResourceCrud) CreatedPending() []string {
+func (s *EmailSenderResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_email.SenderLifecycleStateCreating),
 	}
 }
 
-func (s *SenderResourceCrud) CreatedTarget() []string {
+func (s *EmailSenderResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_email.SenderLifecycleStateActive),
 	}
 }
 
-func (s *SenderResourceCrud) DeletedPending() []string {
+func (s *EmailSenderResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_email.SenderLifecycleStateDeleting),
 	}
 }
 
-func (s *SenderResourceCrud) DeletedTarget() []string {
+func (s *EmailSenderResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_email.SenderLifecycleStateDeleted),
 	}
 }
 
-func (s *SenderResourceCrud) Create() error {
+func (s *EmailSenderResourceCrud) Create() error {
 	request := oci_email.CreateSenderRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -119,9 +141,21 @@ func (s *SenderResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if emailAddress, ok := s.D.GetOkExists("email_address"); ok {
 		tmp := emailAddress.(string)
 		request.EmailAddress = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
@@ -135,7 +169,7 @@ func (s *SenderResourceCrud) Create() error {
 	return nil
 }
 
-func (s *SenderResourceCrud) Get() error {
+func (s *EmailSenderResourceCrud) Get() error {
 	request := oci_email.GetSenderRequest{}
 
 	tmp := s.D.Id()
@@ -152,7 +186,36 @@ func (s *SenderResourceCrud) Get() error {
 	return nil
 }
 
-func (s *SenderResourceCrud) Delete() error {
+func (s *EmailSenderResourceCrud) Update() error {
+	request := oci_email.UpdateSenderRequest{}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	tmp := s.D.Id()
+	request.SenderId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+
+	response, err := s.Client.UpdateSender(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Sender
+	return nil
+}
+
+func (s *EmailSenderResourceCrud) Delete() error {
 	request := oci_email.DeleteSenderRequest{}
 
 	tmp := s.D.Id()
@@ -164,10 +227,20 @@ func (s *SenderResourceCrud) Delete() error {
 	return err
 }
 
-func (s *SenderResourceCrud) SetData() error {
+func (s *EmailSenderResourceCrud) SetData() error {
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.EmailAddress != nil {
 		s.D.Set("email_address", *s.Res.EmailAddress)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsSpf != nil {
 		s.D.Set("is_spf", *s.Res.IsSpf)

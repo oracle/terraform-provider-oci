@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-func FileSystemsDataSource() *schema.Resource {
+func FileStorageFileSystemsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFileSystems,
+		Read: readFileStorageFileSystems,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -38,31 +38,31 @@ func FileSystemsDataSource() *schema.Resource {
 			"file_systems": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(FileSystemResource()),
+				Elem:     GetDataSourceItemSchema(FileStorageFileSystemResource()),
 			},
 		},
 	}
 }
 
-func readFileSystems(d *schema.ResourceData, m interface{}) error {
-	sync := &FileSystemsDataSourceCrud{}
+func readFileStorageFileSystems(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageFileSystemsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return ReadResource(sync)
 }
 
-type FileSystemsDataSourceCrud struct {
+type FileStorageFileSystemsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_file_storage.FileStorageClient
 	Res    *oci_file_storage.ListFileSystemsResponse
 }
 
-func (s *FileSystemsDataSourceCrud) VoidState() {
+func (s *FileStorageFileSystemsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FileSystemsDataSourceCrud) Get() error {
+func (s *FileStorageFileSystemsDataSourceCrud) Get() error {
 	request := oci_file_storage.ListFileSystemsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -112,7 +112,7 @@ func (s *FileSystemsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *FileSystemsDataSourceCrud) SetData() error {
+func (s *FileStorageFileSystemsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -148,7 +148,7 @@ func (s *FileSystemsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, FileSystemsDataSource().Schema["file_systems"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, FileStorageFileSystemsDataSource().Schema["file_systems"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("file_systems", resources); err != nil {

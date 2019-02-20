@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func SubnetDataSource() *schema.Resource {
+func CoreSubnetDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularSubnet,
+		Read: readSingularCoreSubnet,
 		Schema: map[string]*schema.Schema{
 			"subnet_id": {
 				Type:     schema.TypeString,
@@ -95,25 +95,25 @@ func SubnetDataSource() *schema.Resource {
 	}
 }
 
-func readSingularSubnet(d *schema.ResourceData, m interface{}) error {
-	sync := &SubnetDataSourceCrud{}
+func readSingularCoreSubnet(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreSubnetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type SubnetDataSourceCrud struct {
+type CoreSubnetDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.GetSubnetResponse
 }
 
-func (s *SubnetDataSourceCrud) VoidState() {
+func (s *CoreSubnetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SubnetDataSourceCrud) Get() error {
+func (s *CoreSubnetDataSourceCrud) Get() error {
 	request := oci_core.GetSubnetRequest{}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -132,7 +132,7 @@ func (s *SubnetDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *SubnetDataSourceCrud) SetData() error {
+func (s *CoreSubnetDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

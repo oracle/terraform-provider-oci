@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,16 +10,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func PublicIpResource() *schema.Resource {
+func CorePublicIpResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createPublicIp,
-		Read:     readPublicIp,
-		Update:   updatePublicIp,
-		Delete:   deletePublicIp,
+		Create:   createCorePublicIp,
+		Read:     readCorePublicIp,
+		Update:   updateCorePublicIp,
+		Delete:   deleteCorePublicIp,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -90,32 +90,32 @@ func PublicIpResource() *schema.Resource {
 	}
 }
 
-func createPublicIp(d *schema.ResourceData, m interface{}) error {
-	sync := &PublicIpResourceCrud{}
+func createCorePublicIp(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePublicIpResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readPublicIp(d *schema.ResourceData, m interface{}) error {
-	sync := &PublicIpResourceCrud{}
+func readCorePublicIp(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePublicIpResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updatePublicIp(d *schema.ResourceData, m interface{}) error {
-	sync := &PublicIpResourceCrud{}
+func updateCorePublicIp(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePublicIpResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deletePublicIp(d *schema.ResourceData, m interface{}) error {
-	sync := &PublicIpResourceCrud{}
+func deleteCorePublicIp(d *schema.ResourceData, m interface{}) error {
+	sync := &CorePublicIpResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -123,46 +123,46 @@ func deletePublicIp(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type PublicIpResourceCrud struct {
+type CorePublicIpResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.PublicIp
 	DisableNotFoundRetries bool
 }
 
-func (s *PublicIpResourceCrud) ID() string {
+func (s *CorePublicIpResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *PublicIpResourceCrud) CreatedPending() []string {
+func (s *CorePublicIpResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.PublicIpLifecycleStateProvisioning),
 		string(oci_core.PublicIpLifecycleStateAssigning),
 	}
 }
 
-func (s *PublicIpResourceCrud) CreatedTarget() []string {
+func (s *CorePublicIpResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.PublicIpLifecycleStateAvailable),
 		string(oci_core.PublicIpLifecycleStateAssigned),
 	}
 }
 
-func (s *PublicIpResourceCrud) DeletedPending() []string {
+func (s *CorePublicIpResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.PublicIpLifecycleStateUnassigning),
 		string(oci_core.PublicIpLifecycleStateTerminating),
 	}
 }
 
-func (s *PublicIpResourceCrud) DeletedTarget() []string {
+func (s *CorePublicIpResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.PublicIpLifecycleStateUnassigned),
 		string(oci_core.PublicIpLifecycleStateTerminated),
 	}
 }
 
-func (s *PublicIpResourceCrud) UpdatedPending() []string {
+func (s *CorePublicIpResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_core.PublicIpLifecycleStateProvisioning),
 		string(oci_core.PublicIpLifecycleStateAssigning),
@@ -170,14 +170,14 @@ func (s *PublicIpResourceCrud) UpdatedPending() []string {
 	}
 }
 
-func (s *PublicIpResourceCrud) UpdatedTarget() []string {
+func (s *CorePublicIpResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_core.PublicIpLifecycleStateAvailable),
 		string(oci_core.PublicIpLifecycleStateAssigned),
 	}
 }
 
-func (s *PublicIpResourceCrud) Create() error {
+func (s *CorePublicIpResourceCrud) Create() error {
 	request := oci_core.CreatePublicIpRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -222,7 +222,7 @@ func (s *PublicIpResourceCrud) Create() error {
 	return nil
 }
 
-func (s *PublicIpResourceCrud) Get() error {
+func (s *CorePublicIpResourceCrud) Get() error {
 	request := oci_core.GetPublicIpRequest{}
 
 	tmp := s.D.Id()
@@ -239,7 +239,7 @@ func (s *PublicIpResourceCrud) Get() error {
 	return nil
 }
 
-func (s *PublicIpResourceCrud) Update() error {
+func (s *CorePublicIpResourceCrud) Update() error {
 	request := oci_core.UpdatePublicIpRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -283,7 +283,7 @@ func (s *PublicIpResourceCrud) Update() error {
 	return nil
 }
 
-func (s *PublicIpResourceCrud) Delete() error {
+func (s *CorePublicIpResourceCrud) Delete() error {
 	request := oci_core.DeletePublicIpRequest{}
 
 	tmp := s.D.Id()
@@ -295,7 +295,7 @@ func (s *PublicIpResourceCrud) Delete() error {
 	return err
 }
 
-func (s *PublicIpResourceCrud) SetData() error {
+func (s *CorePublicIpResourceCrud) SetData() error {
 	if s.Res.AssignedEntityId != nil {
 		s.D.Set("assigned_entity_id", *s.Res.AssignedEntityId)
 	}

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VnicDataSource() *schema.Resource {
+func CoreVnicDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularVnic,
+		Read: readSingularCoreVnic,
 		Schema: map[string]*schema.Schema{
 			"vnic_id": {
 				Type:     schema.TypeString,
@@ -80,25 +80,25 @@ func VnicDataSource() *schema.Resource {
 	}
 }
 
-func readSingularVnic(d *schema.ResourceData, m interface{}) error {
-	sync := &VnicDataSourceCrud{}
+func readSingularCoreVnic(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVnicDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type VnicDataSourceCrud struct {
+type CoreVnicDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.GetVnicResponse
 }
 
-func (s *VnicDataSourceCrud) VoidState() {
+func (s *CoreVnicDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VnicDataSourceCrud) Get() error {
+func (s *CoreVnicDataSourceCrud) Get() error {
 	request := oci_core.GetVnicRequest{}
 
 	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
@@ -117,7 +117,7 @@ func (s *VnicDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VnicDataSourceCrud) SetData() error {
+func (s *CoreVnicDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

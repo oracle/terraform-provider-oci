@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -14,7 +14,7 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func ImageResource() *schema.Resource {
+func CoreImageResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
@@ -24,10 +24,10 @@ func ImageResource() *schema.Resource {
 			Update: &TwoHours,
 			Delete: &TwoHours,
 		},
-		Create: createImage,
-		Read:   readImage,
-		Update: updateImage,
-		Delete: deleteImage,
+		Create: createCoreImage,
+		Read:   readCoreImage,
+		Update: updateCoreImage,
+		Delete: deleteCoreImage,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -190,32 +190,32 @@ func ImageResource() *schema.Resource {
 	}
 }
 
-func createImage(d *schema.ResourceData, m interface{}) error {
-	sync := &ImageResourceCrud{}
+func createCoreImage(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return CreateResource(d, sync)
 }
 
-func readImage(d *schema.ResourceData, m interface{}) error {
-	sync := &ImageResourceCrud{}
+func readCoreImage(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-func updateImage(d *schema.ResourceData, m interface{}) error {
-	sync := &ImageResourceCrud{}
+func updateCoreImage(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteImage(d *schema.ResourceData, m interface{}) error {
-	sync := &ImageResourceCrud{}
+func deleteCoreImage(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.DisableNotFoundRetries = true
@@ -223,43 +223,43 @@ func deleteImage(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type ImageResourceCrud struct {
+type CoreImageResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.ComputeClient
 	Res                    *oci_core.Image
 	DisableNotFoundRetries bool
 }
 
-func (s *ImageResourceCrud) ID() string {
+func (s *CoreImageResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *ImageResourceCrud) CreatedPending() []string {
+func (s *CoreImageResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.ImageLifecycleStateProvisioning),
 		string(oci_core.ImageLifecycleStateImporting),
 	}
 }
 
-func (s *ImageResourceCrud) CreatedTarget() []string {
+func (s *CoreImageResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.ImageLifecycleStateAvailable),
 	}
 }
 
-func (s *ImageResourceCrud) DeletedPending() []string {
+func (s *CoreImageResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.ImageLifecycleStateDisabled),
 	}
 }
 
-func (s *ImageResourceCrud) DeletedTarget() []string {
+func (s *CoreImageResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.ImageLifecycleStateDeleted),
 	}
 }
 
-func (s *ImageResourceCrud) Create() error {
+func (s *CoreImageResourceCrud) Create() error {
 	request := oci_core.CreateImageRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -315,7 +315,7 @@ func (s *ImageResourceCrud) Create() error {
 	return nil
 }
 
-func (s *ImageResourceCrud) Get() error {
+func (s *CoreImageResourceCrud) Get() error {
 	request := oci_core.GetImageRequest{}
 
 	tmp := s.D.Id()
@@ -332,7 +332,7 @@ func (s *ImageResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ImageResourceCrud) Update() error {
+func (s *CoreImageResourceCrud) Update() error {
 	request := oci_core.UpdateImageRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -366,7 +366,7 @@ func (s *ImageResourceCrud) Update() error {
 	return nil
 }
 
-func (s *ImageResourceCrud) Delete() error {
+func (s *CoreImageResourceCrud) Delete() error {
 	request := oci_core.DeleteImageRequest{}
 
 	tmp := s.D.Id()
@@ -378,7 +378,7 @@ func (s *ImageResourceCrud) Delete() error {
 	return err
 }
 
-func (s *ImageResourceCrud) SetData() error {
+func (s *CoreImageResourceCrud) SetData() error {
 	if s.Res.BaseImageId != nil {
 		s.D.Set("base_image_id", *s.Res.BaseImageId)
 	}
@@ -430,7 +430,7 @@ func (s *ImageResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *ImageResourceCrud) mapToImageSourceDetails(fieldKeyFormat string) (oci_core.ImageSourceDetails, error) {
+func (s *CoreImageResourceCrud) mapToImageSourceDetails(fieldKeyFormat string) (oci_core.ImageSourceDetails, error) {
 	var baseObject oci_core.ImageSourceDetails
 	//discriminator
 	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))

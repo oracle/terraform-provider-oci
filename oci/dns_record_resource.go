@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 /*
  A note to maintainers: this resource represents many different record types, indicated by the "rtype" value, the possible
@@ -21,13 +21,13 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
-func RecordResource() *schema.Resource {
+func DnsRecordResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
-		Create:   createRecord,
-		Read:     readRecord,
-		Update:   updateRecord,
-		Delete:   deleteRecord,
+		Create:   createDnsRecord,
+		Read:     readDnsRecord,
+		Update:   updateDnsRecord,
+		Delete:   deleteDnsRecord,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"zone_name_or_id": {
@@ -81,32 +81,32 @@ func RecordResource() *schema.Resource {
 	}
 }
 
-func createRecord(d *schema.ResourceData, m interface{}) error {
-	sync := &RecordResourceCrud{}
+func createDnsRecord(d *schema.ResourceData, m interface{}) error {
+	sync := &DnsRecordResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
 	return CreateResource(d, sync)
 }
 
-func readRecord(d *schema.ResourceData, m interface{}) error {
-	sync := &RecordResourceCrud{}
+func readDnsRecord(d *schema.ResourceData, m interface{}) error {
+	sync := &DnsRecordResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
 	return ReadResource(sync)
 }
 
-func updateRecord(d *schema.ResourceData, m interface{}) error {
-	sync := &RecordResourceCrud{}
+func updateDnsRecord(d *schema.ResourceData, m interface{}) error {
+	sync := &DnsRecordResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteRecord(d *schema.ResourceData, m interface{}) error {
-	sync := &RecordResourceCrud{}
+func deleteDnsRecord(d *schema.ResourceData, m interface{}) error {
+	sync := &DnsRecordResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).dnsClient
 	sync.DisableNotFoundRetries = true
@@ -114,18 +114,18 @@ func deleteRecord(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type RecordResourceCrud struct {
+type DnsRecordResourceCrud struct {
 	BaseCrud
 	Client                 *oci_dns.DnsClient
 	Res                    *oci_dns.Record
 	DisableNotFoundRetries bool
 }
 
-func (s *RecordResourceCrud) ID() string {
+func (s *DnsRecordResourceCrud) ID() string {
 	return s.D.Get("record_hash").(string)
 }
 
-func (s *RecordResourceCrud) Create() error {
+func (s *DnsRecordResourceCrud) Create() error {
 	request := oci_dns.PatchZoneRecordsRequest{}
 	ro := oci_dns.RecordOperation{Operation: oci_dns.RecordOperationOperationAdd}
 
@@ -191,7 +191,7 @@ func (s *RecordResourceCrud) Create() error {
 	return nil
 }
 
-func (s *RecordResourceCrud) Get() error {
+func (s *DnsRecordResourceCrud) Get() error {
 	request := oci_dns.GetZoneRecordsRequest{}
 
 	zoneNameOrId := s.D.Get("zone_name_or_id").(string)
@@ -223,7 +223,7 @@ func (s *RecordResourceCrud) Get() error {
 	return err
 }
 
-func (s *RecordResourceCrud) Update() error {
+func (s *DnsRecordResourceCrud) Update() error {
 	zoneNameOrId := s.D.Get("zone_name_or_id").(string)
 	request := oci_dns.PatchZoneRecordsRequest{ZoneNameOrId: &zoneNameOrId}
 
@@ -279,7 +279,7 @@ func (s *RecordResourceCrud) Update() error {
 	return nil
 }
 
-func (s *RecordResourceCrud) Delete() error {
+func (s *DnsRecordResourceCrud) Delete() error {
 	request := oci_dns.PatchZoneRecordsRequest{}
 	ro := oci_dns.RecordOperation{Operation: oci_dns.RecordOperationOperationRemove}
 
@@ -303,7 +303,7 @@ func (s *RecordResourceCrud) Delete() error {
 	return err
 }
 
-func (s *RecordResourceCrud) SetData() error {
+func (s *DnsRecordResourceCrud) SetData() error {
 	s.D.SetId(*s.Res.RecordHash)
 
 	if s.Res.Domain != nil {
@@ -340,6 +340,8 @@ func (s *RecordResourceCrud) SetData() error {
 func findItem(rc *oci_dns.RecordCollection, r *schema.ResourceData) (*oci_dns.Record, error) {
 	rType := r.Get("rtype").(string)
 	rData := r.Get("rdata").(string)
+	rDomain := r.Get("domain").(string)
+	rTtl := r.Get("ttl").(int)
 	rData = normalizeRData(rType, rData)
 	rHash, rHashOk := r.GetOk("record_hash")
 
@@ -350,7 +352,7 @@ func findItem(rc *oci_dns.RecordCollection, r *schema.ResourceData) (*oci_dns.Re
 		}
 
 		// accept match by type and data match
-		if *item.Rtype == rType && normalizeRData(rType, *item.Rdata) == rData {
+		if *item.Rtype == rType && normalizeRData(rType, *item.Rdata) == rData && *item.Domain == rDomain && *item.Ttl == rTtl {
 			return &item, nil
 		}
 	}

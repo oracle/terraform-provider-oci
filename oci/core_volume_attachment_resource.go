@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -14,15 +14,15 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VolumeAttachmentResource() *schema.Resource {
+func CoreVolumeAttachmentResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createVolumeAttachment,
-		Read:     readVolumeAttachment,
-		Delete:   deleteVolumeAttachment,
+		Create:   createCoreVolumeAttachment,
+		Read:     readCoreVolumeAttachment,
+		Delete:   deleteCoreVolumeAttachment,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"attachment_type": {
@@ -122,24 +122,24 @@ func VolumeAttachmentResource() *schema.Resource {
 	}
 }
 
-func createVolumeAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeAttachmentResourceCrud{}
+func createCoreVolumeAttachment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return CreateResource(d, sync)
 }
 
-func readVolumeAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeAttachmentResourceCrud{}
+func readCoreVolumeAttachment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-func deleteVolumeAttachment(d *schema.ResourceData, m interface{}) error {
-	sync := &VolumeAttachmentResourceCrud{}
+func deleteCoreVolumeAttachment(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVolumeAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 	sync.DisableNotFoundRetries = true
@@ -147,43 +147,43 @@ func deleteVolumeAttachment(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type VolumeAttachmentResourceCrud struct {
+type CoreVolumeAttachmentResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.ComputeClient
 	Res                    *oci_core.VolumeAttachment
 	DisableNotFoundRetries bool
 }
 
-func (s *VolumeAttachmentResourceCrud) ID() string {
+func (s *CoreVolumeAttachmentResourceCrud) ID() string {
 	volumeAttachment := *s.Res
 	return *volumeAttachment.GetId()
 }
 
-func (s *VolumeAttachmentResourceCrud) CreatedPending() []string {
+func (s *CoreVolumeAttachmentResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.VolumeAttachmentLifecycleStateAttaching),
 	}
 }
 
-func (s *VolumeAttachmentResourceCrud) CreatedTarget() []string {
+func (s *CoreVolumeAttachmentResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.VolumeAttachmentLifecycleStateAttached),
 	}
 }
 
-func (s *VolumeAttachmentResourceCrud) DeletedPending() []string {
+func (s *CoreVolumeAttachmentResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.VolumeAttachmentLifecycleStateDetaching),
 	}
 }
 
-func (s *VolumeAttachmentResourceCrud) DeletedTarget() []string {
+func (s *CoreVolumeAttachmentResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.VolumeAttachmentLifecycleStateDetached),
 	}
 }
 
-func (s *VolumeAttachmentResourceCrud) Create() error {
+func (s *CoreVolumeAttachmentResourceCrud) Create() error {
 	request := oci_core.AttachVolumeRequest{}
 	err := s.populateTopLevelPolymorphicAttachVolumeRequest(&request)
 	if err != nil {
@@ -201,7 +201,7 @@ func (s *VolumeAttachmentResourceCrud) Create() error {
 	return nil
 }
 
-func (s *VolumeAttachmentResourceCrud) Get() error {
+func (s *CoreVolumeAttachmentResourceCrud) Get() error {
 	request := oci_core.GetVolumeAttachmentRequest{}
 
 	tmp := s.D.Id()
@@ -218,7 +218,7 @@ func (s *VolumeAttachmentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *VolumeAttachmentResourceCrud) Delete() error {
+func (s *CoreVolumeAttachmentResourceCrud) Delete() error {
 	request := oci_core.DetachVolumeRequest{}
 
 	tmp := s.D.Id()
@@ -230,7 +230,7 @@ func (s *VolumeAttachmentResourceCrud) Delete() error {
 	return err
 }
 
-func (s *VolumeAttachmentResourceCrud) SetData() error {
+func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 	switch v := (*s.Res).(type) {
 	case oci_core.IScsiVolumeAttachment:
 		s.D.Set("attachment_type", "iscsi")
@@ -347,7 +347,7 @@ func (s *VolumeAttachmentResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *VolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolumeRequest(request *oci_core.AttachVolumeRequest) error {
+func (s *CoreVolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolumeRequest(request *oci_core.AttachVolumeRequest) error {
 	//discriminator
 	attachmentTypeRaw, ok := s.D.GetOkExists("attachment_type")
 	var attachmentType string

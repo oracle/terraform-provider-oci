@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -13,16 +13,16 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func RouteTableResource() *schema.Resource {
+func CoreRouteTableResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createRouteTable,
-		Read:     readRouteTable,
-		Update:   updateRouteTable,
-		Delete:   deleteRouteTable,
+		Create:   createCoreRouteTable,
+		Read:     readCoreRouteTable,
+		Update:   updateCoreRouteTable,
+		Delete:   deleteCoreRouteTable,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -113,32 +113,32 @@ func RouteTableResource() *schema.Resource {
 	}
 }
 
-func createRouteTable(d *schema.ResourceData, m interface{}) error {
-	sync := &RouteTableResourceCrud{}
+func createCoreRouteTable(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreRouteTableResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readRouteTable(d *schema.ResourceData, m interface{}) error {
-	sync := &RouteTableResourceCrud{}
+func readCoreRouteTable(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreRouteTableResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateRouteTable(d *schema.ResourceData, m interface{}) error {
-	sync := &RouteTableResourceCrud{}
+func updateCoreRouteTable(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreRouteTableResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteRouteTable(d *schema.ResourceData, m interface{}) error {
-	sync := &RouteTableResourceCrud{}
+func deleteCoreRouteTable(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreRouteTableResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -146,42 +146,42 @@ func deleteRouteTable(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type RouteTableResourceCrud struct {
+type CoreRouteTableResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.RouteTable
 	DisableNotFoundRetries bool
 }
 
-func (s *RouteTableResourceCrud) ID() string {
+func (s *CoreRouteTableResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *RouteTableResourceCrud) CreatedPending() []string {
+func (s *CoreRouteTableResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.RouteTableLifecycleStateProvisioning),
 	}
 }
 
-func (s *RouteTableResourceCrud) CreatedTarget() []string {
+func (s *CoreRouteTableResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.RouteTableLifecycleStateAvailable),
 	}
 }
 
-func (s *RouteTableResourceCrud) DeletedPending() []string {
+func (s *CoreRouteTableResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.RouteTableLifecycleStateTerminating),
 	}
 }
 
-func (s *RouteTableResourceCrud) DeletedTarget() []string {
+func (s *CoreRouteTableResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.RouteTableLifecycleStateTerminated),
 	}
 }
 
-func (s *RouteTableResourceCrud) Create() error {
+func (s *CoreRouteTableResourceCrud) Create() error {
 	request := oci_core.CreateRouteTableRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -239,7 +239,7 @@ func (s *RouteTableResourceCrud) Create() error {
 	return nil
 }
 
-func (s *RouteTableResourceCrud) Get() error {
+func (s *CoreRouteTableResourceCrud) Get() error {
 	request := oci_core.GetRouteTableRequest{}
 
 	tmp := s.D.Id()
@@ -256,7 +256,7 @@ func (s *RouteTableResourceCrud) Get() error {
 	return nil
 }
 
-func (s *RouteTableResourceCrud) Update() error {
+func (s *CoreRouteTableResourceCrud) Update() error {
 	request := oci_core.UpdateRouteTableRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -307,7 +307,7 @@ func (s *RouteTableResourceCrud) Update() error {
 	return nil
 }
 
-func (s *RouteTableResourceCrud) Delete() error {
+func (s *CoreRouteTableResourceCrud) Delete() error {
 	request := oci_core.DeleteRouteTableRequest{}
 
 	tmp := s.D.Id()
@@ -319,7 +319,7 @@ func (s *RouteTableResourceCrud) Delete() error {
 	return err
 }
 
-func (s *RouteTableResourceCrud) SetData() error {
+func (s *CoreRouteTableResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -353,7 +353,7 @@ func (s *RouteTableResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *RouteTableResourceCrud) mapToRouteRule(fieldKeyFormat string) (oci_core.RouteRule, error) {
+func (s *CoreRouteTableResourceCrud) mapToRouteRule(fieldKeyFormat string) (oci_core.RouteRule, error) {
 	result := oci_core.RouteRule{}
 
 	// @CODEGEN We need this change because the service will return both cidr_block and destination.

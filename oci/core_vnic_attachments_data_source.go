@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VnicAttachmentsDataSource() *schema.Resource {
+func CoreVnicAttachmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVnicAttachments,
+		Read: readCoreVnicAttachments,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
@@ -33,7 +33,7 @@ func VnicAttachmentsDataSource() *schema.Resource {
 			"vnic_attachments": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(VnicAttachmentResource()),
+				Elem:     GetDataSourceItemSchema(CoreVnicAttachmentResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -49,25 +49,25 @@ func VnicAttachmentsDataSource() *schema.Resource {
 	}
 }
 
-func readVnicAttachments(d *schema.ResourceData, m interface{}) error {
-	sync := &VnicAttachmentsDataSourceCrud{}
+func readCoreVnicAttachments(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVnicAttachmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type VnicAttachmentsDataSourceCrud struct {
+type CoreVnicAttachmentsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListVnicAttachmentsResponse
 }
 
-func (s *VnicAttachmentsDataSourceCrud) VoidState() {
+func (s *CoreVnicAttachmentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VnicAttachmentsDataSourceCrud) Get() error {
+func (s *CoreVnicAttachmentsDataSourceCrud) Get() error {
 	request := oci_core.ListVnicAttachmentsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -123,7 +123,7 @@ func (s *VnicAttachmentsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VnicAttachmentsDataSourceCrud) SetData() error {
+func (s *CoreVnicAttachmentsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -178,7 +178,7 @@ func (s *VnicAttachmentsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, VnicAttachmentsDataSource().Schema["vnic_attachments"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreVnicAttachmentsDataSource().Schema["vnic_attachments"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("vnic_attachments", resources); err != nil {

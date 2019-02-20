@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 resource "oci_identity_idp_group_mapping" "test_idp_group_mapping" {
   #Required
   group_id             = "${oci_identity_group.group1.id}"

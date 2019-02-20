@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func DatabaseDataSource() *schema.Resource {
+func DatabaseDatabaseDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularDatabase,
+		Read: readSingularDatabaseDatabase,
 		Schema: map[string]*schema.Schema{
 			"database_id": {
 				Type:     schema.TypeString,
@@ -25,6 +25,32 @@ func DatabaseDataSource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"connection_strings": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"all_connection_strings": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"cdb_default": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"cdb_ip_default": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"db_backup_config": {
 				Type:     schema.TypeList,
@@ -95,25 +121,25 @@ func DatabaseDataSource() *schema.Resource {
 	}
 }
 
-func readSingularDatabase(d *schema.ResourceData, m interface{}) error {
-	sync := &DatabaseDataSourceCrud{}
+func readSingularDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDatabaseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type DatabaseDataSourceCrud struct {
+type DatabaseDatabaseDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.GetDatabaseResponse
 }
 
-func (s *DatabaseDataSourceCrud) VoidState() {
+func (s *DatabaseDatabaseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseDataSourceCrud) Get() error {
+func (s *DatabaseDatabaseDataSourceCrud) Get() error {
 	request := oci_database.GetDatabaseRequest{}
 
 	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
@@ -132,7 +158,7 @@ func (s *DatabaseDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseDataSourceCrud) SetData() error {
+func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -145,6 +171,12 @@ func (s *DatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.ConnectionStrings != nil {
+		s.D.Set("connection_strings", []interface{}{DatabaseConnectionStringsToMap(s.Res.ConnectionStrings)})
+	} else {
+		s.D.Set("connection_strings", nil)
 	}
 
 	if s.Res.DbBackupConfig != nil {
@@ -194,6 +226,22 @@ func (s *DatabaseDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func DatabaseConnectionStringsToMap(obj *oci_database.DatabaseConnectionStrings) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["all_connection_strings"] = obj.AllConnectionStrings
+
+	if obj.CdbDefault != nil {
+		result["cdb_default"] = string(*obj.CdbDefault)
+	}
+
+	if obj.CdbIpDefault != nil {
+		result["cdb_ip_default"] = string(*obj.CdbIpDefault)
+	}
+
+	return result
 }
 
 // @CODEGEN 08/2018: Method DbBackupConfigToMap is available in database_db_system_resource.go

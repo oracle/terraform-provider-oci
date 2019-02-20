@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func VirtualCircuitsDataSource() *schema.Resource {
+func CoreVirtualCircuitsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readVirtualCircuits,
+		Read: readCoreVirtualCircuits,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -29,31 +29,31 @@ func VirtualCircuitsDataSource() *schema.Resource {
 			"virtual_circuits": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(VirtualCircuitDataSource()),
+				Elem:     GetDataSourceItemSchema(CoreVirtualCircuitDataSource()),
 			},
 		},
 	}
 }
 
-func readVirtualCircuits(d *schema.ResourceData, m interface{}) error {
-	sync := &VirtualCircuitsDataSourceCrud{}
+func readCoreVirtualCircuits(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreVirtualCircuitsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type VirtualCircuitsDataSourceCrud struct {
+type CoreVirtualCircuitsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListVirtualCircuitsResponse
 }
 
-func (s *VirtualCircuitsDataSourceCrud) VoidState() {
+func (s *CoreVirtualCircuitsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *VirtualCircuitsDataSourceCrud) Get() error {
+func (s *CoreVirtualCircuitsDataSourceCrud) Get() error {
 	request := oci_core.ListVirtualCircuitsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -93,7 +93,7 @@ func (s *VirtualCircuitsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *VirtualCircuitsDataSourceCrud) SetData() error {
+func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -174,7 +174,7 @@ func (s *VirtualCircuitsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, VirtualCircuitsDataSource().Schema["virtual_circuits"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreVirtualCircuitsDataSource().Schema["virtual_circuits"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("virtual_circuits", resources); err != nil {

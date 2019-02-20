@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -397,7 +397,7 @@ func uploadPartsWorker(ctx objectStorageMultiPartUploadContext) {
 	}
 }
 
-func (s *ObjectResourceCrud) createSourceRegionClient(region string) error {
+func (s *ObjectStorageObjectResourceCrud) createSourceRegionClient(region string) error {
 	if s.SourceRegionClient == nil {
 		sourceObjectStorageClient, err := oci_object_storage.NewObjectStorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
 		if err != nil {

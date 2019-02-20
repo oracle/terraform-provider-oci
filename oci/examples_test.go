@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -53,14 +53,23 @@ var examplesTestAllowedEnvironmentVariables = []string{
 }
 
 func TestExamplesPlan(t *testing.T) {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestExamplesPlan") {
+		t.Skip("Skipping TestExamplesPlan")
+	}
 	RunExamples(t, true)
 }
 
 func TestExamplesApply(t *testing.T) {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestExamplesApply") {
+		t.Skip("Skipping TestExamplesApply")
+	}
 	RunExamples(t, false)
 }
 
 func TestTerraformVersions(t *testing.T) {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestTerraformVersions") {
+		t.Skip("Skipping TestTerraformVersions")
+	}
 	if RunConfigOnAllTerraformVersions(t, vcnExamplePath, false) {
 		log.Printf("Successfully ran all Terraform version tests")
 	}

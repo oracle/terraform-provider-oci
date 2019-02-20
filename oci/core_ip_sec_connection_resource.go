@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -12,7 +12,7 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func IpSecConnectionResource() *schema.Resource {
+func CoreIpSecConnectionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
@@ -22,10 +22,10 @@ func IpSecConnectionResource() *schema.Resource {
 			Update: schema.DefaultTimeout(10 * time.Minute),
 			Delete: schema.DefaultTimeout(10 * time.Minute),
 		},
-		Create: createIpSecConnection,
-		Read:   readIpSecConnection,
-		Update: updateIpSecConnection,
-		Delete: deleteIpSecConnection,
+		Create: createCoreIpSecConnection,
+		Read:   readCoreIpSecConnection,
+		Update: updateCoreIpSecConnection,
+		Delete: deleteCoreIpSecConnection,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -88,32 +88,32 @@ func IpSecConnectionResource() *schema.Resource {
 	}
 }
 
-func createIpSecConnection(d *schema.ResourceData, m interface{}) error {
-	sync := &IpSecConnectionResourceCrud{}
+func createCoreIpSecConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreIpSecConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return CreateResource(d, sync)
 }
 
-func readIpSecConnection(d *schema.ResourceData, m interface{}) error {
-	sync := &IpSecConnectionResourceCrud{}
+func readCoreIpSecConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreIpSecConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-func updateIpSecConnection(d *schema.ResourceData, m interface{}) error {
-	sync := &IpSecConnectionResourceCrud{}
+func updateCoreIpSecConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreIpSecConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteIpSecConnection(d *schema.ResourceData, m interface{}) error {
-	sync := &IpSecConnectionResourceCrud{}
+func deleteCoreIpSecConnection(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreIpSecConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 	sync.DisableNotFoundRetries = true
@@ -121,42 +121,42 @@ func deleteIpSecConnection(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type IpSecConnectionResourceCrud struct {
+type CoreIpSecConnectionResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
 	Res                    *oci_core.IpSecConnection
 	DisableNotFoundRetries bool
 }
 
-func (s *IpSecConnectionResourceCrud) ID() string {
+func (s *CoreIpSecConnectionResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *IpSecConnectionResourceCrud) CreatedPending() []string {
+func (s *CoreIpSecConnectionResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_core.IpSecConnectionLifecycleStateProvisioning),
 	}
 }
 
-func (s *IpSecConnectionResourceCrud) CreatedTarget() []string {
+func (s *CoreIpSecConnectionResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_core.IpSecConnectionLifecycleStateAvailable),
 	}
 }
 
-func (s *IpSecConnectionResourceCrud) DeletedPending() []string {
+func (s *CoreIpSecConnectionResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.IpSecConnectionLifecycleStateTerminating),
 	}
 }
 
-func (s *IpSecConnectionResourceCrud) DeletedTarget() []string {
+func (s *CoreIpSecConnectionResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.IpSecConnectionLifecycleStateTerminated),
 	}
 }
 
-func (s *IpSecConnectionResourceCrud) Create() error {
+func (s *CoreIpSecConnectionResourceCrud) Create() error {
 	request := oci_core.CreateIPSecConnectionRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -214,7 +214,7 @@ func (s *IpSecConnectionResourceCrud) Create() error {
 	return nil
 }
 
-func (s *IpSecConnectionResourceCrud) Get() error {
+func (s *CoreIpSecConnectionResourceCrud) Get() error {
 	request := oci_core.GetIPSecConnectionRequest{}
 
 	tmp := s.D.Id()
@@ -231,7 +231,7 @@ func (s *IpSecConnectionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *IpSecConnectionResourceCrud) Update() error {
+func (s *CoreIpSecConnectionResourceCrud) Update() error {
 	request := oci_core.UpdateIPSecConnectionRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -265,7 +265,7 @@ func (s *IpSecConnectionResourceCrud) Update() error {
 	return nil
 }
 
-func (s *IpSecConnectionResourceCrud) Delete() error {
+func (s *CoreIpSecConnectionResourceCrud) Delete() error {
 	request := oci_core.DeleteIPSecConnectionRequest{}
 
 	tmp := s.D.Id()
@@ -277,7 +277,7 @@ func (s *IpSecConnectionResourceCrud) Delete() error {
 	return err
 }
 
-func (s *IpSecConnectionResourceCrud) SetData() error {
+func (s *CoreIpSecConnectionResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func DbNodesDataSource() *schema.Resource {
+func DatabaseDbNodesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbNodes,
+		Read: readDatabaseDbNodes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -29,7 +29,7 @@ func DbNodesDataSource() *schema.Resource {
 			"db_nodes": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(DbNodeDataSource()),
+				Elem:     GetDataSourceItemSchema(DatabaseDbNodeDataSource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -45,25 +45,25 @@ func DbNodesDataSource() *schema.Resource {
 	}
 }
 
-func readDbNodes(d *schema.ResourceData, m interface{}) error {
-	sync := &DbNodesDataSourceCrud{}
+func readDatabaseDbNodes(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbNodesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type DbNodesDataSourceCrud struct {
+type DatabaseDbNodesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListDbNodesResponse
 }
 
-func (s *DbNodesDataSourceCrud) VoidState() {
+func (s *DatabaseDbNodesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbNodesDataSourceCrud) Get() error {
+func (s *DatabaseDbNodesDataSourceCrud) Get() error {
 	request := oci_database.ListDbNodesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -113,7 +113,7 @@ func (s *DbNodesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbNodesDataSourceCrud) SetData() error {
+func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -158,7 +158,7 @@ func (s *DbNodesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DbNodesDataSource().Schema["db_nodes"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DatabaseDbNodesDataSource().Schema["db_nodes"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("db_nodes", resources); err != nil {

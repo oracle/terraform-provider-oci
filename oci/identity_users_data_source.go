@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
-func UsersDataSource() *schema.Resource {
+func IdentityUsersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readUsers,
+		Read: readIdentityUsers,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -30,31 +30,31 @@ func UsersDataSource() *schema.Resource {
 			"users": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(UserResource()),
+				Elem:     GetDataSourceItemSchema(IdentityUserResource()),
 			},
 		},
 	}
 }
 
-func readUsers(d *schema.ResourceData, m interface{}) error {
-	sync := &UsersDataSourceCrud{}
+func readIdentityUsers(d *schema.ResourceData, m interface{}) error {
+	sync := &IdentityUsersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).identityClient
 
 	return ReadResource(sync)
 }
 
-type UsersDataSourceCrud struct {
+type IdentityUsersDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_identity.IdentityClient
 	Res    *oci_identity.ListUsersResponse
 }
 
-func (s *UsersDataSourceCrud) VoidState() {
+func (s *IdentityUsersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *UsersDataSourceCrud) Get() error {
+func (s *IdentityUsersDataSourceCrud) Get() error {
 	request := oci_identity.ListUsersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +95,7 @@ func (s *UsersDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *UsersDataSourceCrud) SetData() error {
+func (s *IdentityUsersDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -154,7 +154,7 @@ func (s *UsersDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, UsersDataSource().Schema["users"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, IdentityUsersDataSource().Schema["users"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("users", resources); err != nil {

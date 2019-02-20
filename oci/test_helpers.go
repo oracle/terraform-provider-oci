@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -305,15 +305,6 @@ func generateResourceFromMap(representationType RepresentationType, representati
 	}
 	buffer.WriteString(fmt.Sprintf("}%s", lineSeparator))
 	return buffer.String()
-}
-
-func GenerateTestResourceName(prefix string, maxLength int) string {
-	t := time.Now()
-	resourceName := fmt.Sprintf("%s%d", prefix, t.Unix())
-	if len(resourceName) > maxLength {
-		resourceName = resourceName[:maxLength]
-	}
-	return resourceName
 }
 
 func setEnvSetting(s, v string) error {

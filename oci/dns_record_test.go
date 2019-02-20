@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -354,7 +354,7 @@ func testAccCheckDnsRecordDestroy(s *terraform.State) error {
 			if err == nil {
 				// Convert the InstanceState attributes to a ResourceData expected by the lookup function
 				attributes := convertToObjectMap(rs.Primary.Attributes)
-				resourceData := schema.TestResourceDataRaw(&testing.T{}, RecordResource().Schema, attributes)
+				resourceData := schema.TestResourceDataRaw(&testing.T{}, DnsRecordResource().Schema, attributes)
 
 				//page through records
 				recordCollection := response.RecordCollection

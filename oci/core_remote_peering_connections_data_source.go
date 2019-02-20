@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func RemotePeeringConnectionsDataSource() *schema.Resource {
+func CoreRemotePeeringConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readRemotePeeringConnections,
+		Read: readCoreRemotePeeringConnections,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -25,31 +25,31 @@ func RemotePeeringConnectionsDataSource() *schema.Resource {
 			"remote_peering_connections": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(RemotePeeringConnectionResource()),
+				Elem:     GetDataSourceItemSchema(CoreRemotePeeringConnectionResource()),
 			},
 		},
 	}
 }
 
-func readRemotePeeringConnections(d *schema.ResourceData, m interface{}) error {
-	sync := &RemotePeeringConnectionsDataSourceCrud{}
+func readCoreRemotePeeringConnections(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreRemotePeeringConnectionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
 
 	return ReadResource(sync)
 }
 
-type RemotePeeringConnectionsDataSourceCrud struct {
+type CoreRemotePeeringConnectionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.ListRemotePeeringConnectionsResponse
 }
 
-func (s *RemotePeeringConnectionsDataSourceCrud) VoidState() {
+func (s *CoreRemotePeeringConnectionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *RemotePeeringConnectionsDataSourceCrud) Get() error {
+func (s *CoreRemotePeeringConnectionsDataSourceCrud) Get() error {
 	request := oci_core.ListRemotePeeringConnectionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +85,7 @@ func (s *RemotePeeringConnectionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *RemotePeeringConnectionsDataSourceCrud) SetData() error {
+func (s *CoreRemotePeeringConnectionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -138,7 +138,7 @@ func (s *RemotePeeringConnectionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, RemotePeeringConnectionsDataSource().Schema["remote_peering_connections"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreRemotePeeringConnectionsDataSource().Schema["remote_peering_connections"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("remote_peering_connections", resources); err != nil {

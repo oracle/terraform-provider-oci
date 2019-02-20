@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -10,9 +10,9 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-func ImagesDataSource() *schema.Resource {
+func CoreImagesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readImages,
+		Read: readCoreImages,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -42,7 +42,7 @@ func ImagesDataSource() *schema.Resource {
 			"images": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(ImageResource()),
+				Elem:     GetDataSourceItemSchema(CoreImageResource()),
 			},
 			"limit": {
 				Type:       schema.TypeInt,
@@ -58,25 +58,25 @@ func ImagesDataSource() *schema.Resource {
 	}
 }
 
-func readImages(d *schema.ResourceData, m interface{}) error {
-	sync := &ImagesDataSourceCrud{}
+func readCoreImages(d *schema.ResourceData, m interface{}) error {
+	sync := &CoreImagesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).computeClient
 
 	return ReadResource(sync)
 }
 
-type ImagesDataSourceCrud struct {
+type CoreImagesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.ComputeClient
 	Res    *oci_core.ListImagesResponse
 }
 
-func (s *ImagesDataSourceCrud) VoidState() {
+func (s *CoreImagesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ImagesDataSourceCrud) Get() error {
+func (s *CoreImagesDataSourceCrud) Get() error {
 	request := oci_core.ListImagesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -141,7 +141,7 @@ func (s *ImagesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *ImagesDataSourceCrud) SetData() error {
+func (s *CoreImagesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -209,7 +209,7 @@ func (s *ImagesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, ImagesDataSource().Schema["images"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, CoreImagesDataSource().Schema["images"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("images", resources); err != nil {

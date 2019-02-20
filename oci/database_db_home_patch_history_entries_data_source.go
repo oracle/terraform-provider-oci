@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -9,9 +9,9 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
-func DbHomePatchHistoryEntriesDataSource() *schema.Resource {
+func DatabaseDbHomePatchHistoryEntriesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbHomePatchHistoryEntries,
+		Read: readDatabaseDbHomePatchHistoryEntries,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"db_home_id": {
@@ -63,25 +63,25 @@ func DbHomePatchHistoryEntriesDataSource() *schema.Resource {
 	}
 }
 
-func readDbHomePatchHistoryEntries(d *schema.ResourceData, m interface{}) error {
-	sync := &DbHomePatchHistoryEntriesDataSourceCrud{}
+func readDatabaseDbHomePatchHistoryEntries(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDbHomePatchHistoryEntriesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
 
 	return ReadResource(sync)
 }
 
-type DbHomePatchHistoryEntriesDataSourceCrud struct {
+type DatabaseDbHomePatchHistoryEntriesDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
 	Res    *oci_database.ListDbHomePatchHistoryEntriesResponse
 }
 
-func (s *DbHomePatchHistoryEntriesDataSourceCrud) VoidState() {
+func (s *DatabaseDbHomePatchHistoryEntriesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbHomePatchHistoryEntriesDataSourceCrud) Get() error {
+func (s *DatabaseDbHomePatchHistoryEntriesDataSourceCrud) Get() error {
 	request := oci_database.ListDbHomePatchHistoryEntriesRequest{}
 
 	if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
@@ -112,7 +112,7 @@ func (s *DbHomePatchHistoryEntriesDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DbHomePatchHistoryEntriesDataSourceCrud) SetData() error {
+func (s *DatabaseDbHomePatchHistoryEntriesDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -151,7 +151,7 @@ func (s *DbHomePatchHistoryEntriesDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, DbHomePatchHistoryEntriesDataSource().Schema["patch_history_entries"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, DatabaseDbHomePatchHistoryEntriesDataSource().Schema["patch_history_entries"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("patch_history_entries", resources); err != nil {

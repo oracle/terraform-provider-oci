@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -12,16 +12,16 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
-func ExportSetResource() *schema.Resource {
+func FileStorageExportSetResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createExportSet,
-		Read:     readExportSet,
-		Update:   updateExportSet,
-		Delete:   deleteExportSet,
+		Create:   createFileStorageExportSet,
+		Read:     readFileStorageExportSet,
+		Update:   updateFileStorageExportSet,
+		Delete:   deleteFileStorageExportSet,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"mount_target_id": {
@@ -76,47 +76,47 @@ func ExportSetResource() *schema.Resource {
 	}
 }
 
-func createExportSet(d *schema.ResourceData, m interface{}) error {
-	sync := &ExportSetResourceCrud{}
+func createFileStorageExportSet(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageExportSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return CreateResource(d, sync)
 }
 
-func readExportSet(d *schema.ResourceData, m interface{}) error {
-	sync := &ExportSetResourceCrud{}
+func readFileStorageExportSet(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageExportSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return ReadResource(sync)
 }
 
-func updateExportSet(d *schema.ResourceData, m interface{}) error {
-	sync := &ExportSetResourceCrud{}
+func updateFileStorageExportSet(d *schema.ResourceData, m interface{}) error {
+	sync := &FileStorageExportSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).fileStorageClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteExportSet(d *schema.ResourceData, m interface{}) error {
+func deleteFileStorageExportSet(d *schema.ResourceData, m interface{}) error {
 	// Export set is deleted when a mount target is deleted.
 	return nil
 }
 
-type ExportSetResourceCrud struct {
+type FileStorageExportSetResourceCrud struct {
 	BaseCrud
 	Client                 *oci_file_storage.FileStorageClient
 	Res                    *oci_file_storage.ExportSet
 	DisableNotFoundRetries bool
 }
 
-func (s *ExportSetResourceCrud) ID() string {
+func (s *FileStorageExportSetResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *ExportSetResourceCrud) Create() error {
+func (s *FileStorageExportSetResourceCrud) Create() error {
 	// We can't really create an ExportSet. We need to get the exportSetId from the MountTarget it is attached to.
 	if mountTargetId, ok := s.D.GetOkExists("mount_target_id"); ok {
 		tmp := mountTargetId.(string)
@@ -144,7 +144,7 @@ func (s *ExportSetResourceCrud) Create() error {
 	return fmt.Errorf("no mount_target_id value could be found")
 }
 
-func (s *ExportSetResourceCrud) Get() error {
+func (s *FileStorageExportSetResourceCrud) Get() error {
 	request := oci_file_storage.GetExportSetRequest{}
 
 	tmp := s.D.Id()
@@ -161,7 +161,7 @@ func (s *ExportSetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ExportSetResourceCrud) Update() error {
+func (s *FileStorageExportSetResourceCrud) Update() error {
 	request := oci_file_storage.UpdateExportSetRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -201,12 +201,12 @@ func (s *ExportSetResourceCrud) Update() error {
 	return nil
 }
 
-func (s *ExportSetResourceCrud) Delete() error {
+func (s *FileStorageExportSetResourceCrud) Delete() error {
 	// Export set is deleted when a mount target is deleted.
 	return nil
 }
 
-func (s *ExportSetResourceCrud) SetData() error {
+func (s *FileStorageExportSetResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
