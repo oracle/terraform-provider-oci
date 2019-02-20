@@ -47,13 +47,13 @@ VCN Resolver to resolve hostnames for instances in the subnet. For more informat
 ```hcl
 resource "oci_core_subnet" "test_subnet" {
 	#Required
-	availability_domain = "${var.subnet_availability_domain}"
 	cidr_block = "${var.subnet_cidr_block}"
 	compartment_id = "${var.compartment_id}"
 	security_list_ids = "${var.subnet_security_list_ids}"
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
+	availability_domain = "${var.subnet_availability_domain}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	dhcp_options_id = "${oci_core_dhcp_options.test_dhcp_options.id}"
 	display_name = "${var.subnet_display_name}"
@@ -68,7 +68,7 @@ resource "oci_core_subnet" "test_subnet" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The availability domain to contain the subnet.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - (Optional) The availability domain to contain the subnet.  Example: `Uocm:PHX-AD-1` 
 * `cidr_block` - (Required) The CIDR IP address range of the subnet.  Example: `172.16.1.0/24` 
 * `compartment_id` - (Required) The OCID of the compartment to contain the subnet.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 

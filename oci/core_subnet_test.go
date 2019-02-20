@@ -38,10 +38,10 @@ var (
 	}
 
 	subnetRepresentation = map[string]interface{}{
-		"availability_domain":        Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"cidr_block":                 Representation{repType: Required, create: `10.0.0.0/16`},
 		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
 		"vcn_id":                     Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"availability_domain":        Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"dhcp_options_id":            Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`, update: `${oci_core_dhcp_options.test_dhcp_options.id}`},
 		"display_name":               Representation{repType: Optional, create: `MySubnet`, update: `displayName2`},
@@ -82,7 +82,6 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + SubnetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),

@@ -1,4 +1,5 @@
 ## 3.15.1 (Unreleased)
+Enable regional Subnets by making Availability Domain optional when creating a Subnet
 
 ### Added
 - Adding description property to rules in Steering Policies in DNS
