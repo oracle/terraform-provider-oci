@@ -6,6 +6,8 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/zclconf/go-cty/cty"
+
 	"github.com/hashicorp/terraform/addrs"
 	"github.com/hashicorp/terraform/configs/configschema"
 	"github.com/hashicorp/terraform/plans"
@@ -114,31 +116,39 @@ func formatStateModule(p blockBodyDiffPrinter, m *states.Module, schemas *terraf
 
 			switch addr.Mode {
 			case addrs.ManagedResourceMode:
-				if _, exists := schemas.Providers[provider].ResourceTypes[addr.Type]; !exists {
+				schema, _ = schemas.ResourceTypeConfig(
+					provider,
+					addr.Mode,
+					addr.Type,
+				)
+				if schema == nil {
 					p.buf.WriteString(fmt.Sprintf(
 						"# missing schema for provider %q resource type %s\n\n", provider, addr.Type))
 					continue
 				}
 
 				p.buf.WriteString(fmt.Sprintf(
-					"resource %q %q {\n",
+					"resource %q %q {",
 					addr.Type,
 					addr.Name,
 				))
-				schema = schemas.Providers[provider].ResourceTypes[addr.Type]
 			case addrs.DataResourceMode:
-				if _, exists := schemas.Providers[provider].ResourceTypes[addr.Type]; !exists {
+				schema, _ = schemas.ResourceTypeConfig(
+					provider,
+					addr.Mode,
+					addr.Type,
+				)
+				if schema == nil {
 					p.buf.WriteString(fmt.Sprintf(
 						"# missing schema for provider %q data source %s\n\n", provider, addr.Type))
 					continue
 				}
 
 				p.buf.WriteString(fmt.Sprintf(
-					"data %q %q {\n",
+					"data %q %q {",
 					addr.Type,
 					addr.Name,
 				))
-				schema = schemas.Providers[provider].DataSources[addr.Type]
 			default:
 				// should never happen, since the above is exhaustive
 				p.buf.WriteString(addr.String())
@@ -150,23 +160,12 @@ func formatStateModule(p blockBodyDiffPrinter, m *states.Module, schemas *terraf
 				break
 			}
 
-			// First get the names of all the attributes so we can show them
-			// in alphabetical order.
-			names := make([]string, 0, len(schema.Attributes))
-			for name := range schema.Attributes {
-				names = append(names, name)
+			path := make(cty.Path, 0, 3)
+			bodyWritten := p.writeBlockBodyDiff(schema, val.Value, val.Value, 2, path)
+			if bodyWritten {
+				p.buf.WriteString("\n")
 			}
-			sort.Strings(names)
 
-			for _, name := range names {
-				attr := ctyGetAttrMaybeNull(val.Value, name)
-				if !attr.IsNull() {
-					p.buf.WriteString(fmt.Sprintf("    %s = ", name))
-					attr := ctyGetAttrMaybeNull(val.Value, name)
-					p.writeValue(attr, plans.NoOp, 4)
-					p.buf.WriteString("\n")
-				}
-			}
 			p.buf.WriteString("}\n\n")
 		}
 	}
