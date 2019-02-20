@@ -11,10 +11,10 @@ package provider
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"fmt"
 	"net"
 	"regexp"
 
@@ -45,7 +45,8 @@ func DnsRecordResource() *schema.Resource {
 			// Optional
 			"domain": {
 				Type:     schema.TypeString,
-				Optional: true,
+				ForceNew: true,
+				Required: true,
 			},
 			"rdata": {
 				Type:     schema.TypeString,
@@ -57,7 +58,8 @@ func DnsRecordResource() *schema.Resource {
 			},
 			"rtype": {
 				Type:     schema.TypeString,
-				Optional: true,
+				ForceNew: true,
+				Required: true,
 			},
 			"ttl": {
 				Type:     schema.TypeInt,
@@ -126,30 +128,28 @@ func (s *DnsRecordResourceCrud) ID() string {
 }
 
 func (s *DnsRecordResourceCrud) Create() error {
-	request := oci_dns.PatchZoneRecordsRequest{}
+	request := oci_dns.PatchRRSetRequest{}
 	ro := oci_dns.RecordOperation{Operation: oci_dns.RecordOperationOperationAdd}
 
 	zoneNameOrId := s.D.Get("zone_name_or_id").(string)
 	request.ZoneNameOrId = &zoneNameOrId
+
+	domain := s.D.Get("domain").(string)
+	request.Domain = &domain
+	ro.Domain = &domain
+
+	rtype := s.D.Get("rtype").(string)
+	request.Rtype = &rtype
+	ro.Rtype = &rtype
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
 	}
 
-	if domain, ok := s.D.GetOkExists("domain"); ok {
-		tmp := domain.(string)
-		ro.Domain = &tmp
-	}
-
 	if rdata, ok := s.D.GetOkExists("rdata"); ok {
 		tmp := rdata.(string)
 		ro.Rdata = &tmp
-	}
-
-	if rtype, ok := s.D.GetOkExists("rtype"); ok {
-		tmp := rtype.(string)
-		ro.Rtype = &tmp
 	}
 
 	if ttl, ok := s.D.GetOkExists("ttl"); ok {
@@ -160,14 +160,14 @@ func (s *DnsRecordResourceCrud) Create() error {
 	request.Items = []oci_dns.RecordOperation{ro}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
-	response, err := s.Client.PatchZoneRecords(context.Background(), request)
+	response, err := s.Client.PatchRRSet(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
 	// The patch operation can add a record, but it returns ALL records, so there is no absolute way to map to this new item.
 	// Since there cant be duplicate records, try to match on the rType and rData that was just used
-	item, err := findItem(&response.RecordCollection, s.D)
+	item, err := findItem(&response.Items, s.D)
 
 	if err != nil {
 		//PatchZoneRecords only returns 50 records we need to do a Get with pagination to make sure we can't find the item
@@ -192,10 +192,16 @@ func (s *DnsRecordResourceCrud) Create() error {
 }
 
 func (s *DnsRecordResourceCrud) Get() error {
-	request := oci_dns.GetZoneRecordsRequest{}
+	request := oci_dns.GetRRSetRequest{}
 
 	zoneNameOrId := s.D.Get("zone_name_or_id").(string)
 	request.ZoneNameOrId = &zoneNameOrId
+
+	domain := s.D.Get("domain").(string)
+	request.Domain = &domain
+
+	rtype := s.D.Get("rtype").(string)
+	request.Rtype = &rtype
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -206,11 +212,11 @@ func (s *DnsRecordResourceCrud) Get() error {
 
 	var err error
 	for true {
-		response, err := s.Client.GetZoneRecords(context.Background(), request)
+		response, err := s.Client.GetRRSet(context.Background(), request)
 		if err != nil {
 			return err
 		}
-		item, err := findItem(&response.RecordCollection, s.D)
+		item, err := findItem(&response.Items, s.D)
 		if err == nil {
 			s.Res = item
 			return nil
@@ -225,9 +231,11 @@ func (s *DnsRecordResourceCrud) Get() error {
 
 func (s *DnsRecordResourceCrud) Update() error {
 	zoneNameOrId := s.D.Get("zone_name_or_id").(string)
-	request := oci_dns.PatchZoneRecordsRequest{ZoneNameOrId: &zoneNameOrId}
+	domain := s.D.Get("domain").(string)
+	rtype := s.D.Get("rtype").(string)
+	request := oci_dns.PatchRRSetRequest{ZoneNameOrId: &zoneNameOrId, Domain: &domain, Rtype: &rtype}
 
-	// "Update" using PatchZoneRecords requires removing the target record then adding the updated version.
+	// "Update" using PatchRRSetRequest requires removing the target record then adding the updated version.
 	recordHash := s.D.Get("record_hash").(string)
 	removeOp := oci_dns.RecordOperation{Operation: oci_dns.RecordOperationOperationRemove, RecordHash: &recordHash}
 	addOp := oci_dns.RecordOperation{Operation: oci_dns.RecordOperationOperationAdd}
@@ -237,19 +245,12 @@ func (s *DnsRecordResourceCrud) Update() error {
 		request.CompartmentId = &tmp
 	}
 
-	if domain, ok := s.D.GetOkExists("domain"); ok {
-		tmp := domain.(string)
-		addOp.Domain = &tmp
-	}
+	addOp.Domain = &domain
+	addOp.Rtype = &rtype
 
 	if rdata, ok := s.D.GetOkExists("rdata"); ok {
 		tmp := rdata.(string)
 		addOp.Rdata = &tmp
-	}
-
-	if rtype, ok := s.D.GetOkExists("rtype"); ok {
-		tmp := rtype.(string)
-		addOp.Rtype = &tmp
 	}
 
 	if ttl, ok := s.D.GetOkExists("ttl"); ok {
@@ -260,11 +261,11 @@ func (s *DnsRecordResourceCrud) Update() error {
 	request.Items = []oci_dns.RecordOperation{removeOp, addOp}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
-	response, err := s.Client.PatchZoneRecords(context.Background(), request)
+	response, err := s.Client.PatchRRSet(context.Background(), request)
 	if err != nil {
 		return err
 	}
-	item, err := findItem(&response.RecordCollection, s.D)
+	item, err := findItem(&response.Items, s.D)
 
 	if err != nil {
 		//PatchZoneRecords only returns 50 records we need to do a Get with pagination to make sure we can't find the item
@@ -280,11 +281,17 @@ func (s *DnsRecordResourceCrud) Update() error {
 }
 
 func (s *DnsRecordResourceCrud) Delete() error {
-	request := oci_dns.PatchZoneRecordsRequest{}
+	request := oci_dns.PatchRRSetRequest{}
 	ro := oci_dns.RecordOperation{Operation: oci_dns.RecordOperationOperationRemove}
 
 	zoneNameOrId := s.D.Get("zone_name_or_id").(string)
 	request.ZoneNameOrId = &zoneNameOrId
+
+	domain := s.D.Get("domain").(string)
+	request.Domain = &domain
+
+	rtype := s.D.Get("rtype").(string)
+	request.Rtype = &rtype
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -299,7 +306,7 @@ func (s *DnsRecordResourceCrud) Delete() error {
 	request.Items = []oci_dns.RecordOperation{ro}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
-	_, err := s.Client.PatchZoneRecords(context.Background(), request)
+	_, err := s.Client.PatchRRSet(context.Background(), request)
 	return err
 }
 
@@ -337,7 +344,7 @@ func (s *DnsRecordResourceCrud) SetData() error {
 	return nil
 }
 
-func findItem(rc *oci_dns.RecordCollection, r *schema.ResourceData) (*oci_dns.Record, error) {
+func findItem(rc *[]oci_dns.Record, r *schema.ResourceData) (*oci_dns.Record, error) {
 	rType := r.Get("rtype").(string)
 	rData := r.Get("rdata").(string)
 	rDomain := r.Get("domain").(string)
@@ -345,7 +352,7 @@ func findItem(rc *oci_dns.RecordCollection, r *schema.ResourceData) (*oci_dns.Re
 	rData = normalizeRData(rType, rData)
 	rHash, rHashOk := r.GetOk("record_hash")
 
-	for _, item := range rc.Items {
+	for _, item := range *rc {
 		// prefer exact match by record hash
 		if rHashOk && rHash == *item.RecordHash {
 			return &item, nil
@@ -357,7 +364,7 @@ func findItem(rc *oci_dns.RecordCollection, r *schema.ResourceData) (*oci_dns.Re
 		}
 	}
 
-	return nil, fmt.Errorf("target %s record could not be matched against data %s\nfrom set %+v", rType, rData, rc.Items)
+	return nil, fmt.Errorf("target %s record could not be matched against data %s\nfrom set %+v", rType, rData, rc)
 }
 
 // Match dns service transforms of rdata
