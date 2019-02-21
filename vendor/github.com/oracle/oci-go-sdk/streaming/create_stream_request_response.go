@@ -1,21 +1,21 @@
 // Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-package announcementsservice
+package streaming
 
 import (
 	"github.com/oracle/oci-go-sdk/common"
 	"net/http"
 )
 
-// GetAnnouncementRequest wrapper for the GetAnnouncement operation
-type GetAnnouncementRequest struct {
+// CreateStreamRequest wrapper for the CreateStream operation
+type CreateStreamRequest struct {
 
-	// The OCID of the announcement.
-	AnnouncementId *string `mandatory:"true" contributesTo:"path" name:"announcementId"`
+	// The stream to create.
+	CreateStreamDetails `contributesTo:"body"`
 
-	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the complete request ID.
+	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -23,37 +23,39 @@ type GetAnnouncementRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetAnnouncementRequest) String() string {
+func (request CreateStreamRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetAnnouncementRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request CreateStreamRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetAnnouncementRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateStreamRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// GetAnnouncementResponse wrapper for the GetAnnouncement operation
-type GetAnnouncementResponse struct {
+// CreateStreamResponse wrapper for the CreateStream operation
+type CreateStreamResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The Announcement instance
-	Announcement `presentIn:"body"`
+	// The Stream instance
+	Stream `presentIn:"body"`
 
+	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+	// a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response GetAnnouncementResponse) String() string {
+func (response CreateStreamResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetAnnouncementResponse) HTTPResponse() *http.Response {
+func (response CreateStreamResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

@@ -289,9 +289,9 @@ func (client KmsVaultClient) scheduleVaultDeletion(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateVault Updates the properties of a vault. Specifically, you can
-// only update the `displayName` property. Furthermore, the vault
-// must be in an `ACTIVE` or `CREATING` state.
+// UpdateVault Updates the properties of a vault. Specifically, you can update the
+// `displayName` , `freeformTags`, and `definedTags` properties. Furthermore,
+// the vault must be in an `ACTIVE` or `CREATING` state.
 func (client KmsVaultClient) UpdateVault(ctx context.Context, request UpdateVaultRequest) (response UpdateVaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

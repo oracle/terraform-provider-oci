@@ -3,7 +3,7 @@
 
 // Announcements Service API
 //
-// A description of the AnnouncementsService API
+// Manage Oracle Cloud Infrastructure console announcements.
 //
 
 package announcementsservice
@@ -58,7 +58,7 @@ func (client *AnnouncementClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
-// GetAnnouncement Gets details about single `Announcement` object
+// GetAnnouncement Gets the details of a specific announcement.
 func (client AnnouncementClient) GetAnnouncement(ctx context.Context, request GetAnnouncementRequest) (response GetAnnouncementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -100,7 +100,7 @@ func (client AnnouncementClient) getAnnouncement(ctx context.Context, request co
 	return response, err
 }
 
-// GetAnnouncementUserStatus Get user status of specified announcement
+// GetAnnouncementUserStatus Gets information about whether a specific announcement was acknowledged by a user.
 func (client AnnouncementClient) GetAnnouncementUserStatus(ctx context.Context, request GetAnnouncementUserStatusRequest) (response GetAnnouncementUserStatusResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -142,7 +142,7 @@ func (client AnnouncementClient) getAnnouncementUserStatus(ctx context.Context, 
 	return response, err
 }
 
-// ListAnnouncements Gets a list of `Announcement` objects for the current tenancy
+// ListAnnouncements Gets a list of announcements for the current tenancy.
 func (client AnnouncementClient) ListAnnouncements(ctx context.Context, request ListAnnouncementsRequest) (response ListAnnouncementsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -184,7 +184,7 @@ func (client AnnouncementClient) listAnnouncements(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateAnnouncementUserStatus Update `Announcement` status with whether user has seen or supressed the announcement
+// UpdateAnnouncementUserStatus Updates the status of the specified announcement with regard to whether it has been marked as read.
 func (client AnnouncementClient) UpdateAnnouncementUserStatus(ctx context.Context, request UpdateAnnouncementUserStatusRequest) (response UpdateAnnouncementUserStatusResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

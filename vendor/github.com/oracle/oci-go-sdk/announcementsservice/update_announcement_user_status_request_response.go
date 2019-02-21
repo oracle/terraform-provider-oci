@@ -11,17 +11,17 @@ import (
 // UpdateAnnouncementUserStatusRequest wrapper for the UpdateAnnouncementUserStatus operation
 type UpdateAnnouncementUserStatusRequest struct {
 
-	// The OCID of the announcement
+	// The OCID of the announcement.
 	AnnouncementId *string `mandatory:"true" contributesTo:"path" name:"announcementId"`
 
-	// Object for updating a user's status of announcement.
+	// The information to use to update the announcement's read status.
 	StatusDetails AnnouncementUserStatusDetails `contributesTo:"body"`
 
-	// Optimistic locking version
+	// The locking version, used for optimistic concurrency control.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+	// a particular request, please provide the complete request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

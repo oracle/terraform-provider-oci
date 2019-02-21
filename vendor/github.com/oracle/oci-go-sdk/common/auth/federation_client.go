@@ -15,6 +15,7 @@ import (
 	"os"
 	"strings"
 	"sync"
+	"time"
 )
 
 // federationClient is a client to retrieve the security token for an instance principal necessary to sign a request.
@@ -164,9 +165,11 @@ func (c *x509FederationClient) renewSecurityToken() (err error) {
 		}
 	}
 
+	common.Logf("Renewing security token at: %v\n", time.Now().Format("15:04:05.000"))
 	if c.securityToken, err = c.getSecurityToken(); err != nil {
 		return fmt.Errorf("failed to get security token: %s", err.Error())
 	}
+	common.Logf("Security token renewed at: %v\n", time.Now().Format("15:04:05.000"))
 
 	return nil
 }

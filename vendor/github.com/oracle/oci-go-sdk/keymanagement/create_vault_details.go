@@ -24,6 +24,15 @@ type CreateVaultDetails struct {
 
 	// The type of vault to create. Each type of vault stores the key with different degrees of isolation and has different options and pricing.
 	VaultType CreateVaultDetailsVaultTypeEnum `mandatory:"true" json:"vaultType"`
+
+	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Simple key-value pair that is applied without any predefined name, type, or scope.
+	// Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 }
 
 func (m CreateVaultDetails) String() string {
