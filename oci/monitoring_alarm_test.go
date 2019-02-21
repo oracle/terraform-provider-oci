@@ -56,8 +56,8 @@ var (
 		"suppression":                      RepresentationGroup{Optional, alarmSuppressionRepresentation},
 	}
 	alarmSuppressionRepresentation = map[string]interface{}{
-		"time_suppress_from":  Representation{repType: Required, create: `2019-02-01T18:00:00.001Z`, update: `2019-12-01T18:00:00.001Z`},
-		"time_suppress_until": Representation{repType: Required, create: `2019-02-01T19:00:00.001Z`, update: `2019-12-01T19:00:00.001Z`},
+		"time_suppress_from":  Representation{repType: Required, create: `2126-02-01T18:00:00.001Z`, update: `2125-12-01T18:00:00.001Z`},
+		"time_suppress_until": Representation{repType: Required, create: `2126-02-01T19:00:00.001Z`, update: `2125-12-01T19:00:00.001Z`},
 		"description":         Representation{repType: Optional, create: `System Maintenance`, update: `description2`},
 	}
 
@@ -135,8 +135,8 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "suppression.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "suppression.0.description", "System Maintenance"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_from", "2019-02-01T18:00:00.001Z"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_until", "2019-02-01T19:00:00.001Z"),
+					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_from", "2126-02-01T18:00:00.001Z"),
+					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_until", "2126-02-01T19:00:00.001Z"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -171,8 +171,8 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "suppression.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "suppression.0.description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_from", "2019-12-01T18:00:00.001Z"),
-					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_until", "2019-12-01T19:00:00.001Z"),
+					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_from", "2125-12-01T18:00:00.001Z"),
+					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_until", "2125-12-01T19:00:00.001Z"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -212,8 +212,8 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "alarms.0.state"),
 					resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.0.time_suppress_from", "2019-12-01T18:00:00.001Z"),
-					resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.0.time_suppress_until", "2019-12-01T19:00:00.001Z"),
+					resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.0.time_suppress_from", "2125-12-01T18:00:00.001Z"),
+					resource.TestCheckResourceAttr(datasourceName, "alarms.0.suppression.0.time_suppress_until", "2125-12-01T19:00:00.001Z"),
 				),
 			},
 			// verify singular datasource
@@ -243,8 +243,8 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "suppression.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "suppression.0.description", "description2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "suppression.0.time_suppress_from", "2019-12-01T18:00:00.001Z"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "suppression.0.time_suppress_until", "2019-12-01T19:00:00.001Z"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "suppression.0.time_suppress_from", "2125-12-01T18:00:00.001Z"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "suppression.0.time_suppress_until", "2125-12-01T19:00:00.001Z"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				),
@@ -275,6 +275,7 @@ func testAccCheckMonitoringAlarmDestroy(s *terraform.State) error {
 
 			tmp := rs.Primary.ID
 			request.AlarmId = &tmp
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "monitoring")
 
 			response, err := client.GetAlarm(context.Background(), request)
 
