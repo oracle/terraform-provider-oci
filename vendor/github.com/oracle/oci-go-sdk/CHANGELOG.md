@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 4.0.0 - 2019-02-21
+### Added
+- Support for government-realm regions
+- Support for the Streaming service
+- Support for tags in the Key Management service
+- Support for regional subnets in the Virtual Networking service
+
+### Fixed
+- Removed unused Announcements service 'NotificationFollowupDetails' struct and 'GetFollowups' operation
+- InstancePrincipals now invalidates a token shortly before its expiration time to avoid making  a service call with an expired token
+- Requests with binary bodies that require its body to be included in the signature are now being signed correctly
+
 ## 3.7.0 - 2019-02-07
 ### Added
 - Support for the Web Application Acceleration and Security (WAAS) service
