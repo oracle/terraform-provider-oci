@@ -10,6 +10,10 @@
 - Support for Defined Tag defaults through the `oci_identity_tag_default` resource
 - Support for updating the compartment on a Tag Namespace
 - Support for exadata io resource management config for DB system
+- Support `email` attribute for `oci_identity_user` resource and `oci_identity_ui_password` datasource
+
+### Fixed
+- Marked oci_identity_ui_password resource as not importable
 
 ### Deprecated
 - Deprecated Autonomous Data Warehouse resources `oci_database_autonomous_data_warehouse`, the API is now unified with Autonomous Database

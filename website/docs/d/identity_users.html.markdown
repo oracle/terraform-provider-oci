@@ -55,6 +55,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the tenancy containing the user.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description you assign to the user. Does not have to be unique, and it's changeable.
+* `email` - The email you assign to the user during creation. The name must be unique across all users in the tenancy. 
 * `external_identifier` - Identifier of the user in the identity provider
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the user.
