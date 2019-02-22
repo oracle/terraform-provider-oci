@@ -4,6 +4,7 @@
 - Adding description property to rules in Steering Policies in DNS
 - Enable regional Subnets by making Availability Domain optional when creating a Subnet
 - Support for Streaming service
+- Support for the tagging of applicable KMS resources
 
 ### Fixed
 - DNS Record now requires domain and rtype as mandatory arguments. Managing DNS record resources now requires DNS_RECORD* level policy entitlements instead of DNS_ZONE*. [Permissions List](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/dnspolicyreference.htm) 
@@ -15,7 +16,6 @@
 - Support for Health Check Service
 - Adding database connection information to the `oci_database_database` and `oci_database_databases` data sources
 - Adding support for Steering Policies in DNS
-- Support for the tagging of applicable KMS resources
 
 ## 3.14.1 (February 05, 2019)
 
