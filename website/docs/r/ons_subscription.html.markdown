@@ -59,11 +59,3 @@ The following attributes are exported:
 * `state` - The lifecycle state of the subscription. Default value for a newly created subscription: PENDING. 
 * `topic_id` - The [OCID](/iaas/Content/General/Concepts/identifiers.htm) of the associated topic. 
 
-## Import
-
-Subscriptions can be imported using the `id`, e.g.
-
-```
-$ terraform import oci_ons_subscription.test_subscription "id"
-```
-

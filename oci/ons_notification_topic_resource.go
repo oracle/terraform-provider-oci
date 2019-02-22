@@ -10,7 +10,7 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 )
 
-func NotificationTopicResource() *schema.Resource {
+func OnsNotificationTopicResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,

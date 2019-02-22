@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/http"
 	"regexp"
 	"testing"
 	"time"
@@ -22,7 +21,7 @@ var (
 		generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionRepresentation)
 
 	SubscriptionResourceConfig = SubscriptionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation)
+		generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation)
 
 	subscriptionSingularDataSourceRepresentation = map[string]interface{}{
 		"subscription_id": Representation{repType: Required, create: `${oci_ons_subscription.test_subscription.id}`},
@@ -60,9 +59,6 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 	resourceName := "oci_ons_subscription.test_subscription"
 	datasourceName := "data.oci_ons_subscriptions.test_subscriptions"
 	singularDatasourceName := "data.oci_ons_subscription.test_subscription"
-	reconfirmationSingularDatasourceName := "data.oci_ons_reconfirmation.test_reconfirmation"
-
-	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
@@ -81,11 +77,6 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
 					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "delivery_policy"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						return err
-					},
 				),
 			},
 
@@ -96,7 +87,6 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
-					generateDataSourceFromRepresentationMap("oci_ons_reconfirmation", "test_reconfirmation", Required, Create, reconfirmationSingularDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -105,20 +95,9 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "state", "PENDING"),
 					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "delivery_policy"),
-
-					func(s *terraform.State) (err error) {
-						resId, err = fromInstanceState(s, resourceName, "id")
-						if err != nil {
-							return err
-						}
-						// subscription only can be updated when it is not in pending state.
-						url, err := fromInstanceState(s, reconfirmationSingularDatasourceName, "url")
-						_, err = http.Get(url)
-						return err
-					},
 				),
 			},
 
@@ -126,33 +105,15 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
-					resource.TestMatchResourceAttr(resourceName, "delivery_policy", regexp.MustCompile(`"maxRetryDuration":7000000`)),
-
-					func(s *terraform.State) (err error) {
-						resId2, err = fromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
+				ExpectError: regexp.MustCompile("Subscription(.*) is not active."),
 			},
 
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_ons_subscriptions", "test_subscriptions", Optional, Update, subscriptionDataSourceRepresentation) +
+					generateDataSourceFromRepresentationMap("oci_ons_subscriptions", "test_subscriptions", Optional, Create, subscriptionDataSourceRepresentation) +
 					compartmentIdVariableStr + SubscriptionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
+					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "topic_id"),
@@ -163,7 +124,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.protocol", "EMAIL"),
-					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.state"),
+					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.state", "PENDING"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.topic_id"),
 				),
 			},
@@ -180,24 +141,8 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "EMAIL"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "state", "PENDING"),
 				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + SubscriptionResourceConfig,
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"compartment_id",
-					"topic_id",
-					"delivery_policy",
-				},
-				ResourceName: resourceName,
 			},
 		},
 	})

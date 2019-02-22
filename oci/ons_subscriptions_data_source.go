@@ -10,7 +10,7 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 )
 
-func SubscriptionsDataSource() *schema.Resource {
+func OnsSubscriptionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSubscriptions,
 		Schema: map[string]*schema.Schema{
@@ -26,7 +26,7 @@ func SubscriptionsDataSource() *schema.Resource {
 			"subscriptions": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     modifySubscriptionSchema(GetDataSourceItemSchema(SubscriptionResource())),
+				Elem:     modifySubscriptionSchema(GetDataSourceItemSchema(OnsSubscriptionResource())),
 			},
 		},
 	}
@@ -139,7 +139,7 @@ func (s *SubscriptionsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, SubscriptionsDataSource().Schema["subscriptions"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, OnsSubscriptionsDataSource().Schema["subscriptions"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("subscriptions", resources); err != nil {
