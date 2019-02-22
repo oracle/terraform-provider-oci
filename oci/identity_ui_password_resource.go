@@ -13,9 +13,6 @@ import (
 
 func IdentityUiPasswordResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: DefaultTimeout,
 		Create:   createIdentityUiPassword,
 		Read:     readIdentityUiPassword,
