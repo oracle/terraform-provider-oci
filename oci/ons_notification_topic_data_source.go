@@ -9,7 +9,7 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 )
 
-func NotificationTopicDataSource() *schema.Resource {
+func OnsNotificationTopicDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularNotificationTopic,
 		Schema: map[string]*schema.Schema{

@@ -12,11 +12,8 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 )
 
-func SubscriptionResource() *schema.Resource {
+func OnsSubscriptionResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: DefaultTimeout,
 		Create:   createSubscription,
 		Read:     readSubscription,

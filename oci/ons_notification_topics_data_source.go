@@ -9,7 +9,7 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 )
 
-func NotificationTopicsDataSource() *schema.Resource {
+func OnsNotificationTopicsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readNotificationTopics,
 		Schema: map[string]*schema.Schema{
@@ -33,7 +33,7 @@ func NotificationTopicsDataSource() *schema.Resource {
 			"notification_topics": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(NotificationTopicResource()),
+				Elem:     GetDataSourceItemSchema(OnsNotificationTopicResource()),
 			},
 		},
 	}
@@ -151,7 +151,7 @@ func (s *NotificationTopicsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, NotificationTopicsDataSource().Schema["notification_topics"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, OnsNotificationTopicsDataSource().Schema["notification_topics"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("notification_topics", resources); err != nil {

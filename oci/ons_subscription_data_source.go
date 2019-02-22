@@ -9,7 +9,7 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 )
 
-func SubscriptionDataSource() *schema.Resource {
+func OnsSubscriptionDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularSubscription,
 		Schema: map[string]*schema.Schema{

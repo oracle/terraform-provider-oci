@@ -380,11 +380,10 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_objectstorage_objects":                      ObjectStorageObjectsDataSource(),
 		"oci_objectstorage_preauthrequest":               ObjectStoragePreauthenticatedRequestDataSource(),
 		"oci_objectstorage_preauthrequests":              ObjectStoragePreauthenticatedRequestsDataSource(),
-		"oci_ons_notification_topic":                     NotificationTopicDataSource(),
-		"oci_ons_notification_topics":                    NotificationTopicsDataSource(),
-		"oci_ons_subscription":                           SubscriptionDataSource(),
-		"oci_ons_subscriptions":                          SubscriptionsDataSource(),
-		"oci_ons_reconfirmation":                         ReconfirmationDataSource(),
+		"oci_ons_notification_topic":                     OnsNotificationTopicDataSource(),
+		"oci_ons_notification_topics":                    OnsNotificationTopicsDataSource(),
+		"oci_ons_subscription":                           OnsSubscriptionDataSource(),
+		"oci_ons_subscriptions":                          OnsSubscriptionsDataSource(),
 		"oci_streaming_stream":                           StreamingStreamDataSource(),
 		"oci_streaming_streams":                          StreamingStreamsDataSource(),
 	}
@@ -497,8 +496,8 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_objectstorage_object":                  ObjectStorageObjectResource(),
 		"oci_objectstorage_namespace_metadata":      ObjectStorageNamespaceMetadataResource(),
 		"oci_objectstorage_preauthrequest":          ObjectStoragePreauthenticatedRequestResource(),
-		"oci_ons_notification_topic":                NotificationTopicResource(),
-		"oci_ons_subscription":                      SubscriptionResource(),
+		"oci_ons_notification_topic":                OnsNotificationTopicResource(),
+		"oci_ons_subscription":                      OnsSubscriptionResource(),
 		"oci_streaming_stream":                      StreamingStreamResource(),
 	}
 }
