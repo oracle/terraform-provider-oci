@@ -52,6 +52,11 @@ func IdentityUserResource() *schema.Resource {
 				DiffSuppressFunc: definedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"email": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -231,6 +236,11 @@ func (s *IdentityUserResourceCrud) Create() error {
 		request.Description = &tmp
 	}
 
+	if email, ok := s.D.GetOkExists("email"); ok {
+		tmp := email.(string)
+		request.Email = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -284,6 +294,11 @@ func (s *IdentityUserResourceCrud) Update() error {
 		request.Description = &tmp
 	}
 
+	if email, ok := s.D.GetOkExists("email"); ok {
+		tmp := email.(string)
+		request.Email = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -331,6 +346,10 @@ func (s *IdentityUserResourceCrud) SetData() error {
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.Email != nil {
+		s.D.Set("email", *s.Res.Email)
 	}
 
 	if s.Res.ExternalIdentifier != nil {

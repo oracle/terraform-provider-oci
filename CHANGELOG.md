@@ -1,8 +1,14 @@
 ## 3.18.0 (Unreleased)
 
 ### Added
+- Add Budget and Alert Rules resources
+- Support starting and stopping instances
 - Support to create Containerengine Node Pool with Image Id
 - Support for customer specified timezone in Database Systems
+- Support `email` attribute for `oci_identity_user` resource and `oci_identity_ui_password` datasource
+
+### Fixed
+- Marked oci_identity_ui_password resource as not importable
 
 ## 3.17.0 (March 05, 2019)
 
