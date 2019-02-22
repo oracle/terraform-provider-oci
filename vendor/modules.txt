@@ -1,12 +1,12 @@
 # github.com/agext/levenshtein v1.2.1
 github.com/agext/levenshtein
-# github.com/apparentlymart/go-cidr v0.0.0-20150831014916-a3ebdb999b83
+# github.com/apparentlymart/go-cidr v0.0.0-20170616213631-2bd8b58cf427
 github.com/apparentlymart/go-cidr/cidr
 # github.com/apparentlymart/go-textseg v0.0.0-20170531203952-b836f5c4d331
 github.com/apparentlymart/go-textseg/textseg
 # github.com/armon/go-radix v0.0.0-20170727155443-1fca145dffbc
 github.com/armon/go-radix
-# github.com/aws/aws-sdk-go v0.0.0-20170211214147-0bba0f7f68dc
+# github.com/aws/aws-sdk-go v1.14.31
 github.com/aws/aws-sdk-go/aws
 github.com/aws/aws-sdk-go/aws/credentials
 github.com/aws/aws-sdk-go/aws/credentials/ec2rolecreds
@@ -15,20 +15,26 @@ github.com/aws/aws-sdk-go/aws/session
 github.com/aws/aws-sdk-go/service/s3
 github.com/aws/aws-sdk-go/aws/awserr
 github.com/aws/aws-sdk-go/aws/endpoints
+github.com/aws/aws-sdk-go/internal/sdkio
+github.com/aws/aws-sdk-go/internal/shareddefaults
 github.com/aws/aws-sdk-go/aws/client
+github.com/aws/aws-sdk-go/internal/sdkuri
 github.com/aws/aws-sdk-go/aws/client/metadata
-github.com/aws/aws-sdk-go/aws/request
 github.com/aws/aws-sdk-go/aws/corehandlers
+github.com/aws/aws-sdk-go/aws/request
 github.com/aws/aws-sdk-go/aws/credentials/stscreds
+github.com/aws/aws-sdk-go/aws/csm
 github.com/aws/aws-sdk-go/aws/defaults
 github.com/aws/aws-sdk-go/aws/awsutil
 github.com/aws/aws-sdk-go/aws/signer/v4
 github.com/aws/aws-sdk-go/private/protocol
+github.com/aws/aws-sdk-go/private/protocol/eventstream
+github.com/aws/aws-sdk-go/private/protocol/eventstream/eventstreamapi
+github.com/aws/aws-sdk-go/private/protocol/rest
 github.com/aws/aws-sdk-go/private/protocol/restxml
-github.com/aws/aws-sdk-go/private/waiter
+github.com/aws/aws-sdk-go/internal/sdkrand
 github.com/aws/aws-sdk-go/service/sts
 github.com/aws/aws-sdk-go/aws/credentials/endpointcreds
-github.com/aws/aws-sdk-go/private/protocol/rest
 github.com/aws/aws-sdk-go/private/protocol/query
 github.com/aws/aws-sdk-go/private/protocol/xml/xmlutil
 github.com/aws/aws-sdk-go/private/protocol/query/queryutil
@@ -38,13 +44,13 @@ github.com/bgentry/go-netrc/netrc
 github.com/bgentry/speakeasy
 # github.com/blang/semver v0.0.0-20180305174007-c5e971dbed78
 github.com/blang/semver
-# github.com/davecgh/go-spew v1.1.0
+# github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
 # github.com/fatih/color v0.0.0-20180516100307-2d684516a886
 github.com/fatih/color
-# github.com/go-ini/ini v0.0.0-20170209042415-ee900ca56593
+# github.com/go-ini/ini v1.25.4
 github.com/go-ini/ini
-# github.com/golang/protobuf v0.0.0-20180715082332-14aad3d5ea4c
+# github.com/golang/protobuf v1.2.0
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
@@ -52,7 +58,7 @@ github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
 # github.com/hashicorp/errwrap v0.0.0-20180715044906-d6c0cd880357
 github.com/hashicorp/errwrap
-# github.com/hashicorp/go-cleanhttp v0.0.0-20171218145408-d5fe4b57a186
+# github.com/hashicorp/go-cleanhttp v0.5.0
 github.com/hashicorp/go-cleanhttp
 # github.com/hashicorp/go-getter v0.0.0-20180709183828-a33f09ce9fee
 github.com/hashicorp/go-getter
@@ -65,9 +71,9 @@ github.com/hashicorp/go-multierror
 github.com/hashicorp/go-plugin
 # github.com/hashicorp/go-safetemp v0.0.0-20180326211150-b1a1dbde6fdc
 github.com/hashicorp/go-safetemp
-# github.com/hashicorp/go-uuid v0.0.0-20180228145832-27454136f036
+# github.com/hashicorp/go-uuid v1.0.0
 github.com/hashicorp/go-uuid
-# github.com/hashicorp/go-version v0.0.0-20180716215031-270f2f71b1ee
+# github.com/hashicorp/go-version v1.0.0
 github.com/hashicorp/go-version
 # github.com/hashicorp/hcl v0.0.0-20180404174102-ef8a98b0bbce
 github.com/hashicorp/hcl
@@ -93,7 +99,7 @@ github.com/hashicorp/hil/parser
 github.com/hashicorp/hil/scanner
 # github.com/hashicorp/logutils v0.0.0-20150609070431-0dc08b1671f3
 github.com/hashicorp/logutils
-# github.com/hashicorp/terraform v0.11.7
+# github.com/hashicorp/terraform v0.11.12-beta1.0.20190214175014-182daa619826
 github.com/hashicorp/terraform/plugin
 github.com/hashicorp/terraform/terraform
 github.com/hashicorp/terraform/helper/customdiff
@@ -119,9 +125,9 @@ github.com/hashicorp/terraform/config/hcl2shim
 github.com/hashicorp/terraform/registry
 github.com/hashicorp/terraform/registry/regsrc
 github.com/hashicorp/terraform/registry/response
-github.com/hashicorp/terraform/svchost/auth
 github.com/hashicorp/terraform/svchost/disco
 github.com/hashicorp/terraform/svchost
+github.com/hashicorp/terraform/svchost/auth
 # github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb
 github.com/hashicorp/yamux
 # github.com/jmespath/go-jmespath v0.0.0-20160803190731-bd40a432e4c7
@@ -132,7 +138,7 @@ github.com/mattn/go-colorable
 github.com/mattn/go-isatty
 # github.com/mitchellh/cli v0.0.0-20180414170447-c48282d14eba
 github.com/mitchellh/cli
-# github.com/mitchellh/copystructure v0.0.0-20170116004449-f81071c9d77b
+# github.com/mitchellh/copystructure v0.0.0-20170525013902-d23ffcb85de3
 github.com/mitchellh/copystructure
 # github.com/mitchellh/go-homedir v0.0.0-20180523094522-3864e76763d9
 github.com/mitchellh/go-homedir
@@ -144,9 +150,9 @@ github.com/mitchellh/go-wordwrap
 github.com/mitchellh/hashstructure
 # github.com/mitchellh/mapstructure v0.0.0-20180715050151-f15292f7a699
 github.com/mitchellh/mapstructure
-# github.com/mitchellh/reflectwalk v0.0.0-20170110165207-417edcfd99a4
+# github.com/mitchellh/reflectwalk v0.0.0-20170726202117-63d60e9d0dbc
 github.com/mitchellh/reflectwalk
-# github.com/oklog/run v0.0.0-20180308005104-6934b124db28
+# github.com/oklog/run v1.0.0
 github.com/oklog/run
 # github.com/oracle/oci-go-sdk v3.7.0+incompatible
 github.com/oracle/oci-go-sdk/audit
@@ -170,11 +176,11 @@ github.com/posener/complete
 github.com/posener/complete/cmd/install
 github.com/posener/complete/cmd
 github.com/posener/complete/match
-# github.com/stretchr/testify v1.2.2
+# github.com/stretchr/testify v1.3.0
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/suite
 github.com/stretchr/testify/require
-# github.com/ulikunitz/xz v0.0.0-20180703112113-636d36a76670
+# github.com/ulikunitz/xz v0.5.4
 github.com/ulikunitz/xz
 github.com/ulikunitz/xz/internal/xlog
 github.com/ulikunitz/xz/lzma
@@ -207,7 +213,7 @@ golang.org/x/net/http/httpguts
 golang.org/x/net/http2/hpack
 golang.org/x/net/idna
 golang.org/x/net/internal/timeseries
-# golang.org/x/sys v0.0.0-20180808154034-904bdc257025
+# golang.org/x/sys v0.0.0-20181026203630-95b1ffbd15a5
 golang.org/x/sys/unix
 # golang.org/x/text v0.0.0-20180708171225-0605a8320ace
 golang.org/x/text/unicode/norm
