@@ -85,6 +85,7 @@ endif
 	@$(MAKE) -C $(GOPATH)/src/$(WEBSITE_REPO) website-provider-test PROVIDER_PATH=$(shell pwd) PROVIDER_NAME=$(PKG_NAME)
 
 ## Additional OCI stuff that will need to be moved eventually
+get: ;go get golang.org/x/tools/cmd/goimports; go get github.com/mitchellh/gox
 
 ### `make update-version version=2.0.1`
 update-version:
