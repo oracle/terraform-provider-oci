@@ -99,6 +99,13 @@ func ContainerengineNodePoolResource() *schema.Resource {
 					},
 				},
 			},
+			"node_metadata": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
+			},
 			"quantity_per_subnet": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -279,6 +286,10 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	if nodeImageName, ok := s.D.GetOkExists("node_image_name"); ok {
 		tmp := nodeImageName.(string)
 		request.NodeImageName = &tmp
+	}
+
+	if nodeMetadata, ok := s.D.GetOkExists("node_metadata"); ok {
+		request.NodeMetadata = objectMapToStringMap(nodeMetadata.(map[string]interface{}))
 	}
 
 	if nodeShape, ok := s.D.GetOkExists("node_shape"); ok {
@@ -509,6 +520,8 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 	if s.Res.NodeImageName != nil {
 		s.D.Set("node_image_name", *s.Res.NodeImageName)
 	}
+
+	s.D.Set("node_metadata", s.Res.NodeMetadata)
 
 	if s.Res.NodeShape != nil {
 		s.D.Set("node_shape", *s.Res.NodeShape)

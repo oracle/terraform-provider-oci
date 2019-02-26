@@ -2,6 +2,7 @@
 
 ### Added
 - Support for cloning of Autonomous Databases
+- Support for node metadata in container engine node pool
 
 ## 3.18.0 (March 13, 2019)
 
