@@ -81,6 +81,11 @@ func DatabaseDbHomeResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"recovery_window_in_days": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
 
 									// Computed
 								},
@@ -709,6 +714,11 @@ func (s *DatabaseDbHomeResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) 
 		result.AutoBackupEnabled = &tmp
 	}
 
+	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")) {
+		tmp := recoveryWindowInDays.(int)
+		result.RecoveryWindowInDays = &tmp
+	}
+
 	return result, nil
 }
 
@@ -717,6 +727,10 @@ func (s *DatabaseDbHomeResourceCrud) DbBackupConfigToMap(obj *oci_database.DbBac
 
 	if obj.AutoBackupEnabled != nil {
 		result["auto_backup_enabled"] = bool(*obj.AutoBackupEnabled)
+	}
+
+	if obj.RecoveryWindowInDays != nil {
+		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)
 	}
 
 	return result

@@ -16,7 +16,8 @@ resource "oci_database_db_system" "test_db_system" {
       pdb_name       = "${var.pdb_name}"
 
       db_backup_config {
-        auto_backup_enabled = true
+        auto_backup_enabled     = true
+        recovery_window_in_days = 10
       }
 
       freeform_tags = {
@@ -65,7 +66,8 @@ resource "oci_database_db_home" "test_db_home" {
     }
 
     db_backup_config {
-      auto_backup_enabled = false
+      auto_backup_enabled     = true
+      recovery_window_in_days = 10
     }
   }
 
