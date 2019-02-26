@@ -38,6 +38,19 @@ func KmsVaultResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"crypto_endpoint": {
@@ -141,9 +154,21 @@ func (s *KmsVaultResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if vaultType, ok := s.D.GetOkExists("vault_type"); ok {
@@ -181,9 +206,21 @@ func (s *KmsVaultResourceCrud) Get() error {
 func (s *KmsVaultResourceCrud) Update() error {
 	request := oci_kms.UpdateVaultRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -221,9 +258,15 @@ func (s *KmsVaultResourceCrud) SetData() error {
 		s.D.Set("crypto_endpoint", *s.Res.CryptoEndpoint)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.ManagementEndpoint != nil {
 		s.D.Set("management_endpoint", *s.Res.ManagementEndpoint)

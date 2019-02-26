@@ -153,13 +153,9 @@ func getRequestTarget(request *http.Request) string {
 
 func calculateHashOfBody(request *http.Request) (err error) {
 	var hash string
-	if request.ContentLength > 0 {
-		hash, err = GetBodyHash(request)
-		if err != nil {
-			return
-		}
-	} else {
-		hash = hashAndEncode([]byte(""))
+	hash, err = GetBodyHash(request)
+	if err != nil {
+		return
 	}
 	request.Header.Set(requestHeaderXContentSHA256, hash)
 	return
@@ -194,7 +190,9 @@ func hashAndEncode(data []byte) string {
 // GetBodyHash creates a base64 string from the hash of body the request
 func GetBodyHash(request *http.Request) (hashString string, err error) {
 	if request.Body == nil {
-		return "", fmt.Errorf("can not read body of request while calculating body hash, nil body?")
+		request.ContentLength = 0
+		request.Header.Set(requestHeaderContentLength, fmt.Sprintf("%v", request.ContentLength))
+		return hashAndEncode([]byte("")), nil
 	}
 
 	var data []byte
@@ -208,6 +206,11 @@ func GetBodyHash(request *http.Request) (hashString string, err error) {
 	if err != nil {
 		return "", fmt.Errorf("can not read body of request while calculating body hash: %s", err.Error())
 	}
+
+	// Since the request can be coming from a binary body. Make an attempt to set the body length
+	request.ContentLength = int64(len(data))
+	request.Header.Set(requestHeaderContentLength, fmt.Sprintf("%v", request.ContentLength))
+
 	hashString = hashAndEncode(data)
 	return
 }

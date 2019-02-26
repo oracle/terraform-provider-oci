@@ -155,10 +155,11 @@ func CoreInstanceResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"fault_domain": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,

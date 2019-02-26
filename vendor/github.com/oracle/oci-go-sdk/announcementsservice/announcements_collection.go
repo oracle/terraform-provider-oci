@@ -3,7 +3,7 @@
 
 // Announcements Service API
 //
-// A description of the AnnouncementsService API
+// Manage Oracle Cloud Infrastructure console announcements.
 //
 
 package announcementsservice
@@ -12,13 +12,13 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// AnnouncementsCollection Results of annoucements search. Contains both announcements, and user specific status of the announcments
+// AnnouncementsCollection A list of announcements that match filter criteria, if any. Results contain both the announcements and the user-specific status of the announcements.
 type AnnouncementsCollection struct {
 
-	// collection of announcements
+	// A collection of announcements.
 	Items []AnnouncementSummary `mandatory:"false" json:"items"`
 
-	// user specific status of found announcements
+	// The user-specific status for found announcements.
 	UserStatuses []AnnouncementUserStatusDetails `mandatory:"false" json:"userStatuses"`
 }
 

@@ -22,11 +22,6 @@ func CoreSubnetResource() *schema.Resource {
 		Delete:   deleteCoreSubnet,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"availability_domain": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"cidr_block": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -44,6 +39,12 @@ func CoreSubnetResource() *schema.Resource {
 			},
 
 			// Optional
+			"availability_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,

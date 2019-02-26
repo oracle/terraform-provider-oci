@@ -14,11 +14,14 @@ import (
 )
 
 var (
-	VaultResourceConfig = VaultResourceDependencies +
+	VaultRequiredOnlyResource = VaultResourceDependencies +
 		generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Required, Create, vaultRepresentation)
 
+	VaultResourceConfig = VaultResourceDependencies +
+		generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Update, vaultRepresentation)
+
 	vaultSingularDataSourceRepresentation = map[string]interface{}{
-		"vault_id": Representation{repType: Required, create: `{}`},
+		"vault_id": Representation{repType: Required, create: `${oci_kms_vault.test_vault.id}`},
 	}
 
 	vaultDataSourceRepresentation = map[string]interface{}{
@@ -33,9 +36,11 @@ var (
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Required, create: `Vault 1`, update: `displayName2`},
 		"vault_type":     Representation{repType: Required, create: `VIRTUAL_PRIVATE`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	VaultResourceDependencies = ""
+	VaultResourceDependencies = DefinedTagsDependencies
 )
 
 func TestKmsVaultResource_basic(t *testing.T) {
@@ -75,6 +80,33 @@ func TestKmsVaultResource_basic(t *testing.T) {
 				),
 			},
 
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + VaultResourceDependencies,
+			},
+			// verify create with optionals
+			{
+				Config: config + compartmentIdVariableStr + VaultResourceDependencies +
+					generateResourceFromRepresentationMap("oci_kms_vault", "test_vault", Optional, Create, vaultRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "Vault 1"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "management_endpoint"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "vault_type", "VIRTUAL_PRIVATE"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + VaultResourceDependencies +
@@ -82,7 +114,9 @@ func TestKmsVaultResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "management_endpoint"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -110,7 +144,9 @@ func TestKmsVaultResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "vaults.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "vaults.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "vaults.0.crypto_endpoint"),
+					resource.TestCheckResourceAttr(datasourceName, "vaults.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "vaults.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "vaults.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vaults.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vaults.0.management_endpoint"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vaults.0.state"),
@@ -127,13 +163,14 @@ func TestKmsVaultResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "crypto_endpoint", "cryptoEndpoint"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "crypto_endpoint"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "id", "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "management_endpoint", "managementEndpoint"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "AVAILABLE"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "time_created", "timeCreated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "time_of_deletion", "timeOfDeletion"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "management_endpoint"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "vault_type", "VIRTUAL_PRIVATE"),
 				),
 			},

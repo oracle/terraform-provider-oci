@@ -3,7 +3,7 @@
 
 // Announcements Service API
 //
-// A description of the AnnouncementsService API
+// Manage Oracle Cloud Infrastructure console announcements.
 //
 
 package announcementsservice
@@ -13,51 +13,56 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// BaseAnnouncement Base for announcements and incidents
+// BaseAnnouncement Incident information that forms the basis of an announcement. Avoid entering confidential information.
 type BaseAnnouncement interface {
 
-	// The OCID of the announcement
+	// The OCID of the announcement.
 	GetId() *string
 
-	// The reference JIRA ticket number
+	// The reference Jira ticket number.
 	GetReferenceTicketNumber() *string
 
-	// Forms part of the email subject and/or the console representation (a banner or alike)
+	// A summary of the issue. A summary might appear in the console banner view of the announcement or in
+	// an email subject line. Avoid entering confidential information.
 	GetSummary() *string
 
-	// The detailed description of an announcement
-	GetAnnouncementType() BaseAnnouncementAnnouncementTypeEnum
-
-	// Lifecycle states of announcement
-	GetLifecycleState() BaseAnnouncementLifecycleStateEnum
-
-	// Show announcement as a banner
-	GetIsBanner() *bool
-
-	// The title of the first time value, e.g. Time Started
-	GetTimeOneTitle() *string
-
-	// The first time value, actual meaning depending on notification type
-	GetTimeOneValue() *common.SDKTime
-
-	// The title of the second time value, e.g. Time Ended
-	GetTimeTwoTitle() *string
-
-	// The second time value, actual meaning depending on notification type
-	GetTimeTwoValue() *common.SDKTime
-
-	// Impacted services
+	// Impacted Oracle Cloud Infrastructure services.
 	GetServices() []string
 
-	// Impacted regions
+	// Impacted regions.
 	GetAffectedRegions() []string
 
-	// The date and time the announcement was created, in the format defined by RFC3339
-	// Example: `2016-07-22T17:43:01.389+0000`
+	// The type of announcement. An announcement's type signals its severity.
+	GetAnnouncementType() BaseAnnouncementAnnouncementTypeEnum
+
+	// The current lifecycle state of the announcement.
+	GetLifecycleState() BaseAnnouncementLifecycleStateEnum
+
+	// Whether the announcement is displayed as a banner in the console.
+	GetIsBanner() *bool
+
+	// The label associated with an initial time value.
+	// Example: `Time Started`
+	GetTimeOneTitle() *string
+
+	// The actual value of the first time value for the event. Typically, this is the time an event started, but the meaning
+	// can vary, depending on the announcement type.
+	GetTimeOneValue() *common.SDKTime
+
+	// The label associated with a second time value.
+	// Example: `Time Ended`
+	GetTimeTwoTitle() *string
+
+	// The actual value of the second time value. Typically, this is the time an event ended, but the meaning
+	// can vary, depending on the announcement type.
+	GetTimeTwoValue() *common.SDKTime
+
+	// The date and time the announcement was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// Example: `2019-01-01T17:43:01.389+0000`
 	GetTimeCreated() *common.SDKTime
 
-	// The date and time the announcement was last updated, in the format defined by RFC3339
-	// Example: `2016-07-22T17:43:01.389+0000`
+	// The date and time the announcement was last updated, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// Example: `2019-01-01T17:43:01.389+0000`
 	GetTimeUpdated() *common.SDKTime
 }
 
@@ -66,6 +71,8 @@ type baseannouncement struct {
 	Id                    *string                              `mandatory:"true" json:"id"`
 	ReferenceTicketNumber *string                              `mandatory:"true" json:"referenceTicketNumber"`
 	Summary               *string                              `mandatory:"true" json:"summary"`
+	Services              []string                             `mandatory:"true" json:"services"`
+	AffectedRegions       []string                             `mandatory:"true" json:"affectedRegions"`
 	AnnouncementType      BaseAnnouncementAnnouncementTypeEnum `mandatory:"true" json:"announcementType"`
 	LifecycleState        BaseAnnouncementLifecycleStateEnum   `mandatory:"true" json:"lifecycleState"`
 	IsBanner              *bool                                `mandatory:"true" json:"isBanner"`
@@ -73,8 +80,6 @@ type baseannouncement struct {
 	TimeOneValue          *common.SDKTime                      `mandatory:"false" json:"timeOneValue"`
 	TimeTwoTitle          *string                              `mandatory:"false" json:"timeTwoTitle"`
 	TimeTwoValue          *common.SDKTime                      `mandatory:"false" json:"timeTwoValue"`
-	Services              []string                             `mandatory:"false" json:"services"`
-	AffectedRegions       []string                             `mandatory:"false" json:"affectedRegions"`
 	TimeCreated           *common.SDKTime                      `mandatory:"false" json:"timeCreated"`
 	TimeUpdated           *common.SDKTime                      `mandatory:"false" json:"timeUpdated"`
 	Type                  string                               `json:"type"`
@@ -94,6 +99,8 @@ func (m *baseannouncement) UnmarshalJSON(data []byte) error {
 	m.Id = s.Model.Id
 	m.ReferenceTicketNumber = s.Model.ReferenceTicketNumber
 	m.Summary = s.Model.Summary
+	m.Services = s.Model.Services
+	m.AffectedRegions = s.Model.AffectedRegions
 	m.AnnouncementType = s.Model.AnnouncementType
 	m.LifecycleState = s.Model.LifecycleState
 	m.IsBanner = s.Model.IsBanner
@@ -101,8 +108,6 @@ func (m *baseannouncement) UnmarshalJSON(data []byte) error {
 	m.TimeOneValue = s.Model.TimeOneValue
 	m.TimeTwoTitle = s.Model.TimeTwoTitle
 	m.TimeTwoValue = s.Model.TimeTwoValue
-	m.Services = s.Model.Services
-	m.AffectedRegions = s.Model.AffectedRegions
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.Type = s.Model.Type
@@ -147,6 +152,16 @@ func (m baseannouncement) GetSummary() *string {
 	return m.Summary
 }
 
+//GetServices returns Services
+func (m baseannouncement) GetServices() []string {
+	return m.Services
+}
+
+//GetAffectedRegions returns AffectedRegions
+func (m baseannouncement) GetAffectedRegions() []string {
+	return m.AffectedRegions
+}
+
 //GetAnnouncementType returns AnnouncementType
 func (m baseannouncement) GetAnnouncementType() BaseAnnouncementAnnouncementTypeEnum {
 	return m.AnnouncementType
@@ -180,16 +195,6 @@ func (m baseannouncement) GetTimeTwoTitle() *string {
 //GetTimeTwoValue returns TimeTwoValue
 func (m baseannouncement) GetTimeTwoValue() *common.SDKTime {
 	return m.TimeTwoValue
-}
-
-//GetServices returns Services
-func (m baseannouncement) GetServices() []string {
-	return m.Services
-}
-
-//GetAffectedRegions returns AffectedRegions
-func (m baseannouncement) GetAffectedRegions() []string {
-	return m.AffectedRegions
 }
 
 //GetTimeCreated returns TimeCreated

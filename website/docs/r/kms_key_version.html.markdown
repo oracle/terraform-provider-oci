@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_kms_key_version"
+page_title: "Oracle Cloud Infrastructure: oci_kms_key_version"
 sidebar_current: "docs-oci-resource-kms-key_version"
 description: |-
-  Creates and manages an OCI KeyVersion
+  Provides the Key Version resource in Oracle Cloud Infrastructure Kms service
 ---
 
 # oci_kms_key_version
-The `oci_kms_key_version` resource creates and manages an OCI KeyVersion
+This resource provides the Key Version resource in Oracle Cloud Infrastructure Kms service.
 
 Generates new cryptographic material for a key. Key must be in an `ENABLED` state to be
 rotated.
@@ -41,7 +41,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment that contains this key version.
 * `id` - The OCID of the key version.
 * `key_id` - The OCID of the key associated with this key version.
-* `time_created` - The date and time this key version was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-04-03T21:10:29.600Z` 
+* `time_created` - The date and time this key version was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: "2018-04-03T21:10:29.600Z" 
 * `vault_id` - The OCID of the vault that contains this key version.
 
 ## Import

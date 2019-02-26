@@ -3,7 +3,7 @@
 
 // Announcements Service API
 //
-// A description of the AnnouncementsService API
+// Manage Oracle Cloud Infrastructure console announcements.
 //
 
 package announcementsservice
@@ -12,17 +12,17 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// AnnouncementUserStatusDetails An announcement status
+// AnnouncementUserStatusDetails An announcement's status regarding whether it has been acknowledged by a user.
 type AnnouncementUserStatusDetails struct {
 
-	// The OCID of the announcement this status belongs to
+	// The OCID of the announcement that this status is associated with.
 	UserStatusAnnouncementId *string `mandatory:"true" json:"userStatusAnnouncementId"`
 
-	// The OCID of the user this status belongs to
+	// The OCID of the user that this status is associated with.
 	UserId *string `mandatory:"true" json:"userId"`
 
-	// The date and time the announcement was acknowledged, in the format defined by RFC3339
-	// Example: `2016-07-22T17:43:01.389+0000`
+	// The date and time the announcement was acknowledged, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// Example: `2019-01-01T17:43:01.389+0000`
 	TimeAcknowledged *common.SDKTime `mandatory:"false" json:"timeAcknowledged"`
 }
 
