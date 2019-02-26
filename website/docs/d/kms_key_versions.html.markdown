@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_kms_key_versions"
+page_title: "Oracle Cloud Infrastructure: oci_kms_key_versions"
 sidebar_current: "docs-oci-datasource-kms-key_versions"
 description: |-
-  Provides a list of KeyVersions
+  Provides the list of Key Versions in Oracle Cloud Infrastructure Kms service
 ---
 
 # Data Source: oci_kms_key_versions
-The `oci_kms_key_versions` data source allows access to the list of OCI key_versions
+This data source provides the list of Key Versions in Oracle Cloud Infrastructure Kms service.
 
 Lists all key versions for the specified key.
 
@@ -43,6 +43,6 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment that contains this key version.
 * `key_version_id` - The OCID of the key version.
 * `key_id` - The OCID of the key associated with this key version.
-* `time_created` - The date and time this key version was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-04-03T21:10:29.600Z` 
+* `time_created` - The date and time this key version was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: "2018-04-03T21:10:29.600Z" 
 * `vault_id` - The OCID of the vault that contains this key version.
 

@@ -69,10 +69,10 @@ func newSDKLogger() (defaultSDKLogger, error) {
 	logger := defaultSDKLogger{}
 
 	logger.currentLoggingLevel = noLogging
-	logger.verboseLogger = log.New(os.Stderr, "VERBOSE ", log.Ldate|log.Ltime|log.Lshortfile)
-	logger.debugLogger = log.New(os.Stderr, "DEBUG ", log.Ldate|log.Ltime|log.Lshortfile)
-	logger.infoLogger = log.New(os.Stderr, "INFO ", log.Ldate|log.Ltime|log.Lshortfile)
-	logger.nullLogger = log.New(ioutil.Discard, "", log.Ldate|log.Ltime|log.Lshortfile)
+	logger.verboseLogger = log.New(os.Stderr, "VERBOSE ", log.Ldate|log.Lmicroseconds|log.Lshortfile)
+	logger.debugLogger = log.New(os.Stderr, "DEBUG ", log.Ldate|log.Lmicroseconds|log.Lshortfile)
+	logger.infoLogger = log.New(os.Stderr, "INFO ", log.Ldate|log.Lmicroseconds|log.Lshortfile)
+	logger.nullLogger = log.New(ioutil.Discard, "", log.Ldate|log.Lmicroseconds|log.Lshortfile)
 
 	configured, isLogEnabled := os.LookupEnv("OCI_GO_SDK_DEBUG")
 

@@ -15,10 +15,6 @@ import (
 // CreateSubnetDetails The representation of CreateSubnetDetails
 type CreateSubnetDetails struct {
 
-	// The availability domain to contain the subnet.
-	// Example: `Uocm:PHX-AD-1`
-	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
-
 	// The CIDR IP address range of the subnet.
 	// Example: `172.16.1.0/24`
 	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
@@ -28,6 +24,10 @@ type CreateSubnetDetails struct {
 
 	// The OCID of the VCN to contain the subnet.
 	VcnId *string `mandatory:"true" json:"vcnId"`
+
+	// The availability domain to contain the subnet.
+	// Example: `Uocm:PHX-AD-1`
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).

@@ -68,7 +68,21 @@ func KmsKeyResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"desired_state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -228,9 +242,21 @@ func (s *KmsKeyResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if keyShape, ok := s.D.GetOkExists("key_shape"); ok {
@@ -275,9 +301,21 @@ func (s *KmsKeyResourceCrud) Get() error {
 func (s *KmsKeyResourceCrud) Update() error {
 	request := oci_kms.UpdateKeyRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -289,6 +327,7 @@ func (s *KmsKeyResourceCrud) Update() error {
 	if err != nil {
 		return err
 	}
+
 	s.Res = &response.Key
 
 	// Handle activation/deactivation here
@@ -332,9 +371,15 @@ func (s *KmsKeyResourceCrud) SetData() error {
 		s.D.Set("current_key_version", *s.Res.CurrentKeyVersion)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("desired_state", s.Res.LifecycleState)
 

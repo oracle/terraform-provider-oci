@@ -7,10 +7,11 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"regexp"
 
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
@@ -369,7 +370,7 @@ func testAccCheckDnsRecordDestroy(s *terraform.State) error {
 					recordCollection.Items = append(recordCollection.Items, listResponse.Items...)
 					request.Page = listResponse.OpcNextPage
 				}
-				_, err = findItem(&response.RecordCollection, resourceData)
+				_, err = findItem(&response.Items, resourceData)
 				if err == nil {
 					return fmt.Errorf("resource still exists")
 				}

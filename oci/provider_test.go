@@ -370,10 +370,14 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 			return
 		}
 	case authInstancePrincipalSetting:
-		assert.Regexp(t, "authentication .* is set to .* To use .* authentication user credentials should be removed from the configuration.*", err.Error())
+		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
+		assert.False(t, ok)
+		assert.Equal(t, fmt.Sprintf("user credentials %v should be removed from the configuration", apiKeyConfigVariablesToUnset), err.Error())
 		return
 	case authInstancePrincipalWithCertsSetting:
-		assert.Regexp(t, "authentication .* is set to .* To use .* authentication user credentials should be removed from the configuration.*", err.Error())
+		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
+		assert.False(t, ok)
+		assert.Equal(t, fmt.Sprintf("user credentials %v should be removed from the configuration", apiKeyConfigVariablesToUnset), err.Error())
 		return
 	default:
 		assert.Error(t, err, fmt.Sprintf("auth must be one of '%s' or '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting))

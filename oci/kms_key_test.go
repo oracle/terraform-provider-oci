@@ -11,8 +11,11 @@ import (
 )
 
 var (
-	KeyResourceConfig = KeyResourceDependencies +
+	KeyRequiredOnlyResource = KeyResourceDependencies +
 		generateResourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keyRepresentation)
+
+	KeyResourceConfig = KeyResourceDependencies +
+		generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation)
 
 	keySingularDataSourceRepresentation = map[string]interface{}{
 		"key_id":              Representation{repType: Required, create: `${oci_kms_key.test_key.id}`},
@@ -34,6 +37,8 @@ var (
 		"key_shape":           RepresentationGroup{Required, keyKeyShapeRepresentation},
 		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
 		"desired_state":       Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
+		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 	}
 	keyKeyShapeRepresentation = map[string]interface{}{
 		"algorithm": Representation{repType: Required, create: `AES`},
@@ -88,7 +93,7 @@ func TestKmsKeyResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + KeyResourceDependencies +
+				Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
@@ -104,14 +109,46 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				),
 			},
 
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + KeyResourceDependencies,
+			},
+			// verify create with optionals
+			{
+				Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
+					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
+					resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
+					resource.TestCheckResourceAttrSet(resourceName, "management_endpoint"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + KeyResourceDependencies +
+				Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(resourceName, "current_key_version"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
@@ -133,14 +170,16 @@ func TestKmsKeyResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_kms_keys", "test_keys", Optional, Update, keyDataSourceRepresentation) +
-					compartmentIdVariableStr + KeyResourceDependencies +
+					compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Update, keyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 
 					resource.TestCheckResourceAttr(datasourceName, "keys.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "keys.0.compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(datasourceName, "keys.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "keys.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "keys.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "keys.0.time_created"),
@@ -151,13 +190,15 @@ func TestKmsKeyResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_kms_key", "test_key", Required, Create, keySingularDataSourceRepresentation) +
-					compartmentIdVariableStr + KeyResourceConfig,
+					compartmentIdVariableStr + KeyResourceConfig + DefinedTagsDependencies,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "current_key_version"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "key_shape.0.algorithm", "AES"),
@@ -169,11 +210,11 @@ func TestKmsKeyResource_basic(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + KeyResourceConfig,
+				Config: config + compartmentIdVariableStr + KeyResourceConfig + DefinedTagsDependencies,
 			},
 			// revert the updates
 			{
-				Config: config + compartmentIdVariableStr + KeyResourceDependencies +
+				Config: config + compartmentIdVariableStr + KeyResourceDependencies + DefinedTagsDependencies +
 					generateResourceFromRepresentationMap("oci_kms_key", "test_key", Optional, Create, keyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "display_name", "Key C"),

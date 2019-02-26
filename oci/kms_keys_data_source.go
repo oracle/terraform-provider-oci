@@ -103,9 +103,15 @@ func (s *KmsKeysDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			key["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			key["display_name"] = *r.DisplayName
 		}
+
+		key["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			key["id"] = *r.Id

@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_kms_vaults"
+page_title: "Oracle Cloud Infrastructure: oci_kms_vaults"
 sidebar_current: "docs-oci-datasource-kms-vaults"
 description: |-
-  Provides a list of Vaults
+  Provides the list of Vaults in Oracle Cloud Infrastructure Kms service
 ---
 
 # Data Source: oci_kms_vaults
-The `oci_kms_vaults` data source allows access to the list of OCI vaults
+This data source provides the list of Vaults in Oracle Cloud Infrastructure Kms service.
 
 Lists vaults in the specified compartment.
 
@@ -40,7 +40,9 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains this vault.
 * `crypto_endpoint` - The service endpoint to perform cryptographic operations against. Cryptographic operations include 'Encrypt,' 'Decrypt,' and 'GenerateDataEncryptionKey' operations. 
+* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "foo-value"}` 
 * `display_name` - A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The OCID of the vault.
 * `management_endpoint` - The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. 
 * `state` - The vault's current state.  Example: `DELETED` 

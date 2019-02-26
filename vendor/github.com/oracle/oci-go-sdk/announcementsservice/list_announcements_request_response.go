@@ -11,7 +11,8 @@ import (
 // ListAnnouncementsRequest wrapper for the ListAnnouncements operation
 type ListAnnouncementsRequest struct {
 
-	// OCID of the compartment where search is performed. Announcements are specific to tenancy, so this should an ID of the root compartment
+	// The OCID of the compartment. Because announcements are specific to a tenancy, this is the
+	// OCID of the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The maximum number of items to return in a paginated "List" call.
@@ -20,29 +21,29 @@ type ListAnnouncementsRequest struct {
 	// The value of the `opc-next-page` response header from the previous "List" call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// Type of the announcements to show
+	// The type of announcement.
 	AnnouncementType *string `mandatory:"false" contributesTo:"query" name:"announcementType"`
 
-	// Filters returned announcements basing on whether they are active now
+	// The announcement's current lifecycle state.
 	LifecycleState ListAnnouncementsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// Filters returned announcements basing on whether they should be shown as a banner
+	// Whether the announcement is displayed as a console banner.
 	IsBanner *bool `mandatory:"false" contributesTo:"query" name:"isBanner"`
 
-	// announcements sort order
+	// The criteria to sort by. You can specify only one sort order.
 	SortBy ListAnnouncementsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// sort order
+	// The sort order to use. (Sorting by `announcementType` orders the announcements list according to importance.)
 	SortOrder ListAnnouncementsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The earliest timeOneValue to include
+	// The boundary for the earliest `timeOneValue` date on announcements that you want to see.
 	TimeOneEarliestTime *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeOneEarliestTime"`
 
-	// The latest timeOneValue to include
+	// The boundary for the latest `timeOneValue` date on announcements that you want to see.
 	TimeOneLatestTime *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeOneLatestTime"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about
+	// a particular request, please provide the complete request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

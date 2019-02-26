@@ -3,7 +3,7 @@
 
 // Announcements Service API
 //
-// A description of the AnnouncementsService API
+// Manage Oracle Cloud Infrastructure console announcements.
 //
 
 package announcementsservice
@@ -13,62 +13,68 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// Announcement An announcement object which represents a message targetted to a specific tenant
+// Announcement A message about an impactful operational event.
 type Announcement struct {
 
-	// The OCID of the announcement
+	// The OCID of the announcement.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The reference JIRA ticket number
+	// The reference Jira ticket number.
 	ReferenceTicketNumber *string `mandatory:"true" json:"referenceTicketNumber"`
 
-	// Forms part of the email subject and/or the console representation (a banner or alike)
+	// A summary of the issue. A summary might appear in the console banner view of the announcement or in
+	// an email subject line. Avoid entering confidential information.
 	Summary *string `mandatory:"true" json:"summary"`
 
-	// Show announcement as a banner
+	// Impacted Oracle Cloud Infrastructure services.
+	Services []string `mandatory:"true" json:"services"`
+
+	// Impacted regions.
+	AffectedRegions []string `mandatory:"true" json:"affectedRegions"`
+
+	// Whether the announcement is displayed as a banner in the console.
 	IsBanner *bool `mandatory:"true" json:"isBanner"`
 
-	// The title of the first time value, e.g. Time Started
+	// The label associated with an initial time value.
+	// Example: `Time Started`
 	TimeOneTitle *string `mandatory:"false" json:"timeOneTitle"`
 
-	// The first time value, actual meaning depending on notification type
+	// The actual value of the first time value for the event. Typically, this is the time an event started, but the meaning
+	// can vary, depending on the announcement type.
 	TimeOneValue *common.SDKTime `mandatory:"false" json:"timeOneValue"`
 
-	// The title of the second time value, e.g. Time Ended
+	// The label associated with a second time value.
+	// Example: `Time Ended`
 	TimeTwoTitle *string `mandatory:"false" json:"timeTwoTitle"`
 
-	// The second time value, actual meaning depending on notification type
+	// The actual value of the second time value. Typically, this is the time an event ended, but the meaning
+	// can vary, depending on the announcement type.
 	TimeTwoValue *common.SDKTime `mandatory:"false" json:"timeTwoValue"`
 
-	// Impacted services
-	Services []string `mandatory:"false" json:"services"`
-
-	// Impacted regions
-	AffectedRegions []string `mandatory:"false" json:"affectedRegions"`
-
-	// The date and time the announcement was created, in the format defined by RFC3339
-	// Example: `2016-07-22T17:43:01.389+0000`
+	// The date and time the announcement was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// Example: `2019-01-01T17:43:01.389+0000`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the announcement was last updated, in the format defined by RFC3339
-	// Example: `2016-07-22T17:43:01.389+0000`
+	// The date and time the announcement was last updated, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// Example: `2019-01-01T17:43:01.389+0000`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// A more detailed explanation of the notification. A markdown format input
+	// A detailed explanation of the event, expressed by using Markdown language. Avoid entering
+	// confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// A markdown format input that forms e.g. the FAQ section of a notification
+	// Additional information about the event, expressed by using Markdown language and included in the
+	// details view of an announcement. Additional information might include remediation steps or
+	// answers to frequently asked questions. Avoid entering confidential information.
 	AdditionalInformation *string `mandatory:"false" json:"additionalInformation"`
 
-	Followups []NotificationFollowupDetails `mandatory:"false" json:"followups"`
-
-	// List of resources (possibly empty) affected by this announcement
+	// The list of resources, if any, affected by the event described in the announcement.
 	AffectedResources []AffectedResource `mandatory:"false" json:"affectedResources"`
 
-	// The detailed description of an announcement
+	// The type of announcement. An announcement's type signals its severity.
 	AnnouncementType BaseAnnouncementAnnouncementTypeEnum `mandatory:"true" json:"announcementType"`
 
-	// Lifecycle states of announcement
+	// The current lifecycle state of the announcement.
 	LifecycleState BaseAnnouncementLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
