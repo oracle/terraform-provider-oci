@@ -1,4 +1,4 @@
-## 3.16.0 (Unreleased)
+## 3.16.0 (February 26, 2019)
 
 ### Added
 - Adding description property to rules in Steering Policies in DNS
