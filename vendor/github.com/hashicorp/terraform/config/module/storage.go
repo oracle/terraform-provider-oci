@@ -78,7 +78,6 @@ type Storage struct {
 	registry *registry.Client
 }
 
-// NewStorage returns a new initialized Storage object.
 func NewStorage(dir string, services *disco.Disco, creds auth.CredentialsSource) *Storage {
 	regClient := registry.NewClient(services, creds, nil)
 
