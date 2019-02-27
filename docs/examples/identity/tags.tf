@@ -20,6 +20,12 @@ resource "oci_identity_tag" "tag1" {
   is_retired       = false
 }
 
+resource "oci_identity_tag_default" "tag_default" {
+  compartment_id    = "${var.compartment_ocid}"
+  tag_definition_id = "${oci_identity_tag.tag1.id}"
+  value             = "test_value"
+}
+
 output "tag_namespaces" {
   value = "${oci_identity_tag_namespace.tag-namespace1.id}"
 }

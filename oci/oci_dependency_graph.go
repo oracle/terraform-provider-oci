@@ -68,6 +68,7 @@ func initDependencyGraph() {
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreSubnet")
 	DependencyGraph["steeringPolicy"] = append(DependencyGraph["steeringPolicy"], "DnsSteeringPolicyAttachment")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "CoreInstance")
+	DependencyGraph["tagDefinition"] = append(DependencyGraph["tagDefinition"], "IdentityTagDefault")
 	DependencyGraph["tagNamespace"] = append(DependencyGraph["tagNamespace"], "IdentityTag")
 	DependencyGraph["targetCompartment"] = append(DependencyGraph["targetCompartment"], "BudgetBudget")
 	DependencyGraph["tenancy"] = append(DependencyGraph["tenancy"], "IdentityRegionSubscription")
