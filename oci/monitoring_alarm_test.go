@@ -277,6 +277,8 @@ func testAccCheckMonitoringAlarmDestroy(s *terraform.State) error {
 			request.AlarmId = &tmp
 			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "monitoring")
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "monitoring")
+
 			response, err := client.GetAlarm(context.Background(), request)
 
 			if err == nil {
