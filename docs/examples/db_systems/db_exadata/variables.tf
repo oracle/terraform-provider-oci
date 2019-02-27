@@ -90,3 +90,7 @@ variable "node_count" {
 variable "data_storage_percentage" {
   default = "40"
 }
+
+variable "time_zone" {
+  default = "US/Pacific"
+}
