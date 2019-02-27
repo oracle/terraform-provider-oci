@@ -405,6 +405,8 @@ func testAccCheckObjectStorageObjectDestroy(s *terraform.State) error {
 				request.ObjectName = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+
 			_, err := client.HeadObject(context.Background(), request)
 
 			if err == nil {

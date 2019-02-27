@@ -215,6 +215,8 @@ func testAccCheckIdentityIdentityProviderDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.IdentityProviderId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+
 			response, err := client.GetIdentityProvider(context.Background(), request)
 
 			if err == nil {

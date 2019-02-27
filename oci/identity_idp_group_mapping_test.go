@@ -131,6 +131,8 @@ func testAccCheckIdentityIdpGroupMappingDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.MappingId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+
 			response, err := client.GetIdpGroupMapping(context.Background(), request)
 
 			if err == nil {

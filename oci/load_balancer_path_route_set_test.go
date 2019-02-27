@@ -148,6 +148,8 @@ func testAccCheckLoadBalancerPathRouteSetDestroy(s *terraform.State) error {
 				request.PathRouteSetName = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+
 			_, err := client.GetPathRouteSet(context.Background(), request)
 
 			if err == nil {

@@ -105,6 +105,8 @@ func testAccCheckIdentityUserGroupMembershipDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.UserGroupMembershipId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+
 			response, err := client.GetUserGroupMembership(context.Background(), request)
 
 			if err == nil {

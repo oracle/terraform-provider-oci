@@ -390,6 +390,8 @@ func testAccCheckCoreVirtualCircuitDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VirtualCircuitId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetVirtualCircuit(context.Background(), request)
 
 			if err == nil {

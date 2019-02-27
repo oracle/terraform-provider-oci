@@ -208,6 +208,8 @@ func testAccCheckCoreBootVolumeBackupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.BootVolumeBackupId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetBootVolumeBackup(context.Background(), request)
 
 			if err == nil {

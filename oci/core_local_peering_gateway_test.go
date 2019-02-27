@@ -226,6 +226,8 @@ func testAccCheckCoreLocalPeeringGatewayDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.LocalPeeringGatewayId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetLocalPeeringGateway(context.Background(), request)
 
 			if err == nil {

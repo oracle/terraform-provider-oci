@@ -197,6 +197,8 @@ func testAccCheckCoreServiceGatewayDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ServiceGatewayId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetServiceGateway(context.Background(), request)
 
 			if err == nil {

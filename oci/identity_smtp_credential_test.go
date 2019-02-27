@@ -116,6 +116,7 @@ func testAccCheckIdentitySmtpCredentialDestroy(s *terraform.State) error {
 				request.UserId = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
 			response, err := client.ListSmtpCredentials(context.Background(), request)
 
 			if err == nil {

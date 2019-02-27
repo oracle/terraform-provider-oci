@@ -231,6 +231,8 @@ func testAccCheckDnsSteeringPolicyAttachmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SteeringPolicyAttachmentId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+
 			_, err := client.GetSteeringPolicyAttachment(context.Background(), request)
 
 			if err == nil {

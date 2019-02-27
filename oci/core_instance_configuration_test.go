@@ -408,6 +408,8 @@ func testAccCheckCoreInstanceConfigurationDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.InstanceConfigurationId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			_, err := client.GetInstanceConfiguration(context.Background(), request)
 
 			if err == nil {

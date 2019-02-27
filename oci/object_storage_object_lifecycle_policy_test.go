@@ -254,6 +254,8 @@ func testAccCheckObjectStorageObjectLifecyclePolicyDestroy(s *terraform.State) e
 				request.NamespaceName = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+
 			_, err := client.GetObjectLifecyclePolicy(context.Background(), request)
 
 			if err == nil {

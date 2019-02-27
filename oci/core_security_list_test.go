@@ -503,6 +503,8 @@ func testAccCheckCoreSecurityListDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SecurityListId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetSecurityList(context.Background(), request)
 
 			if err == nil {

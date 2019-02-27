@@ -293,6 +293,8 @@ func testAccCheckLoadBalancerRuleSetDestroy(s *terraform.State) error {
 				request.RuleSetName = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+
 			_, err := client.GetRuleSet(context.Background(), request)
 
 			if err == nil {

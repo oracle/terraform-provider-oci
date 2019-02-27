@@ -327,6 +327,8 @@ func testAccCheckCoreInstancePoolDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.InstancePoolId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetInstancePool(context.Background(), request)
 
 			if err == nil {

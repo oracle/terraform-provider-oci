@@ -239,6 +239,8 @@ func testAccCheckCoreVolumeGroupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VolumeGroupId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetVolumeGroup(context.Background(), request)
 
 			if err == nil {

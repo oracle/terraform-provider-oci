@@ -159,6 +159,8 @@ func testAccCheckFileStorageSnapshotDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SnapshotId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+
 			response, err := client.GetSnapshot(context.Background(), request)
 
 			if err == nil {

@@ -217,6 +217,8 @@ func testAccCheckFileStorageMountTargetDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.MountTargetId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+
 			response, err := client.GetMountTarget(context.Background(), request)
 
 			if err == nil {
