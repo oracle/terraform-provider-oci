@@ -208,6 +208,8 @@ func testAccCheckStreamingStreamDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.StreamId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "streaming")
+
 			response, err := client.GetStream(context.Background(), request)
 
 			if err == nil {

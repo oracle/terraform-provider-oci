@@ -163,6 +163,8 @@ func testAccCheckObjectStoragePreauthenticatedRequestDestroy(s *terraform.State)
 			tmp := rs.Primary.ID
 			request.ParId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+
 			_, err := client.GetPreauthenticatedRequest(context.Background(), request)
 
 			if err == nil {

@@ -155,6 +155,8 @@ func testAccCheckCoreCpeDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.CpeId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			_, err := client.GetCpe(context.Background(), request)
 
 			if err == nil {

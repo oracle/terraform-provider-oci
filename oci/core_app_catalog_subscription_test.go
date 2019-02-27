@@ -118,6 +118,8 @@ func testAccCheckCoreAppCatalogSubscriptionDestroy(s *terraform.State) error {
 				request.ListingId = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			listingResourceVersion, _ := rs.Primary.Attributes["listing_resource_version"]
 
 			response, err := client.ListAppCatalogSubscriptions(context.Background(), request)

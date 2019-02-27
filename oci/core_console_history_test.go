@@ -168,6 +168,8 @@ func testAccCheckCoreConsoleHistoryDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.InstanceConsoleHistoryId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			_, err := client.GetConsoleHistory(context.Background(), request)
 
 			if err == nil {

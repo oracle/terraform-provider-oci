@@ -122,6 +122,8 @@ func testAccCheckCoreInstanceConsoleConnectionDestroy(s *terraform.State) error 
 			tmp := rs.Primary.ID
 			request.InstanceConsoleConnectionId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetInstanceConsoleConnection(context.Background(), request)
 
 			if err == nil {

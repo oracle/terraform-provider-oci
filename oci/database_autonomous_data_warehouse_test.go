@@ -225,6 +225,8 @@ func testAccCheckDatabaseAutonomousDataWarehouseDestroy(s *terraform.State) erro
 			tmp := rs.Primary.ID
 			request.AutonomousDataWarehouseId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+
 			response, err := client.GetAutonomousDataWarehouse(context.Background(), request)
 
 			if err == nil {

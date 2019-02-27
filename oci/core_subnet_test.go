@@ -243,6 +243,8 @@ func testAccCheckCoreSubnetDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SubnetId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetSubnet(context.Background(), request)
 
 			if err == nil {
