@@ -26,11 +26,16 @@ func unmarshalError(r *request.Request) {
 	// Bucket exists in a different region, and request needs
 	// to be made to the correct region.
 	if r.HTTPResponse.StatusCode == http.StatusMovedPermanently {
+		msg := fmt.Sprintf(
+			"incorrect region, the bucket is not in '%s' region at endpoint '%s'",
+			aws.StringValue(r.Config.Region),
+			aws.StringValue(r.Config.Endpoint),
+		)
+		if v := r.HTTPResponse.Header.Get("x-amz-bucket-region"); len(v) != 0 {
+			msg += fmt.Sprintf(", bucket is in '%s' region", v)
+		}
 		r.Error = awserr.NewRequestFailure(
-			awserr.New("BucketRegionError",
-				fmt.Sprintf("incorrect region, the bucket is not in '%s' region",
-					aws.StringValue(r.Config.Region)),
-				nil),
+			awserr.New("BucketRegionError", msg, nil),
 			r.HTTPResponse.StatusCode,
 			r.RequestID,
 		)
@@ -48,6 +53,7 @@ func unmarshalError(r *request.Request) {
 	} else {
 		errCode = resp.Code
 		errMsg = resp.Message
+		err = nil
 	}
 
 	// Fallback to status code converted to message if still no error code
@@ -58,8 +64,19 @@ func unmarshalError(r *request.Request) {
 	}
 
 	r.Error = awserr.NewRequestFailure(
-		awserr.New(errCode, errMsg, nil),
+		awserr.New(errCode, errMsg, err),
 		r.HTTPResponse.StatusCode,
 		r.RequestID,
 	)
+}
+
+// A RequestFailure provides access to the S3 Request ID and Host ID values
+// returned from API operation errors. Getting the error as a string will
+// return the formated error with the same information as awserr.RequestFailure,
+// while also adding the HostID value from the response.
+type RequestFailure interface {
+	awserr.RequestFailure
+
+	// Host ID is the S3 Host ID needed for debug, and contacting support
+	HostID() string
 }

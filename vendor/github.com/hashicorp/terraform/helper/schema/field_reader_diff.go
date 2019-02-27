@@ -128,7 +128,7 @@ func (r *DiffFieldReader) readMap(
 		return FieldReadResult{}, nil
 	}
 
-	var resultVal map[string]interface{}
+	var resultVal interface{}
 	if resultSet {
 		resultVal = result
 	}
@@ -174,6 +174,9 @@ func (r *DiffFieldReader) readPrimitive(
 
 func (r *DiffFieldReader) readSet(
 	address []string, schema *Schema) (FieldReadResult, error) {
+	// copy address to ensure we don't modify the argument
+	address = append([]string(nil), address...)
+
 	prefix := strings.Join(address, ".") + "."
 
 	// Create the set that will be our result
