@@ -244,6 +244,10 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 			dbSystem["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.TimeZone != nil {
+			dbSystem["time_zone"] = *r.TimeZone
+		}
+
 		if r.Version != nil {
 			dbSystem["version"] = *r.Version
 		}

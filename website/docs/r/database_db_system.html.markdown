@@ -77,6 +77,7 @@ resource "oci_database_db_system" "test_db_system" {
 	node_count = "${var.db_system_node_count}"
 	source = "${var.db_system_source}"
 	sparse_diskgroup = "${var.db_system_sparse_diskgroup}"
+	time_zone = "${var.db_system_time_zone}"
 }
 ```
 
@@ -158,6 +159,7 @@ The following arguments are supported:
 	* For Exadata and virtual machine 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.128.0/20.
 
 	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and the backup subnet. 
+* `time_zone` - (Optional) The time zone to use for the DB system. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 
 
 ** IMPORTANT **
@@ -209,6 +211,7 @@ The following attributes are exported:
 
 	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet. 
 * `time_created` - The date and time the DB system was created.
+* `time_zone` - The time zone of the DB system. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `version` - The Oracle Database version of the DB system.
 * `vip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) addresses associated with the DB system. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the DB system to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
 

@@ -1,7 +1,8 @@
-## 3.17.1 (Unreleased)
+## 3.18.0 (Unreleased)
 
 ### Added
 - Support to create Containerengine Node Pool with Image Id
+- Support for customer specified timezone in Database Systems
 
 ## 3.17.0 (March 05, 2019)
 

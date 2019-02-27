@@ -291,6 +291,12 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"time_zone": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"last_patch_history_entry_id": {
@@ -622,6 +628,10 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeZone != nil {
+		s.D.Set("time_zone", *s.Res.TimeZone)
 	}
 
 	if s.Res.Version != nil {
@@ -982,6 +992,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
+			tmp := timeZone.(string)
+			details.TimeZone = &tmp
+		}
 		request.LaunchDbSystemDetails = details
 	case strings.ToLower("NONE"):
 		details := oci_database.LaunchDbSystemDetails{}
@@ -1091,6 +1105,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
+			tmp := timeZone.(string)
+			details.TimeZone = &tmp
 		}
 		request.LaunchDbSystemDetails = details
 	default:

@@ -5,6 +5,7 @@ resource "oci_database_db_system" "test_db_system" {
   compartment_id      = "${var.compartment_ocid}"
   cpu_core_count      = "${var.cpu_core_count}"
   database_edition    = "${var.db_edition}"
+  time_zone           = "${var.time_zone}"
 
   db_home {
     database {
