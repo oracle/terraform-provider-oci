@@ -210,6 +210,8 @@ func testAccCheckOnsNotificationTopicDestroy(s *terraform.State) error {
 				request.TopicId = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ons")
+
 			_, err := client.GetTopic(context.Background(), request)
 
 			if err == nil {

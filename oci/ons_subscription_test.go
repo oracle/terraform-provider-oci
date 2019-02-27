@@ -158,6 +158,8 @@ func testAccCheckOnsSubscriptionDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SubscriptionId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ons")
+
 			response, err := client.GetSubscription(context.Background(), request)
 
 			if err == nil {
