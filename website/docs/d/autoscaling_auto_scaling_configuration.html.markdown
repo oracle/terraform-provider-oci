@@ -1,22 +1,22 @@
 ---
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_auto_scaling_auto_scaling_configuration"
-sidebar_current: "docs-oci-datasource-auto_scaling-auto_scaling_configuration"
+page_title: "Oracle Cloud Infrastructure: oci_autoscaling_auto_scaling_configuration"
+sidebar_current: "docs-oci-datasource-autoscaling-auto_scaling_configuration"
 description: |-
-  Provides details about a specific Auto Scaling Configuration in Oracle Cloud Infrastructure Auto Scaling service
+  Provides details about a specific Auto Scaling Configuration in Oracle Cloud Infrastructure Autoscaling service
 ---
 
-# Data Source: oci_auto_scaling_auto_scaling_configuration
-This data source provides details about a specific Auto Scaling Configuration resource in Oracle Cloud Infrastructure Auto Scaling service.
+# Data Source: oci_autoscaling_auto_scaling_configuration
+This data source provides details about a specific Auto Scaling Configuration resource in Oracle Cloud Infrastructure Autoscaling service.
 
 Get AutoScalingConfiguration
 
 ## Example Usage
 
 ```hcl
-data "oci_auto_scaling_auto_scaling_configuration" "test_auto_scaling_configuration" {
+data "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configuration" {
 	#Required
-	auto_scaling_configuration_id = "${oci_auto_scaling_auto_scaling_configuration.test_auto_scaling_configuration.id}"
+	auto_scaling_configuration_id = "${oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration.id}"
 }
 ```
 

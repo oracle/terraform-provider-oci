@@ -1,20 +1,20 @@
 ---
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_auto_scaling_auto_scaling_configuration"
-sidebar_current: "docs-oci-resource-auto_scaling-auto_scaling_configuration"
+page_title: "Oracle Cloud Infrastructure: oci_autoscaling_auto_scaling_configuration"
+sidebar_current: "docs-oci-resource-autoscaling-auto_scaling_configuration"
 description: |-
-  Provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Auto Scaling service
+  Provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Autoscaling service
 ---
 
-# oci_auto_scaling_auto_scaling_configuration
-This resource provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Auto Scaling service.
+# oci_autoscaling_auto_scaling_configuration
+This resource provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Autoscaling service.
 
 Create an AutoScalingConfiguration
 
 ## Example Usage
 
 ```hcl
-resource "oci_auto_scaling_auto_scaling_configuration" "test_auto_scaling_configuration" {
+resource "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configuration" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 	policies {
@@ -139,6 +139,6 @@ The following attributes are exported:
 AutoScalingConfigurations can be imported using the `id`, e.g.
 
 ```
-$ terraform import oci_auto_scaling_auto_scaling_configuration.test_auto_scaling_configuration "id"
+$ terraform import oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration "id"
 ```
 

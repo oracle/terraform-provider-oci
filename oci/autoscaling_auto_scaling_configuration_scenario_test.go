@@ -100,7 +100,7 @@ func (s *ResourceAutoscalingConfigurationTestSuite) SetupTest() {
 			}
 		}
 
-		resource "oci_auto_scaling_auto_scaling_configuration" "TFAutoScalingConfiguration" {
+		resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguration" {
 			compartment_id       = "${var.compartment_id}"
 			cool_down_in_seconds = "300"
 			display_name         = "TFAutoScalingConfiguration"
@@ -200,10 +200,10 @@ func (s *ResourceAutoscalingConfigurationTestSuite) TestAccResourceAutoscalingCo
 					resource.TestCheckResourceAttr("oci_core_instance_pool.TFInstancePool", "size", "2"),
 					resource.TestCheckResourceAttr("oci_core_instance_pool.TFInstancePool", "actual_size", "2"),
 
-					resource.TestCheckResourceAttrSet("oci_auto_scaling_auto_scaling_configuration.TFAutoScalingConfiguration", "id"),
-					resource.TestCheckResourceAttr("oci_auto_scaling_auto_scaling_configuration.TFAutoScalingConfiguration", "display_name", "TFAutoScalingConfiguration"),
-					resource.TestCheckResourceAttr("oci_auto_scaling_auto_scaling_configuration.TFAutoScalingConfiguration", "is_enabled", "true"),
-					resource.TestCheckResourceAttr("oci_auto_scaling_auto_scaling_configuration.TFAutoScalingConfiguration", "cool_down_in_seconds", "300"),
+					resource.TestCheckResourceAttrSet("oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfiguration", "id"),
+					resource.TestCheckResourceAttr("oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfiguration", "display_name", "TFAutoScalingConfiguration"),
+					resource.TestCheckResourceAttr("oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfiguration", "is_enabled", "true"),
+					resource.TestCheckResourceAttr("oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfiguration", "cool_down_in_seconds", "300"),
 
 					func(s *terraform.State) (err error) {
 						instancePoolId, err = fromInstanceState(s, "oci_core_instance_pool.TFInstancePool", "id")
