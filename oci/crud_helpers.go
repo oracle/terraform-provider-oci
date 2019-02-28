@@ -443,6 +443,10 @@ func FieldDeprecatedAndOverridenByAnother(deprecatedFieldName string, newFieldNa
 		FieldDeprecatedForAnother(deprecatedFieldName, newFieldName), newFieldName)
 }
 
+func ResourceDeprecatedForAnother(deprecatedResourceName string, newResourceName string) string {
+	return fmt.Sprintf("The '%s' resource has been deprecated. Please use '%s' instead.", deprecatedResourceName, newResourceName)
+}
+
 // GenerateDataSourceID generates an ID for the data source based on the current time stamp.
 func GenerateDataSourceID() string {
 	// Important, if you don't have an ID, make one up for your datasource

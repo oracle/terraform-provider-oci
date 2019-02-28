@@ -18,6 +18,10 @@ func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"db_workload": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -59,6 +63,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
+		request.DbWorkload = oci_database.AutonomousDatabaseSummaryDbWorkloadEnum(dbWorkload.(string))
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -127,6 +135,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		if r.DbVersion != nil {
 			autonomousDatabase["db_version"] = *r.DbVersion
 		}
+
+		autonomousDatabase["db_workload"] = r.DbWorkload
 
 		if r.DefinedTags != nil {
 			autonomousDatabase["defined_tags"] = definedTagsToMap(r.DefinedTags)

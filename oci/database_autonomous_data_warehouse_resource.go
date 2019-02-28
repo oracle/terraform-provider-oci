@@ -44,6 +44,8 @@ func DatabaseAutonomousDataWarehouseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
+				// TODO: Move the deprecation message to resource schema post Terraform v12 upgrade
+				Deprecated: ResourceDeprecatedForAnother("oci_database_autonomous_data_warehouse", "oci_database_autonomous_database"),
 			},
 
 			// Optional

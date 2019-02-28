@@ -11,6 +11,8 @@ This resource provides the Autonomous Data Warehouse Backup resource in Oracle C
 
 Creates a new Autonomous Data Warehouse backup for the specified database based on the provided request parameters.
 
+**IMPORTANT:** This resource is being **deprecated**, use `oci_database_autonomous_database_backup` instead.
+Refer to the [Deprecation Guide](#deprecation-guide) below on how to rename and migrate existing resources.
 
 ## Example Usage
 
@@ -56,3 +58,18 @@ AutonomousDataWarehouseBackups can be imported using the `id`, e.g.
 $ terraform import oci_database_autonomous_data_warehouse_backup.test_autonomous_data_warehouse_backup "id"
 ```
 
+## Deprecation Guide
+
+To rename existing `oci_database_autonomous_data_warehouse_backup` resource in your Terraform configuration and state to the new type `oci_database_autonomous_database_backup`, follow the steps below.
+
+1. Using Terraform, move the existing resource in the state with the following command:
+
+    ```
+    $ terraform state mv oci_database_autonomous_data_warehouse_backup.test_autonomous_data_warehouse_backup oci_database_autonomous_database_backup.test_autonomous_data_warehouse_backup
+    ```
+    *Note:* Terraform will automatically backup your state file, alternatively you may use `-backup=PATH` to override where the backup is written.
+2. Update the name of resource `oci_database_autonomous_data_warehouse_backup` to the new name `oci_database_autonomous_database_backup` in your Terraform configuration. 
+Do not make any more changes to Terraform configuration at this point other than the resource rename.
+3. Run a Terraform `plan` to ensure that there are no issues post the state migration.
+4. Use Terraform `refresh` or `apply` command to update the local state before making any further configuration changes or updates to the resource.
+This step ensures that any fields that are marked `Computed` and/or `ForceNew` do not cause Terraform errors because of missing entries in local state when updating Terraform configuration.
