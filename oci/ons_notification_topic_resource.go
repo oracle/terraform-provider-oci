@@ -1,4 +1,4 @@
-// Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 package provider
 
@@ -20,10 +20,10 @@ func OnsNotificationTopicResource() *schema.Resource {
 			Update: &FifteenMinutes,
 			Delete: &TwoAndHalfHours,
 		},
-		Create: createNotificationTopic,
-		Read:   readNotificationTopic,
-		Update: updateNotificationTopic,
-		Delete: deleteNotificationTopic,
+		Create: createOnsNotificationTopic,
+		Read:   readOnsNotificationTopic,
+		Update: updateOnsNotificationTopic,
+		Delete: deleteOnsNotificationTopic,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -82,32 +82,32 @@ func OnsNotificationTopicResource() *schema.Resource {
 	}
 }
 
-func createNotificationTopic(d *schema.ResourceData, m interface{}) error {
-	sync := &NotificationTopicResourceCrud{}
+func createOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {
+	sync := &OnsNotificationTopicResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).notificationControlPlaneClient
 
 	return CreateResource(d, sync)
 }
 
-func readNotificationTopic(d *schema.ResourceData, m interface{}) error {
-	sync := &NotificationTopicResourceCrud{}
+func readOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {
+	sync := &OnsNotificationTopicResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).notificationControlPlaneClient
 
 	return ReadResource(sync)
 }
 
-func updateNotificationTopic(d *schema.ResourceData, m interface{}) error {
-	sync := &NotificationTopicResourceCrud{}
+func updateOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {
+	sync := &OnsNotificationTopicResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).notificationControlPlaneClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteNotificationTopic(d *schema.ResourceData, m interface{}) error {
-	sync := &NotificationTopicResourceCrud{}
+func deleteOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {
+	sync := &OnsNotificationTopicResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).notificationControlPlaneClient
 	sync.DisableNotFoundRetries = true
@@ -115,40 +115,45 @@ func deleteNotificationTopic(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type NotificationTopicResourceCrud struct {
+type OnsNotificationTopicResourceCrud struct {
 	BaseCrud
 	Client                 *oci_ons.NotificationControlPlaneClient
 	Res                    *oci_ons.NotificationTopic
 	DisableNotFoundRetries bool
 }
 
-func (s *NotificationTopicResourceCrud) ID() string {
+func (s *OnsNotificationTopicResourceCrud) ID() string {
 	return *s.Res.TopicId
 }
 
-func (s *NotificationTopicResourceCrud) CreatedPending() []string {
+func (s *OnsNotificationTopicResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_ons.NotificationTopicLifecycleStateCreating),
 	}
 }
 
-func (s *NotificationTopicResourceCrud) CreatedTarget() []string {
+func (s *OnsNotificationTopicResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_ons.NotificationTopicLifecycleStateActive),
 	}
 }
 
-func (s *NotificationTopicResourceCrud) DeletedPending() []string {
+func (s *OnsNotificationTopicResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_ons.NotificationTopicLifecycleStateDeleting),
 	}
 }
 
-func (s *NotificationTopicResourceCrud) DeletedTarget() []string {
+func (s *OnsNotificationTopicResourceCrud) DeletedTarget() []string {
+	if avoidWaitingForDeleteTarget {
+		return []string{
+			string(oci_ons.NotificationTopicLifecycleStateDeleting),
+		}
+	}
 	return []string{}
 }
 
-func (s *NotificationTopicResourceCrud) Create() error {
+func (s *OnsNotificationTopicResourceCrud) Create() error {
 	request := oci_ons.CreateTopicRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -189,7 +194,7 @@ func (s *NotificationTopicResourceCrud) Create() error {
 	return nil
 }
 
-func (s *NotificationTopicResourceCrud) Get() error {
+func (s *OnsNotificationTopicResourceCrud) Get() error {
 	request := oci_ons.GetTopicRequest{}
 
 	if topicId, ok := s.D.GetOkExists("topic_id"); ok {
@@ -211,7 +216,7 @@ func (s *NotificationTopicResourceCrud) Get() error {
 	return nil
 }
 
-func (s *NotificationTopicResourceCrud) Update() error {
+func (s *OnsNotificationTopicResourceCrud) Update() error {
 	request := oci_ons.UpdateTopicRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -247,7 +252,7 @@ func (s *NotificationTopicResourceCrud) Update() error {
 	return nil
 }
 
-func (s *NotificationTopicResourceCrud) Delete() error {
+func (s *OnsNotificationTopicResourceCrud) Delete() error {
 	request := oci_ons.DeleteTopicRequest{}
 
 	if topicId, ok := s.D.GetOkExists("topic_id"); ok {
@@ -261,7 +266,7 @@ func (s *NotificationTopicResourceCrud) Delete() error {
 	return err
 }
 
-func (s *NotificationTopicResourceCrud) SetData() error {
+func (s *OnsNotificationTopicResourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.TopicId)
 
