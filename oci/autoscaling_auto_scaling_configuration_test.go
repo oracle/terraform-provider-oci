@@ -9,19 +9,19 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
-	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoScaling"
+	oci_autoscaling "github.com/oracle/oci-go-sdk/autoscaling"
 	"github.com/oracle/oci-go-sdk/common"
 )
 
 var (
 	AutoScalingConfigurationRequiredOnlyResource = AutoScalingConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_auto_scaling_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, autoScalingConfigurationRepresentation)
+		generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, autoScalingConfigurationRepresentation)
 
 	AutoScalingConfigurationResourceConfig = AutoScalingConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_auto_scaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation)
+		generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation)
 
 	autoScalingConfigurationSingularDataSourceRepresentation = map[string]interface{}{
-		"auto_scaling_configuration_id": Representation{repType: Required, create: `${oci_auto_scaling_auto_scaling_configuration.test_auto_scaling_configuration.id}`},
+		"auto_scaling_configuration_id": Representation{repType: Required, create: `${oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration.id}`},
 	}
 
 	autoScalingConfigurationDataSourceRepresentation = map[string]interface{}{
@@ -30,7 +30,7 @@ var (
 		"filter":         RepresentationGroup{Required, autoScalingConfigurationDataSourceFilterRepresentation}}
 	autoScalingConfigurationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_auto_scaling_auto_scaling_configuration.test_auto_scaling_configuration.id}`}},
+		"values": Representation{repType: Required, create: []string{`${oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration.id}`}},
 	}
 
 	autoScalingConfigurationRepresentation = map[string]interface{}{
@@ -97,16 +97,16 @@ var (
 		generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolRepresentation)
 )
 
-func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
+func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	resourceName := "oci_auto_scaling_auto_scaling_configuration.test_auto_scaling_configuration"
-	datasourceName := "data.oci_auto_scaling_auto_scaling_configurations.test_auto_scaling_configurations"
-	singularDatasourceName := "data.oci_auto_scaling_auto_scaling_configuration.test_auto_scaling_configuration"
+	resourceName := "oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration"
+	datasourceName := "data.oci_autoscaling_auto_scaling_configurations.test_auto_scaling_configurations"
+	singularDatasourceName := "data.oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration"
 
 	var resId, resId2 string
 
@@ -115,12 +115,12 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
-		CheckDestroy: testAccCheckAutoScalingAutoScalingConfigurationDestroy,
+		CheckDestroy: testAccCheckAutoscalingAutoScalingConfigurationDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
 				Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_auto_scaling_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, autoScalingConfigurationRepresentation),
+					generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, autoScalingConfigurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "policies.#", "1"),
@@ -170,7 +170,7 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_auto_scaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, autoScalingConfigurationRepresentation),
+					generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, autoScalingConfigurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cool_down_in_seconds", "300"),
@@ -228,7 +228,7 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_auto_scaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation),
+					generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cool_down_in_seconds", "400"),
@@ -288,9 +288,9 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_auto_scaling_auto_scaling_configurations", "test_auto_scaling_configurations", Optional, Update, autoScalingConfigurationDataSourceRepresentation) +
+					generateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configurations", "test_auto_scaling_configurations", Optional, Update, autoScalingConfigurationDataSourceRepresentation) +
 					compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_auto_scaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation),
+					generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -310,7 +310,7 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_auto_scaling_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, autoScalingConfigurationSingularDataSourceRepresentation) +
+					generateDataSourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, autoScalingConfigurationSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + AutoScalingConfigurationResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),
@@ -377,13 +377,13 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 	})
 }
 
-func testAccCheckAutoScalingAutoScalingConfigurationDestroy(s *terraform.State) error {
+func testAccCheckAutoscalingAutoScalingConfigurationDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := testAccProvider.Meta().(*OracleClients).autoScalingClient
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type == "oci_auto_scaling_auto_scaling_configuration" {
+		if rs.Type == "oci_autoscaling_auto_scaling_configuration" {
 			noResourceFound = false
-			request := oci_auto_scaling.GetAutoScalingConfigurationRequest{}
+			request := oci_autoscaling.GetAutoScalingConfigurationRequest{}
 
 			tmp := rs.Primary.ID
 			request.AutoScalingConfigurationId = &tmp

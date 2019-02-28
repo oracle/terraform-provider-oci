@@ -193,8 +193,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"oci_audit_configuration":                        AuditConfigurationDataSource(),
 		"oci_audit_events":                               AuditAuditEventsDataSource(),
-		"oci_auto_scaling_auto_scaling_configuration":    AutoScalingAutoScalingConfigurationDataSource(),
-		"oci_auto_scaling_auto_scaling_configurations":   AutoScalingAutoScalingConfigurationsDataSource(),
+		"oci_autoscaling_auto_scaling_configuration":     AutoscalingAutoScalingConfigurationDataSource(),
+		"oci_autoscaling_auto_scaling_configurations":    AutoscalingAutoScalingConfigurationsDataSource(),
 		"oci_containerengine_clusters":                   ContainerengineClustersDataSource(),
 		"oci_containerengine_cluster_option":             ContainerengineClusterOptionDataSource(),
 		"oci_containerengine_node_pool":                  ContainerengineNodePoolDataSource(),
@@ -399,7 +399,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
-		"oci_auto_scaling_auto_scaling_configuration":             AutoScalingAutoScalingConfigurationResource(),
+		"oci_autoscaling_auto_scaling_configuration":              AutoscalingAutoScalingConfigurationResource(),
 		"oci_core_app_catalog_listing_resource_version_agreement": AppCatalogListingResourceVersionAgreementResource(),
 		"oci_core_listing_resource_version_agreement":             AppCatalogListingResourceVersionAgreementResource(),
 		"oci_core_app_catalog_subscription":                       CoreAppCatalogSubscriptionResource(),

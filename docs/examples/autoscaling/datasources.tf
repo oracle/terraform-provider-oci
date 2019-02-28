@@ -37,16 +37,16 @@ data "oci_core_instance_pool_instances" "TFInstancePoolInstanceDatasources" {
   display_name     = "TFInstancePool"
 }
 
-data "oci_auto_scaling_auto_scaling_configuration" "TFAutoScalingConfigurationDatasource" {
-  auto_scaling_configuration_id = "${oci_auto_scaling_auto_scaling_configuration.TFAutoScalingConfiguration.id}"
+data "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfigurationDatasource" {
+  auto_scaling_configuration_id = "${oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfiguration.id}"
 }
 
-data "oci_auto_scaling_auto_scaling_configurations" "TFAutoScalingConfigurationDatasources" {
+data "oci_autoscaling_auto_scaling_configurations" "TFAutoScalingConfigurationDatasources" {
   compartment_id = "${var.compartment_ocid}"
   display_name   = "TFAutoScalingConfiguration"
 
   filter {
     name   = "id"
-    values = ["${oci_auto_scaling_auto_scaling_configuration.TFAutoScalingConfiguration.id}"]
+    values = ["${oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfiguration.id}"]
   }
 }

@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_auto_scaling_auto_scaling_configurations"
-sidebar_current: "docs-oci-datasource-auto_scaling-auto_scaling_configurations"
+page_title: "Oracle Cloud Infrastructure: oci_autoscaling_auto_scaling_configurations"
+sidebar_current: "docs-oci-datasource-autoscaling-auto_scaling_configurations"
 description: |-
-  Provides the list of Auto Scaling Configurations in Oracle Cloud Infrastructure Auto Scaling service
+  Provides the list of Auto Scaling Configurations in Oracle Cloud Infrastructure Autoscaling service
 ---
 
-# Data Source: oci_auto_scaling_auto_scaling_configurations
-This data source provides the list of Auto Scaling Configurations in Oracle Cloud Infrastructure Auto Scaling service.
+# Data Source: oci_autoscaling_auto_scaling_configurations
+This data source provides the list of Auto Scaling Configurations in Oracle Cloud Infrastructure Autoscaling service.
 
 Lists AutoScalingConfigurations in the specific compartment.
 
@@ -15,7 +15,7 @@ Lists AutoScalingConfigurations in the specific compartment.
 ## Example Usage
 
 ```hcl
-data "oci_auto_scaling_auto_scaling_configurations" "test_auto_scaling_configurations" {
+data "oci_autoscaling_auto_scaling_configurations" "test_auto_scaling_configurations" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 
