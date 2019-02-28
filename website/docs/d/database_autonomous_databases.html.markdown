@@ -20,6 +20,7 @@ data "oci_database_autonomous_databases" "test_autonomous_databases" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
+	db_workload = "${var.autonomous_database_db_workload}"
 	display_name = "${var.autonomous_database_display_name}"
 	state = "${var.autonomous_database_state}"
 }
@@ -30,6 +31,7 @@ data "oci_database_autonomous_databases" "test_autonomous_databases" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `db_workload` - (Optional) A filter to return only autonomous database resources that match the specified workload type.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
@@ -54,6 +56,7 @@ The following attributes are exported:
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
 * `db_name` - The database name.
 * `db_version` - A valid Oracle Database version for Autonomous Database.
+* `db_workload` - The Autonomous Database workload type.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 

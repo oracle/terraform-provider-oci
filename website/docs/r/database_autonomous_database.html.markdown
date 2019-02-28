@@ -24,6 +24,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	db_name = "${var.autonomous_database_db_name}"
 
 	#Optional
+	db_workload = "${var.autonomous_database_db_workload}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.autonomous_database_display_name}"
 	freeform_tags = {"Department"= "Finance"}
@@ -40,6 +41,9 @@ The following arguments are supported:
 * `cpu_core_count` - (Required) (Updatable) The number of CPU Cores to be made available to the database.
 * `data_storage_size_in_tbs` - (Required) (Updatable) The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. 
 * `db_name` - (Required) The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
+* `db_workload` - (Optional) The autonomous database workload type. If no value is specified, `OLTP` is used. Supported values:
+    * `OLTP` - For Autonomous Database workload type.
+    * `DW` - For Autonomous Data Warehouse workload type.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -63,6 +67,7 @@ The following attributes are exported:
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
 * `db_name` - The database name.
 * `db_version` - A valid Oracle Database version for Autonomous Database.
+* `db_workload` - The Autonomous Database workload type.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 

@@ -6,9 +6,13 @@
 - Support to create Containerengine Node Pool with Image Id
 - Support for customer specified timezone in Database Systems
 - Support `email` attribute for `oci_identity_user` resource and `oci_identity_ui_password` datasource
+- Support for creating Autonomous Data Warehouses through Autonomous Database resource `oci_database_autonomous_database` using the field `db_workload`
 
 ### Fixed
 - Marked oci_identity_ui_password resource as not importable
+
+### Deprecated
+- Deprecated Autonomous Data Warehouse resources `oci_database_autonomous_data_warehouse`, the API is now unified with Autonomous Database
 
 ## 3.17.0 (March 05, 2019)
 
