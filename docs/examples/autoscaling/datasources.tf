@@ -1,8 +1,9 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 # Gets a list of Availability Domains
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "AD" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = "1"
 }
 
 data "oci_core_instance_configuration" TFInstanceConfigurationDatasource {
