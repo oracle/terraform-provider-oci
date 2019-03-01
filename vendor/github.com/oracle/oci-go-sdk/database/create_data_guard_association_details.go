@@ -14,12 +14,7 @@ import (
 )
 
 // CreateDataGuardAssociationDetails The configuration details for creating a Data Guard association between databases.
-// **NOTE:**
-// "ExistingDbSystem" is the only supported `creationType` value. Therefore, all
-// CreateDataGuardAssociation
-// requests must include the `peerDbSystemId` parameter found in the
-// CreateDataGuardAssociationToExistingDbSystemDetails
-// object.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateDataGuardAssociationDetails interface {
 
 	// A strong password for the `SYS`, `SYSTEM`, and `PDB Admin` users to apply during standby creation.

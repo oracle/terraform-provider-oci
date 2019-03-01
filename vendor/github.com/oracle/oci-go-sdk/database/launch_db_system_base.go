@@ -38,7 +38,7 @@ type LaunchDbSystemBase interface {
 	// To get a list of shapes, use the ListDbSystemShapes operation.
 	GetShape() *string
 
-	// The public key portion of the key pair to use for SSH access to the DB system. Multiple public keys can be provided. The length of the combined keys cannot exceed 10,000 characters.
+	// The public key portion of the key pair to use for SSH access to the DB system. Multiple public keys can be provided. The length of the combined keys cannot exceed 40,000 characters.
 	GetSshPublicKeys() []string
 
 	// The hostname for the DB system. The hostname must begin with an alphabetic character and
@@ -60,6 +60,21 @@ type LaunchDbSystemBase interface {
 	// This parameter is not used for virtual machine DB systems because virtual machine DB systems have a set number of cores for each shape.
 	// For information about the number of cores for a virtual machine DB system shape, see Virtual Machine DB Systems (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Concepts/overview.htm#virtualmachine)
 	GetCpuCoreCount() *int
+
+	// A fault domain is a grouping of hardware and infrastructure within an availability domain.
+	// fault domains let you distribute your instances so that they are not on the same physical
+	// hardware within a single availability domain. A hardware failure or maintenance
+	// that affects one fault domain does not affect DB systems in other fault domains.
+	// If you do not specify the fault domain, the system selects one for you. To change the fault
+	// domain for a DB system, terminate it and launch a new DB system in the preferred fault domain.
+	// If the node count is greater than 1, you can specify which fault domains these nodes will be distributed into.
+	// The system assigns your nodes automatically to the fault domains you specify so that
+	// no fault domain contains more than one node.
+	// To get a list of fault domains, use the
+	// ListFaultDomains operation in the
+	// Identity and Access Management Service API.
+	// Example: `FAULT-DOMAIN-1`
+	GetFaultDomains() []string
 
 	// The user-friendly name for the DB system. The name does not have to be unique.
 	GetDisplayName() *string
@@ -110,6 +125,7 @@ type launchdbsystembase struct {
 	SshPublicKeys              []string                          `mandatory:"true" json:"sshPublicKeys"`
 	Hostname                   *string                           `mandatory:"true" json:"hostname"`
 	CpuCoreCount               *int                              `mandatory:"true" json:"cpuCoreCount"`
+	FaultDomains               []string                          `mandatory:"false" json:"faultDomains"`
 	DisplayName                *string                           `mandatory:"false" json:"displayName"`
 	BackupSubnetId             *string                           `mandatory:"false" json:"backupSubnetId"`
 	SparseDiskgroup            *bool                             `mandatory:"false" json:"sparseDiskgroup"`
@@ -141,6 +157,7 @@ func (m *launchdbsystembase) UnmarshalJSON(data []byte) error {
 	m.SshPublicKeys = s.Model.SshPublicKeys
 	m.Hostname = s.Model.Hostname
 	m.CpuCoreCount = s.Model.CpuCoreCount
+	m.FaultDomains = s.Model.FaultDomains
 	m.DisplayName = s.Model.DisplayName
 	m.BackupSubnetId = s.Model.BackupSubnetId
 	m.SparseDiskgroup = s.Model.SparseDiskgroup
@@ -211,6 +228,11 @@ func (m launchdbsystembase) GetHostname() *string {
 //GetCpuCoreCount returns CpuCoreCount
 func (m launchdbsystembase) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
+}
+
+//GetFaultDomains returns FaultDomains
+func (m launchdbsystembase) GetFaultDomains() []string {
+	return m.FaultDomains
 }
 
 //GetDisplayName returns DisplayName

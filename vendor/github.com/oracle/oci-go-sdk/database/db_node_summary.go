@@ -38,6 +38,9 @@ type DbNodeSummary struct {
 	// The host name for the database node.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
+	// The name of the fault domain the instance is contained in.
+	FaultDomain *string `mandatory:"false" json:"faultDomain"`
+
 	// The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems.
 	SoftwareStorageSizeInGB *int `mandatory:"false" json:"softwareStorageSizeInGB"`
 }

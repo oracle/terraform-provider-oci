@@ -47,6 +47,9 @@ type InstanceSummary struct {
 	// and other resources allocated to the instance.
 	// You can enumerate all available shapes by calling ListShapes.
 	Shape *string `mandatory:"false" json:"shape"`
+
+	// The load balancer backends configured for the instance pool instance.
+	LoadBalancerBackends []InstancePoolInstanceLoadBalancerBackend `mandatory:"false" json:"loadBalancerBackends"`
 }
 
 func (m InstanceSummary) String() string {

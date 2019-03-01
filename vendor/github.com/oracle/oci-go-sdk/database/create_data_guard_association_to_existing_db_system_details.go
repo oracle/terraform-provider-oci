@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateDataGuardAssociationToExistingDbSystemDetails The configuration details for creating a Data Guard association to an existing database.
+// CreateDataGuardAssociationToExistingDbSystemDetails The configuration details for creating a Data Guard association for a bare metal DB system database. A standby database will be created in the DB system you specify.
+// To create a Data Guard association for a database in a virtual machine DB system, use the CreateDataGuardAssociationWithNewDbSystemDetails subtype.
 type CreateDataGuardAssociationToExistingDbSystemDetails struct {
 
 	// A strong password for the `SYS`, `SYSTEM`, and `PDB Admin` users to apply during standby creation.
@@ -26,6 +27,7 @@ type CreateDataGuardAssociationToExistingDbSystemDetails struct {
 	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword"`
 
 	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB system in which to create the standby database.
+	// You must supply this value if creationType is `ExistingDbSystem`.
 	PeerDbSystemId *string `mandatory:"false" json:"peerDbSystemId"`
 
 	// The protection mode to set up between the primary and standby databases. For more information, see
