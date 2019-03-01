@@ -20,11 +20,11 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	compartment_id = "${var.compartment_id}"
 	kubernetes_version = "${var.node_pool_kubernetes_version}"
 	name = "${var.node_pool_name}"
-	node_image_name = "${var.node_pool_node_image_name}"
 	node_shape = "${var.node_pool_node_shape}"
 	subnet_ids = "${var.node_pool_subnet_ids}"
 
 	#Optional
+	node_image_name = "${var.node_pool_node_image_name}"
 	initial_node_labels {
 
 		#Optional
@@ -47,7 +47,8 @@ The following arguments are supported:
 	* `value` - (Optional) (Updatable) The value of the pair.
 * `kubernetes_version` - (Required) (Updatable) The version of Kubernetes to install on the nodes in the node pool.
 * `name` - (Required) (Updatable) The name of the node pool. Avoid entering confidential information.
-* `node_image_name` - (Required) The name of the image running on the nodes in the node pool.
+* `node_image_name` - (Optional) The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
+* `node_image_id` - (Optional) The OCID of the image running on the nodes in the node pool. Cannot be used when `node_image_name` is specified.
 * `node_shape` - (Required) The name of the node shape of the nodes in the node pool.
 * `quantity_per_subnet` - (Optional) (Updatable) The number of nodes to create in each subnet.
 * `ssh_public_key` - (Optional) The SSH public key to add to each node in the node pool.

@@ -1,4 +1,8 @@
 ## 3.17.1 (Unreleased)
+
+### Added
+- Support to create Containerengine Node Pool with Image Id
+
 ## 3.17.0 (March 05, 2019)
 
 ### Added
