@@ -75,6 +75,8 @@ type Image struct {
 
 	LaunchOptions *LaunchOptions `mandatory:"false" json:"launchOptions"`
 
+	AgentFeatures *InstanceAgentFeatures `mandatory:"false" json:"agentFeatures"`
+
 	// Image size (1 MB = 1048576 bytes)
 	// Example: `47694`
 	SizeInMBs *int64 `mandatory:"false" json:"sizeInMBs"`

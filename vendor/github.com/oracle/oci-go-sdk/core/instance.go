@@ -38,7 +38,9 @@ type Instance struct {
 	LifecycleState InstanceLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The region that contains the availability domain the instance is running in.
-	// Example: `phx`
+	// For the us-phoenix-1 and us-ashburn-1 regions, `phx` and `iad` are returned, respectively.
+	// For all other regions, the full region name is returned.
+	// Examples: `phx`, `eu-frankfurt-1`
 	Region *string `mandatory:"true" json:"region"`
 
 	// The shape of the instance. The shape determines the number of CPUs and the amount of memory
@@ -119,6 +121,8 @@ type Instance struct {
 	// Details for creating an instance
 	SourceDetails InstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
 
+	AgentConfig *InstanceAgentConfig `mandatory:"false" json:"agentConfig"`
+
 	// The date and time the instance is expected to be stopped / started,  in the format defined by RFC3339.
 	// After that time if instance hasn't been rebooted, Oracle will reboot the instance within 24 hours of the due time.
 	// Regardless of how the instance was stopped, the flag will be reset to empty as soon as instance reaches Stopped state.
@@ -144,6 +148,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		LaunchOptions            *LaunchOptions                    `json:"launchOptions"`
 		Metadata                 map[string]string                 `json:"metadata"`
 		SourceDetails            instancesourcedetails             `json:"sourceDetails"`
+		AgentConfig              *InstanceAgentConfig              `json:"agentConfig"`
 		TimeMaintenanceRebootDue *common.SDKTime                   `json:"timeMaintenanceRebootDue"`
 		AvailabilityDomain       *string                           `json:"availabilityDomain"`
 		CompartmentId            *string                           `json:"compartmentId"`
@@ -177,6 +182,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.SourceDetails = nil
 	}
+	m.AgentConfig = model.AgentConfig
 	m.TimeMaintenanceRebootDue = model.TimeMaintenanceRebootDue
 	m.AvailabilityDomain = model.AvailabilityDomain
 	m.CompartmentId = model.CompartmentId
