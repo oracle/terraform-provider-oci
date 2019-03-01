@@ -1,3 +1,5 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
 resource "oci_ons_subscription" "test_subscription" {
   #Required
   compartment_id = "${var.compartment_ocid}"
