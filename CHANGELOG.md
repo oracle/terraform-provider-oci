@@ -10,6 +10,7 @@
 
 ### Added
 - Support for updating `license_model` for `oci_autonomous_database` resource
+- Support for updating `static_routes` and new `cpe_local_identifier` in `oci_core_ipsec` resource for improved VPN service usability
 
 ## 3.22.0 (April 10, 2019)
 

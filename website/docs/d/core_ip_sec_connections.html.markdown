@@ -46,7 +46,15 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the IPSec connection.
-* `cpe_id` - The OCID of the CPE.
+* `cpe_id` - The OCID of the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/) object.
+* `cpe_local_identifier` - Your identifier for your CPE device. Can be either an IP address or a hostname (specifically, the fully qualified domain name (FQDN)). The type of identifier here must correspond to the value for `cpeLocalIdentifierType`.
+
+	If you don't provide a value when creating the IPSec connection, the `ipAddress` attribute for the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/) object specified by `cpeId` is used as the `cpeLocalIdentifier`.
+
+	Example IP address: `10.0.3.3`
+
+	Example hostname: `cpe.example.com` 
+* `cpe_local_identifier_type` - The type of identifier for your CPE device. The value here must correspond to the value for `cpeLocalIdentifier`. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `drg_id` - The OCID of the DRG.

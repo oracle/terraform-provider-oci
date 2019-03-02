@@ -44,18 +44,24 @@ func CoreIpSecConnectionResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"static_routes": {
-				Type: schema.TypeList,
-				// @CODEGEN 1/2018: Existing provider allows static_routes to be empty.
-				// Avoid breaking change by keeping this optional, even though spec says it's
-				// required.
-				Optional: true,
-				ForceNew: true,
+				Type:     schema.TypeList,
+				Required: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
 			},
 
 			// Optional
+			"cpe_local_identifier": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"cpe_local_identifier_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -169,6 +175,15 @@ func (s *CoreIpSecConnectionResourceCrud) Create() error {
 		request.CpeId = &tmp
 	}
 
+	if cpeLocalIdentifier, ok := s.D.GetOkExists("cpe_local_identifier"); ok {
+		tmp := cpeLocalIdentifier.(string)
+		request.CpeLocalIdentifier = &tmp
+	}
+
+	if cpeLocalIdentifierType, ok := s.D.GetOkExists("cpe_local_identifier_type"); ok {
+		request.CpeLocalIdentifierType = oci_core.CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum(cpeLocalIdentifierType.(string))
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -234,6 +249,15 @@ func (s *CoreIpSecConnectionResourceCrud) Get() error {
 func (s *CoreIpSecConnectionResourceCrud) Update() error {
 	request := oci_core.UpdateIPSecConnectionRequest{}
 
+	if cpeLocalIdentifier, ok := s.D.GetOkExists("cpe_local_identifier"); ok {
+		tmp := cpeLocalIdentifier.(string)
+		request.CpeLocalIdentifier = &tmp
+	}
+
+	if cpeLocalIdentifierType, ok := s.D.GetOkExists("cpe_local_identifier_type"); ok {
+		request.CpeLocalIdentifierType = oci_core.UpdateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum(cpeLocalIdentifierType.(string))
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -253,6 +277,18 @@ func (s *CoreIpSecConnectionResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.IpscId = &tmp
+
+	request.StaticRoutes = []string{}
+	if staticRoutes, ok := s.D.GetOkExists("static_routes"); ok {
+		interfaces := staticRoutes.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.StaticRoutes = tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
@@ -285,6 +321,12 @@ func (s *CoreIpSecConnectionResourceCrud) SetData() error {
 	if s.Res.CpeId != nil {
 		s.D.Set("cpe_id", *s.Res.CpeId)
 	}
+
+	if s.Res.CpeLocalIdentifier != nil {
+		s.D.Set("cpe_local_identifier", *s.Res.CpeLocalIdentifier)
+	}
+
+	s.D.Set("cpe_local_identifier_type", s.Res.CpeLocalIdentifierType)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
