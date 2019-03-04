@@ -149,6 +149,8 @@ func testAccCheckIdentityDynamicGroupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DynamicGroupId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+
 			response, err := client.GetDynamicGroup(context.Background(), request)
 
 			if err == nil {

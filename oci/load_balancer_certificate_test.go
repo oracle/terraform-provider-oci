@@ -113,6 +113,7 @@ func testAccCheckLoadBalancerCertificateDestroy(s *terraform.State) error {
 				request.LoadBalancerId = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
 			response, err := client.ListCertificates(context.Background(), request)
 
 			if err == nil {

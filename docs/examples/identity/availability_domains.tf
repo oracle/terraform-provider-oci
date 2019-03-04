@@ -7,14 +7,23 @@
 
 data "oci_identity_availability_domains" "ads" {
   compartment_id = "${var.tenancy_ocid}"
-
-  filter {
-    name   = "name"
-    values = ["\\w*-AD-1"]
-    regex  = true
-  }
 }
 
 output "ads" {
   value = "${data.oci_identity_availability_domains.ads.availability_domains}"
+}
+
+data "oci_identity_availability_domain" "ad" {
+  compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 2
+}
+
+output "ad" {
+  value = <<EOF
+
+    "${data.oci_identity_availability_domain.ad.id}"
+    "${data.oci_identity_availability_domain.ad.compartment_id}"
+    "${data.oci_identity_availability_domain.ad.name}"
+    "${data.oci_identity_availability_domain.ad.index}"
+EOF
 }

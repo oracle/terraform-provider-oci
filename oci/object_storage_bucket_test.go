@@ -256,6 +256,8 @@ func testAccCheckObjectStorageBucketDestroy(s *terraform.State) error {
 				request.NamespaceName = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+
 			_, err := client.GetBucket(context.Background(), request)
 
 			if err == nil {

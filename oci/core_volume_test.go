@@ -557,6 +557,8 @@ func testAccCheckCoreVolumeDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VolumeId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetVolume(context.Background(), request)
 
 			if err == nil {

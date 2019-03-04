@@ -50,6 +50,9 @@ type InstancePool struct {
 	// Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The load balancers attached to the instance pool.
+	LoadBalancers []InstancePoolLoadBalancerAttachment `mandatory:"false" json:"loadBalancers"`
 }
 
 func (m InstancePool) String() string {

@@ -103,7 +103,7 @@ var (
 	}
 	instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation = map[string]interface{}{
 		"source_type": Representation{repType: Required, create: `image`},
-		"image_id":    Representation{repType: Optional, create: `${oci_core_image.test_image.id}`},
+		"image_id":    Representation{repType: Optional, create: `${var.InstanceImageOCID[var.region]}`},
 	}
 	instanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation = map[string]interface{}{
 		"assign_public_ip":       Representation{repType: Optional, create: `false`},
@@ -121,9 +121,8 @@ var (
 	InstanceConfigurationResourceDependencies = InstanceRequiredOnlyResource
 	InstanceConfigurationVmShape              = `VM.Standard2.1`
 
-	InstanceConfigurationResourceImageConfig = ImageRequiredOnlyResource +
-		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
-			getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation))
+	InstanceConfigurationResourceImageConfig = generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
+		getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation))
 )
 
 func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
@@ -407,6 +406,8 @@ func testAccCheckCoreInstanceConfigurationDestroy(s *terraform.State) error {
 
 			tmp := rs.Primary.ID
 			request.InstanceConfigurationId = &tmp
+
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
 
 			_, err := client.GetInstanceConfiguration(context.Background(), request)
 

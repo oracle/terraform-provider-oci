@@ -60,6 +60,40 @@ func CoreInstancePoolInstancesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"load_balancer_backends": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"backend_health_status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"backend_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"backend_set_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"load_balancer_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									// internal for work request access
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"region": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -175,6 +209,12 @@ func (s *CoreInstancePoolInstancesDataSourceCrud) SetData() error {
 			instancePoolInstance["instance_configuration_id"] = *r.InstanceConfigurationId
 		}
 
+		loadBalancerBackends := []interface{}{}
+		for _, item := range r.LoadBalancerBackends {
+			loadBalancerBackends = append(loadBalancerBackends, InstancePoolInstanceLoadBalancerBackendToMap(item))
+		}
+		instancePoolInstance["load_balancer_backends"] = loadBalancerBackends
+
 		if r.Region != nil {
 			instancePoolInstance["region"] = *r.Region
 		}
@@ -203,4 +243,24 @@ func (s *CoreInstancePoolInstancesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func InstancePoolInstanceLoadBalancerBackendToMap(obj oci_core.InstancePoolInstanceLoadBalancerBackend) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["backend_health_status"] = string(obj.BackendHealthStatus)
+
+	if obj.BackendName != nil {
+		result["backend_name"] = string(*obj.BackendName)
+	}
+
+	if obj.BackendSetName != nil {
+		result["backend_set_name"] = string(*obj.BackendSetName)
+	}
+
+	if obj.LoadBalancerId != nil {
+		result["load_balancer_id"] = string(*obj.LoadBalancerId)
+	}
+
+	return result
 }

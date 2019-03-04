@@ -237,6 +237,8 @@ func testAccCheckContainerengineNodePoolDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.NodePoolId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "containerengine")
+
 			_, err := client.GetNodePool(context.Background(), request)
 
 			if err == nil {

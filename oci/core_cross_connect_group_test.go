@@ -169,6 +169,8 @@ func testAccCheckCoreCrossConnectGroupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.CrossConnectGroupId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetCrossConnectGroup(context.Background(), request)
 
 			if err == nil {

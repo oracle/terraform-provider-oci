@@ -294,6 +294,8 @@ func testAccCheckDnsZoneDestroy(s *terraform.State) error {
 				request.CompartmentId = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+
 			_, err := client.GetZone(context.Background(), request)
 
 			if err == nil {

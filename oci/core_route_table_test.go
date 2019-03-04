@@ -366,6 +366,8 @@ func testAccCheckCoreRouteTableDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.RtId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetRouteTable(context.Background(), request)
 
 			if err == nil {

@@ -1,4 +1,13 @@
-## 3.16.1 (Unreleased)
+## 3.17.0 (Unreleased)
+
+### Added
+- Add singular Availability Domain data source with related example updates
+- Support for Monitoring service 
+- Adding ability to disable monitoring in instances
+- Adding support for Metrics-based Dynamic Auto-scaling
+- Support for listing and specifying Fault Domains in Database resources
+- Support for Notification service
+
 ## 3.16.0 (February 26, 2019)
 
 ### Added

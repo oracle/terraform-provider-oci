@@ -37,7 +37,7 @@ func NewDatabaseClientWithConfigurationProvider(configProvider common.Configurat
 
 // SetRegion overrides the region of this client.
 func (client *DatabaseClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).Endpoint("database")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("database", "https://database.{region}.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -489,16 +489,18 @@ func (client DatabaseClient) createExternalBackupJob(ctx context.Context, reques
 	return response, err
 }
 
-// DbNodeAction Performs an action, such as one of the power actions (start, stop, softreset, or reset), on the specified DB Node.
-// **start** - power on
-// **stop** - power off
-// **softreset** - ACPI shutdown and power on
-// **reset** - power off and power on
-// Note that the **stop** state has no effect on the resources you consume.
-// Billing continues for DB Nodes that you stop, and related resources continue
+// DbNodeAction Performs one of the following power actions on the specified DB node:
+// - start - power on
+// - stop - power off
+// - softreset - ACPI shutdown and power on
+// - reset - power off and power on
+// **Note:** Stopping a node affects billing differently, depending on the type of DB system:
+// *Bare metal and Exadata DB systems* - The _stop_ state has no effect on the resources you consume.
+// Billing continues for DB nodes that you stop, and related resources continue
 // to apply against any relevant quotas. You must terminate the DB system
 // (TerminateDbSystem)
 // to remove its resources from billing and quotas.
+// *Virtual machine DB systems* - Stopping a node stops billing for all OCPUs associated with that node, and billing resumes when you restart the node.
 func (client DatabaseClient) DbNodeAction(ctx context.Context, request DbNodeActionRequest) (response DbNodeActionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1910,7 +1912,7 @@ func (client DatabaseClient) listDbHomePatches(ctx context.Context, request comm
 	return response, err
 }
 
-// ListDbHomes Gets a list of database homes in the specified DB system and compartment. A database home is a directory where Oracle database software is installed.
+// ListDbHomes Gets a list of database homes in the specified DB system and compartment. A database home is a directory where Oracle Database software is installed.
 func (client DatabaseClient) ListDbHomes(ctx context.Context, request ListDbHomesRequest) (response ListDbHomesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2163,7 +2165,7 @@ func (client DatabaseClient) listDbSystems(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListDbVersions Gets a list of supported Oracle database versions.
+// ListDbVersions Gets a list of supported Oracle Database versions.
 func (client DatabaseClient) ListDbVersions(ctx context.Context, request ListDbVersionsRequest) (response ListDbVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

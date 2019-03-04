@@ -46,8 +46,14 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad1" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
+}
+
+data "oci_identity_availability_domain" "ad2" {
+  compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 2
 }
 
 /* Network */
@@ -60,7 +66,7 @@ resource "oci_core_virtual_network" "vcn1" {
 }
 
 resource "oci_core_subnet" "subnet1" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain -2],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad1.name}"
   cidr_block          = "10.1.20.0/24"
   display_name        = "subnet1"
   dns_label           = "subnet1"
@@ -76,7 +82,7 @@ resource "oci_core_subnet" "subnet1" {
 }
 
 resource "oci_core_subnet" "subnet2" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain -1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad2.name}"
   cidr_block          = "10.1.21.0/24"
   display_name        = "subnet2"
   dns_label           = "subnet2"
@@ -144,7 +150,7 @@ resource "oci_core_security_list" "securitylist1" {
 /* Instances */
 
 resource "oci_core_instance" "instance1" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain -2],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad1.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "be-instance1"
   shape               = "${var.instance_shape}"
@@ -162,7 +168,7 @@ resource "oci_core_instance" "instance1" {
 }
 
 resource "oci_core_instance" "instance2" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain -1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad2.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "be-instance2"
   shape               = "${var.instance_shape}"

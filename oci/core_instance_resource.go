@@ -52,6 +52,27 @@ func CoreInstanceResource() *schema.Resource {
 			},
 
 			// Optional
+			"agent_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_monitoring_disabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"create_vnic_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -425,6 +446,17 @@ func (s *CoreInstanceResourceCrud) DeletedTarget() []string {
 func (s *CoreInstanceResourceCrud) Create() error {
 	request := oci_core.LaunchInstanceRequest{}
 
+	if agentConfig, ok := s.D.GetOkExists("agent_config"); ok {
+		if tmpList := agentConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "agent_config", 0)
+			tmp, err := s.mapToLaunchInstanceAgentConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AgentConfig = &tmp
+		}
+	}
+
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
@@ -552,6 +584,17 @@ func (s *CoreInstanceResourceCrud) Get() error {
 func (s *CoreInstanceResourceCrud) Update() error {
 	request := oci_core.UpdateInstanceRequest{}
 
+	if agentConfig, ok := s.D.GetOkExists("agent_config"); ok {
+		if tmpList := agentConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "agent_config", 0)
+			tmp, err := s.mapToUpdateInstanceAgentConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AgentConfig = &tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -646,6 +689,12 @@ func (s *CoreInstanceResourceCrud) Delete() error {
 }
 
 func (s *CoreInstanceResourceCrud) SetData() error {
+	if s.Res.AgentConfig != nil {
+		s.D.Set("agent_config", []interface{}{InstanceAgentConfigToMap(s.Res.AgentConfig)})
+	} else {
+		s.D.Set("agent_config", nil)
+	}
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -982,6 +1031,38 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *CoreInstanceResourceCrud) mapToLaunchInstanceAgentConfigDetails(fieldKeyFormat string) (oci_core.LaunchInstanceAgentConfigDetails, error) {
+	result := oci_core.LaunchInstanceAgentConfigDetails{}
+
+	if isMonitoringDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monitoring_disabled")); ok {
+		tmp := isMonitoringDisabled.(bool)
+		result.IsMonitoringDisabled = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *CoreInstanceResourceCrud) mapToUpdateInstanceAgentConfigDetails(fieldKeyFormat string) (oci_core.UpdateInstanceAgentConfigDetails, error) {
+	result := oci_core.UpdateInstanceAgentConfigDetails{}
+
+	if isMonitoringDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monitoring_disabled")); ok {
+		tmp := isMonitoringDisabled.(bool)
+		result.IsMonitoringDisabled = &tmp
+	}
+
+	return result, nil
+}
+
+func InstanceAgentConfigToMap(obj *oci_core.InstanceAgentConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsMonitoringDisabled != nil {
+		result["is_monitoring_disabled"] = bool(*obj.IsMonitoringDisabled)
 	}
 
 	return result

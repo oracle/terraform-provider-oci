@@ -21,7 +21,7 @@ type UpdateDbSystemDetails struct {
 
 	Version *PatchDetails `mandatory:"false" json:"version"`
 
-	// The public key portion of the key pair to use for SSH access to the DB system. Multiple public keys can be provided. The length of the combined keys cannot exceed 10,000 characters.
+	// The public key portion of the key pair to use for SSH access to the DB system. Multiple public keys can be provided. The length of the combined keys cannot exceed 40,000 characters.
 	SshPublicKeys []string `mandatory:"false" json:"sshPublicKeys"`
 
 	// The size, in gigabytes, to scale the attached storage up to for this virtual machine DB system. This value must be greater than current storage size. Note that the resulting total storage size attached will be greater than the amount requested to allow for REDO/RECO space and software volume. Applies only to virtual machine DB systems.

@@ -154,6 +154,8 @@ func testAccCheckCoreDrgDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DrgId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetDrg(context.Background(), request)
 
 			if err == nil {

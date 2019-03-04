@@ -111,6 +111,7 @@ func testAccCheckIdentitySwiftPasswordDestroy(s *terraform.State) error {
 				request.UserId = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
 			response, err := client.ListSwiftPasswords(context.Background(), request)
 
 			if err == nil {

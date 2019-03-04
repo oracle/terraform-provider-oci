@@ -25,23 +25,20 @@ variable "DBSize" {
   default = "50" // size in GBs, min: 50, max 16384
 }
 
-variable "availability_domain" {
-  default = 3
-}
-
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
 
 resource "oci_core_volume" "t" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "-tf-volume"
   size_in_gbs         = "${var.DBSize}"
 }
 
 resource "oci_core_volume" "t2" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "-tf-volume-with-backup-policy"
   size_in_gbs         = "${var.DBSize}"
@@ -77,7 +74,7 @@ output "volumes" {
 // Create additional volumes to have multiple volumes in the volume group
 resource "oci_core_volume" "test_volume" {
   count               = 2
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "${format("-tf-volume-%d", count.index + 1)}"
   size_in_gbs         = "${var.DBSize}"
@@ -85,7 +82,7 @@ resource "oci_core_volume" "test_volume" {
 
 resource "oci_core_volume_group" "test_volume_group_from_vol_ids" {
   #Required
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
 
   source_details {
@@ -122,7 +119,7 @@ output "volumeGroupVolumeIdsSourcedFromVolIds" {
 
 resource "oci_core_volume_group" "test_volume_group_from_vol_group" {
   #Required
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
 
   source_details {
@@ -159,7 +156,7 @@ output "volumeGroupVolumeIdsSourcedFromVolGroup" {
 
 resource "oci_core_volume_group" "test_volume_group_from_vol_group_backup" {
   #Required
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
 
   source_details {

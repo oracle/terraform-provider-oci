@@ -15,8 +15,9 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-const charset = "abcdefghijklmnopqrstuvwxyz" +
-	"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+const charset = charsetWithoutDigits + "0123456789"
+
+const charsetWithoutDigits = "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 func literalTypeHashCodeForSets(m interface{}) int {
 	return hashcode.String(fmt.Sprintf("%v", m))

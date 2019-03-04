@@ -25,8 +25,3 @@ variable "instance_image_ocid" {
     uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
   }
 }
-
-# Choose an Availability Domain
-variable "availability_domain" {
-  default = "3"
-}

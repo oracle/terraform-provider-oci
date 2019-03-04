@@ -129,6 +129,8 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `agent_features` - 
+	* `is_monitoring_supported` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
 * `base_image_id` - The OCID of the image originally used to launch the instance.
 * `compartment_id` - The OCID of the compartment containing the instance you want to use as the basis for the image. 
 * `create_image_allowed` - Whether instances launched with this image can be used to create new images. For example, you cannot create an image of an Oracle Database instance. Example: `true` 

@@ -1,0 +1,271 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
+package provider
+
+import (
+	"context"
+	"time"
+
+	"github.com/hashicorp/terraform/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/common"
+	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
+)
+
+func MonitoringMetricDataDataSource() *schema.Resource {
+	return &schema.Resource{
+		Read: readMonitoringMetricData,
+		Schema: map[string]*schema.Schema{
+			"filter": dataSourceFiltersSchema(),
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"compartment_id_in_subtree": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"end_time": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"namespace": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"query": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"resolution": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"start_time": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"metric_data": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"query": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"compartment_id_in_subtree": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"end_time": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: timeDiffSuppressFunction,
+						},
+						"resolution": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"start_time": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: timeDiffSuppressFunction,
+						},
+
+						// Computed
+						"aggregated_datapoints": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"timestamp": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"dimensions": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"metadata": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+func readMonitoringMetricData(d *schema.ResourceData, m interface{}) error {
+	sync := &MonitoringMetricDataDataSourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).monitoringClient
+
+	return ReadResource(sync)
+}
+
+type MonitoringMetricDataDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_monitoring.MonitoringClient
+	Res    *oci_monitoring.SummarizeMetricsDataResponse
+}
+
+func (s *MonitoringMetricDataDataSourceCrud) VoidState() {
+	s.D.SetId("")
+}
+
+func (s *MonitoringMetricDataDataSourceCrud) Get() error {
+	request := oci_monitoring.SummarizeMetricsDataRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		request.CompartmentIdInSubtree = &tmp
+	}
+
+	if endTime, ok := s.D.GetOkExists("end_time"); ok {
+		tmp, err := time.Parse(time.RFC3339, endTime.(string))
+		if err != nil {
+			return err
+		}
+		request.EndTime = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if namespace, ok := s.D.GetOkExists("namespace"); ok {
+		tmp := namespace.(string)
+		request.Namespace = &tmp
+	}
+
+	if query, ok := s.D.GetOkExists("query"); ok {
+		tmp := query.(string)
+		request.Query = &tmp
+	}
+
+	if resolution, ok := s.D.GetOkExists("resolution"); ok {
+		tmp := resolution.(string)
+		request.Resolution = &tmp
+	}
+
+	if startTime, ok := s.D.GetOkExists("start_time"); ok {
+		tmp, err := time.Parse(time.RFC3339, startTime.(string))
+		if err != nil {
+			return err
+		}
+		request.StartTime = &oci_common.SDKTime{Time: tmp}
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "monitoring")
+
+	response, err := s.Client.SummarizeMetricsData(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	return nil
+}
+
+func (s *MonitoringMetricDataDataSourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
+
+	s.D.SetId(GenerateDataSourceID())
+	resources := []map[string]interface{}{}
+
+	for _, r := range s.Res.Items {
+		metricData := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
+			"namespace":      *r.Namespace,
+		}
+
+		aggregatedDatapoints := []interface{}{}
+		for _, item := range r.AggregatedDatapoints {
+			aggregatedDatapoints = append(aggregatedDatapoints, AggregatedDatapointToMap(item))
+		}
+		metricData["aggregated_datapoints"] = aggregatedDatapoints
+
+		metricData["dimensions"] = r.Dimensions
+
+		metricData["metadata"] = r.Metadata
+
+		if r.Name != nil {
+			metricData["name"] = *r.Name
+		}
+
+		if r.Resolution != nil {
+			metricData["resolution"] = *r.Resolution
+		}
+
+		resources = append(resources, metricData)
+	}
+
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		resources = ApplyFilters(f.(*schema.Set), resources, MonitoringMetricDataDataSource().Schema["metric_data"].Elem.(*schema.Resource).Schema)
+	}
+
+	if err := s.D.Set("metric_data", resources); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func AggregatedDatapointToMap(obj oci_monitoring.AggregatedDatapoint) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Timestamp != nil {
+		result["timestamp"] = obj.Timestamp.String()
+	}
+
+	if obj.Value != nil {
+		result["value"] = float64(*obj.Value)
+	}
+
+	return result
+}

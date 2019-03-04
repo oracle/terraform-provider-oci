@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
+	oci_autoscaling "github.com/oracle/oci-go-sdk/autoscaling"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -22,7 +23,9 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+	oci_ons "github.com/oracle/oci-go-sdk/ons"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
@@ -32,10 +35,16 @@ type ConfigureClient func(client *oci_common.BaseClient) error
 
 var configureClient ConfigureClient
 
+var avoidWaitingForDeleteTarget bool
+
 func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_common.ConfigurationProvider, httpClient *http.Client, userAgent string) (err error) {
 	// Official Go SDK clients:
 
 	auditClient, err := oci_audit.NewAuditClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	autoScalingClient, err := oci_autoscaling.NewAutoScalingClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -95,6 +104,18 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	monitoringClient, err := oci_monitoring.NewMonitoringClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	notificationControlPlaneClient, err := oci_ons.NewNotificationControlPlaneClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	notificationDataPlaneClient, err := oci_ons.NewNotificationDataPlaneClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
 	objectStorageClient, err := oci_object_storage.NewObjectStorageClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
@@ -114,6 +135,8 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	}
 
 	simulateDb, _ := strconv.ParseBool(getEnvSettingWithDefault("simulate_db", "false"))
+
+	avoidWaitingForDeleteTarget, _ = strconv.ParseBool(getEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
 
 	requestSigner := oci_common.DefaultRequestSigner(officialSdkConfigProvider)
 	var oboTokenProvider OboTokenProvider
@@ -191,6 +214,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&autoScalingClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&blockstorageClient.BaseClient)
 	if err != nil {
 		return
@@ -247,6 +274,18 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&monitoringClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&notificationControlPlaneClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&notificationDataPlaneClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&objectStorageClient.BaseClient)
 	if err != nil {
 		return
@@ -261,6 +300,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	}
 
 	clients.auditClient = &auditClient
+	clients.autoScalingClient = &autoScalingClient
 	clients.blockstorageClient = &blockstorageClient
 	clients.computeClient = &computeClient
 	clients.computeManagementClient = &computeManagementClient
@@ -275,6 +315,9 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.kmsManagementClient = &kmsManagementClient
 	clients.kmsVaultClient = &kmsVaultClient
 	clients.loadBalancerClient = &loadBalancerClient
+	clients.monitoringClient = &monitoringClient
+	clients.notificationControlPlaneClient = &notificationControlPlaneClient
+	clients.notificationDataPlaneClient = &notificationDataPlaneClient
 	clients.objectStorageClient = &objectStorageClient
 	clients.streamAdminClient = &streamAdminClient
 	clients.virtualNetworkClient = &virtualNetworkClient
@@ -283,25 +326,29 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 }
 
 type OracleClients struct {
-	auditClient             *oci_audit.AuditClient
-	blockstorageClient      *oci_core.BlockstorageClient
-	computeClient           *oci_core.ComputeClient
-	computeManagementClient *oci_core.ComputeManagementClient
-	containerEngineClient   *oci_containerengine.ContainerEngineClient
-	databaseClient          *oci_database.DatabaseClient
-	dnsClient               *oci_dns.DnsClient
-	emailClient             *oci_email.EmailClient
-	fileStorageClient       *oci_file_storage.FileStorageClient
-	healthChecksClient      *oci_health_checks.HealthChecksClient
-	identityClient          *oci_identity.IdentityClient
-	kmsCryptoClient         *oci_kms.KmsCryptoClient
-	kmsManagementClient     *oci_kms.KmsManagementClient
-	kmsVaultClient          *oci_kms.KmsVaultClient
-	loadBalancerClient      *oci_load_balancer.LoadBalancerClient
-	objectStorageClient     *oci_object_storage.ObjectStorageClient
-	streamAdminClient       *oci_streaming.StreamAdminClient
-	virtualNetworkClient    *oci_core.VirtualNetworkClient
-	configuration           map[string]string
+	auditClient                    *oci_audit.AuditClient
+	autoScalingClient              *oci_autoscaling.AutoScalingClient
+	blockstorageClient             *oci_core.BlockstorageClient
+	computeClient                  *oci_core.ComputeClient
+	computeManagementClient        *oci_core.ComputeManagementClient
+	containerEngineClient          *oci_containerengine.ContainerEngineClient
+	databaseClient                 *oci_database.DatabaseClient
+	dnsClient                      *oci_dns.DnsClient
+	emailClient                    *oci_email.EmailClient
+	fileStorageClient              *oci_file_storage.FileStorageClient
+	healthChecksClient             *oci_health_checks.HealthChecksClient
+	identityClient                 *oci_identity.IdentityClient
+	kmsCryptoClient                *oci_kms.KmsCryptoClient
+	kmsManagementClient            *oci_kms.KmsManagementClient
+	kmsVaultClient                 *oci_kms.KmsVaultClient
+	loadBalancerClient             *oci_load_balancer.LoadBalancerClient
+	monitoringClient               *oci_monitoring.MonitoringClient
+	notificationControlPlaneClient *oci_ons.NotificationControlPlaneClient
+	notificationDataPlaneClient    *oci_ons.NotificationDataPlaneClient
+	objectStorageClient            *oci_object_storage.ObjectStorageClient
+	streamAdminClient              *oci_streaming.StreamAdminClient
+	virtualNetworkClient           *oci_core.VirtualNetworkClient
+	configuration                  map[string]string
 }
 
 func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClient, error) {

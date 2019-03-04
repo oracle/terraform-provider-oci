@@ -10,10 +10,6 @@ variable "region" {}
 variable "source_region" {}
 variable "source_volume_backup_id" {}
 
-variable "availability_domain" {
-  default = "3"
-}
-
 variable "volume_backup_defined_tags_value" {
   default = "value"
 }
@@ -51,7 +47,7 @@ provider "oci" {
 }
 
 resource "oci_core_volume" "test_volume" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "-tf-volume"
 }
@@ -77,8 +73,9 @@ resource "oci_core_volume_backup" "test_volume_backup_cross_region_sourced" {
   display_name = "${var.volume_backup_copy_display_name}"
 }
 
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
 
 data "oci_core_volume_backups" "test_volume_backup" {

@@ -208,6 +208,8 @@ func testAccCheckCoreNatGatewayDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.NatGatewayId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetNatGateway(context.Background(), request)
 
 			if err == nil {

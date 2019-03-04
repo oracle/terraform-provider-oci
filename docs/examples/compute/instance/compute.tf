@@ -2,7 +2,7 @@
 
 resource "oci_core_instance" "TFInstance" {
   count               = "${var.NumInstances}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TFInstance${count.index}"
   shape               = "${var.instance_shape}"

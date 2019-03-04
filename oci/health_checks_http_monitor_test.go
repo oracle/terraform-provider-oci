@@ -222,6 +222,8 @@ func testAccCheckHealthChecksHttpMonitorDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.MonitorId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "health_checks")
+
 			_, err := client.GetHttpMonitor(context.Background(), request)
 
 			if err == nil {

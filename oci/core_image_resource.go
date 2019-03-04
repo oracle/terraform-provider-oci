@@ -119,6 +119,25 @@ func CoreImageResource() *schema.Resource {
 			},
 
 			// Computed
+			"agent_features": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"is_monitoring_supported": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"base_image_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -379,6 +398,12 @@ func (s *CoreImageResourceCrud) Delete() error {
 }
 
 func (s *CoreImageResourceCrud) SetData() error {
+	if s.Res.AgentFeatures != nil {
+		s.D.Set("agent_features", []interface{}{InstanceAgentFeaturesToMap(s.Res.AgentFeatures)})
+	} else {
+		s.D.Set("agent_features", nil)
+	}
+
 	if s.Res.BaseImageId != nil {
 		s.D.Set("base_image_id", *s.Res.BaseImageId)
 	}
@@ -473,4 +498,14 @@ func (s *CoreImageResourceCrud) mapToImageSourceDetails(fieldKeyFormat string) (
 		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
 	}
 	return baseObject, nil
+}
+
+func InstanceAgentFeaturesToMap(obj *oci_core.InstanceAgentFeatures) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsMonitoringSupported != nil {
+		result["is_monitoring_supported"] = bool(*obj.IsMonitoringSupported)
+	}
+
+	return result
 }

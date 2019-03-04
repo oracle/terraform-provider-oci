@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_database_db_homes
 This data source provides the list of Db Homes in Oracle Cloud Infrastructure Database service.
 
-Gets a list of database homes in the specified DB system and compartment. A database home is a directory where Oracle database software is installed.
+Gets a list of database homes in the specified DB system and compartment. A database home is a directory where Oracle Database software is installed.
 
 
 ## Example Usage

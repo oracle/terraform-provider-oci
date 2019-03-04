@@ -171,6 +171,8 @@ func testAccCheckCoreVcnDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VcnId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetVcn(context.Background(), request)
 
 			if err == nil {

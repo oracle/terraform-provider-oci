@@ -187,6 +187,8 @@ func testAccCheckCoreImageDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ImageId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetImage(context.Background(), request)
 
 			if err == nil {

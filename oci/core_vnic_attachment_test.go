@@ -157,6 +157,8 @@ func testAccCheckCoreVnicAttachmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VnicAttachmentId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetVnicAttachment(context.Background(), request)
 
 			if err == nil {

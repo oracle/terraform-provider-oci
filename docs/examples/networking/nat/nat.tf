@@ -8,11 +8,6 @@ variable "compartment_ocid" {}
 variable "region" {}
 variable "ssh_public_key" {}
 
-# Choose an Availability Domain
-variable "availability_domain" {
-  default = "3"
-}
-
 variable "instance_shape" {
   default = "VM.Standard2.1"
 }
@@ -51,8 +46,9 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
 
 resource "oci_core_virtual_network" "CoreVCN" {
@@ -133,7 +129,7 @@ resource "oci_core_security_list" "MgmtSecurityList" {
 }
 
 resource "oci_core_subnet" "MgmtSubnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "${var.mgmt_subnet_cidr}"
   display_name        = "MgmtSubnet"
   compartment_id      = "${var.compartment_ocid}"
@@ -144,7 +140,7 @@ resource "oci_core_subnet" "MgmtSubnet" {
 }
 
 resource "oci_core_instance" "NatInstance" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "NatInstance"
   shape               = "${var.instance_shape}"
@@ -172,7 +168,7 @@ resource "oci_core_instance" "NatInstance" {
 # Gets a list of VNIC attachments on the instance
 data "oci_core_vnic_attachments" "NatInstanceVnics" {
   compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   instance_id         = "${oci_core_instance.NatInstance.id}"
 }
 
@@ -217,7 +213,6 @@ resource "oci_core_route_table" "PrivateRouteTable" {
 }
 
 resource "oci_core_subnet" "PrivateSubnet" {
-  availability_domain        = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
   cidr_block                 = "${var.private_subnet_cidr}"
   display_name               = "PrivateSubnet"
   compartment_id             = "${var.compartment_ocid}"
@@ -229,7 +224,7 @@ resource "oci_core_subnet" "PrivateSubnet" {
 }
 
 resource "oci_core_instance" "PrivateInstance" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "PrivateInstance"
   shape               = "${var.instance_shape}"

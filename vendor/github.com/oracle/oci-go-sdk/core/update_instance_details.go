@@ -31,6 +31,9 @@ type UpdateInstanceDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Instance agent configuration options to choose for updating the instance
+	AgentConfig *UpdateInstanceAgentConfigDetails `mandatory:"false" json:"agentConfig"`
+
 	// Custom metadata key/value string pairs that you provide. Any set of key/value pairs
 	// provided here will completely replace the current set of key/value pairs in the 'metadata'
 	// field on the instance.
