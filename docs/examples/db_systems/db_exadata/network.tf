@@ -8,7 +8,7 @@ resource "oci_core_virtual_network" "vcn" {
 }
 
 resource "oci_core_subnet" "subnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "10.1.20.0/24"
   display_name        = "TFExampleSubnetDBSystem"
   dns_label           = "tfexsubdbsys"
@@ -20,7 +20,7 @@ resource "oci_core_subnet" "subnet" {
 }
 
 resource "oci_core_subnet" "subnet_backup" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "10.1.1.0/24"
   display_name        = "TFExampleSubnetDBSystemBackup"
   dns_label           = "tfexsubdbsysbp"

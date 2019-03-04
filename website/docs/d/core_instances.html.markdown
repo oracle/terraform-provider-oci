@@ -48,7 +48,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `availability_domain` - The availability domain the instance is running in.  Example: `Uocm:PHX-AD-1`
+* `agent_config` - 
+	* `is_monitoring_disabled` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
+* `availability_domain` - The availability domain the instance is running in.  Example: `Uocm:PHX-AD-1` 
 * `boot_volume_id` - The OCID of the attached boot volume. If the `source_type` is `bootVolume`, this will be the same OCID as the `source_id`.
 * `compartment_id` - The OCID of the compartment that contains the instance.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -105,7 +107,11 @@ The following attributes are exported:
 		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. 
 * `metadata` - Custom metadata that you provide.
-* `region` - The region that contains the availability domain the instance is running in.  Example: `phx` 
+* `region` - The region that contains the availability domain the instance is running in.
+
+	For the us-phoenix-1 and us-ashburn-1 regions, `phx` and `iad` are returned, respectively. For all other regions, the full region name is returned.
+
+	Examples: `phx`, `eu-frankfurt-1` 
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `source_details` - Details for creating an instance
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB). This should only be specified when `source_type` is `image`.

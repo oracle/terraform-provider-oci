@@ -7,7 +7,7 @@
  * - private subnet that routes all traffic to the NAT
  * - a test instance in the private subnet
  *
- * After applying, you should be to to ssh into the private instance
+ * After applying, you should be able to ssh into the private instance
  * via the bastion and verify internet access via the NAT.
  */
 
@@ -21,11 +21,6 @@ variable "region" {}
 variable "compartment_id" {}
 
 variable "ssh_public_key_path" {}
-
-// zero-based ad number
-variable "ad_number" {
-  default = 1
-}
 
 variable "vcn_cidr" {
   default = "10.0.0.0/16"
@@ -57,7 +52,7 @@ locals {
   bastion_subnet_prefix = "${cidrsubnet(var.vcn_cidr, var.subnet_cidr_offset, 0)}"
   private_subnet_prefix = "${cidrsubnet(var.vcn_cidr, var.subnet_cidr_offset, 1)}"
 
-  ad = "${lookup(data.oci_identity_availability_domains.ads.availability_domains[var.ad_number],"name")}"
+  ad = "${data.oci_identity_availability_domain.ad.name}"
 
   tcp_protocol  = "6"
   all_protocols = "all"
@@ -72,8 +67,9 @@ provider "oci" {
   private_key_path = "${var.private_key_path}"
 }
 
-data "oci_identity_availability_domains" "ads" {
+data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
 
 resource "oci_core_virtual_network" "this" {

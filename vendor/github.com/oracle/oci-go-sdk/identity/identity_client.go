@@ -58,6 +58,53 @@ func (client *IdentityClient) ConfigurationProvider() *common.ConfigurationProvi
 	return client.config
 }
 
+// ActivateMfaTotpDevice Activate the specified MFA TOTP device for the user.
+func (client IdentityClient) ActivateMfaTotpDevice(ctx context.Context, request ActivateMfaTotpDeviceRequest) (response ActivateMfaTotpDeviceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.activateMfaTotpDevice, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ActivateMfaTotpDeviceResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ActivateMfaTotpDeviceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ActivateMfaTotpDeviceResponse")
+	}
+	return
+}
+
+// activateMfaTotpDevice implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) activateMfaTotpDevice(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/mfaTotpDevices/{mfaTotpDeviceId}/actions/activate")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ActivateMfaTotpDeviceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddUserToGroup Adds the specified user to the specified group and returns a `UserGroupMembership` object with its own OCID.
 // After you send your request, the new object's `lifecycleState` will temporarily be CREATING. Before using the
 // object, first make sure its `lifecycleState` has changed to ACTIVE.
@@ -95,6 +142,56 @@ func (client IdentityClient) addUserToGroup(ctx context.Context, request common.
 	}
 
 	var response AddUserToGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeTagNamespaceCompartment Moves the specified tag namespace to the specified compartment within the same tenancy.
+// To move the tag namespace, you must have the manage tag-namespaces permission on both compartments.
+// For more information about IAM policies, see Details for IAM (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Reference/iampolicyreference.htm).
+// Moving a tag namespace moves all the tag key definitions contained in the tag namespace.
+func (client IdentityClient) ChangeTagNamespaceCompartment(ctx context.Context, request ChangeTagNamespaceCompartmentRequest) (response ChangeTagNamespaceCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeTagNamespaceCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeTagNamespaceCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeTagNamespaceCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeTagNamespaceCompartmentResponse")
+	}
+	return
+}
+
+// changeTagNamespaceCompartment implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) changeTagNamespaceCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tagNamespaces/{tagNamespaceId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeTagNamespaceCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -494,6 +591,53 @@ func (client IdentityClient) createIdpGroupMapping(ctx context.Context, request 
 	}
 
 	var response CreateIdpGroupMappingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateMfaTotpDevice Create a new MFA TOTP device for the user. A user can only create one MFA TOTP device.
+func (client IdentityClient) CreateMfaTotpDevice(ctx context.Context, request CreateMfaTotpDeviceRequest) (response CreateMfaTotpDeviceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createMfaTotpDevice, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateMfaTotpDeviceResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateMfaTotpDeviceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateMfaTotpDeviceResponse")
+	}
+	return
+}
+
+// createMfaTotpDevice implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) createMfaTotpDevice(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/mfaTotpDevices")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateMfaTotpDeviceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1301,6 +1445,48 @@ func (client IdentityClient) deleteIdpGroupMapping(ctx context.Context, request 
 	return response, err
 }
 
+// DeleteMfaTotpDevice Delete the specified MFA TOTP device for the specified user.
+func (client IdentityClient) DeleteMfaTotpDevice(ctx context.Context, request DeleteMfaTotpDeviceRequest) (response DeleteMfaTotpDeviceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteMfaTotpDevice, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteMfaTotpDeviceResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteMfaTotpDeviceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteMfaTotpDeviceResponse")
+	}
+	return
+}
+
+// deleteMfaTotpDevice implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) deleteMfaTotpDevice(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/users/{userId}/mfaTotpDevices/{mfaTotpDeviceId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteMfaTotpDeviceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeletePolicy Deletes the specified policy. The deletion takes effect typically within 10 seconds.
 func (client IdentityClient) DeletePolicy(ctx context.Context, request DeletePolicyRequest) (response DeletePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1458,6 +1644,48 @@ func (client IdentityClient) deleteUser(ctx context.Context, request common.OCIR
 	}
 
 	var response DeleteUserResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GenerateTotpSeed Generate seed for the MFA TOTP device
+func (client IdentityClient) GenerateTotpSeed(ctx context.Context, request GenerateTotpSeedRequest) (response GenerateTotpSeedResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.generateTotpSeed, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GenerateTotpSeedResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateTotpSeedResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateTotpSeedResponse")
+	}
+	return
+}
+
+// generateTotpSeed implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) generateTotpSeed(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/users/{userId}/mfaTotpDevices/{mfaTotpDeviceId}/actions/generateSeed")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateTotpSeedResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1677,6 +1905,48 @@ func (client IdentityClient) getIdpGroupMapping(ctx context.Context, request com
 	}
 
 	var response GetIdpGroupMappingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMfaTotpDevice Get the specified MFA TOTP device for the specified user.
+func (client IdentityClient) GetMfaTotpDevice(ctx context.Context, request GetMfaTotpDeviceRequest) (response GetMfaTotpDeviceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMfaTotpDevice, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetMfaTotpDeviceResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMfaTotpDeviceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMfaTotpDeviceResponse")
+	}
+	return
+}
+
+// getMfaTotpDevice implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) getMfaTotpDevice(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/mfaTotpDevices/{mfaTotpDeviceId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMfaTotpDeviceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2523,6 +2793,49 @@ func (client IdentityClient) listIdpGroupMappings(ctx context.Context, request c
 	}
 
 	var response ListIdpGroupMappingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMfaTotpDevices Lists the MFA TOTP devices for the specified user. The returned object contains the device's OCID, but not
+// the seed. The seed is returned only upon creation or when we regenerate MFA seed for the device.
+func (client IdentityClient) ListMfaTotpDevices(ctx context.Context, request ListMfaTotpDevicesRequest) (response ListMfaTotpDevicesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMfaTotpDevices, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListMfaTotpDevicesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMfaTotpDevicesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMfaTotpDevicesResponse")
+	}
+	return
+}
+
+// listMfaTotpDevices implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listMfaTotpDevices(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/mfaTotpDevices")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMfaTotpDevicesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

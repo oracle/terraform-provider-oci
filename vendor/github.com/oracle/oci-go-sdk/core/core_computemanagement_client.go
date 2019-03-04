@@ -37,7 +37,7 @@ func NewComputeManagementClientWithConfigurationProvider(configProvider common.C
 
 // SetRegion overrides the region of this client.
 func (client *ComputeManagementClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).Endpoint("iaas")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("iaas", "https://iaas.{region}.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -56,6 +56,53 @@ func (client *ComputeManagementClient) setConfigurationProvider(configProvider c
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *ComputeManagementClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// AttachLoadBalancer Attach load balancer to the instance pool.
+func (client ComputeManagementClient) AttachLoadBalancer(ctx context.Context, request AttachLoadBalancerRequest) (response AttachLoadBalancerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.attachLoadBalancer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = AttachLoadBalancerResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AttachLoadBalancerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AttachLoadBalancerResponse")
+	}
+	return
+}
+
+// attachLoadBalancer implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) attachLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/attachLoadBalancer")
+	if err != nil {
+		return nil, err
+	}
+
+	var response AttachLoadBalancerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // CreateInstanceConfiguration Creates an instance configuration
@@ -182,6 +229,53 @@ func (client ComputeManagementClient) deleteInstanceConfiguration(ctx context.Co
 	}
 
 	var response DeleteInstanceConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DetachLoadBalancer Detach a load balancer from the instance pool.
+func (client ComputeManagementClient) DetachLoadBalancer(ctx context.Context, request DetachLoadBalancerRequest) (response DetachLoadBalancerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.detachLoadBalancer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DetachLoadBalancerResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachLoadBalancerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachLoadBalancerResponse")
+	}
+	return
+}
+
+// detachLoadBalancer implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) detachLoadBalancer(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/detachLoadBalancer")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachLoadBalancerResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

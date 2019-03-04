@@ -200,6 +200,8 @@ func testAccCheckCoreCrossConnectDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.CrossConnectId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetCrossConnect(context.Background(), request)
 
 			if err == nil {

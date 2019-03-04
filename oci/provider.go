@@ -193,6 +193,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"oci_audit_configuration":                        AuditConfigurationDataSource(),
 		"oci_audit_events":                               AuditAuditEventsDataSource(),
+		"oci_autoscaling_auto_scaling_configuration":     AutoscalingAutoScalingConfigurationDataSource(),
+		"oci_autoscaling_auto_scaling_configurations":    AutoscalingAutoScalingConfigurationsDataSource(),
 		"oci_containerengine_clusters":                   ContainerengineClustersDataSource(),
 		"oci_containerengine_cluster_option":             ContainerengineClusterOptionDataSource(),
 		"oci_containerengine_node_pool":                  ContainerengineNodePoolDataSource(),
@@ -325,6 +327,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_health_checks_vantage_points":               HealthChecksVantagePointsDataSource(),
 		"oci_identity_api_keys":                          IdentityApiKeysDataSource(),
 		"oci_identity_auth_tokens":                       IdentityAuthTokensDataSource(),
+		"oci_identity_availability_domain":               IdentityAvailabilityDomainDataSource(),
 		"oci_identity_availability_domains":              IdentityAvailabilityDomainsDataSource(),
 		"oci_identity_compartment":                       IdentityCompartmentDataSource(),
 		"oci_identity_compartments":                      IdentityCompartmentsDataSource(),
@@ -369,6 +372,12 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_load_balancer_path_route_sets":              LoadBalancerPathRouteSetsDataSource(),
 		"oci_load_balancer_rule_sets":                    LoadBalancerRuleSetsDataSource(),
 		"oci_load_balancer_rule_set":                     LoadBalancerRuleSetDataSource(),
+		"oci_monitoring_alarm":                           MonitoringAlarmDataSource(),
+		"oci_monitoring_alarms":                          MonitoringAlarmsDataSource(),
+		"oci_monitoring_alarm_statuses":                  MonitoringAlarmStatusesDataSource(),
+		"oci_monitoring_alarm_history_collection":        MonitoringAlarmHistoryCollectionDataSource(),
+		"oci_monitoring_metrics":                         MonitoringMetricsDataSource(),
+		"oci_monitoring_metric_data":                     MonitoringMetricDataDataSource(),
 		"oci_objectstorage_bucket":                       ObjectStorageBucketDataSource(),
 		"oci_objectstorage_bucket_summaries":             ObjectStorageBucketsDataSource(),
 		"oci_objectstorage_object_lifecycle_policy":      ObjectStorageObjectLifecyclePolicyDataSource(),
@@ -379,6 +388,10 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_objectstorage_objects":                      ObjectStorageObjectsDataSource(),
 		"oci_objectstorage_preauthrequest":               ObjectStoragePreauthenticatedRequestDataSource(),
 		"oci_objectstorage_preauthrequests":              ObjectStoragePreauthenticatedRequestsDataSource(),
+		"oci_ons_notification_topic":                     OnsNotificationTopicDataSource(),
+		"oci_ons_notification_topics":                    OnsNotificationTopicsDataSource(),
+		"oci_ons_subscription":                           OnsSubscriptionDataSource(),
+		"oci_ons_subscriptions":                          OnsSubscriptionsDataSource(),
 		"oci_streaming_stream":                           StreamingStreamDataSource(),
 		"oci_streaming_streams":                          StreamingStreamsDataSource(),
 	}
@@ -386,6 +399,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
+		"oci_autoscaling_auto_scaling_configuration":              AutoscalingAutoScalingConfigurationResource(),
 		"oci_core_app_catalog_listing_resource_version_agreement": AppCatalogListingResourceVersionAgreementResource(),
 		"oci_core_listing_resource_version_agreement":             AppCatalogListingResourceVersionAgreementResource(),
 		"oci_core_app_catalog_subscription":                       CoreAppCatalogSubscriptionResource(),
@@ -486,11 +500,14 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_load_balancer_hostname":                LoadBalancerHostnameResource(),
 		"oci_load_balancer_path_route_set":          LoadBalancerPathRouteSetResource(),
 		"oci_load_balancer_rule_set":                LoadBalancerRuleSetResource(),
+		"oci_monitoring_alarm":                      MonitoringAlarmResource(),
 		"oci_objectstorage_bucket":                  ObjectStorageBucketResource(),
 		"oci_objectstorage_object_lifecycle_policy": ObjectStorageObjectLifecyclePolicyResource(),
 		"oci_objectstorage_object":                  ObjectStorageObjectResource(),
 		"oci_objectstorage_namespace_metadata":      ObjectStorageNamespaceMetadataResource(),
 		"oci_objectstorage_preauthrequest":          ObjectStoragePreauthenticatedRequestResource(),
+		"oci_ons_notification_topic":                OnsNotificationTopicResource(),
+		"oci_ons_subscription":                      OnsSubscriptionResource(),
 		"oci_streaming_stream":                      StreamingStreamResource(),
 	}
 }

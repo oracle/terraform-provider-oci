@@ -210,6 +210,8 @@ func testAccCheckContainerengineClusterDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.ClusterId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "containerengine")
+
 			response, err := client.GetCluster(context.Background(), request)
 
 			if err == nil {

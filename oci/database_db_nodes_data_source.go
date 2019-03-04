@@ -130,6 +130,10 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 			dbNode["backup_vnic_id"] = *r.BackupVnicId
 		}
 
+		if r.FaultDomain != nil {
+			dbNode["fault_domain"] = *r.FaultDomain
+		}
+
 		if r.Hostname != nil {
 			dbNode["hostname"] = *r.Hostname
 		}

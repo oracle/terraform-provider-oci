@@ -49,6 +49,11 @@ The following attributes are exported:
 * `fault_domain` - The name of the Fault Domain the instance is running in.
 * `id` - The OCID of the instance
 * `instance_configuration_id` - The OCID of the instance confgiuration used to create the instance.
+* `load_balancer_backends` - The load balancer backends configured for the instance pool instance. 
+	* `backend_health_status` - The health of the backend as observed by the load balancer.
+	* `backend_name` - The name of the backend in the backend set.
+	* `backend_set_name` - The name of the backend set on the load balancer.
+	* `load_balancer_id` - The OCID of the load balancer attached to the pool.
 * `region` - The region that contains the availability domain the instance is running in.
 * `shape` - The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 

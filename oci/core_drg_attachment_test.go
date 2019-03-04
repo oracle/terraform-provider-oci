@@ -164,6 +164,8 @@ func testAccCheckCoreDrgAttachmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.DrgAttachmentId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetDrgAttachment(context.Background(), request)
 
 			if err == nil {

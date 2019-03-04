@@ -371,6 +371,8 @@ func testAccCheckCorePublicIpDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.PublicIpId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetPublicIp(context.Background(), request)
 
 			if err == nil {

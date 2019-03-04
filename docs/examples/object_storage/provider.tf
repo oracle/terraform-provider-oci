@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 /*
- * This example file shows how to configure the oci provider to target the a single region.
+ * This example file shows how to configure the oci provider to target a single region.
  */
 
 // These variables would commonly be defined as environment variables or sourced in a .env file

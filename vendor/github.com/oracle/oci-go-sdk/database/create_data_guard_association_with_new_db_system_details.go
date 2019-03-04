@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateDataGuardAssociationWithNewDbSystemDetails The configuration details for creating a Data Guard association to an existing database. A new DbSystem will be launched for standby database.
+// CreateDataGuardAssociationWithNewDbSystemDetails The configuration details for creating a Data Guard association for a bare metal DB system or virtual machine DB system database. A new DB system will be launched to create the standby database.
+// **NOTE** - You must use this subtype to create a Data Guard association for a database in a virtual machine DB system.
 type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 
 	// A strong password for the `SYS`, `SYSTEM`, and `PDB Admin` users to apply during standby creation.

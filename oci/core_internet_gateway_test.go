@@ -171,6 +171,8 @@ func testAccCheckCoreInternetGatewayDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.IgId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetInternetGateway(context.Background(), request)
 
 			if err == nil {

@@ -109,15 +109,16 @@ resource "oci_core_security_list" "acceptor_security_list" {
   }
 }
 
-data "oci_identity_availability_domains" "acceptor_ads" {
+data "oci_identity_availability_domain" "acceptor_ad" {
   provider       = "oci.acceptor"
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
 
 resource "oci_core_subnet" "acceptor_subnet" {
   depends_on          = ["oci_identity_policy.acceptor_policy", "oci_identity_user_group_membership.acceptor_user_group_membership"]
   provider            = "oci.acceptor"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.acceptor_ads.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.acceptor_ad.name}"
   cidr_block          = "${cidrsubnet("${var.acceptor_cidr}", 4, 0)}"
   display_name        = "AcceptorSubnet"
   dns_label           = "acceptorsubnet"
@@ -131,7 +132,7 @@ resource "oci_core_subnet" "acceptor_subnet" {
 resource "oci_core_instance" "acceptor_instance" {
   depends_on          = ["oci_identity_policy.acceptor_policy", "oci_identity_user_group_membership.acceptor_user_group_membership"]
   provider            = "oci.acceptor"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.acceptor_ads.availability_domains[var.availability_domain - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.acceptor_ad.name}"
   compartment_id      = "${var.compartment_ocid_acceptor}"
   display_name        = "acceptorInstance"
   shape               = "${var.instance_shape}"

@@ -126,6 +126,12 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.AgentConfig != nil {
+			instance["agent_config"] = []interface{}{InstanceAgentConfigToMap(r.AgentConfig)}
+		} else {
+			instance["agent_config"] = nil
+		}
+
 		if r.AvailabilityDomain != nil {
 			instance["availability_domain"] = *r.AvailabilityDomain
 		}

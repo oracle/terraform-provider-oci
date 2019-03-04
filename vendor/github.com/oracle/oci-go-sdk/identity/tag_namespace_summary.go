@@ -41,7 +41,7 @@ type TagNamespaceSummary struct {
 	// For more information, see Retiring Key Definitions and Namespace Definitions (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring).
 	IsRetired *bool `mandatory:"false" json:"isRetired"`
 
-	// Date and time the tagNamespace was created, in the format defined by RFC3339.
+	// Date and time the tag namespace was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }

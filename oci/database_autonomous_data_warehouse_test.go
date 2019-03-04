@@ -36,7 +36,7 @@ var (
 		"values": Representation{repType: Required, create: []string{`${oci_database_autonomous_data_warehouse.test_autonomous_data_warehouse.id}`}},
 	}
 
-	adwName = randomString(14, charset)
+	adwName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 
 	autonomousDataWarehouseRepresentation = map[string]interface{}{
 		"admin_password":           Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
@@ -224,6 +224,8 @@ func testAccCheckDatabaseAutonomousDataWarehouseDestroy(s *terraform.State) erro
 
 			tmp := rs.Primary.ID
 			request.AutonomousDataWarehouseId = &tmp
+
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
 
 			response, err := client.GetAutonomousDataWarehouse(context.Background(), request)
 

@@ -163,6 +163,8 @@ func testAccCheckCoreRemotePeeringConnectionDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.RemotePeeringConnectionId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetRemotePeeringConnection(context.Background(), request)
 
 			if err == nil {

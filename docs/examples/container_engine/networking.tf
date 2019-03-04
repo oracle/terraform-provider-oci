@@ -26,7 +26,7 @@ resource "oci_core_route_table" "test_route_table" {
 
 resource "oci_core_subnet" "clusterSubnet_1" {
   #Required
-  availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[var.availability_domain - 2],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad1.name}"
   cidr_block          = "10.0.20.0/24"
   compartment_id      = "${var.compartment_ocid}"
   vcn_id              = "${oci_core_virtual_network.test_vcn.id}"
@@ -39,7 +39,7 @@ resource "oci_core_subnet" "clusterSubnet_1" {
 
 resource "oci_core_subnet" "clusterSubnet_2" {
   #Required
-  availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[var.availability_domain -1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad2.name}"
   cidr_block          = "10.0.21.0/24"
   compartment_id      = "${var.compartment_ocid}"
   vcn_id              = "${oci_core_virtual_network.test_vcn.id}"
@@ -52,7 +52,7 @@ resource "oci_core_subnet" "clusterSubnet_2" {
 
 resource "oci_core_subnet" "nodePool_Subnet_1" {
   #Required
-  availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[var.availability_domain -2],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad1.name}"
   cidr_block          = "10.0.22.0/24"
   compartment_id      = "${var.compartment_ocid}"
   vcn_id              = "${oci_core_virtual_network.test_vcn.id}"
@@ -65,7 +65,7 @@ resource "oci_core_subnet" "nodePool_Subnet_1" {
 
 resource "oci_core_subnet" "nodePool_Subnet_2" {
   #Required
-  availability_domain = "${lookup(data.oci_identity_availability_domains.test_availability_domains.availability_domains[var.availability_domain -1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad2.name}"
   cidr_block          = "10.0.23.0/24"
   compartment_id      = "${var.compartment_ocid}"
   vcn_id              = "${oci_core_virtual_network.test_vcn.id}"

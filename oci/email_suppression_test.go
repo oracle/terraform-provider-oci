@@ -132,6 +132,8 @@ func testAccCheckEmailSuppressionDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SuppressionId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
+
 			_, err := client.GetSuppression(context.Background(), request)
 
 			if err == nil {

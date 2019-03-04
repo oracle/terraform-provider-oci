@@ -212,6 +212,8 @@ func testAccCheckIdentityCompartmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.CompartmentId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+
 			response, err := client.GetCompartment(context.Background(), request)
 
 			if err == nil {

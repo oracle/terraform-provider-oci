@@ -36,7 +36,7 @@ var (
 		"values": Representation{repType: Required, create: []string{`${oci_database_autonomous_database.test_autonomous_database.id}`}},
 	}
 
-	adbName = randomString(14, charset)
+	adbName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 
 	autonomousDatabaseRepresentation = map[string]interface{}{
 		"admin_password":           Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
@@ -225,6 +225,8 @@ func testAccCheckDatabaseAutonomousDatabaseDestroy(s *terraform.State) error {
 
 			tmp := rs.Primary.ID
 			request.AutonomousDatabaseId = &tmp
+
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
 
 			response, err := client.GetAutonomousDatabase(context.Background(), request)
 

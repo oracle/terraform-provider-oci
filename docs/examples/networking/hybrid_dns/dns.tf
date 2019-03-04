@@ -9,15 +9,6 @@ variable "region" {}
 variable "ssh_public_key" {}
 variable "ssh_private_key" {}
 
-# Choose an Availability Domain
-variable "availability_domain_1" {
-  default = "2"
-}
-
-variable "availability_domain_2" {
-  default = "3"
-}
-
 variable "instance_shape" {
   default = "VM.Standard2.1"
 }
@@ -72,8 +63,14 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad1" {
   compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
+}
+
+data "oci_identity_availability_domain" "ad2" {
+  compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 2
 }
 
 resource "oci_core_virtual_network" "CoreVCN" {
@@ -184,7 +181,7 @@ resource "oci_core_dhcp_options" "MgmtDhcpOptions" {
 }
 
 resource "oci_core_subnet" "MgmtSubnet" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain_1 - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad1.name}"
   cidr_block          = "${var.mgmt_subnet_cidr1}"
   display_name        = "MgmtSubnet"
   dns_label           = "mgmtsubnet"
@@ -196,7 +193,7 @@ resource "oci_core_subnet" "MgmtSubnet" {
 }
 
 resource "oci_core_subnet" "MgmtSubnet2" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain_2 - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad2.name}"
   cidr_block          = "${var.mgmt_subnet_cidr2}"
   display_name        = "MgmtSubnet2"
   dns_label           = "mgmtsubnet2"
@@ -208,7 +205,7 @@ resource "oci_core_subnet" "MgmtSubnet2" {
 }
 
 resource "oci_core_instance" "DnsVM" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain_1 - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad1.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "DnsVM"
   shape               = "${var.instance_shape}"
@@ -232,7 +229,7 @@ resource "oci_core_instance" "DnsVM" {
 }
 
 resource "oci_core_instance" "DnsVM2" {
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain_2 - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad2.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "DnsVM2"
   shape               = "${var.instance_shape}"
@@ -258,13 +255,13 @@ resource "oci_core_instance" "DnsVM2" {
 # Gets a list of VNIC attachments on the DNS instance
 data "oci_core_vnic_attachments" "DnsVMVnics" {
   compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain_1 - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad1.name}"
   instance_id         = "${oci_core_instance.DnsVM.id}"
 }
 
 data "oci_core_vnic_attachments" "DnsVMVnics2" {
   compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain_2 - 1],"name")}"
+  availability_domain = "${data.oci_identity_availability_domain.ad2.name}"
   instance_id         = "${oci_core_instance.DnsVM2.id}"
 }
 

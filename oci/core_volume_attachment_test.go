@@ -147,6 +147,8 @@ func testAccCheckCoreVolumeAttachmentDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.VolumeAttachmentId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetVolumeAttachment(context.Background(), request)
 
 			if err == nil {

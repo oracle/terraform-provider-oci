@@ -21,6 +21,24 @@ func CoreInstanceDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"agent_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_monitoring_disabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"availability_domain": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -238,6 +256,12 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	if s.Res.AgentConfig != nil {
+		s.D.Set("agent_config", []interface{}{InstanceAgentConfigToMap(s.Res.AgentConfig)})
+	} else {
+		s.D.Set("agent_config", nil)
+	}
 
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)

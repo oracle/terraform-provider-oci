@@ -166,6 +166,8 @@ func testAccCheckIdentityGroupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.GroupId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
+
 			response, err := client.GetGroup(context.Background(), request)
 
 			if err == nil {

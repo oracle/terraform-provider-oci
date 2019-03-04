@@ -166,6 +166,8 @@ func testAccCheckCorePrivateIpDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.PrivateIpId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			_, err := client.GetPrivateIp(context.Background(), request)
 
 			if err == nil {

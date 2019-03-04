@@ -115,6 +115,7 @@ func testAccCheckIdentityCustomerSecretKeyDestroy(s *terraform.State) error {
 				request.UserId = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
 			response, err := client.ListCustomerSecretKeys(context.Background(), request)
 
 			if err == nil {

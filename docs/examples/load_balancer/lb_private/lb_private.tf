@@ -19,12 +19,9 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-data "oci_identity_availability_domains" "ADs" {
+data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
-}
-
-variable "availability_domain" {
-  default = 3
+  ad_number      = 1
 }
 
 /* Network */
@@ -37,7 +34,7 @@ resource "oci_core_virtual_network" "vcn1" {
 }
 
 resource "oci_core_subnet" "subnet1" {
-  availability_domain        = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain -1],"name")}"
+  availability_domain        = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block                 = "10.1.20.0/24"
   display_name               = "subnet1"
   dns_label                  = "subnet1"

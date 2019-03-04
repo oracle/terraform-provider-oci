@@ -171,6 +171,8 @@ func testAccCheckFileStorageFileSystemDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.FileSystemId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "file_storage")
+
 			response, err := client.GetFileSystem(context.Background(), request)
 
 			if err == nil {

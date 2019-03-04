@@ -26,11 +26,6 @@ variable "NumParavirtualizedVolumesPerInstance" {
   default = "2"
 }
 
-# Choose an Availability Domain
-variable "availability_domain" {
-  default = "3"
-}
-
 variable "instance_shape" {
   default = "VM.Standard2.1"
 }

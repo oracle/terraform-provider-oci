@@ -462,6 +462,8 @@ func testAccCheckDnsSteeringPolicyDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SteeringPolicyId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+
 			response, err := client.GetSteeringPolicy(context.Background(), request)
 
 			if err == nil {

@@ -50,6 +50,9 @@ type User struct {
 	// ACTIVE before using it.
 	LifecycleState UserLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// Flag indicates if MFA has been activated for the user.
+	IsMfaActivated *bool `mandatory:"true" json:"isMfaActivated"`
+
 	// The OCID of the `IdentityProvider` this user belongs to.
 	IdentityProviderId *string `mandatory:"false" json:"identityProviderId"`
 

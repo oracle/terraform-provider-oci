@@ -128,6 +128,8 @@ func testAccCheckLoadBalancerHostnameDestroy(s *terraform.State) error {
 				request.Name = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+
 			_, err := client.GetHostname(context.Background(), request)
 
 			if err == nil {

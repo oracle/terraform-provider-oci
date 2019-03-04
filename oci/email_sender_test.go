@@ -183,6 +183,8 @@ func testAccCheckEmailSenderDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.SenderId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
+
 			response, err := client.GetSender(context.Background(), request)
 
 			if err == nil {

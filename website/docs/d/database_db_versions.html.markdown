@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_database_db_versions
 This data source provides the list of Db Versions in Oracle Cloud Infrastructure Database service.
 
-Gets a list of supported Oracle database versions.
+Gets a list of supported Oracle Database versions.
 
 ## Example Usage
 

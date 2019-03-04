@@ -255,6 +255,8 @@ func testAccCheckLoadBalancerBackendSetDestroy(s *terraform.State) error {
 				request.LoadBalancerId = &value
 			}
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+
 			_, err := client.GetBackendSet(context.Background(), request)
 
 			if err == nil {

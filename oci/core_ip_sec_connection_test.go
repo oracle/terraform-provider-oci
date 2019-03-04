@@ -174,6 +174,8 @@ func testAccCheckCoreIpSecConnectionDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.IpscId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			response, err := client.GetIPSecConnection(context.Background(), request)
 
 			if err == nil {

@@ -96,6 +96,8 @@ func testAccCheckCoreVolumeBackupPolicyAssignmentDestroy(s *terraform.State) err
 			tmp := rs.Primary.ID
 			request.PolicyAssignmentId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+
 			_, err := client.GetVolumeBackupPolicyAssignment(context.Background(), request)
 
 			if err == nil {

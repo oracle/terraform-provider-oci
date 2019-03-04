@@ -100,6 +100,8 @@ func testAccCheckDatabaseBackupDestroy(s *terraform.State) error {
 			tmp := rs.Primary.ID
 			request.BackupId = &tmp
 
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+
 			response, err := client.GetBackup(context.Background(), request)
 
 			if err == nil {

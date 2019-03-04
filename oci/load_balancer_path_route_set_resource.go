@@ -399,8 +399,7 @@ func (s *LoadBalancerPathRouteSetResourceCrud) mapToPathMatchType(fieldKeyFormat
 	result := oci_load_balancer.PathMatchType{}
 
 	if matchType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "match_type")); ok {
-		tmp := oci_load_balancer.PathMatchTypeMatchTypeEnum(matchType.(string))
-		result.MatchType = tmp
+		result.MatchType = oci_load_balancer.PathMatchTypeMatchTypeEnum(matchType.(string))
 	}
 
 	return result, nil
