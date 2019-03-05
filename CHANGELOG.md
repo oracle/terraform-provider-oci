@@ -10,6 +10,7 @@
 - Support for authentication policy
 - Support for Defined Tag defaults through the `oci_identity_tag_default` resource
 - Support for updating the compartment on a Tag Namespace
+- Support for exadata io resource management config for DB system
 
 ### Fixed
 - Marked oci_identity_ui_password resource as not importable
