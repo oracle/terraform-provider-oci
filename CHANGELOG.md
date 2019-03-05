@@ -1,4 +1,4 @@
-## 3.17.0 (Unreleased)
+## 3.17.0 (March 05, 2019)
 
 ### Added
 - Add singular Availability Domain data source with related example updates
