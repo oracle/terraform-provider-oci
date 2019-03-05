@@ -299,6 +299,62 @@ func DatabaseDbSystemResource() *schema.Resource {
 			},
 
 			// Computed
+			"iorm_config_cache": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"db_system_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+
+						// Optional
+
+						// Computed
+						"db_plans": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"db_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"flash_cache_limit": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"share": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"objective": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"last_patch_history_entry_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -640,7 +696,35 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
 	s.D.Set("vip_ids", s.Res.VipIds)
 
+	if s.Res.IormConfigCache != nil {
+		s.D.Set("iorm_config_cache", []interface{}{IormConfigCacheToMap(s.Res.IormConfigCache)})
+	} else {
+		s.D.Set("iorm_config_cache", []interface{}{})
+	}
+
 	return nil
+}
+
+func IormConfigCacheToMap(obj *oci_database.ExadataIormConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	dbPlans := []interface{}{}
+	for _, item := range obj.DbPlans {
+		if configMap := dbIormConfigToMap(item); configMap != nil {
+			dbPlans = append(dbPlans, configMap)
+		}
+	}
+	result["db_plans"] = dbPlans
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = *obj.LifecycleDetails
+	}
+
+	result["objective"] = obj.Objective
+
+	result["state"] = obj.LifecycleState
+
+	return result
 }
 
 func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat string) (oci_database.CreateDatabaseDetails, error) {

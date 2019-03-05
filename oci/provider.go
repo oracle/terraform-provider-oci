@@ -309,6 +309,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_database_db_versions":                       DatabaseDbVersionsDataSource(),
 		"oci_database_db_home_patches":                   DatabaseDbHomePatchesDataSource(),
 		"oci_database_db_home_patch_history_entries":     DatabaseDbHomePatchHistoryEntriesDataSource(),
+		"oci_database_exadata_iorm_config":               DatabaseExadataIormConfigDataSource(),
 		"oci_dns_records":                                DnsRecordsDataSource(),
 		"oci_dns_zones":                                  DnsZonesDataSource(),
 		"oci_dns_steering_policies":                      DnsSteeringPoliciesDataSource(),
@@ -464,6 +465,7 @@ func resourcesMap() map[string]*schema.Resource {
 		//Do remember to enable database_db_home_test if you are enabling DB Home resource
 		//"oci_database_db_home":                     DatabaseDbHomeResource(),
 		"oci_database_db_system":                    DatabaseDbSystemResource(),
+		"oci_database_exadata_iorm_config":          DatabaseExadataIormConfigResource(),
 		"oci_database_backup":                       DatabaseBackupResource(),
 		"oci_dns_record":                            DnsRecordResource(),
 		"oci_dns_steering_policy":                   DnsSteeringPolicyResource(),
