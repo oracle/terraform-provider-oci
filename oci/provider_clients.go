@@ -13,6 +13,7 @@ import (
 
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 	oci_autoscaling "github.com/oracle/oci-go-sdk/autoscaling"
+	oci_budget "github.com/oracle/oci-go-sdk/budget"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -47,6 +48,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 	blockstorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	budgetClient, err := oci_budget.NewBudgetClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -218,6 +223,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&budgetClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&computeClient.BaseClient)
 	if err != nil {
 		return
@@ -298,6 +307,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.auditClient = &auditClient
 	clients.autoScalingClient = &autoScalingClient
 	clients.blockstorageClient = &blockstorageClient
+	clients.budgetClient = &budgetClient
 	clients.computeClient = &computeClient
 	clients.computeManagementClient = &computeManagementClient
 	clients.containerEngineClient = &containerEngineClient
@@ -325,6 +335,7 @@ type OracleClients struct {
 	auditClient                    *oci_audit.AuditClient
 	autoScalingClient              *oci_autoscaling.AutoScalingClient
 	blockstorageClient             *oci_core.BlockstorageClient
+	budgetClient                   *oci_budget.BudgetClient
 	computeClient                  *oci_core.ComputeClient
 	computeManagementClient        *oci_core.ComputeManagementClient
 	containerEngineClient          *oci_containerengine.ContainerEngineClient
