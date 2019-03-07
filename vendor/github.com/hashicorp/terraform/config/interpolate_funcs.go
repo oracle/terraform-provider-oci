@@ -47,6 +47,20 @@ func stringSliceToVariableValue(values []string) []ast.Variable {
 	return output
 }
 
+// listVariableSliceToVariableValue converts a list of lists into the value
+// required to be returned from interpolation functions which return TypeList.
+func listVariableSliceToVariableValue(values [][]ast.Variable) []ast.Variable {
+	output := make([]ast.Variable, len(values))
+
+	for index, value := range values {
+		output[index] = ast.Variable{
+			Type:  ast.TypeList,
+			Value: value,
+		}
+	}
+	return output
+}
+
 func listVariableValueToStringSlice(values []ast.Variable) ([]string, error) {
 	output := make([]string, len(values))
 	for index, value := range values {
@@ -1698,7 +1712,7 @@ func interpolationFuncRsaDecrypt() ast.Function {
 
 			b, err := base64.StdEncoding.DecodeString(s)
 			if err != nil {
-				return "", fmt.Errorf("Failed to decode input %q: cipher text must be base64-encoded", key)
+				return "", fmt.Errorf("Failed to decode input %q: cipher text must be base64-encoded", s)
 			}
 
 			block, _ := pem.Decode([]byte(key))
