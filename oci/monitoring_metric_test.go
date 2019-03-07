@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"testing"
 
-	"time"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 )
@@ -39,16 +37,6 @@ func TestMonitoringMetricResource_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			//create resource and allow time for it to start emitting metrics
-			{
-				Config: config + compartmentIdVariableStr + MetricResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					func(s *terraform.State) (err error) {
-						time.Sleep(time.Minute * 5) //we need to sleep some time before the next step so that the resource we created starts emitting metrics
-						return
-					},
-				),
-			},
 			// verify datasource
 			{
 				Config: config +
@@ -65,9 +53,6 @@ func TestMonitoringMetricResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "namespace", "oci_lbaas"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "metrics.#"),
-					resource.TestCheckResourceAttr(datasourceName, "metrics.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "metrics.0.name", "AcceptedConnections"),
-					resource.TestCheckResourceAttr(datasourceName, "metrics.0.namespace", "oci_lbaas"),
 
 					resource.TestCheckResourceAttr("data.oci_monitoring_metrics.test_metrics_with_group_by", "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr("data.oci_monitoring_metrics.test_metrics_with_group_by", "group_by.#", "1"),
