@@ -70,12 +70,6 @@ func TestMonitoringMetricDataResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "start_time", metricDataStartTimeStr),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "metric_data.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "metric_data.0.aggregated_datapoints.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "metric_data.0.aggregated_datapoints.0.timestamp"),
-					resource.TestCheckResourceAttrSet(datasourceName, "metric_data.0.aggregated_datapoints.0.value"),
-					resource.TestCheckResourceAttr(datasourceName, "metric_data.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "metric_data.0.name"),
-					resource.TestCheckResourceAttr(datasourceName, "metric_data.0.namespace", "oci_vcn"),
 				),
 			},
 		},
