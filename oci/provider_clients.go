@@ -35,8 +35,6 @@ type ConfigureClient func(client *oci_common.BaseClient) error
 
 var configureClient ConfigureClient
 
-var avoidWaitingForDeleteTarget bool
-
 func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_common.ConfigurationProvider, httpClient *http.Client, userAgent string) (err error) {
 	// Official Go SDK clients:
 
@@ -135,8 +133,6 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	}
 
 	simulateDb, _ := strconv.ParseBool(getEnvSettingWithDefault("simulate_db", "false"))
-
-	avoidWaitingForDeleteTarget, _ = strconv.ParseBool(getEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
 
 	requestSigner := oci_common.DefaultRequestSigner(officialSdkConfigProvider)
 	var oboTokenProvider OboTokenProvider

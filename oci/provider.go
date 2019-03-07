@@ -13,6 +13,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"time"
 
@@ -26,6 +27,7 @@ import (
 
 var descriptions map[string]string
 var apiKeyConfigAttributes = [...]string{userOcidAttrName, fingerprintAttrName, privateKeyAttrName, privateKeyPathAttrName, privateKeyPasswordAttrName}
+var avoidWaitingForDeleteTarget bool
 
 const (
 	authAPIKeySetting                     = "ApiKey"
@@ -698,6 +700,8 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	if err != nil {
 		return nil, err
 	}
+
+	avoidWaitingForDeleteTarget, _ = strconv.ParseBool(getEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
 
 	return clients, nil
 }
