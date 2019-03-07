@@ -37,7 +37,8 @@ var (
 		"values": Representation{repType: Required, create: []string{`${oci_database_autonomous_database.test_autonomous_database.id}`}},
 	}
 
-	adbName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbName      = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbCloneName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 
 	autonomousDatabaseRepresentation = map[string]interface{}{
 		"admin_password":           Representation{repType: Required, create: `BEstrO0ng_#11`, update: `BEstrO0ng_#12`},
@@ -51,6 +52,14 @@ var (
 		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"license_model":            Representation{repType: Optional, create: `LICENSE_INCLUDED`},
 	}
+
+	autonomousDatabaseRepresentationForClone = representationCopyWithNewProperties(
+		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbCloneName}, autonomousDatabaseRepresentation),
+		map[string]interface{}{
+			"clone_type": Representation{repType: Optional, create: `FULL`},
+			"source":     Representation{repType: Optional, create: `DATABASE`},
+			"source_id":  Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
+		})
 
 	AutonomousDatabaseResourceDependencies = DefinedTagsDependencies
 )
@@ -174,7 +183,6 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.state"),
 				),
 			},
 			// verify singular datasource
@@ -216,6 +224,9 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"admin_password",
+					"clone_type",
+					"source",
+					"source_id",
 					"lifecycle_details",
 				},
 				ResourceName: resourceName,
@@ -274,6 +285,42 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
 						if resId != resId2 {
 							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+
+			// remove any previously created resources
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
+			},
+			// verify ADB clone from a source ADB
+			{
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", Optional, Create, autonomousDatabaseRepresentation) +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create, autonomousDatabaseRepresentationForClone),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName, "clone_type", "FULL"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbCloneName),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+					resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						if resId == resId2 {
+							return fmt.Errorf("Resource updated when it was supposed to be re-created.")
 						}
 						return err
 					},
