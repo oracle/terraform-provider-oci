@@ -27,6 +27,9 @@ import (
 
 var descriptions map[string]string
 var apiKeyConfigAttributes = [...]string{userOcidAttrName, fingerprintAttrName, privateKeyAttrName, privateKeyPathAttrName, privateKeyPasswordAttrName}
+var ociProvider *schema.Provider
+
+var terraformCLIVersion = unknownTerraformCLIVersion
 var avoidWaitingForDeleteTarget bool
 
 const (
@@ -39,7 +42,9 @@ const (
 	defaultConnectionTimeout              = 10 * time.Second
 	defaultTLSHandshakeTimeout            = 5 * time.Second
 	defaultUserAgentProviderName          = "Oracle-TerraformProvider"
-	userAgentFormatter                    = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) %s/%s"
+	unknownTerraformCLIVersion            = "unknown"
+	testTerraformCLIVersion               = "test"
+	userAgentFormatter                    = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s; terraform-cli/%s) %s/%s"
 	userAgentProviderNameEnv              = "USER_AGENT_PROVIDER_NAME"
 	domainNameOverrideEnv                 = "domain_name_override"
 	customCertLocationEnv                 = "custom_cert_location"
@@ -111,12 +116,13 @@ func init() {
 
 // Provider is the adapter for terraform, that gives access to all the resources
 func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
-	return &schema.Provider{
+	ociProvider = &schema.Provider{
 		DataSourcesMap: dataSourcesMap(),
 		Schema:         schemaMap(),
 		ResourcesMap:   resourcesMap(),
 		ConfigureFunc:  configfn,
 	}
+	return ociProvider
 }
 
 func schemaMap() map[string]*schema.Schema {
@@ -626,8 +632,11 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	auth := strings.ToLower(d.Get(authAttrName).(string))
 	clients.(*OracleClients).configuration[authAttrName] = auth
 
+	if ociProvider != nil && len(ociProvider.TerraformVersion) > 0 {
+		terraformCLIVersion = ociProvider.TerraformVersion
+	}
 	userAgentProviderName := getEnvSettingWithDefault(userAgentProviderNameEnv, defaultUserAgentProviderName)
-	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), userAgentProviderName, Version)
+	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), terraformCLIVersion, userAgentProviderName, Version)
 
 	httpClient := &http.Client{
 		Timeout: defaultRequestTimeout,
