@@ -260,6 +260,7 @@ func GetTestClients(data *schema.ResourceData) *OracleClients {
 		d.Set("auth", getEnvSettingWithDefault("auth", auth))
 	}
 
+	terraformCLIVersion = testTerraformCLIVersion
 	client, err := ProviderConfig(d)
 	if err != nil {
 		panic(err)
@@ -389,7 +390,7 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	oracleClient, ok := client.(*OracleClients)
 	assert.True(t, ok)
 
-	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), defaultUserAgentProviderName, Version)
+	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), terraformCLIVersion, defaultUserAgentProviderName, Version)
 	testClient := func(c *oci_common.BaseClient) {
 		assert.NotNil(t, c)
 		assert.NotNil(t, c.HTTPClient)
