@@ -4,7 +4,7 @@
 // Email Delivery API
 //
 // API for the Email Delivery service. Use this API to send high-volume, application-generated
-// emails. For more information, see Overview of the Email Delivery Service (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Email/Concepts/overview.htm).
+// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
 //
 
 package email
@@ -27,7 +27,7 @@ type Suppression struct {
 	// The unique ID of the suppression.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The reason that the email address was suppressed. For more information on the types of bounces, see Suppression List (https://docs.us-phoenix-1.oraclecloud.com/Content/Email/Concepts/overview.htm#components).
+	// The reason that the email address was suppressed. For more information on the types of bounces, see Suppression List (https://docs.cloud.oracle.com/Content/Email/Concepts/overview.htm#components).
 	Reason SuppressionReasonEnum `mandatory:"false" json:"reason,omitempty"`
 
 	// The date and time the suppression was added in "YYYY-MM-ddThh:mmZ"

@@ -4,7 +4,7 @@
 // Load Balancing API
 //
 // API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
-// information, see Overview of Load Balancing (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
+// information, see Overview of Load Balancing (https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -19,7 +19,7 @@ type ConnectionConfiguration struct {
 	// The maximum idle time, in seconds, allowed between two successive receive or two successive send operations
 	// between the client and backend servers. A send operation does not reset the timer for receive operations. A
 	// receive operation does not reset the timer for send operations.
-	// For more information, see Connection Configuration (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Reference/connectionreuse.htm#ConnectionConfiguration).
+	// For more information, see Connection Configuration (https://docs.cloud.oracle.com/Content/Balance/Reference/connectionreuse.htm#ConnectionConfiguration).
 	// Example: `1200`
 	IdleTimeout *int64 `mandatory:"true" json:"idleTimeout"`
 }

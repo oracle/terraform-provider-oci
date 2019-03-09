@@ -26,7 +26,7 @@ type CreateDataGuardAssociationToExistingDbSystemDetails struct {
 	// **The password MUST be the same as the primary admin password.**
 	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the DB system in which to create the standby database.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB system in which to create the standby database.
 	// You must supply this value if creationType is `ExistingDbSystem`.
 	PeerDbSystemId *string `mandatory:"false" json:"peerDbSystemId"`
 

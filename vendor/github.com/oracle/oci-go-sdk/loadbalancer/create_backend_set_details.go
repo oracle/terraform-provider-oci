@@ -4,7 +4,7 @@
 // Load Balancing API
 //
 // API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
-// information, see Overview of Load Balancing (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
+// information, see Overview of Load Balancing (https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -15,7 +15,7 @@ import (
 
 // CreateBackendSetDetails The configuration details for creating a backend set in a load balancer.
 // For more information on backend set configuration, see
-// Managing Backend Sets (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managingbackendsets.htm).
+// Managing Backend Sets (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingbackendsets.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateBackendSetDetails struct {
 

@@ -11,7 +11,7 @@ import (
 // StartAutonomousDataWarehouseRequest wrapper for the StartAutonomousDataWarehouse operation
 type StartAutonomousDataWarehouseRequest struct {
 
-	// The database OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousDataWarehouseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDataWarehouseId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

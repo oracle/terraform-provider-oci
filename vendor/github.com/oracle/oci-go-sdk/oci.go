@@ -173,7 +173,7 @@ Therefore, adding an arbitrary header can result in authentications errors.
 To see a runnable example, see https://github.com/oracle/oci-go-sdk/blob/master/example/example_identity_test.go
 
 
-For more information on the signing algorithm refer to: https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/signingrequests.htm
+For more information on the signing algorithm refer to: https://docs.cloud.oracle.com/Content/API/Concepts/signingrequests.htm
 
 Polymorphic json requests and responses
 

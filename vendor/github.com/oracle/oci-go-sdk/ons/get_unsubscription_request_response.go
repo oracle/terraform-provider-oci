@@ -11,7 +11,7 @@ import (
 // GetUnsubscriptionRequest wrapper for the GetUnsubscription operation
 type GetUnsubscriptionRequest struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to unsubscribe from.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to unsubscribe from.
 	Id *string `mandatory:"true" contributesTo:"path" name:"id"`
 
 	// The subscription confirmation token.

@@ -11,7 +11,7 @@ import (
 // UpdateAlarmRequest wrapper for the UpdateAlarm operation
 type UpdateAlarmRequest struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.
 	AlarmId *string `mandatory:"true" contributesTo:"path" name:"alarmId"`
 
 	// Document for updating an alarm.

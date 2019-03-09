@@ -30,7 +30,7 @@ type AppCatalogListingResourceVersion struct {
 
 	// List of regions that this listing resource version is available.
 	// For information about Regions, see
-	// Regions (https://docs.us-phoenix-1.oraclecloud.comGeneral/Concepts/regions.htm).
+	// Regions (https://docs.cloud.oracle.comGeneral/Concepts/regions.htm).
 	// Example: `["us-ashburn-1", "us-phoenix-1"]`
 	AvailableRegions []string `mandatory:"false" json:"availableRegions"`
 

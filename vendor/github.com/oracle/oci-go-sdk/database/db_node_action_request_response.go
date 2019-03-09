@@ -11,7 +11,7 @@ import (
 // DbNodeActionRequest wrapper for the DbNodeAction operation
 type DbNodeActionRequest struct {
 
-	// The database node OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The database node OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DbNodeId *string `mandatory:"true" contributesTo:"path" name:"dbNodeId"`
 
 	// The action to perform on the DB Node.

@@ -11,7 +11,7 @@ import (
 // UpdateAutonomousDataWarehouseRequest wrapper for the UpdateAutonomousDataWarehouse operation
 type UpdateAutonomousDataWarehouseRequest struct {
 
-	// The database OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousDataWarehouseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDataWarehouseId"`
 
 	// Request to update the properties of an Autonomous Data Warehouse.

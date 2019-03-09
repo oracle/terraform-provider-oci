@@ -21,7 +21,7 @@ type ObjectLifecyclePolicy struct {
 
 	// The live lifecycle policy on the bucket.
 	// For an example of this value, see the
-	// PutObjectLifecyclePolicy API documentation (https://docs.us-phoenix-1.oraclecloud.com/iaas/api/#/en/objectstorage/20160918/ObjectLifecyclePolicy/PutObjectLifecyclePolicy).
+	// PutObjectLifecyclePolicy API documentation (https://docs.cloud.oracle.com/iaas/api/#/en/objectstorage/20160918/ObjectLifecyclePolicy/PutObjectLifecyclePolicy).
 	Items []ObjectLifecycleRule `mandatory:"false" json:"items"`
 }
 

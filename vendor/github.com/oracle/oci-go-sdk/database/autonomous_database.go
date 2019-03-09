@@ -15,10 +15,10 @@ import (
 // AutonomousDatabase An Oracle Autonomous Database.
 type AutonomousDatabase struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The current state of the database.
@@ -52,17 +52,20 @@ type AutonomousDatabase struct {
 	LicenseModel AutonomousDatabaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// A valid Oracle Database version for Autonomous Database.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
+
+	// The Autonomous Database workload type.
+	DbWorkload AutonomousDatabaseDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 }
 
 func (m AutonomousDatabase) String() string {
@@ -132,6 +135,29 @@ var mappingAutonomousDatabaseLicenseModel = map[string]AutonomousDatabaseLicense
 func GetAutonomousDatabaseLicenseModelEnumValues() []AutonomousDatabaseLicenseModelEnum {
 	values := make([]AutonomousDatabaseLicenseModelEnum, 0)
 	for _, v := range mappingAutonomousDatabaseLicenseModel {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseDbWorkloadEnum Enum with underlying type: string
+type AutonomousDatabaseDbWorkloadEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseDbWorkloadEnum
+const (
+	AutonomousDatabaseDbWorkloadOltp AutonomousDatabaseDbWorkloadEnum = "OLTP"
+	AutonomousDatabaseDbWorkloadDw   AutonomousDatabaseDbWorkloadEnum = "DW"
+)
+
+var mappingAutonomousDatabaseDbWorkload = map[string]AutonomousDatabaseDbWorkloadEnum{
+	"OLTP": AutonomousDatabaseDbWorkloadOltp,
+	"DW":   AutonomousDatabaseDbWorkloadDw,
+}
+
+// GetAutonomousDatabaseDbWorkloadEnumValues Enumerates the set of values for AutonomousDatabaseDbWorkloadEnum
+func GetAutonomousDatabaseDbWorkloadEnumValues() []AutonomousDatabaseDbWorkloadEnum {
+	values := make([]AutonomousDatabaseDbWorkloadEnum, 0)
+	for _, v := range mappingAutonomousDatabaseDbWorkload {
 		values = append(values, v)
 	}
 	return values

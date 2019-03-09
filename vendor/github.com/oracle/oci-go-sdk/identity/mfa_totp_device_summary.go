@@ -36,7 +36,12 @@ type MfaTotpDeviceSummary struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeExpires *common.SDKTime `mandatory:"false" json:"timeExpires"`
 
-	// The detailed status of INACTIVE lifecycleState. Possible values are 1(SUSPENDED), 2(DISABLED), 4(BLOCKED) and 8(LOCKED).
+	// The detailed status of INACTIVE lifecycleState.
+	// Allowed values are:
+	//  - 1 - SUSPENDED
+	//  - 2 - DISABLED
+	//  - 4 - BLOCKED
+	//  - 8 - LOCKED
 	InactiveStatus *int64 `mandatory:"false" json:"inactiveStatus"`
 }
 

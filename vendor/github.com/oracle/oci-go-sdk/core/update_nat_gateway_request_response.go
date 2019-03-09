@@ -11,7 +11,7 @@ import (
 // UpdateNatGatewayRequest wrapper for the UpdateNatGateway operation
 type UpdateNatGatewayRequest struct {
 
-	// The NAT gateway's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The NAT gateway's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	NatGatewayId *string `mandatory:"true" contributesTo:"path" name:"natGatewayId"`
 
 	// Details object for updating a NAT gateway.

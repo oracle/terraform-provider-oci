@@ -40,7 +40,7 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// This restriction applies to both the client subnet and backup subnet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// The host name for the DB Node.
+	// The hostname for the DB node.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
 	// The protection mode to set up between the primary and standby databases. For more information, see
