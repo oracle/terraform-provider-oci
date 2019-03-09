@@ -15,7 +15,7 @@ import (
 // ExternalBackupJob Provides all the details that apply to an external backup job.
 type ExternalBackupJob struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the associated backup resource.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated backup resource.
 	BackupId *string `mandatory:"true" json:"backupId"`
 
 	// An indicator for the provisioning state of the resource. If `TRUE`, the resource is still being provisioned.
@@ -34,7 +34,7 @@ type ExternalBackupJob struct {
 	UserName *string `mandatory:"true" json:"userName"`
 
 	// The auth token to use for access to the Swift compartment bucket that will store the standalone backup.
-	// For information about auth tokens, see Working with Auth Tokens (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingcredentials.htm#two).
+	// For information about auth tokens, see Working with Auth Tokens (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcredentials.htm#two).
 	SwiftPassword *string `mandatory:"false" json:"swiftPassword"`
 }
 

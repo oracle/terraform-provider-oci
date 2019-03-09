@@ -11,7 +11,7 @@ import (
 // UpdateDbHomeRequest wrapper for the UpdateDbHome operation
 type UpdateDbHomeRequest struct {
 
-	// The database home OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The database home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DbHomeId *string `mandatory:"true" contributesTo:"path" name:"dbHomeId"`
 
 	// Request to update the properties of a DB Home.

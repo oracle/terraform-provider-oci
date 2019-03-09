@@ -64,7 +64,7 @@ type ListMultipartUploadsResponse struct {
 
 	// For pagination of a list of `MultipartUpload`s. If this header appears in the response, then
 	// this is a partial list of multipart uploads. Include this value as the `page` parameter in a subsequent
-	// GET request. For information about pagination, see List Pagination (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/usingapi.htm).
+	// GET request. For information about pagination, see List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

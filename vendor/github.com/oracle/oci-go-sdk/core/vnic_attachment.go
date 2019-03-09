@@ -13,7 +13,7 @@ import (
 )
 
 // VnicAttachment Represents an attachment between a VNIC and an instance. For more information, see
-// Virtual Network Interface Cards (VNICs) (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVNICs.htm).
+// Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/Content/Network/Tasks/managingVNICs.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you
 // supply string values using the API.
 type VnicAttachment struct {
@@ -50,7 +50,7 @@ type VnicAttachment struct {
 	// Certain bare metal instance shapes have two active physical NICs (0 and 1). If
 	// you add a secondary VNIC to one of these instances, you can specify which NIC
 	// the VNIC will use. For more information, see
-	// Virtual Network Interface Cards (VNICs) (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingVNICs.htm).
+	// Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/Content/Network/Tasks/managingVNICs.htm).
 	NicIndex *int `mandatory:"false" json:"nicIndex"`
 
 	// The Oracle-assigned VLAN tag of the attached VNIC. Available after the

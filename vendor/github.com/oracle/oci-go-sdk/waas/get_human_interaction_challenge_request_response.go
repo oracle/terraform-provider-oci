@@ -11,7 +11,7 @@ import (
 // GetHumanInteractionChallengeRequest wrapper for the GetHumanInteractionChallenge operation
 type GetHumanInteractionChallengeRequest struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
 	WaasPolicyId *string `mandatory:"true" contributesTo:"path" name:"waasPolicyId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

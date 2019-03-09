@@ -1,6 +1,6 @@
-DOC_SERVER_URL=https:\/\/docs.us-phoenix-1.oraclecloud.com
+DOC_SERVER_URL=https:\/\/docs.cloud.oracle.com
 
-GEN_TARGETS = identity core objectstorage loadbalancer database audit dns filestorage email containerengine resourcesearch keymanagement announcementsservice healthchecks waas autoscaling streaming ons monitoring resourcemanager ##SPECNAME##
+GEN_TARGETS = identity core objectstorage loadbalancer database audit dns filestorage email containerengine resourcesearch keymanagement announcementsservice healthchecks waas autoscaling streaming ons monitoring resourcemanager budget ##SPECNAME##
 NON_GEN_TARGETS = common common/auth
 TARGETS = $(NON_GEN_TARGETS) $(GEN_TARGETS)
 
@@ -55,6 +55,7 @@ clean-generate:
 pre-doc:
 	@echo "Rendering doc server to ${DOC_SERVER_URL}"
 	find . -name \*.go |xargs sed -i '' 's/{{DOC_SERVER_URL}}/${DOC_SERVER_URL}/g'
+	find . -name \*.go |xargs sed -i '' 's/https:\/\/docs.us-phoenix-1.oraclecloud.com/${DOC_SERVER_URL}/g'
 
 gen-version:
 	go generate -x

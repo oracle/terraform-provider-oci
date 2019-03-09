@@ -15,7 +15,7 @@ import (
 // Patch The representation of Patch
 type Patch struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the patch.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The text describing this patch package.

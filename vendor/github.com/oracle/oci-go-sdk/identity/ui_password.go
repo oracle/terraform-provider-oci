@@ -14,7 +14,7 @@ import (
 
 // UiPassword A text password that enables a user to sign in to the Console, the user interface for interacting with Oracle
 // Cloud Infrastructure.
-// For more information about user credentials, see User Credentials (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/usercredentials.htm).
+// For more information about user credentials, see User Credentials (https://docs.cloud.oracle.com/Content/Identity/Concepts/usercredentials.htm).
 type UiPassword struct {
 
 	// The user's password for the Console.

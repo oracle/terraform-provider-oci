@@ -4,7 +4,7 @@
 // Load Balancing API
 //
 // API for the Load Balancing service. Use this API to manage load balancers, backend sets, and related items. For more
-// information, see Overview of Load Balancing (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
+// information, see Overview of Load Balancing (https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm).
 //
 
 package loadbalancer
@@ -15,7 +15,7 @@ import (
 
 // CreateListenerDetails The configuration details for adding a listener to a backend set.
 // For more information on listener configuration, see
-// Managing Load Balancer Listeners (https://docs.us-phoenix-1.oraclecloud.com/Content/Balance/Tasks/managinglisteners.htm).
+// Managing Load Balancer Listeners (https://docs.cloud.oracle.com/Content/Balance/Tasks/managinglisteners.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateListenerDetails struct {
 

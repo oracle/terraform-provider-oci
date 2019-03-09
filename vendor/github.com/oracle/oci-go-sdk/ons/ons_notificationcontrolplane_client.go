@@ -4,7 +4,7 @@
 // Notification API
 //
 // Use the Notification API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see Notification Overview (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
+// For information about managing topics, subscriptions, and messages, see Notification Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
 //
 
 package ons
@@ -60,14 +60,14 @@ func (client *NotificationControlPlaneClient) ConfigurationProvider() *common.Co
 }
 
 // CreateTopic Creates a topic in the specified compartment. For general information about topics, see
-// Managing Topics and Subscriptions (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm).
+// Managing Topics and Subscriptions (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm).
 // For the purposes of access control, you must provide the OCID of the compartment where you want the topic to reside.
-// For information about access control and compartments, see Overview of the IAM Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/overview.htm).
+// For information about access control and compartments, see Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
 // You must specify a display name for the topic.
 // All Oracle Cloud Infrastructure resources, including topics, get an Oracle-assigned, unique ID called an
 // Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID in the response. You can also
 // retrieve a resource's OCID by using a List API operation on that resource type, or by viewing the resource in the
-// Console. Fore more information, see Resource Identifiers (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+// Console. Fore more information, see Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 func (client NotificationControlPlaneClient) CreateTopic(ctx context.Context, request CreateTopicRequest) (response CreateTopicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

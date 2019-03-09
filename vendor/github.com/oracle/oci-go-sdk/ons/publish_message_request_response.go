@@ -11,7 +11,7 @@ import (
 // PublishMessageRequest wrapper for the PublishMessage operation
 type PublishMessageRequest struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/General/Concepts/identifiers.htm) of the topic.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic.
 	TopicId *string `mandatory:"true" contributesTo:"path" name:"topicId"`
 
 	// The message to publish.

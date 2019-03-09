@@ -11,10 +11,10 @@ import (
 // ReinstateDataGuardAssociationRequest wrapper for the ReinstateDataGuardAssociation operation
 type ReinstateDataGuardAssociationRequest struct {
 
-	// The database OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
-	// The Data Guard association's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The Data Guard association's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DataGuardAssociationId *string `mandatory:"true" contributesTo:"path" name:"dataGuardAssociationId"`
 
 	// A request to reinstate a database in a standby role.

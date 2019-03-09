@@ -11,7 +11,7 @@ import (
 // DeleteSubscriptionRequest wrapper for the DeleteSubscription operation
 type DeleteSubscriptionRequest struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to delete.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to delete.
 	SubscriptionId *string `mandatory:"true" contributesTo:"path" name:"subscriptionId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

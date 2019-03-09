@@ -11,7 +11,7 @@ import (
 // ListDbVersionsRequest wrapper for the ListDbVersions operation
 type ListDbVersionsRequest struct {
 
-	// The compartment OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The maximum number of items to return per page.
@@ -23,7 +23,7 @@ type ListDbVersionsRequest struct {
 	// If provided, filters the results to the set of database versions which are supported for the given shape.
 	DbSystemShape *string `mandatory:"false" contributesTo:"query" name:"dbSystemShape"`
 
-	// The DB system OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm). If provided, filters the results to the set of database versions which are supported for the DB system.
+	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). If provided, filters the results to the set of database versions which are supported for the DB system.
 	DbSystemId *string `mandatory:"false" contributesTo:"query" name:"dbSystemId"`
 
 	// Unique Oracle-assigned identifier for the request.
@@ -65,7 +65,7 @@ type ListDbVersionsResponse struct {
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,
 	// then there are additional items still to get. Include this value as the `page` parameter for the
 	// subsequent GET request. For information about pagination, see
-	// List Pagination (https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/usingapi.htm#nine).
+	// List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
