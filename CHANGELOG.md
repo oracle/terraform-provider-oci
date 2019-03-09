@@ -5,7 +5,6 @@
 - Support starting and stopping instances
 - Support to create Containerengine Node Pool with Image Id
 - Support for customer specified timezone in Database Systems
-- Support `email` attribute for `oci_identity_user` resource and `oci_identity_ui_password` datasource
 - Support for creating Autonomous Data Warehouses through Autonomous Database resource `oci_database_autonomous_database` using the field `db_workload`
 - Support for authentication policy
 - Support for Defined Tag defaults through the `oci_identity_tag_default` resource
