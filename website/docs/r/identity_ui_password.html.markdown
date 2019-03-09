@@ -51,3 +51,11 @@ The following attributes are exported:
 * `time_created` - Date and time the password was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user.
 
+## Import
+
+UiPasswords can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_identity_ui_password.test_ui_password "id"
+```
+

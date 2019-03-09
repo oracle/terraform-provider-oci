@@ -32,7 +32,6 @@ var (
 		"description":    Representation{repType: Required, create: `John Smith`, update: `description2`},
 		"name":           Representation{repType: Required, create: `JohnSmith@example.com`},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"email":          Representation{repType: Optional, create: `email`, update: `email2`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
@@ -87,7 +86,6 @@ func TestIdentityUserResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "John Smith"),
-					resource.TestCheckResourceAttr(resourceName, "email", "email"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
@@ -110,7 +108,6 @@ func TestIdentityUserResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-					resource.TestCheckResourceAttr(resourceName, "email", "email2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "JohnSmith@example.com"),
@@ -140,7 +137,6 @@ func TestIdentityUserResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "users.0.compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.description", "description2"),
-					resource.TestCheckResourceAttr(datasourceName, "users.0.email", "email2"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "users.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.name", "JohnSmith@example.com"),

@@ -122,10 +122,6 @@ func (s *IdentityUsersDataSourceCrud) SetData() error {
 			user["description"] = *r.Description
 		}
 
-		if r.Email != nil {
-			user["email"] = *r.Email
-		}
-
 		if r.ExternalIdentifier != nil {
 			user["external_identifier"] = *r.ExternalIdentifier
 		}
