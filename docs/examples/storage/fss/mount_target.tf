@@ -19,3 +19,6 @@ resource "oci_file_storage_mount_target" "my_mount_target_2" {
   #Optional
   display_name = "${var.mount_target_2_display_name}"
 }
+
+# Use export_set.tf config to update the size for a mount target
+
