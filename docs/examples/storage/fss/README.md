@@ -63,7 +63,7 @@ We install the nfs-utils and then mount the NFS storage on to our compute instan
 #### `variables.tf`
 Defines the variables used in the configuration
 
-#### `datasources.tf`
+#### `data_sources.tf`
 Defines the data sources used in the configuration
 
 #### `provider.tf`
