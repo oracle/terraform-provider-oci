@@ -25,7 +25,7 @@ var (
 	}
 
 	budgetDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, budgetDataSourceFilterRepresentation}}
@@ -36,8 +36,8 @@ var (
 
 	budgetRepresentation = map[string]interface{}{
 		"amount":                Representation{repType: Required, create: `100`, update: `200`},
-		"compartment_id":        Representation{repType: Required, create: `${var.compartment_id}`},
-		"reset_period":          Representation{repType: Required, create: `MONTHLY`, update: `MONTHLY`},
+		"compartment_id":        Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"reset_period":          Representation{repType: Required, create: `MONTHLY`},
 		"target_compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"defined_tags":          Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":           Representation{repType: Optional, create: `description`, update: `description2`},
@@ -54,6 +54,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
 
 	resourceName := "oci_budget_budget.test_budget"
 	datasourceName := "data.oci_budget_budgets.test_budgets"
@@ -74,7 +75,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
 					resource.TestCheckResourceAttrSet(resourceName, "target_compartment_id"),
 
@@ -96,7 +97,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -122,7 +123,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(resourceName, "amount", "200"),
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -150,14 +151,14 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 					compartmentIdVariableStr + BudgetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "budgets.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.alert_rule_count"),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.amount", "200"),
-					resource.TestCheckResourceAttr(datasourceName, "budgets.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "budgets.0.compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.display_name", "displayName2"),
@@ -181,7 +182,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "amount", "200"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
