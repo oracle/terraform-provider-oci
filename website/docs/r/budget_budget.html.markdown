@@ -18,7 +18,7 @@ Creates a new Budget.
 resource "oci_budget_budget" "test_budget" {
 	#Required
 	amount = "${var.budget_amount}"
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 	reset_period = "${var.budget_reset_period}"
 	target_compartment_id = "${oci_budget_target_compartment.test_target_compartment.id}"
 

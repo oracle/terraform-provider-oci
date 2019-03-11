@@ -23,7 +23,7 @@ provider "oci" {
 resource "oci_budget_budget" "test_budget" {
   #Required
   amount                = "1"
-  compartment_id        = "${var.compartment_ocid}"
+  compartment_id        = "${var.tenancy_ocid}"
   reset_period          = "MONTHLY"
   target_compartment_id = "${var.compartment_ocid}"
 
@@ -60,7 +60,7 @@ EOF
 
 data "oci_budget_budgets" "test_budgets" {
   #Required
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.tenancy_ocid}"
 
   #Optional
   //  display_name = "${oci_budget_budget.test_budget.display_name}"
