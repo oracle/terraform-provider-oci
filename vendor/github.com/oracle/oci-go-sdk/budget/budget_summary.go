@@ -30,7 +30,7 @@ type BudgetSummary struct {
 	// The amount of the budget expressed in the currency of the customer's rate card.
 	Amount *float32 `mandatory:"true" json:"amount"`
 
-	// The reset period for the budget. We will start with MONTHLY and look into QUARTERLY and maybe ANNUAL post-MVP.
+	// The reset period for the budget.
 	ResetPeriod BudgetSummaryResetPeriodEnum `mandatory:"true" json:"resetPeriod"`
 
 	// The current state of the budget.
