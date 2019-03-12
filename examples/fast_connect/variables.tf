@@ -41,15 +41,15 @@ variable "virtual_circuit_display_name" {
 }
 
 variable "virtual_circuit_public_prefixes_cidr_block" {
-  default = "0.0.0.0/6"
+  default = "11.0.0.0/24"
 }
 
 variable "virtual_circuit_public_prefixes_cidr_block2" {
-  default = "206.209.218.0/25"
+  default = "11.0.1.0/24"
 }
 
 variable "virtual_circuit_public_prefixes_cidr_block3" {
-  default = "206.209.219.0/24"
+  default = "11.0.2.0/24"
 }
 
 variable "virtual_circuit_region" {
