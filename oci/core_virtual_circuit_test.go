@@ -87,7 +87,7 @@ var (
 		"oracle_bgp_peering_ip":   Representation{repType: Required, create: `10.0.0.19/31`, update: `10.0.0.21/31`},
 	}
 	virtualCircuitPublicPrefixesRepresentation = map[string]interface{}{
-		"cidr_block": Representation{repType: Required, create: `0.0.0.0/5`, update: `0.0.0.0/6`},
+		"cidr_block": Representation{repType: Required, create: `11.0.0.0/24`, update: `11.0.1.0/24`},
 	}
 
 	VirtualCircuitWithProviderResourceConfigFilter = `
@@ -171,7 +171,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
 					resource.TestCheckResourceAttr(resourceName, "public_prefixes.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "public_prefixes", map[string]string{
-						"cidr_block": "0.0.0.0/5",
+						"cidr_block": "11.0.0.0/24",
 					},
 						[]string{}),
 					resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
@@ -194,7 +194,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "11"),
 					resource.TestCheckResourceAttr(resourceName, "public_prefixes.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "public_prefixes", map[string]string{
-						"cidr_block": "0.0.0.0/6",
+						"cidr_block": "11.0.1.0/24",
 					},
 						[]string{}),
 					resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
