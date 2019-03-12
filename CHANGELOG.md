@@ -6,7 +6,6 @@
 - Support to create Containerengine Node Pool with Image Id
 - Support for customer specified timezone in Database Systems
 - Support for creating Autonomous Data Warehouses through Autonomous Database resource `oci_database_autonomous_database` using the field `db_workload`
-- Support for authentication policy
 - Support for Defined Tag defaults through the `oci_identity_tag_default` resource
 - Support for updating the compartment on a Tag Namespace
 - Support for exadata io resource management config for DB system
