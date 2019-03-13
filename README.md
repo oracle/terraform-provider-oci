@@ -11,7 +11,7 @@ Terraform Provider for Oracle Cloud Infrastructure
 - [Examples](https://github.com/terraform-providers/terraform-provider-oci/tree/master/examples)
 - [OCI forums](https://cloudcustomerconnect.oracle.com/resources/9c8fa8f96f/summary)
 - [Github issues](https://github.com/terraform-providers/terraform-provider-oci/issues)
-- [Troubleshooting](https://www.terraform.io/docs/providers/oci/guides/guides/troubleshooting.html)
+- [Troubleshooting](https://www.terraform.io/docs/providers/oci/guides/troubleshooting.html)
 
 [![wercker status](https://app.wercker.com/status/666d2ee10f45dde41189bb03248aadf9/s/master "wercker status")](https://app.wercker.com/project/byKey/666d2ee10f45dde41189bb03248aadf9)
 
@@ -51,13 +51,8 @@ After placing it into your plugins directory,  run `terraform init` to initializ
 
 Troubleshooting the Provider
 ----------------------
-To get verbose console output when the provider is running, precede your Terraform command with the `TF_LOG` and `OCI_GO_SDK_DEBUG` flags:
-```sh
-TF_LOG=DEBUG OCI_GO_SDK_DEBUG=1 terraform plan
-```
 
-The [tf_log](https://www.terraform.io/docs/internals/debugging.html) level and `OCI_GO_SDK_DEBUG` flags can also be set as environment variables.
-
+See [verbose logging](https://www.terraform.io/docs/providers/oci/guides/troubleshooting.html#verbose-logging-for-oci-terraform-provider) for the details.
 
 Developing the Provider
 ---------------------------
