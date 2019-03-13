@@ -16,7 +16,3 @@ variable "instance_shape" {
 variable "ImageOS" {
   default = "Oracle Linux"
 }
-
-variable "ImageOSVersion" {
-  default = "7.5"
-}

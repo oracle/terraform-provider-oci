@@ -4,15 +4,21 @@
  * This file demonstrates dns zone management
  */
 
+resource "random_string" "random_prefix" {
+  length  = 4
+  number  = false
+  special = false
+}
+
 resource "oci_dns_zone" "zone1" {
   compartment_id = "${var.compartment_ocid}"
-  name           = "tf-example-primary.oci-dns1"
+  name           = "${data.oci_identity_tenancy.tenancy.name}-${random_string.random_prefix.result}-tf-example-primary.oci-dns1"
   zone_type      = "PRIMARY"
 }
 
 resource "oci_dns_zone" "zone2" {
   compartment_id = "${var.compartment_ocid}"
-  name           = "tf-example-secondary.oci-dns2"
+  name           = "${data.oci_identity_tenancy.tenancy.name}-${random_string.random_prefix.result}-tf-example-secondary.oci-dns2"
   zone_type      = "SECONDARY"
 
   external_masters {
@@ -43,6 +49,10 @@ data "oci_dns_zones" "zs" {
   zone_type      = "PRIMARY"
   sort_by        = "name"                    # name|zoneType|timeCreated
   sort_order     = "DESC"                    # ASC|DESC
+}
+
+data "oci_identity_tenancy" "tenancy" {
+  tenancy_id = "${var.tenancy_ocid}"
 }
 
 output "zones" {

@@ -32,7 +32,7 @@ resource "oci_objectstorage_object" "source-uri-object" {
   content_type     = "text/html"
 
   source_uri_details {
-    region    = "${var.source_region}"
+    region    = "${local.source_region}"
     namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
     bucket    = "${oci_objectstorage_bucket.bucket1.name}"
     object    = "index.html"

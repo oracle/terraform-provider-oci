@@ -2,7 +2,7 @@
 
 resource "oci_identity_tag_namespace" "tag-namespace1" {
   #Required
-  compartment_id = "${var.compartment_ocid}"
+  compartment_id = "${var.tenancy_ocid}"
   description    = "Just a test"
   name           = "exampletagns"
 

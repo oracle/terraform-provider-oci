@@ -17,8 +17,8 @@ variable "region" {
 }
 
 //the object can be created from the object data in the other region
-variable "source_region" {
-  default = "us-ashburn-1"
+locals {
+  source_region = "${var.region}"
 }
 
 provider "oci" {

@@ -6,6 +6,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
+
 variable "vault_id" {}
 
 variable "key_display_name" {
