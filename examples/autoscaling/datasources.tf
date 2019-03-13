@@ -53,3 +53,21 @@ data "oci_autoscaling_auto_scaling_configurations" "TFAutoScalingConfigurationDa
     values = ["${oci_autoscaling_auto_scaling_configuration.TFAutoScalingConfiguration.id}"]
   }
 }
+
+// Usage of singular instance datasources to show the public_ips, private_ips, and hostname_labels for the instances in the pool
+data "oci_core_instance" "TFInstancePoolInstanceSingularDatasources" {
+  count       = 2
+  instance_id = "${lookup(data.oci_core_instance_pool_instances.TFInstancePoolInstanceDatasources.instances[count.index], "id")}"
+}
+
+output "Pooled instances private IPs" {
+  value = ["${data.oci_core_instance.TFInstancePoolInstanceSingularDatasources.*.private_ip}"]
+}
+
+output "Pooled instances public IPs" {
+  value = ["${data.oci_core_instance.TFInstancePoolInstanceSingularDatasources.*.public_ip}"]
+}
+
+output "Pooled instances hostname labels" {
+  value = ["${data.oci_core_instance.TFInstancePoolInstanceSingularDatasources.*.hostname_label}"]
+}
