@@ -42,10 +42,10 @@ The following arguments are supported:
 * `domain_contains` - (Optional) Search by domain. Will match any record whose domain (case-insensitive) contains the provided value. 
 * `id` - (Optional) The OCID of a resource.
 * `state` - (Optional) The state of a resource.
-* `steering_policy_id` - (Optional) Search by steering policy OCID. Will match any resource whose steering policy id matches the provided value. 
+* `steering_policy_id` - (Optional) Search by steering policy OCID. Will match any resource whose steering policy ID matches the provided value. 
 * `time_created_greater_than_or_equal_to` - (Optional) An [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) timestamp that states all returned resources were created on or after the indicated time. 
 * `time_created_less_than` - (Optional) An [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) timestamp that states all returned resources were created before the indicated time. 
-* `zone_id` - (Optional) Search by zone OCID. Will match any resource whose zone id matches the provided value. 
+* `zone_id` - (Optional) Search by zone OCID. Will match any resource whose zone ID matches the provided value. 
 
 
 ## Attributes Reference
@@ -59,14 +59,14 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the steering policy attachment.
-* `display_name` - A user-friendly name for the steering policy attachment. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `display_name` - A user-friendly name for the steering policy attachment. Does not have to be unique and can be changed. Avoid entering confidential information. 
 * `domain_name` - The attached domain within the attached zone.
 * `id` - The OCID of the resource.
 * `rtypes` - The record types covered by the attachment at the domain. The set of record types is determined by aggregating the record types from the answers defined in the steering policy. 
 * `self` - The canonical absolute URL of the resource.
 * `state` - The current state of the resource.
 * `steering_policy_id` - The OCID of the attached steering policy.
-* `time_created` - The date and time the resource was created in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339.
+* `time_created` - The date and time the resource was created, expressed in RFC 3339 timestamp format.
 
 	**Example:** `2016-07-22T17:23:59:60Z` 
 * `zone_id` - The OCID of the attached zone.

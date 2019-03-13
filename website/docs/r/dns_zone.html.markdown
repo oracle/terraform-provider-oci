@@ -22,7 +22,7 @@ resource "oci_dns_zone" "test_zone" {
 	zone_type = "${var.zone_zone_type}"
 
 	#Optional
-	defined_tags = {"foo-namespace.bar-key"= "value"}
+	defined_tags = "${var.zone_defined_tags}"
 	external_masters {
 		#Required
 		address = "${var.zone_external_masters_address}"
@@ -36,7 +36,7 @@ resource "oci_dns_zone" "test_zone" {
 			secret = "${var.zone_external_masters_tsig_secret}"
 		}
 	}
-	freeform_tags = {"bar-key"= "value"}
+	freeform_tags = "${var.zone_freeform_tags}"
 }
 ```
 
@@ -45,7 +45,9 @@ resource "oci_dns_zone" "test_zone" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment the resource belongs to.
-* `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+
+	 **Example:** `{"Operations.CostCenter": "42"}` 
 * `external_masters` - (Optional) (Updatable) External master servers for the zone. `externalMasters` becomes a required parameter when the `zoneType` value is `SECONDARY`. 
 	* `address` - (Required) (Updatable) The server's IP address (IPv4 or IPv6).
 	* `port` - (Optional) (Updatable) The server's port. Port value must be a value of 53, otherwise omit the port value. 
@@ -53,7 +55,9 @@ The following arguments are supported:
 		* `algorithm` - (Required) (Updatable) TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha512. For more information on these algorithms, see [RFC 4635](https://tools.ietf.org/html/rfc4635#section-2). 
 		* `name` - (Required) (Updatable) A domain name identifying the key for a given pair of hosts.
 		* `secret` - (Required) (Updatable) A base64 string encoding the binary shared secret.
-* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type, or scope. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+
+	 **Example:** `{"Department": "Finance"}` 
 * `name` - (Required) The name of the zone.
 * `zone_type` - (Required) The type of the zone. Must be either `PRIMARY` or `SECONDARY`. 
 
@@ -66,7 +70,9 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the zone.
-* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+
+	 **Example:** `{"Operations.CostCenter": "42"}` 
 * `external_masters` - External master servers for the zone. `externalMasters` becomes a required parameter when the `zoneType` value is `SECONDARY`. 
 	* `address` - The server's IP address (IPv4 or IPv6).
 	* `port` - The server's port. Port value must be a value of 53, otherwise omit the port value. 
@@ -74,7 +80,9 @@ The following attributes are exported:
 		* `algorithm` - TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha512. For more information on these algorithms, see [RFC 4635](https://tools.ietf.org/html/rfc4635#section-2). 
 		* `name` - A domain name identifying the key for a given pair of hosts.
 		* `secret` - A base64 string encoding the binary shared secret.
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type, or scope. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+
+	 **Example:** `{"Department": "Finance"}` 
 * `id` - The OCID of the zone.
 * `name` - The name of the zone.
 * `nameservers` - The authoritative nameservers for the zone.

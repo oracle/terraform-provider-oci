@@ -56,7 +56,9 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the zone.
-* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+
+	 **Example:** `{"Operations.CostCenter": "42"}` 
 * `external_masters` - External master servers for the zone. `externalMasters` becomes a required parameter when the `zoneType` value is `SECONDARY`. 
 	* `address` - The server's IP address (IPv4 or IPv6).
 	* `port` - The server's port. Port value must be a value of 53, otherwise omit the port value. 
@@ -64,7 +66,9 @@ The following attributes are exported:
 		* `algorithm` - TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha512. For more information on these algorithms, see [RFC 4635](https://tools.ietf.org/html/rfc4635#section-2). 
 		* `name` - A domain name identifying the key for a given pair of hosts.
 		* `secret` - A base64 string encoding the binary shared secret.
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type, or scope. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+
+	 **Example:** `{"Department": "Finance"}` 
 * `id` - The OCID of the zone.
 * `name` - The name of the zone.
 * `nameservers` - The authoritative nameservers for the zone.
