@@ -1,4 +1,4 @@
-## 3.18.0 (Unreleased)
+## 3.18.0 (March 13, 2019)
 
 ### Added
 - Add Budget and Alert Rules resources
