@@ -17,7 +17,7 @@ variable "availability_domain" {
 
 # DBSystem specific 
 variable "db_system_shape" {
-  default = "VM.Standard2.1"
+  default = "BM.DenseIO2.52"
 }
 
 variable "cpu_core_count" {
@@ -34,6 +34,10 @@ variable "db_admin_password" {
 
 variable "db_name" {
   default = "aTFdb"
+}
+
+variable "db_home_db_name" {
+  default = "aTFdb2"
 }
 
 variable "db_version" {
