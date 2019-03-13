@@ -46,11 +46,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"node_image_name": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"node_shape": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -66,6 +61,20 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			},
 
 			// Optional
+			"node_image_name": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				Computed:      true,
+				ConflictsWith: []string{"node_image_id"},
+			},
+			"node_image_id": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				Computed:      true,
+				ConflictsWith: []string{"node_image_name"},
+			},
 			"initial_node_labels": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -103,10 +112,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			},
 
 			// Computed
-			"node_image_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"nodes": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -264,6 +269,11 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
+	}
+
+	if nodeImageId, ok := s.D.GetOkExists("node_image_id"); ok {
+		tmp := nodeImageId.(string)
+		request.NodeImageName = &tmp
 	}
 
 	if nodeImageName, ok := s.D.GetOkExists("node_image_name"); ok {

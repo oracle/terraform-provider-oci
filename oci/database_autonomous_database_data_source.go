@@ -68,6 +68,10 @@ func DatabaseAutonomousDatabaseDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"db_workload": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -175,6 +179,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	if s.Res.DbVersion != nil {
 		s.D.Set("db_version", *s.Res.DbVersion)
 	}
+
+	s.D.Set("db_workload", s.Res.DbWorkload)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))

@@ -48,7 +48,7 @@ resource "oci_identity_tag_namespace" "test_tag_namespace" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the tenancy containing the tag namespace.
+* `compartment_id` - (Required) (Updatable) The OCID of the tenancy containing the tag namespace.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Required) (Updatable) The description you assign to the tag namespace during creation.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
@@ -70,7 +70,7 @@ The following attributes are exported:
 * `id` - The OCID of the tag namespace.
 * `is_retired` - Whether the tag namespace is retired. For more information, see [Retiring Key Definitions and Namespace Definitions](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
 * `name` - The name of the tag namespace. It must be unique across all tag namespaces in the tenancy and cannot be changed. 
-* `time_created` - Date and time the tagNamespace was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - Date and time the tag namespace was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
 
 ## Import
 

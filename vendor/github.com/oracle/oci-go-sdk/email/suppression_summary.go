@@ -4,7 +4,7 @@
 // Email Delivery API
 //
 // API for the Email Delivery service. Use this API to send high-volume, application-generated
-// emails. For more information, see Overview of the Email Delivery Service (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Email/Concepts/overview.htm).
+// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
 //
 
 package email

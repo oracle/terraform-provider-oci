@@ -20,8 +20,12 @@ var (
 	BucketResourceConfig = BucketResourceDependencies +
 		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation)
 
+	// Based on Bucket name specifications used in Object Storage Lifecycle policy
+	testBucketName  = randomString(32, charset)
+	testBucketName2 = testBucketName + "2"
+
 	bucketSingularDataSourceRepresentation = map[string]interface{}{
-		"name":      Representation{repType: Required, create: `name2`},
+		"name":      Representation{repType: Required, create: testBucketName2},
 		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
 	}
 
@@ -30,13 +34,13 @@ var (
 		"namespace":      Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
 		"filter":         RepresentationGroup{Required, bucketDataSourceFilterRepresentation}}
 	bucketDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `my-test-1`, update: `name`},
+		"name":   Representation{repType: Required, create: `name`},
 		"values": Representation{repType: Required, create: []string{`${oci_objectstorage_bucket.test_bucket.name}`}},
 	}
 
 	bucketRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Required, create: `my-test-1`, update: `name2`},
+		"name":           Representation{repType: Required, create: testBucketName, update: testBucketName2},
 		"namespace":      Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
 		"access_type":    Representation{repType: Optional, create: `NoPublicAccess`, update: `ObjectRead`},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -81,7 +85,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "name", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "name", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 
 					func(s *terraform.State) (err error) {
@@ -108,7 +112,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "name", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -144,7 +148,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "etag"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "name", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -173,7 +177,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
+					resource.TestCheckResourceAttr(resourceName, "name", testBucketName2),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -204,7 +208,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.etag"),
 					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.name", "name2"),
+					resource.TestCheckResourceAttr(datasourceName, "bucket_summaries.0.name", testBucketName2),
 					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.namespace"),
 					resource.TestCheckResourceAttrSet(datasourceName, "bucket_summaries.0.time_created"),
 				),
@@ -215,7 +219,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + BucketResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName2),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "access_type", "ObjectRead"),
@@ -225,7 +229,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName2),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 					// This is difficult to test because TF is eager in creating the datasource and gives stale results.
 					// If a depends_on is added, we get an error like "After applying this step and refreshing, the plan was not empty:"

@@ -14,7 +14,7 @@ import (
 
 // SmtpCredentialSummary As the name suggests, an `SmtpCredentialSummary` object contains information about an `SmtpCredential`.
 // The SMTP credential is used for SMTP authentication with
-// the Email Delivery Service (https://docs.us-phoenix-1.oraclecloud.com/Content/Email/Concepts/overview.htm).
+// the Email Delivery Service (https://docs.cloud.oracle.com/Content/Email/Concepts/overview.htm).
 type SmtpCredentialSummary struct {
 
 	// The SMTP user name.

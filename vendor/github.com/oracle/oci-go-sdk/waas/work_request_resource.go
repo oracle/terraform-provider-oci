@@ -21,7 +21,7 @@ type WorkRequestResource struct {
 	// The resource type the work request affects.
 	EntityType *string `mandatory:"false" json:"entityType"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the resource that the work request affects.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource that the work request affects.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
 	// The URI path used while performing a `GET` to access the resource metadata.

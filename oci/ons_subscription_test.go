@@ -46,7 +46,8 @@ var (
 		"delivery_policy": Representation{repType: Optional, update: `{\"backoffRetryPolicy\":{\"initialDelayInFailureRetry\":60000,\"maxRetryDuration\":7000000,\"policyType\":\"EXPONENTIAL\"}, \"maxReceiveRatePerSecond\" : 0}`},
 	}
 
-	SubscriptionResourceDependencies = NotificationTopicRequiredOnlyResource
+	SubscriptionResourceDependencies = NotificationTopicResourceDependencies +
+		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomName())
 )
 
 func TestOnsSubscriptionResource_basic(t *testing.T) {

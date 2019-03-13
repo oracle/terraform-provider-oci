@@ -19,7 +19,7 @@ type CreateAutonomousDatabaseBackupDetails struct {
 	// The user-friendly name for the backup. The name does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
 	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
 }
 

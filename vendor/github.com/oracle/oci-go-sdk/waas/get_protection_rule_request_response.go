@@ -11,7 +11,7 @@ import (
 // GetProtectionRuleRequest wrapper for the GetProtectionRule operation
 type GetProtectionRuleRequest struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
 	WaasPolicyId *string `mandatory:"true" contributesTo:"path" name:"waasPolicyId"`
 
 	// The protection rule key.

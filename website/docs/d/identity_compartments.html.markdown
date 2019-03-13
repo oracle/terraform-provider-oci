@@ -21,9 +21,9 @@ The parameter `accessLevel` specifies whether to return only those compartments 
 requestor has INSPECT permissions on at least one resource directly
 or indirectly (the resource can be in a subcompartment).
 
-The parameter `compartmentIdInSubtree` applies only when you perform ListCompartments on the 
+The parameter `compartmentIdInSubtree` applies only when you perform ListCompartments on the
 tenancy (root compartment). When set to true, the entire hierarchy of compartments can be returned.
-To get a full list of all compartments and subcompartments in the tenancy (root compartment), 
+To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ANY.
 
 See [Where to Get the Tenancy's OCID and User's OCID](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#five).
@@ -49,7 +49,7 @@ The following arguments are supported:
 * `access_level` - (Optional) Valid values are `ANY` and `ACCESSIBLE`. Default is `ANY`. Setting this to `ACCESSIBLE` returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). For the compartments on which the user indirectly has INSPECT permissions, a restricted set of fields is returned.
 
 	When set to `ANY` permissions are not checked. 
-* `compartment_id` - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment). 
+* `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
 * `compartment_id_in_subtree` - (Optional) Default is false. Can only be set to true when performing ListCompartments on the tenancy (root compartment). When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned depending on the the setting of `accessLevel`. 
 
 

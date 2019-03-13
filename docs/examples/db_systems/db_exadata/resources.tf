@@ -5,6 +5,7 @@ resource "oci_database_db_system" "test_db_system" {
   compartment_id      = "${var.compartment_ocid}"
   cpu_core_count      = "${var.cpu_core_count}"
   database_edition    = "${var.db_edition}"
+  time_zone           = "${var.time_zone}"
 
   db_home {
     database {
@@ -44,5 +45,15 @@ resource "oci_database_db_system" "test_db_system" {
 
   freeform_tags = {
     "Department" = "Finance"
+  }
+}
+
+resource "oci_database_exadata_iorm_config" "test_exadata_iorm_config" {
+  db_system_id = "${oci_database_db_system.test_db_system.id}"
+  objective    = "AUTO"
+
+  db_plans = {
+    db_name = "default"
+    share   = 1
   }
 }

@@ -88,6 +88,20 @@ func int64StringDiffSuppressFunction(key string, old string, new string, d *sche
 	return oldIntVal == newIntVal
 }
 
+// Ignore differences in floating point numbers after the second decimal place, ex: 1.001 == 1.002
+func monetaryDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+	oldVal, err := strconv.ParseFloat(old, 10)
+	if err != nil {
+		return false
+	}
+
+	newVal, err := strconv.ParseFloat(new, 10)
+	if err != nil {
+		return false
+	}
+	return fmt.Sprintf("%.2f", oldVal) == fmt.Sprintf("%.2f", newVal)
+}
+
 func timeDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
 	oldTime, err := time.Parse(time.RFC3339Nano, old)
 	if err != nil {

@@ -50,8 +50,6 @@ func TestMonitoringAlarmHistoryCollectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "timestamp_less_than"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "entries.#"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "entries.0.summary"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "entries.0.timestamp"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_enabled"),
 				),
 			},

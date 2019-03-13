@@ -11,7 +11,7 @@ import (
 // StartAutonomousDatabaseRequest wrapper for the StartAutonomousDatabase operation
 type StartAutonomousDatabaseRequest struct {
 
-	// The database OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

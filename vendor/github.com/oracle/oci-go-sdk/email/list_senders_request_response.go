@@ -29,7 +29,7 @@ type ListSendersRequest struct {
 
 	// For list pagination. The maximum number of results per page, or items to return in a
 	// paginated "List" call. `1` is the minimum, `1000` is the maximum. For important details about
-	// how pagination works, see List Pagination (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The field to sort by. The `TIMECREATED` value returns the list in in
@@ -76,7 +76,7 @@ type ListSendersResponse struct {
 
 	// For list pagination. When this header appears in the response, additional
 	// pages of results remain. For important details about how pagination works,
-	// see List Pagination (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// The total number of items returned from the request.

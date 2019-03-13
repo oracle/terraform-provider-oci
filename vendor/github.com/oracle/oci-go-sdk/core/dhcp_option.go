@@ -16,8 +16,8 @@ import (
 // DhcpOption A single DHCP option according to RFC 1533 (https://tools.ietf.org/html/rfc1533).
 // The two options available to use are DhcpDnsOption
 // and DhcpSearchDomainOption. For more
-// information, see DNS in Your Virtual Cloud Network (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/dns.htm)
-// and DHCP Options (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Tasks/managingDHCP.htm).
+// information, see DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/Content/Network/Concepts/dns.htm)
+// and DHCP Options (https://docs.cloud.oracle.com/Content/Network/Tasks/managingDHCP.htm).
 type DhcpOption interface {
 }
 

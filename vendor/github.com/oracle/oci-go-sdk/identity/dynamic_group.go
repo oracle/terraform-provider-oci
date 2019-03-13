@@ -19,7 +19,7 @@ import (
 // based on the permissions granted in policies written for the dynamic groups.
 // This works like regular user/group membership. But in that case, the membership is a static relationship, whereas
 // in a dynamic group, the membership of an instance certificate to a dynamic group is determined during runtime.
-// For more information, see Managing Dynamic Groups (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingdynamicgroups.htm).
+// For more information, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingdynamicgroups.htm).
 type DynamicGroup struct {
 
 	// The OCID of the group.
@@ -36,7 +36,7 @@ type DynamicGroup struct {
 	Description *string `mandatory:"true" json:"description"`
 
 	// A rule string that defines which instance certificates will be matched.
-	// For syntax, see Managing Dynamic Groups (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingdynamicgroups.htm).
+	// For syntax, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingdynamicgroups.htm).
 	MatchingRule *string `mandatory:"true" json:"matchingRule"`
 
 	// Date and time the group was created, in the format defined by RFC3339.

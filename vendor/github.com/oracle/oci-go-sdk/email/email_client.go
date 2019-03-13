@@ -4,7 +4,7 @@
 // Email Delivery API
 //
 // API for the Email Delivery service. Use this API to send high-volume, application-generated
-// emails. For more information, see Overview of the Email Delivery Service (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Email/Concepts/overview.htm).
+// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
 //
 
 package email
@@ -406,7 +406,7 @@ func (client EmailClient) listSuppressions(ctx context.Context, request common.O
 // UpdateSender Replaces the set of tags for a sender with the tags provided. If either freeform
 // or defined tags are omitted, the tags for that set remain the same. Each set must
 // include the full set of tags for the sender, partial updates are not permitted.
-// For more information about tagging, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+// For more information about tagging, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 func (client EmailClient) UpdateSender(ctx context.Context, request UpdateSenderRequest) (response UpdateSenderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

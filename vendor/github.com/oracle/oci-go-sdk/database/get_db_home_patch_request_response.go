@@ -11,10 +11,10 @@ import (
 // GetDbHomePatchRequest wrapper for the GetDbHomePatch operation
 type GetDbHomePatchRequest struct {
 
-	// The database home OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The database home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DbHomeId *string `mandatory:"true" contributesTo:"path" name:"dbHomeId"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the patch.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the patch.
 	PatchId *string `mandatory:"true" contributesTo:"path" name:"patchId"`
 
 	// Unique Oracle-assigned identifier for the request.

@@ -21,7 +21,7 @@ Is used to export the environmental variables used in the configuration. These a
 Before you plan, apply, or destroy the configuration source the file -  
 `$ . env-vars`
 
-#### `DBSystem.tf`
+#### `resources.tf`
 Defines the Database System
 
 #### `remote-exec.tf`

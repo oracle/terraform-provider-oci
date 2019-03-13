@@ -47,6 +47,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			},
 
 			// Optional
+			"db_workload": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -241,6 +247,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Create() error {
 		request.DbName = &tmp
 	}
 
+	if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
+		request.DbWorkload = oci_database.CreateAutonomousDatabaseDetailsDbWorkloadEnum(dbWorkload.(string))
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -378,6 +388,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.DbVersion != nil {
 		s.D.Set("db_version", *s.Res.DbVersion)
 	}
+
+	s.D.Set("db_workload", s.Res.DbWorkload)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))

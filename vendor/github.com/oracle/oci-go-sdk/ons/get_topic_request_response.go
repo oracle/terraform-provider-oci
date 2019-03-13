@@ -11,7 +11,7 @@ import (
 // GetTopicRequest wrapper for the GetTopic operation
 type GetTopicRequest struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/General/Concepts/identifiers.htm) of the topic to retrieve.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic to retrieve.
 	TopicId *string `mandatory:"true" contributesTo:"path" name:"topicId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

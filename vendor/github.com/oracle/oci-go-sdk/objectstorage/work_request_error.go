@@ -16,7 +16,7 @@ import (
 type WorkRequestError struct {
 
 	// A machine-usable code for the error that occured. Error codes are listed on
-	// (https://docs.us-phoenix-1.oraclecloud.com/Content/API/References/apierrors.htm)
+	// (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm)
 	Code *string `mandatory:"false" json:"code"`
 
 	// A human readable description of the issue encountered.

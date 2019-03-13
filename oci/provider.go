@@ -13,6 +13,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"time"
 
@@ -26,6 +27,7 @@ import (
 
 var descriptions map[string]string
 var apiKeyConfigAttributes = [...]string{userOcidAttrName, fingerprintAttrName, privateKeyAttrName, privateKeyPathAttrName, privateKeyPasswordAttrName}
+var avoidWaitingForDeleteTarget bool
 
 const (
 	authAPIKeySetting                     = "ApiKey"
@@ -193,6 +195,10 @@ func dataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"oci_audit_configuration":                        AuditConfigurationDataSource(),
 		"oci_audit_events":                               AuditAuditEventsDataSource(),
+		"oci_budget_budget":                              BudgetBudgetDataSource(),
+		"oci_budget_budgets":                             BudgetBudgetsDataSource(),
+		"oci_budget_alert_rule":                          BudgetAlertRuleDataSource(),
+		"oci_budget_alert_rules":                         BudgetAlertRulesDataSource(),
 		"oci_autoscaling_auto_scaling_configuration":     AutoscalingAutoScalingConfigurationDataSource(),
 		"oci_autoscaling_auto_scaling_configurations":    AutoscalingAutoScalingConfigurationsDataSource(),
 		"oci_containerengine_clusters":                   ContainerengineClustersDataSource(),
@@ -303,6 +309,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_database_db_versions":                       DatabaseDbVersionsDataSource(),
 		"oci_database_db_home_patches":                   DatabaseDbHomePatchesDataSource(),
 		"oci_database_db_home_patch_history_entries":     DatabaseDbHomePatchHistoryEntriesDataSource(),
+		"oci_database_exadata_iorm_config":               DatabaseExadataIormConfigDataSource(),
 		"oci_dns_records":                                DnsRecordsDataSource(),
 		"oci_dns_zones":                                  DnsZonesDataSource(),
 		"oci_dns_steering_policies":                      DnsSteeringPoliciesDataSource(),
@@ -326,6 +333,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_health_checks_ping_probe_results":           HealthChecksPingProbeResultsDataSource(),
 		"oci_health_checks_vantage_points":               HealthChecksVantagePointsDataSource(),
 		"oci_identity_api_keys":                          IdentityApiKeysDataSource(),
+		"oci_identity_authentication_policy":             IdentityAuthenticationPolicyDataSource(),
 		"oci_identity_auth_tokens":                       IdentityAuthTokensDataSource(),
 		"oci_identity_availability_domain":               IdentityAvailabilityDomainDataSource(),
 		"oci_identity_availability_domains":              IdentityAvailabilityDomainsDataSource(),
@@ -342,6 +350,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_identity_regions":                           IdentityRegionsDataSource(),
 		"oci_identity_smtp_credentials":                  IdentitySmtpCredentialsDataSource(),
 		"oci_identity_swift_passwords":                   IdentitySwiftPasswordsDataSource(),
+		"oci_identity_tag_default":                       IdentityTagDefaultDataSource(),
+		"oci_identity_tag_defaults":                      IdentityTagDefaultsDataSource(),
 		"oci_identity_tag_namespaces":                    IdentityTagNamespacesDataSource(),
 		"oci_identity_tags":                              IdentityTagsDataSource(),
 		"oci_identity_tenancy":                           IdentityTenancyDataSource(),
@@ -400,6 +410,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 func resourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"oci_autoscaling_auto_scaling_configuration":              AutoscalingAutoScalingConfigurationResource(),
+		"oci_budget_budget":                                       BudgetBudgetResource(),
+		"oci_budget_alert_rule":                                   BudgetAlertRuleResource(),
 		"oci_core_app_catalog_listing_resource_version_agreement": AppCatalogListingResourceVersionAgreementResource(),
 		"oci_core_listing_resource_version_agreement":             AppCatalogListingResourceVersionAgreementResource(),
 		"oci_core_app_catalog_subscription":                       CoreAppCatalogSubscriptionResource(),
@@ -452,6 +464,7 @@ func resourcesMap() map[string]*schema.Resource {
 		//Do remember to enable database_db_home_test if you are enabling DB Home resource
 		//"oci_database_db_home":                     DatabaseDbHomeResource(),
 		"oci_database_db_system":                    DatabaseDbSystemResource(),
+		"oci_database_exadata_iorm_config":          DatabaseExadataIormConfigResource(),
 		"oci_database_backup":                       DatabaseBackupResource(),
 		"oci_dns_record":                            DnsRecordResource(),
 		"oci_dns_steering_policy":                   DnsSteeringPolicyResource(),
@@ -469,6 +482,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_health_checks_http_probe":              HealthChecksHttpProbeResource(),
 		"oci_health_checks_ping_probe":              HealthChecksPingProbeResource(),
 		"oci_identity_api_key":                      IdentityApiKeyResource(),
+		"oci_identity_authentication_policy":        IdentityAuthenticationPolicyResource(),
 		"oci_identity_auth_token":                   IdentityAuthTokenResource(),
 		"oci_identity_compartment":                  IdentityCompartmentResource(),
 		"oci_identity_customer_secret_key":          IdentityCustomerSecretKeyResource(),
@@ -479,8 +493,9 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_identity_policy":                       IdentityPolicyResource(),
 		"oci_identity_smtp_credential":              IdentitySmtpCredentialResource(),
 		"oci_identity_swift_password":               IdentitySwiftPasswordResource(),
-		"oci_identity_tag_namespace":                IdentityTagNamespaceResource(),
 		"oci_identity_tag":                          IdentityTagResource(),
+		"oci_identity_tag_default":                  IdentityTagDefaultResource(),
+		"oci_identity_tag_namespace":                IdentityTagNamespaceResource(),
 		"oci_identity_ui_password":                  IdentityUiPasswordResource(),
 		"oci_identity_user":                         IdentityUserResource(),
 		"oci_identity_user_capabilities_management": IdentityUserCapabilitiesManagementResource(),
@@ -698,6 +713,8 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	if err != nil {
 		return nil, err
 	}
+
+	avoidWaitingForDeleteTarget, _ = strconv.ParseBool(getEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
 
 	return clients, nil
 }

@@ -15,7 +15,7 @@ import (
 // CreateDatabaseFromBackupDetails The representation of CreateDatabaseFromBackupDetails
 type CreateDatabaseFromBackupDetails struct {
 
-	// The backup OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The backup OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	BackupId *string `mandatory:"true" json:"backupId"`
 
 	// The password to open the TDE wallet.

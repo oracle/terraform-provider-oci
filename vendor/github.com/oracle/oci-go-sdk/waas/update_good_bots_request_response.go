@@ -11,7 +11,7 @@ import (
 // UpdateGoodBotsRequest wrapper for the UpdateGoodBots operation
 type UpdateGoodBotsRequest struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.
 	WaasPolicyId *string `mandatory:"true" contributesTo:"path" name:"waasPolicyId"`
 
 	GoodBots []GoodBot `contributesTo:"body"`
@@ -57,7 +57,7 @@ type UpdateGoodBotsResponse struct {
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the work request.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 

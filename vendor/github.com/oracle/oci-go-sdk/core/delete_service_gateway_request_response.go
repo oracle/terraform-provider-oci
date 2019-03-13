@@ -11,7 +11,7 @@ import (
 // DeleteServiceGatewayRequest wrapper for the DeleteServiceGateway operation
 type DeleteServiceGatewayRequest struct {
 
-	// The service gateway's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The service gateway's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	ServiceGatewayId *string `mandatory:"true" contributesTo:"path" name:"serviceGatewayId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

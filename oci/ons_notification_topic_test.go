@@ -16,9 +16,12 @@ import (
 )
 
 var (
+	topicNameRequiredOnly                 = `t` + randomString(10, charset)
 	topicName                             = `t` + randomString(10, charset)
 	NotificationTopicRequiredOnlyResource = NotificationTopicResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
+		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, representationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
+			"name": Representation{repType: Required, create: topicNameRequiredOnly},
+		}))
 
 	NotificationTopicResourceConfig = NotificationTopicResourceDependencies +
 		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Optional, Update, notificationTopicRepresentation)
@@ -77,11 +80,10 @@ func TestOnsNotificationTopicResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + NotificationTopicResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation),
+				Config: config + compartmentIdVariableStr + NotificationTopicRequiredOnlyResource,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "name", topicName),
+					resource.TestCheckResourceAttr(resourceName, "name", topicNameRequiredOnly),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -212,7 +214,11 @@ func testAccCheckOnsNotificationTopicDestroy(s *terraform.State) error {
 
 			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ons")
 
-			_, err := client.GetTopic(context.Background(), request)
+			response, err := client.GetTopic(context.Background(), request)
+
+			if avoidWaitingForDeleteTarget && response.LifecycleState == oci_ons.NotificationTopicLifecycleStateDeleting {
+				return nil
+			}
 
 			if err == nil {
 				return fmt.Errorf("resource still exists")

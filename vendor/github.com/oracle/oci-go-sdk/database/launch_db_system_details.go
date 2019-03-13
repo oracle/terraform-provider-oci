@@ -16,13 +16,13 @@ import (
 // LaunchDbSystemDetails The representation of LaunchDbSystemDetails
 type LaunchDbSystemDetails struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the compartment the DB system  belongs in.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment the DB system  belongs in.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The availability domain where the DB system is located.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the subnet the DB system is associated with.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the DB system is associated with.
 	// **Subnet Restrictions:**
 	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
 	// - For Exadata and virtual machine 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.128.0/20.
@@ -40,8 +40,8 @@ type LaunchDbSystemDetails struct {
 	// The public key portion of the key pair to use for SSH access to the DB system. Multiple public keys can be provided. The length of the combined keys cannot exceed 40,000 characters.
 	SshPublicKeys []string `mandatory:"true" json:"sshPublicKeys"`
 
-	// The hostname for the DB system. The hostname must begin with an alphabetic character and
-	// can contain a maximum of 30 alphanumeric characters, including hyphens (-).
+	// The hostname for the DB system. The hostname must begin with an alphabetic character, and
+	// can contain alphanumeric characters and hyphens (-). The maximum length of the hostname is 16 characters for bare metal and virtual machine DB systems, and 12 characters for Exadata DB systems.
 	// The maximum length of the combined hostname and domain is 63 characters.
 	// **Note:** The hostname must be unique within the subnet. If it is not unique,
 	// the DB system will fail to provision.
@@ -57,13 +57,13 @@ type LaunchDbSystemDetails struct {
 	// - Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
 	// - Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368.
 	// This parameter is not used for virtual machine DB systems because virtual machine DB systems have a set number of cores for each shape.
-	// For information about the number of cores for a virtual machine DB system shape, see Virtual Machine DB Systems (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/Concepts/overview.htm#virtualmachine)
+	// For information about the number of cores for a virtual machine DB system shape, see Virtual Machine DB Systems (https://docs.cloud.oracle.com/Content/Database/Concepts/overview.htm#virtualmachine)
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
 	DbHome *CreateDbHomeDetails `mandatory:"true" json:"dbHome"`
 
 	// A fault domain is a grouping of hardware and infrastructure within an availability domain.
-	// fault domains let you distribute your instances so that they are not on the same physical
+	// Fault domains let you distribute your instances so that they are not on the same physical
 	// hardware within a single availability domain. A hardware failure or maintenance
 	// that affects one fault domain does not affect DB systems in other fault domains.
 	// If you do not specify the fault domain, the system selects one for you. To change the fault
@@ -80,9 +80,12 @@ type LaunchDbSystemDetails struct {
 	// The user-friendly name for the DB system. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the backup network subnet the DB system is associated with. Applicable only to Exadata DB systems.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup network subnet the DB system is associated with. Applicable only to Exadata DB systems.
 	// **Subnet Restrictions:** See the subnet restrictions information for **subnetId**.
 	BackupSubnetId *string `mandatory:"false" json:"backupSubnetId"`
+
+	// The time zone to use for the DB system. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
+	TimeZone *string `mandatory:"false" json:"timeZone"`
 
 	// If true, Sparse Diskgroup is configured for Exadata dbsystem. If False, Sparse diskgroup is not configured.
 	SparseDiskgroup *bool `mandatory:"false" json:"sparseDiskgroup"`
@@ -107,12 +110,12 @@ type LaunchDbSystemDetails struct {
 	NodeCount *int `mandatory:"false" json:"nodeCount"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/resourcetags.htm).
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -162,6 +165,11 @@ func (m LaunchDbSystemDetails) GetBackupSubnetId() *string {
 //GetShape returns Shape
 func (m LaunchDbSystemDetails) GetShape() *string {
 	return m.Shape
+}
+
+//GetTimeZone returns TimeZone
+func (m LaunchDbSystemDetails) GetTimeZone() *string {
+	return m.TimeZone
 }
 
 //GetSparseDiskgroup returns SparseDiskgroup

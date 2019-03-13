@@ -11,7 +11,7 @@ import (
 // RestoreDatabaseRequest wrapper for the RestoreDatabase operation
 type RestoreDatabaseRequest struct {
 
-	// The database OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
 	// Request to perform database restore.
