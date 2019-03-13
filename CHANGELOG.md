@@ -4,7 +4,6 @@
 - Support for importing Buckets and Pre-authenticated requests in Object Storage
 - Support glob inclusion and exclusion patterns for object names allowed in Object Storage Lifecycle
 
-
 ### Fixed
 - Import functionality for Objects in Object Storage
 
@@ -14,7 +13,6 @@
 - Support for cloning of Autonomous Databases
 - Support for node metadata in container engine node pool
 - Support for Data Guard Associations for databases
-- Support glob inclusion and exclusion patterns for object names allowed in Object Storage Lifecycle Policies rules
 
 ## 3.18.0 (March 13, 2019)
 
