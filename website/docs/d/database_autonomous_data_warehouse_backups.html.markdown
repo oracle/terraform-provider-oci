@@ -11,6 +11,7 @@ This data source provides the list of Autonomous Data Warehouse Backups in Oracl
 
 Gets a list of Autonomous Data Warehouse backups based on either the `autonomousDataWarehouseId` or `compartmentId` specified as a query parameter.
 
+**IMPORTANT:** This data source is being **deprecated**, use `oci_database_autonomous_database_backups` instead.
 
 ## Example Usage
 

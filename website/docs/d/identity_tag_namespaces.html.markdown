@@ -28,7 +28,7 @@ data "oci_identity_tag_namespaces" "test_tag_namespaces" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the parent compartment (remember that the tenancy is simply the root compartment). 
+* `compartment_id` - (Required) The OCID of the compartment (remember that the tenancy is simply the root compartment). 
 * `include_subcompartments` - (Optional) An optional boolean parameter indicating whether to retrieve all tag namespaces in subcompartments. If this parameter is not specified, only the tag namespaces defined in the specified compartment are retrieved. 
 
 
@@ -49,5 +49,5 @@ The following attributes are exported:
 * `id` - The OCID of the tag namespace.
 * `is_retired` - Whether the tag namespace is retired. For more information, see [Retiring Key Definitions and Namespace Definitions](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
 * `name` - The name of the tag namespace. It must be unique across all tag namespaces in the tenancy and cannot be changed. 
-* `time_created` - Date and time the tagNamespace was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - Date and time the tag namespace was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
 

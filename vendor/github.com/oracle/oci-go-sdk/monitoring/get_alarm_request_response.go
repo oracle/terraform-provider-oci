@@ -11,7 +11,7 @@ import (
 // GetAlarmRequest wrapper for the GetAlarm operation
 type GetAlarmRequest struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.
 	AlarmId *string `mandatory:"true" contributesTo:"path" name:"alarmId"`
 
 	// Customer part of the request identifier token. If you need to contact Oracle about a particular

@@ -11,7 +11,7 @@ import (
 // SummarizeMetricsDataRequest wrapper for the SummarizeMetricsData operation
 type SummarizeMetricsDataRequest struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the
 	// resources monitored by the metric that you are searching for. Use tenancyId to search in
 	// the root compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`

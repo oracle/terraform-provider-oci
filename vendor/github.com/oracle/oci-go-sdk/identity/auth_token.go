@@ -18,7 +18,7 @@ import (
 // The auth token is associated with the user's Console login. Auth tokens never expire. A user can have up to two
 // auth tokens at a time.
 // **Note:** The token is always an Oracle-generated string; you can't change it to a string of your choice.
-// For more information, see Managing User Credentials (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingcredentials.htm).
+// For more information, see Managing User Credentials (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcredentials.htm).
 type AuthToken struct {
 
 	// The auth token. The value is available only in the response for `CreateAuthToken`, and not

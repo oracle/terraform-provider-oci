@@ -11,7 +11,7 @@ import (
 // RestoreAutonomousDataWarehouseRequest wrapper for the RestoreAutonomousDataWarehouse operation
 type RestoreAutonomousDataWarehouseRequest struct {
 
-	// The database OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousDataWarehouseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDataWarehouseId"`
 
 	// Request to perform an Autonomous Data Warehouse restore.

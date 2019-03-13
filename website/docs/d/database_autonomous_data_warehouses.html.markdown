@@ -11,6 +11,7 @@ This data source provides the list of Autonomous Data Warehouses in Oracle Cloud
 
 Gets a list of Autonomous Data Warehouses.
 
+**IMPORTANT:** This data source is being **deprecated**, use `oci_database_autonomous_databases` instead.
 
 ## Example Usage
 

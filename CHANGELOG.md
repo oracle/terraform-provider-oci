@@ -1,4 +1,22 @@
-## 3.17.1 (Unreleased)
+## 3.18.0 (Unreleased)
+
+### Added
+- Add Budget and Alert Rules resources
+- Support starting and stopping instances
+- Support to create Containerengine Node Pool with Image Id
+- Support for customer specified timezone in Database Systems
+- Support for creating Autonomous Data Warehouses through Autonomous Database resource `oci_database_autonomous_database` using the field `db_workload`
+- Support for Defined Tag defaults through the `oci_identity_tag_default` resource
+- Support for updating the compartment on a Tag Namespace
+- Support for exadata io resource management config for DB system
+- Support `email` attribute for `oci_identity_user` resource
+
+### Fixed
+- Marked oci_identity_ui_password resource as not importable
+
+### Deprecated
+- Deprecated Autonomous Data Warehouse resources `oci_database_autonomous_data_warehouse`, the API is now unified with Autonomous Database
+
 ## 3.17.0 (March 05, 2019)
 
 ### Added

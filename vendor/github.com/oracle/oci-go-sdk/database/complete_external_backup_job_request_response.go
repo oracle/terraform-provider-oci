@@ -11,7 +11,7 @@ import (
 // CompleteExternalBackupJobRequest wrapper for the CompleteExternalBackupJob operation
 type CompleteExternalBackupJobRequest struct {
 
-	// The backup OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The backup OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	BackupId *string `mandatory:"true" contributesTo:"path" name:"backupId"`
 
 	// Updates the status of the backup resource.

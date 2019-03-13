@@ -23,7 +23,7 @@ type Service struct {
 	// Description of the service.
 	Description *string `mandatory:"true" json:"description"`
 
-	// The service's OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The service's OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	Id *string `mandatory:"true" json:"id"`
 
 	// Name of the service. This name can change and is not guaranteed to be unique.

@@ -11,7 +11,7 @@ import (
 // DeleteDbHomeRequest wrapper for the DeleteDbHome operation
 type DeleteDbHomeRequest struct {
 
-	// The database home OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The database home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DbHomeId *string `mandatory:"true" contributesTo:"path" name:"dbHomeId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

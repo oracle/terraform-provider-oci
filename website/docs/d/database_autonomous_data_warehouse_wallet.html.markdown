@@ -10,6 +10,7 @@ description: |-
 This data source provides details about a specific Autonomous Data Warehouse Wallet resource in Oracle Cloud Infrastructure Database service.
 
 
+**IMPORTANT:** This data source is being **deprecated**, use `oci_database_autonomous_database_wallet` instead.
 
 ## Example Usage
 

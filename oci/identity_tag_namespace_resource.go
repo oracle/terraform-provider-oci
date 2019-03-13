@@ -29,7 +29,6 @@ func IdentityTagNamespaceResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"description": {
 				Type:     schema.TypeString,
@@ -204,6 +203,24 @@ func (s *IdentityTagNamespaceResourceCrud) Get() error {
 }
 
 func (s *IdentityTagNamespaceResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			changeCompartmentRequest := oci_identity.ChangeTagNamespaceCompartmentRequest{}
+
+			compartmentTmp := compartment.(string)
+			changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+			idTmp := s.D.Id()
+			changeCompartmentRequest.TagNamespaceId = &idTmp
+
+			_, err := s.Client.ChangeTagNamespaceCompartment(context.Background(), changeCompartmentRequest)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	request := oci_identity.UpdateTagNamespaceRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {

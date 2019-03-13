@@ -11,7 +11,7 @@ import (
 // GetAutonomousDataWarehouseRequest wrapper for the GetAutonomousDataWarehouse operation
 type GetAutonomousDataWarehouseRequest struct {
 
-	// The database OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousDataWarehouseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDataWarehouseId"`
 
 	// Unique Oracle-assigned identifier for the request.

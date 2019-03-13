@@ -11,7 +11,7 @@ import (
 // ListPathRouteSetsRequest wrapper for the ListPathRouteSets operation
 type ListPathRouteSetsRequest struct {
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the path route sets
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the path route sets
 	// to retrieve.
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 

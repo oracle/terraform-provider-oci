@@ -88,7 +88,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "application/octet-stream"),
@@ -120,7 +120,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
 					resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "content"),
 					resource.TestCheckResourceAttr(resourceName, "content", md5sum),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
@@ -144,7 +144,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
 					resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "content"),
 					resource.TestCheckResourceAttr(resourceName, "content", md5sum2),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
@@ -173,7 +173,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
 					resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "content"),
 					resource.TestCheckResourceAttr(resourceName, "content", md5sum2),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
@@ -203,7 +203,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content_md5"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/xml"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content", "<a1>content</a1>"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
@@ -223,7 +223,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content_md5"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/xml"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content", "<a1>content</a1>"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
@@ -239,7 +239,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 
 					resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
@@ -252,7 +252,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 
 					resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
@@ -506,7 +506,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create,
 						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "application/octet-stream"),
@@ -538,7 +538,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(singlePartFileSize)),
 					resource.TestCheckResourceAttr(resourceName, "content_md5", opcSingleMd5),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckNoResourceAttr(resourceName, "content"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),
@@ -567,7 +567,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(multiPartFileSize)),
 					resource.TestCheckResourceAttr(resourceName, "content_md5", opcMultipartMd5),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckNoResourceAttr(resourceName, "content"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),
@@ -591,7 +591,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(multiPartFileSize)),
 					resource.TestCheckResourceAttr(resourceName, "content_md5", opcMultipartMd5),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckNoResourceAttr(resourceName, "content"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/xml"),
@@ -616,7 +616,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: multiPartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 
 					resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
@@ -630,7 +630,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: multiPartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(datasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 
 					resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
@@ -749,7 +749,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(singlePartFileSize)),
 					resource.TestCheckResourceAttr(resourceName, "content_md5", opcSingleMd5),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckNoResourceAttr(resourceName, "content"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),
@@ -765,7 +765,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
-					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceNameCopy, "object", "my-test-object-1-copy"),
 					//the values were not set for the object_copy, the source object are used
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_length", strconv.Itoa(singlePartFileSize)),
@@ -790,7 +790,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
 					resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "content"),
 					resource.TestCheckResourceAttr(resourceName, "content", md5sum),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
@@ -809,7 +809,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceConfig + ObjectResourceConfigWithSourceURIFromContentObject,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
-					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceNameCopy, "object", "my-test-object-1-copy"),
 					//the values were not set for the object_copy, the source object are used
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_length", "7"),
@@ -827,7 +827,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceConfig + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceNameCopy, "namespace"),
-					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceNameCopy, "object", "my-test-object-1-copy"),
 					//the values were not set for the object_copy, the source object are used
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_length", "7"),
@@ -846,7 +846,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					ObjectResourceDependencies,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
 					//the values were not set for the object_copy, the source object are used
 					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
@@ -871,7 +871,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(singlePartFileSize)),
 					resource.TestCheckResourceAttr(resourceName, "content_md5", opcSingleMd5),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
-					resource.TestCheckResourceAttr(resourceName, "bucket", "my-test-1"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckNoResourceAttr(resourceName, "content"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),

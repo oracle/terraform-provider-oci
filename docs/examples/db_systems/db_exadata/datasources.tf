@@ -45,3 +45,7 @@ data "oci_database_db_system_shapes" "test_db_system_shapes" {
     values = ["${var.db_system_shape}"]
   }
 }
+
+data "oci_database_exadata_iorm_config" "test_exadata_iorm_config" {
+  db_system_id = "${oci_database_exadata_iorm_config.test_exadata_iorm_config.db_system_id}"
+}

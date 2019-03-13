@@ -12,7 +12,7 @@ import (
 // GenerateAutonomousDataWarehouseWalletRequest wrapper for the GenerateAutonomousDataWarehouseWallet operation
 type GenerateAutonomousDataWarehouseWalletRequest struct {
 
-	// The database OCID (https://docs.us-phoenix-1.oraclecloud.com/Content/General/Concepts/identifiers.htm).
+	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousDataWarehouseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDataWarehouseId"`
 
 	// Request to create a new Autonomous Data Warehouse wallet.

@@ -29,6 +29,9 @@
             <li<%= sidebar_current("docs-oci-guide-tagging_resources") %>>
                 <a href="/docs/providers/oci/guides/tagging_resources.html">Tagging Resources</a>
             </li>
+            <li<%= sidebar_current("docs-oci-guide-deprecated_resources") %>>
+                <a href="/docs/providers/oci/guides/deprecated_resources.html">Deprecated Resources</a>
+            </li>
             <li<%= sidebar_current("docs-oci-guide-troubleshooting") %>>
                 <a href="/docs/providers/oci/guides/troubleshooting.html">Troubleshooting</a>
             </li>
@@ -54,6 +57,18 @@
                  </li>
                  <li<%= sidebar_current("docs-oci-datasource-autoscaling-auto_scaling_configurations") %>>
                      <a href="/docs/providers/oci/d/autoscaling_auto_scaling_configurations.html">oci_autoscaling_auto_scaling_configurations</a>
+                 </li>
+                 <li<%= sidebar_current("docs-oci-datasource-budget-alert_rule") %>>
+                     <a href="/docs/providers/oci/d/budget_alert_rule.html">oci_budget_alert_rule</a>
+                 </li>
+                 <li<%= sidebar_current("docs-oci-datasource-budget-alert_rules") %>>
+                     <a href="/docs/providers/oci/d/budget_alert_rules.html">oci_budget_alert_rules</a>
+                 </li>
+                 <li<%= sidebar_current("docs-oci-datasource-budget-budget") %>>
+                     <a href="/docs/providers/oci/d/budget_budget.html">oci_budget_budget</a>
+                 </li>
+                 <li<%= sidebar_current("docs-oci-datasource-budget-budgets") %>>
+                     <a href="/docs/providers/oci/d/budget_budgets.html">oci_budget_budgets</a>
                  </li>
                  <li<%= sidebar_current("docs-oci-datasource-containerengine-cluster_kube_config") %>>
                      <a href="/docs/providers/oci/d/containerengine_cluster_kube_config.html">oci_containerengine_cluster_kube_config</a>
@@ -367,6 +382,9 @@
                  <li<%= sidebar_current("docs-oci-datasource-database-db_versions") %>>
                      <a href="/docs/providers/oci/d/database_db_versions.html">oci_database_db_versions</a>
                  </li>
+                 <li<%= sidebar_current("docs-oci-datasource-database-exadata_iorm_config") %>>
+                     <a href="/docs/providers/oci/d/database_exadata_iorm_config.html">oci_database_exadata_iorm_config</a>
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-dns-records") %>>
                      <a href="/docs/providers/oci/d/dns_records.html">oci_dns_records</a>
                  </li>
@@ -439,6 +457,9 @@
                  <li<%= sidebar_current("docs-oci-datasource-identity-auth_tokens") %>>
                      <a href="/docs/providers/oci/d/identity_auth_tokens.html">oci_identity_auth_tokens</a>
                  </li>
+                 <li<%= sidebar_current("docs-oci-datasource-identity-authentication_policy") %>>
+                     <a href="/docs/providers/oci/d/identity_authentication_policy.html">oci_identity_authentication_policy</a>
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-identity-availability_domain") %>>
                      <a href="/docs/providers/oci/d/identity_availability_domain.html">oci_identity_availability_domain</a>
                  </li>
@@ -486,7 +507,13 @@
                  </li>
                  <li<%= sidebar_current("docs-oci-datasource-identity-swift_passwords") %>>
                      <a href="/docs/providers/oci/d/identity_swift_passwords.html">oci_identity_swift_passwords</a>
-                 </li>
+                 </li> 
+                 <li<%= sidebar_current("docs-oci-datasource-identity-tag_default") %>>
+                     <a href="/docs/providers/oci/d/identity_tag_default.html">oci_identity_tag_default</a>
+                 </li> 
+                 <li<%= sidebar_current("docs-oci-datasource-identity-tag_defaults") %>>
+                     <a href="/docs/providers/oci/d/identity_tag_defaults.html">oci_identity_tag_defaults</a>
+                 </li> 
                  <li<%= sidebar_current("docs-oci-datasource-identity-tag_namespaces") %>>
                      <a href="/docs/providers/oci/d/identity_tag_namespaces.html">oci_identity_tag_namespaces</a>
                  </li>
@@ -567,25 +594,25 @@
                  </li>
                  <li<%= sidebar_current("docs-oci-datasource-load_balancer-shapes") %>>
                      <a href="/docs/providers/oci/d/load_balancer_load_balancer_shapes.html">oci_load_balancer_shapes</a>
-                 </li> 
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-monitoring-alarm") %>>
                      <a href="/docs/providers/oci/d/monitoring_alarm.html">oci_monitoring_alarm</a>
-                 </li> 
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-monitoring-alarm_history_collection") %>>
                      <a href="/docs/providers/oci/d/monitoring_alarm_history_collection.html">oci_monitoring_alarm_history_collection</a>
-                 </li> 
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-monitoring-alarm_statuses") %>>
                      <a href="/docs/providers/oci/d/monitoring_alarm_statuses.html">oci_monitoring_alarm_statuses</a>
-                 </li> 
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-monitoring-alarms") %>>
                      <a href="/docs/providers/oci/d/monitoring_alarms.html">oci_monitoring_alarms</a>
-                 </li> 
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-monitoring-metric_data") %>>
                      <a href="/docs/providers/oci/d/monitoring_metric_data.html">oci_monitoring_metric_data</a>
-                 </li> 
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-monitoring-metrics") %>>
                      <a href="/docs/providers/oci/d/monitoring_metrics.html">oci_monitoring_metrics</a>
-                 </li> 
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-objectstorage_bucket") %>>
                      <a href="/docs/providers/oci/d/object_storage_bucket.html">oci_objectstorage_bucket</a>
                  </li>
@@ -609,16 +636,16 @@
                  </li>
                  <li<%= sidebar_current("docs-oci-datasource-objectstorage_preauthrequests") %>>
                      <a href="/docs/providers/oci/d/object_storage_preauthenticated_requests.html">oci_objectstorage_preauthrequests</a>
-                 </li> 
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-ons-notification_topic") %>>
                      <a href="/docs/providers/oci/d/ons_notification_topic.html">oci_ons_notification_topic</a>
-                 </li> 
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-ons-notification_topics") %>>
                      <a href="/docs/providers/oci/d/ons_notification_topics.html">oci_ons_notification_topics</a>
-                 </li> 
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-ons-subscription") %>>
                      <a href="/docs/providers/oci/d/ons_subscription.html">oci_ons_subscription</a>
-                 </li> 
+                 </li>
                  <li<%= sidebar_current("docs-oci-datasource-streaming-stream") %>>
                      <a href="/docs/providers/oci/d/streaming_stream.html">oci_streaming_stream</a>
                  </li>
@@ -640,6 +667,25 @@
             <ul class="nav nav-visible">
                 <li<%= sidebar_current("docs-oci-resource-autoscaling-auto_scaling_configuration") %>>
                     <a href="/docs/providers/oci/r/autoscaling_auto_scaling_configuration.html">oci_autoscaling_auto_scaling_configuration</a>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-autoscaling-resource") %>>
+            <a href="#">Autoscaling Resources</a>
+            <ul class="nav nav-visible">
+                <li<%= sidebar_current("docs-oci-resource-autoscaling-auto_scaling_configuration") %>>
+                    <a href="/docs/providers/oci/r/autoscaling_auto_scaling_configuration.html">oci_autoscaling_auto_scaling_configuration</a>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-budget-resource") %>>
+            <a href="#">Budget Resources</a>
+            <ul class="nav nav-visible">
+                <li<%= sidebar_current("docs-oci-resource-budget-alert_rule") %>>
+                    <a href="/docs/providers/oci/r/budget_alert_rule.html">oci_budget_alert_rule</a>
+                </li>
+                <li<%= sidebar_current("docs-oci-resource-budget-budget") %>>
+                    <a href="/docs/providers/oci/r/budget_budget.html">oci_budget_budget</a>
                 </li>
             </ul>
         </li>
@@ -791,6 +837,9 @@
                 <li<%= sidebar_current("docs-oci-resource-database-db_system") %>>
                     <a href="/docs/providers/oci/r/database_db_system.html">oci_database_db_system</a>
                 </li>
+                <li<%= sidebar_current("docs-oci-resource-database-exadata_iorm_config") %>>
+                    <a href="/docs/providers/oci/r/database_exadata_iorm_config.html">oci_database_exadata_iorm_config</a>
+                </li>
             </ul>
         </li>
         <li<%= sidebar_current("docs-oci-dns-resource") %>>
@@ -867,6 +916,9 @@
                 <li<%= sidebar_current("docs-oci-resource-identity-auth_token") %>>
                     <a href="/docs/providers/oci/r/identity_auth_token.html">oci_identity_auth_token</a>
                 </li>
+                <li<%= sidebar_current("docs-oci-resource-identity-authentication_policy") %>>
+                    <a href="/docs/providers/oci/r/identity_authentication_policy.html">oci_identity_authentication_policy</a>
+                </li>
                 <li<%= sidebar_current("docs-oci-resource-identity-compartment") %>>
                     <a href="/docs/providers/oci/r/identity_compartment.html">oci_identity_compartment</a>
                 </li>
@@ -893,7 +945,10 @@
                 </li>
                 <li<%= sidebar_current("docs-oci-resource-identity-swift_password") %>>
                     <a href="/docs/providers/oci/r/identity_swift_password.html">oci_identity_swift_password</a>
-                </li>
+                </li> 
+                <li<%= sidebar_current("docs-oci-resource-identity-tag_default") %>>
+                    <a href="/docs/providers/oci/r/identity_tag_default.html">oci_identity_tag_default</a>
+                </li> 
                 <li<%= sidebar_current("docs-oci-resource-identity-tag_namespace") %>>
                     <a href="/docs/providers/oci/r/identity_tag_namespace.html">oci_identity_tag_namespace</a>
                 </li>
@@ -968,7 +1023,7 @@
             <ul class="nav nav-visible">
                 <li<%= sidebar_current("docs-oci-resource-monitoring-alarm") %>>
                     <a href="/docs/providers/oci/r/monitoring_alarm.html">oci_monitoring_alarm</a>
-                </li> 
+                </li>
             </ul>
         </li>
         <li<%= sidebar_current("docs-oci-object_storage-resource") %>>
@@ -993,10 +1048,10 @@
             <ul class="nav nav-visible">
                 <li<%= sidebar_current("docs-oci-resource-ons-notification_topic") %>>
                     <a href="/docs/providers/oci/r/ons_notification_topic.html">oci_ons_notification_topic</a>
-                </li> 
+                </li>
                 <li<%= sidebar_current("docs-oci-resource-ons-subscription") %>>
                     <a href="/docs/providers/oci/r/ons_subscription.html">oci_ons_subscription</a>
-                </li> 
+                </li>
             </ul>
         </li>
         <li<%= sidebar_current("docs-oci-streaming-resource") %>>
@@ -1005,7 +1060,7 @@
                 <li<%= sidebar_current("docs-oci-resource-streaming-stream") %>>
                     <a href="/docs/providers/oci/r/streaming_stream.html">oci_streaming_stream</a>
                 </li>
-                </li> 
+                </li>
             </ul>
         </li>
     </ul>

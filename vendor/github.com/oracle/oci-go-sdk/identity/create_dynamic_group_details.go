@@ -23,7 +23,7 @@ type CreateDynamicGroupDetails struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// The matching rule to dynamically match an instance certificate to this dynamic group.
-	// For rule syntax, see Managing Dynamic Groups (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingdynamicgroups.htm).
+	// For rule syntax, see Managing Dynamic Groups (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingdynamicgroups.htm).
 	MatchingRule *string `mandatory:"true" json:"matchingRule"`
 
 	// The description you assign to the group during creation. Does not have to be unique, and it's changeable.

@@ -13,10 +13,10 @@ import (
 )
 
 // DbSystemShapeSummary The shape of the DB system. The shape determines resources to allocate to the DB system - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes.
-// For a description of shapes, see DB System Launch Options (https://docs.us-phoenix-1.oraclecloud.com/Content/Database/References/launchoptions.htm).
+// For a description of shapes, see DB System Launch Options (https://docs.cloud.oracle.com/Content/Database/References/launchoptions.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator.
 // If you're an administrator who needs to write policies to give users access,
-// see Getting Started with Policies (https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/policygetstarted.htm).
+// see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 type DbSystemShapeSummary struct {
 
 	// The name of the shape used for the DB system.

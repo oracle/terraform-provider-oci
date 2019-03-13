@@ -14,7 +14,7 @@ import (
 )
 
 // DhcpSearchDomainOption DHCP option for specifying a search domain name for DNS queries. For more information, see
-// DNS in Your Virtual Cloud Network (https://docs.us-phoenix-1.oraclecloud.com/Content/Network/Concepts/dns.htm).
+// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/Content/Network/Concepts/dns.htm).
 type DhcpSearchDomainOption struct {
 
 	// A single search domain name according to RFC 952 (https://tools.ietf.org/html/rfc952)

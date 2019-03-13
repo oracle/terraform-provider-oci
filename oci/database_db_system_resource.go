@@ -291,8 +291,70 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"time_zone": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
+			"iorm_config_cache": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"db_system_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+
+						// Optional
+
+						// Computed
+						"db_plans": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"db_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"flash_cache_limit": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"share": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"objective": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"last_patch_history_entry_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -624,13 +686,45 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeZone != nil {
+		s.D.Set("time_zone", *s.Res.TimeZone)
+	}
+
 	if s.Res.Version != nil {
 		s.D.Set("version", *s.Res.Version)
 	}
 
 	s.D.Set("vip_ids", s.Res.VipIds)
 
+	if s.Res.IormConfigCache != nil {
+		s.D.Set("iorm_config_cache", []interface{}{IormConfigCacheToMap(s.Res.IormConfigCache)})
+	} else {
+		s.D.Set("iorm_config_cache", []interface{}{})
+	}
+
 	return nil
+}
+
+func IormConfigCacheToMap(obj *oci_database.ExadataIormConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	dbPlans := []interface{}{}
+	for _, item := range obj.DbPlans {
+		if configMap := dbIormConfigToMap(item); configMap != nil {
+			dbPlans = append(dbPlans, configMap)
+		}
+	}
+	result["db_plans"] = dbPlans
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = *obj.LifecycleDetails
+	}
+
+	result["objective"] = obj.Objective
+
+	result["state"] = obj.LifecycleState
+
+	return result
 }
 
 func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat string) (oci_database.CreateDatabaseDetails, error) {
@@ -982,6 +1076,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
+			tmp := timeZone.(string)
+			details.TimeZone = &tmp
+		}
 		request.LaunchDbSystemDetails = details
 	case strings.ToLower("NONE"):
 		details := oci_database.LaunchDbSystemDetails{}
@@ -1091,6 +1189,10 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
+			tmp := timeZone.(string)
+			details.TimeZone = &tmp
 		}
 		request.LaunchDbSystemDetails = details
 	default:

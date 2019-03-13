@@ -4,7 +4,7 @@
 // Monitoring API
 //
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
-// For information about monitoring, see Monitoring Overview (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm).
+// For information about monitoring, see Monitoring Overview (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm).
 //
 
 package monitoring
@@ -14,7 +14,7 @@ import (
 )
 
 // MetricData The set of aggregated data returned for a metric.
-// For information about metrics, see Metrics Overview (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#MetricsOverview).
+// For information about metrics, see Metrics Overview (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#MetricsOverview).
 type MetricData struct {
 
 	// The reference provided in a metric definition to indicate the source service or
@@ -22,7 +22,7 @@ type MetricData struct {
 	// Example: `oci_computeagent`
 	Namespace *string `mandatory:"true" json:"namespace"`
 
-	// The OCID (https://docs.us-phoenix-1.oraclecloud.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the
 	// resources from which the aggregated data was returned.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
