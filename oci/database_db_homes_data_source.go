@@ -79,16 +79,6 @@ func (s *DatabaseDbHomesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.DbHomeSummaryLifecycleStateEnum(state.(string))
 	}
 
-	if limit, ok := s.D.GetOkExists("limit"); ok {
-		tmp := limit.(int)
-		request.Limit = &tmp
-	}
-
-	if page, ok := s.D.GetOkExists("page"); ok {
-		tmp := page.(string)
-		request.Page = &tmp
-	}
-
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDbHomes(context.Background(), request)

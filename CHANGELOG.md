@@ -1,4 +1,10 @@
-## 3.20.1 (Unreleased)
+## 3.21.0 (Unreleased)
+
+### Added
+- Support for additional dbHomes/databases in a BM Db System
+- Support for tags in databases
+- Support for updates to database auto_backup_enabled 
+
 ## 3.20.0 (March 27, 2019)
 
 ### Added

@@ -5,7 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
@@ -15,9 +17,6 @@ import (
 
 func DatabaseDbSystemResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: &schema.ResourceTimeout{
 			// ZeroTime is a marker so a user supplied default is not overwritten. See CreateDBSystemResource
 			Create: &ZeroTime,
@@ -54,7 +53,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 			"db_home": {
 				Type:     schema.TypeList,
 				Required: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -63,7 +61,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 						"database": {
 							Type:     schema.TypeList,
 							Required: true,
-							ForceNew: true,
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -101,7 +98,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Type:     schema.TypeList,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 										MaxItems: 1,
 										MinItems: 1,
 										Elem: &schema.Resource{
@@ -113,7 +109,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 													Type:     schema.TypeBool,
 													Optional: true,
 													Computed: true,
-													ForceNew: true,
 												},
 
 												// Computed
@@ -133,6 +128,19 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
+									"defined_tags": {
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: definedTagsDiffSuppressFunction,
+										Elem:             schema.TypeString,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									// serverside defaults to AL16UTF16, but returns as "" if not supplied
 									"ncharacter_set": {
 										Type:     schema.TypeString,
@@ -148,6 +156,52 @@ func DatabaseDbSystemResource() *schema.Resource {
 									},
 
 									// Computed
+									"connection_strings": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"all_connection_strings": {
+													Type:     schema.TypeMap,
+													Computed: true,
+													Elem:     schema.TypeString,
+												},
+												"cdb_default": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"cdb_ip_default": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"db_unique_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"lifecycle_details": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -167,6 +221,22 @@ func DatabaseDbSystemResource() *schema.Resource {
 						},
 
 						// Computed
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"last_patch_history_entry_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -442,6 +512,8 @@ type DatabaseDbSystemResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
 	Res                    *oci_database.DbSystem
+	DbHome                 *oci_database.DbHome
+	Database               *oci_database.Database
 	DisableNotFoundRetries bool
 }
 
@@ -500,6 +572,11 @@ func (s *DatabaseDbSystemResourceCrud) Create() error {
 	}
 
 	s.Res = &response.DbSystem
+
+	err = s.getDbHomeInfo()
+	if err != nil {
+		log.Printf("[ERROR] Could not get info about the first DbHome in the dbSystem: %v", err)
+	}
 	return nil
 }
 
@@ -517,6 +594,114 @@ func (s *DatabaseDbSystemResourceCrud) Get() error {
 	}
 
 	s.Res = &response.DbSystem
+
+	err = s.getDbHomeInfo()
+	if err != nil {
+		log.Printf("[ERROR] Could not get info about the first DbHome in the dbSystem: %v", err)
+	}
+
+	return nil
+}
+
+func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
+	var dbHomeId *string
+	if s.DbHome != nil && s.DbHome.Id != nil {
+		dbHomeId = s.DbHome.Id
+	}
+	if dbHomeId == nil || *dbHomeId == "" {
+		dbHomeIdStr, ok := s.D.GetOkExists("db_home.0.id")
+		// if we don't have the DbHome Id in the config we get the earliest dbHome in the dbSystem from the service
+		if !ok || dbHomeIdStr == "" {
+			listDbHomeRequest := oci_database.ListDbHomesRequest{}
+
+			listDbHomeRequest.CompartmentId = s.Res.CompartmentId
+			listDbHomeRequest.DbSystemId = s.Res.Id
+			listDbHomeRequest.SortBy = oci_database.ListDbHomesSortByTimecreated
+			listDbHomeRequest.SortOrder = oci_database.ListDbHomesSortOrderAsc
+			listDbHomeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+			listDbHomeResponse, err := s.Client.ListDbHomes(context.Background(), listDbHomeRequest)
+			if err != nil {
+				return err
+			}
+			// if the dbSystem has no dbHomes return an error
+			if len(listDbHomeResponse.Items) == 0 {
+				return fmt.Errorf("could not get details of the database for the dbHome")
+			}
+			// If the time between the TimeCreated of the dbSystem is more than a day apart from the TimeCreated of the dbHome then we are not able to get the earliest dbHome.
+			// DbHomes in a TERMINATED state are still returned as part of the list result for a few days
+			if listDbHomeResponse.Items[0].TimeCreated.Sub(s.Res.TimeCreated.Time) > time.Hour*24 {
+				return fmt.Errorf("The first database of the dbSystem has since been terminated. The details of the db_home will not be populated")
+			}
+
+			dbHomeId = listDbHomeResponse.Items[0].Id
+		} else {
+			tmp := dbHomeIdStr.(string)
+			dbHomeId = &tmp
+		}
+	}
+	// We do a get even if we have already done a list because the dbHomeSummary in the list response is a subset of the dbHome in the get response
+	getDbHomeRequest := oci_database.GetDbHomeRequest{}
+	getDbHomeRequest.DbHomeId = dbHomeId
+	getDbHomeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	getDbHomeResponse, err := s.Client.GetDbHome(context.Background(), getDbHomeRequest)
+	if err != nil {
+		return err
+	}
+	if getDbHomeResponse.DbHome.LifecycleState == oci_database.DbHomeLifecycleStateTerminated {
+		return fmt.Errorf("the associated dbHome is in a TERMINATED state")
+	}
+
+	var databaseId *string
+	if s.Database != nil && s.Database.Id != nil {
+		databaseId = s.Database.Id
+	}
+	if databaseId == nil || *databaseId == "" {
+		databaseIdStr, ok := s.D.GetOkExists("dbhome.0.database.0.id")
+		// if we don't have the Database Id in the config we get the earliest database in the dbHome from the service
+		if !ok || databaseIdStr == "" {
+			listDatabasesRequest := oci_database.ListDatabasesRequest{}
+
+			listDatabasesRequest.CompartmentId = s.Res.CompartmentId
+			listDatabasesRequest.DbHomeId = getDbHomeResponse.DbHome.Id
+			listDatabasesRequest.SortBy = oci_database.ListDatabasesSortByTimecreated
+			listDatabasesRequest.SortOrder = oci_database.ListDatabasesSortOrderAsc
+			listDatabasesRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+			listDatabasesResponse, err := s.Client.ListDatabases(context.Background(), listDatabasesRequest)
+			if err != nil {
+				return err
+			}
+			if len(listDatabasesResponse.Items) == 0 {
+				return fmt.Errorf("could not get details of the database for the dbHome")
+			}
+
+			databaseId = listDatabasesResponse.Items[0].Id
+		} else {
+			tmp := databaseIdStr.(string)
+			databaseId = &tmp
+		}
+	}
+
+	// We do a get even if we have already done a list because the databaseSummary in the list response is a subset of the Database in the get response
+	getDatabaseRequest := oci_database.GetDatabaseRequest{}
+	getDatabaseRequest.DatabaseId = databaseId
+	getDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
+	if err != nil {
+		return err
+	}
+	if getDatabaseResponse.Database.LifecycleState == oci_database.DatabaseLifecycleStateTerminated {
+		return fmt.Errorf("the associated database is in a TERMINATED state")
+	}
+	//if the dbName is not the same as what the user has in the config then we don't have the database that the user is trying to update
+	if dbName, ok := s.D.GetOkExists("db_home.0.database.0.db_name"); ok {
+		if getDatabaseResponse.Database.DbName != nil && dbName != *getDatabaseResponse.Database.DbName {
+			return fmt.Errorf("the database name from the earliest database '%s' did not match the one on the config '%s'", *getDatabaseResponse.Database.DbName, dbName)
+		}
+	}
+
+	s.DbHome = &getDbHomeResponse.DbHome
+	s.Database = &getDatabaseResponse.Database
+
 	return nil
 }
 
@@ -568,6 +753,33 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 	}
 
 	s.Res = &response.DbSystem
+
+	err = s.SetData()
+	if err != nil {
+		log.Printf("[ERROR] error setting data after dbsystem update but before database update: %v", err)
+	}
+	err = s.getDbHomeInfo()
+	if err != nil {
+		return err
+	}
+
+	updateDatabaseRequest := oci_database.UpdateDatabaseRequest{}
+
+	updateDatabaseRequest.DatabaseId = s.Database.Id
+
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_home.0.database", 0)
+	updateDatabaseRequest.UpdateDatabaseDetails, err = s.mapToUpdateDatabaseDetails(fieldKeyFormat)
+	if err != nil {
+		return err
+	}
+
+	updateDatabaseRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+	updateDatabaseResponse, err := s.Client.UpdateDatabase(context.Background(), updateDatabaseRequest)
+	if err != nil {
+		return err
+	}
+	s.Database = &updateDatabaseResponse.Database
+
 	return nil
 }
 
@@ -613,9 +825,6 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	}
 
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
-
-	// todo: at this point the DBHome object should be pulled and refreshed on this resource
-	//s.D.Set("db_home", s.Res.DBHome)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
@@ -702,7 +911,154 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("iorm_config_cache", []interface{}{})
 	}
 
+	if s.DbHome != nil {
+		s.D.Set("db_home", []interface{}{s.DbHomeToMap(s.DbHome)})
+	}
+
 	return nil
+}
+
+func (s *DatabaseDbSystemResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat string) (oci_database.UpdateDatabaseDetails, error) {
+	result := oci_database.UpdateDatabaseDetails{}
+
+	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
+		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
+			tmp, err := s.mapToDbBackupConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			result.DbBackupConfig = &tmp
+		}
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDbSystemResourceCrud) DbHomeToMap(obj *oci_database.DbHome) map[string]interface{} {
+	result := map[string]interface{}{}
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DbSystemId != nil {
+		result["db_system_id"] = string(*obj.DbSystemId)
+	}
+
+	if obj.DbVersion != nil {
+		result["db_version"] = string(*obj.DbVersion)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.LastPatchHistoryEntryId != nil {
+		result["last_patch_history_entry_id"] = string(*obj.LastPatchHistoryEntryId)
+	}
+
+	result["state"] = obj.LifecycleState
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if s.Database != nil {
+		result["database"] = []interface{}{s.DatabaseToMap(s.Database)}
+	}
+
+	return result
+}
+
+func (s *DatabaseDbSystemResourceCrud) DatabaseToMap(obj *oci_database.Database) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	//Create parameters that are not returned by the service
+	if adminPassword, ok := s.D.GetOkExists("db_home.0.database.0.admin_password"); ok && adminPassword != nil {
+		result["admin_password"] = adminPassword.(string)
+	}
+
+	if backupId, ok := s.D.GetOkExists("db_home.0.database.0.backup_id"); ok && backupId != nil {
+		result["backup_id"] = backupId.(string)
+	}
+
+	if backupTDEPassword, ok := s.D.GetOkExists("db_home.0.database.0.backup_tde_password"); ok && backupTDEPassword != nil {
+		result["backup_tde_password"] = backupTDEPassword.(string)
+	}
+
+	if databaseId, ok := s.D.GetOkExists("db_home.0.database.0.database_id"); ok && databaseId != nil {
+		result["database_id"] = databaseId.(string)
+	}
+
+	if obj.CharacterSet != nil {
+		result["character_set"] = string(*obj.CharacterSet)
+	}
+
+	if obj.ConnectionStrings != nil {
+		result["connection_strings"] = []interface{}{DatabaseConnectionStringsToMap(obj.ConnectionStrings)}
+	}
+
+	if obj.DbBackupConfig != nil {
+		result["db_backup_config"] = []interface{}{DbBackupConfigToMap(obj.DbBackupConfig)}
+	}
+
+	if obj.DbName != nil {
+		result["db_name"] = string(*obj.DbName)
+	}
+
+	if obj.DbUniqueName != nil {
+		result["db_unique_name"] = string(*obj.DbUniqueName)
+	}
+
+	if obj.DbWorkload != nil {
+		result["db_workload"] = string(*obj.DbWorkload)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.NcharacterSet != nil {
+		result["ncharacter_set"] = string(*obj.NcharacterSet)
+	}
+
+	if obj.PdbName != nil {
+		result["pdb_name"] = string(*obj.PdbName)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	return result
 }
 
 func IormConfigCacheToMap(obj *oci_database.ExadataIormConfig) map[string]interface{} {
@@ -937,7 +1293,8 @@ func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackup
 func (s *DatabaseDbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
 	result := oci_database.DbBackupConfig{}
 
-	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok {
+	// Service does not allow to update auto_backup_enabled and recovery_window_in_days at the same time so we must have the HasChanged check
+	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")) {
 		tmp := autoBackupEnabled.(bool)
 		result.AutoBackupEnabled = &tmp
 	}
