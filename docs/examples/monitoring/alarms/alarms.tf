@@ -74,11 +74,11 @@ variable "alarm_suppression_description" {
 }
 
 variable "alarm_suppression_time_suppress_from" {
-  default = "2019-02-01T18:00:00.000Z"
+  default = "2029-02-01T18:00:00.000Z"
 }
 
 variable "alarm_suppression_time_suppress_until" {
-  default = "2019-02-01T19:00:00.000Z"
+  default = "2029-02-01T19:00:00.000Z"
 }
 
 variable "alarm_history_collection_alarm_historytype" {
@@ -86,11 +86,11 @@ variable "alarm_history_collection_alarm_historytype" {
 }
 
 variable "alarm_history_collection_timestamp_greater_than_or_equal_to" {
-  default = "2018-12-01T01:00:00.001Z"
+  default = "2028-12-01T01:00:00.001Z"
 }
 
 variable "alarm_history_collection_timestamp_less_than" {
-  default = "2025-01-01T01:00:00.001Z"
+  default = "2035-01-01T01:00:00.001Z"
 }
 
 variable "alarm_status_compartment_id_in_subtree" {

@@ -20,7 +20,7 @@ variable "region" {}
 
 variable "compartment_id" {}
 
-variable "ssh_public_key_path" {}
+variable "ssh_public_key" {}
 
 variable "vcn_cidr" {
   default = "10.0.0.0/16"
@@ -160,7 +160,7 @@ resource "oci_core_instance" "bastion" {
   }
 
   metadata {
-    ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
+    ssh_authorized_keys = "${var.ssh_public_key}"
   }
 
   timeouts {
@@ -240,7 +240,7 @@ resource "oci_core_instance" "private" {
   }
 
   metadata {
-    ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
+    ssh_authorized_keys = "${var.ssh_public_key}"
   }
 
   timeouts {
