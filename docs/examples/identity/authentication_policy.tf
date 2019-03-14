@@ -44,7 +44,7 @@ resource "oci_identity_authentication_policy" "test_authentication_policy" {
   }
 }
 
-data "oci_identity_authentication_policies" "test_authentication_policies" {
+data "oci_identity_authentication_policy" "test_authentication_policy" {
   #Required
   compartment_id = "${var.tenancy_ocid}"
 }
