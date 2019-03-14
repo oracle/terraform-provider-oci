@@ -9,7 +9,8 @@ description: |-
 # oci_objectstorage_object
 This resource provides the Object resource in Oracle Cloud Infrastructure Object Storage service.
 
-Creates a new object or overwrites an existing one.
+Creates a new object or overwrites an existing one. See [Special Instructions for Object Storage
+PUT](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/signingrequests.htm#ObjectStoragePut) for request signature requirements.
 
 
 ## Example Usage
@@ -41,7 +42,7 @@ The following arguments are supported:
 * `content` - (Required) The object to upload to the object store. Cannot be defined if `source` or `source_uri_details` is defined.
 * `metadata` - (Optional) Optional user-defined metadata key and value.
 Note: All specified keys must be in lower case.
-* `namespace` - (Required) The top-level namespace used for the request.
+* `namespace` - (Required) The Object Storage namespace used for the request.
 * `object` - (Required) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
 * `source` - (Optional) An absolute path to a file on the local system. Cannot be defined if `content` or `source_uri_details` is defined.
 * `source_uri_details` - (Optional) Details of the source URI of the object in the cloud. Cannot be defined if `content` or `source` is defined. 

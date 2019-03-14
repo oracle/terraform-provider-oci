@@ -28,7 +28,7 @@ data "oci_objectstorage_object" "test_object" {
 The following arguments are supported:
 
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
-* `namespace` - (Required) The top-level namespace used for the request.
+* `namespace` - (Required) The Object Storage namespace used for the request.
 * `object` - (Required) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
 * `content_length_limit` - (Optional) The limit of the content length of the object body to download from the object store. The default is 1Mb.
 

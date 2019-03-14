@@ -9,7 +9,11 @@ description: |-
 # Data Source: oci_objectstorage_namespace
 This data source provides details about a specific Namespace resource in Oracle Cloud Infrastructure Object Storage service.
 
-Gets the name of the namespace for the user making the request. 
+Each Oracle Cloud Infrastructure tenant is assigned one unique and uneditable Object Storage namespace. The namespace
+is a system-generated string assigned during account creation. For some older tenancies, the namespace string may be
+the tenancy name in all lower-case letters. You cannot edit a namespace.
+
+GetNamespace returns the name of the Object Storage namespace for the user making the request.
 
 
 ## Example Usage
