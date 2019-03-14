@@ -24,6 +24,6 @@ output "ad" {
     "${data.oci_identity_availability_domain.ad.id}"
     "${data.oci_identity_availability_domain.ad.compartment_id}"
     "${data.oci_identity_availability_domain.ad.name}"
-    "${data.oci_identity_availability_domain.ad.index}"
+    "${data.oci_identity_availability_domain.ad.ad_number}"
 EOF
 }
