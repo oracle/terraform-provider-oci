@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -23,7 +24,7 @@ var (
 	preauthenticatedRequestSingularDataSourceRepresentation = map[string]interface{}{
 		"bucket":    Representation{repType: Required, create: testBucketName},
 		"namespace": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
-		"par_id":    Representation{repType: Required, create: `${oci_objectstorage_preauthrequest.test_preauthenticated_request.id}`},
+		"par_id":    Representation{repType: Required, create: `${oci_objectstorage_preauthrequest.test_preauthenticated_request.par_id}`},
 	}
 
 	preauthenticatedRequestDataSourceRepresentation = map[string]interface{}{
@@ -33,7 +34,7 @@ var (
 		"filter":             RepresentationGroup{Required, preauthenticatedRequestDataSourceFilterRepresentation}}
 	preauthenticatedRequestDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_objectstorage_preauthrequest.test_preauthenticated_request.id}`}},
+		"values": Representation{repType: Required, create: []string{`${oci_objectstorage_preauthrequest.test_preauthenticated_request.par_id}`}},
 	}
 
 	preauthenticatedRequestRepresentation = map[string]interface{}{
@@ -140,6 +141,21 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "time_expires", "2020-01-01 00:00:00 +0000 UTC"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + PreauthenticatedRequestResourceConfig,
+			},
+			//verify resource import
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"access_uri",
+					"time_expires",
+				},
+				ResourceName: resourceName,
+			},
 		},
 	})
 }
@@ -160,8 +176,14 @@ func testAccCheckObjectStoragePreauthenticatedRequestDestroy(s *terraform.State)
 				request.NamespaceName = &value
 			}
 
-			tmp := rs.Primary.ID
-			request.ParId = &tmp
+			bucket, namespace, parId, er := parsePreauthenticatedRequestCompositeId(rs.Primary.ID)
+			if er == nil {
+				request.BucketName = &bucket
+				request.NamespaceName = &namespace
+				request.ParId = &parId
+			} else {
+				log.Printf("[WARN] Get() unable to parse current ID: %s", rs.Primary.ID)
+			}
 
 			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
 

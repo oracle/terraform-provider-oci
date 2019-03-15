@@ -240,6 +240,18 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_size"),
 				),
 			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + BucketResourceConfig,
+			},
+			// verify resource import
+			{
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
+			},
 		},
 	})
 }

@@ -69,3 +69,11 @@ The following attributes are exported:
 * `storage_tier` - The type of storage tier of this bucket. A bucket is set to 'Standard' tier by default, which means the bucket will be put in the standard storage tier. When 'Archive' tier type is set explicitly, the bucket is put in the archive storage tier. The 'storageTier' property is immutable after bucket is created. 
 * `time_created` - The date and time the bucket was created, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.29.
 
+## Import
+
+Buckets can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_objectstorage_bucket.test_bucket "n/{namespaceName}/b/{bucketName}" 
+```
+

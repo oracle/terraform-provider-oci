@@ -4,17 +4,24 @@ package provider
 
 import (
 	"context"
+	"fmt"
+	"log"
+	"net/url"
+	"regexp"
+	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
-
-	"time"
 )
 
 func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createObjectStoragePreauthenticatedRequest,
 		Read:     readObjectStoragePreauthenticatedRequest,
@@ -71,6 +78,10 @@ func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"par_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -108,7 +119,7 @@ type ObjectStoragePreauthenticatedRequestResourceCrud struct {
 }
 
 func (s *ObjectStoragePreauthenticatedRequestResourceCrud) ID() string {
-	return *s.Res.Id
+	return getPreauthenticatedRequestCompositeId(s.D.Get("bucket").(string), s.D.Get("namespace").(string), *s.Res.Id)
 }
 
 func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Create() error {
@@ -171,8 +182,14 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Get() error {
 		request.NamespaceName = &tmp
 	}
 
-	tmp := s.D.Id()
-	request.ParId = &tmp
+	bucket, namespace, parId, err := parsePreauthenticatedRequestCompositeId(s.D.Id())
+	if err == nil {
+		request.BucketName = &bucket
+		request.NamespaceName = &namespace
+		request.ParId = &parId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
@@ -199,18 +216,15 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Get() error {
 func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Delete() error {
 	request := oci_object_storage.DeletePreauthenticatedRequestRequest{}
 
-	if bucket, ok := s.D.GetOkExists("bucket"); ok {
-		tmp := bucket.(string)
-		request.BucketName = &tmp
+	bucket, namespace, parId, parseErr := parsePreauthenticatedRequestCompositeId(s.D.Id())
+	if parseErr == nil {
+		request.BucketName = &bucket
+		request.NamespaceName = &namespace
+		request.ParId = &parId
+	} else {
+		log.Printf("[WARN] Delete() unable to parse current ID: %s", s.D.Id())
+		return parseErr
 	}
-
-	if namespace, ok := s.D.GetOkExists("namespace"); ok {
-		tmp := namespace.(string)
-		request.NamespaceName = &tmp
-	}
-
-	tmp := s.D.Id()
-	request.ParId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
@@ -219,6 +233,17 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Delete() error {
 }
 
 func (s *ObjectStoragePreauthenticatedRequestResourceCrud) SetData() error {
+
+	// For ImportStateVerify to keep state consistent after import
+	bucket, namespace, parId, err := parsePreauthenticatedRequestCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("bucket", &bucket)
+		s.D.Set("namespace", &namespace)
+		s.D.Set("par_id", &parId)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
 	s.D.Set("access_type", s.Res.AccessType)
 
 	if s.Res.AccessUri != nil {
@@ -238,8 +263,30 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) SetData() error {
 	}
 
 	if s.Res.TimeExpires != nil {
-		s.D.Set("time_expires", s.Res.TimeExpires)
+		s.D.Set("time_expires", s.Res.TimeExpires.Format(time.RFC3339Nano))
 	}
 
 	return nil
+}
+
+func getPreauthenticatedRequestCompositeId(bucket string, namespace string, parId string) string {
+	bucket = url.PathEscape(bucket)
+	namespace = url.PathEscape(namespace)
+	parId = url.PathEscape(parId)
+	compositeId := "n/" + namespace + "/b/" + bucket + "/p/" + parId
+	return compositeId
+}
+
+func parsePreauthenticatedRequestCompositeId(compositeId string) (bucket string, namespace string, parId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("n/.*/b/.*/p/.*", compositeId)
+	if !match || len(parts) != 6 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	namespace, _ = url.PathUnescape(parts[1])
+	bucket, _ = url.PathUnescape(parts[3])
+	parId, _ = url.PathUnescape(parts[5])
+
+	return
 }
