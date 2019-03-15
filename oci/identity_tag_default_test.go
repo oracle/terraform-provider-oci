@@ -53,7 +53,8 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
-	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdCreate := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := getEnvSettingWithDefault("compartment_id_for_update", compartmentIdCreate)
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_identity_tag_default.test_tag_default"
