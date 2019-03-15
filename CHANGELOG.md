@@ -3,9 +3,12 @@
 ### Added
 - Support for additional dbHomes/databases in a BM Db System
 - Support for tags in databases
-- Support for updates to database auto_backup_enabled 
+- Support for updates to database auto_backup_enabled
 - Support for provider service keys in Fast Connect Provider Services
 - Singular data sources for User, Group, File Storage Snapshot, Private IP and Virtual Cloud Network (VCN).
+
+### Fixed
+- Virtual Circuit update failures by handling default values
 
 ## 3.20.0 (March 27, 2019)
 
@@ -49,7 +52,7 @@
 
 ### Added
 - Add singular Availability Domain data source with related example updates
-- Support for Monitoring service 
+- Support for Monitoring service
 - Adding ability to disable monitoring in instances
 - Adding support for Metrics-based Dynamic Auto-scaling
 - Support for listing and specifying Fault Domains in Database resources
@@ -64,7 +67,7 @@
 - Support for the tagging of applicable KMS resources
 
 ### Fixed
-- DNS Record now requires domain and rtype as mandatory arguments. Managing DNS record resources now requires DNS_RECORD* level policy entitlements instead of DNS_ZONE*. [Permissions List](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/dnspolicyreference.htm) 
+- DNS Record now requires domain and rtype as mandatory arguments. Managing DNS record resources now requires DNS_RECORD* level policy entitlements instead of DNS_ZONE*. [Permissions List](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/dnspolicyreference.htm)
 
 ## 3.15.0 (February 12, 2019)
 
