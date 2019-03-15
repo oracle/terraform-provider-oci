@@ -13,8 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateAutonomousDatabaseDetails Details to create an Oracle Autonomous Database.
-type CreateAutonomousDatabaseDetails struct {
+// CreateAutonomousDatabaseCloneDetails Details to create an Oracle Autonomous Database by cloning an existing Autonomous Database.
+type CreateAutonomousDatabaseCloneDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the autonomous database.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -31,6 +31,9 @@ type CreateAutonomousDatabaseDetails struct {
 	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
 	AdminPassword *string `mandatory:"true" json:"adminPassword"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that you will clone to create a new Autonomous Database.
+	SourceId *string `mandatory:"true" json:"sourceId"`
+
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -44,6 +47,9 @@ type CreateAutonomousDatabaseDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The clone type.
+	CloneType CreateAutonomousDatabaseCloneDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
+
 	// The autonomous database workload type.
 	DbWorkload CreateAutonomousDatabaseBaseDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
@@ -52,69 +58,92 @@ type CreateAutonomousDatabaseDetails struct {
 }
 
 //GetCompartmentId returns CompartmentId
-func (m CreateAutonomousDatabaseDetails) GetCompartmentId() *string {
+func (m CreateAutonomousDatabaseCloneDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
 //GetDbName returns DbName
-func (m CreateAutonomousDatabaseDetails) GetDbName() *string {
+func (m CreateAutonomousDatabaseCloneDetails) GetDbName() *string {
 	return m.DbName
 }
 
 //GetCpuCoreCount returns CpuCoreCount
-func (m CreateAutonomousDatabaseDetails) GetCpuCoreCount() *int {
+func (m CreateAutonomousDatabaseCloneDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }
 
 //GetDbWorkload returns DbWorkload
-func (m CreateAutonomousDatabaseDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
+func (m CreateAutonomousDatabaseCloneDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
 }
 
 //GetDataStorageSizeInTBs returns DataStorageSizeInTBs
-func (m CreateAutonomousDatabaseDetails) GetDataStorageSizeInTBs() *int {
+func (m CreateAutonomousDatabaseCloneDetails) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
 }
 
 //GetAdminPassword returns AdminPassword
-func (m CreateAutonomousDatabaseDetails) GetAdminPassword() *string {
+func (m CreateAutonomousDatabaseCloneDetails) GetAdminPassword() *string {
 	return m.AdminPassword
 }
 
 //GetDisplayName returns DisplayName
-func (m CreateAutonomousDatabaseDetails) GetDisplayName() *string {
+func (m CreateAutonomousDatabaseCloneDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
 //GetLicenseModel returns LicenseModel
-func (m CreateAutonomousDatabaseDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
+func (m CreateAutonomousDatabaseCloneDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
 	return m.LicenseModel
 }
 
 //GetFreeformTags returns FreeformTags
-func (m CreateAutonomousDatabaseDetails) GetFreeformTags() map[string]string {
+func (m CreateAutonomousDatabaseCloneDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
 //GetDefinedTags returns DefinedTags
-func (m CreateAutonomousDatabaseDetails) GetDefinedTags() map[string]map[string]interface{} {
+func (m CreateAutonomousDatabaseCloneDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-func (m CreateAutonomousDatabaseDetails) String() string {
+func (m CreateAutonomousDatabaseCloneDetails) String() string {
 	return common.PointerString(m)
 }
 
 // MarshalJSON marshals to json representation
-func (m CreateAutonomousDatabaseDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCreateAutonomousDatabaseDetails CreateAutonomousDatabaseDetails
+func (m CreateAutonomousDatabaseCloneDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateAutonomousDatabaseCloneDetails CreateAutonomousDatabaseCloneDetails
 	s := struct {
 		DiscriminatorParam string `json:"source"`
-		MarshalTypeCreateAutonomousDatabaseDetails
+		MarshalTypeCreateAutonomousDatabaseCloneDetails
 	}{
-		"NONE",
-		(MarshalTypeCreateAutonomousDatabaseDetails)(m),
+		"DATABASE",
+		(MarshalTypeCreateAutonomousDatabaseCloneDetails)(m),
 	}
 
 	return json.Marshal(&s)
+}
+
+// CreateAutonomousDatabaseCloneDetailsCloneTypeEnum Enum with underlying type: string
+type CreateAutonomousDatabaseCloneDetailsCloneTypeEnum string
+
+// Set of constants representing the allowable values for CreateAutonomousDatabaseCloneDetailsCloneTypeEnum
+const (
+	CreateAutonomousDatabaseCloneDetailsCloneTypeFull     CreateAutonomousDatabaseCloneDetailsCloneTypeEnum = "FULL"
+	CreateAutonomousDatabaseCloneDetailsCloneTypeMetadata CreateAutonomousDatabaseCloneDetailsCloneTypeEnum = "METADATA"
+)
+
+var mappingCreateAutonomousDatabaseCloneDetailsCloneType = map[string]CreateAutonomousDatabaseCloneDetailsCloneTypeEnum{
+	"FULL":     CreateAutonomousDatabaseCloneDetailsCloneTypeFull,
+	"METADATA": CreateAutonomousDatabaseCloneDetailsCloneTypeMetadata,
+}
+
+// GetCreateAutonomousDatabaseCloneDetailsCloneTypeEnumValues Enumerates the set of values for CreateAutonomousDatabaseCloneDetailsCloneTypeEnum
+func GetCreateAutonomousDatabaseCloneDetailsCloneTypeEnumValues() []CreateAutonomousDatabaseCloneDetailsCloneTypeEnum {
+	values := make([]CreateAutonomousDatabaseCloneDetailsCloneTypeEnum, 0)
+	for _, v := range mappingCreateAutonomousDatabaseCloneDetailsCloneType {
+		values = append(values, v)
+	}
+	return values
 }
