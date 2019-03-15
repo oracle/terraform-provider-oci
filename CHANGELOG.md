@@ -1,4 +1,11 @@
 ## 3.19.1 (Unreleased)
+
+### Added
+- Support for importing Buckets and Pre-authenticated requests in Object Storage
+
+### Fixed
+- Import functionality for Objects in Object Storage
+
 ## 3.19.0 (March 20, 2019)
 
 ### Added
