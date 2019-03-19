@@ -366,7 +366,7 @@ _This build contains a known issue where updates to a Route Table's Route Rules 
 ## 2.1.8 - 2018-05-10
 
 ### Added
-- Added support for remote VCN peering. More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/remote_peering_connections.md), and an example [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/examples/networking/remote_vcn_peering_full).
+- Added support for remote VCN peering. More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/remote_peering_connections.md), and an example [here](https://github.com/oracle/terraform-provider-oci/blob/master/examples/networking/remote_vcn_peering_full).
 - Added a data source for boot volumes. More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/boot_volumes.md).
 
 ### Fixed
