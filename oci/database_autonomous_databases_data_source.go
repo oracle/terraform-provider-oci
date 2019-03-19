@@ -168,6 +168,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.UsedDataStorageSizeInTBs != nil {
+			autonomousDatabase["used_data_storage_size_in_tbs"] = *r.UsedDataStorageSizeInTBs
+		}
+
 		resources = append(resources, autonomousDatabase)
 	}
 

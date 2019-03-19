@@ -53,6 +53,7 @@ The following attributes are exported:
 * `name` - The name of the node pool.
 * `node_image_id` - The OCID of the image running on the nodes in the node pool.
 * `node_image_name` - The name of the image running on the nodes in the node pool.
+* `node_metadata` - A list of key/value pairs to add to each underlyingOracle Cloud Infrastructure instance in the node pool.
 * `node_shape` - The name of the node shape of the nodes in the node pool.
 * `nodes` - The nodes in the node pool.
 	* `availability_domain` - The name of the availability domain in which this node is placed.

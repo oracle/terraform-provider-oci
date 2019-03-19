@@ -4,6 +4,50 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 5.0.0 - 2019-03-19
+### Added
+
+- Support for specifying metadata on node pools in the Container Engine for Kubernetes service
+- Support for provisioning a new autonomous database or autonomous data warehouse as a clone of another in the Database service
+### Breaking changes
+- The field``CreateAutonomousDatabaseDetails`` is no longer an anonymous field and the type changed from struct to interface in struct ``CreateAutonomousDatabaseRequest``. Here is sample code that shows how to update your code to incorporate this change. 
+
+    - Before
+
+    ```golang
+    // create a CreateAutonomousDatabaseRequest
+    // There were two ways to initialize the CreateAutonomousDatabaseRequest struct.
+    // This breaking change only impact option #2
+    request := database.CreateAutonomousDatabaseRequest{}
+
+    // #1. Instantiate CreateAutonomousDatabaseDetails directly: no impact
+    details := database.CreateAutonomousDatabaseDetails{}
+    details.CompartmentId = common.String(getCompartmentID())
+    // ... other properties
+
+    // Set it to the request class
+    request.CreateAutonomousDatabaseDetails = details
+
+    // #2. Instantiate CreateAutnomousDatabaseDetails through  anonymous fields: will break
+    request.CompartmentId = common.String(getCompartmentID())
+    // ... other properties
+    ```
+
+    - After
+
+    ```golang
+    // #2 no longer supported. Create CreateAutonomousDatabaseDetails directly
+    details := database.CreateAutonomousDatabaseDetails{}
+    details.CompartmentId = common.String(getCompartmentID())
+    // ... other properties
+
+    // and set the details to CreateAutonomousDatabaseBase
+    request := database.CreateAutonomousDatabaseRequest{}
+    request.CreateAutonomousDatabaseDetails = details
+    // ...
+    ```
+
+
 ## 4.2.0 - 2019-03-12
 ### Added
 - Support for the Budgets service

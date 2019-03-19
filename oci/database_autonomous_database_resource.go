@@ -4,8 +4,11 @@ package provider
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
@@ -47,6 +50,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			},
 
 			// Optional
+			"clone_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"db_workload": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -72,6 +81,23 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"license_model": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"source": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					"DATABASE",
+					"NONE",
+				}, true),
+			},
+			"source_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -129,6 +155,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			},
 			"time_created": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"used_data_storage_size_in_tbs": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 		},
@@ -221,55 +251,9 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedTarget() []string {
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) Create() error {
 	request := oci_database.CreateAutonomousDatabaseRequest{}
-
-	if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
-		tmp := adminPassword.(string)
-		request.AdminPassword = &tmp
-	}
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
-
-	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
-		tmp := cpuCoreCount.(int)
-		request.CpuCoreCount = &tmp
-	}
-
-	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
-		tmp := dataStorageSizeInTBs.(int)
-		request.DataStorageSizeInTBs = &tmp
-	}
-
-	if dbName, ok := s.D.GetOkExists("db_name"); ok {
-		tmp := dbName.(string)
-		request.DbName = &tmp
-	}
-
-	if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
-		request.DbWorkload = oci_database.CreateAutonomousDatabaseDetailsDbWorkloadEnum(dbWorkload.(string))
-	}
-
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
-		if err != nil {
-			return err
-		}
-		request.DefinedTags = convertedDefinedTags
-	}
-
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
-		tmp := displayName.(string)
-		request.DisplayName = &tmp
-	}
-
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
-	}
-
-	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
-		request.LicenseModel = oci_database.CreateAutonomousDatabaseDetailsLicenseModelEnum(licenseModel.(string))
+	err := s.populateTopLevelPolymorphicCreateAutonomousDatabaseRequest(&request)
+	if err != nil {
+		return err
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -417,6 +401,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.UsedDataStorageSizeInTBs != nil {
+		s.D.Set("used_data_storage_size_in_tbs", *s.Res.UsedDataStorageSizeInTBs)
+	}
+
 	return nil
 }
 
@@ -438,4 +426,113 @@ func AutonomousDatabaseConnectionStringsToMap(obj *oci_database.AutonomousDataba
 	}
 
 	return result
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCreateAutonomousDatabaseRequest(request *oci_database.CreateAutonomousDatabaseRequest) error {
+	//discriminator
+	sourceRaw, ok := s.D.GetOkExists("source")
+	var source string
+	if ok {
+		source = sourceRaw.(string)
+	} else {
+		source = "NONE" // default value
+	}
+	switch strings.ToLower(source) {
+	case strings.ToLower("DATABASE"):
+		details := oci_database.CreateAutonomousDatabaseCloneDetails{}
+		if cloneType, ok := s.D.GetOkExists("clone_type"); ok {
+			details.CloneType = oci_database.CreateAutonomousDatabaseCloneDetailsCloneTypeEnum(cloneType.(string))
+		}
+		if sourceId, ok := s.D.GetOkExists("source_id"); ok {
+			tmp := sourceId.(string)
+			details.SourceId = &tmp
+		}
+		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
+			tmp := adminPassword.(string)
+			details.AdminPassword = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
+		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+			tmp := dataStorageSizeInTBs.(int)
+			details.DataStorageSizeInTBs = &tmp
+		}
+		if dbName, ok := s.D.GetOkExists("db_name"); ok {
+			tmp := dbName.(string)
+			details.DbName = &tmp
+		}
+		if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
+			details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		request.CreateAutonomousDatabaseDetails = details
+	case strings.ToLower("NONE"):
+		details := oci_database.CreateAutonomousDatabaseDetails{}
+		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
+			tmp := adminPassword.(string)
+			details.AdminPassword = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
+		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+			tmp := dataStorageSizeInTBs.(int)
+			details.DataStorageSizeInTBs = &tmp
+		}
+		if dbName, ok := s.D.GetOkExists("db_name"); ok {
+			tmp := dbName.(string)
+			details.DbName = &tmp
+		}
+		if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
+			details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		request.CreateAutonomousDatabaseDetails = details
+	default:
+		return fmt.Errorf("unknown source '%v' was specified", source)
+	}
+	return nil
 }

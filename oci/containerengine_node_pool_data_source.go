@@ -65,6 +65,11 @@ func ContainerengineNodePoolDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"node_metadata": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"node_shape": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -233,6 +238,8 @@ func (s *ContainerengineNodePoolDataSourceCrud) SetData() error {
 	if s.Res.NodeImageName != nil {
 		s.D.Set("node_image_name", *s.Res.NodeImageName)
 	}
+
+	s.D.Set("node_metadata", s.Res.NodeMetadata)
 
 	if s.Res.NodeShape != nil {
 		s.D.Set("node_shape", *s.Res.NodeShape)

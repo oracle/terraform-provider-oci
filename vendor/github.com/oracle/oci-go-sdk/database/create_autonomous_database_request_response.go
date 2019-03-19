@@ -12,7 +12,7 @@ import (
 type CreateAutonomousDatabaseRequest struct {
 
 	// Request to create a new Autonomous Database.
-	CreateAutonomousDatabaseDetails `contributesTo:"body"`
+	CreateAutonomousDatabaseDetails CreateAutonomousDatabaseBase `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24

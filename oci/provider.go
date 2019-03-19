@@ -298,6 +298,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_database_backups":                           DatabaseBackupsDataSource(),
 		"oci_database_database":                          DatabaseDatabaseDataSource(),
 		"oci_database_databases":                         DatabaseDatabasesDataSource(),
+		"oci_database_data_guard_association":            DatabaseDataGuardAssociationDataSource(),
+		"oci_database_data_guard_associations":           DatabaseDataGuardAssociationsDataSource(),
 		"oci_database_db_home":                           DatabaseDbHomeDataSource(),
 		"oci_database_db_homes":                          DatabaseDbHomesDataSource(),
 		"oci_database_db_node":                           DatabaseDbNodeDataSource(),
@@ -461,6 +463,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_database_autonomous_data_warehouse_backup":           DatabaseAutonomousDataWarehouseBackupResource(),
 		"oci_database_autonomous_database":                        DatabaseAutonomousDatabaseResource(),
 		"oci_database_autonomous_database_backup":                 DatabaseAutonomousDatabaseBackupResource(),
+		"oci_database_data_guard_association":                     DatabaseDataGuardAssociationResource(),
 		//Do remember to enable database_db_home_test if you are enabling DB Home resource
 		//"oci_database_db_home":                     DatabaseDbHomeResource(),
 		"oci_database_db_system":                    DatabaseDbSystemResource(),

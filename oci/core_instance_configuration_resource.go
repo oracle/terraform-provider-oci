@@ -787,7 +787,9 @@ func InstanceConfigurationAttachVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 	case oci_core.InstanceConfigurationIscsiAttachVolumeDetails:
 		result["type"] = "iscsi"
 
-		result["display_name"] = *v.DisplayName
+		if v.DisplayName != nil {
+			result["display_name"] = *v.DisplayName
+		}
 
 		if v.IsReadOnly != nil {
 			result["is_read_only"] = bool(*v.IsReadOnly)
@@ -799,7 +801,9 @@ func InstanceConfigurationAttachVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 	case oci_core.InstanceConfigurationParavirtualizedAttachVolumeDetails:
 		result["type"] = "paravirtualized"
 
-		result["display_name"] = *v.DisplayName
+		if v.DisplayName != nil {
+			result["display_name"] = *v.DisplayName
+		}
 
 		if v.IsReadOnly != nil {
 			result["is_read_only"] = bool(*v.IsReadOnly)
