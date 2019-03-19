@@ -52,4 +52,5 @@ The following attributes are exported:
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
 * `state` - The current state of the database.
 * `time_created` - The date and time the database was created.
+* `used_data_storage_size_in_tbs` - The amount of storage that has been used, in terabytes.
 

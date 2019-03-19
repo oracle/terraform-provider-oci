@@ -17,7 +17,7 @@ Returns a list of Budgets.
 ```hcl
 data "oci_budget_budgets" "test_budgets" {
 	#Required
-	compartment_id = "${var.compartment_id}"
+	compartment_id = "${var.tenancy_ocid}"
 
 	#Optional
 	display_name = "${var.budget_display_name}"

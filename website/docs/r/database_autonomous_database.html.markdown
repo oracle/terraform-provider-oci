@@ -24,11 +24,14 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	db_name = "${var.autonomous_database_db_name}"
 
 	#Optional
+	clone_type = "${var.autonomous_database_clone_type}"
 	db_workload = "${var.autonomous_database_db_workload}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.autonomous_database_display_name}"
 	freeform_tags = {"Department"= "Finance"}
 	license_model = "${var.autonomous_database_license_model}"
+	source = "${var.autonomous_database_source}"
+	source_id = "${oci_database_source.test_source.id}"
 }
 ```
 
@@ -37,6 +40,9 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 The following arguments are supported:
 
 * `admin_password` - (Required) (Updatable) The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
+* `clone_type` - (Required when source=DATABASE) The clone type when cloning an Autonomous Database using a `source`. Supported values:
+    * `FULL` - This option creates a new database that includes all source database data.
+    * `METADATA` - This option creates a new database that includes the source database schema and select metadata, but not the source database data.
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment of the autonomous database.
 * `cpu_core_count` - (Required) (Updatable) The number of CPU Cores to be made available to the database.
 * `data_storage_size_in_tbs` - (Required) (Updatable) The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. 
@@ -47,7 +53,9 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `license_model` - (Optional) The Oracle license model that applies to the Oracle Autonomous Database. The default is BRING_YOUR_OWN_LICENSE. 
+* `license_model` - (Optional) (Updatable) The Oracle license model that applies to the Oracle Autonomous Database. The default is BRING_YOUR_OWN_LICENSE. 
+* `source` - (Optional) The source of the database: Use NONE for creating a new Autonomous Database. Use DATABASE for creating a new Autonomous Database by cloning an existing Autonomous Database. 
+* `source_id` - (Required when source=DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that you will clone to create a new Autonomous Database.
 
 
 ** IMPORTANT **
@@ -77,6 +85,7 @@ The following attributes are exported:
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
 * `state` - The current state of the database.
 * `time_created` - The date and time the database was created.
+* `used_data_storage_size_in_tbs` - The amount of storage that has been used, in terabytes.
 
 ## Import
 

@@ -1,4 +1,10 @@
-## 3.18.1 (Unreleased)
+## 3.19.0 (Unreleased)
+
+### Added
+- Support for cloning of Autonomous Databases
+- Support for node metadata in container engine node pool
+- Support for Data Guard Associations for databases
+
 ## 3.18.0 (March 13, 2019)
 
 ### Added
@@ -81,7 +87,7 @@
 
 ### Note
 - Examples and test updated to use VM.Standard2.1
-- Windows example image updated to Windows-Server-2012-R2-Standard-Edition-VM-Gen2-2018.12.12-0 
+- Windows example image updated to Windows-Server-2012-R2-Standard-Edition-VM-Gen2-2018.12.12-0
 
 ## 3.11.2 (January 10, 2019)
 

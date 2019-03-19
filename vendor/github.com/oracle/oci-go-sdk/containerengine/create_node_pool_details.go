@@ -3,7 +3,9 @@
 
 // Container Engine for Kubernetes API
 //
-// Container Engine for Kubernetes API
+// API for the Container Engine for Kubernetes service. Use this API to build, deploy,
+// and manage cloud-native applications. For more information, see
+// Overview of Container Engine for Kubernetes (https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
 //
 
 package containerengine
@@ -35,6 +37,9 @@ type CreateNodePoolDetails struct {
 
 	// The OCIDs of the subnets in which to place nodes for this node pool.
 	SubnetIds []string `mandatory:"true" json:"subnetIds"`
+
+	// A list of key/value pairs to add to each underlying OCI instance in the node pool.
+	NodeMetadata map[string]string `mandatory:"false" json:"nodeMetadata"`
 
 	// A list of key/value pairs to add to nodes after they join the Kubernetes cluster.
 	InitialNodeLabels []KeyValue `mandatory:"false" json:"initialNodeLabels"`

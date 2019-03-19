@@ -14,6 +14,12 @@
             <li<%= sidebar_current("docs-oci-guide-best_practices") %>>
                 <a href="/docs/providers/oci/guides/best_practices.html">Best Practices</a>
             </li>
+            <li<%= sidebar_current("docs-oci-guide-boot_volume_troubleshooting") %>>
+                <a href="/docs/providers/oci/guides/boot_volume_troubleshooting_reuse.html">Boot Volume reuse & troubleshooting</a>
+             </li>
+            <li<%= sidebar_current("docs-oci-guide-deprecated_resources") %>>
+                <a href="/docs/providers/oci/guides/deprecated_resources.html">Deprecated Resources</a>
+            </li>
             <li<%= sidebar_current("docs-oci-guide-faq") %>>
                 <a href="/docs/providers/oci/guides/faq.html">Frequently Asked Questions</a>
             </li>
@@ -28,9 +34,6 @@
             </li>
             <li<%= sidebar_current("docs-oci-guide-tagging_resources") %>>
                 <a href="/docs/providers/oci/guides/tagging_resources.html">Tagging Resources</a>
-            </li>
-            <li<%= sidebar_current("docs-oci-guide-deprecated_resources") %>>
-                <a href="/docs/providers/oci/guides/deprecated_resources.html">Deprecated Resources</a>
             </li>
             <li<%= sidebar_current("docs-oci-guide-troubleshooting") %>>
                 <a href="/docs/providers/oci/guides/troubleshooting.html">Troubleshooting</a>
@@ -342,7 +345,13 @@
                  </li>
                  <li<%= sidebar_current("docs-oci-datasource-database-backups") %>>
                      <a href="/docs/providers/oci/d/database_backups.html">oci_database_backups</a>
-                 </li>
+                 </li> 
+                 <li<%= sidebar_current("docs-oci-datasource-database-data_guard_association") %>>
+                     <a href="/docs/providers/oci/d/database_data_guard_association.html">oci_database_data_guard_association</a>
+                 </li> 
+                 <li<%= sidebar_current("docs-oci-datasource-database-data_guard_associations") %>>
+                     <a href="/docs/providers/oci/d/database_data_guard_associations.html">oci_database_data_guard_associations</a>
+                 </li> 
                  <li<%= sidebar_current("docs-oci-datasource-database-database") %>>
                      <a href="/docs/providers/oci/d/database_database.html">oci_database_database</a>
                  </li>
@@ -670,14 +679,6 @@
                 </li>
             </ul>
         </li>
-        <li<%= sidebar_current("docs-oci-autoscaling-resource") %>>
-            <a href="#">Autoscaling Resources</a>
-            <ul class="nav nav-visible">
-                <li<%= sidebar_current("docs-oci-resource-autoscaling-auto_scaling_configuration") %>>
-                    <a href="/docs/providers/oci/r/autoscaling_auto_scaling_configuration.html">oci_autoscaling_auto_scaling_configuration</a>
-                </li>
-            </ul>
-        </li>
         <li<%= sidebar_current("docs-oci-budget-resource") %>>
             <a href="#">Budget Resources</a>
             <ul class="nav nav-visible">
@@ -833,7 +834,10 @@
                 </li>
                 <li<%= sidebar_current("docs-oci-resource-database-backup") %>>
                     <a href="/docs/providers/oci/r/database_backup.html">oci_database_backup</a>
-                </li>
+                </li> 
+                <li<%= sidebar_current("docs-oci-resource-database-data_guard_association") %>>
+                    <a href="/docs/providers/oci/r/database_data_guard_association.html">oci_database_data_guard_association</a>
+                </li> 
                 <li<%= sidebar_current("docs-oci-resource-database-db_system") %>>
                     <a href="/docs/providers/oci/r/database_db_system.html">oci_database_db_system</a>
                 </li>
@@ -1059,7 +1063,6 @@
             <ul class="nav nav-visible">
                 <li<%= sidebar_current("docs-oci-resource-streaming-stream") %>>
                     <a href="/docs/providers/oci/r/streaming_stream.html">oci_streaming_stream</a>
-                </li>
                 </li>
             </ul>
         </li>

@@ -3,7 +3,9 @@
 
 // Container Engine for Kubernetes API
 //
-// Container Engine for Kubernetes API
+// API for the Container Engine for Kubernetes service. Use this API to build, deploy,
+// and manage cloud-native applications. For more information, see
+// Overview of Container Engine for Kubernetes (https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
 //
 
 package containerengine
@@ -12,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// NodePool A pool of compute nodes attached to a cluster.
+// NodePool A pool of compute nodes attached to a cluster. Avoid entering confidential information.
 type NodePool struct {
 
 	// The OCID of the node pool.
@@ -29,6 +31,9 @@ type NodePool struct {
 
 	// The version of Kubernetes running on the nodes in the node pool.
 	KubernetesVersion *string `mandatory:"false" json:"kubernetesVersion"`
+
+	// A list of key/value pairs to add to each underlying OCI instance in the node pool.
+	NodeMetadata map[string]string `mandatory:"false" json:"nodeMetadata"`
 
 	// The OCID of the image running on the nodes in the node pool.
 	NodeImageId *string `mandatory:"false" json:"nodeImageId"`
