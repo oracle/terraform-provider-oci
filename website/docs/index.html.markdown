@@ -63,7 +63,7 @@ the OCID of the root compartment, and can be used where any compartment id is re
 ##### \*nix
 If your Terraform configurations are limited to a single compartment or user, then using this `bash_profile` option be 
 sufficient. For more complex environments you may want to maintain multiple sets of environment variables. 
-See the [compute single instance example](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/compute/instance) for more info.
+See the [compute single instance example](https://github.com/oracle/terraform-provider-oci/tree/master/examples/compute/instance) for more info.
 
 In your `~/.bash_profile` set these variables:
 ```

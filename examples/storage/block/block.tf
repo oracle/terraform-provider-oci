@@ -3,7 +3,7 @@
 /*
  * This example demonstrates how to spin up a block volume
  *
- * See docs/examples/compute/instance/ for a real world scenario
+ * See examples/compute/instance/ for a real world scenario
  */
 variable "tenancy_ocid" {}
 

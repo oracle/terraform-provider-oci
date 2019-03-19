@@ -15,7 +15,7 @@ import (
 
 const examplesTestStateFile = "test_examples.tfstate"
 const defaultTerraformBinary = "terraform"
-const vcnExamplePath = "../docs/examples/networking/vcn"
+const vcnExamplePath = "../examples/networking/vcn"
 const localBinPath = "/usr/local/bin"
 
 var examplesTestAllowedEnvironmentVariables = []string{
@@ -78,7 +78,7 @@ func TestTerraformVersions(t *testing.T) {
 }
 
 func RunExamples(t *testing.T, planOnly bool) {
-	rootPath := "../docs/examples"
+	rootPath := "../examples"
 	log.Printf("Testing examples under %v", rootPath)
 
 	pathList, err := GetConfigPaths(t, rootPath)
