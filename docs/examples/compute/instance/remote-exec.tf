@@ -17,7 +17,10 @@ resource "null_resource" "remote-exec" {
       "touch ~/IMadeAFile.Right.Here",
       "sudo iscsiadm -m node -o new -T ${oci_core_volume_attachment.TFBlockAttach.*.iqn[count.index]} -p ${oci_core_volume_attachment.TFBlockAttach.*.ipv4[count.index]}:${oci_core_volume_attachment.TFBlockAttach.*.port[count.index]}",
       "sudo iscsiadm -m node -o update -T ${oci_core_volume_attachment.TFBlockAttach.*.iqn[count.index]} -n node.startup -v automatic",
-      "echo sudo iscsiadm -m node -T ${oci_core_volume_attachment.TFBlockAttach.*.iqn[count.index]} -p ${oci_core_volume_attachment.TFBlockAttach.*.ipv4[count.index]}:${oci_core_volume_attachment.TFBlockAttach.*.port[count.index]} -l >> ~/.bashrc",
+      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.TFBlockAttach.*.iqn[count.index]} -p ${oci_core_volume_attachment.TFBlockAttach.*.ipv4[count.index]}:${oci_core_volume_attachment.TFBlockAttach.*.port[count.index]} -o update -n node.session.auth.authmethod -v CHAP",
+      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.TFBlockAttach.*.iqn[count.index]} -p ${oci_core_volume_attachment.TFBlockAttach.*.ipv4[count.index]}:${oci_core_volume_attachment.TFBlockAttach.*.port[count.index]} -o update -n node.session.auth.username -v ${oci_core_volume_attachment.TFBlockAttach.*.chap_username[count.index]}",
+      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.TFBlockAttach.*.iqn[count.index]} -p ${oci_core_volume_attachment.TFBlockAttach.*.ipv4[count.index]}:${oci_core_volume_attachment.TFBlockAttach.*.port[count.index]} -o update -n node.session.auth.password -v ${oci_core_volume_attachment.TFBlockAttach.*.chap_secret[count.index]}",
+      "sudo iscsiadm -m node -T ${oci_core_volume_attachment.TFBlockAttach.*.iqn[count.index]} -p ${oci_core_volume_attachment.TFBlockAttach.*.ipv4[count.index]}:${oci_core_volume_attachment.TFBlockAttach.*.port[count.index]} -l",
     ]
   }
 }
