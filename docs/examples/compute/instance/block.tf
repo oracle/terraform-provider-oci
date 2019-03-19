@@ -18,7 +18,7 @@ resource "oci_core_volume_attachment" "TFBlockAttach" {
 
   # Set this to enable CHAP authentication for an ISCSI volume attachment. The oci_core_volume_attachment resource will
   # contain the CHAP authentication details via the "chap_secret" and "chap_username" attributes.
-  #use_chap = true
+  use_chap = true
 
   # Set this to attach the volume as read-only.
   #is_read_only = true
