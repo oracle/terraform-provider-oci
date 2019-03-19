@@ -3,7 +3,6 @@
 ### Added
 - Support for cloning of Autonomous Databases
 - Support for node metadata in container engine node pool
-- Support for authentication policy
 - Support for Data Guard Associations for databases
 
 ## 3.18.0 (March 13, 2019)
