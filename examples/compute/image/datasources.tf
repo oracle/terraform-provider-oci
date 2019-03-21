@@ -28,4 +28,14 @@ data "oci_core_images" "TFSupportedShapeImages" {
 
   # Uncomment below to filter images that are a specific OS version 
   #operating_system_version = "7.5"
+
+  # Uncomment below to sort images by creation time
+  #sort_by                 = "TIMECREATED"
+  # Default sort order for TIMECREATED is descending (DESC)
+  #sort_order              = "ASC"
+
+  # Uncomment below to sort images by display name, display name sort order is case-sensitive
+  #sort_by                 = "DISPLAYNAME"
+  # Default sort order for DISPLAYNAME is ascending (ASC)
+  #sort_order              = "DESC"
 }
