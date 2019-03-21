@@ -9,6 +9,7 @@
 
 ### Fixed
 - Virtual Circuit update failures by handling default values
+- Importing `assign_public_ip` for Core vnic attachment
 
 ## 3.20.0 (March 27, 2019)
 
