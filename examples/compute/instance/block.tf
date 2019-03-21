@@ -42,3 +42,10 @@ resource "oci_core_volume_attachment" "TFBlockAttachParavirtualized" {
   # Set this to attach the volume as read-only.
   #is_read_only = true
 }
+
+// Backup Policy assignment
+resource "oci_core_volume_backup_policy_assignment" "policy" {
+  count     = 2
+  asset_id  = "${oci_core_instance.TFInstance.*.boot_volume_id[count.index]}"
+  policy_id = "${data.oci_core_volume_backup_policies.test_predefined_volume_backup_policies.volume_backup_policies.0.id}"
+}
