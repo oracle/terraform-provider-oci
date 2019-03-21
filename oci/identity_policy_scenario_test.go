@@ -131,6 +131,14 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_basic() 
 					resource.TestCheckResourceAttr(s.DataSourceName, "policies.0.version_date", "2018-04-18"),
 				),
 			},
+			// verify resource import
+			{
+				Config:                  s.Config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            s.ResourceName,
+			},
 		},
 	},
 	)
