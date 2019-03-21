@@ -28,3 +28,11 @@ output "InstanceDevices" {
 #  value = ["${oci_core_volume_attachment.TFBlockAttach.*.chap_secret}"]
 #}
 
+// Outputs
+output "silver_policy_id" {
+  value = "${data.oci_core_volume_backup_policies.test_predefined_volume_backup_policies.volume_backup_policies.0.id}"
+}
+
+output "attachment_instance_id" {
+  value = "${data.oci_core_boot_volume_attachments.TFBootVolumeAttachments.*.instance_id}"
+}
