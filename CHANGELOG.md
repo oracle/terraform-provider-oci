@@ -6,6 +6,7 @@
 
 ### Fixed
 - Import functionality for Objects in Object Storage
+- Import functionality for Identity Policy
 
 ## 3.19.0 (March 20, 2019)
 
