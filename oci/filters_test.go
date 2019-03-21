@@ -642,6 +642,37 @@ func TestApplyFilters_multiProperty(t *testing.T) {
 	}
 }
 
+// Test to validate that the Apply filters do not impact the original item order
+func TestApplyFilters_ElementOrder(t *testing.T) {
+	items := []map[string]interface{}{
+		{"letter": "a"},
+		{"letter": "b"},
+		{"letter": "c"},
+		{"letter": "d"},
+	}
+
+	testSchema := map[string]*schema.Schema{
+		"letter": {
+			Type: schema.TypeString,
+		},
+	}
+
+	filters := &schema.Set{F: func(interface{}) int { return 1 }}
+	filters.Add(map[string]interface{}{
+		"name":   "letter",
+		"values": []interface{}{"a", "d"},
+	})
+
+	res := ApplyFilters(filters, items, testSchema)
+	if len(res) != 2 {
+		t.Errorf("Expected 2 result, got %d", len(res))
+	}
+	if res[0]["letter"] != "a" || res[1]["letter"] != "d" {
+		t.Errorf("Expected sort order not retained, got %s %s", res[0]["letter"], res[1]["letter"])
+	}
+
+}
+
 func TestGetValue_EmptyMap(t *testing.T) {
 	item := map[string]interface{}{}
 

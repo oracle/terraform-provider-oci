@@ -13,7 +13,7 @@ Lists the available images in the specified compartment, including both
 [Oracle-provided images](https://docs.cloud.oracle.com/iaas/Content/Compute/References/images.htm) and
 [custom images](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm) that have
 been created. The list of images returned is ordered to first show all
-Oracle-provided images, then all custom images.
+Oracle-provided images, then all custom images. Read more on [List Images](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Image/ListImages)
 
 The order of images returned may change when new images are released.
 
@@ -31,8 +31,11 @@ data "oci_core_images" "test_images" {
 	operating_system_version = "${var.image_operating_system_version}"
 	shape = "${var.image_shape}"
 	state = "${var.image_state}"
+	sort_by = "${var.image_sort_by}"
+	sort_order = "${var.image_sort_order}"
 }
 ```
+For more detailed implementation refer the [image example](https://github.com/oracle/terraform-provider-oci/tree/master/examples/compute/image)
 
 ## Argument Reference
 
@@ -44,7 +47,8 @@ The following arguments are supported:
 * `operating_system_version` - (Optional) The image's operating system version.  Example: `7.2` 
 * `shape` - (Optional) Shape name.
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive. 
-
+* `sort_by` - (Optional) Sort the resources returned, by creation time or display name. Example `TIMECREATED` or `DISPLAYNAME`.
+* `sort_order` - (Optional) The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 
 ## Attributes Reference
 

@@ -3,6 +3,7 @@
 ### Added
 - Support for importing Buckets and Pre-authenticated requests in Object Storage
 - Support glob inclusion and exclusion patterns for object names allowed in Object Storage Lifecycle
+- Support for sorting for resources returned in `oci_core_images` data source
 
 ### Fixed
 - Import functionality for Objects in Object Storage
