@@ -1,7 +1,9 @@
-## 3.19.1 (Unreleased)
+## 3.20.0 (Unreleased)
 
 ### Added
 - Support for importing Buckets and Pre-authenticated requests in Object Storage
+- Support glob inclusion and exclusion patterns for object names allowed in Object Storage Lifecycle
+
 
 ### Fixed
 - Import functionality for Objects in Object Storage
