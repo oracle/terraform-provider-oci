@@ -11,7 +11,7 @@ import (
 // ListBucketsRequest wrapper for the ListBuckets operation
 type ListBucketsRequest struct {
 
-	// The top-level namespace used for the request.
+	// The Object Storage namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The ID of the compartment in which to list buckets.
@@ -66,10 +66,12 @@ type ListBucketsResponse struct {
 	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of `Bucket`s. If this header appears in the response, then this
-	// is a partial list of buckets. Include this value as the `page` parameter in a subsequent
-	// GET request to get the next batch of buckets. For information about pagination, see
-	// List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine).
+	// Paginating a list of buckets.
+	// In the GET request, set the limit to the number of buckets items that you want returned in the response.
+	// If the opc-next-page header appears in the response, then this is a partial list and there are additional
+	// buckets to get. Include the header's value as the `page` parameter in the subsequent GET request to get the
+	// next batch of buckets. Repeat this process to retrieve the entire list of buckets.
+	// By default, the page limit is set to 25 buckets per page, but you can specify a value from 1 to 1000.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

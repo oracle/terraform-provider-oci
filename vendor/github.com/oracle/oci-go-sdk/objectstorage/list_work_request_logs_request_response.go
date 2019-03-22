@@ -52,14 +52,18 @@ type ListWorkRequestLogsResponse struct {
 	Items []WorkRequestLogEntry `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.n
+	// Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
 	OpcClientRequestId *string `presentIn:"header" name:"opc-client-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the response,
-	// then a partial list might have been returned. Include this value as the `page` parameter for the
-	// subsequent GET request to get the next batch of items.
+	// Paginating a list of work request logs.
+	// In the GET request, set the limit to the number of compartment work requests that you want returned in the
+	// response. If the opc-next-page header appears in the response, then this is a partial list and there are
+	// additional work requests to get. Include the header's value as the `page` parameter in the subsequent
+	// GET request to get the next batch of work requests. Repeat this process to retrieve the entire list of work
+	// requests.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

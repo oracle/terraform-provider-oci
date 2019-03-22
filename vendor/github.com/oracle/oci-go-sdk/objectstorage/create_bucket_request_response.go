@@ -11,7 +11,7 @@ import (
 // CreateBucketRequest wrapper for the CreateBucket operation
 type CreateBucketRequest struct {
 
-	// The top-level namespace used for the request.
+	// The Object Storage namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// Request object for creating a bucket.
@@ -55,7 +55,7 @@ type CreateBucketResponse struct {
 	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The entity tag for the bucket that was created.
+	// The entity tag (ETag) for the bucket that was created.
 	ETag *string `presentIn:"header" name:"etag"`
 
 	// The full path to the bucket that was created.
