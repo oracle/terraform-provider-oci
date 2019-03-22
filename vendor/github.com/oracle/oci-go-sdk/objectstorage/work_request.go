@@ -3,7 +3,7 @@
 
 // Object Storage Service API
 //
-// The Object and Archive Storage APIs for managing buckets and objects.
+// Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
 //
 
 package objectstorage
@@ -12,38 +12,39 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// WorkRequest A description of workRequest status
+// WorkRequest A description of workRequest status.
 type WorkRequest struct {
 
-	// type of the work request
+	// The type of work request.
 	OperationType WorkRequestOperationTypeEnum `mandatory:"false" json:"operationType,omitempty"`
 
-	// status of current work request.
+	// The status of the specified work request.
 	Status WorkRequestStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	// The id of the work request.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The ocid of the compartment that contains the work request. Work requests should be scoped to
+	// The OCID of the compartment that contains the work request. Work requests should be scoped to
 	// the same compartment as the resource the work request affects. If the work request affects multiple resources,
 	// and those resources are not in the same compartment, it is up to the service team to pick the primary
-	// resource whose compartment should be used
+	// resource whose compartment should be used.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	Resources []WorkRequestResource `mandatory:"false" json:"resources"`
 
-	// Percentage of the request completed.
+	// Percentage of the work request completed.
 	PercentComplete *float32 `mandatory:"false" json:"percentComplete"`
 
-	// The date and time the request was created, as described in
+	// The date and time the work request was created, as described in
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
 	TimeAccepted *common.SDKTime `mandatory:"false" json:"timeAccepted"`
 
-	// The date and time the request was started, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339),
-	// section 14.29.
+	// The date and time the work request was started, as described in
+	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time the object was finished, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
+	// The date and time the work request was finished, as described in
+	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 }
 

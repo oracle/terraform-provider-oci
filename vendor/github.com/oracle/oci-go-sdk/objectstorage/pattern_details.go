@@ -12,11 +12,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ObjectNameFilter A filter that compares object names to a set of prefixes or patterns to determine if a rule applies to a
-// given object. The filter can contain include glob patterns, exclude glob patterns and inclusion prefixes.
-// The inclusion prefixes property is kept for backward compatibility. It is recommended to use inclusion patterns
-// instead of prefixes. Exclusions take precedence over inclusions.
-type ObjectNameFilter struct {
+// PatternDetails Specifying inclusion and exclusion patterns.
+type PatternDetails struct {
 
 	// An array of glob patterns to match the object names to include. An empty array includes all objects in the
 	// bucket. Exclusion patterns take precedence over inclusion patterns.
@@ -57,11 +54,8 @@ type ObjectNameFilter struct {
 	//                         Character ranges can not start with ^ or :
 	//                         To include a '-' in the range, make it the first or last character.
 	ExclusionPatterns []string `mandatory:"false" json:"exclusionPatterns"`
-
-	// An array of object name prefixes that the rule will apply to. An empty array means to include all objects.
-	InclusionPrefixes []string `mandatory:"false" json:"inclusionPrefixes"`
 }
 
-func (m ObjectNameFilter) String() string {
+func (m PatternDetails) String() string {
 	return common.PointerString(m)
 }

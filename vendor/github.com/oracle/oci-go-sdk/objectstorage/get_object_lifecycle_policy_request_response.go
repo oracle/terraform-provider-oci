@@ -11,7 +11,7 @@ import (
 // GetObjectLifecyclePolicyRequest wrapper for the GetObjectLifecyclePolicy operation
 type GetObjectLifecyclePolicyRequest struct {
 
-	// The top-level namespace used for the request.
+	// The Object Storage namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The name of the bucket. Avoid entering confidential information.
@@ -56,7 +56,7 @@ type GetObjectLifecyclePolicyResponse struct {
 	// Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
 	OpcClientRequestId *string `presentIn:"header" name:"opc-client-request-id"`
 
-	// The entity tag for the object lifecycle policy.
+	// The entity tag (ETag) for the object lifecycle policy.
 	ETag *string `presentIn:"header" name:"etag"`
 }
 

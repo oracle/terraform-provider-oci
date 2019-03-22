@@ -3,7 +3,7 @@
 
 // Object Storage Service API
 //
-// The Object and Archive Storage APIs for managing buckets and objects.
+// Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
 //
 
 package objectstorage
@@ -12,8 +12,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// RenameObjectDetails To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
-// talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+// RenameObjectDetails To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized,
+// talk to an administrator. If you are an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 type RenameObjectDetails struct {
 
@@ -23,13 +23,13 @@ type RenameObjectDetails struct {
 	// The new name of the source object.
 	NewName *string `mandatory:"true" json:"newName"`
 
-	// The if-match entity tag of the source object.
+	// The if-match entity tag (ETag) of the source object.
 	SrcObjIfMatchETag *string `mandatory:"false" json:"srcObjIfMatchETag"`
 
-	// The if-match entity tag of the new object.
+	// The if-match entity tag (ETag) of the new object.
 	NewObjIfMatchETag *string `mandatory:"false" json:"newObjIfMatchETag"`
 
-	// The if-none-match entity tag of the new object.
+	// The if-none-match entity tag (ETag) of the new object.
 	NewObjIfNoneMatchETag *string `mandatory:"false" json:"newObjIfNoneMatchETag"`
 }
 
