@@ -17,6 +17,8 @@ const (
 	objectstorageService = "object_storage"
 )
 
+type expectedRetryDurationFn func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string) time.Duration
+
 var shortRetryTime = 2 * time.Minute
 var longRetryTime = 10 * time.Minute
 var configuredRetryDuration *time.Duration
@@ -26,6 +28,10 @@ func init() {
 }
 
 func getRetryBackoffDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time) time.Duration {
+	return getRetryBackoffDurationWithExpectedRetryDurationFn(response, disableNotFoundRetries, service, startTime, getExpectedRetryDuration)
+}
+
+func getRetryBackoffDurationWithExpectedRetryDurationFn(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, expectedRetryDurationFn expectedRetryDurationFn) time.Duration {
 	// Avoid having a very large retry backoff
 	attempt := response.AttemptNumber
 	if attempt > quadraticBackoffCap {
@@ -38,7 +44,7 @@ func getRetryBackoffDuration(response oci_common.OCIOperationResponse, disableNo
 
 	// If we are about to exceed the retry duration; then reduce the backoff so that next attempt happens roughly when
 	// the entire retry duration is supposed to expire. Jitter is necessary again to avoid clustering.
-	expectedRetryDuration := getExpectedRetryDuration(response, disableNotFoundRetries, service)
+	expectedRetryDuration := expectedRetryDurationFn(response, disableNotFoundRetries, service)
 	timeWaited := getElapsedRetryDuration(startTime)
 	if timeWaited < expectedRetryDuration && timeWaited+backoffDuration > expectedRetryDuration {
 		extraJitterRange := int64(float64(expectedRetryDuration) * 0.05)
