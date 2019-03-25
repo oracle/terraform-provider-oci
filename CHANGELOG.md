@@ -5,6 +5,7 @@
 - Support for tags in databases
 - Support for updates to database auto_backup_enabled 
 - Support for provider service keys in Fast Connect Provider Services
+- Singular data sources for User and Group for Identity service
 
 ## 3.20.0 (March 27, 2019)
 

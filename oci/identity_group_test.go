@@ -19,6 +19,10 @@ var (
 	GroupRequiredOnlyResource = GroupResourceDependencies +
 		generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation)
 
+	groupSingularDataSourceRepresentation = map[string]interface{}{
+		"group_id": Representation{repType: Required, create: `${oci_identity_group.test_group.id}`},
+	}
+
 	groupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"filter":         RepresentationGroup{Required, groupDataSourceFilterRepresentation}}
@@ -49,6 +53,7 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 
 	resourceName := "oci_identity_group.test_group"
 	datasourceName := "data.oci_identity_groups.test_groups"
+	singularDatasourceName := "data.oci_identity_group.test_group"
 
 	var resId, resId2 string
 
@@ -142,6 +147,30 @@ func TestIdentityGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "groups.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "groups.0.time_created"),
 				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + GroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "group_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "name", "NetworkAdmins"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + GroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_group", "test_group", Optional, Update, groupRepresentation),
 			},
 			// verify resource import
 			{
