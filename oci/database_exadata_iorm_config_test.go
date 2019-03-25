@@ -4,6 +4,7 @@ package provider
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -118,6 +119,10 @@ var (
 )
 
 func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_Exadata") {
+		t.Skip("Skipping suppressed DBSystem_Exadata")
+	}
+
 	provider := testAccProvider
 	config := testProviderConfig()
 
