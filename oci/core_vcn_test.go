@@ -21,6 +21,10 @@ var (
 
 	VcnResourceConfig = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation)
 
+	vcnSingularDataSourceRepresentation = map[string]interface{}{
+		"vcn_id": Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+	}
+
 	vcnDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
@@ -53,6 +57,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 
 	resourceName := "oci_core_vcn.test_vcn"
 	datasourceName := "data.oci_core_vcns.test_vcns"
+	singularDatasourceName := "data.oci_core_vcn.test_vcn"
 
 	var resId, resId2 string
 
@@ -147,6 +152,30 @@ func TestCoreVcnResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.state"),
 				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + VcnResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, vcnRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "dns_label", "dnslabel"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + VcnResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Update, vcnRepresentation),
 			},
 			// verify resource import
 			{
