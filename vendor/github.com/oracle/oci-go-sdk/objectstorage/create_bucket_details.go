@@ -3,7 +3,7 @@
 
 // Object Storage Service API
 //
-// The Object and Archive Storage APIs for managing buckets and objects.
+// Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
 //
 
 package objectstorage
@@ -12,13 +12,13 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateBucketDetails To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
-// talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+// CreateBucketDetails To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized,
+// talk to an administrator. If you are an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 type CreateBucketDetails struct {
 
-	// The name of the bucket. Valid characters are uppercase or lowercase letters,
-	// numbers, and dashes. Bucket names must be unique within the namespace. Avoid entering confidential information.
+	// The name of the bucket. Valid characters are uppercase or lowercase letters, numbers, and dashes.
+	// Bucket names must be unique within an Object Storage namespace. Avoid entering confidential information.
 	// example: Example: my-new-bucket1
 	Name *string `mandatory:"true" json:"name"`
 
@@ -51,7 +51,7 @@ type CreateBucketDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The OCID of a KMS key id used to call KMS to generate data key, decrypt the encrypted data key
+	// The OCID of a KMS key id used to call KMS to generate the data key or decrypt the encrypted data key.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 

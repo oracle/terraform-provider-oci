@@ -14,7 +14,7 @@ import (
 )
 
 // ZoneSummary A DNS zone.
-// *Warning:* Oracle recommends that you avoid using any confidential information when you supply string values using the API.
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type ZoneSummary struct {
 
 	// The name of the zone.
@@ -26,13 +26,16 @@ type ZoneSummary struct {
 	// The OCID of the compartment containing the zone.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// Simple key-value pair that is applied without any predefined name, type, or scope.
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"bar-key": "value"}`
+	//
+	// **Example:** `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// Usage of predefined tag keys. These predefined keys are scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	//
+	// **Example:** `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The canonical absolute URL of the resource.

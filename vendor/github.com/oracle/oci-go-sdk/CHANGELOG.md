@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 5.1.0 - 2019-03-26
+### Added
+- Support for glob patterns and exclusions for object lifecycle management in the Object Storage service
+- Documentation enhancements and corrections for traffic management in the DNS service
+
+### Fixed
+- The 'tag' info is always ignored in the returned string of Version() function [Github issue 157](https://github.com/oracle/oci-go-sdk/issues/157)
+
 ## 5.0.0 - 2019-03-19
 ### Added
 

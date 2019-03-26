@@ -1,4 +1,15 @@
-## 3.19.1 (Unreleased)
+## 3.20.0 (Unreleased)
+
+### Added
+- Support for importing Buckets and Pre-authenticated requests in Object Storage
+- Support glob inclusion and exclusion patterns for object names allowed in Object Storage Lifecycle
+- Support for sorting for resources returned in `oci_core_images` data source
+- Support for Web Application Acceleration and Security service
+
+### Fixed
+- Import functionality for Objects in Object Storage
+- Import functionality for Identity Policy
+
 ## 3.19.0 (March 20, 2019)
 
 ### Added
@@ -366,7 +377,7 @@ _This build contains a known issue where updates to a Route Table's Route Rules 
 ## 2.1.8 - 2018-05-10
 
 ### Added
-- Added support for remote VCN peering. More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/remote_peering_connections.md), and an example [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/examples/networking/remote_vcn_peering_full).
+- Added support for remote VCN peering. More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/remote_peering_connections.md), and an example [here](https://github.com/oracle/terraform-provider-oci/blob/master/examples/networking/remote_vcn_peering_full).
 - Added a data source for boot volumes. More details can be found [here](https://github.com/oracle/terraform-provider-oci/blob/master/docs/core/boot_volumes.md).
 
 ### Fixed

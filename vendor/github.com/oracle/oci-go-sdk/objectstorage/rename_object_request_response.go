@@ -11,7 +11,7 @@ import (
 // RenameObjectRequest wrapper for the RenameObject operation
 type RenameObjectRequest struct {
 
-	// The top-level namespace used for the request.
+	// The Object Storage namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The name of the bucket. Avoid entering confidential information.
@@ -56,7 +56,7 @@ type RenameObjectResponse struct {
 	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The entity tag for the object.
+	// The entity tag (ETag) for the object.
 	ETag *string `presentIn:"header" name:"etag"`
 
 	// The time the object was modified, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616), section 14.29.

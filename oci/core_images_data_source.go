@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -53,6 +54,22 @@ func CoreImagesDataSource() *schema.Resource {
 				Type:       schema.TypeString,
 				Optional:   true,
 				Deprecated: FieldDeprecated("page"),
+			},
+			"sort_by": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_core.ListImagesSortByTimecreated),
+					string(oci_core.ListImagesSortByDisplayname),
+				}, false),
+			},
+			"sort_order": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_core.ListImagesSortOrderAsc),
+					string(oci_core.ListImagesSortOrderDesc),
+				}, false),
 			},
 		},
 	}
@@ -116,6 +133,14 @@ func (s *CoreImagesDataSourceCrud) Get() error {
 	if page, ok := s.D.GetOkExists("page"); ok {
 		tmp := page.(string)
 		request.Page = &tmp
+	}
+
+	if sortBy, ok := s.D.GetOkExists("sort_by"); ok {
+		request.SortBy = oci_core.ListImagesSortByEnum(sortBy.(string))
+	}
+
+	if sortOrder, ok := s.D.GetOkExists("sort_order"); ok {
+		request.SortOrder = oci_core.ListImagesSortOrderEnum(sortOrder.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")

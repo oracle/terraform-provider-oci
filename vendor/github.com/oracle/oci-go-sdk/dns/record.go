@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// Record A DNS resource record. For more information about DNS records, see RFC 1034 (https://tools.ietf.org/html/rfc1034#section-3.6).
+// Record A DNS resource record. For more information, see
+// Supported DNS Resource Record Types (https://docs.cloud.oracle.com/iaas/Content/DNS/Reference/supporteddnsresource.htm).
 type Record struct {
 
 	// The fully qualified domain name where the record can be located.

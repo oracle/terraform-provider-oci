@@ -3,7 +3,7 @@
 
 // Object Storage Service API
 //
-// The Object and Archive Storage APIs for managing buckets and objects.
+// Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
 //
 
 package objectstorage
@@ -12,12 +12,12 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// BucketSummary To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
-// talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+// BucketSummary To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized,
+// talk to an administrator. If you are an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 type BucketSummary struct {
 
-	// The namespace in which the bucket lives.
+	// The Object Storage namespace in which the bucket lives.
 	Namespace *string `mandatory:"true" json:"namespace"`
 
 	// The name of the bucket. Avoid entering confidential information.
@@ -33,7 +33,7 @@ type BucketSummary struct {
 	// The date and time the bucket was created, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616), section 14.29.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The entity tag for the bucket.
+	// The entity tag (ETag) for the bucket.
 	Etag *string `mandatory:"true" json:"etag"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

@@ -50,7 +50,8 @@ correct policies for your user see [Managing Users](https://docs.cloud.oracle.co
 user account above in the _API Keys_ section of the web console. For details on how to create and configure keys see 
 [Required Keys and OCIDs](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm).
 - `fingerprint` - The fingerprint of the public key added in the above user's _API Keys_ section of the web console.
-- `region` - The region to target with this provider configuration.
+- `region` - The region to target with this provider configuration. Use the full region name like `us-phoenix-1` or `eu-frankfurt-1`. 
+Refer Oracle Cloud Infrastructure [Regions](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm) for a list of available regions and availability domains.
 
 #### Environment variables
 It is common to export the above values as environment variables, or source them in different bash profiles when executing 
@@ -62,7 +63,7 @@ the OCID of the root compartment, and can be used where any compartment id is re
 ##### \*nix
 If your Terraform configurations are limited to a single compartment or user, then using this `bash_profile` option be 
 sufficient. For more complex environments you may want to maintain multiple sets of environment variables. 
-See the [compute single instance example](https://github.com/oracle/terraform-provider-oci/tree/master/docs/examples/compute/instance) for more info.
+See the [compute single instance example](https://github.com/oracle/terraform-provider-oci/tree/master/examples/compute/instance) for more info.
 
 In your `~/.bash_profile` set these variables:
 ```

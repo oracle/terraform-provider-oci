@@ -30,7 +30,7 @@ var (
 		"is_numeric_characters_required":   Representation{repType: Optional, create: `true`, update: `false`},
 		"is_special_characters_required":   Representation{repType: Optional, create: `true`, update: `false`},
 		"is_uppercase_characters_required": Representation{repType: Optional, create: `true`, update: `false`},
-		"is_username_containment_allowed":  Representation{repType: Optional, create: `false`, update: `true`},
+		"is_username_containment_allowed":  Representation{repType: Optional, create: `false`},
 		"minimum_password_length":          Representation{repType: Optional, create: `11`, update: `8`},
 	}
 
@@ -60,7 +60,7 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 			// verify create
 			{
 				Config: config + compartmentIdVariableStr + AuthenticationPolicyResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Required, Create, authenticationPolicyRepresentation),
+					generateResourceFromRepresentationMap("oci_identity_authentication_policy", "test_authentication_policy", Optional, Create, authenticationPolicyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 
@@ -107,7 +107,7 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_numeric_characters_required", "false"),
 					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_special_characters_required", "false"),
 					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_uppercase_characters_required", "false"),
-					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_username_containment_allowed", "true"),
+					resource.TestCheckResourceAttr(resourceName, "password_policy.0.is_username_containment_allowed", "false"),
 					resource.TestCheckResourceAttr(resourceName, "password_policy.0.minimum_password_length", "8"),
 
 					func(s *terraform.State) (err error) {
@@ -133,7 +133,7 @@ func TestIdentityAuthenticationPolicyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_numeric_characters_required", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_special_characters_required", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_uppercase_characters_required", "false"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_username_containment_allowed", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.is_username_containment_allowed", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "password_policy.0.minimum_password_length", "8"),
 				),
 			},

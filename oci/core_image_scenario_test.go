@@ -99,6 +99,9 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_objectStorageImage
 						name = "launch_options.is_pv_encryption_in_transit_enabled"
 						values = ["true"]
 					}
+
+                    sort_by = "TIMECREATED"
+                    sort_order = "DESC"
 				}`, s.OperatingSystem),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("data.oci_core_images.t", "images.0.create_image_allowed", "true"),

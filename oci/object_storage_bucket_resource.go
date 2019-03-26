@@ -4,8 +4,12 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"net/url"
+	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -14,6 +18,9 @@ import (
 
 func ObjectStorageBucketResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createObjectStorageBucket,
 		Read:     readObjectStorageBucket,
@@ -142,11 +149,8 @@ type ObjectStorageBucketResourceCrud struct {
 }
 
 func (s *ObjectStorageBucketResourceCrud) ID() string {
-	if s.Res.Namespace == nil || s.Res.Name == nil {
-		log.Printf("Could not get ID for bucket. The bucket namespace and/or name is nil")
-	}
 
-	return *s.Res.Namespace + "/" + *s.Res.Name
+	return getBucketCompositeId(s.D.Get("name").(string), s.D.Get("namespace").(string))
 }
 
 func (s *ObjectStorageBucketResourceCrud) Create() error {
@@ -218,6 +222,14 @@ func (s *ObjectStorageBucketResourceCrud) Get() error {
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
 		tmp := namespace.(string)
 		request.NamespaceName = &tmp
+	}
+
+	bucket, namespace, err := parseBucketCompositeId(s.D.Id())
+	if err == nil {
+		request.BucketName = &bucket
+		request.NamespaceName = &namespace
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
 	request.Fields = oci_object_storage.GetGetBucketFieldsEnumValues()
@@ -322,6 +334,16 @@ func (s *ObjectStorageBucketResourceCrud) Delete() error {
 }
 
 func (s *ObjectStorageBucketResourceCrud) SetData() error {
+
+	// For ImportStateVerify to keep state consistent after import
+	bucket, namespace, err := parseBucketCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("bucket", &bucket)
+		s.D.Set("namespace", &namespace)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
 	s.D.Set("access_type", s.Res.PublicAccessType)
 
 	if s.Res.ApproximateCount != nil {
@@ -377,4 +399,24 @@ func (s *ObjectStorageBucketResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getBucketCompositeId(bucket string, namespace string) string {
+	bucket = url.PathEscape(bucket)
+	namespace = url.PathEscape(namespace)
+	compositeId := "n/" + namespace + "/b/" + bucket
+	return compositeId
+}
+
+func parseBucketCompositeId(compositeId string) (bucket string, namespace string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("n/.*/b/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	namespace, _ = url.PathUnescape(parts[1])
+	bucket, _ = url.PathUnescape(parts[3])
+
+	return
 }

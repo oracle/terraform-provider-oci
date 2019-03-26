@@ -11,19 +11,20 @@ import (
 // HeadBucketRequest wrapper for the HeadBucket operation
 type HeadBucketRequest struct {
 
-	// The top-level namespace used for the request.
+	// The Object Storage namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The name of the bucket. Avoid entering confidential information.
 	// Example: `my-new-bucket1`
 	BucketName *string `mandatory:"true" contributesTo:"path" name:"bucketName"`
 
-	// The entity tag to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.
+	// The entity tag (ETag) to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.
 	// For uploading a part, this is the entity tag of the target part.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The entity tag to avoid matching. The only valid value is '*', which indicates that the request should fail if the object already exists.
-	// For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a part, this is the entity tag of the target part.
+	// The entity tag (ETag) to avoid matching. The only valid value is '*', which indicates that the request should fail if the object
+	// already exists. For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a
+	// part, this is the entity tag of the target part.
 	IfNoneMatch *string `mandatory:"false" contributesTo:"header" name:"if-none-match"`
 
 	// The client request ID for tracing.
@@ -61,7 +62,7 @@ type HeadBucketResponse struct {
 	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The current entity tag for the bucket.
+	// The current entity tag (ETag) for the bucket.
 	ETag *string `presentIn:"header" name:"etag"`
 
 	// Flag to indicate whether or not the object was modified.  If this is true,

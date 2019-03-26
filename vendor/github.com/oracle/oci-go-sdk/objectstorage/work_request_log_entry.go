@@ -3,7 +3,7 @@
 
 // Object Storage Service API
 //
-// The Object and Archive Storage APIs for managing buckets and objects.
+// Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
 //
 
 package objectstorage
@@ -18,7 +18,8 @@ type WorkRequestLogEntry struct {
 	// Human-readable log message.
 	Message *string `mandatory:"false" json:"message"`
 
-	// The time the log message was written. An RFC3339 formatted datetime string
+	// The date and time the log message was written, as described in
+	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
 	Timestamp *common.SDKTime `mandatory:"false" json:"timestamp"`
 }
 

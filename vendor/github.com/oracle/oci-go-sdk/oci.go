@@ -53,12 +53,12 @@ them out to stdout
 
 More examples can be found in the SDK Github repo: https://github.com/oracle/oci-go-sdk/tree/master/example
 
-Optional fields in the SDK
+Optional Fields in the SDK
 
 Optional fields are represented with the `mandatory:"false"` tag on input structs. The SDK will omit all optional fields that are nil when making requests.
 In the case of enum-type fields, the SDK will omit fields whose value is an empty string.
 
-Helper functions
+Helper Functions
 
 The SDK uses pointers for primitive types in many input structs. To aid in the construction of such structs, the SDK provides
 functions that return a pointer for a given value. For example:
@@ -83,7 +83,7 @@ functions that return a pointer for a given value. For example:
 	}
 
 
-Signing custom requests
+Signing Custom Requests
 
 The SDK exposes a stand-alone signer that can be used to signing custom requests. Related code can be found here:
 https://github.com/oracle/oci-go-sdk/blob/master/common/http_signer.go.
@@ -175,9 +175,9 @@ To see a runnable example, see https://github.com/oracle/oci-go-sdk/blob/master/
 
 For more information on the signing algorithm refer to: https://docs.cloud.oracle.com/Content/API/Concepts/signingrequests.htm
 
-Polymorphic json requests and responses
+Polymorphic JSON Requests and Responses
 
-Some operations accept or return polymorphic json objects. The SDK models such objects as interfaces. Further the SDK provides
+Some operations accept or return polymorphic JSON objects. The SDK models such objects as interfaces. Further the SDK provides
 structs that implement such interfaces. Thus, for all operations that expect interfaces as input, pass the struct in the SDK that satisfies
 such interface. For example:
 
@@ -208,7 +208,7 @@ In the case of a polymorphic response you can type assert the interface to the e
 
 	provider := response.IdentityProvider.(identity.Saml2IdentityProvider)
 
-An example of polymorphic json request handling can be found here: https://github.com/oracle/oci-go-sdk/blob/master/example/example_core_test.go#L63
+An example of polymorphic JSON request handling can be found here: https://github.com/oracle/oci-go-sdk/blob/master/example/example_core_test.go#L63
 
 
 Pagination
@@ -239,7 +239,7 @@ An example of this would be launching an instance and then waiting for the insta
 You might also want to retry the same operation again if there's network issue etc...
 This can be accomplished by using the RequestMetadata.RetryPolicy. You can find the examples here: https://github.com/oracle/oci-go-sdk/blob/master/example/example_retry_test.go
 
-Using the SDK with a proxy server
+Using the SDK with a Proxy Server
 
 The GO SDK uses the net/http package to make calls to OCI services. If your environment requires you to use a proxy server for outgoing HTTP requests
 then you can set this up in the following ways:
@@ -268,8 +268,8 @@ Some response fields are enum-typed. In the future, individual services may retu
 for that field. To address this possibility, every enum-type response field is a modeled as a type that supports any string.
 Thus if a service returns a value that is not recognized by your version of the SDK, then the response field will be set to this value.
 
-When individual services return a polymorphic json response not available as a concrete struct, the SDK will return an implementation that only satisfies
-the interface modeling the polymorphic json response.
+When individual services return a polymorphic JSON response not available as a concrete struct, the SDK will return an implementation that only satisfies
+the interface modeling the polymorphic JSON response.
 
 
 New Region Support

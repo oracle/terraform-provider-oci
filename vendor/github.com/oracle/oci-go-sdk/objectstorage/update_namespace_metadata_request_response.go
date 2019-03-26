@@ -11,7 +11,7 @@ import (
 // UpdateNamespaceMetadataRequest wrapper for the UpdateNamespaceMetadata operation
 type UpdateNamespaceMetadataRequest struct {
 
-	// The top-level namespace used for the request.
+	// The Object Storage namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// Request object for update NamespaceMetadata.

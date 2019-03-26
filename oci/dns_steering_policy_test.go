@@ -54,7 +54,7 @@ var (
 		"template":                Representation{repType: Required, create: `CUSTOM`},
 		"answers":                 RepresentationGroup{Optional, steeringPolicyAnswersRepresentation},
 		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"health_check_monitor_id": Representation{repType: Optional, create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
 		"rules": []RepresentationGroup{
 			{Optional, steeringPolicyRulesFilterRuleTypeRepresentation},

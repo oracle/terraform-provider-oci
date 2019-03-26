@@ -3,7 +3,7 @@
 
 // Object Storage Service API
 //
-// The Object and Archive Storage APIs for managing buckets and objects.
+// Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
 //
 
 package objectstorage
@@ -12,12 +12,12 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CommitMultipartUploadDetails To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
-// talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+// CommitMultipartUploadDetails To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized,
+// talk to an administrator. If you are an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 type CommitMultipartUploadDetails struct {
 
-	// The part numbers and ETags for the parts to be committed.
+	// The part numbers and entity tags (ETags) for the parts to be committed.
 	PartsToCommit []CommitMultipartUploadPartDetails `mandatory:"true" json:"partsToCommit"`
 
 	// The part numbers for the parts to be excluded from the completed object.

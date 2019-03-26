@@ -11,14 +11,14 @@ import (
 // CopyObjectRequest wrapper for the CopyObject operation
 type CopyObjectRequest struct {
 
-	// The top-level namespace used for the request.
+	// The Object Storage namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The name of the bucket. Avoid entering confidential information.
 	// Example: `my-new-bucket1`
 	BucketName *string `mandatory:"true" contributesTo:"path" name:"bucketName"`
 
-	// The source and destination for object to be copied.
+	// The source and destination of the object to be copied.
 	CopyObjectDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.
@@ -54,6 +54,7 @@ type CopyObjectResponse struct {
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.

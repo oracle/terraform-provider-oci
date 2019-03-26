@@ -15,9 +15,13 @@ import (
 
 // SteeringPolicyWeightedAnswerData The representation of SteeringPolicyWeightedAnswerData
 type SteeringPolicyWeightedAnswerData struct {
-	AnswerCondition *string `mandatory:"false" json:"answerCondition"`
 
-	Value *int `mandatory:"false" json:"value"`
+	// The weight assigned to the set of selected answers. Answers with a higher weight will be served
+	// more frequently. Answers can be given a value between `0` and `255`.
+	Value *int `mandatory:"true" json:"value"`
+
+	// An expression that is used to select a set of answers that match a condition. For example, answers with matching pool properties.
+	AnswerCondition *string `mandatory:"false" json:"answerCondition"`
 }
 
 func (m SteeringPolicyWeightedAnswerData) String() string {

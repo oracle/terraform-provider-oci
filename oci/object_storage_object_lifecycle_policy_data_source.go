@@ -68,6 +68,22 @@ func ObjectStorageObjectLifecyclePolicyDataSource() *schema.Resource {
 									// Required
 
 									// Optional
+									"exclusion_patterns": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"inclusion_patterns": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"inclusion_prefixes": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -165,5 +181,11 @@ func fixupObjectNameFilterInclusionPrefixesAsList(objectLifecycleRuleMap map[str
 		objectNameFilterMap := firstElement.(map[string]interface{})
 		inclusionPrefixesSet := objectNameFilterMap["inclusion_prefixes"].(*schema.Set)
 		objectNameFilterMap["inclusion_prefixes"] = inclusionPrefixesSet.List()
+
+		inclusionPatternsSet := objectNameFilterMap["inclusion_patterns"].(*schema.Set)
+		objectNameFilterMap["inclusion_patterns"] = inclusionPatternsSet.List()
+
+		exclusionPatternsSet := objectNameFilterMap["exclusion_patterns"].(*schema.Set)
+		objectNameFilterMap["exclusion_patterns"] = exclusionPatternsSet.List()
 	}
 }
