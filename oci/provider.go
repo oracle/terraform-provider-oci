@@ -258,6 +258,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_nat_gateway":                           CoreNatGatewayDataSource(),
 		"oci_core_nat_gateways":                          CoreNatGatewaysDataSource(),
 		"oci_core_peer_region_for_remote_peerings":       CorePeerRegionForRemotePeeringsDataSource(),
+		"oci_core_private_ip":                            CorePrivateIpDataSource(),
 		"oci_core_private_ips":                           CorePrivateIpsDataSource(),
 		"oci_core_public_ip":                             CorePublicIpDataSource(),
 		"oci_core_public_ips":                            CorePublicIpsDataSource(),
@@ -274,6 +275,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_virtual_circuit_public_prefixes":       CoreVirtualCircuitPublicPrefixesDataSource(),
 		"oci_core_virtual_circuit":                       CoreVirtualCircuitDataSource(),
 		"oci_core_virtual_circuits":                      CoreVirtualCircuitsDataSource(),
+		"oci_core_vcn":                                   CoreVcnDataSource(),
 		"oci_core_virtual_networks":                      CoreVcnsDataSource(), //This is a legacy name for VCN, removing it can cause breaking changes
 		"oci_core_vcns":                                  CoreVcnsDataSource(),
 		"oci_core_vnic":                                  CoreVnicDataSource(),
@@ -327,6 +329,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_file_storage_export_sets":                   FileStorageExportSetsDataSource(),
 		"oci_file_storage_file_systems":                  FileStorageFileSystemsDataSource(),
 		"oci_file_storage_mount_targets":                 FileStorageMountTargetsDataSource(),
+		"oci_file_storage_snapshot":                      FileStorageSnapshotDataSource(),
 		"oci_file_storage_snapshots":                     FileStorageSnapshotsDataSource(),
 		"oci_health_checks_http_monitor":                 HealthChecksHttpMonitorDataSource(),
 		"oci_health_checks_http_monitors":                HealthChecksHttpMonitorsDataSource(),

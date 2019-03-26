@@ -17,6 +17,13 @@ var (
 	SnapshotRequiredOnlyResource = SnapshotResourceDependencies +
 		generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotRepresentation)
 
+	SnapshotResourceConfig = SnapshotResourceDependencies +
+		generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation)
+
+	snapshotSingularDataSourceRepresentation = map[string]interface{}{
+		"snapshot_id": Representation{repType: Required, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+	}
+
 	snapshotDataSourceRepresentation = map[string]interface{}{
 		"file_system_id": Representation{repType: Required, create: `${oci_file_storage_file_system.test_file_system.id}`},
 		"id":             Representation{repType: Optional, create: `${oci_file_storage_snapshot.test_snapshot.id}`},
@@ -46,6 +53,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 
 	resourceName := "oci_file_storage_snapshot.test_snapshot"
 	datasourceName := "data.oci_file_storage_snapshots.test_snapshots"
+	singularDatasourceName := "data.oci_file_storage_snapshot.test_snapshot"
 
 	var resId, resId2 string
 
@@ -135,6 +143,27 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.time_created"),
 				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + SnapshotResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "file_system_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "name", "snapshot-1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + SnapshotResourceConfig,
 			},
 			// verify resource import
 			{
