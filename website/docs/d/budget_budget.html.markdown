@@ -34,7 +34,7 @@ The following attributes are exported:
 * `actual_spend` - The actual spend in currency for the current budget cycle
 * `alert_rule_count` - Total number of alert rules in the budget
 * `amount` - The amount of the budget expressed as a decimal number in the currency of the customer's rate card. 
-* `compartment_id` - The OCID of the compartment
+* `compartment_id` - The OCID of the tenancy
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - The description of the budget.
 * `display_name` - The display name of the budget.
