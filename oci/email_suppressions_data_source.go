@@ -120,7 +120,9 @@ func (s *EmailSuppressionsDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		suppression := map[string]interface{}{}
+		suppression := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
+		}
 
 		if r.EmailAddress != nil {
 			suppression["email_address"] = *r.EmailAddress
