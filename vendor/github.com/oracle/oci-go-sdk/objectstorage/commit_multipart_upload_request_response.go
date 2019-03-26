@@ -11,7 +11,7 @@ import (
 // CommitMultipartUploadRequest wrapper for the CommitMultipartUpload operation
 type CommitMultipartUploadRequest struct {
 
-	// The top-level namespace used for the request.
+	// The Object Storage namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The name of the bucket. Avoid entering confidential information.
@@ -25,15 +25,16 @@ type CommitMultipartUploadRequest struct {
 	// The upload ID for a multipart upload.
 	UploadId *string `mandatory:"true" contributesTo:"query" name:"uploadId"`
 
-	// The part numbers and ETags for the parts you want to commit.
+	// The part numbers and entity tags (ETags) for the parts you want to commit.
 	CommitMultipartUploadDetails `contributesTo:"body"`
 
-	// The entity tag to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.
+	// The entity tag (ETag) to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.
 	// For uploading a part, this is the entity tag of the target part.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The entity tag to avoid matching. The only valid value is '*', which indicates that the request should fail if the object already exists.
-	// For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a part, this is the entity tag of the target part.
+	// The entity tag (ETag) to avoid matching. The only valid value is '*', which indicates that the request should fail if the object
+	// already exists. For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a
+	// part, this is the entity tag of the target part.
 	IfNoneMatch *string `mandatory:"false" contributesTo:"header" name:"if-none-match"`
 
 	// The client request ID for tracing.
@@ -74,10 +75,11 @@ type CommitMultipartUploadResponse struct {
 	// Base-64 representation of the multipart object hash.
 	// The multipart object hash is calculated by taking the MD5 hashes of the parts passed to this call,
 	// concatenating the binary representation of those hashes in order of their part numbers,
-	// and then calculating the MD5 hash of the concatenated values.
+	// and then calculating the MD5 hash of the concatenated values. The multipart object hash is followed
+	// by a hyphen and the total number of parts (for example, '-6').
 	OpcMultipartMd5 *string `presentIn:"header" name:"opc-multipart-md5"`
 
-	// The entity tag for the object.
+	// The entity tag (ETag) for the object.
 	ETag *string `presentIn:"header" name:"etag"`
 
 	// The time the object was last modified, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616), section 14.29.

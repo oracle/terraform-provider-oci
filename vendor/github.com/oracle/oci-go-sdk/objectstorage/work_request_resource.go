@@ -3,7 +3,7 @@
 
 // Object Storage Service API
 //
-// The Object and Archive Storage APIs for managing buckets and objects.
+// Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
 //
 
 package objectstorage
@@ -15,16 +15,16 @@ import (
 // WorkRequestResource The representation of WorkRequestResource
 type WorkRequestResource struct {
 
-	// The status that a work request can present
+	// The status of the work request.
 	ActionType WorkRequestResourceActionTypeEnum `mandatory:"false" json:"actionType,omitempty"`
 
-	// The resource type the work request is affects.
+	// The resource type the work request affects.
 	EntityType *string `mandatory:"false" json:"entityType"`
 
-	// The identifier of the resource the work request affects.
+	// The resource type identifier.
 	Identifier *string `mandatory:"false" json:"identifier"`
 
-	// The URI path that the user can do a GET on to access the resource metadata
+	// The URI path that you can use for a GET request to access the resource metadata.
 	EntityUri *string `mandatory:"false" json:"entityUri"`
 
 	// The metadata of the resource.

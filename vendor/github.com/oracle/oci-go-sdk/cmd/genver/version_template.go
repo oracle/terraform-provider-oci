@@ -29,7 +29,7 @@ func Version() string {
 		verBuilder := bytes.NewBufferString(ver)
 		if tag != "" && tag != "-" {
 			_, err := verBuilder.WriteString(tag)
-			if err == nil {
+			if err != nil {
 				verBuilder = bytes.NewBufferString(ver)
 			}
 		}

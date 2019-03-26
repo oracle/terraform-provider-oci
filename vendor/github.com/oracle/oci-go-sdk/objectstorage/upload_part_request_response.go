@@ -12,7 +12,7 @@ import (
 // UploadPartRequest wrapper for the UploadPart operation
 type UploadPartRequest struct {
 
-	// The top-level namespace used for the request.
+	// The Object Storage namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The name of the bucket. Avoid entering confidential information.
@@ -32,18 +32,19 @@ type UploadPartRequest struct {
 	// The content length of the body.
 	ContentLength *int64 `mandatory:"true" contributesTo:"header" name:"Content-Length"`
 
-	// The part being uploaded to the Object Storage Service.
+	// The part being uploaded to the Object Storage service.
 	UploadPartBody io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`
 
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
-	// The entity tag to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.
+	// The entity tag (ETag) to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.
 	// For uploading a part, this is the entity tag of the target part.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The entity tag to avoid matching. The only valid value is '*', which indicates that the request should fail if the object already exists.
-	// For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a part, this is the entity tag of the target part.
+	// The entity tag (ETag) to avoid matching. The only valid value is '*', which indicates that the request should fail if the object
+	// already exists. For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a
+	// part, this is the entity tag of the target part.
 	IfNoneMatch *string `mandatory:"false" contributesTo:"header" name:"if-none-match"`
 
 	// 100-continue
@@ -87,7 +88,7 @@ type UploadPartResponse struct {
 	// The base64-encoded MD5 hash of the request body, as computed by the server.
 	OpcContentMd5 *string `presentIn:"header" name:"opc-content-md5"`
 
-	// The entity tag for the object.
+	// The entity tag (ETag) for the object.
 	ETag *string `presentIn:"header" name:"etag"`
 }
 

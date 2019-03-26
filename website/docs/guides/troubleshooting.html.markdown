@@ -49,3 +49,12 @@ export http_proxy=http://www.your-proxy.com:80/
 export https_proxy=http://www.your-proxy.com:80/
 export no_proxy=localhost,127.0.0.1
 ```
+
+### Verbose logging for OCI Terraform Provider
+
+To get verbose console output when the provider is running, precede your Terraform command with the `TF_LOG` and `OCI_GO_SDK_DEBUG` flags:
+```sh
+TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform plan
+```
+
+The [tf_log](https://www.terraform.io/docs/internals/debugging.html) level and `OCI_GO_SDK_DEBUG` flags can also be set as environment variables.

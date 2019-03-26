@@ -3,7 +3,7 @@
 
 // Object Storage Service API
 //
-// The Object and Archive Storage APIs for managing buckets and objects.
+// Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
 //
 
 package objectstorage
@@ -16,13 +16,13 @@ import (
 // objects that are too large for a single upload operation. With multipart uploads, individual parts of an object can be
 // uploaded in parallel to reduce the amount of time you spend uploading. Multipart uploads can also minimize the impact
 // of network failures by letting you retry a failed part upload instead of requiring you to retry an entire object upload.
-// See Managing Multipart Uploads (https://docs.cloud.oracle.com/Content/Object/Tasks/managingmultipartuploads.htm).
-// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
-// talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+// See Using Multipart Uploads (https://docs.cloud.oracle.com/Content/Object/Tasks/usingmultipartuploads.htm).
+// To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized,
+// talk to an administrator. If you are an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 type MultipartUpload struct {
 
-	// The namespace in which the in-progress multipart upload is stored.
+	// The Object Storage namespace in which the in-progress multipart upload is stored.
 	Namespace *string `mandatory:"true" json:"namespace"`
 
 	// The bucket in which the in-progress multipart upload is stored.

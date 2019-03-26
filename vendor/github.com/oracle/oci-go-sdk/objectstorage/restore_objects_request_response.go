@@ -11,7 +11,7 @@ import (
 // RestoreObjectsRequest wrapper for the RestoreObjects operation
 type RestoreObjectsRequest struct {
 
-	// The top-level namespace used for the request.
+	// The Object Storage namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The name of the bucket. Avoid entering confidential information.

@@ -46,12 +46,13 @@ type GetWorkRequestResponse struct {
 	WorkRequest `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
+	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
 	OpcClientRequestId *string `presentIn:"header" name:"opc-client-request-id"`
 
-	// some decimal number representing the number of seconds the client should wait before polling this endpoint again
+	// A decimal number representing the number of seconds the client should wait before polling this endpoint again.
 	RetryAfter *float32 `presentIn:"header" name:"retry-after"`
 }
 

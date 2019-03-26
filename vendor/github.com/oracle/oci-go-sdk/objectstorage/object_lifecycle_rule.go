@@ -3,7 +3,7 @@
 
 // Object Storage Service API
 //
-// The Object and Archive Storage APIs for managing buckets and objects.
+// Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
 //
 
 package objectstorage
@@ -12,8 +12,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ObjectLifecycleRule To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
-// talk to an administrator. If you're an administrator who needs to write policies to give users access, see
+// ObjectLifecycleRule To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized,
+// talk to an administrator. If you are an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 type ObjectLifecycleRule struct {
 
@@ -21,7 +21,7 @@ type ObjectLifecycleRule struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects into the
-	// Archival Storage tier (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm). Rules using the action
+	// Archive Storage tier (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm). Rules using the action
 	// 'DELETE' permanently delete objects from buckets. 'ARCHIVE' and 'DELETE' are the only two supported
 	// actions at this time.
 	Action *string `mandatory:"true" json:"action"`

@@ -270,6 +270,7 @@ func (s *IdentityPolicyResourceCrud) Get() error {
 
 	// update etag on a successful get
 	s.D.Set("ETag", response.Etag)
+	s.ETag = response.Etag
 
 	return nil
 }
@@ -381,6 +382,10 @@ func (s *IdentityPolicyResourceCrud) SetData() error {
 	if s.Res.VersionDate != nil {
 		s.D.Set("version_date", s.Res.VersionDate.String())
 	}
+
+	s.D.Set("policyHash", getMD5Hash(s.Res.Statements))
+	s.D.Set("ETag", s.ETag)
+	s.D.Set("lastUpdateETag", s.ETag)
 
 	return nil
 }

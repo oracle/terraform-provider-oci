@@ -245,6 +245,9 @@ func (s *LoadBalancerCertificateResourceCrud) Delete() error {
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.DeleteCertificate(context.Background(), request)
+	if err != nil {
+		return err
+	}
 
 	workReqID := response.OpcWorkRequestId
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}

@@ -15,7 +15,7 @@ import (
 
 const examplesTestStateFile = "test_examples.tfstate"
 const defaultTerraformBinary = "terraform"
-const vcnExamplePath = "../docs/examples/networking/vcn"
+const vcnExamplePath = "../examples/networking/vcn"
 const localBinPath = "/usr/local/bin"
 
 var examplesTestAllowedEnvironmentVariables = []string{
@@ -50,6 +50,8 @@ var examplesTestAllowedEnvironmentVariables = []string{
 	"TF_VAR_tags_import_if_exists",
 	"TF_VAR_defined_tag_namespace_name",
 	"TF_VAR_simulate_db",
+	"TF_VAR_avoid_waiting_for_delete_target",
+	"TF_VAR_vault_id",
 }
 
 func TestExamplesPlan(t *testing.T) {
@@ -76,7 +78,7 @@ func TestTerraformVersions(t *testing.T) {
 }
 
 func RunExamples(t *testing.T, planOnly bool) {
-	rootPath := "../docs/examples"
+	rootPath := "../examples"
 	log.Printf("Testing examples under %v", rootPath)
 
 	pathList, err := GetConfigPaths(t, rootPath)
@@ -140,7 +142,7 @@ func GetConfigPaths(t *testing.T, rootPath string) (pathList []string, err error
 }
 
 func shouldSkip(dir string) bool {
-	blackList := []string{"/db_exadata", "/db_systems", "/adw_backup", "/atp_backup", "/block", "launch_by_subscription", "subscription"}
+	blackList := []string{"/db_exadata", "/db_systems", "/adw_backup", "/atp_backup", "/block", "launch_by_subscription", "volume_backup", "subscription", "object_storage"}
 	var flag bool
 	for _, blackDir := range blackList {
 		flag = flag || strings.HasSuffix(dir, blackDir)

@@ -28,6 +28,7 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
+	oci_waas "github.com/oracle/oci-go-sdk/waas"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
 )
@@ -128,6 +129,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 	virtualNetworkClient, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	waasClient, err := oci_waas.NewWaasClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -303,6 +308,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&waasClient.BaseClient)
+	if err != nil {
+		return
+	}
 
 	clients.auditClient = &auditClient
 	clients.autoScalingClient = &autoScalingClient
@@ -327,6 +336,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.objectStorageClient = &objectStorageClient
 	clients.streamAdminClient = &streamAdminClient
 	clients.virtualNetworkClient = &virtualNetworkClient
+	clients.waasClient = &waasClient
 
 	return
 }
@@ -355,6 +365,7 @@ type OracleClients struct {
 	objectStorageClient            *oci_object_storage.ObjectStorageClient
 	streamAdminClient              *oci_streaming.StreamAdminClient
 	virtualNetworkClient           *oci_core.VirtualNetworkClient
+	waasClient                     *oci_waas.WaasClient
 	configuration                  map[string]string
 }
 

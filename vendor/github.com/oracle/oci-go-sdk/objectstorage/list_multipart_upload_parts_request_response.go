@@ -11,7 +11,7 @@ import (
 // ListMultipartUploadPartsRequest wrapper for the ListMultipartUploadParts operation
 type ListMultipartUploadPartsRequest struct {
 
-	// The top-level namespace used for the request.
+	// The Object Storage namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The name of the bucket. Avoid entering confidential information.
@@ -69,10 +69,12 @@ type ListMultipartUploadPartsResponse struct {
 	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of `MultipartUploadPartSummary`s. If this header appears in the response,
-	// then this is a partial list of object parts. Include this value as the `page` parameter in a subsequent
-	// GET request to get the next batch of object parts. For information about pagination, see
-	// List Pagination (https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm).
+	// Paginating a list of multipart upload parts.
+	// In the GET request, set the limit to the number of multipart upload parts that you want returned in the
+	// response. If the opc-next-page header appears in the response, then this is a partial list and there are
+	// additional multipart upload parts to get. Include the header's value as the `page` parameter in the subsequent
+	// GET request to get the next batch of multipart upload parts. Repeat this process to retrieve the entire list
+	// of multipart upload parts.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

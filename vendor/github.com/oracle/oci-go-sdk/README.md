@@ -55,7 +55,7 @@ type ConfigurationProvider interface {
 }
 ```
 
-### Making a request
+### Making a Request
 To make a request to an Oracle Cloud Infrastructure service, create a client for the service and then use the client to call a function from the service.
 
 - *Creating a client*: All packages provide a function to create clients, using the naming convention `New<ServiceName>ClientWithConfigurationProvider`,
@@ -132,8 +132,8 @@ See [CHANGELOG](/CHANGELOG.md).
 ## Known Issues
 You can find information on any known issues with the SDK here and under the [Issues](https://github.com/oracle/oci-go-sdk/issues) tab of this project's GitHub repository.
 
-## Building and testing
-### Dev dependencies
+## Building and Testing
+### Dev Dependencies
 - Install [Testify](https://github.com/stretchr/testify) with the command:
 ```sh
 go get github.com/stretchr/testify

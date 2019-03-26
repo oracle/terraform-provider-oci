@@ -11,7 +11,9 @@ import (
 	"bytes"
 	"io/ioutil"
 	"log"
+	"net/url"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -392,7 +394,7 @@ func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 
 	s.D.Set("work_request_id", "")
 	s.D.Set("state", string(oci_object_storage.WorkRequestStatusCompleted))
-	id := getId(*copyObjectRequest.DestinationNamespace, *copyObjectRequest.DestinationBucket, *copyObjectRequest.DestinationObjectName)
+	id := getObjectCompositeId(*copyObjectRequest.DestinationBucket, *copyObjectRequest.DestinationNamespace, *copyObjectRequest.DestinationObjectName)
 	s.D.SetId(id)
 	return s.Get()
 }
@@ -441,29 +443,8 @@ type ObjectStorageObjectResourceCrud struct {
 	WorkRequest            *oci_object_storage.WorkRequest
 }
 
-// @CODEGEN 2/2018: The existing provider returns a custom Id in following format:
-// "tfobm-object-<namespace_name>/<bucket_name>/<object_name>"
-func getId(namespaceName string, bucketName string, objectName string) string {
-	return ObjIdPrefix + namespaceName + ObjIdDelim + bucketName + ObjIdDelim + objectName
-}
-
-func parseId(id string) (namespaceName string, bucketName string, objectName string, err error) {
-	parts := strings.Split(strings.TrimPrefix(id, ObjIdPrefix), ObjIdDelim)
-	if len(parts) < 3 {
-		err = fmt.Errorf("Illegal id %s encountered", id)
-	}
-	namespaceName, bucketName, objectName = parts[0], parts[1], parts[2]
-
-	// Sometimes, the delimiter is used in the object name, and we should use all of the remaining parts, rather than
-	// first only
-	if len(parts) > 3 {
-		objectName = strings.Join(parts[2:], ObjIdDelim)
-	}
-	return
-}
-
 func (s *ObjectStorageObjectResourceCrud) ID() string {
-	return getId(s.Res.NamespaceName, s.Res.BucketName, s.Res.ObjectName)
+	return getObjectCompositeId(s.D.Get("bucket").(string), s.D.Get("namespace").(string), s.D.Get("object").(string))
 }
 
 func (s *ObjectStorageObjectResourceCrud) Create() error {
@@ -558,7 +539,7 @@ func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 		return err
 	}
 
-	id := getId(*request.NamespaceName, *request.BucketName, *request.ObjectName)
+	id := getObjectCompositeId(*request.BucketName, *request.NamespaceName, *request.ObjectName)
 	s.D.SetId(id)
 
 	// @CODEGEN 2/2018: PutObject() call doesn't return an object. Instead, use existing
@@ -572,17 +553,14 @@ func (s *ObjectStorageObjectResourceCrud) getObjectHead() error {
 
 	headObjectRequest := &oci_object_storage.HeadObjectRequest{}
 
-	namespaceName, bucketName, objectName, err := parseId(s.D.Id())
-	if err != nil {
-		return err
-	}
+	bucket, namespace, object, err := parseObjectCompositeId(s.D.Id())
 
-	headObjectRequest.NamespaceName = &namespaceName
-	headObjectRequest.BucketName = &bucketName
-	headObjectRequest.ObjectName = &objectName
-
-	if headObjectRequest.NamespaceName == nil || headObjectRequest.BucketName == nil || headObjectRequest.ObjectName == nil {
-		return fmt.Errorf("'namespace', 'bucket', or 'object' identifiers are missing")
+	if err == nil {
+		headObjectRequest.BucketName = &bucket
+		headObjectRequest.NamespaceName = &namespace
+		headObjectRequest.ObjectName = &object
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
 	headObjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
@@ -698,17 +676,14 @@ func (s *ObjectStorageObjectResourceCrud) Get() error {
 func (s *ObjectStorageObjectResourceCrud) getObject() error {
 	request := oci_object_storage.GetObjectRequest{}
 
-	namespaceName, bucketName, objectName, err := parseId(s.D.Id())
-	if err != nil {
-		return err
-	}
+	bucketName, namespaceName, objectName, err := parseObjectCompositeId(s.D.Id())
 
-	request.NamespaceName = &namespaceName
-	request.BucketName = &bucketName
-	request.ObjectName = &objectName
-
-	if request.NamespaceName == nil || request.BucketName == nil || request.ObjectName == nil {
-		return fmt.Errorf("'namespace', 'bucket', or 'object' identifiers are missing")
+	if err == nil {
+		request.NamespaceName = &namespaceName
+		request.BucketName = &bucketName
+		request.ObjectName = &objectName
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
 	// TODO: May be better to use HeadObject() to retrieve status of the object. For large content, doesn't make sense
@@ -734,20 +709,23 @@ func (s *ObjectStorageObjectResourceCrud) getObject() error {
 }
 
 func (s *ObjectStorageObjectResourceCrud) Update() error {
-	id := s.D.Id()
-	namespaceName, bucketName, objectName, err := parseId(id)
-	if err != nil {
-		return err
-	}
 
 	// @CODEGEN 06/2018: Update is only supported for the change in name - all others are a forceNew
 	if !s.D.HasChange("object") {
 		return fmt.Errorf("unexpected change encountered")
 	}
 	request := oci_object_storage.RenameObjectRequest{}
-	request.NamespaceName = &namespaceName
-	request.BucketName = &bucketName
-	request.SourceName = &objectName
+
+	bucketName, namespaceName, objectName, err := parseObjectCompositeId(s.D.Id())
+	if err == nil {
+		request.NamespaceName = &namespaceName
+		request.BucketName = &bucketName
+		request.SourceName = &objectName
+	} else {
+		log.Printf("[WARN] Update() unable to parse current ID: %s", s.D.Id())
+		return err
+	}
+
 	if object, ok := s.D.GetOkExists("object"); ok {
 		tmp := object.(string)
 		request.NewName = &tmp
@@ -759,7 +737,7 @@ func (s *ObjectStorageObjectResourceCrud) Update() error {
 		return err
 	}
 
-	updatedId := getId(namespaceName, bucketName, *request.NewName)
+	updatedId := getObjectCompositeId(bucketName, namespaceName, *request.NewName)
 	s.D.SetId(updatedId)
 	return s.Get()
 }
@@ -767,14 +745,15 @@ func (s *ObjectStorageObjectResourceCrud) Update() error {
 func (s *ObjectStorageObjectResourceCrud) Delete() error {
 	request := oci_object_storage.DeleteObjectRequest{}
 
-	namespaceName, bucketName, objectName, err := parseId(s.D.Id())
-	if err != nil {
+	bucketName, namespaceName, objectName, err := parseObjectCompositeId(s.D.Id())
+	if err == nil {
+		request.NamespaceName = &namespaceName
+		request.BucketName = &bucketName
+		request.ObjectName = &objectName
+	} else {
+		log.Printf("[WARN] Delete() unable to parse current ID: %s", s.D.Id())
 		return err
 	}
-
-	request.NamespaceName = &namespaceName
-	request.BucketName = &bucketName
-	request.ObjectName = &objectName
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
@@ -828,6 +807,31 @@ func (s *ObjectStorageObjectResourceCrud) setDataObjectHead() error {
 	}
 
 	return nil
+}
+
+// @CODEGEN 2/2018: The existing provider returns a custom Id in following format:
+// "tfobm-object-<namespace_name>/<bucket_name>/<object_name>"
+// Update - Id format updated to "n/tfobm-object-<namespace_name>/b/<bucket_name>/o/<object_name>"
+func getObjectCompositeId(bucket string, namespace string, object string) string {
+	bucket = url.PathEscape(bucket)
+	namespace = url.PathEscape(namespace)
+	object = url.PathEscape(object)
+	compositeId := "n/" + namespace + "/b/" + bucket + "/o/" + object
+	return compositeId
+}
+
+func parseObjectCompositeId(compositeId string) (bucket string, namespace string, object string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("n/.*/b/.*/o/.*", compositeId)
+	if !match || len(parts) != 6 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	namespace, _ = url.PathUnescape(parts[1])
+	bucket, _ = url.PathUnescape(parts[3])
+	object, _ = url.PathUnescape(parts[5])
+
+	return
 }
 
 func (s *ObjectStorageObjectResourceCrud) setDataObject() error {

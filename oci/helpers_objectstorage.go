@@ -158,7 +158,7 @@ func singlePartUpload(multipartUploadData MultipartUploadData) (string, error) {
 		return "", err
 	}
 
-	id := getId(*putObjectRequest.NamespaceName, *putObjectRequest.BucketName, *putObjectRequest.ObjectName)
+	id := getObjectCompositeId(*putObjectRequest.BucketName, *putObjectRequest.NamespaceName, *putObjectRequest.ObjectName)
 
 	return id, nil
 }
@@ -287,7 +287,7 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 		return "", fmt.Errorf("failed to commit multi part upload of \"%v\" to the service: %s", source, err)
 	}
 
-	id := getId(*commitMultipartUploadRequest.NamespaceName, *commitMultipartUploadRequest.BucketName, *commitMultipartUploadRequest.ObjectName)
+	id := getObjectCompositeId(*commitMultipartUploadRequest.BucketName, *commitMultipartUploadRequest.NamespaceName, *commitMultipartUploadRequest.ObjectName)
 
 	return id, nil
 }

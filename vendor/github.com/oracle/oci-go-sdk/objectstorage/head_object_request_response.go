@@ -11,7 +11,7 @@ import (
 // HeadObjectRequest wrapper for the HeadObject operation
 type HeadObjectRequest struct {
 
-	// The top-level namespace used for the request.
+	// The Object Storage namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
 	// The name of the bucket. Avoid entering confidential information.
@@ -22,12 +22,13 @@ type HeadObjectRequest struct {
 	// Example: `test/object1.log`
 	ObjectName *string `mandatory:"true" contributesTo:"path" name:"objectName"`
 
-	// The entity tag to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.
+	// The entity tag (ETag) to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.
 	// For uploading a part, this is the entity tag of the target part.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
-	// The entity tag to avoid matching. The only valid value is '*', which indicates that the request should fail if the object already exists.
-	// For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a part, this is the entity tag of the target part.
+	// The entity tag (ETag) to avoid matching. The only valid value is '*', which indicates that the request should fail if the object
+	// already exists. For creating and committing a multipart upload, this is the entity tag of the target object. For uploading a
+	// part, this is the entity tag of the target part.
 	IfNoneMatch *string `mandatory:"false" contributesTo:"header" name:"if-none-match"`
 
 	// The client request ID for tracing.
@@ -65,7 +66,7 @@ type HeadObjectResponse struct {
 	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The entity tag for the object.
+	// The entity tag (ETag) for the object.
 	ETag *string `presentIn:"header" name:"etag"`
 
 	// The user-defined metadata for the object.

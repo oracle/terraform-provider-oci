@@ -17,6 +17,7 @@ description. It does not have to be unique, and you can change it. Avoid enterin
 
 For more information, see [Volume Groups](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/volumegroups.htm).
 
+Note: If the volume group is created from another volume group or from a volume group backup, a copy of the volumes from the source is made in your compartment. However, this is not automatically deleted by Terraform when this volume group is deleted. To track these volumes, you can import them into the terraform statefile and run terraform destroy. Alternatively, you can also use another interface like CLI, SDK, or Console to remove them manually. 
 
 ## Example Usage
 

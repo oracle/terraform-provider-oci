@@ -477,8 +477,12 @@ func (s *ContainerengineNodePoolResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	//Issues delete request
+	//Issue delete request
 	response, err := s.Client.DeleteNodePool(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
 	workRequest := response.OpcWorkRequestId
 
 	//Wait until request finishes
