@@ -1,4 +1,5 @@
-## 3.20.0 (Unreleased)
+## 3.20.1 (Unreleased)
+## 3.20.0 (March 27, 2019)
 
 ### Added
 - Support for importing Buckets and Pre-authenticated requests in Object Storage
