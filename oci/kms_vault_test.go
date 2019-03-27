@@ -11,6 +11,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -45,6 +47,10 @@ var (
 
 func TestKmsVaultResource_basic(t *testing.T) {
 	t.Skip("Skip this test till KMS provides a better way of testing this.")
+
+	httpreplay.SetScenario("TestKmsVaultResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

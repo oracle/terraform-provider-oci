@@ -8,6 +8,8 @@ import (
 	"time"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 const (
@@ -33,6 +35,10 @@ func getRetryBackoffDuration(response oci_common.OCIOperationResponse, disableNo
 }
 
 func getRetryBackoffDurationWithExpectedRetryDurationFn(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, expectedRetryDurationFn expectedRetryDurationFn) time.Duration {
+	if httpreplay.ShouldRetryImmediately() {
+		return 0
+	}
+
 	// Avoid having a very large retry backoff
 	attempt := response.AttemptNumber
 	if attempt > quadraticBackoffCap {

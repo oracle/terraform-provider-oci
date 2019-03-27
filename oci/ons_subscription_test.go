@@ -14,6 +14,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -51,6 +53,9 @@ var (
 )
 
 func TestOnsSubscriptionResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestOnsSubscriptionResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

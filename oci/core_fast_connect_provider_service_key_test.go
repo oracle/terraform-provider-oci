@@ -8,6 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -20,6 +22,13 @@ var (
 )
 
 func TestCoreFastConnectProviderServiceKeyResource_basic(t *testing.T) {
+	if httpreplay.ShouldRetryImmediately() {
+		t.Skip("FastConnect failed in dxterraformtest tenancy IAD region with a known issue: TER-1232")
+	}
+
+	httpreplay.SetScenario("TestCoreFastConnectProviderServiceKeyResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

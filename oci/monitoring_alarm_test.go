@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -67,6 +69,9 @@ var (
 )
 
 func TestMonitoringAlarmResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestMonitoringAlarmResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

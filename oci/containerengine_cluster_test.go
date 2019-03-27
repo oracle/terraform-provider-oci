@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -69,6 +71,9 @@ var (
 )
 
 func TestContainerengineClusterResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestContainerengineClusterResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

@@ -11,6 +11,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_email "github.com/oracle/oci-go-sdk/email"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -41,6 +43,9 @@ var (
 )
 
 func TestEmailSuppressionResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestEmailSuppressionResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

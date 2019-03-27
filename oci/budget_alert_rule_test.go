@@ -11,6 +11,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 	"github.com/oracle/oci-go-sdk/common"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -52,6 +54,9 @@ var (
 )
 
 func TestBudgetAlertRuleResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestBudgetAlertRuleResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

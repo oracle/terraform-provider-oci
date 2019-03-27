@@ -11,6 +11,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
@@ -182,6 +184,10 @@ type DatabaseDataGuardAssociationResourceCrud struct {
 
 //after deleting the dataguard we should wait a little bit of time because the dbSystem sometime goes from terminating to available if deleted right after the standby dbHome is deleted and the dataguard is deleted.
 func (s *DatabaseDataGuardAssociationResourceCrud) ExtraWaitPostCreateDelete() time.Duration {
+	if httpreplay.ShouldRetryImmediately() {
+		return 10 * time.Millisecond
+	}
+
 	return time.Second * 30
 }
 

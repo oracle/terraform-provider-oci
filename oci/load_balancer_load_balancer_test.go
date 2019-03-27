@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -77,6 +79,9 @@ var (
 )
 
 func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestLoadBalancerLoadBalancerResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

@@ -14,6 +14,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -79,6 +81,9 @@ data "oci_identity_tenancy" "test_tenancy" {
 )
 
 func TestDnsZoneResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDnsZoneResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

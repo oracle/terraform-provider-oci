@@ -10,6 +10,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -41,6 +43,9 @@ func generateMetricDataRepresentationWithCurrentTimeInputs() map[string]interfac
 }
 
 func TestMonitoringMetricDataResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestMonitoringMetricDataResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 
