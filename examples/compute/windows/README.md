@@ -28,30 +28,11 @@ This example contains Terraform configuration to provision a virtual machine in 
 
 ## WinRM
 
--   While WinRM is enabled on the images, if you plan to use your own images, you need to configure it using following commands.
-
-```powershell
-  winrm quickconfig
-  Enable-PSRemoting
-
-  winrm set winrm/config/client/auth '@{Basic="true"}'
-  winrm set winrm/config/service/auth '@{Basic="true"}'
-  winrm set winrm/config/service '@{AllowUnencrypted="true"}'
-  winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="300"}'
-  winrm set winrm/config '@{MaxTimeoutms="1800000"}'
-
-  netsh advfirewall firewall add rule name="WinRM HTTP" protocol=TCP dir=in profile=any localport=5985 remoteip=any localip=any action=allow
-  netsh advfirewall firewall add rule name="WinRM HTTPS" protocol=TCP dir=in profile=any localport=5986 remoteip=any localip=any action=allow
-
-  net stop winrm
-  sc.exe config winrm start=auto
-  net start winrm
-```
-
--   Strongly consider the security aspects of allowing unencrypted connections (HTTP). This example shows how to create a self-signed certificate using Cloudbase-Init to configure WinRM for HTTPS communication
--   Based on what ports you have configured for RDP and WinRM you want to setup the Security List for your VCN to allow those ports, this example covers these ports:
+-   WinRM is enabled by default on Oracle Cloud Infrastructure (OCI) published images. If you plan to use custom images, you may need to enable and configure WinRM on those images.
+-   This example uses a self-signed certificate created during Cloudbase-Init to configure WinRM for HTTPS communication. You may need to switch to using CA signed certificate before using WinRM in production.
+-   To learn more about using WinRM in OCI refer this [blog](https://blogs.oracle.com/cloud-infrastructure/windows-custom-startup-scripts-and-cloud-init-on-oracle-cloud-infrastructure) article.
+-   Ensure that the Security List for your VCN allows the ports configured for WinRM and/or RDP, for example:
     -   3389 - RDP
-    -   5985 - WinRM HTTP
     -   5986 - WinRM HTTPS
 
 ## Terraform
@@ -68,8 +49,8 @@ This example contains Terraform configuration to provision a virtual machine in 
 -   The VM instance Cloud-Init metadata that is passed to LaunchInstanceDetails and then read over in VM is just Base64 encoded, you may want to transfer the new password in a more secure way or change it through another remote-exec that can run post Cloudbase-Init. Further, the example also has the passwords stored in the local state file.
     -   Refer Terraform recommendations for [Sensitive Data](https://www.terraform.io/docs/state/sensitive-data.html)
 -   The example covers running various Powershell commands, but for a more reliable solution, you may want to add enough retries and error reporting for setup resiliency
--   While setting up HTTP over BasicAuth is easy, it is not a recommended way to connecting to these VMs, consider using HTTPS by configuring WinRM HTTPS listener using your own certificate
--   If you are facing certificate based errors for WinRM HTTPS connection it is probably due to using the self-signed certificate using New-SelfSignedCertificate that WinRM does not find compatible in newer operating systems
+-   While setting up HTTP over BasicAuth is easy, it is not a recommended way to connecting to these VMs, consider using HTTPS by configuring WinRM HTTPS listener using a CA signed certificate instead.
+-   If you are facing certificate based errors for WinRM HTTPS connection it is probably due to using the self-signed certificate using `New-SelfSignedCertificate` that WinRM does not find compatible in newer operating systems
     -   Ideally you should use CA based certificate for configuring WinRM
     -   Alternatively, you can use this Ansible published script  [ConfigureRemotingForAnsible.ps1](https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1) to generate a legacy self-signed certificate and configure WinRM to use same.
         -   This entire script can be passed as an additional part in `template_cloudinit_config` to configure WinRM for HTTPS with a self-signed certificate. If you do so, remove the certificate based section from `cloudinit.ps1` in this example
