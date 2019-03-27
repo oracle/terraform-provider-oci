@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -59,6 +61,9 @@ func getTopicRepresentationCopyWithRandomName() map[string]interface{} {
 }
 
 func TestOnsNotificationTopicResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestOnsNotificationTopicResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

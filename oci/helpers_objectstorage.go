@@ -18,6 +18,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 const defaultFilePartSize int64 = 128 * 1024 * 1024 // 128MB
@@ -439,6 +441,11 @@ func copyObjectWaitForWorkRequest(wId *string, entityType string, timeout time.D
 			return workRequestResponse, string(wr.Status), err
 		},
 		Timeout: timeout,
+	}
+
+	// Set PollInterval to 1 for replay mode.
+	if httpreplay.ShouldRetryImmediately() {
+		stateConf.PollInterval = 1
 	}
 
 	wrr, e := stateConf.WaitForState()

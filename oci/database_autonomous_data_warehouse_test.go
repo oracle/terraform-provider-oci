@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -54,6 +56,9 @@ var (
 )
 
 func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseAutonomousDataWarehouseResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

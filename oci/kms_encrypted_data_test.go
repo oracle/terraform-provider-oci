@@ -8,6 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -35,6 +37,9 @@ var (
 )
 
 func TestKmsEncryptedDataResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestKmsEncryptedDataResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

@@ -8,6 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 const (
@@ -58,6 +60,9 @@ var (
 )
 
 func TestIdentityTagResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestIdentityTagResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

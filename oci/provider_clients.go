@@ -31,6 +31,8 @@ import (
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 type ConfigureClient func(client *oci_common.BaseClient) error
@@ -211,6 +213,14 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 
 		if r1DomainName != "" && r1CertLoc == "" || r1DomainName == "" && r1CertLoc != "" {
 			return fmt.Errorf("both certificate location and domain name must be specified to target r1")
+		}
+
+		// install the hook for HTTP replaying
+		if h, ok := client.HTTPClient.(*http.Client); ok {
+			_, err := httpreplay.InstallRecorder(h)
+			if err != nil {
+				return err
+			}
 		}
 
 		return nil

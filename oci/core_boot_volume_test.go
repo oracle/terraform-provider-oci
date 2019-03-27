@@ -14,6 +14,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -65,6 +67,9 @@ data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
 )
 
 func TestCoreBootVolumeResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreBootVolumeResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

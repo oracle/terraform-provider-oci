@@ -13,6 +13,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 const charset = charsetWithoutDigits + "0123456789"
@@ -135,4 +137,11 @@ func randomString(length int, charset string) string {
 		b[i] = charset[seededRand.Intn(len(charset))]
 	}
 	return string(b)
+}
+
+func randomStringOrHttpReplayValue(length int, charset string, httpReplayValue string) string {
+	if httpreplay.ShouldRetryImmediately() {
+		return httpReplayValue
+	}
+	return randomString(length, charset)
 }
