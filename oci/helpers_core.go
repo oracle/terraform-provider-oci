@@ -4,12 +4,23 @@ package provider
 
 import (
 	"context"
+	"strings"
+	"time"
 
 	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
+
+const (
+	subnetService = "subnet"
+)
+
+var coreServiceExpectedRetryDurationMap = map[string]serviceExpectedRetryDurationFunc{
+	subnetService: getSubnetExpectedRetryDuration,
+}
 
 // This applies the differences between the regular schema and the one
 // we supply for default resources, and returns the schema for a default resource
@@ -94,4 +105,34 @@ func (s *CoreVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(regi
 	s.SourceRegionClient.SetRegion(region)
 
 	return nil
+}
+
+func getCoreExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+	if len(optionals) > 0 {
+		if expectedRetryDurationFunc, ok := coreServiceExpectedRetryDurationMap[optionals[0]]; ok {
+			return expectedRetryDurationFunc(response, disableNotFoundRetries, optionals[1:]...)
+		}
+	}
+	return getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+}
+
+func getSubnetExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+	if response.Response == nil || response.Response.HTTPResponse() == nil {
+		return defaultRetryTime
+	}
+	if len(optionals) > 0 {
+		switch optionals[0] {
+		case deleteResource:
+			switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
+			case 409:
+				if e := response.Error; e != nil {
+					if strings.Contains(e.Error(), "Conflict") {
+						defaultRetryTime = longRetryTime
+					}
+				}
+			}
+		}
+	}
+	return defaultRetryTime
 }

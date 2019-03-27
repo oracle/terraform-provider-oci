@@ -14,7 +14,14 @@ import (
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 
-var waasDeleteConflictRetryDuration = 60 * time.Minute
+const (
+	certificateService              = "certificate"
+	waasDeleteConflictRetryDuration = 60 * time.Minute
+)
+
+var waasServiceExpectedRetryDurationMap = map[string]serviceExpectedRetryDurationFunc{
+	certificateService: getWaasCertificateExpectedRetryDuration,
+}
 
 func waasWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
 	startTime := time.Now()
@@ -105,39 +112,32 @@ func getErrorFromWaasWorkRequest(response oci_waas.GetWorkRequestResponse) strin
 	return errorMessage
 }
 
-func getDeleteConflictRetryPolicy(disableNotFoundRetries bool, service string) *oci_common.RetryPolicy {
-	startTime := time.Now()
-	retryPolicy := &oci_common.RetryPolicy{
-		MaximumNumberAttempts: 0,
-		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
-			return deleteConflictShouldRetry(response, disableNotFoundRetries, service, startTime)
-		},
-		NextDuration: func(response oci_common.OCIOperationResponse) time.Duration {
-			return getRetryBackoffDurationWithExpectedRetryDurationFn(response, disableNotFoundRetries, service, startTime, getDeleteConflictExpectedRetryDuration)
-		},
-	}
-
-	return retryPolicy
-}
-
-func deleteConflictShouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time) bool {
-	return getElapsedRetryDuration(startTime) < getDeleteConflictExpectedRetryDuration(response, disableNotFoundRetries, service)
-}
-
-func getDeleteConflictExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string) time.Duration {
-	if response.Response == nil || response.Response.HTTPResponse() == nil {
-		return 0
-	}
-
-	statusCode := response.Response.HTTPResponse().StatusCode
-	e := response.Error
-
-	switch statusCode {
-	case 409:
-		if e != nil && strings.Contains(e.Error(), "IncorrectState") {
-			return waasDeleteConflictRetryDuration
+func getWaasExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+	if len(optionals) > 0 {
+		if expectedRetryDurationFunc, ok := waasServiceExpectedRetryDurationMap[optionals[0]]; ok {
+			return expectedRetryDurationFunc(response, disableNotFoundRetries, optionals[1:]...)
 		}
 	}
+	return getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
 
-	return getExpectedRetryDuration(response, disableNotFoundRetries, service)
+}
+
+func getWaasCertificateExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+	if response.Response == nil || response.Response.HTTPResponse() == nil {
+		return defaultRetryTime
+	}
+	if len(optionals) > 0 {
+		switch optionals[0] {
+		case deleteResource:
+			switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
+			case 409:
+				if e := response.Error; e != nil && strings.Contains(e.Error(), "IncorrectState") {
+					defaultRetryTime = waasDeleteConflictRetryDuration
+				}
+			}
+		}
+	}
+	return defaultRetryTime
+
 }
