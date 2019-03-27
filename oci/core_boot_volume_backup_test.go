@@ -178,7 +178,7 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_request_received"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "type", "INCREMENTAL"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "unique_size_in_gbs", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "unique_size_in_gbs"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
