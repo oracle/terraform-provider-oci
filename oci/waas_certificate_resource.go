@@ -411,8 +411,7 @@ func (s *WaasCertificateResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.CertificateId = &tmp
-
-	request.RequestMetadata.RetryPolicy = getDeleteConflictRetryPolicy(s.DisableNotFoundRetries, "waas")
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, waasService, certificateService, deleteResource)
 
 	_, err := s.Client.DeleteCertificate(context.Background(), request)
 	return err
