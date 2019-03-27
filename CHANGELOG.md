@@ -2,6 +2,7 @@
 
 ### Added
 - Support for updating `whitelisted_ips` in `autonomous_database`. Note: Cannot be used during creation.
+- Support tagging for Dynamic Groups in Identity 
 
 ### Fixed
 

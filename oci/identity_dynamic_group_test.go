@@ -19,6 +19,9 @@ import (
 )
 
 var (
+	DynamicGroupRequiredOnlyResource = DynamicGroupResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Required, Create, dynamicGroupRepresentation)
+
 	dynamicGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"filter":         RepresentationGroup{Required, dynamicGroupDataSourceFilterRepresentation}}
@@ -32,9 +35,11 @@ var (
 		"description":    Representation{repType: Required, create: `Instance group for dev compartment`, update: `description2`},
 		"matching_rule":  Representation{repType: Required, create: `${var.dynamic_group_matching_rule}`, update: `${var.dynamic_group_matching_rule}`},
 		"name":           Representation{repType: Required, create: `DevCompartmentDynamicGroup`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	DynamicGroupResourceDependencies = ""
+	DynamicGroupResourceDependencies = DefinedTagsDependencies
 )
 
 func TestIdentityDynamicGroupResource_basic(t *testing.T) {
@@ -90,13 +95,41 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }` + comp
 				),
 			},
 
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + matchingRuleVariableStr + DynamicGroupResourceDependencies,
+			},
+			// verify create with optionals
+			{
+				Config: config + compartmentIdVariableStr + matchingRuleVariableStr + DynamicGroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Create, dynamicGroupRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "description", "Instance group for dev compartment"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "matching_rule", matchingRuleValueStr),
+					resource.TestCheckResourceAttr(resourceName, "name", "DevCompartmentDynamicGroup"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + matchingRule2VariableStr + DynamicGroupResourceDependencies +
 					generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Optional, Update, dynamicGroupRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "matching_rule", matchingRule2ValueStr),
 					resource.TestCheckResourceAttr(resourceName, "name", "DevCompartmentDynamicGroup"),
@@ -123,7 +156,9 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }` + comp
 
 					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.description", "description2"),
+					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "dynamic_groups.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.matching_rule", matchingRule2ValueStr),
 					resource.TestCheckResourceAttr(datasourceName, "dynamic_groups.0.name", "DevCompartmentDynamicGroup"),
