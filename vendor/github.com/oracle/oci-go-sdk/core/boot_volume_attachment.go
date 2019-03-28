@@ -45,7 +45,7 @@ type BootVolumeAttachment struct {
 	// Example: `My boot volume`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Whether the enable encryption in transit for the PV volume attachment is on or not.
+	// Whether in-transit encryption for the boot volume's paravirtualized attachment is enabled or not.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 }
 
