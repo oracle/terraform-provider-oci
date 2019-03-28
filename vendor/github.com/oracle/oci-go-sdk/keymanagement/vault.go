@@ -51,7 +51,7 @@ type Vault struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// An optional property for the deletion time of the Vault expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// An optional property for the deletion time of the vault, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2018-04-03T21:10:29.600Z`
 	TimeOfDeletion *common.SDKTime `mandatory:"false" json:"timeOfDeletion"`
 }

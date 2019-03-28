@@ -18,9 +18,9 @@ type Key struct {
 	// The OCID of the compartment that contains this key.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the KeyVersion resource used in cryptographic operations. During key rotation, service may be in transitional state
-	// where this or a newer KeyVersion are used intermittently, and currentKeyVersion field is updated once service is guaranteed to
-	// use new KeyVersion for all consequent encrypt operations.
+	// The OCID of the KeyVersion resource used in cryptographic operations. During key rotation, service might be in a transitional state
+	// where this or a newer KeyVersion are used intermittently. The currentKeyVersion field is updated when the service is guaranteed to
+	// use the new KeyVersion for all subsequent encryption operations.
 	CurrentKeyVersion *string `mandatory:"true" json:"currentKeyVersion"`
 
 	// A user-friendly name for the key. It does not have to be unique, and it is changeable.

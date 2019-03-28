@@ -19,8 +19,8 @@ type ImageSourceViaObjectStorageUriDetails struct {
 	// The Object Storage URL for the image.
 	SourceUri *string `mandatory:"true" json:"sourceUri"`
 
-	// The format of the image to be imported.  Exported Oracle images are QCOW2.  Only monolithic
-	// images are supported.
+	// The format of the image to be imported.  Only monolithic
+	// images are supported. This attribute is not used for exported Oracle images with the OCI image format.
 	SourceImageType ImageSourceDetailsSourceImageTypeEnum `mandatory:"false" json:"sourceImageType,omitempty"`
 }
 

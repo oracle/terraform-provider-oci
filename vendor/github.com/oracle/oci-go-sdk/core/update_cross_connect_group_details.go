@@ -18,6 +18,10 @@ type UpdateCrossConnectGroupDetails struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// A reference name or identifier for the physical fiber connection that this cross-connect
+	// group uses.
+	CustomerReferenceName *string `mandatory:"false" json:"customerReferenceName"`
 }
 
 func (m UpdateCrossConnectGroupDetails) String() string {
