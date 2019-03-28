@@ -11,95 +11,12 @@ import (
 )
 
 func IdentityUserDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularIdentityUser,
-		Schema: map[string]*schema.Schema{
-			"user_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"capabilities": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"can_use_api_keys": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"can_use_auth_tokens": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"can_use_console_password": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"can_use_customer_secret_keys": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"can_use_smtp_credentials": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"email": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"external_identifier": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"identity_provider_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"inactive_state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["user_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(IdentityUserResource(), fieldMap, readSingularIdentityUser)
 }
 
 func readSingularIdentityUser(d *schema.ResourceData, m interface{}) error {

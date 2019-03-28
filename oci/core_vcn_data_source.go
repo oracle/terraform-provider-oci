@@ -10,66 +10,12 @@ import (
 )
 
 func CoreVcnDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularCoreVcn,
-		Schema: map[string]*schema.Schema{
-			"vcn_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"cidr_block": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"default_dhcp_options_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"default_route_table_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"default_security_list_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"dns_label": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vcn_domain_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["vcn_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(CoreVcnResource(), fieldMap, readSingularCoreVcn)
 }
 
 func readSingularCoreVcn(d *schema.ResourceData, m interface{}) error {
