@@ -10,42 +10,12 @@ import (
 )
 
 func FileStorageSnapshotDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularFileStorageSnapshot,
-		Schema: map[string]*schema.Schema{
-			"snapshot_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"file_system_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["snapshot_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(FileStorageSnapshotResource(), fieldMap, readSingularFileStorageSnapshot)
 }
 
 func readSingularFileStorageSnapshot(d *schema.ResourceData, m interface{}) error {

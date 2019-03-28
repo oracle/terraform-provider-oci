@@ -528,6 +528,7 @@ func WaitForResourceCondition(s ResourceFetcher, resourceChangedFunc func() bool
 	return nil
 }
 
+// Get the schema for a nested DataSourceSchema generated from the ResourceSchema
 func GetDataSourceItemSchema(resourceSchema *schema.Resource) *schema.Resource {
 	if _, idExists := resourceSchema.Schema["id"]; !idExists {
 		resourceSchema.Schema["id"] = &schema.Schema{
@@ -542,6 +543,35 @@ func GetDataSourceItemSchema(resourceSchema *schema.Resource) *schema.Resource {
 	resourceSchema.Read = nil
 
 	return convertResourceFieldsToDatasourceFields(resourceSchema)
+}
+
+// Get the Singular DataSource Schema from Resource Schema with additional fields and Read Function
+func GetSingularDataSourceItemSchema(resourceSchema *schema.Resource, addFieldMap map[string]*schema.Schema, readFunc schema.ReadFunc) *schema.Resource {
+	if _, idExists := resourceSchema.Schema["id"]; !idExists {
+		resourceSchema.Schema["id"] = &schema.Schema{
+			Type:     schema.TypeString,
+			Computed: true,
+		}
+	}
+
+	// Ensure Create,Read, Update and Delete are not set for data source schemas. Otherwise, terraform will validate them
+	// as though they were resources.
+	resourceSchema.Create = nil
+	resourceSchema.Update = nil
+	resourceSchema.Delete = nil
+	resourceSchema.Read = readFunc
+	resourceSchema.Importer = nil
+	resourceSchema.Timeouts = nil
+
+	var dataSourceSchema *schema.Resource = convertResourceFieldsToDatasourceFields(resourceSchema)
+
+	for key, value := range addFieldMap {
+		if _, fieldExists := resourceSchema.Schema[key]; !fieldExists {
+			dataSourceSchema.Schema[key] = value
+		}
+	}
+
+	return dataSourceSchema
 }
 
 // This is mainly used to ensure that fields of a datasource item are compliant with Terraform schema validation

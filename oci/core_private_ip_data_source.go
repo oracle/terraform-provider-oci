@@ -10,62 +10,12 @@ import (
 )
 
 func CorePrivateIpDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularCorePrivateIp,
-		Schema: map[string]*schema.Schema{
-			"private_ip_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"availability_domain": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"hostname_label": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"ip_address": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"is_primary": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"subnet_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vnic_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["private_ip_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(CorePrivateIpResource(), fieldMap, readSingularCorePrivateIp)
 }
 
 func readSingularCorePrivateIp(d *schema.ResourceData, m interface{}) error {
