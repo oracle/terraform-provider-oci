@@ -25,6 +25,7 @@ var (
 	OneHour                       = 60 * time.Minute
 	TwoHours                      = 120 * time.Minute
 	TwoAndHalfHours               = 150 * time.Minute
+	TwelveHours                   = 12 * time.Hour
 	ZeroTime        time.Duration = 0
 
 	DefaultTimeout = &schema.ResourceTimeout{
@@ -214,9 +215,9 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) error 
 	timeout = d.Timeout(schema.TimeoutCreate)
 	if timeout == 0 {
 		if strings.HasPrefix(shape.(string), "Exadata") {
-			timeout = time.Duration(12) * time.Hour
+			timeout = TwelveHours
 		} else {
-			timeout = time.Duration(2) * time.Hour
+			timeout = TwoHours
 		}
 	}
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {

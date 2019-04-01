@@ -16,11 +16,15 @@ import (
 
 func DatabaseDbHomeResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: DefaultTimeout,
-		Create:   createDatabaseDbHome,
-		Read:     readDatabaseDbHome,
-		Update:   updateDatabaseDbHome,
-		Delete:   deleteDatabaseDbHome,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &TwelveHours,
+			Delete: &TwoHours,
+			Update: &TwoHours,
+		},
+		Create: createDatabaseDbHome,
+		Read:   readDatabaseDbHome,
+		Update: updateDatabaseDbHome,
+		Delete: deleteDatabaseDbHome,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"database": {
