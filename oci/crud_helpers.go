@@ -25,6 +25,7 @@ var (
 	OneHour                       = 60 * time.Minute
 	TwoHours                      = 120 * time.Minute
 	TwoAndHalfHours               = 150 * time.Minute
+	TwelveHours                   = 12 * time.Hour
 	ZeroTime        time.Duration = 0
 
 	DefaultTimeout = &schema.ResourceTimeout{
@@ -214,9 +215,9 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) error 
 	timeout = d.Timeout(schema.TimeoutCreate)
 	if timeout == 0 {
 		if strings.HasPrefix(shape.(string), "Exadata") {
-			timeout = time.Duration(12) * time.Hour
+			timeout = TwelveHours
 		} else {
-			timeout = time.Duration(2) * time.Hour
+			timeout = TwoHours
 		}
 	}
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
@@ -434,8 +435,12 @@ func FieldDeprecatedForAnother(deprecatedFieldName string, newFieldName string) 
 	return fmt.Sprintf("The '%s' field has been deprecated. Please use '%s' instead.", deprecatedFieldName, newFieldName)
 }
 
-func FieldDeprecatedButSupportedTroughAnotherResource(deprecatedFieldName string, newResourceName string) string {
+func FieldDeprecatedButSupportedThroughAnotherResource(deprecatedFieldName string, newResourceName string) string {
 	return fmt.Sprintf("The '%s' field has been deprecated. Please use the '%s' resource instead.", deprecatedFieldName, newResourceName)
+}
+
+func FieldDeprecatedButSupportedThroughAnotherDataSource(deprecatedFieldName string, newDataSourceName string) string {
+	return fmt.Sprintf("The '%s' field has been deprecated. Please use the '%s' data source instead.", deprecatedFieldName, newDataSourceName)
 }
 
 func FieldDeprecatedAndOverridenByAnother(deprecatedFieldName string, newFieldName string) string {
@@ -524,6 +529,7 @@ func WaitForResourceCondition(s ResourceFetcher, resourceChangedFunc func() bool
 	return nil
 }
 
+// Get the schema for a nested DataSourceSchema generated from the ResourceSchema
 func GetDataSourceItemSchema(resourceSchema *schema.Resource) *schema.Resource {
 	if _, idExists := resourceSchema.Schema["id"]; !idExists {
 		resourceSchema.Schema["id"] = &schema.Schema{
@@ -538,6 +544,35 @@ func GetDataSourceItemSchema(resourceSchema *schema.Resource) *schema.Resource {
 	resourceSchema.Read = nil
 
 	return convertResourceFieldsToDatasourceFields(resourceSchema)
+}
+
+// Get the Singular DataSource Schema from Resource Schema with additional fields and Read Function
+func GetSingularDataSourceItemSchema(resourceSchema *schema.Resource, addFieldMap map[string]*schema.Schema, readFunc schema.ReadFunc) *schema.Resource {
+	if _, idExists := resourceSchema.Schema["id"]; !idExists {
+		resourceSchema.Schema["id"] = &schema.Schema{
+			Type:     schema.TypeString,
+			Computed: true,
+		}
+	}
+
+	// Ensure Create,Read, Update and Delete are not set for data source schemas. Otherwise, terraform will validate them
+	// as though they were resources.
+	resourceSchema.Create = nil
+	resourceSchema.Update = nil
+	resourceSchema.Delete = nil
+	resourceSchema.Read = readFunc
+	resourceSchema.Importer = nil
+	resourceSchema.Timeouts = nil
+
+	var dataSourceSchema *schema.Resource = convertResourceFieldsToDatasourceFields(resourceSchema)
+
+	for key, value := range addFieldMap {
+		if _, fieldExists := resourceSchema.Schema[key]; !fieldExists {
+			dataSourceSchema.Schema[key] = value
+		}
+	}
+
+	return dataSourceSchema
 }
 
 // This is mainly used to ensure that fields of a datasource item are compliant with Terraform schema validation

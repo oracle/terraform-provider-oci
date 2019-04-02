@@ -37,12 +37,13 @@ var (
 	}
 
 	crossConnectRepresentation = map[string]interface{}{
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"location_name":          Representation{repType: Required, create: `${data.oci_core_cross_connect_locations.test_cross_connect_locations.cross_connect_locations.0.name}`},
-		"port_speed_shape_name":  Representation{repType: Required, create: `10 Gbps`},
-		"cross_connect_group_id": Representation{repType: Optional, create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
-		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"is_active":              Representation{repType: Optional, create: `true`},
+		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
+		"location_name":           Representation{repType: Required, create: `${data.oci_core_cross_connect_locations.test_cross_connect_locations.cross_connect_locations.0.name}`},
+		"port_speed_shape_name":   Representation{repType: Required, create: `10 Gbps`},
+		"cross_connect_group_id":  Representation{repType: Optional, create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
+		"customer_reference_name": Representation{repType: Optional, create: `customerReferenceName`, update: `customerReferenceName2`},
+		"display_name":            Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"is_active":               Representation{repType: Optional, create: `true`},
 	}
 
 	CrossConnectResourceDependencies = CrossConnectGroupResourceConfig + generateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation)
@@ -96,6 +97,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
+					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "location_name"),
 					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
@@ -115,6 +117,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
+					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName2"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "location_name"),
 					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
@@ -143,6 +146,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.cross_connect_group_id"),
+					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.customer_reference_name", "customerReferenceName2"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.location_name"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.port_speed_shape_name", "10 Gbps"),
@@ -159,6 +163,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "customer_reference_name", "customerReferenceName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "location_name"),
@@ -173,6 +178,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + CrossConnectResourceConfig,
 			},
 			// verify resource import
+			// import requires full configuration to handle cross connect dependency on cross connect group during destroy
 			{
 				Config:            config + compartmentIdVariableStr + CrossConnectResourceConfig,
 				ImportState:       true,

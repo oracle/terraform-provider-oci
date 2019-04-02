@@ -17,13 +17,13 @@ import (
 type ExportImageViaObjectStorageTupleDetails struct {
 
 	// The Object Storage bucket to export the image to.
-	BucketName *string `mandatory:"false" json:"bucketName"`
+	BucketName *string `mandatory:"true" json:"bucketName"`
 
 	// The Object Storage namespace to export the image to.
-	NamespaceName *string `mandatory:"false" json:"namespaceName"`
+	NamespaceName *string `mandatory:"true" json:"namespaceName"`
 
 	// The Object Storage object name for the exported image.
-	ObjectName *string `mandatory:"false" json:"objectName"`
+	ObjectName *string `mandatory:"true" json:"objectName"`
 }
 
 func (m ExportImageViaObjectStorageTupleDetails) String() string {

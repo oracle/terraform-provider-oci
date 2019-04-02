@@ -56,7 +56,7 @@ type VolumeAttachment interface {
 	// Whether the attachment was created in read-only mode.
 	GetIsReadOnly() *bool
 
-	// Whether the enable encryption in transit for the PV volume attachment is on or not.
+	// Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 	GetIsPvEncryptionInTransitEnabled() *bool
 }
 

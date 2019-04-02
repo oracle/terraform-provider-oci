@@ -45,7 +45,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `bandwidth_shape_name` - The provisioned data rate of the connection.  To get a list of the available bandwidth levels (that is, shapes), see [ListFastConnectProviderServiceVirtualCircuitBandwidthShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/FastConnectProviderService/ListFastConnectProviderVirtualCircuitBandwidthShapes).  Example: `10 Gbps` 
-* `bgp_management` - BGP management option. 
+* `bgp_management` - Deprecated. Instead use the information in [FastConnectProviderService](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/FastConnectProviderService/). 
 * `bgp_session_state` - The state of the BGP session associated with the virtual circuit.
 * `compartment_id` - The OCID of the compartment containing the virtual circuit.
 * `cross_connect_mappings` - An array of mappings, each containing properties for a cross-connect or cross-connect group that is associated with this virtual circuit. 
@@ -68,6 +68,7 @@ The following attributes are exported:
 * `id` - The virtual circuit's Oracle ID (OCID).
 * `oracle_bgp_asn` - The Oracle BGP ASN.
 * `provider_service_id` - The OCID of the service offered by the provider (if the customer is connecting via a provider). 
+* `provider_service_key_name` - The service key name offered by the provider (if the customer is connecting via a provider). 
 * `provider_state` - The provider's state in relation to this virtual circuit (if the customer is connecting via a provider). ACTIVE means the provider has provisioned the virtual circuit from their end. INACTIVE means the provider has not yet provisioned the virtual circuit, or has de-provisioned it. 
 * `public_prefixes` - For a public virtual circuit. The public IP prefixes (CIDRs) the customer wants to advertise across the connection. Each prefix must be /31 or less specific. 
 * `reference_comment` - Provider-supplied reference information about this virtual circuit (if the customer is connecting via a provider). 

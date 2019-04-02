@@ -46,6 +46,10 @@ type CreateCrossConnectDetails struct {
 	// location, and you want this new cross-connect to be on the same router, provide the
 	// OCID of that existing cross-connect or cross-connect group.
 	NearCrossConnectOrCrossConnectGroupId *string `mandatory:"false" json:"nearCrossConnectOrCrossConnectGroupId"`
+
+	// A reference name or identifier for the physical fiber connection that this cross-connect
+	// uses.
+	CustomerReferenceName *string `mandatory:"false" json:"customerReferenceName"`
 }
 
 func (m CreateCrossConnectDetails) String() string {

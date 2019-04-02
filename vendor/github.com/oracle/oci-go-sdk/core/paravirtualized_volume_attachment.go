@@ -47,7 +47,7 @@ type ParavirtualizedVolumeAttachment struct {
 	// Whether the attachment was created in read-only mode.
 	IsReadOnly *bool `mandatory:"false" json:"isReadOnly"`
 
-	// Whether the enable encryption in transit for the PV volume attachment is on or not.
+	// Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 
 	// The current state of the volume attachment.

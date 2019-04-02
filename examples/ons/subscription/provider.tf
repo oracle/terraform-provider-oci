@@ -43,7 +43,7 @@ variable "tag_namespace_description" {
 }
 
 variable "tag_namespace_name" {
-  default = "exampletagns"
+  default = "testexamples-tag-namespace"
 }
 
 variable "subscription_defined_tags_value" {

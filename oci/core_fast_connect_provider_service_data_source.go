@@ -18,6 +18,14 @@ func CoreFastConnectProviderServiceDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"bandwith_shape_management": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"customer_asn_management": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"description": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -30,12 +38,20 @@ func CoreFastConnectProviderServiceDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"provider_service_key_management": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"provider_service_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"public_peering_bgp_management": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"required_total_cross_connects": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"supported_virtual_circuit_types": {
@@ -97,6 +113,10 @@ func (s *CoreFastConnectProviderServiceDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("bandwith_shape_management", s.Res.BandwithShapeManagement)
+
+	s.D.Set("customer_asn_management", s.Res.CustomerAsnManagement)
+
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
@@ -107,11 +127,17 @@ func (s *CoreFastConnectProviderServiceDataSourceCrud) SetData() error {
 		s.D.Set("provider_name", *s.Res.ProviderName)
 	}
 
+	s.D.Set("provider_service_key_management", s.Res.ProviderServiceKeyManagement)
+
 	if s.Res.ProviderServiceName != nil {
 		s.D.Set("provider_service_name", *s.Res.ProviderServiceName)
 	}
 
 	s.D.Set("public_peering_bgp_management", s.Res.PublicPeeringBgpManagement)
+
+	if s.Res.RequiredTotalCrossConnects != nil {
+		s.D.Set("required_total_cross_connects", *s.Res.RequiredTotalCrossConnects)
+	}
 
 	s.D.Set("supported_virtual_circuit_types", s.Res.SupportedVirtualCircuitTypes)
 

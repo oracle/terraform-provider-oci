@@ -103,6 +103,11 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"provider_service_key_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"public_prefixes": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -130,8 +135,9 @@ func CoreVirtualCircuitResource() *schema.Resource {
 
 			// Computed
 			"bgp_management": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:       schema.TypeString,
+				Computed:   true,
+				Deprecated: FieldDeprecatedButSupportedThroughAnotherDataSource("bgp_management", "oci_core_fast_connect_provider_service"),
 			},
 			"bgp_session_state": {
 				Type:     schema.TypeString,
@@ -296,6 +302,11 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 		request.ProviderServiceId = &tmp
 	}
 
+	if providerServiceKeyName, ok := s.D.GetOkExists("provider_service_key_name"); ok {
+		tmp := providerServiceKeyName.(string)
+		request.ProviderServiceKeyName = &tmp
+	}
+
 	if publicPrefixes, ok := s.D.GetOkExists("public_prefixes"); ok {
 		set := publicPrefixes.(*schema.Set)
 		interfaces := set.List()
@@ -419,9 +430,12 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 		request.GatewayId = &tmp
 	}
 
-	if providerState, ok := s.D.GetOkExists("provider_state"); ok {
-		request.ProviderState = oci_core.UpdateVirtualCircuitDetailsProviderStateEnum(providerState.(string))
+	if providerServiceKeyName, ok := s.D.GetOkExists("provider_service_key_name"); ok {
+		tmp := providerServiceKeyName.(string)
+		request.ProviderServiceKeyName = &tmp
 	}
+
+	// @CODEGEN - 20190315 - provider_state can only be updated by Fast Connect Providers
 
 	if referenceComment, ok := s.D.GetOkExists("reference_comment"); ok {
 		tmp := referenceComment.(string)
@@ -561,6 +575,10 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 		s.D.Set("provider_service_id", *s.Res.ProviderServiceId)
 	}
 
+	if s.Res.ProviderServiceKeyName != nil {
+		s.D.Set("provider_service_key_name", *s.Res.ProviderServiceKeyName)
+	}
+
 	s.D.Set("provider_state", s.Res.ProviderState)
 
 	publicPrefixes := []interface{}{}
@@ -636,12 +654,16 @@ func CreateVirtualCircuitPublicPrefixDetailsToMap(obj string) map[string]interfa
 func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat string) (oci_core.CrossConnectMapping, error) {
 	result := oci_core.CrossConnectMapping{}
 
-	if bgpMd5AuthKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bgp_md5auth_key")); ok && bgpMd5AuthKey != "" {
+	// Do not include default empty bgp_md5auth_key in request payload unless it has changed
+	if bgpMd5AuthKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bgp_md5auth_key")); ok &&
+		(bgpMd5AuthKey != "" || s.D.HasChange("bgp_md5auth_key")) {
 		tmp := bgpMd5AuthKey.(string)
 		result.BgpMd5AuthKey = &tmp
 	}
 
-	if crossConnectOrCrossConnectGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cross_connect_or_cross_connect_group_id")); ok {
+	// Do not include default empty cross_connect_or_cross_connect_group_id in request payload unless it has changed
+	if crossConnectOrCrossConnectGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cross_connect_or_cross_connect_group_id")); ok &&
+		(crossConnectOrCrossConnectGroupId != "" || s.D.HasChange("cross_connect_or_cross_connect_group_id")) {
 		tmp := crossConnectOrCrossConnectGroupId.(string)
 		result.CrossConnectOrCrossConnectGroupId = &tmp
 	}
@@ -661,9 +683,8 @@ func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat
 
 	if vlan, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vlan")); ok {
 		tmp := vlan.(int)
-		// Vlan value must be greater than or equal to 100.
-		// It cannot be specified for certain circuit types, hence protecting against default '0' values
-		if tmp > 0 {
+		// Do not include default 0 vlan in request payload unless it has changed
+		if tmp > 0 || s.D.HasChange("vlan") {
 			result.Vlan = &tmp
 		}
 	}

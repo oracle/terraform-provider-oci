@@ -56,6 +56,9 @@ type UpdateVirtualCircuitDetails struct {
 	// To be updated only by the provider.
 	ProviderState UpdateVirtualCircuitDetailsProviderStateEnum `mandatory:"false" json:"providerState,omitempty"`
 
+	// The service key name offered by the provider (if the customer is connecting via a provider).
+	ProviderServiceKeyName *string `mandatory:"false" json:"providerServiceKeyName"`
+
 	// Provider-supplied reference information about this virtual circuit.
 	// Relevant only if the customer is using FastConnect via a provider.
 	// To be updated only by the provider.

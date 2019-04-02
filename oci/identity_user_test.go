@@ -19,6 +19,13 @@ var (
 	UserRequiredOnlyResource = UserResourceDependencies +
 		generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 
+	UserResourceConfig = UserResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_user", "test_user", Optional, Update, userRepresentation)
+
+	userSingularDataSourceRepresentation = map[string]interface{}{
+		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+	}
+
 	userDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"filter":         RepresentationGroup{Required, userDataSourceFilterRepresentation}}
@@ -49,6 +56,7 @@ func TestIdentityUserResource_basic(t *testing.T) {
 
 	resourceName := "oci_identity_user.test_user"
 	datasourceName := "data.oci_identity_users.test_users"
+	singularDatasourceName := "data.oci_identity_user.test_user"
 
 	var resId, resId2 string
 
@@ -148,6 +156,30 @@ func TestIdentityUserResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "users.0.time_created"),
 					resource.TestCheckResourceAttr(datasourceName, "users.0.capabilities.#", "1"),
 				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + UserResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "email", "email2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "name", "JohnSmith@example.com"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "capabilities.#", "1"),
+				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + UserResourceConfig,
 			},
 			// verify resource import
 			{

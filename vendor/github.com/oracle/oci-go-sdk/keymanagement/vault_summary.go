@@ -15,7 +15,7 @@ import (
 // VaultSummary The representation of VaultSummary
 type VaultSummary struct {
 
-	// The OCID of the compartment that contains this vault.
+	// The OCID of the compartment that contains a particular vault.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The service endpoint to perform cryptographic operations against. Cryptographic operations include 'Encrypt,' 'Decrypt,' and 'GenerateDataEncryptionKey' operations.

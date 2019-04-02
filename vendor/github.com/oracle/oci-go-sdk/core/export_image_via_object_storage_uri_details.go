@@ -17,7 +17,7 @@ import (
 type ExportImageViaObjectStorageUriDetails struct {
 
 	// The Object Storage URL to export the image to. See Object Storage URLs (https://docs.cloud.oracle.com/Content/Compute/Tasks/imageimportexport.htm#URLs)
-	// and pre-authenticated requests (https://docs.cloud.oracle.com/Content/Object/Tasks/managingaccess.htm#pre-auth) for constructing URLs for image import/export.
+	// and Using Pre-Authenticated Requests (https://docs.cloud.oracle.com/Content/Object/Tasks/usingpreauthenticatedrequests.htm) for constructing URLs for image import/export.
 	DestinationUri *string `mandatory:"true" json:"destinationUri"`
 }
 

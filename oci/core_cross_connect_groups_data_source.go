@@ -106,6 +106,10 @@ func (s *CoreCrossConnectGroupsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.CustomerReferenceName != nil {
+			crossConnectGroup["customer_reference_name"] = *r.CustomerReferenceName
+		}
+
 		if r.DisplayName != nil {
 			crossConnectGroup["display_name"] = *r.DisplayName
 		}

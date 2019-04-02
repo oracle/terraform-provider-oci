@@ -17,6 +17,13 @@ var (
 	PrivateIpRequiredOnlyResource = PrivateIpResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpRepresentation)
 
+	PrivateIpResourceConfig = PrivateIpResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Optional, Update, privateIpRepresentation)
+
+	privateIpSingularDataSourceRepresentation = map[string]interface{}{
+		"private_ip_id": Representation{repType: Required, create: `${oci_core_private_ip.test_private_ip.id}`},
+	}
+
 	privateIpDataSourceRepresentation = map[string]interface{}{
 		"vnic_id": Representation{repType: Optional, create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0], "vnic_id")}`},
 		"filter":  RepresentationGroup{Required, privateIpDataSourceFilterRepresentation}}
@@ -53,6 +60,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 
 	resourceName := "oci_core_private_ip.test_private_ip"
 	datasourceName := "data.oci_core_private_ips.test_private_ips"
+	singularDatasourceName := "data.oci_core_private_ip.test_private_ip"
 
 	var resId, resId2 string
 
@@ -142,6 +150,27 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.vnic_id"),
 				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + PrivateIpResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "privateiptestinstance2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.1.5"),
+				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + PrivateIpResourceConfig,
 			},
 			// verify resource import
 			{

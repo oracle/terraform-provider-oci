@@ -23,8 +23,9 @@ func CoreVirtualCircuitDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"bgp_management": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:       schema.TypeString,
+				Computed:   true,
+				Deprecated: FieldDeprecatedButSupportedThroughAnotherDataSource("bgp_management", "oci_core_fast_connect_provider_service"),
 			},
 			"bgp_session_state": {
 				Type:     schema.TypeString,
@@ -89,6 +90,10 @@ func CoreVirtualCircuitDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"provider_service_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"provider_service_key_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -222,6 +227,10 @@ func (s *CoreVirtualCircuitDataSourceCrud) SetData() error {
 
 	if s.Res.ProviderServiceId != nil {
 		s.D.Set("provider_service_id", *s.Res.ProviderServiceId)
+	}
+
+	if s.Res.ProviderServiceKeyName != nil {
+		s.D.Set("provider_service_key_name", *s.Res.ProviderServiceKeyName)
 	}
 
 	s.D.Set("provider_state", s.Res.ProviderState)
