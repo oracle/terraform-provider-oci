@@ -28,6 +28,14 @@ func CoreFastConnectProviderServicesDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"bandwith_shape_management": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"customer_asn_management": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -44,12 +52,20 @@ func CoreFastConnectProviderServicesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"provider_service_key_management": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"provider_service_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"public_peering_bgp_management": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"required_total_cross_connects": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"supported_virtual_circuit_types": {
@@ -130,6 +146,10 @@ func (s *CoreFastConnectProviderServicesDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		fastConnectProviderService := map[string]interface{}{}
 
+		fastConnectProviderService["bandwith_shape_management"] = r.BandwithShapeManagement
+
+		fastConnectProviderService["customer_asn_management"] = r.CustomerAsnManagement
+
 		if r.Description != nil {
 			fastConnectProviderService["description"] = *r.Description
 		}
@@ -144,11 +164,17 @@ func (s *CoreFastConnectProviderServicesDataSourceCrud) SetData() error {
 			fastConnectProviderService["provider_name"] = *r.ProviderName
 		}
 
+		fastConnectProviderService["provider_service_key_management"] = r.ProviderServiceKeyManagement
+
 		if r.ProviderServiceName != nil {
 			fastConnectProviderService["provider_service_name"] = *r.ProviderServiceName
 		}
 
 		fastConnectProviderService["public_peering_bgp_management"] = r.PublicPeeringBgpManagement
+
+		if r.RequiredTotalCrossConnects != nil {
+			fastConnectProviderService["required_total_cross_connects"] = *r.RequiredTotalCrossConnects
+		}
 
 		fastConnectProviderService["supported_virtual_circuit_types"] = r.SupportedVirtualCircuitTypes
 

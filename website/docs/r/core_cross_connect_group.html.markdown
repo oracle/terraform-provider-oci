@@ -34,6 +34,7 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
+	customer_reference_name = "${var.cross_connect_group_customer_reference_name}"
 	display_name = "${var.cross_connect_group_display_name}"
 }
 ```
@@ -43,6 +44,7 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment to contain the cross-connect group.
+* `customer_reference_name` - (Optional) (Updatable) A reference name or identifier for the physical fiber connection that this cross-connect group uses. 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 
 
@@ -54,6 +56,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the cross-connect group.
+* `customer_reference_name` - A reference name or identifier for the physical fiber connection that this cross-connect group uses. 
 * `display_name` - The display name of A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `id` - The cross-connect group's Oracle ID (OCID).
 * `state` - The cross-connect group's current state.

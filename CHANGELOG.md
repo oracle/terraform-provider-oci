@@ -1,4 +1,17 @@
-## 3.20.1 (Unreleased)
+## 3.21.0 (Unreleased)
+
+### Added
+- Support for additional dbHomes/databases in a BM Db System
+- Support for tags in databases
+- Support for updates to database auto_backup_enabled
+- Support for provider service keys in Fast Connect Provider Services
+- Singular data sources for User, Group, File Storage Snapshot, Private IP and Virtual Cloud Network (VCN).
+- Support for authentication policy introduced in v3.18.0 is now generally available.
+
+### Fixed
+- Virtual Circuit update failures by handling default values
+- Importing `assign_public_ip` for Core vnic attachment
+
 ## 3.20.0 (March 27, 2019)
 
 ### Added
@@ -30,6 +43,7 @@
 - Support for updating the compartment on a Tag Namespace
 - Support for exadata io resource management config for DB system
 - Support `email` attribute for `oci_identity_user` resource
+- Support for authentication policy
 
 ### Fixed
 - Marked oci_identity_ui_password resource as not importable
@@ -41,7 +55,7 @@
 
 ### Added
 - Add singular Availability Domain data source with related example updates
-- Support for Monitoring service 
+- Support for Monitoring service
 - Adding ability to disable monitoring in instances
 - Adding support for Metrics-based Dynamic Auto-scaling
 - Support for listing and specifying Fault Domains in Database resources
@@ -56,7 +70,7 @@
 - Support for the tagging of applicable KMS resources
 
 ### Fixed
-- DNS Record now requires domain and rtype as mandatory arguments. Managing DNS record resources now requires DNS_RECORD* level policy entitlements instead of DNS_ZONE*. [Permissions List](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/dnspolicyreference.htm) 
+- DNS Record now requires domain and rtype as mandatory arguments. Managing DNS record resources now requires DNS_RECORD* level policy entitlements instead of DNS_ZONE*. [Permissions List](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/dnspolicyreference.htm)
 
 ## 3.15.0 (February 12, 2019)
 

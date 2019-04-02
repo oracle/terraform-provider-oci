@@ -15,7 +15,7 @@ import (
 // DecryptedData The representation of DecryptedData
 type DecryptedData struct {
 
-	// The decrypted data, in the form of a base64-encoded value.
+	// The decrypted data, expressed as a base64-encoded value.
 	Plaintext *string `mandatory:"true" json:"plaintext"`
 
 	// Checksum of the decrypted data.

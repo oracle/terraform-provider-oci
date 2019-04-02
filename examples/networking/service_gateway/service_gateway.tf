@@ -15,50 +15,26 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-variable "vcn_cidr_block" {
-  default = "10.0.0.0/16"
+data "oci_core_services" "test_services" {
+  filter {
+    name   = "name"
+    values = ["All .* Services In Oracle Services Network"]
+    regex  = true
+  }
 }
 
-variable "vcn_display_name" {
-  default = "displayName"
-}
-
-variable "vcn_dns_label" {
-  default = "dnslabel"
-}
-
-variable "service_gateway_display_name" {
-  default = "displayName2"
-}
-
-variable "service_gateway_state" {
-  default = "AVAILABLE"
-}
-
-variable "tcp_protocol" {
-  default = "6"
-}
-
-variable "ssh_port" {
-  default = "22"
+output "services" {
+  value = ["${data.oci_core_services.test_services.services}"]
 }
 
 resource "oci_core_vcn" "test_vcn" {
   #Required
-  cidr_block     = "${var.vcn_cidr_block}"
+  cidr_block     = "10.0.0.0/16"
   compartment_id = "${var.compartment_ocid}"
 
   #Optional
-  display_name = "${var.vcn_display_name}"
-  dns_label    = "${var.vcn_dns_label}"
-}
-
-data "oci_core_services" "test_services" {
-  filter {
-    name   = "name"
-    values = [".*Object.*Storage"]
-    regex  = true
-  }
+  display_name = "testVcn"
+  dns_label    = "dnslabel"
 }
 
 resource "oci_core_service_gateway" "test_service_gateway" {
@@ -72,7 +48,7 @@ resource "oci_core_service_gateway" "test_service_gateway" {
   vcn_id = "${oci_core_vcn.test_vcn.id}"
 
   #Optional
-  display_name = "${var.service_gateway_display_name}"
+  display_name = "testServiceGateway"
 }
 
 data "oci_core_service_gateways" "test_service_gateways" {
@@ -80,8 +56,12 @@ data "oci_core_service_gateways" "test_service_gateways" {
   compartment_id = "${var.compartment_ocid}"
 
   #Optional
-  state  = "${var.service_gateway_state}"
+  state  = "AVAILABLE"
   vcn_id = "${oci_core_vcn.test_vcn.id}"
+}
+
+output "service_gateways" {
+  value = ["${data.oci_core_service_gateways.test_service_gateways.service_gateways}"]
 }
 
 resource "oci_core_route_table" "test_route_table" {
@@ -108,12 +88,12 @@ resource "oci_core_security_list" "test_security_list" {
   }
 
   ingress_security_rules {
-    protocol = "${var.tcp_protocol}"
+    protocol = "6"
     source   = "0.0.0.0/0"
 
     tcp_options {
-      max = "${var.ssh_port}"
-      min = "${var.ssh_port}"
+      max = "22"
+      min = "22"
     }
   }
 }

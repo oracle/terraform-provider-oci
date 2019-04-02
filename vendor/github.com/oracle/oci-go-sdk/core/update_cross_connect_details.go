@@ -24,6 +24,10 @@ type UpdateCrossConnectDetails struct {
 	// of the interface is up. Activation indicates to Oracle that the physical connection is ready.
 	// Example: `true`
 	IsActive *bool `mandatory:"false" json:"isActive"`
+
+	// A reference name or identifier for the physical fiber connection that this cross-connect
+	// uses.
+	CustomerReferenceName *string `mandatory:"false" json:"customerReferenceName"`
 }
 
 func (m UpdateCrossConnectDetails) String() string {

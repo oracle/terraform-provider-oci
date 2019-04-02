@@ -18,6 +18,10 @@ resource "oci_database_db_system" "test_db_system" {
       db_backup_config {
         auto_backup_enabled = true
       }
+
+      freeform_tags = {
+        "Department" = "Finance"
+      }
     }
 
     db_version   = "${var.db_version}"
@@ -42,6 +46,31 @@ resource "oci_database_db_system" "test_db_system" {
   freeform_tags = {
     "Department" = "Finance"
   }
+}
+
+// The creation of an oci_database_db_system requires that it be created with exactly one oci_database_db_home. Therefore the first db home will have to be a property of the db system resource and any further db homes to be added to the db system will have to be added as first class resources using "oci_database_db_home".
+resource "oci_database_db_home" "test_db_home" {
+  db_system_id = "${oci_database_db_system.test_db_system.id}"
+
+  database {
+    admin_password = "${var.db_admin_password}"
+    db_name        = "${var.db_home_db_name}3"
+    character_set  = "${var.character_set}"
+    ncharacter_set = "${var.n_character_set}"
+    db_workload    = "${var.db_workload}"
+    pdb_name       = "${var.pdb_name}"
+
+    freeform_tags = {
+      "Department" = "Finance"
+    }
+
+    db_backup_config {
+      auto_backup_enabled = false
+    }
+  }
+
+  db_version   = "${var.db_version}"
+  display_name = "${var.db_home_display_name}"
 }
 
 resource "oci_database_backup" "test_backup" {

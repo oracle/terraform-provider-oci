@@ -38,7 +38,8 @@ type VirtualCircuit struct {
 	// Example: `10 Gbps`
 	BandwidthShapeName *string `mandatory:"false" json:"bandwidthShapeName"`
 
-	// BGP management option.
+	// Deprecated. Instead use the information in
+	// FastConnectProviderService.
 	BgpManagement VirtualCircuitBgpManagementEnum `mandatory:"false" json:"bgpManagement,omitempty"`
 
 	// The state of the BGP session associated with the virtual circuit.
@@ -83,6 +84,9 @@ type VirtualCircuit struct {
 
 	// The OCID of the service offered by the provider (if the customer is connecting via a provider).
 	ProviderServiceId *string `mandatory:"false" json:"providerServiceId"`
+
+	// The service key name offered by the provider (if the customer is connecting via a provider).
+	ProviderServiceKeyName *string `mandatory:"false" json:"providerServiceKeyName"`
 
 	// Deprecated. Instead use `providerServiceId`.
 	ProviderServiceName *string `mandatory:"false" json:"providerServiceName"`

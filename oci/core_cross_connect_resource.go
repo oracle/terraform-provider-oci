@@ -46,6 +46,11 @@ func CoreCrossConnectResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"customer_reference_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -199,6 +204,11 @@ func (s *CoreCrossConnectResourceCrud) Create() error {
 		request.CrossConnectGroupId = &tmp
 	}
 
+	if customerReferenceName, ok := s.D.GetOkExists("customer_reference_name"); ok {
+		tmp := customerReferenceName.(string)
+		request.CustomerReferenceName = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
@@ -259,6 +269,11 @@ func (s *CoreCrossConnectResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.CrossConnectId = &tmp
 
+	if customerReferenceName, ok := s.D.GetOkExists("customer_reference_name"); ok {
+		tmp := customerReferenceName.(string)
+		request.CustomerReferenceName = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
@@ -303,6 +318,10 @@ func (s *CoreCrossConnectResourceCrud) SetData() error {
 
 	if s.Res.CrossConnectGroupId != nil {
 		s.D.Set("cross_connect_group_id", *s.Res.CrossConnectGroupId)
+	}
+
+	if s.Res.CustomerReferenceName != nil {
+		s.D.Set("customer_reference_name", *s.Res.CustomerReferenceName)
 	}
 
 	if s.Res.DisplayName != nil {

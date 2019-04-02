@@ -7,81 +7,79 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/oracle/oci-go-sdk/common"
-	oci_database "github.com/oracle/oci-go-sdk/database"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
+	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
 var (
-	DbHomeRequiredOnlyResource = DbHomeResourceDependencies + `
-resource "oci_database_db_home" "test_db_home" {
-	#Required
-	database {
-		#Required
-		admin_password = "${var.db_home_database_admin_password}"
-		db_name = "${var.db_home_database_db_name}"
+	DbHomeRequiredOnlyResource = DbHomeResourceDependencies +
+		generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeRepresentationSourceNone)
+
+	DbHomeResourceConfig = DbHomeResourceDependencies +
+		generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", Optional, Update, dbHomeRepresentationSourceNone)
+
+	dbHomeSingularDataSourceRepresentation = map[string]interface{}{
+		"db_home_id": Representation{repType: Required, create: `${oci_database_db_home.test_db_home_source_none.id}`},
 	}
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
-	db_version = "${var.db_home_db_version}"
-}
-`
 
-	DbHomeResourceConfig = DbHomeResourceDependencies + `
-resource "oci_database_db_home" "test_db_home" {
-	#Required
-	database {
-		#Required
-		admin_password = "${var.db_home_database_admin_password}"
-		backup_id = "${oci_database_backup.test_backup.id}"
-		backup_tde_password = "${var.db_home_database_backup_tde_password}"
-		db_name = "${var.db_home_database_db_name}"
-
-		#Optional
-		character_set = "${var.db_home_database_character_set}"
-		db_backup_config {
-
-			#Optional
-			auto_backup_enabled = "${var.db_home_database_db_backup_config_auto_backup_enabled}"
-		}
-		db_workload = "${var.db_home_database_db_workload}"
-		defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.db_home_database_defined_tags_value}")}"
-		freeform_tags = "${var.db_home_database_freeform_tags}"
-		ncharacter_set = "${var.db_home_database_ncharacter_set}"
-		pdb_name = "${var.db_home_database_pdb_name}"
+	dbHomeDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"db_system_id":   Representation{repType: Required, create: `${oci_database_db_system.test_db_system.id}`},
+		"display_name":   Representation{repType: Optional, create: `createdDbHome`},
+		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"filter":         RepresentationGroup{Required, dbHomeDataSourceFilterRepresentation}}
+	dbHomeDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   Representation{repType: Required, create: `id`},
+		"values": Representation{repType: Required, create: []string{`${oci_database_db_home.test_db_home_source_none.id}`}},
 	}
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
-	db_version = "${var.db_home_db_version}"
 
-	#Optional
-	display_name = "${var.db_home_display_name}"
-	source = "${var.db_home_source}"
-}
-`
-	DbHomePropertyVariables = `
-variable "db_home_database_admin_password" { default = "BEstrO0ng_#11" }
-variable "db_home_database_backup_tde_password" { default = "BEstrO0ng_#11" }
-variable "db_home_database_character_set" { default = "AL32UTF8" }
-variable "db_home_database_db_backup_config_auto_backup_enabled" { default = false }
-variable "db_home_database_db_name" { default = "myTestDb" }
-variable "db_home_database_db_workload" { default = "dbWorkload" }
-variable "db_home_database_defined_tags_value" { default = "value" }
-variable "db_home_database_freeform_tags" { default = {"Department"= "Finance"} }
-variable "db_home_database_ncharacter_set" { default = "AL16UTF16" }
-variable "db_home_database_pdb_name" { default = "pdbName" }
-variable "db_home_display_name" { default = "createdDbHome" }
-variable "db_home_source" { default = "DB_BACKUP" }
-variable "db_home_state" { default = "AVAILABLE" }
-variable "db_home_db_version" { default = "12.1.0.2" }
+	dbHomeRepresentationBase = map[string]interface{}{
+		"db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_db_system.id}`},
+		"display_name": Representation{repType: Optional, create: `createdDbHome`},
+	}
+	dbHomeRepresentationSourceNone = representationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
+		"database":   RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceNone},
+		"db_version": Representation{repType: Required, create: `12.1.0.2`},
+		"source":     Representation{repType: Optional, create: `NONE`},
+	})
+	dbHomeDatabaseRepresentationSourceNone = map[string]interface{}{
+		"admin_password":   Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"db_name":          Representation{repType: Required, create: `dbNone`},
+		"character_set":    Representation{repType: Optional, create: `AL32UTF8`},
+		"db_backup_config": RepresentationGroup{Optional, dbHomeDatabaseDbBackupConfigRepresentation},
+		"db_workload":      Representation{repType: Optional, create: `OLTP`},
+		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set":   Representation{repType: Optional, create: `AL16UTF16`},
+		"pdb_name":         Representation{repType: Optional, create: `pdbName`},
+	}
+	dbHomeRepresentationSourceNoneRequiredOnly = representationCopyWithNewProperties(dbHomeRepresentationSourceNone, map[string]interface{}{
+		"database": RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceNoneRequiredOnly},
+	})
+	dbHomeDatabaseRepresentationSourceNoneRequiredOnly = representationCopyWithNewProperties(dbHomeDatabaseRepresentationSourceNone, map[string]interface{}{
+		"db_name": Representation{repType: Required, create: `dbNone0`},
+	})
+	dbHomeDatabaseDbBackupConfigRepresentation = map[string]interface{}{
+		"auto_backup_enabled": Representation{repType: Optional, create: `true`, update: `false`},
+	}
+	dbHomeRepresentationSourceDbBackup = representationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
+		"database": RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceDbBackup},
+		"source":   Representation{repType: Required, create: `DB_BACKUP`},
+	})
+	dbHomeDatabaseRepresentationSourceDbBackup = map[string]interface{}{
+		"admin_password":      Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"backup_id":           Representation{repType: Required, create: `${oci_database_backup.test_backup.id}`},
+		"backup_tde_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"db_name":             Representation{repType: Optional, create: `dbBackup`},
+	}
 
-`
-	DbHomeResourceDependencies = DefinedTagsDependencies +
+	DbHomeResourceDependencies = BackupResourceDependencies +
 		generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation)
 )
 
 func TestDatabaseDbHomeResource_basic(t *testing.T) {
-	t.Skip("Skipping this test for now as dbhome is not supported as a resource for now.")
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -101,13 +99,23 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + DbHomePropertyVariables + compartmentIdVariableStr + DbHomeRequiredOnlyResource,
+				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Required, Create, dbHomeRepresentationSourceNoneRequiredOnly) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Required, Create, dbHomeRepresentationSourceDbBackup),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone0"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "12.1.0.2"),
+
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "database.0.backup_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.backup_tde_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "db_system_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "source", "DB_BACKUP"),
 				),
 			},
 
@@ -117,63 +125,89 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + DbHomePropertyVariables + compartmentIdVariableStr + DbHomeResourceConfig,
+				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Create, dbHomeRepresentationSourceNone) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Create, dbHomeRepresentationSourceDbBackup),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-					resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttrSet(resourceName, "database.0.backup_id"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.backup_tde_password", "BEstrO0ng_#11"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.character_set", "AL32UTF8"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.db_workload", "dbWorkload"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.ncharacter_set", "AL16UTF16"),
-					resource.TestCheckResourceAttr(resourceName, "database.0.pdb_name", "pdbName"),
-					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName, "db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "createdDbHome"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "source", "DB_BACKUP"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.character_set", "AL32UTF8"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.ncharacter_set", "AL16UTF16"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.pdb_name", "pdbName"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "display_name", "createdDbHome"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "source", "NONE"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "state"),
+
+					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "database.0.backup_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.backup_tde_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.db_name", "dbBackup"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "db_system_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "display_name", "createdDbHome"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "source", "DB_BACKUP"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "state"),
 				),
 			},
+			// verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.character_set", "AL32UTF8"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.ncharacter_set", "AL16UTF16"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.pdb_name", "pdbName"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "display_name", "createdDbHome"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "source", "NONE"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "state"),
 
+					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "database.0.backup_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.backup_tde_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.db_name", "dbBackup"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "db_system_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "display_name", "createdDbHome"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "source", "DB_BACKUP"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "state"),
+				),
+			},
 			// verify datasource
 			{
-				Config: config + `
-variable "db_home_database_admin_password" { default = "BEstrO0ng_#11" }
-variable "db_home_database_backup_tde_password" { default = "BEstrO0ng_#11" }
-variable "db_home_database_character_set" { default = "AL32UTF8" }
-variable "db_home_database_db_backup_config_auto_backup_enabled" { default = false }
-variable "db_home_database_db_name" { default = "myTestDb" }
-variable "db_home_database_db_workload" { default = "dbWorkload" }
-variable "db_home_database_defined_tags_value" { default = "value" }
-variable "db_home_database_freeform_tags" { default = {"Department"= "Finance"} }
-variable "db_home_database_ncharacter_set" { default = "AL16UTF16" }
-variable "db_home_database_pdb_name" { default = "pdbName" }
-variable "db_home_display_name" { default = "createdDbHome" }
-variable "db_home_source" { default = "DB_BACKUP" }
-variable "db_home_state" { default = "AVAILABLE" }
-variable "db_home_db_version" { default = "12.1.0.2" }
-
-data "oci_database_db_homes" "test_db_homes" {
-	#Required
-	compartment_id = "${var.compartment_id}"
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
-
-	#Optional
-	display_name = "${var.db_home_display_name}"
-	state = "${var.db_home_state}"
-    filter {
-    	name = "id"
-    	values = ["${oci_database_db_home.test_db_home.id}"]
-    }
-}
-                ` + compartmentIdVariableStr + DbHomeResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_db_homes", "test_db_homes", Optional, Update, dbHomeDataSourceRepresentation) +
+					compartmentIdVariableStr + DbHomeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_id"),
@@ -191,27 +225,11 @@ data "oci_database_db_homes" "test_db_homes" {
 			},
 			// verify singular datasource
 			{
-				Config: config + `
-variable "db_home_database_admin_password" { default = "BEstrO0ng_#11" }
-variable "db_home_database_backup_tde_password" { default = "BEstrO0ng_#11" }
-variable "db_home_database_character_set" { default = "AL32UTF8" }
-variable "db_home_database_db_backup_config_auto_backup_enabled" { default = false }
-variable "db_home_database_db_name" { default = "myTestDb" }
-variable "db_home_database_db_workload" { default = "dbWorkload" }
-variable "db_home_database_defined_tags_value" { default = "definedTags" }
-variable "db_home_database_freeform_tags" { default = {"Department"= "Finance"} }
-variable "db_home_database_ncharacter_set" { default = "AL16UTF16" }
-variable "db_home_database_pdb_name" { default = "pdbName" }
-variable "db_home_display_name" { default = "createdDbHome" }
-variable "db_home_source" { default = "DB_BACKUP" }
-variable "db_home_state" { default = "AVAILABLE" }
-variable "db_home_db_version" { default = "12.1.0.2" }
-
-data "oci_database_db_home" "test_db_home" {
-	#Required
-	db_home_id = "${var.db_home_id}"
-}
-                ` + compartmentIdVariableStr + DbHomeResourceConfig,
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_db_home", "test_db_home", Required, Create, dbHomeSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + DbHomeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_home_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
@@ -222,17 +240,6 @@ data "oci_database_db_home" "test_db_home" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				),
-			},
-			// verify resource import
-			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"database",
-					"source",
-				},
-				ResourceName: resourceName,
 			},
 		},
 	})
@@ -245,8 +252,11 @@ func testAccCheckDatabaseDbHomeDestroy(s *terraform.State) error {
 		if rs.Type == "oci_database_db_home" {
 			noResourceFound = false
 			request := oci_database.GetDbHomeRequest{}
+
 			tmp := rs.Primary.ID
 			request.DbHomeId = &tmp
+
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
 
 			response, err := client.GetDbHome(context.Background(), request)
 

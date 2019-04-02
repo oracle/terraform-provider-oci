@@ -44,7 +44,7 @@ func CoreVolumeResource() *schema.Resource {
 				Optional:   true,
 				Computed:   true,
 				ForceNew:   true,
-				Deprecated: FieldDeprecatedButSupportedTroughAnotherResource("backup_policy_id", "oci_core_volume_backup_policy_assignment"),
+				Deprecated: FieldDeprecatedButSupportedThroughAnotherResource("backup_policy_id", "oci_core_volume_backup_policy_assignment"),
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,

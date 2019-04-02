@@ -33,6 +33,7 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the cross-connect group.
 * `cross_connect_group_id` - The OCID of the cross-connect group this cross-connect belongs to (if any).
+* `customer_reference_name` - A reference name or identifier for the physical fiber connection that this cross-connect uses. 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `id` - The cross-connect's Oracle ID (OCID).
 * `location_name` - The name of the FastConnect location where this cross-connect is installed.

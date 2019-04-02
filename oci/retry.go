@@ -13,6 +13,7 @@ import (
 const (
 	quadraticBackoffCap  = 12              // This corresponds to a 2*12*12=288 second cap on retry wait times (~5 minutes)
 	minRetryBackoff      = 1 * time.Second // Must wait for at least 1 second before retrying
+	databaseService      = "database"
 	identityService      = "identity"
 	objectstorageService = "object_storage"
 )
@@ -95,6 +96,9 @@ func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableN
 			return 0
 		}
 		if e != nil && strings.Contains(e.Error(), "NotAuthorizedOrResourceAlreadyExists") && (service == identityService || service == objectstorageService) {
+			return longRetryTime
+		}
+		if e != nil && service == databaseService {
 			return longRetryTime
 		}
 	case 412:
