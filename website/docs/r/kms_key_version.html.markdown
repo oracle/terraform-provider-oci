@@ -9,7 +9,7 @@ description: |-
 # oci_kms_key_version
 This resource provides the Key Version resource in Oracle Cloud Infrastructure Kms service.
 
-Generates new cryptographic material for a key. Key must be in an `ENABLED` state to be
+Generates new cryptographic material for a key. The key must be in an `ENABLED` state to be
 rotated.
 
 
@@ -51,3 +51,4 @@ KeyVersions can be imported using the `id`, e.g.
 ```
 $ terraform import oci_kms_key_version.test_key_version "managementEndpoint/{managementEndpoint}/keys/{keyId}/keyVersions/{keyVersionId}" 
 ```
+

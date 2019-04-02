@@ -44,6 +44,12 @@ func KmsEncryptedDataResource() *schema.Resource {
 				ForceNew: true,
 				Elem:     schema.TypeString,
 			},
+			"logging_context": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"ciphertext": {
@@ -111,6 +117,10 @@ func (s *KmsEncryptedDataResourceCrud) Create() error {
 	if keyId, ok := s.D.GetOkExists("key_id"); ok {
 		tmp := keyId.(string)
 		request.KeyId = &tmp
+	}
+
+	if loggingContext, ok := s.D.GetOkExists("logging_context"); ok {
+		request.LoggingContext = objectMapToStringMap(loggingContext.(map[string]interface{}))
 	}
 
 	if plaintext, ok := s.D.GetOkExists("plaintext"); ok {

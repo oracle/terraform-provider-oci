@@ -107,28 +107,32 @@ func (s *CoreVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(regi
 	return nil
 }
 
-func getCoreExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+func getCoreExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	if len(optionals) > 0 {
-		if expectedRetryDurationFunc, ok := coreServiceExpectedRetryDurationMap[optionals[0]]; ok {
-			return expectedRetryDurationFunc(response, disableNotFoundRetries, optionals[1:]...)
+		if key, ok := optionals[0].(string); ok {
+			if expectedRetryDurationFunc, ok := coreServiceExpectedRetryDurationMap[key]; ok {
+				return expectedRetryDurationFunc(response, disableNotFoundRetries, optionals[1:]...)
+			}
 		}
 	}
 	return getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
 }
 
-func getSubnetExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+func getSubnetExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}
 	if len(optionals) > 0 {
-		switch optionals[0] {
-		case deleteResource:
-			switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
-			case 409:
-				if e := response.Error; e != nil {
-					if strings.Contains(e.Error(), "Conflict") {
-						defaultRetryTime = longRetryTime
+		if key, ok := optionals[0].(string); ok {
+			switch key {
+			case deleteResource:
+				switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
+				case 409:
+					if e := response.Error; e != nil {
+						if strings.Contains(e.Error(), "Conflict") {
+							defaultRetryTime = longRetryTime
+						}
 					}
 				}
 			}

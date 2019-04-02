@@ -24,6 +24,7 @@
 ### Added
 - Support for `compartment_id` filter in `email_senders` and `email_suppressions` data sources
 - Support for import in dbHomes and dbSystems
+- Support for KMS throttling
 
 ### Fixed
 - Backward compatibility for compositeId in Object Storage - Objects and PARs
