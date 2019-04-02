@@ -7,6 +7,7 @@
 - Support for provider service keys in Fast Connect Provider Services
 - Singular data sources for User, Group, File Storage Snapshot, Private IP and Virtual Cloud Network (VCN).
 - Support for authentication policy introduced in v3.18.0 is now generally available.
+- Support for import in dbHomes and dbSystems
 
 ### Fixed
 - Virtual Circuit update failures by handling default values

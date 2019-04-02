@@ -17,6 +17,9 @@ import (
 
 func DatabaseDbSystemResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: &schema.ResourceTimeout{
 			// ZeroTime is a marker so a user supplied default is not overwritten. See CreateDBSystemResource
 			Create: &ZeroTime,
@@ -244,7 +247,7 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Required:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				DiffSuppressFunc: dbSystemHostnameDiffSuppress,
 			},
 			"shape": {
 				Type:     schema.TypeString,
@@ -648,7 +651,7 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 		return err
 	}
 	if getDbHomeResponse.DbHome.LifecycleState == oci_database.DbHomeLifecycleStateTerminated {
-		return fmt.Errorf("the associated dbHome is in a TERMINATED state")
+		return fmt.Errorf("the associated dbHome %s is in a TERMINATED state", *dbHomeId)
 	}
 
 	var databaseId *string
@@ -844,8 +847,9 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	// @codegen: Do not set hostname. Refreshing hostname causes undesirable diffs because the service may add a suffix
-	// as in the case of Exadatas. Possible implication when importing the resource.
+	if s.Res.Hostname != nil {
+		s.D.Set("hostname", *s.Res.Hostname)
+	}
 
 	if s.Res.LastPatchHistoryEntryId != nil {
 		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)
@@ -915,6 +919,10 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("db_home", []interface{}{s.DbHomeToMap(s.DbHome)})
 	}
 
+	if source, ok := s.D.GetOkExists("source"); !ok || source.(string) == "" {
+		s.D.Set("source", "NONE")
+	}
+
 	return nil
 }
 
@@ -949,13 +957,6 @@ func (s *DatabaseDbSystemResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat
 
 func (s *DatabaseDbSystemResourceCrud) DbHomeToMap(obj *oci_database.DbHome) map[string]interface{} {
 	result := map[string]interface{}{}
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.DbSystemId != nil {
-		result["db_system_id"] = string(*obj.DbSystemId)
-	}
 
 	if obj.DbVersion != nil {
 		result["db_version"] = string(*obj.DbVersion)
@@ -1114,6 +1115,18 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 
 	if dbWorkload, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_workload")); ok {
 		result.DbWorkload = oci_database.CreateDatabaseDetailsDbWorkloadEnum(dbWorkload.(string))
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if ncharacterSet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ncharacter_set")); ok {
