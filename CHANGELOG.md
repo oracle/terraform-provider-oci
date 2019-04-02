@@ -6,6 +6,7 @@
 - Support for updates to database auto_backup_enabled
 - Support for provider service keys in Fast Connect Provider Services
 - Singular data sources for User, Group, File Storage Snapshot, Private IP and Virtual Cloud Network (VCN).
+- Support for authentication policy introduced in v3.18.0 is now generally available.
 
 ### Fixed
 - Virtual Circuit update failures by handling default values
@@ -42,6 +43,7 @@
 - Support for updating the compartment on a Tag Namespace
 - Support for exadata io resource management config for DB system
 - Support `email` attribute for `oci_identity_user` resource
+- Support for authentication policy
 
 ### Fixed
 - Marked oci_identity_ui_password resource as not importable
