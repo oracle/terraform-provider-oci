@@ -16,6 +16,9 @@ import (
 
 func DatabaseDbHomeResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: &schema.ResourceTimeout{
 			Create: &TwelveHours,
 			Delete: &TwoHours,
@@ -463,6 +466,9 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 		s.D.Set("database", []interface{}{s.DatabaseToMap(s.Database)})
 	}
 
+	if source, ok := s.D.GetOkExists("source"); !ok || source.(string) == "" {
+		s.D.Set("source", "NONE")
+	}
 	return nil
 }
 
