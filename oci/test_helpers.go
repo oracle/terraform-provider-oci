@@ -121,7 +121,7 @@ func waitTillCondition(testAccProvider *schema.Provider, resourceId *string, sho
 }
 
 // This function is responsible for the actual check for ShouldWaitFunc and the aborting
-func conditionShouldRetry(timeout time.Duration, shouldWait ShouldWaitFunc, service string, disableNotFoundRetries bool) func(response oci_common.OCIOperationResponse) bool {
+func conditionShouldRetry(timeout time.Duration, shouldWait ShouldWaitFunc, service string, disableNotFoundRetries bool, optionals ...interface{}) func(response oci_common.OCIOperationResponse) bool {
 	startTime := time.Now()
 	stopTime := startTime.Add(timeout)
 	return func(response oci_common.OCIOperationResponse) bool {
@@ -132,7 +132,7 @@ func conditionShouldRetry(timeout time.Duration, shouldWait ShouldWaitFunc, serv
 		}
 
 		//Make sure we stop on default rules
-		if shouldRetry(response, disableNotFoundRetries, service, startTime) {
+		if shouldRetry(response, disableNotFoundRetries, service, startTime, optionals...) {
 			return true
 		}
 

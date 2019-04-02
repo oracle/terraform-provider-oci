@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_kms_vaults
 This data source provides the list of Vaults in Oracle Cloud Infrastructure Kms service.
 
-Lists vaults in the specified compartment.
+Lists the vaults in the specified compartment.
 
 
 ## Example Usage
@@ -38,7 +38,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the compartment that contains this vault.
+* `compartment_id` - The OCID of the compartment that contains a particular vault.
 * `crypto_endpoint` - The service endpoint to perform cryptographic operations against. Cryptographic operations include 'Encrypt,' 'Decrypt,' and 'GenerateDataEncryptionKey' operations. 
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "foo-value"}` 
 * `display_name` - A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
@@ -47,6 +47,6 @@ The following attributes are exported:
 * `management_endpoint` - The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. 
 * `state` - The vault's current state.  Example: `DELETED` 
 * `time_created` - The date and time this vault was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-04-03T21:10:29.600Z` 
-* `time_of_deletion` - An optional property for the deletion time of the Vault expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
+* `time_of_deletion` - An optional property for the deletion time of the vault, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
 * `vault_type` - The type of vault. Each type of vault stores the key with different degrees of isolation and has different options and pricing.
 

@@ -54,7 +54,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains this key.
-* `current_key_version` - The OCID of the KeyVersion resource used in cryptographic operations. During key rotation, service may be in transitional state where this or a newer KeyVersion are used intermittently, and currentKeyVersion field is updated once service is guaranteed to use new KeyVersion for all consequent encrypt operations. 
+* `current_key_version` - The OCID of the KeyVersion resource used in cryptographic operations. During key rotation, service might be in a transitional state where this or a newer KeyVersion are used intermittently. The currentKeyVersion field is updated when the service is guaranteed to use the new KeyVersion for all subsequent encryption operations. 
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "foo-value"}` 
 * `display_name` - A user-friendly name for the key. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
@@ -73,3 +73,4 @@ Keys can be imported using the `id`, e.g.
 ```
 $ terraform import oci_kms_key.test_key "managementEndpoint/{managementEndpoint}/keys/{keyId}"
 ```
+

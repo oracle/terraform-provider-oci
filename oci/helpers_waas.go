@@ -112,28 +112,32 @@ func getErrorFromWaasWorkRequest(response oci_waas.GetWorkRequestResponse) strin
 	return errorMessage
 }
 
-func getWaasExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+func getWaasExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	if len(optionals) > 0 {
-		if expectedRetryDurationFunc, ok := waasServiceExpectedRetryDurationMap[optionals[0]]; ok {
-			return expectedRetryDurationFunc(response, disableNotFoundRetries, optionals[1:]...)
+		if key, ok := optionals[0].(string); ok {
+			if expectedRetryDurationFunc, ok := waasServiceExpectedRetryDurationMap[key]; ok {
+				return expectedRetryDurationFunc(response, disableNotFoundRetries, optionals[1:]...)
+			}
 		}
 	}
 	return getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
 
 }
 
-func getWaasCertificateExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+func getWaasCertificateExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
 	}
 	if len(optionals) > 0 {
-		switch optionals[0] {
-		case deleteResource:
-			switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
-			case 409:
-				if e := response.Error; e != nil && strings.Contains(e.Error(), "IncorrectState") {
-					defaultRetryTime = waasDeleteConflictRetryDuration
+		if key, ok := optionals[0].(string); ok {
+			switch key {
+			case deleteResource:
+				switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
+				case 409:
+					if e := response.Error; e != nil && strings.Contains(e.Error(), "IncorrectState") {
+						defaultRetryTime = waasDeleteConflictRetryDuration
+					}
 				}
 			}
 		}
