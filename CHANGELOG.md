@@ -1,4 +1,4 @@
-## 3.21.0 (Unreleased)
+## 3.21.0 (April 03, 2019)
 
 ### Added
 - Support for additional dbHomes/databases in a BM Db System
