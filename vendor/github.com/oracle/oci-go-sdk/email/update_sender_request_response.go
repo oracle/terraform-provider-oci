@@ -17,6 +17,11 @@ type UpdateSenderRequest struct {
 	// update details for sender.
 	UpdateSenderDetails `contributesTo:"body"`
 
+	// Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous get, create, or update response for that resource.  The resource
+	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
+
 	// The request ID for tracing from the system
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -52,6 +57,9 @@ type UpdateSenderResponse struct {
 	// to contact Oracle about a particular request, please provide the
 	// request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 }
 
 func (response UpdateSenderResponse) String() string {
