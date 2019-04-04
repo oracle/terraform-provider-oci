@@ -3,6 +3,9 @@
 ### Added
 - Support for `compartment_id` filter in `email_senders` and `email_suppressions` data sources
 
+### Fixed
+- Backward compatibility for compositeId in Object Storage - Objects and PARs
+
 ## 3.21.0 (April 03, 2019)
 
 ### Added
