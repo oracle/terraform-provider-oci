@@ -16,6 +16,9 @@ import (
 // SuppressionSummary The full information representing a suppression.
 type SuppressionSummary struct {
 
+	// The OCID for the compartment.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
 	// The email address of the suppression.
 	EmailAddress *string `mandatory:"false" json:"emailAddress"`
 
