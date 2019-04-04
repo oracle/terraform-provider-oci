@@ -370,7 +370,7 @@ func (s *CoreVolumeResourceCrud) Update() error {
 		}
 	}
 
-	if sizeInGBs, ok := s.D.GetOkExists("size_in_gbs"); ok && s.D.HasChange("size_in_gbs") {
+	if sizeInGBs, ok := s.D.GetOkExists("size_in_gbs"); ok {
 		tmp := sizeInGBs.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
