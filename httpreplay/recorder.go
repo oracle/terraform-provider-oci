@@ -197,6 +197,7 @@ func (r *Recorder) recordInteraction(req *http.Request, realTransport http.Round
 		return nil, nil, err
 	}
 
+	req.Header.Del("Authorization")
 	respBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		debugLogf("-=-=-=- Error from ioutil.ReadAll: %v", err)
