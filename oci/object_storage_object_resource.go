@@ -401,6 +401,20 @@ func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 
 func readObjectStorageObject(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageObjectResourceCrud{}
+	// For backward compatibility with CompositeId change
+	log.Printf("[DEBUG] readObjectStorageObject() Resource Id in state: %s", d.Id())
+	_, _, _, err := parseObjectCompositeId(d.Id())
+
+	if err != nil {
+		bucket, bOk := d.GetOkExists("bucket")
+		namespace, nOk := d.GetOkExists("namespace")
+		object, oOk := d.GetOkExists("object")
+
+		if bOk && nOk && oOk {
+			compositeId := getObjectCompositeId(bucket.(string), namespace.(string), object.(string))
+			d.SetId(compositeId)
+		}
+	}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
@@ -716,28 +730,28 @@ func (s *ObjectStorageObjectResourceCrud) Update() error {
 	}
 	request := oci_object_storage.RenameObjectRequest{}
 
-	bucketName, namespaceName, objectName, err := parseObjectCompositeId(s.D.Id())
-	if err == nil {
-		request.NamespaceName = &namespaceName
-		request.BucketName = &bucketName
-		request.SourceName = &objectName
-	} else {
-		log.Printf("[WARN] Update() unable to parse current ID: %s", s.D.Id())
-		return err
+	if bucket, ok := s.D.GetOkExists("bucket"); ok {
+		tmp := bucket.(string)
+		request.BucketName = &tmp
 	}
+	if namespace, ok := s.D.GetOkExists("namespace"); ok {
+		tmp := namespace.(string)
+		request.NamespaceName = &tmp
+	}
+	oldRaw, newRaw := s.D.GetChange("object")
+	sourceName := oldRaw.(string)
+	request.SourceName = &sourceName
 
-	if object, ok := s.D.GetOkExists("object"); ok {
-		tmp := object.(string)
-		request.NewName = &tmp
-	}
+	newName := newRaw.(string)
+	request.NewName = &newName
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
-	_, err = s.Client.RenameObject(context.Background(), request)
+	_, err := s.Client.RenameObject(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	updatedId := getObjectCompositeId(bucketName, namespaceName, *request.NewName)
+	updatedId := getObjectCompositeId(*request.BucketName, *request.NamespaceName, *request.NewName)
 	s.D.SetId(updatedId)
 	return s.Get()
 }
@@ -745,19 +759,24 @@ func (s *ObjectStorageObjectResourceCrud) Update() error {
 func (s *ObjectStorageObjectResourceCrud) Delete() error {
 	request := oci_object_storage.DeleteObjectRequest{}
 
-	bucketName, namespaceName, objectName, err := parseObjectCompositeId(s.D.Id())
-	if err == nil {
-		request.NamespaceName = &namespaceName
-		request.BucketName = &bucketName
-		request.ObjectName = &objectName
-	} else {
-		log.Printf("[WARN] Delete() unable to parse current ID: %s", s.D.Id())
-		return err
+	if bucket, ok := s.D.GetOkExists("bucket"); ok {
+		tmp := bucket.(string)
+		request.BucketName = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists("namespace"); ok {
+		tmp := namespace.(string)
+		request.NamespaceName = &tmp
+	}
+
+	if object, ok := s.D.GetOkExists("object"); ok {
+		tmp := object.(string)
+		request.ObjectName = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
-	_, err = s.Client.DeleteObject(context.Background(), request)
+	_, err := s.Client.DeleteObject(context.Background(), request)
 	return err
 }
 
