@@ -328,9 +328,6 @@ func (s *LoadBalancerRuleSetResourceCrud) Update() error {
 }
 
 func (s *LoadBalancerRuleSetResourceCrud) Delete() error {
-	if strings.Contains(s.D.Id(), "ocid1.loadbalancerworkrequest") {
-		return nil
-	}
 	request := oci_load_balancer.DeleteRuleSetRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
