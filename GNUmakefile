@@ -8,6 +8,7 @@ WEBSITE_REPO=github.com/hashicorp/terraform-website
 prefix := $(if $(debug),TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v, )
 timeout := $(if $(timeout), $(timeout), 120m)
 run_regex := $(if $(run), -run $(run), )
+test_tags := $(if $(tags), -tags $(tags), )
 skip_goimports_check_flag := $(if $(skip_goimports_check), -s, )
 
 default: build
@@ -24,7 +25,7 @@ sweep: fmtcheck
 	TF_ACC=1 $(prefix) go test $(TEST) -v -run TestMain -sweep=$(sweep) -sweep-run=$(sweep-run) -timeout $(timeout)
 
 testacc: fmtcheck
-	TF_ACC=1 $(prefix) go test $(TEST) -v $(TESTARGS) $(run_regex) -timeout $(timeout)
+	TF_ACC=1 $(prefix) go test $(TEST) -v $(TESTARGS) $(run_regex) $(test_tags) -timeout $(timeout)
 
 vet:
 	@echo "go vet ."
