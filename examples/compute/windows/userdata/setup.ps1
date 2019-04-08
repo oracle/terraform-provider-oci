@@ -14,6 +14,5 @@ Connect-IscsiTarget -NodeAddress $iqn -TargetPortalAddress $ipv4 -IsPersistent $
 Write-Output 'Configured ISCSI for Block Volumes'
 
 Write-Output 'Configuring the new disk for a partition and file system'
-# By default the disk is initialized, if it is not, you can add this command before partitioning: Initialize-Disk -PartitionStyle MBR -PassThru
-Get-Disk -Number 1 | New-Partition -AssignDriveLetter -UseMaximumSize | Format-Volume -FileSystem NTFS -NewFileSystemLabel "tfdisk" -Confirm:$false
+Get-Disk -Number 1 | Initialize-Disk -PartitionStyle MBR -PassThru | New-Partition -AssignDriveLetter -UseMaximumSize | Format-Volume -FileSystem NTFS -NewFileSystemLabel "tfdisk" -Confirm:$false
 Write-Output 'Configured the new disk'
