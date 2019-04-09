@@ -37,3 +37,12 @@ output "tags" {
 output "resource_defined_tags_key" {
   value = "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}"
 }
+
+data "oci_identity_cost_tracking_tags" "cost_tracking_tags" {
+  #Required
+  compartment_id = "${var.tenancy_ocid}"
+}
+
+output cost_tracking_tags {
+  value = "${data.oci_identity_cost_tracking_tags.cost_tracking_tags.tags}"
+}

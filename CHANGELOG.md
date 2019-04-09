@@ -1,4 +1,8 @@
 ## 3.23.1 (Unreleased)
+
+### Added
+- Support data source for cost tracking tags
+
 ## 3.23.0 (April 17, 2019)
 
 ### Added
