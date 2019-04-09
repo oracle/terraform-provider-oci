@@ -41,6 +41,10 @@ const (
 	FAILED = "FAILED"
 )
 
+const (
+	OpcNextPageHeader = "Opc-Next-Page"
+)
+
 type BaseCrud struct {
 	D     *schema.ResourceData
 	Mutex *sync.Mutex
