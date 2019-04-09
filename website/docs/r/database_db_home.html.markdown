@@ -113,5 +113,19 @@ The following attributes are exported:
 
 ## Import
 
-Import for `oci_database_db_home` is not supported at this time
+DbHomes can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_database_db_home.test_db_home "id"
+```
+
+Import is only supported for source=NONE
+
+database.0.admin_password is not returned by the service for security reasons. To avoid a force new of the db_home on the next apply you can manually modify the statefile to add the field or you can add the following to the resource:
+
+```
+    lifecycle {
+        ignore_changes = ["database.0.admin_password"]
+    }
+```
 

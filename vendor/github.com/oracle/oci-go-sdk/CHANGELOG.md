@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 5.3.0 - 2019-04-09
+### Added
+- Support for etag and if-match headers (for optimistic concurrency control) in the Email service
+
 ## 5.2.0 - 2019-04-02
 ### Added
 - Support for provider service key names on virtual circuits in the FastConnect service

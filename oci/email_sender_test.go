@@ -133,6 +133,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "senders.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "senders.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "senders.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "senders.0.email_address", "JohnSmith@example.com"),
 					resource.TestCheckResourceAttr(datasourceName, "senders.0.freeform_tags.%", "1"),

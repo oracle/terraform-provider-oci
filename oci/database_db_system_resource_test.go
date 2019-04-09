@@ -251,7 +251,6 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystemFromB
 					resource.TestCheckResourceAttr(s.ResourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(s.ResourceName, "node_count", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.display_name", ""),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_name", "dbback"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
@@ -319,13 +318,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_basi
 					resource.TestCheckResourceAttr(s.ResourceName, "node_count", "1"),
 					//resource.TestCheckResourceAttr(s.ResourceName, "fault_domains.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.display_name", ""),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_name", "aTFdb"),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.character_set", ""),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.ncharacter_set", ""),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_workload", ""),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.pdb_name", ""),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
 				),
 			},
@@ -619,8 +613,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 							"admin_password" = "BEstrO0ng_#11"
 							"db_name" = "aTFdb"
 							character_set = "AL32UTF8"
-							defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
-							freeform_tags = {"Department" = "Finance"}
+							//defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}" // service does not set tags of db tags in create
+							//freeform_tags = {"Department" = "Finance"} // service does not set tags of db tags in create
 							ncharacter_set = "AL16UTF16"
 							db_workload = "OLTP"
 							pdb_name = "pdbName"
@@ -700,8 +694,6 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_name", "aTFdb"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.character_set", "AL32UTF8"),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.freeform_tags.Department", "Finance"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.ncharacter_set", "AL16UTF16"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
@@ -1090,13 +1082,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_Exad
 					resource.TestCheckResourceAttr(s.ResourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(s.ResourceName, "node_count", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.display_name", ""),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_name", "aTFdb"),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.character_set", ""),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.ncharacter_set", ""),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_workload", ""),
-					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.pdb_name", ""),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(s.ResourceName, "time_zone", "US/Pacific"),
 				),
