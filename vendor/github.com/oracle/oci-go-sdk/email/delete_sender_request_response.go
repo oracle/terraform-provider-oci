@@ -14,6 +14,11 @@ type DeleteSenderRequest struct {
 	// The unique OCID of the sender.
 	SenderId *string `mandatory:"true" contributesTo:"path" name:"senderId"`
 
+	// Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous get, create, or update response for that resource.  The resource
+	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
+
 	// The request ID for tracing from the system
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

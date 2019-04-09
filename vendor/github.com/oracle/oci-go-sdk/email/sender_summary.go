@@ -16,6 +16,9 @@ import (
 // SenderSummary The email addresses and `senderId` representing an approved sender.
 type SenderSummary struct {
 
+	// The OCID for the compartment.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
 	// The email address of the sender.
 	EmailAddress *string `mandatory:"false" json:"emailAddress"`
 

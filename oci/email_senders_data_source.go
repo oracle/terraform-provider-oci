@@ -102,7 +102,9 @@ func (s *EmailSendersDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		sender := map[string]interface{}{}
+		sender := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
+		}
 
 		if r.DefinedTags != nil {
 			sender["defined_tags"] = definedTagsToMap(r.DefinedTags)

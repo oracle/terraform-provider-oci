@@ -96,6 +96,20 @@ func createObjectStoragePreauthenticatedRequest(d *schema.ResourceData, m interf
 
 func readObjectStoragePreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStoragePreauthenticatedRequestResourceCrud{}
+	// For backward compatibility with CompositeId change
+
+	log.Printf("[DEBUG] readObjectStoragePreauthenticatedRequest() Resource Id in state: %s", d.Id())
+	_, _, _, err := parsePreauthenticatedRequestCompositeId(d.Id())
+
+	if err != nil {
+		bucket, bOk := d.GetOkExists("bucket")
+		namespace, nOk := d.GetOkExists("namespace")
+
+		if bOk && nOk {
+			compositeId := getPreauthenticatedRequestCompositeId(bucket.(string), namespace.(string), d.Id())
+			d.SetId(compositeId)
+		}
+	}
 	sync.D = d
 	sync.Client = m.(*OracleClients).objectStorageClient
 
@@ -172,16 +186,6 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Create() error {
 func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Get() error {
 	request := oci_object_storage.GetPreauthenticatedRequestRequest{}
 
-	if bucket, ok := s.D.GetOkExists("bucket"); ok {
-		tmp := bucket.(string)
-		request.BucketName = &tmp
-	}
-
-	if namespace, ok := s.D.GetOkExists("namespace"); ok {
-		tmp := namespace.(string)
-		request.NamespaceName = &tmp
-	}
-
 	bucket, namespace, parId, err := parsePreauthenticatedRequestCompositeId(s.D.Id())
 	if err == nil {
 		request.BucketName = &bucket
@@ -216,16 +220,20 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Get() error {
 func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Delete() error {
 	request := oci_object_storage.DeletePreauthenticatedRequestRequest{}
 
-	bucket, namespace, parId, parseErr := parsePreauthenticatedRequestCompositeId(s.D.Id())
-	if parseErr == nil {
-		request.BucketName = &bucket
-		request.NamespaceName = &namespace
-		request.ParId = &parId
-	} else {
-		log.Printf("[WARN] Delete() unable to parse current ID: %s", s.D.Id())
-		return parseErr
+	if bucket, ok := s.D.GetOkExists("bucket"); ok {
+		tmp := bucket.(string)
+		request.BucketName = &tmp
 	}
 
+	if namespace, ok := s.D.GetOkExists("namespace"); ok {
+		tmp := namespace.(string)
+		request.NamespaceName = &tmp
+	}
+
+	if parId, ok := s.D.GetOkExists("par_id"); ok {
+		tmp := parId.(string)
+		request.ParId = &tmp
+	}
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	_, err := s.Client.DeletePreauthenticatedRequest(context.Background(), request)

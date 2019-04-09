@@ -1,4 +1,12 @@
-## 3.21.1 (Unreleased)
+## 3.22.0 (Unreleased)
+
+### Added
+- Support for `compartment_id` filter in `email_senders` and `email_suppressions` data sources
+- Support for import in dbHomes and dbSystems
+
+### Fixed
+- Backward compatibility for compositeId in Object Storage - Objects and PARs
+
 ## 3.21.0 (April 03, 2019)
 
 ### Added

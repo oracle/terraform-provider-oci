@@ -83,6 +83,7 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2038-01-01T00:00:00.000Z"),
 
 					resource.TestCheckResourceAttr(datasourceName, "suppressions.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "suppressions.0.compartment_id", tenancyId),
 					// email address is converted to lower case by the service
 					resource.TestCheckResourceAttr(datasourceName, "suppressions.0.email_address", "johnsmith@example.com"),
 					resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.time_created"),
