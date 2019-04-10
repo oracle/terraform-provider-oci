@@ -110,6 +110,13 @@ func DatabaseAutonomousDatabaseDataSource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"whitelisted_ips": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 		},
 	}
 }
@@ -215,6 +222,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	if s.Res.UsedDataStorageSizeInTBs != nil {
 		s.D.Set("used_data_storage_size_in_tbs", *s.Res.UsedDataStorageSizeInTBs)
 	}
+
+	s.D.Set("whitelisted_ips", s.Res.WhitelistedIps)
 
 	return nil
 }

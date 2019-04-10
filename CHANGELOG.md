@@ -1,3 +1,10 @@
+## Unreleased
+
+### Added
+- Support for updating `whitelisted_ips` in `autonomous_database`. Note: Cannot be used during creation.
+
+### Fixed
+
 ## 3.22.1 (Unreleased)
 ## 3.22.0 (April 10, 2019)
 
