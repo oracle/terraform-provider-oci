@@ -21,7 +21,7 @@ var (
 	}
 
 	AlarmHistoryCollectionResourceConfig = DefinedTagsDependencies + AvailabilityDomainConfig +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomName()) +
+		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithSuffixName("alarmhistorycollection")) +
 		generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation)
 )
 
