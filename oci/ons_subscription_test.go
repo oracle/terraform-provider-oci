@@ -49,7 +49,7 @@ var (
 	}
 
 	SubscriptionResourceDependencies = NotificationTopicResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomName())
+		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithSuffixName("subscription"))
 )
 
 func TestOnsSubscriptionResource_basic(t *testing.T) {

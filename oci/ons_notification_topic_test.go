@@ -18,8 +18,8 @@ import (
 )
 
 var (
-	topicNameRequiredOnly                 = `t` + randomString(10, charset)
-	topicName                             = `t` + randomString(10, charset)
+	topicNameRequiredOnly                 = `t` + "topicrequired"
+	topicName                             = `t` + "topic"
 	NotificationTopicRequiredOnlyResource = NotificationTopicResourceDependencies +
 		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, representationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
 			"name": Representation{repType: Required, create: topicNameRequiredOnly},
@@ -54,9 +54,9 @@ var (
 	NotificationTopicResourceDependencies = DefinedTagsDependencies
 )
 
-func getTopicRepresentationCopyWithRandomName() map[string]interface{} {
+func getTopicRepresentationCopyWithSuffixName(suffix string) map[string]interface{} {
 	return representationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
-		"name": Representation{repType: Required, create: randomString(10, charset)},
+		"name": Representation{repType: Required, create: "t" + suffix},
 	})
 }
 
