@@ -47,7 +47,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
-	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentIdU)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_identity_tag_namespace.test_tag_namespace"
 	datasourceName := "data.oci_identity_tag_namespaces.test_tag_namespaces"
@@ -101,10 +101,13 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 				),
 			},
 
-			// verify updates to compartment only (will be moved back by the next step)
+			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdUVariableStr + TagNamespaceResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create, tagNamespaceRepresentation),
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + TagNamespaceResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_tag_namespace", "test_tag_namespace", Optional, Create,
+						representationCopyWithNewProperties(tagNamespaceRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
