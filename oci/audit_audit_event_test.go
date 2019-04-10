@@ -53,6 +53,8 @@ func TestAuditAuditEventResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(datasourceName, "audit_events.#"),
 				),
+				// Non empty plan expected because the data source input relies on interpolation syntax
+				ExpectNonEmptyPlan: true,
 			},
 		},
 	})

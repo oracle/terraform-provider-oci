@@ -64,7 +64,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		image = "${var.InstanceImageOCID[var.region]}"
 		shape = "VM.Standard2.1"
 		subnet_id = "${oci_core_subnet.t.id}"
-		metadata {
+		metadata = {
 			ssh_authorized_keys = "${var.ssh_public_key}"
 		}
 		timeouts {
@@ -79,7 +79,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		image = "${var.InstanceImageOCID[var.region]}"
 		shape = "VM.Standard2.1"
 		subnet_id = "${oci_core_subnet.t.id}"
-		metadata {
+		metadata = {
 			ssh_authorized_keys = "${var.ssh_public_key}"
 		}
 		timeouts {

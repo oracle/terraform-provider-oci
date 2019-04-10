@@ -168,6 +168,8 @@ func TestWaasCertificateResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "certificates.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "certificates.0.time_not_valid_after"),
 				),
+				// Non empty plan expected because the data source input relies on interpolation syntax
+				ExpectNonEmptyPlan: true,
 			},
 			// verify singular datasource
 			{

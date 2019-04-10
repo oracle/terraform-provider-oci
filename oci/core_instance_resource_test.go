@@ -86,11 +86,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
 									)}"
 					freeform_tags = { "Department" = "Accounting"}
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
-					extended_metadata {
+					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
@@ -158,11 +158,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					image = "${var.InstanceImageOCID[var.region]}"
 					hostname_label = "HOSTName1"
 					shape = "VM.Standard2.1"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
-					extended_metadata {
+					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
@@ -187,11 +187,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						source_id = "${var.InstanceImageOCID[var.region]}"
 					}
 					shape = "VM.Standard2.1"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
-					extended_metadata {
+					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
@@ -217,11 +217,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value2"
 									)}"
 					freeform_tags = { "CostCenter" = "42"}
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
-					extended_metadata {
+					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
@@ -247,11 +247,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
 					subnet_id = "${oci_core_subnet.t.id}"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
-					extended_metadata {
+					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
@@ -294,11 +294,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
 					subnet_id = "${oci_core_subnet.t.id}"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
-					extended_metadata {
+					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
@@ -328,11 +328,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
 					subnet_id = "${oci_core_subnet.t.id}"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
-					extended_metadata {
+					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
@@ -376,11 +376,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					image = "${var.InstanceImageOCID[var.region]}"
 					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
-					extended_metadata {
+					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
@@ -431,11 +431,11 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					image = "${var.InstanceImageOCID[var.region]}"
 					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
-					extended_metadata {
+					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
@@ -495,7 +495,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 					image = "${var.InstanceImageOCID[var.region]}"
 					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
-					metadata {
+					metadata = {
 						should_observe_dependency = "${jsonencode(cidrhost(oci_core_subnet.t.cidr_block, local.nat_offset))}"
 						this_should_also = "${oci_core_subnet.t.time_created}"
 						ssh_authorized_keys = "${var.ssh_public_key}"
@@ -503,7 +503,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 						subnet_id = "${oci_core_subnet.t.id}"
 					}
-					extended_metadata {
+					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
@@ -551,7 +551,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 					image = "${var.InstanceImageOCID[var.region]}"
 					shape = "VM.Standard2.1"
 					display_name = "-tf-instance"
-					metadata {
+					metadata = {
 						should_observe_dependency = "${jsonencode(cidrhost(oci_core_subnet.t.cidr_block, local.nat_offset + 1))}"
 						this_should_also = "${oci_core_subnet.t.time_created}"
 						ssh_authorized_keys = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample"
@@ -559,7 +559,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 						availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 						subnet_id = "${oci_core_subnet.t.id}"
 					}
-					extended_metadata {
+					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
 					}
@@ -628,7 +628,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 						source_id = "${var.InstanceImageOCID[var.region]}"
 					}
 					shape = "VM.Standard2.1"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
@@ -689,7 +689,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 					hostname_label = "hostname1"
 					image = "${var.InstanceImageOCID[var.region]}"
 					shape = "VM.Standard2.1"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
@@ -714,7 +714,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 					}
 					preserve_boot_volume = "true"
 					shape = "VM.Standard2.1"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
@@ -764,7 +764,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 					}
 					preserve_boot_volume = "false"
 					shape = "VM.Standard2.1"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
@@ -821,7 +821,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 					}
 					preserve_boot_volume = "false"
 					shape = "VM.Standard2.1"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
@@ -872,7 +872,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 					}
 					preserve_boot_volume = "false"
 					shape = "VM.Standard2.1"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "ZWNobyBoZWxsbw=="
 					}
@@ -907,7 +907,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_failedByTime
 						source_id = "${var.InstanceImageOCID[var.region]}"
 					}
 					shape = "VM.Standard2.1"
-					metadata {
+					metadata = {
 						ssh_authorized_keys = "${var.ssh_public_key}"
 						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
 					}

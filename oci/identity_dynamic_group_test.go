@@ -73,7 +73,8 @@ func TestIdentityDynamicGroupResource_basic(t *testing.T) {
 				Config: config + `
 variable "dynamic_group_description" { default = "description2" }
 variable "dynamic_group_matching_rule" { default = "bad_matching_rule" }
-variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }` + compartmentIdVariableStr + generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Required, Create, dynamicGroupRepresentation),
+variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
+` + compartmentIdVariableStr + generateResourceFromRepresentationMap("oci_identity_dynamic_group", "test_dynamic_group", Required, Create, dynamicGroupRepresentation),
 				ExpectError: regexp.MustCompile("Unable to parse matching rule"),
 			},
 			// verify create

@@ -57,8 +57,8 @@ var fullConfig = `
 			protocol = "1"
 			stateless = true
 			icmp_options {
-				"type" = 3
-				"code" = 4
+				type = 3
+				code = 4
 			}
 		}
 		egress_security_rules = {
@@ -66,11 +66,11 @@ var fullConfig = `
 			protocol = "6"
 			stateless = false
 			tcp_options {
-				"min" = 10
-				"max" = 11
+				min = 10
+				max = 11
 				source_port_range {
-					"min" = 20
-					"max" = 21
+					min = 20
+					max = 21
 				}
 			}
 		}
@@ -78,11 +78,11 @@ var fullConfig = `
 			destination = "0.0.0.0/4"
 			protocol = "17"
 			udp_options {
-				"min" = 30
-				"max" = 31
+				min = 30
+				max = 31
 				source_port_range {
-					"min" = 40
-					"max" = 41
+					min = 40
+					max = 41
 				}
 			}
 		}
@@ -94,8 +94,8 @@ var fullConfig = `
 			protocol = "1"
 			source = "0.0.0.0/6"
 			icmp_options {
-				"type" = 3
-				"code" = 4
+				type = 3
+				code = 4
 			}
 		},
 		{
@@ -103,11 +103,11 @@ var fullConfig = `
 			stateless = true
 			source = "0.0.0.0/7"
 			tcp_options {
-				"min" = 50
-				"max" = 51
+				min = 50
+				max = 51
 				source_port_range {
-					"min" = 60
-					"max" = 61
+					min = 60
+					max = 61
 				}
 			}
 		},
@@ -116,11 +116,11 @@ var fullConfig = `
 			stateless = false
 			source = "10.0.0.0/8"
 			udp_options {
-				"min" = 70
-				"max" = 71
+				min = 70
+				max = 71
 				source_port_range {
-					"min" = 80
-					"max" = 81
+					min = 80
+					max = 81
 				}
 			}
 		}]
@@ -296,16 +296,16 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 							protocol = "1"
 							source = "0.0.0.0/6"
 							icmp_options {
-								"type" = 3
-								"code" = 4
+								type = 3
+								code = 4
 							}
 						}
 						egress_security_rules = {
 							protocol = "1"
 							destination = "0.0.0.0/6"
 							icmp_options {
-								"type" = 3
-								"code" = 4
+								type = 3
+								code = 4
 							}
 						}
 					}
@@ -338,14 +338,14 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 							protocol = "1"
 							source = "0.0.0.0/6"
 							icmp_options {
-								"type" = 3
+								type = 3
 							}
 						}
 						egress_security_rules = {
 							protocol = "1"
 							destination = "0.0.0.0/6"
 							icmp_options {
-								"type" = 3
+								type = 3
 							}
 						}
 					}
@@ -381,8 +381,8 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 							stateless = false
 							tcp_options {
 								source_port_range {
-									"min" = 20
-									"max" = 21
+									min = 20
+									max = 21
 								}
 							}
 						}
@@ -391,8 +391,8 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 							destination = "0.0.0.0/4"
 							protocol = "17"
 							udp_options {
-								"min" = 1
-								"max" = 65535
+								min = 1
+								max = 65535
 							}
 						}
 					}
@@ -439,8 +439,8 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 							protocol = "6"
 							stateless = false
 							tcp_options {
-								"min" = 20
-								"max" = 21
+								min = 20
+								max = 21
 							}
 						}
 						# Check the maximum range
@@ -449,8 +449,8 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 							protocol = "17"
 							udp_options {
 								source_port_range {
-									"min" = 1
-									"max" = 65535
+									min = 1
+									max = 65535
 								}
 							}
 						}
@@ -542,24 +542,24 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 				protocol = "1"
 				source = "0.0.0.0/0"
 				icmp_options {
-					"type" = 3
-					"code" = 4
+					type = 3
+					code = 4
 				}
 			},
 			{
 				protocol = "6"
 				source = "0.0.0.0/0"
 				tcp_options {
-					"min" = 80
-					"max" = 80
+					min = 80
+					max = 80
 				}
 			},
 			{
 				protocol = "17"
 				source = "10.0.0.0/16"
 				udp_options {
-					"min" = 319
-					"max" = 320
+					min = 319
+					max = 320
 				}
 			}]
 		}`
@@ -606,8 +606,8 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 							source = "0.0.0.0/0"
 							stateless = true
 							icmp_options {
-								"type" = 5
-								"code" = 0
+								type = 5
+								code = 0
 							}
 						},
 						{
@@ -616,8 +616,8 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 							stateless = true
 							tcp_options {
 								source_port_range {
-									"min" = 99
-									"max" = 100
+									min = 99
+									max = 100
 								}
 							}
 						},
