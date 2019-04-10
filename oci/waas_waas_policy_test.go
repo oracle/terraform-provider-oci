@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -18,6 +19,12 @@ import (
 )
 
 var (
+	waasPolicyDomainSuffix = ".oracle.com"
+
+	waasPolicyDomainName = randomStringOrHttpReplayValue(4, strings.ToLower(charsetWithoutDigits), "snew")
+
+	waasPolicyDomain = waasPolicyDomainName + waasPolicyDomainSuffix
+
 	WaasPolicyRequiredOnlyResource = WaasPolicyResourceDependencies +
 		generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Required, Create, waasPolicyRepresentation)
 
@@ -43,8 +50,8 @@ var (
 
 	waasPolicyRepresentation = map[string]interface{}{
 		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"domain":             Representation{repType: Required, create: `snew.oracle.com`},
-		"additional_domains": Representation{repType: Optional, create: []string{`snew3.oracle.com`, `snew4.oracle.com`}, update: []string{`snew31.oracle.com`, `snew41.oracle.com`}},
+		"domain":             Representation{repType: Required, create: waasPolicyDomain},
+		"additional_domains": Representation{repType: Optional, create: []string{waasPolicyDomainName + "3" + waasPolicyDomainSuffix, waasPolicyDomainName + "4" + waasPolicyDomainSuffix}, update: []string{waasPolicyDomainName + "31" + waasPolicyDomainSuffix, waasPolicyDomainName + "41" + waasPolicyDomainSuffix}},
 		"defined_tags":       Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":      Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
@@ -247,7 +254,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_waas_waas_policy", "test_waas_policy", Required, Create, waasPolicyRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", "snew.oracle.com"),
+					resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -269,7 +276,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "domain", "snew.oracle.com"),
+					resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "origins.#", "2"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "origins", map[string]string{
@@ -400,7 +407,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "domain", "snew.oracle.com"),
+					resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "origins.#", "2"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "origins", map[string]string{
@@ -542,7 +549,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "waas_policies.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "waas_policies.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "waas_policies.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "waas_policies.0.domain", "snew.oracle.com"),
+					resource.TestCheckResourceAttr(datasourceName, "waas_policies.0.domain", waasPolicyDomain),
 					resource.TestCheckResourceAttr(datasourceName, "waas_policies.0.freeform_tags.%", "1"),
 				),
 			},
@@ -558,7 +565,7 @@ func TestWaasWaasPolicyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "domain", "snew.oracle.com"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "domain", waasPolicyDomain),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "origins.#", "2"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "origins", map[string]string{
