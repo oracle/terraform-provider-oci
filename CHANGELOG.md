@@ -1,4 +1,4 @@
-## 3.22.0 (Unreleased)
+## 3.22.0 (April 10, 2019)
 
 ### Added
 - Support for `compartment_id` filter in `email_senders` and `email_suppressions` data sources
