@@ -168,7 +168,7 @@ resource "oci_core_instance" "t" {
 	image = "${var.InstanceImageOCID[var.region]}"
 	shape = "VM.Standard2.1"
 	subnet_id = "${oci_core_subnet.WebSubnetAD1.id}"
-	metadata {
+	metadata = {
 		ssh_authorized_keys = "${var.ssh_public_key}"
 	}
 
@@ -226,7 +226,7 @@ resource "oci_core_instance" "t" {
 		defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
 		freeform_tags = { "Department" = "Accounting" }
   	}
-	metadata {
+	metadata = {
 		ssh_authorized_keys = "${var.ssh_public_key}"
 	}
 	timeouts {

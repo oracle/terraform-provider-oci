@@ -66,7 +66,7 @@ func (s *DatasourceCoreInstanceTestSuite) SetupTest() {
 		subnet_id = "${oci_core_subnet.t.id}"
 		image = "${var.InstanceImageOCID[var.region]}"
 		shape = "VM.Standard2.1"
-		metadata {
+		metadata = {
 			ssh_authorized_keys = "${var.ssh_public_key}"
 		}
 		timeouts {

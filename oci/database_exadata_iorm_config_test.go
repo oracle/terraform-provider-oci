@@ -112,8 +112,8 @@ var (
 		db_home {
 			db_version = "12.1.0.2"
 			database {
-				"admin_password" = "BEstrO0ng_#11"
-				"db_name" = "aTFdb"
+				admin_password = "BEstrO0ng_#11"
+				db_name = "aTFdb"
 			}
 		}
 	}

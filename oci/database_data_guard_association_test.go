@@ -119,8 +119,8 @@ resource "oci_database_db_system" "test_db_system" {
 		db_version = "12.1.0.2"
 		display_name = "TFTestDbHome1"
 		database {
-			"admin_password" = "BEstrO0ng_#11"
-			"db_name" = "tfDbName"
+			admin_password = "BEstrO0ng_#11"
+			db_name = "tfDbName"
 		}
 	}
 }
@@ -144,8 +144,8 @@ resource "oci_database_db_system" "test_db_system2" {
 		db_version = "12.1.0.2"
 		display_name = "TFTestDbHome1"
 		database {
-			"admin_password" = "BEstrO0ng_#11"
-			"db_name" = "db2"
+			admin_password = "BEstrO0ng_#11"
+			db_name = "db2"
 		}
 	}
 }
@@ -170,8 +170,8 @@ resource "oci_database_db_system" "test_db_system" {
 		db_version = "12.1.0.2"
 		display_name = "TFTestDbHome1"
 		database {
-			"admin_password" = "BEstrO0ng_#11"
-			"db_name" = "tfDbName"
+			admin_password = "BEstrO0ng_#11"
+			db_name = "tfDbName"
 		}
 	}
 }
