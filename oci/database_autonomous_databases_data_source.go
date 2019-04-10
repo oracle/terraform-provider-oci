@@ -172,6 +172,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["used_data_storage_size_in_tbs"] = *r.UsedDataStorageSizeInTBs
 		}
 
+		autonomousDatabase["whitelisted_ips"] = r.WhitelistedIps
+
 		resources = append(resources, autonomousDatabase)
 	}
 

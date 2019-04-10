@@ -103,6 +103,14 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"whitelisted_ips": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 
 			// Computed
 			"connection_strings": {
@@ -240,6 +248,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedPending() []string {
 		string(oci_database.AutonomousDatabaseLifecycleStateProvisioning),
 		string(oci_database.AutonomousDatabaseLifecycleStateUnavailable),
 		string(oci_database.AutonomousDatabaseLifecycleStateScaleInProgress),
+		string(oci_database.AutonomousDatabaseLifecycleStateUpdating),
 	}
 }
 
@@ -323,6 +332,18 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok && s.D.HasChange("whitelisted_ips") {
+		request.WhitelistedIps = []string{}
+		interfaces := whitelistedIps.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.WhitelistedIps = tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), request)
@@ -404,6 +425,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.UsedDataStorageSizeInTBs != nil {
 		s.D.Set("used_data_storage_size_in_tbs", *s.Res.UsedDataStorageSizeInTBs)
 	}
+
+	s.D.Set("whitelisted_ips", s.Res.WhitelistedIps)
 
 	return nil
 }
