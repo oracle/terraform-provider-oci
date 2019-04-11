@@ -198,6 +198,7 @@ The following arguments are supported:
 	* `kms_key_id` - (Applicable when source_type=image) The OCID of the KMS key to be used as the master encryption key for the boot volume.
 	* `source_id` - (Required) The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - (Required) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
+* `state` - (Optional) (Updatable) The target state for the instance. Could be set to RUNNING or STOPPED.
 * `subnet_id` - (Optional) Deprecated. Instead use `subnetId` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/). At least one of them is required; if you provide both, the values must match. 
 
 
