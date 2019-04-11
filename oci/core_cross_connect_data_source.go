@@ -10,52 +10,12 @@ import (
 )
 
 func CoreCrossConnectDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularCoreCrossConnect,
-		Schema: map[string]*schema.Schema{
-			"cross_connect_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"cross_connect_group_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"customer_reference_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"location_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"port_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"port_speed_shape_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["cross_connect_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(CoreCrossConnectResource(), fieldMap, readSingularCoreCrossConnect)
 }
 
 func readSingularCoreCrossConnect(d *schema.ResourceData, m interface{}) error {

@@ -10,59 +10,12 @@ import (
 )
 
 func IdentityAuthenticationPolicyDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularIdentityAuthenticationPolicy,
-		Schema: map[string]*schema.Schema{
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"password_policy": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-						"is_lowercase_characters_required": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Computed: true,
-						},
-						"is_numeric_characters_required": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Computed: true,
-						},
-						"is_special_characters_required": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Computed: true,
-						},
-						"is_uppercase_characters_required": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Computed: true,
-						},
-						"is_username_containment_allowed": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Computed: true,
-						},
-						"minimum_password_length": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-
-						// Computed
-					},
-				},
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["compartment_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(IdentityAuthenticationPolicyResource(), fieldMap, readSingularIdentityAuthenticationPolicy)
 }
 
 func readSingularIdentityAuthenticationPolicy(d *schema.ResourceData, m interface{}) error {

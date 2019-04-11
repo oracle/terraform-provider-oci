@@ -7,99 +7,16 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/helper/validation"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
 func CoreVolumeDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularCoreVolume,
-		Schema: map[string]*schema.Schema{
-			"volume_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"availability_domain": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"is_hydrated": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"kms_key_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"size_in_gbs": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"size_in_mbs": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"source_details": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"id": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-						"type": {
-							Type:             schema.TypeString,
-							Required:         true,
-							ForceNew:         true,
-							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
-							ValidateFunc: validation.StringInSlice([]string{
-								"volume",
-								"volumeBackup",
-							}, true),
-						},
-
-						// Optional
-
-						// Computed
-					},
-				},
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"volume_group_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["volume_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(CoreVolumeResource(), fieldMap, readSingularCoreVolume)
 }
 
 func readSingularCoreVolume(d *schema.ResourceData, m interface{}) error {

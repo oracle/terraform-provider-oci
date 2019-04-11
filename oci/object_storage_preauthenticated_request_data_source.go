@@ -10,44 +10,20 @@ import (
 )
 
 func ObjectStoragePreauthenticatedRequestDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularObjectStoragePreauthenticatedRequest,
-		Schema: map[string]*schema.Schema{
-			"bucket": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"namespace": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"par_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"access_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"object": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_expires": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["bucket"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	fieldMap["namespace"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	fieldMap["par_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return GetSingularDataSourceItemSchema(ObjectStoragePreauthenticatedRequestResource(), fieldMap, readSingularObjectStoragePreauthenticatedRequest)
 }
 
 func readSingularObjectStoragePreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {

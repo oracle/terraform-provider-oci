@@ -10,54 +10,12 @@ import (
 )
 
 func CoreNatGatewayDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularCoreNatGateway,
-		Schema: map[string]*schema.Schema{
-			"nat_gateway_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"block_traffic": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"nat_ip": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vcn_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["nat_gateway_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(CoreNatGatewayResource(), fieldMap, readSingularCoreNatGateway)
 }
 
 func readSingularCoreNatGateway(d *schema.ResourceData, m interface{}) error {
