@@ -10,20 +10,12 @@ import (
 )
 
 func AuditConfigurationDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularAuditConfiguration,
-		Schema: map[string]*schema.Schema{
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"retention_period_days": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["compartment_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(AuditConfigurationResource(), fieldMap, readSingularAuditConfiguration)
 }
 
 func readSingularAuditConfiguration(d *schema.ResourceData, m interface{}) error {

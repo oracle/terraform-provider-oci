@@ -11,74 +11,12 @@ import (
 )
 
 func CoreBootVolumeBackupDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularCoreBootVolumeBackup,
-		Schema: map[string]*schema.Schema{
-			"boot_volume_backup_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"boot_volume_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"expiration_time": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"image_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"size_in_gbs": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"source_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_request_received": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"unique_size_in_gbs": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["boot_volume_backup_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(CoreBootVolumeBackupResource(), fieldMap, readSingularCoreBootVolumeBackup)
 }
 
 func readSingularCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {

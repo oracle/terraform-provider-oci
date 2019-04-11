@@ -12,36 +12,20 @@ import (
 )
 
 func KmsKeyVersionDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularKmsKeyVersion,
-		Schema: map[string]*schema.Schema{
-			"key_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"key_version_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"management_endpoint": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vault_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["key_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	fieldMap["key_version_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	fieldMap["management_endpoint"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return GetSingularDataSourceItemSchema(KmsKeyVersionResource(), fieldMap, readSingularKmsKeyVersion)
 }
 
 func readSingularKmsKeyVersion(d *schema.ResourceData, m interface{}) error {

@@ -10,46 +10,12 @@ import (
 )
 
 func OnsSubscriptionDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularOnsSubscription,
-		Schema: map[string]*schema.Schema{
-			"subscription_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"delivery_policy": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"endpoint": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"etag": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"protocol": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["subscription_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(OnsSubscriptionResource(), fieldMap, readSingularOnsSubscription)
 }
 
 func readSingularOnsSubscription(d *schema.ResourceData, m interface{}) error {

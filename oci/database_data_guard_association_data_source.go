@@ -10,72 +10,16 @@ import (
 )
 
 func DatabaseDataGuardAssociationDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDatabaseDataGuardAssociation,
-		Schema: map[string]*schema.Schema{
-			"data_guard_association_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"database_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"apply_lag": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"apply_rate": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"peer_data_guard_association_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"peer_database_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"peer_db_home_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"peer_db_system_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"peer_role": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"protection_mode": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"role": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"transport_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["data_guard_association_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	fieldMap["database_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return GetSingularDataSourceItemSchema(DatabaseDataGuardAssociationResource(), fieldMap, readSingularDatabaseDataGuardAssociation)
 }
 
 func readSingularDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {

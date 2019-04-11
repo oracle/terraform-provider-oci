@@ -588,13 +588,12 @@ func GetSingularDataSourceItemSchema(resourceSchema *schema.Resource, addFieldMa
 	resourceSchema.Read = readFunc
 	resourceSchema.Importer = nil
 	resourceSchema.Timeouts = nil
+	resourceSchema.CustomizeDiff = nil
 
 	var dataSourceSchema *schema.Resource = convertResourceFieldsToDatasourceFields(resourceSchema)
 
 	for key, value := range addFieldMap {
-		if _, fieldExists := resourceSchema.Schema[key]; !fieldExists {
-			dataSourceSchema.Schema[key] = value
-		}
+		dataSourceSchema.Schema[key] = value
 	}
 
 	return dataSourceSchema

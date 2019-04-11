@@ -10,89 +10,12 @@ import (
 )
 
 func CoreSubnetDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularCoreSubnet,
-		Schema: map[string]*schema.Schema{
-			"subnet_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"availability_domain": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"cidr_block": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"dhcp_options_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"dns_label": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"prohibit_public_ip_on_vnic": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"route_table_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"security_list_ids": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"subnet_domain_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vcn_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"virtual_router_ip": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"virtual_router_mac": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["subnet_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(CoreSubnetResource(), fieldMap, readSingularCoreSubnet)
 }
 
 func readSingularCoreSubnet(d *schema.ResourceData, m interface{}) error {

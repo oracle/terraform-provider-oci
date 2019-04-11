@@ -10,82 +10,12 @@ import (
 )
 
 func BudgetBudgetDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularBudgetBudget,
-		Schema: map[string]*schema.Schema{
-			"budget_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"actual_spend": {
-				Type:     schema.TypeFloat,
-				Computed: true,
-			},
-			"alert_rule_count": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"amount": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"forecasted_spend": {
-				Type:     schema.TypeFloat,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"reset_period": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"target_compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_spend_computed": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_updated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"version": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["budget_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(BudgetBudgetResource(), fieldMap, readSingularBudgetBudget)
 }
 
 func readSingularBudgetBudget(d *schema.ResourceData, m interface{}) error {

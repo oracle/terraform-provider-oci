@@ -10,74 +10,16 @@ import (
 )
 
 func BudgetAlertRuleDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularBudgetAlertRule,
-		Schema: map[string]*schema.Schema{
-			"alert_rule_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"budget_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"message": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"recipients": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"threshold": {
-				Type:     schema.TypeFloat,
-				Computed: true,
-			},
-			"threshold_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_updated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"version": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["alert_rule_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	fieldMap["budget_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return GetSingularDataSourceItemSchema(BudgetAlertRuleResource(), fieldMap, readSingularBudgetAlertRule)
 }
 
 func readSingularBudgetAlertRule(d *schema.ResourceData, m interface{}) error {

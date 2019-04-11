@@ -12,77 +12,16 @@ import (
 )
 
 func KmsKeyDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularKmsKey,
-		Schema: map[string]*schema.Schema{
-			"key_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"management_endpoint": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"current_key_version": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"key_shape": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"algorithm": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-						"length": {
-							Type:     schema.TypeInt,
-							Required: true,
-							ForceNew: true,
-						},
-
-						// Optional
-
-						// Computed
-					},
-				},
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vault_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["key_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	fieldMap["management_endpoint"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return GetSingularDataSourceItemSchema(KmsKeyResource(), fieldMap, readSingularKmsKey)
 }
 
 func readSingularKmsKey(d *schema.ResourceData, m interface{}) error {
