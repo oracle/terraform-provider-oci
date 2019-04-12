@@ -43,15 +43,15 @@ The OCI provider supports API Key based authentication and Instance Principal ba
 ### API Key based authentication  
 Calls to OCI using API Key authentication requires that you provide the following credentials:
 
-- `tenancy_ocid` - The global identifier for your account, always shown on the bottom of the web console. 
-- `user_ocid` - The identifier of the user account you will be using for Terraform. For information on setting the 
-correct policies for your user see [Managing Users](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingusers.htm).
-- `private_key_path` - The path to the private key stored on your computer. The public key portion must be added to the 
-user account above in the _API Keys_ section of the web console. For details on how to create and configure keys see 
-[Required Keys and OCIDs](https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm).
-- `fingerprint` - The fingerprint of the public key added in the above user's _API Keys_ section of the web console.
-- `region` - The region to target with this provider configuration. Use the full region name like `us-phoenix-1` or `eu-frankfurt-1`. 
-Refer Oracle Cloud Infrastructure [Regions](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm) for a list of available regions and availability domains.
+- `tenancy_ocid` - OCID of your tenancy. To get the value, see [Required Keys and OCIDs  #Tenancy's OCID](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#five).
+- `user_ocid` - OCID of the user calling the API. To get the value, see [Required Keys and OCIDs #User's OCID](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#five).
+- `private_key` - The contents of the private key file, required if `private_key_path` is not defined, takes precedence over `private_key_path` if both are defined.
+For details on how to create and configure keys see [Required Keys and OCIDs #How to Upload the Public Key](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#three).
+- `private_key_path` - The path (including filename) of the private key stored on your computer, required if `private_key` is not defined.
+For details on how to create and configure keys see [Required Keys and OCIDs #How to Upload the Public Key](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#three).
+- `private_key_password` - (Optional) Passphrase used for the key, if it is encrypted.
+- `fingerprint` - Fingerprint for the key pair being used. To get the value, see [Required Keys and OCIDs #How to Get the Key's Fingerprint](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#four).
+- `region` - An Oracle Cloud Infrastructure region. See [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).
 
 #### Environment variables
 It is common to export the above values as environment variables, or source them in different bash profiles when executing 
@@ -93,6 +93,11 @@ setx TF_VAR_private_key_path <value>
 ```
 The variables won't be set for the current session, exit the terminal and reopen.
 
+#### Using the SDK and CLI Configuration File
+It is possible to define the required provider values in the same `~/.oci/config` file that the SDKs and CLI support. 
+For details on setting up this configuration see [SDK and CLI Configuration File](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm).  
+
+_Note: only the `[default]` profile is supported, the `region` value will not currently propagate, and the parameter names are slightly different._
 
 ### Instance Principal Authentication
 Instance Principal authentication allows you to run Terraform from an OCI Instance within your Tenancy. To enable Instance 
