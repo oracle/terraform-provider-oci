@@ -39,7 +39,8 @@ import (
 // supply string values using the API.
 type PrivateIp struct {
 
-	// The private IP's availability domain.
+	// The private IP's availability domain. This attribute will be null if this is a *secondary*
+	// private IP assigned to a VNIC that is in a *regional* subnet.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 

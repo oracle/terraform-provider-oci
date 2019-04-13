@@ -11,7 +11,7 @@ import (
 // DeleteInstanceConsoleConnectionRequest wrapper for the DeleteInstanceConsoleConnection operation
 type DeleteInstanceConsoleConnectionRequest struct {
 
-	// The OCID of the intance console connection
+	// The OCID of the instance console connection.
 	InstanceConsoleConnectionId *string `mandatory:"true" contributesTo:"path" name:"instanceConsoleConnectionId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

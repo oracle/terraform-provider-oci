@@ -18,7 +18,7 @@ type VolumeBackupSchedule struct {
 	// The type of backup to create.
 	BackupType VolumeBackupScheduleBackupTypeEnum `mandatory:"true" json:"backupType"`
 
-	// The number of seconds (positive or negative) that the backup time should be shifted from the default interval boundaries specified by the period. Backup time = Frequency start time + Offset.
+	// The number of seconds that the backup time should be shifted from the default interval boundaries specified by the period. Backup time = Frequency start time + Offset.
 	OffsetSeconds *int `mandatory:"true" json:"offsetSeconds"`
 
 	// How often the backup should occur.

@@ -15,7 +15,7 @@ import (
 // UpdateTagDefaultDetails The representation of UpdateTagDefaultDetails
 type UpdateTagDefaultDetails struct {
 
-	// The default value for the Tag Definition. This will be applied to all resources created in the Compartment.
+	// The default value for the tag definition. This will be applied to all resources created in the Compartment.
 	Value *string `mandatory:"true" json:"value"`
 }
 

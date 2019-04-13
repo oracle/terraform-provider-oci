@@ -21,7 +21,7 @@ type InstancePoolSummary struct {
 	// The OCID of the compartment containing the instance pool
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the instance configuration associated to the intance pool.
+	// The OCID of the instance configuration associated with the instance pool.
 	InstanceConfigurationId *string `mandatory:"true" json:"instanceConfigurationId"`
 
 	// The current state of the instance pool.

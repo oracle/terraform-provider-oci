@@ -58,7 +58,7 @@ func (client *ComputeManagementClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
-// AttachLoadBalancer Attach load balancer to the instance pool.
+// AttachLoadBalancer Attach a load balancer to the instance pool.
 func (client ComputeManagementClient) AttachLoadBalancer(ctx context.Context, request AttachLoadBalancerRequest) (response AttachLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

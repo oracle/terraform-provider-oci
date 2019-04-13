@@ -15,7 +15,7 @@ import (
 // InstancePoolInstanceLoadBalancerBackend Represents the load balancer Backend that is configured for an instance pool instance.
 type InstancePoolInstanceLoadBalancerBackend struct {
 
-	// The OCID of the load balancer attached to the pool.
+	// The OCID of the load balancer attached to the instance pool.
 	LoadBalancerId *string `mandatory:"true" json:"loadBalancerId"`
 
 	// The name of the backend set on the load balancer.

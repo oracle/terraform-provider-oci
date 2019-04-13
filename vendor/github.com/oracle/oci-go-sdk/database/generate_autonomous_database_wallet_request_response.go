@@ -15,7 +15,7 @@ type GenerateAutonomousDatabaseWalletRequest struct {
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousDatabaseId *string `mandatory:"true" contributesTo:"path" name:"autonomousDatabaseId"`
 
-	// Request to create a new Autonomous Transaction Processing database wallet.
+	// Request to create a new Autonomous Database wallet.
 	GenerateAutonomousDatabaseWalletDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

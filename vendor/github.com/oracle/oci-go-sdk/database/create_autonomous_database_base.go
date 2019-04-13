@@ -32,7 +32,7 @@ type CreateAutonomousDatabaseBase interface {
 	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
 	GetAdminPassword() *string
 
-	// The autonomous database workload type.
+	// The autonomous database workload type. OLTP indicates an Autonomous Transaction Processing database and DW indicates an Autonomous Data Warehouse. The default is OLTP.
 	GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum
 
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.

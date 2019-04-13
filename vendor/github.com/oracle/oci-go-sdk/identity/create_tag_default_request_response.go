@@ -11,7 +11,7 @@ import (
 // CreateTagDefaultRequest wrapper for the CreateTagDefault operation
 type CreateTagDefaultRequest struct {
 
-	// Request object for creating a new Tag Default.
+	// Request object for creating a new tag default.
 	CreateTagDefaultDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
