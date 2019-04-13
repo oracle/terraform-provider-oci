@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// AutonomousDataWarehouseBackup An Autonomous Data Warehouse backup.
+// AutonomousDataWarehouseBackup **Deprecated.** See AutonomousDatabaseBackup for reference information about Autonomous Data Warehouse backups.
 type AutonomousDataWarehouseBackup struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Data Warehouse backup.

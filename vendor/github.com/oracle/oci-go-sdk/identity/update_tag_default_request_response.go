@@ -11,10 +11,10 @@ import (
 // UpdateTagDefaultRequest wrapper for the UpdateTagDefault operation
 type UpdateTagDefaultRequest struct {
 
-	// The OCID of the Tag Default.
+	// The OCID of the tag default.
 	TagDefaultId *string `mandatory:"true" contributesTo:"path" name:"tagDefaultId"`
 
-	// Request object for updating a Tag Default.
+	// Request object for updating a tag default.
 	UpdateTagDefaultDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

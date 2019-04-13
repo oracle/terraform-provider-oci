@@ -11,7 +11,7 @@ import (
 // GetInstanceConsoleConnectionRequest wrapper for the GetInstanceConsoleConnection operation
 type GetInstanceConsoleConnectionRequest struct {
 
-	// The OCID of the intance console connection
+	// The OCID of the instance console connection.
 	InstanceConsoleConnectionId *string `mandatory:"true" contributesTo:"path" name:"instanceConsoleConnectionId"`
 
 	// Unique Oracle-assigned identifier for the request.

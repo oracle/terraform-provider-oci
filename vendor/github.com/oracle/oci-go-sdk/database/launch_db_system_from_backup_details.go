@@ -62,16 +62,16 @@ type LaunchDbSystemFromBackupDetails struct {
 
 	DbHome *CreateDbHomeFromBackupDetails `mandatory:"true" json:"dbHome"`
 
-	// A fault domain is a grouping of hardware and infrastructure within an availability domain.
-	// Fault domains let you distribute your instances so that they are not on the same physical
+	// A Fault Domain is a grouping of hardware and infrastructure within an availability domain.
+	// Fault Domains let you distribute your instances so that they are not on the same physical
 	// hardware within a single availability domain. A hardware failure or maintenance
-	// that affects one fault domain does not affect DB systems in other fault domains.
-	// If you do not specify the fault domain, the system selects one for you. To change the fault
-	// domain for a DB system, terminate it and launch a new DB system in the preferred fault domain.
-	// If the node count is greater than 1, you can specify which fault domains these nodes will be distributed into.
-	// The system assigns your nodes automatically to the fault domains you specify so that
-	// no fault domain contains more than one node.
-	// To get a list of fault domains, use the
+	// that affects one Fault Domain does not affect DB systems in other Fault Domains.
+	// If you do not specify the Fault Domain, the system selects one for you. To change the Fault
+	// Domain for a DB system, terminate it and launch a new DB system in the preferred Fault Domain.
+	// If the node count is greater than 1, you can specify which Fault Domains these nodes will be distributed into.
+	// The system assigns your nodes automatically to the Fault Domains you specify so that
+	// no Fault Domain contains more than one node.
+	// To get a list of Fault Domains, use the
 	// ListFaultDomains operation in the
 	// Identity and Access Management Service API.
 	// Example: `FAULT-DOMAIN-1`

@@ -2666,7 +2666,8 @@ func (client VirtualNetworkClient) getFastConnectProviderService(ctx context.Con
 	return response, err
 }
 
-// GetFastConnectProviderServiceKey Gets the specified provider service key's information.
+// GetFastConnectProviderServiceKey Gets the specified provider service key's information. Use this operation to validate a
+// provider service key. An invalid key returns a 404 error.
 func (client VirtualNetworkClient) GetFastConnectProviderServiceKey(ctx context.Context, request GetFastConnectProviderServiceKeyRequest) (response GetFastConnectProviderServiceKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

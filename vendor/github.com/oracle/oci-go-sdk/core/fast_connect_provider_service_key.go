@@ -16,7 +16,10 @@ import (
 // virtual circuit.
 type FastConnectProviderServiceKey struct {
 
-	// The name of the service key offered by the provider.
+	// The service key that the provider gives you when you set up a virtual circuit connection
+	// from the provider to Oracle Cloud Infrastructure. Use this value as the `providerServiceKeyName`
+	// query parameter for
+	// GetFastConnectProviderServiceKey.
 	Name *string `mandatory:"false" json:"name"`
 
 	// The provisioned data rate of the connection.  To get a list of the
