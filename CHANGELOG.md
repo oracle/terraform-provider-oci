@@ -2,6 +2,7 @@
 
 ### Added
 - Support for setting `compartment_id` argument in `object_storage_namespace` data source
+- Support BGP dynamic routing and allow customer to input PSK for IPSec tunnels
 
 ## 3.25.0 (May 15, 2019)
 

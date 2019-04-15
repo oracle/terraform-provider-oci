@@ -53,6 +53,20 @@ resource "oci_core_ipsec" "test_ip_sec_connection" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.ip_sec_connection_display_name}"
 	freeform_tags = {"Department"= "Finance"}
+	tunnel_configuration {
+
+		#Optional
+		bgp_session_config {
+
+			#Optional
+			customer_bgp_asn = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_customer_bgp_asn}"
+			customer_interface_ip = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_customer_interface_ip}"
+			oracle_interface_ip = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_oracle_interface_ip}"
+		}
+		display_name = "${var.ip_sec_connection_tunnel_configuration_display_name}"
+		routing = "${var.ip_sec_connection_tunnel_configuration_routing}"
+		shared_secret = "${var.ip_sec_connection_tunnel_configuration_shared_secret}"
+	}
 }
 ```
 
@@ -74,11 +88,15 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `drg_id` - (Required) The OCID of the DRG.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `static_routes` - (Required) (Updatable) Static routes to the CPE. A static route's CIDR must not be a multicast address or class E address.
-
-	
-
-	Example: `10.0.1.0/24` 
+* `static_routes` - (Required) (Updatable) Static routes to the CPE. At least one route must be included. A static route's CIDR must not be a multicast address or class E address.  Example: `10.0.1.0/24` 
+* `tunnel_configuration` - (Optional) array of tunnel parameters to create tunnels for IPSecConnection. 
+	* `bgp_session_config` - (Optional) Information needed to establish a BGP Session on an interface. 
+		* `customer_bgp_asn` - (Optional) The value of the remote Bgp ASN in asplain format, as a string. Example: 1587232876 (4 byte ASN) or 12345 (2 byte ASN). 
+		* `customer_interface_ip` - (Optional) The IPv4 Address used in the BGP peering session for the non-Oracle router. Example: 10.0.0.2/31. 
+		* `oracle_interface_ip` - (Optional) The IPv4 Address used in the BGP peering session for the Oracle router. Example: 10.0.0.1/31. 
+	* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `routing` - (Optional) the routing strategy used for this tunnel, either static route or BGP.
+	* `shared_secret` - (Optional) The shared secret of the IPSec tunnel.  Example: `vFG2IF6TWq4UToUiLSRDoJEUs6j1c.p8G.dVQxiMfMO0yXMLi.lZTbYIWhGu4V8o` 
 
 
 ** IMPORTANT **
