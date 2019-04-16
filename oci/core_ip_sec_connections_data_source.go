@@ -131,6 +131,12 @@ func (s *CoreIpSecConnectionsDataSourceCrud) SetData() error {
 			ipSecConnection["cpe_id"] = *r.CpeId
 		}
 
+		if r.CpeLocalIdentifier != nil {
+			ipSecConnection["cpe_local_identifier"] = *r.CpeLocalIdentifier
+		}
+
+		ipSecConnection["cpe_local_identifier_type"] = r.CpeLocalIdentifierType
+
 		if r.DefinedTags != nil {
 			ipSecConnection["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}

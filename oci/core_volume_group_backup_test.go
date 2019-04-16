@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -42,6 +44,9 @@ var (
 )
 
 func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreVolumeGroupBackupResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

@@ -11,7 +11,7 @@ import (
 // DeleteTagDefaultRequest wrapper for the DeleteTagDefault operation
 type DeleteTagDefaultRequest struct {
 
-	// The OCID of the Tag Default.
+	// The OCID of the tag default.
 	TagDefaultId *string `mandatory:"true" contributesTo:"path" name:"tagDefaultId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

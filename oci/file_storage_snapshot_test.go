@@ -11,6 +11,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -45,6 +47,9 @@ var (
 )
 
 func TestFileStorageSnapshotResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestFileStorageSnapshotResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -78,6 +80,13 @@ resource "oci_core_volume" "source_volume_list" {
 )
 
 func TestCoreVolumeGroupResource_basic(t *testing.T) {
+	if httpreplay.ShouldRetryImmediately() {
+		t.Skip("TestCoreVolumeGroupResource_basic is flaky in replay mode, will skip this test for checkin test")
+	}
+
+	httpreplay.SetScenario("TestCoreVolumeGroupResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

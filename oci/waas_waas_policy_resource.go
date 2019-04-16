@@ -1675,7 +1675,7 @@ func (s *WaasWaasPolicyResourceCrud) mapToHeader(fieldKeyFormat string) (oci_waa
 	return result, nil
 }
 
-func HeaderToMap(obj oci_waas.Header) map[string]interface{} {
+func HeaderToMap(obj *oci_waas.Header) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Name != nil {
@@ -1785,7 +1785,7 @@ func HumanInteractionChallengeToMap(obj *oci_waas.HumanInteractionChallenge) map
 	}
 
 	if obj.SetHttpHeader != nil {
-		result["set_http_header"] = []interface{}{HeaderToMap(*obj.SetHttpHeader)}
+		result["set_http_header"] = []interface{}{HeaderToMap(obj.SetHttpHeader)}
 	}
 
 	return result
@@ -1860,7 +1860,7 @@ func JsChallengeToMap(obj *oci_waas.JsChallenge) map[string]interface{} {
 	}
 
 	if obj.SetHttpHeader != nil {
-		result["set_http_header"] = []interface{}{HeaderToMap(*obj.SetHttpHeader)}
+		result["set_http_header"] = []interface{}{HeaderToMap(obj.SetHttpHeader)}
 	}
 
 	return result

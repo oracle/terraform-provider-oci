@@ -9,6 +9,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -28,6 +30,9 @@ resource "oci_core_app_catalog_listing_resource_version_agreement" "test_app_cat
 )
 
 func TestCoreAppCatalogListingResourceVersionAgreementResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreAppCatalogListingResourceVersionAgreementResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 	RCF3339NanoReg := regexp.MustCompile(`^\d{4}-\d{2}-\d{2}(T|t)\d{2}:\d{2}:\d{2}\.(\d{2}|\d{3})Z$`)

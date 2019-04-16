@@ -355,7 +355,7 @@ func (s *CoreSubnetResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.SubnetId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, coreService, subnetService, deleteResource)
 
 	_, err := s.Client.DeleteSubnet(context.Background(), request)
 	return err

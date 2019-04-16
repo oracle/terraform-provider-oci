@@ -11,6 +11,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	oci_autoscaling "github.com/oracle/oci-go-sdk/autoscaling"
 	"github.com/oracle/oci-go-sdk/common"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -98,6 +100,9 @@ var (
 )
 
 func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestAutoscalingAutoScalingConfigurationResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

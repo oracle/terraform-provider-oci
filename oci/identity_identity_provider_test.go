@@ -14,6 +14,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 const (
@@ -57,6 +59,9 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	if metadataFile == "" {
 		t.Skip("Skipping generated test for now as it has a dependency on federation metadata file")
 	}
+
+	httpreplay.SetScenario("TestIdentityIdentityProviderResource_basic")
+	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
 	config := testProviderConfig()

@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateAutonomousDataWarehouseBackupDetails Details to create an Oracle Autonomous Data Warehouse backup.
+// CreateAutonomousDataWarehouseBackupDetails **Deprecated.** See CreateAutonomousDatabaseBackupDetails for reference information about creating Autonomous Data Warehouse backups.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateAutonomousDataWarehouseBackupDetails struct {
 

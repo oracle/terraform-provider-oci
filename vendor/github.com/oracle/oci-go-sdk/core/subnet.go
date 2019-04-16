@@ -51,7 +51,8 @@ type Subnet struct {
 	// Example: `00:00:17:B6:4D:DD`
 	VirtualRouterMac *string `mandatory:"true" json:"virtualRouterMac"`
 
-	// The subnet's availability domain.
+	// The subnet's availability domain. This attribute will be null if this is a regional subnet
+	// instead of an AD-specific subnet. Oracle recommends creating regional subnets.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 

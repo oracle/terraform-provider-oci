@@ -713,6 +713,16 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyHealthRuleCase(fieldK
 	return result, nil
 }
 
+func SteeringPolicyHealthRuleCaseToMap(obj oci_dns.SteeringPolicyHealthRuleCase) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CaseCondition != nil {
+		result["case_condition"] = string(*obj.CaseCondition)
+	}
+
+	return result
+}
+
 func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyLimitRuleCase(fieldKeyFormat string) (oci_dns.SteeringPolicyLimitRuleCase, error) {
 	result := oci_dns.SteeringPolicyLimitRuleCase{}
 
@@ -739,6 +749,7 @@ func SteeringPolicyLimitRuleCaseToMap(obj oci_dns.SteeringPolicyLimitRuleCase) m
 	if obj.Count != nil {
 		result["count"] = int(*obj.Count)
 	}
+
 	return result
 }
 
@@ -1008,6 +1019,10 @@ func SteeringPolicyRuleToMap(obj oci_dns.SteeringPolicyRule) map[string]interfac
 			defaultAnswerData = append(defaultAnswerData, SteeringPolicyFilterAnswerDataToMap(item))
 		}
 		result["default_answer_data"] = defaultAnswerData
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
 	case oci_dns.SteeringPolicyHealthRule:
 		result["rule_type"] = "HEALTH"
 
@@ -1016,6 +1031,10 @@ func SteeringPolicyRuleToMap(obj oci_dns.SteeringPolicyRule) map[string]interfac
 			cases = append(cases, SteeringPolicyHealthRuleCaseToMap(item))
 		}
 		result["cases"] = cases
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
 	case oci_dns.SteeringPolicyLimitRule:
 		result["rule_type"] = "LIMIT"
 
@@ -1027,6 +1046,10 @@ func SteeringPolicyRuleToMap(obj oci_dns.SteeringPolicyRule) map[string]interfac
 
 		if v.DefaultCount != nil {
 			result["default_count"] = int(*v.DefaultCount)
+		}
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
 		}
 	case oci_dns.SteeringPolicyPriorityRule:
 		result["rule_type"] = "PRIORITY"
@@ -1042,6 +1065,10 @@ func SteeringPolicyRuleToMap(obj oci_dns.SteeringPolicyRule) map[string]interfac
 			defaultAnswerData = append(defaultAnswerData, SteeringPolicyPriorityAnswerDataToMap(item))
 		}
 		result["default_answer_data"] = defaultAnswerData
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
 	case oci_dns.SteeringPolicyWeightedRule:
 		result["rule_type"] = "WEIGHTED"
 
@@ -1056,15 +1083,14 @@ func SteeringPolicyRuleToMap(obj oci_dns.SteeringPolicyRule) map[string]interfac
 			defaultAnswerData = append(defaultAnswerData, SteeringPolicyWeightedAnswerDataToMap(item))
 		}
 		result["default_answer_data"] = defaultAnswerData
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
 	default:
 		log.Printf("[WARN] Received 'rule_type' of unknown type %v", obj)
 		return nil
 	}
-
-	if obj.GetDescription() != nil {
-		result["description"] = *obj.GetDescription()
-	}
-
 	return result
 }
 
@@ -1098,22 +1124,6 @@ func SteeringPolicyWeightedAnswerDataToMap(obj oci_dns.SteeringPolicyWeightedAns
 	return result
 }
 
-func SteeringPolicyWeightedRuleCaseToMap(obj oci_dns.SteeringPolicyWeightedRuleCase) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	answerData := []interface{}{}
-	for _, item := range obj.AnswerData {
-		answerData = append(answerData, SteeringPolicyWeightedAnswerDataToMap(item))
-	}
-	result["answer_data"] = answerData
-
-	if obj.CaseCondition != nil {
-		result["case_condition"] = string(*obj.CaseCondition)
-	}
-
-	return result
-}
-
 func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyWeightedRuleCase(fieldKeyFormat string) (oci_dns.SteeringPolicyWeightedRuleCase, error) {
 	result := oci_dns.SteeringPolicyWeightedRuleCase{}
 
@@ -1141,8 +1151,14 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyWeightedRuleCase(fiel
 	return result, nil
 }
 
-func SteeringPolicyHealthRuleCaseToMap(obj oci_dns.SteeringPolicyHealthRuleCase) map[string]interface{} {
+func SteeringPolicyWeightedRuleCaseToMap(obj oci_dns.SteeringPolicyWeightedRuleCase) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	answerData := []interface{}{}
+	for _, item := range obj.AnswerData {
+		answerData = append(answerData, SteeringPolicyWeightedAnswerDataToMap(item))
+	}
+	result["answer_data"] = answerData
 
 	if obj.CaseCondition != nil {
 		result["case_condition"] = string(*obj.CaseCondition)

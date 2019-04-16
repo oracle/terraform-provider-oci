@@ -90,9 +90,15 @@ func (s *IdentityDynamicGroupsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			dynamicGroup["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.Description != nil {
 			dynamicGroup["description"] = *r.Description
 		}
+
+		dynamicGroup["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			dynamicGroup["id"] = *r.Id

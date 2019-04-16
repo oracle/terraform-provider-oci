@@ -7,6 +7,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -16,6 +18,9 @@ var (
 )
 
 func TestObjectStorageNamespaceResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestObjectStorageNamespaceResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

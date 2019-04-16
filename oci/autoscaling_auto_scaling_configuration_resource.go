@@ -623,10 +623,6 @@ func AutoScalingPolicyToMap(obj oci_autoscaling.AutoScalingPolicy, datasource bo
 	case oci_autoscaling.ThresholdPolicy:
 		result["policy_type"] = "threshold"
 
-		if v.Capacity != nil {
-			result["capacity"] = []interface{}{CapacityToMap(v.Capacity)}
-		}
-
 		if v.Rules != nil {
 			rules := []interface{}{}
 			for _, item := range v.Rules {
@@ -637,6 +633,10 @@ func AutoScalingPolicyToMap(obj oci_autoscaling.AutoScalingPolicy, datasource bo
 			} else {
 				result["rules"] = schema.NewSet(autoScalingConfigurationPolicyRulesHashCodeForSets, rules)
 			}
+		}
+
+		if v.Capacity != nil {
+			result["capacity"] = []interface{}{CapacityToMap(v.Capacity)}
 		}
 
 		if v.DisplayName != nil {

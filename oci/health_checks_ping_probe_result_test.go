@@ -10,6 +10,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -25,6 +27,9 @@ var (
 )
 
 func TestHealthChecksPingProbeResultResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestHealthChecksPingProbeResultResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -44,7 +49,11 @@ func TestHealthChecksPingProbeResultResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + PingProbeResultResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					func(s *terraform.State) (err error) {
-						time.Sleep(2 * time.Minute)
+						if httpreplay.ShouldRetryImmediately() {
+							time.Sleep(10 * time.Millisecond)
+						} else {
+							time.Sleep(2 * time.Minute)
+						}
 						return nil
 					},
 				),

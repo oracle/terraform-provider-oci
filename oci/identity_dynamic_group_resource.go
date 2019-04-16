@@ -43,6 +43,19 @@ func IdentityDynamicGroupResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"inactive_state": {
@@ -137,9 +150,21 @@ func (s *IdentityDynamicGroupResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if matchingRule, ok := s.D.GetOkExists("matching_rule"); ok {
@@ -183,6 +208,14 @@ func (s *IdentityDynamicGroupResourceCrud) Get() error {
 func (s *IdentityDynamicGroupResourceCrud) Update() error {
 	request := oci_identity.UpdateDynamicGroupRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
@@ -190,6 +223,10 @@ func (s *IdentityDynamicGroupResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.DynamicGroupId = &tmp
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
 
 	if matchingRule, ok := s.D.GetOkExists("matching_rule"); ok {
 		tmp := matchingRule.(string)
@@ -224,9 +261,15 @@ func (s *IdentityDynamicGroupResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InactiveStatus != nil {
 		s.D.Set("inactive_state", strconv.FormatInt(*s.Res.InactiveStatus, 10))

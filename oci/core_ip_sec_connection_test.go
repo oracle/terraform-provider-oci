@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -30,19 +32,24 @@ var (
 	}
 
 	ipSecConnectionRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"cpe_id":         Representation{repType: Required, create: `${oci_core_cpe.test_cpe.id}`},
-		"drg_id":         Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
-		"static_routes":  Representation{repType: Required, create: []string{`10.0.0.0/16`}},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `MyIPSecConnection`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":            Representation{repType: Required, create: `${var.compartment_id}`},
+		"cpe_id":                    Representation{repType: Required, create: `${oci_core_cpe.test_cpe.id}`},
+		"drg_id":                    Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+		"static_routes":             Representation{repType: Required, create: []string{`10.0.0.0/16`}, update: []string{`10.1.0.0/16`}},
+		"cpe_local_identifier":      Representation{repType: Optional, create: `189.44.2.135`, update: `fakehostname`},
+		"cpe_local_identifier_type": Representation{repType: Optional, create: `IP_ADDRESS`, update: `HOSTNAME`},
+		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":              Representation{repType: Optional, create: `MyIPSecConnection`, update: `displayName2`},
+		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
 	IpSecConnectionResourceDependencies = CpeRequiredOnlyResource + DrgRequiredOnlyResource
 )
 
 func TestCoreIpSecConnectionResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreIpSecConnectionResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -89,6 +96,8 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
+					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier", "189.44.2.135"),
+					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier_type", "IP_ADDRESS"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyIPSecConnection"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
@@ -111,6 +120,8 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
+					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier", "fakehostname"),
+					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier_type", "HOSTNAME"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
@@ -142,6 +153,8 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "connections.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "connections.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.cpe_id"),
+					resource.TestCheckResourceAttr(datasourceName, "connections.0.cpe_local_identifier", "fakehostname"),
+					resource.TestCheckResourceAttr(datasourceName, "connections.0.cpe_local_identifier_type", "HOSTNAME"),
 					resource.TestCheckResourceAttr(datasourceName, "connections.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "connections.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.drg_id"),

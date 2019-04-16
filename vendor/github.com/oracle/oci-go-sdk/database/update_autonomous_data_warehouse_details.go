@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateAutonomousDataWarehouseDetails Details to update an Oracle Autonomous Data Warehouse.
+// UpdateAutonomousDataWarehouseDetails **Deprecated.** See UpdateAutonomousDatabaseDetails for reference information about updating an Autonomous Data Warehouse.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type UpdateAutonomousDataWarehouseDetails struct {
 

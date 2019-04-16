@@ -18,6 +18,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -60,6 +62,9 @@ var (
 )
 
 func TestObjectStorageObjectResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestObjectStorageObjectResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

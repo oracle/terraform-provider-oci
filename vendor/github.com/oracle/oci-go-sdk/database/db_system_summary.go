@@ -70,7 +70,7 @@ type DbSystemSummary struct {
 	// The current state of the DB system.
 	LifecycleState DbSystemSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// List of the fault domains in which this DB system is provisioned.
+	// List of the Fault Domains in which this DB system is provisioned.
 	FaultDomains []string `mandatory:"false" json:"faultDomains"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup network subnet the DB system is associated with. Applicable only to Exadata DB systems.

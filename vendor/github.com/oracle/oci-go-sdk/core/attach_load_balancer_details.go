@@ -15,7 +15,7 @@ import (
 // AttachLoadBalancerDetails Represents a load balancer that is to be attached to an instance pool.
 type AttachLoadBalancerDetails struct {
 
-	// The OCID of the load balancer to attach to the pool.
+	// The OCID of the load balancer to attach to the instance pool.
 	LoadBalancerId *string `mandatory:"true" json:"loadBalancerId"`
 
 	// The name of the backend set on the load balancer to add instances to.
@@ -24,7 +24,7 @@ type AttachLoadBalancerDetails struct {
 	// The port value to use when creating the backend set.
 	Port *int `mandatory:"true" json:"port"`
 
-	// Indicates which vnic on each instance in the pool should be used to associate with the load balancer. possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated to the instance pool.
+	// Indicates which VNIC on each instance in the pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool.
 	VnicSelection *string `mandatory:"true" json:"vnicSelection"`
 }
 

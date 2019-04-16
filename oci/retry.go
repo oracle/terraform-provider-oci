@@ -8,6 +8,8 @@ import (
 	"time"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 const (
@@ -15,10 +17,25 @@ const (
 	minRetryBackoff      = 1 * time.Second // Must wait for at least 1 second before retrying
 	databaseService      = "database"
 	identityService      = "identity"
+	coreService          = "core"
+	waasService          = "waas"
 	objectstorageService = "object_storage"
+	deleteResource       = "delete"
+	updateResource       = "update"
+	createResource       = "create"
+	getResource          = "get"
 )
 
-type expectedRetryDurationFn func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string) time.Duration
+type expectedRetryDurationFn func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...string) time.Duration
+type serviceExpectedRetryDurationFunc func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration
+
+var serviceExpectedRetryDurationMap = map[string]serviceExpectedRetryDurationFunc{
+	coreService:          getCoreExpectedRetryDuration,
+	databaseService:      getDatabaseExpectedRetryDuration,
+	identityService:      getIdentityExpectedRetryDuration,
+	objectstorageService: getObjectstorageServiceExpectedRetryDuration,
+	waasService:          getWaasExpectedRetryDuration,
+}
 
 var shortRetryTime = 2 * time.Minute
 var longRetryTime = 10 * time.Minute
@@ -28,11 +45,15 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
-func getRetryBackoffDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time) time.Duration {
-	return getRetryBackoffDurationWithExpectedRetryDurationFn(response, disableNotFoundRetries, service, startTime, getExpectedRetryDuration)
+func getRetryBackoffDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, optionals ...string) time.Duration {
+	return getRetryBackoffDurationWithExpectedRetryDurationFn(response, disableNotFoundRetries, service, startTime, getExpectedRetryDuration, optionals...)
 }
 
-func getRetryBackoffDurationWithExpectedRetryDurationFn(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, expectedRetryDurationFn expectedRetryDurationFn) time.Duration {
+func getRetryBackoffDurationWithExpectedRetryDurationFn(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, expectedRetryDurationFn expectedRetryDurationFn, optionals ...string) time.Duration {
+	if httpreplay.ShouldRetryImmediately() {
+		return 0
+	}
+
 	// Avoid having a very large retry backoff
 	attempt := response.AttemptNumber
 	if attempt > quadraticBackoffCap {
@@ -45,7 +66,7 @@ func getRetryBackoffDurationWithExpectedRetryDurationFn(response oci_common.OCIO
 
 	// If we are about to exceed the retry duration; then reduce the backoff so that next attempt happens roughly when
 	// the entire retry duration is supposed to expire. Jitter is necessary again to avoid clustering.
-	expectedRetryDuration := expectedRetryDurationFn(response, disableNotFoundRetries, service)
+	expectedRetryDuration := expectedRetryDurationFn(response, disableNotFoundRetries, service, optionals...)
 	timeWaited := getElapsedRetryDuration(startTime)
 	if timeWaited < expectedRetryDuration && timeWaited+backoffDuration > expectedRetryDuration {
 		extraJitterRange := int64(float64(expectedRetryDuration) * 0.05)
@@ -61,7 +82,17 @@ func getElapsedRetryDuration(firstAttemptTime time.Time) time.Duration {
 	return time.Now().Sub(firstAttemptTime)
 }
 
-func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string) time.Duration {
+func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...string) time.Duration {
+
+	if retryDurationFn, ok := serviceExpectedRetryDurationMap[service]; ok {
+		return retryDurationFn(response, disableNotFoundRetries, optionals...)
+	}
+
+	return getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+}
+
+func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool) time.Duration {
+	defaultRetryTime := shortRetryTime
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return 0
 	}
@@ -80,26 +111,9 @@ func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableN
 		if disableNotFoundRetries {
 			return 0
 		}
-		if service == identityService || service == objectstorageService {
-			return longRetryTime
-		}
 	case 409:
 		if e != nil && strings.Contains(e.Error(), "InvalidatedRetryToken") {
 			return 0
-		}
-		if service == identityService && e != nil &&
-			(strings.Contains(e.Error(), "CompartmentAlreadyExists") ||
-				strings.Contains(e.Error(), "TagDefinitionAlreadyExists") ||
-				strings.Contains(e.Error(), "TenantCapacityExceeded") ||
-				strings.Contains(e.Error(),
-					"TagNamespaceAlreadyExists")) {
-			return 0
-		}
-		if e != nil && strings.Contains(e.Error(), "NotAuthorizedOrResourceAlreadyExists") && (service == identityService || service == objectstorageService) {
-			return longRetryTime
-		}
-		if e != nil && service == databaseService {
-			return longRetryTime
 		}
 	case 412:
 		return 0
@@ -107,33 +121,104 @@ func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableN
 		if configuredRetryDuration != nil {
 			return *configuredRetryDuration
 		}
-		return longRetryTime
+		defaultRetryTime = longRetryTime
 	case 500:
 		if configuredRetryDuration != nil {
 			return *configuredRetryDuration
 		}
-		if service == objectstorageService {
-			return longRetryTime
-		}
 	}
-	return shortRetryTime
+
+	return defaultRetryTime
 }
 
-func shouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time) bool {
-	return getElapsedRetryDuration(startTime) < getExpectedRetryDuration(response, disableNotFoundRetries, service)
+func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+	if response.Response == nil || response.Response.HTTPResponse() == nil {
+		return defaultRetryTime
+	}
+	switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
+	case 404:
+		if disableNotFoundRetries {
+			defaultRetryTime = 0
+		} else {
+			defaultRetryTime = longRetryTime
+		}
+	case 409:
+		if e := response.Error; e != nil {
+			if strings.Contains(e.Error(), "CompartmentAlreadyExists") || strings.Contains(e.Error(), "TagDefinitionAlreadyExists") ||
+				strings.Contains(e.Error(), "TenantCapacityExceeded") || strings.Contains(e.Error(), "TagNamespaceAlreadyExists") ||
+				strings.Contains(e.Error(), "InvalidatedRetryToken") {
+				defaultRetryTime = 0
+			} else if strings.Contains(e.Error(), "NotAuthorizedOrResourceAlreadyExists") {
+				defaultRetryTime = longRetryTime
+			}
+		}
+	}
+	return defaultRetryTime
+}
+
+func getDatabaseExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+	if response.Response == nil || response.Response.HTTPResponse() == nil {
+		return defaultRetryTime
+	}
+	switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
+	case 409:
+		if e := response.Error; e != nil {
+			if strings.Contains(e.Error(), "InvalidatedRetryToken") {
+				defaultRetryTime = 0
+			} else {
+				defaultRetryTime = longRetryTime
+			}
+		}
+	}
+	return defaultRetryTime
+}
+
+func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
+	if response.Response == nil || response.Response.HTTPResponse() == nil {
+		return defaultRetryTime
+	}
+	switch statusCode := response.Response.HTTPResponse().StatusCode; statusCode {
+	case 404:
+		if disableNotFoundRetries {
+			defaultRetryTime = 0
+		} else {
+			defaultRetryTime = longRetryTime
+		}
+	case 409:
+		if e := response.Error; e != nil {
+			if strings.Contains(e.Error(), "NotAuthorizedOrResourceAlreadyExists") {
+				defaultRetryTime = longRetryTime
+			}
+		}
+	case 500:
+		if configuredRetryDuration != nil {
+			defaultRetryTime = *configuredRetryDuration
+		} else {
+			defaultRetryTime = longRetryTime
+		}
+	}
+
+	return defaultRetryTime
+}
+
+func shouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, optionals ...string) bool {
+	return getElapsedRetryDuration(startTime) < getExpectedRetryDuration(response, disableNotFoundRetries, service, optionals...)
 }
 
 // Because this function notes the start time for making should retry decisions, it's advised
 // for this function call to be made immediately before the client API call.
-func getRetryPolicy(disableNotFoundRetries bool, service string) *oci_common.RetryPolicy {
+func getRetryPolicy(disableNotFoundRetries bool, service string, optionals ...string) *oci_common.RetryPolicy {
 	startTime := time.Now()
 	retryPolicy := &oci_common.RetryPolicy{
 		MaximumNumberAttempts: 0,
 		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
-			return shouldRetry(response, disableNotFoundRetries, service, startTime)
+			return shouldRetry(response, disableNotFoundRetries, service, startTime, optionals...)
 		},
 		NextDuration: func(response oci_common.OCIOperationResponse) time.Duration {
-			return getRetryBackoffDuration(response, disableNotFoundRetries, service, startTime)
+			return getRetryBackoffDuration(response, disableNotFoundRetries, service, startTime, optionals...)
 		},
 	}
 

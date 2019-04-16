@@ -29,7 +29,7 @@ type UpdateInstancePoolDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID of the instance configuration associated to the intance pool.
+	// The OCID of the instance configuration associated with the instance pool.
 	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
 
 	// The placement configurations for the instance pool.

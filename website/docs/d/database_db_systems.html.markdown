@@ -63,7 +63,7 @@ The following attributes are exported:
 * `disk_redundancy` - The type of redundancy configured for the DB system. NORMAL is 2-way redundancy. HIGH is 3-way redundancy. 
 * `display_name` - The user-friendly name for the DB system. The name does not have to be unique.
 * `domain` - The domain name for the DB system.
-* `fault_domains` - List of the fault domains in which this DB system is provisioned.
+* `fault_domains` - List of the Fault Domains in which this DB system is provisioned.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname` - The hostname for the DB system.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.

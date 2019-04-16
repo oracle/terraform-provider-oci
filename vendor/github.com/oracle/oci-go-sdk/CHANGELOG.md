@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 5.4.0 - 2019-04-16
+### Added
+- Support for tagging dynamic groups in the Identity service
+- Support for updating network ACLs and license types for autonomous databases and autonomous data warehouses in the Database service
+- Support for editing static routes and IPSec remote IDs in the Virtual Networking service
+
 ## 5.3.0 - 2019-04-09
 ### Added
 - Support for etag and if-match headers (for optimistic concurrency control) in the Email service

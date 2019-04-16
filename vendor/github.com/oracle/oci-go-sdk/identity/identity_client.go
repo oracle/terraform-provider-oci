@@ -380,7 +380,7 @@ func (client IdentityClient) createCustomerSecretKey(ctx context.Context, reques
 // reside within compartments inside the tenancy. For information about OCIDs, see
 // Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // You must also specify a *name* for the dynamic group, which must be unique across all dynamic groups in your
-// tenancy, and cannot be changed. Note that this name has to be also unique accross all groups in your tenancy.
+// tenancy, and cannot be changed. Note that this name has to be also unique across all groups in your tenancy.
 // You can use this name or the OCID when writing policies that apply to the dynamic group. For more information
 // about policies, see How Policies Work (https://docs.cloud.oracle.com/Content/Identity/Concepts/policies.htm).
 // You must also specify a *description* for the dynamic group (although it can be an empty string). It does not
@@ -970,7 +970,7 @@ func (client IdentityClient) createTag(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
-// CreateTagDefault Creates a new Tag Default in the specified Compartment for the specified Tag Definition.
+// CreateTagDefault Creates a new tag default in the specified compartment for the specified tag definition.
 func (client IdentityClient) CreateTagDefault(ctx context.Context, request CreateTagDefaultRequest) (response CreateTagDefaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1661,7 +1661,7 @@ func (client IdentityClient) deleteSwiftPassword(ctx context.Context, request co
 	return response, err
 }
 
-// DeleteTagDefault Deletes the the specified Tag Default.
+// DeleteTagDefault Deletes the the specified tag default.
 func (client IdentityClient) DeleteTagDefault(ctx context.Context, request DeleteTagDefaultRequest) (response DeleteTagDefaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2175,7 +2175,7 @@ func (client IdentityClient) getTag(ctx context.Context, request common.OCIReque
 	return response, err
 }
 
-// GetTagDefault Retrieves the specified Tag Default.
+// GetTagDefault Retrieves the specified tag default.
 func (client IdentityClient) GetTagDefault(ctx context.Context, request GetTagDefaultRequest) (response GetTagDefaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3232,7 +3232,7 @@ func (client IdentityClient) listSwiftPasswords(ctx context.Context, request com
 	return response, err
 }
 
-// ListTagDefaults Lists the Tag Defaults for Tag Definitions in the specified Compartment.
+// ListTagDefaults Lists the tag defaults for tag definitions in the specified compartment.
 func (client IdentityClient) ListTagDefaults(ctx context.Context, request ListTagDefaultsRequest) (response ListTagDefaultsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4084,7 +4084,7 @@ func (client IdentityClient) updateTag(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
-// UpdateTagDefault Updates the the specified Tag Default. You can presently update the following fields: `value`.
+// UpdateTagDefault Updates the the specified tag default. You can update the following field: `value`.
 func (client IdentityClient) UpdateTagDefault(ctx context.Context, request UpdateTagDefaultRequest) (response UpdateTagDefaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
