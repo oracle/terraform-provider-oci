@@ -4,7 +4,6 @@ package provider
 
 import (
 	"fmt"
-	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -45,8 +44,9 @@ func TestWaasEdgeSubnetResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.#"),
-					resource.TestMatchResourceAttr(datasourceName, "edge_subnets.#", regexp.MustCompile("[1-9][0-9]*")), // At least one item returned.
 					resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.0.cidr"),
+					resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.0.region"),
+					resource.TestCheckResourceAttrSet(datasourceName, "edge_subnets.0.time_modified"),
 				),
 			},
 		},

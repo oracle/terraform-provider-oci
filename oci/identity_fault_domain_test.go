@@ -48,7 +48,12 @@ func TestIdentityFaultDomainResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestMatchResourceAttr(datasourceName, "availability_domain", regexp.MustCompile(`\w+-AD-\d+`)),
 					resource.TestMatchResourceAttr(datasourceName, "compartment_id", regexp.MustCompile(`.*?(tenancy|compartment).*?`)),
+
 					resource.TestCheckResourceAttr(datasourceName, "fault_domains.#", "3"),
+					resource.TestCheckResourceAttrSet(datasourceName, "fault_domains.0.availability_domain"),
+					resource.TestCheckResourceAttrSet(datasourceName, "fault_domains.0.compartment_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "fault_domains.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "fault_domains.0.name"),
 					resource.TestMatchResourceAttr(datasourceName, "fault_domains.0.availability_domain", regexp.MustCompile(`\w+-AD-\d+`)),
 					resource.TestMatchResourceAttr(datasourceName, "fault_domains.0.compartment_id", regexp.MustCompile(`.*?(tenancy|compartment).*?`)),
 					resource.TestMatchResourceAttr(datasourceName, "fault_domains.0.id", regexp.MustCompile(`.*?faultdomain.*?`)),

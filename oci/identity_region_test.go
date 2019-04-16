@@ -50,6 +50,8 @@ func TestIdentityRegionResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "regions.#"),
+					resource.TestCheckResourceAttrSet(datasourceName, "regions.0.key"),
+					resource.TestCheckResourceAttrSet(datasourceName, "regions.0.name"),
 				),
 			},
 		},

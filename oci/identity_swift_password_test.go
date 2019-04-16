@@ -97,6 +97,9 @@ func TestIdentitySwiftPasswordResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "passwords.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "passwords.0.description", "description2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "passwords.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "passwords.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "passwords.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "passwords.0.user_id"),
 				),
 			},

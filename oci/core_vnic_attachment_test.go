@@ -79,7 +79,6 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 				),
 			},
 
@@ -110,7 +109,6 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 				),
 			},
 
@@ -134,6 +132,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.vlan_tag"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.vnic_id"),
 				),
 			},

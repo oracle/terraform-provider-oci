@@ -61,10 +61,6 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "password"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -101,8 +97,11 @@ func TestIdentitySmtpCredentialResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "smtp_credentials.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "smtp_credentials.0.description", "description2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "smtp_credentials.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "smtp_credentials.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "smtp_credentials.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "smtp_credentials.0.user_id"),
-					TestCheckResourceAttributesEqual(datasourceName, "smtp_credentials.0.user_id", "oci_identity_smtp_credential.test_smtp_credential", "user_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "smtp_credentials.0.username"),
 				),
 			},
 		},

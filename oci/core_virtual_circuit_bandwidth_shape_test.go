@@ -46,6 +46,7 @@ func TestCoreVirtualCircuitBandwidthShapeResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_bandwidth_shapes.#"),
+					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_bandwidth_shapes.0.bandwidth_in_mbps"),
 					resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuit_bandwidth_shapes.0.name"),
 				),
 			},

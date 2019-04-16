@@ -230,6 +230,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "db_homes.0.display_name", "createdDbHome"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.time_created"),
 				),
 			},
 			// verify singular datasource
@@ -248,6 +249,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "createdDbHome"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

@@ -78,8 +78,17 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "backups.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.availability_domain"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.compartment_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_edition"),
 					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_size_in_gbs"),
 					resource.TestCheckResourceAttr(datasourceName, "backups.0.display_name", "Monthly Backup"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_ended"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_started"),
+					resource.TestCheckResourceAttrSet(datasourceName, "backups.0.type"),
 				),
 			},
 			// verify resource import

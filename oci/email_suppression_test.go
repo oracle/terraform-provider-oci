@@ -84,15 +84,16 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "email_address", "JohnSmith@example.com"),
-					resource.TestCheckResourceAttr(datasourceName, "time_created_greater_than_or_equal_to", "2018-01-01T00:00:00.000Z"),
-					resource.TestCheckResourceAttr(datasourceName, "time_created_less_than", "2038-01-01T00:00:00.000Z"),
+					resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
+					resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
 
 					resource.TestCheckResourceAttr(datasourceName, "suppressions.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "suppressions.0.compartment_id", tenancyId),
 					// email address is converted to lower case by the service
 					resource.TestCheckResourceAttr(datasourceName, "suppressions.0.email_address", "johnsmith@example.com"),
+					resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.reason"),
 					resource.TestCheckResourceAttrSet(datasourceName, "suppressions.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "suppressions.0.reason", "MANUAL"),
 				),
 			},
 			// verify singular datasource
@@ -107,7 +108,7 @@ func TestEmailSuppressionResource_basic(t *testing.T) {
 					// email address is converted to lower case by the service
 					resource.TestCheckResourceAttr(singularDatasourceName, "email_address", "johnsmith@example.com"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "reason", "MANUAL"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "reason"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},

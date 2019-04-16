@@ -53,6 +53,12 @@ func TestContainerengineWorkRequestResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(datasourceName, "work_requests.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "work_requests.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "work_requests.0.operation_type"),
+					resource.TestCheckResourceAttr(datasourceName, "work_requests.0.resources.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "work_requests.0.status"),
+					resource.TestCheckResourceAttrSet(datasourceName, "work_requests.0.time_accepted"),
+					resource.TestCheckResourceAttrSet(datasourceName, "work_requests.0.time_finished"),
+					resource.TestCheckResourceAttrSet(datasourceName, "work_requests.0.time_started"),
 				),
 			},
 		},

@@ -35,6 +35,8 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
+	tenancyId := getEnvSettingWithBlankDefault("tenancy_ocid")
+
 	resourceName := "oci_audit_configuration.test_configuration"
 
 	singularDatasourceName := "data.oci_audit_configuration.test_configuration"
@@ -81,9 +83,9 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationSingularDataSourceRepresentation) +
 					ConfigurationResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "retention_period_days", "91"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "retention_period_days"),
 				),
 			},
 		},
