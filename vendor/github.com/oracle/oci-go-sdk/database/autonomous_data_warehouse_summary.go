@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// AutonomousDataWarehouseSummary An Oracle Autonomous Data Warehouse.
+// AutonomousDataWarehouseSummary **Deprecated.** See AutonomousDatabase for reference information about Autonomous Databases with the warehouse workload type.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type AutonomousDataWarehouseSummary struct {
 

@@ -48,6 +48,8 @@ resource "oci_core_ipsec" "test_ip_sec_connection" {
 	static_routes = "${var.ip_sec_connection_static_routes}"
 
 	#Optional
+	cpe_local_identifier = "${var.ip_sec_connection_cpe_local_identifier}"
+	cpe_local_identifier_type = "${var.ip_sec_connection_cpe_local_identifier_type}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.ip_sec_connection_display_name}"
 	freeform_tags = {"Department"= "Finance"}
@@ -59,12 +61,20 @@ resource "oci_core_ipsec" "test_ip_sec_connection" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment to contain the IPSec connection.
-* `cpe_id` - (Required) The OCID of the CPE.
+* `cpe_id` - (Required) The OCID of the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/) object.
+* `cpe_local_identifier` - (Optional) (Updatable) Your identifier for your CPE device. Can be either an IP address or a hostname (specifically, the fully qualified domain name (FQDN)). The type of identifier you provide here must correspond to the value for `cpeLocalIdentifierType`.
+
+	If you don't provide a value, the `ipAddress` attribute for the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/) object specified by `cpeId` is used as the `cpeLocalIdentifier`.
+
+	Example IP address: `10.0.3.3`
+
+	Example hostname: `cpe.example.com` 
+* `cpe_local_identifier_type` - (Optional) (Updatable) The type of identifier for your CPE device. The value you provide here must correspond to the value for `cpeLocalIdentifier`. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `drg_id` - (Required) The OCID of the DRG.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `static_routes` - (Required) Static routes to the CPE. At least one route must be included. The CIDR must not be a multicast address or class E address.  Example: `10.0.1.0/24` 
+* `static_routes` - (Required) (Updatable) Static routes to the CPE. At least one route must be included. A static route's CIDR must not be a multicast address or class E address.  Example: `10.0.1.0/24` 
 
 
 ** IMPORTANT **
@@ -75,7 +85,15 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the IPSec connection.
-* `cpe_id` - The OCID of the CPE.
+* `cpe_id` - The OCID of the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/) object.
+* `cpe_local_identifier` - Your identifier for your CPE device. Can be either an IP address or a hostname (specifically, the fully qualified domain name (FQDN)). The type of identifier here must correspond to the value for `cpeLocalIdentifierType`.
+
+	If you don't provide a value when creating the IPSec connection, the `ipAddress` attribute for the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/) object specified by `cpeId` is used as the `cpeLocalIdentifier`.
+
+	Example IP address: `10.0.3.3`
+
+	Example hostname: `cpe.example.com` 
+* `cpe_local_identifier_type` - The type of identifier for your CPE device. The value here must correspond to the value for `cpeLocalIdentifier`. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `drg_id` - The OCID of the DRG.

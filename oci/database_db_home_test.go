@@ -11,6 +11,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -80,6 +82,13 @@ var (
 )
 
 func TestDatabaseDbHomeResource_basic(t *testing.T) {
+	if httpreplay.ShouldRetryImmediately() {
+		t.Skip("TestDatabaseDbHomeResource_basic test is flaky, tracked in TER-1274, skip this test in checkin test.")
+	}
+
+	httpreplay.SetScenario("TestDatabaseDbHomeResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

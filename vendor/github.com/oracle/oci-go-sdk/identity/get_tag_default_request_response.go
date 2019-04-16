@@ -11,7 +11,7 @@ import (
 // GetTagDefaultRequest wrapper for the GetTagDefault operation
 type GetTagDefaultRequest struct {
 
-	// The OCID of the Tag Default.
+	// The OCID of the tag default.
 	TagDefaultId *string `mandatory:"true" contributesTo:"path" name:"tagDefaultId"`
 
 	// Unique Oracle-assigned identifier for the request.

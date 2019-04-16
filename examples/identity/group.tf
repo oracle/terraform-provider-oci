@@ -32,11 +32,26 @@ output "groups" {
 /*
  * Some more directives to show dynamic groups and policy for it
  */
+
+variable "dynamic_group_defined_tags_value" {
+  default = "value"
+}
+
+variable "dynamic_group_freeform_tags" {
+  default = {
+    "Department" = "Finance"
+  }
+}
+
 resource "oci_identity_dynamic_group" "dynamic-group-1" {
   compartment_id = "${var.tenancy_ocid}"
   name           = "tf-example-dynamic-group"
   description    = "dynamic group created by terraform"
   matching_rule  = "instance.compartment.id = ${data.oci_identity_compartments.compartments1.compartments.0.id}"
+
+  #Optional
+  defined_tags  = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.dynamic_group_defined_tags_value}")}"
+  freeform_tags = "${var.dynamic_group_freeform_tags}"
 }
 
 data "oci_identity_dynamic_groups" "dynamic-groups-1" {

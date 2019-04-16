@@ -8,6 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -23,6 +25,9 @@ var (
 )
 
 func TestCoreFastConnectProviderServiceResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreFastConnectProviderServiceResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

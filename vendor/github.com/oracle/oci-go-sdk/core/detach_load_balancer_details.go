@@ -15,10 +15,10 @@ import (
 // DetachLoadBalancerDetails Represents a load balancer that is to be detached from an instance pool.
 type DetachLoadBalancerDetails struct {
 
-	// The OCID of the load balancer to detach from the pool.
+	// The OCID of the load balancer to detach from the instance pool.
 	LoadBalancerId *string `mandatory:"true" json:"loadBalancerId"`
 
-	// The name of the backend set on the load balancer to detach from the pool.
+	// The name of the backend set on the load balancer to detach from the instance pool.
 	BackendSetName *string `mandatory:"true" json:"backendSetName"`
 }
 

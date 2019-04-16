@@ -14,6 +14,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -47,10 +49,13 @@ var (
 	}
 
 	SubscriptionResourceDependencies = NotificationTopicResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomName())
+		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithSuffixName("subscription"))
 )
 
 func TestOnsSubscriptionResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestOnsSubscriptionResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

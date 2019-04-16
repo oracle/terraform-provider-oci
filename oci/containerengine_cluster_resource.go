@@ -10,6 +10,8 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"strings"
 
 	"time"
@@ -353,6 +355,12 @@ func containerEngineWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Timeout: timeout,
 	}
+
+	// Set PollInterval to 1 for replay mode.
+	if httpreplay.ShouldRetryImmediately() {
+		stateConf.PollInterval = 1
+	}
+
 	if _, e := stateConf.WaitForState(); e != nil {
 		return nil, e
 	}

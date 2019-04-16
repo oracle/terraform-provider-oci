@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -48,6 +50,9 @@ data "oci_core_services" "test_services" {
 )
 
 func TestCoreServiceGatewayResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreServiceGatewayResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

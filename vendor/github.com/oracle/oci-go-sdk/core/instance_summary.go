@@ -15,7 +15,7 @@ import (
 // InstanceSummary Condensed instance data when listing instances in an instance pool.
 type InstanceSummary struct {
 
-	// The OCID of the instance
+	// The OCID of the instance.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The availability domain the instance is running in.
@@ -48,7 +48,7 @@ type InstanceSummary struct {
 	// You can enumerate all available shapes by calling ListShapes.
 	Shape *string `mandatory:"false" json:"shape"`
 
-	// The load balancer backends configured for the instance pool instance.
+	// The load balancer backends that are configured for the instance pool instance.
 	LoadBalancerBackends []InstancePoolInstanceLoadBalancerBackend `mandatory:"false" json:"loadBalancerBackends"`
 }
 

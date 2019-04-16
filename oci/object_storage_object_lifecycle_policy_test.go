@@ -11,6 +11,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -20,9 +22,9 @@ var (
 	ObjectLifecyclePolicyResourceConfig = ObjectLifecyclePolicyResourceDependencies +
 		generateResourceFromRepresentationMap("oci_objectstorage_object_lifecycle_policy", "test_object_lifecycle_policy", Optional, Update, objectLifecyclePolicyRepresentation)
 
-	bucketName  = randomString(32, charset)
-	bucketName2 = randomString(32, charset)
-	bucketName3 = randomString(32, charset)
+	bucketName  = randomStringOrHttpReplayValue(32, charset, "bucket1")
+	bucketName2 = randomStringOrHttpReplayValue(32, charset, "bucket2")
+	bucketName3 = randomStringOrHttpReplayValue(32, charset, "bucket3")
 
 	objectLifecyclePolicySingularDataSourceRepresentation = map[string]interface{}{
 		"bucket":    Representation{repType: Required, create: bucketName},
@@ -54,6 +56,9 @@ var (
 )
 
 func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

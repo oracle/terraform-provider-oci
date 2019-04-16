@@ -4,7 +4,6 @@ package provider
 
 import (
 	"context"
-
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"

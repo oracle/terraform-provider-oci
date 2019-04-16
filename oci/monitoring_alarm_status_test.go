@@ -8,6 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -18,11 +20,14 @@ var (
 	}
 
 	AlarmStatusResourceConfig = DefinedTagsDependencies + AvailabilityDomainConfig +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomName()) +
+		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithSuffixName("alarmstatus")) +
 		generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation)
 )
 
 func TestMonitoringAlarmStatusResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestMonitoringAlarmStatusResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

@@ -17,6 +17,8 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -190,6 +192,11 @@ func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient
 			return wr, string(wr.LifecycleState), err
 		},
 		Timeout: d.Timeout(schema.TimeoutCreate),
+	}
+
+	// Should not wait when in replay mode
+	if httpreplay.ShouldRetryImmediately() {
+		stateConf.PollInterval = 1
 	}
 
 	if _, e := stateConf.WaitForState(); e != nil {
@@ -399,6 +406,11 @@ func waitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 		Timeout: timeout,
 	}
 
+	// Should not wait when in replay mode
+	if httpreplay.ShouldRetryImmediately() {
+		stateConf.PollInterval = 1
+	}
+
 	if _, e := stateConf.WaitForState(); e != nil {
 		handleMissingResourceError(sync, &e)
 		return e
@@ -526,6 +538,10 @@ func WaitForResourceCondition(s ResourceFetcher, resourceChangedFunc func() bool
 		if nextAttemptTime.After(endTime) {
 			backoffTime = endTime.Sub(time.Now())
 			lastAttempt = true
+		}
+
+		if httpreplay.ShouldRetryImmediately() {
+			backoffTime = 10 * time.Millisecond
 		}
 
 		time.Sleep(backoffTime)

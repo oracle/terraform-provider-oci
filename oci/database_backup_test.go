@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -37,6 +39,9 @@ data "oci_database_databases" "db" {
 )
 
 func TestDatabaseBackupResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseBackupResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

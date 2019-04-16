@@ -23,7 +23,7 @@ type ListTagDefaultsRequest struct {
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID of the Tag Definition.
+	// The OCID of the tag definition.
 	TagDefinitionId *string `mandatory:"false" contributesTo:"query" name:"tagDefinitionId"`
 
 	// A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
@@ -65,7 +65,7 @@ type ListTagDefaultsResponse struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of Tag Default values. When paging through a list, if this header appears in
+	// For pagination of a list of tag default values. When paging through a list, if this header appears in
 	// the response, then a partial list might have been returned. Include this value as the `page` parameter
 	// for the subsequent GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`

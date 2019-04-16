@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -65,6 +67,9 @@ resource "oci_core_vcn" "test_vcn2" {
 )
 
 func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreLocalPeeringGatewayResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// RestoreAutonomousDataWarehouseDetails Details to restore an Oracle Autonomous Data Warehouse.
+// RestoreAutonomousDataWarehouseDetails **Deprecated.** See RestoreAutonomousDatabaseDetails for reference information about restoring an Autonomous Data Warehouse.
 type RestoreAutonomousDataWarehouseDetails struct {
 
 	// The time to restore the database to.

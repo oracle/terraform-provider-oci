@@ -8,6 +8,8 @@ import (
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -25,6 +27,9 @@ var (
 )
 
 func TestDatabaseDbVersionResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDbVersionResource_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

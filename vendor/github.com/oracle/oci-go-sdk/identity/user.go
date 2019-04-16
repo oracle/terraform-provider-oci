@@ -53,8 +53,8 @@ type User struct {
 	// Flag indicates if MFA has been activated for the user.
 	IsMfaActivated *bool `mandatory:"true" json:"isMfaActivated"`
 
-	// The email you assign to the user during creation.
-	// The name must be unique across all users in the tenancy.
+	// The email address you assign to the user.
+	// The email address must be unique across all users in the tenancy.
 	Email *string `mandatory:"false" json:"email"`
 
 	// The OCID of the `IdentityProvider` this user belongs to.

@@ -69,7 +69,7 @@ The following arguments are supported:
 		* `display_name` - (Optional) (Updatable) The displayName of the vnic. This is also use to match against the Instance Configuration defined secondary vnic. 
 		* `subnet_id` - (Required) (Updatable) The subnet OCID for the secondary vnic
 * `size` - (Required) (Updatable) The number of instances that should be in the instance pool. Modifying this value will override the size of the instance pool. If the instance pool is linked with autoscaling configuration, autoscaling configuration could resize the instance pool at a later point. The instance pool's actual size may differ from the configured size if it is associated with an autoscaling configuration. For the actual size of the instance pool, refer to the `actual_size` attribute. 
-
+* `state` - (Optional) (Updatable) The target state for the instance pool. Could be set to RUNNING or STOPPED.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values

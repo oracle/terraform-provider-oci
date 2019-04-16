@@ -21,7 +21,7 @@ type InstancePoolLoadBalancerAttachment struct {
 	// The OCID of the instance pool of the load balancer attachment.
 	InstancePoolId *string `mandatory:"true" json:"instancePoolId"`
 
-	// The OCID of the load balancer attached to the pool.
+	// The OCID of the load balancer attached to the instance pool.
 	LoadBalancerId *string `mandatory:"true" json:"loadBalancerId"`
 
 	// The name of the backend set on the load balancer.
@@ -30,10 +30,10 @@ type InstancePoolLoadBalancerAttachment struct {
 	// The port value used for the backends.
 	Port *int `mandatory:"true" json:"port"`
 
-	// Indicates which vnic on each instance in the pool should be used to associate with the load balancer. possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated to the instance pool.
+	// Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool.
 	VnicSelection *string `mandatory:"true" json:"vnicSelection"`
 
-	// The status of the interaction between the pool and the load balancer.
+	// The status of the interaction between the instance pool and the load balancer.
 	LifecycleState InstancePoolLoadBalancerAttachmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 

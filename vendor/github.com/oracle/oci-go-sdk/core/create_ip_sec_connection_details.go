@@ -18,13 +18,13 @@ type CreateIpSecConnectionDetails struct {
 	// The OCID of the compartment to contain the IPSec connection.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the CPE.
+	// The OCID of the Cpe object.
 	CpeId *string `mandatory:"true" json:"cpeId"`
 
 	// The OCID of the DRG.
 	DrgId *string `mandatory:"true" json:"drgId"`
 
-	// Static routes to the CPE. At least one route must be included. The CIDR must not be a
+	// Static routes to the CPE. At least one route must be included. A static route's CIDR must not be a
 	// multicast address or class E address.
 	// Example: `10.0.1.0/24`
 	StaticRoutes []string `mandatory:"true" json:"staticRoutes"`
@@ -42,8 +42,44 @@ type CreateIpSecConnectionDetails struct {
 	// Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Your identifier for your CPE device. Can be either an IP address or a hostname (specifically, the
+	// fully qualified domain name (FQDN)). The type of identifier you provide here must correspond
+	// to the value for `cpeLocalIdentifierType`.
+	// If you don't provide a value, the `ipAddress` attribute for the Cpe
+	// object specified by `cpeId` is used as the `cpeLocalIdentifier`.
+	// Example IP address: `10.0.3.3`
+	// Example hostname: `cpe.example.com`
+	CpeLocalIdentifier *string `mandatory:"false" json:"cpeLocalIdentifier"`
+
+	// The type of identifier for your CPE device. The value you provide here must correspond to the value
+	// for `cpeLocalIdentifier`.
+	CpeLocalIdentifierType CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum `mandatory:"false" json:"cpeLocalIdentifierType,omitempty"`
 }
 
 func (m CreateIpSecConnectionDetails) String() string {
 	return common.PointerString(m)
+}
+
+// CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum Enum with underlying type: string
+type CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum string
+
+// Set of constants representing the allowable values for CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum
+const (
+	CreateIpSecConnectionDetailsCpeLocalIdentifierTypeIpAddress CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum = "IP_ADDRESS"
+	CreateIpSecConnectionDetailsCpeLocalIdentifierTypeHostname  CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum = "HOSTNAME"
+)
+
+var mappingCreateIpSecConnectionDetailsCpeLocalIdentifierType = map[string]CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum{
+	"IP_ADDRESS": CreateIpSecConnectionDetailsCpeLocalIdentifierTypeIpAddress,
+	"HOSTNAME":   CreateIpSecConnectionDetailsCpeLocalIdentifierTypeHostname,
+}
+
+// GetCreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnumValues Enumerates the set of values for CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum
+func GetCreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnumValues() []CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum {
+	values := make([]CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum, 0)
+	for _, v := range mappingCreateIpSecConnectionDetailsCpeLocalIdentifierType {
+		values = append(values, v)
+	}
+	return values
 }
