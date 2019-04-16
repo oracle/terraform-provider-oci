@@ -68,9 +68,6 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "listing_resource_version"),
-					resource.TestCheckResourceAttrSet(resourceName, "oracle_terms_of_use_link"),
-					resource.TestCheckResourceAttrSet(resourceName, "signature"),
 				),
 			},
 
@@ -86,8 +83,11 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "app_catalog_subscriptions.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "app_catalog_subscriptions.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.display_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.listing_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.listing_resource_version"),
+					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.listing_resource_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.summary"),
+					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_subscriptions.0.time_created"),
 				),
 			},
 			// verify resource import

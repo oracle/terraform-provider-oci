@@ -97,9 +97,15 @@ func TestCoreInstanceConsoleConnectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "instance_console_connections.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instance_console_connections.0.compartment_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instance_console_connections.0.connection_string"),
 					resource.TestCheckResourceAttr(datasourceName, "instance_console_connections.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instance_console_connections.0.fingerprint"),
 					resource.TestCheckResourceAttr(datasourceName, "instance_console_connections.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instance_console_connections.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_console_connections.0.instance_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instance_console_connections.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instance_console_connections.0.vnc_connection_string"),
 				),
 			},
 			// verify resource import

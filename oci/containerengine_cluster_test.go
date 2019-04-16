@@ -178,7 +178,10 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "clusters.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "clusters.0.endpoints.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.kubernetes_version"),
+					resource.TestCheckResourceAttr(datasourceName, "clusters.0.metadata.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.name", "name2"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.add_ons.#", "1"),

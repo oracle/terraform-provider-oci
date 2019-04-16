@@ -49,6 +49,11 @@ func TestHealthChecksVantagePointResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "name", "aws-bom"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.#"),
+					resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.0.display_name"),
+					resource.TestCheckResourceAttr(datasourceName, "health_checks_vantage_points.0.geo.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.0.name"),
+					resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.0.provider_name"),
+					resource.TestCheckResourceAttrSet(datasourceName, "health_checks_vantage_points.0.routing.#"),
 				),
 			},
 		},

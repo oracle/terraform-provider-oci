@@ -321,8 +321,12 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "scope", string(oci_core.PublicIpScopeRegion)),
 					resource.TestCheckResourceAttr(datasourceName, "public_ips.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.assigned_entity_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.assigned_entity_type"),
 					resource.TestCheckResourceAttr(datasourceName, "public_ips.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "public_ips.0.display_name", "-tf-public-ip-updated"),
+					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.ip_address"),
 					resource.TestCheckResourceAttr(datasourceName, "public_ips.0.lifetime", string(oci_core.PublicIpLifetimeReserved)),
 					resource.TestCheckResourceAttrSet(datasourceName, "public_ips.0.private_ip_id"),
 

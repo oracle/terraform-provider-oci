@@ -180,6 +180,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "alert_rules.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "alert_rules.0.time_updated"),
 					resource.TestCheckResourceAttr(datasourceName, "alert_rules.0.type", "FORECAST"),
+					resource.TestCheckResourceAttrSet(datasourceName, "alert_rules.0.version"),
 				),
 			},
 			// verify singular datasource
@@ -204,6 +205,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "type", "FORECAST"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

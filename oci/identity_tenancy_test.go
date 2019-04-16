@@ -38,8 +38,10 @@ func TestIdentityTenancyResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", Required, Create, tenancySingularDataSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_id"),
+
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "home_region_key"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
 				),
 			},

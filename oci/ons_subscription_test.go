@@ -126,12 +126,13 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "subscriptions.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.delivery_policy.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.endpoint", "john.smith@example.com"),
+					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.etag"),
 					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.protocol", "EMAIL"),
-					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.state", "PENDING"),
-					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.topic_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.state"),
 				),
 			},
 			// verify singular datasource

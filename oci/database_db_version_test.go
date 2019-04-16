@@ -54,6 +54,7 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_versions.#"),
+					resource.TestCheckResourceAttrSet(datasourceName, "db_versions.0.is_latest_for_major_version"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_versions.0.supports_pdb"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_versions.0.version"),
 

@@ -47,7 +47,7 @@ func TestCoreLetterOfAuthorityResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "authorized_entity_name"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "circuit_type", "Single_mode_LC"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "circuit_type"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "facility_location"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "port_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_expires"),

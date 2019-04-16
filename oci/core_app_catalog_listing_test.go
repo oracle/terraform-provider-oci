@@ -48,8 +48,8 @@ func TestCoreAppCatalogListingResource_basic(t *testing.T) {
 					compartmentIdVariableStr + AppCatalogListingResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.listing_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.display_name"),
+					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.listing_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.publisher_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listings.0.summary"),
 				),

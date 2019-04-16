@@ -46,9 +46,9 @@ func TestCoreCrossConnectStatusResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "interface_state", "UP"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "light_level_ind_bm", "-2.740000009536743"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "light_level_indicator", "GOOD"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "interface_state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "light_level_ind_bm"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "light_level_indicator"),
 				),
 			},
 		},

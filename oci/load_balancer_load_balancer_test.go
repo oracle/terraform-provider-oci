@@ -187,6 +187,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.ip_address_details.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_private", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.shape", "100Mbps"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.state"),

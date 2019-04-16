@@ -135,6 +135,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "cpes.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cpes.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "cpes.0.ip_address", "189.44.2.135"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cpes.0.time_created"),
 				),
 			},
 			// verify resource import

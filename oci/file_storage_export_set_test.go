@@ -113,6 +113,7 @@ func TestFileStorageExportSetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttr(datasourceName, "export_sets.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.compartment_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.display_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "export_sets.0.id"),

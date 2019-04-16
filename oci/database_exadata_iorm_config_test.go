@@ -151,6 +151,7 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Required, Create, exadataIormConfigRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "objective", "AUTO"),
 					resource.TestCheckResourceAttr(resourceName, "db_plans.#", "1"),
@@ -166,6 +167,7 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ExadataIormConfigResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_exadata_iorm_config", "test_exadata_iorm_config", Required, Update, exadataIormConfigRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+
 					resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "objective", "BALANCED"),
 					resource.TestCheckResourceAttr(resourceName, "db_plans.#", "1"),
@@ -185,6 +187,10 @@ func TestDatabaseExadataIormConfigResource_basic(t *testing.T) {
 					compartmentIdVariableStr + ExadataIormConfigResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_plans.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "objective"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				),
 			},
 		},
