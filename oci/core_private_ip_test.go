@@ -81,7 +81,6 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + PrivateIpResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_private_ip", "test_private_ip", Required, Create, privateIpRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 					func(s *terraform.State) (err error) {
@@ -105,7 +104,6 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 					func(s *terraform.State) (err error) {
@@ -125,7 +123,6 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance2"),
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
-					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 					func(s *terraform.State) (err error) {
@@ -147,12 +144,17 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.availability_domain"),
+					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.compartment_id"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.hostname_label", "privateiptestinstance2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.ip_address", "10.0.1.5"),
+					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_primary"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.subnet_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.vnic_id"),
 				),
 			},
@@ -163,14 +165,17 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					compartmentIdVariableStr + PrivateIpResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_id"),
 
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "privateiptestinstance2"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.1.5"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

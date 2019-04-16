@@ -135,6 +135,9 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.customer_reference_name", "customerReferenceName2"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connect_groups.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_groups.0.time_created"),
 				),
 			},
 			// verify singular datasource
@@ -149,6 +152,7 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "customer_reference_name", "customerReferenceName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},

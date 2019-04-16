@@ -138,7 +138,6 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Optional, Update, snapshotRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "file_system_id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "id"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "snapshots.#", "1"),
@@ -155,7 +154,6 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", Required, Create, snapshotSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SnapshotResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "file_system_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),

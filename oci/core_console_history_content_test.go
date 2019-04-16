@@ -49,8 +49,6 @@ func TestCoreConsoleHistoryContentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "console_history_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "length", "10240"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "offset", "0"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "data"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				),
 			},
 		},

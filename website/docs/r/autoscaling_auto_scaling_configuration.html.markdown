@@ -16,6 +16,11 @@ Create an AutoScalingConfiguration
 ```hcl
 resource "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configuration" {
 	#Required
+	auto_scaling_resources {
+		#Required
+		id = "${var.auto_scaling_configuration_auto_scaling_resources_id}"
+		type = "${var.auto_scaling_configuration_auto_scaling_resources_type}"
+	}
 	compartment_id = "${var.compartment_id}"
 	policies {
 		#Required
@@ -48,11 +53,6 @@ resource "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configu
 		#Optional
 		display_name = "${var.auto_scaling_configuration_policies_display_name}"
 	}
-	auto_scaling_resources {
-		#Required
-		id = "${var.auto_scaling_configuration_resource_id}"
-		type = "${var.auto_scaling_configuration_resource_type}"
-	}
 
 	#Optional
 	cool_down_in_seconds = "${var.auto_scaling_configuration_cool_down_in_seconds}"
@@ -67,6 +67,9 @@ resource "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configu
 
 The following arguments are supported:
 
+* `auto_scaling_resources` - (Required) 
+	* `id` - (Required) The OCID of resource that the AutoScalingConfiguration will manage. 
+	* `type` - (Required) Indicates type of derived class
 * `compartment_id` - (Required) The OCID of the compartment containing the AutoScalingConfiguration. 
 * `cool_down_in_seconds` - (Optional) (Updatable) The minimum period of time between scaling actions. The default is 300 seconds. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -90,9 +93,6 @@ The following arguments are supported:
 			* `threshold` - (Required) 
 				* `operator` - (Required) Support for the following operators GT  - Greater than GTE - Greater than equal to LT  - Less than LTE - Less than equal to 
 				* `value` - (Required) 
-* `auto_scaling_resources` - (Required) 
-	* `id` - (Required) The OCID of resource that the AutoScalingConfiguration will manage. 
-	* `type` - (Required) Indicates type of derived class
 
 
 ** IMPORTANT **
@@ -102,6 +102,9 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `auto_scaling_resources` - 
+	* `id` - The OCID of resource that the AutoScalingConfiguration will manage. 
+	* `type` - Indicates type of derived class
 * `compartment_id` - The OCID of the compartment containing the AutoScalingConfiguration. 
 * `cool_down_in_seconds` - The minimum period of time between scaling actions. The default is 300 seconds. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -129,9 +132,6 @@ The following attributes are exported:
 				* `operator` - Support for the following operators GT  - Greater than GTE - Greater than equal to LT  - Less than LTE - Less than equal to 
 				* `value` - 
 	* `time_created` - The date and time the AutoScalingConfiguration was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
-* `auto_scaling_resources` - 
-	* `id` - The OCID of resource that the AutoScalingConfiguration will manage. 
-	* `type` - Indicates type of derived class
 * `time_created` - The date and time the AutoScalingConfiguration was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
 
 ## Import

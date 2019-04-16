@@ -150,6 +150,7 @@ func TestCoreInternetGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "gateways.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "gateways.0.vcn_id"),
 				),
 			},

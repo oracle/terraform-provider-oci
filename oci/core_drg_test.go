@@ -134,6 +134,7 @@ func TestCoreDrgResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "drgs.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drgs.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drgs.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "drgs.0.time_created"),
 				),
 			},
 			// verify resource import

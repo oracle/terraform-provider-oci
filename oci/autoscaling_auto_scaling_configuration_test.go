@@ -36,24 +36,24 @@ var (
 	}
 
 	autoScalingConfigurationRepresentation = map[string]interface{}{
+		"auto_scaling_resources": RepresentationGroup{Required, autoScalingConfigurationAutoScalingResourcesRepresentation},
 		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
 		"policies":               RepresentationGroup{Required, autoScalingConfigurationPoliciesRepresentation},
-		"auto_scaling_resources": RepresentationGroup{Required, autoScalingConfigurationResourceRepresentation},
 		"cool_down_in_seconds":   Representation{repType: Optional, create: `300`, update: `400`},
 		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"is_enabled":             Representation{repType: Optional, create: `false`, update: `true`},
 	}
+	autoScalingConfigurationAutoScalingResourcesRepresentation = map[string]interface{}{
+		"id":   Representation{repType: Required, create: `${oci_core_instance_pool.test_instance_pool.id}`},
+		"type": Representation{repType: Required, create: `instancePool`},
+	}
 	autoScalingConfigurationPoliciesRepresentation = map[string]interface{}{
 		"capacity":     RepresentationGroup{Required, autoScalingConfigurationPoliciesCapacityRepresentation},
 		"policy_type":  Representation{repType: Required, create: `threshold`, update: `threshold`},
 		"rules":        []RepresentationGroup{{Required, autoScalingConfigurationPoliciesScaleOutRuleRepresentation}, {Required, autoScalingConfigurationPoliciesScaleInRuleRepresentation}},
 		"display_name": Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-	}
-	autoScalingConfigurationResourceRepresentation = map[string]interface{}{
-		"id":   Representation{repType: Required, create: `${oci_core_instance_pool.test_instance_pool.id}`},
-		"type": Representation{repType: Required, create: `instancePool`},
 	}
 	autoScalingConfigurationPoliciesCapacityRepresentation = map[string]interface{}{
 		"initial": Representation{repType: Required, create: `2`, update: `4`},
@@ -127,6 +127,9 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Required, Create, autoScalingConfigurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.0.type", "instancePool"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "policies.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "policies.0.capacity.#", "1"),
@@ -157,9 +160,6 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 						"metric.0.threshold.0.value":    "1",
 					},
 						[]string{}),
-					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
-					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.0.type", "instancePool"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -177,6 +177,9 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create, autoScalingConfigurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.0.type", "instancePool"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cool_down_in_seconds", "300"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -218,9 +221,6 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 					},
 						[]string{}),
 					resource.TestCheckResourceAttrSet(resourceName, "policies.0.time_created"),
-					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
-					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.0.type", "instancePool"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
@@ -235,6 +235,9 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + AutoScalingConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Update, autoScalingConfigurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.0.type", "instancePool"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cool_down_in_seconds", "400"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -276,9 +279,6 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 					},
 						[]string{}),
 					resource.TestCheckResourceAttrSet(resourceName, "policies.0.time_created"),
-					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
-					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.0.type", "instancePool"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 					func(s *terraform.State) (err error) {
@@ -301,14 +301,14 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 
 					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.auto_scaling_resources.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.auto_scaling_resources.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.auto_scaling_resources.0.type", "instancePool"),
 					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.cool_down_in_seconds", "400"),
 					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.is_enabled", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.auto_scaling_resources.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.auto_scaling_resources.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.auto_scaling_resources.0.type", "instancePool"),
 					resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.time_created"),
 				),
 			},
@@ -320,6 +320,9 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),
 
+					resource.TestCheckResourceAttr(singularDatasourceName, "auto_scaling_resources.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_resources.0.id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "auto_scaling_resources.0.type", "instancePool"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cool_down_in_seconds", "400"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
@@ -360,9 +363,6 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 					},
 						[]string{}),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "policies.0.time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "auto_scaling_resources.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_resources.0.id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "auto_scaling_resources.0.type", "instancePool"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
