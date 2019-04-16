@@ -62,6 +62,16 @@ func (s *AutoscalingAutoScalingConfigurationDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.Resource != nil {
+		autoScalingResourcesArray := []interface{}{}
+		if autoScalingResourcesMap := ResourceToMap(&s.Res.Resource); autoScalingResourcesMap != nil {
+			autoScalingResourcesArray = append(autoScalingResourcesArray, autoScalingResourcesMap)
+		}
+		s.D.Set("auto_scaling_resources", autoScalingResourcesArray)
+	} else {
+		s.D.Set("auto_scaling_resources", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -89,16 +99,6 @@ func (s *AutoscalingAutoScalingConfigurationDataSourceCrud) SetData() error {
 		policies = append(policies, AutoScalingPolicyToMap(item, true))
 	}
 	s.D.Set("policies", policies)
-
-	if s.Res.Resource != nil {
-		resourceArray := []interface{}{}
-		if resourceMap := ResourceToMap(&s.Res.Resource); resourceMap != nil {
-			resourceArray = append(resourceArray, resourceMap)
-		}
-		s.D.Set("auto_scaling_resources", resourceArray)
-	} else {
-		s.D.Set("auto_scaling_resources", nil)
-	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

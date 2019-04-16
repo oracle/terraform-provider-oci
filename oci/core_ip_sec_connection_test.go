@@ -162,6 +162,7 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.state"),
 					resource.TestCheckResourceAttr(datasourceName, "connections.0.static_routes.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "connections.0.time_created"),
 				),
 			},
 			// verify resource import

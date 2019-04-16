@@ -69,7 +69,6 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", Required, Create, drgAttachmentRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
@@ -143,6 +142,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.route_table_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.vcn_id"),
 				),
 			},

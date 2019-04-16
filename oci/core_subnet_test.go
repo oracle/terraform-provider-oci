@@ -89,8 +89,6 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
@@ -189,6 +187,8 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.route_table_id"),
 					resource.TestCheckResourceAttr(datasourceName, "subnets.0.security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.subnet_domain_name"),
+					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.vcn_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.virtual_router_ip"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.virtual_router_mac"),
@@ -200,22 +200,16 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + SubnetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "dhcp_options_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "route_table_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cidr_block"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "dns_label"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "prohibit_public_ip_on_vnic", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "security_list_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_domain_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_router_ip"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_router_mac"),

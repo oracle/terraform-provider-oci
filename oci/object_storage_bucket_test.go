@@ -228,6 +228,8 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "access_type", "ObjectRead"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_count"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_size"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),

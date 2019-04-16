@@ -97,6 +97,9 @@ func TestIdentityAuthTokenResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "tokens.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "tokens.0.description", "description2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "tokens.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "tokens.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "tokens.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tokens.0.user_id"),
 				),
 			},

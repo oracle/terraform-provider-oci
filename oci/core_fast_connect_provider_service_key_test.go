@@ -51,6 +51,10 @@ func TestCoreFastConnectProviderServiceKeyResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "provider_service_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "provider_service_key_name", "d8f7a443-28c2-4dcf-996c-286351908c58"),
+
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "bandwidth_shape_name"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "peering_location"),
 				),
 			},
 		},

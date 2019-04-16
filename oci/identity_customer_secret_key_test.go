@@ -101,7 +101,10 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "customer_secret_keys.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "customer_secret_keys.0.display_name", "displayName2"),
-					TestCheckResourceAttributesEqual(datasourceName, "customer_secret_keys.0.user_id", "oci_identity_customer_secret_key.test_customer_secret_key", "user_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "customer_secret_keys.0.user_id"),
 				),
 			},
 		},

@@ -58,6 +58,9 @@ func TestCoreAppCatalogListingResourceVersionResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.0.listing_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.0.listing_resource_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.0.listing_resource_version"),
+					resource.TestCheckResourceAttrSet(datasourceName, "app_catalog_listing_resource_versions.0.time_published"),
 				),
 			},
 			// verify singular datasource
@@ -68,8 +71,11 @@ func TestCoreAppCatalogListingResourceVersionResource_basic(t *testing.T) {
 					compartmentIdVariableStr + AppCatalogListingResourceVersionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_resource_version"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_version"),
+
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_resource_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "listing_resource_version"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_published"),
 				),
 			},
 		},

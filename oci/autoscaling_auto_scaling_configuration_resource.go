@@ -29,6 +29,32 @@ func AutoscalingAutoScalingConfigurationResource() *schema.Resource {
 		Delete:   deleteAutoscalingAutoScalingConfiguration,
 		Schema: map[string]*schema.Schema{
 			// Required
+			"auto_scaling_resources": {
+				Type:     schema.TypeList,
+				Required: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -198,32 +224,6 @@ func AutoscalingAutoScalingConfigurationResource() *schema.Resource {
 					},
 				},
 			},
-			"auto_scaling_resources": {
-				Type:     schema.TypeList,
-				Required: true,
-				ForceNew: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"id": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-						"type": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-
-						// Optional
-
-						// Computed
-					},
-				},
-			},
 
 			// Optional
 			"cool_down_in_seconds": {
@@ -311,6 +311,17 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) ID() string {
 func (s *AutoscalingAutoScalingConfigurationResourceCrud) Create() error {
 	request := oci_autoscaling.CreateAutoScalingConfigurationRequest{}
 
+	if autoScalingResources, ok := s.D.GetOkExists("auto_scaling_resources"); ok {
+		if tmpList := autoScalingResources.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "auto_scaling_resources", 0)
+			tmp, err := s.mapToResource(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Resource = tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -357,17 +368,6 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) Create() error {
 			tmp[i] = converted
 		}
 		request.Policies = tmp
-	}
-
-	if resource_, ok := s.D.GetOkExists("auto_scaling_resources"); ok {
-		if tmpList := resource_.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "auto_scaling_resources", 0)
-			tmp, err := s.mapToResource(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.Resource = tmp
-		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "autoscaling")
@@ -455,6 +455,16 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) Delete() error {
 }
 
 func (s *AutoscalingAutoScalingConfigurationResourceCrud) SetData() error {
+	if s.Res.Resource != nil {
+		autoScalingResourcesArray := []interface{}{}
+		if autoScalingResourcesMap := ResourceToMap(&s.Res.Resource); autoScalingResourcesMap != nil {
+			autoScalingResourcesArray = append(autoScalingResourcesArray, autoScalingResourcesMap)
+		}
+		s.D.Set("auto_scaling_resources", autoScalingResourcesArray)
+	} else {
+		s.D.Set("auto_scaling_resources", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -482,16 +492,6 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) SetData() error {
 		policies = append(policies, AutoScalingPolicyToMap(item, false))
 	}
 	s.D.Set("policies", policies)
-
-	if s.Res.Resource != nil {
-		resourceArray := []interface{}{}
-		if resourceMap := ResourceToMap(&s.Res.Resource); resourceMap != nil {
-			resourceArray = append(resourceArray, resourceMap)
-		}
-		s.D.Set("auto_scaling_resources", resourceArray)
-	} else {
-		s.D.Set("auto_scaling_resources", nil)
-	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

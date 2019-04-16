@@ -100,6 +100,7 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
 				),

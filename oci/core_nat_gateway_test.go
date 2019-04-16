@@ -173,7 +173,6 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 					compartmentIdVariableStr + NatGatewayResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "nat_gateway_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "block_traffic", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

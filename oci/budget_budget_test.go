@@ -161,12 +161,14 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "budgets.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.actual_spend"),
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.alert_rule_count"),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.amount", "200"),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.forecasted_spend"),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.reset_period", "MONTHLY"),
@@ -174,6 +176,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.target_compartment_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.time_updated"),
+					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.version"),
 				),
 			},
 			// verify singular datasource
@@ -183,7 +186,6 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 					compartmentIdVariableStr + BudgetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "budget_id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "target_compartment_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "amount", "200"),
@@ -197,6 +199,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
