@@ -1,4 +1,4 @@
-## 3.23.0 (Unreleased)
+## 3.23.0 (April 17, 2019)
 
 ### Added
 - Support for updating `license_model` for `oci_autonomous_database` resource
