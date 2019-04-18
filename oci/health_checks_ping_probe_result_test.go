@@ -52,7 +52,7 @@ func TestHealthChecksPingProbeResultResource_basic(t *testing.T) {
 						if httpreplay.ShouldRetryImmediately() {
 							time.Sleep(10 * time.Millisecond)
 						} else {
-							time.Sleep(2 * time.Minute)
+							time.Sleep(5 * time.Minute)
 						}
 						return nil
 					},
