@@ -2,6 +2,7 @@
 
 ### Added
 - Support for ATP-S preview mode.
+- Support to get a load balancer attached to an instance pool by load balancer attachment id and instance pool id
 
 ## 3.32.0 (July 03, 2019)
 
