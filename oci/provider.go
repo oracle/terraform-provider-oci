@@ -250,6 +250,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_instance_pool":                                CoreInstancePoolDataSource(),
 		"oci_core_instance_pools":                               CoreInstancePoolsDataSource(),
 		"oci_core_instance_pool_instances":                      CoreInstancePoolInstancesDataSource(),
+		"oci_core_instance_pool_load_balancer_attachment":       CoreInstancePoolLoadBalancerAttachmentDataSource(),
 		"oci_core_instance_devices":                             CoreInstanceDevicesDataSource(),
 		"oci_core_instances":                                    CoreInstancesDataSource(),
 		"oci_core_instance_console_connections":                 CoreInstanceConsoleConnectionsDataSource(),
