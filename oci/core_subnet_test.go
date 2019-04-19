@@ -43,7 +43,7 @@ var (
 		"cidr_block":                 Representation{repType: Required, create: `10.0.0.0/16`},
 		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
 		"vcn_id":                     Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
-		"availability_domain":        Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"availability_domain":        Representation{repType: Optional, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
 		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"dhcp_options_id":            Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`, update: `${oci_core_dhcp_options.test_dhcp_options.id}`},
 		"display_name":               Representation{repType: Optional, create: `MySubnet`, update: `displayName2`},
