@@ -301,7 +301,7 @@ func getUserIds(compartment string) ([]string, error) {
 func userSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if userResponse, ok := response.Response.(oci_identity.GetUserResponse); ok {
-		return userResponse.LifecycleState == oci_identity.UserLifecycleStateDeleted
+		return userResponse.LifecycleState != oci_identity.UserLifecycleStateDeleted
 	}
 	return false
 }

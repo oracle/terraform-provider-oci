@@ -252,7 +252,7 @@ func getDrgIds(compartment string) ([]string, error) {
 func drgSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if drgResponse, ok := response.Response.(oci_core.GetDrgResponse); ok {
-		return drgResponse.LifecycleState == oci_core.DrgLifecycleStateTerminated
+		return drgResponse.LifecycleState != oci_core.DrgLifecycleStateTerminated
 	}
 	return false
 }

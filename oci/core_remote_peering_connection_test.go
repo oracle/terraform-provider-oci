@@ -260,7 +260,7 @@ func getRemotePeeringConnectionIds(compartment string) ([]string, error) {
 func remotePeeringConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if remotePeeringConnectionResponse, ok := response.Response.(oci_core.GetRemotePeeringConnectionResponse); ok {
-		return remotePeeringConnectionResponse.LifecycleState == oci_core.RemotePeeringConnectionLifecycleStateTerminated
+		return remotePeeringConnectionResponse.LifecycleState != oci_core.RemotePeeringConnectionLifecycleStateTerminated
 	}
 	return false
 }

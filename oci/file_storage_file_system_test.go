@@ -269,7 +269,7 @@ func getFileSystemIds(compartment string) ([]string, error) {
 func fileSystemSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if fileSystemResponse, ok := response.Response.(oci_file_storage.GetFileSystemResponse); ok {
-		return fileSystemResponse.LifecycleState == oci_file_storage.FileSystemLifecycleStateDeleted
+		return fileSystemResponse.LifecycleState != oci_file_storage.FileSystemLifecycleStateDeleted
 	}
 	return false
 }

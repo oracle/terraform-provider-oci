@@ -474,7 +474,7 @@ func getRouteTableIds(compartment string) ([]string, error) {
 func routeTableSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if routeTableResponse, ok := response.Response.(oci_core.GetRouteTableResponse); ok {
-		return routeTableResponse.LifecycleState == oci_core.RouteTableLifecycleStateTerminated
+		return routeTableResponse.LifecycleState != oci_core.RouteTableLifecycleStateTerminated
 	}
 	return false
 }

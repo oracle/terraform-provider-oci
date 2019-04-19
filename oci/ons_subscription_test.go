@@ -257,7 +257,7 @@ func getSubscriptionIds(compartment string) ([]string, error) {
 func subscriptionSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if subscriptionResponse, ok := response.Response.(oci_ons.GetSubscriptionResponse); ok {
-		return subscriptionResponse.LifecycleState == oci_ons.SubscriptionLifecycleStateDeleted
+		return subscriptionResponse.LifecycleState != oci_ons.SubscriptionLifecycleStateDeleted
 	}
 	return false
 }

@@ -305,7 +305,7 @@ func getNatGatewayIds(compartment string) ([]string, error) {
 func natGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if natGatewayResponse, ok := response.Response.(oci_core.GetNatGatewayResponse); ok {
-		return natGatewayResponse.LifecycleState == oci_core.NatGatewayLifecycleStateTerminated
+		return natGatewayResponse.LifecycleState != oci_core.NatGatewayLifecycleStateTerminated
 	}
 	return false
 }

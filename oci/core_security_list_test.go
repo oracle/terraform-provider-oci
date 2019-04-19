@@ -611,7 +611,7 @@ func getSecurityListIds(compartment string) ([]string, error) {
 func securityListSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if securityListResponse, ok := response.Response.(oci_core.GetSecurityListResponse); ok {
-		return securityListResponse.LifecycleState == oci_core.SecurityListLifecycleStateTerminated
+		return securityListResponse.LifecycleState != oci_core.SecurityListLifecycleStateTerminated
 	}
 	return false
 }

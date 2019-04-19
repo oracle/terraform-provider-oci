@@ -311,7 +311,7 @@ func getLoadBalancerIds(compartment string) ([]string, error) {
 func loadBalancerSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if loadBalancerResponse, ok := response.Response.(oci_load_balancer.GetLoadBalancerResponse); ok {
-		return loadBalancerResponse.LifecycleState == oci_load_balancer.LoadBalancerLifecycleStateDeleted
+		return loadBalancerResponse.LifecycleState != oci_load_balancer.LoadBalancerLifecycleStateDeleted
 	}
 	return false
 }

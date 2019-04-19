@@ -310,7 +310,7 @@ func getCompartmentIds(compartment string) ([]string, error) {
 func compartmentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if compartmentResponse, ok := response.Response.(oci_identity.GetCompartmentResponse); ok {
-		return compartmentResponse.LifecycleState == oci_identity.CompartmentLifecycleStateDeleted
+		return compartmentResponse.LifecycleState != oci_identity.CompartmentLifecycleStateDeleted
 	}
 	return false
 }

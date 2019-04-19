@@ -449,7 +449,7 @@ func getInstancePoolIds(compartment string) ([]string, error) {
 func instancePoolSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if instancePoolResponse, ok := response.Response.(oci_core.GetInstancePoolResponse); ok {
-		return instancePoolResponse.LifecycleState == oci_core.InstancePoolLifecycleStateTerminated
+		return instancePoolResponse.LifecycleState != oci_core.InstancePoolLifecycleStateTerminated
 	}
 	return false
 }

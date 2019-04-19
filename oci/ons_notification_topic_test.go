@@ -307,7 +307,7 @@ func getTopicIds(compartment string) ([]string, error) {
 func topicSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond defined mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if topicResponse, ok := response.Response.(oci_ons.GetTopicResponse); ok {
-		return topicResponse.LifecycleState == oci_ons.NotificationTopicLifecycleStateDeleting
+		return topicResponse.LifecycleState != oci_ons.NotificationTopicLifecycleStateDeleting
 	}
 	return false
 }
