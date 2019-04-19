@@ -281,7 +281,7 @@ func getDynamicGroupIds(compartment string) ([]string, error) {
 func dynamicGroupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if dynamicGroupResponse, ok := response.Response.(oci_identity.GetDynamicGroupResponse); ok {
-		return dynamicGroupResponse.LifecycleState == oci_identity.DynamicGroupLifecycleStateDeleted
+		return dynamicGroupResponse.LifecycleState != oci_identity.DynamicGroupLifecycleStateDeleted
 	}
 	return false
 }

@@ -225,7 +225,7 @@ func getInstanceConsoleConnectionIds(compartment string) ([]string, error) {
 func instanceConsoleConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if instanceConsoleConnectionResponse, ok := response.Response.(oci_core.GetInstanceConsoleConnectionResponse); ok {
-		return instanceConsoleConnectionResponse.LifecycleState == oci_core.InstanceConsoleConnectionLifecycleStateDeleted
+		return instanceConsoleConnectionResponse.LifecycleState != oci_core.InstanceConsoleConnectionLifecycleStateDeleted
 	}
 	return false
 }

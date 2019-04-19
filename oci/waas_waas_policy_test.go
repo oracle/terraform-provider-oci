@@ -807,7 +807,7 @@ func getWaasPolicyIds(compartment string) ([]string, error) {
 func waasPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if waasPolicyResponse, ok := response.Response.(oci_waas.GetWaasPolicyResponse); ok {
-		return waasPolicyResponse.LifecycleState == oci_waas.WaasPolicyLifecycleStateDeleted
+		return waasPolicyResponse.LifecycleState != oci_waas.WaasPolicyLifecycleStateDeleted
 	}
 	return false
 }

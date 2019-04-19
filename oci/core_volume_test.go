@@ -661,7 +661,7 @@ func getVolumeIds(compartment string) ([]string, error) {
 func volumeSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if volumeResponse, ok := response.Response.(oci_core.GetVolumeResponse); ok {
-		return volumeResponse.LifecycleState == oci_core.VolumeLifecycleStateTerminated
+		return volumeResponse.LifecycleState != oci_core.VolumeLifecycleStateTerminated
 	}
 	return false
 }

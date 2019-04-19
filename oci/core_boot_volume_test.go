@@ -372,7 +372,7 @@ func getBootVolumeIds(compartment string) ([]string, error) {
 func bootVolumeSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if bootVolumeResponse, ok := response.Response.(oci_core.GetBootVolumeResponse); ok {
-		return bootVolumeResponse.LifecycleState == oci_core.BootVolumeLifecycleStateTerminated
+		return bootVolumeResponse.LifecycleState != oci_core.BootVolumeLifecycleStateTerminated
 	}
 	return false
 }

@@ -280,7 +280,7 @@ func getIpSecConnectionIds(compartment string) ([]string, error) {
 func ipSecConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if ipSecConnectionResponse, ok := response.Response.(oci_core.GetIPSecConnectionResponse); ok {
-		return ipSecConnectionResponse.LifecycleState == oci_core.IpSecConnectionLifecycleStateTerminated
+		return ipSecConnectionResponse.LifecycleState != oci_core.IpSecConnectionLifecycleStateTerminated
 	}
 	return false
 }
