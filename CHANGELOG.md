@@ -1,7 +1,8 @@
-## 3.23.1 (Unreleased)
+## 3.24.0 (Unreleased)
 
 ### Added
 - Support data source for cost tracking tags
+- Singular data sources will reuse resource schema
 
 ## 3.23.0 (April 17, 2019)
 
@@ -9,8 +10,7 @@
 - Support for updating `license_model` for `oci_autonomous_database` resource
 - Support for updating `static_routes` and new `cpe_local_identifier` in `oci_core_ipsec` resource for improved VPN service usability
 - Support for updating `whitelisted_ips` in `autonomous_database`. Note: Cannot be used during creation.
-- Support tagging for Dynamic Groups in Identity
-- Singular data sources will reuse resource schema 
+- Support tagging for Dynamic Groups in Identity 
 
 ## 3.22.0 (April 10, 2019)
 
