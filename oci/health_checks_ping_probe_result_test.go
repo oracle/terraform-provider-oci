@@ -19,7 +19,7 @@ var (
 	pingProbeResultDataSourceRepresentation = map[string]interface{}{
 		"probe_configuration_id":              Representation{repType: Required, create: `${oci_health_checks_ping_monitor.test_ping_monitor.id}`},
 		"start_time_greater_than_or_equal_to": Representation{repType: Optional, create: strconv.FormatInt(pringProbeStartTime.UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
-		"start_time_less_than_or_equal_to":    Representation{repType: Optional, create: strconv.FormatInt(pringProbeStartTime.Add(5*time.Minute).UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
+		"start_time_less_than_or_equal_to":    Representation{repType: Optional, create: strconv.FormatInt(pringProbeStartTime.Add(30*time.Minute).UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
 		"target":                              Representation{repType: Optional, create: `www.oracle.com`},
 	}
 

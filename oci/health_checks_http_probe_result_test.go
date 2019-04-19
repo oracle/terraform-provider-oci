@@ -19,7 +19,7 @@ var (
 	httpProbeResultDataSourceRepresentation = map[string]interface{}{
 		"probe_configuration_id":              Representation{repType: Required, create: `${oci_health_checks_http_monitor.test_http_monitor.id}`},
 		"start_time_greater_than_or_equal_to": Representation{repType: Optional, create: strconv.FormatInt(startTime.UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
-		"start_time_less_than_or_equal_to":    Representation{repType: Optional, create: strconv.FormatInt(startTime.Add(5*time.Minute).UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
+		"start_time_less_than_or_equal_to":    Representation{repType: Optional, create: strconv.FormatInt(startTime.Add(30*time.Minute).UnixNano()/(int64(time.Millisecond)/int64(time.Nanosecond)), 10)},
 		"target":                              Representation{repType: Optional, create: `www.oracle.com`},
 	}
 
