@@ -1,4 +1,9 @@
-## 3.25.0 (Unreleased)
+## 3.24.1 (Unreleased)
+
+### Fixed
+- Fix unhandled error when Security Lists are altered outside Terraform
+- Updated `availability_domain` property to be case insensitive
+
 ## 3.24.0 (April 24, 2019)
 
 ### Added
