@@ -312,7 +312,7 @@ func getVcnIds(compartment string) ([]string, error) {
 func vcnSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if vcnResponse, ok := response.Response.(oci_core.GetVcnResponse); ok {
-		return vcnResponse.LifecycleState == oci_core.VcnLifecycleStateTerminated
+		return vcnResponse.LifecycleState != oci_core.VcnLifecycleStateTerminated
 	}
 	return false
 }

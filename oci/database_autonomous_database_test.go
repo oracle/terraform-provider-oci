@@ -470,7 +470,7 @@ func getAutonomousDatabaseIds(compartment string) ([]string, error) {
 func autonomousDatabaseSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if autonomousDatabaseResponse, ok := response.Response.(oci_database.GetAutonomousDatabaseResponse); ok {
-		return autonomousDatabaseResponse.LifecycleState == oci_database.AutonomousDatabaseLifecycleStateTerminated
+		return autonomousDatabaseResponse.LifecycleState != oci_database.AutonomousDatabaseLifecycleStateTerminated
 	}
 	return false
 }

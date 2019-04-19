@@ -309,7 +309,7 @@ func getCrossConnectIds(compartment string) ([]string, error) {
 func crossConnectSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if crossConnectResponse, ok := response.Response.(oci_core.GetCrossConnectResponse); ok {
-		return crossConnectResponse.LifecycleState == oci_core.CrossConnectLifecycleStateTerminated
+		return crossConnectResponse.LifecycleState != oci_core.CrossConnectLifecycleStateTerminated
 	}
 	return false
 }

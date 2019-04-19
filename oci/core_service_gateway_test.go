@@ -295,7 +295,7 @@ func getServiceGatewayIds(compartment string) ([]string, error) {
 func serviceGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if serviceGatewayResponse, ok := response.Response.(oci_core.GetServiceGatewayResponse); ok {
-		return serviceGatewayResponse.LifecycleState == oci_core.ServiceGatewayLifecycleStateTerminated
+		return serviceGatewayResponse.LifecycleState != oci_core.ServiceGatewayLifecycleStateTerminated
 	}
 	return false
 }
