@@ -47,8 +47,9 @@ func CoreInstancePoolResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						// Required
 						"availability_domain": {
-							Type:     schema.TypeString,
-							Required: true,
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 						},
 						"primary_subnet_id": {
 							Type:     schema.TypeString,
