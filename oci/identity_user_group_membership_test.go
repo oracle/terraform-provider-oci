@@ -202,7 +202,7 @@ func getUserGroupMembershipIds(compartment string) ([]string, error) {
 func userGroupMembershipSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if userGroupMembershipResponse, ok := response.Response.(oci_identity.GetUserGroupMembershipResponse); ok {
-		return userGroupMembershipResponse.LifecycleState == oci_identity.UserGroupMembershipLifecycleStateDeleted
+		return userGroupMembershipResponse.LifecycleState != oci_identity.UserGroupMembershipLifecycleStateDeleted
 	}
 	return false
 }

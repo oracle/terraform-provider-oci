@@ -567,7 +567,7 @@ func getSteeringPolicyIds(compartment string) ([]string, error) {
 func steeringPolicySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if steeringPolicyResponse, ok := response.Response.(oci_dns.GetSteeringPolicyResponse); ok {
-		return steeringPolicyResponse.LifecycleState == oci_dns.SteeringPolicyLifecycleStateDeleted
+		return steeringPolicyResponse.LifecycleState != oci_dns.SteeringPolicyLifecycleStateDeleted
 	}
 	return false
 }

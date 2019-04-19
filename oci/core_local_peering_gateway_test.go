@@ -334,7 +334,7 @@ func getLocalPeeringGatewayIds(compartment string) ([]string, error) {
 func localPeeringGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if localPeeringGatewayResponse, ok := response.Response.(oci_core.GetLocalPeeringGatewayResponse); ok {
-		return localPeeringGatewayResponse.LifecycleState == oci_core.LocalPeeringGatewayLifecycleStateTerminated
+		return localPeeringGatewayResponse.LifecycleState != oci_core.LocalPeeringGatewayLifecycleStateTerminated
 	}
 	return false
 }

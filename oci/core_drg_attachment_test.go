@@ -261,7 +261,7 @@ func getDrgAttachmentIds(compartment string) ([]string, error) {
 func drgAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if drgAttachmentResponse, ok := response.Response.(oci_core.GetDrgAttachmentResponse); ok {
-		return drgAttachmentResponse.LifecycleState == oci_core.DrgAttachmentLifecycleStateDetached
+		return drgAttachmentResponse.LifecycleState != oci_core.DrgAttachmentLifecycleStateDetached
 	}
 	return false
 }

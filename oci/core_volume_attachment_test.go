@@ -244,7 +244,7 @@ func getVolumeAttachmentIds(compartment string) ([]string, error) {
 func volumeAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if volumeAttachmentResponse, ok := response.Response.(oci_core.GetVolumeAttachmentResponse); ok {
-		return volumeAttachmentResponse.GetLifecycleState() == oci_core.VolumeAttachmentLifecycleStateDetached
+		return volumeAttachmentResponse.GetLifecycleState() != oci_core.VolumeAttachmentLifecycleStateDetached
 	}
 	return false
 }

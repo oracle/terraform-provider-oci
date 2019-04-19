@@ -345,7 +345,7 @@ func getSubnetIds(compartment string) ([]string, error) {
 func subnetSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if subnetResponse, ok := response.Response.(oci_core.GetSubnetResponse); ok {
-		return subnetResponse.LifecycleState == oci_core.SubnetLifecycleStateTerminated
+		return subnetResponse.LifecycleState != oci_core.SubnetLifecycleStateTerminated
 	}
 	return false
 }

@@ -300,7 +300,7 @@ func getCertificateIds(compartment string) ([]string, error) {
 func certificateSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if certificateResponse, ok := response.Response.(oci_waas.GetCertificateResponse); ok {
-		return certificateResponse.LifecycleState == oci_waas.CertificateLifecycleStateDeleted
+		return certificateResponse.LifecycleState != oci_waas.CertificateLifecycleStateDeleted
 	}
 	return false
 }

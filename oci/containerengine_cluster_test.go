@@ -310,7 +310,7 @@ func getClusterIds(compartment string) ([]string, error) {
 func clusterSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if clusterResponse, ok := response.Response.(oci_containerengine.GetClusterResponse); ok {
-		return clusterResponse.LifecycleState == oci_containerengine.ClusterLifecycleStateDeleted
+		return clusterResponse.LifecycleState != oci_containerengine.ClusterLifecycleStateDeleted
 	}
 	return false
 }

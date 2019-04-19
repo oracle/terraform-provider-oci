@@ -389,7 +389,7 @@ func getZoneIds(compartment string) ([]string, error) {
 func zoneSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if zoneResponse, ok := response.Response.(oci_dns.GetZoneResponse); ok {
-		return zoneResponse.LifecycleState == oci_dns.ZoneLifecycleStateDeleted
+		return zoneResponse.LifecycleState != oci_dns.ZoneLifecycleStateDeleted
 	}
 	return false
 }

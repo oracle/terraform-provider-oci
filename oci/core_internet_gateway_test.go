@@ -280,7 +280,7 @@ func getInternetGatewayIds(compartment string) ([]string, error) {
 func internetGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if internetGatewayResponse, ok := response.Response.(oci_core.GetInternetGatewayResponse); ok {
-		return internetGatewayResponse.LifecycleState == oci_core.InternetGatewayLifecycleStateTerminated
+		return internetGatewayResponse.LifecycleState != oci_core.InternetGatewayLifecycleStateTerminated
 	}
 	return false
 }

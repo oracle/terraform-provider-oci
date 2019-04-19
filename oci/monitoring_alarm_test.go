@@ -374,7 +374,7 @@ func getAlarmIds(compartment string) ([]string, error) {
 func alarmSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if alarmResponse, ok := response.Response.(oci_monitoring.GetAlarmResponse); ok {
-		return alarmResponse.LifecycleState == oci_monitoring.AlarmLifecycleStateDeleted
+		return alarmResponse.LifecycleState != oci_monitoring.AlarmLifecycleStateDeleted
 	}
 	return false
 }

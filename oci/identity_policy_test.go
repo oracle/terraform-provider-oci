@@ -279,7 +279,7 @@ func getPolicyIds(compartment string) ([]string, error) {
 func policySweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if policyResponse, ok := response.Response.(oci_identity.GetPolicyResponse); ok {
-		return policyResponse.LifecycleState == oci_identity.PolicyLifecycleStateDeleted
+		return policyResponse.LifecycleState != oci_identity.PolicyLifecycleStateDeleted
 	}
 	return false
 }

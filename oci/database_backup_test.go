@@ -206,7 +206,7 @@ func getBackupIds(compartment string) ([]string, error) {
 func backupSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if backupResponse, ok := response.Response.(oci_database.GetBackupResponse); ok {
-		return backupResponse.LifecycleState == oci_database.BackupLifecycleStateDeleted
+		return backupResponse.LifecycleState != oci_database.BackupLifecycleStateDeleted
 	}
 	return false
 }
