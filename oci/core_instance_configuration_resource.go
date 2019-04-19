@@ -119,10 +119,11 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 
 												// Optional
 												"availability_domain": {
-													Type:     schema.TypeString,
-													Optional: true,
-													Computed: true,
-													ForceNew: true,
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 												},
 												"backup_policy_id": {
 													Type:     schema.TypeString,
@@ -227,10 +228,11 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 
 									// Optional
 									"availability_domain": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-										ForceNew: true,
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 									},
 									"compartment_id": {
 										Type:     schema.TypeString,

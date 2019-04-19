@@ -40,10 +40,11 @@ func CoreSubnetResource() *schema.Resource {
 
 			// Optional
 			"availability_domain": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,

@@ -33,9 +33,10 @@ func DatabaseDbSystemResource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,

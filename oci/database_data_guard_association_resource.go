@@ -68,10 +68,11 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 
 			// Optional
 			"availability_domain": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
