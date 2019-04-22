@@ -54,9 +54,9 @@ var (
 	NotificationTopicResourceDependencies = DefinedTagsDependencies
 )
 
-func getTopicRepresentationCopyWithSuffixName(suffix string) map[string]interface{} {
+func getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(length int, charset string, httpReplayValue string) map[string]interface{} {
 	return representationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
-		"name": Representation{repType: Required, create: "t" + suffix},
+		"name": Representation{repType: Required, create: randomStringOrHttpReplayValue(length, charset, httpReplayValue)},
 	})
 }
 

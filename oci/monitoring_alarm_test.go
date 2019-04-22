@@ -64,8 +64,8 @@ var (
 	}
 
 	AlarmResourceDependencies = DefinedTagsDependencies + AvailabilityDomainConfig +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithSuffixName("alarm1")) +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic2", Required, Create, getTopicRepresentationCopyWithSuffixName("alarm2"))
+		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "talarm1")) +
+		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic2", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "talarm2"))
 )
 
 func TestMonitoringAlarmResource_basic(t *testing.T) {
