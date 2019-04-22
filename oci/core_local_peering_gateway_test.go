@@ -175,8 +175,6 @@ func TestCoreLocalPeeringGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.is_cross_tenancy_peering"),
-					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.peer_advertised_cidr"),
-					resource.TestCheckResourceAttr(datasourceName, "local_peering_gateways.0.peer_advertised_cidr_details.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.peering_status"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.peering_status_details"),
 					resource.TestCheckResourceAttrSet(datasourceName, "local_peering_gateways.0.route_table_id"),
