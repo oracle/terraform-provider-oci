@@ -97,19 +97,19 @@ func TestCheckResourceAttributesEqual(name1, key1, name2, key2 string) resource.
 }
 
 // Function to be implemented by resources that wish to wait on a certain condition and this function is responsible for evaluating the specific condition for that resource
-type WaitConditionFunc func(response oci_common.OCIOperationResponse) bool
+type ShouldWaitFunc func(response oci_common.OCIOperationResponse) bool
 
 // Function to be implemented by resources that wish to wait on a certain condition and this function is responsible for fetching the latest state using the resourceId
 type FetchOperationFunc func(client *OracleClients, resourceId *string, retryPolicy *oci_common.RetryPolicy) error
 
-// This function waits for the given time and retries the WaitConditionFunc and periodically invokes the FetchOperationFunc to fetch the latest response
-func waitTillCondition(testAccProvider *schema.Provider, resourceId *string, condition WaitConditionFunc, timeout time.Duration,
+// This function waits for the given time and retries the ShouldWaitFunc and periodically invokes the FetchOperationFunc to fetch the latest response
+func waitTillCondition(testAccProvider *schema.Provider, resourceId *string, shouldWait ShouldWaitFunc, timeout time.Duration,
 	fetchOperationFunc FetchOperationFunc, service string, disableNotFoundRetries bool) func() {
 	return func() {
 		client := testAccProvider.Meta().(*OracleClients)
 		log.Printf("[INFO] start of waitTillCondition for resource %s ", *resourceId)
 		retryPolicy := getRetryPolicy(disableNotFoundRetries, service)
-		retryPolicy.ShouldRetryOperation = conditionShouldRetry(timeout, condition, service, disableNotFoundRetries)
+		retryPolicy.ShouldRetryOperation = conditionShouldRetry(timeout, shouldWait, service, disableNotFoundRetries)
 
 		err := fetchOperationFunc(client, resourceId, retryPolicy)
 		if err != nil {
@@ -120,8 +120,8 @@ func waitTillCondition(testAccProvider *schema.Provider, resourceId *string, con
 	}
 }
 
-// This function is responsible for the actual check for WaitConditionFunc and the aborting
-func conditionShouldRetry(timeout time.Duration, condition WaitConditionFunc, service string, disableNotFoundRetries bool) func(response oci_common.OCIOperationResponse) bool {
+// This function is responsible for the actual check for ShouldWaitFunc and the aborting
+func conditionShouldRetry(timeout time.Duration, shouldWait ShouldWaitFunc, service string, disableNotFoundRetries bool) func(response oci_common.OCIOperationResponse) bool {
 	startTime := time.Now()
 	stopTime := startTime.Add(timeout)
 	return func(response oci_common.OCIOperationResponse) bool {
@@ -136,7 +136,7 @@ func conditionShouldRetry(timeout time.Duration, condition WaitConditionFunc, se
 			return true
 		}
 
-		return condition(response)
+		return shouldWait(response)
 	}
 }
 
