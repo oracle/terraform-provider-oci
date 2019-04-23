@@ -279,9 +279,11 @@ func getImageIds(compartment string) ([]string, error) {
 		return resourceIds, fmt.Errorf("Error getting Image list for compartment id : %s , %s \n", compartmentId, err)
 	}
 	for _, image := range listImagesResponse.Items {
-		id := *image.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ImageId", id)
+		if image.CompartmentId != nil && *image.CompartmentId == compartment && image.BaseImageId != nil {
+			id := *image.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "ImageId", id)
+		}
 	}
 	return resourceIds, nil
 }
