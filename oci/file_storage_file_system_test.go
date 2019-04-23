@@ -252,16 +252,26 @@ func getFileSystemIds(compartment string) ([]string, error) {
 
 	listFileSystemsRequest := oci_file_storage.ListFileSystemsRequest{}
 	listFileSystemsRequest.CompartmentId = &compartmentId
-	listFileSystemsRequest.LifecycleState = oci_file_storage.ListFileSystemsLifecycleStateActive
-	listFileSystemsResponse, err := fileStorageClient.ListFileSystems(context.Background(), listFileSystemsRequest)
 
+	availabilityDomains, err := getAvalabilityDomains(compartment)
 	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting FileSystem list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting availabilityDomains required for FileSystem list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, fileSystem := range listFileSystemsResponse.Items {
-		id := *fileSystem.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "FileSystemId", id)
+	for _, availabilityDomainName := range availabilityDomains {
+		listFileSystemsRequest.AvailabilityDomain = &availabilityDomainName
+
+		listFileSystemsRequest.LifecycleState = oci_file_storage.ListFileSystemsLifecycleStateActive
+		listFileSystemsResponse, err := fileStorageClient.ListFileSystems(context.Background(), listFileSystemsRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting FileSystem list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, fileSystem := range listFileSystemsResponse.Items {
+			id := *fileSystem.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "FileSystemId", id)
+		}
+
 	}
 	return resourceIds, nil
 }
