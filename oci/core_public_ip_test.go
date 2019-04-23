@@ -456,15 +456,22 @@ func getPublicIpIds(compartment string) ([]string, error) {
 
 	listPublicIpsRequest := oci_core.ListPublicIpsRequest{}
 	listPublicIpsRequest.CompartmentId = &compartmentId
-	listPublicIpsResponse, err := virtualNetworkClient.ListPublicIps(context.Background(), listPublicIpsRequest)
 
-	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting PublicIp list for compartment id : %s , %s \n", compartmentId, err)
-	}
-	for _, publicIp := range listPublicIpsResponse.Items {
-		id := *publicIp.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "PublicIpId", id)
+	scopes := oci_core.GetListPublicIpsScopeEnumValues()
+	for _, scope := range scopes {
+		listPublicIpsRequest.Scope = scope
+
+		listPublicIpsResponse, err := virtualNetworkClient.ListPublicIps(context.Background(), listPublicIpsRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting PublicIp list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, publicIp := range listPublicIpsResponse.Items {
+			id := *publicIp.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "PublicIpId", id)
+		}
+
 	}
 	return resourceIds, nil
 }

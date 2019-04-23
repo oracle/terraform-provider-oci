@@ -298,16 +298,26 @@ func getMountTargetIds(compartment string) ([]string, error) {
 
 	listMountTargetsRequest := oci_file_storage.ListMountTargetsRequest{}
 	listMountTargetsRequest.CompartmentId = &compartmentId
-	listMountTargetsRequest.LifecycleState = oci_file_storage.ListMountTargetsLifecycleStateActive
-	listMountTargetsResponse, err := fileStorageClient.ListMountTargets(context.Background(), listMountTargetsRequest)
 
+	availabilityDomains, err := getAvalabilityDomains(compartment)
 	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting MountTarget list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting availabilityDomains required for MountTarget list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, mountTarget := range listMountTargetsResponse.Items {
-		id := *mountTarget.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "MountTargetId", id)
+	for _, availabilityDomainName := range availabilityDomains {
+		listMountTargetsRequest.AvailabilityDomain = &availabilityDomainName
+
+		listMountTargetsRequest.LifecycleState = oci_file_storage.ListMountTargetsLifecycleStateActive
+		listMountTargetsResponse, err := fileStorageClient.ListMountTargets(context.Background(), listMountTargetsRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting MountTarget list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, mountTarget := range listMountTargetsResponse.Items {
+			id := *mountTarget.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "MountTargetId", id)
+		}
+
 	}
 	return resourceIds, nil
 }
