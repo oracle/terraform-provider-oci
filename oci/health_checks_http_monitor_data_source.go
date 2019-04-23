@@ -10,85 +10,12 @@ import (
 )
 
 func HealthChecksHttpMonitorDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularHealthChecksHttpMonitor,
-		Schema: map[string]*schema.Schema{
-			"monitor_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"headers": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"interval_in_seconds": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"is_enabled": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"method": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"path": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"port": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"protocol": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"results_url": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"targets": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
-			"timeout_in_seconds": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"vantage_point_names": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["monitor_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(HealthChecksHttpMonitorResource(), fieldMap, readSingularHealthChecksHttpMonitor)
 }
 
 func readSingularHealthChecksHttpMonitor(d *schema.ResourceData, m interface{}) error {

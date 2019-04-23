@@ -10,44 +10,12 @@ import (
 )
 
 func IdentityTagDefaultDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularIdentityTagDefault,
-		Schema: map[string]*schema.Schema{
-			"tag_default_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"tag_definition_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"tag_definition_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"tag_namespace_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"value": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["tag_default_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(IdentityTagDefaultResource(), fieldMap, readSingularIdentityTagDefault)
 }
 
 func readSingularIdentityTagDefault(d *schema.ResourceData, m interface{}) error {

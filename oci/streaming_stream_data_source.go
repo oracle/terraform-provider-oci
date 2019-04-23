@@ -10,58 +10,12 @@ import (
 )
 
 func StreamingStreamDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularStreamingStream,
-		Schema: map[string]*schema.Schema{
-			"stream_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"lifecycle_state_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"messages_endpoint": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"partitions": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"retention_in_hours": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["stream_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(StreamingStreamResource(), fieldMap, readSingularStreamingStream)
 }
 
 func readSingularStreamingStream(d *schema.ResourceData, m interface{}) error {

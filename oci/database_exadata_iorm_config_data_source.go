@@ -10,53 +10,12 @@ import (
 )
 
 func DatabaseExadataIormConfigDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDatabaseExadataIormConfig,
-		Schema: map[string]*schema.Schema{
-			"db_system_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"db_plans": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"db_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"flash_cache_limit": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"share": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"objective": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["db_system_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(DatabaseExadataIormConfigResource(), fieldMap, readSingularDatabaseExadataIormConfig)
 }
 
 func readSingularDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) error {

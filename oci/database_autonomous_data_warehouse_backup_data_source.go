@@ -10,52 +10,12 @@ import (
 )
 
 func DatabaseAutonomousDataWarehouseBackupDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDatabaseAutonomousDataWarehouseBackup,
-		Schema: map[string]*schema.Schema{
-			"autonomous_data_warehouse_backup_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"autonomous_data_warehouse_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"is_automatic": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_ended": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_started": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["autonomous_data_warehouse_backup_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(DatabaseAutonomousDataWarehouseBackupResource(), fieldMap, readSingularDatabaseAutonomousDataWarehouseBackup)
 }
 
 func readSingularDatabaseAutonomousDataWarehouseBackup(d *schema.ResourceData, m interface{}) error {

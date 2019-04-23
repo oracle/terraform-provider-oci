@@ -6,70 +6,20 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/helper/validation"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
 func LoadBalancerRuleSetDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularLoadBalancerRuleSet,
-		Schema: map[string]*schema.Schema{
-			"load_balancer_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"items": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"action": {
-							Type:             schema.TypeString,
-							Required:         true,
-							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
-							ValidateFunc: validation.StringInSlice([]string{
-								"ADD_HTTP_REQUEST_HEADER",
-								"ADD_HTTP_RESPONSE_HEADER",
-								"EXTEND_HTTP_REQUEST_HEADER_VALUE",
-								"EXTEND_HTTP_RESPONSE_HEADER_VALUE",
-								"REMOVE_HTTP_REQUEST_HEADER",
-								"REMOVE_HTTP_RESPONSE_HEADER",
-							}, true),
-						},
-						"header": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-
-						// Optional
-						"prefix": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"suffix": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"value": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-
-						// Computed
-					},
-				},
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["load_balancer_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	fieldMap["name"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return GetSingularDataSourceItemSchema(LoadBalancerRuleSetResource(), fieldMap, readSingularLoadBalancerRuleSet)
 }
 
 func readSingularLoadBalancerRuleSet(d *schema.ResourceData, m interface{}) error {

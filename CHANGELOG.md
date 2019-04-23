@@ -1,4 +1,9 @@
-## 3.23.1 (Unreleased)
+## 3.24.0 (Unreleased)
+
+### Added
+- Support data source for cost tracking tags
+- Singular data sources will reuse resource schema
+
 ## 3.23.0 (April 17, 2019)
 
 ### Added

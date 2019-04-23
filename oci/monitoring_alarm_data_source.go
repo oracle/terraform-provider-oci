@@ -10,121 +10,12 @@ import (
 )
 
 func MonitoringAlarmDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularMonitoringAlarm,
-		Schema: map[string]*schema.Schema{
-			"alarm_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"body": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"destinations": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"is_enabled": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"metric_compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"metric_compartment_id_in_subtree": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"namespace": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"pending_duration": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"query": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"repeat_notification_duration": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"resolution": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"severity": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"suppression": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"time_suppress_from": {
-							Type:             schema.TypeString,
-							Required:         true,
-							DiffSuppressFunc: timeDiffSuppressFunction,
-						},
-						"time_suppress_until": {
-							Type:             schema.TypeString,
-							Required:         true,
-							DiffSuppressFunc: timeDiffSuppressFunction,
-						},
-
-						// Optional
-						"description": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-
-						// Computed
-					},
-				},
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_updated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["alarm_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(MonitoringAlarmResource(), fieldMap, readSingularMonitoringAlarm)
 }
 
 func readSingularMonitoringAlarm(d *schema.ResourceData, m interface{}) error {

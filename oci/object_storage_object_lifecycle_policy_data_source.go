@@ -6,108 +6,20 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/helper/validation"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
 func ObjectStorageObjectLifecyclePolicyDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularObjectStorageObjectLifecyclePolicy,
-		Schema: map[string]*schema.Schema{
-			"bucket": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"namespace": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"rules": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"action": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						"is_enabled": {
-							Type:     schema.TypeBool,
-							Required: true,
-						},
-						"name": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						"time_amount": {
-							Type:             schema.TypeString,
-							Required:         true,
-							ValidateFunc:     validateInt64TypeString,
-							DiffSuppressFunc: int64StringDiffSuppressFunction,
-						},
-						"time_unit": {
-							Type:     schema.TypeString,
-							Required: true,
-							ValidateFunc: validation.StringInSlice([]string{
-								string(oci_object_storage.ObjectLifecycleRuleTimeUnitDays),
-								string(oci_object_storage.ObjectLifecycleRuleTimeUnitYears),
-							}, false),
-						},
-
-						// Optional
-						"object_name_filter": {
-							Type:     schema.TypeList,
-							Optional: true,
-							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-									"exclusion_patterns": {
-										Type:     schema.TypeList,
-										Optional: true,
-										Computed: true,
-										Elem: &schema.Schema{
-											Type: schema.TypeString,
-										},
-									},
-									"inclusion_patterns": {
-										Type:     schema.TypeList,
-										Optional: true,
-										Computed: true,
-										Elem: &schema.Schema{
-											Type: schema.TypeString,
-										},
-									},
-									"inclusion_prefixes": {
-										Type:     schema.TypeList,
-										Optional: true,
-										Computed: true,
-										Elem: &schema.Schema{
-											Type: schema.TypeString,
-										},
-									},
-
-									// Computed
-								},
-							},
-						},
-
-						// Computed
-					},
-				},
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["bucket"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	fieldMap["namespace"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return GetSingularDataSourceItemSchema(ObjectStorageObjectLifecyclePolicyResource(), fieldMap, readSingularObjectStorageObjectLifecyclePolicy)
 }
 
 func readSingularObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {

@@ -10,46 +10,12 @@ import (
 )
 
 func EmailSenderDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularEmailSender,
-		Schema: map[string]*schema.Schema{
-			"sender_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"email_address": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"is_spf": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["sender_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(EmailSenderResource(), fieldMap, readSingularEmailSender)
 }
 
 func readSingularEmailSender(d *schema.ResourceData, m interface{}) error {
