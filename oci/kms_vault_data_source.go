@@ -10,58 +10,12 @@ import (
 )
 
 func KmsVaultDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularKmsVault,
-		Schema: map[string]*schema.Schema{
-			"vault_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"crypto_endpoint": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"management_endpoint": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_of_deletion": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vault_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["vault_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(KmsVaultResource(), fieldMap, readSingularKmsVault)
 }
 
 func readSingularKmsVault(d *schema.ResourceData, m interface{}) error {

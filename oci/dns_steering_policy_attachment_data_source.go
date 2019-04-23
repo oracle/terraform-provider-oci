@@ -10,55 +10,12 @@ import (
 )
 
 func DnsSteeringPolicyAttachmentDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDnsSteeringPolicyAttachment,
-		Schema: map[string]*schema.Schema{
-			"steering_policy_attachment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"domain_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"rtypes": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
-			"self": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"steering_policy_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"zone_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["steering_policy_attachment_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(DnsSteeringPolicyAttachmentResource(), fieldMap, readSingularDnsSteeringPolicyAttachment)
 }
 
 func readSingularDnsSteeringPolicyAttachment(d *schema.ResourceData, m interface{}) error {

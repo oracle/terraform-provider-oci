@@ -11,44 +11,12 @@ import (
 )
 
 func DatabaseDbHomeDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDatabaseDbHome,
-		Schema: map[string]*schema.Schema{
-			"db_home_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"db_system_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"db_version": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"last_patch_history_entry_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["db_home_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(DatabaseDbHomeResource(), fieldMap, readSingularDatabaseDbHome)
 }
 
 func readSingularDatabaseDbHome(d *schema.ResourceData, m interface{}) error {

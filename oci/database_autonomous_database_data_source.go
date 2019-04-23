@@ -10,115 +10,12 @@ import (
 )
 
 func DatabaseAutonomousDatabaseDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDatabaseAutonomousDatabase,
-		Schema: map[string]*schema.Schema{
-			"autonomous_database_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"connection_strings": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"all_connection_strings": {
-							Type:     schema.TypeMap,
-							Computed: true,
-							Elem:     schema.TypeString,
-						},
-						"high": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"low": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"medium": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"cpu_core_count": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"data_storage_size_in_tbs": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"db_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"db_version": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"db_workload": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"license_model": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"service_console_url": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"used_data_storage_size_in_tbs": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"whitelisted_ips": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["autonomous_database_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(DatabaseAutonomousDatabaseResource(), fieldMap, readSingularDatabaseAutonomousDatabase)
 }
 
 func readSingularDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {

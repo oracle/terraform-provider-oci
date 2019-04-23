@@ -10,32 +10,12 @@ import (
 )
 
 func EmailSuppressionDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularEmailSuppression,
-		Schema: map[string]*schema.Schema{
-			"suppression_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"email_address": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"reason": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["suppression_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(EmailSuppressionResource(), fieldMap, readSingularEmailSuppression)
 }
 
 func readSingularEmailSuppression(d *schema.ResourceData, m interface{}) error {

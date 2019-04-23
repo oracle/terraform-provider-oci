@@ -10,54 +10,12 @@ import (
 )
 
 func OnsNotificationTopicDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularOnsNotificationTopic,
-		Schema: map[string]*schema.Schema{
-			"topic_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"api_endpoint": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"etag": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["topic_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(OnsNotificationTopicResource(), fieldMap, readSingularOnsNotificationTopic)
 }
 
 func readSingularOnsNotificationTopic(d *schema.ResourceData, m interface{}) error {

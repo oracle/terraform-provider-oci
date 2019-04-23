@@ -206,21 +206,12 @@ func (s *IdentityTagNamespaceResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			changeCompartmentRequest := oci_identity.ChangeTagNamespaceCompartmentRequest{}
-
-			compartmentTmp := compartment.(string)
-			changeCompartmentRequest.CompartmentId = &compartmentTmp
-
-			idTmp := s.D.Id()
-			changeCompartmentRequest.TagNamespaceId = &idTmp
-
-			_, err := s.Client.ChangeTagNamespaceCompartment(context.Background(), changeCompartmentRequest)
+			err := s.updateCompartment(compartment)
 			if err != nil {
 				return err
 			}
 		}
 	}
-
 	request := oci_identity.UpdateTagNamespaceRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -286,5 +277,23 @@ func (s *IdentityTagNamespaceResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
+}
+
+func (s *IdentityTagNamespaceResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_identity.ChangeTagNamespaceCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.TagNamespaceId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	_, err := s.Client.ChangeTagNamespaceCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
 	return nil
 }

@@ -11,75 +11,16 @@ import (
 )
 
 func ObjectStorageBucketDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularObjectStorageBucket,
-		Schema: map[string]*schema.Schema{
-			"name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"namespace": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"access_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"approximate_count": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"approximate_size": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"created_by": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"etag": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"kms_key_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"metadata": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"object_lifecycle_policy_etag": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"storage_tier": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["name"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	fieldMap["namespace"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return GetSingularDataSourceItemSchema(ObjectStorageBucketResource(), fieldMap, readSingularObjectStorageBucket)
 }
 
 func readSingularObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
