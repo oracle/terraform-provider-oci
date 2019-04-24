@@ -1,4 +1,8 @@
 ## 3.25.1 (Unreleased)
+
+### Added
+- Support for setting `compartment_id` argument in `object_storage_namespace` data source
+
 ## 3.25.0 (May 15, 2019)
 
 ### Added
