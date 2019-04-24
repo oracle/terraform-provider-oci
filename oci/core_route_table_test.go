@@ -90,6 +90,11 @@ var (
 	}
 	
 	data "oci_core_services" "test_services" {
+  		filter {
+    		name   = "name"
+    		values = ["OCI .* Object Storage"]
+			regex  = true
+  		}
 	}
 	`
 )
@@ -242,7 +247,6 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
-						"cidr_block":       "0.0.0.0/0",
 						"destination":      "0.0.0.0/0",
 						"destination_type": "CIDR_BLOCK",
 					},
@@ -271,7 +275,6 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{
-						"cidr_block":       "10.0.0.0/8",
 						"destination":      "10.0.0.0/8",
 						"destination_type": "CIDR_BLOCK",
 					},
@@ -304,7 +307,7 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "route_rules.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"cidr_block": "10.0.0.0/8", "destination_type": "CIDR_BLOCK"}, []string{"network_entity_id"}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "route_rules", map[string]string{"destination": "10.0.0.0/8", "destination_type": "CIDR_BLOCK"}, []string{"network_entity_id"}),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -337,7 +340,6 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "route_tables.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "route_tables.0.route_rules.#", "1"),
 					CheckResourceSetContainsElementWithProperties(datasourceName, "route_tables.0.route_rules", map[string]string{
-						"cidr_block":       "10.0.0.0/8",
 						"destination":      "10.0.0.0/8",
 						"destination_type": "CIDR_BLOCK",
 					},
