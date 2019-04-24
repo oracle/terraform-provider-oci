@@ -17,7 +17,9 @@ import (
 )
 
 var (
-	namespaceSingularDataSourceRepresentation = map[string]interface{}{}
+	namespaceSingularDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Optional, create: `${var.compartment_id}`},
+	}
 
 	NamespaceResourceConfig = ""
 )
@@ -29,6 +31,11 @@ func TestObjectStorageNamespaceResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	singularDatasourceName := "data.oci_objectstorage_namespace.test_namespace"
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -38,9 +45,11 @@ func TestObjectStorageNamespaceResource_basic(t *testing.T) {
 			// verify singular datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
-					NamespaceResourceConfig,
-				Check: resource.ComposeAggregateTestCheckFunc(),
+					generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Optional, Create, namespaceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + NamespaceResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				),
 			},
 		},
 	})

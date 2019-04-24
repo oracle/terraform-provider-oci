@@ -13,6 +13,10 @@ func ObjectStorageNamespaceDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularObjectStorageNamespace,
 		Schema: map[string]*schema.Schema{
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			// Computed
 			// @CODEGEN 2/2018: No computed values are generated because the generator doesn't know what to do with
 			// responses that aren't reference types.
@@ -45,6 +49,11 @@ func (s *ObjectStorageNamespaceDataSourceCrud) VoidState() {
 
 func (s *ObjectStorageNamespaceDataSourceCrud) Get() error {
 	request := oci_object_storage.GetNamespaceRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")
 
