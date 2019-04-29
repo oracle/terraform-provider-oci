@@ -14,6 +14,10 @@ func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
 		Read: readDatabaseAutonomousDatabases,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"autonomous_container_database_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -59,6 +63,11 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) VoidState() {
 
 func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
 	request := oci_database.ListAutonomousDatabasesRequest{}
+
+	if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
+		tmp := autonomousContainerDatabaseId.(string)
+		request.AutonomousContainerDatabaseId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -114,10 +123,20 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.AutonomousContainerDatabaseId != nil {
+			autonomousDatabase["autonomous_container_database_id"] = *r.AutonomousContainerDatabaseId
+		}
+
 		if r.ConnectionStrings != nil {
 			autonomousDatabase["connection_strings"] = []interface{}{AutonomousDatabaseConnectionStringsToMap(r.ConnectionStrings)}
 		} else {
 			autonomousDatabase["connection_strings"] = nil
+		}
+
+		if r.ConnectionUrls != nil {
+			autonomousDatabase["connection_urls"] = []interface{}{AutonomousDatabaseConnectionUrlsToMap(r.ConnectionUrls)}
+		} else {
+			autonomousDatabase["connection_urls"] = nil
 		}
 
 		if r.CpuCoreCount != nil {
@@ -154,6 +173,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.IsAutoScalingEnabled != nil {
 			autonomousDatabase["is_auto_scaling_enabled"] = *r.IsAutoScalingEnabled
+		}
+
+		if r.IsDedicated != nil {
+			autonomousDatabase["is_dedicated"] = *r.IsDedicated
 		}
 
 		autonomousDatabase["license_model"] = r.LicenseModel

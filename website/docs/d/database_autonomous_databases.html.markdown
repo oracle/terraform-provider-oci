@@ -20,6 +20,7 @@ data "oci_database_autonomous_databases" "test_autonomous_databases" {
 	compartment_id = "${var.compartment_id}"
 
 	#Optional
+	autonomous_container_database_id = "${oci_database_autonomous_container_database.test_autonomous_container_database.id}"
 	db_workload = "${var.autonomous_database_db_workload}"
 	display_name = "${var.autonomous_database_display_name}"
 	state = "${var.autonomous_database_state}"
@@ -30,6 +31,7 @@ data "oci_database_autonomous_databases" "test_autonomous_databases" {
 
 The following arguments are supported:
 
+* `autonomous_container_database_id` - (Optional) The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `db_workload` - (Optional) A filter to return only autonomous database resources that match the specified workload type.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
@@ -46,12 +48,17 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `autonomous_container_database_id` - The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `connection_strings` - The connection string used to connect to the Autonomous Database. The username for the Service Console is ADMIN. Use the password you entered when creating the Autonomous Database for the password value.
 	* `all_connection_strings` - Returns all connection strings that can be used to connect to the Autonomous Database. For more information, please see [Predefined Database Service Names for Autonomous Transaction Processing](https://docs.oracle.com/en/cloud/paas/atp-cloud/atpug/connect-predefined.html#GUID-9747539B-FD46-44F1-8FF8-F5AC650F15BE) 
+	* `dedicated` - The database service provides the least level of resources to each SQL statement, but supports the most number of concurrent SQL statements.
 	* `high` - The High database service provides the highest level of resources to each SQL statement resulting in the highest performance, but supports the fewest number of concurrent SQL statements.
 	* `low` - The Low database service provides the least level of resources to each SQL statement, but supports the most number of concurrent SQL statements.
 	* `medium` - The Medium database service provides a lower level of resources to each SQL statement potentially resulting a lower level of performance, but supports more concurrent SQL statements.
+* `connection_urls` - 
+	* `apex_url` - Oracle Application Express (APEX) URL.
+	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `cpu_core_count` - The number of CPU cores to be made available to the database.
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
 * `db_name` - The database name.
@@ -62,6 +69,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
 * `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Autonomous Database CPU core count. 
+* `is_dedicated` - True if it is dedicated database. 
 * `license_model` - The Oracle license model that applies to the Oracle Autonomous Database. The default is BRING_YOUR_OWN_LICENSE. 
 * `lifecycle_details` - Information about the current lifecycle state.
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.

@@ -166,7 +166,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 			}
 
 			if simulateDb {
-				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems") || strings.Contains(r.URL.Path, "/autonomousData") || strings.Contains(r.URL.Path, "/dataGuardAssociations")) {
+				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems") || strings.Contains(r.URL.Path, "/autonomousData") || strings.Contains(r.URL.Path, "/dataGuardAssociations") || strings.Contains(r.URL.Path, "/autonomousExadata")) {
 					r.Header.Set(requestHeaderOpcHostSerial, "FAKEHOSTSERIAL")
 				}
 			}

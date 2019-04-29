@@ -1,4 +1,8 @@
-## 3.28.2 (Unreleased)
+## 3.29.0 (Unreleased)
+
+### Added
+- Support for autonomous transaction database-dedicated, autonomous exadata infrastructures, autonomous container databases and maintenance runs.
+
 ## 3.28.1 (June 05, 2019)
 
 ## Notes
