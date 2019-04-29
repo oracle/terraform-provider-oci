@@ -50,6 +50,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			},
 
 			// Optional
+			"autonomous_container_database_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"clone_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -84,6 +90,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
+			},
+			"is_dedicated": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"license_model": {
 				Type:     schema.TypeString,
@@ -134,6 +146,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"dedicated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"high": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -143,6 +159,29 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Computed: true,
 						},
 						"medium": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"connection_urls": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"apex_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"sql_dev_web_url": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -253,6 +292,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedPending() []string {
 		string(oci_database.AutonomousDatabaseLifecycleStateUnavailable),
 		string(oci_database.AutonomousDatabaseLifecycleStateScaleInProgress),
 		string(oci_database.AutonomousDatabaseLifecycleStateUpdating),
+		string(oci_database.AutonomousDatabaseLifecycleStateMaintenanceInProgress),
 	}
 }
 
@@ -381,6 +421,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Delete() error {
 }
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
+	if s.Res.AutonomousContainerDatabaseId != nil {
+		s.D.Set("autonomous_container_database_id", *s.Res.AutonomousContainerDatabaseId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -389,6 +433,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("connection_strings", []interface{}{AutonomousDatabaseConnectionStringsToMap(s.Res.ConnectionStrings)})
 	} else {
 		s.D.Set("connection_strings", nil)
+	}
+
+	if s.Res.ConnectionUrls != nil {
+		s.D.Set("connection_urls", []interface{}{AutonomousDatabaseConnectionUrlsToMap(s.Res.ConnectionUrls)})
+	} else {
+		s.D.Set("connection_urls", nil)
 	}
 
 	if s.Res.CpuCoreCount != nil {
@@ -423,6 +473,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
 	}
 
+	if s.Res.IsDedicated != nil {
+		s.D.Set("is_dedicated", *s.Res.IsDedicated)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {
@@ -453,6 +507,10 @@ func AutonomousDatabaseConnectionStringsToMap(obj *oci_database.AutonomousDataba
 
 	result["all_connection_strings"] = obj.AllConnectionStrings
 
+	if obj.Dedicated != nil {
+		result["dedicated"] = string(*obj.Dedicated)
+	}
+
 	if obj.High != nil {
 		result["high"] = string(*obj.High)
 	}
@@ -463,6 +521,20 @@ func AutonomousDatabaseConnectionStringsToMap(obj *oci_database.AutonomousDataba
 
 	if obj.Medium != nil {
 		result["medium"] = string(*obj.Medium)
+	}
+
+	return result
+}
+
+func AutonomousDatabaseConnectionUrlsToMap(obj *oci_database.AutonomousDatabaseConnectionUrls) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ApexUrl != nil {
+		result["apex_url"] = string(*obj.ApexUrl)
+	}
+
+	if obj.SqlDevWebUrl != nil {
+		result["sql_dev_web_url"] = string(*obj.SqlDevWebUrl)
 	}
 
 	return result
@@ -491,6 +563,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := adminPassword.(string)
 			details.AdminPassword = &tmp
 		}
+		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
+			tmp := autonomousContainerDatabaseId.(string)
+			details.AutonomousContainerDatabaseId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -527,6 +603,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
+		}
+		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
+			tmp := isDedicated.(bool)
+			details.IsDedicated = &tmp
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
@@ -538,6 +618,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := adminPassword.(string)
 			details.AdminPassword = &tmp
 		}
+		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
+			tmp := autonomousContainerDatabaseId.(string)
+			details.AutonomousContainerDatabaseId = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -574,6 +658,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
+		}
+		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
+			tmp := isDedicated.(bool)
+			details.IsDedicated = &tmp
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))

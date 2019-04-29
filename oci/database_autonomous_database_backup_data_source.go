@@ -70,6 +70,10 @@ func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DatabaseSizeInTBs != nil {
+		s.D.Set("database_size_in_tbs", *s.Res.DatabaseSizeInTBs)
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
