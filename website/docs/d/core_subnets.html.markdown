@@ -46,7 +46,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `availability_domain` - The subnet's availability domain.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The subnet's availability domain. This attribute will be null if this is a regional subnet instead of an AD-specific subnet. Oracle recommends creating regional subnets.  Example: `Uocm:PHX-AD-1` 
 * `cidr_block` - The subnet's CIDR block.  Example: `172.16.1.0/24` 
 * `compartment_id` - The OCID of the compartment containing the subnet.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 

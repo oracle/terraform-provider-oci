@@ -35,7 +35,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `availability_domain` - The private IP's availability domain.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The private IP's availability domain. This attribute will be null if this is a *secondary* private IP assigned to a VNIC that is in a *regional* subnet.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - The OCID of the compartment containing the private IP.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
