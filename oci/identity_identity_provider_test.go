@@ -21,7 +21,7 @@ import (
 const (
 	IdentityProviderPropertyVariables = `
 variable "identity_provider_metadata" { default = "" }
-variable "identity_provider_metadata_file" { default = "sampleFederationMetadata.xml" }
+variable "identity_provider_metadata_file" { default = "{{.metadata_file}}" }
 `
 )
 
@@ -80,6 +80,9 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 		log.Panic("Unable to read the file ", metadataFile)
 	}
 	metadata := string(metadataContents)
+
+	_, tokenFn := tokenize()
+	IdentityProviderResourceDependencies = tokenFn(IdentityProviderResourceDependencies, map[string]string{"metadata_file": metadataFile})
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },

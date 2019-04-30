@@ -53,6 +53,9 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
+	_, tokenFn := tokenize()
+	IdpGroupMappingResourceDependencies = tokenFn(IdpGroupMappingResourceDependencies, map[string]string{"metadata_file": metadataFile})
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
