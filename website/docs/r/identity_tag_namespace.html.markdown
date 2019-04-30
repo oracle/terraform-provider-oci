@@ -70,6 +70,7 @@ The following attributes are exported:
 * `id` - The OCID of the tag namespace.
 * `is_retired` - Whether the tag namespace is retired. For more information, see [Retiring Key Definitions and Namespace Definitions](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
 * `name` - The name of the tag namespace. It must be unique across all tag namespaces in the tenancy and cannot be changed. 
+* `state` - The tagnamespace's current state. After creating a tagnamespace, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tagnamespace, make sure its `lifecycleState` is INACTIVE before using it.
 * `time_created` - Date and time the tag namespace was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
 
 ## Import

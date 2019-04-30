@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/common"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -211,6 +212,44 @@ func LoadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient
 
 	if wr.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateFailed {
 		return fmt.Errorf("WorkRequest FAILED: %+v", wr.ErrorDetails)
+	}
+	return nil
+}
+
+func IdentityWaitForWorkRequest(client *oci_identity.IdentityClient, d *schema.ResourceData, wr *oci_identity.WorkRequest, retryPolicy *oci_common.RetryPolicy, timeout time.Duration) error {
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_identity.WorkRequestStatusInProgress),
+			string(oci_identity.WorkRequestStatusAccepted),
+			string(oci_identity.WorkRequestStatusCanceling),
+		},
+		Target: []string{
+			string(oci_identity.WorkRequestStatusSucceeded),
+			string(oci_identity.WorkRequestStatusFailed),
+			string(oci_identity.WorkRequestStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			getWorkRequestRequest := oci_identity.GetWorkRequestRequest{}
+			getWorkRequestRequest.WorkRequestId = wr.Id
+			getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
+			workRequestResponse, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+			wr = &workRequestResponse.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+
+	// Should not wait when in replay mode
+	if httpreplay.ShouldRetryImmediately() {
+		stateConf.PollInterval = 1
+	}
+
+	if _, e := stateConf.WaitForState(); e != nil {
+		return e
+	}
+
+	if wr.Status == oci_identity.WorkRequestStatusFailed || wr.Status == oci_identity.WorkRequestStatusCanceled {
+		return fmt.Errorf("WorkRequest FAILED: %+v", wr.Errors)
 	}
 	return nil
 }

@@ -62,6 +62,10 @@ func IdentityCostTrackingTagsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"tag_namespace_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -179,6 +183,8 @@ func (s *IdentityCostTrackingTagsDataSourceCrud) SetData() error {
 		if r.Name != nil {
 			costTrackingTag["name"] = *r.Name
 		}
+
+		costTrackingTag["state"] = r.LifecycleState
 
 		if r.TagNamespaceId != nil {
 			costTrackingTag["tag_namespace_id"] = *r.TagNamespaceId
