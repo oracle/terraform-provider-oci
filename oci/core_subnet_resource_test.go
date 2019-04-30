@@ -43,19 +43,23 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 					compartment_id = "${var.compartment_id}"
 					vcn_id = "${oci_core_virtual_network.t.id}"
-					security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]
 					route_table_id = "${oci_core_virtual_network.t.default_route_table_id}"
 					dhcp_options_id = "${oci_core_virtual_network.t.default_dhcp_options_id}"
 					cidr_block = "10.0.2.0/24"`
 
+	singleSecurityListId := `
+					security_list_ids = ["${oci_core_virtual_network.t.default_security_list_id}"]`
+
 	extraSecurityListIds := `
 					security_list_ids = [
+						"${oci_core_virtual_network.t.default_security_list_id}",
 						"${oci_core_security_list.seclist1.id}",
 						"${oci_core_security_list.seclist2.id}"
 					]`
 
 	reorderedSecurityListIds := `
 					security_list_ids = [
+						"${oci_core_virtual_network.t.default_security_list_id}",
 						"${oci_core_security_list.seclist2.id}",
 						"${oci_core_security_list.seclist1.id}",
 					]`
@@ -72,7 +76,8 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 			// verify create
 			{
 				Config: config + `
-				resource "oci_core_subnet" "s" {` + commonSubnetParams + extraSecurityListIds + `}`,
+				resource "oci_core_subnet" "s" {` + commonSubnetParams + extraSecurityListIds + `
+				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "display_name"),
@@ -129,7 +134,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 			{
 				Config: config + `
 				resource "oci_core_subnet" "s" {
-					` + commonSubnetParams + `
+					` + commonSubnetParams + singleSecurityListId + `
 					display_name = "-tf-subnet"
 					prohibit_public_ip_on_vnic = "true"
 					dns_label = "MyTestLabel"
@@ -150,7 +155,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 			{
 				Config: config + `
 				resource "oci_core_subnet" "s" {
-					` + commonSubnetParams + `
+					` + commonSubnetParams + singleSecurityListId + `
 					display_name = "-tf-subnet"
 					prohibit_public_ip_on_vnic = "true"
 					dns_label = "mytestlabel"
@@ -162,7 +167,7 @@ func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
 			{
 				Config: config + `
 				resource "oci_core_subnet" "s" {
-					` + commonSubnetParams + `
+					` + commonSubnetParams + singleSecurityListId + `
 					display_name = "-tf-subnet"
 					prohibit_public_ip_on_vnic = "true"
 					dns_label = "NewLabel"

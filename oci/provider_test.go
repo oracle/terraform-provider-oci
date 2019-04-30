@@ -109,7 +109,8 @@ func legacyTestProviderConfig() string {
 	// Add the 'compartment_id' used by the legacy tests.
 	return config + `variable "compartment_id" {
 		default = "` + getCompartmentIDForLegacyTests() + `"
-	}`
+	}
+	`
 }
 
 var subnetConfig = `
