@@ -411,7 +411,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(vnicResourceName, "display_name", "-tf-vnic-2"),
 					resource.TestCheckResourceAttr(vnicResourceName, "skip_source_dest_check", "true"),
-					resource.TestCheckNoResourceAttr(vnicResourceName, "public_ip_address"),
 					func(ts *terraform.State) (err error) {
 						newId, err := fromInstanceState(ts, s.ResourceName, "id")
 						if newId == instanceId {

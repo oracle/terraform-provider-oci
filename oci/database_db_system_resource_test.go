@@ -227,7 +227,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystemFromB
 						database {
 							admin_password = "BEstrO0ng_#11"
 							backup_tde_password = "BEstrO0ng_#11"
-							"backup_id" = "${data.oci_database_backups.test_backups.backups.0.id}"
+							backup_id = "${data.oci_database_backups.test_backups.backups.0.id}"
 							db_name = "dbback"
 						}
 					}

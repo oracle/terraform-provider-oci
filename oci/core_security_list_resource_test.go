@@ -48,11 +48,11 @@ var fullConfig = `
 		compartment_id = "${var.compartment_id}"
 		display_name = "-tf-security_list"
 		vcn_id = "${oci_core_virtual_network.t.id}"
-		egress_security_rules = {
+		egress_security_rules {
 			destination = "0.0.0.0/1"
 			protocol = "6"
 		}
-		egress_security_rules = {
+		egress_security_rules {
 			destination = "0.0.0.0/2"
 			protocol = "1"
 			stateless = true
@@ -61,7 +61,7 @@ var fullConfig = `
 				code = 4
 			}
 		}
-		egress_security_rules = {
+		egress_security_rules {
 			destination = "0.0.0.0/3"
 			protocol = "6"
 			stateless = false
@@ -74,7 +74,7 @@ var fullConfig = `
 				}
 			}
 		}
-		egress_security_rules = {
+		egress_security_rules {
 			destination = "0.0.0.0/4"
 			protocol = "17"
 			udp_options {
@@ -86,19 +86,19 @@ var fullConfig = `
 				}
 			}
 		}
-		ingress_security_rules = [{
+		ingress_security_rules {
 			protocol = "1"
 			source = "0.0.0.0/5"
-		},
-		{
+		}
+		ingress_security_rules {
 			protocol = "1"
 			source = "0.0.0.0/6"
 			icmp_options {
 				type = 3
 				code = 4
 			}
-		},
-		{
+		}
+		ingress_security_rules {
 			protocol = "6"
 			stateless = true
 			source = "0.0.0.0/7"
@@ -110,8 +110,8 @@ var fullConfig = `
 					max = 61
 				}
 			}
-		},
-		{
+		}
+		ingress_security_rules {
 			protocol = "17"
 			stateless = false
 			source = "10.0.0.0/8"
@@ -123,7 +123,7 @@ var fullConfig = `
 					max = 81
 				}
 			}
-		}]
+		}
 	}
 `
 
@@ -251,7 +251,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-security_list"
 						vcn_id = "${oci_core_virtual_network.t.id}"
-						egress_security_rules = {
+						egress_security_rules {
 							destination = "0.0.0.0/1"
 							protocol = "6"
 						}
@@ -292,7 +292,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-security_list"
 						vcn_id = "${oci_core_virtual_network.t.id}"
-						ingress_security_rules = {
+						ingress_security_rules {
 							protocol = "1"
 							source = "0.0.0.0/6"
 							icmp_options {
@@ -300,7 +300,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 								code = 4
 							}
 						}
-						egress_security_rules = {
+						egress_security_rules {
 							protocol = "1"
 							destination = "0.0.0.0/6"
 							icmp_options {
@@ -334,14 +334,14 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-security_list"
 						vcn_id = "${oci_core_virtual_network.t.id}"
-						ingress_security_rules = {
+						ingress_security_rules {
 							protocol = "1"
 							source = "0.0.0.0/6"
 							icmp_options {
 								type = 3
 							}
 						}
-						egress_security_rules = {
+						egress_security_rules {
 							protocol = "1"
 							destination = "0.0.0.0/6"
 							icmp_options {
@@ -375,7 +375,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-security_list"
 						vcn_id = "${oci_core_virtual_network.t.id}"
-						egress_security_rules = {
+						egress_security_rules {
 							destination = "0.0.0.0/3"
 							protocol = "6"
 							stateless = false
@@ -387,7 +387,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 							}
 						}
 						# Check the maximum range
-						egress_security_rules = {
+						egress_security_rules {
 							destination = "0.0.0.0/4"
 							protocol = "17"
 							udp_options {
@@ -434,7 +434,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 						compartment_id = "${var.compartment_id}"
 						display_name = "-tf-security_list"
 						vcn_id = "${oci_core_virtual_network.t.id}"
-						egress_security_rules = {
+						egress_security_rules {
 							destination = "0.0.0.0/3"
 							protocol = "6"
 							stateless = false
@@ -444,7 +444,7 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_basi
 							}
 						}
 						# Check the maximum range
-						egress_security_rules = {
+						egress_security_rules {
 							destination = "0.0.0.0/4"
 							protocol = "17"
 							udp_options {
@@ -534,34 +534,34 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 		resource "oci_core_default_security_list" "default" {
 			manage_default_resource_id = "${oci_core_virtual_network.t.default_security_list_id}"
 			display_name = "default-tf-security_list"
-			egress_security_rules = [{
+			egress_security_rules {
 				destination = "0.0.0.0/0"
 				protocol = "6"
-			}]
-			ingress_security_rules = [{
+			}
+			ingress_security_rules {
 				protocol = "1"
 				source = "0.0.0.0/0"
 				icmp_options {
 					type = 3
 					code = 4
 				}
-			},
-			{
+			}
+			ingress_security_rules {
 				protocol = "6"
 				source = "0.0.0.0/0"
 				tcp_options {
 					min = 80
 					max = 80
 				}
-			},
-			{
+			}
+			ingress_security_rules {
 				protocol = "17"
 				source = "10.0.0.0/16"
 				udp_options {
 					min = 319
 					max = 320
 				}
-			}]
+			}
 		}`
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -596,12 +596,12 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 					resource "oci_core_default_security_list" "default" {
 						manage_default_resource_id = "${oci_core_virtual_network.t.default_security_list_id}"
 						display_name = "default-tf-security_list-updated"
-						egress_security_rules = [{
+						egress_security_rules {
 							destination = "0.0.0.0/0"
 							protocol = "17"
 							stateless = true
-						}]
-						ingress_security_rules = [{
+						}
+						ingress_security_rules {
 							protocol = "1"
 							source = "0.0.0.0/0"
 							stateless = true
@@ -609,8 +609,8 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 								type = 5
 								code = 0
 							}
-						},
-						{
+						}
+						ingress_security_rules {
 							protocol = "6"
 							source = "0.0.0.0/0"
 							stateless = true
@@ -620,12 +620,12 @@ func (s *ResourceCoreSecurityListTestSuite) TestAccResourceCoreSecurityList_defa
 									max = 100
 								}
 							}
-						},
-						{
+						}
+						ingress_security_rules {
 							protocol = "17"
 							source = "10.0.0.0/16"
 							stateless = true
-						}]
+						}
 					}
 				`,
 				Check: resource.ComposeAggregateTestCheckFunc(
