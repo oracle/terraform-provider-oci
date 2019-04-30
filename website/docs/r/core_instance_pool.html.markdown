@@ -56,13 +56,15 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) The user-friendly name.  Does not have to be unique.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `instance_configuration_id` - (Required) (Updatable) The OCID of the instance configuration associated to the instance pool.
+* `instance_configuration_id` - (Required) (Updatable) The OCID of the instance configuration associated with the instance pool.
 * `load_balancers` - (Optional) The load balancers to attach to the instance pool. 
 	* `backend_set_name` - (Required) The name of the backend set on the load balancer to add instances to.
-	* `load_balancer_id` - (Required) The OCID of the load balancer to attach to the pool.
+	* `load_balancer_id` - (Required) The OCID of the load balancer to attach to the instance pool.
 	* `port` - (Required) The port value to use when creating the backend set.
-	* `vnic_selection` - (Required) Indicates which vnic on each instance in the pool should be used to associate with the load balancer. possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated to the instance pool.
-* `placement_configurations` - (Required) (Updatable) The placement configurations for the instance pool. There should be 1 placement configuration for each desired AD. 
+	* `vnic_selection` - (Required) Indicates which VNIC on each instance in the pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool.
+* `placement_configurations` - (Required) (Updatable) The placement configurations for the instance pool. Provide one placement configuration for each availability domain.
+
+	To use the instance pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
 	* `availability_domain` - (Required) (Updatable) The availability domain to place instances. Example: `Uocm:PHX-AD-1` 
 	* `primary_subnet_id` - (Required) (Updatable) The OCID of the primary subnet to place instances.
 	* `secondary_vnic_subnets` - (Optional) (Updatable) The set of secondary VNIC data for instances in the pool.
@@ -78,20 +80,20 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the compartment containing the instance pool
+* `compartment_id` - The OCID of the compartment containing the instance pool.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The user-friendly name.  Does not have to be unique.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `id` - The OCID of the instance pool
-* `instance_configuration_id` - The OCID of the instance configuration associated to the intance pool.
+* `id` - The OCID of the instance pool.
+* `instance_configuration_id` - The OCID of the instance configuration associated with the instance pool.
 * `load_balancers` - The load balancers attached to the instance pool. 
 	* `backend_set_name` - The name of the backend set on the load balancer.
 	* `id` - The OCID of the load balancer attachment.
 	* `instance_pool_id` - The OCID of the instance pool of the load balancer attachment.
-	* `load_balancer_id` - The OCID of the load balancer attached to the pool.
+	* `load_balancer_id` - The OCID of the load balancer attached to the instance pool.
 	* `port` - The port value used for the backends.
-	* `state` - The status of the interaction between the pool and the load balancer.
-	* `vnic_selection` - Indicates which vnic on each instance in the pool should be used to associate with the load balancer. possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated to the instance pool.
+	* `state` - The status of the interaction between the instance pool and the load balancer.
+	* `vnic_selection` - Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool.
 * `placement_configurations` - The placement configurations for the instance pool.
 	* `availability_domain` - The availability domain to place instances. Example: `Uocm:PHX-AD-1` 
 	* `primary_subnet_id` - The OCID of the primary subnet to place instances.

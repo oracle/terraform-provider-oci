@@ -23,7 +23,7 @@ use [ImageSourceViaObjectStorageTupleDetails](https://docs.cloud.oracle.com/iaas
 
 When importing an image based on the Object Storage URL, use
 [ImageSourceViaObjectStorageUriDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/ImageSourceViaObjectStorageUriDetails).
-See [Object Storage URLs](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm#URLs) and [pre-authenticated requests](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/managingaccess.htm#pre-auth)
+See [Object Storage URLs](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm#URLs) and [Using Pre-Authenticated Requests](https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
 for constructing URLs for image import/export.
 
 For more information about importing exported images, see
@@ -109,14 +109,14 @@ The following arguments are supported:
 	* `bucket_name` - (Required when source_type=objectStorageTuple) The Object Storage bucket for the image.
 	* `namespace_name` - (Required when source_type=objectStorageTuple) The Object Storage namespace for the image.
 	* `object_name` - (Required when source_type=objectStorageTuple) The Object Storage name for the image.
-	* `source_image_type` - (Optional) The format of the image to be imported.  Exported Oracle images are QCOW2.  Only monolithic images are supported. Allowed values are:
+	* `source_image_type` - (Optional) The format of the image to be imported.  Only monolithic images are supported. This attribute is not used for exported Oracle images with the Oracle Cloud Infrastructure image format. Allowed values are:
 	    * `QCOW2`
 	    * `VMDK`
 	* `source_type` - (Required) The source type for the image. Use `objectStorageTuple` when specifying the namespace, bucket name, and object name. Use `objectStorageUri` when specifying the Object Storage URL. 
 	* `source_uri` - (Required when source_type=objectStorageUri) The Object Storage URL for the image.
 * `instance_id` - (Optional -- required when not specifying `image_source_details`) The OCID of the instance you want to use as the basis for the image.
 * `launch_mode` - (Optional) Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
-	* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for Oracle-provided images.
+	* `NATIVE` - VM instances launch with paravirtualized boot and VFIO devices. The default value for Oracle-provided images.
 	* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers.
 	* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
@@ -154,7 +154,7 @@ The following attributes are exported:
 		* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
 	* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
-	* `is_pv_encryption_in_transit_enabled` - Whether to enable encryption in transit for the PV boot volume attachment. Defaults to false.
+	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the boot volume's paravirtualized attachment. The default value is false.
 	* `network_type` - Emulation type for NIC.
 		* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller.  Default for Oracle provided images.
