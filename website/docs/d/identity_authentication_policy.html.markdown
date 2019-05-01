@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_identity_authentication_policy
 This data source provides details about a specific Authentication Policy resource in Oracle Cloud Infrastructure Identity service.
 
-Gets the authentication policy for the given tenancy. You must specify your tenant’s OCID as the value for 
+Gets the authentication policy for the given tenancy. You must specify your tenant’s OCID as the value for
 the compartment ID (remember that the tenancy is simply the root compartment).
 
 

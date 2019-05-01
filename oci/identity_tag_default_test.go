@@ -45,7 +45,7 @@ var (
 	tagDefaultRepresentation = map[string]interface{}{
 		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
 		"tag_definition_id": Representation{repType: Required, create: `${oci_identity_tag.test_tag.id}`},
-		"value":             Representation{repType: Required, create: `such-default-wow`, update: `value2`},
+		"value":             Representation{repType: Required, create: `W123`, update: `value2`},
 	}
 
 	TagDefaultResourceDependencies = TagRequiredOnlyResource
@@ -82,7 +82,7 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
-					resource.TestCheckResourceAttr(resourceName, "value", "such-default-wow"),
+					resource.TestCheckResourceAttr(resourceName, "value", "W123"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
