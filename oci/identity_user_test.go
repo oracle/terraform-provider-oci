@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -291,9 +292,13 @@ func getUserIds(compartment string) ([]string, error) {
 		return resourceIds, fmt.Errorf("Error getting User list for compartment id : %s , %s \n", compartmentId, err)
 	}
 	for _, user := range listUsersResponse.Items {
-		id := *user.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "UserId", id)
+		// The below check is checking for the name in two parts because our tests have many variations of the email created
+		// For example JohnSmith@example.com, SmithJohn@example.com, john.smith@example.com
+		if strings.Contains(strings.ToLower(*user.Name), "john") && strings.Contains(strings.ToLower(*user.Name), "smith") {
+			id := *user.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "UserId", id)
+		}
 	}
 	return resourceIds, nil
 }
