@@ -101,7 +101,7 @@ data "oci_database_db_homes" "t" {
 `
 	DataGuardAssociationResourceDependencies = DataGuardAssociationResourceDependenciesBase + `
 resource "oci_database_db_system" "test_db_system" {
-	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
+	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	database_edition = "ENTERPRISE_EDITION"
@@ -126,7 +126,7 @@ resource "oci_database_db_system" "test_db_system" {
 }
 
 resource "oci_database_db_system" "test_db_system2" {
-	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
+	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	database_edition = "ENTERPRISE_EDITION"
@@ -152,7 +152,7 @@ resource "oci_database_db_system" "test_db_system2" {
 `
 	DataGuardAssociationResourceDependenciesNewDbSystem = DataGuardAssociationResourceDependenciesBase + `
 resource "oci_database_db_system" "test_db_system" {
-	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
+	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	database_edition = "ENTERPRISE_EDITION"

@@ -14,7 +14,7 @@ var (
 	CoreInstanceResourceConfig = InstanceResourceDependencies + `
 resource "oci_core_instance" "test_instance" {
 	#Required
-	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
+	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
 	compartment_id = "${var.compartment_id}"
 	shape = "${var.instance_shape}"
 
