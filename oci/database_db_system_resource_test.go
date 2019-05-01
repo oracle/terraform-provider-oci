@@ -21,7 +21,7 @@ import (
 var (
 	DbSystemResourceConfig = SubnetResourceConfig + `
 resource "oci_database_db_system" "test_db_system" {
-	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
+	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	database_edition = "ENTERPRISE_EDITION"
@@ -134,7 +134,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystemFromB
 	const DBWaitConditionDuration = time.Duration(20 * time.Minute)
 	const DataBaseSystemWithBackup = `
 	resource "oci_database_db_system" "test_db_system" {
-		availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
+		availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
 		compartment_id = "${var.compartment_id}"
 		subnet_id = "${oci_core_subnet.test_subnet.id}"
 		database_edition = "ENTERPRISE_EDITION"
