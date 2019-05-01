@@ -186,15 +186,22 @@ func getUserGroupMembershipIds(compartment string) ([]string, error) {
 
 	listUserGroupMembershipsRequest := oci_identity.ListUserGroupMembershipsRequest{}
 	listUserGroupMembershipsRequest.CompartmentId = &compartmentId
-	listUserGroupMembershipsResponse, err := identityClient.ListUserGroupMemberships(context.Background(), listUserGroupMembershipsRequest)
-
-	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting UserGroupMembership list for compartment id : %s , %s \n", compartmentId, err)
+	userIds, error := getUserIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting userId required for userGroupMembership resource requests \n")
 	}
-	for _, userGroupMembership := range listUserGroupMembershipsResponse.Items {
-		id := *userGroupMembership.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "UserGroupMembershipId", id)
+	for _, userId := range userIds {
+		listUserGroupMembershipsRequest.UserId = &userId
+		listUserGroupMembershipsResponse, err := identityClient.ListUserGroupMemberships(context.Background(), listUserGroupMembershipsRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting UserGroupMembership list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, userGroupMembership := range listUserGroupMembershipsResponse.Items {
+			id := *userGroupMembership.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "UserGroupMembershipId", id)
+		}
 	}
 	return resourceIds, nil
 }
