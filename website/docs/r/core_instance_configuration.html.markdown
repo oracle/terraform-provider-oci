@@ -117,7 +117,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment containing the instance configuration. 
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment containing the instance configuration. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name for the instance configuration 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
