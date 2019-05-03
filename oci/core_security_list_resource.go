@@ -1014,7 +1014,7 @@ func egressSecurityRulesHashCodeForSets(v interface{}) int {
 		buf.WriteString(fmt.Sprintf("%v-", oci_core.EgressSecurityRuleDestinationTypeCidrBlock))
 	}
 	if icmpOptions, ok := m["icmp_options"]; ok {
-		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
+		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 && tmpList[0] != nil {
 			buf.WriteString("icmp_options-")
 			icmpOptionsRaw := tmpList[0].(map[string]interface{})
 			if code, ok := icmpOptionsRaw["code"]; ok {
@@ -1034,7 +1034,7 @@ func egressSecurityRulesHashCodeForSets(v interface{}) int {
 		buf.WriteString(fmt.Sprintf("%v-", "false"))
 	}
 	if tcpOptions, ok := m["tcp_options"]; ok {
-		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 {
+		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 && tmpList[0] != nil {
 			buf.WriteString("tcp_options-")
 			tcpOptionsRaw := tmpList[0].(map[string]interface{})
 			if max, ok := tcpOptionsRaw["max"]; ok {
@@ -1059,7 +1059,7 @@ func egressSecurityRulesHashCodeForSets(v interface{}) int {
 		}
 	}
 	if udpOptions, ok := m["udp_options"]; ok {
-		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 {
+		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 && tmpList[0] != nil {
 			buf.WriteString("udp_options-")
 			udpOptionsRaw := tmpList[0].(map[string]interface{})
 			if max, ok := udpOptionsRaw["max"]; ok && max != 0 {
@@ -1090,7 +1090,7 @@ func ingressSecurityRulesHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
 	if icmpOptions, ok := m["icmp_options"]; ok {
-		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
+		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 && tmpList[0] != nil {
 			buf.WriteString("icmp_options-")
 			icmpOptionsRaw := tmpList[0].(map[string]interface{})
 			if code, ok := icmpOptionsRaw["code"]; ok {
@@ -1118,7 +1118,7 @@ func ingressSecurityRulesHashCodeForSets(v interface{}) int {
 		buf.WriteString(fmt.Sprintf("%v-", "false"))
 	}
 	if tcpOptions, ok := m["tcp_options"]; ok {
-		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 {
+		if tmpList := tcpOptions.([]interface{}); len(tmpList) > 0 && tmpList[0] != nil {
 			buf.WriteString("tcp_options-")
 			tcpOptionsRaw := tmpList[0].(map[string]interface{})
 			if max, ok := tcpOptionsRaw["max"]; ok {
@@ -1142,7 +1142,7 @@ func ingressSecurityRulesHashCodeForSets(v interface{}) int {
 		}
 	}
 	if udpOptions, ok := m["udp_options"]; ok {
-		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 {
+		if tmpList := udpOptions.([]interface{}); len(tmpList) > 0 && tmpList[0] != nil {
 			buf.WriteString("udp_options-")
 			udpOptionsRaw := tmpList[0].(map[string]interface{})
 			if max, ok := udpOptionsRaw["max"]; ok {
