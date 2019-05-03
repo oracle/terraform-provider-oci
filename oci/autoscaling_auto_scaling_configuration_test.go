@@ -29,7 +29,7 @@ var (
 
 	autoScalingConfigurationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"display_name":   Representation{repType: Optional, create: `example_autoscaling_configuration`, update: `displayName2`},
 		"filter":         RepresentationGroup{Required, autoScalingConfigurationDataSourceFilterRepresentation}}
 	autoScalingConfigurationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
@@ -42,7 +42,7 @@ var (
 		"policies":               RepresentationGroup{Required, autoScalingConfigurationPoliciesRepresentation},
 		"cool_down_in_seconds":   Representation{repType: Optional, create: `300`, update: `400`},
 		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"display_name":           Representation{repType: Optional, create: `example_autoscaling_configuration`, update: `displayName2`},
 		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"is_enabled":             Representation{repType: Optional, create: `false`, update: `true`},
 	}
@@ -54,7 +54,7 @@ var (
 		"capacity":     RepresentationGroup{Required, autoScalingConfigurationPoliciesCapacityRepresentation},
 		"policy_type":  Representation{repType: Required, create: `threshold`, update: `threshold`},
 		"rules":        []RepresentationGroup{{Required, autoScalingConfigurationPoliciesScaleOutRuleRepresentation}, {Required, autoScalingConfigurationPoliciesScaleInRuleRepresentation}},
-		"display_name": Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"display_name": Representation{repType: Optional, create: `example_autoscaling_configuration`, update: `displayName2`},
 	}
 	autoScalingConfigurationPoliciesCapacityRepresentation = map[string]interface{}{
 		"initial": Representation{repType: Required, create: `2`, update: `4`},
@@ -184,7 +184,7 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cool_down_in_seconds", "300"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autoscaling_configuration"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
@@ -194,7 +194,7 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "policies.0.capacity.0.initial", "2"),
 					resource.TestCheckResourceAttr(resourceName, "policies.0.capacity.0.max", "3"),
 					resource.TestCheckResourceAttr(resourceName, "policies.0.capacity.0.min", "2"),
-					resource.TestCheckResourceAttr(resourceName, "policies.0.display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "policies.0.display_name", "example_autoscaling_configuration"),
 					resource.TestCheckResourceAttr(resourceName, "policies.0.policy_type", "threshold"),
 					resource.TestCheckResourceAttr(resourceName, "policies.0.rules.#", "2"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "policies.0.rules", map[string]string{
@@ -307,7 +307,9 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.auto_scaling_resources.0.type", "instancePool"),
 					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.cool_down_in_seconds", "400"),
+					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.is_enabled", "true"),
 					resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.time_created"),

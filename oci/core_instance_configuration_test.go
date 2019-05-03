@@ -354,7 +354,9 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "instance_configurations.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instance_configurations.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "instance_configurations.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instance_configurations.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "instance_configurations.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_configurations.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_configurations.0.time_created"),
 				),
