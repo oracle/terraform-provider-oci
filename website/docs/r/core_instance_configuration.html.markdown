@@ -84,6 +84,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 
 				#Optional
 				boot_volume_id = "${oci_core_boot_volume.test_boot_volume.id}"
+				boot_volume_size_in_gbs = "${var.instance_configuration_instance_details_launch_details_source_details_boot_volume_size_in_gbs}"
 				image_id = "${oci_core_image.test_image.id}"
 			}
 		}
@@ -208,6 +209,7 @@ The following arguments are supported:
 			You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 		* `source_details` - (Optional) Details for creating an instance. Use this parameter to specify whether a boot volume or an image should be used to launch a new instance. 
 			* `boot_volume_id` - (Applicable when source_type=bootVolume) The OCID of the boot volume used to boot the instance.
+			* `boot_volume_size_in_gbs` - (Applicable when source_type=image) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
 			* `image_id` - (Applicable when source_type=image) The OCID of the image used to boot the instance.
 			* `source_type` - (Required) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 	* `secondary_vnics` - (Optional) 
@@ -323,6 +325,7 @@ The following attributes are exported:
 			You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 		* `source_details` - Details for creating an instance. Use this parameter to specify whether a boot volume or an image should be used to launch a new instance. 
 			* `boot_volume_id` - The OCID of the boot volume used to boot the instance.
+			* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
 			* `image_id` - The OCID of the image used to boot the instance.
 			* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 	* `secondary_vnics` - 
