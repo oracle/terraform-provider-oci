@@ -294,7 +294,9 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "instance_pools.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instance_pools.0.instance_configuration_id"),
 					resource.TestCheckResourceAttr(datasourceName, "instance_pools.0.size", "3"),
