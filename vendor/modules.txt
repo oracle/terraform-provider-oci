@@ -218,6 +218,7 @@ github.com/oracle/oci-go-sdk/functions
 github.com/oracle/oci-go-sdk/healthchecks
 github.com/oracle/oci-go-sdk/identity
 github.com/oracle/oci-go-sdk/keymanagement
+github.com/oracle/oci-go-sdk/limits
 github.com/oracle/oci-go-sdk/loadbalancer
 github.com/oracle/oci-go-sdk/monitoring
 github.com/oracle/oci-go-sdk/objectstorage

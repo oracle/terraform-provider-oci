@@ -2,6 +2,7 @@
 
 ### Added
 - Support for functions as a service
+- Support for adding resource limits to compartments
 
 ## 3.33.0 (July 10, 2019)
 

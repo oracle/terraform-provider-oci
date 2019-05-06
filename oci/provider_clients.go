@@ -24,6 +24,7 @@ import (
 	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
+	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
@@ -132,6 +133,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 	objectStorageClient, err := oci_object_storage.NewObjectStorageClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	quotasClient, err := oci_limits.NewQuotasClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -310,6 +315,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&quotasClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&streamAdminClient.BaseClient)
 	if err != nil {
 		return
@@ -346,6 +355,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.notificationControlPlaneClient = &notificationControlPlaneClient
 	clients.notificationDataPlaneClient = &notificationDataPlaneClient
 	clients.objectStorageClient = &objectStorageClient
+	clients.quotasClient = &quotasClient
 	clients.streamAdminClient = &streamAdminClient
 	clients.virtualNetworkClient = &virtualNetworkClient
 	clients.waasClient = &waasClient
@@ -377,6 +387,7 @@ type OracleClients struct {
 	notificationControlPlaneClient *oci_ons.NotificationControlPlaneClient
 	notificationDataPlaneClient    *oci_ons.NotificationDataPlaneClient
 	objectStorageClient            *oci_object_storage.ObjectStorageClient
+	quotasClient                   *oci_limits.QuotasClient
 	streamAdminClient              *oci_streaming.StreamAdminClient
 	virtualNetworkClient           *oci_core.VirtualNetworkClient
 	waasClient                     *oci_waas.WaasClient
