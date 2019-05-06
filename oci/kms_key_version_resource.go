@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -134,7 +135,8 @@ func (s *KmsKeyVersionResourceCrud) Create() error {
 	if err != nil {
 		return err
 	}
-
+	//has to wait some time, otherwise subsequent querying will fail
+	time.Sleep(time.Second * 30)
 	s.Res = &response.KeyVersion
 	return nil
 }
