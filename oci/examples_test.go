@@ -11,6 +11,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 const examplesTestStateFile = "test_examples.tfstate"
@@ -55,6 +57,10 @@ var examplesTestAllowedEnvironmentVariables = []string{
 }
 
 func TestExamplesPlan(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skipping TestExamplesPlan")
+	}
+
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestExamplesPlan") {
 		t.Skip("Skipping TestExamplesPlan")
 	}
@@ -62,6 +68,9 @@ func TestExamplesPlan(t *testing.T) {
 }
 
 func TestExamplesApply(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skipping TestExamplesApply")
+	}
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestExamplesApply") {
 		t.Skip("Skipping TestExamplesApply")
 	}
@@ -69,6 +78,9 @@ func TestExamplesApply(t *testing.T) {
 }
 
 func TestTerraformVersions(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skipping TestTerraformVersions")
+	}
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestTerraformVersions") {
 		t.Skip("Skipping TestTerraformVersions")
 	}

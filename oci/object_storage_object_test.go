@@ -289,6 +289,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 }
 
 func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
+	httpreplay.SetScenario("TestObjectStorageObjectResource_failContentLengthLimit")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -356,6 +358,8 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 // An test step that results in an error will result in the state being voided. Isolate such test steps to
 // avoid interfering with regular tests that Create/Update resources.
 func TestObjectStorageObjectResource_metadata(t *testing.T) {
+	httpreplay.SetScenario("TestObjectStorageObjectResource_metadata")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -558,6 +562,8 @@ func createTmpFiles() (string, string, error) {
 }
 
 func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
+	httpreplay.SetScenario("TestObjectStorageObjectResource_multipartUpload")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -795,6 +801,8 @@ func createTmpObjectInOtherRegion() (string, error) {
 }
 
 func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
+	httpreplay.SetScenario("TestObjectStorageObjectResource_crossRegionCopy")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	config := testProviderConfig()
 

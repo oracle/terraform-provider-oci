@@ -9,6 +9,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/oracle/oci-go-sdk/common"
 )
 
@@ -77,6 +79,9 @@ func retryLoop(t *testing.T, r *retryTestInput) {
 
 // Test a simple retry loop, simulating a 429 rate error
 func TestRetryLoop_basic(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
 	shortRetryTime = 15 * time.Second
 	longRetryTime = 30 * time.Second
 	configuredRetryDuration = nil
@@ -93,6 +98,9 @@ func TestRetryLoop_basic(t *testing.T) {
 
 // Configured retry timeout should be used for 429/500 errors
 func TestRetryLoop_configuredRetry(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
 	shortRetryTime = 15 * time.Second
 	longRetryTime = 15 * time.Second
 	tmp := time.Duration(30 * time.Second)
@@ -110,6 +118,9 @@ func TestRetryLoop_configuredRetry(t *testing.T) {
 
 // Even if a retry timeout is configured, it should be ignored for errors that are not 429/500
 func TestRetryLoop_configuredRetryWith404(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
 	shortRetryTime = 15 * time.Second
 	longRetryTime = 15 * time.Second
 	tmp := time.Duration(60 * time.Second)
@@ -127,6 +138,9 @@ func TestRetryLoop_configuredRetryWith404(t *testing.T) {
 
 // Test concurrent retry loops
 func TestRetryLoop_concurrent(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
 	shortRetryTime = 15 * time.Second
 	longRetryTime = 15 * time.Second
 	tmp := time.Duration(30 * time.Second)
@@ -155,6 +169,9 @@ func TestRetryLoop_concurrent(t *testing.T) {
 }
 
 func TestRetryKMSThrottling(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
 	shortRetryTime = 15 * time.Second
 	longRetryTime = 15 * time.Second
 	configuredRetryDuration = nil
@@ -173,6 +190,9 @@ func TestRetryKMSThrottling(t *testing.T) {
 }
 
 func TestRetrySubnet409Conflict(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
 	shortRetryTime = 15 * time.Second
 	longRetryTime = 30 * time.Second
 	configuredRetryDuration = nil
@@ -194,6 +214,9 @@ func TestRetrySubnet409Conflict(t *testing.T) {
 }
 
 func TestRetrySubnet409OtherErrorMessage(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
 	shortRetryTime = 15 * time.Second
 	longRetryTime = 30 * time.Second
 	configuredRetryDuration = nil
@@ -215,6 +238,9 @@ func TestRetrySubnet409OtherErrorMessage(t *testing.T) {
 }
 
 func TestRetryDatabase(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
 	shortRetryTime = 15 * time.Second
 	longRetryTime = 30 * time.Second
 	configuredRetryDuration = nil
@@ -231,6 +257,9 @@ func TestRetryDatabase(t *testing.T) {
 }
 
 func TestRetryIdentity409ErrorInvalidatedRetryToken(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
 	shortRetryTime = 15 * time.Second
 	longRetryTime = 30 * time.Second
 	configuredRetryDuration = nil
@@ -247,6 +276,9 @@ func TestRetryIdentity409ErrorInvalidatedRetryToken(t *testing.T) {
 }
 
 func TestRetryIdentity409ErrorNotAuthorizedOrResourceAlreadyExists(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
 	shortRetryTime = 15 * time.Second
 	longRetryTime = 30 * time.Second
 	configuredRetryDuration = nil
@@ -263,6 +295,9 @@ func TestRetryIdentity409ErrorNotAuthorizedOrResourceAlreadyExists(t *testing.T)
 }
 
 func TestRetryObjectStorage(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip Retry Tests in HttpReplay mode.")
+	}
 	shortRetryTime = 15 * time.Second
 	longRetryTime = 30 * time.Second
 	configuredRetryDuration = nil

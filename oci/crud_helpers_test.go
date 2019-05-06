@@ -7,6 +7,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 type TestResource struct {
@@ -25,6 +27,9 @@ func (t *TestResource) Get() error {
 }
 
 func TestWaitForResourceCondition_basic(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip TestWaitForResourceCondition_basic test in HttpReplay mode.")
+	}
 	getAttempts := 1
 	testResource := &TestResource{GetError: nil, GetAttempts: getAttempts}
 	finalStateFunc := func() bool {

@@ -82,7 +82,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 	datasourceName := "data.oci_dns_steering_policy_attachments.test_steering_policy_attachments"
 	singularDatasourceName := "data.oci_dns_steering_policy_attachment.test_steering_policy_attachment"
 
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("dns_steering")
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{

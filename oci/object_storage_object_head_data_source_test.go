@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -21,7 +23,7 @@ type DatasourceObjectstorageObjectHeadTestSuite struct {
 }
 
 func (s *DatasourceObjectstorageObjectHeadTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenize()
+	s.Token, s.TokenFn = tokenizeWithHttpReplay("object_storage_data_source")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
@@ -76,5 +78,7 @@ func (s *DatasourceObjectstorageObjectHeadTestSuite) TestObjectstorageObjectHead
 }
 
 func TestDatasourceObjectstorageObjectHeadTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestDatasourceObjectstorageObjectHeadTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatasourceObjectstorageObjectHeadTestSuite))
 }

@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -51,5 +53,7 @@ func (s *DatasourceCoreVnicAttachmentTestSuite) TestAccDatasourceCoreVnicAttachm
 }
 
 func TestDatasourceCoreVnicAttachmentTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestDatasourceCoreVnicAttachmentTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatasourceCoreVnicAttachmentTestSuite))
 }

@@ -5,10 +5,14 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 )
 
 func TestAccDatasourceLoadBalancerShapes_basic(t *testing.T) {
+	httpreplay.SetScenario("TestAccDatasourceLoadBalancerShapes_basic")
+	defer httpreplay.SaveScenario()
 	providers := testAccProviders
 	config := legacyTestProviderConfig() + `
 	data "oci_load_balancer_shapes" "t" {

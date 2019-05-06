@@ -201,6 +201,8 @@ func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {
 }
 
 func TestObjectStorageObjectLifecyclePolicyResource_validations(t *testing.T) {
+	httpreplay.SetScenario("TestObjectStorageObjectLifecyclePolicyResource_validations")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	config := testProviderConfig()
 

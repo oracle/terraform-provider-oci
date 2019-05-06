@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/identity"
@@ -24,7 +26,7 @@ type ResourceIdentityPolicyTestSuite struct {
 }
 
 func (s *ResourceIdentityPolicyTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenize()
+	s.Token, s.TokenFn = tokenizeWithHttpReplay("identity_policy")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
@@ -217,5 +219,7 @@ func (s *ResourceIdentityPolicyTestSuite) TestAccResourceIdentityPolicy_formatti
 }
 
 func TestResourceIdentityPolicyTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestResourceIdentityPolicyTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceIdentityPolicyTestSuite))
 }

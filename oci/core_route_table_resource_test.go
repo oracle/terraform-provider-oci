@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -205,5 +207,7 @@ func (s *ResourceCoreRouteTableTestSuite) TestAccResourceCoreRouteTable_basic() 
 }
 
 func TestResourceCoreRouteTableTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestResourceCoreRouteTableTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceCoreRouteTableTestSuite))
 }
