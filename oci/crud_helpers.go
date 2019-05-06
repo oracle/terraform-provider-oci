@@ -351,7 +351,6 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
 	}
 
 	if e := sync.Delete(); e != nil {
-		handleMissingResourceError(sync, &e)
 		return e
 	}
 
