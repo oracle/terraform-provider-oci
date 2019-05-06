@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -66,5 +68,7 @@ func (s *DatasourceCoreIPSecConnectionConfigTestSuite) TestAccDatasourceCoreIPSe
 }
 
 func TestDatasourceCoreIPSecConnectionConfigTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestDatasourceCoreIPSecConnectionConfigTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatasourceCoreIPSecConnectionConfigTestSuite))
 }

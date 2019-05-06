@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/core"
@@ -21,7 +23,7 @@ type DatasourceCoreVirtualNetworkTestSuite struct {
 }
 
 func (s *DatasourceCoreVirtualNetworkTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenize()
+	s.Token, s.TokenFn = tokenizeWithHttpReplay("vcn")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
@@ -98,5 +100,7 @@ func (s *DatasourceCoreVirtualNetworkTestSuite) TestAccDatasourceCoreVirtualNetw
 }
 
 func TestDatasourceCoreVirtualNetworkTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestDatasourceCoreVirtualNetworkTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatasourceCoreVirtualNetworkTestSuite))
 }

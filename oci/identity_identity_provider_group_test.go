@@ -37,7 +37,7 @@ func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_identity_identity_provider_groups.test_identity_provider_groups"
 
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("identity_group_resource")
 	IdentityProviderGroupResourceConfig = tokenFn(IdentityProviderGroupResourceConfig, map[string]string{"metadata_file": metadataFile})
 
 	resource.Test(t, resource.TestCase{

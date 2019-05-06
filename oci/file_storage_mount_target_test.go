@@ -218,6 +218,8 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 }
 
 func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
+	httpreplay.SetScenario("TestFileStorageMountTargetResource_failedWorkRequest")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	config := testProviderConfig()
 

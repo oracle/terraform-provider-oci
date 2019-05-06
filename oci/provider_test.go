@@ -10,6 +10,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -410,6 +412,9 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 }
 
 func TestProviderConfig(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip TestProviderConfig in HttpReplay mode.")
+	}
 	providerConfigTest(t, true, true, authAPIKeySetting)              // ApiKey with required fields + disable auto-retries
 	providerConfigTest(t, false, true, authAPIKeySetting)             // ApiKey without required fields
 	providerConfigTest(t, false, false, authInstancePrincipalSetting) // InstancePrincipal
@@ -417,7 +422,8 @@ func TestProviderConfig(t *testing.T) {
 }
 
 func TestVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
-
+	httpreplay.SetScenario("TestVerifyConfigForAPIKeyAuthIsNotSet_basic")
+	defer httpreplay.SaveScenario()
 	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
 		apiKeyConfigAttributeEnvValue := getEnvSettingWithBlankDefault(apiKeyConfigAttribute)
 		if apiKeyConfigAttributeEnvValue != "" {

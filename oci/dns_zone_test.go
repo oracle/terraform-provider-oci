@@ -93,7 +93,7 @@ func TestDnsZoneResource_basic(t *testing.T) {
 	resourceName := "oci_dns_zone.test_zone"
 	datasourceName := "data.oci_dns_zones.test_zones"
 
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("dns_zone")
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{

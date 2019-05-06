@@ -53,7 +53,7 @@ func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("idp_group_mapping")
 	IdpGroupMappingResourceDependencies = tokenFn(IdpGroupMappingResourceDependencies, map[string]string{"metadata_file": metadataFile})
 
 	resource.Test(t, resource.TestCase{

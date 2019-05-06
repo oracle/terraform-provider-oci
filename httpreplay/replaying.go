@@ -19,8 +19,9 @@ func SetScenario(name string) error {
 	if recorder, err = NewRecorderAsMode(name, ModeReplaying); err == nil {
 		// cleanup existing files in /tmp folder
 		RemoveContents("/tmp")
+		// cleanup existing
 		recorder.SetMatcher(matcher)
-		recorder.SetTransformer(transformer)
+		recorder.SetTransformer(recorder.scenario.transformer)
 	}
 	return err
 }

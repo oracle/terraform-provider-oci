@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -20,7 +22,7 @@ type ResourceIdentityUIPasswordTestSuite struct {
 }
 
 func (s *ResourceIdentityUIPasswordTestSuite) SetupTest() {
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("ui_pass_resource")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + tokenFn(`
@@ -56,5 +58,7 @@ func (s *ResourceIdentityUIPasswordTestSuite) TestAccIdentityUIPassword_basic() 
 }
 
 func TestResourceIdentityUIPasswordTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestResourceIdentityUIPasswordTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceIdentityUIPasswordTestSuite))
 }

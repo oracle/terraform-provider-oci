@@ -81,7 +81,7 @@ func TestIdentityIdentityProviderResource_basic(t *testing.T) {
 	}
 	metadata := string(metadataContents)
 
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("identity_provider")
 	IdentityProviderResourceDependencies = tokenFn(IdentityProviderResourceDependencies, map[string]string{"metadata_file": metadataFile})
 
 	resource.Test(t, resource.TestCase{

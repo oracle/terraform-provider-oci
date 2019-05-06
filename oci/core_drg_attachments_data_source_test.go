@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/core"
@@ -74,5 +76,7 @@ func (s *DatasourceCoreDrgAttachmentTestSuite) TestAccDatasourceCoreDrgAttachmen
 }
 
 func TestDatasourceCoreDrgAttachmentTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestDatasourceCoreDrgAttachmentTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatasourceCoreDrgAttachmentTestSuite))
 }

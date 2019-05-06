@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -41,7 +43,7 @@ type ResourceIdentityAPIKeyTestSuite struct {
 }
 
 func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("api_key")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + tokenFn(`
@@ -54,7 +56,7 @@ func (s *ResourceIdentityAPIKeyTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityAPIKeyTestSuite) TestAccResourceIdentityAPIKey_basic() {
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("api_key_2")
 	tokenVars := map[string]string{
 		"user_id": "${oci_identity_user.t.id}",
 		"key_value": `<<EOF
@@ -111,5 +113,7 @@ EOF
 }
 
 func TestResourceIdentityAPIKeyTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestResourceIdentityAPIKeyTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceIdentityAPIKeyTestSuite))
 }

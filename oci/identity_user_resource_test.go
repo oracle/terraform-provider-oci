@@ -8,6 +8,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -34,7 +36,7 @@ func (s *ResourceIdentityUserTestSuite) SetupTest() {
 
 func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 	var resId, resId2 string
-	token, tokenFn := tokenize()
+	token, tokenFn := tokenizeWithHttpReplay("user_resource")
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -150,5 +152,10 @@ func identityUserTestStepConfigFn(name string) string {
 }
 
 func TestResourceIdentityUserTestSuite(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip TestResourceIdentityUserTestSuite in httpreplay mode.")
+	}
+	httpreplay.SetScenario("TestResourceIdentityUserTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceIdentityUserTestSuite))
 }

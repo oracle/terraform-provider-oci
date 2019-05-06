@@ -7,6 +7,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"regexp"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -737,7 +739,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				func(ts *terraform.State) (err error) {
 					preservedBootVolumeId, err = fromInstanceState(ts, s.ResourceName, "boot_volume_id")
 
-					_, tokenFn := tokenize()
+					_, tokenFn := tokenizeWithHttpReplay("instance_resource")
 					for idx := range testStepsReference {
 						testStepsReference[idx].Config = tokenFn(testStepsReference[idx].Config, map[string]string{"preservedBootVolumeId": preservedBootVolumeId})
 					}
@@ -924,10 +926,9 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_failedByTime
 	})
 }
 
-func TestIsStatefulResource(t *testing.T) {
-	var _ StatefulResource = (*CoreInstanceResourceCrud)(nil)
-}
-
 func TestResourceCoreInstanceTestSuite(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip TestResourceCoreInstanceTestSuite in HttpReplay mode.")
+	}
 	suite.Run(t, new(ResourceCoreInstanceTestSuite))
 }
