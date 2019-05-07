@@ -409,7 +409,29 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
-	_, err = s.Client.UpdateDatabase(context.Background(), request)
+	updateDatabaseResponse, err := s.Client.UpdateDatabase(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	//wait for database to not be in updating state after the update
+	getDatabaseRequest := oci_database.GetDatabaseRequest{}
+
+	getDatabaseRequest.DatabaseId = s.Database.Id
+
+	getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseUpdateRetryPolicy(s.D.Timeout(schema.TimeoutUpdate))
+	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
+	if err != nil {
+		// In UpdateDatabase some properties are updated right away like tags but others like auto_backup_enabled are only updated after lifecycleState is not Updating so we update the state here as well in the case of an error in the polling
+		s.Database = &updateDatabaseResponse.Database
+		err = s.SetData()
+		if err != nil {
+			log.Printf("[ERROR] error setting data after polling error on database: %v", err)
+		}
+		return fmt.Errorf("[ERROR] unable to get database after the update: %v", err)
+	}
+
+	s.Database = &getDatabaseResponse.Database
 
 	return err
 }
