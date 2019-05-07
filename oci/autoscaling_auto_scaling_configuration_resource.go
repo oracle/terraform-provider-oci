@@ -10,7 +10,6 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/hashcode"
-
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
@@ -504,8 +503,7 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToAction(fieldKeyFo
 	result := oci_autoscaling.Action{}
 
 	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
-		tmp := oci_autoscaling.ActionTypeEnum(type_.(string))
-		result.Type = tmp
+		result.Type = oci_autoscaling.ActionTypeEnum(type_.(string))
 	}
 
 	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
@@ -587,10 +585,10 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToCreateAutoScaling
 			tmp := make([]oci_autoscaling.CreateConditionDetails, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := autoScalingConfigurationPolicyRulesHashCodeForSets(interfaces[i])
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "rules"), stateDataIndex)
-				converted, err := s.mapToCreateConditionDetails(fieldKeyFormat)
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "rules"), stateDataIndex)
+				converted, err := s.mapToCreateConditionDetails(fieldKeyFormatNextLevel)
 				if err != nil {
-					return nil, err
+					return details, err
 				}
 				tmp[i] = converted
 			}
@@ -598,10 +596,10 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToCreateAutoScaling
 		}
 		if capacity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity")); ok {
 			if tmpList := capacity.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "capacity"), 0)
-				tmp, err := s.mapToCapacity(fieldKeyFormat)
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "capacity"), 0)
+				tmp, err := s.mapToCapacity(fieldKeyFormatNextLevel)
 				if err != nil {
-					return nil, err
+					return details, fmt.Errorf("unable to convert capacity, encountered error: %v", err)
 				}
 				details.Capacity = &tmp
 			}
@@ -717,8 +715,7 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToMetric(fieldKeyFo
 	result := oci_autoscaling.Metric{}
 
 	if metricType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_type")); ok {
-		tmp := oci_autoscaling.MetricMetricTypeEnum(metricType.(string))
-		result.MetricType = tmp
+		result.MetricType = oci_autoscaling.MetricMetricTypeEnum(metricType.(string))
 	}
 
 	if threshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "threshold")); ok {
@@ -790,8 +787,7 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToThreshold(fieldKe
 	result := oci_autoscaling.Threshold{}
 
 	if operator, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operator")); ok {
-		tmp := oci_autoscaling.ThresholdOperatorEnum(operator.(string))
-		result.Operator = tmp
+		result.Operator = oci_autoscaling.ThresholdOperatorEnum(operator.(string))
 	}
 
 	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
