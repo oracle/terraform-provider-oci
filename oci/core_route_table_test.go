@@ -68,16 +68,13 @@ var (
 		routeTableRepresentation,
 	)
 
-	RouteTableResourceDependencies = VcnResourceConfig + VcnResourceDependencies + `
+	RouteTableResourceDependencies = VcnResourceConfig + VcnResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation) +
+		`
 	resource "oci_core_internet_gateway" "test_network_entity" {
 		compartment_id = "${var.compartment_id}"
 		vcn_id = "${oci_core_vcn.test_vcn.id}"
 		display_name = "-tf-internet-gateway"
-	}
-
-	resource "oci_core_drg" "test_drg" {
-		#Required
-		compartment_id = "${var.compartment_id}"
 	}
 
 	resource "oci_core_service_gateway" "test_service_gateway" {
@@ -167,7 +164,7 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Update,
-						getUpdatedRepresentationCopy("route_rules.network_entity_id", Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+						getUpdatedRepresentationCopy("route_rules.network_entity_id", Representation{repType: Required, create: `${oci_core_local_peering_gateway.test_local_peering_gateway.id}`},
 							routeTableRepresentation,
 						)),
 
@@ -297,7 +294,7 @@ func TestCoreRouteTableResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + RouteTableResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Update,
-						getUpdatedRepresentationCopy("route_rules.network_entity_id", Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+						getUpdatedRepresentationCopy("route_rules.network_entity_id", Representation{repType: Required, create: `${oci_core_local_peering_gateway.test_local_peering_gateway.id}`},
 							routeTableRepresentation,
 						)),
 				Check: resource.ComposeAggregateTestCheckFunc(
