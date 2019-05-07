@@ -4,6 +4,7 @@
 ### Added
 - Support for scheduling KMS key deletion
 - Support for moving Volumes, Volume groups, Boot Volumes and corresponding Backups across compartments
+- Support for moving Service Gateway resource across Compartments
 
 ## 3.29.0 (June 12, 2019)
 

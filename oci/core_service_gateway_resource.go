@@ -28,7 +28,6 @@ func CoreServiceGatewayResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"services": {
 				Type:     schema.TypeSet,
@@ -239,6 +238,15 @@ func (s *CoreServiceGatewayResourceCrud) Get() error {
 }
 
 func (s *CoreServiceGatewayResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_core.UpdateServiceGatewayRequest{}
 
 	if blockTraffic, ok := s.D.GetOkExists("block_traffic"); ok {
@@ -376,4 +384,21 @@ func servicesHashCodeForSets(v interface{}) int {
 		buf.WriteString(fmt.Sprintf("%v-", serviceId))
 	}
 	return hashcode.String(buf.String())
+}
+func (s *CoreServiceGatewayResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangeServiceGatewayCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.ServiceGatewayId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.ChangeServiceGatewayCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

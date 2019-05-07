@@ -30,9 +30,9 @@ data "oci_core_service_gateways" "test_service_gateways" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state.  The state value is case-insensitive. 
-* `vcn_id` - (Optional) The OCID of the VCN.
+* `vcn_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 
 
 ## Attributes Reference
