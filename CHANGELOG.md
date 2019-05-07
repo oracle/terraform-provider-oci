@@ -1,4 +1,4 @@
-## 3.24.1 (Unreleased)
+## 3.24.1 (May 07, 2019)
 
 ### Fixed
 - Fix unhandled error when Security Lists are altered outside Terraform
