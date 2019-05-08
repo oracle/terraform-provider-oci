@@ -12,9 +12,6 @@ import (
 
 func BudgetAlertRuleResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: DefaultTimeout,
 		Create:   createBudgetAlertRule,
 		Read:     readBudgetAlertRule,
