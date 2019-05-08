@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -192,4 +193,62 @@ func testAccCheckCoreConsoleHistoryDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreConsoleHistory", &resource.Sweeper{
+		Name:         "CoreConsoleHistory",
+		Dependencies: DependencyGraph["consoleHistory"],
+		F:            sweepCoreConsoleHistoryResource,
+	})
+}
+
+func sweepCoreConsoleHistoryResource(compartment string) error {
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	consoleHistoryIds, err := getConsoleHistoryIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, consoleHistoryId := range consoleHistoryIds {
+		if ok := SweeperDefaultResourceId[consoleHistoryId]; !ok {
+			deleteConsoleHistoryRequest := oci_core.DeleteConsoleHistoryRequest{}
+
+			deleteConsoleHistoryRequest.InstanceConsoleHistoryId = &consoleHistoryId
+
+			deleteConsoleHistoryRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeClient.DeleteConsoleHistory(context.Background(), deleteConsoleHistoryRequest)
+			if error != nil {
+				fmt.Printf("Error deleting ConsoleHistory %s %s, It is possible that the resource is already deleted. Please verify manually \n", consoleHistoryId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getConsoleHistoryIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "ConsoleHistoryId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+
+	listConsoleHistoriesRequest := oci_core.ListConsoleHistoriesRequest{}
+	listConsoleHistoriesRequest.CompartmentId = &compartmentId
+	listConsoleHistoriesResponse, err := computeClient.ListConsoleHistories(context.Background(), listConsoleHistoriesRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting ConsoleHistory list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, consoleHistory := range listConsoleHistoriesResponse.Items {
+		id := *consoleHistory.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "ConsoleHistoryId", id)
+	}
+	return resourceIds, nil
 }

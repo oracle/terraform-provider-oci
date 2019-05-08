@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
@@ -438,4 +439,62 @@ func testAccCheckContainerengineNodePoolDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("ContainerengineNodePool", &resource.Sweeper{
+		Name:         "ContainerengineNodePool",
+		Dependencies: DependencyGraph["nodePool"],
+		F:            sweepContainerengineNodePoolResource,
+	})
+}
+
+func sweepContainerengineNodePoolResource(compartment string) error {
+	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient
+	nodePoolIds, err := getNodePoolIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, nodePoolId := range nodePoolIds {
+		if ok := SweeperDefaultResourceId[nodePoolId]; !ok {
+			deleteNodePoolRequest := oci_containerengine.DeleteNodePoolRequest{}
+
+			deleteNodePoolRequest.NodePoolId = &nodePoolId
+
+			deleteNodePoolRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "containerengine")
+			_, error := containerEngineClient.DeleteNodePool(context.Background(), deleteNodePoolRequest)
+			if error != nil {
+				fmt.Printf("Error deleting NodePool %s %s, It is possible that the resource is already deleted. Please verify manually \n", nodePoolId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getNodePoolIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "NodePoolId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	containerEngineClient := GetTestClients(&schema.ResourceData{}).containerEngineClient
+
+	listNodePoolsRequest := oci_containerengine.ListNodePoolsRequest{}
+	listNodePoolsRequest.CompartmentId = &compartmentId
+	listNodePoolsResponse, err := containerEngineClient.ListNodePools(context.Background(), listNodePoolsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting NodePool list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, nodePool := range listNodePoolsResponse.Items {
+		id := *nodePool.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "NodePoolId", id)
+	}
+	return resourceIds, nil
 }

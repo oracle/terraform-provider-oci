@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
@@ -265,4 +266,62 @@ func testAccCheckDnsSteeringPolicyAttachmentDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("DnsSteeringPolicyAttachment", &resource.Sweeper{
+		Name:         "DnsSteeringPolicyAttachment",
+		Dependencies: DependencyGraph["steeringPolicyAttachment"],
+		F:            sweepDnsSteeringPolicyAttachmentResource,
+	})
+}
+
+func sweepDnsSteeringPolicyAttachmentResource(compartment string) error {
+	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
+	steeringPolicyAttachmentIds, err := getSteeringPolicyAttachmentIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, steeringPolicyAttachmentId := range steeringPolicyAttachmentIds {
+		if ok := SweeperDefaultResourceId[steeringPolicyAttachmentId]; !ok {
+			deleteSteeringPolicyAttachmentRequest := oci_dns.DeleteSteeringPolicyAttachmentRequest{}
+
+			deleteSteeringPolicyAttachmentRequest.SteeringPolicyAttachmentId = &steeringPolicyAttachmentId
+
+			deleteSteeringPolicyAttachmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "dns")
+			_, error := dnsClient.DeleteSteeringPolicyAttachment(context.Background(), deleteSteeringPolicyAttachmentRequest)
+			if error != nil {
+				fmt.Printf("Error deleting SteeringPolicyAttachment %s %s, It is possible that the resource is already deleted. Please verify manually \n", steeringPolicyAttachmentId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getSteeringPolicyAttachmentIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "SteeringPolicyAttachmentId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
+
+	listSteeringPolicyAttachmentsRequest := oci_dns.ListSteeringPolicyAttachmentsRequest{}
+	listSteeringPolicyAttachmentsRequest.CompartmentId = &compartmentId
+	listSteeringPolicyAttachmentsResponse, err := dnsClient.ListSteeringPolicyAttachments(context.Background(), listSteeringPolicyAttachmentsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting SteeringPolicyAttachment list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, steeringPolicyAttachment := range listSteeringPolicyAttachmentsResponse.Items {
+		id := *steeringPolicyAttachment.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "SteeringPolicyAttachmentId", id)
+	}
+	return resourceIds, nil
 }

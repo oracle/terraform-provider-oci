@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -279,4 +280,69 @@ func testAccCheckLoadBalancerBackendSetDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("LoadBalancerBackendSet", &resource.Sweeper{
+		Name:         "LoadBalancerBackendSet",
+		Dependencies: DependencyGraph["backendSet"],
+		F:            sweepLoadBalancerBackendSetResource,
+	})
+}
+
+func sweepLoadBalancerBackendSetResource(compartment string) error {
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	backendSetIds, err := getBackendSetIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, backendSetId := range backendSetIds {
+		if ok := SweeperDefaultResourceId[backendSetId]; !ok {
+			deleteBackendSetRequest := oci_load_balancer.DeleteBackendSetRequest{}
+
+			deleteBackendSetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			_, error := loadBalancerClient.DeleteBackendSet(context.Background(), deleteBackendSetRequest)
+			if error != nil {
+				fmt.Printf("Error deleting BackendSet %s %s, It is possible that the resource is already deleted. Please verify manually \n", backendSetId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getBackendSetIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "BackendSetId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+
+	listBackendSetsRequest := oci_load_balancer.ListBackendSetsRequest{}
+
+	loadBalancerIds, error := getLoadBalancerIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting loadBalancerId required for BackendSet resource requests \n")
+	}
+	for _, loadBalancerId := range loadBalancerIds {
+		listBackendSetsRequest.LoadBalancerId = &loadBalancerId
+
+		listBackendSetsResponse, err := loadBalancerClient.ListBackendSets(context.Background(), listBackendSetsRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting BackendSet list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, backendSet := range listBackendSetsResponse.Items {
+			id := *backendSet.Name
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "BackendSetId", id)
+		}
+
+	}
+	return resourceIds, nil
 }

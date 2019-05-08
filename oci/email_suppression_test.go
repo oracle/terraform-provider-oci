@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_email "github.com/oracle/oci-go-sdk/email"
@@ -158,4 +159,62 @@ func testAccCheckEmailSuppressionDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("EmailSuppression", &resource.Sweeper{
+		Name:         "EmailSuppression",
+		Dependencies: DependencyGraph["suppression"],
+		F:            sweepEmailSuppressionResource,
+	})
+}
+
+func sweepEmailSuppressionResource(compartment string) error {
+	emailClient := GetTestClients(&schema.ResourceData{}).emailClient
+	suppressionIds, err := getSuppressionIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, suppressionId := range suppressionIds {
+		if ok := SweeperDefaultResourceId[suppressionId]; !ok {
+			deleteSuppressionRequest := oci_email.DeleteSuppressionRequest{}
+
+			deleteSuppressionRequest.SuppressionId = &suppressionId
+
+			deleteSuppressionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "email")
+			_, error := emailClient.DeleteSuppression(context.Background(), deleteSuppressionRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Suppression %s %s, It is possible that the resource is already deleted. Please verify manually \n", suppressionId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getSuppressionIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "SuppressionId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	emailClient := GetTestClients(&schema.ResourceData{}).emailClient
+
+	listSuppressionsRequest := oci_email.ListSuppressionsRequest{}
+	listSuppressionsRequest.CompartmentId = &compartmentId
+	listSuppressionsResponse, err := emailClient.ListSuppressions(context.Background(), listSuppressionsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Suppression list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, suppression := range listSuppressionsResponse.Items {
+		id := *suppression.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "SuppressionId", id)
+	}
+	return resourceIds, nil
 }

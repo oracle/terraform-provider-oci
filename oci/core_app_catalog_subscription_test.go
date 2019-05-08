@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -161,4 +162,60 @@ func testAccCheckCoreAppCatalogSubscriptionDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreAppCatalogSubscription", &resource.Sweeper{
+		Name:         "CoreAppCatalogSubscription",
+		Dependencies: DependencyGraph["appCatalogSubscription"],
+		F:            sweepCoreAppCatalogSubscriptionResource,
+	})
+}
+
+func sweepCoreAppCatalogSubscriptionResource(compartment string) error {
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	appCatalogSubscriptionIds, err := getAppCatalogSubscriptionIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, appCatalogSubscriptionId := range appCatalogSubscriptionIds {
+		if ok := SweeperDefaultResourceId[appCatalogSubscriptionId]; !ok {
+			deleteAppCatalogSubscriptionRequest := oci_core.DeleteAppCatalogSubscriptionRequest{}
+
+			deleteAppCatalogSubscriptionRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeClient.DeleteAppCatalogSubscription(context.Background(), deleteAppCatalogSubscriptionRequest)
+			if error != nil {
+				fmt.Printf("Error deleting AppCatalogSubscription %s %s, It is possible that the resource is already deleted. Please verify manually \n", appCatalogSubscriptionId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getAppCatalogSubscriptionIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "AppCatalogSubscriptionId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+
+	listAppCatalogSubscriptionsRequest := oci_core.ListAppCatalogSubscriptionsRequest{}
+	listAppCatalogSubscriptionsRequest.CompartmentId = &compartmentId
+	listAppCatalogSubscriptionsResponse, err := computeClient.ListAppCatalogSubscriptions(context.Background(), listAppCatalogSubscriptionsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting AppCatalogSubscription list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, appCatalogSubscription := range listAppCatalogSubscriptionsResponse.Items {
+		id := *appCatalogSubscription.ListingId
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "AppCatalogSubscriptionId", id)
+	}
+	return resourceIds, nil
 }
