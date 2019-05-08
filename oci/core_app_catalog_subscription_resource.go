@@ -282,12 +282,12 @@ func (s *CoreAppCatalogSubscriptionResourceCrud) SetData() error {
 		s.D.Set("listing_id", *s.Res.ListingId)
 	}
 
-	if s.Res.ListingResourceVersion != nil {
-		s.D.Set("listing_resource_version", *s.Res.ListingResourceVersion)
-	}
-
 	if s.Res.ListingResourceId != nil {
 		s.D.Set("listing_resource_id", *s.Res.ListingResourceId)
+	}
+
+	if s.Res.ListingResourceVersion != nil {
+		s.D.Set("listing_resource_version", *s.Res.ListingResourceVersion)
 	}
 
 	if s.Res.PublisherName != nil {

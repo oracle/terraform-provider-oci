@@ -49,7 +49,6 @@ resource "oci_core_subnet" "test_subnet" {
 	#Required
 	cidr_block = "${var.subnet_cidr_block}"
 	compartment_id = "${var.compartment_id}"
-	security_list_ids = "${var.subnet_security_list_ids}"
 	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
@@ -61,6 +60,7 @@ resource "oci_core_subnet" "test_subnet" {
 	freeform_tags = {"Department"= "Finance"}
 	prohibit_public_ip_on_vnic = "${var.subnet_prohibit_public_ip_on_vnic}"
 	route_table_id = "${oci_core_route_table.test_route_table.id}"
+	security_list_ids = "${var.subnet_security_list_ids}"
 }
 ```
 

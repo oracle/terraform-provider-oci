@@ -11,6 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
+
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -784,7 +785,6 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAttach
 
 func InstanceConfigurationAttachVolumeDetailsToMap(obj *oci_core.InstanceConfigurationAttachVolumeDetails) map[string]interface{} {
 	result := map[string]interface{}{}
-
 	switch v := (*obj).(type) {
 	case oci_core.InstanceConfigurationIscsiAttachVolumeDetails:
 		result["type"] = "iscsi"
@@ -1050,16 +1050,16 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 	switch strings.ToLower(instanceType) {
 	case strings.ToLower("compute"):
 		details := oci_core.ComputeInstanceDetails{}
+		details.BlockVolumes = []oci_core.InstanceConfigurationBlockVolumeDetails{}
 		if blockVolumes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_volumes")); ok {
-			details.BlockVolumes = []oci_core.InstanceConfigurationBlockVolumeDetails{}
 			interfaces := blockVolumes.([]interface{})
 			tmp := make([]oci_core.InstanceConfigurationBlockVolumeDetails, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := i
-				fieldKeyFormatNextLevel := fmt.Sprintf(fieldKeyFormat, fmt.Sprintf("%s.%d.%%s", "block_volumes", stateDataIndex))
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "block_volumes"), stateDataIndex)
 				converted, err := s.mapToInstanceConfigurationBlockVolumeDetails(fieldKeyFormatNextLevel)
 				if err != nil {
-					return nil, err
+					return details, err
 				}
 				tmp[i] = converted
 			}
@@ -1067,24 +1067,24 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 		}
 		if launchDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "launch_details")); ok {
 			if tmpList := launchDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormatNextLevel := fmt.Sprintf(fieldKeyFormat, fmt.Sprintf("%s.%d.%%s", "launch_details", 0))
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "launch_details"), 0)
 				tmp, err := s.mapToInstanceConfigurationLaunchInstanceDetails(fieldKeyFormatNextLevel)
 				if err != nil {
-					return nil, err
+					return details, fmt.Errorf("unable to convert launch_details, encountered error: %v", err)
 				}
 				details.LaunchDetails = &tmp
 			}
 		}
+		details.SecondaryVnics = []oci_core.InstanceConfigurationAttachVnicDetails{}
 		if secondaryVnics, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secondary_vnics")); ok {
-			details.SecondaryVnics = []oci_core.InstanceConfigurationAttachVnicDetails{}
 			interfaces := secondaryVnics.([]interface{})
 			tmp := make([]oci_core.InstanceConfigurationAttachVnicDetails, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := i
-				fieldKeyFormatNextLevel := fmt.Sprintf(fieldKeyFormat, fmt.Sprintf("%s.%d.%%s", "secondary_vnics", stateDataIndex))
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "secondary_vnics"), stateDataIndex)
 				converted, err := s.mapToInstanceConfigurationAttachVnicDetails(fieldKeyFormatNextLevel)
 				if err != nil {
-					return nil, err
+					return details, err
 				}
 				tmp[i] = converted
 			}

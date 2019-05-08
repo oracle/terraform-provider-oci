@@ -235,8 +235,8 @@ func (s *CoreInstancePoolResourceCrud) CreatedPending() []string {
 
 func (s *CoreInstancePoolResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_core.InstancePoolLifecycleStateRunning),
 		string(oci_core.InstancePoolLifecycleStateStopped),
+		string(oci_core.InstancePoolLifecycleStateRunning),
 	}
 }
 
@@ -393,6 +393,7 @@ func (s *CoreInstancePoolResourceCrud) Get() error {
 	if err != nil {
 		return err
 	}
+
 	s.Res = &response.InstancePool
 	return nil
 }

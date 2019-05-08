@@ -40,7 +40,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `gateways` - The list of internet_gateways.
+* `gateways` - The list of gateways.
 
 ### InternetGateway Reference
 
