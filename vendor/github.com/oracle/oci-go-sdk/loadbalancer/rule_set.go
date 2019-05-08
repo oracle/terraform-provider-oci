@@ -15,7 +15,8 @@ import (
 )
 
 // RuleSet A named set of rules associated with a load balancer. Rules are objects that represent actions to apply to a listener,
-// such as adding, altering, or removing HTTP headers.
+// such as adding, altering, or removing HTTP headers. For more information, see
+// Managing Rule Sets (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingrulesets.htm).
 type RuleSet struct {
 
 	// The name for this set of rules. It must be unique and it cannot be changed. Avoid entering
