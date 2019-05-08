@@ -3,10 +3,15 @@
 package provider
 
 import (
+	"context"
+	"fmt"
 	"testing"
+
+	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
@@ -39,4 +44,20 @@ func TestObjectStorageNamespaceResource_basic(t *testing.T) {
 			},
 		},
 	})
+}
+
+func getNamespaces(compartment string) ([]string, error) {
+	var resourceIds []string
+	compartmentId := compartment
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+
+	getNamespacesRequest := oci_object_storage.GetNamespaceRequest{}
+	getNamespacesResponse, err := objectStorageClient.GetNamespace(context.Background(), getNamespacesRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Bucket NameSpace list for compartment id : %s , %s \n", compartmentId, err)
+	}
+
+	resourceIds = append(resourceIds, *getNamespacesResponse.Value)
+	return resourceIds, nil
 }

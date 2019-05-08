@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	oci_autoscaling "github.com/oracle/oci-go-sdk/autoscaling"
 	"github.com/oracle/oci-go-sdk/common"
@@ -410,4 +411,62 @@ func testAccCheckAutoscalingAutoScalingConfigurationDestroy(s *terraform.State) 
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("AutoscalingAutoScalingConfiguration", &resource.Sweeper{
+		Name:         "AutoscalingAutoScalingConfiguration",
+		Dependencies: DependencyGraph["autoScalingConfiguration"],
+		F:            sweepAutoscalingAutoScalingConfigurationResource,
+	})
+}
+
+func sweepAutoscalingAutoScalingConfigurationResource(compartment string) error {
+	autoscalingClient := GetTestClients(&schema.ResourceData{}).autoScalingClient
+	autoScalingConfigurationIds, err := getAutoScalingConfigurationIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, autoScalingConfigurationId := range autoScalingConfigurationIds {
+		if ok := SweeperDefaultResourceId[autoScalingConfigurationId]; !ok {
+			deleteAutoScalingConfigurationRequest := oci_autoscaling.DeleteAutoScalingConfigurationRequest{}
+
+			deleteAutoScalingConfigurationRequest.AutoScalingConfigurationId = &autoScalingConfigurationId
+
+			deleteAutoScalingConfigurationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "autoscaling")
+			_, error := autoscalingClient.DeleteAutoScalingConfiguration(context.Background(), deleteAutoScalingConfigurationRequest)
+			if error != nil {
+				fmt.Printf("Error deleting AutoScalingConfiguration %s %s, It is possible that the resource is already deleted. Please verify manually \n", autoScalingConfigurationId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getAutoScalingConfigurationIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "AutoScalingConfigurationId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	autoscalingClient := GetTestClients(&schema.ResourceData{}).autoScalingClient
+
+	listAutoScalingConfigurationsRequest := oci_autoscaling.ListAutoScalingConfigurationsRequest{}
+	listAutoScalingConfigurationsRequest.CompartmentId = &compartmentId
+	listAutoScalingConfigurationsResponse, err := autoscalingClient.ListAutoScalingConfigurations(context.Background(), listAutoScalingConfigurationsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting AutoScalingConfiguration list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, autoScalingConfiguration := range listAutoScalingConfigurationsResponse.Items {
+		id := *autoScalingConfiguration.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "AutoScalingConfigurationId", id)
+	}
+	return resourceIds, nil
 }

@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
@@ -298,4 +299,70 @@ func testAccCheckObjectStorageBucketDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("ObjectStorageBucket", &resource.Sweeper{
+		Name:         "ObjectStorageBucket",
+		Dependencies: DependencyGraph["bucket"],
+		F:            sweepObjectStorageBucketResource,
+	})
+}
+
+func sweepObjectStorageBucketResource(compartment string) error {
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+	bucketIds, err := getBucketIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, bucketId := range bucketIds {
+		if ok := SweeperDefaultResourceId[bucketId]; !ok {
+			deleteBucketRequest := oci_object_storage.DeleteBucketRequest{}
+
+			deleteBucketRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+			_, error := objectStorageClient.DeleteBucket(context.Background(), deleteBucketRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Bucket %s %s, It is possible that the resource is already deleted. Please verify manually \n", bucketId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getBucketIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "BucketId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+
+	listBucketsRequest := oci_object_storage.ListBucketsRequest{}
+	listBucketsRequest.CompartmentId = &compartmentId
+
+	namespaces, error := getNamespaces(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting namespace required for Bucket resource requests \n")
+	}
+	for _, namespace := range namespaces {
+		listBucketsRequest.NamespaceName = &namespace
+
+		listBucketsResponse, err := objectStorageClient.ListBuckets(context.Background(), listBucketsRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting Bucket list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, bucket := range listBucketsResponse.Items {
+			id := *bucket.Name
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "BucketId", id)
+		}
+
+	}
+	return resourceIds, nil
 }

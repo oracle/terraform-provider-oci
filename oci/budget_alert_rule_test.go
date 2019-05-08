@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 	"github.com/oracle/oci-go-sdk/common"
@@ -250,4 +251,71 @@ func testAccCheckBudgetAlertRuleDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("BudgetAlertRule", &resource.Sweeper{
+		Name:         "BudgetAlertRule",
+		Dependencies: DependencyGraph["alertRule"],
+		F:            sweepBudgetAlertRuleResource,
+	})
+}
+
+func sweepBudgetAlertRuleResource(compartment string) error {
+	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient
+	alertRuleIds, err := getAlertRuleIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, alertRuleId := range alertRuleIds {
+		if ok := SweeperDefaultResourceId[alertRuleId]; !ok {
+			deleteAlertRuleRequest := oci_budget.DeleteAlertRuleRequest{}
+
+			deleteAlertRuleRequest.AlertRuleId = &alertRuleId
+
+			deleteAlertRuleRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "budget")
+			_, error := budgetClient.DeleteAlertRule(context.Background(), deleteAlertRuleRequest)
+			if error != nil {
+				fmt.Printf("Error deleting AlertRule %s %s, It is possible that the resource is already deleted. Please verify manually \n", alertRuleId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getAlertRuleIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "AlertRuleId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient
+
+	listAlertRulesRequest := oci_budget.ListAlertRulesRequest{}
+
+	budgetIds, error := getBudgetIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting budgetId required for AlertRule resource requests \n")
+	}
+	for _, budgetId := range budgetIds {
+		listAlertRulesRequest.BudgetId = &budgetId
+
+		listAlertRulesResponse, err := budgetClient.ListAlertRules(context.Background(), listAlertRulesRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting AlertRule list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, alertRule := range listAlertRulesResponse.Items {
+			id := *alertRule.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "AlertRuleId", id)
+		}
+
+	}
+	return resourceIds, nil
 }

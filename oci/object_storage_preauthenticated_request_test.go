@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
@@ -209,4 +210,79 @@ func testAccCheckObjectStoragePreauthenticatedRequestDestroy(s *terraform.State)
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("ObjectStoragePreauthenticatedRequest", &resource.Sweeper{
+		Name:         "ObjectStoragePreauthenticatedRequest",
+		Dependencies: DependencyGraph["preauthenticatedRequest"],
+		F:            sweepObjectStoragePreauthenticatedRequestResource,
+	})
+}
+
+func sweepObjectStoragePreauthenticatedRequestResource(compartment string) error {
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+	preauthenticatedRequestIds, err := getPreauthenticatedRequestIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, preauthenticatedRequestId := range preauthenticatedRequestIds {
+		if ok := SweeperDefaultResourceId[preauthenticatedRequestId]; !ok {
+			deletePreauthenticatedRequestRequest := oci_object_storage.DeletePreauthenticatedRequestRequest{}
+
+			deletePreauthenticatedRequestRequest.ParId = &preauthenticatedRequestId
+
+			deletePreauthenticatedRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+			_, error := objectStorageClient.DeletePreauthenticatedRequest(context.Background(), deletePreauthenticatedRequestRequest)
+			if error != nil {
+				fmt.Printf("Error deleting PreauthenticatedRequest %s %s, It is possible that the resource is already deleted. Please verify manually \n", preauthenticatedRequestId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getPreauthenticatedRequestIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "PreauthenticatedRequestId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+
+	listPreauthenticatedRequestsRequest := oci_object_storage.ListPreauthenticatedRequestsRequest{}
+
+	buckets, error := getBucketIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting bucket required for PreauthenticatedRequest resource requests \n")
+	}
+	for _, bucket := range buckets {
+		listPreauthenticatedRequestsRequest.BucketName = &bucket
+
+		namespaces, error := getNamespaces(compartment)
+		if error != nil {
+			return resourceIds, fmt.Errorf("Error getting namespace required for PreauthenticatedRequest resource requests \n")
+		}
+		for _, namespace := range namespaces {
+			listPreauthenticatedRequestsRequest.NamespaceName = &namespace
+
+			listPreauthenticatedRequestsResponse, err := objectStorageClient.ListPreauthenticatedRequests(context.Background(), listPreauthenticatedRequestsRequest)
+
+			if err != nil {
+				return resourceIds, fmt.Errorf("Error getting PreauthenticatedRequest list for compartment id : %s , %s \n", compartmentId, err)
+			}
+			for _, preauthenticatedRequest := range listPreauthenticatedRequestsResponse.Items {
+				id := *preauthenticatedRequest.Id
+				resourceIds = append(resourceIds, id)
+				addResourceIdToSweeperResourceIdMap(compartmentId, "PreauthenticatedRequestId", id)
+			}
+
+		}
+	}
+	return resourceIds, nil
 }

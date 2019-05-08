@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -317,4 +318,69 @@ func testAccCheckLoadBalancerRuleSetDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("LoadBalancerRuleSet", &resource.Sweeper{
+		Name:         "LoadBalancerRuleSet",
+		Dependencies: DependencyGraph["ruleSet"],
+		F:            sweepLoadBalancerRuleSetResource,
+	})
+}
+
+func sweepLoadBalancerRuleSetResource(compartment string) error {
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	ruleSetIds, err := getRuleSetIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, ruleSetId := range ruleSetIds {
+		if ok := SweeperDefaultResourceId[ruleSetId]; !ok {
+			deleteRuleSetRequest := oci_load_balancer.DeleteRuleSetRequest{}
+
+			deleteRuleSetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			_, error := loadBalancerClient.DeleteRuleSet(context.Background(), deleteRuleSetRequest)
+			if error != nil {
+				fmt.Printf("Error deleting RuleSet %s %s, It is possible that the resource is already deleted. Please verify manually \n", ruleSetId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getRuleSetIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "RuleSetId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+
+	listRuleSetsRequest := oci_load_balancer.ListRuleSetsRequest{}
+
+	loadBalancerIds, error := getLoadBalancerIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting loadBalancerId required for RuleSet resource requests \n")
+	}
+	for _, loadBalancerId := range loadBalancerIds {
+		listRuleSetsRequest.LoadBalancerId = &loadBalancerId
+
+		listRuleSetsResponse, err := loadBalancerClient.ListRuleSets(context.Background(), listRuleSetsRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting RuleSet list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, ruleSet := range listRuleSetsResponse.Items {
+			id := *ruleSet.Name
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "RuleSetId", id)
+		}
+
+	}
+	return resourceIds, nil
 }

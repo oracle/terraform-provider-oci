@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 	"github.com/oracle/oci-go-sdk/common"
@@ -248,4 +249,62 @@ func testAccCheckBudgetBudgetDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("BudgetBudget", &resource.Sweeper{
+		Name:         "BudgetBudget",
+		Dependencies: DependencyGraph["budget"],
+		F:            sweepBudgetBudgetResource,
+	})
+}
+
+func sweepBudgetBudgetResource(compartment string) error {
+	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient
+	budgetIds, err := getBudgetIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, budgetId := range budgetIds {
+		if ok := SweeperDefaultResourceId[budgetId]; !ok {
+			deleteBudgetRequest := oci_budget.DeleteBudgetRequest{}
+
+			deleteBudgetRequest.BudgetId = &budgetId
+
+			deleteBudgetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "budget")
+			_, error := budgetClient.DeleteBudget(context.Background(), deleteBudgetRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Budget %s %s, It is possible that the resource is already deleted. Please verify manually \n", budgetId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getBudgetIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "BudgetId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient
+
+	listBudgetsRequest := oci_budget.ListBudgetsRequest{}
+	listBudgetsRequest.CompartmentId = &compartmentId
+	listBudgetsResponse, err := budgetClient.ListBudgets(context.Background(), listBudgetsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Budget list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, budget := range listBudgetsResponse.Items {
+		id := *budget.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "BudgetId", id)
+	}
+	return resourceIds, nil
 }
