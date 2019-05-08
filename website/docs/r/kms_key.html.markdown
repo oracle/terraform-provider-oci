@@ -35,7 +35,7 @@ resource "oci_kms_key" "test_key" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment that contains this key.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains this key.
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "foo-value"}` 
 * `desired_state` - (Optional) (Updatable) Desired state of the key. Possible values : `ENABLED` or `DISABLED`
 * `display_name` - (Required) (Updatable) A user-friendly name for the key. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
