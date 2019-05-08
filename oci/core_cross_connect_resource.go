@@ -159,6 +159,18 @@ func (s *CoreCrossConnectResourceCrud) CreatedTarget() []string {
 	}
 }
 
+func (s *CoreCrossConnectResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_core.CrossConnectLifecycleStateTerminating),
+	}
+}
+
+func (s *CoreCrossConnectResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_core.CrossConnectLifecycleStateTerminated),
+	}
+}
+
 func (s *CoreCrossConnectResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_core.CrossConnectLifecycleStateProvisioning),
@@ -176,18 +188,6 @@ func (s *CoreCrossConnectResourceCrud) UpdatedTarget() []string {
 	return []string{
 		string(oci_core.CrossConnectLifecycleStatePendingCustomer),
 		string(oci_core.CrossConnectLifecycleStateProvisioned),
-	}
-}
-
-func (s *CoreCrossConnectResourceCrud) DeletedPending() []string {
-	return []string{
-		string(oci_core.CrossConnectLifecycleStateTerminating),
-	}
-}
-
-func (s *CoreCrossConnectResourceCrud) DeletedTarget() []string {
-	return []string{
-		string(oci_core.CrossConnectLifecycleStateTerminated),
 	}
 }
 
@@ -242,7 +242,6 @@ func (s *CoreCrossConnectResourceCrud) Create() error {
 	}
 
 	s.Res = &response.CrossConnect
-
 	return nil
 }
 

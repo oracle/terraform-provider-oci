@@ -105,21 +105,8 @@ func (s *CoreCrossConnectGroupResourceCrud) CreatedPending() []string {
 
 func (s *CoreCrossConnectGroupResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_core.CrossConnectGroupLifecycleStateInactive),
 		string(oci_core.CrossConnectGroupLifecycleStateProvisioned),
-	}
-}
-
-func (s *CoreCrossConnectGroupResourceCrud) UpdatedPending() []string {
-	return []string{
-		string(oci_core.CrossConnectGroupLifecycleStateProvisioning),
-	}
-}
-
-func (s *CoreCrossConnectGroupResourceCrud) UpdatedTarget() []string {
-	return []string{
 		string(oci_core.CrossConnectGroupLifecycleStateInactive),
-		string(oci_core.CrossConnectGroupLifecycleStateProvisioned),
 	}
 }
 
@@ -132,6 +119,19 @@ func (s *CoreCrossConnectGroupResourceCrud) DeletedPending() []string {
 func (s *CoreCrossConnectGroupResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.CrossConnectGroupLifecycleStateTerminated),
+	}
+}
+
+func (s *CoreCrossConnectGroupResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_core.CrossConnectGroupLifecycleStateProvisioning),
+	}
+}
+
+func (s *CoreCrossConnectGroupResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_core.CrossConnectGroupLifecycleStateProvisioned),
+		string(oci_core.CrossConnectGroupLifecycleStateInactive),
 	}
 }
 
