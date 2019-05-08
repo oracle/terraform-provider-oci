@@ -71,6 +71,3 @@ The following attributes are exported:
 * `type` - ACTUAL means the alert will trigger based on actual usage. FORECAST means the alert will trigger based on predicted usage. 
 * `version` - Version of the alert rule. Starts from 1 and increments by 1.
 
-## Import
-
-AlertRules can not currently be imported.

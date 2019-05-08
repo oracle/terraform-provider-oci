@@ -209,10 +209,6 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
 				),
 			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + AlertRuleResourceConfig,
-			},
 		},
 	})
 }
