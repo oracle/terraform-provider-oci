@@ -34,7 +34,7 @@ resource "oci_kms_vault" "test_vault" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment where you want to create this vault.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment where you want to create this vault.
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "foo-value"}` 
 * `display_name` - (Required) (Updatable) A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
