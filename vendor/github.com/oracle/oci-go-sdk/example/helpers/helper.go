@@ -6,7 +6,10 @@
 package helpers
 
 import (
+	"crypto/sha256"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"log"
 	"math"
 	"math/rand"
@@ -150,4 +153,17 @@ func GetRandomString(n int) string {
 		b[i] = letters[rand.Intn(len(letters))]
 	}
 	return string(b)
+}
+
+// WriteTempFileOfSize output random content to a file
+func WriteTempFileOfSize(filesize int64) (fileName string, fileSize int64) {
+	hash := sha256.New()
+	f, _ := ioutil.TempFile("", "OCIGOSDKSampleFile")
+	ra := rand.New(rand.NewSource(time.Now().UnixNano()))
+	defer f.Close()
+	writer := io.MultiWriter(f, hash)
+	written, _ := io.CopyN(writer, ra, filesize)
+	fileName = f.Name()
+	fileSize = written
+	return
 }

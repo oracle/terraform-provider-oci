@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 5.5.0 - 2019-05-07
+### Added
+- Support for the Tokyo (NRT) region
+
+- Support UploadManager for uploading large objects. Sample is available on [Github](https://github.com/oracle/oci-go-sdk/tree/master/example/example_objectstorage_test.go)
+
 ## 5.4.0 - 2019-04-16
 ### Added
 - Support for tagging dynamic groups in the Identity service
