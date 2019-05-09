@@ -141,7 +141,9 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "snapshots.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "snapshots.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.file_system_id"),
+					resource.TestCheckResourceAttr(datasourceName, "snapshots.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "snapshots.0.name", "snapshot-1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.state"),

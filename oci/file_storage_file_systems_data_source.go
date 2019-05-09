@@ -126,9 +126,15 @@ func (s *FileStorageFileSystemsDataSourceCrud) SetData() error {
 			"compartment_id":      *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			fileSystem["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			fileSystem["display_name"] = *r.DisplayName
 		}
+
+		fileSystem["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			fileSystem["id"] = *r.Id

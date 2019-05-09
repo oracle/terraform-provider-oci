@@ -2,6 +2,7 @@
 
 ### Added
 - Support for moving File Systems and Mount Targets across compartments
+- Support for filtering File Storage resources by tags
 
 ## 3.26.0 (May 22, 2019)
 
