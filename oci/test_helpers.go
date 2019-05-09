@@ -185,6 +185,14 @@ func cloneRepresentation(representations map[string]interface{}) map[string]inte
 		if ok {
 			copyMap[key] = RepresentationGroup{representationGroup.repType, cloneRepresentation(representationGroup.group)}
 		}
+		representationGroupArr, ok := value.([]RepresentationGroup)
+		if ok {
+			representationGroupArrClone := make([]RepresentationGroup, len(representationGroupArr))
+			for index, representationGroupItem := range representationGroupArr {
+				representationGroupArrClone[index] = RepresentationGroup{representationGroup.repType, cloneRepresentation(representationGroupItem.group)}
+			}
+			copyMap[key] = representationGroupArrClone
+		}
 	}
 
 	return copyMap
