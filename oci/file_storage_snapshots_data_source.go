@@ -106,6 +106,12 @@ func (s *FileStorageSnapshotsDataSourceCrud) SetData() error {
 			"file_system_id": *r.FileSystemId,
 		}
 
+		if r.DefinedTags != nil {
+			snapshot["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
+		snapshot["freeform_tags"] = r.FreeformTags
+
 		if r.Id != nil {
 			snapshot["id"] = *r.Id
 		}

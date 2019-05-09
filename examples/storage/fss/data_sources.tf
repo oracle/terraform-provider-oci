@@ -15,6 +15,11 @@ data "oci_file_storage_file_systems" "file_systems" {
   #display_name = "my_fs_1"
   #id = "ocid1.filesystem.oc1.phx.aaaaaaaaaaaaawynobuhqllqojxwiotqnb4c2ylefuyqaaaa"
   #state = "DELETED"
+
+  #filter {
+  #  name = "defined_tags.example-tag-namespace-all.example-tag"
+  #  values = ["value"]
+  #}
 }
 
 # Gets the list of mount targets in the compartment
@@ -28,6 +33,11 @@ data "oci_file_storage_mount_targets" "mount_targets" {
   #export_set_id = "${var.mount_target_export_set_id}"
   #id = "${var.mount_target_id}"
   #state = "${var.mount_target_state}"
+
+  #filter {
+  #  name = "freeform_tags.Department"
+  #  values = ["Accounting"]
+  #}
 }
 
 # Gets the list of exports in the compartment
@@ -50,6 +60,11 @@ data "oci_file_storage_snapshots" "snapshots" {
   #Optional fields. Used by the service to filter the results when returning data to the client.
   #id = "${var.snapshot_id}"
   #state = "${var.snapshot_state}"
+
+  #filter {
+  #  name = "freeform_tags.Department"
+  #  values = ["Accounting"]
+  #}
 }
 
 # Gets a list of export sets in a compartment and availability domain

@@ -134,6 +134,10 @@ func (s *FileStorageMountTargetsDataSourceCrud) SetData() error {
 			"compartment_id":      *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			mountTarget["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			mountTarget["display_name"] = *r.DisplayName
 		}
@@ -141,6 +145,8 @@ func (s *FileStorageMountTargetsDataSourceCrud) SetData() error {
 		if r.ExportSetId != nil {
 			mountTarget["export_set_id"] = *r.ExportSetId
 		}
+
+		mountTarget["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			mountTarget["id"] = *r.Id

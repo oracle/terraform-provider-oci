@@ -8,6 +8,11 @@ resource "oci_file_storage_mount_target" "my_mount_target_1" {
 
   #Optional
   display_name = "${var.mount_target_1_display_name}"
+  defined_tags = "${map("example-tag-namespace-all.example-tag", "value")}"
+
+  freeform_tags = {
+    "Department" = "Finance"
+  }
 }
 
 resource "oci_file_storage_mount_target" "my_mount_target_2" {
@@ -18,6 +23,11 @@ resource "oci_file_storage_mount_target" "my_mount_target_2" {
 
   #Optional
   display_name = "${var.mount_target_2_display_name}"
+  defined_tags = "${map("example-tag-namespace-all.example-tag", "value")}"
+
+  freeform_tags = {
+    "Department" = "Accounting"
+  }
 }
 
 # Use export_set.tf config to update the size for a mount target
