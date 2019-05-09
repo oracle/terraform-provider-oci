@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
@@ -374,72 +373,4 @@ func testAccCheckObjectStorageObjectLifecyclePolicyDestroy(s *terraform.State) e
 	}
 
 	return nil
-}
-
-func init() {
-	if DependencyGraph == nil {
-		initDependencyGraph()
-	}
-	resource.AddTestSweepers("ObjectStorageObjectLifecyclePolicy", &resource.Sweeper{
-		Name:         "ObjectStorageObjectLifecyclePolicy",
-		Dependencies: DependencyGraph["objectLifecyclePolicy"],
-		F:            sweepObjectStorageObjectLifecyclePolicyResource,
-	})
-}
-
-func sweepObjectStorageObjectLifecyclePolicyResource(compartment string) error {
-	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
-	objectLifecyclePolicyIds, err := getObjectLifecyclePolicyIds(compartment)
-	if err != nil {
-		return err
-	}
-	for _, objectLifecyclePolicyId := range objectLifecyclePolicyIds {
-		if ok := SweeperDefaultResourceId[objectLifecyclePolicyId]; !ok {
-			deleteObjectLifecyclePolicyRequest := oci_object_storage.DeleteObjectLifecyclePolicyRequest{}
-
-			deleteObjectLifecyclePolicyRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
-			_, error := objectStorageClient.DeleteObjectLifecyclePolicy(context.Background(), deleteObjectLifecyclePolicyRequest)
-			if error != nil {
-				fmt.Printf("Error deleting ObjectLifecyclePolicy %s %s, It is possible that the resource is already deleted. Please verify manually \n", objectLifecyclePolicyId, error)
-				continue
-			}
-		}
-	}
-	return nil
-}
-
-func getObjectLifecyclePolicyIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "ObjectLifecyclePolicyId")
-	if ids != nil {
-		return ids, nil
-	}
-	var resourceIds []string
-	compartmentId := compartment
-	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
-
-	getObjectLifecyclePolicyRequest := oci_object_storage.GetObjectLifecyclePolicyRequest{}
-	namespaces, error := getNamespaces(compartmentId)
-	if error != nil {
-		return resourceIds, error
-	}
-	getObjectLifecyclePolicyRequest.NamespaceName = &namespaces[0]
-
-	buckets, error := getBucketIds(compartment)
-	if error != nil {
-		return resourceIds, fmt.Errorf("Error getting bucket required for ObjectLifecyclePolicy resource requests \n")
-	}
-	for _, bucket := range buckets {
-		getObjectLifecyclePolicyRequest.BucketName = &bucket
-		getObjectLifecyclePolicyResponse, err := objectStorageClient.GetObjectLifecyclePolicy(context.Background(), getObjectLifecyclePolicyRequest)
-
-		if err != nil {
-			return resourceIds, fmt.Errorf("Error getting ObjectLifecyclePolicy list for compartment id : %s , %s \n", compartmentId, err)
-		}
-		for _, objectLifecyclePolicy := range getObjectLifecyclePolicyResponse.Items {
-			id := *objectLifecyclePolicy.Name
-			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "ObjectLifecyclePolicyId", id)
-		}
-	}
-	return resourceIds, nil
 }
