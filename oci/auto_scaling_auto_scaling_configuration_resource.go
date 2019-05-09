@@ -57,7 +57,6 @@ func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"policies": {
 				Type:     schema.TypeList,
@@ -398,6 +397,15 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) Get() error {
 }
 
 func (s *AutoScalingAutoScalingConfigurationResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_auto_scaling.UpdateAutoScalingConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -850,4 +858,22 @@ func autoScalingConfigurationPolicyRulesHashCodeForSets(v interface{}) int {
 		}
 	}
 	return hashcode.String(buf.String())
+}
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_auto_scaling.ChangeAutoScalingConfigurationCompartmentRequest{}
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.AutoScalingConfigurationId = &idTmp
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.ChangeCompartmentDetails = oci_auto_scaling.ChangeAutoScalingCompartmentDetails{}
+	changeCompartmentRequest.ChangeCompartmentDetails.CompartmentId = &compartmentTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
+
+	_, err := s.Client.ChangeAutoScalingConfigurationCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

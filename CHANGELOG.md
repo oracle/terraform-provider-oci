@@ -3,6 +3,7 @@
 ### Added
 - Support for moving Images across compartments
 - Support for moving Instance Pools and Instance Configurations across compartments
+- Support for compartment move of auto-scaling configuration resource
 
 ## 3.31.0 (June 26, 2019)
 
