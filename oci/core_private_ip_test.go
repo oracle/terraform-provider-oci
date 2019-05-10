@@ -271,15 +271,23 @@ func getPrivateIpIds(compartment string) ([]string, error) {
 	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
 
 	listPrivateIpsRequest := oci_core.ListPrivateIpsRequest{}
-	listPrivateIpsResponse, err := virtualNetworkClient.ListPrivateIps(context.Background(), listPrivateIpsRequest)
 
+	subnetIds, err := getSubnetIds(compartment)
 	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting PrivateIp list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting SubnetId list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, privateIp := range listPrivateIpsResponse.Items {
-		id := *privateIp.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "PrivateIpId", id)
+	for _, subnetId := range subnetIds {
+		listPrivateIpsRequest.SubnetId = &subnetId
+		listPrivateIpsResponse, err := virtualNetworkClient.ListPrivateIps(context.Background(), listPrivateIpsRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting PrivateIp list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, privateIp := range listPrivateIpsResponse.Items {
+			id := *privateIp.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "PrivateIpId", id)
+		}
 	}
 	return resourceIds, nil
 }
