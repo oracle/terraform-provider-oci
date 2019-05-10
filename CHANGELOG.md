@@ -2,6 +2,7 @@
 
 ### Added
 - Support for ATP-S autoscaling
+- Support for specifying Fault Domains in `launch_details` for `oci_core_instance_configuration` resource 
 
 ## 3.27.0 (May 29, 2019)
 

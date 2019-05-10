@@ -315,6 +315,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										ForceNew: true,
 										Elem:     schema.TypeString,
 									},
+									"fault_domain": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"freeform_tags": {
 										Type:     schema.TypeMap,
 										Optional: true,
@@ -1225,6 +1231,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.ExtendedMetadata = extendedMetadata
 	}
 
+	if faultDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fault_domain")); ok {
+		tmp := faultDomain.(string)
+		result.FaultDomain = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -1281,6 +1292,10 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 	}
 
 	result["extended_metadata"] = obj.ExtendedMetadata
+
+	if obj.FaultDomain != nil {
+		result["fault_domain"] = string(*obj.FaultDomain)
+	}
 
 	result["freeform_tags"] = obj.FreeformTags
 
