@@ -30,7 +30,7 @@ func NewKmsManagementClientWithConfigurationProvider(configProvider common.Confi
 	}
 
 	client = KmsManagementClient{BaseClient: baseClient}
-	client.BasePath = ""
+	client.BasePath = "20180608"
 	client.Host = endpoint
 	err = client.setConfigurationProvider(configProvider)
 	return
@@ -80,7 +80,7 @@ func (client KmsManagementClient) CreateKey(ctx context.Context, request CreateK
 
 // createKey implements the OCIOperation interface (enables retrying operations)
 func (client KmsManagementClient) createKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/keys")
 	if err != nil {
 		return nil, err
 	}
@@ -128,7 +128,7 @@ func (client KmsManagementClient) CreateKeyVersion(ctx context.Context, request 
 
 // createKeyVersion implements the OCIOperation interface (enables retrying operations)
 func (client KmsManagementClient) createKeyVersion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/keyVersions")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/keys/{keyId}/keyVersions")
 	if err != nil {
 		return nil, err
 	}
@@ -176,7 +176,7 @@ func (client KmsManagementClient) DisableKey(ctx context.Context, request Disabl
 
 // disableKey implements the OCIOperation interface (enables retrying operations)
 func (client KmsManagementClient) disableKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/disable")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/keys/{keyId}/actions/disable")
 	if err != nil {
 		return nil, err
 	}
@@ -224,7 +224,7 @@ func (client KmsManagementClient) EnableKey(ctx context.Context, request EnableK
 
 // enableKey implements the OCIOperation interface (enables retrying operations)
 func (client KmsManagementClient) enableKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/enable")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/keys/{keyId}/actions/enable")
 	if err != nil {
 		return nil, err
 	}
@@ -266,7 +266,7 @@ func (client KmsManagementClient) GetKey(ctx context.Context, request GetKeyRequ
 
 // getKey implements the OCIOperation interface (enables retrying operations)
 func (client KmsManagementClient) getKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/keys/{keyId}")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/keys/{keyId}")
 	if err != nil {
 		return nil, err
 	}
@@ -308,7 +308,7 @@ func (client KmsManagementClient) GetKeyVersion(ctx context.Context, request Get
 
 // getKeyVersion implements the OCIOperation interface (enables retrying operations)
 func (client KmsManagementClient) getKeyVersion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/keys/{keyId}/keyVersions/{keyVersionId}")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/keys/{keyId}/keyVersions/{keyVersionId}")
 	if err != nil {
 		return nil, err
 	}
@@ -350,7 +350,7 @@ func (client KmsManagementClient) ListKeyVersions(ctx context.Context, request L
 
 // listKeyVersions implements the OCIOperation interface (enables retrying operations)
 func (client KmsManagementClient) listKeyVersions(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/keys/{keyId}/keyVersions")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/keys/{keyId}/keyVersions")
 	if err != nil {
 		return nil, err
 	}
@@ -392,7 +392,7 @@ func (client KmsManagementClient) ListKeys(ctx context.Context, request ListKeys
 
 // listKeys implements the OCIOperation interface (enables retrying operations)
 func (client KmsManagementClient) listKeys(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/keys")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/keys")
 	if err != nil {
 		return nil, err
 	}
@@ -436,7 +436,7 @@ func (client KmsManagementClient) UpdateKey(ctx context.Context, request UpdateK
 
 // updateKey implements the OCIOperation interface (enables retrying operations)
 func (client KmsManagementClient) updateKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/20180608/keys/{keyId}")
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/keys/{keyId}")
 	if err != nil {
 		return nil, err
 	}

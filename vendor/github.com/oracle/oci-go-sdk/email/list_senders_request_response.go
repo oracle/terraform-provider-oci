@@ -23,8 +23,9 @@ type ListSendersRequest struct {
 	// The email address of the approved sender.
 	EmailAddress *string `mandatory:"false" contributesTo:"query" name:"emailAddress"`
 
-	// The value of the `opc-next-page` response header from the previous
-	// GET request.
+	// For list pagination. The value of the opc-next-page response header from the previous "List" call.
+	// For important details about how pagination works,
+	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a
@@ -78,6 +79,11 @@ type ListSendersResponse struct {
 	// pages of results remain. For important details about how pagination works,
 	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
+
+	// For list pagination. When this header appears in the response, previous pages
+	// of results exist. For important details about how pagination works,
+	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	OpcPrevPage *string `presentIn:"header" name:"opc-prev-page"`
 
 	// The total number of items returned from the request.
 	OpcTotalItems *int `presentIn:"header" name:"opc-total-items"`
