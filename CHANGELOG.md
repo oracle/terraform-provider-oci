@@ -2,6 +2,7 @@
 
 ### Added
 - Support for recovery window in backup config for Database DbSystem and DbHome resources
+- Support for KMS throttling and audit logs
 
 ## 3.24.1 (May 07, 2019)
 
@@ -28,7 +29,6 @@
 ### Added
 - Support for `compartment_id` filter in `email_senders` and `email_suppressions` data sources
 - Support for import in dbHomes and dbSystems
-- Support for KMS throttling
 
 ### Fixed
 - Backward compatibility for compositeId in Object Storage - Objects and PARs
