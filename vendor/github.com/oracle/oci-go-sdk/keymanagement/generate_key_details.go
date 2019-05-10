@@ -27,6 +27,10 @@ type GenerateKeyDetails struct {
 	// encrypted data. The length of the string representation of the associatedData
 	// must be fewer than 4096 characters.
 	AssociatedData map[string]string `mandatory:"false" json:"associatedData"`
+
+	// Information that can be used to provide context for audit logging. It is a map that contains any addtional
+	// data the users may have and will be added to the audit logs (if audit logging is enabled)
+	LoggingContext map[string]string `mandatory:"false" json:"loggingContext"`
 }
 
 func (m GenerateKeyDetails) String() string {

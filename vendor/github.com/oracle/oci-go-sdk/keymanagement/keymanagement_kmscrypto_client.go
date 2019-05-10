@@ -30,7 +30,7 @@ func NewKmsCryptoClientWithConfigurationProvider(configProvider common.Configura
 	}
 
 	client = KmsCryptoClient{BaseClient: baseClient}
-	client.BasePath = ""
+	client.BasePath = "20180608"
 	client.Host = endpoint
 	err = client.setConfigurationProvider(configProvider)
 	return
@@ -75,7 +75,7 @@ func (client KmsCryptoClient) Decrypt(ctx context.Context, request DecryptReques
 
 // decrypt implements the OCIOperation interface (enables retrying operations)
 func (client KmsCryptoClient) decrypt(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/decrypt")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/decrypt")
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +119,7 @@ func (client KmsCryptoClient) Encrypt(ctx context.Context, request EncryptReques
 
 // encrypt implements the OCIOperation interface (enables retrying operations)
 func (client KmsCryptoClient) encrypt(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/encrypt")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/encrypt")
 	if err != nil {
 		return nil, err
 	}
@@ -161,7 +161,7 @@ func (client KmsCryptoClient) GenerateDataEncryptionKey(ctx context.Context, req
 
 // generateDataEncryptionKey implements the OCIOperation interface (enables retrying operations)
 func (client KmsCryptoClient) generateDataEncryptionKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/generateDataEncryptionKey")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/generateDataEncryptionKey")
 	if err != nil {
 		return nil, err
 	}
