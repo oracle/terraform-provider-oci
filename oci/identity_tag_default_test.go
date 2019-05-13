@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -234,62 +233,4 @@ func testAccCheckIdentityTagDefaultDestroy(s *terraform.State) error {
 	}
 
 	return nil
-}
-
-func init() {
-	if DependencyGraph == nil {
-		initDependencyGraph()
-	}
-	resource.AddTestSweepers("IdentityTagDefault", &resource.Sweeper{
-		Name:         "IdentityTagDefault",
-		Dependencies: DependencyGraph["tagDefault"],
-		F:            sweepIdentityTagDefaultResource,
-	})
-}
-
-func sweepIdentityTagDefaultResource(compartment string) error {
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
-	tagDefaultIds, err := getTagDefaultIds(compartment)
-	if err != nil {
-		return err
-	}
-	for _, tagDefaultId := range tagDefaultIds {
-		if ok := SweeperDefaultResourceId[tagDefaultId]; !ok {
-			deleteTagDefaultRequest := oci_identity.DeleteTagDefaultRequest{}
-
-			deleteTagDefaultRequest.TagDefaultId = &tagDefaultId
-
-			deleteTagDefaultRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
-			_, error := identityClient.DeleteTagDefault(context.Background(), deleteTagDefaultRequest)
-			if error != nil {
-				fmt.Printf("Error deleting TagDefault %s %s, It is possible that the resource is already deleted. Please verify manually \n", tagDefaultId, error)
-				continue
-			}
-		}
-	}
-	return nil
-}
-
-func getTagDefaultIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "TagDefaultId")
-	if ids != nil {
-		return ids, nil
-	}
-	var resourceIds []string
-	compartmentId := compartment
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
-
-	listTagDefaultsRequest := oci_identity.ListTagDefaultsRequest{}
-	listTagDefaultsRequest.CompartmentId = &compartmentId
-	listTagDefaultsResponse, err := identityClient.ListTagDefaults(context.Background(), listTagDefaultsRequest)
-
-	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting TagDefault list for compartment id : %s , %s \n", compartmentId, err)
-	}
-	for _, tagDefault := range listTagDefaultsResponse.Items {
-		id := *tagDefault.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "TagDefaultId", id)
-	}
-	return resourceIds, nil
 }

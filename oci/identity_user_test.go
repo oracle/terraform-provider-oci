@@ -5,12 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
-	"strings"
 	"testing"
-	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -237,86 +234,4 @@ func testAccCheckIdentityUserDestroy(s *terraform.State) error {
 	}
 
 	return nil
-}
-
-func init() {
-	if DependencyGraph == nil {
-		initDependencyGraph()
-	}
-	resource.AddTestSweepers("IdentityUser", &resource.Sweeper{
-		Name:         "IdentityUser",
-		Dependencies: DependencyGraph["user"],
-		F:            sweepIdentityUserResource,
-	})
-}
-
-func sweepIdentityUserResource(compartment string) error {
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
-	userIds, err := getUserIds(compartment)
-	if err != nil {
-		return err
-	}
-	for _, userId := range userIds {
-		if ok := SweeperDefaultResourceId[userId]; !ok {
-			deleteUserRequest := oci_identity.DeleteUserRequest{}
-
-			deleteUserRequest.UserId = &userId
-
-			deleteUserRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
-			_, error := identityClient.DeleteUser(context.Background(), deleteUserRequest)
-			if error != nil {
-				fmt.Printf("Error deleting User %s %s, It is possible that the resource is already deleted. Please verify manually \n", userId, error)
-				continue
-			}
-			waitTillCondition(testAccProvider, &userId, userSweepWaitCondition, time.Duration(3*time.Minute),
-				userSweepResponseFetchOperation, "identity", true)
-		}
-	}
-	return nil
-}
-
-func getUserIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "UserId")
-	if ids != nil {
-		return ids, nil
-	}
-	var resourceIds []string
-	compartmentId := compartment
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
-
-	listUsersRequest := oci_identity.ListUsersRequest{}
-	listUsersRequest.CompartmentId = &compartmentId
-	listUsersResponse, err := identityClient.ListUsers(context.Background(), listUsersRequest)
-
-	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting User list for compartment id : %s , %s \n", compartmentId, err)
-	}
-	for _, user := range listUsersResponse.Items {
-		// The below check is checking for the name in two parts because our tests have many variations of the email created
-		// For example JohnSmith@example.com, SmithJohn@example.com, john.smith@example.com
-		if strings.Contains(strings.ToLower(*user.Name), "john") && strings.Contains(strings.ToLower(*user.Name), "smith") {
-			id := *user.Id
-			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "UserId", id)
-		}
-	}
-	return resourceIds, nil
-}
-
-func userSweepWaitCondition(response common.OCIOperationResponse) bool {
-	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
-	if userResponse, ok := response.Response.(oci_identity.GetUserResponse); ok {
-		return userResponse.LifecycleState != oci_identity.UserLifecycleStateDeleted
-	}
-	return false
-}
-
-func userSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.identityClient.GetUser(context.Background(), oci_identity.GetUserRequest{
-		UserId: resourceId,
-		RequestMetadata: common.RequestMetadata{
-			RetryPolicy: retryPolicy,
-		},
-	})
-	return err
 }

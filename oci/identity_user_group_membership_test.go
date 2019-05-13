@@ -6,10 +6,8 @@ import (
 	"context"
 	"fmt"
 	"testing"
-	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -137,89 +135,4 @@ func testAccCheckIdentityUserGroupMembershipDestroy(s *terraform.State) error {
 	}
 
 	return nil
-}
-
-func init() {
-	if DependencyGraph == nil {
-		initDependencyGraph()
-	}
-	resource.AddTestSweepers("IdentityUserGroupMembership", &resource.Sweeper{
-		Name:         "IdentityUserGroupMembership",
-		Dependencies: DependencyGraph["userGroupMembership"],
-		F:            sweepIdentityUserGroupMembershipResource,
-	})
-}
-
-func sweepIdentityUserGroupMembershipResource(compartment string) error {
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
-	userGroupMembershipIds, err := getUserGroupMembershipIds(compartment)
-	if err != nil {
-		return err
-	}
-	for _, userGroupMembershipId := range userGroupMembershipIds {
-		if ok := SweeperDefaultResourceId[userGroupMembershipId]; !ok {
-			removeUserFromGroupRequest := oci_identity.RemoveUserFromGroupRequest{}
-
-			removeUserFromGroupRequest.UserGroupMembershipId = &userGroupMembershipId
-
-			removeUserFromGroupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
-			_, error := identityClient.RemoveUserFromGroup(context.Background(), removeUserFromGroupRequest)
-			if error != nil {
-				fmt.Printf("Error deleting UserGroupMembership %s %s, It is possible that the resource is already deleted. Please verify manually \n", userGroupMembershipId, error)
-				continue
-			}
-			waitTillCondition(testAccProvider, &userGroupMembershipId, userGroupMembershipSweepWaitCondition, time.Duration(3*time.Minute),
-				userGroupMembershipSweepResponseFetchOperation, "identity", true)
-		}
-	}
-	return nil
-}
-
-func getUserGroupMembershipIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "UserGroupMembershipId")
-	if ids != nil {
-		return ids, nil
-	}
-	var resourceIds []string
-	compartmentId := compartment
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
-
-	listUserGroupMembershipsRequest := oci_identity.ListUserGroupMembershipsRequest{}
-	listUserGroupMembershipsRequest.CompartmentId = &compartmentId
-	userIds, error := getUserIds(compartment)
-	if error != nil {
-		return resourceIds, fmt.Errorf("Error getting userId required for userGroupMembership resource requests \n")
-	}
-	for _, userId := range userIds {
-		listUserGroupMembershipsRequest.UserId = &userId
-		listUserGroupMembershipsResponse, err := identityClient.ListUserGroupMemberships(context.Background(), listUserGroupMembershipsRequest)
-
-		if err != nil {
-			return resourceIds, fmt.Errorf("Error getting UserGroupMembership list for compartment id : %s , %s \n", compartmentId, err)
-		}
-		for _, userGroupMembership := range listUserGroupMembershipsResponse.Items {
-			id := *userGroupMembership.Id
-			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "UserGroupMembershipId", id)
-		}
-	}
-	return resourceIds, nil
-}
-
-func userGroupMembershipSweepWaitCondition(response common.OCIOperationResponse) bool {
-	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
-	if userGroupMembershipResponse, ok := response.Response.(oci_identity.GetUserGroupMembershipResponse); ok {
-		return userGroupMembershipResponse.LifecycleState != oci_identity.UserGroupMembershipLifecycleStateDeleted
-	}
-	return false
-}
-
-func userGroupMembershipSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.identityClient.GetUserGroupMembership(context.Background(), oci_identity.GetUserGroupMembershipRequest{
-		UserGroupMembershipId: resourceId,
-		RequestMetadata: common.RequestMetadata{
-			RetryPolicy: retryPolicy,
-		},
-	})
-	return err
 }
