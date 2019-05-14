@@ -74,7 +74,11 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `drg_id` - (Required) The OCID of the DRG.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `static_routes` - (Required) (Updatable) Static routes to the CPE. At least one route must be included. A static route's CIDR must not be a multicast address or class E address.  Example: `10.0.1.0/24` 
+* `static_routes` - (Required) (Updatable) Static routes to the CPE. A static route's CIDR must not be a multicast address or class E address.
+
+	
+
+	Example: `10.0.1.0/24` 
 
 
 ** IMPORTANT **
@@ -100,7 +104,11 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The IPSec connection's Oracle ID (OCID).
 * `state` - The IPSec connection's current state.
-* `static_routes` - Static routes to the CPE. At least one route must be included. The CIDR must not be a multicast address or class E address.  Example: `10.0.1.0/24` 
+* `static_routes` - Static routes to the CPE. The CIDR must not be a multicast address or class E address.
+
+	
+
+	Example: `10.0.1.0/24` 
 * `time_created` - The date and time the IPSec connection was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Import

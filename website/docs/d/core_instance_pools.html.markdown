@@ -43,18 +43,18 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the compartment containing the instance pool
+* `compartment_id` - The OCID of the compartment containing the instance pool.
 * `display_name` - The user-friendly name.  Does not have to be unique.
-* `id` - The OCID of the instance pool
-* `instance_configuration_id` - The OCID of the instance configuration associated to the intance pool.
+* `id` - The OCID of the instance pool.
+* `instance_configuration_id` - The OCID of the instance configuration associated with the instance pool.
 * `load_balancers` - The load balancers attached to the instance pool. 
 	* `backend_set_name` - The name of the backend set on the load balancer.
 	* `id` - The OCID of the load balancer attachment.
 	* `instance_pool_id` - The OCID of the instance pool of the load balancer attachment.
-	* `load_balancer_id` - The OCID of the load balancer attached to the pool.
+	* `load_balancer_id` - The OCID of the load balancer attached to the instance pool.
 	* `port` - The port value used for the backends.
-	* `state` - The status of the interaction between the pool and the load balancer.
-	* `vnic_selection` - Indicates which vnic on each instance in the pool should be used to associate with the load balancer. possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated to the instance pool.
+	* `state` - The status of the interaction between the instance pool and the load balancer.
+	* `vnic_selection` - Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool.
 * `size` - The number of actual instances in the instance pool on the cloud. This attribute will be different when instance pool is used along with autoScaling Configuration.
 * `state` - The current state of the instance pool.
 * `time_created` - The date and time the instance pool was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 

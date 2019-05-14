@@ -3,9 +3,14 @@
 package provider
 
 import (
+	"context"
+	"fmt"
 	"testing"
 
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"github.com/hashicorp/terraform/helper/resource"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 /* This map holds the list of ocids for a given resourceType by compartment
@@ -61,4 +66,19 @@ func getResourceIdsToSweep(compartmentId string, resourceName string) []string {
 		}
 	}
 	return nil
+}
+
+func getAvalabilityDomains(compartmentId string) (map[string]string, error) {
+	availabilityDomains := make(map[string]string)
+	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+	adRequest := oci_identity.ListAvailabilityDomainsRequest{}
+	adRequest.CompartmentId = &compartmentId
+	ads, err := identityClient.ListAvailabilityDomains(context.Background(), adRequest)
+	if err != nil {
+		return availabilityDomains, fmt.Errorf("Error getting availability domains for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, ad := range ads.Items {
+		availabilityDomains[*ad.Id] = *ad.Name
+	}
+	return availabilityDomains, nil
 }

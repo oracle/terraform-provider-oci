@@ -496,7 +496,7 @@ func updateFieldMap(req *Request, i *Interaction) {
 			for key, unkVal := range body {
 				if oldVal, ok := iBody[key].(string); ok {
 					if val, ok := unkVal.(string); ok {
-						if val != oldVal { // .(string) {
+						if strings.EqualFold(val, oldVal) == false { // .(string) {
 							fields[oldVal] = val
 						}
 					}

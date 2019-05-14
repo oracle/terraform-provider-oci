@@ -9,7 +9,8 @@ description: |-
 # Data Source: oci_core_services
 This data source provides the list of Services in Oracle Cloud Infrastructure Core service.
 
-Lists the available services that you can access through a service gateway in this region.
+Lists the available [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/) objects that you can enable for a
+service gateway in this region.
 
 
 ## Example Usage
@@ -35,8 +36,12 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `cidr_block` - A string that represents the public endpoints for the service. When you set up a route rule to route traffic to the service gateway, use this value as the destination CIDR block for the rule. See [Route Table](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/). 
-* `description` - Description of the service. 
-* `id` - The service's [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `name` - Name of the service. This name can change and is not guaranteed to be unique.
+* `cidr_block` - A string that represents the regional public IP address ranges for the Oracle service or services covered by this `Service` object. Also known as the `Service` object's *service CIDR label*.
+
+	When you set up a route rule to route traffic to the service gateway, use this value as the rule's destination. See [Route Table](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/RouteTable/). Also, when you set up a security list rule to cover traffic with the service gateway, use the `cidrBlock` value as the rule's destination (for an egress rule) or the source (for an ingress rule). See [Security List](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/SecurityList/).
+
+	Example: `oci-phx-objectstorage` 
+* `description` - Description of the Oracle service or services covered by this `Service` object.  Example: `OCI PHX Object Storage` 
+* `id` - The `Service` object's [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `name` - Name of the `Service` object. This name can change and is not guaranteed to be unique.  Example: `OCI PHX Object Storage` 
 

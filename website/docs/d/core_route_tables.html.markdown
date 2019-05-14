@@ -58,15 +58,15 @@ The following attributes are exported:
 
 		A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).
 
-		Example: `0.0.0.0/0` 
+		 Example: `0.0.0.0/0` 
 	* `destination` - Conceptually, this is the range of IP addresses used for matching when routing traffic. Required if you provide a `destinationType`.
 
 		Allowed values:
 		* IP address range in CIDR notation. For example: `192.168.1.0/24`
-		* The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/), if you're setting up a route rule for traffic destined for a particular service through a service gateway. For example: `oci-phx-objectstorage` 
+		* The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/), if you're setting up a route rule for traffic destined for a particular `Service` through a service gateway. For example: `oci-phx-objectstorage`. 
 	* `destination_type` - Type of destination for the rule. Required if you provide a `destination`.
 		* `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
-		* `SERVICE_CIDR_BLOCK`: If the rule's `destination` is the `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/) (the rule is for traffic destined for a particular service through a service gateway). 
+		* `SERVICE_CIDR_BLOCK`: If the rule's `destination` is the `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/) (the rule is for traffic destined for a particular `Service` through a service gateway). 
 	* `network_entity_id` - The OCID for the route rule's target. For information about the type of targets you can specify, see [Route Tables](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm). 
 * `state` - The route table's current state.
 * `time_created` - The date and time the route table was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 

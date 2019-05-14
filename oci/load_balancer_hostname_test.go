@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -152,4 +153,69 @@ func testAccCheckLoadBalancerHostnameDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("LoadBalancerHostname", &resource.Sweeper{
+		Name:         "LoadBalancerHostname",
+		Dependencies: DependencyGraph["hostname"],
+		F:            sweepLoadBalancerHostnameResource,
+	})
+}
+
+func sweepLoadBalancerHostnameResource(compartment string) error {
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	hostnameIds, err := getHostnameIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, hostnameId := range hostnameIds {
+		if ok := SweeperDefaultResourceId[hostnameId]; !ok {
+			deleteHostnameRequest := oci_load_balancer.DeleteHostnameRequest{}
+
+			deleteHostnameRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			_, error := loadBalancerClient.DeleteHostname(context.Background(), deleteHostnameRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Hostname %s %s, It is possible that the resource is already deleted. Please verify manually \n", hostnameId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getHostnameIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "HostnameId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+
+	listHostnamesRequest := oci_load_balancer.ListHostnamesRequest{}
+
+	loadBalancerIds, error := getLoadBalancerIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting loadBalancerId required for Hostname resource requests \n")
+	}
+	for _, loadBalancerId := range loadBalancerIds {
+		listHostnamesRequest.LoadBalancerId = &loadBalancerId
+
+		listHostnamesResponse, err := loadBalancerClient.ListHostnames(context.Background(), listHostnamesRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting Hostname list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, hostname := range listHostnamesResponse.Items {
+			id := *hostname.Name
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "HostnameId", id)
+		}
+
+	}
+	return resourceIds, nil
 }

@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -431,4 +432,62 @@ func testAccCheckCoreInstanceConfigurationDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreInstanceConfiguration", &resource.Sweeper{
+		Name:         "CoreInstanceConfiguration",
+		Dependencies: DependencyGraph["instanceConfiguration"],
+		F:            sweepCoreInstanceConfigurationResource,
+	})
+}
+
+func sweepCoreInstanceConfigurationResource(compartment string) error {
+	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient
+	instanceConfigurationIds, err := getInstanceConfigurationIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, instanceConfigurationId := range instanceConfigurationIds {
+		if ok := SweeperDefaultResourceId[instanceConfigurationId]; !ok {
+			deleteInstanceConfigurationRequest := oci_core.DeleteInstanceConfigurationRequest{}
+
+			deleteInstanceConfigurationRequest.InstanceConfigurationId = &instanceConfigurationId
+
+			deleteInstanceConfigurationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := computeManagementClient.DeleteInstanceConfiguration(context.Background(), deleteInstanceConfigurationRequest)
+			if error != nil {
+				fmt.Printf("Error deleting InstanceConfiguration %s %s, It is possible that the resource is already deleted. Please verify manually \n", instanceConfigurationId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getInstanceConfigurationIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "InstanceConfigurationId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient
+
+	listInstanceConfigurationsRequest := oci_core.ListInstanceConfigurationsRequest{}
+	listInstanceConfigurationsRequest.CompartmentId = &compartmentId
+	listInstanceConfigurationsResponse, err := computeManagementClient.ListInstanceConfigurations(context.Background(), listInstanceConfigurationsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting InstanceConfiguration list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, instanceConfiguration := range listInstanceConfigurationsResponse.Items {
+		id := *instanceConfiguration.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "InstanceConfigurationId", id)
+	}
+	return resourceIds, nil
 }

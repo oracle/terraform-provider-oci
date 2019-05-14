@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
@@ -111,6 +112,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 												// Optional
 												"auto_backup_enabled": {
 													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
+												"recovery_window_in_days": {
+													Type:     schema.TypeInt,
 													Optional: true,
 													Computed: true,
 												},
@@ -760,9 +766,14 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 
 	err = s.SetData()
 	if err != nil {
-		log.Printf("[ERROR] error setting data after dbsystem update but before database update: %v", err)
+		return fmt.Errorf("[ERROR] error setting data after dbsystem update but before database update: %v", err)
 	}
-	err = s.getDbHomeInfo()
+
+	return s.UpdateDatabaseOperation()
+}
+
+func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
+	err := s.getDbHomeInfo()
 	if err != nil {
 		return err
 	}
@@ -782,7 +793,25 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 	if err != nil {
 		return err
 	}
-	s.Database = &updateDatabaseResponse.Database
+
+	//wait for database to not be in updating state after the update
+	getDatabaseRequest := oci_database.GetDatabaseRequest{}
+
+	getDatabaseRequest.DatabaseId = s.Database.Id
+
+	getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseUpdateRetryPolicy(s.D.Timeout(schema.TimeoutUpdate))
+	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
+	if err != nil {
+		// In UpdateDatabase some properties are updated right away like tags but others like auto_backup_enabled are only updated after lifecycleState is not Updating so we update the state here as well in the case of an error in the polling
+		s.Database = &updateDatabaseResponse.Database
+		err = s.SetData()
+		if err != nil {
+			log.Printf("[ERROR] error setting data after polling error on database: %v", err)
+		}
+		return fmt.Errorf("[ERROR] unable to get database after the update: %v", err)
+	}
+
+	s.Database = &getDatabaseResponse.Database
 
 	return nil
 }
@@ -1313,6 +1342,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string
 		result.AutoBackupEnabled = &tmp
 	}
 
+	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")) {
+		tmp := recoveryWindowInDays.(int)
+		result.RecoveryWindowInDays = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1321,6 +1355,10 @@ func DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{
 
 	if obj.AutoBackupEnabled != nil {
 		result["auto_backup_enabled"] = bool(*obj.AutoBackupEnabled)
+	}
+
+	if obj.RecoveryWindowInDays != nil {
+		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)
 	}
 
 	return result
@@ -1570,4 +1608,27 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		return fmt.Errorf("unknown source '%v' was specified", source)
 	}
 	return nil
+}
+
+func waitForDatabaseUpdateRetryPolicy(timeout time.Duration) *oci_common.RetryPolicy {
+	startTime := time.Now()
+	// wait for status of the database to not be UPDATING
+	return &oci_common.RetryPolicy{
+		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
+			if shouldRetry(response, false, "database", startTime) {
+				return true
+			}
+			if getDatabaseResponse, ok := response.Response.(oci_database.GetDatabaseResponse); ok {
+				if getDatabaseResponse.LifecycleState == oci_database.DatabaseLifecycleStateUpdating {
+					timeWaited := getElapsedRetryDuration(startTime)
+					return timeWaited < timeout
+				}
+			}
+			return false
+		},
+		NextDuration: func(response oci_common.OCIOperationResponse) time.Duration {
+			return getRetryBackoffDuration(response, false, "database", startTime)
+		},
+		MaximumNumberAttempts: 0,
+	}
 }

@@ -15,6 +15,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
@@ -429,6 +430,79 @@ func testAccCheckObjectStorageObjectDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("ObjectStorageObject", &resource.Sweeper{
+		Name:         "ObjectStorageObject",
+		Dependencies: DependencyGraph["object"],
+		F:            sweepObjectStorageObjectResource,
+	})
+}
+
+func sweepObjectStorageObjectResource(compartment string) error {
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+	objectIds, err := getObjectIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, objectId := range objectIds {
+		if ok := SweeperDefaultResourceId[objectId]; !ok {
+			deleteObjectRequest := oci_object_storage.DeleteObjectRequest{}
+
+			deleteObjectRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
+			_, error := objectStorageClient.DeleteObject(context.Background(), deleteObjectRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Object %s %s, It is possible that the resource is already deleted. Please verify manually \n", objectId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getObjectIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "ObjectId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+
+	listObjectsRequest := oci_object_storage.ListObjectsRequest{}
+
+	buckets, error := getBucketIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting bucket required for Object resource requests \n")
+	}
+	for _, bucket := range buckets {
+		listObjectsRequest.BucketName = &bucket
+
+		namespaces, error := getNamespaces(compartment)
+		if error != nil {
+			return resourceIds, fmt.Errorf("Error getting namespace required for Object resource requests \n")
+		}
+		for _, namespace := range namespaces {
+			listObjectsRequest.NamespaceName = &namespace
+
+			listObjectsResponse, err := objectStorageClient.ListObjects(context.Background(), listObjectsRequest)
+
+			if err != nil {
+				return resourceIds, fmt.Errorf("Error getting Object list for compartment id : %s , %s \n", compartmentId, err)
+			}
+			for _, object := range listObjectsResponse.Objects {
+				id := *object.Name
+				resourceIds = append(resourceIds, id)
+				addResourceIdToSweeperResourceIdMap(compartmentId, "ObjectId", id)
+			}
+
+		}
+	}
+	return resourceIds, nil
 }
 
 var (

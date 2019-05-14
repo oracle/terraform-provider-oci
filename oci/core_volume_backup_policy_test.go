@@ -46,7 +46,7 @@ func TestCoreVolumeBackupPolicyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.display_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "volume_backup_policies.0.schedules.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.schedules.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backup_policies.0.time_created"),
 				),
 			},

@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -224,4 +225,69 @@ func testAccCheckCorePrivateIpDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CorePrivateIp", &resource.Sweeper{
+		Name:         "CorePrivateIp",
+		Dependencies: DependencyGraph["privateIp"],
+		F:            sweepCorePrivateIpResource,
+	})
+}
+
+func sweepCorePrivateIpResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	privateIpIds, err := getPrivateIpIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, privateIpId := range privateIpIds {
+		if ok := SweeperDefaultResourceId[privateIpId]; !ok {
+			deletePrivateIpRequest := oci_core.DeletePrivateIpRequest{}
+
+			deletePrivateIpRequest.PrivateIpId = &privateIpId
+
+			deletePrivateIpRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeletePrivateIp(context.Background(), deletePrivateIpRequest)
+			if error != nil {
+				fmt.Printf("Error deleting PrivateIp %s %s, It is possible that the resource is already deleted. Please verify manually \n", privateIpId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getPrivateIpIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "PrivateIpId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listPrivateIpsRequest := oci_core.ListPrivateIpsRequest{}
+
+	subnetIds, err := getSubnetIds(compartment)
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting SubnetId list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, subnetId := range subnetIds {
+		listPrivateIpsRequest.SubnetId = &subnetId
+		listPrivateIpsResponse, err := virtualNetworkClient.ListPrivateIps(context.Background(), listPrivateIpsRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting PrivateIp list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, privateIp := range listPrivateIpsResponse.Items {
+			id := *privateIp.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "PrivateIpId", id)
+		}
+	}
+	return resourceIds, nil
 }

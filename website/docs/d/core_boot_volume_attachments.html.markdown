@@ -54,7 +54,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information.  Example: `My boot volume` 
 * `id` - The OCID of the boot volume attachment.
 * `instance_id` - The OCID of the instance the boot volume is attached to.
-* `is_pv_encryption_in_transit_enabled` - Whether the enable encryption in transit for the PV volume attachment is on or not.
+* `is_pv_encryption_in_transit_enabled` - Whether in-transit encryption for the boot volume's paravirtualized attachment is enabled or not.
 * `state` - The current state of the boot volume attachment.
 * `time_created` - The date and time the boot volume was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 

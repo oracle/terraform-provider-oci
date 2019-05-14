@@ -262,6 +262,13 @@ In order to modify the underlying Transport struct in HttpClient, you can do som
 	}
 
 
+Uploading Large Objects
+
+The Object Storage service supports multipart uploads to make large object uploads easier by splitting the large object into parts. The Go SDK supports raw multipart upload operations for advanced use cases, as well as a higher level upload class that uses the multipart upload APIs. For links to the APIs used for multipart upload operations, see Managing Multipart Uploads (https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/usingmultipartuploads.htm). Higher level multipart uploads are implemented using the UploadManager, which will: split a large object into parts for you, upload the parts in parallel, and then recombine and commit the parts as a single object in storage.
+
+This code sample shows how to use the UploadManager to automatically split an object into parts for upload to simplify interaction with the Object Storage service: https://github.com/oracle/oci-go-sdk/blob/master/example/example_objectstorage_test.go
+
+
 Forward Compatibility
 
 Some response fields are enum-typed. In the future, individual services may return values not covered by existing enums
@@ -288,7 +295,7 @@ NOTE: Be sure to supply the appropriate endpoints for your region.
 
 You can overwrite the target host with client.Host:
 	client.Host = 'https://identity.us-gov-phoenix-1.oraclegovcloud.com'
- 
+
 If you are authenticating via instance principals, you can set the authentication endpoint in an environment variable:
 	export OCI_SDK_AUTH_CLIENT_REGION_URL="https://identity.us-gov-phoenix-1.oraclegovcloud.com"
 

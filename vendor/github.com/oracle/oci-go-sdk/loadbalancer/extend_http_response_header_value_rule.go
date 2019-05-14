@@ -14,7 +14,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ExtendHttpResponseHeaderValueRule An object that represents the action of modifying a response header value. This rule applies only to HTTP or HTTP2 listeners.
+// ExtendHttpResponseHeaderValueRule An object that represents the action of modifying a response header value. This rule applies only to HTTP listeners.
 // This rule adds a prefix, a suffix, or both to the header value.
 // **NOTES:**
 // *  This rule requires a value for a prefix, suffix, or both.

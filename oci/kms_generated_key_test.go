@@ -22,6 +22,7 @@ var (
 		"key_id":                Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"key_shape":             RepresentationGroup{Required, generatedKeyKeyShapeRepresentation},
 		"associated_data":       Representation{repType: Optional, create: map[string]string{"associatedData": "associatedData"}, update: map[string]string{"associatedData2": "associatedData2"}},
+		"logging_context":       Representation{repType: Optional, create: map[string]string{"loggingContext": "loggingContext"}, update: map[string]string{"loggingContext2": "loggingContext2"}},
 	}
 	generatedKeyKeyShapeRepresentation = map[string]interface{}{
 		"algorithm": Representation{repType: Required, create: `AES`},
@@ -80,6 +81,7 @@ func TestKmsGeneratedKeyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "key_shape.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.0.algorithm", "AES"),
 					resource.TestCheckResourceAttr(resourceName, "key_shape.0.length", "16"),
+					resource.TestCheckResourceAttr(resourceName, "logging_context.%", "1"),
 				),
 			},
 		},

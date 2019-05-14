@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -64,7 +66,8 @@ var (
 		"db_name": Representation{repType: Required, create: `dbNone0`},
 	})
 	dbHomeDatabaseDbBackupConfigRepresentation = map[string]interface{}{
-		"auto_backup_enabled": Representation{repType: Optional, create: `true`, update: `false`},
+		"auto_backup_enabled":     Representation{repType: Optional, create: `true`, update: `false`},
+		"recovery_window_in_days": Representation{repType: Optional, create: `10`},
 	}
 	dbHomeRepresentationSourceDbBackup = representationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
 		"database": RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceDbBackup},
@@ -82,10 +85,6 @@ var (
 )
 
 func TestDatabaseDbHomeResource_basic(t *testing.T) {
-	if httpreplay.ShouldRetryImmediately() {
-		t.Skip("TestDatabaseDbHomeResource_basic test is flaky, tracked in TER-1274, skip this test in checkin test.")
-	}
-
 	httpreplay.SetScenario("TestDatabaseDbHomeResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -144,6 +143,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.defined_tags.%", "1"),
@@ -183,6 +183,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.defined_tags.%", "1"),
@@ -210,6 +211,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "state"),
 				),
 			},
+
 			// verify datasource
 			{
 				Config: config +
@@ -311,4 +313,93 @@ func testAccCheckDatabaseDbHomeDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("DatabaseDbHome", &resource.Sweeper{
+		Name:         "DatabaseDbHome",
+		Dependencies: DependencyGraph["dbHome"],
+		F:            sweepDatabaseDbHomeResource,
+	})
+}
+
+func sweepDatabaseDbHomeResource(compartment string) error {
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	dbHomeIds, err := getDbHomeIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, dbHomeId := range dbHomeIds {
+		if ok := SweeperDefaultResourceId[dbHomeId]; !ok {
+			deleteDbHomeRequest := oci_database.DeleteDbHomeRequest{}
+
+			deleteDbHomeRequest.DbHomeId = &dbHomeId
+
+			deleteDbHomeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "database")
+			_, error := databaseClient.DeleteDbHome(context.Background(), deleteDbHomeRequest)
+			if error != nil {
+				fmt.Printf("Error deleting DbHome %s %s, It is possible that the resource is already deleted. Please verify manually \n", dbHomeId, error)
+				continue
+			}
+			waitTillCondition(testAccProvider, &dbHomeId, dbHomeSweepWaitCondition, time.Duration(3*time.Minute),
+				dbHomeSweepResponseFetchOperation, "database", true)
+		}
+	}
+	return nil
+}
+
+func getDbHomeIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "DbHomeId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+
+	listDbHomesRequest := oci_database.ListDbHomesRequest{}
+	listDbHomesRequest.CompartmentId = &compartmentId
+
+	dbSystemIds, error := getDbSystemIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting dbSystemId required for DbHome resource requests \n")
+	}
+	for _, dbSystemId := range dbSystemIds {
+		listDbHomesRequest.DbSystemId = &dbSystemId
+
+		listDbHomesRequest.LifecycleState = oci_database.DbHomeSummaryLifecycleStateAvailable
+		listDbHomesResponse, err := databaseClient.ListDbHomes(context.Background(), listDbHomesRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting DbHome list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, dbHome := range listDbHomesResponse.Items {
+			id := *dbHome.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "DbHomeId", id)
+		}
+
+	}
+	return resourceIds, nil
+}
+
+func dbHomeSweepWaitCondition(response common.OCIOperationResponse) bool {
+	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
+	if dbHomeResponse, ok := response.Response.(oci_database.GetDbHomeResponse); ok {
+		return dbHomeResponse.LifecycleState != oci_database.DbHomeLifecycleStateTerminated
+	}
+	return false
+}
+
+func dbHomeSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.databaseClient.GetDbHome(context.Background(), oci_database.GetDbHomeRequest{
+		DbHomeId: resourceId,
+		RequestMetadata: common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	return err
 }
