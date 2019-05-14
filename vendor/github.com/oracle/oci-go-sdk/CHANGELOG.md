@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 5.6.0 - 2019-05-14
+### Added
+- Support for the Seoul (ICN) region
+- Support for logging context fields on data-plane APIs of the Key Management Service
+- Support for reverse pagination on list operations of the Email service
+- Support for configuring backup retention windows on database backups in the Database service
+
 ## 5.5.0 - 2019-05-07
 ### Added
 - Support for the Tokyo (NRT) region
