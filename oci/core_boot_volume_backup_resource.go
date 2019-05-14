@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"log"
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -30,6 +31,11 @@ func CoreBootVolumeBackupResource() *schema.Resource {
 			},
 
 			// Optional
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -56,10 +62,6 @@ func CoreBootVolumeBackupResource() *schema.Resource {
 			},
 
 			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"expiration_time": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -101,7 +103,30 @@ func createCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return CreateResource(d, sync)
+	compartment, ok := sync.D.GetOkExists("compartment_id")
+
+	err := CreateResource(d, sync)
+	if err != nil {
+		return err
+	}
+
+	if ok && compartment != *sync.Res.CompartmentId {
+		err = sync.updateCompartment(compartment)
+		if err != nil {
+			return err
+		}
+		tmp := compartment.(string)
+		sync.Res.CompartmentId = &tmp
+		err := sync.Get()
+		if err != nil {
+			log.Printf("error doing a Get() after compartment update: %v", err)
+		}
+		err = sync.SetData()
+		if err != nil {
+			log.Printf("error doing a SetData() after compartment update: %v", err)
+		}
+	}
+	return nil
 }
 
 func readCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
@@ -223,6 +248,15 @@ func (s *CoreBootVolumeBackupResourceCrud) Get() error {
 }
 
 func (s *CoreBootVolumeBackupResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_core.UpdateBootVolumeBackupRequest{}
 
 	tmp := s.D.Id()
@@ -317,5 +351,23 @@ func (s *CoreBootVolumeBackupResourceCrud) SetData() error {
 		s.D.Set("unique_size_in_gbs", strconv.FormatInt(*s.Res.UniqueSizeInGBs, 10))
 	}
 
+	return nil
+}
+
+func (s *CoreBootVolumeBackupResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangeBootVolumeBackupCompartmentRequest{}
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.BootVolumeBackupId = &idTmp
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.ChangeBootVolumeBackupCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
 	return nil
 }

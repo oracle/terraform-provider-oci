@@ -36,7 +36,6 @@ func CoreVolumeGroupResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"source_details": {
 				Type:     schema.TypeList,
@@ -277,6 +276,15 @@ func (s *CoreVolumeGroupResourceCrud) Get() error {
 }
 
 func (s *CoreVolumeGroupResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_core.UpdateVolumeGroupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -465,4 +473,22 @@ func VolumeGroupSourceDetailsToMap(obj *oci_core.VolumeGroupSourceDetails, datas
 	}
 
 	return result
+}
+
+func (s *CoreVolumeGroupResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangeVolumeGroupCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.VolumeGroupId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.ChangeVolumeGroupCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

@@ -36,7 +36,6 @@ func CoreBootVolumeResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"source_details": {
 				Type:     schema.TypeList,
@@ -308,6 +307,15 @@ func (s *CoreBootVolumeResourceCrud) Get() error {
 }
 
 func (s *CoreBootVolumeResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_core.UpdateBootVolumeRequest{}
 
 	tmp := s.D.Id()
@@ -500,4 +508,22 @@ func BootVolumeSourceDetailsToMap(obj *oci_core.BootVolumeSourceDetails) map[str
 	}
 
 	return result
+}
+
+func (s *CoreBootVolumeResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangeBootVolumeCompartmentRequest{}
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.BootVolumeId = &idTmp
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.ChangeBootVolumeCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }
