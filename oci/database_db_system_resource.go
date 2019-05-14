@@ -218,10 +218,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 
 						// Optional
 						"db_version": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: NewIsPrefixOfOldDiffSuppress,
 						},
 						"display_name": {
 							Type:     schema.TypeString,

@@ -444,7 +444,11 @@ func FilterMissingResourceError(sync ResourceVoider, err *error) {
 
 // In the Exadata case the service return the hostname provided by the service with a suffix
 func dbSystemHostnameDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
-	return EqualIgnoreCaseSuppressDiff(key, old, new, d) || strings.HasPrefix(strings.ToLower(old), strings.ToLower(new))
+	return EqualIgnoreCaseSuppressDiff(key, old, new, d) || newIsPrefixOfOldDiffSuppress(key, old, new, d)
+}
+
+func NewIsPrefixOfOldDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+	return strings.HasPrefix(strings.ToLower(old), strings.ToLower(new))
 }
 
 func EqualIgnoreCaseSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
