@@ -37,10 +37,19 @@ var (
 
 	instanceConfigurationRepresentation = map[string]interface{}{
 		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
-		"instance_details": RepresentationGroup{Required, instanceConfigurationInstanceDetailsRepresentation},
 		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":     Representation{repType: Optional, create: `backend-servers`, update: `displayName2`},
 		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"instance_details": RepresentationGroup{Optional, instanceConfigurationInstanceDetailsRepresentation},
+		"source":           Representation{repType: Optional, create: `NONE`},
+	}
+	instanceConfigurationFromInstanceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":   Representation{repType: Optional, create: `backend-servers`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"instance_id":    Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
+		"source":         Representation{repType: Optional, create: `INSTANCE`},
 	}
 	instanceConfigurationInstanceDetailsLaunchRepresentation = map[string]interface{}{
 		"instance_type":  Representation{repType: Required, create: `compute`},
@@ -161,11 +170,33 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 			// verify create
 			{
 				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Required, Create, instanceConfigurationRepresentation),
+					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, instanceConfigurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies,
+			},
+
+			// verify create from instance_id
+			{
+				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, instanceConfigurationFromInstanceRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -453,11 +484,14 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"instance_id",
+					"source",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})
