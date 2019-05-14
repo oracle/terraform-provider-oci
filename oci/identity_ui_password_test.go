@@ -13,6 +13,13 @@ import (
 )
 
 var (
+	UiPasswordResourceConfig = UiPasswordResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Optional, Update, uiPasswordRepresentation)
+
+	uiPasswordSingularDataSourceRepresentation = map[string]interface{}{
+		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
+	}
+
 	uiPasswordRepresentation = map[string]interface{}{
 		"user_id": Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
 	}
@@ -32,6 +39,8 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 
 	resourceName := "oci_identity_ui_password.test_ui_password"
 
+	singularDatasourceName := "data.oci_identity_ui_password.test_ui_password"
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -44,6 +53,19 @@ func TestIdentityUiPasswordResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "user_id"),
+				),
+			},
+
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_ui_password", "test_ui_password", Required, Create, uiPasswordSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + UiPasswordResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "user_id"),
+
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),
 			},
 		},

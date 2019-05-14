@@ -56,6 +56,10 @@ resource "oci_identity_ui_password" "password1" {
   user_id = "${oci_identity_user.user1.id}"
 }
 
+data "oci_identity_ui_password" "test_ui_password" {
+  user_id = "${oci_identity_user.user1.id}"
+}
+
 output "user-password" {
   sensitive = false
   value     = "${oci_identity_ui_password.password1.password}"

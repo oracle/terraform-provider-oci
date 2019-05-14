@@ -3,6 +3,7 @@
 ### Added
 - Support for moving File Systems and Mount Targets across compartments
 - Support for filtering File Storage resources by tags
+- Support for getting UI password information
 
 ## 3.26.0 (May 22, 2019)
 
