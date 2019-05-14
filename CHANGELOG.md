@@ -5,6 +5,9 @@
 - Support BGP dynamic routing and allow customer to input PSK for IPSec tunnels
 - ListInstanceConfig/Pools and ListAutoscalingConfiguration return tags
 
+### Fixed
+- Fix for dbSystem `db_version` causing unnecessary diffs on subsequent applies
+
 ## 3.25.0 (May 15, 2019)
 
 ### Added
