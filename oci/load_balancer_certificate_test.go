@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -143,4 +144,69 @@ func testAccCheckLoadBalancerCertificateDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("LoadBalancerCertificate", &resource.Sweeper{
+		Name:         "LoadBalancerCertificate",
+		Dependencies: DependencyGraph["certificate"],
+		F:            sweepLoadBalancerCertificateResource,
+	})
+}
+
+func sweepLoadBalancerCertificateResource(compartment string) error {
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	certificateIds, err := getLBCertificateIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, certificateId := range certificateIds {
+		if ok := SweeperDefaultResourceId[certificateId]; !ok {
+			deleteCertificateRequest := oci_load_balancer.DeleteCertificateRequest{}
+
+			deleteCertificateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			_, error := loadBalancerClient.DeleteCertificate(context.Background(), deleteCertificateRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Certificate %s %s, It is possible that the resource is already deleted. Please verify manually \n", certificateId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getLBCertificateIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "CertificateId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+
+	listCertificatesRequest := oci_load_balancer.ListCertificatesRequest{}
+
+	loadBalancerIds, error := getLoadBalancerIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting loadBalancerId required for Certificate resource requests \n")
+	}
+	for _, loadBalancerId := range loadBalancerIds {
+		listCertificatesRequest.LoadBalancerId = &loadBalancerId
+
+		listCertificatesResponse, err := loadBalancerClient.ListCertificates(context.Background(), listCertificatesRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting Certificate list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, certificate := range listCertificatesResponse.Items {
+			id := *certificate.CertificateName
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "CertificateId", id)
+		}
+
+	}
+	return resourceIds, nil
 }

@@ -19,6 +19,7 @@ const (
 	identityService      = "identity"
 	coreService          = "core"
 	waasService          = "waas"
+	kmsService           = "kms"
 	objectstorageService = "object_storage"
 	deleteResource       = "delete"
 	updateResource       = "update"
@@ -26,8 +27,9 @@ const (
 	getResource          = "get"
 )
 
-type expectedRetryDurationFn func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...string) time.Duration
-type serviceExpectedRetryDurationFunc func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration
+type expectedRetryDurationFn func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...interface{}) time.Duration
+type serviceExpectedRetryDurationFunc func(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration
+type getRetryPolicyFunc func(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy
 
 var serviceExpectedRetryDurationMap = map[string]serviceExpectedRetryDurationFunc{
 	coreService:          getCoreExpectedRetryDuration,
@@ -35,6 +37,9 @@ var serviceExpectedRetryDurationMap = map[string]serviceExpectedRetryDurationFun
 	identityService:      getIdentityExpectedRetryDuration,
 	objectstorageService: getObjectstorageServiceExpectedRetryDuration,
 	waasService:          getWaasExpectedRetryDuration,
+}
+var serviceRetryPolicyFnMap = map[string]getRetryPolicyFunc{
+	kmsService: kmsGetRetryPolicy,
 }
 
 var shortRetryTime = 2 * time.Minute
@@ -45,11 +50,11 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
-func getRetryBackoffDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, optionals ...string) time.Duration {
+func getRetryBackoffDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, optionals ...interface{}) time.Duration {
 	return getRetryBackoffDurationWithExpectedRetryDurationFn(response, disableNotFoundRetries, service, startTime, getExpectedRetryDuration, optionals...)
 }
 
-func getRetryBackoffDurationWithExpectedRetryDurationFn(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, expectedRetryDurationFn expectedRetryDurationFn, optionals ...string) time.Duration {
+func getRetryBackoffDurationWithExpectedRetryDurationFn(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, expectedRetryDurationFn expectedRetryDurationFn, optionals ...interface{}) time.Duration {
 	if httpreplay.ShouldRetryImmediately() {
 		return 0
 	}
@@ -82,7 +87,7 @@ func getElapsedRetryDuration(firstAttemptTime time.Time) time.Duration {
 	return time.Now().Sub(firstAttemptTime)
 }
 
-func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...string) time.Duration {
+func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, optionals ...interface{}) time.Duration {
 
 	if retryDurationFn, ok := serviceExpectedRetryDurationMap[service]; ok {
 		return retryDurationFn(response, disableNotFoundRetries, optionals...)
@@ -131,7 +136,7 @@ func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 	return defaultRetryTime
 }
 
-func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
@@ -157,7 +162,7 @@ func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 	return defaultRetryTime
 }
 
-func getDatabaseExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+func getDatabaseExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
@@ -175,7 +180,7 @@ func getDatabaseExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 	return defaultRetryTime
 }
 
-func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...string) time.Duration {
+func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	defaultRetryTime := getDefaultExpectedRetryDuration(response, disableNotFoundRetries)
 	if response.Response == nil || response.Response.HTTPResponse() == nil {
 		return defaultRetryTime
@@ -204,13 +209,20 @@ func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperati
 	return defaultRetryTime
 }
 
-func shouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, optionals ...string) bool {
+func shouldRetry(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, service string, startTime time.Time, optionals ...interface{}) bool {
 	return getElapsedRetryDuration(startTime) < getExpectedRetryDuration(response, disableNotFoundRetries, service, optionals...)
 }
 
 // Because this function notes the start time for making should retry decisions, it's advised
 // for this function call to be made immediately before the client API call.
-func getRetryPolicy(disableNotFoundRetries bool, service string, optionals ...string) *oci_common.RetryPolicy {
+func getRetryPolicy(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy {
+	if serviceRetryPolicyFn, ok := serviceRetryPolicyFnMap[service]; ok {
+		return serviceRetryPolicyFn(disableNotFoundRetries, service, optionals...)
+	}
+	return getDefaultRetryPolicy(disableNotFoundRetries, service, optionals...)
+}
+
+func getDefaultRetryPolicy(disableNotFoundRetries bool, service string, optionals ...interface{}) *oci_common.RetryPolicy {
 	startTime := time.Now()
 	retryPolicy := &oci_common.RetryPolicy{
 		MaximumNumberAttempts: 0,

@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -172,4 +173,69 @@ func testAccCheckLoadBalancerPathRouteSetDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("LoadBalancerPathRouteSet", &resource.Sweeper{
+		Name:         "LoadBalancerPathRouteSet",
+		Dependencies: DependencyGraph["pathRouteSet"],
+		F:            sweepLoadBalancerPathRouteSetResource,
+	})
+}
+
+func sweepLoadBalancerPathRouteSetResource(compartment string) error {
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	pathRouteSetIds, err := getPathRouteSetIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, pathRouteSetId := range pathRouteSetIds {
+		if ok := SweeperDefaultResourceId[pathRouteSetId]; !ok {
+			deletePathRouteSetRequest := oci_load_balancer.DeletePathRouteSetRequest{}
+
+			deletePathRouteSetRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
+			_, error := loadBalancerClient.DeletePathRouteSet(context.Background(), deletePathRouteSetRequest)
+			if error != nil {
+				fmt.Printf("Error deleting PathRouteSet %s %s, It is possible that the resource is already deleted. Please verify manually \n", pathRouteSetId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getPathRouteSetIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "PathRouteSetId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+
+	listPathRouteSetsRequest := oci_load_balancer.ListPathRouteSetsRequest{}
+
+	loadBalancerIds, error := getLoadBalancerIds(compartment)
+	if error != nil {
+		return resourceIds, fmt.Errorf("Error getting loadBalancerId required for PathRouteSet resource requests \n")
+	}
+	for _, loadBalancerId := range loadBalancerIds {
+		listPathRouteSetsRequest.LoadBalancerId = &loadBalancerId
+
+		listPathRouteSetsResponse, err := loadBalancerClient.ListPathRouteSets(context.Background(), listPathRouteSetsRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting PathRouteSet list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, pathRouteSet := range listPathRouteSetsResponse.Items {
+			id := *pathRouteSet.Name
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "PathRouteSetId", id)
+		}
+
+	}
+	return resourceIds, nil
 }

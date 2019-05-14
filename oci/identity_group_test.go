@@ -6,10 +6,8 @@ import (
 	"context"
 	"fmt"
 	"testing"
-	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
-	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -227,82 +225,4 @@ func testAccCheckIdentityGroupDestroy(s *terraform.State) error {
 	}
 
 	return nil
-}
-
-func init() {
-	if DependencyGraph == nil {
-		initDependencyGraph()
-	}
-	resource.AddTestSweepers("IdentityGroup", &resource.Sweeper{
-		Name:         "IdentityGroup",
-		Dependencies: DependencyGraph["group"],
-		F:            sweepIdentityGroupResource,
-	})
-}
-
-func sweepIdentityGroupResource(compartment string) error {
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
-	groupIds, err := getGroupIds(compartment)
-	if err != nil {
-		return err
-	}
-	for _, groupId := range groupIds {
-		if ok := SweeperDefaultResourceId[groupId]; !ok {
-			deleteGroupRequest := oci_identity.DeleteGroupRequest{}
-
-			deleteGroupRequest.GroupId = &groupId
-
-			deleteGroupRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
-			_, error := identityClient.DeleteGroup(context.Background(), deleteGroupRequest)
-			if error != nil {
-				fmt.Printf("Error deleting Group %s %s, It is possible that the resource is already deleted. Please verify manually \n", groupId, error)
-				continue
-			}
-			waitTillCondition(testAccProvider, &groupId, groupSweepWaitCondition, time.Duration(3*time.Minute),
-				groupSweepResponseFetchOperation, "identity", true)
-		}
-	}
-	return nil
-}
-
-func getGroupIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "GroupId")
-	if ids != nil {
-		return ids, nil
-	}
-	var resourceIds []string
-	compartmentId := compartment
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
-
-	listGroupsRequest := oci_identity.ListGroupsRequest{}
-	listGroupsRequest.CompartmentId = &compartmentId
-	listGroupsResponse, err := identityClient.ListGroups(context.Background(), listGroupsRequest)
-
-	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting Group list for compartment id : %s , %s \n", compartmentId, err)
-	}
-	for _, group := range listGroupsResponse.Items {
-		id := *group.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "GroupId", id)
-	}
-	return resourceIds, nil
-}
-
-func groupSweepWaitCondition(response common.OCIOperationResponse) bool {
-	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
-	if groupResponse, ok := response.Response.(oci_identity.GetGroupResponse); ok {
-		return groupResponse.LifecycleState != oci_identity.GroupLifecycleStateDeleted
-	}
-	return false
-}
-
-func groupSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.identityClient.GetGroup(context.Background(), oci_identity.GetGroupRequest{
-		GroupId: resourceId,
-		RequestMetadata: common.RequestMetadata{
-			RetryPolicy: retryPolicy,
-		},
-	})
-	return err
 }

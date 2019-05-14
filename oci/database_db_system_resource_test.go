@@ -106,7 +106,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) SetupTest() {
 	s.ResourceName = "oci_database_db_system.t"
 }
 
-func dbWaitCondition(response oci_common.OCIOperationResponse) bool {
+func dbBackupAvailableWaitCondition(response oci_common.OCIOperationResponse) bool {
 	if listBackupResponse, ok := response.Response.(database.ListBackupsResponse); ok {
 		if len(listBackupResponse.Items) > 0 {
 			return listBackupResponse.Items[0].LifecycleState != database.BackupSummaryLifecycleStateActive
@@ -116,9 +116,9 @@ func dbWaitCondition(response oci_common.OCIOperationResponse) bool {
 	return false
 }
 
-func dbResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *oci_common.RetryPolicy) error {
+func listBackupsFetchOperation(client *OracleClients, databaseId *string, retryPolicy *oci_common.RetryPolicy) error {
 	_, err := client.databaseClient.ListBackups(context.Background(), database.ListBackupsRequest{
-		DatabaseId: resourceId,
+		DatabaseId: databaseId,
 		RequestMetadata: oci_common.RequestMetadata{
 			RetryPolicy: retryPolicy,
 		},
@@ -128,7 +128,7 @@ func dbResponseFetchOperation(client *OracleClients, resourceId *string, retryPo
 
 func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystemFromBackup() {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
-		s.T().Skip("Skipping subset dbsystem test.")
+		s.T().Skip("Skipping suppressed DBSystem_basic")
 	}
 
 	const DBWaitConditionDuration = time.Duration(20 * time.Minute)
@@ -160,6 +160,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystemFromB
 				pdb_name = "pdbName"
 				db_backup_config {
 					auto_backup_enabled = true
+					recovery_window_in_days = 10
 				}
 			}
 		}
@@ -194,8 +195,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystemFromB
 			},
 			// wait for backup and create new db from it
 			{
-				PreConfig: waitTillCondition(testAccProvider, &resId, dbWaitCondition, DBWaitConditionDuration,
-					dbResponseFetchOperation, "core", false),
+				PreConfig: waitTillCondition(testAccProvider, &resId, dbBackupAvailableWaitCondition, DBWaitConditionDuration,
+					listBackupsFetchOperation, "core", false),
 				Config: s.Config + SubnetResourceConfig + DataBaseSystemWithBackup + `
 				data "oci_database_databases" "t" {
   					compartment_id = "${var.compartment_id}"
@@ -265,7 +266,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystemFromB
 func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_basic() {
 	// This test is a subset of TestAccResourceDatabaseDBSystem_allXX. It tests omitting optional params.
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
-		s.T().Skip("Skipping subset dbsystem test.")
+		s.T().Skip("Skipping suppressed DBSystem_basic")
 	}
 
 	resource.Test(s.T(), resource.TestCase{
@@ -288,7 +289,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_basi
 					data_storage_size_in_gb = "256"
 					license_model = "LICENSE_INCLUDED"
 					node_count = "1"
-					#fault_domains = ["FAULT-DOMAIN-1"]
+					fault_domains = ["FAULT-DOMAIN-1"]
 					db_home {
 						db_version = "12.1.0.2"
 						database {
@@ -316,7 +317,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_basi
 					resource.TestCheckResourceAttr(s.ResourceName, "data_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr(s.ResourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(s.ResourceName, "node_count", "1"),
-					//resource.TestCheckResourceAttr(s.ResourceName, "fault_domains.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "fault_domains.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.db_version", "12.1.0.2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_name", "aTFdb"),
@@ -330,7 +331,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_basi
 // TestAccResourceDatabaseDBSystem_allBM tests DBsystems using Bare Metal instances.
 func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allBM() {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_allBM") {
-		s.T().Skip("Skipping BM test due to tenancy limits.")
+		s.T().Skip("Skipping suppressed DBSystem_allBM")
 	}
 
 	resource.Test(s.T(), resource.TestCase{
@@ -355,7 +356,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 					data_storage_size_in_gb = "256"
 					license_model = "LICENSE_INCLUDED"
 					node_count = "1"
-					#fault_domains = ["FAULT-DOMAIN-1"]
+					fault_domains = ["FAULT-DOMAIN-1"]
 					db_home {
 						db_version = "12.1.0.2"
 						display_name = "-tf-db-home"
@@ -368,6 +369,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 							pdb_name = "pdbName"
 							db_backup_config {
 								auto_backup_enabled = true
+								recovery_window_in_days = 10
 							}
 						}
 					}
@@ -431,7 +433,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 					resource.TestCheckResourceAttr(s.ResourceName, "data_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr(s.ResourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr(s.ResourceName, "node_count", "1"),
-					// resource.TestCheckResourceAttr(s.ResourceName, "fault_domains.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "fault_domains.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.db_version", "12.1.0.2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.display_name", "-tf-db-home"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
@@ -441,6 +443,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(database.DbSystemLifecycleStateAvailable)),
 
 					// Data Source tests
@@ -477,7 +480,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 
 					resource.TestCheckResourceAttrSet("data.oci_database_db_systems.t", "db_systems.0.data_storage_size_in_gb"),
 					resource.TestCheckResourceAttrSet("data.oci_database_db_systems.t", "db_systems.0.node_count"),
-					//resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.fault_domains.#", "1"),
+					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.fault_domains.#", "1"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.state", string(database.DbSystemLifecycleStateAvailable)),
 
 					// DB Systems nested DB Home fields are not supported on the data source, so tests like below wont work if/until fetching the sub resource is implemented
@@ -513,6 +516,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.compartment_id"),
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.db_home_id"),
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.db_name", "aTFdb"),
 					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.db_unique_name"),
@@ -532,6 +536,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "compartment_id"),
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr("data.oci_database_database.t", "db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "db_home_id"),
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "db_name", "aTFdb"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "db_unique_name"),
@@ -577,10 +582,10 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 	})
 }
 
-// TestAccResourceDatabaseDBSystem_allBM tests DBsystems using Virtual Machines.
+// TestAccResourceDatabaseDBSystem_allVM tests DBsystems using Virtual Machines.
 func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allVM() {
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_allVM") {
-		s.T().Skip("Skipping VM test due to tenancy limits.")
+		s.T().Skip("Skipping suppressed DBSystem_allVM")
 	}
 
 	var resId, resId2 string
@@ -605,7 +610,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					data_storage_size_in_gb = "256"
 					license_model = "LICENSE_INCLUDED"
 					node_count = "1"
-					#fault_domains = ["FAULT-DOMAIN-1"]
+					fault_domains = ["FAULT-DOMAIN-1"]
 					db_home {
 						db_version = "12.1.0.2"
 						display_name = "-tf-db-home"
@@ -613,13 +618,14 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 							"admin_password" = "BEstrO0ng_#11"
 							"db_name" = "aTFdb"
 							character_set = "AL32UTF8"
-							//defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}" // service does not set tags of db tags in create
-							//freeform_tags = {"Department" = "Finance"} // service does not set tags of db tags in create
+							defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+							freeform_tags = {"Department" = "Finance"}
 							ncharacter_set = "AL16UTF16"
 							db_workload = "OLTP"
 							pdb_name = "pdbName"
 							db_backup_config {
 								auto_backup_enabled = true
+								recovery_window_in_days = 10
 							}
 						}
 					}
@@ -686,7 +692,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr(s.ResourceName, "data_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr(s.ResourceName, "data_storage_percentage", "80"),
 					resource.TestCheckResourceAttr(s.ResourceName, "node_count", "1"),
-					//resource.TestCheckResourceAttr(s.ResourceName, "fault_domains.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "fault_domains.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "reco_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr(s.ResourceName, "listener_port", "1521"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.db_version", "12.1.0.2"),
@@ -698,6 +704,9 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_backup_config.0.recovery_window_in_days", "10"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.freeform_tags.Department", "Finance"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "state"),
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Finance"),
@@ -723,7 +732,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.data_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.data_storage_percentage", "80"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.node_count", "1"),
-					//resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.fault_domains.#", "1"),
+					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.fault_domains.#", "1"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.reco_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.listener_port", "1521"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
@@ -776,6 +785,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.compartment_id"),
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.db_home_id"),
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.db_name", "aTFdb"),
 					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.db_unique_name"),
@@ -795,6 +805,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "compartment_id"),
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr("data.oci_database_database.t", "db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "db_home_id"),
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "db_name", "aTFdb"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "db_unique_name"),
@@ -859,7 +870,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					data_storage_size_in_gb = "512"
 					license_model = "LICENSE_INCLUDED"
 					node_count = "1"
-					#fault_domains = ["FAULT-DOMAIN-1"]
+					fault_domains = ["FAULT-DOMAIN-1"]
 					db_home {
 						db_version = "12.1.0.2"
 						display_name = "-tf-db-home"
@@ -874,6 +885,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 							pdb_name = "pdbName"
 							db_backup_config {
 								auto_backup_enabled = false
+								recovery_window_in_days = 10
 							}
 						}
 					}
@@ -940,7 +952,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr(s.ResourceName, "data_storage_size_in_gb", "512"),
 					resource.TestCheckResourceAttr(s.ResourceName, "data_storage_percentage", "80"),
 					resource.TestCheckResourceAttr(s.ResourceName, "node_count", "1"),
-					//resource.TestCheckResourceAttr(s.ResourceName, "fault_domains.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "fault_domains.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "reco_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr(s.ResourceName, "listener_port", "1521"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.db_version", "12.1.0.2"),
@@ -954,6 +966,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "db_home.0.database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(database.DbSystemLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.example-tag-namespace-all.example-tag", "updateValue"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.Department", "Admin"),
@@ -1010,7 +1023,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_Exad
 					security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
 					dns_label           = "subnetexadata2"
 				}
-				
+
 				resource "oci_core_security_list" "exadata_shapes_security_list" {
 					compartment_id = "${var.compartment_id}"
 					vcn_id         = "${oci_core_virtual_network.t.id}"
@@ -1020,7 +1033,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_Exad
 						source    = "10.1.22.0/24"
 						protocol  = "6"
 					}
-			
+
 					ingress_security_rules {
 						source    = "10.1.22.0/24"
 						protocol  = "1"
@@ -1030,13 +1043,13 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_Exad
 						destination = "10.1.22.0/24"
 						protocol    = "6"
 					}
-			
+
 					egress_security_rules {
 						destination = "10.1.22.0/24"
 						protocol    = "1"
 					}
 				}
-			
+
 				resource "oci_database_db_system" "t" {
 					availability_domain = "${data.oci_identity_availability_domain.ad.name}"
 					compartment_id = "${var.compartment_id}"

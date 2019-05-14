@@ -18,6 +18,11 @@ type DbBackupConfig struct {
 
 	// If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
 	AutoBackupEnabled *bool `mandatory:"false" json:"autoBackupEnabled"`
+
+	// Number of days between the current and the earliest point of recoverability covered by automatic backups.
+	// This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window.
+	// When the value is updated, it is applied to all existing automatic backups.
+	RecoveryWindowInDays *int `mandatory:"false" json:"recoveryWindowInDays"`
 }
 
 func (m DbBackupConfig) String() string {

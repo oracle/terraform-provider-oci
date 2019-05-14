@@ -31,6 +31,7 @@ var (
 		"key_id":          Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"plaintext":       Representation{repType: Required, create: `aGVsbG8sIHdvcmxk`},
 		"associated_data": Representation{repType: Optional, create: map[string]string{"associatedData": "associatedData"}, update: map[string]string{"associatedData2": "associatedData2"}},
+		"logging_context": Representation{repType: Optional, create: map[string]string{"loggingContext": "loggingContext"}, update: map[string]string{"loggingContext2": "loggingContext2"}},
 	}
 
 	EncryptedDataResourceDependencies = KeyResourceDependencyConfig
@@ -80,6 +81,7 @@ func TestKmsEncryptedDataResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "ciphertext"),
 					resource.TestCheckResourceAttrSet(resourceName, "crypto_endpoint"),
 					resource.TestCheckResourceAttrSet(resourceName, "key_id"),
+					resource.TestCheckResourceAttr(resourceName, "logging_context.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "plaintext", "aGVsbG8sIHdvcmxk"),
 				),
 			},

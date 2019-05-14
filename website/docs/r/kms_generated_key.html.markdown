@@ -1,13 +1,13 @@
 ---
 layout: "oci"
-page_title: "OCI: oci_kms_generated_key"
+page_title: "Oracle Cloud Infrastructure: oci_kms_generated_key"
 sidebar_current: "docs-oci-resource-kms-generated_key"
 description: |-
-  Creates and manages an OCI GeneratedKey
+  Provides the Generated Key resource in Oracle Cloud Infrastructure Kms service
 ---
 
 # oci_kms_generated_key
-The `oci_kms_generated_key` resource creates and manages an OCI GeneratedKey
+This resource provides the Generated Key resource in Oracle Cloud Infrastructure Kms service.
 
 Generates a key that you can use to encrypt or decrypt data.
 
@@ -28,6 +28,7 @@ resource "oci_kms_generated_key" "test_generated_key" {
 
 	#Optional
 	associated_data = "${var.generated_key_associated_data}"
+	logging_context = "${var.generated_key_logging_context}"
 }
 ```
 
@@ -42,6 +43,7 @@ The following arguments are supported:
 * `key_shape` - (Required) 
 	* `algorithm` - (Required) The algorithm used by a key's KeyVersions to encrypt or decrypt.
 	* `length` - (Required) The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 
+* `logging_context` - (Optional) Information that can be used to provide context for audit logging. It is a map that contains any addtional data the users may have and will be added to the audit logs (if audit logging is enabled) 
 
 
 ** IMPORTANT **

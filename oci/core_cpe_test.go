@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -180,4 +181,62 @@ func testAccCheckCoreCpeDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("CoreCpe", &resource.Sweeper{
+		Name:         "CoreCpe",
+		Dependencies: DependencyGraph["cpe"],
+		F:            sweepCoreCpeResource,
+	})
+}
+
+func sweepCoreCpeResource(compartment string) error {
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	cpeIds, err := getCpeIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, cpeId := range cpeIds {
+		if ok := SweeperDefaultResourceId[cpeId]; !ok {
+			deleteCpeRequest := oci_core.DeleteCpeRequest{}
+
+			deleteCpeRequest.CpeId = &cpeId
+
+			deleteCpeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "core")
+			_, error := virtualNetworkClient.DeleteCpe(context.Background(), deleteCpeRequest)
+			if error != nil {
+				fmt.Printf("Error deleting Cpe %s %s, It is possible that the resource is already deleted. Please verify manually \n", cpeId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getCpeIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "CpeId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+
+	listCpesRequest := oci_core.ListCpesRequest{}
+	listCpesRequest.CompartmentId = &compartmentId
+	listCpesResponse, err := virtualNetworkClient.ListCpes(context.Background(), listCpesRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting Cpe list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, cpe := range listCpesResponse.Items {
+		id := *cpe.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "CpeId", id)
+	}
+	return resourceIds, nil
 }

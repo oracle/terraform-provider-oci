@@ -69,6 +69,12 @@ func KmsGeneratedKeyResource() *schema.Resource {
 				ForceNew: true,
 				Elem:     schema.TypeString,
 			},
+			"logging_context": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"ciphertext": {
@@ -148,6 +154,10 @@ func (s *KmsGeneratedKeyResourceCrud) Create() error {
 			}
 			request.KeyShape = &tmp
 		}
+	}
+
+	if loggingContext, ok := s.D.GetOkExists("logging_context"); ok {
+		request.LoggingContext = objectMapToStringMap(loggingContext.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")

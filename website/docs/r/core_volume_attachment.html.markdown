@@ -38,7 +38,7 @@ The following arguments are supported:
 * `device` - (Optional) The device name.
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information. 
 * `instance_id` - (Required) The OCID of the instance.
-* `is_pv_encryption_in_transit_enabled` - (Applicable when attachment_type=paravirtualized) Whether to enable encryption in transit for the PV data volume attachment. Defaults to false.
+* `is_pv_encryption_in_transit_enabled` - (Applicable when attachment_type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 * `is_read_only` - (Optional) Whether the attachment was created in read-only mode.
 * `use_chap` - (Applicable when attachment_type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false.
 * `volume_id` - (Required) The OCID of the volume.
@@ -62,7 +62,7 @@ The following attributes are exported:
 * `instance_id` - The OCID of the instance the volume is attached to.
 * `ipv4` - The volume's iSCSI IP address.  Example: `169.254.0.2` 
 * `iqn` - The target volume's iSCSI Qualified Name in the format defined by RFC 3720.  Example: `iqn.2015-12.us.oracle.com:456b0391-17b8-4122-bbf1-f85fc0bb97d9` 
-* `is_pv_encryption_in_transit_enabled` - Whether the enable encryption in transit for the PV volume attachment is on or not.
+* `is_pv_encryption_in_transit_enabled` - Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 * `is_read_only` - Whether the attachment was created in read-only mode.
 * `port` - The volume's iSCSI port.  Example: `3260` 
 * `state` - The current state of the volume attachment.

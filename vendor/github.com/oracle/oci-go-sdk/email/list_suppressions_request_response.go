@@ -38,8 +38,9 @@ type ListSuppressionsRequest struct {
 	// **Example:** 2016-12-19T16:39:57.600Z
 	TimeCreatedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedLessThan"`
 
-	// The value of the `opc-next-page` response header from the previous
-	// GET request.
+	// For list pagination. The value of the opc-next-page response header from the previous "List" call.
+	// For important details about how pagination works,
+	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a
@@ -93,6 +94,11 @@ type ListSuppressionsResponse struct {
 	// pages of results remain. For important details about how pagination works,
 	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
+
+	// For list pagination. When this header appears in the response, previous pages
+	// of results exist. For important details about how pagination works,
+	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	OpcPrevPage *string `presentIn:"header" name:"opc-prev-page"`
 }
 
 func (response ListSuppressionsResponse) String() string {

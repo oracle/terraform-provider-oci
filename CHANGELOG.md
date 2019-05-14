@@ -1,4 +1,9 @@
-## 3.24.2 (Unreleased)
+## 3.25.0 (Unreleased)
+
+### Added
+- Support for recovery window in backup config for Database DbSystem and DbHome resources
+- Support for KMS throttling and audit logs
+
 ## 3.24.1 (May 07, 2019)
 
 ### Fixed

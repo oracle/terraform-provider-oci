@@ -15,7 +15,7 @@ import (
 )
 
 // AddHttpRequestHeaderRule An object that represents the action of adding a header to a request.
-// This rule applies only to HTTP or HTTP2 listeners.
+// This rule applies only to HTTP listeners.
 // **NOTES:**
 // *  If a matching header already exists in the request, the system removes all of its occurrences, and then adds the
 //    new header.

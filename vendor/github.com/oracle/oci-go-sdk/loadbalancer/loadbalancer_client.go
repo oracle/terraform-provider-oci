@@ -410,7 +410,8 @@ func (client LoadBalancerClient) createPathRouteSet(ctx context.Context, request
 	return response, err
 }
 
-// CreateRuleSet Creates a new rule set associated with the specified load balancer.
+// CreateRuleSet Creates a new rule set associated with the specified load balancer. For more information, see
+// Managing Rule Sets (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingrulesets.htm).
 func (client LoadBalancerClient) CreateRuleSet(ctx context.Context, request CreateRuleSetRequest) (response CreateRuleSetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

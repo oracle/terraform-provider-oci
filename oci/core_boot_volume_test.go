@@ -356,15 +356,25 @@ func getBootVolumeIds(compartment string) ([]string, error) {
 
 	listBootVolumesRequest := oci_core.ListBootVolumesRequest{}
 	listBootVolumesRequest.CompartmentId = &compartmentId
-	listBootVolumesResponse, err := blockstorageClient.ListBootVolumes(context.Background(), listBootVolumesRequest)
 
+	availabilityDomains, err := getAvalabilityDomains(compartment)
 	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting BootVolume list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting availabilityDomains required for BootVolume list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, bootVolume := range listBootVolumesResponse.Items {
-		id := *bootVolume.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "BootVolumeId", id)
+	for _, availabilityDomainName := range availabilityDomains {
+		listBootVolumesRequest.AvailabilityDomain = &availabilityDomainName
+
+		listBootVolumesResponse, err := blockstorageClient.ListBootVolumes(context.Background(), listBootVolumesRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting BootVolume list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, bootVolume := range listBootVolumesResponse.Items {
+			id := *bootVolume.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "BootVolumeId", id)
+		}
+
 	}
 	return resourceIds, nil
 }

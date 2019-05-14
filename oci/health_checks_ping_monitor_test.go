@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
@@ -238,4 +239,60 @@ func testAccCheckHealthChecksPingMonitorDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("HealthChecksPingMonitor", &resource.Sweeper{
+		Name:         "HealthChecksPingMonitor",
+		Dependencies: DependencyGraph["pingMonitor"],
+		F:            sweepHealthChecksPingMonitorResource,
+	})
+}
+
+func sweepHealthChecksPingMonitorResource(compartment string) error {
+	healthChecksClient := GetTestClients(&schema.ResourceData{}).healthChecksClient
+	pingMonitorIds, err := getPingMonitorIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, pingMonitorId := range pingMonitorIds {
+		if ok := SweeperDefaultResourceId[pingMonitorId]; !ok {
+			deletePingMonitorRequest := oci_health_checks.DeletePingMonitorRequest{}
+
+			deletePingMonitorRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "health_checks")
+			_, error := healthChecksClient.DeletePingMonitor(context.Background(), deletePingMonitorRequest)
+			if error != nil {
+				fmt.Printf("Error deleting PingMonitor %s %s, It is possible that the resource is already deleted. Please verify manually \n", pingMonitorId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getPingMonitorIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "PingMonitorId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	healthChecksClient := GetTestClients(&schema.ResourceData{}).healthChecksClient
+
+	listPingMonitorsRequest := oci_health_checks.ListPingMonitorsRequest{}
+	listPingMonitorsRequest.CompartmentId = &compartmentId
+	listPingMonitorsResponse, err := healthChecksClient.ListPingMonitors(context.Background(), listPingMonitorsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting PingMonitor list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, pingMonitor := range listPingMonitorsResponse.Items {
+		id := *pingMonitor.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "PingMonitorId", id)
+	}
+	return resourceIds, nil
 }

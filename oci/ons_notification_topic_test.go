@@ -246,40 +246,38 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("OnsTopic", &resource.Sweeper{
-		Name:         "OnsTopic",
-		Dependencies: DependencyGraph["topic"],
-		F:            sweepOnsTopicResource,
+	resource.AddTestSweepers("OnsNotificationTopic", &resource.Sweeper{
+		Name:         "OnsNotificationTopic",
+		Dependencies: DependencyGraph["notificationTopic"],
+		F:            sweepOnsNotificationTopicResource,
 	})
 }
 
-func sweepOnsTopicResource(compartment string) error {
+func sweepOnsNotificationTopicResource(compartment string) error {
 	notificationControlPlaneClient := GetTestClients(&schema.ResourceData{}).notificationControlPlaneClient
-	topicIds, err := getTopicIds(compartment)
+	notificationTopicIds, err := getNotificationTopicIds(compartment)
 	if err != nil {
 		return err
 	}
-	for _, topicId := range topicIds {
-		if ok := SweeperDefaultResourceId[topicId]; !ok {
+	for _, notificationTopicId := range notificationTopicIds {
+		if ok := SweeperDefaultResourceId[notificationTopicId]; !ok {
 			deleteTopicRequest := oci_ons.DeleteTopicRequest{}
-
-			deleteTopicRequest.TopicId = &topicId
 
 			deleteTopicRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "ons")
 			_, error := notificationControlPlaneClient.DeleteTopic(context.Background(), deleteTopicRequest)
 			if error != nil {
-				fmt.Printf("Error deleting Topic %s %s, It is possible that the resource is already deleted. Please verify manually \n", topicId, error)
+				fmt.Printf("Error deleting NotificationTopic %s %s, It is possible that the resource is already deleted. Please verify manually \n", notificationTopicId, error)
 				continue
 			}
-			waitTillCondition(testAccProvider, &topicId, topicSweepWaitCondition, time.Duration(3*time.Minute),
+			waitTillCondition(testAccProvider, &notificationTopicId, topicSweepWaitCondition, time.Duration(3*time.Minute),
 				topicSweepResponseFetchOperation, "ons", true)
 		}
 	}
 	return nil
 }
 
-func getTopicIds(compartment string) ([]string, error) {
-	ids := getResourceIdsToSweep(compartment, "TopicId")
+func getNotificationTopicIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "NotificationTopicId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -292,13 +290,13 @@ func getTopicIds(compartment string) ([]string, error) {
 	listTopicsResponse, err := notificationControlPlaneClient.ListTopics(context.Background(), listTopicsRequest)
 
 	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting Topic list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting NotificationTopic list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, topic := range listTopicsResponse.Items {
-		if topic.LifecycleState != oci_ons.NotificationTopicSummaryLifecycleStateDeleting {
-			id := *topic.TopicId
+	for _, notificationTopic := range listTopicsResponse.Items {
+		if notificationTopic.LifecycleState != oci_ons.NotificationTopicSummaryLifecycleStateDeleting {
+			id := *notificationTopic.TopicId
 			resourceIds = append(resourceIds, id)
-			addResourceIdToSweeperResourceIdMap(compartmentId, "TopicId", id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "NotificationTopicId", id)
 		}
 	}
 	return resourceIds, nil

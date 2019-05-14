@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
@@ -250,4 +251,60 @@ func testAccCheckHealthChecksHttpMonitorDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+func init() {
+	if DependencyGraph == nil {
+		initDependencyGraph()
+	}
+	resource.AddTestSweepers("HealthChecksHttpMonitor", &resource.Sweeper{
+		Name:         "HealthChecksHttpMonitor",
+		Dependencies: DependencyGraph["httpMonitor"],
+		F:            sweepHealthChecksHttpMonitorResource,
+	})
+}
+
+func sweepHealthChecksHttpMonitorResource(compartment string) error {
+	healthChecksClient := GetTestClients(&schema.ResourceData{}).healthChecksClient
+	httpMonitorIds, err := getHttpMonitorIds(compartment)
+	if err != nil {
+		return err
+	}
+	for _, httpMonitorId := range httpMonitorIds {
+		if ok := SweeperDefaultResourceId[httpMonitorId]; !ok {
+			deleteHttpMonitorRequest := oci_health_checks.DeleteHttpMonitorRequest{}
+
+			deleteHttpMonitorRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "health_checks")
+			_, error := healthChecksClient.DeleteHttpMonitor(context.Background(), deleteHttpMonitorRequest)
+			if error != nil {
+				fmt.Printf("Error deleting HttpMonitor %s %s, It is possible that the resource is already deleted. Please verify manually \n", httpMonitorId, error)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
+func getHttpMonitorIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "HttpMonitorId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	compartmentId := compartment
+	healthChecksClient := GetTestClients(&schema.ResourceData{}).healthChecksClient
+
+	listHttpMonitorsRequest := oci_health_checks.ListHttpMonitorsRequest{}
+	listHttpMonitorsRequest.CompartmentId = &compartmentId
+	listHttpMonitorsResponse, err := healthChecksClient.ListHttpMonitors(context.Background(), listHttpMonitorsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting HttpMonitor list for compartment id : %s , %s \n", compartmentId, err)
+	}
+	for _, httpMonitor := range listHttpMonitorsResponse.Items {
+		id := *httpMonitor.Id
+		resourceIds = append(resourceIds, id)
+		addResourceIdToSweeperResourceIdMap(compartmentId, "HttpMonitorId", id)
+	}
+	return resourceIds, nil
 }
