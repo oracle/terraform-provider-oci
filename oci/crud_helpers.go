@@ -444,7 +444,7 @@ func FilterMissingResourceError(sync ResourceVoider, err *error) {
 
 // In the Exadata case the service return the hostname provided by the service with a suffix
 func dbSystemHostnameDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
-	return EqualIgnoreCaseSuppressDiff(key, old, new, d) || newIsPrefixOfOldDiffSuppress(key, old, new, d)
+	return EqualIgnoreCaseSuppressDiff(key, old, new, d) || NewIsPrefixOfOldDiffSuppress(key, old, new, d)
 }
 
 func NewIsPrefixOfOldDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
@@ -634,4 +634,25 @@ func convertResourceFieldsToDatasourceFields(resourceSchema *schema.Resource) *s
 	}
 
 	return resourceSchema
+}
+
+func getRetryPolicyWithAdditionalretryCondition(timeout time.Duration, retryConditionFunction func(oci_common.OCIOperationResponse) bool, service string) *oci_common.RetryPolicy {
+	startTime := time.Now()
+	// wait for status of the database to not be UPDATING
+	return &oci_common.RetryPolicy{
+		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
+			if shouldRetry(response, false, service, startTime) {
+				return true
+			}
+			if retryConditionFunction(response) {
+				timeWaited := getElapsedRetryDuration(startTime)
+				return timeWaited < timeout
+			}
+			return false
+		},
+		NextDuration: func(response oci_common.OCIOperationResponse) time.Duration {
+			return getRetryBackoffDuration(response, false, service, startTime)
+		},
+		MaximumNumberAttempts: 0,
+	}
 }
