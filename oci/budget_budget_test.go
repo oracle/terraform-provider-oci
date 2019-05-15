@@ -264,6 +264,8 @@ func init() {
 
 func sweepBudgetBudgetResource(compartment string) error {
 	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient
+	// BudgetBudgetResource can only run on root compartment
+	compartment = getEnvSettingWithBlankDefault("tenancy_ocid")
 	budgetIds, err := getBudgetIds(compartment)
 	if err != nil {
 		return err
