@@ -1,4 +1,4 @@
-## 3.25.0 (Unreleased)
+## 3.25.0 (May 15, 2019)
 
 ### Added
 - Support for recovery window in backup config for Database DbSystem and DbHome resources
