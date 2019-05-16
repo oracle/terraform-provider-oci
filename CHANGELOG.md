@@ -1,3 +1,8 @@
+## 3.28.0 (Unreleased)
+
+### Added
+- Support for ATP-S autoscaling
+
 ## 3.27.0 (May 29, 2019)
 
 ### Added

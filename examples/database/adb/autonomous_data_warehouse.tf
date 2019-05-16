@@ -12,13 +12,13 @@ resource "oci_database_autonomous_database" "autonomous_data_warehouse" {
   #Required
   admin_password           = "${random_string.autonomous_data_warehouse_admin_password.result}"
   compartment_id           = "${var.compartment_ocid}"
-  cpu_core_count           = "${var.autonomous_database_cpu_core_count}"
-  data_storage_size_in_tbs = "${var.autonomous_database_data_storage_size_in_tbs}"
-  db_name                  = "${var.autonomous_data_warehouse_db_name}"
+  cpu_core_count           = "1"
+  data_storage_size_in_tbs = "1"
+  db_name                  = "adbdw1"
 
   #Optional
   db_workload   = "${var.autonomous_data_warehouse_db_workload}"
-  display_name  = "${var.autonomous_data_warehouse_display_name}"
+  display_name  = "example_autonomous_data_warehouse"
   freeform_tags = "${var.autonomous_database_freeform_tags}"
   license_model = "${var.autonomous_database_license_model}"
 }
