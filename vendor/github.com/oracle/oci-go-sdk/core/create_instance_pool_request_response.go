@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -11,7 +11,7 @@ import (
 // CreateInstancePoolRequest wrapper for the CreateInstancePool operation
 type CreateInstancePoolRequest struct {
 
-	// Instance Pool creation details
+	// Instance pool creation details
 	CreateInstancePoolDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

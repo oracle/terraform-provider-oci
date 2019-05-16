@@ -1,9 +1,13 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
 //
-// APIs for Networking Service, Compute Service, and Block Volume Service.
+// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
+// to manage resources such as virtual cloud networks (VCNs), compute instances, and
+// block storage volumes.
 //
 
 package core
@@ -32,8 +36,11 @@ type UpdateInstancePoolDetails struct {
 	// The OCID of the instance configuration associated with the instance pool.
 	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
 
-	// The placement configurations for the instance pool.
-	// There should be 1 placement configuration for each desired AD.
+	// The placement configurations for the instance pool. Provide one placement configuration for
+	// each availability domain.
+	// To use the instance pool with a regional subnet, provide a placement configuration for
+	// each availability domain, and include the regional subnet in each placement
+	// configuration.
 	PlacementConfigurations []UpdateInstancePoolPlacementConfigurationDetails `mandatory:"false" json:"placementConfigurations"`
 
 	// The number of instances that should be in the instance pool.

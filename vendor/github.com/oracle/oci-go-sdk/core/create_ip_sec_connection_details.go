@@ -1,9 +1,13 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
 //
-// APIs for Networking Service, Compute Service, and Block Volume Service.
+// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
+// to manage resources such as virtual cloud networks (VCNs), compute instances, and
+// block storage volumes.
 //
 
 package core
@@ -24,8 +28,9 @@ type CreateIpSecConnectionDetails struct {
 	// The OCID of the DRG.
 	DrgId *string `mandatory:"true" json:"drgId"`
 
-	// Static routes to the CPE. At least one route must be included. A static route's CIDR must not be a
+	// Static routes to the CPE. A static route's CIDR must not be a
 	// multicast address or class E address.
+	//
 	// Example: `10.0.1.0/24`
 	StaticRoutes []string `mandatory:"true" json:"staticRoutes"`
 
@@ -55,6 +60,9 @@ type CreateIpSecConnectionDetails struct {
 	// The type of identifier for your CPE device. The value you provide here must correspond to the value
 	// for `cpeLocalIdentifier`.
 	CpeLocalIdentifierType CreateIpSecConnectionDetailsCpeLocalIdentifierTypeEnum `mandatory:"false" json:"cpeLocalIdentifierType,omitempty"`
+
+	// array of tunnel parameters to create tunnels for IPSecConnection.
+	TunnelConfiguration []CreateIpSecConnectionTunnelDetails `mandatory:"false" json:"tunnelConfiguration"`
 }
 
 func (m CreateIpSecConnectionDetails) String() string {

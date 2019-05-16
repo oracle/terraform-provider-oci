@@ -1,9 +1,10 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Auto Scaling API
+// Autoscaling API
 //
-// Auto Scaling API spec
+// APIs for dynamically scaling Compute resources to meet application requirements.
+// For information about the Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
 //
 
 package autoscaling
@@ -13,30 +14,40 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// AutoScalingConfigurationSummary The representation of AutoScalingConfigurationSummary
+// AutoScalingConfigurationSummary Summary information for an autoscaling configuration.
 type AutoScalingConfigurationSummary struct {
 
-	// The OCID of the compartment containing the AutoScalingConfiguration.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the autoscaling configuration.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the AutoScalingConfiguration
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The date and time the AutoScalingConfiguration was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// A user-friendly name for the AutoScalingConfiguration. Does not have to be unique, and it's changeable.
-	// Avoid entering confidential information.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The minimum period of time between scaling actions. The default is 300 seconds.
+	// The minimum period of time to wait between scaling actions. The cooldown period gives the system time to stabilize
+	// before rescaling. The minimum value is 300 seconds, which is also the default.
 	CoolDownInSeconds *int `mandatory:"false" json:"coolDownInSeconds"`
 
-	// If the AutoScalingConfiguration is enabled
+	// Whether the autoscaling configuration is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	Resource Resource `mandatory:"false" json:"resource"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 }
 
 func (m AutoScalingConfigurationSummary) String() string {
@@ -46,13 +57,15 @@ func (m AutoScalingConfigurationSummary) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *AutoScalingConfigurationSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName       *string         `json:"displayName"`
-		CoolDownInSeconds *int            `json:"coolDownInSeconds"`
-		IsEnabled         *bool           `json:"isEnabled"`
-		Resource          resource        `json:"resource"`
-		CompartmentId     *string         `json:"compartmentId"`
-		Id                *string         `json:"id"`
-		TimeCreated       *common.SDKTime `json:"timeCreated"`
+		DisplayName       *string                           `json:"displayName"`
+		CoolDownInSeconds *int                              `json:"coolDownInSeconds"`
+		IsEnabled         *bool                             `json:"isEnabled"`
+		Resource          resource                          `json:"resource"`
+		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags      map[string]string                 `json:"freeformTags"`
+		CompartmentId     *string                           `json:"compartmentId"`
+		Id                *string                           `json:"id"`
+		TimeCreated       *common.SDKTime                   `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -71,6 +84,8 @@ func (m *AutoScalingConfigurationSummary) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Resource = nil
 	}
+	m.DefinedTags = model.DefinedTags
+	m.FreeformTags = model.FreeformTags
 	m.CompartmentId = model.CompartmentId
 	m.Id = model.Id
 	m.TimeCreated = model.TimeCreated

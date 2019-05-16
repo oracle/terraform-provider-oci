@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package autoscaling
@@ -11,10 +11,10 @@ import (
 // CreateAutoScalingPolicyRequest wrapper for the CreateAutoScalingPolicy operation
 type CreateAutoScalingPolicyRequest struct {
 
-	// The OCID of the auto scaling configuration.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
 	AutoScalingConfigurationId *string `mandatory:"true" contributesTo:"path" name:"autoScalingConfigurationId"`
 
-	// AutoScalingConfiguration Policy creation details
+	// Creation details for an autoscaling policy.
 	CreateAutoScalingPolicyDetails `contributesTo:"body"`
 
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
