@@ -125,9 +125,9 @@ func init() {
 // Provider is the adapter for terraform, that gives access to all the resources
 func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
 	ociProvider = &schema.Provider{
-		DataSourcesMap: dataSourcesMap(),
+		DataSourcesMap: DataSourcesMap(),
 		Schema:         schemaMap(),
-		ResourcesMap:   resourcesMap(),
+		ResourcesMap:   ResourcesMap(),
 		ConfigureFunc:  configfn,
 	}
 	return ociProvider
@@ -205,7 +205,7 @@ func schemaMap() map[string]*schema.Schema {
 	}
 }
 
-func dataSourcesMap() map[string]*schema.Resource {
+func DataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"oci_audit_configuration":                                     AuditConfigurationDataSource(),
 		"oci_audit_events":                                            AuditAuditEventsDataSource(),
@@ -497,7 +497,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 	}
 }
 
-func resourcesMap() map[string]*schema.Resource {
+func ResourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
 		"oci_autoscaling_auto_scaling_configuration":                  AutoScalingAutoScalingConfigurationResource(),
 		"oci_budget_budget":                                           BudgetBudgetResource(),

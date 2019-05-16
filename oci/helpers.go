@@ -7,6 +7,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"sort"
 	"time"
 
 	"strconv"
@@ -204,4 +205,16 @@ func getSourceFileState(source interface{}) string {
 	}
 
 	return sourcePath + " " + sourceInfo.ModTime().String()
+}
+
+// Returns a slice of keys from the given map in alphabetical order
+func getSortedKeys(source map[string]interface{}) []string {
+	sortedKeys := make([]string, len(source))
+	cnt := 0
+	for k := range source {
+		sortedKeys[cnt] = k
+		cnt++
+	}
+	sort.Strings(sortedKeys)
+	return sortedKeys
 }
