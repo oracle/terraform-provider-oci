@@ -542,7 +542,7 @@ func updateBody(body jsonObj) {
 				}
 			}
 		} else {
-			debugLogf("HttpReplay will ignore the type match for type %s", reflect.TypeOf(unkVal))
+			debugLogf("HttpReplay will ignore the type match for type %s, %v", reflect.TypeOf(unkVal), unkVal)
 		}
 	}
 }

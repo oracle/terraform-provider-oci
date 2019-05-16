@@ -36,3 +36,8 @@ func InstallRecorder(client *http.Client) (HTTPRecordingClient, error) {
 func ShouldRetryImmediately() bool {
 	return false
 }
+
+// ModeRecordReplay returns true in record and replay
+func ModeRecordReplay() bool {
+	return true
+}

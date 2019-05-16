@@ -41,6 +41,11 @@ func ShouldRetryImmediately() bool {
 	return true
 }
 
+// ModeRecordReplay returns true in record and replay
+func ModeRecordReplay() bool {
+	return true
+}
+
 func RemoveContents(dir string) error {
 	d, err := os.Open(dir)
 	if err != nil {

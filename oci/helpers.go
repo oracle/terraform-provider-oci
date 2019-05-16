@@ -140,7 +140,7 @@ func randomString(length int, charset string) string {
 }
 
 func randomStringOrHttpReplayValue(length int, charset string, httpReplayValue string) string {
-	if httpreplay.ShouldRetryImmediately() {
+	if httpreplay.ModeRecordReplay() {
 		return httpReplayValue
 	}
 	return randomString(length, charset)
