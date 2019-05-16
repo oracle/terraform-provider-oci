@@ -29,3 +29,8 @@ func SaveScenario() error {
 func ShouldRetryImmediately() bool {
 	return false
 }
+
+// ModeRecordReplay returns true in record and replay
+func ModeRecordReplay() bool {
+	return false
+}
