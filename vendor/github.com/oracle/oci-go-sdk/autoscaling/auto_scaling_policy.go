@@ -1,9 +1,10 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Auto Scaling API
+// Autoscaling API
 //
-// Auto Scaling API spec
+// APIs for dynamically scaling Compute resources to meet application requirements.
+// For information about the Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
 //
 
 package autoscaling
@@ -13,21 +14,22 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// AutoScalingPolicy A Policy defines the rules and actions of an AutoScalingConfiguration. The only supported type is 'threshold'
+// AutoScalingPolicy Autoscaling policies define the criteria that trigger autoscaling actions and the actions to take.
+// An autoscaling policy is part of an autoscaling configuration. For more information, see
+// Autoscaling (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm).
 type AutoScalingPolicy interface {
 
-	// The capacity requirements of the Policy
+	// The capacity requirements of the autoscaling policy.
 	GetCapacity() *Capacity
 
-	// The date and time the AutoScalingConfiguration was created, in the format defined by RFC3339.
+	// The date and time the autoscaling configuration was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	GetTimeCreated() *common.SDKTime
 
-	// The ID of the policy that is assigned after creation
+	// The ID of the autoscaling policy that is assigned after creation.
 	GetId() *string
 
-	// A user-friendly name for the Policy. Does not have to be unique, and it's changeable. Avoid entering
-	// confidential information.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package objectstorage
@@ -13,6 +13,10 @@ type GetNamespaceRequest struct {
 
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
+
+	// This is an optional field representing the tenancy OCID or the compartment OCID within the tenancy whose Object Storage namespace
+	// name has to be retrieved.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

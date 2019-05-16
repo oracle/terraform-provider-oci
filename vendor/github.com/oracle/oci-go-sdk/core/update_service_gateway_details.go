@@ -1,9 +1,13 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
 //
-// APIs for Networking Service, Compute Service, and Block Volume Service.
+// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
+// to manage resources such as virtual cloud networks (VCNs), compute instances, and
+// block storage volumes.
 //
 
 package core
@@ -35,14 +39,14 @@ type UpdateServiceGatewayDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// List of all the services you want enabled on this service gateway. Sending an empty list
+	// List of all the `Service` objects you want enabled on this service gateway. Sending an empty list
 	// means you want to disable all services. Omitting this parameter entirely keeps the
 	// existing list of services intact.
-	// You can also enable or disable a particular service by using
-	// AttachServiceId and
+	// You can also enable or disable a particular `Service` by using
+	// AttachServiceId or
 	// DetachServiceId.
-	// For each enabled service, make sure there's a route rule with the service's `cidrBlock`
-	// as the rule's destination CIDR and the service gateway as the rule's target. See
+	// For each enabled `Service`, make sure there's a route rule with the `Service` object's `cidrBlock`
+	// as the rule's destination and the service gateway as the rule's target. See
 	// RouteTable.
 	Services []ServiceIdRequestDetails `mandatory:"false" json:"services"`
 }

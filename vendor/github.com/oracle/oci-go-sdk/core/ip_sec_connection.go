@@ -1,9 +1,13 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
 //
-// APIs for Networking Service, Compute Service, and Block Volume Service.
+// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
+// to manage resources such as virtual cloud networks (VCNs), compute instances, and
+// block storage volumes.
 //
 
 package core
@@ -14,8 +18,7 @@ import (
 
 // IpSecConnection A connection between a DRG and CPE. This connection consists of multiple IPSec
 // tunnels. Creating this connection is one of the steps required when setting up
-// an IPSec VPN. For more information, see
-// IPSec VPN (https://docs.cloud.oracle.com/Content/Network/Tasks/managingIPsec.htm).
+// an IPSec VPN. For more information, see IPSec VPN (https://docs.cloud.oracle.com/Content/Network/Tasks/managingIPsec.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
@@ -38,8 +41,9 @@ type IpSecConnection struct {
 	// The IPSec connection's current state.
 	LifecycleState IpSecConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Static routes to the CPE. At least one route must be included. The CIDR must not be a
+	// Static routes to the CPE. The CIDR must not be a
 	// multicast address or class E address.
+	//
 	// Example: `10.0.1.0/24`
 	StaticRoutes []string `mandatory:"true" json:"staticRoutes"`
 

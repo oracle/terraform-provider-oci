@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package autoscaling
@@ -11,13 +11,13 @@ import (
 // UpdateAutoScalingPolicyRequest wrapper for the UpdateAutoScalingPolicy operation
 type UpdateAutoScalingPolicyRequest struct {
 
-	// The OCID of the auto scaling configuration.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
 	AutoScalingConfigurationId *string `mandatory:"true" contributesTo:"path" name:"autoScalingConfigurationId"`
 
-	// The ID of the auto scaling configuration policy.
+	// The ID of the autoscaling policy.
 	AutoScalingPolicyId *string `mandatory:"true" contributesTo:"path" name:"autoScalingPolicyId"`
 
-	// AutoScalingConfiguration Policy update details
+	// Update details for an autoscaling policy.
 	UpdateAutoScalingPolicyDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

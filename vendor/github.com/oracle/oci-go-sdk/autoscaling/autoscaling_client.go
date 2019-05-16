@@ -1,9 +1,10 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Auto Scaling API
+// Autoscaling API
 //
-// Auto Scaling API spec
+// APIs for dynamically scaling Compute resources to meet application requirements.
+// For information about the Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
 //
 
 package autoscaling
@@ -58,7 +59,7 @@ func (client *AutoScalingClient) ConfigurationProvider() *common.ConfigurationPr
 	return client.config
 }
 
-// CreateAutoScalingConfiguration Create an AutoScalingConfiguration
+// CreateAutoScalingConfiguration Creates an autoscaling configuration.
 func (client AutoScalingClient) CreateAutoScalingConfiguration(ctx context.Context, request CreateAutoScalingConfigurationRequest) (response CreateAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -105,7 +106,7 @@ func (client AutoScalingClient) createAutoScalingConfiguration(ctx context.Conte
 	return response, err
 }
 
-// CreateAutoScalingPolicy Create a Policy for AutoScalingConfiguration
+// CreateAutoScalingPolicy Creates an autoscaling policy for the specified autoscaling configuration.
 func (client AutoScalingClient) CreateAutoScalingPolicy(ctx context.Context, request CreateAutoScalingPolicyRequest) (response CreateAutoScalingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -152,7 +153,7 @@ func (client AutoScalingClient) createAutoScalingPolicy(ctx context.Context, req
 	return response, err
 }
 
-// DeleteAutoScalingConfiguration Deletes an AutoScalingConfiguration
+// DeleteAutoScalingConfiguration Deletes an autoscaling configuration.
 func (client AutoScalingClient) DeleteAutoScalingConfiguration(ctx context.Context, request DeleteAutoScalingConfigurationRequest) (response DeleteAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -194,7 +195,7 @@ func (client AutoScalingClient) deleteAutoScalingConfiguration(ctx context.Conte
 	return response, err
 }
 
-// DeleteAutoScalingPolicy Deletes an AutoScalingConfiguration Policy
+// DeleteAutoScalingPolicy Deletes an autoscaling policy for the specified autoscaling configuration.
 func (client AutoScalingClient) DeleteAutoScalingPolicy(ctx context.Context, request DeleteAutoScalingPolicyRequest) (response DeleteAutoScalingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -236,7 +237,7 @@ func (client AutoScalingClient) deleteAutoScalingPolicy(ctx context.Context, req
 	return response, err
 }
 
-// GetAutoScalingConfiguration Get AutoScalingConfiguration
+// GetAutoScalingConfiguration Gets information about the specified autoscaling configuration.
 func (client AutoScalingClient) GetAutoScalingConfiguration(ctx context.Context, request GetAutoScalingConfigurationRequest) (response GetAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -278,7 +279,7 @@ func (client AutoScalingClient) getAutoScalingConfiguration(ctx context.Context,
 	return response, err
 }
 
-// GetAutoScalingPolicy Get Policy from a specific AutoScalingConfiguration
+// GetAutoScalingPolicy Gets information about the specified autoscaling policy in the specified autoscaling configuration.
 func (client AutoScalingClient) GetAutoScalingPolicy(ctx context.Context, request GetAutoScalingPolicyRequest) (response GetAutoScalingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -320,7 +321,7 @@ func (client AutoScalingClient) getAutoScalingPolicy(ctx context.Context, reques
 	return response, err
 }
 
-// ListAutoScalingConfigurations Lists AutoScalingConfigurations in the specific compartment.
+// ListAutoScalingConfigurations Lists autoscaling configurations in the specifed compartment.
 func (client AutoScalingClient) ListAutoScalingConfigurations(ctx context.Context, request ListAutoScalingConfigurationsRequest) (response ListAutoScalingConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -362,7 +363,7 @@ func (client AutoScalingClient) listAutoScalingConfigurations(ctx context.Contex
 	return response, err
 }
 
-// ListAutoScalingPolicies Lists Policies in an AutoScalingConfiguration.
+// ListAutoScalingPolicies Lists the autoscaling policies in the specified autoscaling configuration.
 func (client AutoScalingClient) ListAutoScalingPolicies(ctx context.Context, request ListAutoScalingPoliciesRequest) (response ListAutoScalingPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -404,7 +405,8 @@ func (client AutoScalingClient) listAutoScalingPolicies(ctx context.Context, req
 	return response, err
 }
 
-// UpdateAutoScalingConfiguration Updates an AutoScalingConfiguration
+// UpdateAutoScalingConfiguration Updates certain fields on the specified autoscaling configuration, such as the name, the cooldown period,
+// and whether the autoscaling configuration is enabled.
 func (client AutoScalingClient) UpdateAutoScalingConfiguration(ctx context.Context, request UpdateAutoScalingConfigurationRequest) (response UpdateAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -451,7 +453,7 @@ func (client AutoScalingClient) updateAutoScalingConfiguration(ctx context.Conte
 	return response, err
 }
 
-// UpdateAutoScalingPolicy Updates a Policy in the specific AutoScalingConfiguration
+// UpdateAutoScalingPolicy Updates an autoscaling policy in the specified autoscaling configuration.
 func (client AutoScalingClient) UpdateAutoScalingPolicy(ctx context.Context, request UpdateAutoScalingPolicyRequest) (response UpdateAutoScalingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
