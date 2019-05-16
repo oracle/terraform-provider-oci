@@ -100,6 +100,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsAutoScalingEnabled != nil {
+		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {

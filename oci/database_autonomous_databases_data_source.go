@@ -152,6 +152,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["id"] = *r.Id
 		}
 
+		if r.IsAutoScalingEnabled != nil {
+			autonomousDatabase["is_auto_scaling_enabled"] = *r.IsAutoScalingEnabled
+		}
+
 		autonomousDatabase["license_model"] = r.LicenseModel
 
 		if r.LifecycleDetails != nil {
