@@ -233,6 +233,10 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) error 
 	}
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
 		if e := waitForStateRefresh(stateful, timeout, "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
+			if setDataErr := sync.SetData(); setDataErr != nil {
+				log.Printf("[ERROR] error setting data after waitForStateRefresh() error: %v", setDataErr)
+			}
 			return e
 		}
 	}
@@ -270,6 +274,10 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 				// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
 				// TODO: automatic retry on WorkRequestFailed
 				sync.VoidState()
+			}
+			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
+			if setDataErr := sync.SetData(); setDataErr != nil {
+				log.Printf("[ERROR] error setting data after waitForStateRefresh() error: %v", setDataErr)
 			}
 			return e
 		}
