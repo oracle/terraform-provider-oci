@@ -4,12 +4,11 @@ package provider
 
 import (
 	"fmt"
+	"regexp"
 	"testing"
 	"time"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-
-	"regexp"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"

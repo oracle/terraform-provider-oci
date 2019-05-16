@@ -13,6 +13,9 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/hashicorp/terraform/command"
+	"github.com/mitchellh/cli"
+
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -350,6 +353,86 @@ func setEnvSetting(s, v string) error {
 	error := os.Setenv(s, v)
 	if error != nil {
 		return fmt.Errorf("Failed to set env setting '%s', encountered error: %v", s, error)
+	}
+	return nil
+}
+
+func testExportCompartment(OCID *string, compartmentId *string) error {
+	var arg ExportCommandArgs
+	dir, _ := os.Getwd()
+	outputDir := fmt.Sprintf(dir + "/exportCompartment")
+	if err := os.RemoveAll(outputDir); err != nil {
+		log.Printf("unable to remove existing '%s' due to error '%v'", outputDir, err)
+		return err
+	}
+	if err := os.Mkdir(outputDir, os.ModePerm); err != nil {
+		log.Printf("unable to create '%s' due to error '%v'", outputDir, err)
+		return err
+	}
+	defer func() {
+		if err := os.RemoveAll(outputDir); err != nil {
+			log.Printf("unable to cleanup '%s' due to error '%v'", outputDir, err)
+		}
+	}()
+	arg.CompartmentId = compartmentId
+	arg.GenerateState = true
+	arg.OutputDir = &outputDir
+	arg.IDs = []string{*OCID}
+	if errExport := RunExportCommand(&arg); errExport != nil {
+		return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport)
+	}
+	meta := command.Meta{
+		//Color:            true,
+		//GlobalPluginDirs: globalPluginDirs(),
+		//PluginOverrides:  &PluginOverrides,
+		Ui: &cli.BasicUi{
+			Reader:      os.Stdin,
+			Writer:      os.Stdout,
+			ErrorWriter: os.Stderr,
+		},
+
+		//Services: services,
+
+		RunningInAutomation: true,
+		//PluginCacheDir:      config.PluginCacheDir,
+		//OverrideDataDir:     dataDir,
+
+		//ShutdownCh: makeShutdownCh(),
+	}
+	initCmd := command.InitCommand{Meta: meta}
+	var initArgs []string
+	if pluginDir := getEnvSettingWithBlankDefault("provider_bin_path"); pluginDir != "" {
+		log.Printf("[INFO] plugin dir: '%s'", pluginDir)
+		initArgs = append(initArgs, fmt.Sprintf("-plugin-dir=%v", pluginDir))
+	}
+	initArgs = append(initArgs, *arg.OutputDir)
+	if errCode := initCmd.Run(initArgs); errCode != 0 {
+		return nil
+	}
+
+	// Need to set the compartment OCID environment variable for plan step
+	compartmentOcidVarName := "TF_VAR_compartment_ocid"
+	storeCompartmentId := os.Getenv(compartmentOcidVarName)
+	if err := os.Setenv(compartmentOcidVarName, *compartmentId); err != nil {
+		return fmt.Errorf("could not set %s environment in export test", compartmentOcidVarName)
+	}
+
+	defer func() {
+		if storeCompartmentId != "" {
+			if err := os.Setenv(compartmentOcidVarName, storeCompartmentId); err != nil {
+				log.Printf("[WARN] unable to restore %s to %s", compartmentOcidVarName, storeCompartmentId)
+			}
+		}
+	}()
+
+	planCmd := command.PlanCommand{Meta: meta}
+	statefile := fmt.Sprintf(*arg.OutputDir + "/terraform.tfstate")
+	if errCode := planCmd.Run([]string{"-detailed-exitcode", fmt.Sprintf("-state=%v", statefile), *arg.OutputDir}); errCode != 0 {
+		if errCode == 1 {
+			return fmt.Errorf("[ERROR] terraform plan command failed")
+		} else {
+			return fmt.Errorf("[ERROR] terraform plan command return non-empty diff")
+		}
 	}
 	return nil
 }

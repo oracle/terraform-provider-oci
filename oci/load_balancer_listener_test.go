@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -126,6 +127,11 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartment(&resId, &compartmentId); errExport != nil {
+								return errExport
+							}
+						}
 						return err
 					},
 				),
