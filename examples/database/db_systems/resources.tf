@@ -77,6 +77,6 @@ resource "oci_database_db_home" "test_db_home" {
 
 resource "oci_database_backup" "test_backup" {
   depends_on   = ["oci_database_db_system.test_db_system"]
-  database_id  = "${data.oci_database_databases.databases.databases.0.id}"
+  database_id  = "${oci_database_db_system.test_db_system.db_home.0.database.0.id}"
   display_name = "FirstBackup"
 }
