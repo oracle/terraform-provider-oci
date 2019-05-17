@@ -1,4 +1,4 @@
-## 3.25.1 (Unreleased)
+## 3.26.0 (Unreleased)
 
 ### Added
 - Support for setting `compartment_id` argument in `object_storage_namespace` data source
