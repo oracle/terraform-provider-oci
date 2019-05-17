@@ -292,8 +292,19 @@ func (s *Scenario) GetInteractionWithQueryStringFromList(r Request, list []*Inte
 		var credit int
 		for m1Key, m1List := range m1 {
 			if m2List, ok := m2[m1Key]; ok {
-				if m1List[0] == m2List[0] {
-					credit++
+				if len(m1List) < 1 || len(m2List) < 1 || len(m1List) != len(m2List) {
+					continue
+				}
+
+				for i := range m1List {
+					m1SortedList := strings.Split(m1List[i], ",")
+					m2SortedList := strings.Split(m2List[i], ",")
+					sort.Strings(m1SortedList)
+					sort.Strings(m2SortedList)
+
+					if strings.EqualFold(strings.Join(m1SortedList, "_"), strings.Join(m2SortedList, "_")) {
+						credit++
+					}
 				}
 			}
 		}
