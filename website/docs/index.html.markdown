@@ -97,7 +97,7 @@ The variables won't be set for the current session, exit the terminal and reopen
 It is possible to define the required provider values in the same `~/.oci/config` file that the SDKs and CLI support. 
 For details on setting up this configuration see [SDK and CLI Configuration File](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm).  
 
-_Note: only the `[default]` profile is supported, the `region` value will not currently propagate, and the parameter names are slightly different._
+_Note: only the `[default]` profile is supported, and the parameter names are slightly different. Provider block from terraform config can be completely removed if all API Key based authentication required values are provided as environment variables, in a `*.tfvars file` or `~/.oci/config`_
 
 ### Instance Principal Authentication
 Instance Principal authentication allows you to run Terraform from an OCI Instance within your Tenancy. To enable Instance 
