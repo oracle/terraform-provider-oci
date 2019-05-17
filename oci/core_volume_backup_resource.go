@@ -96,6 +96,10 @@ func CoreVolumeBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"size_in_gbs": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -424,6 +428,10 @@ func (s *CoreVolumeBackupResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
 
 	if s.Res.SizeInGBs != nil {
 		s.D.Set("size_in_gbs", strconv.FormatInt(*s.Res.SizeInGBs, 10))

@@ -176,6 +176,7 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.kms_key_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.size_in_gbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.size_in_mbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.source_type"),
