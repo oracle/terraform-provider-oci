@@ -177,7 +177,7 @@ func schemaMap() map[string]*schema.Schema {
 		},
 		regionAttrName: {
 			Type:        schema.TypeString,
-			Required:    true,
+			Optional:    true,
 			Description: descriptions[regionAttrName],
 			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(regionAttrName), ociVarName(regionAttrName)}, nil),
 		},
@@ -581,16 +581,6 @@ func getRequiredEnvSetting(s string) string {
 	return v
 }
 
-func validateConfigForAPIKeyAuth(d *schema.ResourceData) error {
-	_, hasTenancyOCID := d.GetOkExists(tenancyOcidAttrName)
-	_, hasUserOCID := d.GetOkExists(userOcidAttrName)
-	_, hasFingerprint := d.GetOkExists(fingerprintAttrName)
-	if !hasTenancyOCID || !hasUserOCID || !hasFingerprint {
-		return fmt.Errorf("when auth is set to '%s', tenancy_ocid, user_ocid, and fingerprint are required", authAPIKeySetting)
-	}
-	return nil
-}
-
 func checkIncompatibleAttrsForApiKeyAuth(d *schema.ResourceData) ([]string, bool) {
 	var apiKeyConfigAttributesToUnset []string
 	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
@@ -654,9 +644,6 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 
 	switch auth {
 	case strings.ToLower(authAPIKeySetting):
-		if err := validateConfigForAPIKeyAuth(d); err != nil {
-			return nil, err
-		}
 	case strings.ToLower(authInstancePrincipalSetting):
 		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
 		if !ok {
