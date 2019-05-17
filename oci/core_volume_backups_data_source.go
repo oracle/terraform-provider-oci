@@ -143,6 +143,10 @@ func (s *CoreVolumeBackupsDataSourceCrud) SetData() error {
 			volumeBackup["id"] = *r.Id
 		}
 
+		if r.KmsKeyId != nil {
+			volumeBackup["kms_key_id"] = *r.KmsKeyId
+		}
+
 		if r.SizeInGBs != nil {
 			volumeBackup["size_in_gbs"] = strconv.FormatInt(*r.SizeInGBs, 10)
 		}
