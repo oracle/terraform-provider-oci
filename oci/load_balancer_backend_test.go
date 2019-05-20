@@ -212,11 +212,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("LoadBalancerBackend", &resource.Sweeper{
-		Name:         "LoadBalancerBackend",
-		Dependencies: DependencyGraph["backend"],
-		F:            sweepLoadBalancerBackendResource,
-	})
+	if !inSweeperExcludeList("LoadBalancerBackend") {
+		resource.AddTestSweepers("LoadBalancerBackend", &resource.Sweeper{
+			Name:         "LoadBalancerBackend",
+			Dependencies: DependencyGraph["backend"],
+			F:            sweepLoadBalancerBackendResource,
+		})
+	}
 }
 
 func sweepLoadBalancerBackendResource(compartment string) error {

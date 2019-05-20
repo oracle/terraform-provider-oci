@@ -262,11 +262,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreIpSecConnection", &resource.Sweeper{
-		Name:         "CoreIpSecConnection",
-		Dependencies: DependencyGraph["ipSecConnection"],
-		F:            sweepCoreIpSecConnectionResource,
-	})
+	if !inSweeperExcludeList("CoreIpSecConnection") {
+		resource.AddTestSweepers("CoreIpSecConnection", &resource.Sweeper{
+			Name:         "CoreIpSecConnection",
+			Dependencies: DependencyGraph["ipSecConnection"],
+			F:            sweepCoreIpSecConnectionResource,
+		})
+	}
 }
 
 func sweepCoreIpSecConnectionResource(compartment string) error {

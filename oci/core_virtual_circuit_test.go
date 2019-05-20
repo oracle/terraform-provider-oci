@@ -469,11 +469,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreVirtualCircuit", &resource.Sweeper{
-		Name:         "CoreVirtualCircuit",
-		Dependencies: DependencyGraph["virtualCircuit"],
-		F:            sweepCoreVirtualCircuitResource,
-	})
+	if !inSweeperExcludeList("CoreVirtualCircuit") {
+		resource.AddTestSweepers("CoreVirtualCircuit", &resource.Sweeper{
+			Name:         "CoreVirtualCircuit",
+			Dependencies: DependencyGraph["virtualCircuit"],
+			F:            sweepCoreVirtualCircuitResource,
+		})
+	}
 }
 
 func sweepCoreVirtualCircuitResource(compartment string) error {

@@ -265,11 +265,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreLocalPeeringGateway", &resource.Sweeper{
-		Name:         "CoreLocalPeeringGateway",
-		Dependencies: DependencyGraph["localPeeringGateway"],
-		F:            sweepCoreLocalPeeringGatewayResource,
-	})
+	if !inSweeperExcludeList("CoreLocalPeeringGateway") {
+		resource.AddTestSweepers("CoreLocalPeeringGateway", &resource.Sweeper{
+			Name:         "CoreLocalPeeringGateway",
+			Dependencies: DependencyGraph["localPeeringGateway"],
+			F:            sweepCoreLocalPeeringGatewayResource,
+		})
+	}
 }
 
 func sweepCoreLocalPeeringGatewayResource(compartment string) error {

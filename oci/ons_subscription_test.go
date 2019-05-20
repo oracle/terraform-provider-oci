@@ -225,11 +225,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("OnsSubscription", &resource.Sweeper{
-		Name:         "OnsSubscription",
-		Dependencies: DependencyGraph["subscription"],
-		F:            sweepOnsSubscriptionResource,
-	})
+	if !inSweeperExcludeList("OnsSubscription") {
+		resource.AddTestSweepers("OnsSubscription", &resource.Sweeper{
+			Name:         "OnsSubscription",
+			Dependencies: DependencyGraph["subscription"],
+			F:            sweepOnsSubscriptionResource,
+		})
+	}
 }
 
 func sweepOnsSubscriptionResource(compartment string) error {

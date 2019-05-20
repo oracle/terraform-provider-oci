@@ -168,11 +168,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreAppCatalogSubscription", &resource.Sweeper{
-		Name:         "CoreAppCatalogSubscription",
-		Dependencies: DependencyGraph["appCatalogSubscription"],
-		F:            sweepCoreAppCatalogSubscriptionResource,
-	})
+	if !inSweeperExcludeList("CoreAppCatalogSubscription") {
+		resource.AddTestSweepers("CoreAppCatalogSubscription", &resource.Sweeper{
+			Name:         "CoreAppCatalogSubscription",
+			Dependencies: DependencyGraph["appCatalogSubscription"],
+			F:            sweepCoreAppCatalogSubscriptionResource,
+		})
+	}
 }
 
 func sweepCoreAppCatalogSubscriptionResource(compartment string) error {

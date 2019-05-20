@@ -179,11 +179,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("LoadBalancerPathRouteSet", &resource.Sweeper{
-		Name:         "LoadBalancerPathRouteSet",
-		Dependencies: DependencyGraph["pathRouteSet"],
-		F:            sweepLoadBalancerPathRouteSetResource,
-	})
+	if !inSweeperExcludeList("LoadBalancerPathRouteSet") {
+		resource.AddTestSweepers("LoadBalancerPathRouteSet", &resource.Sweeper{
+			Name:         "LoadBalancerPathRouteSet",
+			Dependencies: DependencyGraph["pathRouteSet"],
+			F:            sweepLoadBalancerPathRouteSetResource,
+		})
+	}
 }
 
 func sweepLoadBalancerPathRouteSetResource(compartment string) error {

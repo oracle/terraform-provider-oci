@@ -248,11 +248,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreVcn", &resource.Sweeper{
-		Name:         "CoreVcn",
-		Dependencies: DependencyGraph["vcn"],
-		F:            sweepCoreVcnResource,
-	})
+	if !inSweeperExcludeList("CoreVcn") {
+		resource.AddTestSweepers("CoreVcn", &resource.Sweeper{
+			Name:         "CoreVcn",
+			Dependencies: DependencyGraph["vcn"],
+			F:            sweepCoreVcnResource,
+		})
+	}
 }
 
 func sweepCoreVcnResource(compartment string) error {

@@ -419,11 +419,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("AutoscalingAutoScalingConfiguration", &resource.Sweeper{
-		Name:         "AutoscalingAutoScalingConfiguration",
-		Dependencies: DependencyGraph["autoScalingConfiguration"],
-		F:            sweepAutoscalingAutoScalingConfigurationResource,
-	})
+	if !inSweeperExcludeList("AutoscalingAutoScalingConfiguration") {
+		resource.AddTestSweepers("AutoscalingAutoScalingConfiguration", &resource.Sweeper{
+			Name:         "AutoscalingAutoScalingConfiguration",
+			Dependencies: DependencyGraph["autoScalingConfiguration"],
+			F:            sweepAutoscalingAutoScalingConfigurationResource,
+		})
+	}
 }
 
 func sweepAutoscalingAutoScalingConfigurationResource(compartment string) error {

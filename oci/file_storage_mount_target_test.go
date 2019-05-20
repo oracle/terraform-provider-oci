@@ -255,11 +255,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("FileStorageMountTarget", &resource.Sweeper{
-		Name:         "FileStorageMountTarget",
-		Dependencies: DependencyGraph["mountTarget"],
-		F:            sweepFileStorageMountTargetResource,
-	})
+	if !inSweeperExcludeList("FileStorageMountTarget") {
+		resource.AddTestSweepers("FileStorageMountTarget", &resource.Sweeper{
+			Name:         "FileStorageMountTarget",
+			Dependencies: DependencyGraph["mountTarget"],
+			F:            sweepFileStorageMountTargetResource,
+		})
+	}
 }
 
 func sweepFileStorageMountTargetResource(compartment string) error {

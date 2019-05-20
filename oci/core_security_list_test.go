@@ -541,11 +541,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreSecurityList", &resource.Sweeper{
-		Name:         "CoreSecurityList",
-		Dependencies: DependencyGraph["securityList"],
-		F:            sweepCoreSecurityListResource,
-	})
+	if !inSweeperExcludeList("CoreSecurityList") {
+		resource.AddTestSweepers("CoreSecurityList", &resource.Sweeper{
+			Name:         "CoreSecurityList",
+			Dependencies: DependencyGraph["securityList"],
+			F:            sweepCoreSecurityListResource,
+		})
+	}
 }
 
 func sweepCoreSecurityListResource(compartment string) error {

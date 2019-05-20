@@ -216,11 +216,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("ObjectStoragePreauthenticatedRequest", &resource.Sweeper{
-		Name:         "ObjectStoragePreauthenticatedRequest",
-		Dependencies: DependencyGraph["preauthenticatedRequest"],
-		F:            sweepObjectStoragePreauthenticatedRequestResource,
-	})
+	if !inSweeperExcludeList("ObjectStoragePreauthenticatedRequest") {
+		resource.AddTestSweepers("ObjectStoragePreauthenticatedRequest", &resource.Sweeper{
+			Name:         "ObjectStoragePreauthenticatedRequest",
+			Dependencies: DependencyGraph["preauthenticatedRequest"],
+			F:            sweepObjectStoragePreauthenticatedRequestResource,
+		})
+	}
 }
 
 func sweepObjectStoragePreauthenticatedRequestResource(compartment string) error {

@@ -192,11 +192,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreVnicAttachment", &resource.Sweeper{
-		Name:         "CoreVnicAttachment",
-		Dependencies: DependencyGraph["vnicAttachment"],
-		F:            sweepCoreVnicAttachmentResource,
-	})
+	if !inSweeperExcludeList("CoreVnicAttachment") {
+		resource.AddTestSweepers("CoreVnicAttachment", &resource.Sweeper{
+			Name:         "CoreVnicAttachment",
+			Dependencies: DependencyGraph["vnicAttachment"],
+			F:            sweepCoreVnicAttachmentResource,
+		})
+	}
 }
 
 func sweepCoreVnicAttachmentResource(compartment string) error {

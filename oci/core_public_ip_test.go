@@ -413,11 +413,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CorePublicIp", &resource.Sweeper{
-		Name:         "CorePublicIp",
-		Dependencies: DependencyGraph["publicIp"],
-		F:            sweepCorePublicIpResource,
-	})
+	if !inSweeperExcludeList("CorePublicIp") {
+		resource.AddTestSweepers("CorePublicIp", &resource.Sweeper{
+			Name:         "CorePublicIp",
+			Dependencies: DependencyGraph["publicIp"],
+			F:            sweepCorePublicIpResource,
+		})
+	}
 }
 
 func sweepCorePublicIpResource(compartment string) error {
