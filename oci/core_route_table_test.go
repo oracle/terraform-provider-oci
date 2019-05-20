@@ -403,11 +403,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreRouteTable", &resource.Sweeper{
-		Name:         "CoreRouteTable",
-		Dependencies: DependencyGraph["routeTable"],
-		F:            sweepCoreRouteTableResource,
-	})
+	if !inSweeperExcludeList("CoreRouteTable") {
+		resource.AddTestSweepers("CoreRouteTable", &resource.Sweeper{
+			Name:         "CoreRouteTable",
+			Dependencies: DependencyGraph["routeTable"],
+			F:            sweepCoreRouteTableResource,
+		})
+	}
 }
 
 func sweepCoreRouteTableResource(compartment string) error {

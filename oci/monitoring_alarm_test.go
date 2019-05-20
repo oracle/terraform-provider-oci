@@ -314,11 +314,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("MonitoringAlarm", &resource.Sweeper{
-		Name:         "MonitoringAlarm",
-		Dependencies: DependencyGraph["alarm"],
-		F:            sweepMonitoringAlarmResource,
-	})
+	if !inSweeperExcludeList("MonitoringAlarm") {
+		resource.AddTestSweepers("MonitoringAlarm", &resource.Sweeper{
+			Name:         "MonitoringAlarm",
+			Dependencies: DependencyGraph["alarm"],
+			F:            sweepMonitoringAlarmResource,
+		})
+	}
 }
 
 func sweepMonitoringAlarmResource(compartment string) error {

@@ -246,11 +246,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("OnsNotificationTopic", &resource.Sweeper{
-		Name:         "OnsNotificationTopic",
-		Dependencies: DependencyGraph["notificationTopic"],
-		F:            sweepOnsNotificationTopicResource,
-	})
+	if !inSweeperExcludeList("OnsNotificationTopic") {
+		resource.AddTestSweepers("OnsNotificationTopic", &resource.Sweeper{
+			Name:         "OnsNotificationTopic",
+			Dependencies: DependencyGraph["notificationTopic"],
+			F:            sweepOnsNotificationTopicResource,
+		})
+	}
 }
 
 func sweepOnsNotificationTopicResource(compartment string) error {

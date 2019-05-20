@@ -507,11 +507,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("DnsSteeringPolicy", &resource.Sweeper{
-		Name:         "DnsSteeringPolicy",
-		Dependencies: DependencyGraph["steeringPolicy"],
-		F:            sweepDnsSteeringPolicyResource,
-	})
+	if !inSweeperExcludeList("DnsSteeringPolicy") {
+		resource.AddTestSweepers("DnsSteeringPolicy", &resource.Sweeper{
+			Name:         "DnsSteeringPolicy",
+			Dependencies: DependencyGraph["steeringPolicy"],
+			F:            sweepDnsSteeringPolicyResource,
+		})
+	}
 }
 
 func sweepDnsSteeringPolicyResource(compartment string) error {

@@ -201,11 +201,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreRemotePeeringConnection", &resource.Sweeper{
-		Name:         "CoreRemotePeeringConnection",
-		Dependencies: DependencyGraph["remotePeeringConnection"],
-		F:            sweepCoreRemotePeeringConnectionResource,
-	})
+	if !inSweeperExcludeList("CoreRemotePeeringConnection") {
+		resource.AddTestSweepers("CoreRemotePeeringConnection", &resource.Sweeper{
+			Name:         "CoreRemotePeeringConnection",
+			Dependencies: DependencyGraph["remotePeeringConnection"],
+			F:            sweepCoreRemotePeeringConnectionResource,
+		})
+	}
 }
 
 func sweepCoreRemotePeeringConnectionResource(compartment string) error {

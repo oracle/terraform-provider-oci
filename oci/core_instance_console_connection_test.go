@@ -166,11 +166,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreInstanceConsoleConnection", &resource.Sweeper{
-		Name:         "CoreInstanceConsoleConnection",
-		Dependencies: DependencyGraph["instanceConsoleConnection"],
-		F:            sweepCoreInstanceConsoleConnectionResource,
-	})
+	if !inSweeperExcludeList("CoreInstanceConsoleConnection") {
+		resource.AddTestSweepers("CoreInstanceConsoleConnection", &resource.Sweeper{
+			Name:         "CoreInstanceConsoleConnection",
+			Dependencies: DependencyGraph["instanceConsoleConnection"],
+			F:            sweepCoreInstanceConsoleConnectionResource,
+		})
+	}
 }
 
 func sweepCoreInstanceConsoleConnectionResource(compartment string) error {

@@ -150,11 +150,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("LoadBalancerCertificate", &resource.Sweeper{
-		Name:         "LoadBalancerCertificate",
-		Dependencies: DependencyGraph["certificate"],
-		F:            sweepLoadBalancerCertificateResource,
-	})
+	if !inSweeperExcludeList("LoadBalancerCertificate") {
+		resource.AddTestSweepers("LoadBalancerCertificate", &resource.Sweeper{
+			Name:         "LoadBalancerCertificate",
+			Dependencies: DependencyGraph["certificate"],
+			F:            sweepLoadBalancerCertificateResource,
+		})
+	}
 }
 
 func sweepLoadBalancerCertificateResource(compartment string) error {

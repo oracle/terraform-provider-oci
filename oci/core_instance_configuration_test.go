@@ -440,11 +440,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreInstanceConfiguration", &resource.Sweeper{
-		Name:         "CoreInstanceConfiguration",
-		Dependencies: DependencyGraph["instanceConfiguration"],
-		F:            sweepCoreInstanceConfigurationResource,
-	})
+	if !inSweeperExcludeList("CoreInstanceConfiguration") {
+		resource.AddTestSweepers("CoreInstanceConfiguration", &resource.Sweeper{
+			Name:         "CoreInstanceConfiguration",
+			Dependencies: DependencyGraph["instanceConfiguration"],
+			F:            sweepCoreInstanceConfigurationResource,
+		})
+	}
 }
 
 func sweepCoreInstanceConfigurationResource(compartment string) error {
