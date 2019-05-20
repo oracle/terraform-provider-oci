@@ -7,6 +7,7 @@
 
 ### Fixed
 - Fix for dbSystem `db_version` causing unnecessary diffs on subsequent applies
+- Fix for database `db_backup_config` causing unnecessary diffs on subsequent applies.
 
 ## 3.25.0 (May 15, 2019)
 
