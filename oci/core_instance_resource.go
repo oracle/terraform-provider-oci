@@ -44,7 +44,6 @@ func CoreInstanceResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"shape": {
 				Type:     schema.TypeString,
@@ -648,6 +647,15 @@ func (s *CoreInstanceResourceCrud) Get() error {
 }
 
 func (s *CoreInstanceResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_core.UpdateInstanceRequest{}
 
 	if agentConfig, ok := s.D.GetOkExists("agent_config"); ok {
@@ -1275,4 +1283,22 @@ func (s *CoreInstanceResourceCrud) getBootVolume() (*oci_core.BootVolume, error)
 	}
 
 	return &bootVolumeResponse.BootVolume, nil
+}
+
+func (s *CoreInstanceResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangeInstanceCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.InstanceId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.ChangeInstanceCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }
