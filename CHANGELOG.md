@@ -1,4 +1,8 @@
 ## 3.31.0 (Unreleased)
+
+### Added
+- Support for moving `email sender` resource between compartments
+
 ## 3.30.0 (June 19, 2019)
 
 ### Added
