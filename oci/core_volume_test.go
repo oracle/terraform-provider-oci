@@ -601,11 +601,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreVolume", &resource.Sweeper{
-		Name:         "CoreVolume",
-		Dependencies: DependencyGraph["volume"],
-		F:            sweepCoreVolumeResource,
-	})
+	if !inSweeperExcludeList("CoreVolume") {
+		resource.AddTestSweepers("CoreVolume", &resource.Sweeper{
+			Name:         "CoreVolume",
+			Dependencies: DependencyGraph["volume"],
+			F:            sweepCoreVolumeResource,
+		})
+	}
 }
 
 func sweepCoreVolumeResource(compartment string) error {

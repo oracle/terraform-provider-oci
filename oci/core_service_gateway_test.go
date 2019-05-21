@@ -235,11 +235,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreServiceGateway", &resource.Sweeper{
-		Name:         "CoreServiceGateway",
-		Dependencies: DependencyGraph["serviceGateway"],
-		F:            sweepCoreServiceGatewayResource,
-	})
+	if !inSweeperExcludeList("CoreServiceGateway") {
+		resource.AddTestSweepers("CoreServiceGateway", &resource.Sweeper{
+			Name:         "CoreServiceGateway",
+			Dependencies: DependencyGraph["serviceGateway"],
+			F:            sweepCoreServiceGatewayResource,
+		})
+	}
 }
 
 func sweepCoreServiceGatewayResource(compartment string) error {

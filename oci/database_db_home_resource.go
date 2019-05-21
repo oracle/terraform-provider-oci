@@ -185,10 +185,11 @@ func DatabaseDbHomeResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"db_version": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: NewIsPrefixOfOldDiffSuppress,
 			},
 
 			// Optional
@@ -660,7 +661,7 @@ func (s *DatabaseDbHomeResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat s
 	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
 		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
-			tmp, err := s.mapToDbBackupConfig(fieldKeyFormatNextLevel)
+			tmp, err := s.mapToUpdateDbBackupConfig(fieldKeyFormatNextLevel)
 			if err != nil {
 				return result, err
 			}
@@ -705,7 +706,8 @@ func (s *DatabaseDbHomeResourceCrud) CreateDatabaseFromBackupDetailsToMap(obj *o
 	return result
 }
 
-func (s *DatabaseDbHomeResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
+// We cannot use the same function we use in create because the HasChanged check needed for the update to succeed interferes with the Create functionality
+func (s *DatabaseDbHomeResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
 	result := oci_database.DbBackupConfig{}
 
 	// Service does not allow to update auto_backup_enabled and recovery_window_in_days at the same time so we must have the HasChanged check
@@ -715,6 +717,22 @@ func (s *DatabaseDbHomeResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) 
 	}
 
 	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")) {
+		tmp := recoveryWindowInDays.(int)
+		result.RecoveryWindowInDays = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDbHomeResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
+	result := oci_database.DbBackupConfig{}
+
+	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok {
+		tmp := autoBackupEnabled.(bool)
+		result.AutoBackupEnabled = &tmp
+	}
+
+	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok {
 		tmp := recoveryWindowInDays.(int)
 		result.RecoveryWindowInDays = &tmp
 	}

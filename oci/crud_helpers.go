@@ -233,6 +233,10 @@ func CreateDBSystemResource(d *schema.ResourceData, sync ResourceCreator) error 
 	}
 	if stateful, ok := sync.(StatefullyCreatedResource); ok {
 		if e := waitForStateRefresh(stateful, timeout, "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
+			if setDataErr := sync.SetData(); setDataErr != nil {
+				log.Printf("[ERROR] error setting data after waitForStateRefresh() error: %v", setDataErr)
+			}
 			return e
 		}
 	}
@@ -270,6 +274,10 @@ func CreateResource(d *schema.ResourceData, sync ResourceCreator) error {
 				// Remove resource from state if asynchronous work request has failed so that it is recreated on next apply
 				// TODO: automatic retry on WorkRequestFailed
 				sync.VoidState()
+			}
+			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
+			if setDataErr := sync.SetData(); setDataErr != nil {
+				log.Printf("[ERROR] error setting data after waitForStateRefresh() error: %v", setDataErr)
 			}
 			return e
 		}
@@ -436,7 +444,11 @@ func FilterMissingResourceError(sync ResourceVoider, err *error) {
 
 // In the Exadata case the service return the hostname provided by the service with a suffix
 func dbSystemHostnameDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
-	return EqualIgnoreCaseSuppressDiff(key, old, new, d) || strings.HasPrefix(strings.ToLower(old), strings.ToLower(new))
+	return EqualIgnoreCaseSuppressDiff(key, old, new, d) || NewIsPrefixOfOldDiffSuppress(key, old, new, d)
+}
+
+func NewIsPrefixOfOldDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+	return strings.HasPrefix(strings.ToLower(old), strings.ToLower(new))
 }
 
 func EqualIgnoreCaseSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
@@ -622,4 +634,25 @@ func convertResourceFieldsToDatasourceFields(resourceSchema *schema.Resource) *s
 	}
 
 	return resourceSchema
+}
+
+func getRetryPolicyWithAdditionalretryCondition(timeout time.Duration, retryConditionFunction func(oci_common.OCIOperationResponse) bool, service string) *oci_common.RetryPolicy {
+	startTime := time.Now()
+	// wait for status of the database to not be UPDATING
+	return &oci_common.RetryPolicy{
+		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
+			if shouldRetry(response, false, service, startTime) {
+				return true
+			}
+			if retryConditionFunction(response) {
+				timeWaited := getElapsedRetryDuration(startTime)
+				return timeWaited < timeout
+			}
+			return false
+		},
+		NextDuration: func(response oci_common.OCIOperationResponse) time.Duration {
+			return getRetryBackoffDuration(response, false, service, startTime)
+		},
+		MaximumNumberAttempts: 0,
+	}
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package objectstorage
@@ -44,7 +44,10 @@ type PutObjectRequest struct {
 	// 100-continue
 	Expect *string `mandatory:"false" contributesTo:"header" name:"Expect"`
 
-	// The base-64 encoded MD5 hash of the body.
+	// The base-64 encoded MD5 hash of the body. If the Content-MD5 header is present, Object Storage performs an integrity check
+	// on the body of the HTTP request by computing the MD5 hash for the body and comparing it to the MD5 hash supplied in the header.
+	// If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content MD5 error is returned with the message:
+	// "The computed MD5 of the request body (ACTUAL_MD5) does not match the Content-MD5 header (HEADER_MD5)"
 	ContentMD5 *string `mandatory:"false" contributesTo:"header" name:"Content-MD5"`
 
 	// The content type of the object.  Defaults to 'application/octet-stream' if not overridden during the PutObject call.

@@ -5,6 +5,8 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -81,4 +83,17 @@ func getAvalabilityDomains(compartmentId string) (map[string]string, error) {
 		availabilityDomains[*ad.Id] = *ad.Name
 	}
 	return availabilityDomains, nil
+}
+
+func inSweeperExcludeList(sweeperName string) bool {
+	excludeListSweeper := strings.Split(getEnvSettingWithBlankDefault("sweep_exclude_list"), ",")
+
+	for _, sweeper := range excludeListSweeper {
+		if strings.EqualFold(strings.Trim(sweeper, " "), sweeperName) {
+			log.Printf("[DEBUG] Skip sweeper for %s", sweeperName)
+			return true
+		}
+	}
+
+	return false
 }

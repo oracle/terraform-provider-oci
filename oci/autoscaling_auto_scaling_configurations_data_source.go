@@ -102,9 +102,15 @@ func (s *AutoscalingAutoScalingConfigurationsDataSourceCrud) SetData() error {
 			autoScalingConfiguration["cool_down_in_seconds"] = *r.CoolDownInSeconds
 		}
 
+		if r.DefinedTags != nil {
+			autoScalingConfiguration["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			autoScalingConfiguration["display_name"] = *r.DisplayName
 		}
+
+		autoScalingConfiguration["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			autoScalingConfiguration["id"] = *r.Id

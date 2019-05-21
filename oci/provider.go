@@ -252,6 +252,8 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_core_internet_gateways":                     CoreInternetGatewaysDataSource(),
 		"oci_core_ipsec_config":                          CoreIpSecConnectionDeviceConfigDataSource(),
 		"oci_core_ipsec_connections":                     CoreIpSecConnectionsDataSource(),
+		"oci_core_ipsec_connection_tunnel":               CoreIpSecConnectionTunnelDataSource(),
+		"oci_core_ipsec_connection_tunnels":              CoreIpSecConnectionTunnelsDataSource(),
 		"oci_core_ipsec_status":                          CoreIpSecConnectionDeviceStatusDataSource(),
 		"oci_core_letter_of_authority":                   CoreLetterOfAuthorityDataSource(),
 		"oci_core_local_peering_gateways":                CoreLocalPeeringGatewaysDataSource(),

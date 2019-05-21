@@ -1,9 +1,13 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
 //
-// APIs for Networking Service, Compute Service, and Block Volume Service.
+// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
+// to manage resources such as virtual cloud networks (VCNs), compute instances, and
+// block storage volumes.
 //
 
 package core
@@ -26,8 +30,8 @@ type IngressSecurityRule struct {
 	// Allowed values:
 	//   * IP address range in CIDR notation. For example: `192.168.1.0/24`
 	//   * The `cidrBlock` value for a Service, if you're
-	//     setting up a security list rule for traffic coming from a particular service through
-	//     a service gateway. For example: `oci-phx-objectstorage`
+	//     setting up a security list rule for traffic coming from a particular `Service` through
+	//     a service gateway. For example: `oci-phx-objectstorage`.
 	Source *string `mandatory:"true" json:"source"`
 
 	// Optional and valid only for ICMP. Use to specify a particular ICMP type and code
@@ -51,7 +55,7 @@ type IngressSecurityRule struct {
 	//   * `CIDR_BLOCK`: If the rule's `source` is an IP address range in CIDR notation.
 	//   * `SERVICE_CIDR_BLOCK`: If the rule's `source` is the `cidrBlock` value for a
 	//     Service (the rule is for traffic coming from a
-	//     particular service through a service gateway).
+	//     particular `Service` through a service gateway).
 	SourceType IngressSecurityRuleSourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
 
 	// Optional and valid only for TCP. Use to specify particular destination ports for TCP rules.

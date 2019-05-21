@@ -436,11 +436,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("ObjectStorageObject", &resource.Sweeper{
-		Name:         "ObjectStorageObject",
-		Dependencies: DependencyGraph["object"],
-		F:            sweepObjectStorageObjectResource,
-	})
+	if !inSweeperExcludeList("ObjectStorageObject") {
+		resource.AddTestSweepers("ObjectStorageObject", &resource.Sweeper{
+			Name:         "ObjectStorageObject",
+			Dependencies: DependencyGraph["object"],
+			F:            sweepObjectStorageObjectResource,
+		})
+	}
 }
 
 func sweepObjectStorageObjectResource(compartment string) error {

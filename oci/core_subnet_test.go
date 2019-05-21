@@ -275,11 +275,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreSubnet", &resource.Sweeper{
-		Name:         "CoreSubnet",
-		Dependencies: DependencyGraph["subnet"],
-		F:            sweepCoreSubnetResource,
-	})
+	if !inSweeperExcludeList("CoreSubnet") {
+		resource.AddTestSweepers("CoreSubnet", &resource.Sweeper{
+			Name:         "CoreSubnet",
+			Dependencies: DependencyGraph["subnet"],
+			F:            sweepCoreSubnetResource,
+		})
+	}
 }
 
 func sweepCoreSubnetResource(compartment string) error {

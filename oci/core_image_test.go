@@ -229,11 +229,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreImage", &resource.Sweeper{
-		Name:         "CoreImage",
-		Dependencies: DependencyGraph["image"],
-		F:            sweepCoreImageResource,
-	})
+	if !inSweeperExcludeList("CoreImage") {
+		resource.AddTestSweepers("CoreImage", &resource.Sweeper{
+			Name:         "CoreImage",
+			Dependencies: DependencyGraph["image"],
+			F:            sweepCoreImageResource,
+		})
+	}
 }
 
 func sweepCoreImageResource(compartment string) error {

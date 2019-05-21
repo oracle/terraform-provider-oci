@@ -255,15 +255,19 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("BudgetBudget", &resource.Sweeper{
-		Name:         "BudgetBudget",
-		Dependencies: DependencyGraph["budget"],
-		F:            sweepBudgetBudgetResource,
-	})
+	if !inSweeperExcludeList("BudgetBudget") {
+		resource.AddTestSweepers("BudgetBudget", &resource.Sweeper{
+			Name:         "BudgetBudget",
+			Dependencies: DependencyGraph["budget"],
+			F:            sweepBudgetBudgetResource,
+		})
+	}
 }
 
 func sweepBudgetBudgetResource(compartment string) error {
 	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient
+	// BudgetBudgetResource can only run on root compartment
+	compartment = getEnvSettingWithBlankDefault("tenancy_ocid")
 	budgetIds, err := getBudgetIds(compartment)
 	if err != nil {
 		return err

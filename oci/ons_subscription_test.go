@@ -5,7 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"regexp"
 	"testing"
 	"time"
 
@@ -23,7 +22,7 @@ var (
 		generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Required, Create, subscriptionRepresentation)
 
 	SubscriptionResourceConfig = SubscriptionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation)
+		generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation)
 
 	subscriptionSingularDataSourceRepresentation = map[string]interface{}{
 		"subscription_id": Representation{repType: Required, create: `${oci_ons_subscription.test_subscription.id}`},
@@ -66,6 +65,8 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 	datasourceName := "data.oci_ons_subscriptions.test_subscriptions"
 	singularDatasourceName := "data.oci_ons_subscription.test_subscription"
 
+	var resId, resId2 string
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
@@ -82,7 +83,11 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
 					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "delivery_policy"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
 				),
 			},
 
@@ -101,9 +106,13 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
-					resource.TestCheckResourceAttr(resourceName, "state", "PENDING"),
+					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "delivery_policy"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
 				),
 			},
 
@@ -111,15 +120,31 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
 					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
-				ExpectError: regexp.MustCompile("Subscription(.*) is not active."),
-			},
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
+					resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
 
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_ons_subscriptions", "test_subscriptions", Optional, Create, subscriptionDataSourceRepresentation) +
+					generateDataSourceFromRepresentationMap("oci_ons_subscriptions", "test_subscriptions", Optional, Update, subscriptionDataSourceRepresentation) +
 					compartmentIdVariableStr + SubscriptionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create, subscriptionRepresentation),
+					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Update, subscriptionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "topic_id"),
@@ -145,15 +170,17 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "endpoint", "john.smith@example.com"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "EMAIL"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "state", "PENDING"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
 				),
 			},
 		},
 	})
 }
+
 func testAccCheckOnsSubscriptionDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := testAccProvider.Meta().(*OracleClients).notificationDataPlaneClient
@@ -198,11 +225,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("OnsSubscription", &resource.Sweeper{
-		Name:         "OnsSubscription",
-		Dependencies: DependencyGraph["subscription"],
-		F:            sweepOnsSubscriptionResource,
-	})
+	if !inSweeperExcludeList("OnsSubscription") {
+		resource.AddTestSweepers("OnsSubscription", &resource.Sweeper{
+			Name:         "OnsSubscription",
+			Dependencies: DependencyGraph["subscription"],
+			F:            sweepOnsSubscriptionResource,
+		})
+	}
 }
 
 func sweepOnsSubscriptionResource(compartment string) error {

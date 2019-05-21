@@ -241,11 +241,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("WaasCertificate", &resource.Sweeper{
-		Name:         "WaasCertificate",
-		Dependencies: DependencyGraph["certificate"],
-		F:            sweepWaasCertificateResource,
-	})
+	if !inSweeperExcludeList("WaasCertificate") {
+		resource.AddTestSweepers("WaasCertificate", &resource.Sweeper{
+			Name:         "WaasCertificate",
+			Dependencies: DependencyGraph["certificate"],
+			F:            sweepWaasCertificateResource,
+		})
+	}
 }
 
 func sweepWaasCertificateResource(compartment string) error {

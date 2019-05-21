@@ -249,11 +249,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreCrossConnect", &resource.Sweeper{
-		Name:         "CoreCrossConnect",
-		Dependencies: DependencyGraph["crossConnect"],
-		F:            sweepCoreCrossConnectResource,
-	})
+	if !inSweeperExcludeList("CoreCrossConnect") {
+		resource.AddTestSweepers("CoreCrossConnect", &resource.Sweeper{
+			Name:         "CoreCrossConnect",
+			Dependencies: DependencyGraph["crossConnect"],
+			F:            sweepCoreCrossConnectResource,
+		})
+	}
 }
 
 func sweepCoreCrossConnectResource(compartment string) error {

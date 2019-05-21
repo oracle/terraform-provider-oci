@@ -245,11 +245,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("HealthChecksPingMonitor", &resource.Sweeper{
-		Name:         "HealthChecksPingMonitor",
-		Dependencies: DependencyGraph["pingMonitor"],
-		F:            sweepHealthChecksPingMonitorResource,
-	})
+	if !inSweeperExcludeList("HealthChecksPingMonitor") {
+		resource.AddTestSweepers("HealthChecksPingMonitor", &resource.Sweeper{
+			Name:         "HealthChecksPingMonitor",
+			Dependencies: DependencyGraph["pingMonitor"],
+			F:            sweepHealthChecksPingMonitorResource,
+		})
+	}
 }
 
 func sweepHealthChecksPingMonitorResource(compartment string) error {

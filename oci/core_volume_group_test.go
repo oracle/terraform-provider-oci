@@ -283,11 +283,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreVolumeGroup", &resource.Sweeper{
-		Name:         "CoreVolumeGroup",
-		Dependencies: DependencyGraph["volumeGroup"],
-		F:            sweepCoreVolumeGroupResource,
-	})
+	if !inSweeperExcludeList("CoreVolumeGroup") {
+		resource.AddTestSweepers("CoreVolumeGroup", &resource.Sweeper{
+			Name:         "CoreVolumeGroup",
+			Dependencies: DependencyGraph["volumeGroup"],
+			F:            sweepCoreVolumeGroupResource,
+		})
+	}
 }
 
 func sweepCoreVolumeGroupResource(compartment string) error {

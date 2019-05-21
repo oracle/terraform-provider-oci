@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -14,7 +14,7 @@ type UpdateVolumeKmsKeyRequest struct {
 	// The OCID of the volume.
 	VolumeId *string `mandatory:"true" contributesTo:"path" name:"volumeId"`
 
-	// Update kms key id for the specific volume.
+	// Update the KMS key ID for the specified volume.
 	UpdateVolumeKmsKeyDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

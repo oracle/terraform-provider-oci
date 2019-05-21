@@ -193,11 +193,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreDrg", &resource.Sweeper{
-		Name:         "CoreDrg",
-		Dependencies: DependencyGraph["drg"],
-		F:            sweepCoreDrgResource,
-	})
+	if !inSweeperExcludeList("CoreDrg") {
+		resource.AddTestSweepers("CoreDrg", &resource.Sweeper{
+			Name:         "CoreDrg",
+			Dependencies: DependencyGraph["drg"],
+			F:            sweepCoreDrgResource,
+		})
+	}
 }
 
 func sweepCoreDrgResource(compartment string) error {

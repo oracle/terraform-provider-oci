@@ -257,11 +257,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("BudgetAlertRule", &resource.Sweeper{
-		Name:         "BudgetAlertRule",
-		Dependencies: DependencyGraph["alertRule"],
-		F:            sweepBudgetAlertRuleResource,
-	})
+	if !inSweeperExcludeList("BudgetAlertRule") {
+		resource.AddTestSweepers("BudgetAlertRule", &resource.Sweeper{
+			Name:         "BudgetAlertRule",
+			Dependencies: DependencyGraph["alertRule"],
+			F:            sweepBudgetAlertRuleResource,
+		})
+	}
 }
 
 func sweepBudgetAlertRuleResource(compartment string) error {
