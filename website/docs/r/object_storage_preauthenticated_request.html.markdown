@@ -32,7 +32,7 @@ resource "oci_objectstorage_preauthrequest" "test_preauthenticated_request" {
 
 The following arguments are supported:
 
-* `access_type` - (Required) The operation that can be performed on this resource.
+* `access_type` - (Required) The operation that can be performed on this resource. Allowed Values: `ObjectRead`, `ObjectWrite`, `ObjectReadWrite`, or `AnyObjectWrite`
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
 * `name` - (Required) A user-specified name for the pre-authenticated request. Names can be helpful in managing pre-authenticated requests.
 * `namespace` - (Required) The Object Storage namespace used for the request.
@@ -48,7 +48,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `access_type` - The operation that can be performed on this resource.
-* `access_uri` - The URI to embed in the URL when using the pre-authenticated request.
+* `access_uri` - The URI to embed in the URL `https://objectstorage.${var.region}.oraclecloud.com{var.access_uri}` when using the pre-authenticated request.
 * `bucket` - The name of the bucket.  Example: `my-new-bucket1` 
 * `id` - The unique identifier to use when directly addressing the pre-authenticated request.
 * `name` - The user-provided name of the pre-authenticated request.
