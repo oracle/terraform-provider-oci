@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## 5.7.0 - 2019-05-21
+### Added
+- Support for returning tags when listing instance configurations, instance pools, or autoscaling configurations in the Compute Autoscaling service
+- Support for getting the namespace of another tenancy than the caller's tenancy in the Object Storage service
+- Support for BGP dynamic routing and providing pre-shared secrets (PSKs) when establishing tunnels in the Networking service
+
 ## 5.6.0 - 2019-05-14
 ### Added
 - Support for the Seoul (ICN) region

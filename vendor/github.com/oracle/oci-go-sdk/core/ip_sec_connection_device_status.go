@@ -16,7 +16,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// IpSecConnectionDeviceStatus Status of the IPSec connection.
+// IpSecConnectionDeviceStatus Deprecated. For tunnel information, instead see
+// IPSecConnectionTunnel.
 type IpSecConnectionDeviceStatus struct {
 
 	// The OCID of the compartment containing the IPSec connection.
