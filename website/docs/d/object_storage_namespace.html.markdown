@@ -14,14 +14,26 @@ is a system-generated string assigned during account creation. For some older te
 the tenancy name in all lower-case letters. You cannot edit a namespace.
 
 GetNamespace returns the name of the Object Storage namespace for the user making the request.
+If an optional compartmentId query parameter is provided, GetNamespace returns the namespace name of the corresponding
+tenancy, provided the user has access to it.
 
 
 ## Example Usage
 
 ```hcl
 data "oci_objectstorage_namespace" "test_namespace" {
+
+	#Optional
+	compartment_id = "${var.compartment_id}"
 }
 ```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `compartment_id` - (Optional) This is an optional field representing the tenancy OCID or the compartment OCID within the tenancy whose Object Storage namespace name has to be retrieved. 
+
 
 ## Attributes Reference
 

@@ -165,15 +165,19 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("EmailSuppression", &resource.Sweeper{
-		Name:         "EmailSuppression",
-		Dependencies: DependencyGraph["suppression"],
-		F:            sweepEmailSuppressionResource,
-	})
+	if !inSweeperExcludeList("EmailSuppression") {
+		resource.AddTestSweepers("EmailSuppression", &resource.Sweeper{
+			Name:         "EmailSuppression",
+			Dependencies: DependencyGraph["suppression"],
+			F:            sweepEmailSuppressionResource,
+		})
+	}
 }
 
 func sweepEmailSuppressionResource(compartment string) error {
 	emailClient := GetTestClients(&schema.ResourceData{}).emailClient
+	// EmailSuppressionResource can only run on root compartment
+	compartment = getEnvSettingWithBlankDefault("tenancy_ocid")
 	suppressionIds, err := getSuppressionIds(compartment)
 	if err != nil {
 		return err

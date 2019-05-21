@@ -89,9 +89,15 @@ func (s *CoreInstanceConfigurationsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			instanceConfiguration["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			instanceConfiguration["display_name"] = *r.DisplayName
 		}
+
+		instanceConfiguration["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			instanceConfiguration["id"] = *r.Id

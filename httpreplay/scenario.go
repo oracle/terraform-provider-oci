@@ -11,6 +11,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"reflect"
 	"sort"
 	"strings"
 	"sync"
@@ -291,8 +292,19 @@ func (s *Scenario) GetInteractionWithQueryStringFromList(r Request, list []*Inte
 		var credit int
 		for m1Key, m1List := range m1 {
 			if m2List, ok := m2[m1Key]; ok {
-				if m1List[0] == m2List[0] {
-					credit++
+				if len(m1List) < 1 || len(m2List) < 1 || len(m1List) != len(m2List) {
+					continue
+				}
+
+				for i := range m1List {
+					m1SortedList := strings.Split(m1List[i], ",")
+					m2SortedList := strings.Split(m2List[i], ",")
+					sort.Strings(m1SortedList)
+					sort.Strings(m2SortedList)
+
+					if strings.EqualFold(strings.Join(m1SortedList, "_"), strings.Join(m2SortedList, "_")) {
+						credit++
+					}
 				}
 			}
 		}
@@ -493,16 +505,34 @@ func ConverRequestWithFullPath(r Request) (Request, error) {
 func updateFieldMap(req *Request, i *Interaction) {
 	if body, ok := req.BodyParsed.(jsonObj); ok {
 		if iBody, ok := i.Request.BodyParsed.(jsonObj); ok {
-			for key, unkVal := range body {
-				if oldVal, ok := iBody[key].(string); ok {
-					if val, ok := unkVal.(string); ok {
-						if strings.EqualFold(val, oldVal) == false { // .(string) {
-							fields[oldVal] = val
-						}
-					}
-				}
-			}
+			updateInternalFieldMap(iBody, body)
 		}
+	}
+}
+
+func updateInternalFieldMap(oldValue, newValue interface{}) {
+	if stringOldValue, ok := oldValue.(string); ok {
+		stringNewValue, _ := newValue.(string)
+		if strings.EqualFold(stringOldValue, stringNewValue) == false {
+			fields[stringOldValue] = stringNewValue
+		}
+	} else if mapOldValue, ok := oldValue.(jsonObj); ok {
+		mapNewValue, _ := newValue.(jsonObj)
+		for k, v := range mapOldValue {
+			updateInternalFieldMap(v, mapNewValue[k])
+		}
+	} else if mapOldValue, ok := oldValue.(map[string]interface{}); ok {
+		mapNewValue, _ := newValue.(map[string]interface{})
+		for k, v := range mapOldValue {
+			updateInternalFieldMap(v, mapNewValue[k])
+		}
+	} else if arrayOldValue, ok := oldValue.([]interface{}); ok {
+		arrayNewValue, _ := newValue.([]interface{})
+		for i := range arrayOldValue {
+			updateInternalFieldMap(arrayOldValue[i], arrayNewValue[i])
+		}
+	} else {
+		debugLogf("HttpReplay will ignore the type match for type %s", reflect.TypeOf(oldValue))
 	}
 }
 
@@ -522,6 +552,8 @@ func updateBody(body jsonObj) {
 					bodyValueHandle(body, strItem, key)
 				}
 			}
+		} else {
+			debugLogf("HttpReplay will ignore the type match for type %s, %v", reflect.TypeOf(unkVal), unkVal)
 		}
 	}
 }

@@ -1,9 +1,13 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
 //
-// APIs for Networking Service, Compute Service, and Block Volume Service.
+// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
+// to manage resources such as virtual cloud networks (VCNs), compute instances, and
+// block storage volumes.
 //
 
 package core
@@ -20,8 +24,8 @@ type EgressSecurityRule struct {
 	// Allowed values:
 	//   * IP address range in CIDR notation. For example: `192.168.1.0/24`
 	//   * The `cidrBlock` value for a Service, if you're
-	//     setting up a security list rule for traffic destined for a particular service through
-	//     a service gateway. For example: `oci-phx-objectstorage`
+	//     setting up a security list rule for traffic destined for a particular `Service` through
+	//     a service gateway. For example: `oci-phx-objectstorage`.
 	Destination *string `mandatory:"true" json:"destination"`
 
 	// The transport protocol. Specify either `all` or an IPv4 protocol number as
@@ -35,7 +39,7 @@ type EgressSecurityRule struct {
 	//   * `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
 	//   * `SERVICE_CIDR_BLOCK`: If the rule's `destination` is the `cidrBlock` value for a
 	//     Service (the rule is for traffic destined for a
-	//     particular service through a service gateway).
+	//     particular `Service` through a service gateway).
 	DestinationType EgressSecurityRuleDestinationTypeEnum `mandatory:"false" json:"destinationType,omitempty"`
 
 	// Optional and valid only for ICMP. Use to specify a particular ICMP type and code

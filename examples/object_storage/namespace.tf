@@ -4,7 +4,10 @@
  * This example file shows how to read and output the object storage namespace and namespace_metadata.
  */
 
-data "oci_objectstorage_namespace" "ns" {}
+data "oci_objectstorage_namespace" "ns" {
+  #Optional
+  compartment_id = "${var.compartment_ocid}"
+}
 
 output namespace {
   value = "${data.oci_objectstorage_namespace.ns.namespace}"

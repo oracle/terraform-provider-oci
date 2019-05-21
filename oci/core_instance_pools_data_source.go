@@ -106,9 +106,15 @@ func (s *CoreInstancePoolsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			instancePool["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			instancePool["display_name"] = *r.DisplayName
 		}
+
+		instancePool["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			instancePool["id"] = *r.Id

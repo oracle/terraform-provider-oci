@@ -445,11 +445,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("ContainerengineNodePool", &resource.Sweeper{
-		Name:         "ContainerengineNodePool",
-		Dependencies: DependencyGraph["nodePool"],
-		F:            sweepContainerengineNodePoolResource,
-	})
+	if !inSweeperExcludeList("ContainerengineNodePool") {
+		resource.AddTestSweepers("ContainerengineNodePool", &resource.Sweeper{
+			Name:         "ContainerengineNodePool",
+			Dependencies: DependencyGraph["nodePool"],
+			F:            sweepContainerengineNodePoolResource,
+		})
+	}
 }
 
 func sweepContainerengineNodePoolResource(compartment string) error {

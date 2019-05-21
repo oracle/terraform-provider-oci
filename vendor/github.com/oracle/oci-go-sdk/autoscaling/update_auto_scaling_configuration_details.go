@@ -1,9 +1,10 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Auto Scaling API
+// Autoscaling API
 //
-// Auto Scaling API spec
+// APIs for dynamically scaling Compute resources to meet application requirements.
+// For information about the Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
 //
 
 package autoscaling
@@ -28,10 +29,11 @@ type UpdateAutoScalingConfigurationDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// If the AutoScalingConfiguration is enabled
+	// Whether the autoscaling configuration is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// The minimum period of time between scaling actions. The default is 300 seconds.
+	// The minimum period of time to wait between scaling actions. The cooldown period gives the system time
+	// to stabilize before rescaling. The minimum value is 300 seconds, which is also the default.
 	CoolDownInSeconds *int `mandatory:"false" json:"coolDownInSeconds"`
 }
 

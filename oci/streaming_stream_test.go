@@ -246,11 +246,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("StreamingStream", &resource.Sweeper{
-		Name:         "StreamingStream",
-		Dependencies: DependencyGraph["stream"],
-		F:            sweepStreamingStreamResource,
-	})
+	if !inSweeperExcludeList("StreamingStream") {
+		resource.AddTestSweepers("StreamingStream", &resource.Sweeper{
+			Name:         "StreamingStream",
+			Dependencies: DependencyGraph["stream"],
+			F:            sweepStreamingStreamResource,
+		})
+	}
 }
 
 func sweepStreamingStreamResource(compartment string) error {

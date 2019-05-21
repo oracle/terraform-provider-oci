@@ -199,11 +199,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreConsoleHistory", &resource.Sweeper{
-		Name:         "CoreConsoleHistory",
-		Dependencies: DependencyGraph["consoleHistory"],
-		F:            sweepCoreConsoleHistoryResource,
-	})
+	if !inSweeperExcludeList("CoreConsoleHistory") {
+		resource.AddTestSweepers("CoreConsoleHistory", &resource.Sweeper{
+			Name:         "CoreConsoleHistory",
+			Dependencies: DependencyGraph["consoleHistory"],
+			F:            sweepCoreConsoleHistoryResource,
+		})
+	}
 }
 
 func sweepCoreConsoleHistoryResource(compartment string) error {

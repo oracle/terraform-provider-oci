@@ -224,11 +224,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreDhcpOptions", &resource.Sweeper{
-		Name:         "CoreDhcpOptions",
-		Dependencies: DependencyGraph["dhcpOptions"],
-		F:            sweepCoreDhcpOptionsResource,
-	})
+	if !inSweeperExcludeList("CoreDhcpOptions") {
+		resource.AddTestSweepers("CoreDhcpOptions", &resource.Sweeper{
+			Name:         "CoreDhcpOptions",
+			Dependencies: DependencyGraph["dhcpOptions"],
+			F:            sweepCoreDhcpOptionsResource,
+		})
+	}
 }
 
 func sweepCoreDhcpOptionsResource(compartment string) error {

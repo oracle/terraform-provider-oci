@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Object Storage Service API
@@ -36,7 +36,7 @@ func NewObjectStorageClientWithConfigurationProvider(configProvider common.Confi
 
 // SetRegion overrides the region of this client.
 func (client *ObjectStorageClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).Endpoint("objectstorage")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("objectstorage", "https://objectstorage.{region}.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -568,6 +568,8 @@ func (client ObjectStorageClient) getBucket(ctx context.Context, request common.
 // is a system-generated string assigned during account creation. For some older tenancies, the namespace string may be
 // the tenancy name in all lower-case letters. You cannot edit a namespace.
 // GetNamespace returns the name of the Object Storage namespace for the user making the request.
+// If an optional compartmentId query parameter is provided, GetNamespace returns the namespace name of the corresponding
+// tenancy, provided the user has access to it.
 func (client ObjectStorageClient) GetNamespace(ctx context.Context, request GetNamespaceRequest) (response GetNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -1,12 +1,12 @@
 ---
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_core_ip_sec_connections"
-sidebar_current: "docs-oci-datasource-core-ipsecs"
+page_title: "Oracle Cloud Infrastructure: oci_core_ipsec_connections"
+sidebar_current: "docs-oci-datasource-core-ipsec_connections"
 description: |-
   Provides the list of Ip Sec Connections in Oracle Cloud Infrastructure Core service
 ---
 
-# Data Source: oci_core_ip_sec_connections
+# Data Source: oci_core_ipsec_connections
 This data source provides the list of Ip Sec Connections in Oracle Cloud Infrastructure Core service.
 
 Lists the IPSec connections for the specified compartment. You can filter the

@@ -1,7 +1,7 @@
 DOC_SERVER_URL=https:\/\/docs.cloud.oracle.com
 
 GEN_TARGETS = identity core objectstorage loadbalancer database audit dns filestorage email containerengine resourcesearch keymanagement announcementsservice healthchecks waas autoscaling streaming ons monitoring resourcemanager budget ##SPECNAME##
-NON_GEN_TARGETS = common common/auth objectstorage/transfer
+NON_GEN_TARGETS = common common/auth objectstorage/transfer example
 TARGETS = $(NON_GEN_TARGETS) $(GEN_TARGETS)
 
 TARGETS_WITH_TESTS = common common/auth objectstorage/transfer
@@ -35,10 +35,15 @@ $(TARGETS_LINT): lint-%:%
 		(cd $< && $(GOLINT) $(LINT_FLAGS) .);\
 	fi
 
+# for sample code, only build them via 'go test -c'
 $(TARGETS_BUILD): build-%:%
 	@echo "building: $<"
-	@(cd $< && find . -name '*_integ_test.go' | xargs -I{} mv {} ../integtest)
-	@(cd $< && go build -v)
+	@if [ \( $< = example \) ]; then\
+		(cd $< && go test -c);\
+	else\
+		(cd $< && find . -name '*_integ_test.go' | xargs -I{} mv {} ../integtest);\
+		(cd $< && go build -v);\
+	fi
 
 $(TARGETS_TEST): test-%:%
 	@(cd $< && go test -v)

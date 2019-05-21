@@ -264,11 +264,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("DatabaseAutonomousDataWarehouse", &resource.Sweeper{
-		Name:         "DatabaseAutonomousDataWarehouse",
-		Dependencies: DependencyGraph["autonomousDataWarehouse"],
-		F:            sweepDatabaseAutonomousDataWarehouseResource,
-	})
+	if !inSweeperExcludeList("DatabaseAutonomousDataWarehouse") {
+		resource.AddTestSweepers("DatabaseAutonomousDataWarehouse", &resource.Sweeper{
+			Name:         "DatabaseAutonomousDataWarehouse",
+			Dependencies: DependencyGraph["autonomousDataWarehouse"],
+			F:            sweepDatabaseAutonomousDataWarehouseResource,
+		})
+	}
 }
 
 func sweepDatabaseAutonomousDataWarehouseResource(compartment string) error {

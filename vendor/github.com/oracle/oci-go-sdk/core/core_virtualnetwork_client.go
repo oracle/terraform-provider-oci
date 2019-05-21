@@ -1,9 +1,13 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
 //
-// APIs for Networking Service, Compute Service, and Block Volume Service.
+// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
+// to manage resources such as virtual cloud networks (VCNs), compute instances, and
+// block storage volumes.
 //
 
 package core
@@ -58,15 +62,15 @@ func (client *VirtualNetworkClient) ConfigurationProvider() *common.Configuratio
 	return client.config
 }
 
-// AttachServiceId Enables the specified service on the specified gateway. In other words, enables the service
-// gateway to send traffic to the specified service. You must also set up a route rule with the
-// service's `cidrBlock` as the rule's destination CIDR and the gateway as the rule's target.
-// See RouteTable.
-// **Note:** The `AttachServiceId` operation is an easy way to enable an individual service on
+// AttachServiceId Adds the specified Service to the list of enabled
+// `Service` objects for the specified gateway. You must also set up a route rule with the
+// `cidrBlock` of the `Service` as the rule's destination and the service gateway as the rule's
+// target. See RouteTable.
+// **Note:** The `AttachServiceId` operation is an easy way to add an individual `Service` to
 // the service gateway. Compare it with
-// UpdateServiceGateway, which also
-// lets you enable an individual service. However, with `UpdateServiceGateway`, you must specify
-// the *entire* list of services you want enabled on the service gateway.
+// UpdateServiceGateway, which replaces
+// the entire existing list of enabled `Service` objects with the list that you provide in the
+// `Update` call.
 func (client VirtualNetworkClient) AttachServiceId(ctx context.Context, request AttachServiceIdRequest) (response AttachServiceIdResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -618,8 +622,11 @@ func (client VirtualNetworkClient) createDrgAttachment(ctx context.Context, requ
 
 // CreateIPSecConnection Creates a new IPSec connection between the specified DRG and CPE. For more information, see
 // IPSec VPNs (https://docs.cloud.oracle.com/Content/Network/Tasks/managingIPsec.htm).
-// In the request, you must include at least one static route to the CPE object (you're allowed a maximum
-// of 10). For example: 10.0.8.0/16.
+// If you configure at least one tunnel to use static routing, then in the request you must provide
+// at least one valid static route (you're allowed a maximum of 10). For example: 10.0.0.0/16.
+// If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for
+// the static routes. For more information, see the important note in
+// IPSecConnection.
 // For the purposes of access control, you must provide the OCID of the compartment where you want the
 // IPSec connection to reside. Notice that the IPSec connection doesn't have to be in the same compartment
 // as the DRG, CPE, or other Networking Service components. If you're not sure which compartment to
@@ -630,13 +637,12 @@ func (client VirtualNetworkClient) createDrgAttachment(ctx context.Context, requ
 // You may optionally specify a *display name* for the IPSec connection, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
 // After creating the IPSec connection, you need to configure your on-premises router
-// with tunnel-specific information returned by
-// GetIPSecConnectionDeviceConfig.
-// For each tunnel, that operation gives you the IP address of Oracle's VPN headend and the shared secret
+// with tunnel-specific information. For tunnel status and the required configuration information, see:
+//   * IPSecConnectionTunnel
+//   * IPSecConnectionTunnelSharedSecret
+// For each tunnel, you need the IP address of Oracle's VPN headend and the shared secret
 // (that is, the pre-shared key). For more information, see
 // Configuring Your On-Premises Router for an IPSec VPN (https://docs.cloud.oracle.com/Content/Network/Tasks/configuringCPE.htm).
-// To get the status of the tunnels (whether they're up or down), use
-// GetIPSecConnectionDeviceStatus.
 func (client VirtualNetworkClient) CreateIPSecConnection(ctx context.Context, request CreateIPSecConnectionRequest) (response CreateIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2234,18 +2240,17 @@ func (client VirtualNetworkClient) deleteVirtualCircuit(ctx context.Context, req
 	return response, err
 }
 
-// DetachServiceId Disables the specified service on the specified gateway. In other words, stops the service
-// gateway from sending traffic to the specified service. You do not need to remove any route
-// rules that specify this service's `cidrBlock` as the destination CIDR. However, consider
-// removing the rules if your intent is to permanently disable use of the service through this
+// DetachServiceId Removes the specified Service from the list of enabled
+// `Service` objects for the specified gateway. You do not need to remove any route
+// rules that specify this `Service` object's `cidrBlock` as the destination CIDR. However, consider
+// removing the rules if your intent is to permanently disable use of the `Service` through this
 // service gateway.
-// **Note:** The `DetachServiceId` operation is an easy way to disable an individual service on
+// **Note:** The `DetachServiceId` operation is an easy way to remove an individual `Service` from
 // the service gateway. Compare it with
-// UpdateServiceGateway, which also
-// lets you disable an individual service. However, with `UpdateServiceGateway`, you must specify
-// the *entire* list of services you want enabled on the service gateway. `UpdateServiceGateway`
-// also lets you block all traffic through the service gateway without having to disable each of
-// the individual services.
+// UpdateServiceGateway, which replaces
+// the entire existing list of enabled `Service` objects with the list that you provide in the
+// `Update` call. `UpdateServiceGateway` also lets you block all traffic through the service
+// gateway without having to remove each of the individual `Service` objects.
 func (client VirtualNetworkClient) DetachServiceId(ctx context.Context, request DetachServiceIdRequest) (response DetachServiceIdResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2711,7 +2716,7 @@ func (client VirtualNetworkClient) getFastConnectProviderServiceKey(ctx context.
 
 // GetIPSecConnection Gets the specified IPSec connection's basic information, including the static routes for the
 // on-premises router. If you want the status of the connection (whether it's up or down), use
-// GetIPSecConnectionDeviceStatus.
+// GetIPSecConnectionTunnel.
 func (client VirtualNetworkClient) GetIPSecConnection(ctx context.Context, request GetIPSecConnectionRequest) (response GetIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2753,8 +2758,9 @@ func (client VirtualNetworkClient) getIPSecConnection(ctx context.Context, reque
 	return response, err
 }
 
-// GetIPSecConnectionDeviceConfig Gets the configuration information for the specified IPSec connection. For each tunnel, the
-// response includes the IP address of Oracle's VPN headend and the shared secret.
+// GetIPSecConnectionDeviceConfig Deprecated. To get tunnel information, instead use:
+// * GetIPSecConnectionTunnel
+// * GetIPSecConnectionTunnelSharedSecret
 func (client VirtualNetworkClient) GetIPSecConnectionDeviceConfig(ctx context.Context, request GetIPSecConnectionDeviceConfigRequest) (response GetIPSecConnectionDeviceConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2796,7 +2802,8 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceConfig(ctx context.Co
 	return response, err
 }
 
-// GetIPSecConnectionDeviceStatus Gets the status of the specified IPSec connection (whether it's up or down).
+// GetIPSecConnectionDeviceStatus Deprecated. To get the tunnel status, instead use
+// GetIPSecConnectionTunnel.
 func (client VirtualNetworkClient) GetIPSecConnectionDeviceStatus(ctx context.Context, request GetIPSecConnectionDeviceStatusRequest) (response GetIPSecConnectionDeviceStatusResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2826,6 +2833,93 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceStatus(ctx context.Co
 	}
 
 	var response GetIPSecConnectionDeviceStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetIPSecConnectionTunnel Gets the specified tunnel's information. The resulting object does not include the tunnel's
+// shared secret (pre-shared key). To retrieve that, use
+// GetIPSecConnectionTunnelSharedSecret.
+func (client VirtualNetworkClient) GetIPSecConnectionTunnel(ctx context.Context, request GetIPSecConnectionTunnelRequest) (response GetIPSecConnectionTunnelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getIPSecConnectionTunnel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetIPSecConnectionTunnelResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetIPSecConnectionTunnelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetIPSecConnectionTunnelResponse")
+	}
+	return
+}
+
+// getIPSecConnectionTunnel implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getIPSecConnectionTunnel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/ipsecConnections/{ipscId}/tunnels/{tunnelId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetIPSecConnectionTunnelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetIPSecConnectionTunnelSharedSecret Gets the specified tunnel's shared secret (pre-shared key). To get other information
+// about the tunnel, use GetIPSecConnectionTunnel.
+func (client VirtualNetworkClient) GetIPSecConnectionTunnelSharedSecret(ctx context.Context, request GetIPSecConnectionTunnelSharedSecretRequest) (response GetIPSecConnectionTunnelSharedSecretResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getIPSecConnectionTunnelSharedSecret, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetIPSecConnectionTunnelSharedSecretResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetIPSecConnectionTunnelSharedSecretResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetIPSecConnectionTunnelSharedSecretResponse")
+	}
+	return
+}
+
+// getIPSecConnectionTunnelSharedSecret implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getIPSecConnectionTunnelSharedSecret(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/ipsecConnections/{ipscId}/tunnels/{tunnelId}/sharedSecret")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetIPSecConnectionTunnelSharedSecretResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -3280,7 +3374,7 @@ func (client VirtualNetworkClient) getSecurityList(ctx context.Context, request 
 	return response, err
 }
 
-// GetService Gets the specified service's information.
+// GetService Gets the specified Service object.
 func (client VirtualNetworkClient) GetService(ctx context.Context, request GetServiceRequest) (response GetServiceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4011,6 +4105,48 @@ func (client VirtualNetworkClient) listFastConnectProviderVirtualCircuitBandwidt
 	return response, err
 }
 
+// ListIPSecConnectionTunnels Lists the tunnel information for the specified IPSec connection.
+func (client VirtualNetworkClient) ListIPSecConnectionTunnels(ctx context.Context, request ListIPSecConnectionTunnelsRequest) (response ListIPSecConnectionTunnelsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listIPSecConnectionTunnels, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListIPSecConnectionTunnelsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListIPSecConnectionTunnelsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListIPSecConnectionTunnelsResponse")
+	}
+	return
+}
+
+// listIPSecConnectionTunnels implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listIPSecConnectionTunnels(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/ipsecConnections/{ipscId}/tunnels")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListIPSecConnectionTunnelsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListIPSecConnections Lists the IPSec connections for the specified compartment. You can filter the
 // results by DRG or CPE.
 func (client VirtualNetworkClient) ListIPSecConnections(ctx context.Context, request ListIPSecConnectionsRequest) (response ListIPSecConnectionsResponse, err error) {
@@ -4463,7 +4599,8 @@ func (client VirtualNetworkClient) listServiceGateways(ctx context.Context, requ
 	return response, err
 }
 
-// ListServices Lists the available services that you can access through a service gateway in this region.
+// ListServices Lists the available Service objects that you can enable for a
+// service gateway in this region.
 func (client VirtualNetworkClient) ListServices(ctx context.Context, request ListServicesRequest) (response ListServicesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4973,8 +5110,9 @@ func (client VirtualNetworkClient) updateDrgAttachment(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateIPSecConnection Updates the display name or tags for the specified IPSec connection.
-// Avoid entering confidential information.
+// UpdateIPSecConnection Updates the specified IPSec connection.
+// To update an individual IPSec tunnel's attributes, use
+// UpdateIPSecConnectionTunnel.
 func (client VirtualNetworkClient) UpdateIPSecConnection(ctx context.Context, request UpdateIPSecConnectionRequest) (response UpdateIPSecConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5004,6 +5142,99 @@ func (client VirtualNetworkClient) updateIPSecConnection(ctx context.Context, re
 	}
 
 	var response UpdateIPSecConnectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateIPSecConnectionTunnel Updates the specified tunnel. This operation lets you change tunnel attributes such as the
+// routing type (BGP dynamic routing or static routing). Here are some important notes:
+//   * If you change the tunnel's routing type or BGP session configuration, the tunnel will go
+//     down while it's reprovisioned.
+//   * If you want to switch the tunnel's `routing` from `STATIC` to `BGP`, make sure the tunnel's
+//     BGP session configuration attributes have been set (BgpSessionInfo).
+//   * If you want to switch the tunnel's `routing` from `BGP` to `STATIC`, make sure the
+//     IPSecConnection already has at least one valid CIDR
+//     static route.
+func (client VirtualNetworkClient) UpdateIPSecConnectionTunnel(ctx context.Context, request UpdateIPSecConnectionTunnelRequest) (response UpdateIPSecConnectionTunnelResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateIPSecConnectionTunnel, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateIPSecConnectionTunnelResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateIPSecConnectionTunnelResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateIPSecConnectionTunnelResponse")
+	}
+	return
+}
+
+// updateIPSecConnectionTunnel implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateIPSecConnectionTunnel(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/ipsecConnections/{ipscId}/tunnels/{tunnelId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateIPSecConnectionTunnelResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateIPSecConnectionTunnelSharedSecret Updates the shared secret (pre-shared key) for the specified tunnel.
+// **Important:** If you change the shared secret, the tunnel will go down while it's reprovisioned.
+func (client VirtualNetworkClient) UpdateIPSecConnectionTunnelSharedSecret(ctx context.Context, request UpdateIPSecConnectionTunnelSharedSecretRequest) (response UpdateIPSecConnectionTunnelSharedSecretResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateIPSecConnectionTunnelSharedSecret, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateIPSecConnectionTunnelSharedSecretResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateIPSecConnectionTunnelSharedSecretResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateIPSecConnectionTunnelSharedSecretResponse")
+	}
+	return
+}
+
+// updateIPSecConnectionTunnelSharedSecret implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateIPSecConnectionTunnelSharedSecret(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/ipsecConnections/{ipscId}/tunnels/{tunnelId}/sharedSecret")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateIPSecConnectionTunnelSharedSecretResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

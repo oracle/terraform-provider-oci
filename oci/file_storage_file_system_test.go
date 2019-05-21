@@ -209,11 +209,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("FileStorageFileSystem", &resource.Sweeper{
-		Name:         "FileStorageFileSystem",
-		Dependencies: DependencyGraph["fileSystem"],
-		F:            sweepFileStorageFileSystemResource,
-	})
+	if !inSweeperExcludeList("FileStorageFileSystem") {
+		resource.AddTestSweepers("FileStorageFileSystem", &resource.Sweeper{
+			Name:         "FileStorageFileSystem",
+			Dependencies: DependencyGraph["fileSystem"],
+			F:            sweepFileStorageFileSystemResource,
+		})
+	}
 }
 
 func sweepFileStorageFileSystemResource(compartment string) error {

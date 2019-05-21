@@ -218,10 +218,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 
 						// Optional
 						"db_version": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: NewIsPrefixOfOldDiffSuppress,
 						},
 						"display_name": {
 							Type:     schema.TypeString,
@@ -764,6 +765,34 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 
 	s.Res = &response.DbSystem
 
+	// Wait for dbSystem to not be in updating state after the update. UpdateDatabase returns 409 if the dbSystem is in Updating state
+	// We cannot use the usual waitForState logic here because a Get() before the SetData() would interfere with the subsequent Database Update
+	getDbSystemRequest := oci_database.GetDbSystemRequest{}
+
+	getDbSystemRequest.DbSystemId = s.Res.Id
+
+	dbSystemUpdating := func(response oci_common.OCIOperationResponse) bool {
+		if getDbSystemResponse, ok := response.Response.(oci_database.GetDbSystemResponse); ok {
+			if getDbSystemResponse.LifecycleState == oci_database.DbSystemLifecycleStateUpdating {
+				return true
+			}
+		}
+		return false
+	}
+
+	getDbSystemRequest.RequestMetadata.RetryPolicy = getRetryPolicyWithAdditionalretryCondition(s.D.Timeout(schema.TimeoutUpdate), dbSystemUpdating, "database")
+	getDbSystemResponse, err := s.Client.GetDbSystem(context.Background(), getDbSystemRequest)
+	if err != nil {
+		// Do SetData here in case the service returns updated values immediately on the Update request that don't need to wait for the waitForState
+		err = s.SetData()
+		if err != nil {
+			log.Printf("[ERROR] error setting data after polling error on the dbSystem: %v", err)
+		}
+		return fmt.Errorf("[ERROR] unable to get dbSystem after the update: %v", err)
+	}
+
+	s.Res = &getDbSystemResponse.DbSystem
+
 	err = s.SetData()
 	if err != nil {
 		return fmt.Errorf("[ERROR] error setting data after dbsystem update but before database update: %v", err)
@@ -962,7 +991,7 @@ func (s *DatabaseDbSystemResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat
 	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
 		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
-			tmp, err := s.mapToDbBackupConfig(fieldKeyFormatNextLevel)
+			tmp, err := s.mapToUpdateDbBackupConfig(fieldKeyFormatNextLevel)
 			if err != nil {
 				return result, err
 			}
@@ -1333,7 +1362,8 @@ func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackup
 	return result
 }
 
-func (s *DatabaseDbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
+// We cannot use the same function we use in create because the HasChanged check needed for the update to succeed interferes with the Create functionality
+func (s *DatabaseDbSystemResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
 	result := oci_database.DbBackupConfig{}
 
 	// Service does not allow to update auto_backup_enabled and recovery_window_in_days at the same time so we must have the HasChanged check
@@ -1343,6 +1373,22 @@ func (s *DatabaseDbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string
 	}
 
 	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")) {
+		tmp := recoveryWindowInDays.(int)
+		result.RecoveryWindowInDays = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
+	result := oci_database.DbBackupConfig{}
+
+	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok {
+		tmp := autoBackupEnabled.(bool)
+		result.AutoBackupEnabled = &tmp
+	}
+
+	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok {
 		tmp := recoveryWindowInDays.(int)
 		result.RecoveryWindowInDays = &tmp
 	}

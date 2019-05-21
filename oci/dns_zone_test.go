@@ -329,11 +329,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("DnsZone", &resource.Sweeper{
-		Name:         "DnsZone",
-		Dependencies: DependencyGraph["zone"],
-		F:            sweepDnsZoneResource,
-	})
+	if !inSweeperExcludeList("DnsZone") {
+		resource.AddTestSweepers("DnsZone", &resource.Sweeper{
+			Name:         "DnsZone",
+			Dependencies: DependencyGraph["zone"],
+			F:            sweepDnsZoneResource,
+		})
+	}
 }
 
 func sweepDnsZoneResource(compartment string) error {

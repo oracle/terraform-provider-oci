@@ -185,11 +185,13 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	resource.AddTestSweepers("CoreVolumeAttachment", &resource.Sweeper{
-		Name:         "CoreVolumeAttachment",
-		Dependencies: DependencyGraph["volumeAttachment"],
-		F:            sweepCoreVolumeAttachmentResource,
-	})
+	if !inSweeperExcludeList("CoreVolumeAttachment") {
+		resource.AddTestSweepers("CoreVolumeAttachment", &resource.Sweeper{
+			Name:         "CoreVolumeAttachment",
+			Dependencies: DependencyGraph["volumeAttachment"],
+			F:            sweepCoreVolumeAttachmentResource,
+		})
+	}
 }
 
 func sweepCoreVolumeAttachmentResource(compartment string) error {
