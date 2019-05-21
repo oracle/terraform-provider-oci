@@ -16,7 +16,9 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// IpSecConnectionDeviceConfig Information about the IPSecConnection device configuration.
+// IpSecConnectionDeviceConfig Deprecated. For tunnel information, instead see:
+//   * IPSecConnectionTunnel
+//   * IPSecConnectionTunnelSharedSecret
 type IpSecConnectionDeviceConfig struct {
 
 	// The OCID of the compartment containing the IPSec connection.

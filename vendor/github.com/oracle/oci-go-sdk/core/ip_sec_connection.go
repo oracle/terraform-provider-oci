@@ -18,7 +18,19 @@ import (
 
 // IpSecConnection A connection between a DRG and CPE. This connection consists of multiple IPSec
 // tunnels. Creating this connection is one of the steps required when setting up
-// an IPSec VPN. For more information, see IPSec VPN (https://docs.cloud.oracle.com/Content/Network/Tasks/managingIPsec.htm).
+// an IPSec VPN.
+// **Important:**  Each tunnel in an IPSec connection can use either static routing or BGP dynamic
+// routing (see the IPSecConnectionTunnel object's
+// `routing` attribute). Originally only static routing was supported and
+// every IPSec connection was required to have at least one static route configured.
+// To maintain backward compatibility in the API when support for BPG dynamic routing was introduced,
+// the API accepts an empty list of static routes if you configure both of the IPSec tunnels to use
+// BGP dynamic routing. If you switch a tunnel's routing from `BGP` to `STATIC`, you must first
+// ensure that the IPSec connection is configured with at least one valid CIDR block static route.
+// Oracle uses the IPSec connection's static routes when routing a tunnel's traffic *only*
+// if that tunnel's `routing` attribute = `STATIC`. Otherwise the static routes are ignored.
+// For more information about the workflow for setting up an IPSec connection, see
+// IPSec VPN (https://docs.cloud.oracle.com/Content/Network/Tasks/managingIPsec.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized,
 // talk to an administrator. If you're an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
@@ -43,6 +55,10 @@ type IpSecConnection struct {
 
 	// Static routes to the CPE. The CIDR must not be a
 	// multicast address or class E address.
+	// Used for routing a given IPSec tunnel's traffic only if the tunnel
+	// is using static routing. If you configure at least one tunnel to use static routing, then
+	// you must provide at least one valid static route. If you configure both
+	// tunnels to use BGP dynamic routing, you can provide an empty list for the static routes.
 	//
 	// Example: `10.0.1.0/24`
 	StaticRoutes []string `mandatory:"true" json:"staticRoutes"`

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 package core
@@ -14,7 +14,7 @@ type GetIPSecConnectionTunnelSharedSecretRequest struct {
 	// The OCID of the IPSec connection.
 	IpscId *string `mandatory:"true" contributesTo:"path" name:"ipscId"`
 
-	// The OCID of the IPSec connection's tunnel.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the tunnel.
 	TunnelId *string `mandatory:"true" contributesTo:"path" name:"tunnelId"`
 
 	// Unique Oracle-assigned identifier for the request.

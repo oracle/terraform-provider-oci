@@ -1,9 +1,13 @@
-// Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
 // Core Services API
 //
-// APIs for Networking Service, Compute Service, and Block Volume Service.
+// API covering the Networking (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm),
+// Compute (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm), and
+// Block Volume (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/overview.htm) services. Use this API
+// to manage resources such as virtual cloud networks (VCNs), compute instances, and
+// block storage volumes.
 //
 
 package core
@@ -12,21 +16,27 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateIpSecConnectionTunnelDetails details need to create an IPSecConnection tunnel.
+// CreateIpSecConnectionTunnelDetails The representation of CreateIpSecConnectionTunnelDetails
 type CreateIpSecConnectionTunnelDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid
 	// entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// the routing strategy used for this tunnel, either static route or BGP.
+	// The type of routing to use for this tunnel (either BGP dynamic routing or static routing).
 	Routing CreateIpSecConnectionTunnelDetailsRoutingEnum `mandatory:"false" json:"routing,omitempty"`
 
-	// The shared secret of the IPSec tunnel.
-	// Example: `vFG2IF6TWq4UToUiLSRDoJEUs6j1c.p8G.dVQxiMfMO0yXMLi.lZTbYIWhGu4V8o`
+	// The shared secret (pre-shared key) to use for the IPSec tunnel. If you don't provide a value,
+	// Oracle generates a value for you. You can specify your own shared secret later if
+	// you like with UpdateIPSecConnectionTunnelSharedSecret.
+	// Example: `EXAMPLEToUis6j1c.p8G.dVQxcmdfMO0yXMLi.lZTbYCMDGu4V8o`
 	SharedSecret *string `mandatory:"false" json:"sharedSecret"`
 
-	// Information needed to establish a BGP Session on an interface.
+	// Information for establishing a BGP session for the IPSec tunnel. Required if the tunnel uses
+	// BGP dynamic routing.
+	// If the tunnel instead uses static routing, you may optionally provide
+	// this object and set an IP address for one or both ends of the IPSec tunnel for the purposes
+	// of troubleshooting or monitoring the tunnel.
 	BgpSessionConfig *CreateIpSecTunnelBgpSessionDetails `mandatory:"false" json:"bgpSessionConfig"`
 }
 
