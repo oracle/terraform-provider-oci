@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateMountTargetDetails The representation of CreateMountTargetDetails
+// CreateMountTargetDetails Details for creating the mount target.
 type CreateMountTargetDetails struct {
 
 	// The availability domain in which to create the mount target.

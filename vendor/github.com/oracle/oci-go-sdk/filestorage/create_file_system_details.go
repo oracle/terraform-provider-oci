@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateFileSystemDetails The representation of CreateFileSystemDetails
+// CreateFileSystemDetails Details for creating the file system.
 type CreateFileSystemDetails struct {
 
 	// The availability domain to create the file system in.

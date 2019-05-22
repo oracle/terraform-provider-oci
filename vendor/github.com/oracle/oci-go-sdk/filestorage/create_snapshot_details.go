@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateSnapshotDetails The representation of CreateSnapshotDetails
+// CreateSnapshotDetails Details for creating the snapshot.
 type CreateSnapshotDetails struct {
 
 	// The OCID of the file system to take a snapshot of.
