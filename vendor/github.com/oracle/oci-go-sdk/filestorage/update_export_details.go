@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateExportDetails The representation of UpdateExportDetails
+// UpdateExportDetails Details for updating the export.
 type UpdateExportDetails struct {
 
 	// New export options for the export.

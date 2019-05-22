@@ -1,6 +1,6 @@
 DOC_SERVER_URL=https:\/\/docs.cloud.oracle.com
 
-GEN_TARGETS = identity core objectstorage loadbalancer database audit dns filestorage email containerengine resourcesearch keymanagement announcementsservice healthchecks waas autoscaling streaming ons monitoring resourcemanager budget ##SPECNAME##
+GEN_TARGETS = identity core objectstorage loadbalancer database audit dns filestorage email containerengine resourcesearch keymanagement announcementsservice healthchecks waas autoscaling streaming ons monitoring resourcemanager budget workrequests ##SPECNAME##
 NON_GEN_TARGETS = common common/auth objectstorage/transfer example
 TARGETS = $(NON_GEN_TARGETS) $(GEN_TARGETS)
 

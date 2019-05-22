@@ -8,14 +8,14 @@ import (
 	"net/http"
 )
 
-// UpdateSnapshotRequest wrapper for the UpdateSnapshot operation
-type UpdateSnapshotRequest struct {
+// ChangeMountTargetCompartmentRequest wrapper for the ChangeMountTargetCompartment operation
+type ChangeMountTargetCompartmentRequest struct {
 
-	// The OCID of the snapshot.
-	SnapshotId *string `mandatory:"true" contributesTo:"path" name:"snapshotId"`
+	// The OCID of the mount target.
+	MountTargetId *string `mandatory:"true" contributesTo:"path" name:"mountTargetId"`
 
-	// Details object for updating a snapshot.
-	UpdateSnapshotDetails `contributesTo:"body"`
+	// Details for changing the compartment.
+	ChangeMountTargetCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
@@ -33,43 +33,35 @@ type UpdateSnapshotRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request UpdateSnapshotRequest) String() string {
+func (request ChangeMountTargetCompartmentRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request UpdateSnapshotRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ChangeMountTargetCompartmentRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateSnapshotRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeMountTargetCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// UpdateSnapshotResponse wrapper for the UpdateSnapshot operation
-type UpdateSnapshotResponse struct {
+// ChangeMountTargetCompartmentResponse wrapper for the ChangeMountTargetCompartment operation
+type ChangeMountTargetCompartmentResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The Snapshot instance
-	Snapshot `presentIn:"body"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
-
-	// Unique Oracle-assigned identifier for the request. If
-	// you need to contact Oracle about a particular request,
-	// please provide the request ID.
+	// Unique Oracle-assigned identifier for the request.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response UpdateSnapshotResponse) String() string {
+func (response ChangeMountTargetCompartmentResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response UpdateSnapshotResponse) HTTPResponse() *http.Response {
+func (response ChangeMountTargetCompartmentResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
