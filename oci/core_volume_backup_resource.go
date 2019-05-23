@@ -47,6 +47,12 @@ func CoreVolumeBackupResource() *schema.Resource {
 							Required: true,
 							ForceNew: true,
 						},
+						// Optional
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
 						// Required
 						"volume_backup_id": {
 							Type:     schema.TypeString,
@@ -282,6 +288,12 @@ func (s *CoreVolumeBackupResourceCrud) createVolumeBackupCopy() error {
 			tmp := volumeBackupId.(string)
 			copyVolumeBackupRequest.VolumeBackupId = &tmp
 		}
+
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			copyVolumeBackupRequest.KmsKeyId = &tmp
+		}
+
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
