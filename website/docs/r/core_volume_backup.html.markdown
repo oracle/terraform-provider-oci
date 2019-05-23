@@ -42,7 +42,8 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `type` - (Optional) The type of backup to create. If omitted, defaults to INCREMENTAL.
 * `volume_id` - (Required) The OCID of the volume that needs to be backed up.
-* `source_details` - (Optional) Details of the volume backup source in the cloud. 
+* `source_details` - (Optional) Details of the volume backup source in the cloud.
+    * `kms_key_id` - The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
     * `region` - The region of the volume backup source.
     * `volume_backup_id` - The OCID of the source volume backup.
 
