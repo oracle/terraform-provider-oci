@@ -368,7 +368,7 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	switch auth {
 	case authAPIKeySetting, "":
 		if skipRequiredField {
-			assert.Error(t, err, fmt.Sprintf("when auth is set to '%s', tenancy_ocid, user_ocid, and fingerprint are required", authAPIKeySetting))
+			assert.Equal(t, err, nil)
 			return
 		}
 	case authInstancePrincipalSetting:
