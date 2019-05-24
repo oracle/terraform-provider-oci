@@ -1,9 +1,12 @@
-## 3.26.1 (Unreleased)
+## 3.27.0 (Unreleased)
 
 ### Added
 - Support for moving File Systems and Mount Targets across compartments
 - Support for filtering File Storage resources by tags
 - Support for getting UI password information
+
+### Notes
+- This is the first provider version that supports Terraform v0.12.
 
 ## 3.26.0 (May 22, 2019)
 
