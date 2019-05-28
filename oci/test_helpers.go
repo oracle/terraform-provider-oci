@@ -19,6 +19,7 @@ import (
 )
 
 var tmpl template.Template = *template.New("tmpl")
+var lineSeparator = "\n"
 
 // Applies values from a map to a string template
 func apply(template string, values map[string]string) string {
@@ -229,19 +230,18 @@ func updateNestedRepresentation(currIndex int, propertyNames []string, newValue 
 
 func generateDataSourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
 	var buffer bytes.Buffer
-	buffer.WriteString(fmt.Sprintf(`data "%s" "%s" %s`, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))
+	buffer.WriteString(fmt.Sprintf(`%sdata "%s" "%s" %s`, lineSeparator, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))
 	return buffer.String()
 }
 
 func generateResourceFromRepresentationMap(resourceType string, resourceName string, representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
 	var buffer bytes.Buffer
-	buffer.WriteString(fmt.Sprintf(`resource "%s" "%s" %s`, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))
+	buffer.WriteString(fmt.Sprintf(`%sresource "%s" "%s" %s`, lineSeparator, resourceType, resourceName, generateResourceFromMap(representationType, representationMode, representations)))
 	return buffer.String()
 }
 
 func generateResourceFromMap(representationType RepresentationType, representationMode RepresentationMode, representations map[string]interface{}) string {
 	var buffer bytes.Buffer
-	var lineSeparator = "\n"
 	buffer.WriteString("{" + lineSeparator)
 
 	sortedRepresentations := make([]string, 0, len(representations))

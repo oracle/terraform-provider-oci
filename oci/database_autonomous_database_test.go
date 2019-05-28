@@ -264,6 +264,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					"source",
 					"source_id",
 					"lifecycle_details",
+					// Need this workaround due to import behavior change introduced by https://github.com/hashicorp/terraform/issues/20985
+					"used_data_storage_size_in_tbs",
 				},
 				ResourceName: resourceName,
 			},

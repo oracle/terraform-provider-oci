@@ -110,7 +110,7 @@ var (
 			hostname_label   = "testinstance"
 			display_name     = "-tf-instance-vnic"
 		}
-		metadata {
+		metadata = {
 			ssh_authorized_keys = "${var.ssh_public_key}"
 		}
 		timeouts {

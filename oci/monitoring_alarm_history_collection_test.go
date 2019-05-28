@@ -57,6 +57,8 @@ func TestMonitoringAlarmHistoryCollectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "entries.#"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_enabled"),
 				),
+				// Non empty plan expected because the data source input relies on interpolation syntax
+				ExpectNonEmptyPlan: true,
 			},
 		},
 	})

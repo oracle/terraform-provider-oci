@@ -21,7 +21,7 @@ import (
 var (
 	DbSystemResourceConfig = SubnetResourceConfig + `
 resource "oci_database_db_system" "test_db_system" {
-	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
+	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	database_edition = "ENTERPRISE_EDITION"
@@ -39,8 +39,8 @@ resource "oci_database_db_system" "test_db_system" {
 		db_version = "12.1.0.2"
 		display_name = "dbHome1"
 		database {
-			"admin_password" = "BEstrO0ng_#11"
-			"db_name" = "tfDbName"
+			admin_password = "BEstrO0ng_#11"
+			db_name = "tfDbName"
 		}
 	}
 }
@@ -134,7 +134,7 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystemFromB
 	const DBWaitConditionDuration = time.Duration(20 * time.Minute)
 	const DataBaseSystemWithBackup = `
 	resource "oci_database_db_system" "test_db_system" {
-		availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
+		availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
 		compartment_id = "${var.compartment_id}"
 		subnet_id = "${oci_core_subnet.test_subnet.id}"
 		database_edition = "ENTERPRISE_EDITION"
@@ -152,8 +152,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystemFromB
 			db_version = "12.1.0.2"
 			display_name = "dbHome1"
 			database {
-				"admin_password" = "BEstrO0ng_#11"
-				"db_name" = "aTFdb"
+				admin_password = "BEstrO0ng_#11"
+				db_name = "aTFdb"
 				character_set = "AL32UTF8"
 				ncharacter_set = "AL16UTF16"
 				db_workload = "OLTP"
@@ -225,10 +225,10 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystemFromB
 					db_home {
 						db_version = "12.1.0.2"
 						database {
-							"admin_password" = "BEstrO0ng_#11"
+							admin_password = "BEstrO0ng_#11"
 							backup_tde_password = "BEstrO0ng_#11"
-							"backup_id" = "${data.oci_database_backups.test_backups.backups.0.id}"
-							"db_name" = "dbback"
+							backup_id = "${data.oci_database_backups.test_backups.backups.0.id}"
+							db_name = "dbback"
 						}
 					}
 				}`,
@@ -293,8 +293,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_basi
 					db_home {
 						db_version = "12.1.0.2"
 						database {
-							"admin_password" = "BEstrO0ng_#11"
-							"db_name" = "aTFdb"
+							admin_password = "BEstrO0ng_#11"
+							db_name = "aTFdb"
 						}
 					}
 				}`,
@@ -361,8 +361,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allB
 						db_version = "12.1.0.2"
 						display_name = "-tf-db-home"
 						database {
-							"admin_password" = "BEstrO0ng_#11"
-							"db_name" = "aTFdb"
+							admin_password = "BEstrO0ng_#11"
+							db_name = "aTFdb"
 							character_set = "AL32UTF8"
 							ncharacter_set = "AL16UTF16"
 							db_workload = "OLTP"
@@ -615,8 +615,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 						db_version = "12.1.0.2"
 						display_name = "-tf-db-home"
 						database {
-							"admin_password" = "BEstrO0ng_#11"
-							"db_name" = "aTFdb"
+							admin_password = "BEstrO0ng_#11"
+							db_name = "aTFdb"
 							character_set = "AL32UTF8"
 							defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
 							freeform_tags = {"Department" = "Finance"}
@@ -875,8 +875,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_allV
 						db_version = "12.1.0.2"
 						display_name = "-tf-db-home"
 						database {
-							"admin_password" = "BEstrO0ng_#11"
-							"db_name" = "aTFdb"
+							admin_password = "BEstrO0ng_#11"
+							db_name = "aTFdb"
 							character_set = "AL32UTF8"
 							defined_tags = "${map("example-tag-namespace-all.example-tag", "updateValue")}"
 							freeform_tags = {"Department" = "Admin"}
@@ -1069,8 +1069,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_Exad
 					db_home {
 						db_version = "12.1.0.2"
 						database {
-							"admin_password" = "BEstrO0ng_#11"
-							"db_name" = "aTFdb"
+							admin_password = "BEstrO0ng_#11"
+							db_name = "aTFdb"
 						}
 					}
 				}`,

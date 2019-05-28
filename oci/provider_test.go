@@ -109,7 +109,8 @@ func legacyTestProviderConfig() string {
 	// Add the 'compartment_id' used by the legacy tests.
 	return config + `variable "compartment_id" {
 		default = "` + getCompartmentIDForLegacyTests() + `"
-	}`
+	}
+	`
 }
 
 var subnetConfig = `
@@ -168,7 +169,7 @@ resource "oci_core_instance" "t" {
 	image = "${var.InstanceImageOCID[var.region]}"
 	shape = "VM.Standard2.1"
 	subnet_id = "${oci_core_subnet.WebSubnetAD1.id}"
-	metadata {
+	metadata = {
 		ssh_authorized_keys = "${var.ssh_public_key}"
 	}
 
@@ -226,7 +227,7 @@ resource "oci_core_instance" "t" {
 		defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
 		freeform_tags = { "Department" = "Accounting" }
   	}
-	metadata {
+	metadata = {
 		ssh_authorized_keys = "${var.ssh_public_key}"
 	}
 	timeouts {
@@ -260,6 +261,7 @@ func GetTestClients(data *schema.ResourceData) *OracleClients {
 		d.Set("auth", getEnvSettingWithDefault("auth", auth))
 	}
 
+	terraformCLIVersion = testTerraformCLIVersion
 	client, err := ProviderConfig(d)
 	if err != nil {
 		panic(err)
@@ -366,7 +368,7 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	switch auth {
 	case authAPIKeySetting, "":
 		if skipRequiredField {
-			assert.Error(t, err, fmt.Sprintf("when auth is set to '%s', tenancy_ocid, user_ocid, and fingerprint are required", authAPIKeySetting))
+			assert.Equal(t, err, nil)
 			return
 		}
 	case authInstancePrincipalSetting:
@@ -389,7 +391,7 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	oracleClient, ok := client.(*OracleClients)
 	assert.True(t, ok)
 
-	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), defaultUserAgentProviderName, Version)
+	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), terraformCLIVersion, defaultUserAgentProviderName, Version)
 	testClient := func(c *oci_common.BaseClient) {
 		assert.NotNil(t, c)
 		assert.NotNil(t, c.HTTPClient)

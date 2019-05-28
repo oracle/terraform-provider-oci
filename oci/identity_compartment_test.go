@@ -180,6 +180,8 @@ func TestIdentityCompartmentResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"enable_delete",
+					// Need this workaround due to import behavior change introduced by https://github.com/hashicorp/terraform/issues/20985
+					"is_accessible",
 				},
 				ResourceName: resourceName,
 			},

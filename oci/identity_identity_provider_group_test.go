@@ -37,6 +37,9 @@ func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
 
 	datasourceName := "data.oci_identity_identity_provider_groups.test_identity_provider_groups"
 
+	_, tokenFn := tokenize()
+	IdentityProviderGroupResourceConfig = tokenFn(IdentityProviderGroupResourceConfig, map[string]string{"metadata_file": metadataFile})
+
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{

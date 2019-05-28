@@ -93,11 +93,15 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					// Need this workaround due to import behavior change introduced by https://github.com/hashicorp/terraform/issues/20985
+					"database_size_in_gbs",
+					"db_data_size_in_mbs",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

@@ -46,18 +46,16 @@ resource "oci_core_virtual_circuit" "virtual_circuit_public" {
 
   #provider_service_id = "${oci_core_provider_service.provider_service.id}"
 
-  public_prefixes = [
-    {
-      #Required
-      cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block}"
-    },
-    {
-      cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block2}"
-    },
-    {
-      cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block3}"
-    },
-  ]
+  public_prefixes {
+    #Required
+    cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block}"
+  }
+  public_prefixes {
+    cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block2}"
+  }
+  public_prefixes {
+    cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block3}"
+  }
   region = "${var.virtual_circuit_region}"
 }
 

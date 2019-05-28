@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateFileSystemDetails The representation of UpdateFileSystemDetails
+// UpdateFileSystemDetails Details for updating the file system.
 type UpdateFileSystemDetails struct {
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.

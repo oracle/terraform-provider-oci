@@ -7,6 +7,11 @@ resource "oci_file_storage_file_system" "my_fs_1" {
 
   #Optional
   display_name = "${var.file_system_1_display_name}"
+  defined_tags = "${map("example-tag-namespace-all.example-tag", "value")}"
+
+  freeform_tags = {
+    "Department" = "Finance"
+  }
 }
 
 resource "oci_file_storage_file_system" "my_fs_2" {
@@ -16,4 +21,9 @@ resource "oci_file_storage_file_system" "my_fs_2" {
 
   #Optional
   display_name = "${var.file_system_2_display_name}"
+  defined_tags = "${map("example-tag-namespace-all.example-tag", "value")}"
+
+  freeform_tags = {
+    "Department" = "Accounting"
+  }
 }

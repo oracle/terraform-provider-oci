@@ -28,7 +28,8 @@ func (s *ResourceCoreInternetGatewayTestSuite) SetupTest() {
 		compartment_id = "${var.compartment_id}"
 		cidr_block = "10.0.0.0/16"
 		display_name = "-tf-vcn"
-	}`
+	}
+	`
 
 	s.ResourceName = "oci_core_internet_gateway.t"
 }

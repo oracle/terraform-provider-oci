@@ -27,6 +27,9 @@ import (
 
 var descriptions map[string]string
 var apiKeyConfigAttributes = [...]string{userOcidAttrName, fingerprintAttrName, privateKeyAttrName, privateKeyPathAttrName, privateKeyPasswordAttrName}
+var ociProvider *schema.Provider
+
+var terraformCLIVersion = unknownTerraformCLIVersion
 var avoidWaitingForDeleteTarget bool
 
 const (
@@ -39,7 +42,9 @@ const (
 	defaultConnectionTimeout              = 10 * time.Second
 	defaultTLSHandshakeTimeout            = 5 * time.Second
 	defaultUserAgentProviderName          = "Oracle-TerraformProvider"
-	userAgentFormatter                    = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s) %s/%s"
+	unknownTerraformCLIVersion            = "unknown"
+	testTerraformCLIVersion               = "test"
+	userAgentFormatter                    = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s; terraform-cli/%s) %s/%s"
 	userAgentProviderNameEnv              = "USER_AGENT_PROVIDER_NAME"
 	domainNameOverrideEnv                 = "domain_name_override"
 	customCertLocationEnv                 = "custom_cert_location"
@@ -111,12 +116,13 @@ func init() {
 
 // Provider is the adapter for terraform, that gives access to all the resources
 func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
-	return &schema.Provider{
+	ociProvider = &schema.Provider{
 		DataSourcesMap: dataSourcesMap(),
 		Schema:         schemaMap(),
 		ResourcesMap:   resourcesMap(),
 		ConfigureFunc:  configfn,
 	}
+	return ociProvider
 }
 
 func schemaMap() map[string]*schema.Schema {
@@ -171,7 +177,7 @@ func schemaMap() map[string]*schema.Schema {
 		},
 		regionAttrName: {
 			Type:        schema.TypeString,
-			Required:    true,
+			Optional:    true,
 			Description: descriptions[regionAttrName],
 			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(regionAttrName), ociVarName(regionAttrName)}, nil),
 		},
@@ -356,6 +362,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_identity_identity_provider_groups":          IdentityIdentityProviderGroupsDataSource(),
 		"oci_identity_idp_group_mappings":                IdentityIdpGroupMappingsDataSource(),
 		"oci_identity_cost_tracking_tags":                IdentityCostTrackingTagsDataSource(),
+		"oci_identity_ui_password":                       IdentityUiPasswordDataSource(),
 		"oci_identity_policies":                          IdentityPoliciesDataSource(),
 		"oci_identity_regions":                           IdentityRegionsDataSource(),
 		"oci_identity_smtp_credentials":                  IdentitySmtpCredentialsDataSource(),
@@ -574,16 +581,6 @@ func getRequiredEnvSetting(s string) string {
 	return v
 }
 
-func validateConfigForAPIKeyAuth(d *schema.ResourceData) error {
-	_, hasTenancyOCID := d.GetOkExists(tenancyOcidAttrName)
-	_, hasUserOCID := d.GetOkExists(userOcidAttrName)
-	_, hasFingerprint := d.GetOkExists(fingerprintAttrName)
-	if !hasTenancyOCID || !hasUserOCID || !hasFingerprint {
-		return fmt.Errorf("when auth is set to '%s', tenancy_ocid, user_ocid, and fingerprint are required", authAPIKeySetting)
-	}
-	return nil
-}
-
 func checkIncompatibleAttrsForApiKeyAuth(d *schema.ResourceData) ([]string, bool) {
 	var apiKeyConfigAttributesToUnset []string
 	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
@@ -625,8 +622,11 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	auth := strings.ToLower(d.Get(authAttrName).(string))
 	clients.(*OracleClients).configuration[authAttrName] = auth
 
+	if ociProvider != nil && len(ociProvider.TerraformVersion) > 0 {
+		terraformCLIVersion = ociProvider.TerraformVersion
+	}
 	userAgentProviderName := getEnvSettingWithDefault(userAgentProviderNameEnv, defaultUserAgentProviderName)
-	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), userAgentProviderName, Version)
+	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), terraformCLIVersion, userAgentProviderName, Version)
 
 	httpClient := &http.Client{
 		Timeout: defaultRequestTimeout,
@@ -644,9 +644,6 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 
 	switch auth {
 	case strings.ToLower(authAPIKeySetting):
-		if err := validateConfigForAPIKeyAuth(d); err != nil {
-			return nil, err
-		}
 	case strings.ToLower(authInstancePrincipalSetting):
 		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
 		if !ok {

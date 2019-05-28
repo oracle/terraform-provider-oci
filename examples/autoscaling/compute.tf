@@ -10,7 +10,7 @@ resource "oci_core_instance" "TFInstance" {
     subnet_id        = "${oci_core_subnet.ExampleSubnet.id}"
     display_name     = "primaryvnic"
     assign_public_ip = true
-    hostname_label   = "tfexampleinstance${count.index}"
+    hostname_label   = "tfexampleinstance"
   }
 
   source_details {
@@ -47,7 +47,7 @@ resource "oci_core_instance_configuration" "TFInstanceConfiguration" {
         nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
       }
 
-      source_details = {
+      source_details {
         source_type = "image"
         image_id    = "${var.instance_image_ocid[var.region]}"
       }
@@ -97,24 +97,6 @@ resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguratio
 
         threshold {
           operator = "GT"
-          value    = "1"
-        }
-      }
-    }
-
-    rules {
-      action {
-        type  = "CHANGE_COUNT_BY"
-        value = "-1"
-      }
-
-      display_name = "TFScaleInRule"
-
-      metric {
-        metric_type = "CPU_UTILIZATION"
-
-        threshold {
-          operator = "LT"
           value    = "1"
         }
       }

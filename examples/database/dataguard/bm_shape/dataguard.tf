@@ -80,8 +80,8 @@ resource "oci_database_db_system" "test_db_system" {
     display_name = "TFExampleDbHome1"
 
     database {
-      "admin_password" = "BEstrO0ng_#11"
-      "db_name"        = "tfDbName"
+      admin_password = "BEstrO0ng_#11"
+      db_name        = "tfDbName"
     }
   }
 }
@@ -117,8 +117,8 @@ resource "oci_database_db_system" "test_db_system2" {
     display_name = "dbHome1"
 
     database {
-      "admin_password" = "BEstrO0ng_#11"
-      "db_name"        = "db2"
+      admin_password = "BEstrO0ng_#11"
+      db_name        = "db2"
     }
   }
 }

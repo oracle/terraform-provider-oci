@@ -45,7 +45,7 @@ var (
 	}
 	volumeGroupSourceDetailsRepresentation = map[string]interface{}{
 		"type":       Representation{repType: Required, create: `volumeIds`},
-		"volume_ids": Representation{repType: Required, create: []string{`${oci_core_volume.source_volume_list.*.id}`}},
+		"volume_ids": Representation{repType: Required, create: `${oci_core_volume.source_volume_list.*.id}`},
 	}
 	sourceDetailsJumbledVolumeIdsRepresentation = map[string]interface{}{
 		"type":       Representation{repType: Required, create: `volumeIds`},

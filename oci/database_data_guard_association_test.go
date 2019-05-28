@@ -101,7 +101,7 @@ data "oci_database_db_homes" "t" {
 `
 	DataGuardAssociationResourceDependencies = DataGuardAssociationResourceDependenciesBase + `
 resource "oci_database_db_system" "test_db_system" {
-	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
+	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	database_edition = "ENTERPRISE_EDITION"
@@ -119,14 +119,14 @@ resource "oci_database_db_system" "test_db_system" {
 		db_version = "12.1.0.2"
 		display_name = "TFTestDbHome1"
 		database {
-			"admin_password" = "BEstrO0ng_#11"
-			"db_name" = "tfDbName"
+			admin_password = "BEstrO0ng_#11"
+			db_name = "tfDbName"
 		}
 	}
 }
 
 resource "oci_database_db_system" "test_db_system2" {
-	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
+	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	database_edition = "ENTERPRISE_EDITION"
@@ -144,15 +144,15 @@ resource "oci_database_db_system" "test_db_system2" {
 		db_version = "12.1.0.2"
 		display_name = "TFTestDbHome1"
 		database {
-			"admin_password" = "BEstrO0ng_#11"
-			"db_name" = "db2"
+			admin_password = "BEstrO0ng_#11"
+			db_name = "db2"
 		}
 	}
 }
 `
 	DataGuardAssociationResourceDependenciesNewDbSystem = DataGuardAssociationResourceDependenciesBase + `
 resource "oci_database_db_system" "test_db_system" {
-	availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
+	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
 	compartment_id = "${var.compartment_id}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 	database_edition = "ENTERPRISE_EDITION"
@@ -170,8 +170,8 @@ resource "oci_database_db_system" "test_db_system" {
 		db_version = "12.1.0.2"
 		display_name = "TFTestDbHome1"
 		database {
-			"admin_password" = "BEstrO0ng_#11"
-			"db_name" = "tfDbName"
+			admin_password = "BEstrO0ng_#11"
+			db_name = "tfDbName"
 		}
 	}
 }
