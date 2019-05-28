@@ -217,6 +217,9 @@ func getInstanceConsoleConnectionIds(compartment string) ([]string, error) {
 		return resourceIds, fmt.Errorf("Error getting InstanceConsoleConnection list for compartment id : %s , %s \n", compartmentId, err)
 	}
 	for _, instanceConsoleConnection := range listInstanceConsoleConnectionsResponse.Items {
+		if instanceConsoleConnection.LifecycleState == oci_core.InstanceConsoleConnectionLifecycleStateDeleted {
+			continue
+		}
 		id := *instanceConsoleConnection.Id
 		resourceIds = append(resourceIds, id)
 		addResourceIdToSweeperResourceIdMap(compartmentId, "InstanceConsoleConnectionId", id)
