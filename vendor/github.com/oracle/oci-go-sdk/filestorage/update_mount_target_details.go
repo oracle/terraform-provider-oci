@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateMountTargetDetails The representation of UpdateMountTargetDetails
+// UpdateMountTargetDetails Details for updating the mount target.
 type UpdateMountTargetDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it is changeable.

@@ -209,11 +209,15 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					// Need this workaround due to import behavior change introduced by https://github.com/hashicorp/terraform/issues/20985
+					"actual_spend",
+					"forecasted_spend",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})

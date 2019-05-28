@@ -11,20 +11,26 @@ run_regex := $(if $(run), -run $(run), )
 test_tags := $(if $(tags), -tags $(tags), )
 skip_goimports_check_flag := $(if $(skip_goimports_check), -s, )
 
+## This rule will set GO mod environment variables so that builds/tests are using the vendor folder
+## May need to remove this in future so that it doesn't interfere with environment settings of .travis.yml file
+gomodenv:
+	export GO111MODULE=on
+	export GOFLAGS=-mod=vendor
+
 default: build
 
 ## IMPORTANT: Do not modify the following `build` target. The following steps are a requirement of the provider release process.
-build: fmtcheck
+build: fmtcheck gomodenv
 	go install
 
 ### TODO: Fix this so that only unit tests are running
 test: fmtcheck
 
-sweep: fmtcheck
+sweep: fmtcheck gomodenv
 	@echo "WARNING: This will destroy infrastructure. Use only in development accounts."
 	TF_ACC=1 $(prefix) go test $(TEST) -v -run TestMain -sweep=$(sweep) -sweep-run=$(sweep-run) -timeout $(timeout)
 
-testacc: fmtcheck
+testacc: fmtcheck gomodenv
 	TF_ACC=1 $(prefix) go test $(TEST) -v $(TESTARGS) $(run_regex) $(test_tags) -timeout $(timeout)
 
 vet:
@@ -62,9 +68,6 @@ ocicheck:
 errcheck:
 	@sh -c "'$(CURDIR)/scripts/errcheck.sh'"
 
-vendor-status:
-	@govendor status
-
 test-compile:
 	@if [ "$(TEST)" = "./..." ]; then \
 		echo "ERROR: Set TEST to a specific package. For example,"; \
@@ -88,7 +91,7 @@ endif
 	@$(MAKE) -C $(GOPATH)/src/$(WEBSITE_REPO) website-provider-test PROVIDER_PATH=$(shell pwd) PROVIDER_NAME=$(PKG_NAME)
 
 ## Additional OCI stuff that will need to be moved eventually
-get: ;go get -u github.com/kardianos/govendor; go get golang.org/x/tools/cmd/goimports; go get github.com/mitchellh/gox
+get: ;go get golang.org/x/tools/cmd/goimports; go get github.com/mitchellh/gox
 
 ### `make update-version version=2.0.1`
 update-version:
@@ -126,4 +129,4 @@ zip:
 	tar -czvf openbsd_amd64.tar.gz openbsd_amd64; \
 	tar -czvf solaris_amd64.tar.gz solaris_amd64
 
-.PHONY: build test testacc vet fmt fmtcheck errcheck vendor-status test-compile website website-test
+.PHONY: build test testacc vet fmt fmtcheck errcheck test-compile website website-test

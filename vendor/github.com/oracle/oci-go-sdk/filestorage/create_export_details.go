@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateExportDetails The representation of CreateExportDetails
+// CreateExportDetails Details for creating the export.
 type CreateExportDetails struct {
 
 	// The OCID of this export's export set.

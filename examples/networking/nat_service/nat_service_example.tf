@@ -128,8 +128,8 @@ resource "oci_core_security_list" "bastion" {
     protocol = "${local.tcp_protocol}"
 
     tcp_options {
-      "min" = 22
-      "max" = 22
+      min = 22
+      max = 22
     }
   }
 
@@ -138,8 +138,8 @@ resource "oci_core_security_list" "bastion" {
     protocol    = "${local.tcp_protocol}"
 
     tcp_options {
-      "min" = 22
-      "max" = 22
+      min = 22
+      max = 22
     }
   }
 }
@@ -159,7 +159,7 @@ resource "oci_core_instance" "bastion" {
     subnet_id = "${oci_core_subnet.bastion.id}"
   }
 
-  metadata {
+  metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
   }
 
@@ -193,13 +193,11 @@ resource "oci_core_route_table" "private" {
   vcn_id         = "${oci_core_virtual_network.this.id}"
   display_name   = "private"
 
-  route_rules = [
-    {
-      destination       = "${local.anywhere}"
-      destination_type  = "CIDR_BLOCK"
-      network_entity_id = "${oci_core_nat_gateway.nat_gateway.id}"
-    },
-  ]
+  route_rules {
+    destination       = "${local.anywhere}"
+    destination_type  = "CIDR_BLOCK"
+    network_entity_id = "${oci_core_nat_gateway.nat_gateway.id}"
+  }
 }
 
 resource "oci_core_security_list" "private" {
@@ -212,8 +210,8 @@ resource "oci_core_security_list" "private" {
     protocol = "${local.tcp_protocol}"
 
     tcp_options {
-      "min" = 22
-      "max" = 22
+      min = 22
+      max = 22
     }
   }
 
@@ -239,7 +237,7 @@ resource "oci_core_instance" "private" {
     assign_public_ip = false
   }
 
-  metadata {
+  metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
   }
 

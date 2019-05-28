@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateSnapshotDetails The representation of UpdateSnapshotDetails
+// UpdateSnapshotDetails Details for updating the snapshot.
 type UpdateSnapshotDetails struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair

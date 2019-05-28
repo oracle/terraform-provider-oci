@@ -2385,6 +2385,49 @@ func (client IdentityClient) getUserGroupMembership(ctx context.Context, request
 	return response, err
 }
 
+// GetUserUIPasswordInformation Gets the specified user's console password information. The returned object contains the user's OCID,
+// but not the password itself. The actual password is returned only when created or reset.
+func (client IdentityClient) GetUserUIPasswordInformation(ctx context.Context, request GetUserUIPasswordInformationRequest) (response GetUserUIPasswordInformationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getUserUIPasswordInformation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetUserUIPasswordInformationResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetUserUIPasswordInformationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetUserUIPasswordInformationResponse")
+	}
+	return
+}
+
+// getUserUIPasswordInformation implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) getUserUIPasswordInformation(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/users/{userId}/uiPassword")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetUserUIPasswordInformationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetWorkRequest Gets details on a specified work request. The workRequestID is returned in the opc-workrequest-id header
 // for any asynchronous operation in the Identity and Access Management service.
 func (client IdentityClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {

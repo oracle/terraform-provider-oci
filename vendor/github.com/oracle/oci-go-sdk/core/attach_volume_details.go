@@ -76,6 +76,14 @@ func (m *attachvolumedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 
 	var err error
 	switch m.Type {
+	case "service_determined":
+		mm := AttachServiceDeterminedVolumeDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "emulated":
+		mm := AttachEmulatedVolumeDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "iscsi":
 		mm := AttachIScsiVolumeDetails{}
 		err = json.Unmarshal(data, &mm)

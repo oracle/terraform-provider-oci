@@ -42,7 +42,8 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 			{
 				Config: s.Config +
 					tokenFn(
-						`resource "oci_identity_user" "t" {
+						`
+						resource "oci_identity_user" "t" {
 							name = "{{.token}}"
 							description = "{{.description}}"
 							compartment_id = "${var.compartment_id}"
@@ -53,7 +54,8 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 			{
 				Config: s.Config +
 					tokenFn(
-						`resource "oci_identity_user" "t" {
+						`
+						resource "oci_identity_user" "t" {
 							name = "{{.token}}"
 							description = "{{.description}}"
 							compartment_id = "${var.tenancy_ocid}"
@@ -132,14 +134,16 @@ func (s *ResourceIdentityUserTestSuite) TestAccResourceIdentityUser_basic() {
 func identityUserTestStepConfigFn(name string) string {
 	useDelegationToken := strings.EqualFold(os.Getenv("DELEGATION_TOKEN"), "true")
 	if useDelegationToken {
-		return fmt.Sprintf(`resource "oci_identity_user" "t" {
+		return fmt.Sprintf(`
+					resource "oci_identity_user" "t" {
 						name  = "%s"
 						description = "{{.description}}"
 						compartment_id = "${var.tenancy_ocid}"
 					}`, name)
 	}
 
-	return fmt.Sprintf(`resource "oci_identity_user" "t" {
+	return fmt.Sprintf(`
+					resource "oci_identity_user" "t" {
 						name  = "%s"
 						description = "{{.description}}"
 					}`, name)
