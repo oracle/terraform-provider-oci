@@ -1,4 +1,4 @@
-## 3.27.0 (Unreleased)
+## 3.27.0 (May 29, 2019)
 
 ### Added
 - Support for moving File Systems and Mount Targets across compartments
