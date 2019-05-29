@@ -51,11 +51,12 @@ Prior to making configuration changes, it is strongly recommended that configura
 
 The following describes cases where it is possible to convert existing v0.11 usage to be compatible with both v0.11 and v0.12.
 
-##### Attributes vs. Blocks
+#### Attributes vs. Blocks
 In v0.11, it was possible to treat attributes and nested blocks interchangeably.
 Note how the attribute `metadata` and the nested block `source_details` are both assigned using only braces. 
+
 ```hcl
-# v0.11 compatible representation
+// v0.11 compatible representation
 resource "oci_core_instance" "my_instance" {
   metadata {
     ssh_authorized_keys = "${var.ssh_public_key}"
@@ -71,8 +72,9 @@ resource "oci_core_instance" "my_instance" {
 
 In v0.12, attributes need to be assigned using the `=` operator while blocks need to be assigned using only braces.
 Note how the attribute `metadata` is now assigned with `=`. This usage is still compatible with v0.11.
+
 ```hcl
-# v0.12 and v0.11 compatible representation
+// v0.12 and v0.11 compatible representation
 resource "oci_core_instance" "my_instance" {
   metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
@@ -85,10 +87,11 @@ resource "oci_core_instance" "my_instance" {
   }
 ```
 
-##### Nested blocks with multiple elements
+#### Nested blocks with multiple elements
 In v0.11, it was possible to wrap lists of nested blocks inside `[]` like this example.
+
 ```hcl
-# v0.11 compatible representation
+// v0.11 compatible representation
 resource "oci_core_virtual_circuit" "virtual_circuit_public" {
   public_prefixes = [
     {
@@ -108,8 +111,9 @@ resource "oci_core_virtual_circuit" "virtual_circuit_public" {
 
 In v0.12, it is required to specify each nested block individually without wrapping it in `[]`.
 This usage is still compatible with v0.11.
+
 ```hcl
-# v0.11 compatible representation
+// v0.11 compatible representation
 resource "oci_core_virtual_circuit" "virtual_circuit_public" {
   public_prefixes {
     cidr_block = "${var.virtual_circuit_public_prefixes_cidr_block}"
@@ -125,11 +129,12 @@ resource "oci_core_virtual_circuit" "virtual_circuit_public" {
 }
 ```
 
-##### Quotes around attribute names
+#### Quotes around attribute names
 In v0.11, it was possible to put quotation marks `"` around attribute names.
 Note how the `min` and `max` attributes have quotation marks around them.
+
 ```hcl
-# v0.11 compatible representation
+// v0.11 compatible representation
 resource "oci_core_security_list" "bastion" {
   egress_security_rules {
     destination = "${var.vcn_cidr}"
@@ -146,8 +151,9 @@ resource "oci_core_security_list" "bastion" {
 ```
 
 In v0.12, quotation marks `"` around attribute names are no longer allowed.
+
 ```hcl
-# v0.11 and v0.12 compatible representation
+// v0.11 and v0.12 compatible representation
 resource "oci_core_security_list" "bastion" {
   egress_security_rules {
     destination = "${var.vcn_cidr}"
@@ -163,33 +169,37 @@ resource "oci_core_security_list" "bastion" {
 }
 ```
 
-##### Variable names starting with non-alphabetical characters
+#### Variable names starting with non-alphabetical characters
 In v0.11, it was possible to specify variable names that begin with non-alphabetical characters.
+
 ```hcl
-# v0.11 compatible representation
+// v0.11 compatible representation
 variable "2TB" {
   default = "2048"
 }
 ```
 
 In v0.12, variable names must begin with alphabetical characters.
+
 ```hcl
-# v0.11 and v0.12 compatible representation
+// v0.11 and v0.12 compatible representation
 variable "Size2TB" {
   default = "2048"
 }
 ```
 
-##### Computing list index values
+#### Computing list index values
 In v0.11, division operations often resulted in integer values that could be used as a valid index in a list.
+
 ```hcl
-# v0.11 compatible representation
+// v0.11 compatible representation
 instance_id     = "${oci_core_instance.TFInstance.*.id[count.index / var.NumParavirtualizedVolumesPerInstance]}"
 ```
 
 In v0.12, division operations can result in floating point values that may no longer be valid.
 To avoid this situation, use the `floor` interpolation to convert floating point values to an index.
+
 ```hcl
-# v0.11 and v0.12 compatible representation
+// v0.11 and v0.12 compatible representation
 instance_id     = "${oci_core_instance.TFInstance.*.id[floor(count.index / var.NumParavirtualizedVolumesPerInstance)]}"
 ```
