@@ -96,8 +96,8 @@ var (
 `
 )
 
-func TestAccResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
-	httpreplay.SetScenario("TestAccResourceDatabaseDataGuardAssociation_Exadata")
+func TestResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
+	httpreplay.SetScenario("TestResourceDatabaseDataGuardAssociation_Exadata")
 	defer httpreplay.SaveScenario()
 
 	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "DataGuardAssociation_Exadata") {
@@ -141,8 +141,8 @@ func TestAccResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 			db_version = "12.1.0.2"
 			display_name = "TFTestDbHome1"
 			database {
-				"admin_password" = "BEstrO0ng_#11"
-				"db_name" = "aTFdb"
+				admin_password = "BEstrO0ng_#11"
+				db_name = "aTFdb"
 			}
 		}
 	}
@@ -168,8 +168,8 @@ func TestAccResourceDatabaseDataGuardAssociation_Exadata(t *testing.T) {
 						db_version = "12.1.0.2"
 						display_name = "TFTestDbHome1"
 						database {
-							"admin_password" = "BEstrO0ng_#11"
-							"db_name" = "aTFdb2"
+							admin_password = "BEstrO0ng_#11"
+							db_name = "aTFdb2"
 						}
 					}
 				}

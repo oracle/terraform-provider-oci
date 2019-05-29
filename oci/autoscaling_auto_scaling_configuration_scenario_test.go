@@ -92,7 +92,7 @@ func (s *ResourceAutoscalingConfigurationTestSuite) SetupTest() {
 						nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
 					}
 	
-					source_details = {
+					source_details {
 						source_type = "image"
 						image_id    = "${var.InstanceImageOCID[var.region]}"
 					}

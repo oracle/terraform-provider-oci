@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 )
@@ -45,6 +47,9 @@ resource "oci_core_instance" "test_instance" {
 )
 
 func TestApplyFiltersIntegration_basic(t *testing.T) {
+	httpreplay.SetScenario("TestApplyFiltersIntegration_basic")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -59,27 +64,61 @@ func TestApplyFiltersIntegration_basic(t *testing.T) {
 			// verify datasource id
 			{
 				Config: config + `
-variable "instance_create_vnic_details_defined_tags_value" { default = "definedTags" }
-variable "instance_create_vnic_details_display_name" { default = "displayName" }
-variable "instance_create_vnic_details_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "instance_create_vnic_details_hostname_label" { default = "hostnameLabel" }
-variable "instance_defined_tags_value" { default = "updatedValue" }
-variable "instance_display_name" { default = "displayName2" }
-variable "instance_extended_metadata" { default = {
-						keyA = "valA"
-						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
-					} }
-variable "instance_freeform_tags" { default = {"Department"= "Accounting"} }
-variable "instance_hostname_label" { default = "hostnameLabel" }
-variable "instance_image" { default = "image" }
-variable "instance_ipxe_script" { default = "ipxeScript" }
-variable "instance_metadata" { default = {
-						ssh_authorized_keys = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
-						user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="}
-                    }
-variable "instance_shape" { default = "VM.Standard2.1" }
-variable "instance_source_details_source_type" { default = "sourceType" }
-variable "instance_state" { default = "AVAILABLE" }
+variable "instance_create_vnic_details_defined_tags_value" { 
+	default = "definedTags" 
+}
+variable "instance_create_vnic_details_display_name" { 
+	default = "displayName" 
+}
+variable "instance_create_vnic_details_freeform_tags" { 
+	default = {
+		"Department"= "Accounting"
+	} 
+}
+variable "instance_create_vnic_details_hostname_label" { 
+	default = "hostnameLabel" 
+}
+variable "instance_defined_tags_value" { 
+	default = "updatedValue" 
+}
+variable "instance_display_name" { 
+	default = "displayName2" 
+}
+variable "instance_extended_metadata" { 
+	default = {
+				keyA = "valA"
+				keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+	} 
+}
+variable "instance_freeform_tags" { 
+	default = {
+		"Department"= "Accounting"
+	} 
+}
+variable "instance_hostname_label" { 
+	default = "hostnameLabel" 
+}
+variable "instance_image" { 
+	default = "image" 
+}
+variable "instance_ipxe_script" { 
+	default = "ipxeScript" 
+}
+variable "instance_metadata" { 
+	default = {
+				ssh_authorized_keys = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"
+				user_data = "SWYgeW91IGNhbiBzZWUgdGhpcywgdGhlbiBpdCB3b3JrZWQgbWF5YmUuCg=="
+	}
+}
+variable "instance_shape" { 
+	default = "VM.Standard2.1" 
+}
+variable "instance_source_details_source_type" { 
+	default = "sourceType" 
+}
+variable "instance_state" { 
+	default = "AVAILABLE" 
+}
 
 data "oci_core_instances" "test_instances" {
 	#Required
