@@ -1,4 +1,9 @@
-## 3.29.1 (Unreleased)
+## 3.30.1 (Unreleased)
+## 3.30.0 (June 19, 2019)
+
+### Added
+- Support for scheduling KMS key deletion
+
 ## 3.29.0 (June 12, 2019)
 
 ### Added
