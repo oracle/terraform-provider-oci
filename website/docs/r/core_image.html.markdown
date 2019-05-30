@@ -109,7 +109,7 @@ The following arguments are supported:
 	* `bucket_name` - (Required when source_type=objectStorageTuple) The Object Storage bucket for the image.
 	* `namespace_name` - (Required when source_type=objectStorageTuple) The Object Storage namespace for the image.
 	* `object_name` - (Required when source_type=objectStorageTuple) The Object Storage name for the image.
-	* `source_image_type` - (Optional) The format of the image to be imported.  Only monolithic images are supported. This attribute is not used for exported Oracle images with theOracle Cloud Infrastructure image format. Allowed values are:
+	* `source_image_type` - (Optional) The format of the image to be imported.  Only monolithic images are supported. This attribute is not used for exported Oracle images with the Oracle Cloud Infrastructure image format. Allowed values are:
 	    * `QCOW2`
 	    * `VMDK`
 	* `source_type` - (Required) The source type for the image. Use `objectStorageTuple` when specifying the namespace, bucket name, and object name. Use `objectStorageUri` when specifying the Object Storage URL. 
