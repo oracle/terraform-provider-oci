@@ -53,10 +53,40 @@ type Tag struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}``
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The tag's current state. After creating a tag, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tag, make sure its `lifecycleState` is INACTIVE before using it.
+	LifecycleState TagLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
 	// Indicates whether the tag is enabled for cost tracking.
 	IsCostTracking *bool `mandatory:"false" json:"isCostTracking"`
 }
 
 func (m Tag) String() string {
 	return common.PointerString(m)
+}
+
+// TagLifecycleStateEnum Enum with underlying type: string
+type TagLifecycleStateEnum string
+
+// Set of constants representing the allowable values for TagLifecycleStateEnum
+const (
+	TagLifecycleStateActive   TagLifecycleStateEnum = "ACTIVE"
+	TagLifecycleStateInactive TagLifecycleStateEnum = "INACTIVE"
+	TagLifecycleStateDeleting TagLifecycleStateEnum = "DELETING"
+	TagLifecycleStateDeleted  TagLifecycleStateEnum = "DELETED"
+)
+
+var mappingTagLifecycleState = map[string]TagLifecycleStateEnum{
+	"ACTIVE":   TagLifecycleStateActive,
+	"INACTIVE": TagLifecycleStateInactive,
+	"DELETING": TagLifecycleStateDeleting,
+	"DELETED":  TagLifecycleStateDeleted,
+}
+
+// GetTagLifecycleStateEnumValues Enumerates the set of values for TagLifecycleStateEnum
+func GetTagLifecycleStateEnumValues() []TagLifecycleStateEnum {
+	values := make([]TagLifecycleStateEnum, 0)
+	for _, v := range mappingTagLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }
