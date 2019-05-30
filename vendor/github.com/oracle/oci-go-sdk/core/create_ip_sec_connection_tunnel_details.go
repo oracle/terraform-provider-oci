@@ -26,10 +26,11 @@ type CreateIpSecConnectionTunnelDetails struct {
 	// The type of routing to use for this tunnel (either BGP dynamic routing or static routing).
 	Routing CreateIpSecConnectionTunnelDetailsRoutingEnum `mandatory:"false" json:"routing,omitempty"`
 
-	// The shared secret (pre-shared key) to use for the IPSec tunnel. If you don't provide a value,
+	// The shared secret (pre-shared key) to use for the IPSec tunnel. Only numbers, letters, and
+	// spaces are allowed. If you don't provide a value,
 	// Oracle generates a value for you. You can specify your own shared secret later if
 	// you like with UpdateIPSecConnectionTunnelSharedSecret.
-	// Example: `EXAMPLEToUis6j1c.p8G.dVQxcmdfMO0yXMLi.lZTbYCMDGu4V8o`
+	// Example: `EXAMPLEToUis6j1cp8GdVQxcmdfMO0yXMLilZTbYCMDGu4V8o`
 	SharedSecret *string `mandatory:"false" json:"sharedSecret"`
 
 	// Information for establishing a BGP session for the IPSec tunnel. Required if the tunnel uses

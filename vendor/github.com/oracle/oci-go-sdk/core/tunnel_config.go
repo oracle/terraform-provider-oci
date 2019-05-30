@@ -26,7 +26,7 @@ type TunnelConfig struct {
 	IpAddress *string `mandatory:"true" json:"ipAddress"`
 
 	// The shared secret of the IPSec tunnel.
-	// Example: `EXAMPLEToUis6j1c.p8G.dVQxcmdfMO0yXMLi.lZTbYCMDGu4V8o`
+	// Example: `EXAMPLEToUis6j1cp8GdVQxcmdfMO0yXMLilZTbYCMDGu4V8o`
 	SharedSecret *string `mandatory:"true" json:"sharedSecret"`
 
 	// The date and time the IPSec connection was created, in the format defined by RFC3339.

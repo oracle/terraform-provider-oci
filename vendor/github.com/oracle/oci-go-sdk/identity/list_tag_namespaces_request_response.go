@@ -24,6 +24,9 @@ type ListTagNamespacesRequest struct {
 	// parameter is not specified, only the tag namespaces defined in the specified compartment are retrieved.
 	IncludeSubcompartments *bool `mandatory:"false" contributesTo:"query" name:"includeSubcompartments"`
 
+	// A filter to only return resources that match the given lifecycle state.  The state value is case-insensitive.
+	LifecycleState TagNamespaceLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

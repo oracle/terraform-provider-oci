@@ -58,11 +58,13 @@ type WorkRequestSummaryOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestSummaryOperationTypeEnum
 const (
-	WorkRequestSummaryOperationTypeCompartment WorkRequestSummaryOperationTypeEnum = "DELETE_COMPARTMENT"
+	WorkRequestSummaryOperationTypeCompartment   WorkRequestSummaryOperationTypeEnum = "DELETE_COMPARTMENT"
+	WorkRequestSummaryOperationTypeTagDefinition WorkRequestSummaryOperationTypeEnum = "DELETE_TAG_DEFINITION"
 )
 
 var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperationTypeEnum{
-	"DELETE_COMPARTMENT": WorkRequestSummaryOperationTypeCompartment,
+	"DELETE_COMPARTMENT":    WorkRequestSummaryOperationTypeCompartment,
+	"DELETE_TAG_DEFINITION": WorkRequestSummaryOperationTypeTagDefinition,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum

@@ -45,8 +45,38 @@ type TagNamespace struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The tagnamespace's current state. After creating a tagnamespace, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tagnamespace, make sure its `lifecycleState` is INACTIVE before using it.
+	LifecycleState TagNamespaceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
 func (m TagNamespace) String() string {
 	return common.PointerString(m)
+}
+
+// TagNamespaceLifecycleStateEnum Enum with underlying type: string
+type TagNamespaceLifecycleStateEnum string
+
+// Set of constants representing the allowable values for TagNamespaceLifecycleStateEnum
+const (
+	TagNamespaceLifecycleStateActive   TagNamespaceLifecycleStateEnum = "ACTIVE"
+	TagNamespaceLifecycleStateInactive TagNamespaceLifecycleStateEnum = "INACTIVE"
+	TagNamespaceLifecycleStateDeleting TagNamespaceLifecycleStateEnum = "DELETING"
+	TagNamespaceLifecycleStateDeleted  TagNamespaceLifecycleStateEnum = "DELETED"
+)
+
+var mappingTagNamespaceLifecycleState = map[string]TagNamespaceLifecycleStateEnum{
+	"ACTIVE":   TagNamespaceLifecycleStateActive,
+	"INACTIVE": TagNamespaceLifecycleStateInactive,
+	"DELETING": TagNamespaceLifecycleStateDeleting,
+	"DELETED":  TagNamespaceLifecycleStateDeleted,
+}
+
+// GetTagNamespaceLifecycleStateEnumValues Enumerates the set of values for TagNamespaceLifecycleStateEnum
+func GetTagNamespaceLifecycleStateEnumValues() []TagNamespaceLifecycleStateEnum {
+	values := make([]TagNamespaceLifecycleStateEnum, 0)
+	for _, v := range mappingTagNamespaceLifecycleState {
+		values = append(values, v)
+	}
+	return values
 }

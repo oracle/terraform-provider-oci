@@ -72,6 +72,9 @@ type AutonomousDatabase struct {
 
 	// The client IP access control list (ACL). Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance. This is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet.
 	WhitelistedIps []string `mandatory:"false" json:"whitelistedIps"`
+
+	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count.
+	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
 }
 
 func (m AutonomousDatabase) String() string {

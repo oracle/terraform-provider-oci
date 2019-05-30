@@ -16,6 +16,7 @@ import (
 // SessionPersistenceConfigurationDetails The configuration details for implementing session persistence. Session persistence enables the Load Balancing
 // Service to direct any number of requests that originate from a single logical client to a single backend web server.
 // For more information, see Session Persistence (https://docs.cloud.oracle.com/Content/Balance/Reference/sessionpersistence.htm).
+//
 // To disable session persistence on a running load balancer, use the
 // UpdateBackendSet operation and specify "null" for the
 // `SessionPersistenceConfigurationDetails` object.

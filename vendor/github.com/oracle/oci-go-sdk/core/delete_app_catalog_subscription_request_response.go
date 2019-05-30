@@ -14,7 +14,7 @@ type DeleteAppCatalogSubscriptionRequest struct {
 	// The OCID of the listing.
 	ListingId *string `mandatory:"true" contributesTo:"query" name:"listingId"`
 
-	// The OCID of the compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Listing Resource Version.
@@ -49,8 +49,8 @@ type DeleteAppCatalogSubscriptionResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 

@@ -20,7 +20,7 @@ import (
 type IpSecConnectionTunnelSharedSecret struct {
 
 	// The tunnel's shared secret (pre-shared key).
-	// Example: `EXAMPLEToUis6j1c.p8G.dVQxcmdfMO0yXMLi.lZTbYCMDGu4V8o`
+	// Example: `EXAMPLEToUis6j1cp8GdVQxcmdfMO0yXMLilZTbYCMDGu4V8o`
 	SharedSecret *string `mandatory:"true" json:"sharedSecret"`
 }
 
