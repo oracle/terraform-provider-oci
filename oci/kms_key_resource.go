@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -13,6 +14,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/validation"
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
@@ -91,6 +93,11 @@ func KmsKeyResource() *schema.Resource {
 					"ENABLED",
 					"DISABLED",
 				}, false),
+			},
+			"time_of_deletion": {
+				Type:     schema.TypeString,
+				Computed: true,
+				Optional: true,
 			},
 
 			// Computed
@@ -174,7 +181,19 @@ func updateKmsKey(d *schema.ResourceData, m interface{}) error {
 }
 
 func deleteKmsKey(d *schema.ResourceData, m interface{}) error {
-	return nil
+	sync := &KmsKeyResourceCrud{}
+	sync.D = d
+	endpoint, ok := d.GetOkExists("management_endpoint")
+	if !ok {
+		return fmt.Errorf("management endpoint missing")
+	}
+	client, err := m.(*OracleClients).KmsManagementClient(endpoint.(string))
+	if err != nil {
+		return err
+	}
+	sync.Client = client
+
+	return DeleteResource(d, sync)
 }
 
 type KmsKeyResourceCrud struct {
@@ -362,6 +381,25 @@ func (s *KmsKeyResourceCrud) Update() error {
 	return nil
 }
 
+func (s *KmsKeyResourceCrud) Delete() error {
+	request := oci_kms.ScheduleKeyDeletionRequest{}
+
+	if timeOfDeletion, ok := s.D.GetOkExists("time_of_deletion"); ok {
+		tmpTime, err := time.Parse(time.RFC3339Nano, timeOfDeletion.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeOfDeletion = &oci_common.SDKTime{Time: tmpTime}
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+	tmp := s.D.Id()
+	request.KeyId = &tmp
+
+	_, err := s.Client.ScheduleKeyDeletion(context.Background(), request)
+	return err
+}
+
 func (s *KmsKeyResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -393,6 +431,10 @@ func (s *KmsKeyResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeOfDeletion != nil {
+		s.D.Set("time_of_deletion", *s.Res.TimeOfDeletion)
 	}
 
 	if s.Res.VaultId != nil {
