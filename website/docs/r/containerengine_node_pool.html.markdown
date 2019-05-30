@@ -50,7 +50,7 @@ The following arguments are supported:
 * `name` - (Required) (Updatable) The name of the node pool. Avoid entering confidential information.
 * `node_image_name` - (Optional) The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
 * `node_image_id` - (Optional) The OCID of the image running on the nodes in the node pool. Cannot be used when `node_image_name` is specified.
-* `node_metadata` - (Optional) A list of key/value pairs to add to each underlyingOracle Cloud Infrastructure instance in the node pool.
+* `node_metadata` - (Optional) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool.
 * `node_shape` - (Required) The name of the node shape of the nodes in the node pool.
 * `quantity_per_subnet` - (Optional) (Updatable) The number of nodes to create in each subnet.
 * `ssh_public_key` - (Optional) The SSH public key to add to each node in the node pool.
@@ -74,7 +74,7 @@ The following attributes are exported:
 * `name` - The name of the node pool.
 * `node_image_id` - The OCID of the image running on the nodes in the node pool.
 * `node_image_name` - The name of the image running on the nodes in the node pool.
-* `node_metadata` - A list of key/value pairs to add to each underlyingOracle Cloud Infrastructure instance in the node pool.
+* `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool.
 * `node_shape` - The name of the node shape of the nodes in the node pool.
 * `nodes` - The nodes in the node pool.
 	* `availability_domain` - The name of the availability domain in which this node is placed.
