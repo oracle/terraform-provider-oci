@@ -179,33 +179,6 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 				ExpectError: regexp.MustCompile("InvalidParameter.*JSON input"),
 			},
 			{
-				Config: legacyTestProviderConfig() + defaultDhcpOpts + `
-					resource "oci_core_virtual_network" "t" {
-						cidr_block = "10.0.0.0/16"
-						compartment_id = "${var.compartment_id}"
-						display_name = "network_name"
-					}
-
-					resource "oci_core_dhcp_options" "opt6" {
-						compartment_id = "${var.compartment_id}"
-						vcn_id = "${oci_core_virtual_network.t.id}"
-						display_name = "display_name6"
-						options {
-							type = "DomainNameServer"
-							server_type = "CustomDnsServer"
-							custom_dns_servers = [ "8.8.4.4", "8.8.8.8" ]
-							search_domain_names = [ "test.com" ]
-						}
-						options {
-							type = "SearchDomain"
-							server_type = "CustomDnsServer"
-							custom_dns_servers = [ "8.8.4.4", "8.8.8.8" ]
-							search_domain_names = [ "test.com" ]
-						}
-					}`,
-				ExpectError: regexp.MustCompile("should not be specified for type"),
-			},
-			{
 				Config: s.Config + additionalDhcpOption4 + defaultDhcpOpts,
 				Check: resource.ComposeAggregateTestCheckFunc(
 
