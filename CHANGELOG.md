@@ -2,7 +2,8 @@
 
 ### Added
 - Support for ATP-S autoscaling
-- Support for specifying Fault Domains in `launch_details` for `oci_core_instance_configuration` resource 
+- Support for specifying Fault Domains in `launch_details` for `oci_core_instance_configuration` resource
+- Support for defined tags and tag namespace deletion
 
 ## 3.27.0 (May 29, 2019)
 
@@ -49,7 +50,7 @@
 - Support for updating `license_model` for `oci_autonomous_database` resource
 - Support for updating `static_routes` and new `cpe_local_identifier` in `oci_core_ipsec` resource for improved VPN service usability
 - Support for updating `whitelisted_ips` in `autonomous_database`. Note: Cannot be used during creation.
-- Support tagging for Dynamic Groups in Identity 
+- Support tagging for Dynamic Groups in Identity
 
 ## 3.22.0 (April 10, 2019)
 
