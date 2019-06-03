@@ -22,6 +22,7 @@ management (e.g., `ListUsers`, `LaunchInstance`) and receive an "unauthorized" e
 check with an administrator to confirm which IAM Service group(s) you're in and what access
 you have. Also confirm you're working in the correct compartment.
 
+
 ## Example Usage
 
 ```hcl
@@ -54,4 +55,8 @@ The following attributes are exported:
 * `state` - The API key's current state.
 * `time_created` - Date and time the `ApiKey` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the key belongs to.
+
+## Import
+
+Import is not supported for this resource.
 

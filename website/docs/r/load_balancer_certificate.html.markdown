@@ -115,3 +115,7 @@ The following attributes are exported:
 	    -----END CERTIFICATE-----
 	
 
+## Import
+
+Import is not supported for this resource.
+

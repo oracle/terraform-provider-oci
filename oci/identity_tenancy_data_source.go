@@ -102,10 +102,6 @@ func (s *IdentityTenancyDataSourceCrud) SetData() error {
 		s.D.Set("home_region_key", *s.Res.HomeRegionKey)
 	}
 
-	if s.Res.Id != nil {
-		s.D.Set("tenancy_id", *s.Res.Id)
-	}
-
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}

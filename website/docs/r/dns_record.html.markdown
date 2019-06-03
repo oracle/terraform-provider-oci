@@ -61,3 +61,7 @@ The following attributes are exported:
 * `ttl` - The Time To Live for the record, in seconds.
 * `zone_name_or_id` - The name or OCID of the target zone.
 
+## Import
+
+Import is not supported for this resource.
+

@@ -48,9 +48,9 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `records` - A collection of DNS resource records.
+* `records` - The list of records.
 
-### DnsRecord Reference
+### Record Reference
 
 The following attributes are exported:
 

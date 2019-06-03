@@ -335,6 +335,7 @@ func (s *DnsZoneResourceCrud) Delete() error {
 	request.ZoneNameOrId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+
 	_, err := s.Client.DeleteZone(context.Background(), request)
 	return err
 }
@@ -376,15 +377,17 @@ func (s *DnsZoneResourceCrud) SetData() error {
 		s.D.Set("serial", *s.Res.Serial)
 	}
 
+	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
 	if s.Res.Version != nil {
 		s.D.Set("version", *s.Res.Version)
 	}
 
 	s.D.Set("zone_type", s.Res.ZoneType)
-
-	s.D.Set("state", s.Res.LifecycleState)
-
-	s.D.Set("time_created", s.Res.TimeCreated.String())
 
 	return nil
 }

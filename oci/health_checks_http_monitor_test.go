@@ -276,6 +276,8 @@ func sweepHealthChecksHttpMonitorResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[httpMonitorId]; !ok {
 			deleteHttpMonitorRequest := oci_health_checks.DeleteHttpMonitorRequest{}
 
+			deleteHttpMonitorRequest.MonitorId = &httpMonitorId
+
 			deleteHttpMonitorRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "health_checks")
 			_, error := healthChecksClient.DeleteHttpMonitor(context.Background(), deleteHttpMonitorRequest)
 			if error != nil {
