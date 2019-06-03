@@ -44,18 +44,6 @@ var (
 		"defined_tags":              Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":              Representation{repType: Optional, create: `MyIPSecConnection`, update: `displayName2`},
 		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"tunnel_configuration":      RepresentationGroup{Optional, ipSecConnectionTunnelConfigurationRepresentation},
-	}
-	ipSecConnectionTunnelConfigurationRepresentation = map[string]interface{}{
-		"bgp_session_config": RepresentationGroup{Optional, ipSecConnectionTunnelConfigurationBgpSessionConfigRepresentation},
-		"display_name":       Representation{repType: Optional, create: `MyIPSecConnection`},
-		"routing":            Representation{repType: Optional, create: `BGP`},
-		"shared_secret":      Representation{repType: Optional, create: `sharedSecret`},
-	}
-	ipSecConnectionTunnelConfigurationBgpSessionConfigRepresentation = map[string]interface{}{
-		"customer_bgp_asn":      Representation{repType: Optional, create: `1587232876`},
-		"customer_interface_ip": Representation{repType: Optional, create: `10.0.0.16/31`},
-		"oracle_interface_ip":   Representation{repType: Optional, create: `10.0.0.17/31`},
 	}
 
 	IpSecConnectionResourceDependencies = CpeRequiredOnlyResource + DrgRequiredOnlyResource
@@ -120,18 +108,6 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "tunnel_configuration.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "tunnel_configuration", map[string]string{
-						"bgp_session_config.#": "1",
-						"display_name":         "MyIPSecConnection",
-						"routing":              "BGP",
-						"shared_secret":        "sharedSecret",
-					},
-						[]string{
-							"display_name",
-							"routing",
-							"shared_secret",
-						}),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -156,18 +132,6 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "tunnel_configuration.#", "1"),
-					CheckResourceSetContainsElementWithProperties(resourceName, "tunnel_configuration", map[string]string{
-						"bgp_session_config.#": "1",
-						"display_name":         "MyIPSecConnection",
-						"routing":              "BGP",
-						"shared_secret":        "sharedSecret",
-					},
-						[]string{
-							"display_name",
-							"routing",
-							"shared_secret",
-						}),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -206,13 +170,11 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:            config,
-				ImportState:       true,
-				ImportStateVerify: true,
-				ImportStateVerifyIgnore: []string{
-					"tunnel_configuration",
-				},
-				ResourceName: resourceName,
+				Config:                  config,
+				ImportState:             true,
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{},
+				ResourceName:            resourceName,
 			},
 		},
 	})

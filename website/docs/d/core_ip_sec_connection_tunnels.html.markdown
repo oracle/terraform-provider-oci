@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_core_ipsec_connection_tunnels
 This data source provides the list of Ip Sec Connection Tunnels in Oracle Cloud Infrastructure Core service.
 
-Gets the lists of tunnel information for the specified IPSec connection.
+Lists the tunnel information for the specified IPSec connection.
 
 
 ## Example Usage
@@ -38,20 +38,40 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `bgp_session_info` - Information needed to establish a BGP Session on an interface. 
-	* `bgp_state` - the state of the BGP. 
-	* `customer_bgp_asn` - This is the value of the remote Bgp ASN in asplain format, as a string. Example: 1587232876 (4 byte ASN) or 12345 (2 byte ASN) 
-	* `customer_interface_ip` - This is the IPv4 Address used in the BGP peering session for the non-Oracle router. Example: 10.0.0.2/31 
-	* `oracle_bgp_asn` - This is the value of the Oracle Bgp ASN in asplain format, as a string. Example: 1587232876 (4 byte ASN) or 12345 (2 byte ASN) 
-	* `oracle_interface_ip` - This is the IPv4 Address used in the BGP peering session for the Oracle router. Example: 10.0.0.1/31 
-* `compartment_id` - The OCID of the compartment containing the tunnel.
-* `cpe_ip` - The IP address of Cpe headend.  Example: `129.146.17.50` 
+* `bgp_session_info` - Information for establishing the tunnel's BGP session. 
+	* `bgp_state` - The state of the BGP session. 
+	* `customer_bgp_asn` - If the tunnel's `routing` attribute is set to `BGP` (see [IPSecConnectionTunnel](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnel/)), this ASN is required and used for the tunnel's BGP session. This is the ASN of the network on the CPE end of the BGP session. Can be a 2-byte or 4-byte ASN. Uses "asplain" format.
+
+		If the tunnel uses static routing, the `customerBgpAsn` must be null.
+
+		Example: `12345` (2-byte) or `1587232876` (4-byte) 
+	* `customer_interface_ip` - The IP address for the CPE end of the inside tunnel interface.
+
+		If the tunnel's `routing` attribute is set to `BGP` (see [IPSecConnectionTunnel](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnel/)), this IP address is required and used for the tunnel's BGP session.
+
+		If `routing` is instead set to `STATIC`, this IP address is optional. You can set this IP address so you can troubleshoot or monitor the tunnel.
+
+		The value must be a /30 or /31.
+
+		Example: `10.0.0.5/31` 
+	* `oracle_bgp_asn` - The Oracle BGP ASN. 
+	* `oracle_interface_ip` - The IP address for the Oracle end of the inside tunnel interface.
+
+		If the tunnel's `routing` attribute is set to `BGP` (see [IPSecConnectionTunnel](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnel/)), this IP address is required and used for the tunnel's BGP session.
+
+		If `routing` is instead set to `STATIC`, this IP address is optional. You can set this IP address so you can troubleshoot or monitor the tunnel.
+
+		The value must be a /30 or /31.
+
+		Example: `10.0.0.4/31` 
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the tunnel. 
+* `cpe_ip` - The IP address of the CPE's VPN headend.  Example: `192.0.2.157` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `id` - The tunnel's Oracle ID (OCID).
-* `routing` - the routing strategy used for this tunnel, either static route or BGP dynamic routing
-* `state` - The IPSec connection's tunnel's lifecycle state.
-* `status` - The tunnel's current state.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tunnel.
+* `routing` - The type of routing used for this tunnel (either BGP dynamic routing or static routing). 
+* `state` - The tunnel's lifecycle state.
+* `status` - The status of the tunnel based on IPSec protocol characteristics.
 * `time_created` - The date and time the IPSec connection tunnel was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_status_updated` - When the status of the tunnel last changed, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
-* `vpn_ip` - The IP address of Oracle's VPN headend.  Example: `129.146.17.50` 
+* `vpn_ip` - The IP address of Oracle's VPN headend.  Example: `192.0.2.5` 
 
