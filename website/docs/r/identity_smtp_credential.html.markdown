@@ -50,3 +50,7 @@ The following attributes are exported:
 * `user_id` - The OCID of the user the SMTP credential belongs to.
 * `username` - The SMTP user name. 
 
+## Import
+
+Import is not supported for this resource.
+

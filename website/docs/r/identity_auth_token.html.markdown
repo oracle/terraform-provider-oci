@@ -55,3 +55,7 @@ The following attributes are exported:
 * `token` - The auth token. The value is available only in the response for `CreateAuthToken`, and not for `ListAuthTokens` or `UpdateAuthToken`. 
 * `user_id` - The OCID of the user the auth token belongs to.
 
+## Import
+
+Import is not supported for this resource.
+

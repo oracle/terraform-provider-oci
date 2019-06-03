@@ -16,14 +16,10 @@ func DnsZonesDataSource() *schema.Resource {
 		Read: readDnsZones,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
-
-			// Required
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
-			// Optional
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -56,8 +52,6 @@ func DnsZonesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-
-			// Computed
 			"zones": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -195,7 +189,11 @@ func (s *DnsZonesDataSourceCrud) SetData() error {
 			zone["serial"] = *r.Serial
 		}
 
-		zone["time_created"] = r.TimeCreated.String()
+		zone["state"] = r.LifecycleState
+
+		if r.TimeCreated != nil {
+			zone["time_created"] = r.TimeCreated.String()
+		}
 
 		if r.Version != nil {
 			zone["version"] = *r.Version

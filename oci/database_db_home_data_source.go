@@ -4,7 +4,6 @@ package provider
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/database"
@@ -42,10 +41,6 @@ func (s *DatabaseDbHomeDataSourceCrud) Get() error {
 
 	if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
 		tmp := dbHomeId.(string)
-		if len(tmp) == 0 {
-			return fmt.Errorf("db_home_id must contain a valid ocid")
-		}
-
 		request.DbHomeId = &tmp
 	}
 

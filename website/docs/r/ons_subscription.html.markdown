@@ -36,7 +36,6 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `endpoint` - (Required) The endpoint of the subscription. Valid values depend on the protocol.  For EMAIL, only an email address is valid. For HTTPS, only a PagerDuty URL is valid. A URL cannot exceed 512 characters. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `metadata` - (Optional) Metadata for the subscription. Avoid entering confidential information.
 * `protocol` - (Required) The protocol to use for delivering messages. Valid values: EMAIL, HTTPS. 
 * `topic_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic for the subscription. 
 
@@ -48,7 +47,6 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `created_time` - The time when this suscription was created.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `delivery_policy` - The delivery policy of the subscription. Stored as a JSON string.
 * `endpoint` - The endpoint of the subscription. Valid values depend on the protocol.  For EMAIL, only an email address is valid. For HTTPS, only a PagerDuty URL is valid. A URL cannot exceed 512 characters. Avoid entering confidential information. 
@@ -57,5 +55,8 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription. 
 * `protocol` - The protocol used for the subscription. Valid values: EMAIL, HTTPS. 
 * `state` - The lifecycle state of the subscription. Default value for a newly created subscription: PENDING. 
-* `topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated topic. 
+
+## Import
+
+Import is not supported for this resource.
 

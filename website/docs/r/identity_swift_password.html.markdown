@@ -57,3 +57,7 @@ The following attributes are exported:
 * `time_created` - Date and time the `SwiftPassword` object was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the password belongs to.
 
+## Import
+
+Import is not supported for this resource.
+

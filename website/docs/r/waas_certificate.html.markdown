@@ -88,3 +88,7 @@ The following attributes are exported:
 * `time_not_valid_before` - 
 * `version` - 
 
+## Import
+
+Import is not supported for this resource.
+

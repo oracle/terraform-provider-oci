@@ -39,18 +39,21 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `bucket_summaries` - The list of buckets.
+* `bucket_summaries` - The list of bucket_summaries.
 
 ### Bucket Reference
 
 The following attributes are exported:
 
 * `access_type` - The type of public access enabled on this bucket. A bucket is set to `NoPublicAccess` by default, which only allows an authenticated caller to access the bucket and its contents. When `ObjectRead` is enabled on the bucket, public access is allowed for the `GetObject`, `HeadObject`, and `ListObjects` operations. When `ObjectReadWithoutList` is enabled on the bucket, public access is allowed for the `GetObject` and `HeadObject` operations. 
+* `approximate_count` - The approximate number of objects in the bucket. Count statistics are reported periodically. You will see a lag between what is displayed and the actual object count. 
+* `approximate_size` - The approximate total size in bytes of all objects in the bucket. Size statistics are reported periodically. You will see a lag between what is displayed and the actual size of the bucket. 
 * `compartment_id` - The compartment ID in which the bucket is authorized.
 * `created_by` - The OCID of the user who created the bucket.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `etag` - The entity tag (ETag) for the bucket.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `kms_key_id` - The OCID of a KMS key id used to call KMS to generate data key or decrypt the encrypted data key. 
 * `metadata` - Arbitrary string keys and values for user-defined metadata.
 * `name` - The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1 
 * `namespace` - The Object Storage namespace in which the bucket lives.

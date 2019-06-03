@@ -335,7 +335,6 @@ func (s *ObjectStorageBucketResourceCrud) Delete() error {
 
 func (s *ObjectStorageBucketResourceCrud) SetData() error {
 
-	// For ImportStateVerify to keep state consistent after import
 	bucket, namespace, err := parseBucketCompositeId(s.D.Id())
 	if err == nil {
 		s.D.Set("bucket", &bucket)

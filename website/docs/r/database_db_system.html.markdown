@@ -16,10 +16,6 @@ An initial database is created on the DB system based on the request parameters 
 options. For more information,
 see [Default Options for the Initial Database](https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/launchingDB.htm#DefaultOptionsfortheInitialDatabase).
 
-The DB System will include a command line interface (CLI) that you can use to create additional databases and
-manage existing databases. For more information, see the
-[Oracle Database CLI Reference](https://docs.cloud.oracle.com/iaas/Content/Database/References/dbacli.htm).
-
 
 ## Example Usage
 

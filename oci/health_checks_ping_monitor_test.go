@@ -264,6 +264,8 @@ func sweepHealthChecksPingMonitorResource(compartment string) error {
 		if ok := SweeperDefaultResourceId[pingMonitorId]; !ok {
 			deletePingMonitorRequest := oci_health_checks.DeletePingMonitorRequest{}
 
+			deletePingMonitorRequest.MonitorId = &pingMonitorId
+
 			deletePingMonitorRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "health_checks")
 			_, error := healthChecksClient.DeletePingMonitor(context.Background(), deletePingMonitorRequest)
 			if error != nil {

@@ -56,3 +56,7 @@ The following attributes are exported:
 * `time_expires` - Date and time when this password will expire, in the format defined by RFC3339. Null if it never expires.  Example: `2016-08-25T21:10:29.600Z` 
 * `user_id` - The OCID of the user the password belongs to.
 
+## Import
+
+Import is not supported for this resource.
+

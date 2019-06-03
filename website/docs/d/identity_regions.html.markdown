@@ -18,6 +18,12 @@ data "oci_identity_regions" "test_regions" {
 }
 ```
 
+## Argument Reference
+
+The following arguments are supported:
+
+
+
 ## Attributes Reference
 
 The following attributes are exported:
