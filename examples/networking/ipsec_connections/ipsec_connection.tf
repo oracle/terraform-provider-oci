@@ -73,20 +73,6 @@ resource "oci_core_ipsec" "test_ip_sec_connection" {
   defined_tags              = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.ip_sec_connection_defined_tags_value}")}"
   display_name              = "${var.ip_sec_connection_display_name}"
   freeform_tags             = "${var.ip_sec_connection_freeform_tags}"
-
-  tunnel_configuration {
-    #Optional
-    bgp_session_config {
-      #Optional
-      customer_bgp_asn      = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_customer_bgp_asn}"
-      customer_interface_ip = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_customer_interface_ip}"
-      oracle_interface_ip   = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_oracle_interface_ip}"
-    }
-
-    display_name  = "${var.ip_sec_connection_tunnel_configuration_display_name}"
-    routing       = "${var.ip_sec_connection_tunnel_configuration_routing}"
-    shared_secret = "${var.ip_sec_connection_tunnel_configuration_shared_secret}"
-  }
 }
 
 data "oci_core_ipsec_connections" "test_ip_sec_connections" {
@@ -100,11 +86,25 @@ data "oci_core_ipsec_connections" "test_ip_sec_connections" {
 
 data "oci_core_ipsec_connection_tunnels" "test_ip_sec_connection_tunnels" {
   ipsec_id = "${oci_core_ipsec.test_ip_sec_connection.id}"
-
-  # tunnel_id = ""
 }
 
 data "oci_core_ipsec_connection_tunnel" "test_ipsec_connection_tunnel" {
   ipsec_id  = "${oci_core_ipsec.test_ip_sec_connection.id}"
   tunnel_id = "${data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels.0.id}"
+}
+
+resource "oci_core_ipsec_connection_tunnel_management" "test_ipsec_connection_tunnel_management" {
+  ipsec_id  = "${oci_core_ipsec.test_ip_sec_connection.id}"
+  tunnel_id = "${data.oci_core_ipsec_connection_tunnels.test_ip_sec_connection_tunnels.ip_sec_connection_tunnels.0.id}"
+
+  #Optional
+  bgp_session_info {
+    customer_bgp_asn      = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_customer_bgp_asn}"
+    customer_interface_ip = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_customer_interface_ip}"
+    oracle_interface_ip   = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_oracle_interface_ip}"
+  }
+
+  display_name  = "${var.ip_sec_connection_tunnel_configuration_display_name}"
+  routing       = "${var.ip_sec_connection_tunnel_configuration_routing}"
+  shared_secret = "${var.ip_sec_connection_tunnel_configuration_shared_secret}"
 }
