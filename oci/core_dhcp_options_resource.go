@@ -4,14 +4,12 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
-
 	"github.com/hashicorp/terraform/helper/validation"
-
-	"fmt"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
@@ -53,6 +51,7 @@ func CoreDhcpOptionsResource() *schema.Resource {
 						"custom_dns_servers": {
 							Type:     schema.TypeList,
 							Optional: true,
+							Computed: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -60,6 +59,7 @@ func CoreDhcpOptionsResource() *schema.Resource {
 						"search_domain_names": {
 							Type:     schema.TypeList,
 							Optional: true,
+							Computed: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -67,6 +67,7 @@ func CoreDhcpOptionsResource() *schema.Resource {
 						"server_type": {
 							Type:     schema.TypeString,
 							Optional: true,
+							Computed: true,
 							ValidateFunc: validation.StringInSlice([]string{
 								string(oci_core.DhcpDnsOptionServerTypeCustomdnsserver),
 								string(oci_core.DhcpDnsOptionServerTypeVcnlocal),
@@ -367,9 +368,6 @@ func (s *CoreDhcpOptionsResourceCrud) mapToDhcpOption(fieldKeyFormat string) (oc
 	}
 	switch strings.ToLower(type_) {
 	case strings.ToLower("DomainNameServer"):
-		if searchDomainNames, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "search_domain_names")); ok && len(searchDomainNames.([]interface{})) > 0 {
-			return nil, fmt.Errorf("'search_domain_names' should not be specified for type DomainNameServer")
-		}
 		details := oci_core.DhcpDnsOption{}
 		details.CustomDnsServers = []string{}
 		if customDnsServers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_dns_servers")); ok {
@@ -387,14 +385,6 @@ func (s *CoreDhcpOptionsResourceCrud) mapToDhcpOption(fieldKeyFormat string) (oc
 		}
 		baseObject = details
 	case strings.ToLower("SearchDomain"):
-		if customDnsServers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_dns_servers")); ok && len(customDnsServers.([]interface{})) > 0 {
-			return nil, fmt.Errorf("'custom_dns_servers' should not be specified for type SearchDomain")
-		}
-
-		if serverType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_type")); ok && len(serverType.(string)) > 0 {
-			return nil, fmt.Errorf("'server_type' should not be specified for type SearchDomain")
-		}
-
 		details := oci_core.DhcpSearchDomainOption{}
 		details.SearchDomainNames = []string{}
 		if searchDomainNames, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "search_domain_names")); ok {
@@ -411,7 +401,6 @@ func (s *CoreDhcpOptionsResourceCrud) mapToDhcpOption(fieldKeyFormat string) (oc
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
-
 	return baseObject, nil
 }
 

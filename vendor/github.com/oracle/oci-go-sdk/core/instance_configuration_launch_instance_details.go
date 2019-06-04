@@ -31,8 +31,8 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// the instance is launched.
 	CreateVnicDetails *InstanceConfigurationCreateVnicDetails `mandatory:"false" json:"createVnicDetails"`
 
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Defined tags for this resource. Each key is predefined and scoped to a
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
@@ -46,8 +46,7 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	ExtendedMetadata map[string]interface{} `mandatory:"false" json:"extendedMetadata"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
-	// predefined name, type, or namespace. For more information, see
-	// Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
@@ -125,6 +124,19 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// Details for creating an instance.
 	// Use this parameter to specify whether a boot volume or an image should be used to launch a new instance.
 	SourceDetails InstanceConfigurationInstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
+
+	// A fault domain is a grouping of hardware and infrastructure within an availability domain.
+	// Each availability domain contains three fault domains. Fault domains let you distribute your
+	// instances so that they are not on the same physical hardware within a single availability domain.
+	// A hardware failure or Compute hardware maintenance that affects one fault domain does not affect
+	// instances in other fault domains.
+	// If you do not specify the fault domain, the system selects one for you. To change the fault
+	// domain for an instance, terminate it and launch a new instance in the preferred fault domain.
+	// To get a list of fault domains, use the
+	// ListFaultDomains operation in the
+	// Identity and Access Management Service API.
+	// Example: `FAULT-DOMAIN-1`
+	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 }
 
 func (m InstanceConfigurationLaunchInstanceDetails) String() string {
@@ -145,6 +157,7 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 		Metadata           map[string]string                          `json:"metadata"`
 		Shape              *string                                    `json:"shape"`
 		SourceDetails      instanceconfigurationinstancesourcedetails `json:"sourceDetails"`
+		FaultDomain        *string                                    `json:"faultDomain"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -170,5 +183,6 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 	} else {
 		m.SourceDetails = nil
 	}
+	m.FaultDomain = model.FaultDomain
 	return
 }

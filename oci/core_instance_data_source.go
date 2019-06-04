@@ -101,7 +101,6 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.ImageId != nil {
-		// @CODEGEN 1/2018: support legacy name "image"
 		s.D.Set("image", *s.Res.ImageId)
 	}
 

@@ -53,6 +53,7 @@ func TestIdentityCostTrackingTagResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.is_cost_tracking"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.is_retired"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.name"),
+					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.tag_namespace_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.tag_namespace_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.time_created"),

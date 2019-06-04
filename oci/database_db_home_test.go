@@ -365,6 +365,10 @@ func getDbHomeIds(compartment string) ([]string, error) {
 	listDbHomesRequest := oci_database.ListDbHomesRequest{}
 	listDbHomesRequest.CompartmentId = &compartmentId
 
+	// Terminate the newest database first to make sure we delete any standby databases created by Data Guard Associations first
+	listDbHomesRequest.SortBy = oci_database.ListDbHomesSortByTimecreated
+	listDbHomesRequest.SortOrder = oci_database.ListDbHomesSortOrderDesc
+
 	dbSystemIds, error := getDbSystemIds(compartment)
 	if error != nil {
 		return resourceIds, fmt.Errorf("Error getting dbSystemId required for DbHome resource requests \n")

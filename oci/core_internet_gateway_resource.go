@@ -167,10 +167,10 @@ func (s *CoreInternetGatewayResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
-	// TODO: GetOk malfunction with this bool: 'ok' is always the value of the bool
-	// newer versions of terraform support GetOkExists which should resolve this problem
-	enabledTmp := s.D.Get("enabled").(bool)
-	request.IsEnabled = &enabledTmp
+	if enabled, ok := s.D.GetOkExists("enabled"); ok {
+		tmp := enabled.(bool)
+		request.IsEnabled = &tmp
+	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
@@ -225,10 +225,10 @@ func (s *CoreInternetGatewayResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
-	// TODO: GetOk malfunction with this bool: 'ok' is always the value of the bool
-	// newer versions of terraform support GetOkExists which should resolve this problem
-	enabledTmp := s.D.Get("enabled").(bool)
-	request.IsEnabled = &enabledTmp
+	if enabled, ok := s.D.GetOkExists("enabled"); ok {
+		tmp := enabled.(bool)
+		request.IsEnabled = &tmp
+	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))

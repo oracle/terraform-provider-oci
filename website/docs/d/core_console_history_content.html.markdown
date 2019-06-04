@@ -22,8 +22,8 @@ data "oci_core_console_history_data" "test_console_history_data" {
 	console_history_id = "${oci_core_console_history.test_console_history.id}"
 
 	#Optional
-	length = 10240
-	offset = 0
+	length = "${var.console_history_content_length}"
+	offset = "${var.console_history_content_offset}"
 }
 ```
 

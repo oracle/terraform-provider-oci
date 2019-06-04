@@ -59,6 +59,11 @@ func getDbSystemIds(compartment string) ([]string, error) {
 	listDbSystemsRequest := oci_database.ListDbSystemsRequest{}
 	listDbSystemsRequest.CompartmentId = &compartmentId
 	listDbSystemsRequest.LifecycleState = oci_database.DbSystemSummaryLifecycleStateAvailable
+
+	// Terminate the newest dbSystem first to make sure any standby databases created by Data Guard Assocuations are deleted first
+	listDbSystemsRequest.SortBy = oci_database.ListDbSystemsSortByTimecreated
+	listDbSystemsRequest.SortOrder = oci_database.ListDbSystemsSortOrderDesc
+
 	listDbSystemsResponse, err := databaseClient.ListDbSystems(context.Background(), listDbSystemsRequest)
 
 	if err != nil {

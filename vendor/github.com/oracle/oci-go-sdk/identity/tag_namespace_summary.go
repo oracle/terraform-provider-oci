@@ -41,6 +41,9 @@ type TagNamespaceSummary struct {
 	// For more information, see Retiring Key Definitions and Namespace Definitions (https://docs.cloud.oracle.com/Content/Identity/Concepts/taggingoverview.htm#Retiring).
 	IsRetired *bool `mandatory:"false" json:"isRetired"`
 
+	// The tagnamespace's current state. After creating a tagnamespace, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tagnamespace, make sure its `lifecycleState` is INACTIVE before using it.
+	LifecycleState TagNamespaceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
 	// Date and time the tag namespace was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`

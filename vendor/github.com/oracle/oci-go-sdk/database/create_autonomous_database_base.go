@@ -41,6 +41,9 @@ type CreateAutonomousDatabaseBase interface {
 	// The Oracle license model that applies to the Oracle Autonomous Database. The default is BRING_YOUR_OWN_LICENSE.
 	GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum
 
+	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count. The default value is false.
+	GetIsAutoScalingEnabled() *bool
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -62,6 +65,7 @@ type createautonomousdatabasebase struct {
 	DbWorkload           CreateAutonomousDatabaseBaseDbWorkloadEnum   `mandatory:"false" json:"dbWorkload,omitempty"`
 	DisplayName          *string                                      `mandatory:"false" json:"displayName"`
 	LicenseModel         CreateAutonomousDatabaseBaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
+	IsAutoScalingEnabled *bool                                        `mandatory:"false" json:"isAutoScalingEnabled"`
 	FreeformTags         map[string]string                            `mandatory:"false" json:"freeformTags"`
 	DefinedTags          map[string]map[string]interface{}            `mandatory:"false" json:"definedTags"`
 	Source               string                                       `json:"source"`
@@ -86,6 +90,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.DbWorkload = s.Model.DbWorkload
 	m.DisplayName = s.Model.DisplayName
 	m.LicenseModel = s.Model.LicenseModel
+	m.IsAutoScalingEnabled = s.Model.IsAutoScalingEnabled
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.Source = s.Model.Source
@@ -153,6 +158,11 @@ func (m createautonomousdatabasebase) GetDisplayName() *string {
 //GetLicenseModel returns LicenseModel
 func (m createautonomousdatabasebase) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
 	return m.LicenseModel
+}
+
+//GetIsAutoScalingEnabled returns IsAutoScalingEnabled
+func (m createautonomousdatabasebase) GetIsAutoScalingEnabled() *bool {
+	return m.IsAutoScalingEnabled
 }
 
 //GetFreeformTags returns FreeformTags

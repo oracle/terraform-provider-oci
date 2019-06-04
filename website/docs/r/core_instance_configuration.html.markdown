@@ -73,6 +73,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 			defined_tags = {"Operations.CostCenter"= "42"}
 			display_name = "${var.instance_configuration_instance_details_launch_details_display_name}"
 			extended_metadata = "${var.instance_configuration_instance_details_launch_details_extended_metadata}"
+			fault_domain = "${var.instance_configuration_instance_details_launch_details_fault_domain}"
 			freeform_tags = {"Department"= "Finance"}
 			ipxe_script = "${var.instance_configuration_instance_details_launch_details_ipxe_script}"
 			metadata = "${var.instance_configuration_instance_details_launch_details_metadata}"
@@ -154,6 +155,13 @@ The following arguments are supported:
 		* `extended_metadata` - (Optional) Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
 
 			They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only). 
+		* `fault_domain` - (Optional) A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
+
+			If you do not specify the fault domain, the system selects one for you. To change the fault domain for an instance, terminate it and launch a new instance in the preferred fault domain.
+
+			To get a list of fault domains, use the [ListFaultDomains](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/FaultDomain/ListFaultDomains) operation in the Identity and Access Management Service API.
+
+			Example: `FAULT-DOMAIN-1` 
 		* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 		* `ipxe_script` - (Optional) This is an advanced option.
 
@@ -262,6 +270,13 @@ The following attributes are exported:
 		* `extended_metadata` - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
 
 			They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only). 
+		* `fault_domain` - A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
+
+			If you do not specify the fault domain, the system selects one for you. To change the fault domain for an instance, terminate it and launch a new instance in the preferred fault domain.
+
+			To get a list of fault domains, use the [ListFaultDomains](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/FaultDomain/ListFaultDomains) operation in the Identity and Access Management Service API.
+
+			Example: `FAULT-DOMAIN-1` 
 		* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 		* `ipxe_script` - This is an advanced option.
 

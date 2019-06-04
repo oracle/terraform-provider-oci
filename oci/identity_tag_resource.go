@@ -18,11 +18,15 @@ func IdentityTagResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createIdentityTag,
-		Read:     readIdentityTag,
-		Update:   updateIdentityTag,
-		Delete:   deleteIdentityTag,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &FifteenMinutes,
+			Update: &FifteenMinutes,
+			Delete: &TwelveHours,
+		},
+		Create: createIdentityTag,
+		Read:   readIdentityTag,
+		Update: updateIdentityTag,
+		Delete: deleteIdentityTag,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"description": {
@@ -67,6 +71,10 @@ func IdentityTagResource() *schema.Resource {
 			},
 
 			// Computed
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -100,7 +108,18 @@ func updateIdentityTag(d *schema.ResourceData, m interface{}) error {
 }
 
 func deleteIdentityTag(d *schema.ResourceData, m interface{}) error {
-	return nil
+	// prevent tag deletion when testing, as its a time consuming and sequential operation permitted one per tenancy.
+	importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
+	if importIfExists {
+		return nil
+	}
+
+	sync := &IdentityTagResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).identityClient
+	sync.DisableNotFoundRetries = true
+
+	return DeleteResource(d, sync)
 }
 
 type IdentityTagResourceCrud struct {
@@ -112,6 +131,28 @@ type IdentityTagResourceCrud struct {
 
 func (s *IdentityTagResourceCrud) ID() string {
 	return *s.Res.Id
+}
+
+func (s *IdentityTagResourceCrud) CreatedPending() []string {
+	return []string{}
+}
+
+func (s *IdentityTagResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_identity.TagLifecycleStateActive),
+	}
+}
+
+func (s *IdentityTagResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_identity.TagLifecycleStateDeleting),
+	}
+}
+
+func (s *IdentityTagResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_identity.TagLifecycleStateDeleted),
+	}
 }
 
 func (s *IdentityTagResourceCrud) Create() error {
@@ -285,6 +326,54 @@ func (s *IdentityTagResourceCrud) Update() error {
 	return nil
 }
 
+func (s *IdentityTagResourceCrud) Delete() error {
+	// retire the tag if not already retired.
+	if isRetired, ok := s.D.GetOkExists("is_retired"); ok && (!isRetired.(bool) || s.D.HasChange("is_retired")) {
+
+		tmp := true
+		s.D.Set("is_retired", &tmp)
+
+		if err := s.Update(); err != nil {
+			return err
+		}
+	}
+
+	request := oci_identity.DeleteTagRequest{}
+
+	if tagName, ok := s.D.GetOkExists("name"); ok {
+		tmp := tagName.(string)
+		request.TagName = &tmp
+	}
+
+	if tagNamespaceId, ok := s.D.GetOkExists("tag_namespace_id"); ok {
+		tmp := tagNamespaceId.(string)
+		request.TagNamespaceId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	response, err := s.Client.DeleteTag(context.Background(), request)
+
+	if err != nil {
+		return err
+	}
+
+	// process work request
+	workReqID := response.OpcWorkRequestId
+	getWorkRequestRequest := oci_identity.GetWorkRequestRequest{}
+	getWorkRequestRequest.WorkRequestId = workReqID
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	if err != nil {
+		return err
+	}
+
+	err = IdentityWaitForWorkRequest(s.Client, s.D, &workRequestResponse.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "identity"), s.D.Timeout(schema.TimeoutDelete))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *IdentityTagResourceCrud) SetData() error {
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
@@ -307,6 +396,8 @@ func (s *IdentityTagResourceCrud) SetData() error {
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
+
+	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TagNamespaceId != nil {
 		s.D.Set("tag_namespace_id", *s.Res.TagNamespaceId)

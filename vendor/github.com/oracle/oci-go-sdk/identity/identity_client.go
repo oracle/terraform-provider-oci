@@ -1661,6 +1661,48 @@ func (client IdentityClient) deleteSwiftPassword(ctx context.Context, request co
 	return response, err
 }
 
+// DeleteTag Deletes the the specified tag definition.
+func (client IdentityClient) DeleteTag(ctx context.Context, request DeleteTagRequest) (response DeleteTagResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteTag, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteTagResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteTagResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteTagResponse")
+	}
+	return
+}
+
+// deleteTag implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) deleteTag(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tagNamespaces/{tagNamespaceId}/tags/{tagName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteTagResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteTagDefault Deletes the the specified tag default.
 func (client IdentityClient) DeleteTagDefault(ctx context.Context, request DeleteTagDefaultRequest) (response DeleteTagDefaultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1691,6 +1733,49 @@ func (client IdentityClient) deleteTagDefault(ctx context.Context, request commo
 	}
 
 	var response DeleteTagDefaultResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteTagNamespace Delete the specified tag namespace. Only an empty tagnamespace can be deleted.
+// If the tag namespace you are trying to delete is not empty, please remove tag definitions from it first.
+func (client IdentityClient) DeleteTagNamespace(ctx context.Context, request DeleteTagNamespaceRequest) (response DeleteTagNamespaceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteTagNamespace, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteTagNamespaceResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteTagNamespaceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteTagNamespaceResponse")
+	}
+	return
+}
+
+// deleteTagNamespace implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) deleteTagNamespace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tagNamespaces/{tagNamespaceId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteTagNamespaceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -4127,7 +4212,7 @@ func (client IdentityClient) updateTag(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
-// UpdateTagDefault Updates the the specified tag default. You can update the following field: `value`.
+// UpdateTagDefault Updates the specified tag default. You can update the following field: `value`.
 func (client IdentityClient) UpdateTagDefault(ctx context.Context, request UpdateTagDefaultRequest) (response UpdateTagDefaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
