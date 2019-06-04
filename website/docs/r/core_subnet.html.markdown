@@ -76,7 +76,7 @@ The following arguments are supported:
 
 	Example: `Uocm:PHX-AD-1` 
 * `cidr_block` - (Required) The CIDR IP address range of the subnet.  Example: `172.16.1.0/24` 
-* `compartment_id` - (Required) The OCID of the compartment to contain the subnet.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the subnet.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `dhcp_options_id` - (Optional) (Updatable) The OCID of the set of DHCP options the subnet will use. If you don't provide a value, the subnet uses the VCN's default set of DHCP options. 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
