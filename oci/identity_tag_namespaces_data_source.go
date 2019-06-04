@@ -22,6 +22,10 @@ func IdentityTagNamespacesDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"tag_namespaces": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -60,6 +64,10 @@ func (s *IdentityTagNamespacesDataSourceCrud) Get() error {
 	if includeSubcompartments, ok := s.D.GetOkExists("include_subcompartments"); ok {
 		tmp := includeSubcompartments.(bool)
 		request.IncludeSubcompartments = &tmp
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_identity.TagNamespaceLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "identity")
@@ -119,6 +127,8 @@ func (s *IdentityTagNamespacesDataSourceCrud) SetData() error {
 		if r.Name != nil {
 			tagNamespace["name"] = *r.Name
 		}
+
+		tagNamespace["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
 			tagNamespace["time_created"] = r.TimeCreated.String()

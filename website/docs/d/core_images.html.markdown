@@ -13,7 +13,7 @@ Lists the available images in the specified compartment, including both
 [Oracle-provided images](https://docs.cloud.oracle.com/iaas/Content/Compute/References/images.htm) and
 [custom images](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingcustomimages.htm) that have
 been created. The list of images returned is ordered to first show all
-Oracle-provided images, then all custom images. Read more on [List Images](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Image/ListImages)
+Oracle-provided images, then all custom images.
 
 The order of images returned may change when new images are released.
 
@@ -35,7 +35,6 @@ data "oci_core_images" "test_images" {
 	sort_order = "${var.image_sort_order}"
 }
 ```
-For more detailed implementation refer the [image example](https://github.com/oracle/terraform-provider-oci/tree/master/examples/compute/image)
 
 ## Argument Reference
 

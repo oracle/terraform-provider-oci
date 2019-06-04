@@ -62,6 +62,10 @@ func IdentityTagNamespaceResource() *schema.Resource {
 			},
 
 			// Computed
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -95,7 +99,19 @@ func updateIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
 }
 
 func deleteIdentityTagNamespace(d *schema.ResourceData, m interface{}) error {
-	return nil
+	// Only empty tag namespaces can be deleted, to execute our tests we don't want to delete namespaces as we create
+	// namespaces with tags and deleting a tag is a sequential and time consuming operation allowed one per tenancy
+	importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
+	if importIfExists {
+		return nil
+	}
+
+	sync := &IdentityTagNamespaceResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).identityClient
+	sync.DisableNotFoundRetries = true
+
+	return DeleteResource(d, sync)
 }
 
 type IdentityTagNamespaceResourceCrud struct {
@@ -107,6 +123,28 @@ type IdentityTagNamespaceResourceCrud struct {
 
 func (s *IdentityTagNamespaceResourceCrud) ID() string {
 	return *s.Res.Id
+}
+
+func (s *IdentityTagNamespaceResourceCrud) CreatedPending() []string {
+	return []string{}
+}
+
+func (s *IdentityTagNamespaceResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_identity.TagNamespaceLifecycleStateActive),
+	}
+}
+
+func (s *IdentityTagNamespaceResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_identity.TagNamespaceLifecycleStateDeleting),
+	}
+}
+
+func (s *IdentityTagNamespaceResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_identity.TagNamespaceLifecycleStateDeleted),
+	}
 }
 
 func (s *IdentityTagNamespaceResourceCrud) Create() error {
@@ -250,6 +288,18 @@ func (s *IdentityTagNamespaceResourceCrud) Update() error {
 	return nil
 }
 
+func (s *IdentityTagNamespaceResourceCrud) Delete() error {
+	request := oci_identity.DeleteTagNamespaceRequest{}
+
+	tmp := s.D.Id()
+	request.TagNamespaceId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	_, err := s.Client.DeleteTagNamespace(context.Background(), request)
+	return err
+}
+
 func (s *IdentityTagNamespaceResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -272,6 +322,8 @@ func (s *IdentityTagNamespaceResourceCrud) SetData() error {
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
+
+	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

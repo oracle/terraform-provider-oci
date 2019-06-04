@@ -91,7 +91,7 @@ resource "oci_core_instance" "test_instance" {
 		source_type = "image"
 
 		#Optional
-		boot_volume_size_in_gbs = "60"
+		boot_volume_size_in_gbs = "${var.instance_source_details_boot_volume_size_in_gbs}"
 		kms_key_id = "${oci_core_kms_key.test_kms_key.id}"
 	}
 	preserve_boot_volume = false
@@ -131,9 +131,7 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
 * `extended_metadata` - (Optional) (Updatable) Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
 
-	They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only).
-
-	If you don't need nested metadata values, it is strongly advised to avoid using this object and use the Metadata object instead.
+	They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only). 
 
 	Input in terraform is the same as metadata but allows nested metadata if you pass a valid JSON string as a value. See the example above.
 * `fault_domain` - (Optional) A fault domain is a grouping of hardware and infrastructure within an availability domain. Each availability domain contains three fault domains. Fault domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or Compute hardware maintenance that affects one fault domain does not affect instances in other fault domains.
@@ -218,9 +216,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
 * `extended_metadata` - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the 'metadata' object.
 
-	They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only).
-
-	If you don't need nested metadata values, it is strongly advised to avoid using this object and use the Metadata object instead.
+	They are distinguished from 'metadata' fields in that these can be nested JSON objects (whereas 'metadata' fields are string/string maps only). 
 
 	Input in terraform is the same as metadata but allows nested metadata if you pass a valid JSON string as a value. See the example below.
 * `fault_domain` - The name of the fault domain the instance is running in.
@@ -280,7 +276,7 @@ The following attributes are exported:
 	Examples: `phx`, `eu-frankfurt-1` 
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `source_details` - Details for creating an instance
-	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB). This should only be specified when `source_type` is `image`.
+	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
 	* `kms_key_id` - The OCID of the KMS key to be used as the master encryption key for the boot volume.
     * `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 

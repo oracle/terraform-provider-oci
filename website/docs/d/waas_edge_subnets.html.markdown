@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_waas_edge_subnets
 This data source provides the list of Edge Subnets in Oracle Cloud Infrastructure Waas service.
 
-Return the list of the tenant's edge node subnets. Use these CIDR blocks to restrict incoming traffic to your origin. These subnets are owned byOracle Cloud Infrastructure and forward traffic to customer origins. They are not associated with specific regions or compartments.
+Return the list of the tenant's edge node subnets. Use these CIDR blocks to restrict incoming traffic to your origin. These subnets are owned by Oracle Cloud Infrastructure and forward traffic to customer origins. They are not associated with specific regions or compartments.
 
 ## Example Usage
 

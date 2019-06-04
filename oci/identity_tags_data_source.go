@@ -14,6 +14,10 @@ func IdentityTagsDataSource() *schema.Resource {
 		Read: readIdentityTags,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"tag_namespace_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -47,6 +51,10 @@ func (s *IdentityTagsDataSourceCrud) VoidState() {
 
 func (s *IdentityTagsDataSourceCrud) Get() error {
 	request := oci_identity.ListTagsRequest{}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_identity.TagLifecycleStateEnum(state.(string))
+	}
 
 	if tagNamespaceId, ok := s.D.GetOkExists("tag_namespace_id"); ok {
 		tmp := tagNamespaceId.(string)
@@ -112,6 +120,8 @@ func (s *IdentityTagsDataSourceCrud) SetData() error {
 		if r.Name != nil {
 			tag["name"] = *r.Name
 		}
+
+		tag["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
 			tag["time_created"] = r.TimeCreated.String()

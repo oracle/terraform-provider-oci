@@ -466,9 +466,11 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 }
 
 func (s *ContainerengineClusterResourceCrud) Get() error {
-	id := s.D.Id()
 	request := oci_containerengine.GetClusterRequest{}
-	request.ClusterId = &id
+
+	tmp := s.D.Id()
+	request.ClusterId = &tmp
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	response, err := s.Client.GetCluster(context.Background(), request)
@@ -527,8 +529,10 @@ func (s *ContainerengineClusterResourceCrud) Update() error {
 
 func (s *ContainerengineClusterResourceCrud) Delete() error {
 	request := oci_containerengine.DeleteClusterRequest{}
+
 	tmp := s.D.Id()
 	request.ClusterId = &tmp
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
 	//Issue the delete request
