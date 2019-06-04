@@ -3,6 +3,7 @@
 package httpreplay
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -13,6 +14,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"sort"
+	"strconv"
 	"strings"
 	"sync"
 
@@ -383,19 +385,6 @@ func (s *Scenario) GetInteractionWithBodyFromList(r Request, list []*Interaction
 	var maxCredit int
 	var iMax *Interaction
 	var credit int
-	matchObj := func(iBody jsonObj) {
-		for key, rUnk := range rBody {
-			if rStringVal, ok := rUnk.(string); ok {
-				if iUnk, ok := iBody[key]; ok {
-					if iStringVal, ok := iUnk.(string); ok {
-						if rStringVal == iStringVal {
-							credit++
-						}
-					}
-				}
-			}
-		}
-	}
 
 	debugLogf("In GetInteractionWithBodyFromList with %v items...", len(list))
 	for _, i := range list {
@@ -403,16 +392,17 @@ func (s *Scenario) GetInteractionWithBodyFromList(r Request, list []*Interaction
 		if nil == i.Request.BodyParsed {
 			i.Request.BodyParsed, _ = unmarshal([]byte(i.Request.Body))
 		}
+
 		if iBody, ok := i.Request.BodyParsed.(jsonObj); ok {
-			matchObj(iBody)
+			credit += getBodyMatchCredit(iBody, rBody)
 		} else {
 			if aBody, ok := i.Request.BodyParsed.(jsonArr); ok {
 				for _, i := range aBody {
-					matchObj(i)
+					credit += getBodyMatchCredit(i, rBody)
 				}
 			}
 		}
-		debugLogf("\t...Interaction %v has match %v", i.Index, credit)
+		debugLogf("\t...Interaction %v has match %v, usage: %v", i.Index, credit, i.Uses)
 
 		if credit > maxCredit {
 			maxCredit = credit
@@ -421,6 +411,56 @@ func (s *Scenario) GetInteractionWithBodyFromList(r Request, list []*Interaction
 	}
 	debugLogf("\t-> Returning match with number %v", iMax.Index)
 	return iMax, nil
+}
+
+func getBodyMatchCredit(iBody jsonObj, rBody jsonObj) int {
+	totalCredit := 0
+	for key, rUnk := range rBody {
+		if rStringVal, ok := rUnk.(string); ok {
+			if iUnk, ok := iBody[key]; ok {
+				if iStringVal, ok := iUnk.(string); ok {
+					if iStringVal == rStringVal {
+						totalCredit++
+					}
+				}
+			}
+		} else if rBoolVal, ok := rUnk.(bool); ok {
+			if iUnk, ok := iBody[key]; ok {
+				if iBoolVal, ok := iUnk.(bool); ok {
+					if iBoolVal == rBoolVal {
+						totalCredit++
+					}
+				}
+			}
+		} else if rJsonNumberVal, ok := rUnk.(json.Number); ok {
+			if iUnk, ok := iBody[key]; ok {
+				if iJsonNumberVal, ok := iUnk.(json.Number); ok {
+					if iJsonNumberVal == rJsonNumberVal {
+						totalCredit++
+					}
+				}
+			}
+		} else if rStringMapVal, ok := rUnk.(map[string]interface{}); ok {
+			if iUnk, ok := iBody[key]; ok {
+				if iStringMapVal, ok := iUnk.(map[string]interface{}); ok {
+					totalCredit += getBodyMatchCredit(iStringMapVal, rStringMapVal)
+				}
+			}
+		} else if rArrayVal, ok := rUnk.([]interface{}); ok {
+			for _, rObj := range rArrayVal {
+				if rJsonObj, ok := rObj.(jsonObj); ok {
+					if iUnk, ok := iBody[key]; ok {
+						if iJsonObj, ok := iUnk.(jsonObj); ok {
+							totalCredit += getBodyMatchCredit(iJsonObj, rJsonObj)
+						}
+					}
+				}
+			}
+		} else {
+			debugLogf("unsupported type in match: %v, %v", reflect.TypeOf(rUnk), rUnk)
+		}
+	}
+	return totalCredit
 }
 
 // Reset returns us to the beginning of the scenario
@@ -516,6 +556,16 @@ func updateInternalFieldMap(oldValue, newValue interface{}) {
 		if strings.EqualFold(stringOldValue, stringNewValue) == false {
 			fields[stringOldValue] = stringNewValue
 		}
+	} else if boolOldValue, ok := oldValue.(bool); ok {
+		boolNewValue, _ := newValue.(bool)
+		if boolOldValue != boolNewValue {
+			fields[strconv.FormatBool(boolOldValue)] = strconv.FormatBool(boolNewValue)
+		}
+	} else if jsonNumberOldValue, ok := oldValue.(json.Number); ok {
+		jsonNumberNewValue, _ := newValue.(json.Number)
+		if jsonNumberNewValue.String() != jsonNumberOldValue.String() {
+			fields[jsonNumberOldValue.String()] = jsonNumberNewValue.String()
+		}
 	} else if mapOldValue, ok := oldValue.(jsonObj); ok {
 		mapNewValue, _ := newValue.(jsonObj)
 		for k, v := range mapOldValue {
@@ -542,6 +592,10 @@ func updateBody(body jsonObj) {
 			continue
 		} else if val, ok := unkVal.(string); ok {
 			bodyValueHandle(body, val, key)
+		} else if val, ok := unkVal.(bool); ok {
+			bodyValueHandle(body, strconv.FormatBool(val), key)
+		} else if val, ok := unkVal.(json.Number); ok {
+			bodyValueHandle(body, val.String(), key)
 		} else if val, ok := unkVal.(map[string]interface{}); ok {
 			updateBody(val)
 		} else if val, ok := unkVal.([]interface{}); ok {
