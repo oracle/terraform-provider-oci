@@ -1,4 +1,4 @@
-## 3.28.1 (Unreleased)
+## 3.28.1 (June 05, 2019)
 
 ## Notes
 
