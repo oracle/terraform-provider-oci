@@ -1,4 +1,10 @@
-## 3.28.1 (Unreleased)
+## 3.28.2 (Unreleased)
+## 3.28.1 (June 05, 2019)
+
+## Notes
+
+- This is a Terraform 0.12 compatible release of this provider.
+
 ## 3.28.0 (June 05, 2019)
 
 ### Added
