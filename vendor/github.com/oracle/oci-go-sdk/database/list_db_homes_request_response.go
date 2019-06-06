@@ -15,7 +15,7 @@ type ListDbHomesRequest struct {
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB system.
-	DbSystemId *string `mandatory:"true" contributesTo:"query" name:"dbSystemId"`
+	DbSystemId *string `mandatory:"false" contributesTo:"query" name:"dbSystemId"`
 
 	// The maximum number of items to return per page.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`

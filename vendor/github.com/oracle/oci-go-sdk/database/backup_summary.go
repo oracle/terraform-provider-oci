@@ -65,11 +65,13 @@ type BackupSummaryTypeEnum string
 const (
 	BackupSummaryTypeIncremental BackupSummaryTypeEnum = "INCREMENTAL"
 	BackupSummaryTypeFull        BackupSummaryTypeEnum = "FULL"
+	BackupSummaryTypeVirtualFull BackupSummaryTypeEnum = "VIRTUAL_FULL"
 )
 
 var mappingBackupSummaryType = map[string]BackupSummaryTypeEnum{
-	"INCREMENTAL": BackupSummaryTypeIncremental,
-	"FULL":        BackupSummaryTypeFull,
+	"INCREMENTAL":  BackupSummaryTypeIncremental,
+	"FULL":         BackupSummaryTypeFull,
+	"VIRTUAL_FULL": BackupSummaryTypeVirtualFull,
 }
 
 // GetBackupSummaryTypeEnumValues Enumerates the set of values for BackupSummaryTypeEnum

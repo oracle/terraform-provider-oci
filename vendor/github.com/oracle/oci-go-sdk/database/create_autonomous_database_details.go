@@ -37,6 +37,12 @@ type CreateAutonomousDatabaseDetails struct {
 	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count. The default value is false.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
 
+	// True if it is dedicated database.
+	IsDedicated *bool `mandatory:"false" json:"isDedicated"`
+
+	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	AutonomousContainerDatabaseId *string `mandatory:"false" json:"autonomousContainerDatabaseId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -97,6 +103,16 @@ func (m CreateAutonomousDatabaseDetails) GetLicenseModel() CreateAutonomousDatab
 //GetIsAutoScalingEnabled returns IsAutoScalingEnabled
 func (m CreateAutonomousDatabaseDetails) GetIsAutoScalingEnabled() *bool {
 	return m.IsAutoScalingEnabled
+}
+
+//GetIsDedicated returns IsDedicated
+func (m CreateAutonomousDatabaseDetails) GetIsDedicated() *bool {
+	return m.IsDedicated
+}
+
+//GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
+func (m CreateAutonomousDatabaseDetails) GetAutonomousContainerDatabaseId() *string {
+	return m.AutonomousContainerDatabaseId
 }
 
 //GetFreeformTags returns FreeformTags

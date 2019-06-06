@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// LaunchDbSystemFromBackupDetails The representation of LaunchDbSystemFromBackupDetails
+// LaunchDbSystemFromBackupDetails Used for creating a new DB system from a database backup.
 type LaunchDbSystemFromBackupDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment the DB system  belongs in.
