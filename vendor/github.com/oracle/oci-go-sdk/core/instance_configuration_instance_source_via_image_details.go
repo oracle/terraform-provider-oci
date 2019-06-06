@@ -20,6 +20,9 @@ import (
 // InstanceConfigurationInstanceSourceViaImageDetails The representation of InstanceConfigurationInstanceSourceViaImageDetails
 type InstanceConfigurationInstanceSourceViaImageDetails struct {
 
+	// The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
+	BootVolumeSizeInGBs *int64 `mandatory:"false" json:"bootVolumeSizeInGBs"`
+
 	// The OCID of the image used to boot the instance.
 	ImageId *string `mandatory:"false" json:"imageId"`
 }

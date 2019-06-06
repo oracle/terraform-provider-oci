@@ -44,6 +44,9 @@ type AutonomousDatabaseBackup struct {
 
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// The size of the database in terabytes at the time the backup was taken.
+	DatabaseSizeInTBs *float32 `mandatory:"false" json:"databaseSizeInTBs"`
 }
 
 func (m AutonomousDatabaseBackup) String() string {

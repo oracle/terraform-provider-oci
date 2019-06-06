@@ -28,6 +28,11 @@ type UpdateAutonomousDatabaseDetails struct {
 	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing. It must be different from the last four passwords and it must not be a password used within the last 24 hours.
 	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
+	// New name for this Autonomous Database. It must begin with an alphabetic character and can contain a
+	// maximum of eight alphanumeric characters. Special characters are not permitted. This is valid only
+	// for dedicated databases.
+	DbName *string `mandatory:"false" json:"dbName"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
