@@ -1,4 +1,4 @@
-## 3.28.2 (June 07, 2019)
+## 3.28.2 (Unreleased)
 
 ### Added
 - `oci_core_ipsec_connection_tunnel_management` resource to manage IPSec tunnel connection
