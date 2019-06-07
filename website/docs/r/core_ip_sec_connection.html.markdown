@@ -12,8 +12,11 @@ This resource provides the Ip Sec Connection resource in Oracle Cloud Infrastruc
 Creates a new IPSec connection between the specified DRG and CPE. For more information, see
 [IPSec VPNs](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPsec.htm).
 
-In the request, you must include at least one static route to the CPE object (you're allowed a maximum
-of 10). For example: 10.0.8.0/16.
+If you configure at least one tunnel to use static routing, then in the request you must provide
+at least one valid static route (you're allowed a maximum of 10). For example: 10.0.0.0/16.
+If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for
+the static routes. For more information, see the important note in
+[IPSecConnection](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnection/).
 
 For the purposes of access control, you must provide the OCID of the compartment where you want the
 IPSec connection to reside. Notice that the IPSec connection doesn't have to be in the same compartment
@@ -25,17 +28,6 @@ For information about OCIDs, see [Resource Identifiers](https://docs.cloud.oracl
 
 You may optionally specify a *display name* for the IPSec connection, otherwise a default is provided.
 It does not have to be unique, and you can change it. Avoid entering confidential information.
-
-After creating the IPSec connection, you need to configure your on-premises router
-with tunnel-specific information returned by
-[GetIPSecConnectionDeviceConfig](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionDeviceConfig/GetIPSecConnectionDeviceConfig).
-For each tunnel, that operation gives you the IP address of Oracle's VPN headend and the shared secret
-(that is, the pre-shared key). For more information, see
-[Configuring Your On-Premises Router for an IPSec VPN](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
-
-To get the status of the tunnels (whether they're up or down), use
-[GetIPSecConnectionDeviceStatus](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionDeviceStatus/GetIPSecConnectionDeviceStatus).
-
 
 ## Example Usage
 
@@ -53,20 +45,6 @@ resource "oci_core_ipsec" "test_ip_sec_connection" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.ip_sec_connection_display_name}"
 	freeform_tags = {"Department"= "Finance"}
-	tunnel_configuration {
-
-		#Optional
-		bgp_session_config {
-
-			#Optional
-			customer_bgp_asn = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_customer_bgp_asn}"
-			customer_interface_ip = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_customer_interface_ip}"
-			oracle_interface_ip = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_oracle_interface_ip}"
-		}
-		display_name = "${var.ip_sec_connection_tunnel_configuration_display_name}"
-		routing = "${var.ip_sec_connection_tunnel_configuration_routing}"
-		shared_secret = "${var.ip_sec_connection_tunnel_configuration_shared_secret}"
-	}
 }
 ```
 
@@ -88,15 +66,11 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `drg_id` - (Required) The OCID of the DRG.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `static_routes` - (Required) (Updatable) Static routes to the CPE. At least one route must be included. A static route's CIDR must not be a multicast address or class E address.  Example: `10.0.1.0/24` 
-* `tunnel_configuration` - (Optional) array of tunnel parameters to create tunnels for IPSecConnection. 
-	* `bgp_session_config` - (Optional) Information needed to establish a BGP Session on an interface. 
-		* `customer_bgp_asn` - (Optional) The value of the remote Bgp ASN in asplain format, as a string. Example: 1587232876 (4 byte ASN) or 12345 (2 byte ASN). 
-		* `customer_interface_ip` - (Optional) The IPv4 Address used in the BGP peering session for the non-Oracle router. Example: 10.0.0.2/31. 
-		* `oracle_interface_ip` - (Optional) The IPv4 Address used in the BGP peering session for the Oracle router. Example: 10.0.0.1/31. 
-	* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-	* `routing` - (Optional) the routing strategy used for this tunnel, either static route or BGP.
-	* `shared_secret` - (Optional) The shared secret of the IPSec tunnel.  Example: `vFG2IF6TWq4UToUiLSRDoJEUs6j1c.p8G.dVQxiMfMO0yXMLi.lZTbYIWhGu4V8o` 
+* `static_routes` - (Required) (Updatable) Static routes to the CPE. A static route's CIDR must not be a multicast address or class E address.
+
+	Used for routing a given IPSec tunnel's traffic only if the tunnel is using static routing. If you configure at least one tunnel to use static routing, then you must provide at least one valid static route. If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for the static routes. For more information, see the important note in [IPSecConnection](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnection/).
+
+	 Example: `10.0.1.0/24` 
 
 
 ** IMPORTANT **
@@ -124,9 +98,9 @@ The following attributes are exported:
 * `state` - The IPSec connection's current state.
 * `static_routes` - Static routes to the CPE. The CIDR must not be a multicast address or class E address.
 
-	
+	Used for routing a given IPSec tunnel's traffic only if the tunnel is using static routing. If you configure at least one tunnel to use static routing, then you must provide at least one valid static route. If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for the static routes.
 
-	Example: `10.0.1.0/24` 
+	 Example: `10.0.1.0/24` 
 * `time_created` - The date and time the IPSec connection was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Import

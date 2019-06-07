@@ -1,4 +1,10 @@
-## 3.28.2 (Unreleased)
+## 3.28.2 (June 07, 2019)
+
+### Added
+- `oci_core_ipsec_connection_tunnel_management` resource to manage IPSec tunnel connection
+### Fixed
+- `oci_core_ipsec` backward compatibility issue by removing `tunnel_configuration` property, which is reported by https://github.com/terraform-providers/terraform-provider-oci/issues/779
+
 ## 3.28.1 (June 05, 2019)
 
 ## Notes
