@@ -1,8 +1,10 @@
-## 3.29.0 (Unreleased)
+## 3.28.3 (Unreleased)
+## 3.28.2 (June 07, 2019)
 
 ### Added
-- Support for autonomous transaction database-dedicated, autonomous exadata infrastructures, autonomous container databases and maintenance runs.
-- Support for `boot_volume_size_in_gbs` argument in the `oci_instance_configuration` resource 
+- `oci_core_ipsec_connection_tunnel_management` resource to manage IPSec tunnel connection
+### Fixed
+- `oci_core_ipsec` backward compatibility issue by removing `tunnel_configuration` property, which is reported by https://github.com/terraform-providers/terraform-provider-oci/issues/779
 
 ## 3.28.1 (June 05, 2019)
 
