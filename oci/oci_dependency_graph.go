@@ -72,6 +72,7 @@ func initDependencyGraph() {
 	DependencyGraph["providerService"] = append(DependencyGraph["providerService"], "CoreVirtualCircuit")
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreDrgAttachment")
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreLocalPeeringGateway")
+	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreServiceGateway")
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreSubnet")
 	DependencyGraph["steeringPolicy"] = append(DependencyGraph["steeringPolicy"], "DnsSteeringPolicyAttachment")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "CoreInstance")

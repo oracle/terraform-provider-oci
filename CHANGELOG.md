@@ -15,6 +15,7 @@
 - Support for moving `identity_compartment` resource tree across compartments
 - Support for moving `dns_zone` and `dns_steering_policy` resources across compartments
 - Support in autonomous database and object data sources for encoding downloaded binary content as base64. This works around behavior in Terraform v0.12 that could cause binary content to be corrupted if written directly to state.
+- Support for VCN Transit Routing to Oracle Services via Service Gateways
 
 ### Fixed
 - Address panics caused by invalid type assertions in object map conversion. This could potentially affect attributes
