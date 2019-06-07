@@ -76,6 +76,11 @@ func CoreServiceGatewayResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"route_table_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"block_traffic": {
@@ -187,6 +192,11 @@ func (s *CoreServiceGatewayResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	request.Services = []oci_core.ServiceIdRequestDetails{}
 	if services, ok := s.D.GetOkExists("services"); ok {
 		set := services.(*schema.Set)
@@ -271,6 +281,11 @@ func (s *CoreServiceGatewayResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.ServiceGatewayId = &tmp
 
@@ -332,6 +347,10 @@ func (s *CoreServiceGatewayResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.RouteTableId != nil {
+		s.D.Set("route_table_id", *s.Res.RouteTableId)
+	}
 
 	services := []interface{}{}
 	for _, item := range s.Res.Services {
