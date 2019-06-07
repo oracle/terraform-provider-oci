@@ -39,7 +39,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 
 				#Optional
 				availability_domain = "${var.instance_configuration_instance_details_block_volumes_create_details_availability_domain}"
-				backup_policy_id = "${oci_core_backup_policy.test_backup_policy.id}"
+				backup_policy_id = "${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}"
 				compartment_id = "${var.compartment_id}"
 				defined_tags = {"Operations.CostCenter"= "42"}
 				display_name = "${var.instance_configuration_instance_details_block_volumes_create_details_display_name}"
