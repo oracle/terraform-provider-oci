@@ -1,4 +1,9 @@
-## 3.28.3 (Unreleased)
+## 3.29.0 (Unreleased)
+
+### Added
+- Support for autonomous transaction database-dedicated, autonomous exadata infrastructures, autonomous container databases and maintenance runs.
+- Support for `boot_volume_size_in_gbs` argument in the `oci_instance_configuration` resource 
+
 ## 3.28.2 (June 07, 2019)
 
 ### Added
