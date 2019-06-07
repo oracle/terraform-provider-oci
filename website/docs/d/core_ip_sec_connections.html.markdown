@@ -39,7 +39,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `connections` - The list of IPSec connections.
+* `connections` - The list of connections.
 
 ### IpSecConnection Reference
 
@@ -63,8 +63,8 @@ The following attributes are exported:
 * `state` - The IPSec connection's current state.
 * `static_routes` - Static routes to the CPE. The CIDR must not be a multicast address or class E address.
 
-	
+	Used for routing a given IPSec tunnel's traffic only if the tunnel is using static routing. If you configure at least one tunnel to use static routing, then you must provide at least one valid static route. If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for the static routes.
 
-	Example: `10.0.1.0/24` 
+	 Example: `10.0.1.0/24` 
 * `time_created` - The date and time the IPSec connection was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
