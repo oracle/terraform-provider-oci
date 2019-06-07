@@ -151,7 +151,7 @@ The following arguments are supported:
 	* For bare metal and Exadata shapes, the number of CPU cores, memory, and storage
 
 	To get a list of shapes, use the [ListDbSystemShapes](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes) operation. 
-* `source` - (Optional) The source of the database: NONE for creating a new database. DB_BACKUP for creating a new database by restoring from a backup. The default is NONE. 
+* `source` - (Optional) The source of the database: NONE for creating a new database. DB_BACKUP for creating a new database by restoring from a backup. The default is NONE.             
 * `sparse_diskgroup` - (Optional) If true, Sparse Diskgroup is configured for Exadata dbsystem. If False, Sparse diskgroup is not configured. 
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of the key pair to use for SSH access to the DB system. Multiple public keys can be provided. The length of the combined keys cannot exceed 40,000 characters.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the DB system is associated with.
