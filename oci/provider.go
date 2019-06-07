@@ -465,6 +465,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_instance_pool":                                  CoreInstancePoolResource(),
 		"oci_core_internet_gateway":                               CoreInternetGatewayResource(),
 		"oci_core_ipsec":                                          CoreIpSecConnectionResource(),
+		"oci_core_ipsec_connection_tunnel_management":             CoreIpSecConnectionTunnelManagementResource(),
 		"oci_core_local_peering_gateway":                          CoreLocalPeeringGatewayResource(),
 		"oci_core_nat_gateway":                                    CoreNatGatewayResource(),
 		"oci_core_private_ip":                                     CorePrivateIpResource(),

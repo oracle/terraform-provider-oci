@@ -3,11 +3,8 @@
 package provider
 
 import (
-	"bytes"
 	"context"
-	"fmt"
 
-	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -76,77 +73,6 @@ func CoreIpSecConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
-			},
-			"tunnel_configuration": {
-				Type:     schema.TypeSet,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-				MaxItems: 2,
-				MinItems: 1,
-				Set:      tunnelConfigurationHashCodeForSets,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-						"bgp_session_config": {
-							Type:     schema.TypeList,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
-							MaxItems: 1,
-							MinItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-									"customer_bgp_asn": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-										ForceNew: true,
-									},
-									"customer_interface_ip": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-										ForceNew: true,
-									},
-									"oracle_interface_ip": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-										ForceNew: true,
-									},
-
-									// Computed
-								},
-							},
-						},
-						"display_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
-						},
-						"routing": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
-						},
-						"shared_secret": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
-						},
-
-						// Computed
-					},
-				},
 			},
 
 			// Computed
@@ -218,6 +144,18 @@ func (s *CoreIpSecConnectionResourceCrud) CreatedTarget() []string {
 	}
 }
 
+func (s *CoreIpSecConnectionResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_core.IpSecConnectionLifecycleStateProvisioning),
+	}
+}
+
+func (s *CoreIpSecConnectionResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_core.IpSecConnectionLifecycleStateAvailable),
+	}
+}
+
 func (s *CoreIpSecConnectionResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.IpSecConnectionLifecycleStateTerminating),
@@ -284,22 +222,6 @@ func (s *CoreIpSecConnectionResourceCrud) Create() error {
 			}
 		}
 		request.StaticRoutes = tmp
-	}
-
-	if tunnelConfiguration, ok := s.D.GetOkExists("tunnel_configuration"); ok {
-		set := tunnelConfiguration.(*schema.Set)
-		interfaces := set.List()
-		tmp := make([]oci_core.CreateIpSecConnectionTunnelDetails, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := tunnelConfigurationHashCodeForSets(interfaces[i])
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "tunnel_configuration", stateDataIndex)
-			converted, err := s.mapToCreateIPSecConnectionTunnelDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		request.TunnelConfiguration = tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -435,124 +357,4 @@ func (s *CoreIpSecConnectionResourceCrud) SetData() error {
 	}
 
 	return nil
-}
-
-func (s *CoreIpSecConnectionResourceCrud) mapToCreateIPSecConnectionTunnelDetails(fieldKeyFormat string) (oci_core.CreateIpSecConnectionTunnelDetails, error) {
-	result := oci_core.CreateIpSecConnectionTunnelDetails{}
-
-	if bgpSessionConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bgp_session_config")); ok {
-		if tmpList := bgpSessionConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "bgp_session_config"), 0)
-			tmp, err := s.mapToCreateIPSecTunnelBgpSessionDetails(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert bgp_session_config, encountered error: %v", err)
-			}
-			result.BgpSessionConfig = &tmp
-		}
-	}
-
-	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
-		tmp := displayName.(string)
-		result.DisplayName = &tmp
-	}
-
-	if routing, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "routing")); ok {
-		result.Routing = oci_core.CreateIpSecConnectionTunnelDetailsRoutingEnum(routing.(string))
-	}
-
-	if sharedSecret, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shared_secret")); ok {
-		tmp := sharedSecret.(string)
-		result.SharedSecret = &tmp
-	}
-
-	return result, nil
-}
-
-func CreateIPSecConnectionTunnelDetailsToMap(obj oci_core.CreateIpSecConnectionTunnelDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.BgpSessionConfig != nil {
-		result["bgp_session_config"] = []interface{}{CreateIPSecTunnelBgpSessionDetailsToMap(obj.BgpSessionConfig)}
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	result["routing"] = string(obj.Routing)
-
-	if obj.SharedSecret != nil {
-		result["shared_secret"] = string(*obj.SharedSecret)
-	}
-
-	return result
-}
-
-func (s *CoreIpSecConnectionResourceCrud) mapToCreateIPSecTunnelBgpSessionDetails(fieldKeyFormat string) (oci_core.CreateIpSecTunnelBgpSessionDetails, error) {
-	result := oci_core.CreateIpSecTunnelBgpSessionDetails{}
-
-	if customerBgpAsn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_bgp_asn")); ok {
-		tmp := customerBgpAsn.(string)
-		result.CustomerBgpAsn = &tmp
-	}
-
-	if customerInterfaceIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_interface_ip")); ok {
-		tmp := customerInterfaceIp.(string)
-		result.CustomerInterfaceIp = &tmp
-	}
-
-	if oracleInterfaceIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_interface_ip")); ok {
-		tmp := oracleInterfaceIp.(string)
-		result.OracleInterfaceIp = &tmp
-	}
-
-	return result, nil
-}
-
-func CreateIPSecTunnelBgpSessionDetailsToMap(obj *oci_core.CreateIpSecTunnelBgpSessionDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CustomerBgpAsn != nil {
-		result["customer_bgp_asn"] = string(*obj.CustomerBgpAsn)
-	}
-
-	if obj.CustomerInterfaceIp != nil {
-		result["customer_interface_ip"] = string(*obj.CustomerInterfaceIp)
-	}
-
-	if obj.OracleInterfaceIp != nil {
-		result["oracle_interface_ip"] = string(*obj.OracleInterfaceIp)
-	}
-
-	return result
-}
-
-func tunnelConfigurationHashCodeForSets(v interface{}) int {
-	var buf bytes.Buffer
-	m := v.(map[string]interface{})
-	if bgpSessionConfig, ok := m["bgp_session_config"]; ok {
-		if tmpList := bgpSessionConfig.([]interface{}); len(tmpList) > 0 {
-			buf.WriteString("bgp_session_config-")
-			bgpSessionConfigRaw := tmpList[0].(map[string]interface{})
-			if customerBgpAsn, ok := bgpSessionConfigRaw["customer_bgp_asn"]; ok && customerBgpAsn != "" {
-				buf.WriteString(fmt.Sprintf("%v-", customerBgpAsn))
-			}
-			if customerInterfaceIp, ok := bgpSessionConfigRaw["customer_interface_ip"]; ok && customerInterfaceIp != "" {
-				buf.WriteString(fmt.Sprintf("%v-", customerInterfaceIp))
-			}
-			if oracleInterfaceIp, ok := bgpSessionConfigRaw["oracle_interface_ip"]; ok && oracleInterfaceIp != "" {
-				buf.WriteString(fmt.Sprintf("%v-", oracleInterfaceIp))
-			}
-		}
-	}
-	if displayName, ok := m["display_name"]; ok && displayName != "" {
-		buf.WriteString(fmt.Sprintf("%v-", displayName))
-	}
-	if routing, ok := m["routing"]; ok && routing != "" {
-		buf.WriteString(fmt.Sprintf("%v-", routing))
-	}
-	if sharedSecret, ok := m["shared_secret"]; ok && sharedSecret != "" {
-		buf.WriteString(fmt.Sprintf("%v-", sharedSecret))
-	}
-	return hashcode.String(buf.String())
 }
