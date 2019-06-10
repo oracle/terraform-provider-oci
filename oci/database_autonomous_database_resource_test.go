@@ -215,6 +215,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 					"source",
 					"source_id",
 					"lifecycle_details",
+					"is_auto_scaling_enabled",
 				},
 				ResourceName: resourceName,
 			},
