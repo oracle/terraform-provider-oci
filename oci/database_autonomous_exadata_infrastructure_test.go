@@ -54,7 +54,7 @@ var (
 	autonomousExadataInfrastructureMaintenanceWindowDetailsRepresentation = map[string]interface{}{
 		"preference":     Representation{repType: Required, create: `NO_PREFERENCE`, update: `CUSTOM_PREFERENCE`},
 		"days_of_week":   RepresentationGroup{Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsDaysOfWeekRepresentation},
-		"hours_of_day":   Representation{repType: Optional, create: []string{`1`}, update: []string{`2`}},
+		"hours_of_day":   Representation{repType: Optional, create: []string{`4`}, update: []string{`8`}},
 		"months":         RepresentationGroup{Optional, autonomousExadataInfrastructureMaintenanceWindowDetailsMonthsRepresentation},
 		"weeks_of_month": Representation{repType: Optional, create: []string{`1`}, update: []string{`2`}},
 	}
