@@ -44,20 +44,35 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"ADD_HTTP_REQUEST_HEADER",
 								"ADD_HTTP_RESPONSE_HEADER",
+								"CONTROL_ACCESS_USING_HTTP_METHODS",
 								"EXTEND_HTTP_REQUEST_HEADER_VALUE",
 								"EXTEND_HTTP_RESPONSE_HEADER_VALUE",
 								"REMOVE_HTTP_REQUEST_HEADER",
 								"REMOVE_HTTP_RESPONSE_HEADER",
 							}, true),
 						},
-						"header": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
 
 						// Optional
+						"allowed_methods": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"header": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"prefix": {
 							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"status_code": {
+							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
@@ -442,6 +457,24 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_
 			details.Value = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("CONTROL_ACCESS_USING_HTTP_METHODS"):
+		details := oci_load_balancer.ControlAccessUsingHttpMethodsRule{}
+		details.AllowedMethods = []string{}
+		if allowedMethods, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowed_methods")); ok {
+			interfaces := allowedMethods.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.AllowedMethods = tmp
+		}
+		if statusCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "status_code")); ok {
+			tmp := statusCode.(int)
+			details.StatusCode = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("EXTEND_HTTP_REQUEST_HEADER_VALUE"):
 		details := oci_load_balancer.ExtendHttpRequestHeaderValueRule{}
 		if header, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "header")); ok {
@@ -515,6 +548,14 @@ func RuleToMap(obj oci_load_balancer.Rule) map[string]interface{} {
 		if v.Value != nil {
 			result["value"] = string(*v.Value)
 		}
+	case oci_load_balancer.ControlAccessUsingHttpMethodsRule:
+		result["action"] = "CONTROL_ACCESS_USING_HTTP_METHODS"
+
+		result["allowed_methods"] = v.AllowedMethods
+
+		if v.StatusCode != nil {
+			result["status_code"] = int(*v.StatusCode)
+		}
 	case oci_load_balancer.ExtendHttpRequestHeaderValueRule:
 		result["action"] = "EXTEND_HTTP_REQUEST_HEADER_VALUE"
 
@@ -568,6 +609,16 @@ func itemsHashCodeForSets(v interface{}) int {
 	m := v.(map[string]interface{})
 	if action, ok := m["action"]; ok && action != "" {
 		buf.WriteString(fmt.Sprintf("%v-", action))
+		if action == "CONTROL_ACCESS_USING_HTTP_METHODS" {
+			if statusCode, ok := m["status_code"]; ok && statusCode != 0 {
+				buf.WriteString(fmt.Sprintf("%v-", statusCode))
+			} else {
+				buf.WriteString(fmt.Sprintf("%v-", 405))
+			}
+			if allowedMethods, ok := m["allowed_methods"]; ok && allowedMethods != "" {
+				buf.WriteString(fmt.Sprintf("%v-", allowedMethods))
+			}
+		}
 	}
 	if header, ok := m["header"]; ok && header != "" {
 		buf.WriteString(fmt.Sprintf("%v-", header))
