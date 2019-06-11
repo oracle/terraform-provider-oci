@@ -8,6 +8,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -33,7 +35,7 @@ func (s *ResourceIdentityGroupTestSuite) SetupTest() {
 
 func (s *ResourceIdentityGroupTestSuite) TestAccResourceIdentityGroup_basic() {
 	var resId, resId2 string
-	token, tokenFn := tokenize()
+	token, tokenFn := tokenizeWithHttpReplay("identity_group_resource")
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -121,5 +123,8 @@ func identityGroupTestStepConfigFn(description string) string {
 }
 
 func TestResourceIdentityGroupTestSuite(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip TestResourceIdentityGroupTestSuite for httpreplay mode.")
+	}
 	suite.Run(t, new(ResourceIdentityGroupTestSuite))
 }

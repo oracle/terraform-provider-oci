@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	common "github.com/oracle/oci-go-sdk/common"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -146,5 +148,7 @@ func checkExpectedValue(mapped map[string]interface{}, key string, expected stri
 }
 
 func TestDatasourceCoreVolumeAttachmentTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestDatasourceCoreVolumeAttachmentTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatasourceCoreVolumeAttachmentTestSuite))
 }

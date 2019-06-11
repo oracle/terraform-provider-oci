@@ -29,7 +29,7 @@ resource "oci_core_boot_volume" "test_boot_volume" {
 	}
 
 	#Optional
-	backup_policy_id = "${oci_core_backup_policy.test_backup_policy.id}"
+	backup_policy_id = "${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.boot_volume_display_name}"
 	freeform_tags = {"Department"= "Finance"}

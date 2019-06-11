@@ -6,6 +6,8 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
@@ -84,5 +86,7 @@ func (s *DatabaseDBSystemShapeTestSuite) TestAccDatasourceDatabaseDBSystemShape_
 }
 
 func TestDatasourceDatabaseDBSystemShapeTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestDatasourceDatabaseDBSystemShapeTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatabaseDBSystemShapeTestSuite))
 }

@@ -261,6 +261,8 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 // An test step that results in an error will result in the state being voided. Isolate such test steps to
 // avoid interfering with regular tests that Create/Update resources.
 func TestCoreVolumeResource_expectError(t *testing.T) {
+	httpreplay.SetScenario("TestCoreVolumeResource_expectError")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -350,6 +352,8 @@ variable "volume_state" { default = "AVAILABLE" }
 // fields that are being represented as strings in the schema. This is a regression
 // test for issue found in https://github.com/terraform-providers/terraform-provider-oci/issues/607
 func TestCoreVolumeResource_int64_interpolation(t *testing.T) {
+	httpreplay.SetScenario("TestCoreVolumeResource_int64_interpolation")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	config := testProviderConfig()
 
@@ -405,6 +409,8 @@ resource "oci_core_volume" "test_volume2" {
 // An test step that results in an error will result in the state being voided. Isolate such test steps to
 // avoid interfering with regular tests that Create/Update resources.
 func TestCoreVolumeResource_validations(t *testing.T) {
+	httpreplay.SetScenario("TestCoreVolumeResource_validations")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	config := testProviderConfig()
 

@@ -39,6 +39,10 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"database_size_in_tbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"is_automatic": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -170,6 +174,10 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DatabaseSizeInTBs != nil {
+		s.D.Set("database_size_in_tbs", *s.Res.DatabaseSizeInTBs)
 	}
 
 	if s.Res.DisplayName != nil {

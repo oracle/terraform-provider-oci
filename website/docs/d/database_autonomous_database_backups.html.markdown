@@ -47,6 +47,7 @@ The following attributes are exported:
 
 * `autonomous_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `database_size_in_tbs` - The size of the database in terabytes at the time the backup was taken. 
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
 * `is_automatic` - Indicates whether the backup is user-initiated or automatic.

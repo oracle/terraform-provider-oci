@@ -12,6 +12,8 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -40,9 +42,14 @@ func timestamp() string {
 
 type TokenFn func(string, map[string]string) string
 
-// Creates a form of "apply" above that will always supply the same value for {{.token}}
-func tokenize() (string, TokenFn) {
-	ts := timestamp()
+// Creates a form of "apply" above that will always supply the same value for {{.token}} use hard code value for HTTP replay
+func tokenizeWithHttpReplay(defaultString string) (string, TokenFn) {
+	var ts string
+	if httpreplay.ModeRecordReplay() {
+		ts = defaultString
+	} else {
+		ts = timestamp()
+	}
 	return ts, func(template string, values map[string]string) string {
 		if values == nil {
 			values = map[string]string{}

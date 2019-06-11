@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"fmt"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -326,5 +328,8 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 }
 
 func TestResourceCoreVolumeAttachmentTestSuite(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip TestResourceCoreVolumeAttachmentTestSuite for httpreplay mode.")
+	}
 	suite.Run(t, new(ResourceCoreVolumeAttachmentTestSuite))
 }

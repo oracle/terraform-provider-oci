@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -22,7 +24,7 @@ type DatasourceCoreInstanceTestSuite struct {
 }
 
 func (s *DatasourceCoreInstanceTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenize()
+	s.Token, s.TokenFn = tokenizeWithHttpReplay("instance_data_source")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + s.TokenFn(`
@@ -162,5 +164,7 @@ func (s *DatasourceCoreInstanceTestSuite) TestAccDatasourceCoreInstance_basic() 
 }
 
 func TestDatasourceCoreInstanceTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestDatasourceCoreInstanceTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatasourceCoreInstanceTestSuite))
 }

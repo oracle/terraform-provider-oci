@@ -44,6 +44,12 @@ type CreateAutonomousDatabaseBase interface {
 	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count. The default value is false.
 	GetIsAutoScalingEnabled() *bool
 
+	// True if it is dedicated database.
+	GetIsDedicated() *bool
+
+	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	GetAutonomousContainerDatabaseId() *string
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -56,19 +62,21 @@ type CreateAutonomousDatabaseBase interface {
 }
 
 type createautonomousdatabasebase struct {
-	JsonData             []byte
-	CompartmentId        *string                                      `mandatory:"true" json:"compartmentId"`
-	DbName               *string                                      `mandatory:"true" json:"dbName"`
-	CpuCoreCount         *int                                         `mandatory:"true" json:"cpuCoreCount"`
-	DataStorageSizeInTBs *int                                         `mandatory:"true" json:"dataStorageSizeInTBs"`
-	AdminPassword        *string                                      `mandatory:"true" json:"adminPassword"`
-	DbWorkload           CreateAutonomousDatabaseBaseDbWorkloadEnum   `mandatory:"false" json:"dbWorkload,omitempty"`
-	DisplayName          *string                                      `mandatory:"false" json:"displayName"`
-	LicenseModel         CreateAutonomousDatabaseBaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
-	IsAutoScalingEnabled *bool                                        `mandatory:"false" json:"isAutoScalingEnabled"`
-	FreeformTags         map[string]string                            `mandatory:"false" json:"freeformTags"`
-	DefinedTags          map[string]map[string]interface{}            `mandatory:"false" json:"definedTags"`
-	Source               string                                       `json:"source"`
+	JsonData                      []byte
+	CompartmentId                 *string                                      `mandatory:"true" json:"compartmentId"`
+	DbName                        *string                                      `mandatory:"true" json:"dbName"`
+	CpuCoreCount                  *int                                         `mandatory:"true" json:"cpuCoreCount"`
+	DataStorageSizeInTBs          *int                                         `mandatory:"true" json:"dataStorageSizeInTBs"`
+	AdminPassword                 *string                                      `mandatory:"true" json:"adminPassword"`
+	DbWorkload                    CreateAutonomousDatabaseBaseDbWorkloadEnum   `mandatory:"false" json:"dbWorkload,omitempty"`
+	DisplayName                   *string                                      `mandatory:"false" json:"displayName"`
+	LicenseModel                  CreateAutonomousDatabaseBaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
+	IsAutoScalingEnabled          *bool                                        `mandatory:"false" json:"isAutoScalingEnabled"`
+	IsDedicated                   *bool                                        `mandatory:"false" json:"isDedicated"`
+	AutonomousContainerDatabaseId *string                                      `mandatory:"false" json:"autonomousContainerDatabaseId"`
+	FreeformTags                  map[string]string                            `mandatory:"false" json:"freeformTags"`
+	DefinedTags                   map[string]map[string]interface{}            `mandatory:"false" json:"definedTags"`
+	Source                        string                                       `json:"source"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -91,6 +99,8 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.DisplayName = s.Model.DisplayName
 	m.LicenseModel = s.Model.LicenseModel
 	m.IsAutoScalingEnabled = s.Model.IsAutoScalingEnabled
+	m.IsDedicated = s.Model.IsDedicated
+	m.AutonomousContainerDatabaseId = s.Model.AutonomousContainerDatabaseId
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.Source = s.Model.Source
@@ -163,6 +173,16 @@ func (m createautonomousdatabasebase) GetLicenseModel() CreateAutonomousDatabase
 //GetIsAutoScalingEnabled returns IsAutoScalingEnabled
 func (m createautonomousdatabasebase) GetIsAutoScalingEnabled() *bool {
 	return m.IsAutoScalingEnabled
+}
+
+//GetIsDedicated returns IsDedicated
+func (m createautonomousdatabasebase) GetIsDedicated() *bool {
+	return m.IsDedicated
+}
+
+//GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
+func (m createautonomousdatabasebase) GetAutonomousContainerDatabaseId() *string {
+	return m.AutonomousContainerDatabaseId
 }
 
 //GetFreeformTags returns FreeformTags

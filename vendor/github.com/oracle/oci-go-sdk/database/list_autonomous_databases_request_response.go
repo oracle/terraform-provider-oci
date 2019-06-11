@@ -14,6 +14,9 @@ type ListAutonomousDatabasesRequest struct {
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
+	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	AutonomousContainerDatabaseId *string `mandatory:"false" contributesTo:"query" name:"autonomousContainerDatabaseId"`
+
 	// The maximum number of items to return per page.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

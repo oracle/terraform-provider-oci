@@ -106,6 +106,53 @@ func (client DatabaseClient) completeExternalBackupJob(ctx context.Context, requ
 	return response, err
 }
 
+// CreateAutonomousContainerDatabase Create a new Autonomous Container Database in the specified Autonomous Exadata Infrastructure.
+func (client DatabaseClient) CreateAutonomousContainerDatabase(ctx context.Context, request CreateAutonomousContainerDatabaseRequest) (response CreateAutonomousContainerDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAutonomousContainerDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAutonomousContainerDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAutonomousContainerDatabaseResponse")
+	}
+	return
+}
+
+// createAutonomousContainerDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAutonomousContainerDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateAutonomousDataWarehouse **Deprecated.** To create a new Autonomous Data Warehouse, use the CreateAutonomousDatabase operation and specify `DW` as the workload type.
 func (client DatabaseClient) CreateAutonomousDataWarehouse(ctx context.Context, request CreateAutonomousDataWarehouseRequest) (response CreateAutonomousDataWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -852,6 +899,48 @@ func (client DatabaseClient) generateAutonomousDatabaseWallet(ctx context.Contex
 	return response, err
 }
 
+// GetAutonomousContainerDatabase Gets information about the specified Autonomous Container Database.
+func (client DatabaseClient) GetAutonomousContainerDatabase(ctx context.Context, request GetAutonomousContainerDatabaseRequest) (response GetAutonomousContainerDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAutonomousContainerDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAutonomousContainerDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAutonomousContainerDatabaseResponse")
+	}
+	return
+}
+
+// getAutonomousContainerDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAutonomousContainerDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAutonomousDataWarehouse **Deprecated.** To get the details of an Autonomous Data Warehouse, use the GetAutonomousDatabase operation.
 func (client DatabaseClient) GetAutonomousDataWarehouse(ctx context.Context, request GetAutonomousDataWarehouseRequest) (response GetAutonomousDataWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1008,6 +1097,48 @@ func (client DatabaseClient) getAutonomousDatabaseBackup(ctx context.Context, re
 	}
 
 	var response GetAutonomousDatabaseBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAutonomousExadataInfrastructure Gets information about the specified Autonomous Exadata Infrastructure.
+func (client DatabaseClient) GetAutonomousExadataInfrastructure(ctx context.Context, request GetAutonomousExadataInfrastructureRequest) (response GetAutonomousExadataInfrastructureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAutonomousExadataInfrastructure, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetAutonomousExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAutonomousExadataInfrastructureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAutonomousExadataInfrastructureResponse")
+	}
+	return
+}
+
+// getAutonomousExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getAutonomousExadataInfrastructure(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAutonomousExadataInfrastructureResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1526,6 +1657,95 @@ func (client DatabaseClient) getExternalBackupJob(ctx context.Context, request c
 	return response, err
 }
 
+// GetMaintenanceRun Gets information about the specified Maintenance Run.
+func (client DatabaseClient) GetMaintenanceRun(ctx context.Context, request GetMaintenanceRunRequest) (response GetMaintenanceRunResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMaintenanceRun, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetMaintenanceRunResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMaintenanceRunResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMaintenanceRunResponse")
+	}
+	return
+}
+
+// getMaintenanceRun implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getMaintenanceRun(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maintenanceRuns/{maintenanceRunId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMaintenanceRunResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// LaunchAutonomousExadataInfrastructure Launches a new Autonomous Exadata Infrastructure in the specified compartment and availability domain.
+func (client DatabaseClient) LaunchAutonomousExadataInfrastructure(ctx context.Context, request LaunchAutonomousExadataInfrastructureRequest) (response LaunchAutonomousExadataInfrastructureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.launchAutonomousExadataInfrastructure, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = LaunchAutonomousExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(LaunchAutonomousExadataInfrastructureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into LaunchAutonomousExadataInfrastructureResponse")
+	}
+	return
+}
+
+// launchAutonomousExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) launchAutonomousExadataInfrastructure(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousExadataInfrastructures")
+	if err != nil {
+		return nil, err
+	}
+
+	var response LaunchAutonomousExadataInfrastructureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // LaunchDbSystem Launches a new DB system in the specified compartment and availability domain. The Oracle
 // Database edition that you specify applies to all the databases on that DB system. The selected edition cannot be changed.
 // An initial database is created on the DB system based on the request parameters you provide and some default
@@ -1565,6 +1785,48 @@ func (client DatabaseClient) launchDbSystem(ctx context.Context, request common.
 	}
 
 	var response LaunchDbSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAutonomousContainerDatabases Gets a list of the Autonomous Container Databases in the specified compartment.
+func (client DatabaseClient) ListAutonomousContainerDatabases(ctx context.Context, request ListAutonomousContainerDatabasesRequest) (response ListAutonomousContainerDatabasesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousContainerDatabases, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListAutonomousContainerDatabasesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousContainerDatabasesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousContainerDatabasesResponse")
+	}
+	return
+}
+
+// listAutonomousContainerDatabases implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousContainerDatabases(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabases")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousContainerDatabasesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1733,6 +1995,90 @@ func (client DatabaseClient) listAutonomousDatabases(ctx context.Context, reques
 	}
 
 	var response ListAutonomousDatabasesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAutonomousExadataInfrastructureShapes Gets a list of the shapes that can be used to launch a new Autonomous Exadata Infrastructure DB system. The shape determines resources to allocate to the DB system (CPU cores, memory and storage).
+func (client DatabaseClient) ListAutonomousExadataInfrastructureShapes(ctx context.Context, request ListAutonomousExadataInfrastructureShapesRequest) (response ListAutonomousExadataInfrastructureShapesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousExadataInfrastructureShapes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListAutonomousExadataInfrastructureShapesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousExadataInfrastructureShapesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousExadataInfrastructureShapesResponse")
+	}
+	return
+}
+
+// listAutonomousExadataInfrastructureShapes implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousExadataInfrastructureShapes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousExadataInfrastructureShapes")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousExadataInfrastructureShapesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAutonomousExadataInfrastructures Gets a list of the Autonomous Exadata Infrastructures in the specified compartment.
+func (client DatabaseClient) ListAutonomousExadataInfrastructures(ctx context.Context, request ListAutonomousExadataInfrastructuresRequest) (response ListAutonomousExadataInfrastructuresResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousExadataInfrastructures, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListAutonomousExadataInfrastructuresResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousExadataInfrastructuresResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousExadataInfrastructuresResponse")
+	}
+	return
+}
+
+// listAutonomousExadataInfrastructures implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousExadataInfrastructures(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousExadataInfrastructures")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousExadataInfrastructuresResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2250,6 +2596,48 @@ func (client DatabaseClient) listDbVersions(ctx context.Context, request common.
 	return response, err
 }
 
+// ListMaintenanceRuns Gets a list of the Maintenance Runs in the specified compartment.
+func (client DatabaseClient) ListMaintenanceRuns(ctx context.Context, request ListMaintenanceRunsRequest) (response ListMaintenanceRunsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMaintenanceRuns, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListMaintenanceRunsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMaintenanceRunsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMaintenanceRunsResponse")
+	}
+	return
+}
+
+// listMaintenanceRuns implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listMaintenanceRuns(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maintenanceRuns")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMaintenanceRunsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ReinstateDataGuardAssociation Reinstates the database identified by the `databaseId` parameter into the standby role in a Data Guard association.
 func (client DatabaseClient) ReinstateDataGuardAssociation(ctx context.Context, request ReinstateDataGuardAssociationRequest) (response ReinstateDataGuardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2280,6 +2668,48 @@ func (client DatabaseClient) reinstateDataGuardAssociation(ctx context.Context, 
 	}
 
 	var response ReinstateDataGuardAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RestartAutonomousContainerDatabase Rolling restarts the specified Autonomous Container Database.
+func (client DatabaseClient) RestartAutonomousContainerDatabase(ctx context.Context, request RestartAutonomousContainerDatabaseRequest) (response RestartAutonomousContainerDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.restartAutonomousContainerDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = RestartAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestartAutonomousContainerDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestartAutonomousContainerDatabaseResponse")
+	}
+	return
+}
+
+// restartAutonomousContainerDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) restartAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/restart")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestartAutonomousContainerDatabaseResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2630,6 +3060,90 @@ func (client DatabaseClient) switchoverDataGuardAssociation(ctx context.Context,
 	return response, err
 }
 
+// TerminateAutonomousContainerDatabase Terminates an Autonomous Container Database, which permanently deletes the container database and any databases within the container database. The database data is local to the Autonomous Exadata Infrastructure and will be lost when the container database is terminated. Oracle recommends that you back up any data in the Autonomous Container Database prior to terminating it.
+func (client DatabaseClient) TerminateAutonomousContainerDatabase(ctx context.Context, request TerminateAutonomousContainerDatabaseRequest) (response TerminateAutonomousContainerDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.terminateAutonomousContainerDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = TerminateAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TerminateAutonomousContainerDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TerminateAutonomousContainerDatabaseResponse")
+	}
+	return
+}
+
+// terminateAutonomousContainerDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) terminateAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response TerminateAutonomousContainerDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// TerminateAutonomousExadataInfrastructure Terminates an Autonomous Exadata Infrastructure, which permanently deletes the Exadata Infrastructure and any container databases and databases contained in the Exadata Infrastructure. The database data is local to the Autonomous Exadata Infrastructure and will be lost when the system is terminated. Oracle recommends that you back up any data in the Autonomous Exadata Infrastructure prior to terminating it.
+func (client DatabaseClient) TerminateAutonomousExadataInfrastructure(ctx context.Context, request TerminateAutonomousExadataInfrastructureRequest) (response TerminateAutonomousExadataInfrastructureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.terminateAutonomousExadataInfrastructure, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = TerminateAutonomousExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TerminateAutonomousExadataInfrastructureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TerminateAutonomousExadataInfrastructureResponse")
+	}
+	return
+}
+
+// terminateAutonomousExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) terminateAutonomousExadataInfrastructure(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response TerminateAutonomousExadataInfrastructureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // TerminateDbSystem Terminates a DB system and permanently deletes it and any databases running on it, and any storage volumes attached to it. The database data is local to the DB system and will be lost when the system is terminated. Oracle recommends that you back up any data in the DB system prior to terminating it.
 func (client DatabaseClient) TerminateDbSystem(ctx context.Context, request TerminateDbSystemRequest) (response TerminateDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2660,6 +3174,48 @@ func (client DatabaseClient) terminateDbSystem(ctx context.Context, request comm
 	}
 
 	var response TerminateDbSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAutonomousContainerDatabase Updates the properties of an Autonomous Container Database, such as the CPU core count and storage size.
+func (client DatabaseClient) UpdateAutonomousContainerDatabase(ctx context.Context, request UpdateAutonomousContainerDatabaseRequest) (response UpdateAutonomousContainerDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAutonomousContainerDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAutonomousContainerDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAutonomousContainerDatabaseResponse")
+	}
+	return
+}
+
+// updateAutonomousContainerDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAutonomousContainerDatabaseResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2744,6 +3300,48 @@ func (client DatabaseClient) updateAutonomousDatabase(ctx context.Context, reque
 	}
 
 	var response UpdateAutonomousDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAutonomousExadataInfrastructure Updates the properties of an Autonomous Exadata Infrastructure, such as the CPU core count.
+func (client DatabaseClient) UpdateAutonomousExadataInfrastructure(ctx context.Context, request UpdateAutonomousExadataInfrastructureRequest) (response UpdateAutonomousExadataInfrastructureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAutonomousExadataInfrastructure, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateAutonomousExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAutonomousExadataInfrastructureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAutonomousExadataInfrastructureResponse")
+	}
+	return
+}
+
+// updateAutonomousExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateAutonomousExadataInfrastructure(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAutonomousExadataInfrastructureResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2912,6 +3510,48 @@ func (client DatabaseClient) updateExadataIormConfig(ctx context.Context, reques
 	}
 
 	var response UpdateExadataIormConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateMaintenanceRun Updates the properties of a Maintenance Run, such as the state of a Maintenance Run.
+func (client DatabaseClient) UpdateMaintenanceRun(ctx context.Context, request UpdateMaintenanceRunRequest) (response UpdateMaintenanceRunResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMaintenanceRun, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateMaintenanceRunResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMaintenanceRunResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMaintenanceRunResponse")
+	}
+	return
+}
+
+// updateMaintenanceRun implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateMaintenanceRun(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/maintenanceRuns/{maintenanceRunId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMaintenanceRunResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

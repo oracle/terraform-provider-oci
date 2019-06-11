@@ -106,8 +106,9 @@ var (
 		"subnet_id":              Representation{repType: Optional, create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	instanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation = map[string]interface{}{
-		"source_type": Representation{repType: Required, create: `image`},
-		"image_id":    Representation{repType: Optional, create: `${var.InstanceImageOCID[var.region]}`},
+		"source_type":             Representation{repType: Required, create: `image`},
+		"image_id":                Representation{repType: Optional, create: `${var.InstanceImageOCID[var.region]}`},
+		"boot_volume_size_in_gbs": Representation{repType: Optional, create: `55`},
 	}
 	instanceConfigurationInstanceDetailsSecondaryVnicsCreateVnicDetailsRepresentation = map[string]interface{}{
 		"assign_public_ip":       Representation{repType: Optional, create: `false`},
@@ -204,6 +205,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", InstanceConfigurationVmShape),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.0.boot_volume_size_in_gbs", "55"),
 					resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.source_details.0.image_id"),
 					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.0.source_type", "image"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),

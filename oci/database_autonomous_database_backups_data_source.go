@@ -121,6 +121,10 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) SetData() error {
 			autonomousDatabaseBackup["compartment_id"] = *r.CompartmentId
 		}
 
+		if r.DatabaseSizeInTBs != nil {
+			autonomousDatabaseBackup["database_size_in_tbs"] = *r.DatabaseSizeInTBs
+		}
+
 		if r.DisplayName != nil {
 			autonomousDatabaseBackup["display_name"] = *r.DisplayName
 		}

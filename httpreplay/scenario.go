@@ -3,6 +3,7 @@
 package httpreplay
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -13,6 +14,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"sort"
+	"strconv"
 	"strings"
 	"sync"
 
@@ -127,6 +129,9 @@ type Scenario struct {
 
 	// Matches actual request with interaction requests.
 	Matcher `yaml:"-"`
+
+	// Fields keeps track between old values(in recorded yaml file) and new values(in replay request)
+	Fields map[string]string
 }
 
 // Implementations of sort.Interface to give us different orderings.
@@ -166,6 +171,7 @@ func NewScenario(name string) *Scenario {
 		Version:            scenarioFormatV1,
 		Interactions:       make(Interactions, 0),
 		sortedInteractions: make(Interactions, 0),
+		Fields:             make(map[string]string),
 	}
 
 	return s
@@ -195,24 +201,18 @@ func Load(name string) (*Scenario, error) {
 
 var calls = 0
 
-func transformer(req *Request, i Interaction, res *Response) {
+func (s *Scenario) transformer(req *Request, i Interaction, res *Response) {
 	if req.BodyParsed != nil {
-		updateFieldMap(req, &i)
+		s.updateFieldMap(req, &i)
 	}
 
-	for oldVal, changedVal := range fields {
-		if len(req.URL) >= len(changedVal) && strings.Contains(req.URL, oldVal) {
-			req.URL = strings.Replace(req.URL, oldVal, changedVal, -1)
-		}
-	}
-
-	if res.BodyParsed != nil && len(fields) > 0 {
-		updateResFromFieldMap(res)
+	if res.BodyParsed != nil && len(s.Fields) > 0 {
+		s.updateResFromFieldMap(res)
 	}
 	saveOrLog(req, fmt.Sprintf("/tmp/%d-request.yaml", calls))
 	saveOrLog(i, fmt.Sprintf("/tmp/%d-interaction.yaml", calls))
 	saveOrLog(res, fmt.Sprintf("/tmp/%d-response.yaml", calls))
-	saveOrLog(fields, fmt.Sprintf("/tmp/%d-fields-map.yaml", calls))
+	saveOrLog(s.Fields, fmt.Sprintf("/tmp/%d-fields-map.yaml", calls))
 	calls++
 }
 
@@ -226,7 +226,7 @@ func (s *Scenario) AddInteraction(i *Interaction) {
 }
 
 func (s *Scenario) GetInteractionWithFullPath(r Request) (*Interaction, error) {
-	newRequest, err := ConverRequestWithFullPath(r)
+	newRequest, err := s.ConverRequestWithFullPath(r)
 	if err != nil {
 		return nil, err
 	}
@@ -383,19 +383,6 @@ func (s *Scenario) GetInteractionWithBodyFromList(r Request, list []*Interaction
 	var maxCredit int
 	var iMax *Interaction
 	var credit int
-	matchObj := func(iBody jsonObj) {
-		for key, rUnk := range rBody {
-			if rStringVal, ok := rUnk.(string); ok {
-				if iUnk, ok := iBody[key]; ok {
-					if iStringVal, ok := iUnk.(string); ok {
-						if rStringVal == iStringVal {
-							credit++
-						}
-					}
-				}
-			}
-		}
-	}
 
 	debugLogf("In GetInteractionWithBodyFromList with %v items...", len(list))
 	for _, i := range list {
@@ -403,16 +390,17 @@ func (s *Scenario) GetInteractionWithBodyFromList(r Request, list []*Interaction
 		if nil == i.Request.BodyParsed {
 			i.Request.BodyParsed, _ = unmarshal([]byte(i.Request.Body))
 		}
+
 		if iBody, ok := i.Request.BodyParsed.(jsonObj); ok {
-			matchObj(iBody)
+			credit += getBodyMatchCredit(iBody, rBody)
 		} else {
 			if aBody, ok := i.Request.BodyParsed.(jsonArr); ok {
 				for _, i := range aBody {
-					matchObj(i)
+					credit += getBodyMatchCredit(i, rBody)
 				}
 			}
 		}
-		debugLogf("\t...Interaction %v has match %v", i.Index, credit)
+		debugLogf("\t...Interaction %v has match %v, usage: %v", i.Index, credit, i.Uses)
 
 		if credit > maxCredit {
 			maxCredit = credit
@@ -490,10 +478,8 @@ func (s *Scenario) Save() error {
 	return nil
 }
 
-var fields = make(map[string]string)
-
-func ConverRequestWithFullPath(r Request) (Request, error) {
-	for key, value := range fields {
+func (s *Scenario) ConverRequestWithFullPath(r Request) (Request, error) {
+	for key, value := range s.Fields {
 		if strings.Contains(r.URL, value) {
 			r.URL = strings.Replace(r.URL, value, key, -1)
 			return r, nil
@@ -502,54 +488,118 @@ func ConverRequestWithFullPath(r Request) (Request, error) {
 	return r, ErrInteractionNotFound
 }
 
-func updateFieldMap(req *Request, i *Interaction) {
+func getBodyMatchCredit(iBody jsonObj, rBody jsonObj) int {
+	totalCredit := 0
+	for key, rUnk := range rBody {
+		if rStringVal, ok := rUnk.(string); ok {
+			if iUnk, ok := iBody[key]; ok {
+				if iStringVal, ok := iUnk.(string); ok {
+					if iStringVal == rStringVal {
+						totalCredit++
+					}
+				}
+			}
+		} else if rBoolVal, ok := rUnk.(bool); ok {
+			if iUnk, ok := iBody[key]; ok {
+				if iBoolVal, ok := iUnk.(bool); ok {
+					if iBoolVal == rBoolVal {
+						totalCredit++
+					}
+				}
+			}
+		} else if rJsonNumberVal, ok := rUnk.(json.Number); ok {
+			if iUnk, ok := iBody[key]; ok {
+				if iJsonNumberVal, ok := iUnk.(json.Number); ok {
+					if iJsonNumberVal == rJsonNumberVal {
+						totalCredit++
+					}
+				}
+			}
+		} else if rStringMapVal, ok := rUnk.(map[string]interface{}); ok {
+			if iUnk, ok := iBody[key]; ok {
+				if iStringMapVal, ok := iUnk.(map[string]interface{}); ok {
+					totalCredit += getBodyMatchCredit(iStringMapVal, rStringMapVal)
+				}
+			}
+		} else if rArrayVal, ok := rUnk.([]interface{}); ok {
+			for _, rObj := range rArrayVal {
+				if rJsonObj, ok := rObj.(jsonObj); ok {
+					if iUnk, ok := iBody[key]; ok {
+						if iJsonObj, ok := iUnk.(jsonObj); ok {
+							totalCredit += getBodyMatchCredit(iJsonObj, rJsonObj)
+						}
+					}
+				}
+			}
+		} else {
+			debugLogf("unsupported type in match: %v, %v", reflect.TypeOf(rUnk), rUnk)
+		}
+	}
+	return totalCredit
+}
+
+func (s *Scenario) updateFieldMap(req *Request, i *Interaction) {
 	if body, ok := req.BodyParsed.(jsonObj); ok {
 		if iBody, ok := i.Request.BodyParsed.(jsonObj); ok {
-			updateInternalFieldMap(iBody, body)
+			s.updateInternalFieldMap(iBody, body)
 		}
 	}
 }
 
-func updateInternalFieldMap(oldValue, newValue interface{}) {
+func (s *Scenario) updateInternalFieldMap(oldValue, newValue interface{}) {
 	if stringOldValue, ok := oldValue.(string); ok {
 		stringNewValue, _ := newValue.(string)
 		if strings.EqualFold(stringOldValue, stringNewValue) == false {
-			fields[stringOldValue] = stringNewValue
+			s.Fields[stringOldValue] = stringNewValue
+		}
+	} else if boolOldValue, ok := oldValue.(bool); ok {
+		boolNewValue, _ := newValue.(bool)
+		if boolOldValue != boolNewValue {
+			s.Fields[strconv.FormatBool(boolOldValue)] = strconv.FormatBool(boolNewValue)
+		}
+	} else if jsonNumberOldValue, ok := oldValue.(json.Number); ok {
+		jsonNumberNewValue, _ := newValue.(json.Number)
+		if jsonNumberNewValue.String() != jsonNumberOldValue.String() {
+			s.Fields[jsonNumberOldValue.String()] = jsonNumberNewValue.String()
 		}
 	} else if mapOldValue, ok := oldValue.(jsonObj); ok {
 		mapNewValue, _ := newValue.(jsonObj)
 		for k, v := range mapOldValue {
-			updateInternalFieldMap(v, mapNewValue[k])
+			s.updateInternalFieldMap(v, mapNewValue[k])
 		}
 	} else if mapOldValue, ok := oldValue.(map[string]interface{}); ok {
 		mapNewValue, _ := newValue.(map[string]interface{})
 		for k, v := range mapOldValue {
-			updateInternalFieldMap(v, mapNewValue[k])
+			s.updateInternalFieldMap(v, mapNewValue[k])
 		}
 	} else if arrayOldValue, ok := oldValue.([]interface{}); ok {
 		arrayNewValue, _ := newValue.([]interface{})
 		for i := range arrayOldValue {
-			updateInternalFieldMap(arrayOldValue[i], arrayNewValue[i])
+			s.updateInternalFieldMap(arrayOldValue[i], arrayNewValue[i])
 		}
 	} else {
 		debugLogf("HttpReplay will ignore the type match for type %s", reflect.TypeOf(oldValue))
 	}
 }
 
-func updateBody(body jsonObj) {
+func (s *Scenario) updateBody(body jsonObj) {
 	for key, unkVal := range body {
 		if unkVal == nil {
 			continue
 		} else if val, ok := unkVal.(string); ok {
-			bodyValueHandle(body, val, key)
+			s.bodyValueHandle(body, val, key)
+		} else if val, ok := unkVal.(bool); ok {
+			s.bodyValueHandle(body, strconv.FormatBool(val), key)
+		} else if val, ok := unkVal.(json.Number); ok {
+			s.bodyValueHandle(body, val.String(), key)
 		} else if val, ok := unkVal.(map[string]interface{}); ok {
-			updateBody(val)
+			s.updateBody(val)
 		} else if val, ok := unkVal.([]interface{}); ok {
 			for _, item := range val {
 				if jsonItem, ok := item.(map[string]interface{}); ok {
-					updateBody(jsonItem)
+					s.updateBody(jsonItem)
 				} else if strItem, ok := item.(string); ok {
-					bodyValueHandle(body, strItem, key)
+					s.bodyValueHandle(body, strItem, key)
 				}
 			}
 		} else {
@@ -558,21 +608,21 @@ func updateBody(body jsonObj) {
 	}
 }
 
-func bodyValueHandle(body jsonObj, val string, key string) {
-	for oldVal, changedVal := range fields {
-		if len(val) >= len(changedVal) && strings.Contains(val, oldVal) {
+func (s *Scenario) bodyValueHandle(body jsonObj, val string, key string) {
+	for oldVal, changedVal := range s.Fields {
+		if len(changedVal) > 1 && len(val) >= len(changedVal) && strings.Contains(val, oldVal) {
 			body[key] = strings.Replace(val, oldVal, changedVal, -1)
 		}
 	}
 }
 
-func updateResFromFieldMap(res *Response) {
+func (s *Scenario) updateResFromFieldMap(res *Response) {
 	if body, ok := res.BodyParsed.(jsonObj); ok {
-		updateBody(body)
+		s.updateBody(body)
 	}
 	if iBodyArr, ok := res.BodyParsed.(jsonArr); ok {
 		for objIndex := range iBodyArr {
-			updateBody(iBodyArr[objIndex])
+			s.updateBody(iBodyArr[objIndex])
 		}
 	}
 }
