@@ -337,6 +337,12 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
     value  = "example_header_value"
   }
 
+  items {
+    action          = "CONTROL_ACCESS_USING_HTTP_METHODS"
+    allowed_methods = ["GET", "POST"]
+    status_code     = "405"
+  }
+
   load_balancer_id = "${oci_load_balancer.lb1.id}"
   name             = "example_rule_set_name"
 }
