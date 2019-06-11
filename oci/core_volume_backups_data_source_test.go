@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -103,5 +105,7 @@ func (s *DatasourceCoreVolumeBackupTestSuite) TestAccDatasourceCoreVolumeBackup_
 }
 
 func TestDatasourceCoreVolumeBackupTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestDatasourceCoreVolumeBackupTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatasourceCoreVolumeBackupTestSuite))
 }

@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -27,7 +29,7 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) SetupTest() {
 }
 
 func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIdentityUserCapabilitiesManagement_basic() {
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("identity_management_resource")
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -92,5 +94,7 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIde
 }
 
 func TestResourceIdentityUserCapabilitiesManagementTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestResourceIdentityUserCapabilitiesManagementTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceIdentityUserCapabilitiesManagementTestSuite))
 }

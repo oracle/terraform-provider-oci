@@ -375,6 +375,14 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"boot_volume_size_in_gbs": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													ForceNew:         true,
+													ValidateFunc:     validateInt64TypeString,
+													DiffSuppressFunc: int64StringDiffSuppressFunction,
+												},
 												"image_id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -1152,6 +1160,14 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 		baseObject = details
 	case strings.ToLower("image"):
 		details := oci_core.InstanceConfigurationInstanceSourceViaImageDetails{}
+		if bootVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs")); ok {
+			tmp := bootVolumeSizeInGBs.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert bootVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.BootVolumeSizeInGBs = &tmpInt64
+		}
 		if imageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_id")); ok {
 			tmp := imageId.(string)
 			details.ImageId = &tmp
@@ -1174,6 +1190,10 @@ func InstanceConfigurationInstanceSourceDetailsToMap(obj *oci_core.InstanceConfi
 		}
 	case oci_core.InstanceConfigurationInstanceSourceViaImageDetails:
 		result["source_type"] = "image"
+
+		if v.BootVolumeSizeInGBs != nil {
+			result["boot_volume_size_in_gbs"] = strconv.FormatInt(*v.BootVolumeSizeInGBs, 10)
+		}
 
 		if v.ImageId != nil {
 			result["image_id"] = string(*v.ImageId)

@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
@@ -65,7 +67,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 	resource "oci_core_virtual_network" "t2" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
-		display_name = "network_name"
+		display_name = "network_name2"
 	}
 
 	resource "oci_core_dhcp_options" "opt1" {
@@ -337,5 +339,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 }
 
 func TestResourceCoreDHCPOptionsTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestResourceCoreDHCPOptionsTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceCoreDHCPOptionsTestSuite))
 }

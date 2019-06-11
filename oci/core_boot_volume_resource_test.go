@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/stretchr/testify/suite"
@@ -195,5 +197,7 @@ func (s *ResourceCoreBootVolumeTestSuite) TestResourceCoreBootVolume_basic() {
 }
 
 func TestResourceCoreBootVolumeTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestResourceCoreBootVolumeTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceCoreBootVolumeTestSuite))
 }

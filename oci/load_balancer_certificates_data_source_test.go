@@ -5,12 +5,16 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"regexp"
 
 	"github.com/hashicorp/terraform/helper/resource"
 )
 
 func TestAccDatasourceLoadBalancerCertificates_basic(t *testing.T) {
+	httpreplay.SetScenario("TestAccDatasourceLoadBalancerCertificates_basic")
+	defer httpreplay.SaveScenario()
 	providers := testAccProviders
 	config := legacyTestProviderConfig() + `
 	data "oci_identity_availability_domains" "ADs" {

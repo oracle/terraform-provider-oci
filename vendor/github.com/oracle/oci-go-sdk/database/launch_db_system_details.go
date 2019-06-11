@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// LaunchDbSystemDetails The representation of LaunchDbSystemDetails
+// LaunchDbSystemDetails Used for creating a new DB system. Does not use backups or an existing database for the creation of the initial database.
 type LaunchDbSystemDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment the DB system  belongs in.

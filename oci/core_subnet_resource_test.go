@@ -7,12 +7,16 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/core"
 )
 
 func TestAccResourceCoreSubnetCreate_basic(t *testing.T) {
+	httpreplay.SetScenario("TestAccResourceCoreSubnetCreate_basic")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	testAccPreCheck(t)
 	config := legacyTestProviderConfig() + `

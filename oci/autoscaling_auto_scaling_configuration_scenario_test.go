@@ -6,6 +6,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/oracle/oci-go-sdk/common"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -186,7 +188,7 @@ func (s *ResourceAutoscalingConfigurationTestSuite) TestAccResourceAutoscalingCo
 		}
 	`
 
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("instance_pool")
 
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
@@ -243,5 +245,7 @@ func instancePoolRunningWaitCondition(response common.OCIOperationResponse) bool
 }
 
 func TestResourceAutoscalingConfigurationTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestResourceAutoscalingConfigurationTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceAutoscalingConfigurationTestSuite))
 }

@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/core"
@@ -127,5 +129,7 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_objectStorageImage
 }
 
 func TestResourceCoreImageTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestResourceCoreImageTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceCoreImageTestSuite))
 }

@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"fmt"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -124,5 +126,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 }
 
 func TestResourceCoreVirtualNetworkTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestResourceCoreVirtualNetworkTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceCoreVirtualNetworkTestSuite))
 }

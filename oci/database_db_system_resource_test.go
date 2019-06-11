@@ -10,6 +10,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/database"
@@ -66,7 +68,7 @@ type ResourceDatabaseDBSystemTestSuite struct {
 }
 
 func (s *ResourceDatabaseDBSystemTestSuite) SetupTest() {
-	s.Token, s.TokenFn = tokenize()
+	s.Token, s.TokenFn = tokenizeWithHttpReplay("database_db")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + `
@@ -1106,5 +1108,8 @@ func (s *ResourceDatabaseDBSystemTestSuite) TestAccResourceDatabaseDBSystem_Exad
 }
 
 func TestResourceDatabaseDBSystemTestSuite(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip TestResourceDatabaseDBSystemTestSuite in HttpReplay mode.")
+	}
 	suite.Run(t, new(ResourceDatabaseDBSystemTestSuite))
 }

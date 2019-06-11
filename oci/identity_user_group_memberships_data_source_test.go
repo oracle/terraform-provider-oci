@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/identity"
@@ -19,7 +21,7 @@ type DatasourceIdentityUserGroupMembershipsTestSuite struct {
 }
 
 func (s *DatasourceIdentityUserGroupMembershipsTestSuite) SetupTest() {
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("identity_user_group_data_source")
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + tokenFn(`
@@ -116,5 +118,7 @@ func (s *DatasourceIdentityUserGroupMembershipsTestSuite) TestAccIdentityUserGro
 }
 
 func TestDatasourceIdentityUserGroupMembershipsTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestDatasourceIdentityUserGroupMembershipsTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatasourceIdentityUserGroupMembershipsTestSuite))
 }

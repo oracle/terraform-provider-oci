@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"fmt"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -193,5 +195,7 @@ func (s *ResourceLoadBalancerBackendTestSuite) TestAccResourceLoadBalancerBacken
 }
 
 func TestResourceLoadBalancerBackendTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestResourceLoadBalancerBackendTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceLoadBalancerBackendTestSuite))
 }

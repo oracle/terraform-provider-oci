@@ -5,6 +5,8 @@ package provider
 import (
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/oracle/oci-go-sdk/identity"
@@ -19,7 +21,7 @@ type DatasourceIdentitySwiftPasswordsTestSuite struct {
 }
 
 func (s *DatasourceIdentitySwiftPasswordsTestSuite) SetupTest() {
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("swiff_pass_data_source")
 
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
@@ -76,5 +78,7 @@ func (s *DatasourceIdentitySwiftPasswordsTestSuite) TestAccDatasourceIdentitySwi
 }
 
 func TestDatasourceIdentitySwiftPasswordsTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestDatasourceIdentitySwiftPasswordsTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(DatasourceIdentitySwiftPasswordsTestSuite))
 }

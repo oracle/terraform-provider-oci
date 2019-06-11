@@ -62,6 +62,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AutonomousContainerDatabaseId != nil {
+		s.D.Set("autonomous_container_database_id", *s.Res.AutonomousContainerDatabaseId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -70,6 +74,12 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("connection_strings", []interface{}{AutonomousDatabaseConnectionStringsToMap(s.Res.ConnectionStrings)})
 	} else {
 		s.D.Set("connection_strings", nil)
+	}
+
+	if s.Res.ConnectionUrls != nil {
+		s.D.Set("connection_urls", []interface{}{AutonomousDatabaseConnectionUrlsToMap(s.Res.ConnectionUrls)})
+	} else {
+		s.D.Set("connection_urls", nil)
 	}
 
 	if s.Res.CpuCoreCount != nil {
@@ -102,6 +112,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
+	}
+
+	if s.Res.IsDedicated != nil {
+		s.D.Set("is_dedicated", *s.Res.IsDedicated)
 	}
 
 	s.D.Set("license_model", s.Res.LicenseModel)

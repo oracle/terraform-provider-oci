@@ -69,7 +69,7 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 	resourceName := "oci_dns_record.test_record"
 
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("dns_resource")
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
@@ -156,13 +156,15 @@ func TestDnsRecordsResource_basic(t *testing.T) {
 // If this was kept in the previous test case, the CheckDestroy step would run after the datasource steps ran and would fail
 // because it wouldn't have a record resource to delete and to verify destruction for.
 func TestDnsRecordsResource_datasources(t *testing.T) {
+	httpreplay.SetScenario("TestDnsRecordsResource_datasources")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("dns_data_source")
 	datasourceName := "data.oci_dns_records.test_records"
 
 	resource.Test(t, resource.TestCase{
@@ -206,13 +208,15 @@ data "oci_dns_records" "test_records" {
 }
 
 func TestDnsRecordsResource_diffSuppression(t *testing.T) {
+	httpreplay.SetScenario("TestDnsRecordsResource_diffSuppression")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("dns_diff")
 	resourceName := "oci_dns_record.test_record"
 
 	resource.Test(t, resource.TestCase{
@@ -293,13 +297,15 @@ resource "oci_dns_record" "test_record" {
 }
 
 func TestDnsRecordsResource_badUpdate(t *testing.T) {
+	httpreplay.SetScenario("TestDnsRecordsResource_badUpdate")
+	defer httpreplay.SaveScenario()
 	provider := testAccProvider
 	config := testProviderConfig()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	_, tokenFn := tokenize()
+	_, tokenFn := tokenizeWithHttpReplay("dns_bad_update")
 	resourceName := "oci_dns_record.test_record"
 
 	resource.Test(t, resource.TestCase{
