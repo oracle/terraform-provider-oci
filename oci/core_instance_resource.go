@@ -875,7 +875,9 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 		s.D.Set("time_maintenance_reboot_due", "")
 	}
 
-	if s.Res.LifecycleState == oci_core.InstanceLifecycleStateRunning {
+	if s.Res.LifecycleState != oci_core.InstanceLifecycleStateTerminated &&
+		s.Res.LifecycleState != oci_core.InstanceLifecycleStateProvisioning &&
+		s.Res.LifecycleState != oci_core.InstanceLifecycleStateTerminating {
 		vnic, vnicError := s.getPrimaryVnic()
 		if vnicError != nil || vnic == nil {
 			log.Printf("[WARN] Primary VNIC could not be found during instance refresh: %q", vnicError)
