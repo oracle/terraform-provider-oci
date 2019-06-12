@@ -1,4 +1,4 @@
-## 3.29.0 (Unreleased)
+## 3.29.0 (June 12, 2019)
 
 ### Added
 - Support for autonomous transaction database-dedicated, autonomous exadata infrastructures, autonomous container databases and maintenance runs.
