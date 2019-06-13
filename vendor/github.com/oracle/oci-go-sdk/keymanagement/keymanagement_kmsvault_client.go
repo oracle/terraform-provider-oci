@@ -30,7 +30,7 @@ func NewKmsVaultClientWithConfigurationProvider(configProvider common.Configurat
 	}
 
 	client = KmsVaultClient{BaseClient: baseClient}
-	client.BasePath = "20180608"
+	client.BasePath = ""
 	err = client.setConfigurationProvider(configProvider)
 	return
 }
@@ -60,7 +60,8 @@ func (client *KmsVaultClient) ConfigurationProvider() *common.ConfigurationProvi
 
 // CancelVaultDeletion Cancels the scheduled deletion of the specified vault. Canceling a scheduled deletion
 // restores the vault and all keys in it to the respective states they were in before
-// the deletion was scheduled.
+// the deletion was scheduled. All the keys that have already been scheduled deletion before the
+// scheduled deletion of the vault will also remain in their state and timeOfDeletion.
 func (client KmsVaultClient) CancelVaultDeletion(ctx context.Context, request CancelVaultDeletionRequest) (response CancelVaultDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -89,7 +90,7 @@ func (client KmsVaultClient) CancelVaultDeletion(ctx context.Context, request Ca
 
 // cancelVaultDeletion implements the OCIOperation interface (enables retrying operations)
 func (client KmsVaultClient) cancelVaultDeletion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vaults/{vaultId}/actions/cancelDeletion")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/cancelDeletion")
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +140,7 @@ func (client KmsVaultClient) CreateVault(ctx context.Context, request CreateVaul
 
 // createVault implements the OCIOperation interface (enables retrying operations)
 func (client KmsVaultClient) createVault(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vaults")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults")
 	if err != nil {
 		return nil, err
 	}
@@ -181,7 +182,7 @@ func (client KmsVaultClient) GetVault(ctx context.Context, request GetVaultReque
 
 // getVault implements the OCIOperation interface (enables retrying operations)
 func (client KmsVaultClient) getVault(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vaults/{vaultId}")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults/{vaultId}")
 	if err != nil {
 		return nil, err
 	}
@@ -223,7 +224,7 @@ func (client KmsVaultClient) ListVaults(ctx context.Context, request ListVaultsR
 
 // listVaults implements the OCIOperation interface (enables retrying operations)
 func (client KmsVaultClient) listVaults(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vaults")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults")
 	if err != nil {
 		return nil, err
 	}
@@ -241,8 +242,12 @@ func (client KmsVaultClient) listVaults(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// ScheduleVaultDeletion Schedules the deletion of the specified vault. This sets the state of the vault and all keys in it
-// to `PENDING_DELETION` and then deletes them after the retention period ends.
+// ScheduleVaultDeletion Schedules the deletion of the specified vault. This sets the state of the vault and
+// keys that are not scheduled deletion in it to `PENDING_DELETION` and then deletes them
+// after the retention period ends.
+// The state and the timeOfDeletion of the keys that have already been scheduled for deletion
+// will not change. If any keys in it are scheduled for deletion after the specified timeOfDeletion
+// for the vault, the call will be rejected with status code 409.
 func (client KmsVaultClient) ScheduleVaultDeletion(ctx context.Context, request ScheduleVaultDeletionRequest) (response ScheduleVaultDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -271,7 +276,7 @@ func (client KmsVaultClient) ScheduleVaultDeletion(ctx context.Context, request 
 
 // scheduleVaultDeletion implements the OCIOperation interface (enables retrying operations)
 func (client KmsVaultClient) scheduleVaultDeletion(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vaults/{vaultId}/actions/scheduleDeletion")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/scheduleDeletion")
 	if err != nil {
 		return nil, err
 	}
@@ -315,7 +320,7 @@ func (client KmsVaultClient) UpdateVault(ctx context.Context, request UpdateVaul
 
 // updateVault implements the OCIOperation interface (enables retrying operations)
 func (client KmsVaultClient) updateVault(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/vaults/{vaultId}")
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/20180608/vaults/{vaultId}")
 	if err != nil {
 		return nil, err
 	}

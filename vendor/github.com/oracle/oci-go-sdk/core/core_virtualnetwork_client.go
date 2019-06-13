@@ -178,6 +178,55 @@ func (client VirtualNetworkClient) bulkDeleteVirtualCircuitPublicPrefixes(ctx co
 	return response, err
 }
 
+// ChangeServiceGatewayCompartment Moves a service gateway into a different compartment within the same tenancy. For information
+// about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+func (client VirtualNetworkClient) ChangeServiceGatewayCompartment(ctx context.Context, request ChangeServiceGatewayCompartmentRequest) (response ChangeServiceGatewayCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeServiceGatewayCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeServiceGatewayCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeServiceGatewayCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeServiceGatewayCompartmentResponse")
+	}
+	return
+}
+
+// changeServiceGatewayCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) changeServiceGatewayCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/serviceGateways/{serviceGatewayId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeServiceGatewayCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ConnectLocalPeeringGateways Connects this local peering gateway (LPG) to another one in the same region.
 // This operation must be called by the VCN administrator who is designated as
 // the *requestor* in the peering relationship. The *acceptor* must implement
