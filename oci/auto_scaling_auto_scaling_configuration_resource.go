@@ -13,19 +13,19 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
-	oci_autoscaling "github.com/oracle/oci-go-sdk/autoscaling"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 )
 
-func AutoscalingAutoScalingConfigurationResource() *schema.Resource {
+func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createAutoscalingAutoScalingConfiguration,
-		Read:     readAutoscalingAutoScalingConfiguration,
-		Update:   updateAutoscalingAutoScalingConfiguration,
-		Delete:   deleteAutoscalingAutoScalingConfiguration,
+		Create:   createAutoScalingAutoScalingConfiguration,
+		Read:     readAutoScalingAutoScalingConfiguration,
+		Update:   updateAutoScalingAutoScalingConfiguration,
+		Delete:   deleteAutoScalingAutoScalingConfiguration,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"auto_scaling_resources": {
@@ -263,32 +263,32 @@ func AutoscalingAutoScalingConfigurationResource() *schema.Resource {
 	}
 }
 
-func createAutoscalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &AutoscalingAutoScalingConfigurationResourceCrud{}
+func createAutoScalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &AutoScalingAutoScalingConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).autoScalingClient
 
 	return CreateResource(d, sync)
 }
 
-func readAutoscalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &AutoscalingAutoScalingConfigurationResourceCrud{}
+func readAutoScalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &AutoScalingAutoScalingConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).autoScalingClient
 
 	return ReadResource(sync)
 }
 
-func updateAutoscalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &AutoscalingAutoScalingConfigurationResourceCrud{}
+func updateAutoScalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &AutoScalingAutoScalingConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).autoScalingClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteAutoscalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &AutoscalingAutoScalingConfigurationResourceCrud{}
+func deleteAutoScalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &AutoScalingAutoScalingConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).autoScalingClient
 	sync.DisableNotFoundRetries = true
@@ -296,19 +296,19 @@ func deleteAutoscalingAutoScalingConfiguration(d *schema.ResourceData, m interfa
 	return DeleteResource(d, sync)
 }
 
-type AutoscalingAutoScalingConfigurationResourceCrud struct {
+type AutoScalingAutoScalingConfigurationResourceCrud struct {
 	BaseCrud
-	Client                 *oci_autoscaling.AutoScalingClient
-	Res                    *oci_autoscaling.AutoScalingConfiguration
+	Client                 *oci_auto_scaling.AutoScalingClient
+	Res                    *oci_auto_scaling.AutoScalingConfiguration
 	DisableNotFoundRetries bool
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) ID() string {
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) Create() error {
-	request := oci_autoscaling.CreateAutoScalingConfigurationRequest{}
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) Create() error {
+	request := oci_auto_scaling.CreateAutoScalingConfigurationRequest{}
 
 	if autoScalingResources, ok := s.D.GetOkExists("auto_scaling_resources"); ok {
 		if tmpList := autoScalingResources.([]interface{}); len(tmpList) > 0 {
@@ -353,10 +353,10 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) Create() error {
 		request.IsEnabled = &tmp
 	}
 
-	request.Policies = []oci_autoscaling.CreateAutoScalingPolicyDetails{}
+	request.Policies = []oci_auto_scaling.CreateAutoScalingPolicyDetails{}
 	if policies, ok := s.D.GetOkExists("policies"); ok {
 		interfaces := policies.([]interface{})
-		tmp := make([]oci_autoscaling.CreateAutoScalingPolicyDetails, len(interfaces))
+		tmp := make([]oci_auto_scaling.CreateAutoScalingPolicyDetails, len(interfaces))
 		for i := range interfaces {
 			stateDataIndex := i
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "policies", stateDataIndex)
@@ -369,7 +369,7 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) Create() error {
 		request.Policies = tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "autoscaling")
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
 
 	response, err := s.Client.CreateAutoScalingConfiguration(context.Background(), request)
 	if err != nil {
@@ -380,13 +380,13 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) Create() error {
 	return nil
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) Get() error {
-	request := oci_autoscaling.GetAutoScalingConfigurationRequest{}
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) Get() error {
+	request := oci_auto_scaling.GetAutoScalingConfigurationRequest{}
 
 	tmp := s.D.Id()
 	request.AutoScalingConfigurationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "autoscaling")
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
 
 	response, err := s.Client.GetAutoScalingConfiguration(context.Background(), request)
 	if err != nil {
@@ -397,8 +397,8 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) Update() error {
-	request := oci_autoscaling.UpdateAutoScalingConfigurationRequest{}
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) Update() error {
+	request := oci_auto_scaling.UpdateAutoScalingConfigurationRequest{}
 
 	tmp := s.D.Id()
 	request.AutoScalingConfigurationId = &tmp
@@ -430,7 +430,7 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) Update() error {
 		request.IsEnabled = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "autoscaling")
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
 
 	response, err := s.Client.UpdateAutoScalingConfiguration(context.Background(), request)
 	if err != nil {
@@ -441,19 +441,19 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) Update() error {
 	return nil
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) Delete() error {
-	request := oci_autoscaling.DeleteAutoScalingConfigurationRequest{}
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) Delete() error {
+	request := oci_auto_scaling.DeleteAutoScalingConfigurationRequest{}
 
 	tmp := s.D.Id()
 	request.AutoScalingConfigurationId = &tmp
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "autoscaling")
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
 
 	_, err := s.Client.DeleteAutoScalingConfiguration(context.Background(), request)
 	return err
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) SetData() error {
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) SetData() error {
 	if s.Res.Resource != nil {
 		autoScalingResourcesArray := []interface{}{}
 		if autoScalingResourcesMap := ResourceToMap(&s.Res.Resource); autoScalingResourcesMap != nil {
@@ -499,11 +499,11 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToAction(fieldKeyFormat string) (oci_autoscaling.Action, error) {
-	result := oci_autoscaling.Action{}
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToAction(fieldKeyFormat string) (oci_auto_scaling.Action, error) {
+	result := oci_auto_scaling.Action{}
 
 	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
-		result.Type = oci_autoscaling.ActionTypeEnum(type_.(string))
+		result.Type = oci_auto_scaling.ActionTypeEnum(type_.(string))
 	}
 
 	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
@@ -514,7 +514,7 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToAction(fieldKeyFo
 	return result, nil
 }
 
-func ActionToMap(obj *oci_autoscaling.Action) map[string]interface{} {
+func ActionToMap(obj *oci_auto_scaling.Action) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["type"] = string(obj.Type)
@@ -526,8 +526,8 @@ func ActionToMap(obj *oci_autoscaling.Action) map[string]interface{} {
 	return result
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToCapacity(fieldKeyFormat string) (oci_autoscaling.Capacity, error) {
-	result := oci_autoscaling.Capacity{}
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToCapacity(fieldKeyFormat string) (oci_auto_scaling.Capacity, error) {
+	result := oci_auto_scaling.Capacity{}
 
 	if initial, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "initial")); ok {
 		tmp := initial.(int)
@@ -547,7 +547,7 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToCapacity(fieldKey
 	return result, nil
 }
 
-func CapacityToMap(obj *oci_autoscaling.Capacity) map[string]interface{} {
+func CapacityToMap(obj *oci_auto_scaling.Capacity) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Initial != nil {
@@ -565,8 +565,8 @@ func CapacityToMap(obj *oci_autoscaling.Capacity) map[string]interface{} {
 	return result
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToCreateAutoScalingPolicyDetails(fieldKeyFormat string) (oci_autoscaling.CreateAutoScalingPolicyDetails, error) {
-	var baseObject oci_autoscaling.CreateAutoScalingPolicyDetails
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToCreateAutoScalingPolicyDetails(fieldKeyFormat string) (oci_auto_scaling.CreateAutoScalingPolicyDetails, error) {
+	var baseObject oci_auto_scaling.CreateAutoScalingPolicyDetails
 	//discriminator
 	policyTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "policy_type"))
 	var policyType string
@@ -577,12 +577,12 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToCreateAutoScaling
 	}
 	switch strings.ToLower(policyType) {
 	case strings.ToLower("threshold"):
-		details := oci_autoscaling.CreateThresholdPolicyDetails{}
-		details.Rules = []oci_autoscaling.CreateConditionDetails{}
+		details := oci_auto_scaling.CreateThresholdPolicyDetails{}
+		details.Rules = []oci_auto_scaling.CreateConditionDetails{}
 		if rules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rules")); ok {
 			set := rules.(*schema.Set)
 			interfaces := set.List()
-			tmp := make([]oci_autoscaling.CreateConditionDetails, len(interfaces))
+			tmp := make([]oci_auto_scaling.CreateConditionDetails, len(interfaces))
 			for i := range interfaces {
 				stateDataIndex := autoScalingConfigurationPolicyRulesHashCodeForSets(interfaces[i])
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "rules"), stateDataIndex)
@@ -615,10 +615,10 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToCreateAutoScaling
 	return baseObject, nil
 }
 
-func AutoScalingPolicyToMap(obj oci_autoscaling.AutoScalingPolicy, datasource bool) map[string]interface{} {
+func AutoScalingPolicyToMap(obj oci_auto_scaling.AutoScalingPolicy, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
-	case oci_autoscaling.ThresholdPolicy:
+	case oci_auto_scaling.ThresholdPolicy:
 		result["policy_type"] = "threshold"
 
 		if v.Rules != nil {
@@ -656,8 +656,8 @@ func AutoScalingPolicyToMap(obj oci_autoscaling.AutoScalingPolicy, datasource bo
 	return result
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToCreateConditionDetails(fieldKeyFormat string) (oci_autoscaling.CreateConditionDetails, error) {
-	result := oci_autoscaling.CreateConditionDetails{}
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToCreateConditionDetails(fieldKeyFormat string) (oci_auto_scaling.CreateConditionDetails, error) {
+	result := oci_auto_scaling.CreateConditionDetails{}
 
 	if action, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action")); ok {
 		if tmpList := action.([]interface{}); len(tmpList) > 0 {
@@ -689,7 +689,7 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToCreateConditionDe
 	return result, nil
 }
 
-func CreateConditionDetailsToMap(obj oci_autoscaling.Condition) map[string]interface{} {
+func CreateConditionDetailsToMap(obj oci_auto_scaling.Condition) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Action != nil {
@@ -711,11 +711,11 @@ func CreateConditionDetailsToMap(obj oci_autoscaling.Condition) map[string]inter
 	return result
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToMetric(fieldKeyFormat string) (oci_autoscaling.Metric, error) {
-	result := oci_autoscaling.Metric{}
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToMetric(fieldKeyFormat string) (oci_auto_scaling.Metric, error) {
+	result := oci_auto_scaling.Metric{}
 
 	if metricType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_type")); ok {
-		result.MetricType = oci_autoscaling.MetricMetricTypeEnum(metricType.(string))
+		result.MetricType = oci_auto_scaling.MetricMetricTypeEnum(metricType.(string))
 	}
 
 	if threshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "threshold")); ok {
@@ -732,7 +732,7 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToMetric(fieldKeyFo
 	return result, nil
 }
 
-func MetricToMap(obj *oci_autoscaling.Metric) map[string]interface{} {
+func MetricToMap(obj *oci_auto_scaling.Metric) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["metric_type"] = string(obj.MetricType)
@@ -744,8 +744,8 @@ func MetricToMap(obj *oci_autoscaling.Metric) map[string]interface{} {
 	return result
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToResource(fieldKeyFormat string) (oci_autoscaling.Resource, error) {
-	var baseObject oci_autoscaling.Resource
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToResource(fieldKeyFormat string) (oci_auto_scaling.Resource, error) {
+	var baseObject oci_auto_scaling.Resource
 	//discriminator
 	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
 	var type_ string
@@ -756,7 +756,7 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToResource(fieldKey
 	}
 	switch strings.ToLower(type_) {
 	case strings.ToLower("instancePool"):
-		details := oci_autoscaling.InstancePoolResource{}
+		details := oci_auto_scaling.InstancePoolResource{}
 		if idRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 			var id_ string
 			id_ = idRaw.(string)
@@ -769,10 +769,10 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToResource(fieldKey
 	return baseObject, nil
 }
 
-func ResourceToMap(obj *oci_autoscaling.Resource) map[string]interface{} {
+func ResourceToMap(obj *oci_auto_scaling.Resource) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
-	case oci_autoscaling.InstancePoolResource:
+	case oci_auto_scaling.InstancePoolResource:
 		result["type"] = "instancePool"
 		result["id"] = string(*v.Id)
 	default:
@@ -783,11 +783,11 @@ func ResourceToMap(obj *oci_autoscaling.Resource) map[string]interface{} {
 	return result
 }
 
-func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToThreshold(fieldKeyFormat string) (oci_autoscaling.Threshold, error) {
-	result := oci_autoscaling.Threshold{}
+func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToThreshold(fieldKeyFormat string) (oci_auto_scaling.Threshold, error) {
+	result := oci_auto_scaling.Threshold{}
 
 	if operator, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operator")); ok {
-		result.Operator = oci_autoscaling.ThresholdOperatorEnum(operator.(string))
+		result.Operator = oci_auto_scaling.ThresholdOperatorEnum(operator.(string))
 	}
 
 	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
@@ -798,7 +798,7 @@ func (s *AutoscalingAutoScalingConfigurationResourceCrud) mapToThreshold(fieldKe
 	return result, nil
 }
 
-func ThresholdToMap(obj *oci_autoscaling.Threshold) map[string]interface{} {
+func ThresholdToMap(obj *oci_auto_scaling.Threshold) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["operator"] = string(obj.Operator)

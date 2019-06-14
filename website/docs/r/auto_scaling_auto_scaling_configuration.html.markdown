@@ -3,11 +3,11 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_autoscaling_auto_scaling_configuration"
 sidebar_current: "docs-oci-resource-autoscaling-auto_scaling_configuration"
 description: |-
-  Provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Autoscaling service
+  Provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Auto Scaling service
 ---
 
 # oci_autoscaling_auto_scaling_configuration
-This resource provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Autoscaling service.
+This resource provides the Auto Scaling Configuration resource in Oracle Cloud Infrastructure Auto Scaling service.
 
 Creates an autoscaling configuration.
 
@@ -47,7 +47,8 @@ resource "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configu
 					value = "${var.auto_scaling_configuration_policies_rules_metric_threshold_value}"
 				}
 			}
-            display_name = "${var.auto_scaling_configuration_policies_rules_display_name}"
+
+			display_name = "${var.auto_scaling_configuration_policies_rules_display_name}"
 		}
 
 		#Optional
@@ -89,7 +90,7 @@ The following arguments are supported:
 		* `action` - (Required) 
 			* `type` - (Required) The type of action to take.
 			* `value` - (Required) To scale out (increase the number of instances), provide a positive value. To scale in (decrease the number of instances), provide a negative value. 
-		* `display_name` - (Required) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+		* `display_name` - (Required) A user-friendly name. Does not have to be unique. Avoid entering confidential information. This value is not changeable through Terraform.
 		* `metric` - (Required) 
 			* `metric_type` - (Required) 
 			* `threshold` - (Required) 

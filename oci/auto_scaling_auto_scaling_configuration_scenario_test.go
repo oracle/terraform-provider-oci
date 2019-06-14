@@ -17,7 +17,7 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
-type ResourceAutoscalingConfigurationTestSuite struct {
+type ResourceAutoScalingConfigurationTestSuite struct {
 	suite.Suite
 	Providers              map[string]terraform.ResourceProvider
 	Config                 string
@@ -25,7 +25,7 @@ type ResourceAutoscalingConfigurationTestSuite struct {
 	OperatingSystemVersion string
 }
 
-func (s *ResourceAutoscalingConfigurationTestSuite) SetupTest() {
+func (s *ResourceAutoScalingConfigurationTestSuite) SetupTest() {
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
 	s.Config = legacyTestProviderConfig() + InstanceCommonVariables + `
@@ -164,7 +164,7 @@ func (s *ResourceAutoscalingConfigurationTestSuite) SetupTest() {
 	s.OperatingSystem = "Oracle Linux"
 }
 
-func (s *ResourceAutoscalingConfigurationTestSuite) TestAccResourceAutoscalingConfiguration_InstancePoolSources() {
+func (s *ResourceAutoScalingConfigurationTestSuite) TestAccResourceAutoScalingConfiguration_InstancePoolSources() {
 	var instancePoolId string
 
 	var values = make(map[string]string)
@@ -244,8 +244,8 @@ func instancePoolRunningWaitCondition(response common.OCIOperationResponse) bool
 	return false
 }
 
-func TestResourceAutoscalingConfigurationTestSuite(t *testing.T) {
-	httpreplay.SetScenario("TestResourceAutoscalingConfigurationTestSuite")
+func TestResourceAutoScalingConfigurationTestSuite(t *testing.T) {
+	httpreplay.SetScenario("TestResourceAutoScalingConfigurationTestSuite")
 	defer httpreplay.SaveScenario()
-	suite.Run(t, new(ResourceAutoscalingConfigurationTestSuite))
+	suite.Run(t, new(ResourceAutoScalingConfigurationTestSuite))
 }

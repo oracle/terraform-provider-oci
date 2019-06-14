@@ -6,45 +6,45 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_autoscaling "github.com/oracle/oci-go-sdk/autoscaling"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 )
 
-func AutoscalingAutoScalingConfigurationDataSource() *schema.Resource {
+func AutoScalingAutoScalingConfigurationDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["auto_scaling_configuration_id"] = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return GetSingularDataSourceItemSchema(AutoscalingAutoScalingConfigurationResource(), fieldMap, readSingularAutoscalingAutoScalingConfiguration)
+	return GetSingularDataSourceItemSchema(AutoScalingAutoScalingConfigurationResource(), fieldMap, readSingularAutoScalingAutoScalingConfiguration)
 }
 
-func readSingularAutoscalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
-	sync := &AutoscalingAutoScalingConfigurationDataSourceCrud{}
+func readSingularAutoScalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
+	sync := &AutoScalingAutoScalingConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).autoScalingClient
 
 	return ReadResource(sync)
 }
 
-type AutoscalingAutoScalingConfigurationDataSourceCrud struct {
+type AutoScalingAutoScalingConfigurationDataSourceCrud struct {
 	D      *schema.ResourceData
-	Client *oci_autoscaling.AutoScalingClient
-	Res    *oci_autoscaling.GetAutoScalingConfigurationResponse
+	Client *oci_auto_scaling.AutoScalingClient
+	Res    *oci_auto_scaling.GetAutoScalingConfigurationResponse
 }
 
-func (s *AutoscalingAutoScalingConfigurationDataSourceCrud) VoidState() {
+func (s *AutoScalingAutoScalingConfigurationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AutoscalingAutoScalingConfigurationDataSourceCrud) Get() error {
-	request := oci_autoscaling.GetAutoScalingConfigurationRequest{}
+func (s *AutoScalingAutoScalingConfigurationDataSourceCrud) Get() error {
+	request := oci_auto_scaling.GetAutoScalingConfigurationRequest{}
 
 	if autoScalingConfigurationId, ok := s.D.GetOkExists("auto_scaling_configuration_id"); ok {
 		tmp := autoScalingConfigurationId.(string)
 		request.AutoScalingConfigurationId = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "autoscaling")
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "auto_scaling")
 
 	response, err := s.Client.GetAutoScalingConfiguration(context.Background(), request)
 	if err != nil {
@@ -55,7 +55,7 @@ func (s *AutoscalingAutoScalingConfigurationDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutoscalingAutoScalingConfigurationDataSourceCrud) SetData() error {
+func (s *AutoScalingAutoScalingConfigurationDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}

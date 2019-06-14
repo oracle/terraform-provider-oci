@@ -3,11 +3,11 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_autoscaling_auto_scaling_configurations"
 sidebar_current: "docs-oci-datasource-autoscaling-auto_scaling_configurations"
 description: |-
-  Provides the list of Auto Scaling Configurations in Oracle Cloud Infrastructure Autoscaling service
+  Provides the list of Auto Scaling Configurations in Oracle Cloud Infrastructure Auto Scaling service
 ---
 
 # Data Source: oci_autoscaling_auto_scaling_configurations
-This data source provides the list of Auto Scaling Configurations in Oracle Cloud Infrastructure Autoscaling service.
+This data source provides the list of Auto Scaling Configurations in Oracle Cloud Infrastructure Auto Scaling service.
 
 Lists autoscaling configurations in the specifed compartment.
 
@@ -52,5 +52,6 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
 * `is_enabled` - Whether the autoscaling configuration is enabled.
-* `policies` - Autoscaling policy definitions for the autoscaling configuration. An autoscaling policy defines the criteria that trigger autoscaling actions and the actions to take.
+* `policies` - AutoScaling policy definitions for the autoscaling configuration. An autoscaling policy defines the criteria that trigger autoscaling actions and the actions to take.
 * `time_created` - The date and time the AutoScalingConfiguration was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
+
