@@ -6,12 +6,12 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	oci_autoscaling "github.com/oracle/oci-go-sdk/autoscaling"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 )
 
-func AutoscalingAutoScalingConfigurationsDataSource() *schema.Resource {
+func AutoScalingAutoScalingConfigurationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAutoscalingAutoScalingConfigurations,
+		Read: readAutoScalingAutoScalingConfigurations,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
@@ -25,32 +25,32 @@ func AutoscalingAutoScalingConfigurationsDataSource() *schema.Resource {
 			"auto_scaling_configurations": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(AutoscalingAutoScalingConfigurationResource()),
+				Elem:     GetDataSourceItemSchema(AutoScalingAutoScalingConfigurationResource()),
 			},
 		},
 	}
 }
 
-func readAutoscalingAutoScalingConfigurations(d *schema.ResourceData, m interface{}) error {
-	sync := &AutoscalingAutoScalingConfigurationsDataSourceCrud{}
+func readAutoScalingAutoScalingConfigurations(d *schema.ResourceData, m interface{}) error {
+	sync := &AutoScalingAutoScalingConfigurationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).autoScalingClient
 
 	return ReadResource(sync)
 }
 
-type AutoscalingAutoScalingConfigurationsDataSourceCrud struct {
+type AutoScalingAutoScalingConfigurationsDataSourceCrud struct {
 	D      *schema.ResourceData
-	Client *oci_autoscaling.AutoScalingClient
-	Res    *oci_autoscaling.ListAutoScalingConfigurationsResponse
+	Client *oci_auto_scaling.AutoScalingClient
+	Res    *oci_auto_scaling.ListAutoScalingConfigurationsResponse
 }
 
-func (s *AutoscalingAutoScalingConfigurationsDataSourceCrud) VoidState() {
+func (s *AutoScalingAutoScalingConfigurationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AutoscalingAutoScalingConfigurationsDataSourceCrud) Get() error {
-	request := oci_autoscaling.ListAutoScalingConfigurationsRequest{}
+func (s *AutoScalingAutoScalingConfigurationsDataSourceCrud) Get() error {
+	request := oci_auto_scaling.ListAutoScalingConfigurationsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -62,7 +62,7 @@ func (s *AutoscalingAutoScalingConfigurationsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "autoscaling")
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "auto_scaling")
 
 	response, err := s.Client.ListAutoScalingConfigurations(context.Background(), request)
 	if err != nil {
@@ -85,7 +85,7 @@ func (s *AutoscalingAutoScalingConfigurationsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *AutoscalingAutoScalingConfigurationsDataSourceCrud) SetData() error {
+func (s *AutoScalingAutoScalingConfigurationsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -138,7 +138,7 @@ func (s *AutoscalingAutoScalingConfigurationsDataSourceCrud) SetData() error {
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, AutoscalingAutoScalingConfigurationsDataSource().Schema["auto_scaling_configurations"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, AutoScalingAutoScalingConfigurationsDataSource().Schema["auto_scaling_configurations"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("auto_scaling_configurations", resources); err != nil {

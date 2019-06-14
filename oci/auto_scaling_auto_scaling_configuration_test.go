@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
-	oci_autoscaling "github.com/oracle/oci-go-sdk/autoscaling"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 	"github.com/oracle/oci-go-sdk/common"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
@@ -100,8 +100,8 @@ var (
 		generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Required, Create, instancePoolRepresentation)
 )
 
-func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestAutoscalingAutoScalingConfigurationResource_basic")
+func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestAutoScalingAutoScalingConfigurationResource_basic")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
@@ -121,7 +121,7 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
-		CheckDestroy: testAccCheckAutoscalingAutoScalingConfigurationDestroy,
+		CheckDestroy: testAccCheckAutoScalingAutoScalingConfigurationDestroy,
 		Steps: []resource.TestStep{
 			// verify create
 			{
@@ -385,13 +385,13 @@ func TestAutoscalingAutoScalingConfigurationResource_basic(t *testing.T) {
 	})
 }
 
-func testAccCheckAutoscalingAutoScalingConfigurationDestroy(s *terraform.State) error {
+func testAccCheckAutoScalingAutoScalingConfigurationDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := testAccProvider.Meta().(*OracleClients).autoScalingClient
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_autoscaling_auto_scaling_configuration" {
 			noResourceFound = false
-			request := oci_autoscaling.GetAutoScalingConfigurationRequest{}
+			request := oci_auto_scaling.GetAutoScalingConfigurationRequest{}
 
 			tmp := rs.Primary.ID
 			request.AutoScalingConfigurationId = &tmp
@@ -419,29 +419,29 @@ func init() {
 	if DependencyGraph == nil {
 		initDependencyGraph()
 	}
-	if !inSweeperExcludeList("AutoscalingAutoScalingConfiguration") {
-		resource.AddTestSweepers("AutoscalingAutoScalingConfiguration", &resource.Sweeper{
-			Name:         "AutoscalingAutoScalingConfiguration",
+	if !inSweeperExcludeList("AutoScalingAutoScalingConfiguration") {
+		resource.AddTestSweepers("AutoScalingAutoScalingConfiguration", &resource.Sweeper{
+			Name:         "AutoScalingAutoScalingConfiguration",
 			Dependencies: DependencyGraph["autoScalingConfiguration"],
-			F:            sweepAutoscalingAutoScalingConfigurationResource,
+			F:            sweepAutoScalingAutoScalingConfigurationResource,
 		})
 	}
 }
 
-func sweepAutoscalingAutoScalingConfigurationResource(compartment string) error {
-	autoscalingClient := GetTestClients(&schema.ResourceData{}).autoScalingClient
+func sweepAutoScalingAutoScalingConfigurationResource(compartment string) error {
+	autoScalingClient := GetTestClients(&schema.ResourceData{}).autoScalingClient
 	autoScalingConfigurationIds, err := getAutoScalingConfigurationIds(compartment)
 	if err != nil {
 		return err
 	}
 	for _, autoScalingConfigurationId := range autoScalingConfigurationIds {
 		if ok := SweeperDefaultResourceId[autoScalingConfigurationId]; !ok {
-			deleteAutoScalingConfigurationRequest := oci_autoscaling.DeleteAutoScalingConfigurationRequest{}
+			deleteAutoScalingConfigurationRequest := oci_auto_scaling.DeleteAutoScalingConfigurationRequest{}
 
 			deleteAutoScalingConfigurationRequest.AutoScalingConfigurationId = &autoScalingConfigurationId
 
-			deleteAutoScalingConfigurationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "autoscaling")
-			_, error := autoscalingClient.DeleteAutoScalingConfiguration(context.Background(), deleteAutoScalingConfigurationRequest)
+			deleteAutoScalingConfigurationRequest.RequestMetadata.RetryPolicy = getRetryPolicy(true, "auto_scaling")
+			_, error := autoScalingClient.DeleteAutoScalingConfiguration(context.Background(), deleteAutoScalingConfigurationRequest)
 			if error != nil {
 				fmt.Printf("Error deleting AutoScalingConfiguration %s %s, It is possible that the resource is already deleted. Please verify manually \n", autoScalingConfigurationId, error)
 				continue
@@ -458,11 +458,11 @@ func getAutoScalingConfigurationIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	autoscalingClient := GetTestClients(&schema.ResourceData{}).autoScalingClient
+	autoScalingClient := GetTestClients(&schema.ResourceData{}).autoScalingClient
 
-	listAutoScalingConfigurationsRequest := oci_autoscaling.ListAutoScalingConfigurationsRequest{}
+	listAutoScalingConfigurationsRequest := oci_auto_scaling.ListAutoScalingConfigurationsRequest{}
 	listAutoScalingConfigurationsRequest.CompartmentId = &compartmentId
-	listAutoScalingConfigurationsResponse, err := autoscalingClient.ListAutoScalingConfigurations(context.Background(), listAutoScalingConfigurationsRequest)
+	listAutoScalingConfigurationsResponse, err := autoScalingClient.ListAutoScalingConfigurations(context.Background(), listAutoScalingConfigurationsRequest)
 
 	if err != nil {
 		return resourceIds, fmt.Errorf("Error getting AutoScalingConfiguration list for compartment id : %s , %s \n", compartmentId, err)

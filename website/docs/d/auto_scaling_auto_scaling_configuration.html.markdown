@@ -3,11 +3,11 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_autoscaling_auto_scaling_configuration"
 sidebar_current: "docs-oci-datasource-autoscaling-auto_scaling_configuration"
 description: |-
-  Provides details about a specific Auto Scaling Configuration in Oracle Cloud Infrastructure Autoscaling service
+  Provides details about a specific Auto Scaling Configuration in Oracle Cloud Infrastructure Auto Scaling service
 ---
 
 # Data Source: oci_autoscaling_auto_scaling_configuration
-This data source provides details about a specific Auto Scaling Configuration resource in Oracle Cloud Infrastructure Autoscaling service.
+This data source provides details about a specific Auto Scaling Configuration resource in Oracle Cloud Infrastructure Auto Scaling service.
 
 Gets information about the specified autoscaling configuration.
 

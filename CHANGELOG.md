@@ -50,7 +50,7 @@
 ### Added
 - Support for setting `compartment_id` argument in `object_storage_namespace` data source
 - Support BGP dynamic routing and allow customer to input PSK for IPSec tunnels
-- ListInstanceConfig/Pools and ListAutoscalingConfiguration return tags
+- ListInstanceConfig/Pools and ListAutoScalingConfiguration return tags
 
 ### Fixed
 - Fix for dbSystem `db_version` causing unnecessary diffs on subsequent applies

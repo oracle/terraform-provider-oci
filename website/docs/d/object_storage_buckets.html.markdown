@@ -1,7 +1,7 @@
 ---
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_objectstorage_bucket_summaries"
-sidebar_current: "docs-oci-datasource-object_storage-bucket_summaries"
+sidebar_current: "docs-oci-datasource-objectstorage-bucket_summaries"
 description: |-
   Provides the list of Buckets in Oracle Cloud Infrastructure Object Storage service
 ---

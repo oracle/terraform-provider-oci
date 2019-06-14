@@ -1,7 +1,7 @@
 ---
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_objectstorage_object"
-sidebar_current: "docs-oci-resource-object_storage-object"
+sidebar_current: "docs-oci-resource-objectstorage-object"
 description: |-
   Provides the Object resource in Oracle Cloud Infrastructure Object Storage service
 ---
