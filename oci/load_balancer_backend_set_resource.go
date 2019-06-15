@@ -147,6 +147,57 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 					},
 				},
 			},
+			"lb_cookie_session_persistence_configuration": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"cookie_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"disable_fallback": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"domain": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"is_http_only": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_secure": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"max_age_in_seconds": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"path": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"session_persistence_configuration": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -313,6 +364,17 @@ func (s *LoadBalancerBackendSetResourceCrud) Create() error {
 		}
 	}
 
+	if lbCookieSessionPersistenceConfiguration, ok := s.D.GetOkExists("lb_cookie_session_persistence_configuration"); ok {
+		if tmpList := lbCookieSessionPersistenceConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "lb_cookie_session_persistence_configuration", 0)
+			tmp, err := s.mapToLBCookieSessionPersistenceConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LbCookieSessionPersistenceConfiguration = &tmp
+		}
+	}
+
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
 		tmp := loadBalancerId.(string)
 		request.LoadBalancerId = &tmp
@@ -459,6 +521,17 @@ func (s *LoadBalancerBackendSetResourceCrud) Update() error {
 		}
 	}
 
+	if lbCookieSessionPersistenceConfiguration, ok := s.D.GetOkExists("lb_cookie_session_persistence_configuration"); ok {
+		if tmpList := lbCookieSessionPersistenceConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "lb_cookie_session_persistence_configuration", 0)
+			tmp, err := s.mapToLBCookieSessionPersistenceConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LbCookieSessionPersistenceConfiguration = &tmp
+		}
+	}
+
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
 		tmp := loadBalancerId.(string)
 		request.LoadBalancerId = &tmp
@@ -574,6 +647,12 @@ func (s *LoadBalancerBackendSetResourceCrud) SetData() error {
 		s.D.Set("health_checker", []interface{}{HealthCheckerToMap(s.Res.HealthChecker)})
 	} else {
 		s.D.Set("health_checker", nil)
+	}
+
+	if s.Res.LbCookieSessionPersistenceConfiguration != nil {
+		s.D.Set("lb_cookie_session_persistence_configuration", []interface{}{LBCookieSessionPersistenceConfigurationDetailsToMap(s.Res.LbCookieSessionPersistenceConfiguration)})
+	} else {
+		s.D.Set("lb_cookie_session_persistence_configuration", nil)
 	}
 
 	if s.Res.Name != nil {
@@ -768,6 +847,81 @@ func HealthCheckerToMap(obj *oci_load_balancer.HealthChecker) map[string]interfa
 
 	if obj.UrlPath != nil {
 		result["url_path"] = string(*obj.UrlPath)
+	}
+
+	return result
+}
+
+func (s *LoadBalancerBackendSetResourceCrud) mapToLBCookieSessionPersistenceConfigurationDetails(fieldKeyFormat string) (oci_load_balancer.LbCookieSessionPersistenceConfigurationDetails, error) {
+	result := oci_load_balancer.LbCookieSessionPersistenceConfigurationDetails{}
+
+	if cookieName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cookie_name")); ok {
+		tmp := cookieName.(string)
+		result.CookieName = &tmp
+	}
+
+	if disableFallback, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "disable_fallback")); ok {
+		tmp := disableFallback.(bool)
+		result.DisableFallback = &tmp
+	}
+
+	if domain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "domain")); ok {
+		tmp := domain.(string)
+		result.Domain = &tmp
+	}
+
+	if isHttpOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_http_only")); ok {
+		tmp := isHttpOnly.(bool)
+		result.IsHttpOnly = &tmp
+	}
+
+	if isSecure, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_secure")); ok {
+		tmp := isSecure.(bool)
+		result.IsSecure = &tmp
+	}
+
+	if maxAgeInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_age_in_seconds")); ok {
+		tmp := maxAgeInSeconds.(int)
+		result.MaxAgeInSeconds = &tmp
+	}
+
+	if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+		tmp := path.(string)
+		result.Path = &tmp
+	}
+
+	return result, nil
+}
+
+func LBCookieSessionPersistenceConfigurationDetailsToMap(obj *oci_load_balancer.LbCookieSessionPersistenceConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CookieName != nil {
+		result["cookie_name"] = string(*obj.CookieName)
+	}
+
+	if obj.DisableFallback != nil {
+		result["disable_fallback"] = bool(*obj.DisableFallback)
+	}
+
+	if obj.Domain != nil {
+		result["domain"] = string(*obj.Domain)
+	}
+
+	if obj.IsHttpOnly != nil {
+		result["is_http_only"] = bool(*obj.IsHttpOnly)
+	}
+
+	if obj.IsSecure != nil {
+		result["is_secure"] = bool(*obj.IsSecure)
+	}
+
+	if obj.MaxAgeInSeconds != nil {
+		result["max_age_in_seconds"] = int(*obj.MaxAgeInSeconds)
+	}
+
+	if obj.Path != nil {
+		result["path"] = string(*obj.Path)
 	}
 
 	return result
