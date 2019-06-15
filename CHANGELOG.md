@@ -10,6 +10,7 @@
 - Support for moving `ons_notification_topic`, `ons_subscription` resources across compartments
 - Support for moving `oci_load_balancer` across compartments
 - Support for moving `oci_kms_key` and `oci_kms_vault` Across Compartments
+- Support for LBaaS Cookie Insertion (Sticky Cookie) 
 
 ## 3.33.0 (July 10, 2019)
 

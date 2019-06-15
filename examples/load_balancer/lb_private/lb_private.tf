@@ -83,6 +83,29 @@ resource "oci_load_balancer_backend_set" "lb-bes1" {
   }
 }
 
+resource "oci_load_balancer_backend_set" "lb-bes2" {
+  name             = "lb-bes2"
+  load_balancer_id = "${oci_load_balancer.lb1.id}"
+  policy           = "ROUND_ROBIN"
+
+  health_checker {
+    port                = "80"
+    protocol            = "HTTP"
+    response_body_regex = ".*"
+    url_path            = "/"
+  }
+
+  lb_cookie_session_persistence_configuration {
+    cookie_name        = "example_cookie"
+    domain             = "example.oracle.com"
+    is_http_only       = false
+    is_secure          = false
+    max_age_in_seconds = 10
+    path               = "/example"
+    disable_fallback   = true
+  }
+}
+
 resource "oci_core_network_security_group" "test_network_security_group" {
   #Required
   compartment_id = "${var.compartment_ocid}"
