@@ -7,12 +7,13 @@ description: |-
 ---
 
 # oci_load_balancer_backend_set
-Other supported legacy names/aliases:
-  * `oci_load_balancer_backendset`
-
 This resource provides the Backend Set resource in Oracle Cloud Infrastructure Load Balancer service.
 
 Adds a backend set to a load balancer.
+
+## Supported Aliases
+
+* `oci_load_balancer_backendset`
 
 ## Example Usage
 

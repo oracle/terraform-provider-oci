@@ -7,9 +7,6 @@ description: |-
 ---
 
 # oci_load_balancer_load_balancer
-Other supported legacy names/aliases:
-  * `oci_load_balancer`
-
 This resource provides the Load Balancer resource in Oracle Cloud Infrastructure Load Balancer service.
 
 Creates a new load balancer in the specified compartment. For general information about load balancers,
@@ -37,6 +34,10 @@ or by viewing the resource in the Console. Fore more information, see
 When you create a load balancer, the system assigns an IP address.
 To get the IP address, use the [GetLoadBalancer](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancer/GetLoadBalancer) operation.
 
+
+## Supported Aliases
+
+* `oci_load_balancer`
 
 ## Example Usage
 
