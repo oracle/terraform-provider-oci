@@ -7,13 +7,14 @@ description: |-
 ---
 
 # Data Source: oci_core_vcns
-Other supported legacy names/aliases:
-  * `oci_core_virtual_network`
-
 This data source provides the list of Vcns in Oracle Cloud Infrastructure Core service.
 
 Lists the virtual cloud networks (VCNs) in the specified compartment.
 
+
+## Supported Aliases
+
+* `oci_core_virtual_networks`
 
 ## Example Usage
 

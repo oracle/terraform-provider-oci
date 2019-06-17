@@ -7,12 +7,13 @@ description: |-
 ---
 
 # Data Source: oci_load_balancer_load_balancers
-Other supported legacy names/aliases:
-  * `oci_load_balancer`
-
 This data source provides the list of Load Balancers in Oracle Cloud Infrastructure Load Balancer service.
 
 Lists all load balancers in the specified compartment.
+
+## Supported Aliases
+
+* `oci_load_balancers`
 
 ## Example Usage
 

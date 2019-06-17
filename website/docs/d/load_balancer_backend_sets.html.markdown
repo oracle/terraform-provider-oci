@@ -7,12 +7,13 @@ description: |-
 ---
 
 # Data Source: oci_load_balancer_backend_sets
-Other supported legacy names/aliases:
-  * `oci_load_balancer_backendset`
-
 This data source provides the list of Backend Sets in Oracle Cloud Infrastructure Load Balancer service.
 
 Lists all backend sets associated with a given load balancer.
+
+## Supported Aliases
+
+* `oci_load_balancer_backendsets`
 
 ## Example Usage
 
