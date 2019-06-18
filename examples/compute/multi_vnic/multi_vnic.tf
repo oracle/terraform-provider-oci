@@ -62,6 +62,15 @@ resource "oci_core_subnet" "ExampleSubnet" {
   dns_label           = "examplesubnet"
 }
 
+resource "oci_core_network_security_group" "ExampleNetworkSecurityGroup" {
+  #Required
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id         = "${oci_core_virtual_network.ExampleVCN.id}"
+
+  #Optional
+  display_name = "TFExampleNetworkSecurityGroup"
+}
+
 resource "oci_core_instance" "ExampleInstance" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
@@ -97,6 +106,7 @@ resource "oci_core_vnic_attachment" "SecondaryVnicAttachment" {
     display_name           = "SecondaryVnic_${count.index}"
     assign_public_ip       = true
     skip_source_dest_check = true
+    nsg_ids                = ["${oci_core_network_security_group.ExampleNetworkSecurityGroup.id}"]
   }
 
   count = "${var.SecondaryVnicCount}"

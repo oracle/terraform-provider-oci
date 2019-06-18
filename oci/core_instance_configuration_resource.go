@@ -270,6 +270,15 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"nsg_ids": {
+													Type:     schema.TypeSet,
+													Optional: true,
+													ForceNew: true,
+													Set:      literalTypeHashCodeForSets,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
 												"private_ip": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -437,6 +446,15 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
+												},
+												"nsg_ids": {
+													Type:     schema.TypeSet,
+													Optional: true,
+													ForceNew: true,
+													Set:      literalTypeHashCodeForSets,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
 												},
 												"private_ip": {
 													Type:     schema.TypeString,
@@ -702,7 +720,7 @@ func (s *CoreInstanceConfigurationResourceCrud) SetData() error {
 
 	if s.Res.InstanceDetails != nil {
 		instanceDetailsArray := []interface{}{}
-		if instanceDetailsMap := InstanceConfigurationInstanceDetailsToMap(&s.Res.InstanceDetails); instanceDetailsMap != nil {
+		if instanceDetailsMap := InstanceConfigurationInstanceDetailsToMap(&s.Res.InstanceDetails, false); instanceDetailsMap != nil {
 			instanceDetailsArray = append(instanceDetailsArray, instanceDetailsMap)
 		}
 		s.D.Set("instance_details", instanceDetailsArray)
@@ -744,11 +762,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationAttach
 	return result, nil
 }
 
-func InstanceConfigurationAttachVnicDetailsToMap(obj oci_core.InstanceConfigurationAttachVnicDetails) map[string]interface{} {
+func InstanceConfigurationAttachVnicDetailsToMap(obj oci_core.InstanceConfigurationAttachVnicDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.CreateVnicDetails != nil {
-		result["create_vnic_details"] = []interface{}{InstanceConfigurationCreateVnicDetailsToMap(obj.CreateVnicDetails)}
+		result["create_vnic_details"] = []interface{}{InstanceConfigurationCreateVnicDetailsToMap(obj.CreateVnicDetails, datasource)}
 	}
 
 	if obj.DisplayName != nil {
@@ -913,6 +931,19 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 		result.HostnameLabel = &tmp
 	}
 
+	result.NsgIds = []string{}
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		result.NsgIds = tmp
+	}
+
 	if privateIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_ip")); ok {
 		tmp := privateIp.(string)
 		result.PrivateIp = &tmp
@@ -931,7 +962,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 	return result, nil
 }
 
-func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigurationCreateVnicDetails) map[string]interface{} {
+func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigurationCreateVnicDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AssignPublicIp != nil {
@@ -944,6 +975,16 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 
 	if obj.HostnameLabel != nil {
 		result["hostname_label"] = string(*obj.HostnameLabel)
+	}
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.PrivateIp != nil {
@@ -1119,7 +1160,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 	return baseObject, nil
 }
 
-func InstanceConfigurationInstanceDetailsToMap(obj *oci_core.InstanceConfigurationInstanceDetails) map[string]interface{} {
+func InstanceConfigurationInstanceDetailsToMap(obj *oci_core.InstanceConfigurationInstanceDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
 	case oci_core.ComputeInstanceDetails:
@@ -1132,12 +1173,12 @@ func InstanceConfigurationInstanceDetailsToMap(obj *oci_core.InstanceConfigurati
 		result["block_volumes"] = blockVolumes
 
 		if v.LaunchDetails != nil {
-			result["launch_details"] = []interface{}{InstanceConfigurationLaunchInstanceDetailsToMap(v.LaunchDetails)}
+			result["launch_details"] = []interface{}{InstanceConfigurationLaunchInstanceDetailsToMap(v.LaunchDetails, datasource)}
 		}
 
 		secondaryVnics := []interface{}{}
 		for _, item := range v.SecondaryVnics {
-			secondaryVnics = append(secondaryVnics, InstanceConfigurationAttachVnicDetailsToMap(item))
+			secondaryVnics = append(secondaryVnics, InstanceConfigurationAttachVnicDetailsToMap(item, datasource))
 		}
 		result["secondary_vnics"] = secondaryVnics
 	default:
@@ -1296,7 +1337,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 	return result, nil
 }
 
-func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfigurationLaunchInstanceDetails) map[string]interface{} {
+func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfigurationLaunchInstanceDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AvailabilityDomain != nil {
@@ -1308,7 +1349,7 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 	}
 
 	if obj.CreateVnicDetails != nil {
-		result["create_vnic_details"] = []interface{}{InstanceConfigurationCreateVnicDetailsToMap(obj.CreateVnicDetails)}
+		result["create_vnic_details"] = []interface{}{InstanceConfigurationCreateVnicDetailsToMap(obj.CreateVnicDetails, datasource)}
 	}
 
 	if obj.DefinedTags != nil {
