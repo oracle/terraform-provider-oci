@@ -7,9 +7,6 @@ description: |-
 ---
 
 # oci_core_vcn
-Other supported legacy names/aliases:
-  * `oci_core_virtual_network`
-
 This resource provides the Vcn resource in Oracle Cloud Infrastructure Core service.
 
 The VCN automatically comes with a default route table, default security list, and default set of DHCP options.
@@ -45,6 +42,10 @@ The VCN and subnets you create are not accessible until you attach an internet g
 or FastConnect. For more information, see
 [Overview of the Networking Service](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm).
 
+
+## Supported Aliases
+
+* `oci_core_virtual_network`
 
 ## Example Usage
 

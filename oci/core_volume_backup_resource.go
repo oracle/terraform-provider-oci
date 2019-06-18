@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -55,6 +56,13 @@ func CoreVolumeBackupResource() *schema.Resource {
 					},
 				},
 			},
+
+			// Optional
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -84,10 +92,6 @@ func CoreVolumeBackupResource() *schema.Resource {
 			},
 
 			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"expiration_time": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -139,7 +143,30 @@ func createCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).blockstorageClient
 
-	return CreateResource(d, sync)
+	compartment, ok := sync.D.GetOkExists("compartment_id")
+
+	err := CreateResource(d, sync)
+	if err != nil {
+		return err
+	}
+
+	if ok && compartment != *sync.Res.CompartmentId {
+		err = sync.updateCompartment(compartment)
+		if err != nil {
+			return err
+		}
+		tmp := compartment.(string)
+		sync.Res.CompartmentId = &tmp
+		err := sync.Get()
+		if err != nil {
+			log.Printf("error doing a Get() after compartment update: %v", err)
+		}
+		err = sync.SetData()
+		if err != nil {
+			log.Printf("error doing a SetData() after compartment update: %v", err)
+		}
+	}
+	return nil
 }
 
 func readCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
@@ -325,6 +352,15 @@ func (s *CoreVolumeBackupResourceCrud) Get() error {
 }
 
 func (s *CoreVolumeBackupResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_core.UpdateVolumeBackupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -427,5 +463,23 @@ func (s *CoreVolumeBackupResourceCrud) SetData() error {
 		s.D.Set("volume_id", *s.Res.VolumeId)
 	}
 
+	return nil
+}
+
+func (s *CoreVolumeBackupResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangeVolumeBackupCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.VolumeBackupId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.ChangeVolumeBackupCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
 	return nil
 }

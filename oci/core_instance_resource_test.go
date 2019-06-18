@@ -926,6 +926,106 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_failedByTime
 	})
 }
 
+func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_fetchVnicWhenStopped() {
+
+	resourceName := "oci_core_instance.t"
+	config := s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					hostname_label = "hostname1"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					defined_tags = "${map(
+									"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value"
+									)}"
+					freeform_tags = { "Department" = "Accounting"}
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+					}
+					timeouts {
+						create = "15m"
+					}
+					state = "STOPPED"
+				}`
+
+	resource.Test(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			// verify fetching vnic details for an instance that is in stopped state
+			{
+				Config: config,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "image"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_mode", "NATIVE"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.boot_volume_type", "ISCSI"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.firmware", "UEFI_64"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.network_type", "VFIO"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
+					// only set if specified
+					resource.TestCheckNoResourceAttr(s.ResourceName, "ipxe_script"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "hostname_label", "hostname1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "metadata.user_data", "ZWNobyBoZWxsbw=="),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "metadata.ssh_authorized_keys"),
+					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.%", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyA", "valA"),
+					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyB", "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"),
+					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "region"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.hostname_label"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "create_vnic_details.0.private_ip"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.InstanceLifecycleStateStopped)),
+					resource.TestCheckResourceAttr(s.ResourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "source_details.0.source_id"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "preserve_boot_volume"),
+					func(ts *terraform.State) (err error) {
+						_, err = fromInstanceState(ts, s.ResourceName, "id")
+						return err
+					},
+				),
+			},
+			// verify resource import when instance state is STOPPED
+			{
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					// TODO: extended_metadata intentionally not set in resource Gets, even though supported
+					// by GetInstance calls. Remove this when the issue is resolved.
+					"extended_metadata",
+					"hostname_label",
+					"is_pv_encryption_in_transit_enabled",
+					"subnet_id",
+					"source_details.0.kms_key_id", //TODO: Service is not returning this value, remove when the service returns it. COM-26394
+				},
+				ResourceName: resourceName,
+			},
+		},
+	})
+}
+
 func TestResourceCoreInstanceTestSuite(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip TestResourceCoreInstanceTestSuite in HttpReplay mode.")

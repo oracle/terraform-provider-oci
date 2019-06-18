@@ -1,7 +1,7 @@
 ---
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_objectstorage_object_lifecycle_policy"
-sidebar_current: "docs-oci-resource-object_storage-object_lifecycle_policy"
+sidebar_current: "docs-oci-resource-objectstorage-object_lifecycle_policy"
 description: |-
   Provides the Object Lifecycle Policy resource in Oracle Cloud Infrastructure Object Storage service
 ---

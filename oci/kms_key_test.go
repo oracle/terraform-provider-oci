@@ -3,12 +3,16 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+	"github.com/oracle/oci-go-sdk/common"
 
+	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
@@ -33,6 +37,8 @@ var (
 		"values": Representation{repType: Required, create: []string{`${oci_kms_key.test_key.id}`}},
 	}
 
+	deletionTime = time.Now().UTC().AddDate(0, 0, 8).Truncate(time.Millisecond)
+
 	keyRepresentation = map[string]interface{}{
 		"compartment_id":      Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"display_name":        Representation{repType: Required, create: `Key C`, update: `displayName2`},
@@ -41,6 +47,7 @@ var (
 		"desired_state":       Representation{repType: Optional, create: `ENABLED`, update: `DISABLED`},
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"time_of_deletion":    Representation{repType: Optional, create: deletionTime.Format(time.RFC3339Nano)},
 	}
 	keyKeyShapeRepresentation = map[string]interface{}{
 		"algorithm": Representation{repType: Required, create: `AES`},
@@ -91,7 +98,8 @@ func TestKmsKeyResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { testAccPreCheck(t) },
+		PreCheck:     func() { testAccPreCheck(t) },
+		CheckDestroy: testAccCheckKMSKeyDestroy,
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
@@ -241,11 +249,61 @@ func TestKmsKeyResource_basic(t *testing.T) {
 				ImportStateIdFunc: keyImportId,
 				ImportStateVerifyIgnore: []string{
 					"desired_state",
+					"time_of_deletion",
 				},
 				ResourceName: resourceName,
 			},
 		},
 	})
+}
+
+func testAccCheckKMSKeyDestroy(s *terraform.State) error {
+	noResourceFound := true
+	for _, rs := range s.RootModule().Resources {
+		if rs.Type == "oci_kms_key" {
+			client, err := testAccProvider.Meta().(*OracleClients).KmsManagementClient(rs.Primary.Attributes["management_endpoint"])
+			if err != nil {
+				return err
+			}
+
+			noResourceFound = false
+			request := oci_kms.GetKeyRequest{}
+
+			tmp := rs.Primary.ID
+			request.KeyId = &tmp
+
+			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "kms")
+
+			response, err := client.GetKey(context.Background(), request)
+
+			if err == nil {
+				deletedLifecycleStates := map[string]bool{
+					string(oci_kms.KeyLifecycleStateSchedulingDeletion): true,
+					string(oci_kms.KeyLifecycleStatePendingDeletion):    true,
+				}
+				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
+					//resource lifecycle state is not in expected deleted lifecycle states.
+					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.LifecycleState)
+				}
+
+				if !response.TimeOfDeletion.Equal(deletionTime) && !httpreplay.ModeRecordReplay() {
+					return fmt.Errorf("resource time_of_deletion: %s is not set to %s", response.TimeOfDeletion.Format(time.RFC3339Nano), deletionTime.Format(time.RFC3339Nano))
+				}
+				//resource lifecycle state is in expected deleted lifecycle states. continue with next one.
+				continue
+			}
+
+			//Verify that exception is for '404 not found'.
+			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
+				return err
+			}
+		}
+	}
+	if noResourceFound {
+		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
+	}
+
+	return nil
 }
 
 func keyImportId(state *terraform.State) (string, error) {

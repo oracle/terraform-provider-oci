@@ -1,7 +1,7 @@
 ---
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_objectstorage_namespace"
-sidebar_current: "docs-oci-datasource-object_storage-namespace"
+sidebar_current: "docs-oci-datasource-objectstorage-namespace"
 description: |-
   Provides details about a specific Namespace in Oracle Cloud Infrastructure Object Storage service
 ---

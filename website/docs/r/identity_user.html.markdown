@@ -30,7 +30,6 @@ You must also specify a *description* for the user (although it can be an empty 
 It does not have to be unique, and you can change it anytime with
 [UpdateUser](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/User/UpdateUser). You can use the field to provide the user's
 full name, a description, a nickname, or other information to generally identify the user.
-
 A new user has no permissions until you place the user in one or more groups (see
 [AddUserToGroup](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/UserGroupMembership/AddUserToGroup)). If the user needs to
 access the Console, you need to provide the user a password (see

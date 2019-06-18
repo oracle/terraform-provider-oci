@@ -269,6 +269,9 @@ func (s *HealthChecksPingMonitorResourceCrud) Update() error {
 		request.IsEnabled = &tmp
 	}
 
+	tmp := s.D.Id()
+	request.MonitorId = &tmp
+
 	if port, ok := s.D.GetOkExists("port"); ok {
 		tmp := port.(int)
 		request.Port = &tmp
@@ -306,9 +309,6 @@ func (s *HealthChecksPingMonitorResourceCrud) Update() error {
 		}
 		request.VantagePointNames = tmp
 	}
-
-	tmp := s.D.Id()
-	request.MonitorId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 

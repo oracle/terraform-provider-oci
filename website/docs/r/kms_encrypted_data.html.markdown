@@ -51,4 +51,5 @@ The following attributes are exported:
 
 ## Import
 
-Not Supported.
+Import is not supported for this resource.
+

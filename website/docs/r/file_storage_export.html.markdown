@@ -18,7 +18,7 @@ file system.
 ```hcl
 resource "oci_file_storage_export" "test_export" {
 	#Required
-	export_set_id = "${oci_file_storage_mount_target.test_mount_target.export_set_id}"
+	export_set_id = "${oci_file_storage_export_set.test_export_set.id}"
 	file_system_id = "${oci_file_storage_file_system.test_file_system.id}"
 	path = "${var.export_path}"
 
