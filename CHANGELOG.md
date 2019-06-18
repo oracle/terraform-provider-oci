@@ -1,9 +1,11 @@
 ## 3.31.0 (Unreleased)
-## 3.31.0 (June 26, 2019)
 
 ### Added
 - Support for moving `email sender` resource between compartments
 - Support for moving NAT Gateway resource across Compartments
+
+### Fixed
+- Fix for `defined_tags` property deletion bug
 
 ## 3.30.0 (June 19, 2019)
 
