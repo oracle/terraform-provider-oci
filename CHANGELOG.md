@@ -3,6 +3,10 @@
 ### Added
 - Support for functions as a service
 - Support for adding resource limits to compartments
+- Support for Kms support for Cross-region backup copy in Block Storage.
+- Support for exposing KmsKeyId on backups in Block Storage.
+- Support for Permitted Methods Feature in LBaaS
+- Support for VCN access control lists via `load_balancer_rule_set` 
 
 ## 3.33.0 (July 10, 2019)
 
@@ -14,9 +18,6 @@
 - Support for Granular Security Lists in Load Balancer
 - Support for Network Security Groups in databases
 - Support in autonomous database and object data sources for encoding downloaded binary content as base64. This works around behavior in Terraform v0.12 that could cause binary content to be corrupted if written directly to state.
-- Support for Kms support for Cross-region backup copy in Block Storage.
-- Support for exposing KmsKeyId on backups in Block Storage.
-- Support for Permitted Methods Feature in LBaaS
 
 ### Fixed
 - Address panics caused by invalid type assertions in object map conversion. This could potentially affect attributes

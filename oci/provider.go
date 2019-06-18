@@ -412,6 +412,7 @@ func dataSourcesMap() map[string]*schema.Resource {
 		"oci_load_balancer_policies":                            LoadBalancerLoadBalancerPoliciesDataSource(),
 		"oci_load_balancer_protocols":                           LoadBalancerLoadBalancerProtocolsDataSource(),
 		"oci_load_balancer_shapes":                              LoadBalancerLoadBalancerShapesDataSource(),
+		"oci_load_balancer_listener_rules":                      LoadBalancerListenerRulesDataSource(),
 		"oci_load_balancer_load_balancers":                      LoadBalancerLoadBalancersDataSource(),
 		"oci_load_balancers":                                    LoadBalancerLoadBalancersDataSource(),
 		"oci_load_balancer_path_route_sets":                     LoadBalancerPathRouteSetsDataSource(),

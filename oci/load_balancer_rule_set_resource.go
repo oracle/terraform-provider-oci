@@ -44,6 +44,7 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"ADD_HTTP_REQUEST_HEADER",
 								"ADD_HTTP_RESPONSE_HEADER",
+								"ALLOW",
 								"CONTROL_ACCESS_USING_HTTP_METHODS",
 								"EXTEND_HTTP_REQUEST_HEADER_VALUE",
 								"EXTEND_HTTP_RESPONSE_HEADER_VALUE",
@@ -60,6 +61,39 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
+						},
+						"conditions": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"attribute_name": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"SOURCE_IP_ADDRESS",
+											"SOURCE_VCN_ID",
+											"SOURCE_VCN_IP_ADDRESS",
+										}, true),
+									},
+									"attribute_value": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"description": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"header": {
 							Type:     schema.TypeString,
@@ -457,6 +491,28 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_
 			details.Value = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("ALLOW"):
+		details := oci_load_balancer.AllowRule{}
+		details.Conditions = []oci_load_balancer.RuleCondition{}
+		if conditions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "conditions")); ok {
+			interfaces := conditions.([]interface{})
+			tmp := make([]oci_load_balancer.RuleCondition, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "conditions"), stateDataIndex)
+				converted, err := s.mapToRuleCondition(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			details.Conditions = tmp
+		}
+		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("CONTROL_ACCESS_USING_HTTP_METHODS"):
 		details := oci_load_balancer.ControlAccessUsingHttpMethodsRule{}
 		details.AllowedMethods = []string{}
@@ -548,6 +604,18 @@ func RuleToMap(obj oci_load_balancer.Rule) map[string]interface{} {
 		if v.Value != nil {
 			result["value"] = string(*v.Value)
 		}
+	case oci_load_balancer.AllowRule:
+		result["action"] = "ALLOW"
+
+		conditions := []interface{}{}
+		for _, item := range v.Conditions {
+			conditions = append(conditions, RuleConditionToMap(item))
+		}
+		result["conditions"] = conditions
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
 	case oci_load_balancer.ControlAccessUsingHttpMethodsRule:
 		result["action"] = "CONTROL_ACCESS_USING_HTTP_METHODS"
 
@@ -604,6 +672,73 @@ func RuleToMap(obj oci_load_balancer.Rule) map[string]interface{} {
 	return result
 }
 
+func (s *LoadBalancerRuleSetResourceCrud) mapToRuleCondition(fieldKeyFormat string) (oci_load_balancer.RuleCondition, error) {
+	var baseObject oci_load_balancer.RuleCondition
+	//discriminator
+	attributeNameRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "attribute_name"))
+	var attributeName string
+	if ok {
+		attributeName = attributeNameRaw.(string)
+	} else {
+		attributeName = "" // default value
+	}
+	switch strings.ToLower(attributeName) {
+	case strings.ToLower("SOURCE_IP_ADDRESS"):
+		details := oci_load_balancer.SourceIpAddressCondition{}
+		if attributeValue, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "attribute_value")); ok {
+			tmp := attributeValue.(string)
+			details.AttributeValue = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("SOURCE_VCN_ID"):
+		details := oci_load_balancer.SourceVcnIdCondition{}
+		if attributeValue, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "attribute_value")); ok {
+			tmp := attributeValue.(string)
+			details.AttributeValue = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("SOURCE_VCN_IP_ADDRESS"):
+		details := oci_load_balancer.SourceVcnIpAddressCondition{}
+		if attributeValue, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "attribute_value")); ok {
+			tmp := attributeValue.(string)
+			details.AttributeValue = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown attribute_name '%v' was specified", attributeName)
+	}
+	return baseObject, nil
+}
+
+func RuleConditionToMap(obj oci_load_balancer.RuleCondition) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_load_balancer.SourceIpAddressCondition:
+		result["attribute_name"] = "SOURCE_IP_ADDRESS"
+
+		if v.AttributeValue != nil {
+			result["attribute_value"] = string(*v.AttributeValue)
+		}
+	case oci_load_balancer.SourceVcnIdCondition:
+		result["attribute_name"] = "SOURCE_VCN_ID"
+
+		if v.AttributeValue != nil {
+			result["attribute_value"] = string(*v.AttributeValue)
+		}
+	case oci_load_balancer.SourceVcnIpAddressCondition:
+		result["attribute_name"] = "SOURCE_VCN_IP_ADDRESS"
+
+		if v.AttributeValue != nil {
+			result["attribute_value"] = string(*v.AttributeValue)
+		}
+	default:
+		log.Printf("[WARN] Received 'attribute_name' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
 func itemsHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
@@ -619,6 +754,25 @@ func itemsHashCodeForSets(v interface{}) int {
 				buf.WriteString(fmt.Sprintf("%v-", allowedMethods))
 			}
 		}
+	}
+	if conditions, ok := m["conditions"]; ok && conditions != nil {
+		if tmpList := conditions.([]interface{}); len(tmpList) > 0 {
+			for _, conditionsRaw := range tmpList {
+				buf.WriteString("conditions-")
+				if conditionsRaw != nil {
+					tmpMap := conditionsRaw.(map[string]interface{})
+					if name, ok := tmpMap["attribute_name"]; ok {
+						buf.WriteString(fmt.Sprintf("%v-", name))
+					}
+					if value, ok := tmpMap["attribute_value"]; ok {
+						buf.WriteString(fmt.Sprintf("%v-", value))
+					}
+				}
+			}
+		}
+	}
+	if description, ok := m["description"]; ok && description != "" {
+		buf.WriteString(fmt.Sprintf("%v-", description))
 	}
 	if header, ok := m["header"]; ok && header != "" {
 		buf.WriteString(fmt.Sprintf("%v-", header))

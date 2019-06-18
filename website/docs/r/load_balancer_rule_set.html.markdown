@@ -24,6 +24,12 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 
 		#Optional
 		allowed_methods = "${var.rule_set_items_allowed_methods}"
+		conditions {
+			#Required
+			attribute_name = "${var.rule_set_items_conditions_attribute_name}"
+			attribute_value = "${var.rule_set_items_conditions_attribute_value}"
+		}
+		description = "${var.rule_set_items_description}"
 		header = "${var.rule_set_items_header}"
 		prefix = "${var.rule_set_items_prefix}"
 		status_code = "${var.rule_set_items_status_code}"
@@ -40,7 +46,7 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 The following arguments are supported:
 
 * `items` - (Required) (Updatable) An array of rules that compose the rule set.
-	* `action` - (Required) (Updatable) The action can be one of these values: `ADD_HTTP_REQUEST_HEADER`, `ADD_HTTP_RESPONSE_HEADER`, `CONTROL_ACCESS_USING_HTTP_METHODS`, `EXTEND_HTTP_REQUEST_HEADER_VALUE`, `EXTEND_HTTP_RESPONSE_HEADER_VALUE`, `REMOVE_HTTP_REQUEST_HEADER`, `REMOVE_HTTP_RESPONSE_HEADER`
+	* `action` - (Required) (Updatable) The action can be one of these values: `ADD_HTTP_REQUEST_HEADER`, `ADD_HTTP_RESPONSE_HEADER`, `ALLOW`, `CONTROL_ACCESS_USING_HTTP_METHODS`, `EXTEND_HTTP_REQUEST_HEADER_VALUE`, `EXTEND_HTTP_RESPONSE_HEADER_VALUE`, `REMOVE_HTTP_REQUEST_HEADER`, `REMOVE_HTTP_RESPONSE_HEADER`
 	* `allowed_methods` - (Required when action=CONTROL_ACCESS_USING_HTTP_METHODS) (Updatable) The list of HTTP methods allowed for this listener.
 
 		By default, you can specify only the standard HTTP methods defined in the [HTTP Method Registry](http://www.iana.org/assignments/http-methods/http-methods.xhtml). You can also see a list of supported standard HTTP methods in the Load Balancing service documentation at [Managing Rule Sets](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrulesets.htm).
@@ -50,6 +56,13 @@ The following arguments are supported:
 		The list of HTTP methods is extensible. If you need to configure custom HTTP methods, contact [My Oracle Support](http://support.oracle.com/) to remove the restriction for your tenancy.
 
 		Example: ["GET", "PUT", "POST", "PROPFIND"] 
+	* `conditions` - (Required when action=ALLOW) (Updatable) 
+		* `attribute_name` - (Required) (Updatable) The attribute_name can be one of these values: `SOURCE_IP_ADDRESS`, `SOURCE_VCN_ID`, `SOURCE_VCN_IP_ADDRESS`
+		* `attribute_value` - (Required) (Updatable) Depends on `attribute_name`:
+		    - when `attribute_name` = `SOURCE_IP_ADDRESS` | IPv4 or IPv6 address range to which the source IP address of incoming packet would be matched against
+            - when `attribute_name` = `SOURCE_VCN_IP_ADDRESS` | IPv4 address range to which the original client IP address (in customer VCN) of incoming packet would be matched against
+            - when `attribute_name` = `SOURCE_VCN_ID` | OCID of the customer VCN to which the service gateway embedded VCN ID of incoming packet would be matched against
+	* `description` - (Applicable when action=ALLOW) (Updatable) Brief description of the access control rule. 
 	* `header` - (Required when action=ADD_HTTP_REQUEST_HEADER | ADD_HTTP_RESPONSE_HEADER | EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE | REMOVE_HTTP_REQUEST_HEADER | REMOVE_HTTP_RESPONSE_HEADER) (Updatable) A header name that conforms to RFC 7230.  Example: `example_header_name` 
 	* `prefix` - (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to prepend to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_prefix_value` 
 	* `status_code` - (Applicable when action=CONTROL_ACCESS_USING_HTTP_METHODS) (Updatable) The HTTP status code to return when the requested HTTP method is not in the list of allowed methods. The associated status line returned with the code is mapped from the standard HTTP specification. The default value is `405 (Method Not Allowed)`.  Example: 403 
@@ -67,7 +80,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `items` - An array of rules that compose the rule set.
-	* `action` - The action can be one of these values: `ADD_HTTP_REQUEST_HEADER`, `ADD_HTTP_RESPONSE_HEADER`, `CONTROL_ACCESS_USING_HTTP_METHODS`, `EXTEND_HTTP_REQUEST_HEADER_VALUE`, `EXTEND_HTTP_RESPONSE_HEADER_VALUE`, `REMOVE_HTTP_REQUEST_HEADER`, `REMOVE_HTTP_RESPONSE_HEADER`
+	* `action` - The action can be one of these values: `ADD_HTTP_REQUEST_HEADER`, `ADD_HTTP_RESPONSE_HEADER`, `ALLOW`, `CONTROL_ACCESS_USING_HTTP_METHODS`, `EXTEND_HTTP_REQUEST_HEADER_VALUE`, `EXTEND_HTTP_RESPONSE_HEADER_VALUE`, `REMOVE_HTTP_REQUEST_HEADER`, `REMOVE_HTTP_RESPONSE_HEADER`
 	* `allowed_methods` - The list of HTTP methods allowed for this listener.
 
 		By default, you can specify only the standard HTTP methods defined in the [HTTP Method Registry](http://www.iana.org/assignments/http-methods/http-methods.xhtml). You can also see a list of supported standard HTTP methods in the Load Balancing service documentation at [Managing Rule Sets](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrulesets.htm).
@@ -77,6 +90,13 @@ The following attributes are exported:
 		The list of HTTP methods is extensible. If you need to configure custom HTTP methods, contact [My Oracle Support](http://support.oracle.com/) to remove the restriction for your tenancy.
 
 		Example: ["GET", "PUT", "POST", "PROPFIND"] 
+	* `conditions` - 
+		* `attribute_name` - (Required) (Updatable) The attribute_name can be one of these values: `SOURCE_IP_ADDRESS`, `SOURCE_VCN_ID`, `SOURCE_VCN_IP_ADDRESS`
+		* `attribute_value` - (Required) (Updatable) Depends on `attribute_name`:
+		    - when `attribute_name` = `SOURCE_IP_ADDRESS` | IPv4 or IPv6 address range to which the source IP address of incoming packet would be matched against
+            - when `attribute_name` = `SOURCE_VCN_IP_ADDRESS` | IPv4 address range to which the original client IP address (in customer VCN) of incoming packet would be matched against
+            - when `attribute_name` = `SOURCE_VCN_ID` | OCID of the customer VCN to which the service gateway embedded VCN ID of incoming packet would be matched against
+	* `description` - Brief description of the access control rule. 
 	* `header` - A header name that conforms to RFC 7230.  Example: `example_header_name` 
 	* `prefix` - A string to prepend to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_prefix_value` 
 	* `status_code` - The HTTP status code to return when the requested HTTP method is not in the list of allowed methods. The associated status line returned with the code is mapped from the standard HTTP specification. The default value is `405 (Method Not Allowed)`.  Example: 403 
