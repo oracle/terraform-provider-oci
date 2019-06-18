@@ -68,7 +68,7 @@ var (
 		routeTableRepresentation,
 	)
 
-	RouteTableResourceDependencies = VcnResourceConfig + VcnResourceDependencies +
+	RouteTableResourceDependencies = VcnResourceConfig + VcnResourceDependencies + ObjectStorageCoreService +
 		generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation) +
 		`
 	resource "oci_core_internet_gateway" "test_network_entity" {
@@ -84,9 +84,9 @@ var (
 			service_id = "${lookup(data.oci_core_services.test_services.services[0], "id")}"
 		}
 		vcn_id = "${oci_core_vcn.test_vcn.id}"
-	}
-	
-	data "oci_core_services" "test_services" {
+	}`
+
+	ObjectStorageCoreService = `data "oci_core_services" "test_services" {
   		filter {
     		name   = "name"
     		values = ["OCI .* Object Storage"]

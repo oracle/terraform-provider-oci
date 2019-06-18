@@ -48,6 +48,7 @@ The following attributes are exported:
 * `id` - The OCID of the VNIC.
 * `is_primary` - Whether the VNIC is the primary VNIC (the VNIC that is automatically created and attached during instance launch). 
 * `mac_address` - The MAC address of the VNIC.  Example: `00:00:17:B6:4D:DD` 
+* `nsg_ids` - A list of the OCIDs of the network security groups that the VNIC belongs to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 * `private_ip_address` - The private IP address of the primary `privateIp` object on the VNIC. The address is within the CIDR of the VNIC's subnet.  Example: `10.0.3.3` 
 * `public_ip_address` - The public IP address of the VNIC, if one is assigned. 
 * `skip_source_dest_check` - Whether the source/destination check is disabled on the VNIC. Defaults to `false`, which means the check is performed. For information about why you would skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).  Example: `true` 
