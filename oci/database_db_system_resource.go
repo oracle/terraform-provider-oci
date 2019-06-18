@@ -276,6 +276,14 @@ func DatabaseDbSystemResource() *schema.Resource {
 			},
 
 			// Optional
+			"backup_network_nsg_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Set:      literalTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"backup_subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -354,6 +362,14 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"nsg_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Set:      literalTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"source": {
 				Type:             schema.TypeString,
@@ -719,6 +735,19 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 func (s *DatabaseDbSystemResourceCrud) Update() error {
 	request := oci_database.UpdateDbSystemRequest{}
 
+	request.BackupNetworkNsgIds = []string{}
+	if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
+		set := backupNetworkNsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.BackupNetworkNsgIds = tmp
+	}
+
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
@@ -742,6 +771,19 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	request.NsgIds = []string{}
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.NsgIds = tmp
 	}
 
 	request.SshPublicKeys = []string{}
@@ -867,6 +909,12 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	backupNetworkNsgIds := []interface{}{}
+	for _, item := range s.Res.BackupNetworkNsgIds {
+		backupNetworkNsgIds = append(backupNetworkNsgIds, item)
+	}
+	s.D.Set("backup_network_nsg_ids", schema.NewSet(literalTypeHashCodeForSets, backupNetworkNsgIds))
+
 	if s.Res.BackupSubnetId != nil {
 		s.D.Set("backup_subnet_id", *s.Res.BackupSubnetId)
 	}
@@ -932,6 +980,12 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	if s.Res.NodeCount != nil {
 		s.D.Set("node_count", *s.Res.NodeCount)
 	}
+
+	nsgIds := []interface{}{}
+	for _, item := range s.Res.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 
 	if s.Res.RecoStorageSizeInGB != nil {
 		s.D.Set("reco_storage_size_in_gb", *s.Res.RecoStorageSizeInGB)
@@ -1452,6 +1506,18 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := availabilityDomain.(string)
 			details.AvailabilityDomain = &tmp
 		}
+		details.BackupNetworkNsgIds = []string{}
+		if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
+			set := backupNetworkNsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.BackupNetworkNsgIds = tmp
+		}
 		if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
 			tmp := backupSubnetId.(string)
 			details.BackupSubnetId = &tmp
@@ -1512,6 +1578,18 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
 			tmp := nodeCount.(int)
 			details.NodeCount = &tmp
+		}
+		details.NsgIds = []string{}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.NsgIds = tmp
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
@@ -1566,6 +1644,18 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := availabilityDomain.(string)
 			details.AvailabilityDomain = &tmp
 		}
+		details.BackupNetworkNsgIds = []string{}
+		if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
+			set := backupNetworkNsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.BackupNetworkNsgIds = tmp
+		}
 		if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
 			tmp := backupSubnetId.(string)
 			details.BackupSubnetId = &tmp
@@ -1626,6 +1716,18 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
 			tmp := nodeCount.(int)
 			details.NodeCount = &tmp
+		}
+		details.NsgIds = []string{}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.NsgIds = tmp
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
