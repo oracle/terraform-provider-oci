@@ -1,4 +1,14 @@
-## 3.29.1 (Unreleased)
+## 3.30.1 (Unreleased)
+## 3.30.0 (June 19, 2019)
+
+### Added
+- Support for scheduling KMS key deletion
+- Support for moving Volumes, Volume groups, Boot Volumes and corresponding Backups across compartments
+- Support for moving Service Gateway resource across Compartments
+
+### Fixed
+- Instance `create_vnic_detials` will be fetched for all applicable instance lifecycle states.
+
 ## 3.29.0 (June 12, 2019)
 
 ### Added
@@ -40,7 +50,7 @@
 ### Added
 - Support for setting `compartment_id` argument in `object_storage_namespace` data source
 - Support BGP dynamic routing and allow customer to input PSK for IPSec tunnels
-- ListInstanceConfig/Pools and ListAutoscalingConfiguration return tags
+- ListInstanceConfig/Pools and ListAutoScalingConfiguration return tags
 
 ### Fixed
 - Fix for dbSystem `db_version` causing unnecessary diffs on subsequent applies

@@ -306,6 +306,9 @@ func (s *HealthChecksHttpMonitorResourceCrud) Update() error {
 		request.Method = oci_health_checks.UpdateHttpMonitorDetailsMethodEnum(method.(string))
 	}
 
+	tmp := s.D.Id()
+	request.MonitorId = &tmp
+
 	if path, ok := s.D.GetOkExists("path"); ok {
 		tmp := path.(string)
 		request.Path = &tmp
@@ -348,9 +351,6 @@ func (s *HealthChecksHttpMonitorResourceCrud) Update() error {
 		}
 		request.VantagePointNames = tmp
 	}
-
-	tmp := s.D.Id()
-	request.MonitorId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
 

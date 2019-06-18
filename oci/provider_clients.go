@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
-	oci_autoscaling "github.com/oracle/oci-go-sdk/autoscaling"
+	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -46,7 +46,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
-	autoScalingClient, err := oci_autoscaling.NewAutoScalingClientWithConfigurationProvider(officialSdkConfigProvider)
+	autoScalingClient, err := oci_auto_scaling.NewAutoScalingClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -353,7 +353,7 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 
 type OracleClients struct {
 	auditClient                    *oci_audit.AuditClient
-	autoScalingClient              *oci_autoscaling.AutoScalingClient
+	autoScalingClient              *oci_auto_scaling.AutoScalingClient
 	blockstorageClient             *oci_core.BlockstorageClient
 	budgetClient                   *oci_budget.BudgetClient
 	computeClient                  *oci_core.ComputeClient

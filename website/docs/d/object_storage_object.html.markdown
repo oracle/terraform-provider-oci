@@ -1,7 +1,7 @@
 ---
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_objectstorage_object"
-sidebar_current: "docs-oci-datasource-object_storage-object"
+sidebar_current: "docs-oci-datasource-objectstorage-object"
 description: |-
   Provides details about a specific Object in Oracle Cloud Infrastructure Object Storage service
 ---
@@ -31,6 +31,7 @@ The following arguments are supported:
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `object` - (Required) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
 * `content_length_limit` - (Optional) The limit of the content length of the object body to download from the object store. The default is 1Mb.
+
 
 ## Attributes Reference
 

@@ -49,9 +49,9 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `zones` - A list of DNS zones.
+* `zones` - The list of zones.
 
-### DnsZone Reference
+### Zone Reference
 
 The following attributes are exported:
 

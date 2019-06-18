@@ -1,7 +1,7 @@
 ---
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_objectstorage_preauthrequests"
-sidebar_current: "docs-oci-datasource-object_storage-preauthrequests"
+sidebar_current: "docs-oci-datasource-objectstorage-preauthrequests"
 description: |-
   Provides the list of Preauthenticated Requests in Oracle Cloud Infrastructure Object Storage service
 ---

@@ -1091,6 +1091,7 @@ func SteeringPolicyRuleToMap(obj oci_dns.SteeringPolicyRule) map[string]interfac
 		log.Printf("[WARN] Received 'rule_type' of unknown type %v", obj)
 		return nil
 	}
+
 	return result
 }
 

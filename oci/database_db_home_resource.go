@@ -184,15 +184,15 @@ func DatabaseDbHomeResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+
+			// Optional
 			"db_version": {
 				Type:             schema.TypeString,
 				Optional:         true,
 				Computed:         true,
-				ForceNew:         true,
+				ForceNew:         true, // @CODEGEN we don't currently support updates to dbVersion because the update operation takes a patchId instead of a new version
 				DiffSuppressFunc: NewIsPrefixOfOldDiffSuppress,
 			},
-
-			// Optional
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,

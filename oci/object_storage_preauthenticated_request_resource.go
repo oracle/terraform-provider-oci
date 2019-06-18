@@ -168,7 +168,6 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Create() error {
 		if err != nil {
 			return err
 		}
-
 		request.TimeExpires = &oci_common.SDKTime{Time: tmp}
 	}
 

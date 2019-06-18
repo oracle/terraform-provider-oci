@@ -275,7 +275,6 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "transport_type", "ASYNC"),
 				),
 			},
-			// @CODEGEN We need to remove the import because the import step removed the dependency relationship between the DGA and the peer dbSystem and the delete will fail without it.
 		},
 	})
 }

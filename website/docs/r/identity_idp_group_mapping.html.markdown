@@ -49,3 +49,7 @@ The following attributes are exported:
 * `state` - The mapping's current state.
 * `time_created` - Date and time the mapping was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
+## Import
+
+Import is not supported for this resource.
+

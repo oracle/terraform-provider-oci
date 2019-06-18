@@ -89,6 +89,9 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_core_volume.test_volume"
 	datasourceName := "data.oci_core_volumes.test_volumes"
 	singularDatasourceName := "data.oci_core_volume.test_volume"
@@ -149,6 +152,41 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VolumeResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Optional, Create,
+						representationCopyWithNewProperties(volumeRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(resourceName, "backup_policy_id"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "51"),
+					resource.TestCheckResourceAttr(resourceName, "size_in_mbs", "52224"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volume"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckNoResourceAttr(resourceName, "volume_backup_id"),
+					resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
 						return err
 					},
 				),

@@ -143,7 +143,6 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 			dbNode["db_node_id"] = *r.Id // maintain legacy vanity id
 		}
 
-		// @CODEGEN not present in schema
 		if r.SoftwareStorageSizeInGB != nil {
 			dbNode["software_storage_size_in_gb"] = *r.SoftwareStorageSizeInGB
 		}

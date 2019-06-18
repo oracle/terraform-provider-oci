@@ -101,5 +101,5 @@ The following attributes are exported:
 
 ## Import
 
-DataGuardAssociations cannot be imported at this time.
+Import is not supported for this resource.
 

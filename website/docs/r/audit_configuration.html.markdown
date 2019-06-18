@@ -39,3 +39,7 @@ The following attributes are exported:
 
 * `retention_period_days` - The retention period days
 
+## Import
+
+Import is not supported for this resource.
+

@@ -73,6 +73,9 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_core_volume_backup.test_volume_backup"
 	datasourceName := "data.oci_core_volume_backups.test_volume_backups"
 
@@ -105,10 +108,13 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + VolumeBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", Optional, Create, volumeBackupRepresentation),
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VolumeBackupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", Optional, Create,
+						representationCopyWithNewProperties(volumeBackupRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -128,9 +134,12 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + VolumeBackupResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", Optional, Update, volumeBackupRepresentation),
+					generateResourceFromRepresentationMap("oci_core_volume_backup", "test_volume_backup", Optional, Update,
+						representationCopyWithNewProperties(volumeBackupRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -162,7 +171,7 @@ func TestCoreVolumeBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "volume_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "volume_backups.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "volume_backups.0.compartment_id"),
+					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "volume_backups.0.freeform_tags.%", "1"),

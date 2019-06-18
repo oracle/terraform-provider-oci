@@ -30,7 +30,7 @@ data "oci_core_boot_volumes" "test_boot_volumes" {
 The following arguments are supported:
 
 * `availability_domain` - (Required) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `volume_group_id` - (Optional) The OCID of the volume group.
 
 
