@@ -1,23 +1,23 @@
 ---
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_load_balancer_rule_set"
-sidebar_current: "docs-oci-datasource-load_balancer-rule_set"
+page_title: "Oracle Cloud Infrastructure: oci_load_balancer_listener_rules"
+sidebar_current: "docs-oci-datasource-load_balancer-listener_rules"
 description: |-
-  Provides details about a specific Rule Set in Oracle Cloud Infrastructure Load Balancer service
+  Provides the list of Listener Rules in Oracle Cloud Infrastructure Load Balancer service
 ---
 
-# Data Source: oci_load_balancer_rule_set
-This data source provides details about a specific Rule Set resource in Oracle Cloud Infrastructure Load Balancer service.
+# Data Source: oci_load_balancer_listener_rules
+This data source provides the list of Listener Rules in Oracle Cloud Infrastructure Load Balancer service.
 
-Gets the specified set of rules.
+List set of all rules associated with a listener ordered by execution phase.
 
 ## Example Usage
 
 ```hcl
-data "oci_load_balancer_rule_set" "test_rule_set" {
+data "oci_load_balancer_listener_rules" "test_listener_rules" {
 	#Required
+	listener_name = "${oci_load_balancer_listener.test_listener.name}"
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
-	name = "${var.rule_set_name}"
 }
 ```
 
@@ -25,15 +25,22 @@ data "oci_load_balancer_rule_set" "test_rule_set" {
 
 The following arguments are supported:
 
-* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the specified load balancer.
-* `name` - (Required) The name of the rule set to retrieve.  Example: `example_rule_set` 
+* `listener_name` - (Required) The name of the listener. 
+* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer associated with the listener.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `items` - An array of rules that compose the rule set.
+* `listener_rules` - The list of listener_rules.
+
+### ListenerRule Reference
+
+The following attributes are exported:
+
+* `name` - Name of the ruleset to which rule belongs to 
+* `rule` - Rule object that was applied to a listener.
 	* `action` - The action can be one of these values: `ADD_HTTP_REQUEST_HEADER`, `ADD_HTTP_RESPONSE_HEADER`, `ALLOW`, `CONTROL_ACCESS_USING_HTTP_METHODS`, `EXTEND_HTTP_REQUEST_HEADER_VALUE`, `EXTEND_HTTP_RESPONSE_HEADER_VALUE`, `REMOVE_HTTP_REQUEST_HEADER`, `REMOVE_HTTP_RESPONSE_HEADER`
 	* `allowed_methods` - The list of HTTP methods allowed for this listener.
 
@@ -45,16 +52,16 @@ The following attributes are exported:
 
 		Example: ["GET", "PUT", "POST", "PROPFIND"] 
 	* `conditions` - 
-		* `attribute_name` - (Required) (Updatable) The attribute_name can be one of these values: `SOURCE_IP_ADDRESS`, `SOURCE_VCN_ID`, `SOURCE_VCN_IP_ADDRESS`
-		* `attribute_value` - (Required) (Updatable) Depends on `attribute_name`:
-		    - when `attribute_name` = `SOURCE_IP_ADDRESS` | IPv4 or IPv6 address range to which the source IP address of incoming packet would be matched against
-            - when `attribute_name` = `SOURCE_VCN_IP_ADDRESS` | IPv4 address range to which the original client IP address (in customer VCN) of incoming packet would be matched against
-            - when `attribute_name` = `SOURCE_VCN_ID` | OCID of the customer VCN to which the service gateway embedded VCN ID of incoming packet would be matched against
+		* `attribute_name` - The attribute_name can be one of these values: `SOURCE_IP_ADDRESS`, `SOURCE_VCN_ID`, `SOURCE_VCN_IP_ADDRESS`
+		* `attribute_value` - OCID of the customer VCN to which the service gateway embedded VCN ID of incoming packet would be matched against
+
+			This condition can be used in conjunction with `SourceVcnIpAddressCondition`.
+
+			**NOTE:** If this condition is defined on a rule without `SourceVcnIpAddressCondition`, then this condition matches all incoming traffic in the specified customer VCN 
 	* `description` - Brief description of the access control rule. 
 	* `header` - A header name that conforms to RFC 7230.  Example: `example_header_name` 
 	* `prefix` - A string to prepend to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_prefix_value` 
 	* `status_code` - The HTTP status code to return when the requested HTTP method is not in the list of allowed methods. The associated status line returned with the code is mapped from the standard HTTP specification. The default value is `405 (Method Not Allowed)`.  Example: 403 
 	* `suffix` - A string to append to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_suffix_value` 
 	* `value` - A header value that conforms to RFC 7230.  Example: `example_value` 
-* `name` - The name for this set of rules. It must be unique and it cannot be changed. Avoid entering confidential information.  Example: `example_rule_set` 
 

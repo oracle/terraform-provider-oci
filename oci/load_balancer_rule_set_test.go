@@ -92,6 +92,30 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 		allowed_methods = ["GET", "POST"]
 		status_code = "400"
 	}
+	items {
+		#Required
+		action = "ALLOW"
+		conditions {
+			#Required
+			attribute_name = "SOURCE_IP_ADDRESS"
+			attribute_value = "129.0.0.0/8"
+		}
+		description = "description"
+	}
+	items {
+		#Required
+		action = "ALLOW"
+		conditions {
+			#Required
+			attribute_name = "SOURCE_VCN_ID"
+			attribute_value = "${oci_core_vcn.test_vcn.id}"
+		}
+		conditions {
+			#Required
+			attribute_name = "SOURCE_VCN_IP_ADDRESS"
+			attribute_value = "10.10.1.0/24"
+		}
+	}
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 	name = "example_rule_set"
 }
@@ -148,7 +172,7 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					RuleSetResourceWithMultipleRules,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "items.#", "7"),
+					resource.TestCheckResourceAttr(resourceName, "items.#", "9"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action": "ADD_HTTP_REQUEST_HEADER",
 						"header": "example_header_name",
@@ -188,6 +212,17 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action":      "CONTROL_ACCESS_USING_HTTP_METHODS",
 						"status_code": "400",
+					},
+						[]string{}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+						"action":       "ALLOW",
+						"conditions.#": "1",
+						"description":  "description",
+					},
+						[]string{}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+						"action":       "ALLOW",
+						"conditions.#": "2",
 					},
 						[]string{}),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
@@ -230,6 +265,9 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + RuleSetResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(singularDatasourceName, "items.#", "1"),
+					CheckResourceSetContainsElementWithProperties(singularDatasourceName, "items", map[string]string{},
+						[]string{}),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_rule_set"),
 

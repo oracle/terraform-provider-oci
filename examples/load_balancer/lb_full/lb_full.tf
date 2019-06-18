@@ -343,6 +343,21 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
     status_code     = "405"
   }
 
+  items {
+    action      = "ALLOW"
+    description = "example vcn ACL"
+
+    conditions {
+      attribute_name  = "SOURCE_VCN_ID"
+      attribute_value = "${oci_core_virtual_network.vcn1.id}"
+    }
+
+    conditions {
+      attribute_name  = "SOURCE_VCN_IP_ADDRESS"
+      attribute_value = "10.10.1.0/24"
+    }
+  }
+
   load_balancer_id = "${oci_load_balancer.lb1.id}"
   name             = "example_rule_set_name"
 }
