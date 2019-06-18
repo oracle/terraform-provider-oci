@@ -71,6 +71,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					}
 					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
 					freeform_tags = {"Department" = "Finance"}
+					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 				}
 				data "oci_database_db_systems" "t" {
 					compartment_id = "${var.compartment_id}"
@@ -150,6 +151,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "state"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "freeform_tags.Department", "Finance"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
 
 					// Data Source tests
 					// DBSystems Data Source
@@ -177,6 +179,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.listener_port", "1521"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.freeform_tags.Department", "Finance"),
+					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.nsg_ids.#", "1"),
 
 					/* The following fields are null when retrieved via data source. Some were never populated, some nulls might be BM vs VM behavior.
 					   maybe LIST summary vs GET behavior
@@ -331,6 +334,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					}
 					defined_tags = "${map("example-tag-namespace-all.example-tag", "updateValue")}"
 					freeform_tags = {"Department" = "Admin"}
+					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}", "${oci_core_network_security_group.test_network_security_group2.id}"]
 				}
 				data "oci_database_db_systems" "t" {
 					compartment_id = "${var.compartment_id}"
@@ -410,6 +414,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DbSystemLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "defined_tags.example-tag-namespace-all.example-tag", "updateValue"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "freeform_tags.Department", "Admin"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "2"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")

@@ -46,14 +46,16 @@ var (
 		"peer_db_system_id": Representation{repType: Required, create: `${oci_database_db_system.test_db_system2.id}`},
 	})
 	dataGuardAssociationRepresentationNewDbSystem = representationCopyWithNewProperties(dataGuardAssociationRepresentationBase, map[string]interface{}{
-		"creation_type":       Representation{repType: Required, create: `NewDbSystem`},
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"display_name":        Representation{repType: Required, create: `displayName`},
-		"hostname":            Representation{repType: Required, create: `hostname`},
-		"subnet_id":           Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"creation_type":          Representation{repType: Required, create: `NewDbSystem`},
+		"availability_domain":    Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"display_name":           Representation{repType: Required, create: `displayName`},
+		"hostname":               Representation{repType: Required, create: `hostname`},
+		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"backup_network_nsg_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 	})
 
-	DataGuardAssociationResourceDependenciesBase = DefinedTagsDependencies + AvailabilityDomainConfig + VcnResourceConfig + `
+	DataGuardAssociationResourceDependenciesBase = AvailabilityDomainConfig + NetworkSecurityGroupResourceConfig + `
 #dataguard requires the some port to be open on the subnet
 resource "oci_core_subnet" "test_subnet" {
   availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
@@ -175,6 +177,19 @@ resource "oci_database_db_system" "test_db_system" {
 		}
 	}
 }
+
+data "oci_database_db_systems" "t" {
+  compartment_id = "${var.compartment_id}"
+  filter {
+     name   = "id"
+     values = ["${oci_database_data_guard_association.test_data_guard_association.peer_db_system_id}"]
+  }
+
+  filter {
+     name   = "state"
+     values = ["AVAILABLE"]
+  }
+}
 `
 )
 
@@ -198,14 +213,16 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
-			// verify create existingDbSystem
+			// verify create NewDbSystem
 			{
 				Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependenciesNewDbSystem +
-					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Required, Create, dataGuardAssociationRepresentationNewDbSystem),
+					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationNewDbSystem),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					//resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.backup_network_nsg_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "creation_type", "NewDbSystem"),
 					resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.nsg_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
 					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
@@ -216,7 +233,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies,
 			},
-			// verify create with optionals NewDbSystem
+			// verify create with optionals on Existing DbSystem
 			{
 				Config: config + compartmentIdVariableStr + DataGuardAssociationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", Optional, Create, dataGuardAssociationRepresentationExistingDbSystem),

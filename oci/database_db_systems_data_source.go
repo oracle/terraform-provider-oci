@@ -148,6 +148,8 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 			dbSystem["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		dbSystem["backup_network_nsg_ids"] = r.BackupNetworkNsgIds
+
 		if r.BackupSubnetId != nil {
 			dbSystem["backup_subnet_id"] = *r.BackupSubnetId
 		}
@@ -213,6 +215,8 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 		if r.NodeCount != nil {
 			dbSystem["node_count"] = *r.NodeCount
 		}
+
+		dbSystem["nsg_ids"] = r.NsgIds
 
 		if r.RecoStorageSizeInGB != nil {
 			dbSystem["reco_storage_size_in_gb"] = *r.RecoStorageSizeInGB
