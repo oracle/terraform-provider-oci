@@ -147,6 +147,8 @@ func (s *LoadBalancerLoadBalancersDataSourceCrud) SetData() error {
 			loadBalancer["is_private"] = *r.IsPrivate
 		}
 
+		loadBalancer["network_security_group_ids"] = r.NetworkSecurityGroupIds
+
 		if r.ShapeName != nil {
 			loadBalancer["shape"] = *r.ShapeName
 		}
