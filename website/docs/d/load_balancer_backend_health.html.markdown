@@ -37,7 +37,7 @@ The following attributes are exported:
 
 * `health_check_results` - A list of the most recent health check results returned for the specified backend server. 
 	* `health_check_status` - The result of the most recent health check. 
-	* `source_ip_address` - The IP address of the health check status report provider. This identifier helps you differentiate same-subnet (private) load balancers that report health check status.  Example: `10.0.0.7` 
+	* `source_ip_address` - The IP address of the health check status report provider. This identifier helps you differentiate same-subnet load balancers that report health check status.  Example: `10.0.0.7` 
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet hosting the load balancer that reported this health check status. 
 	* `timestamp` - The date and time the data was retrieved, in the format defined by RFC3339.  Example: `2017-06-02T18:28:11+00:00` 
 * `status` - The general health status of the specified backend server as reported by the primary and standby load balancers.

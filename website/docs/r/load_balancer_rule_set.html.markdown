@@ -9,7 +9,8 @@ description: |-
 # oci_load_balancer_rule_set
 This resource provides the Rule Set resource in Oracle Cloud Infrastructure Load Balancer service.
 
-Creates a new rule set associated with the specified load balancer.
+Creates a new rule set associated with the specified load balancer. For more information, see
+[Managing Rule Sets](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrulesets.htm).
 
 
 ## Example Usage
@@ -36,7 +37,7 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 
 The following arguments are supported:
 
-* `items` - (Required) (Updatable) 
+* `items` - (Required) (Updatable) An array of rules that compose the rule set.
 	* `action` - (Required) (Updatable) The action can be one of these values: `ADD_HTTP_REQUEST_HEADER`, `ADD_HTTP_RESPONSE_HEADER`, `EXTEND_HTTP_REQUEST_HEADER_VALUE`, `EXTEND_HTTP_RESPONSE_HEADER_VALUE`, `REMOVE_HTTP_REQUEST_HEADER`, `REMOVE_HTTP_RESPONSE_HEADER`
 	* `header` - (Required) (Updatable) A header name that conforms to RFC 7230.  Example: `example_header_name` 
 	* `prefix` - (Applicable when action=EXTEND_HTTP_REQUEST_HEADER_VALUE | EXTEND_HTTP_RESPONSE_HEADER_VALUE) (Updatable) A string to prepend to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_prefix_value` 
@@ -53,7 +54,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `items` - 
+* `items` - An array of rules that compose the rule set.
 	* `action` - The action can be one of these values: `ADD_HTTP_REQUEST_HEADER`, `ADD_HTTP_RESPONSE_HEADER`, `EXTEND_HTTP_REQUEST_HEADER_VALUE`, `EXTEND_HTTP_RESPONSE_HEADER_VALUE`, `REMOVE_HTTP_REQUEST_HEADER`, `REMOVE_HTTP_RESPONSE_HEADER`
 	* `header` - A header name that conforms to RFC 7230.  Example: `example_header_name` 
 	* `prefix` - A string to prepend to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_prefix_value` 
