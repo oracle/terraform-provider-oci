@@ -228,7 +228,7 @@ func (r *ConfigFieldReader) readMap(k string, schema *Schema) (FieldReadResult, 
 		return FieldReadResult{}, nil
 	}
 
-	var value map[string]interface{}
+	var value interface{}
 	if !computed {
 		value = result
 	}

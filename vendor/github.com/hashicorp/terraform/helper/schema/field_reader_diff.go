@@ -128,7 +128,7 @@ func (r *DiffFieldReader) readMap(
 		return FieldReadResult{}, nil
 	}
 
-	var resultVal map[string]interface{}
+	var resultVal interface{}
 	if resultSet {
 		resultVal = result
 	}
