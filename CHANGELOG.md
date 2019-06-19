@@ -7,6 +7,11 @@
 ### Fixed
 - Fix for `defined_tags` property deletion bug
 
+## Notes
+- This release upgrades the Terraform plugin SDK to v0.12.3-0.20190619193004-2ab2796c932c, which fixes 
+how null/empty values are stored in state during import and fixes unnecessary diffs caused by omission of
+Optional/Computed fields.
+
 ## 3.30.0 (June 19, 2019)
 
 ### Added
