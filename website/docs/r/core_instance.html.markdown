@@ -72,7 +72,7 @@ resource "oci_core_instance" "test_instance" {
 	}
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.instance_display_name}"
-	extended_metadata {
+	extended_metadata = {
 		some_string = "stringA"
 		nested_object = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
 	}
@@ -81,7 +81,7 @@ resource "oci_core_instance" "test_instance" {
 	hostname_label = "${var.instance_hostname_label}"
 	ipxe_script = "${var.instance_ipxe_script}"
 	is_pv_encryption_in_transit_enabled = "${var.instance_is_pv_encryption_in_transit_enabled}"
-	metadata {
+	metadata = {
 		ssh_authorized_keys = "${var.ssh_public_key}"
 		user_data = "${base64encode(file(var.custom_bootstrap_file_name))}"
 	}
