@@ -7,7 +7,7 @@
 - Support for moving Service Gateway resource across Compartments
 
 ### Fixed
-- Instance `create_vnic_detials` will be fetched for all applicable instance lifecycle states.
+- Instance `create_vnic_details` will be fetched for all applicable instance lifecycle states.
 
 ## 3.29.0 (June 12, 2019)
 
