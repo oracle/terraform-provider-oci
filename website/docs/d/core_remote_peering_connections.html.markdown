@@ -29,7 +29,7 @@ data "oci_core_remote_peering_connections" "test_remote_peering_connections" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `drg_id` - (Optional) The OCID of the DRG.
 
 

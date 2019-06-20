@@ -26,7 +26,7 @@ data "oci_core_cross_connect_locations" "test_cross_connect_locations" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 
 
 ## Attributes Reference
