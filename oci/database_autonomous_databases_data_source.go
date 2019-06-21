@@ -179,6 +179,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_dedicated"] = *r.IsDedicated
 		}
 
+		if r.IsPreview != nil {
+			autonomousDatabase["is_preview"] = *r.IsPreview
+		}
+
 		autonomousDatabase["license_model"] = r.LicenseModel
 
 		if r.LifecycleDetails != nil {

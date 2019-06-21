@@ -1,4 +1,8 @@
 ## 3.33.0 (Unreleased)
+
+### Added
+- Support for ATP-S preview mode.
+
 ## 3.32.0 (July 03, 2019)
 
 ### Added
