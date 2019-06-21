@@ -118,6 +118,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("is_dedicated", *s.Res.IsDedicated)
 	}
 
+	if s.Res.IsPreview != nil {
+		s.D.Set("is_preview", *s.Res.IsPreview)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {
