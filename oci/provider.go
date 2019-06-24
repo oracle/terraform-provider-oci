@@ -48,8 +48,6 @@ const (
 	userAgentProviderNameEnv              = "USER_AGENT_PROVIDER_NAME"
 	domainNameOverrideEnv                 = "domain_name_override"
 	customCertLocationEnv                 = "custom_cert_location"
-	oracleR1DomainNameEnv                 = "oracle_r1_domain_name" // deprecate
-	r1CertLocationEnv                     = "R1_CERT_LOCATION"      // deprecate
 
 	authAttrName                 = "auth"
 	tenancyOcidAttrName          = "tenancy_ocid"
