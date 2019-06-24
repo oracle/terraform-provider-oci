@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform/helper/hashcode"
-
 	"github.com/hashicorp/terraform/helper/schema"
+
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )

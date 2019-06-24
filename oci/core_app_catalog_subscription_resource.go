@@ -12,7 +12,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/oracle/oci-go-sdk/common"
+
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -159,7 +160,7 @@ func (s *CoreAppCatalogSubscriptionResourceCrud) Create() error {
 
 	if timeRetrieved, ok := s.D.GetOkExists("time_retrieved"); ok {
 		tmp, _ := time.Parse(time.RFC3339Nano, timeRetrieved.(string))
-		request.TimeRetrieved = &common.SDKTime{Time: tmp}
+		request.TimeRetrieved = &oci_common.SDKTime{Time: tmp}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
