@@ -11,12 +11,11 @@ package provider
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 	oci_common "github.com/oracle/oci-go-sdk/common"
-
-	"time"
 )
 
 func AuditAuditEventsDataSource() *schema.Resource {

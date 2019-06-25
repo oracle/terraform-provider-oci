@@ -6,6 +6,8 @@
 // API for the Email Delivery service. Use this API to send high-volume, application-generated
 // emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
 //
+// **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API. If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
+//
 
 package email
 
@@ -57,6 +59,48 @@ func (client *EmailClient) setConfigurationProvider(configProvider common.Config
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *EmailClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// ChangeSenderCompartment Moves a sender into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+func (client EmailClient) ChangeSenderCompartment(ctx context.Context, request ChangeSenderCompartmentRequest) (response ChangeSenderCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeSenderCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeSenderCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSenderCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSenderCompartmentResponse")
+	}
+	return
+}
+
+// changeSenderCompartment implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) changeSenderCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/senders/{senderId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSenderCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // CreateSender Creates a sender for a tenancy in a given compartment.

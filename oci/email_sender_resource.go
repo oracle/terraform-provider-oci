@@ -25,7 +25,6 @@ func EmailSenderResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"email_address": {
 				Type:     schema.TypeString,
@@ -187,6 +186,15 @@ func (s *EmailSenderResourceCrud) Get() error {
 }
 
 func (s *EmailSenderResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_email.UpdateSenderRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -252,5 +260,23 @@ func (s *EmailSenderResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
+}
+
+func (s *EmailSenderResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_email.ChangeSenderCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.SenderId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "email")
+
+	_, err := s.Client.ChangeSenderCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
 	return nil
 }

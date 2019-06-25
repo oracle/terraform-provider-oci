@@ -46,7 +46,7 @@ resource "oci_core_instance" "test_instance" {
 `
 )
 
-func TestApplyFiltersIntegration_basic(t *testing.T) {
+func TestResourceCoreApplyFiltersIntegration_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApplyFiltersIntegration_basic")
 	defer httpreplay.SaveScenario()
 
