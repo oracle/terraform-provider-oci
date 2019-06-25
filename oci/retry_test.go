@@ -78,7 +78,7 @@ func retryLoop(t *testing.T, r *retryTestInput) {
 }
 
 // Test a simple retry loop, simulating a 429 rate error
-func TestRetryLoop_basic(t *testing.T) {
+func TestUnitRetryLoop_basic(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
@@ -97,7 +97,7 @@ func TestRetryLoop_basic(t *testing.T) {
 }
 
 // Configured retry timeout should be used for 429/500 errors
-func TestRetryLoop_configuredRetry(t *testing.T) {
+func TestUnitRetryLoop_configuredRetry(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
@@ -117,7 +117,7 @@ func TestRetryLoop_configuredRetry(t *testing.T) {
 }
 
 // Even if a retry timeout is configured, it should be ignored for errors that are not 429/500
-func TestRetryLoop_configuredRetryWith404(t *testing.T) {
+func TestUnitRetryLoop_configuredRetryWith404(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
@@ -137,7 +137,7 @@ func TestRetryLoop_configuredRetryWith404(t *testing.T) {
 }
 
 // Test concurrent retry loops
-func TestRetryLoop_concurrent(t *testing.T) {
+func TestUnitRetryLoop_concurrent(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
@@ -168,7 +168,7 @@ func TestRetryLoop_concurrent(t *testing.T) {
 	waitGroup.Wait()
 }
 
-func TestRetryKMSThrottling(t *testing.T) {
+func TestUnitRetryKMSThrottling(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
@@ -189,7 +189,7 @@ func TestRetryKMSThrottling(t *testing.T) {
 	retryLoop(t, &r)
 }
 
-func TestRetrySubnet409Conflict(t *testing.T) {
+func TestUnitRetrySubnet409Conflict(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
@@ -213,7 +213,7 @@ func TestRetrySubnet409Conflict(t *testing.T) {
 	retryLoop(t, &r)
 }
 
-func TestRetrySubnet409OtherErrorMessage(t *testing.T) {
+func TestUnitRetrySubnet409OtherErrorMessage(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
@@ -237,7 +237,7 @@ func TestRetrySubnet409OtherErrorMessage(t *testing.T) {
 	retryLoop(t, &r)
 }
 
-func TestRetryDatabase(t *testing.T) {
+func TestUnitRetryDatabase(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
@@ -256,7 +256,7 @@ func TestRetryDatabase(t *testing.T) {
 	retryLoop(t, &r)
 }
 
-func TestRetryIdentity409ErrorInvalidatedRetryToken(t *testing.T) {
+func TestUnitRetryIdentity409ErrorInvalidatedRetryToken(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
@@ -275,7 +275,7 @@ func TestRetryIdentity409ErrorInvalidatedRetryToken(t *testing.T) {
 	retryLoop(t, &r)
 }
 
-func TestRetryIdentity409ErrorNotAuthorizedOrResourceAlreadyExists(t *testing.T) {
+func TestUnitRetryIdentity409ErrorNotAuthorizedOrResourceAlreadyExists(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
@@ -294,7 +294,7 @@ func TestRetryIdentity409ErrorNotAuthorizedOrResourceAlreadyExists(t *testing.T)
 	retryLoop(t, &r)
 }
 
-func TestRetryObjectStorage(t *testing.T) {
+func TestUnitRetryObjectStorage(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip Retry Tests in HttpReplay mode.")
 	}
