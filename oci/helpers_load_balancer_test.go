@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestSafeMutexMap_GetOrCreateBackendSetMutex(t *testing.T) {
+func TestUnitSafeMutexMap_GetOrCreateBackendSetMutex(t *testing.T) {
 	testMap := SafeMutexMap{}
 
 	mutex1 := testMap.GetOrCreateBackendSetMutex("lbocid1", "bes1")
@@ -49,7 +49,7 @@ func TestSafeMutexMap_GetOrCreateBackendSetMutex(t *testing.T) {
 
 // Test that concurrently accessing an empty map with the same lb and backend set name always gives back the same mutex
 // i.e. A mutex should never be overwritten by concurrent accesses
-func TestSafeMutexMap_ConcurrentGetOrCreateBackendSetMutex(t *testing.T) {
+func TestUnitSafeMutexMap_ConcurrentGetOrCreateBackendSetMutex(t *testing.T) {
 	testMap := SafeMutexMap{}
 	numConcurrentAccesses := 100
 

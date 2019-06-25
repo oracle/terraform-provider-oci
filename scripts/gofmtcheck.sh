@@ -27,7 +27,7 @@ done
 
 # Check goimports
 echo "==> Checking that code complies with goimports requirements..."
-goimports_files=$(find . -name '*.go' | grep -v vendor | xargs goimports -l)
+goimports_files=$(find . -name '*.go' | grep -v vendor | xargs goimports -l -local github.com/terraform-providers/terraform-provider-oci)
 if [[ -n ${goimports_files} ]]; then
     echo 'goimports needs running on the following files:'
     echo "${goimports_files}"

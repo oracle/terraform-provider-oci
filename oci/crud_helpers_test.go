@@ -26,7 +26,7 @@ func (t *TestResource) Get() error {
 	return nil
 }
 
-func TestWaitForResourceCondition_basic(t *testing.T) {
+func TestUnitWaitForResourceCondition_basic(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip TestWaitForResourceCondition_basic test in HttpReplay mode.")
 	}

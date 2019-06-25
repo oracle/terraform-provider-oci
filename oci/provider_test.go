@@ -298,7 +298,7 @@ func GetTestClients(data *schema.ResourceData) *OracleClients {
 }
 
 // This test runs the Provider sanity checks.
-func TestProvider(t *testing.T) {
+func TestUnitProvider(t *testing.T) {
 	// Real client for the sanity check. Makes this more of an acceptance test.
 	client := &OracleClients{}
 	if err := Provider(func(d *schema.ResourceData) (interface{}, error) {
@@ -411,7 +411,7 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	testClient(&oracleClient.loadBalancerClient.BaseClient)
 }
 
-func TestProviderConfig(t *testing.T) {
+func TestUnitProviderConfig(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip TestProviderConfig in HttpReplay mode.")
 	}
@@ -421,7 +421,7 @@ func TestProviderConfig(t *testing.T) {
 	providerConfigTest(t, true, false, "invalid-auth-setting")        // Invalid auth + disable auto-retries
 }
 
-func TestVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
+func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
 	httpreplay.SetScenario("TestVerifyConfigForAPIKeyAuthIsNotSet_basic")
 	defer httpreplay.SaveScenario()
 	for _, apiKeyConfigAttribute := range apiKeyConfigAttributes {
