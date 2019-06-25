@@ -13,16 +13,7 @@
 - Support for moving `core_instance` resources across compartments
 - Support for LBaaS Cookie Insertion (Sticky Cookie) 
 - Support for moving `identity_compartment` resource tree across compartments
-
-## 3.33.0 (July 10, 2019)
-
-### Added
-- Support autonomous transaction processing preview mode
-- Support load balancer attachment data source for instance pools
-- Support moving `core_route_table`, `core_security_list`, `core_subnet`, `core_vcn` resources across compartments
-- Support for Granular Security Lists using Network Security Group
-- Support for Granular Security Lists in Load Balancer
-- Support for Network Security Groups in databases
+- Support for moving `dns_zone` and `dns_steering_policy` resources across compartments
 - Support in autonomous database and object data sources for encoding downloaded binary content as base64. This works around behavior in Terraform v0.12 that could cause binary content to be corrupted if written directly to state.
 
 ### Fixed
@@ -38,6 +29,16 @@ that are maps of string values.
         - identity_policy
         - identity_user
 - Removing deprecated field `time_state_modifed` from data source `core_ip_sec_connection_device_status`.  `time_state_modified` should be used instead
+
+## 3.33.0 (July 10, 2019)
+
+### Added
+- Support autonomous transaction processing preview mode
+- Support load balancer attachment data source for instance pools
+- Support moving `core_route_table`, `core_security_list`, `core_subnet`, `core_vcn` resources across compartments
+- Support for Granular Security Lists using Network Security Group
+- Support for Granular Security Lists in Load Balancer
+- Support for Network Security Groups in databases
 
 ## 3.32.0 (July 03, 2019)
 
