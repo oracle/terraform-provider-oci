@@ -240,6 +240,18 @@ func (s *CoreDhcpOptionsResourceCrud) Create() error {
 	}
 
 	s.Res = &response.DhcpOptions
+
+	// this is needed to make the infrastructure match what is on the config as in some cases during the Create the service adds an option for SearchDomain by default if the user doesn't provide it.
+	updateRequest := oci_core.UpdateDhcpOptionsRequest{}
+	updateRequest.DhcpId = s.Res.Id
+	updateRequest.Options = request.Options
+	updateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+	updateResponse, err := s.Client.UpdateDhcpOptions(context.Background(), updateRequest)
+	if err != nil {
+		log.Printf("[ERROR] Could not perform an update right after the create of the dhcpOptions: %v", err)
+	}
+	s.Res = &updateResponse.DhcpOptions
+
 	return nil
 }
 
