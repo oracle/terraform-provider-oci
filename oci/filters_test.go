@@ -14,7 +14,7 @@ import (
 )
 
 // Not supplying filters should not restrict results
-func TestApplyFilters_passThrough(t *testing.T) {
+func TestUnitApplyFilters_passThrough(t *testing.T) {
 	items := []map[string]interface{}{
 		{},
 		{},
@@ -33,7 +33,7 @@ func TestApplyFilters_passThrough(t *testing.T) {
 }
 
 // Filtering against a nonexistent property should throw no errors and return no results
-func TestApplyFilters_nonExistentProperty(t *testing.T) {
+func TestUnitApplyFilters_nonExistentProperty(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
 	}
@@ -56,7 +56,7 @@ func TestApplyFilters_nonExistentProperty(t *testing.T) {
 }
 
 // Filtering against an empty resource set should not throw errors
-func TestApplyFilters_noResources(t *testing.T) {
+func TestUnitApplyFilters_noResources(t *testing.T) {
 	items := []map[string]interface{}{}
 
 	testSchema := map[string]*schema.Schema{
@@ -77,7 +77,7 @@ func TestApplyFilters_noResources(t *testing.T) {
 	}
 }
 
-func TestApplyFilters_basic(t *testing.T) {
+func TestUnitApplyFilters_basic(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
 		{"letter": "b"},
@@ -102,7 +102,7 @@ func TestApplyFilters_basic(t *testing.T) {
 	}
 }
 
-func TestApplyFilters_duplicates(t *testing.T) {
+func TestUnitApplyFilters_duplicates(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
 		{"letter": "a"},
@@ -128,7 +128,7 @@ func TestApplyFilters_duplicates(t *testing.T) {
 	}
 }
 
-func TestApplyFilters_OR(t *testing.T) {
+func TestUnitApplyFilters_OR(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
 		{"letter": "b"},
@@ -162,7 +162,7 @@ func TestApplyFilters_OR(t *testing.T) {
 	}
 }
 
-func TestApplyFilters_cascadeAND(t *testing.T) {
+func TestUnitApplyFilters_cascadeAND(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
 		{"letter": "b"},
@@ -199,7 +199,7 @@ func TestApplyFilters_cascadeAND(t *testing.T) {
 	}
 }
 
-func TestApplyFilters_regex(t *testing.T) {
+func TestUnitApplyFilters_regex(t *testing.T) {
 	items := []map[string]interface{}{
 		{"string": "xblx:PHX-AD-1"},
 		{"string": "xblx:PHX-AD-2"},
@@ -228,7 +228,7 @@ func TestApplyFilters_regex(t *testing.T) {
 }
 
 // Filters should test against an array of strings
-func TestApplyFilters_arrayOfStrings(t *testing.T) {
+func TestUnitApplyFilters_arrayOfStrings(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letters": []string{"a"}},
 		{"letters": []string{"b", "c"}},
@@ -270,7 +270,7 @@ type CustomStringTypeA string
 type CustomStringTypeB CustomStringTypeA
 type CustomEnumType oci_core.VcnLifecycleStateEnum
 
-func TestApplyFilters_underlyingStringTypes(t *testing.T) {
+func TestUnitApplyFilters_underlyingStringTypes(t *testing.T) {
 	items := []map[string]interface{}{
 		{
 			"letters": []CustomStringTypeA{"a"},
@@ -383,7 +383,7 @@ func TestApplyFilters_underlyingStringTypes(t *testing.T) {
 }
 
 // Test fields that aren't supported: list of non-strings or structured objects
-func TestApplyFilters_unsupportedTypes(t *testing.T) {
+func TestUnitApplyFilters_unsupportedTypes(t *testing.T) {
 	items := []map[string]interface{}{
 		{
 			"nums": []int{1, 2, 3},
@@ -421,7 +421,7 @@ func TestApplyFilters_unsupportedTypes(t *testing.T) {
 	}
 }
 
-func TestApplyFilters_booleanTypes(t *testing.T) {
+func TestUnitApplyFilters_booleanTypes(t *testing.T) {
 	items := []map[string]interface{}{
 		{
 			"enabled": true,
@@ -511,7 +511,7 @@ func TestApplyFilters_booleanTypes(t *testing.T) {
 	filters.Remove(falsyBooleanFilter)
 }
 
-func TestApplyFilters_numberTypes(t *testing.T) {
+func TestUnitApplyFilters_numberTypes(t *testing.T) {
 	items := []map[string]interface{}{
 		{
 			"integer": 1,
@@ -582,7 +582,7 @@ func TestApplyFilters_numberTypes(t *testing.T) {
 	filters.Remove(floatFilter)
 }
 
-func TestApplyFilters_multiProperty(t *testing.T) {
+func TestUnitApplyFilters_multiProperty(t *testing.T) {
 	items := []map[string]interface{}{
 		{
 			"letter": "a",
@@ -643,7 +643,7 @@ func TestApplyFilters_multiProperty(t *testing.T) {
 }
 
 // Test to validate that the Apply filters do not impact the original item order
-func TestApplyFilters_ElementOrder(t *testing.T) {
+func TestUnitApplyFilters_ElementOrder(t *testing.T) {
 	items := []map[string]interface{}{
 		{"letter": "a"},
 		{"letter": "b"},
@@ -673,7 +673,7 @@ func TestApplyFilters_ElementOrder(t *testing.T) {
 
 }
 
-func TestGetValue_EmptyMap(t *testing.T) {
+func TestUnitGetValue_EmptyMap(t *testing.T) {
 	item := map[string]interface{}{}
 
 	_, singleLevelGetOk := getValueFromPath(item, []string{"path"})
@@ -684,7 +684,7 @@ func TestGetValue_EmptyMap(t *testing.T) {
 	}
 }
 
-func TestGetValue_MultiLevelMap(t *testing.T) {
+func TestUnitGetValue_MultiLevelMap(t *testing.T) {
 	item := map[string]interface{}{
 		"level1": map[string]interface{}{
 			"level2": map[string]interface{}{
@@ -709,37 +709,37 @@ func TestGetValue_MultiLevelMap(t *testing.T) {
 	}
 }
 
-func TestGetPathElements_EmptyFilterName(t *testing.T) {
+func TestUnitGetPathElements_EmptyFilterName(t *testing.T) {
 	if _, error := getFieldPathElements(CoreInstanceResource().Schema, ""); error == nil {
 		t.Error("expected non nil error")
 	}
 }
 
-func TestGetPathElements_NonExistentPropertyTopLevel(t *testing.T) {
+func TestUnitGetPathElements_NonExistentPropertyTopLevel(t *testing.T) {
 	if _, error := getFieldPathElements(CoreInstanceResource().Schema, "non_existent"); error == nil {
 		t.Error("expected non nil error")
 	}
 }
 
-func TestGetPathElements_NonExistentPropertyNestedLevel(t *testing.T) {
+func TestUnitGetPathElements_NonExistentPropertyNestedLevel(t *testing.T) {
 	if _, error := getFieldPathElements(CoreInstanceResource().Schema, "create_vnic_details.non_existent"); error == nil {
 		t.Error("expected non nil error")
 	}
 }
 
-func TestGetPathElements_TopLevelPrimitive(t *testing.T) {
+func TestUnitGetPathElements_TopLevelPrimitive(t *testing.T) {
 	if path, error := getFieldPathElements(CoreInstanceResource().Schema, "boot_volume_id"); error != nil || !reflect.DeepEqual(path, []string{"boot_volume_id"}) {
 		t.Errorf("unexpected path value %s found", path)
 	}
 }
 
-func TestGetPathElements_MultiLevelMap(t *testing.T) {
+func TestUnitGetPathElements_MultiLevelMap(t *testing.T) {
 	if path, error := getFieldPathElements(CoreInstanceResource().Schema, "create_vnic_details.defined_tags.namespace.key"); error != nil || !reflect.DeepEqual(path, []string{"create_vnic_details", "defined_tags", "namespace.key"}) {
 		t.Errorf("unexpected path value %s found", path)
 	}
 }
 
-func TestGetPathElements_MultiLevelNonMap(t *testing.T) {
+func TestUnitGetPathElements_MultiLevelNonMap(t *testing.T) {
 	if path, error := getFieldPathElements(CoreInstanceResource().Schema, "launch_options.firmware"); error != nil || !reflect.DeepEqual(path, []string{"launch_options", "firmware"}) {
 		t.Errorf("unexpected path value %s found", path)
 	}
