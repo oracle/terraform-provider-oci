@@ -35,7 +35,7 @@ resource "oci_core_remote_peering_connection" "test_remote_peering_connection" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment to contain the RPC.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the RPC.
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `drg_id` - (Required) The OCID of the DRG the RPC belongs to.
 * `peer_id` - (Optional) The OCID of the RPC you want to peer with.

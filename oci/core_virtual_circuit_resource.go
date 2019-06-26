@@ -29,7 +29,6 @@ func CoreVirtualCircuitResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"type": {
 				Type:     schema.TypeString,
@@ -391,6 +390,15 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 			return fmt.Errorf("unable to update 'public_prefixes', error: %v", err)
 		}
 	}
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 
 	request := oci_core.UpdateVirtualCircuitRequest{}
 
@@ -725,4 +733,21 @@ func publicPrefixesHashCodeForSets(v interface{}) int {
 		buf.WriteString(fmt.Sprintf("%v-", cidrBlock))
 	}
 	return hashcode.String(buf.String())
+}
+func (s *CoreVirtualCircuitResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangeVirtualCircuitCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.VirtualCircuitId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.ChangeVirtualCircuitCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }
