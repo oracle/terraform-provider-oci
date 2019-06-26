@@ -61,6 +61,9 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_core_cross_connect.test_cross_connect"
 	datasourceName := "data.oci_core_cross_connects.test_cross_connects"
 	singularDatasourceName := "data.oci_core_cross_connect.test_cross_connect"
@@ -110,6 +113,31 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CrossConnectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create,
+						representationCopyWithNewProperties(crossConnectRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
+					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttrSet(resourceName, "location_name"),
+					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
 						return err
 					},
 				),

@@ -1,4 +1,6 @@
 ## 3.35.1 (Unreleased)
+### Added
+    Support for moving `oci_core_cpe`, `oci_core_cross_connect_group`, `oci_core_cross_connect`, `oci_core_ipsec`, `CoreRemotePeeringConnectionResource` and `oci_core_virtual_circuit` across compartments
 ## 3.35.0 (July 24, 2019)
 
 ### Added

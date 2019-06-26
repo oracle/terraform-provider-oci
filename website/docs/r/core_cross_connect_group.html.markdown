@@ -43,7 +43,7 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment to contain the cross-connect group.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the cross-connect group.
 * `customer_reference_name` - (Optional) (Updatable) A reference name or identifier for the physical fiber connection that this cross-connect group uses. 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 

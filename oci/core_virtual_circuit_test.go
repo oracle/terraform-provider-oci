@@ -151,6 +151,9 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_core_virtual_circuit.test_virtual_circuit"
 	datasourceName := "data.oci_core_virtual_circuits.test_virtual_circuits"
 	singularDatasourceName := "data.oci_core_virtual_circuit.test_virtual_circuit"
@@ -313,6 +316,37 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPrivatePropertyVariables +
+					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Optional, Create,
+						representationCopyWithNewProperties(virtualCircuitRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "bandwidth_shape_name", "10 Gbps"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
+					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
+					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
+					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
+					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
+					resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
+					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
 						return err
 					},
 				),

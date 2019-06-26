@@ -52,7 +52,7 @@ resource "oci_core_cross_connect" "test_cross_connect" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment to contain the cross-connect.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the cross-connect.
 * `cross_connect_group_id` - (Optional) The OCID of the cross-connect group to put this cross-connect in.
 * `customer_reference_name` - (Optional) (Updatable) A reference name or identifier for the physical fiber connection that this cross-connect uses. 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 

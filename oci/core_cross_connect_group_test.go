@@ -56,6 +56,9 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_core_cross_connect_group.test_cross_connect_group"
 	datasourceName := "data.oci_core_cross_connect_groups.test_cross_connect_groups"
 	singularDatasourceName := "data.oci_core_cross_connect_group.test_cross_connect_group"
@@ -98,6 +101,28 @@ func TestCoreCrossConnectGroupResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CrossConnectGroupResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Optional, Create,
+						representationCopyWithNewProperties(crossConnectGroupRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
 						return err
 					},
 				),
