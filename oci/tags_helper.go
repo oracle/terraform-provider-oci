@@ -24,9 +24,8 @@ func definedTagsToMap(definedTags map[string]map[string]interface{}) map[string]
 }
 
 func mapToDefinedTags(rawMap map[string]interface{}) (map[string]map[string]interface{}, error) {
-	var definedTags map[string]map[string]interface{}
+	definedTags := make(map[string]map[string]interface{})
 	if len(rawMap) > 0 {
-		definedTags = make(map[string]map[string]interface{})
 		for key, value := range rawMap {
 			var keyComponents = strings.Split(key, ".")
 			if len(keyComponents) != 2 {

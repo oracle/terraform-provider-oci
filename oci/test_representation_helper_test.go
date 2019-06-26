@@ -245,7 +245,7 @@ const (
 `
 )
 
-func TestGenerateResourceRepresentationFromMap(t *testing.T) {
+func TestUnitGenerateResourceRepresentationFromMap(t *testing.T) {
 	assert := assert.New(t)
 
 	nested2Map := map[string]interface{}{
