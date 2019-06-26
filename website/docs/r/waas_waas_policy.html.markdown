@@ -211,7 +211,7 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
 The following arguments are supported:
 
 * `additional_domains` - (Optional) (Updatable) An array of additional domains for the specified web application.
-* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to create the WAAS policy.
+* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to create the WAAS policy.
 * `defined_tags` - (Optional) (Updatable) A key-value pair with a defined schema that restricts the values of tags. These predefined keys are scoped to namespaces.
 * `display_name` - (Optional) (Updatable) A user-friendly name for the WAAS policy. The name is can be changed and does not need to be unique.
 * `domain` - (Required) The web application domain that the WAAS policy protects.
