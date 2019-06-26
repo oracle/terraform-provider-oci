@@ -25,7 +25,6 @@ func CoreNatGatewayResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"vcn_id": {
 				Type:     schema.TypeString,
@@ -207,6 +206,15 @@ func (s *CoreNatGatewayResourceCrud) Get() error {
 }
 
 func (s *CoreNatGatewayResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_core.UpdateNatGatewayRequest{}
 
 	if blockTraffic, ok := s.D.GetOkExists("block_traffic"); ok {
@@ -290,5 +298,23 @@ func (s *CoreNatGatewayResourceCrud) SetData() error {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
+	return nil
+}
+
+func (s *CoreNatGatewayResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangeNatGatewayCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.NatGatewayId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.ChangeNatGatewayCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
 	return nil
 }

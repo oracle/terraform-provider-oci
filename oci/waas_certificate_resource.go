@@ -6,6 +6,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
+
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 

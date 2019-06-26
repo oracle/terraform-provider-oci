@@ -12,16 +12,8 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
 
-	core "github.com/oracle/oci-go-sdk/core"
-	"github.com/stretchr/testify/suite"
+	"github.com/oracle/oci-go-sdk/core"
 )
-
-type ResourceCoreDHCPOptionsTestSuite struct {
-	suite.Suite
-	Providers    map[string]terraform.ResourceProvider
-	Config       string
-	ResourceName string
-}
 
 var defaultDhcpOpts = `
 resource "oci_core_default_dhcp_options" "default" {
@@ -54,10 +46,61 @@ var additionalDhcpOption4 = `
 		}
 	}`
 
-func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
-	s.Providers = testAccProviders
-	testAccPreCheck(s.T())
-	s.Config = legacyTestProviderConfig() + `
+//If you set DhcpDnsOption to `VcnLocalPlusInternet`, and you assign a DNS label to the VCN during creation, the search domain name in the VCN's default set of DHCP options is automatically set to the VCN domain
+//To avoid multiple applies we perform an apply after the create in order have the options match what the user has in the config
+//This test makes sure we handle that case correctly and that there is a non empty plan after the apply
+func TestResourceCoreDHCPOptions_avoidServiceDefault(t *testing.T) {
+	httpreplay.SetScenario("TestAccResourceCoreDHCPOptions_avoidServiceDefault")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			{
+				Config: legacyTestProviderConfig() + defaultDhcpOpts + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block     = "10.1.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						display_name   = "testVcn"
+						dns_label      = "tftestvcn"
+					}
+
+					resource "oci_core_dhcp_options" "opt" {
+						compartment_id = "${var.compartment_id}"
+  						vcn_id         = "${oci_core_virtual_network.t.id}"
+  						display_name   = "testDhcpOptions"
+
+  						// required
+  						options {
+ 					    	type        = "DomainNameServer"
+						    server_type = "VcnLocalPlusInternet"
+					    }
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "display_name", "testDhcpOptions"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "options.#", "1"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "options.0.type", "DomainNameServer"),
+					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "options.0.server_type", "VcnLocalPlusInternet"),
+				),
+			},
+		},
+	})
+}
+
+func TestResourceCoreDHCPOptions_basic(t *testing.T) {
+	httpreplay.SetScenario("TestAccResourceCoreDHCPOptions_basic")
+	defer httpreplay.SaveScenario()
+
+	var resDefaultId, resOpt4Id, resId2 string
+
+	provider := testAccProvider
+
+	config := legacyTestProviderConfig() + `
 	resource "oci_core_virtual_network" "t" {
 		cidr_block = "10.0.0.0/16"
 		compartment_id = "${var.compartment_id}"
@@ -104,13 +147,12 @@ func (s *ResourceCoreDHCPOptionsTestSuite) SetupTest() {
 			custom_dns_servers = [ "8.8.4.4", "8.8.8.8" ]
 		}
 	}`
-}
 
-func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic() {
-	var resDefaultId, resOpt4Id, resId2 string
-
-	resource.Test(s.T(), resource.TestCase{
-		Providers: s.Providers,
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
 		Steps: []resource.TestStep{
 			// Test invalid options type
 			{
@@ -156,7 +198,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 			},
 			// Verify result of strange polymorphic options
 			{
-				Config: s.Config,
+				Config: config,
 				Check:  nil,
 			},
 			{
@@ -181,7 +223,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 				ExpectError: regexp.MustCompile("InvalidParameter.*JSON input"),
 			},
 			{
-				Config: s.Config + additionalDhcpOption4 + defaultDhcpOpts,
+				Config: config + additionalDhcpOption4 + defaultDhcpOpts,
 				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "display_name", "display_name1"),
@@ -259,12 +301,12 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 			},
 			// Verify removing default DHCP options
 			{
-				Config: s.Config + additionalDhcpOption4,
+				Config: config + additionalDhcpOption4,
 				Check:  nil,
 			},
 			// Verify adding default DHCP options again
 			{
-				Config: s.Config + additionalDhcpOption4 + defaultDhcpOpts,
+				Config: config + additionalDhcpOption4 + defaultDhcpOpts,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.type", "DomainNameServer"),
 					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.server_type", "CustomDnsServer"),
@@ -290,7 +332,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 			},
 			// ensure that changing the case for options.?.type (polymorphic discriminator) is a no-op.
 			{
-				Config: s.Config + `
+				Config: config + `
 					resource "oci_core_dhcp_options" "opt4" { # Same as additionalDhcpOption4 but with diff casing for 'type'.
 						compartment_id = "${var.compartment_id}"
 						vcn_id = "${oci_core_virtual_network.t.id}"
@@ -309,7 +351,7 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 			},
 			// Changing to a different vcn should be a ForceNew
 			{
-				Config: s.Config + `
+				Config: config + `
 					resource "oci_core_dhcp_options" "opt4" { # Same as alternate additionalDhcpOption4 above, but with diff vcn.
 						compartment_id = "${var.compartment_id}"
 						vcn_id = "${oci_core_virtual_network.t2.id}"
@@ -336,10 +378,4 @@ func (s *ResourceCoreDHCPOptionsTestSuite) TestAccResourceCoreDHCPOptions_basic(
 			},
 		},
 	})
-}
-
-func TestResourceCoreDHCPOptionsTestSuite(t *testing.T) {
-	httpreplay.SetScenario("TestResourceCoreDHCPOptionsTestSuite")
-	defer httpreplay.SaveScenario()
-	suite.Run(t, new(ResourceCoreDHCPOptionsTestSuite))
 }

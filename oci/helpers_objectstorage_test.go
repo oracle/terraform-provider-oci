@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestSafe_splitSizeToOffsetsAndLimits(t *testing.T) {
+func TestUnitSafe_splitSizeToOffsetsAndLimits(t *testing.T) {
 
 	offsets, _, _ := splitSizeToOffsetsAndLimits(defaultFilePartSize*8 + 1)
 	if len(offsets) != 9 {
