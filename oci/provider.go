@@ -4,15 +4,12 @@ package provider
 
 import (
 	"crypto/rsa"
-	"crypto/tls"
 	"fmt"
 	"io/ioutil"
 	"math"
-	"net"
-	"net/http"
 	"os"
 	"path/filepath"
-	"runtime"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -21,8 +18,16 @@ import (
 	"github.com/hashicorp/terraform/helper/validation"
 	"github.com/hashicorp/terraform/terraform"
 
+	"crypto/tls"
+	"crypto/x509"
+	"net"
+	"net/http"
+	"runtime"
+
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_common_auth "github.com/oracle/oci-go-sdk/common/auth"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var descriptions map[string]string
@@ -31,6 +36,10 @@ var ociProvider *schema.Provider
 
 var terraformCLIVersion = unknownTerraformCLIVersion
 var avoidWaitingForDeleteTarget bool
+
+type ConfigureClient func(client *oci_common.BaseClient) error
+
+var configureClient ConfigureClient // global fn ref used to configure all clients initially and others later on
 
 const (
 	authAPIKeySetting                     = "ApiKey"
@@ -632,8 +641,8 @@ func getCertificateFileBytes(certificateFileFullPath string) (pemRaw []byte, err
 	return
 }
 
-func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
-	clients = &OracleClients{configuration: map[string]string{}}
+func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
+	clients := &OracleClients{configuration: map[string]string{}}
 
 	if d.Get(disableAutoRetriesAttrName).(bool) {
 		shortRetryTime = 0
@@ -648,26 +657,44 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 	}
 
 	auth := strings.ToLower(d.Get(authAttrName).(string))
-	clients.(*OracleClients).configuration[authAttrName] = auth
+	clients.configuration[authAttrName] = auth
 
-	if ociProvider != nil && len(ociProvider.TerraformVersion) > 0 {
-		terraformCLIVersion = ociProvider.TerraformVersion
-	}
-	userAgentProviderName := getEnvSettingWithDefault(userAgentProviderNameEnv, defaultUserAgentProviderName)
-	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), terraformCLIVersion, userAgentProviderName, Version)
-
-	httpClient := &http.Client{
-		Timeout: defaultRequestTimeout,
-		Transport: &http.Transport{
-			DialContext: (&net.Dialer{
-				Timeout: defaultConnectionTimeout,
-			}).DialContext,
-			TLSHandshakeTimeout: defaultTLSHandshakeTimeout,
-			TLSClientConfig:     &tls.Config{MinVersion: tls.VersionTLS12},
-			Proxy:               http.ProxyFromEnvironment,
-		},
+	configProviders, err := getConfigProviders(d, auth)
+	if err != nil {
+		return nil, err
 	}
 
+	configProviders = append(configProviders, ResourceDataConfigProvider{d})
+
+	// TODO: DefaultConfigProvider will return us a composingConfigurationProvider that reads from SDK config files,
+	// and then from the environment variables ("TF_VAR" prefix). References to "TF_VAR" prefix should be removed from
+	// the SDK, since it's Terraform specific. When that happens, we need to update this to pass in the right prefix.
+	configProviders = append(configProviders, oci_common.DefaultConfigProvider())
+
+	sdkConfigProvider, err := oci_common.ComposingConfigurationProvider(configProviders)
+	if err != nil {
+		return nil, err
+	}
+
+	httpClient := buildHttpClient()
+
+	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
+	configureClient, err = buildConfigureClientFn(sdkConfigProvider, httpClient)
+	if err != nil {
+		return nil, err
+	}
+
+	err = createSDKClients(clients, sdkConfigProvider, configureClient)
+	if err != nil {
+		return nil, err
+	}
+
+	avoidWaitingForDeleteTarget, _ = strconv.ParseBool(getEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
+
+	return clients, nil
+}
+
+func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.ConfigurationProvider, error) {
 	var configProviders []oci_common.ConfigurationProvider
 
 	switch auth {
@@ -740,26 +767,100 @@ func ProviderConfig(d *schema.ResourceData) (clients interface{}, err error) {
 		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting)
 	}
 
-	configProviders = append(configProviders, ResourceDataConfigProvider{d})
+	return configProviders, nil
+}
 
-	// TODO: DefaultConfigProvider will return us a composingConfigurationProvider that reads from SDK config files,
-	// and then from the environment variables ("TF_VAR" prefix). References to "TF_VAR" prefix should be removed from
-	// the SDK, since it's Terraform specific. When that happens, we need to update this to pass in the right prefix.
-	configProviders = append(configProviders, oci_common.DefaultConfigProvider())
+func buildHttpClient() (httpClient *http.Client) {
+	httpClient = &http.Client{
+		Timeout: defaultRequestTimeout,
+		Transport: &http.Transport{
+			DialContext: (&net.Dialer{
+				Timeout: defaultConnectionTimeout,
+			}).DialContext,
+			TLSHandshakeTimeout: defaultTLSHandshakeTimeout,
+			TLSClientConfig:     &tls.Config{MinVersion: tls.VersionTLS12},
+			Proxy:               http.ProxyFromEnvironment,
+		},
+	}
+	return
+}
 
-	officialSdkConfigProvider, err := oci_common.ComposingConfigurationProvider(configProviders)
+func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, httpClient *http.Client) (ConfigureClient, error) {
+
+	if ociProvider != nil && len(ociProvider.TerraformVersion) > 0 {
+		terraformCLIVersion = ociProvider.TerraformVersion
+	}
+	userAgentProviderName := getEnvSettingWithDefault(userAgentProviderNameEnv, defaultUserAgentProviderName)
+	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), terraformCLIVersion, userAgentProviderName, Version)
+
+	useOboToken, err := strconv.ParseBool(getEnvSettingWithDefault("use_obo_token", "false"))
 	if err != nil {
 		return nil, err
 	}
 
-	err = setGoSDKClients(clients.(*OracleClients), officialSdkConfigProvider, httpClient, userAgent)
-	if err != nil {
-		return nil, err
+	simulateDb, _ := strconv.ParseBool(getEnvSettingWithDefault("simulate_db", "false"))
+
+	requestSigner := oci_common.DefaultRequestSigner(configProvider)
+	var oboTokenProvider OboTokenProvider
+	oboTokenProvider = emptyOboTokenProvider{}
+	if useOboToken {
+		// Add Obo token to the default list and update the signer
+		httpHeadersToSign := append(oci_common.DefaultGenericHeaders(), requestHeaderOpcOboToken)
+		requestSigner = oci_common.RequestSigner(configProvider, httpHeadersToSign, oci_common.DefaultBodyHeaders())
+		oboTokenProvider = oboTokenProviderFromEnv{}
 	}
 
-	avoidWaitingForDeleteTarget, _ = strconv.ParseBool(getEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
+	configureClientFn := func(client *oci_common.BaseClient) error {
+		client.HTTPClient = httpClient
+		client.UserAgent = userAgent
+		client.Signer = requestSigner
+		client.Interceptor = func(r *http.Request) error {
+			if oboToken, err := oboTokenProvider.OboToken(); err == nil && oboToken != "" {
+				r.Header.Set(requestHeaderOpcOboToken, oboToken)
+			}
 
-	return clients, nil
+			if simulateDb {
+				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems") || strings.Contains(r.URL.Path, "/autonomousData") || strings.Contains(r.URL.Path, "/dataGuardAssociations") || strings.Contains(r.URL.Path, "/autonomousExadata")) {
+					r.Header.Set(requestHeaderOpcHostSerial, "FAKEHOSTSERIAL")
+				}
+			}
+			return nil
+		}
+
+		domainNameOverride := getEnvSettingWithBlankDefault(domainNameOverrideEnv)
+
+		if domainNameOverride != "" {
+			re := regexp.MustCompile(`(.*?)[-\w]+\.\w+$`)                             // (capture: preamble) match: d0main-name . tld end-of-string
+			client.Host = re.ReplaceAllString(client.Host, "${1}"+domainNameOverride) // non-match conveniently returns original string
+		}
+
+		customCertLoc := getEnvSettingWithBlankDefault(customCertLocationEnv)
+
+		if customCertLoc != "" {
+			cert, err := ioutil.ReadFile(customCertLoc)
+			if err != nil {
+				return err
+			}
+			pool := x509.NewCertPool()
+			if ok := pool.AppendCertsFromPEM(cert); !ok {
+				return fmt.Errorf("failed to append custom cert to the pool")
+			}
+			// install the certificates in the client
+			httpClient.Transport.(*http.Transport).TLSClientConfig.RootCAs = pool
+		}
+
+		// install the hook for HTTP replaying
+		if h, ok := client.HTTPClient.(*http.Client); ok {
+			_, err := httpreplay.InstallRecorder(h)
+			if err != nil {
+				return err
+			}
+		}
+
+		return nil
+	}
+
+	return configureClientFn, nil
 }
 
 type ResourceDataConfigProvider struct {
@@ -830,7 +931,7 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 	if privateKeyPath, hasPrivateKeyPath := p.D.GetOkExists(privateKeyPathAttrName); hasPrivateKeyPath {
 		pemFileContent, readFileErr := ioutil.ReadFile(privateKeyPath.(string))
 		if readFileErr != nil {
-			return nil, fmt.Errorf("Can not read private key from: '%s', Error: %q", privateKeyPath, readFileErr)
+			return nil, fmt.Errorf("can not read private key from: '%s', Error: %q", privateKeyPath, readFileErr)
 		}
 		return oci_common.PrivateKeyFromBytes(pemFileContent, &password)
 	}

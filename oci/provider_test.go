@@ -12,6 +12,11 @@ import (
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
+	"crypto/tls"
+	"io/ioutil"
+	"os"
+	"time"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -428,6 +433,151 @@ func TestUnitProviderConfig(t *testing.T) {
 	providerConfigTest(t, false, true, authAPIKeySetting)             // ApiKey without required fields
 	providerConfigTest(t, false, false, authInstancePrincipalSetting) // InstancePrincipal
 	providerConfigTest(t, true, false, "invalid-auth-setting")        // Invalid auth + disable auto-retries
+}
+
+// ensure the http client is configured with the expected settings
+func TestUnitBuildHttpClient(t *testing.T) {
+	client := buildHttpClient()
+	assert.Equal(t, time.Duration(defaultRequestTimeout), client.Timeout)
+
+	tr := client.Transport.(*http.Transport)
+	assert.NotNil(t, tr.TLSClientConfig)
+	assert.Equal(t, uint16(tls.VersionTLS12), tr.TLSClientConfig.MinVersion, "expected min tls 1.2")
+	assert.NotNil(t, tr.Proxy, "expected http.ProxyFromEnvironment fn")
+}
+
+// ensure desired http client settings are not removed when sdk clients are configured
+func TestUnitBuildClientConfigureFn(t *testing.T) {
+	configProvider := oci_common.DefaultConfigProvider()
+	httpClient := buildHttpClient()
+	configureClientFn, err := buildConfigureClientFn(configProvider, httpClient)
+	assert.NoError(t, err)
+
+	baseClient := &oci_common.BaseClient{}
+	err = configureClientFn(baseClient)
+	assert.NoError(t, err)
+
+	tr := httpClient.Transport.(*http.Transport)
+	assert.NotNil(t, tr.TLSClientConfig)
+	assert.Equal(t, uint16(tls.VersionTLS12), tr.TLSClientConfig.MinVersion, "expected min tls 1.2")
+	assert.NotNil(t, tr.Proxy, "expected http.ProxyFromEnvironment fn")
+}
+
+// ensure custom certs can be added to the cert pool and expected http client settings are preserved
+func TestUnitBuildClientConfigureFn_withCustomCert(t *testing.T) {
+	ca := "-----BEGIN CERTIFICATE-----\nMIIC9jCCAd4CCQD2rPUVJETHGzANBgkqhkiG9w0BAQsFADA9MQswCQYDVQQGEwJV\nUzELMAkGA1UECAwCV0ExEDAOBgNVBAcMB1NlYXR0bGUxDzANBgNVBAoMBk9yYWNs\nZTAeFw0xOTAxMTcyMjU4MDVaFw0yMTAxMTYyMjU4MDVaMD0xCzAJBgNVBAYTAlVT\nMQswCQYDVQQIDAJXQTEQMA4GA1UEBwwHU2VhdHRsZTEPMA0GA1UECgwGT3JhY2xl\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA30+wt7OlUB/YpmWbTRkx\nnLG0lKWiV+oupNKj8luXmC5jvOFTUejt1pQhpA47nCqywlOAfk2N8hJWTyJZUmKU\n+DWVV2So2B/obYxpiiyWF2tcF/cYi1kBYeAIu5JkVFwDe4ITK/oQUFEhIn3Qg/oC\nMQ2985/MTdCXONgnbmePU64GrJwfvOeJcQB3VIL1BBfISj4pPw5708qTRv5MJBOO\njLKRM68KXC5us4879IrSA77NQr1KwjGnQlykyCgGvvgwgrUTd5c/dH8EKrZVcFi6\nytM66P/1CTpk1YpbI4gqiG0HBbuXG4JRIjyzW4GT4JXeSjgvrkIYL8k/M4Az1WEc\n2wIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAuI53m8Va6EafDi6GQdQrzNNQFCAVQ\nxIABAB0uaSYCs3H+pqTktHzOrOluSUEogXRl0UU5/OuvxAz4idA4cfBdId4i7AcY\nqZsBjA/xqH/rxR3pcgfaGyxQzrUsJFf0ZwnzqYJs7fUvuatHJYi/cRBxrKR2+4Oj\nlUbb9TSmezlzHK5CaD5XzN+lZqbsSvN3OQbOryJCbtjZVQFGZ1SmL6OLrwpbBKuP\nn2ob+gaP57YSzO3zk1NDXMlQPHRsdSOqocyKx8y+7J0g6MqPvBzIe+wI3QW85MQY\nj1/IHmj84LNGp7pHCyiYx/oI+00gRch04H2pJv0TP3sAQ37gplBwDrUo\n-----END CERTIFICATE-----"
+	tempCert, err := ioutil.TempFile("", "caCert*.pem")
+	if err != nil {
+		t.Error(err)
+	}
+	defer os.Remove(tempCert.Name())
+
+	if _, err := tempCert.Write([]byte(ca)); err != nil {
+		t.Error(err)
+	}
+	if err := tempCert.Close(); err != nil {
+		t.Error(err)
+	}
+
+	prevEnvVar, hadPreviousEnvVar := os.LookupEnv(customCertLocationEnv)
+	if hadPreviousEnvVar {
+		defer os.Setenv(customCertLocationEnv, prevEnvVar)
+	} else {
+		defer os.Unsetenv(customCertLocationEnv)
+	}
+
+	os.Setenv(customCertLocationEnv, tempCert.Name())
+	assert.Equal(t, tempCert.Name(), getEnvSettingWithBlankDefault(customCertLocationEnv))
+	configProvider := oci_common.DefaultConfigProvider()
+	httpClient := buildHttpClient()
+	configureClientFn, err := buildConfigureClientFn(configProvider, httpClient)
+	assert.NoError(t, err)
+
+	baseClient := &oci_common.BaseClient{}
+	err = configureClientFn(baseClient)
+	assert.NoError(t, err)
+
+	tr := httpClient.Transport.(*http.Transport)
+	assert.NotNil(t, tr.TLSClientConfig)
+	assert.Equal(t, uint16(tls.VersionTLS12), tr.TLSClientConfig.MinVersion, "expected min tls 1.2")
+	assert.NotNil(t, tr.Proxy, "expected http.ProxyFromEnvironment fn")
+	assert.NotNil(t, tr.TLSClientConfig.RootCAs)
+}
+
+// ensure a custom domain can be targeted and expected http client settings are preserved
+func TestUnitBuildClientConfigureFn_withDomainNameOverride(t *testing.T) {
+
+	prevEnvVar, hadPreviousEnvVar := os.LookupEnv(domainNameOverrideEnv)
+	if hadPreviousEnvVar {
+		defer os.Setenv(domainNameOverrideEnv, prevEnvVar)
+	} else {
+		defer os.Unsetenv(domainNameOverrideEnv)
+	}
+
+	os.Setenv(domainNameOverrideEnv, "0r4-c10ud.com")
+	assert.Equal(t, "0r4-c10ud.com", getEnvSettingWithBlankDefault(domainNameOverrideEnv))
+	configProvider := oci_common.DefaultConfigProvider()
+	httpClient := buildHttpClient()
+	configureClientFn, err := buildConfigureClientFn(configProvider, httpClient)
+	assert.NoError(t, err)
+
+	baseClient := &oci_common.BaseClient{}
+	baseClient.Host = "https://svc.region.oraclecloud.com"
+	err = configureClientFn(baseClient)
+	assert.NoError(t, err)
+
+	// verify transport settings are unchanged
+	tr := httpClient.Transport.(*http.Transport)
+	assert.NotNil(t, tr.TLSClientConfig)
+	assert.Equal(t, uint16(tls.VersionTLS12), tr.TLSClientConfig.MinVersion, "expected min tls 1.2")
+	assert.NotNil(t, tr.Proxy, "expected http.ProxyFromEnvironment fn")
+	assert.Nil(t, tr.TLSClientConfig.RootCAs)
+
+	// verify url has expected domain
+	assert.Equal(t, `https://svc.region.0r4-c10ud.com`, baseClient.Host)
+
+	// verify subdomains are preserved
+	baseClient = &oci_common.BaseClient{}
+	baseClient.Host = "avnzdivwaadfa-management.kms.us-phoenix-1.oraclecloud.com"
+	err = configureClientFn(baseClient)
+	assert.NoError(t, err)
+	assert.Equal(t, `avnzdivwaadfa-management.kms.us-phoenix-1.0r4-c10ud.com`, baseClient.Host)
+
+	// verify non-match preserves original url
+	baseClient = &oci_common.BaseClient{}
+	baseClient.Host = "DUMMY_ENDPOINT"
+	err = configureClientFn(baseClient)
+	assert.NoError(t, err)
+	assert.Equal(t, `DUMMY_ENDPOINT`, baseClient.Host)
+}
+
+// ensure use_obo_token env var results in `opc-obo-token` http header injection
+func TestUnitBuildClientConfigureFn_interceptor(t *testing.T) {
+
+	prevEnvVar, hadPreviousEnvVar := os.LookupEnv("use_obo_token")
+	if hadPreviousEnvVar {
+		defer os.Setenv("use_obo_token", prevEnvVar)
+	} else {
+		defer os.Unsetenv("use_obo_token")
+	}
+
+	os.Setenv("use_obo_token", "true")
+	os.Setenv(oboTokenAttrName, "fake-token")
+	defer os.Unsetenv(oboTokenAttrName)
+	assert.Equal(t, "true", getEnvSettingWithBlankDefault("use_obo_token"))
+	configProvider := oci_common.DefaultConfigProvider()
+	httpClient := buildHttpClient()
+	configureClientFn, err := buildConfigureClientFn(configProvider, httpClient)
+	assert.NoError(t, err)
+
+	baseClient := &oci_common.BaseClient{}
+	err = configureClientFn(baseClient)
+	assert.NoError(t, err)
+
+	assert.NotNil(t, baseClient.Interceptor)
+	r, _ := http.NewRequest("GET", "cloud.com", nil)
+	baseClient.Interceptor(r)
+	assert.Equal(t, "fake-token", r.Header.Get(requestHeaderOpcOboToken))
 }
 
 func TestUnitVerifyConfigForAPIKeyAuthIsNotSet_basic(t *testing.T) {
