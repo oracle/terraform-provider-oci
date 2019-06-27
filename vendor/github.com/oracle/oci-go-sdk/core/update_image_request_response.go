@@ -11,7 +11,7 @@ import (
 // UpdateImageRequest wrapper for the UpdateImage operation
 type UpdateImageRequest struct {
 
-	// The OCID of the image.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image.
 	ImageId *string `mandatory:"true" contributesTo:"path" name:"imageId"`
 
 	// Updates the image display name field. Avoid entering confidential information.
