@@ -17,7 +17,9 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// InstanceConfiguration Instance Configuration
+// InstanceConfiguration An instance configuration is a template that defines the settings to use when creating Compute instances
+// as part of an instance pool. For more information about instance pools and instance configurations, see
+// Managing Compute Instances (https://docs.cloud.oracle.com/Content/Compute/Concepts/instancemanagement.htm).
 type InstanceConfiguration struct {
 
 	// The OCID of the compartment containing the instance configuration.
