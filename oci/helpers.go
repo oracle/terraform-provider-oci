@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"os"
 	"time"
 
 	"strconv"
@@ -152,4 +153,17 @@ func randomStringOrHttpReplayValue(length int, charset string, httpReplayValue s
 		return httpReplayValue
 	}
 	return randomString(length, charset)
+}
+
+// Set the state for the input source file using the file path and last modification time
+// this information helps us to identify if the file has changed.
+func getSourceFileState(source interface{}) string {
+	sourcePath := source.(string)
+	sourceInfo, err := os.Stat(sourcePath)
+
+	if err != nil {
+		return sourcePath
+	}
+
+	return sourcePath + " " + sourceInfo.ModTime().String()
 }

@@ -20,6 +20,7 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
+	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
@@ -83,6 +84,14 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		return
 	}
 	fileStorageClient, err := oci_file_storage.NewFileStorageClientWithConfigurationProvider(officialSdkConfigProvider)
+	if err != nil {
+		return
+	}
+	functionsInvokeClient, err := oci_functions.NewFunctionsInvokeClientWithConfigurationProvider(officialSdkConfigProvider, "DUMMY_ENDPOINT")
+	if err != nil {
+		return
+	}
+	functionsManagementClient, err := oci_functions.NewFunctionsManagementClientWithConfigurationProvider(officialSdkConfigProvider)
 	if err != nil {
 		return
 	}
@@ -253,6 +262,14 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	if err != nil {
 		return
 	}
+	err = configureClient(&functionsInvokeClient.BaseClient)
+	if err != nil {
+		return
+	}
+	err = configureClient(&functionsManagementClient.BaseClient)
+	if err != nil {
+		return
+	}
 	err = configureClient(&healthChecksClient.BaseClient)
 	if err != nil {
 		return
@@ -317,6 +334,8 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 	clients.dnsClient = &dnsClient
 	clients.emailClient = &emailClient
 	clients.fileStorageClient = &fileStorageClient
+	clients.functionsInvokeClient = &functionsInvokeClient
+	clients.functionsManagementClient = &functionsManagementClient
 	clients.healthChecksClient = &healthChecksClient
 	clients.identityClient = &identityClient
 	clients.kmsCryptoClient = &kmsCryptoClient
@@ -346,6 +365,8 @@ type OracleClients struct {
 	dnsClient                      *oci_dns.DnsClient
 	emailClient                    *oci_email.EmailClient
 	fileStorageClient              *oci_file_storage.FileStorageClient
+	functionsInvokeClient          *oci_functions.FunctionsInvokeClient
+	functionsManagementClient      *oci_functions.FunctionsManagementClient
 	healthChecksClient             *oci_health_checks.HealthChecksClient
 	identityClient                 *oci_identity.IdentityClient
 	kmsCryptoClient                *oci_kms.KmsCryptoClient
@@ -375,6 +396,17 @@ func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClie
 
 func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManagementClient, error) {
 	if client, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(*m.kmsManagementClient.ConfigurationProvider(), endpoint); err == nil {
+		if err = configureClient(&client.BaseClient); err != nil {
+			return nil, err
+		}
+		return &client, nil
+	} else {
+		return nil, err
+	}
+}
+
+func (m *OracleClients) FunctionsInvokeClient(endpoint string) (*oci_functions.FunctionsInvokeClient, error) {
+	if client, err := oci_functions.NewFunctionsInvokeClientWithConfigurationProvider(*m.functionsInvokeClient.ConfigurationProvider(), endpoint); err == nil {
 		if err = configureClient(&client.BaseClient); err != nil {
 			return nil, err
 		}
