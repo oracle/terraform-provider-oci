@@ -214,6 +214,7 @@ github.com/oracle/oci-go-sdk/database
 github.com/oracle/oci-go-sdk/dns
 github.com/oracle/oci-go-sdk/email
 github.com/oracle/oci-go-sdk/filestorage
+github.com/oracle/oci-go-sdk/functions
 github.com/oracle/oci-go-sdk/healthchecks
 github.com/oracle/oci-go-sdk/identity
 github.com/oracle/oci-go-sdk/keymanagement

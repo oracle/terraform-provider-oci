@@ -7,6 +7,7 @@ var DependencyGraph map[string][]string
 func initDependencyGraph() {
 	DependencyGraph = make(map[string][]string)
 
+	DependencyGraph["application"] = append(DependencyGraph["application"], "FunctionsFunction")
 	DependencyGraph["asset"] = append(DependencyGraph["asset"], "CoreVolumeBackupPolicyAssignment")
 	DependencyGraph["autonomousContainerDatabase"] = append(DependencyGraph["autonomousContainerDatabase"], "DatabaseAutonomousDatabase")
 	DependencyGraph["autonomousDataWarehouse"] = append(DependencyGraph["autonomousDataWarehouse"], "DatabaseAutonomousDataWarehouseBackup")
@@ -35,6 +36,7 @@ func initDependencyGraph() {
 	DependencyGraph["farCrossConnectOrCrossConnectGroup"] = append(DependencyGraph["farCrossConnectOrCrossConnectGroup"], "CoreCrossConnect")
 	DependencyGraph["fileSystem"] = append(DependencyGraph["fileSystem"], "FileStorageExport")
 	DependencyGraph["fileSystem"] = append(DependencyGraph["fileSystem"], "FileStorageSnapshot")
+	DependencyGraph["function"] = append(DependencyGraph["function"], "FunctionsInvokeFunction")
 	DependencyGraph["gateway"] = append(DependencyGraph["gateway"], "CoreVirtualCircuit")
 	DependencyGraph["group"] = append(DependencyGraph["group"], "IdentityIdpGroupMapping")
 	DependencyGraph["group"] = append(DependencyGraph["group"], "IdentityUserGroupMembership")
