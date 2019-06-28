@@ -11,7 +11,7 @@ This data source provides details about a specific Configuration resource in Ora
 
 Get the configuration
 
-## Example Usage
+## Example Usage 
 
 ```hcl
 data "oci_audit_configuration" "test_configuration" {
