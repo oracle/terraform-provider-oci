@@ -3,7 +3,7 @@
 
 ### Added
 - Support for moving `email sender` resource between compartments. 
-- Support for moving NAT Gateway resource across Compartments.
+- Support for moving NAT Gateway resource across Compartments. 
 
 ### Fixed
 - Fix for `defined_tags` property deletion bug
