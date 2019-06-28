@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	"strings"
 
 	"github.com/zclconf/go-cty/cty"
 	ctyconvert "github.com/zclconf/go-cty/cty/convert"
@@ -492,7 +491,12 @@ func (s *GRPCProviderServer) Configure(_ context.Context, req *proto.Configure_R
 }
 
 func (s *GRPCProviderServer) ReadResource(_ context.Context, req *proto.ReadResource_Request) (*proto.ReadResource_Response, error) {
-	resp := &proto.ReadResource_Response{}
+	resp := &proto.ReadResource_Response{
+		// helper/schema did previously handle private data during refresh, but
+		// core is now going to expect this to be maintained in order to
+		// persist it in the state.
+		Private: req.Private,
+	}
 
 	res := s.provider.ResourcesMap[req.TypeName]
 	schemaBlock := s.getResourceSchemaBlock(req.TypeName)
@@ -508,6 +512,15 @@ func (s *GRPCProviderServer) ReadResource(_ context.Context, req *proto.ReadReso
 		resp.Diagnostics = convert.AppendProtoDiag(resp.Diagnostics, err)
 		return resp, nil
 	}
+
+	private := make(map[string]interface{})
+	if len(req.Private) > 0 {
+		if err := json.Unmarshal(req.Private, &private); err != nil {
+			resp.Diagnostics = convert.AppendProtoDiag(resp.Diagnostics, err)
+			return resp, nil
+		}
+	}
+	instanceState.Meta = private
 
 	newInstanceState, err := res.RefreshWithoutUpgrade(instanceState, s.provider.Meta())
 	if err != nil {
@@ -550,11 +563,6 @@ func (s *GRPCProviderServer) ReadResource(_ context.Context, req *proto.ReadReso
 	resp.NewState = &proto.DynamicValue{
 		Msgpack: newStateMP,
 	}
-
-	// helper/schema did previously handle private data during refresh, but
-	// core is now going to expect this to be maintained in order to
-	// persist it in the state.
-	resp.Private = req.Private
 
 	return resp, nil
 }
@@ -645,6 +653,7 @@ func (s *GRPCProviderServer) PlanResourceChange(_ context.Context, req *proto.Pl
 		// description that _shows_ there are no changes. This is always the
 		// prior state, because we force a diff above if this is a new instance.
 		resp.PlannedState = req.PriorState
+		resp.PlannedPrivate = req.PriorPrivate
 		return resp, nil
 	}
 
@@ -703,6 +712,18 @@ func (s *GRPCProviderServer) PlanResourceChange(_ context.Context, req *proto.Pl
 	}
 	resp.PlannedState = &proto.DynamicValue{
 		Msgpack: plannedMP,
+	}
+
+	// encode any timeouts into the diff Meta
+	t := &schema.ResourceTimeout{}
+	if err := t.ConfigDecode(res, cfg); err != nil {
+		resp.Diagnostics = convert.AppendProtoDiag(resp.Diagnostics, err)
+		return resp, nil
+	}
+
+	if err := t.DiffEncode(diff); err != nil {
+		resp.Diagnostics = convert.AppendProtoDiag(resp.Diagnostics, err)
+		return resp, nil
 	}
 
 	// Now we need to store any NewExtra values, which are where any actual
@@ -846,7 +867,6 @@ func (s *GRPCProviderServer) ApplyResourceChange(_ context.Context, req *proto.A
 		diff.Meta = private
 	}
 
-	var newRemoved []string
 	for k, d := range diff.Attributes {
 		// We need to turn off any RequiresNew. There could be attributes
 		// without changes in here inserted by helper/schema, but if they have
@@ -854,10 +874,8 @@ func (s *GRPCProviderServer) ApplyResourceChange(_ context.Context, req *proto.A
 		d.RequiresNew = false
 
 		// Check that any "removed" attributes that don't actually exist in the
-		// prior state, or helper/schema will confuse itself, and record them
-		// to make sure they are actually removed from the state.
+		// prior state, or helper/schema will confuse itself
 		if d.NewRemoved {
-			newRemoved = append(newRemoved, k)
 			if _, ok := priorState.Attributes[k]; !ok {
 				delete(diff.Attributes, k)
 			}
@@ -884,19 +902,6 @@ func (s *GRPCProviderServer) ApplyResourceChange(_ context.Context, req *proto.A
 			Msgpack: newStateMP,
 		}
 		return resp, nil
-	}
-
-	// Now remove any primitive zero values that were left from NewRemoved
-	// attributes. Any attempt to reconcile more complex structures to the best
-	// of our abilities happens in normalizeNullValues.
-	for _, r := range newRemoved {
-		if strings.HasSuffix(r, ".#") || strings.HasSuffix(r, ".%") {
-			continue
-		}
-		switch newInstanceState.Attributes[r] {
-		case "", "0", "false":
-			delete(newInstanceState.Attributes, r)
-		}
 	}
 
 	// We keep the null val if we destroyed the resource, otherwise build the
@@ -1201,6 +1206,8 @@ func normalizeNullValues(dst, src cty.Value, apply bool) cty.Value {
 		}
 	}
 
+	// check the invariants that we need below, to ensure we are working with
+	// non-null and known values.
 	if src.IsNull() || !src.IsKnown() || !dst.IsKnown() {
 		return dst
 	}
@@ -1319,8 +1326,12 @@ func normalizeNullValues(dst, src cty.Value, apply bool) cty.Value {
 			return cty.ListVal(dsts)
 		}
 
-	case ty.IsPrimitiveType():
-		if dst.IsNull() && src.IsWhollyKnown() && apply {
+	case ty == cty.String:
+		// The legacy SDK should not be able to remove a value during plan or
+		// apply, however we are only going to overwrite this if the source was
+		// an empty string, since that is what is often equated with unset and
+		// lost in the diff process.
+		if dst.IsNull() && src.AsString() == "" {
 			return src
 		}
 	}
@@ -1346,11 +1357,19 @@ func validateConfigNulls(v cty.Value, path cty.Path) []*proto.Diagnostic {
 		for it.Next() {
 			kv, ev := it.Element()
 			if ev.IsNull() {
+				// if this is a set, the kv is also going to be null which
+				// isn't a valid path element, so we can't append it to the
+				// diagnostic.
+				p := path
+				if !kv.IsNull() {
+					p = append(p, cty.IndexStep{Key: kv})
+				}
+
 				diags = append(diags, &proto.Diagnostic{
 					Severity:  proto.Diagnostic_ERROR,
 					Summary:   "Null value found in list",
 					Detail:    "Null values are not allowed for this attribute value.",
-					Attribute: convert.PathToAttributePath(append(path, cty.IndexStep{Key: kv})),
+					Attribute: convert.PathToAttributePath(p),
 				})
 				continue
 			}
