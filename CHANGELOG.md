@@ -5,6 +5,9 @@
 - Support for moving Instance Pools and Instance Configurations across compartments
 - Support for compartment move of auto-scaling configuration resource
 
+### Fixed
+- We were throwing an error for some resources if the resource no longer existed during refresh. This is fixed now. 
+
 ## 3.31.0 (June 26, 2019)
 
 ### Added
