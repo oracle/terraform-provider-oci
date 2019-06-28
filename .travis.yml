@@ -18,6 +18,10 @@ script:
 - make vet
 - make website-test
 
+branches:
+  only:
+  - master
+  - release_xyz
 matrix:
   fast_finish: true
   allow_failures:
