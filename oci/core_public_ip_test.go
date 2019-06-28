@@ -296,7 +296,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", displayName),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "lifetime", string(oci_core.PublicIpLifetimeReserved)),
-					resource.TestCheckNoResourceAttr(resourceName, "private_ip_id"), // Should not be defined in state
+					resource.TestCheckResourceAttr(resourceName, "private_ip_id", ""), // Still defined, but now empty.
 					resource.TestCheckNoResourceAttr(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "ip_address"),
 					resource.TestCheckResourceAttr(resourceName, "scope", string(oci_core.PublicIpScopeRegion)),
