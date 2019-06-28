@@ -21,7 +21,6 @@ script:
 branches:
   only:
   - master
-  - release_gh
 matrix:
   fast_finish: true
   allow_failures:
