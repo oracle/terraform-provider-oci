@@ -6,6 +6,7 @@
 - Support for moving NAT Gateway resource across Compartments. 
 
 ### Fixed
+
 - Fix for `defined_tags` property deletion bug
 
 ## Notes
