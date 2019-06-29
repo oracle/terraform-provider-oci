@@ -25,7 +25,6 @@ func HealthChecksHttpMonitorResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -269,6 +268,15 @@ func (s *HealthChecksHttpMonitorResourceCrud) Get() error {
 }
 
 func (s *HealthChecksHttpMonitorResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_health_checks.UpdateHttpMonitorRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -424,5 +432,23 @@ func (s *HealthChecksHttpMonitorResourceCrud) SetData() error {
 
 	s.D.Set("vantage_point_names", s.Res.VantagePointNames)
 
+	return nil
+}
+
+func (s *HealthChecksHttpMonitorResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_health_checks.ChangeHttpMonitorCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.MonitorId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+
+	_, err := s.Client.ChangeHttpMonitorCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
 	return nil
 }
