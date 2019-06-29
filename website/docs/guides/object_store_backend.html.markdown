@@ -107,7 +107,7 @@ update the backend `profile` option in your Terraform configuration file.
     Where `aws_access_key_id and aws_secret_access_key` are user-specific values provided from the Console. 
     The key values provided in the example are not valid and provided as examples only.
 
-4. Set the object storage endpoint value in the following format: `https://{tenancy}.compat.objectstorage.{region}.oraclecloud.com`
+4. Set the object storage endpoint value in the following format: `https://{namespace}.compat.objectstorage.{region}.oraclecloud.com`
 
 Following is a full example of an Object Storage backend configuration:
 
