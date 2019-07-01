@@ -10,6 +10,9 @@ description: |-
 This resource provides the Alarm resource in Oracle Cloud Infrastructure Monitoring service.
 
 Creates a new alarm in the specified compartment.
+For important limits information, see [Limits on Monitoring](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
+
+Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
 
 
 ## Example Usage
@@ -52,7 +55,7 @@ The following arguments are supported:
 * `body` - (Optional) (Updatable) The human-readable content of the notification delivered. Oracle recommends providing guidance to operators for resolving the alarm condition. Consider adding links to standard runbook practices. Avoid entering confidential information.  Example: `High CPU usage alert. Follow runbook instructions for resolution.` 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the alarm. 
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"Operations.CostCenter": "42"}` 
-* `destinations` - (Required) (Updatable) An array of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to which the notifications for this alarm will be delivered. An example destination is an OCID for a topic managed by the Oracle Cloud Infrastructure Notification service. 
+* `destinations` - (Required) (Updatable) A list of destinations to which the notifications for this alarm will be delivered.  Each destination is represented by an [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) related to the supported destination service. For example, a destination using the Notifications service is represented by a topic OCID.  Supported destination services: Notifications Service. Limit: One destination per supported destination service. 
 * `display_name` - (Required) (Updatable) A user-friendly name for the alarm. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 
 	This name is sent as the title for notifications related to this alarm.
@@ -114,7 +117,7 @@ The following attributes are exported:
 * `body` - The human-readable content of the notification delivered. Oracle recommends providing guidance to operators for resolving the alarm condition. Consider adding links to standard runbook practices. Avoid entering confidential information.  Example: `High CPU usage alert. Follow runbook instructions for resolution.` 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the alarm. 
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"Operations.CostCenter": "42"}` 
-* `destinations` - An array of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to which the notifications for this alarm will be delivered. An example destination is an OCID for a topic managed by the Oracle Cloud Infrastructure Notification service. 
+* `destinations` - A list of destinations to which the notifications for this alarm will be delivered.  Each destination is represented by an [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) related to the supported destination service. For example, a destination using the Notifications service is represented by a topic OCID.  Supported destination services: Notifications Service. Limit: One destination per supported destination service. 
 * `display_name` - A user-friendly name for the alarm. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 
 	This name is sent as the title for notifications related to this alarm.
