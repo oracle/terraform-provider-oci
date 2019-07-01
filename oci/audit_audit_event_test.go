@@ -44,7 +44,7 @@ func TestAuditAuditEventResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_audit_events", "test_audit_events", Required, Create, auditEventDataSourceRepresentation) +
+					 generateDataSourceFromRepresentationMap("oci_audit_events", "test_audit_events", Required, Create, auditEventDataSourceRepresentation) +
 					compartmentIdVariableStr + AuditEventResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
