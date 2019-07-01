@@ -7,6 +7,7 @@
 
 ### Fixed
 - We were throwing an error for some resources if the resource no longer existed during refresh. This is fixed now. 
+- Change to prevent "has conflicting state of UPDATING" error in multiple dbHomes case
 
 ## 3.31.0 (June 26, 2019)
 

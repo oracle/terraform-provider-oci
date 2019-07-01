@@ -734,9 +734,8 @@ func convertResourceFieldsToDatasourceFields(resourceSchema *schema.Resource) *s
 	return resourceSchema
 }
 
-func getRetryPolicyWithAdditionalretryCondition(timeout time.Duration, retryConditionFunction func(oci_common.OCIOperationResponse) bool, service string) *oci_common.RetryPolicy {
+func getRetryPolicyWithAdditionalRetryCondition(timeout time.Duration, retryConditionFunction func(oci_common.OCIOperationResponse) bool, service string) *oci_common.RetryPolicy {
 	startTime := time.Now()
-	// wait for status of the database to not be UPDATING
 	return &oci_common.RetryPolicy{
 		ShouldRetryOperation: func(response oci_common.OCIOperationResponse) bool {
 			if shouldRetry(response, false, service, startTime) {
