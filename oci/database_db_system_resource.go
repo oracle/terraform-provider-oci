@@ -767,21 +767,7 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 
 	// Wait for dbSystem to not be in updating state after the update. UpdateDatabase returns 409 if the dbSystem is in Updating state
 	// We cannot use the usual waitForState logic here because a Get() before the SetData() would interfere with the subsequent Database Update
-	getDbSystemRequest := oci_database.GetDbSystemRequest{}
-
-	getDbSystemRequest.DbSystemId = s.Res.Id
-
-	dbSystemUpdating := func(response oci_common.OCIOperationResponse) bool {
-		if getDbSystemResponse, ok := response.Response.(oci_database.GetDbSystemResponse); ok {
-			if getDbSystemResponse.LifecycleState == oci_database.DbSystemLifecycleStateUpdating {
-				return true
-			}
-		}
-		return false
-	}
-
-	getDbSystemRequest.RequestMetadata.RetryPolicy = getRetryPolicyWithAdditionalretryCondition(s.D.Timeout(schema.TimeoutUpdate), dbSystemUpdating, "database")
-	getDbSystemResponse, err := s.Client.GetDbSystem(context.Background(), getDbSystemRequest)
+	getDbSystemResponse, err := waitForDbSystemIfItIsUpdating(s.Res.Id, s.Client, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		// Do SetData here in case the service returns updated values immediately on the Update request that don't need to wait for the waitForState
 		err = s.SetData()
@@ -799,6 +785,25 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 	}
 
 	return s.UpdateDatabaseOperation()
+}
+
+func waitForDbSystemIfItIsUpdating(dbSystemID *string, client *oci_database.DatabaseClient, timeout time.Duration) (*oci_database.GetDbSystemResponse, error) {
+	getDbSystemRequest := oci_database.GetDbSystemRequest{}
+
+	getDbSystemRequest.DbSystemId = dbSystemID
+
+	dbSystemUpdating := func(response oci_common.OCIOperationResponse) bool {
+		if getDbSystemResponse, ok := response.Response.(oci_database.GetDbSystemResponse); ok {
+			if getDbSystemResponse.LifecycleState == oci_database.DbSystemLifecycleStateUpdating {
+				return true
+			}
+		}
+		return false
+	}
+
+	getDbSystemRequest.RequestMetadata.RetryPolicy = getRetryPolicyWithAdditionalRetryCondition(timeout, dbSystemUpdating, "database")
+	getDbSystemResponse, err := client.GetDbSystem(context.Background(), getDbSystemRequest)
+	return &getDbSystemResponse, err
 }
 
 func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
