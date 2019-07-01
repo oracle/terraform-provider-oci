@@ -3,6 +3,7 @@
 ### Added
 - Support for creating `instance_configuration` resource from the specified instance
 - Support for Budget Alerts for Cost Tracking Tags
+- Support for `oci_monitoring_alarm` accross compartments
 
 ## 3.34.0 (July 17, 2019)
 
