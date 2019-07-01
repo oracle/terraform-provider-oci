@@ -12,6 +12,7 @@
 - Support for moving `oci_kms_key` and `oci_kms_vault` Across Compartments
 - Support for moving `core_instance` resources across compartments
 - Support for LBaaS Cookie Insertion (Sticky Cookie) 
+- Support for moving `identity_compartment` resource tree across compartments
 
 ## 3.33.0 (July 10, 2019)
 
