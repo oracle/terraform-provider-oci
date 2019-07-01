@@ -36,7 +36,6 @@ func IdentityCompartmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 				Optional: true,
-				ForceNew: true,
 			},
 			"enable_delete": {
 				Type:     schema.TypeBool,
@@ -277,6 +276,15 @@ func (s *IdentityCompartmentResourceCrud) Get() error {
 }
 
 func (s *IdentityCompartmentResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_identity.UpdateCompartmentRequest{}
 
 	tmp := s.D.Id()
@@ -360,5 +368,25 @@ func (s *IdentityCompartmentResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
+}
+
+func (s *IdentityCompartmentResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_identity.MoveCompartmentRequest{}
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.CompartmentId = &idTmp
+
+	if targetCompartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := targetCompartmentId.(string)
+		changeCompartmentRequest.TargetCompartmentId = &tmp
+	}
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
+
+	_, err := s.Client.MoveCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
 	return nil
 }
