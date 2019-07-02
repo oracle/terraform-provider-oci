@@ -26,7 +26,6 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -313,6 +312,16 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Get() error {
 }
 
 func (s *LoadBalancerLoadBalancerResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	if s.D.HasChange("network_security_group_ids") {
 		err := s.updateNetworkSecurityGroups()
 		if err != nil {
@@ -463,6 +472,24 @@ func IpAddressToMap(obj oci_load_balancer.IpAddress) map[string]interface{} {
 	}
 
 	return result
+}
+
+func (s *LoadBalancerLoadBalancerResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_load_balancer.ChangeLoadBalancerCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.LoadBalancerId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+
+	_, err := s.Client.ChangeLoadBalancerCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *LoadBalancerLoadBalancerResourceCrud) updateNetworkSecurityGroups() error {

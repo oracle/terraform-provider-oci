@@ -19,6 +19,7 @@
 - Support for Granular Security Lists in Load Balancer
 - Support for Network Security Groups in databases
 - Support in autonomous database and object data sources for encoding downloaded binary content as base64. This works around behavior in Terraform v0.12 that could cause binary content to be corrupted if written directly to state.
+- Support for moving `oci_load_balancer` across compartments
 
 ### Fixed
 - Address panics caused by invalid type assertions in object map conversion. This could potentially affect attributes
