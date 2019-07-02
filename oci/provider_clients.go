@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -176,9 +177,8 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 		customCertLoc := getEnvSettingWithBlankDefault(customCertLocationEnv)
 
 		if domainNameOverride != "" {
-			region, _ := officialSdkConfigProvider.Region()
-			service := strings.Split(client.Host, ".")[0]
-			client.Host = fmt.Sprintf("%s.%s.%s", service, strings.ToLower(region), domainNameOverride)
+			re := regexp.MustCompile(`(.*?)[-\w]+\.\w+$`)                             // (capture: preamble) match: d0main-name . tld end-of-string
+			client.Host = re.ReplaceAllString(client.Host, "${1}"+domainNameOverride) // non-match conveniently returns original string
 		}
 
 		if customCertLoc != "" {
