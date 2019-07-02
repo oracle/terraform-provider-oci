@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"reflect"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -24,7 +25,6 @@ func OnsSubscriptionResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"endpoint": {
 				Type:     schema.TypeString,
@@ -58,6 +58,10 @@ func OnsSubscriptionResource() *schema.Resource {
 			},
 
 			// Computed
+			"created_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"delivery_policy": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -206,6 +210,15 @@ func (s *OnsSubscriptionResourceCrud) Get() error {
 }
 
 func (s *OnsSubscriptionResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_ons.UpdateSubscriptionRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -255,6 +268,14 @@ func (s *OnsSubscriptionResourceCrud) Delete() error {
 }
 
 func (s *OnsSubscriptionResourceCrud) SetData() error {
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.CreatedTime != nil {
+		s.D.Set("created_time", strconv.FormatInt(*s.Res.CreatedTime, 10))
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -278,6 +299,10 @@ func (s *OnsSubscriptionResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TopicId != nil {
+		s.D.Set("topic_id", *s.Res.TopicId)
+	}
 
 	return nil
 }
@@ -324,4 +349,22 @@ func jsonStringDiffSuppresionFunction(key string, old string, new string, d *sch
 		}
 		return reflect.DeepEqual(oldValue, newValue)
 	}
+}
+
+func (s *OnsSubscriptionResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_ons.ChangeSubscriptionCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.ChangeSubscriptionCompartmentDetails.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.SubscriptionId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ons")
+
+	_, err := s.Client.ChangeSubscriptionCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

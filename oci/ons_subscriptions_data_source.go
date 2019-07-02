@@ -95,7 +95,9 @@ func (s *OnsSubscriptionsDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		subscription := map[string]interface{}{}
+		subscription := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
+		}
 
 		if r.CreatedTime != nil {
 			subscription["created_time"] = strconv.FormatInt(*r.CreatedTime, 10)

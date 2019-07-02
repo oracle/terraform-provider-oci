@@ -6,7 +6,8 @@
 - Support for Kms support for Cross-region backup copy in Block Storage.
 - Support for exposing KmsKeyId on backups in Block Storage.
 - Support for Permitted Methods Feature in LBaaS
-- Support for VCN access control lists via `load_balancer_rule_set` 
+- Support for VCN access control lists via `load_balancer_rule_set`
+- Support for moving `ons_notification_topic`, `ons_subscription` resources across compartments
 
 ## 3.33.0 (July 10, 2019)
 
