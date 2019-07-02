@@ -7,7 +7,10 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 	"time"
+
+	"github.com/hashicorp/terraform/helper/resource"
 
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -965,12 +968,122 @@ func (s *WaasWaasPolicyResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	waasPolicy, err := s.getPolicyFromWorkRequest(workId, retryPolicy, oci_waas.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getWaasPolicyFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *WaasWaasPolicyResourceCrud) getWaasPolicyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+	actionTypeEnum oci_waas.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
+
+	// Wait until it finishes
+	waasPolicyId, err := waasPolicyWaitForWorkRequest(workId, "waas",
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
+
 	if err != nil {
+		// Try to cancel the work request
+		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, waasPolicyId)
+		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+			oci_waas.CancelWorkRequestRequest{
+				WorkRequestId: workId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: retryPolicy,
+				},
+			})
+		if cancelErr != nil {
+			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
+		}
 		return err
 	}
-	s.Res = waasPolicy
-	return nil
+	s.D.SetId(*waasPolicyId)
+
+	return s.Get()
+}
+
+func waasPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if shouldRetry(response, false, "waas", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_waas.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
+}
+
+func waasPolicyWaitForWorkRequest(wId *string, entityType string, action oci_waas.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_waas.WaasClient) (*string, error) {
+	retryPolicy := getRetryPolicy(disableFoundRetries, "waas")
+	retryPolicy.ShouldRetryOperation = waasPolicyWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_waas.GetWorkRequestResponse{}
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_waas.WorkRequestStatusInProgress),
+			string(oci_waas.WorkRequestStatusAccepted),
+			string(oci_waas.WorkRequestStatusCanceling),
+		},
+		Target: []string{
+			string(oci_waas.WorkRequestStatusSucceeded),
+			string(oci_waas.WorkRequestStatusFailed),
+			string(oci_waas.WorkRequestStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(context.Background(),
+				oci_waas.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+			if res.ActionType == action {
+				identifier = res.Identifier
+				break
+			}
+		}
+	}
+
+	// The workrequest didn't do all its intended tasks, if the errors is set; so we should check for it
+	var workRequestErr error
+	if len(response.Errors) > 0 {
+		errorMessage := getErrorFromWaasPolicyWorkRequest(response)
+		workRequestErr = fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
+	}
+
+	return identifier, workRequestErr
+}
+
+func getErrorFromWaasPolicyWorkRequest(response oci_waas.GetWorkRequestResponse) string {
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Errors {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+	return errorMessage
 }
 
 func (s *WaasWaasPolicyResourceCrud) mapToOrigin(fieldKeyFormat string) (oci_waas.Origin, error) {
@@ -1008,44 +1121,6 @@ func (s *WaasWaasPolicyResourceCrud) mapToOrigin(fieldKeyFormat string) (oci_waa
 	}
 
 	return result, nil
-}
-
-func (s *WaasWaasPolicyResourceCrud) getPolicyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
-	actionTypeEnum oci_waas.WorkRequestResourceActionTypeEnum, timeout time.Duration) (*oci_waas.WaasPolicy, error) {
-
-	//Wait until it finishes
-	policyId, err := waasWaitForWorkRequest(workId, "waas",
-		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
-
-	if err != nil {
-		// Try to cancel the work request
-		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for policy: %v\n", workId, policyId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
-			oci_waas.CancelWorkRequestRequest{
-				WorkRequestId: workId,
-				RequestMetadata: oci_common.RequestMetadata{
-					RetryPolicy: retryPolicy,
-				},
-			})
-		if cancelErr != nil {
-			log.Printf("[DEBUG] cleanup cancelWorkRequest failed with the error: %v\n", cancelErr)
-		}
-		return nil, err
-	}
-
-	// Fetch the policy object
-	requestGet := oci_waas.GetWaasPolicyRequest{
-		WaasPolicyId: policyId,
-		RequestMetadata: oci_common.RequestMetadata{
-			RetryPolicy: retryPolicy,
-		},
-	}
-	responseGet, err := s.Client.GetWaasPolicy(context.Background(), requestGet)
-	if err != nil {
-		return nil, err
-	}
-	waasPolicy := responseGet.WaasPolicy
-	return &waasPolicy, nil
 }
 
 func (s *WaasWaasPolicyResourceCrud) Get() error {
@@ -1130,8 +1205,7 @@ func (s *WaasWaasPolicyResourceCrud) Update() error {
 		}
 	}
 
-	retryPolicy := getRetryPolicy(s.DisableNotFoundRetries, "waas")
-	request.RequestMetadata.RetryPolicy = retryPolicy
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
 
 	response, err := s.Client.UpdateWaasPolicy(context.Background(), request)
 	if err != nil {
@@ -1139,12 +1213,7 @@ func (s *WaasWaasPolicyResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	waasPolicy, err := s.getPolicyFromWorkRequest(workId, retryPolicy, oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
-	if err != nil {
-		return err
-	}
-	s.Res = waasPolicy
-	return nil
+	return s.getWaasPolicyFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "waas"), oci_waas.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *WaasWaasPolicyResourceCrud) objectMapToOriginMap(origins interface{}) (map[string]oci_waas.Origin, error) {
@@ -1183,8 +1252,8 @@ func (s *WaasWaasPolicyResourceCrud) Delete() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	//Wait until it finishes
-	_, delWorkRequestErr := waasWaitForWorkRequest(workId, "waas",
+	// Wait until it finishes
+	_, delWorkRequestErr := waasPolicyWaitForWorkRequest(workId, "waas",
 		oci_waas.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

@@ -16,7 +16,9 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// InstancePool Instance Pool
+// InstancePool An instance pool is a group of instances within the same region that are created based off of the same
+// instance configuration. For more information about instance pools and instance configurations, see
+// Managing Compute Instances (https://docs.cloud.oracle.com/Content/Compute/Concepts/instancemanagement.htm).
 type InstancePool struct {
 
 	// The OCID of the instance pool.

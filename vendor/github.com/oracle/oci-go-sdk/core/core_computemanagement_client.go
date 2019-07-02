@@ -109,6 +109,112 @@ func (client ComputeManagementClient) attachLoadBalancer(ctx context.Context, re
 	return response, err
 }
 
+// ChangeInstanceConfigurationCompartment Moves an instance configuration into a different compartment within the same tenancy.
+// For information about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// **Important:** Most of the properties for an existing instance configuration, including the compartment,
+// cannot be modified after you create the instance configuration. Although you can move an instance configuration
+// to a different compartment, you will not be able to use the instance configuration to manage instance pools
+// in the new compartment. If you want to update an instance configuration to point to a different compartment,
+// you should instead create a new instance configuration in the target compartment using
+// CreateInstanceConfiguration (https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConfiguration/CreateInstanceConfiguration).
+func (client ComputeManagementClient) ChangeInstanceConfigurationCompartment(ctx context.Context, request ChangeInstanceConfigurationCompartmentRequest) (response ChangeInstanceConfigurationCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeInstanceConfigurationCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeInstanceConfigurationCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeInstanceConfigurationCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeInstanceConfigurationCompartmentResponse")
+	}
+	return
+}
+
+// changeInstanceConfigurationCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) changeInstanceConfigurationCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConfigurations/{instanceConfigurationId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeInstanceConfigurationCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeInstancePoolCompartment Moves an instance pool into a different compartment within the same tenancy. For
+// information about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// When you move an instance pool to a different compartment, associated resources such as the instances in
+// the pool, boot volumes, VNICs, and autoscaling configurations are not moved.
+func (client ComputeManagementClient) ChangeInstancePoolCompartment(ctx context.Context, request ChangeInstancePoolCompartmentRequest) (response ChangeInstancePoolCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeInstancePoolCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeInstancePoolCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeInstancePoolCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeInstancePoolCompartmentResponse")
+	}
+	return
+}
+
+// changeInstancePoolCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) changeInstancePoolCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instancePools/{instancePoolId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeInstancePoolCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateInstanceConfiguration Creates an instance configuration
 func (client ComputeManagementClient) CreateInstanceConfiguration(ctx context.Context, request CreateInstanceConfigurationRequest) (response CreateInstanceConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse

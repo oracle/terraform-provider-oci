@@ -16,20 +16,20 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// InstanceConfigurationSummary Instance Configuration Summary
+// InstanceConfigurationSummary Summary information for an instance configuration.
 type InstanceConfigurationSummary struct {
 
 	// The OCID of the compartment containing the instance configuration.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the instance configuration
+	// The OCID of the instance configuration.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The date and time the instance configuration was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// A user-friendly name for the instance configuration
+	// A user-friendly name for the instance configuration.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

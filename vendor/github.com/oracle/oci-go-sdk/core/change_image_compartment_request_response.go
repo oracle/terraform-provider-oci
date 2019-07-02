@@ -8,14 +8,23 @@ import (
 	"net/http"
 )
 
-// ExportImageRequest wrapper for the ExportImage operation
-type ExportImageRequest struct {
+// ChangeImageCompartmentRequest wrapper for the ChangeImageCompartment operation
+type ChangeImageCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image.
 	ImageId *string `mandatory:"true" contributesTo:"path" name:"imageId"`
 
-	// Details for the image export.
-	ExportImageDetails `contributesTo:"body"`
+	// Request to change the compartment of a given image.
+	ChangeImageCompartmentDetails `contributesTo:"body"`
+
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
+
+	// Unique identifier for the request.
+	// If you need to contact Oracle about a particular request, please provide the request ID.
+	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -24,42 +33,30 @@ type ExportImageRequest struct {
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
-	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
-	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
-	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
-
-	// Unique Oracle-assigned identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
-	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request ExportImageRequest) String() string {
+func (request ChangeImageCompartmentRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ExportImageRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ChangeImageCompartmentRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ExportImageRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeImageCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// ExportImageResponse wrapper for the ExportImage operation
-type ExportImageResponse struct {
+// ChangeImageCompartmentResponse wrapper for the ChangeImageCompartment operation
+type ChangeImageCompartmentResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
-
-	// The Image instance
-	Image `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
@@ -67,17 +64,13 @@ type ExportImageResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// The OCID of the work request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
-	// with this ID to track the status of the request.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
-func (response ExportImageResponse) String() string {
+func (response ChangeImageCompartmentResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response ExportImageResponse) HTTPResponse() *http.Response {
+func (response ChangeImageCompartmentResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

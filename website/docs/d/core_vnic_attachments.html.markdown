@@ -33,7 +33,7 @@ data "oci_core_vnic_attachments" "test_vnic_attachments" {
 The following arguments are supported:
 
 * `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `instance_id` - (Optional) The OCID of the instance.
 * `vnic_id` - (Optional) The OCID of the VNIC.
 

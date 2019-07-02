@@ -31,7 +31,7 @@ data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_servi
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 
 
 ## Attributes Reference
