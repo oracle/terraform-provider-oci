@@ -11,7 +11,7 @@ import (
 // GetImageRequest wrapper for the GetImage operation
 type GetImageRequest struct {
 
-	// The OCID of the image.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image.
 	ImageId *string `mandatory:"true" contributesTo:"path" name:"imageId"`
 
 	// Unique Oracle-assigned identifier for the request.

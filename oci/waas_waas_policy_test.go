@@ -21,7 +21,7 @@ import (
 var (
 	waasPolicyDomainSuffix = ".oracle.com"
 
-	waasPolicyDomainName = randomStringOrHttpReplayValue(4, strings.ToLower(charsetWithoutDigits), "snew")
+	waasPolicyDomainName = randomStringOrHttpReplayValue(4, strings.ToLower(charsetWithoutDigits), "snww")
 
 	waasPolicyDomain = waasPolicyDomainName + waasPolicyDomainSuffix
 

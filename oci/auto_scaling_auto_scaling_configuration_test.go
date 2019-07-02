@@ -110,6 +110,9 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration"
 	datasourceName := "data.oci_autoscaling_auto_scaling_configurations.test_auto_scaling_configurations"
 	singularDatasourceName := "data.oci_autoscaling_auto_scaling_configuration.test_auto_scaling_configuration"
@@ -182,6 +185,67 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
 					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.0.type", "instancePool"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cool_down_in_seconds", "300"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autoscaling_configuration"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "policies.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "policies.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "policies.0.capacity.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "policies.0.capacity.0.initial", "2"),
+					resource.TestCheckResourceAttr(resourceName, "policies.0.capacity.0.max", "3"),
+					resource.TestCheckResourceAttr(resourceName, "policies.0.capacity.0.min", "2"),
+					resource.TestCheckResourceAttr(resourceName, "policies.0.display_name", "example_autoscaling_configuration"),
+					resource.TestCheckResourceAttr(resourceName, "policies.0.policy_type", "threshold"),
+					resource.TestCheckResourceAttr(resourceName, "policies.0.rules.#", "2"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "policies.0.rules", map[string]string{
+						"action.#":                      "1",
+						"action.0.type":                 "CHANGE_COUNT_BY",
+						"action.0.value":                "1",
+						"display_name":                  "scale out rule",
+						"metric.#":                      "1",
+						"metric.0.metric_type":          "CPU_UTILIZATION",
+						"metric.0.threshold.#":          "1",
+						"metric.0.threshold.0.operator": "GT",
+						"metric.0.threshold.0.value":    "1",
+					},
+						[]string{}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "policies.0.rules", map[string]string{
+						"action.#":                      "1",
+						"action.0.type":                 "CHANGE_COUNT_BY",
+						"action.0.value":                "-1",
+						"display_name":                  "scale in rule",
+						"metric.#":                      "1",
+						"metric.0.metric_type":          "CPU_UTILIZATION",
+						"metric.0.threshold.#":          "1",
+						"metric.0.threshold.0.operator": "LT",
+						"metric.0.threshold.0.value":    "1",
+					},
+						[]string{}),
+					resource.TestCheckResourceAttrSet(resourceName, "policies.0.time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutoScalingConfigurationResourceDependencies +
+					generateResourceFromRepresentationMap("oci_autoscaling_auto_scaling_configuration", "test_auto_scaling_configuration", Optional, Create,
+						representationCopyWithNewProperties(autoScalingConfigurationRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "auto_scaling_resources.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "auto_scaling_resources.0.type", "instancePool"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "cool_down_in_seconds", "300"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autoscaling_configuration"),

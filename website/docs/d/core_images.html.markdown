@@ -40,7 +40,7 @@ data "oci_core_images" "test_images" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `operating_system` - (Optional) The image's operating system.  Example: `Oracle Linux` 
 * `operating_system_version` - (Optional) The image's operating system version.  Example: `7.2` 
@@ -97,7 +97,7 @@ The following attributes are exported:
 		* `PARAVIRTUALIZED` - Paravirtualized disk. 
 * `operating_system` - The image's operating system.  Example: `Oracle Linux` 
 * `operating_system_version` - The image's operating system version.  Example: `7.2` 
-* `size_in_mbs` - Image size (1 MB = 1048576 bytes)  Example: `47694` 
+* `size_in_mbs` - The boot volume size for an instance launched from this image, (1 MB = 1048576 bytes). Note this is not the same as the size of the image when it was exported or the actual size of the image.  Example: `47694` 
 * `state` - 
 * `time_created` - The date and time the image was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 

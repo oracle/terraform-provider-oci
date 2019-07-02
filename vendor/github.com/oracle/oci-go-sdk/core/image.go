@@ -80,7 +80,8 @@ type Image struct {
 
 	AgentFeatures *InstanceAgentFeatures `mandatory:"false" json:"agentFeatures"`
 
-	// Image size (1 MB = 1048576 bytes)
+	// The boot volume size for an instance launched from this image, (1 MB = 1048576 bytes).
+	// Note this is not the same as the size of the image when it was exported or the actual size of the image.
 	// Example: `47694`
 	SizeInMBs *int64 `mandatory:"false" json:"sizeInMBs"`
 }

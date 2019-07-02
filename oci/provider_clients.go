@@ -3,7 +3,6 @@
 package provider
 
 import (
-	"crypto/tls"
 	"crypto/x509"
 	"fmt"
 	"io/ioutil"
@@ -173,28 +172,17 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 			return nil
 		}
 
-		// R1, et al Support
 		domainNameOverride := getEnvSettingWithBlankDefault(domainNameOverrideEnv)
-		r1DomainName := getEnvSettingWithBlankDefault(oracleR1DomainNameEnv)
 		customCertLoc := getEnvSettingWithBlankDefault(customCertLocationEnv)
-		r1CertLoc := getEnvSettingWithBlankDefault(r1CertLocationEnv)
 
-		if domainNameOverride != "" || r1DomainName != "" {
-			if domainNameOverride != "" && r1DomainName != "" {
-				return fmt.Errorf("conflicting environment variables (domain_name_override and oracle_r1_domain_name) resulting in domain name ambiguity:  %s and %s", domainNameOverride, r1DomainName)
-			}
-
+		if domainNameOverride != "" {
 			region, _ := officialSdkConfigProvider.Region()
 			service := strings.Split(client.Host, ".")[0]
-			client.Host = fmt.Sprintf("%s.%s.%s", service, strings.ToLower(region), domainNameOverride+r1DomainName)
+			client.Host = fmt.Sprintf("%s.%s.%s", service, strings.ToLower(region), domainNameOverride)
 		}
 
-		if customCertLoc != "" || r1CertLoc != "" {
-			if customCertLoc != "" && r1CertLoc != "" {
-				return fmt.Errorf("conflicting environment variables (custom_cert_location and R1_CERT_LOCATION) resulting in certificate locations ambiguity: %s and %s", customCertLoc, r1CertLoc)
-			}
-
-			cert, err := ioutil.ReadFile(customCertLoc + r1CertLoc)
+		if customCertLoc != "" {
+			cert, err := ioutil.ReadFile(customCertLoc)
 			if err != nil {
 				return err
 			}
@@ -204,15 +192,10 @@ func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_commo
 			}
 			// install the certificates in the client
 			if h, ok := client.HTTPClient.(*http.Client); ok {
-				tr := &http.Transport{TLSClientConfig: &tls.Config{RootCAs: pool}}
-				h.Transport = tr
+				h.Transport.(*http.Transport).TLSClientConfig.RootCAs = pool
 			} else {
-				return fmt.Errorf("the client dispatcher is not of http.Client type. can not patch the tls config")
+				return fmt.Errorf("the client dispatcher is not of http.Client type, can not patch the tls config")
 			}
-		}
-
-		if r1DomainName != "" && r1CertLoc == "" || r1DomainName == "" && r1CertLoc != "" {
-			return fmt.Errorf("both certificate location and domain name must be specified to target r1")
 		}
 
 		// install the hook for HTTP replaying

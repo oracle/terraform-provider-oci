@@ -16,13 +16,13 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// InstancePoolSummary Condensed InstancePool data when listing instance pools.
+// InstancePoolSummary Summary information for an instance pool.
 type InstancePoolSummary struct {
 
-	// The OCID of the instance pool
+	// The OCID of the instance pool.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment containing the instance pool
+	// The OCID of the compartment containing the instance pool.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID of the instance configuration associated with the instance pool.
