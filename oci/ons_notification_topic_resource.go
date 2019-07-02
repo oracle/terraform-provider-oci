@@ -29,7 +29,6 @@ func OnsNotificationTopicResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -217,6 +216,15 @@ func (s *OnsNotificationTopicResourceCrud) Get() error {
 }
 
 func (s *OnsNotificationTopicResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_ons.UpdateTopicRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -306,5 +314,25 @@ func (s *OnsNotificationTopicResourceCrud) SetData() error {
 		s.D.Set("topic_id", *s.Res.TopicId)
 	}
 
+	return nil
+}
+
+func (s *OnsNotificationTopicResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_ons.ChangeTopicCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.ChangeTopicCompartmentDetails.CompartmentId = &compartmentTmp
+
+	if topicId, ok := s.D.GetOkExists("topic_id"); ok {
+		tmp := topicId.(string)
+		changeCompartmentRequest.TopicId = &tmp
+	}
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "ons")
+
+	_, err := s.Client.ChangeTopicCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
 	return nil
 }
