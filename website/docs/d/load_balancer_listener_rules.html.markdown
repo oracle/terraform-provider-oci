@@ -9,7 +9,14 @@ description: |-
 # Data Source: oci_load_balancer_listener_rules
 This data source provides the list of Listener Rules in Oracle Cloud Infrastructure Load Balancer service.
 
-List set of all rules associated with a listener ordered by execution phase.
+Lists all of the rules from all of the rule sets associated with the specified listener. The response organizes
+the rules in the following order:
+
+*  Access control rules
+*  Allow method rules
+*  Request header rules
+*  Response header rules
+
 
 ## Example Usage
 
@@ -25,7 +32,7 @@ data "oci_load_balancer_listener_rules" "test_listener_rules" {
 
 The following arguments are supported:
 
-* `listener_name` - (Required) The name of the listener. 
+* `listener_name` - (Required) The name of the listener the rules are associated with. 
 * `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer associated with the listener.
 
 
@@ -39,8 +46,8 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `name` - Name of the ruleset to which rule belongs to 
-* `rule` - Rule object that was applied to a listener.
+* `name` - The name of the rule set that the rule belongs to. 
+* `rule` - A rule object that applies to the listener.
 	* `action` - The action can be one of these values: `ADD_HTTP_REQUEST_HEADER`, `ADD_HTTP_RESPONSE_HEADER`, `ALLOW`, `CONTROL_ACCESS_USING_HTTP_METHODS`, `EXTEND_HTTP_REQUEST_HEADER_VALUE`, `EXTEND_HTTP_RESPONSE_HEADER_VALUE`, `REMOVE_HTTP_REQUEST_HEADER`, `REMOVE_HTTP_RESPONSE_HEADER`
 	* `allowed_methods` - The list of HTTP methods allowed for this listener.
 
@@ -53,12 +60,14 @@ The following attributes are exported:
 		Example: ["GET", "PUT", "POST", "PROPFIND"] 
 	* `conditions` - 
 		* `attribute_name` - The attribute_name can be one of these values: `SOURCE_IP_ADDRESS`, `SOURCE_VCN_ID`, `SOURCE_VCN_IP_ADDRESS`
-		* `attribute_value` - OCID of the customer VCN to which the service gateway embedded VCN ID of incoming packet would be matched against
+		* `attribute_value` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the originating VCN that an incoming packet must match.
 
-			This condition can be used in conjunction with `SourceVcnIpAddressCondition`.
+			You can use this condition in conjunction with `SourceVcnIpAddressCondition`.
 
-			**NOTE:** If this condition is defined on a rule without `SourceVcnIpAddressCondition`, then this condition matches all incoming traffic in the specified customer VCN 
-	* `description` - Brief description of the access control rule. 
+			**NOTE:** If you define this condition for a rule without a `SourceVcnIpAddressCondition`, this condition matches all incoming traffic in the specified VCN. 
+	* `description` - A brief description of the access control rule. Avoid entering confidential information.
+
+		example: `192.168.0.0/16 and 2001:db8::/32 are trusted clients. Whitelist them.` 
 	* `header` - A header name that conforms to RFC 7230.  Example: `example_header_name` 
 	* `prefix` - A string to prepend to the header value. The resulting header value must still conform to RFC 7230.  Example: `example_prefix_value` 
 	* `status_code` - The HTTP status code to return when the requested HTTP method is not in the list of allowed methods. The associated status line returned with the code is mapped from the standard HTTP specification. The default value is `405 (Method Not Allowed)`.  Example: 403 
