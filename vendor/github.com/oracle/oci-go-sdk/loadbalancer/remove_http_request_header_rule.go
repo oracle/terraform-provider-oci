@@ -16,7 +16,7 @@ import (
 
 // RemoveHttpRequestHeaderRule An object that represents the action of removing a header from a request. This rule applies only to HTTP listeners.
 // If the same header appears more than once in the request, the load balancer removes all occurances of the specified header.
-// **NOTE:** The system does not distinquish between underscore and dash characters in headers. That is, it treats
+// **Note:** The system does not distinquish between underscore and dash characters in headers. That is, it treats
 // `example_header_name` and `example-header-name` as identical. Oracle recommends that you do not rely on underscore
 // or dash characters to uniquely distinguish header names.
 type RemoveHttpRequestHeaderRule struct {

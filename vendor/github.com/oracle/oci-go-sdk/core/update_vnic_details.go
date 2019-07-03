@@ -46,6 +46,12 @@ type UpdateVnicDetails struct {
 	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/Content/Network/Concepts/dns.htm).
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
 
+	// A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. Setting this as
+	// an empty array removes the VNIC from all network security groups.
+	// For more information about NSGs, see
+	// NetworkSecurityGroup.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// Whether the source/destination check is disabled on the VNIC.
 	// Defaults to `false`, which means the check is performed. For information
 	// about why you would skip the source/destination check, see

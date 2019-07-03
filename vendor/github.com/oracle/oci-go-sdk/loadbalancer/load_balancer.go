@@ -61,6 +61,9 @@ type LoadBalancer struct {
 	// An array of subnet OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SubnetIds []string `mandatory:"false" json:"subnetIds"`
 
+	// The array of NSG OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) in use by this Load Balancer.
+	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
+
 	Listeners map[string]Listener `mandatory:"false" json:"listeners"`
 
 	Hostnames map[string]Hostname `mandatory:"false" json:"hostnames"`

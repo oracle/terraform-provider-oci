@@ -86,6 +86,11 @@ type Vnic struct {
 	// Example: `00:00:17:B6:4D:DD`
 	MacAddress *string `mandatory:"false" json:"macAddress"`
 
+	// A list of the OCIDs of the network security groups that the VNIC belongs to. For more
+	// information about NSGs, see
+	// NetworkSecurityGroup.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// The private IP address of the primary `privateIp` object on the VNIC.
 	// The address is within the CIDR of the VNIC's subnet.
 	// Example: `10.0.3.3`
