@@ -27,7 +27,7 @@ data "oci_core_app_catalog_subscriptions" "test_app_catalog_subscriptions" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `listing_id` - (Optional) A filter to return only the listings that matches the given listing id. 
 
 

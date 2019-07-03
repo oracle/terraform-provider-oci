@@ -35,7 +35,7 @@ data "oci_core_volume_attachments" "test_volume_attachments" {
 The following arguments are supported:
 
 * `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `instance_id` - (Optional) The OCID of the instance.
 * `volume_id` - (Optional) The OCID of the volume.
 

@@ -30,7 +30,7 @@ data "oci_core_instance_console_connections" "test_instance_console_connections"
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `instance_id` - (Optional) The OCID of the instance.
 
 
