@@ -1,4 +1,4 @@
-## 3.32.0 (Unreleased)
+## 3.32.0 (July 03, 2019)
 
 ### Added
 - Support for moving Images across compartments
