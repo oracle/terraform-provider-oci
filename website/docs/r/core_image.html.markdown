@@ -97,7 +97,7 @@ resource "oci_core_image" "test_image" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment containing the instance you want to use as the basis for the image.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment containing the instance you want to use as the basis for the image.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 
@@ -167,7 +167,7 @@ The following attributes are exported:
 		* `PARAVIRTUALIZED` - Paravirtualized disk. 
 * `operating_system` - The image's operating system.  Example: `Oracle Linux` 
 * `operating_system_version` - The image's operating system version.  Example: `7.2` 
-* `size_in_mbs` - Image size (1 MB = 1048576 bytes)  Example: `47694` 
+* `size_in_mbs` - The boot volume size for an instance launched from this image, (1 MB = 1048576 bytes). Note this is not the same as the size of the image when it was exported or the actual size of the image.  Example: `47694` 
 * `state` - The current state of the image.
 * `time_created` - The date and time the image was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 

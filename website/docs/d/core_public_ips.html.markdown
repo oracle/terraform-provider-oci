@@ -50,7 +50,7 @@ data "oci_core_public_ips" "test_public_ips" {
 The following arguments are supported:
 
 * `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `lifetime` - (Optional) A filter to return only public IPs that match given lifetime. 
 * `scope` - (Required) Whether the public IP is regional or specific to a particular availability domain.
 	* `REGION`: The public IP exists within a region and is assigned to a regional entity (such as a [NatGateway](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NatGateway/)), or can be assigned to a private IP in any availability domain in the region. Reserved public IPs have `scope` = `REGION`, as do ephemeral public IPs assigned to a regional entity.

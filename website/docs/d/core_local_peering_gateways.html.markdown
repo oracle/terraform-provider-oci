@@ -27,8 +27,8 @@ data "oci_core_local_peering_gateways" "test_local_peering_gateways" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
-* `vcn_id` - (Required) The OCID of the VCN.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `vcn_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 
 
 ## Attributes Reference

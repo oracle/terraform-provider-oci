@@ -50,7 +50,7 @@ var additionalDhcpOption4 = `
 //To avoid multiple applies we perform an apply after the create in order have the options match what the user has in the config
 //This test makes sure we handle that case correctly and that there is a non empty plan after the apply
 func TestResourceCoreDHCPOptions_avoidServiceDefault(t *testing.T) {
-	httpreplay.SetScenario("TestAccResourceCoreDHCPOptions_avoidServiceDefault")
+	httpreplay.SetScenario("TestResourceCoreDHCPOptions_avoidServiceDefault")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
@@ -93,7 +93,7 @@ func TestResourceCoreDHCPOptions_avoidServiceDefault(t *testing.T) {
 }
 
 func TestResourceCoreDHCPOptions_basic(t *testing.T) {
-	httpreplay.SetScenario("TestAccResourceCoreDHCPOptions_basic")
+	httpreplay.SetScenario("TestResourceCoreDHCPOptions_basic")
 	defer httpreplay.SaveScenario()
 
 	var resDefaultId, resOpt4Id, resId2 string

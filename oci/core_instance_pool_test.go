@@ -124,6 +124,9 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_core_instance_pool.test_instance_pool"
 	datasourceName := "data.oci_core_instance_pools.test_instance_pools"
 	singularDatasourceName := "data.oci_core_instance_pool.test_instance_pool"
@@ -182,6 +185,9 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.display_name", "backend-servers-pool"),
+					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "size", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -192,6 +198,46 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					},
 				),
 			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InstancePoolResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", Optional, Create,
+						representationCopyWithNewProperties(instancePoolRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers-pool"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
+					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "size", "2"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
+				),
+			},
+
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + InstancePoolResourceDependencies +

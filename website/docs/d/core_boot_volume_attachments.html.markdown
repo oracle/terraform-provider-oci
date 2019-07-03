@@ -34,7 +34,7 @@ The following arguments are supported:
 
 * `availability_domain` - (Required) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `boot_volume_id` - (Optional) The OCID of the boot volume.
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `instance_id` - (Optional) The OCID of the instance.
 
 

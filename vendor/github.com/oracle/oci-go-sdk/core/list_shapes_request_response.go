@@ -29,7 +29,7 @@ type ListShapesRequest struct {
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The OCID of an image.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an image.
 	ImageId *string `mandatory:"false" contributesTo:"query" name:"imageId"`
 
 	// Unique Oracle-assigned identifier for the request.

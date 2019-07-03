@@ -37,7 +37,7 @@ func NewStreamAdminClientWithConfigurationProvider(configProvider common.Configu
 
 // SetRegion overrides the region of this client.
 func (client *StreamAdminClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("streams", "https://streams.{region}.streaming.oci.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("streams", "https://streaming.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -103,7 +103,7 @@ func (client StreamAdminClient) createStream(ctx context.Context, request common
 }
 
 // DeleteStream Deletes a stream and its content. Stream contents are deleted immediately. The service retains records of the stream itself for 90 days after deletion.
-// The `lifeCycleState` parameter of the `Stream` object changes to `DELETING` and the stream becomes inaccessible for read or write operations.
+// The `lifecycleState` parameter of the `Stream` object changes to `DELETING` and the stream becomes inaccessible for read or write operations.
 // To verify that a stream has been deleted, make a GetStream request. If the call returns the stream's
 // lifecycle state as `DELETED`, then the stream has been deleted. If the call returns a "404 Not Found" error, that means all records of the
 // stream have been deleted.

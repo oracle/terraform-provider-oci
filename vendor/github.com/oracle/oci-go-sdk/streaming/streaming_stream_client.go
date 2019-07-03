@@ -37,7 +37,7 @@ func NewStreamClientWithConfigurationProvider(configProvider common.Configuratio
 
 // SetRegion overrides the region of this client.
 func (client *StreamClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("streams", "https://streams.{region}.streaming.oci.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("streams", "https://streaming.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
