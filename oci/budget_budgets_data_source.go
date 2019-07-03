@@ -26,6 +26,10 @@ func BudgetBudgetsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"target_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"budgets": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -69,6 +73,10 @@ func (s *BudgetBudgetsDataSourceCrud) Get() error {
 	if state, ok := s.D.GetOkExists("state"); ok {
 		tmp := state.(string)
 		request.LifecycleState = &tmp
+	}
+
+	if targetType, ok := s.D.GetOkExists("target_type"); ok {
+		request.TargetType = oci_budget.ListBudgetsTargetTypeEnum(targetType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "budget")
@@ -148,6 +156,10 @@ func (s *BudgetBudgetsDataSourceCrud) SetData() error {
 		if r.TargetCompartmentId != nil {
 			budget["target_compartment_id"] = *r.TargetCompartmentId
 		}
+
+		budget["target_type"] = r.TargetType
+
+		budget["targets"] = r.Targets
 
 		if r.TimeCreated != nil {
 			budget["time_created"] = r.TimeCreated.String()
