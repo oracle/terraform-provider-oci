@@ -7,6 +7,7 @@
 - Support for moving `health_checks_http_monitor` and `health_checks_ping_monitor` resources across compartments
 - Support for moving `database_autonomous_database` and `database_db_system` resources across compartments
 - Support for moving `database_autonomous_container_database` and `database_autonomous_exadata_infrastructure` resources across compartments
+- Support for scheduling KMS vault deletion by specified time
 
 ## 3.34.0 (July 17, 2019)
 
