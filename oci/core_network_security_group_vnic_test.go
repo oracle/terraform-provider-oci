@@ -14,10 +14,10 @@ import (
 
 var (
 	networkSecurityGroupVnicDataSourceRepresentation = map[string]interface{}{
-		"network_security_group_id": Representation{repType: Required, create: `${oci_core_network_security_group.test_network_security_group.id}`},
+		"network_security_group_id": Representation{repType: Required, create: `${oci_core_network_security_group.test_network_security_group1.id}`},
 	}
 
-	NetworkSecurityGroupVnicResourceConfig = NetworkSecurityGroupResourceConfig
+	NetworkSecurityGroupVnicResourceConfig = VnicAttachmentResourceConfig
 )
 
 func TestCoreNetworkSecurityGroupVnicResource_basic(t *testing.T) {
@@ -39,6 +39,9 @@ func TestCoreNetworkSecurityGroupVnicResource_basic(t *testing.T) {
 		},
 		Steps: []resource.TestStep{
 			// verify datasource
+			{
+				Config: config + compartmentIdVariableStr + NetworkSecurityGroupVnicResourceConfig,
+			},
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_core_network_security_group_vnics", "test_network_security_group_vnics", Required, Create, networkSecurityGroupVnicDataSourceRepresentation) +
