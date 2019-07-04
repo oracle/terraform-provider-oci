@@ -1,12 +1,12 @@
 ## 3.33.0 (Unreleased)
 
 ### Added
-- Support for ATP-S preview mode.
-- Support to get a load balancer attached to an instance pool by load balancer attachment id and instance pool id
-- Support for moving `core_route_table`, `core_security_list`, `core_subnet`, `core_vcn` resources across compartments
+- Support autonomous transaction processing preview mode
+- Support load balancer attachment data source for instance pools
+- Support moving `core_route_table`, `core_security_list`, `core_subnet`, `core_vcn` resources across compartments
 - Support for Granular Security Lists using Network Security Group
 - Support for Granular Security Lists in Load Balancer
-- Support Dbaas: Network Security Groups.
+- Support for Network Security Groups in databases
 
 ## 3.32.0 (July 03, 2019)
 
