@@ -212,6 +212,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 				ImportStateVerifyIgnore: []string{
 					"admin_password",
 					"clone_type",
+					"is_preview_version_with_service_terms_accepted",
 					"source",
 					"source_id",
 					"lifecycle_details",
