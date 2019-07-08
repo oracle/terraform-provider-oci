@@ -4,6 +4,7 @@ package provider
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
 	"time"
 
@@ -61,7 +62,14 @@ func validateNotEmptyString() schema.SchemaValidateFunc {
 func objectMapToStringMap(rm map[string]interface{}) map[string]string {
 	result := map[string]string{}
 	for k, v := range rm {
-		result[k] = v.(string)
+		switch assertedValue := v.(type) {
+		case string:
+			result[k] = assertedValue
+		default:
+			// Make a best effort to coerce into a string, even if underlying type is not a string
+			log.Printf("[DEBUG] non-string value encountered for key '%s' while converting object map to string map", k)
+			result[k] = fmt.Sprintf("%v", assertedValue)
+		}
 	}
 	return result
 }

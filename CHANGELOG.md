@@ -8,6 +8,10 @@
 - Support for Granular Security Lists in Load Balancer
 - Support for Network Security Groups in databases
 
+### Fixed
+- Address panics caused by invalid type assertions in object map conversion. This could potentially affect attributes
+that are maps of string values.
+
 ## 3.32.0 (July 03, 2019)
 
 ### Added
