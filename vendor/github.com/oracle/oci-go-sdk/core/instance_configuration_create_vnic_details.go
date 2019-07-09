@@ -32,6 +32,11 @@ type InstanceConfigurationCreateVnicDetails struct {
 	// See the `hostnameLabel` attribute of CreateVnicDetails for more information.
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
 
+	// A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more
+	// information about NSGs, see
+	// NetworkSecurityGroup.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// A private IP address of your choice to assign to the VNIC.
 	// See the `privateIp` attribute of CreateVnicDetails for more information.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`

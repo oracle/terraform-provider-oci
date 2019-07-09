@@ -2038,6 +2038,53 @@ func (client LoadBalancerClient) updateLoadBalancer(ctx context.Context, request
 	return response, err
 }
 
+// UpdateNetworkSecurityGroups Updates the network security groups to be used by a load balancer.
+func (client LoadBalancerClient) UpdateNetworkSecurityGroups(ctx context.Context, request UpdateNetworkSecurityGroupsRequest) (response UpdateNetworkSecurityGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateNetworkSecurityGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateNetworkSecurityGroupsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateNetworkSecurityGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateNetworkSecurityGroupsResponse")
+	}
+	return
+}
+
+// updateNetworkSecurityGroups implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) updateNetworkSecurityGroups(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/loadBalancers/{loadBalancerId}/networkSecurityGroups")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateNetworkSecurityGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdatePathRouteSet Overwrites an existing path route set on the specified load balancer. Use this operation to add, delete, or alter
 // path route rules in a path route set.
 // To add a new path route rule to a path route set, the `pathRoutes` in the

@@ -84,6 +84,15 @@ type LaunchDbSystemDetails struct {
 	// **Subnet Restrictions:** See the subnet restrictions information for **subnetId**.
 	BackupSubnetId *string `mandatory:"false" json:"backupSubnetId"`
 
+	// The list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this DB system.
+	// A maximum of 5 allowed.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// The list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with the backup network of this DB system.
+	// Applicable only to Exadata DB systems.
+	// A maximum of 5 allowed.
+	BackupNetworkNsgIds []string `mandatory:"false" json:"backupNetworkNsgIds"`
+
 	// The time zone to use for the DB system. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
@@ -160,6 +169,16 @@ func (m LaunchDbSystemDetails) GetSubnetId() *string {
 //GetBackupSubnetId returns BackupSubnetId
 func (m LaunchDbSystemDetails) GetBackupSubnetId() *string {
 	return m.BackupSubnetId
+}
+
+//GetNsgIds returns NsgIds
+func (m LaunchDbSystemDetails) GetNsgIds() []string {
+	return m.NsgIds
+}
+
+//GetBackupNetworkNsgIds returns BackupNetworkNsgIds
+func (m LaunchDbSystemDetails) GetBackupNetworkNsgIds() []string {
+	return m.BackupNetworkNsgIds
 }
 
 //GetShape returns Shape

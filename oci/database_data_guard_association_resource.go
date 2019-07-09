@@ -74,6 +74,15 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
+			"backup_network_nsg_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				ForceNew: true,
+				Set:      literalTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -85,6 +94,15 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"nsg_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				ForceNew: true,
+				Set:      literalTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"peer_db_system_id": {
 				Type:     schema.TypeString,
@@ -366,12 +384,24 @@ func (s *DatabaseDataGuardAssociationResourceCrud) SetData() error {
 		s.D.Set("apply_rate", *s.Res.ApplyRate)
 	}
 
+	if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
+		s.D.Set("backup_network_nsg_ids", backupNetworkNsgIds)
+	} else {
+		s.D.Set("backup_network_nsg_ids", []string{})
+	}
+
 	if s.Res.DatabaseId != nil {
 		s.D.Set("database_id", *s.Res.DatabaseId)
 	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		s.D.Set("nsg_ids", nsgIds)
+	} else {
+		s.D.Set("nsg_ids", []string{})
 	}
 
 	if s.Res.PeerDataGuardAssociationId != nil {
@@ -444,6 +474,18 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			tmp := availabilityDomain.(string)
 			details.AvailabilityDomain = &tmp
 		}
+		details.BackupNetworkNsgIds = []string{}
+		if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
+			set := backupNetworkNsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.BackupNetworkNsgIds = tmp
+		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
@@ -451,6 +493,18 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
 			details.Hostname = &tmp
+		}
+		details.NsgIds = []string{}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.NsgIds = tmp
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)

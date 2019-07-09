@@ -36,13 +36,14 @@ var (
 		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create, loadBalancerRepresentation)
 
 	loadBalancerRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `example_load_balancer`, update: `displayName2`},
-		"shape":          Representation{repType: Required, create: `100Mbps`},
-		"subnet_ids":     Representation{repType: Required, create: []string{`${oci_core_subnet.lb_test_subnet_1.id}`, `${oci_core_subnet.lb_test_subnet_2.id}`}},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"is_private":     Representation{repType: Optional, create: `false`},
+		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":               Representation{repType: Required, create: `example_load_balancer`, update: `displayName2`},
+		"shape":                      Representation{repType: Required, create: `100Mbps`},
+		"subnet_ids":                 Representation{repType: Required, create: []string{`${oci_core_subnet.lb_test_subnet_1.id}`, `${oci_core_subnet.lb_test_subnet_2.id}`}},
+		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"is_private":                 Representation{repType: Optional, create: `false`},
+		"network_security_group_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{`${oci_core_network_security_group.test_network_security_group1.id}`, `${oci_core_network_security_group.test_network_security_group2.id}`}},
 	}
 
 	LoadBalancerSubnetDependencies = AvailabilityDomainConfig + `
@@ -75,7 +76,9 @@ var (
 	}
 `
 
-	LoadBalancerResourceDependencies = VcnRequiredOnlyResource + VcnResourceDependencies + LoadBalancerSubnetDependencies
+	LoadBalancerResourceDependencies = VcnRequiredOnlyResource + VcnResourceDependencies + LoadBalancerSubnetDependencies +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, networkSecurityGroupRepresentation)
 )
 
 func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
@@ -132,6 +135,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+					resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
@@ -155,6 +159,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+					resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
@@ -189,6 +194,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.ip_address_details.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_private", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.network_security_group_ids.#", "2"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.shape", "100Mbps"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.state"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.subnet_ids.#", "2"),

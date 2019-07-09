@@ -80,7 +80,7 @@ func (s *CoreInstanceConfigurationDataSourceCrud) SetData() error {
 
 	if s.Res.InstanceDetails != nil {
 		instanceDetailsArray := []interface{}{}
-		if instanceDetailsMap := InstanceConfigurationInstanceDetailsToMap(&s.Res.InstanceDetails); instanceDetailsMap != nil {
+		if instanceDetailsMap := InstanceConfigurationInstanceDetailsToMap(&s.Res.InstanceDetails, true); instanceDetailsMap != nil {
 			instanceDetailsArray = append(instanceDetailsArray, instanceDetailsMap)
 		}
 		s.D.Set("instance_details", instanceDetailsArray)

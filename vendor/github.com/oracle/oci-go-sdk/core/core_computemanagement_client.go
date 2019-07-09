@@ -482,6 +482,48 @@ func (client ComputeManagementClient) getInstancePool(ctx context.Context, reque
 	return response, err
 }
 
+// GetInstancePoolLoadBalancerAttachment Gets information about a load balancer that is attached to the specified instance pool.
+func (client ComputeManagementClient) GetInstancePoolLoadBalancerAttachment(ctx context.Context, request GetInstancePoolLoadBalancerAttachmentRequest) (response GetInstancePoolLoadBalancerAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInstancePoolLoadBalancerAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetInstancePoolLoadBalancerAttachmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInstancePoolLoadBalancerAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInstancePoolLoadBalancerAttachmentResponse")
+	}
+	return
+}
+
+// getInstancePoolLoadBalancerAttachment implements the OCIOperation interface (enables retrying operations)
+func (client ComputeManagementClient) getInstancePoolLoadBalancerAttachment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instancePools/{instancePoolId}/loadBalancerAttachments/{instancePoolLoadBalancerAttachmentId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetInstancePoolLoadBalancerAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // LaunchInstanceConfiguration Launch an instance from an instance configuration
 func (client ComputeManagementClient) LaunchInstanceConfiguration(ctx context.Context, request LaunchInstanceConfigurationRequest) (response LaunchInstanceConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse

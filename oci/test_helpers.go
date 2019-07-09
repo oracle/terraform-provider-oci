@@ -4,6 +4,7 @@ package provider
 
 import (
 	"bytes"
+	"encoding/base64"
 	"fmt"
 	"log"
 	"os"
@@ -100,6 +101,29 @@ func TestCheckResourceAttributesEqual(name1, key1, name2, key2 string) resource.
 				"%s: attribute '%s' value %#v not equal to '%s' attribute '%s' value %#v",
 				name1, key1, val1, name2, key2, val2)
 		}
+		return nil
+	}
+}
+
+func testCheckAttributeBase64Encoded(name, key string, expectBase64Encoded bool) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		content, err := fromInstanceState(s, name, key)
+		if err != nil {
+			return err
+		}
+
+		isBase64Encoded := true
+		if _, err := base64.StdEncoding.DecodeString(content); err != nil {
+			isBase64Encoded = false
+		}
+
+		if isBase64Encoded != expectBase64Encoded {
+			if expectBase64Encoded {
+				return fmt.Errorf("expected '%s' to be base64 encoded, but it is not", key)
+			}
+			return fmt.Errorf("expected '%s' to not be base64 encoded, but it is", key)
+		}
+
 		return nil
 	}
 }

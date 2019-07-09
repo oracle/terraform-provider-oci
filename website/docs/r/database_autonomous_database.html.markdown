@@ -33,6 +33,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	freeform_tags = {"Department"= "Finance"}
 	is_auto_scaling_enabled = "${var.autonomous_database_is_auto_scaling_enabled}"
 	is_dedicated = "${var.autonomous_database_is_dedicated}"
+	is_preview_version_with_service_terms_accepted = "${var.autonomous_database_is_preview_version_with_service_terms_accepted}"
 	license_model = "${var.autonomous_database_license_model}"
 	source = "${var.autonomous_database_source}"
 	source_id = "${oci_database_source.test_source.id}"
@@ -60,6 +61,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `is_auto_scaling_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Autonomous Database CPU core count. The default value is false. This feature is currently applicable only for shared database.
 * `is_dedicated` - (Optional) True if it is dedicated database. 
+* `is_preview_version_with_service_terms_accepted` - (Optional) If set to true, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted.
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to the Oracle Autonomous Database. The default is BRING_YOUR_OWN_LICENSE. 
 * `source` - (Optional) The source of the database: Use NONE for creating a new Autonomous Database. Use DATABASE for creating a new Autonomous Database by cloning an existing Autonomous Database. 
 * `source_id` - (Required when source=DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that you will clone to create a new Autonomous Database.
@@ -94,6 +96,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
 * `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Autonomous Database CPU core count. 
 * `is_dedicated` - True if it is dedicated database. 
+* `is_preview` - Indicates if the Autonomous Database version is a preview version.
 * `license_model` - The Oracle license model that applies to the Oracle Autonomous Database. The default is BRING_YOUR_OWN_LICENSE. 
 * `lifecycle_details` - Information about the current lifecycle state.
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
