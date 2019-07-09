@@ -54,7 +54,7 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 	customer_bgp_asn = "${var.virtual_circuit_customer_bgp_asn}"
 	display_name = "${var.virtual_circuit_display_name}"
 	gateway_id = "${oci_core_gateway.test_gateway.id}"
-	provider_service_id = "${oci_core_provider_service.test_provider_service.id}"
+	provider_service_id = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}"
 	provider_service_key_name = "${var.virtual_circuit_provider_service_key_name}"
 	public_prefixes {
 		#Required
