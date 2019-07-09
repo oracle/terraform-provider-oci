@@ -120,12 +120,6 @@ func IdentityUserResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			// @Deprecated: time_modified (removed)
-			"time_modified": {
-				Type:       schema.TypeString,
-				Deprecated: FieldDeprecated("time_modified"),
-				Computed:   true,
-			},
 		},
 	}
 }

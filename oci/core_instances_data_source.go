@@ -36,16 +36,6 @@ func CoreInstancesDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     GetDataSourceItemSchema(CoreInstanceResource()),
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
-			},
 		},
 	}
 }

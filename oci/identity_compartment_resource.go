@@ -83,12 +83,6 @@ func IdentityCompartmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			// @Deprecated 01/2018: time_modified (removed). @next-break: remove
-			"time_modified": {
-				Type:       schema.TypeString,
-				Deprecated: FieldDeprecated("time_modified"),
-				Computed:   true,
-			},
 		},
 	}
 }
