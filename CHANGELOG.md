@@ -12,6 +12,16 @@
 ### Fixed
 - Address panics caused by invalid type assertions in object map conversion. This could potentially affect attributes
 that are maps of string values.
+- Removing deprecated fields that have no current valid use
+    - We are removing page and limit in list operations that are obsolete in terraform because of our pagination logic
+    - We are also removing deprecated "time_modified" fields that are not being populated from the following resources:
+        - core_internet_gateway
+        - core_route_table
+        - identity_compartment
+        - identity_group
+        - identity_policy
+        - identity_user
+- Removing deprecated field `time_state_modifed` from data source `core_ip_sec_connection_device_status`.  `time_state_modified` should be used instead
 
 ## 3.32.0 (July 03, 2019)
 
