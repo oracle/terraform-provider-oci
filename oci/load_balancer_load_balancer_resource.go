@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -64,6 +65,14 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"network_security_group_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Set:      literalTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 
 			// Computed
@@ -221,6 +230,19 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 		request.IsPrivate = &tmp
 	}
 
+	request.NetworkSecurityGroupIds = []string{}
+	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
+		set := networkSecurityGroupIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.NetworkSecurityGroupIds = tmp
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.ShapeName = &tmp
@@ -291,6 +313,12 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Get() error {
 }
 
 func (s *LoadBalancerLoadBalancerResourceCrud) Update() error {
+	if s.D.HasChange("network_security_group_ids") {
+		err := s.updateNetworkSecurityGroups()
+		if err != nil {
+			return fmt.Errorf("unable to update 'network_security_group_ids', error: %v", err)
+		}
+	}
 	request := oci_load_balancer.UpdateLoadBalancerRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -402,6 +430,12 @@ func (s *LoadBalancerLoadBalancerResourceCrud) SetData() error {
 		s.D.Set("is_private", *s.Res.IsPrivate)
 	}
 
+	networkSecurityGroupIds := []interface{}{}
+	for _, item := range s.Res.NetworkSecurityGroupIds {
+		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
+	}
+	s.D.Set("network_security_group_ids", schema.NewSet(literalTypeHashCodeForSets, networkSecurityGroupIds))
+
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape", *s.Res.ShapeName)
 	}
@@ -429,4 +463,47 @@ func IpAddressToMap(obj oci_load_balancer.IpAddress) map[string]interface{} {
 	}
 
 	return result
+}
+
+func (s *LoadBalancerLoadBalancerResourceCrud) updateNetworkSecurityGroups() error {
+	updateNsgIdsRequest := oci_load_balancer.UpdateNetworkSecurityGroupsRequest{}
+
+	updateNsgIdsRequest.NetworkSecurityGroupIds = []string{}
+
+	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
+		set := networkSecurityGroupIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		updateNsgIdsRequest.NetworkSecurityGroupIds = tmp
+	}
+
+	tmp := s.D.Id()
+	updateNsgIdsRequest.LoadBalancerId = &tmp
+
+	updateNsgIdsRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+
+	response, err := s.Client.UpdateNetworkSecurityGroups(context.Background(), updateNsgIdsRequest)
+	if err != nil {
+		return err
+	}
+
+	workReqID := response.OpcWorkRequestId
+	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
+	getWorkRequestRequest.WorkRequestId = workReqID
+	getWorkRequestRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
+	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	if err != nil {
+		return err
+	}
+	s.WorkRequest = &workRequestResponse.WorkRequest
+	err = LoadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, getRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	if err != nil {
+		return err
+	}
+	return nil
 }

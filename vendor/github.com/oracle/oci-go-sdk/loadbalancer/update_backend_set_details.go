@@ -16,6 +16,7 @@ import (
 // UpdateBackendSetDetails The configuration details for updating a load balancer backend set.
 // For more information on backend set configuration, see
 // Managing Backend Sets (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingbackendsets.htm).
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type UpdateBackendSetDetails struct {
 
 	// The load balancer policy for the backend set. To get a list of available policies, use the

@@ -60,8 +60,9 @@ resource "oci_load_balancer" "lb1" {
     "${oci_core_subnet.subnet1.id}",
   ]
 
-  display_name = "lb1"
-  is_private   = true
+  display_name               = "lb1"
+  is_private                 = true
+  network_security_group_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 }
 
 resource "oci_load_balancer_backend_set" "lb-bes1" {
@@ -80,6 +81,12 @@ resource "oci_load_balancer_backend_set" "lb-bes1" {
     cookie_name      = "lb-session1"
     disable_fallback = true
   }
+}
+
+resource "oci_core_network_security_group" "test_network_security_group" {
+  #Required
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id         = "${oci_core_virtual_network.vcn1.id}"
 }
 
 output "lb_private_ip" {

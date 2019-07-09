@@ -142,6 +142,14 @@ func CoreInstanceResource() *schema.Resource {
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 							// @CODEGEN 1/2018: Remove ForceNew, this is updatable via vnic update
 						},
+						"nsg_ids": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Set:      literalTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"private_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -883,6 +891,7 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 			log.Printf("[WARN] Primary VNIC could not be found during instance refresh: %q", vnicError)
 		} else {
 			s.D.Set("hostname_label", vnic.HostnameLabel)
+			s.D.Set("nsg_ids", vnic.NsgIds)
 			s.D.Set("public_ip", vnic.PublicIp)
 			s.D.Set("private_ip", vnic.PrivateIp)
 			s.D.Set("subnet_id", vnic.SubnetId)
@@ -894,7 +903,7 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 				}
 			}
 
-			err := s.D.Set("create_vnic_details", []interface{}{CreateVnicDetailsToMap(vnic, createVnicDetails)})
+			err := s.D.Set("create_vnic_details", []interface{}{CreateVnicDetailsToMap(vnic, createVnicDetails, false)})
 			if err != nil {
 				log.Printf("[WARN] create_vnic_details could not be set: %q", err)
 			}
@@ -938,6 +947,19 @@ func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat
 		result.HostnameLabel = &tmp
 	}
 
+	result.NsgIds = []string{}
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		result.NsgIds = tmp
+	}
+
 	if privateIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_ip")); ok {
 		tmp := privateIp.(string)
 		result.PrivateIp = &tmp
@@ -956,7 +978,7 @@ func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat
 	return result, nil
 }
 
-func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface{}) map[string]interface{} {
+func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface{}, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	// "assign_public_ip" isn't part of the VNIC's state & is only useful at creation time (and
@@ -982,6 +1004,16 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 
 	if obj.HostnameLabel != nil {
 		result["hostname_label"] = string(*obj.HostnameLabel)
+	}
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.PrivateIp != nil {
@@ -1022,6 +1054,19 @@ func (s *CoreInstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat
 	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok && hostnameLabel != "" {
 		tmp := hostnameLabel.(string)
 		result.HostnameLabel = &tmp
+	}
+
+	result.NsgIds = []string{}
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		result.NsgIds = tmp
 	}
 
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {

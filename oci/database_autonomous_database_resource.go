@@ -97,6 +97,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_preview_version_with_service_terms_accepted": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"license_model": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -190,6 +196,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			},
 			"db_version": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_preview": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 			"lifecycle_details": {
@@ -477,6 +487,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("is_dedicated", *s.Res.IsDedicated)
 	}
 
+	if s.Res.IsPreview != nil {
+		s.D.Set("is_preview", *s.Res.IsPreview)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {
@@ -608,6 +622,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
 		}
+		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
+			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
+			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
+		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
@@ -662,6 +680,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
+		}
+		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
+			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
+			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))

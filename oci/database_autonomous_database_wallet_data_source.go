@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"encoding/base64"
 	"io/ioutil"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -23,6 +24,11 @@ func DatabaseAutonomousDatabaseWalletDataSource() *schema.Resource {
 				Type:      schema.TypeString,
 				Required:  true,
 				Sensitive: true,
+			},
+			"base64_encode_content": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
 			},
 
 			// Computed
@@ -91,7 +97,18 @@ func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) SetData() error {
 
 	s.D.SetId(GenerateDataSourceID())
 
-	s.D.Set("content", string(*s.Res))
+	base64EncodeContent := false
+	if tmp, ok := s.D.GetOkExists("base64_encode_content"); ok {
+		base64EncodeContent = tmp.(bool)
+	}
+
+	if base64EncodeContent {
+		// This use case is for v0.12, where content should be base64 encoded to avoid
+		// being normalized before setting in state. Otherwise, the zip file may get corrupted.
+		s.D.Set("content", base64.StdEncoding.EncodeToString(*s.Res))
+	} else {
+		s.D.Set("content", string(*s.Res))
+	}
 
 	return nil
 }

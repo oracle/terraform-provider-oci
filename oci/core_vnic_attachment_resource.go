@@ -91,6 +91,14 @@ func CoreVnicAttachmentResource() *schema.Resource {
 							Computed: true,
 							// @CODEGEN 1/2018: Remove ForceNew for this attribute, it can be updated.
 						},
+						"nsg_ids": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Set:      literalTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"private_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -400,7 +408,7 @@ func (s *CoreVnicAttachmentResourceCrud) SetData() error {
 		}
 	}
 
-	if err := s.D.Set("create_vnic_details", []interface{}{VnicDetailsToMap(&response.Vnic, createVnicDetails)}); err != nil {
+	if err := s.D.Set("create_vnic_details", []interface{}{VnicDetailsToMap(&response.Vnic, createVnicDetails, false)}); err != nil {
 		log.Printf("Unable to refresh create_vnic_details. Error: %q", err)
 	}
 
@@ -441,6 +449,19 @@ func (s *CoreVnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat s
 		result.HostnameLabel = &tmp
 	}
 
+	result.NsgIds = []string{}
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		result.NsgIds = tmp
+	}
+
 	if privateIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_ip")); ok {
 		tmp := privateIp.(string)
 		result.PrivateIp = &tmp
@@ -479,9 +500,22 @@ func (s *CoreVnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat s
 		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok {
+	if hostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname_label")); ok && hostnameLabel != "" {
 		tmp := hostnameLabel.(string)
 		result.HostnameLabel = &tmp
+	}
+
+	result.NsgIds = []string{}
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		result.NsgIds = tmp
 	}
 
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
@@ -492,7 +526,7 @@ func (s *CoreVnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat s
 	return result, nil
 }
 
-func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface{}) map[string]interface{} {
+func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface{}, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	// "assign_public_ip" isn't part of the VNIC's state & is only useful at creation time (and
@@ -518,6 +552,16 @@ func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 
 	if obj.HostnameLabel != nil {
 		result["hostname_label"] = string(*obj.HostnameLabel)
+	}
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.PrivateIp != nil {

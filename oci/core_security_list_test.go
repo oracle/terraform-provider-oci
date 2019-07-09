@@ -141,6 +141,9 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_core_security_list.test_security_list"
 	datasourceName := "data.oci_core_security_lists.test_security_lists"
 
@@ -274,6 +277,55 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SecurityListResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Optional, Create,
+						representationCopyWithNewProperties(securityListRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
+					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "3"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
+						"destination":         "10.0.2.0/24",
+						"destination_type":    "CIDR_BLOCK",
+						"icmp_options.#":      "1",
+						"icmp_options.0.code": "4",
+						"icmp_options.0.type": "3",
+						"protocol":            "1",
+						"stateless":           "false",
+					},
+						[]string{}),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "3"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
+						"icmp_options.#":      "1",
+						"icmp_options.0.code": "4",
+						"icmp_options.0.type": "3",
+						"protocol":            "1",
+						"source":              "10.0.1.0/24",
+						"source_type":         "CIDR_BLOCK",
+						"stateless":           "false",
+					},
+						[]string{}),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
 						return err
 					},
 				),

@@ -80,6 +80,11 @@ type CreateVnicDetails struct {
 	// Example: `bminstance-1`
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
 
+	// A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more
+	// information about NSGs, see
+	// NetworkSecurityGroup.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// A private IP address of your choice to assign to the VNIC. Must be an
 	// available IP address within the subnet's CIDR. If you don't specify a
 	// value, Oracle automatically assigns a private IP address from the subnet.

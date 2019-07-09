@@ -83,6 +83,15 @@ type LaunchDbSystemBase interface {
 	// **Subnet Restrictions:** See the subnet restrictions information for **subnetId**.
 	GetBackupSubnetId() *string
 
+	// The list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this DB system.
+	// A maximum of 5 allowed.
+	GetNsgIds() []string
+
+	// The list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with the backup network of this DB system.
+	// Applicable only to Exadata DB systems.
+	// A maximum of 5 allowed.
+	GetBackupNetworkNsgIds() []string
+
 	// The time zone to use for the DB system. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	GetTimeZone() *string
 
@@ -131,6 +140,8 @@ type launchdbsystembase struct {
 	FaultDomains               []string                          `mandatory:"false" json:"faultDomains"`
 	DisplayName                *string                           `mandatory:"false" json:"displayName"`
 	BackupSubnetId             *string                           `mandatory:"false" json:"backupSubnetId"`
+	NsgIds                     []string                          `mandatory:"false" json:"nsgIds"`
+	BackupNetworkNsgIds        []string                          `mandatory:"false" json:"backupNetworkNsgIds"`
 	TimeZone                   *string                           `mandatory:"false" json:"timeZone"`
 	SparseDiskgroup            *bool                             `mandatory:"false" json:"sparseDiskgroup"`
 	Domain                     *string                           `mandatory:"false" json:"domain"`
@@ -164,6 +175,8 @@ func (m *launchdbsystembase) UnmarshalJSON(data []byte) error {
 	m.FaultDomains = s.Model.FaultDomains
 	m.DisplayName = s.Model.DisplayName
 	m.BackupSubnetId = s.Model.BackupSubnetId
+	m.NsgIds = s.Model.NsgIds
+	m.BackupNetworkNsgIds = s.Model.BackupNetworkNsgIds
 	m.TimeZone = s.Model.TimeZone
 	m.SparseDiskgroup = s.Model.SparseDiskgroup
 	m.Domain = s.Model.Domain
@@ -248,6 +261,16 @@ func (m launchdbsystembase) GetDisplayName() *string {
 //GetBackupSubnetId returns BackupSubnetId
 func (m launchdbsystembase) GetBackupSubnetId() *string {
 	return m.BackupSubnetId
+}
+
+//GetNsgIds returns NsgIds
+func (m launchdbsystembase) GetNsgIds() []string {
+	return m.NsgIds
+}
+
+//GetBackupNetworkNsgIds returns BackupNetworkNsgIds
+func (m launchdbsystembase) GetBackupNetworkNsgIds() []string {
+	return m.BackupNetworkNsgIds
 }
 
 //GetTimeZone returns TimeZone
