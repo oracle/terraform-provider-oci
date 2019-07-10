@@ -95,6 +95,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					timeouts {
 						create = "15m"
@@ -122,9 +123,10 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.user_data", "ZWNobyBoZWxsbw=="),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "metadata.ssh_authorized_keys"),
-					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.%", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.%", "3"),
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyA", "valA"),
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyB", "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"),
+					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyC", "[\"valC1\", \"valC2\"]"),
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "region"),
@@ -167,6 +169,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					timeouts {
 						create = "15m"
@@ -196,6 +199,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					timeouts {
 						create = "15m"
@@ -226,6 +230,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
 					}
 				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -256,6 +261,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					create_vnic_details {
 						subnet_id = "${oci_core_subnet.t.id}"
@@ -303,6 +309,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					create_vnic_details {
 						subnet_id = "${oci_core_subnet.t.id}"
@@ -337,6 +344,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					create_vnic_details {
 						subnet_id = "${oci_core_subnet.t.id}"
@@ -385,6 +393,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					create_vnic_details {
 						subnet_id = "${oci_core_subnet.t.id}"
@@ -439,6 +448,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					create_vnic_details {
 						subnet_id = "${oci_core_subnet.t.id}"
@@ -507,6 +517,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					create_vnic_details {
 						subnet_id = "${oci_core_subnet.t.id}"
@@ -563,6 +574,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_customdiff()
 					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					create_vnic_details {
 						subnet_id = "${oci_core_subnet.t.id}"
@@ -948,6 +960,7 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_fetchVnicWhe
 					extended_metadata = {
 						keyA = "valA"
 						keyB = "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"
+						keyC = "[\"valC1\", \"valC2\"]"
 					}
 					timeouts {
 						create = "15m"
@@ -983,9 +996,10 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_fetchVnicWhe
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.user_data", "ZWNobyBoZWxsbw=="),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "metadata.ssh_authorized_keys"),
-					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.%", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.%", "3"),
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyA", "valA"),
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyB", "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"),
+					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyC", "[\"valC1\", \"valC2\"]"),
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "region"),

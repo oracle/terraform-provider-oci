@@ -105,6 +105,7 @@ resource "oci_core_instance" "TFInstance1" {
     ssh_authorized_keys = "${var.ssh_public_key}"
     some_string         = "stringA"
     nested_object       = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
+    array               = "[\"stringA\", \"stringB\"]"
   }
 }
 

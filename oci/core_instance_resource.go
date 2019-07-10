@@ -1202,7 +1202,7 @@ func InstanceAgentConfigToMap(obj *oci_core.InstanceAgentConfig) map[string]inte
 func mapToExtendedMetadata(rm map[string]interface{}) (map[string]interface{}, error) {
 	result := make(map[string]interface{})
 	for k, v := range rm {
-		val := make(map[string]interface{})
+		var val interface{}
 		//Use the string value that was passed if it is not a valid JSON string
 		if err := json.Unmarshal([]byte(v.(string)), &val); err == nil {
 			result[k] = val
