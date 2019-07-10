@@ -49,6 +49,9 @@ type CreateLoadBalancerDetails struct {
 
 	BackendSets map[string]BackendSetDetails `mandatory:"false" json:"backendSets"`
 
+	// The array of NSG OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) to be used by this Load Balancer.
+	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
+
 	Certificates map[string]CertificateDetails `mandatory:"false" json:"certificates"`
 
 	PathRouteSets map[string]PathRouteSetDetails `mandatory:"false" json:"pathRouteSets"`

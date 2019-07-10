@@ -40,6 +40,15 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// This restriction applies to both the client subnet and backup subnet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// The list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this DB system.
+	// A maximum of 5 allowed.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// The list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with the backup network of this DB system.
+	// Applicable only to Exadata DB systems.
+	// A maximum of 5 allowed.
+	BackupNetworkNsgIds []string `mandatory:"false" json:"backupNetworkNsgIds"`
+
 	// The hostname for the DB node.
 	Hostname *string `mandatory:"false" json:"hostname"`
 

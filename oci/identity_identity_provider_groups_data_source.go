@@ -138,7 +138,7 @@ func (s *IdentityIdentityProviderGroupsDataSourceCrud) SetData() error {
 		}
 
 		if r.TimeModified != nil {
-			identityProviderGroup["time_modified"] = *r.TimeModified
+			identityProviderGroup["time_modified"] = r.TimeModified.String()
 		}
 
 		resources = append(resources, identityProviderGroup)

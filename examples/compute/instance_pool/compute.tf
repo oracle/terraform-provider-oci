@@ -76,4 +76,11 @@ resource "oci_core_instance_pool" "TFInstancePool" {
     availability_domain = "${data.oci_identity_availability_domain.ad.name}"
     primary_subnet_id   = "${oci_core_subnet.ExampleSubnet.id}"
   }
+
+  load_balancers = {
+    backend_set_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
+    load_balancer_id = "${oci_load_balancer.test_load_balancer.id}"
+    port             = 80
+    vnic_selection   = "primaryvnic"
+  }
 }

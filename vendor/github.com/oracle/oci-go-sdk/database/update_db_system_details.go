@@ -36,6 +36,15 @@ type UpdateDbSystemDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this DB system.
+	// A maximum of 5 allowed.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// The list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with the backup network of this DB system.
+	// Applicable only to Exadata DB systems.
+	// A maximum of 5 allowed.
+	BackupNetworkNsgIds []string `mandatory:"false" json:"backupNetworkNsgIds"`
 }
 
 func (m UpdateDbSystemDetails) String() string {

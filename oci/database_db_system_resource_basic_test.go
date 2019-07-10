@@ -83,7 +83,18 @@ data "oci_database_db_homes" "t" {
 		dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
 		security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
 		dns_label           = "tfsubnet2"
-	}`
+	}
+	resource "oci_core_network_security_group" "test_network_security_group" {
+         compartment_id  = "${var.compartment_id}"
+		 vcn_id            = "${oci_core_virtual_network.t.id}"
+         display_name      =  "displayName"
+    }
+
+	resource "oci_core_network_security_group" "test_network_security_group2" {
+		compartment_id = "${var.compartment_id}"
+		vcn_id            = "${oci_core_virtual_network.t.id}"
+	}
+    `
 
 	ResourceDatabaseResourceName                   = "oci_database_db_system.t"
 	ResourceDatabaseToken, ResourceDatabaseTokenFn = tokenizeWithHttpReplay("database_db")
@@ -126,6 +137,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 					license_model = "LICENSE_INCLUDED"
 					node_count = "1"
 					fault_domains = ["FAULT-DOMAIN-1"]
+        			nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 					db_home {
 						db_version = "12.1.0.2"
 						database {
@@ -158,6 +170,7 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
 				),
 			},
 		},

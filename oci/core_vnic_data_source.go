@@ -52,6 +52,13 @@ func CoreVnicDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"nsg_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"private_ip_address": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -153,6 +160,8 @@ func (s *CoreVnicDataSourceCrud) SetData() error {
 	if s.Res.MacAddress != nil {
 		s.D.Set("mac_address", *s.Res.MacAddress)
 	}
+
+	s.D.Set("nsg_ids", s.Res.NsgIds)
 
 	if s.Res.PrivateIp != nil {
 		s.D.Set("private_ip_address", *s.Res.PrivateIp)

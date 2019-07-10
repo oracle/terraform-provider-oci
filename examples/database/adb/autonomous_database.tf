@@ -17,11 +17,12 @@ resource "oci_database_autonomous_database" "autonomous_database" {
   db_name                  = "adbdb1"
 
   #Optional
-  db_workload             = "${var.autonomous_database_db_workload}"
-  display_name            = "example_autonomous_database"
-  freeform_tags           = "${var.autonomous_database_freeform_tags}"
-  is_auto_scaling_enabled = "true"
-  license_model           = "${var.autonomous_database_license_model}"
+  db_workload                                    = "${var.autonomous_database_db_workload}"
+  display_name                                   = "example_autonomous_database"
+  freeform_tags                                  = "${var.autonomous_database_freeform_tags}"
+  is_auto_scaling_enabled                        = "true"
+  license_model                                  = "${var.autonomous_database_license_model}"
+  is_preview_version_with_service_terms_accepted = "false"
 }
 
 data "oci_database_autonomous_databases" "autonomous_databases" {

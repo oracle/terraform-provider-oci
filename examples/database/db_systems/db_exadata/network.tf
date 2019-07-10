@@ -99,3 +99,15 @@ resource "oci_core_security_list" "ExampleSecurityList" {
     stateless = true
   }
 }
+
+resource "oci_core_network_security_group" "test_network_security_group" {
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id         = "${oci_core_virtual_network.vcn.id}"
+  display_name   = "displayName"
+}
+
+resource "oci_core_network_security_group" "test_network_security_group_backup" {
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id         = "${oci_core_virtual_network.vcn.id}"
+  display_name   = "displayName"
+}

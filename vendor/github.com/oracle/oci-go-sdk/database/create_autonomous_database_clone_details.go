@@ -37,6 +37,9 @@ type CreateAutonomousDatabaseCloneDetails struct {
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// If set to true, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted.
+	IsPreviewVersionWithServiceTermsAccepted *bool `mandatory:"false" json:"isPreviewVersionWithServiceTermsAccepted"`
+
 	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count. The default value is false.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
 
@@ -104,6 +107,11 @@ func (m CreateAutonomousDatabaseCloneDetails) GetDisplayName() *string {
 //GetLicenseModel returns LicenseModel
 func (m CreateAutonomousDatabaseCloneDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
 	return m.LicenseModel
+}
+
+//GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
+func (m CreateAutonomousDatabaseCloneDetails) GetIsPreviewVersionWithServiceTermsAccepted() *bool {
+	return m.IsPreviewVersionWithServiceTermsAccepted
 }
 
 //GetIsAutoScalingEnabled returns IsAutoScalingEnabled
