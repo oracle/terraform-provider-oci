@@ -59,7 +59,7 @@ data "oci_core_vnic_attachments" "t" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "mac_address"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "nsg_ids.#", "2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "nsg_ids.#", "0"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_address"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip_address"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "skip_source_dest_check"),
