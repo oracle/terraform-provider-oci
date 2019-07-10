@@ -1,4 +1,4 @@
-## 3.33.0 (Unreleased)
+## 3.33.0 (July 10, 2019)
 
 ### Added
 - Support autonomous transaction processing preview mode
