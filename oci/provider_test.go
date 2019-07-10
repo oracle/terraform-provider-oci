@@ -236,7 +236,16 @@ resource "oci_core_instance" "t" {
 		create = "15m"
 	}
 }
-` + DefinedTagsDependencies
+resource "oci_core_network_security_group" "test_network_security_group1" {
+	compartment_id = "${var.compartment_id}"
+	vcn_id         = "${oci_core_virtual_network.t.id}"
+	display_name = "testNetworkSecurityGroup1"
+}
+resource "oci_core_network_security_group" "test_network_security_group2" {
+	compartment_id = "${var.compartment_id}"
+	vcn_id         = "${oci_core_virtual_network.t.id}"
+	display_name = "testNetworkSecurityGroup2"
+}` + DefinedTagsDependencies
 )
 
 const (

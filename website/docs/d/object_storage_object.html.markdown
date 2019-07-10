@@ -31,6 +31,8 @@ The following arguments are supported:
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `object` - (Required) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
 * `content_length_limit` - (Optional) The limit of the content length of the object body to download from the object store. The default is 1Mb.
+* `base64_encode_content` - (Optional) Encodes the downloaded content in base64. It is recommended to set this to `true` for binary content to avoid corrupting the zip file in Terraform state. The default value is `false` to preserve backwards compatibility with Terraform v0.11 configurations.
+If passing the base64 encoded content to a `local_file` resource, please use the `content_base64` attribute of the `local_file` resource.
 
 
 ## Attributes Reference

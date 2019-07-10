@@ -1,4 +1,18 @@
 ## 3.33.0 (Unreleased)
+
+### Added
+- Support autonomous transaction processing preview mode
+- Support load balancer attachment data source for instance pools
+- Support moving `core_route_table`, `core_security_list`, `core_subnet`, `core_vcn` resources across compartments
+- Support for Granular Security Lists using Network Security Group
+- Support for Granular Security Lists in Load Balancer
+- Support for Network Security Groups in databases
+- Support in autonomous database and object data sources for encoding downloaded binary content as base64. This works around behavior in Terraform v0.12 that could cause binary content to be corrupted if written directly to state.
+
+### Fixed
+- Address panics caused by invalid type assertions in object map conversion. This could potentially affect attributes
+that are maps of string values.
+
 ## 3.32.0 (July 03, 2019)
 
 ### Added
@@ -8,6 +22,7 @@
 
 ### Fixed
 - We were throwing an error for some resources if the resource no longer existed during refresh. This is fixed now. 
+- Change to prevent "has conflicting state of UPDATING" error in multiple dbHomes case
 
 ## 3.31.0 (June 26, 2019)
 

@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"crypto/md5"
+	"encoding/base64"
 	"encoding/hex"
 	"fmt"
 	"io/ioutil"
@@ -42,10 +43,11 @@ var (
 	}
 
 	objectSingularDataSourceRepresentation = map[string]interface{}{
-		"bucket":               Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"namespace":            Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
-		"object":               Representation{repType: Required, create: `my-test-object-3`},
-		"content_length_limit": Representation{repType: Optional, create: `17`, update: `15`},
+		"bucket":                Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace":             Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"object":                Representation{repType: Required, create: `my-test-object-3`},
+		"content_length_limit":  Representation{repType: Optional, create: `17`, update: `15`},
+		"base64_encode_content": Representation{repType: Optional, create: `true`},
 	}
 
 	objectRepresentation = map[string]interface{}{
@@ -204,6 +206,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectSingularDataSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-CA"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
@@ -218,12 +221,14 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "object", "my-test-object-3"),
 				),
 			},
+			// verify base64 encoding in singular datasource
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)) +
 					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectSingularDataSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-CA"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
@@ -231,7 +236,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_type", "text/xml"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "content", "<a1>content</a1>"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content", base64.StdEncoding.EncodeToString([]byte("<a1>content</a1>"))),
 					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.content-type", "text/xml"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),

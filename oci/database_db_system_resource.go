@@ -276,6 +276,14 @@ func DatabaseDbSystemResource() *schema.Resource {
 			},
 
 			// Optional
+			"backup_network_nsg_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Set:      literalTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"backup_subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -354,6 +362,14 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"nsg_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Set:      literalTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"source": {
 				Type:             schema.TypeString,
@@ -719,6 +735,19 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 func (s *DatabaseDbSystemResourceCrud) Update() error {
 	request := oci_database.UpdateDbSystemRequest{}
 
+	request.BackupNetworkNsgIds = []string{}
+	if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
+		set := backupNetworkNsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.BackupNetworkNsgIds = tmp
+	}
+
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
@@ -744,6 +773,19 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	request.NsgIds = []string{}
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.NsgIds = tmp
+	}
+
 	request.SshPublicKeys = []string{}
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 		interfaces := sshPublicKeys.([]interface{})
@@ -767,21 +809,7 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 
 	// Wait for dbSystem to not be in updating state after the update. UpdateDatabase returns 409 if the dbSystem is in Updating state
 	// We cannot use the usual waitForState logic here because a Get() before the SetData() would interfere with the subsequent Database Update
-	getDbSystemRequest := oci_database.GetDbSystemRequest{}
-
-	getDbSystemRequest.DbSystemId = s.Res.Id
-
-	dbSystemUpdating := func(response oci_common.OCIOperationResponse) bool {
-		if getDbSystemResponse, ok := response.Response.(oci_database.GetDbSystemResponse); ok {
-			if getDbSystemResponse.LifecycleState == oci_database.DbSystemLifecycleStateUpdating {
-				return true
-			}
-		}
-		return false
-	}
-
-	getDbSystemRequest.RequestMetadata.RetryPolicy = getRetryPolicyWithAdditionalretryCondition(s.D.Timeout(schema.TimeoutUpdate), dbSystemUpdating, "database")
-	getDbSystemResponse, err := s.Client.GetDbSystem(context.Background(), getDbSystemRequest)
+	getDbSystemResponse, err := waitForDbSystemIfItIsUpdating(s.Res.Id, s.Client, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		// Do SetData here in case the service returns updated values immediately on the Update request that don't need to wait for the waitForState
 		err = s.SetData()
@@ -799,6 +827,25 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 	}
 
 	return s.UpdateDatabaseOperation()
+}
+
+func waitForDbSystemIfItIsUpdating(dbSystemID *string, client *oci_database.DatabaseClient, timeout time.Duration) (*oci_database.GetDbSystemResponse, error) {
+	getDbSystemRequest := oci_database.GetDbSystemRequest{}
+
+	getDbSystemRequest.DbSystemId = dbSystemID
+
+	dbSystemUpdating := func(response oci_common.OCIOperationResponse) bool {
+		if getDbSystemResponse, ok := response.Response.(oci_database.GetDbSystemResponse); ok {
+			if getDbSystemResponse.LifecycleState == oci_database.DbSystemLifecycleStateUpdating {
+				return true
+			}
+		}
+		return false
+	}
+
+	getDbSystemRequest.RequestMetadata.RetryPolicy = getRetryPolicyWithAdditionalRetryCondition(timeout, dbSystemUpdating, "database")
+	getDbSystemResponse, err := client.GetDbSystem(context.Background(), getDbSystemRequest)
+	return &getDbSystemResponse, err
 }
 
 func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
@@ -861,6 +908,12 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
+
+	backupNetworkNsgIds := []interface{}{}
+	for _, item := range s.Res.BackupNetworkNsgIds {
+		backupNetworkNsgIds = append(backupNetworkNsgIds, item)
+	}
+	s.D.Set("backup_network_nsg_ids", schema.NewSet(literalTypeHashCodeForSets, backupNetworkNsgIds))
 
 	if s.Res.BackupSubnetId != nil {
 		s.D.Set("backup_subnet_id", *s.Res.BackupSubnetId)
@@ -927,6 +980,12 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	if s.Res.NodeCount != nil {
 		s.D.Set("node_count", *s.Res.NodeCount)
 	}
+
+	nsgIds := []interface{}{}
+	for _, item := range s.Res.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 
 	if s.Res.RecoStorageSizeInGB != nil {
 		s.D.Set("reco_storage_size_in_gb", *s.Res.RecoStorageSizeInGB)
@@ -1447,6 +1506,18 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := availabilityDomain.(string)
 			details.AvailabilityDomain = &tmp
 		}
+		details.BackupNetworkNsgIds = []string{}
+		if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
+			set := backupNetworkNsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.BackupNetworkNsgIds = tmp
+		}
 		if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
 			tmp := backupSubnetId.(string)
 			details.BackupSubnetId = &tmp
@@ -1507,6 +1578,18 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
 			tmp := nodeCount.(int)
 			details.NodeCount = &tmp
+		}
+		details.NsgIds = []string{}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.NsgIds = tmp
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
@@ -1561,6 +1644,18 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := availabilityDomain.(string)
 			details.AvailabilityDomain = &tmp
 		}
+		details.BackupNetworkNsgIds = []string{}
+		if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
+			set := backupNetworkNsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.BackupNetworkNsgIds = tmp
+		}
 		if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
 			tmp := backupSubnetId.(string)
 			details.BackupSubnetId = &tmp
@@ -1621,6 +1716,18 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
 			tmp := nodeCount.(int)
 			details.NodeCount = &tmp
+		}
+		details.NsgIds = []string{}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.NsgIds = tmp
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)

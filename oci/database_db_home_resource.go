@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
@@ -320,12 +321,30 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateDbHome(context.Background(), request)
-	if err != nil {
-		return err
-	}
+	// Only one dbHome can be created at a time on service side as the dbSystem will go into UPDATING state.
+	// A 409 is returned if you try to create a dbHome when the state of the dbSystem is UPDATING
+	// For the case of multiple dbHomes we want to wait for the dbSystem to not be UPDATING so that we use the Create Timeout instead of the retry timeout
+	dbSystemMayBeUpdating := true
+	startTime := time.Now()
+	endTime := startTime.Add(s.D.Timeout(schema.TimeoutCreate))
+	for dbSystemMayBeUpdating {
+		timeout := endTime.Sub(time.Now())
+		_, err = waitForDbSystemIfItIsUpdating(request.GetDbSystemId(), s.Client, timeout)
+		if err != nil {
+			return err
+		}
 
-	s.Res = &response.DbHome
+		response, err := s.Client.CreateDbHome(context.Background(), request)
+		// because we cannot control what sets the DbSystem into UPDATING state we have to check again to account for race conditions
+		if err != nil {
+			if strings.Contains(err.Error(), "has a conflicting state of UPDATING") && timeout > 0 {
+				continue
+			}
+			return err
+		}
+		dbSystemMayBeUpdating = false
+		s.Res = &response.DbHome
+	}
 	err = s.getDatabaseInfo()
 	if err != nil {
 		log.Printf("[ERROR] Could not get Database info for the dbHome: %v", err)
@@ -455,8 +474,36 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteDbHome(context.Background(), request)
-	return err
+	// Only one dbHome can be deleted at a time on service side as the dbSystem will go into UPDATING state.
+	// A 409 is returned if you try to delete a dbHome when the state of the dbSystem is UPDATING
+	// For the case of multiple dbHomes we want to wait for the dbSystem to not be UPDATING so that we use the Delete Timeout instead of the retry timeout
+	dbSystemMayBeUpdating := true
+	startTime := time.Now()
+	endTime := startTime.Add(s.D.Timeout(schema.TimeoutDelete))
+	for dbSystemMayBeUpdating {
+		timeout := endTime.Sub(time.Now())
+		dbSystemId, ok := s.D.GetOkExists("db_system_id")
+		if ok && dbSystemId != nil {
+			dbSystemIdStr := dbSystemId.(string)
+			_, err := waitForDbSystemIfItIsUpdating(&dbSystemIdStr, s.Client, timeout)
+			if err != nil {
+				return err
+			}
+		} else {
+			dbSystemMayBeUpdating = false
+		}
+
+		_, err := s.Client.DeleteDbHome(context.Background(), request)
+		// because we cannot control what sets the DbSystem into UPDATING state we have to check again to account for race conditions
+		if err != nil {
+			if strings.Contains(err.Error(), "has a conflicting state of UPDATING") && timeout > 0 {
+				continue
+			}
+			return err
+		}
+		dbSystemMayBeUpdating = false
+	}
+	return nil
 }
 
 func (s *DatabaseDbHomeResourceCrud) SetData() error {

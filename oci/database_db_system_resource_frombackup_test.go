@@ -40,6 +40,8 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 		license_model = "LICENSE_INCLUDED"
 		node_count = "1"
 		display_name = "tfDbSystemTest"
+		backup_network_nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
+        nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 		db_home {
 			db_version = "12.1.0.2"
 			display_name = "dbHome1"
@@ -118,6 +120,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 					node_count = "1"
 					display_name = "tfDbSystemTestFromBackup"
 					source = "DB_BACKUP"
+        			nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 					db_home {
 						db_version = "12.1.0.2"
 						database {
@@ -151,6 +154,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "dbback"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
 				),
 			},
 		},

@@ -76,6 +76,9 @@ type AutonomousDatabaseSummary struct {
 	// A valid Oracle Database version for Autonomous Database.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
+	// Indicates if the Autonomous Database version is a preview version.
+	IsPreview *bool `mandatory:"false" json:"isPreview"`
+
 	// The Autonomous Database workload type. OLTP indicates an Autonomous Transaction Processing database and DW indicates an Autonomous Data Warehouse database.
 	DbWorkload AutonomousDatabaseSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 

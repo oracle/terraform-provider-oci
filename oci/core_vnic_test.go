@@ -17,7 +17,8 @@ var (
 		"vnic_id": Representation{repType: Required, create: `${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}`},
 	}
 
-	VnicResourceConfig = ``
+	VnicResourceConfig             = ``
+	VnicResourceConfigDependencies = InstanceResourceConfig + KeyResourceDependencyConfig
 )
 
 func TestCoreVnicResource_basic(t *testing.T) {
@@ -40,14 +41,14 @@ func TestCoreVnicResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify singular datasource
 			{
-				Config: config + instanceDnsConfig + `
+				Config: config + `
 
 data "oci_core_vnic_attachments" "t" {
 	compartment_id = "${var.compartment_id}"
-	instance_id = "${oci_core_instance.t.id}"
+	instance_id = "${oci_core_instance.test_instance.id}"
 }` +
 					generateDataSourceFromRepresentationMap("oci_core_vnic", "test_vnic", Required, Create, vnicSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + VnicResourceConfig,
+					compartmentIdVariableStr + VnicResourceConfig + VnicResourceConfigDependencies,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic_id"),
 
@@ -58,6 +59,7 @@ data "oci_core_vnic_attachments" "t" {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "mac_address"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "nsg_ids.#", "2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_address"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip_address"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "skip_source_dest_check"),

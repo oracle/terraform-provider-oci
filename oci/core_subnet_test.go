@@ -69,6 +69,9 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_core_subnet.test_subnet"
 	datasourceName := "data.oci_core_subnets.test_subnets"
 	singularDatasourceName := "data.oci_core_subnet.test_subnet"
@@ -125,6 +128,41 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SubnetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create,
+						representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "MySubnet"),
+					resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "prohibit_public_ip_on_vnic", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
+					resource.TestCheckResourceAttr(resourceName, "security_list_ids.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "virtual_router_ip"),
+					resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
 						return err
 					},
 				),

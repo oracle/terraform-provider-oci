@@ -113,5 +113,12 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
   display_name        = "TFExampleDataGuardAssociationVM"
   subnet_id           = "${oci_core_subnet.test_subnet.id}"
   availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
+  nsg_ids             = ["${oci_core_network_security_group.test_network_security_group.id}"]
   hostname            = "ocidb"
+}
+
+resource "oci_core_network_security_group" "test_network_security_group" {
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id         = "${oci_core_virtual_network.vcn1.id}"
+  display_name   = "tf-example-nsg"
 }

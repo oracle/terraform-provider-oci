@@ -45,6 +45,11 @@ data "oci_core_instance" "TFInstancePoolInstanceSingularDatasources" {
   instance_id = "${lookup(data.oci_core_instance_pool_instances.TFInstancePoolInstanceDatasources.instances[count.index], "id")}"
 }
 
+data "oci_core_instance_pool_load_balancer_attachment" test_instance_pool_load_balancer_attachment {
+  instance_pool_id                          = "${oci_core_instance_pool.TFInstancePool.id}"
+  instance_pool_load_balancer_attachment_id = "${oci_core_instance_pool.TFInstancePool.load_balancers.0.id}"
+}
+
 output "Pooled instances private IPs" {
   value = ["${data.oci_core_instance.TFInstancePoolInstanceSingularDatasources.*.private_ip}"]
 }
@@ -55,4 +60,8 @@ output "Pooled instances public IPs" {
 
 output "Pooled instances hostname labels" {
   value = ["${data.oci_core_instance.TFInstancePoolInstanceSingularDatasources.*.hostname_label}"]
+}
+
+output "Load Balancer backend set name" {
+  value = ["${data.oci_core_instance_pool_load_balancer_attachment.test_instance_pool_load_balancer_attachment.backend_set_name}"]
 }

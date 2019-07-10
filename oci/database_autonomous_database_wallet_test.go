@@ -16,6 +16,7 @@ var (
 	autonomousDatabaseWalletSingularDataSourceRepresentation = map[string]interface{}{
 		"autonomous_database_id": Representation{repType: Required, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
 		"password":               Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"base64_encode_content":  Representation{repType: Optional, create: `true`},
 	}
 
 	AutonomousDatabaseWalletResourceConfig = AutonomousDatabaseResourceConfig
@@ -47,7 +48,20 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "false"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
+				),
+			},
+			// verify datasource with base64 encoded content
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", Optional, Create, autonomousDatabaseWalletSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + AutonomousDatabaseWalletResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),
+					testCheckAttributeBase64Encoded(singularDatasourceName, "content", true),
 				),
 			},
 		},

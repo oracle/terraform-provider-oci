@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -34,6 +35,11 @@ func ObjectStorageObjectDataSource() *schema.Resource {
 				Optional: true,
 				//default value is 1MB
 				Default: 1048576,
+			},
+			"base64_encode_content": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
 			},
 
 			// Computed
@@ -144,10 +150,19 @@ func (s *ObjectStorageObjectDataSourceCrud) SetData() error {
 
 	s.D.SetId(GenerateDataSourceID())
 
+	base64EncodeContent := false
+	if tmp, ok := s.D.GetOkExists("base64_encode_content"); ok {
+		base64EncodeContent = tmp.(bool)
+	}
+
 	contentReader := s.Res.Content
 	contentArray, err := ioutil.ReadAll(contentReader)
 	if err != nil {
 		log.Printf("unable to read 'content' from response. Error: %v", err)
+	} else if base64EncodeContent {
+		// This use case is for v0.12, where content should be base64 encoded to avoid
+		// being normalized before setting in state.
+		s.D.Set("content", base64.StdEncoding.EncodeToString(contentArray))
 	} else {
 		s.D.Set("content", string(contentArray))
 	}
