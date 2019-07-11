@@ -65,6 +65,7 @@ const (
 	KeySummaryLifecycleStatePendingDeletion    KeySummaryLifecycleStateEnum = "PENDING_DELETION"
 	KeySummaryLifecycleStateSchedulingDeletion KeySummaryLifecycleStateEnum = "SCHEDULING_DELETION"
 	KeySummaryLifecycleStateCancellingDeletion KeySummaryLifecycleStateEnum = "CANCELLING_DELETION"
+	KeySummaryLifecycleStateUpdating           KeySummaryLifecycleStateEnum = "UPDATING"
 )
 
 var mappingKeySummaryLifecycleState = map[string]KeySummaryLifecycleStateEnum{
@@ -78,6 +79,7 @@ var mappingKeySummaryLifecycleState = map[string]KeySummaryLifecycleStateEnum{
 	"PENDING_DELETION":    KeySummaryLifecycleStatePendingDeletion,
 	"SCHEDULING_DELETION": KeySummaryLifecycleStateSchedulingDeletion,
 	"CANCELLING_DELETION": KeySummaryLifecycleStateCancellingDeletion,
+	"UPDATING":            KeySummaryLifecycleStateUpdating,
 }
 
 // GetKeySummaryLifecycleStateEnumValues Enumerates the set of values for KeySummaryLifecycleStateEnum

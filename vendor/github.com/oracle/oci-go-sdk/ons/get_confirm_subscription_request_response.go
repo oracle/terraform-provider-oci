@@ -11,7 +11,7 @@ import (
 // GetConfirmSubscriptionRequest wrapper for the GetConfirmSubscription operation
 type GetConfirmSubscriptionRequest struct {
 
-	// The subscription ID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to get the confirmation details for.
 	Id *string `mandatory:"true" contributesTo:"path" name:"id"`
 
 	// The subscription confirmation token.

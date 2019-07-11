@@ -1,10 +1,10 @@
 // Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Notification API
+// Notifications API
 //
-// Use the Notification API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see Notification Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
+// Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
+// For information about managing topics, subscriptions, and messages, see Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
 //
 
 package ons
@@ -19,16 +19,23 @@ type Subscription struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The subscription protocol. Valid values: EMAIL, HTTPS.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated topic.
+	TopicId *string `mandatory:"true" json:"topicId"`
+
 	Protocol *string `mandatory:"true" json:"protocol"`
 
 	// The endpoint of the subscription. Valid values depend on the protocol.
 	// For EMAIL, only an email address is valid. For HTTPS, only a PagerDuty URL is valid. A URL cannot exceed 512 characters.
-	// Avoid entering confidential information.
 	Endpoint *string `mandatory:"true" json:"endpoint"`
 
-	// The lifecycle state of the subscription.
+	// The lifecycle state of the subscription. The status of a new subscription is PENDING; when confirmed, the subscription status changes to ACTIVE.
 	LifecycleState SubscriptionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for the subscription.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The time when this suscription was created.
+	CreatedTime *int64 `mandatory:"false" json:"createdTime"`
 
 	// The delivery policy of the subscription. Stored as a JSON string.
 	DeliverPolicy *string `mandatory:"false" json:"deliverPolicy"`
