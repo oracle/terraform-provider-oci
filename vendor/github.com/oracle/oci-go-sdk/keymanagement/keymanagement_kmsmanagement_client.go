@@ -100,6 +100,53 @@ func (client KmsManagementClient) cancelKeyDeletion(ctx context.Context, request
 	return response, err
 }
 
+// ChangeKeyCompartment Moves a key into a different compartment. When provided, If-Match is checked against ETag values of the key.
+func (client KmsManagementClient) ChangeKeyCompartment(ctx context.Context, request ChangeKeyCompartmentRequest) (response ChangeKeyCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeKeyCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeKeyCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeKeyCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeKeyCompartmentResponse")
+	}
+	return
+}
+
+// changeKeyCompartment implements the OCIOperation interface (enables retrying operations)
+func (client KmsManagementClient) changeKeyCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/keys/{keyId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeKeyCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateKey Creates a new key.
 func (client KmsManagementClient) CreateKey(ctx context.Context, request CreateKeyRequest) (response CreateKeyResponse, err error) {
 	var ociResponse common.OCIResponse

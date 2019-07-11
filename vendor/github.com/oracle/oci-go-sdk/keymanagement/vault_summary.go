@@ -68,6 +68,7 @@ const (
 	VaultSummaryLifecycleStatePendingDeletion    VaultSummaryLifecycleStateEnum = "PENDING_DELETION"
 	VaultSummaryLifecycleStateSchedulingDeletion VaultSummaryLifecycleStateEnum = "SCHEDULING_DELETION"
 	VaultSummaryLifecycleStateCancellingDeletion VaultSummaryLifecycleStateEnum = "CANCELLING_DELETION"
+	VaultSummaryLifecycleStateUpdating           VaultSummaryLifecycleStateEnum = "UPDATING"
 )
 
 var mappingVaultSummaryLifecycleState = map[string]VaultSummaryLifecycleStateEnum{
@@ -78,6 +79,7 @@ var mappingVaultSummaryLifecycleState = map[string]VaultSummaryLifecycleStateEnu
 	"PENDING_DELETION":    VaultSummaryLifecycleStatePendingDeletion,
 	"SCHEDULING_DELETION": VaultSummaryLifecycleStateSchedulingDeletion,
 	"CANCELLING_DELETION": VaultSummaryLifecycleStateCancellingDeletion,
+	"UPDATING":            VaultSummaryLifecycleStateUpdating,
 }
 
 // GetVaultSummaryLifecycleStateEnumValues Enumerates the set of values for VaultSummaryLifecycleStateEnum

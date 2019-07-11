@@ -112,6 +112,8 @@ func (client ComputeManagementClient) attachLoadBalancer(ctx context.Context, re
 // ChangeInstanceConfigurationCompartment Moves an instance configuration into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// When you move an instance configuration to a different compartment, associated resources such as
+// instance pools are not moved.
 // **Important:** Most of the properties for an existing instance configuration, including the compartment,
 // cannot be modified after you create the instance configuration. Although you can move an instance configuration
 // to a different compartment, you will not be able to use the instance configuration to manage instance pools
