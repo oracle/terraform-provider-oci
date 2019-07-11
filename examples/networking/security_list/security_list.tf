@@ -19,7 +19,7 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-resource "oci_core_virtual_network" "ExampleVCN" {
+resource "oci_core_vcn" "ExampleVCN" {
   cidr_block     = "10.0.0.0/16"
   dns_label      = "examplevcn"
   compartment_id = "${var.compartment_ocid}"
@@ -31,7 +31,7 @@ resource "oci_core_virtual_network" "ExampleVCN" {
 
 resource "oci_core_security_list" "ExampleSecurityList" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_virtual_network.ExampleVCN.id}"
+  vcn_id         = "${oci_core_vcn.ExampleVCN.id}"
   display_name   = "TFExampleSecurityList"
 
   // allow outbound tcp traffic on all ports
