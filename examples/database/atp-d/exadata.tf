@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-resource "oci_core_virtual_network" "t" {
+resource "oci_core_vcn" "t" {
   compartment_id = "${var.compartment_ocid}"
   cidr_block     = "10.1.0.0/16"
   display_name   = "-tf-vcn"
@@ -14,7 +14,7 @@ data "oci_identity_availability_domain" "ad" {
 
 resource "oci_core_security_list" "exadata_shapes_security_list" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_virtual_network.t.id}"
+  vcn_id         = "${oci_core_vcn.t.id}"
   display_name   = "ExadataSecurityList"
 
   ingress_security_rules {
@@ -43,10 +43,10 @@ resource "oci_core_subnet" "exadata_subnet" {
   cidr_block          = "10.1.22.0/24"
   display_name        = "ExadataSubnet"
   compartment_id      = "${var.compartment_ocid}"
-  vcn_id              = "${oci_core_virtual_network.t.id}"
-  route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
-  dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-  security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}", "${oci_core_security_list.exadata_shapes_security_list.id}"]
+  vcn_id              = "${oci_core_vcn.t.id}"
+  route_table_id      = "${oci_core_vcn.t.default_route_table_id}"
+  dhcp_options_id     = "${oci_core_vcn.t.default_dhcp_options_id}"
+  security_list_ids   = ["${oci_core_vcn.t.default_security_list_id}", "${oci_core_security_list.exadata_shapes_security_list.id}"]
   dns_label           = "subnetexadata"
 }
 
@@ -65,7 +65,7 @@ resource "oci_database_autonomous_exadata_infrastructure" "test_autonomous_exada
       name = "MONDAY"
     }
 
-    hours_of_day = ["2"]
+    hours_of_day = ["4"]
 
     months = {
       name = "APRIL"

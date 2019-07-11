@@ -19,7 +19,7 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-resource "oci_core_virtual_network" "ExampleVCN" {
+resource "oci_core_vcn" "ExampleVCN" {
   cidr_block     = "10.1.0.0/16"
   compartment_id = "${var.compartment_ocid}"
   display_name   = "TFExampleVCN"
@@ -28,7 +28,7 @@ resource "oci_core_virtual_network" "ExampleVCN" {
 
 resource "oci_core_dhcp_options" "ExampleDhcpOptions1" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_virtual_network.ExampleVCN.id}"
+  vcn_id         = "${oci_core_vcn.ExampleVCN.id}"
   display_name   = "TFExampleDhcpOptions1"
 
   // required
@@ -46,7 +46,7 @@ resource "oci_core_dhcp_options" "ExampleDhcpOptions1" {
 
 resource "oci_core_dhcp_options" "ExampleDhcpOptions2" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_virtual_network.ExampleVCN.id}"
+  vcn_id         = "${oci_core_vcn.ExampleVCN.id}"
   display_name   = "TFExampleDhcpOptions2"
 
   // required

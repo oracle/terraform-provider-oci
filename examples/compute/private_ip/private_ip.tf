@@ -41,7 +41,7 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 1
 }
 
-resource "oci_core_virtual_network" "ExampleVCN" {
+resource "oci_core_vcn" "ExampleVCN" {
   cidr_block     = "10.1.0.0/16"
   compartment_id = "${var.compartment_ocid}"
   display_name   = "TFExampleVCN"
@@ -53,11 +53,11 @@ resource "oci_core_subnet" "ExampleSubnet" {
   cidr_block          = "10.1.20.0/24"
   display_name        = "TFExampleSubnet"
   dns_label           = "tfexamplesubnet"
-  security_list_ids   = ["${oci_core_virtual_network.ExampleVCN.default_security_list_id}"]
+  security_list_ids   = ["${oci_core_vcn.ExampleVCN.default_security_list_id}"]
   compartment_id      = "${var.compartment_ocid}"
-  vcn_id              = "${oci_core_virtual_network.ExampleVCN.id}"
-  route_table_id      = "${oci_core_virtual_network.ExampleVCN.default_route_table_id}"
-  dhcp_options_id     = "${oci_core_virtual_network.ExampleVCN.default_dhcp_options_id}"
+  vcn_id              = "${oci_core_vcn.ExampleVCN.id}"
+  route_table_id      = "${oci_core_vcn.ExampleVCN.default_route_table_id}"
+  dhcp_options_id     = "${oci_core_vcn.ExampleVCN.default_dhcp_options_id}"
 }
 
 # Create Instance
