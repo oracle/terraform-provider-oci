@@ -46,7 +46,7 @@ var (
 )
 
 func TestResourceLoadBalancerRuleSetResource_controlAccess_test(t *testing.T) {
-	httpreplay.SetScenario("TestLoadBalancerRuleSetResource_controlAccess")
+	httpreplay.SetScenario("TestResourceLoadBalancerRuleSetResource_controlAccess_test")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
