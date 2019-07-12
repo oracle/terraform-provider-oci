@@ -45,12 +45,11 @@ The following attributes are exported:
 
 		Example: ["GET", "PUT", "POST", "PROPFIND"] 
 	* `conditions` - 
-		* `attribute_name` - The attribute_name can be one of these values: `SOURCE_IP_ADDRESS`, `SOURCE_VCN_ID`, `SOURCE_VCN_IP_ADDRESS`
-		* `attribute_value` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the originating VCN that an incoming packet must match.
-
-			You can use this condition in conjunction with `SourceVcnIpAddressCondition`.
-
-			**NOTE:** If you define this condition for a rule without a `SourceVcnIpAddressCondition`, this condition matches all incoming traffic in the specified VCN. 
+		 * `attribute_name` - (Required) (Updatable) The attribute_name can be one of these values: `SOURCE_IP_ADDRESS`, `SOURCE_VCN_ID`, `SOURCE_VCN_IP_ADDRESS`
+         * `attribute_value` - (Required) (Updatable) epends on `attribute_name`:
+            - when `attribute_name` = `SOURCE_IP_ADDRESS` | IPv4 or IPv6 address range to which the source IP address of incoming packet would be matched against
+            - when `attribute_name` = `SOURCE_VCN_IP_ADDRESS` | IPv4 address range to which the original client IP address (in customer VCN) of incoming packet would be matched against
+            - when `attribute_name` = `SOURCE_VCN_ID` | OCID of the customer VCN to which the service gateway embedded VCN ID of incoming packet would be matched against
 	* `description` - A brief description of the access control rule. Avoid entering confidential information.
 
 		example: `192.168.0.0/16 and 2001:db8::/32 are trusted clients. Whitelist them.` 
