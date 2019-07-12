@@ -54,6 +54,10 @@ func createTmpSourceFile() (string, error) {
 }
 
 func TestFunctionsInvokeFunctionResource_basic(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skipping TestFunctionsInvokeFunctionResource_basic in HttpReplay mode till json encoding is fixed.")
+	}
+
 	httpreplay.SetScenario("TestFunctionsInvokeFunctionResource_basic")
 	defer httpreplay.SaveScenario()
 
