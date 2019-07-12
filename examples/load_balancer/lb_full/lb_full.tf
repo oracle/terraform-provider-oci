@@ -363,5 +363,5 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 }
 
 output "lb_public_ip" {
-  value = ["${oci_load_balancer.lb1.ip_addresses}"]
+  value = ["${oci_load_balancer.lb1.ip_address_details}"]
 }

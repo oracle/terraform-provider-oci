@@ -26,7 +26,10 @@
         - identity_group
         - identity_policy
         - identity_user
-- Removing deprecated field `time_state_modifed` from data source `core_ip_sec_connection_device_status`.  `time_state_modified` should be used instead
+- Removing deprecated field `time_state_modifed` from data source `oci_core_ip_sec_connection_device_status`.  `time_state_modified` should be used instead
+- Removing deprecated fields `content-length` and `content-type` from data source `oci_objectstorage_object_head`. `content_length` and `content_type` should be used instead
+- Removing `compartment_id` from resource `oci_core_drg_attachment` as an Optional field as the service does not accept it. The compartment of the VCN is the one used by the service. Keeping it as a computed field. 
+- Removing deprecated field `db_data_size_in_mbs` from resource `oci_database_backup`. `database_size_in_gbs` should be used instead
 
 ## 3.33.0 (July 10, 2019)
 

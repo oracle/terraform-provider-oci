@@ -49,10 +49,6 @@ func CoreDrgAttachmentResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
-				// Used to be required. Added back as optional to avoid showing errors (this field
-				// cannot be set).
-				Optional:   true,
-				Deprecated: "No longer required. The DRG attachment is automatically placed into the same compartment as the VCN.",
 			},
 			"state": {
 				Type:     schema.TypeString,
