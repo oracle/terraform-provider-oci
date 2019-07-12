@@ -1,25 +1,22 @@
 ## 3.34.0 (Unreleased)
 
 ### Added
-- Support for functions as a service
+- Support for Functions as a service
 - Support for adding resource limits to compartments
-- Support for Kms support for Cross-region backup copy in Block Storage.
+- Support for KMS encryption key for Cross-region backup copy in Block Storage.
 - Support for exposing KmsKeyId on backups in Block Storage.
-- Support for Permitted Methods Feature in LBaaS
+- Support for Permitted Methods feature in LBaaS
 - Support for VCN access control lists via `load_balancer_rule_set`
-- Support for moving `ons_notification_topic`, `ons_subscription` resources across compartments
-- Support for moving `oci_load_balancer` across compartments
-- Support for moving `oci_kms_key` and `oci_kms_vault` Across Compartments
-- Support for moving `core_instance` resources across compartments
 - Support for LBaaS Cookie Insertion (Sticky Cookie) 
+- Support for VCN Transit Routing to Oracle Services via Service Gateways
+- Support for moving `ons_notification_topic`, `ons_subscription` resources across compartments
+- Support for moving `oci_load_balancer` resources across compartments
+- Support for moving `oci_kms_key` and `oci_kms_vault` resources across compartments
+- Support for moving `core_instance` resources across compartments
 - Support for moving `identity_compartment` resource tree across compartments
 - Support for moving `dns_zone` and `dns_steering_policy` resources across compartments
-- Support in autonomous database and object data sources for encoding downloaded binary content as base64. This works around behavior in Terraform v0.12 that could cause binary content to be corrupted if written directly to state.
-- Support for VCN Transit Routing to Oracle Services via Service Gateways
 
 ### Fixed
-- Address panics caused by invalid type assertions in object map conversion. This could potentially affect attributes
-that are maps of string values.
 - Removing deprecated fields that have no current valid use
     - We are removing page and limit in list operations that are obsolete in terraform because of our pagination logic
     - We are also removing deprecated "time_modified" fields that are not being populated from the following resources:
@@ -40,6 +37,11 @@ that are maps of string values.
 - Support for Granular Security Lists using Network Security Group
 - Support for Granular Security Lists in Load Balancer
 - Support for Network Security Groups in databases
+- Support in autonomous database and object data sources for encoding downloaded binary content as base64. This works around behavior in Terraform v0.12 that could cause binary content to be corrupted if written directly to state.
+
+### Fixed
+- Address panics caused by invalid type assertions in object map conversion. This could potentially affect attributes
+that are maps of string values.
 
 ## 3.32.0 (July 03, 2019)
 
