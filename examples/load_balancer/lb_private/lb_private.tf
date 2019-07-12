@@ -113,5 +113,5 @@ resource "oci_core_network_security_group" "test_network_security_group" {
 }
 
 output "lb_private_ip" {
-  value = ["${oci_load_balancer.lb1.ip_addresses}"]
+  value = ["${oci_load_balancer.lb1.ip_address_details}"]
 }
