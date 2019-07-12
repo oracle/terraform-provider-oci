@@ -394,6 +394,17 @@ type OracleClients struct {
 	configuration                  map[string]string
 }
 
+func (m *OracleClients) FunctionsInvokeClient(endpoint string) (*oci_functions.FunctionsInvokeClient, error) {
+	if client, err := oci_functions.NewFunctionsInvokeClientWithConfigurationProvider(*m.functionsInvokeClient.ConfigurationProvider(), endpoint); err == nil {
+		if err = configureClient(&client.BaseClient); err != nil {
+			return nil, err
+		}
+		return &client, nil
+	} else {
+		return nil, err
+	}
+}
+
 func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClient, error) {
 	if client, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(*m.kmsCryptoClient.ConfigurationProvider(), endpoint); err == nil {
 		if err = configureClient(&client.BaseClient); err != nil {
@@ -407,17 +418,6 @@ func (m *OracleClients) KmsCryptoClient(endpoint string) (*oci_kms.KmsCryptoClie
 
 func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManagementClient, error) {
 	if client, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(*m.kmsManagementClient.ConfigurationProvider(), endpoint); err == nil {
-		if err = configureClient(&client.BaseClient); err != nil {
-			return nil, err
-		}
-		return &client, nil
-	} else {
-		return nil, err
-	}
-}
-
-func (m *OracleClients) FunctionsInvokeClient(endpoint string) (*oci_functions.FunctionsInvokeClient, error) {
-	if client, err := oci_functions.NewFunctionsInvokeClientWithConfigurationProvider(*m.functionsInvokeClient.ConfigurationProvider(), endpoint); err == nil {
 		if err = configureClient(&client.BaseClient); err != nil {
 			return nil, err
 		}
