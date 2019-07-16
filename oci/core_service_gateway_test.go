@@ -45,7 +45,7 @@ var (
 	}
 
 	ServiceGatewayResourceDependencies = DefinedTagsDependencies + VcnResourceConfig + ObjectStorageCoreService +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, representationCopyWithRemovedProperties(routeTableRepresentation, []string{"route_rules"})) +
 		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_network_entity", Required, Create, internetGatewayRepresentation)
 )
 
@@ -208,6 +208,7 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "service_gateways.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "service_gateways.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "service_gateways.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "service_gateways.0.route_table_id"),
 					resource.TestCheckResourceAttr(datasourceName, "service_gateways.0.services.#", "1"),
 					CheckResourceSetContainsElementWithProperties(datasourceName, "service_gateways.0.services", map[string]string{},
 						[]string{
