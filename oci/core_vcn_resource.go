@@ -58,6 +58,19 @@ func CoreVcnResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"ipv6cidr_block": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: ipv6CompressionDiffSuppressFunction,
+			},
+			"is_ipv6enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"default_dhcp_options_id": {
@@ -69,6 +82,10 @@ func CoreVcnResource() *schema.Resource {
 				Computed: true,
 			},
 			"default_security_list_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"ipv6public_cidr_block": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -191,6 +208,16 @@ func (s *CoreVcnResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if ipv6CidrBlock, ok := s.D.GetOkExists("ipv6cidr_block"); ok {
+		tmp := ipv6CidrBlock.(string)
+		request.Ipv6CidrBlock = &tmp
+	}
+
+	if isIpv6Enabled, ok := s.D.GetOkExists("is_ipv6enabled"); ok {
+		tmp := isIpv6Enabled.(bool)
+		request.IsIpv6Enabled = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateVcn(context.Background(), request)
@@ -308,6 +335,14 @@ func (s *CoreVcnResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.Ipv6CidrBlock != nil {
+		s.D.Set("ipv6cidr_block", *s.Res.Ipv6CidrBlock)
+	}
+
+	if s.Res.Ipv6PublicCidrBlock != nil {
+		s.D.Set("ipv6public_cidr_block", *s.Res.Ipv6PublicCidrBlock)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

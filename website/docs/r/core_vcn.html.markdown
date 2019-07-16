@@ -60,6 +60,8 @@ resource "oci_core_vcn" "test_vcn" {
 	display_name = "${var.vcn_display_name}"
 	dns_label = "${var.vcn_dns_label}"
 	freeform_tags = {"Department"= "Finance"}
+	ipv6cidr_block = "${var.vcn_ipv6cidr_block}"
+	is_ipv6enabled = "${var.vcn_is_ipv6enabled}"
 }
 ```
 
@@ -79,6 +81,16 @@ The following arguments are supported:
 
 	Example: `vcn1` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `ipv6cidr_block` - (Optional) IPv6 is currently supported only in the Government Cloud. If you enable IPv6 for the VCN (see `isIpv6Enabled`), you may optionally provide an IPv6 /48 CIDR block from the supported ranges (see [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm). The addresses in this block will be considered private and cannot be accessed from the internet. The documentation refers to this as a *custom CIDR* for the VCN.
+
+	If you don't provide a custom CIDR for the VCN, Oracle assigns the VCN's IPv6 /48 CIDR block.
+
+	Regardless of whether you or Oracle assigns the `ipv6CidrBlock`, Oracle *also* assigns the VCN an IPv6 CIDR block for the VCN's public IP address space (see the `ipv6PublicCidrBlock` of the [Vcn](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/) object). If you do not assign a custom CIDR, Oracle uses the *same* Oracle-assigned CIDR for both the private IP address space (`ipv6CidrBlock` in the `Vcn` object) and the public IP addreses space (`ipv6PublicCidrBlock` in the `Vcn` object). This means that a given VNIC might use the same IPv6 IP address for both private and public (internet) communication. You control whether an IPv6 address can be used for internet communication by using the `isInternetAccessAllowed` attribute in the [Ipv6](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Ipv6/) object.
+
+	For important details about IPv6 addressing in a VCN, see [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+
+	Example: `2001:0db8:0123::/48` 
+* `is_ipv6enabled` - (Optional) IPv6 is currently supported only in the Government Cloud. Whether IPv6 is enabled for the VCN. Default is `false`. You cannot change this later. For important details about IPv6 addressing in a VCN, see [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).  Example: `true` 
 
 
 ** IMPORTANT **
@@ -104,6 +116,8 @@ The following attributes are exported:
 	Example: `vcn1` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The VCN's Oracle ID (OCID).
+* `ipv6cidr_block` - For an IPv6-enabled VCN, this is the IPv6 CIDR block for the VCN's private IP address space. The VCN size is always /48. If you don't provide a value when creating the VCN, Oracle provides one and uses that *same* CIDR for the `ipv6PublicCidrBlock`. If you do provide a value, Oracle provides a *different* CIDR for the `ipv6PublicCidrBlock`.  Example: `2001:0db8:0123::/48` 
+* `ipv6public_cidr_block` - For an IPv6-enabled VCN, this is the IPv6 CIDR block for the VCN's public IP address space. The VCN size is always /48. This CIDR is always provided by Oracle. If you don't provide a custom CIDR for the `ipv6CidrBlock` when creating the VCN, Oracle assigns that value and also uses it for `ipv6PublicCidrBlock`. Oracle uses addresses from this block for the `publicIpAddress` attribute of an [Ipv6](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Ipv6/) that has internet access allowed.  Example: `2001:0db8:0123::/48` 
 * `state` - The VCN's current state.
 * `time_created` - The date and time the VCN was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_domain_name` - The VCN's domain name, which consists of the VCN's DNS label, and the `oraclevcn.com` domain.

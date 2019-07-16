@@ -58,6 +58,7 @@ resource "oci_core_subnet" "test_subnet" {
 	display_name = "${var.subnet_display_name}"
 	dns_label = "${var.subnet_dns_label}"
 	freeform_tags = {"Department"= "Finance"}
+	ipv6cidr_block = "${var.subnet_ipv6cidr_block}"
 	prohibit_public_ip_on_vnic = "${var.subnet_prohibit_public_ip_on_vnic}"
 	route_table_id = "${oci_core_route_table.test_route_table.id}"
 	security_list_ids = "${var.subnet_security_list_ids}"
@@ -88,7 +89,16 @@ The following arguments are supported:
 
 	Example: `subnet123` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `prohibit_public_ip_on_vnic` - (Optional) Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the `assignPublicIp` flag in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/)). If `prohibitPublicIpOnVnic` is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet).   Example: `true` 
+* `ipv6cidr_block` - (Optional) IPv6 is currently supported only in the Government Cloud. Use this to enable IPv6 addressing for this subnet. The VCN must be enabled for IPv6. You can't change this subnet characteristic later. All subnets are /64 in size. The subnet portion of the IPv6 address is the fourth hextet from the left (1111 in the following example).
+
+	For important details about IPv6 addressing in a VCN, see [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
+
+	Example: `2001:0db8:0123:1111::/64` 
+* `prohibit_public_ip_on_vnic` - (Optional) Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the `assignPublicIp` flag in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/)). If `prohibitPublicIpOnVnic` is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet).
+
+	For IPv6, if `prohibitPublicIpOnVnic` is set to `true`, internet access is not allowed for any IPv6s assigned to VNICs in the subnet.
+
+	Example: `true` 
 * `route_table_id` - (Optional) (Updatable) The OCID of the route table the subnet will use. If you don't provide a value, the subnet uses the VCN's default route table. 
 * `security_list_ids` - (Optional) (Updatable) The OCIDs of the security list or lists the subnet will use. If you don't provide a value, the subnet uses the VCN's default security list. Remember that security lists are associated *with the subnet*, but the rules are applied to the individual VNICs in the subnet. 
 * `vcn_id` - (Required) The OCID of the VCN to contain the subnet.
@@ -116,6 +126,9 @@ The following attributes are exported:
 	Example: `subnet123` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The subnet's Oracle ID (OCID).
+* `ipv6cidr_block` - For an IPv6-enabled subnet, this is the IPv6 CIDR block for the subnet's private IP address space. The subnet size is always /64.  Example: `2001:0db8:0123:1111::/64` 
+* `ipv6public_cidr_block` - For an IPv6-enabled subnet, this is the IPv6 CIDR block for the subnet's public IP address space. The subnet size is always /64. The left 48 bits are inherited from the `ipv6PublicCidrBlock` of the [Vcn](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/), and the remaining 16 bits are from the subnet's `ipv6CidrBlock`.  Example: `2001:0db8:0123:1111::/64` 
+* `ipv6virtual_router_ip` - For an IPv6-enabled subnet, this is the IPv6 address of the virtual router.  Example: `2001:0db8:0123:1111:89ab:cdef:1234:5678` 
 * `prohibit_public_ip_on_vnic` - Whether VNICs within this subnet can have public IP addresses. Defaults to false, which means VNICs created in this subnet will automatically be assigned public IP addresses unless specified otherwise during instance launch or VNIC creation (with the `assignPublicIp` flag in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/)). If `prohibitPublicIpOnVnic` is set to true, VNICs created in this subnet cannot have public IP addresses (that is, it's a private subnet).  Example: `true` 
 * `route_table_id` - The OCID of the route table that the subnet uses.
 * `security_list_ids` - The OCIDs of the security list or lists that the subnet uses. Remember that security lists are associated *with the subnet*, but the rules are applied to the individual VNICs in the subnet. 

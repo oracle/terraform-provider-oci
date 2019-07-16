@@ -59,6 +59,12 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"ip_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"is_private": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -222,6 +228,10 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if ipMode, ok := s.D.GetOkExists("ip_mode"); ok {
+		request.IpMode = oci_load_balancer.CreateLoadBalancerDetailsIpModeEnum(ipMode.(string))
 	}
 
 	if isPrivate, ok := s.D.GetOkExists("is_private"); ok {
