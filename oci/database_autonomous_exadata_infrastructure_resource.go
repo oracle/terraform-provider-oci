@@ -113,7 +113,7 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
-							MaxItems: 23,
+							MaxItems: 20,
 							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
@@ -198,7 +198,7 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 						"hours_of_day": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 23,
+							MaxItems: 20,
 							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
