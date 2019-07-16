@@ -204,7 +204,7 @@ func (s *UserCapabilitiesManagementResourceCrud) SetData() error {
 			s.D.Set("can_use_api_keys", *s.Res.Capabilities.CanUseApiKeys)
 		}
 		if s.Res.Capabilities.CanUseAuthTokens != nil {
-			s.D.Set("can_use_auth_tokens", *s.Res.Capabilities.CanUseApiKeys)
+			s.D.Set("can_use_auth_tokens", *s.Res.Capabilities.CanUseAuthTokens)
 		}
 		if s.Res.Capabilities.CanUseConsolePassword != nil {
 			s.D.Set("can_use_console_password", *s.Res.Capabilities.CanUseConsolePassword)
