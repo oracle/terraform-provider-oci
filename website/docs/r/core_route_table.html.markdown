@@ -64,11 +64,13 @@ The following arguments are supported:
 
 		A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).
 
-		 Example: `0.0.0.0/0` 
+		Cannot be an IPv6 CIDR.
+
+		Example: `0.0.0.0/0` 
 	* `destination` - (Optional) (Updatable) Conceptually, this is the range of IP addresses used for matching when routing traffic. Required if you provide a `destinationType`.
 
 		Allowed values:
-		* IP address range in CIDR notation. For example: `192.168.1.0/24`
+		* IP address range in CIDR notation. Can be an IPv4 or IPv6 CIDR. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`. If you set this to an IPv6 CIDR, the route rule's target can only be a DRG or internet gateway.
 		* The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/), if you're setting up a route rule for traffic destined for a particular `Service` through a service gateway. For example: `oci-phx-objectstorage`. 
 	* `destination_type` - (Optional) (Updatable) Type of destination for the rule. Required if you provide a `destination`.
 		* `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
@@ -94,11 +96,13 @@ The following attributes are exported:
 
 		A destination IP address range in CIDR notation. Matching packets will be routed to the indicated network entity (the target).
 
-		 Example: `0.0.0.0/0` 
+		Cannot be an IPv6 CIDR.
+
+		Example: `0.0.0.0/0` 
 	* `destination` - Conceptually, this is the range of IP addresses used for matching when routing traffic. Required if you provide a `destinationType`.
 
 		Allowed values:
-		* IP address range in CIDR notation. For example: `192.168.1.0/24`
+		* IP address range in CIDR notation. Can be an IPv4 or IPv6 CIDR. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`. If you set this to an IPv6 CIDR, the route rule's target can only be a DRG or internet gateway.
 		* The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/), if you're setting up a route rule for traffic destined for a particular `Service` through a service gateway. For example: `oci-phx-objectstorage`. 
 	* `destination_type` - Type of destination for the rule. Required if you provide a `destination`.
 		* `CIDR_BLOCK`: If the rule's `destination` is an IP address range in CIDR notation.
