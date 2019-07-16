@@ -33,7 +33,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"cpu_core_count": {
 				Type:     schema.TypeInt,
@@ -348,6 +347,15 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Get() error {
 }
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_database.UpdateAutonomousDatabaseRequest{}
 
 	// @CODEGEN 09/2018: Cannot update the password and scale the Autonomous Transaction Processing in same request, only include changed properties in request
@@ -691,6 +699,24 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		request.CreateAutonomousDatabaseDetails = details
 	default:
 		return fmt.Errorf("unknown source '%v' was specified", source)
+	}
+	return nil
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_database.ChangeAutonomousDatabaseCompartmentRequest{}
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.AutonomousDatabaseId = &idTmp
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.ChangeAutonomousDatabaseCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
 	}
 	return nil
 }

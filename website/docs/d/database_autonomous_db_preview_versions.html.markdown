@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_database_autonomous_db_preview_versions
 This data source provides the list of Autonomous Db Preview Versions in Oracle Cloud Infrastructure Database service.
 
-Gets a list of supported Autonomous Database versions.
+Gets a list of supported Autonomous Database versions. Note that preview version software is only available for [serverless deployments](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI).
 
 ## Example Usage
 
