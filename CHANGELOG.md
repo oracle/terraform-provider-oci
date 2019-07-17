@@ -1,4 +1,4 @@
-## 3.34.0 (Unreleased)
+## 3.34.0 (July 17, 2019)
 
 ### Added
 - Support for Functions as a service
