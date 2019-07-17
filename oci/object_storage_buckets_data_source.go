@@ -27,16 +27,6 @@ func ObjectStorageBucketsDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     ObjectStorageBucketResource(),
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
-			},
 		},
 	}
 }
@@ -73,16 +63,6 @@ func (s *ObjectStorageBucketsDataSourceCrud) Get() error {
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
 		tmp := namespace.(string)
 		request.NamespaceName = &tmp
-	}
-
-	if limit, ok := s.D.GetOkExists("limit"); ok {
-		tmp := limit.(int)
-		request.Limit = &tmp
-	}
-
-	if page, ok := s.D.GetOkExists("page"); ok {
-		tmp := page.(string)
-		request.Page = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "object_storage")

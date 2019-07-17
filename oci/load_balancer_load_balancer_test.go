@@ -43,7 +43,7 @@ var (
 		"defined_tags":               Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":              Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"is_private":                 Representation{repType: Optional, create: `false`},
-		"network_security_group_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{`${oci_core_network_security_group.test_network_security_group1.id}`, `${oci_core_network_security_group.test_network_security_group2.id}`}},
+		"network_security_group_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{}},
 	}
 
 	LoadBalancerSubnetDependencies = AvailabilityDomainConfig + `
@@ -77,8 +77,7 @@ var (
 `
 
 	LoadBalancerResourceDependencies = VcnRequiredOnlyResource + VcnResourceDependencies + LoadBalancerSubnetDependencies +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", Required, Create, networkSecurityGroupRepresentation)
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation)
 )
 
 func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
@@ -90,6 +89,9 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_load_balancer_load_balancer.test_load_balancer"
 	datasourceName := "data.oci_load_balancer_load_balancers.test_load_balancers"
@@ -148,6 +150,35 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				),
 			},
 
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + LoadBalancerResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Optional, Create,
+						representationCopyWithNewProperties(loadBalancerRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
+				),
+			},
+
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + LoadBalancerResourceDependencies +
@@ -159,7 +190,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
-					resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "2"),
+					resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttr(resourceName, "subnet_ids.#", "2"),
@@ -194,7 +225,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.ip_address_details.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_private", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.network_security_group_ids.#", "2"),
+					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.network_security_group_ids.#", "0"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.shape", "100Mbps"),
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.state"),
 					resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.subnet_ids.#", "2"),

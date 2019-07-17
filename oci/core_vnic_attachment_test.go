@@ -47,7 +47,7 @@ var (
 		"display_name":           Representation{repType: Optional, create: `displayName`},
 		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Accounting"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"hostname_label":         Representation{repType: Optional, create: `attachvnictestinstance`},
-		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{`${oci_core_network_security_group.test_network_security_group1.id}`, `${oci_core_network_security_group.test_network_security_group2.id}`}},
+		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{}},
 		"private_ip":             Representation{repType: Optional, create: `10.0.1.5`},
 		"skip_source_dest_check": Representation{repType: Optional, create: `false`},
 	}

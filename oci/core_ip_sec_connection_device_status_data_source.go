@@ -49,12 +49,6 @@ func CoreIpSecConnectionDeviceStatusDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						// @Deprecated 01/2018: time_state_modifed => time_state_modified
-						"time_state_modifed": {
-							Deprecated: FieldDeprecatedForAnother("time_state_modifed", "time_state_modified"),
-							Type:       schema.TypeString,
-							Computed:   true,
-						},
 						"time_state_modified": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -148,9 +142,6 @@ func TunnelStatusToMap(obj oci_core.TunnelStatus) map[string]interface{} {
 	}
 
 	if obj.TimeStateModified != nil {
-		// @Deprecated 01/2018: time_state_modifed => time_state_modified
-		result["time_state_modifed"] = obj.TimeStateModified.String()
-
 		result["time_state_modified"] = obj.TimeStateModified.String()
 	}
 

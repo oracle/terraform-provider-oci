@@ -33,7 +33,6 @@ func KmsKeyResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -318,6 +317,15 @@ func (s *KmsKeyResourceCrud) Get() error {
 }
 
 func (s *KmsKeyResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_kms.UpdateKeyRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -469,4 +477,22 @@ func KeyShapeToMap(obj *oci_kms.KeyShape) map[string]interface{} {
 	}
 
 	return result
+}
+
+func (s *KmsKeyResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_kms.ChangeKeyCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.KeyId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+
+	_, err := s.Client.ChangeKeyCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

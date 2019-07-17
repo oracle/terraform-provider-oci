@@ -72,7 +72,7 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 1
 }
 
-resource "oci_core_virtual_network" "this" {
+resource "oci_core_vcn" "this" {
   cidr_block     = "${var.vcn_cidr}"
   dns_label      = "pp"
   compartment_id = "${var.compartment_id}"
@@ -81,14 +81,14 @@ resource "oci_core_virtual_network" "this" {
 
 resource "oci_core_nat_gateway" "nat_gateway" {
   compartment_id = "${var.compartment_id}"
-  vcn_id         = "${oci_core_virtual_network.this.id}"
+  vcn_id         = "${oci_core_vcn.this.id}"
   display_name   = "nat_gateway"
 }
 
 resource "oci_core_internet_gateway" "ig" {
   compartment_id = "${var.compartment_id}"
   display_name   = "proxy_prototype"
-  vcn_id         = "${oci_core_virtual_network.this.id}"
+  vcn_id         = "${oci_core_vcn.this.id}"
 }
 
 resource "oci_core_subnet" "bastion" {
@@ -96,7 +96,7 @@ resource "oci_core_subnet" "bastion" {
   cidr_block          = "${local.bastion_subnet_prefix}"
   display_name        = "bastion"
   compartment_id      = "${var.compartment_id}"
-  vcn_id              = "${oci_core_virtual_network.this.id}"
+  vcn_id              = "${oci_core_vcn.this.id}"
   route_table_id      = "${oci_core_route_table.bastion.id}"
 
   security_list_ids = [
@@ -109,7 +109,7 @@ resource "oci_core_subnet" "bastion" {
 
 resource "oci_core_route_table" "bastion" {
   compartment_id = "${var.compartment_id}"
-  vcn_id         = "${oci_core_virtual_network.this.id}"
+  vcn_id         = "${oci_core_vcn.this.id}"
   display_name   = "bastion"
 
   route_rules {
@@ -121,7 +121,7 @@ resource "oci_core_route_table" "bastion" {
 resource "oci_core_security_list" "bastion" {
   compartment_id = "${var.compartment_id}"
   display_name   = "bastion"
-  vcn_id         = "${oci_core_virtual_network.this.id}"
+  vcn_id         = "${oci_core_vcn.this.id}"
 
   ingress_security_rules {
     source   = "${local.anywhere}"
@@ -177,7 +177,7 @@ resource "oci_core_subnet" "private" {
   cidr_block          = "${local.private_subnet_prefix}"
   display_name        = "private"
   compartment_id      = "${var.compartment_id}"
-  vcn_id              = "${oci_core_virtual_network.this.id}"
+  vcn_id              = "${oci_core_vcn.this.id}"
   route_table_id      = "${oci_core_route_table.private.id}"
 
   security_list_ids = [
@@ -190,7 +190,7 @@ resource "oci_core_subnet" "private" {
 
 resource "oci_core_route_table" "private" {
   compartment_id = "${var.compartment_id}"
-  vcn_id         = "${oci_core_virtual_network.this.id}"
+  vcn_id         = "${oci_core_vcn.this.id}"
   display_name   = "private"
 
   route_rules {
@@ -203,7 +203,7 @@ resource "oci_core_route_table" "private" {
 resource "oci_core_security_list" "private" {
   compartment_id = "${var.compartment_id}"
   display_name   = "private"
-  vcn_id         = "${oci_core_virtual_network.this.id}"
+  vcn_id         = "${oci_core_vcn.this.id}"
 
   ingress_security_rules {
     source   = "${local.bastion_subnet_prefix}"

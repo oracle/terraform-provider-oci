@@ -1,10 +1,10 @@
 // Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Notification API
+// Notifications API
 //
-// Use the Notification API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see Notification Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
+// Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
+// For information about managing topics, subscriptions, and messages, see Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
 //
 
 package ons
@@ -38,7 +38,7 @@ func NewNotificationControlPlaneClientWithConfigurationProvider(configProvider c
 
 // SetRegion overrides the region of this client.
 func (client *NotificationControlPlaneClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).Endpoint("notification")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("notifications", "https://notification.{region}.oraclecloud.com")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -59,6 +59,56 @@ func (client *NotificationControlPlaneClient) ConfigurationProvider() *common.Co
 	return client.config
 }
 
+// ChangeTopicCompartment Moves a topic into a different compartment within the same tenancy. For information about moving resources
+// between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
+func (client NotificationControlPlaneClient) ChangeTopicCompartment(ctx context.Context, request ChangeTopicCompartmentRequest) (response ChangeTopicCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeTopicCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeTopicCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeTopicCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeTopicCompartmentResponse")
+	}
+	return
+}
+
+// changeTopicCompartment implements the OCIOperation interface (enables retrying operations)
+func (client NotificationControlPlaneClient) changeTopicCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/topics/{topicId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeTopicCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateTopic Creates a topic in the specified compartment. For general information about topics, see
 // Managing Topics and Subscriptions (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm).
 // For the purposes of access control, you must provide the OCID of the compartment where you want the topic to reside.
@@ -67,7 +117,8 @@ func (client *NotificationControlPlaneClient) ConfigurationProvider() *common.Co
 // All Oracle Cloud Infrastructure resources, including topics, get an Oracle-assigned, unique ID called an
 // Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID in the response. You can also
 // retrieve a resource's OCID by using a List API operation on that resource type, or by viewing the resource in the
-// Console. Fore more information, see Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// Console. For more information, see Resource Identifiers (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationControlPlaneClient) CreateTopic(ctx context.Context, request CreateTopicRequest) (response CreateTopicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -115,6 +166,7 @@ func (client NotificationControlPlaneClient) createTopic(ctx context.Context, re
 }
 
 // DeleteTopic Deletes the specified topic.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationControlPlaneClient) DeleteTopic(ctx context.Context, request DeleteTopicRequest) (response DeleteTopicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -199,6 +251,7 @@ func (client NotificationControlPlaneClient) getTopic(ctx context.Context, reque
 }
 
 // ListTopics Lists topics in the specified compartment.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 120.
 func (client NotificationControlPlaneClient) ListTopics(ctx context.Context, request ListTopicsRequest) (response ListTopicsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -241,6 +294,7 @@ func (client NotificationControlPlaneClient) listTopics(ctx context.Context, req
 }
 
 // UpdateTopic Updates the specified topic's configuration.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationControlPlaneClient) UpdateTopic(ctx context.Context, request UpdateTopicRequest) (response UpdateTopicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

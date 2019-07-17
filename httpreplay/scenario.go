@@ -595,11 +595,11 @@ func (s *Scenario) updateBody(body jsonObj) {
 		} else if val, ok := unkVal.(map[string]interface{}); ok {
 			s.updateBody(val)
 		} else if val, ok := unkVal.([]interface{}); ok {
-			for _, item := range val {
+			for index, item := range val {
 				if jsonItem, ok := item.(map[string]interface{}); ok {
 					s.updateBody(jsonItem)
 				} else if strItem, ok := item.(string); ok {
-					s.bodyValueHandle(body, strItem, key)
+					s.bodyArrayValueHandle(val, strItem, index)
 				}
 			}
 		} else {
@@ -612,6 +612,14 @@ func (s *Scenario) bodyValueHandle(body jsonObj, val string, key string) {
 	for oldVal, changedVal := range s.Fields {
 		if len(changedVal) > 1 && len(val) >= len(changedVal) && strings.Contains(val, oldVal) {
 			body[key] = strings.Replace(val, oldVal, changedVal, -1)
+		}
+	}
+}
+
+func (s *Scenario) bodyArrayValueHandle(itemVal []interface{}, val string, index int) {
+	for oldVal, changedVal := range s.Fields {
+		if len(changedVal) > 1 && len(val) >= len(changedVal) && strings.Contains(val, oldVal) {
+			itemVal[index] = strings.Replace(val, oldVal, changedVal, -1)
 		}
 	}
 }

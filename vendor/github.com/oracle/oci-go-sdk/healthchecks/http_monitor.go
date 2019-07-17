@@ -38,9 +38,9 @@ type HttpMonitor struct {
 	// The probe timeout must be less than or equal to `intervalInSeconds` for monitors.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
-	Protocol HttpMonitorProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
+	Protocol HttpProbeProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
 
-	Method HttpMonitorMethodEnum `mandatory:"false" json:"method,omitempty"`
+	Method HttpProbeMethodEnum `mandatory:"false" json:"method,omitempty"`
 
 	// The optional URL path to probe, including query parameters.
 	Path *string `mandatory:"false" json:"path"`
@@ -74,48 +74,36 @@ func (m HttpMonitor) String() string {
 	return common.PointerString(m)
 }
 
-// HttpMonitorProtocolEnum Enum with underlying type: string
-type HttpMonitorProtocolEnum string
+// HttpMonitorProtocolEnum is an alias to type: HttpProbeProtocolEnum
+// Consider using HttpProbeProtocolEnum instead
+// Deprecated
+type HttpMonitorProtocolEnum = HttpProbeProtocolEnum
 
-// Set of constants representing the allowable values for HttpMonitorProtocolEnum
+// Set of constants representing the allowable values for HttpProbeProtocolEnum
+// Deprecated
 const (
-	HttpMonitorProtocolHttp  HttpMonitorProtocolEnum = "HTTP"
-	HttpMonitorProtocolHttps HttpMonitorProtocolEnum = "HTTPS"
+	HttpMonitorProtocolHttp  HttpProbeProtocolEnum = "HTTP"
+	HttpMonitorProtocolHttps HttpProbeProtocolEnum = "HTTPS"
 )
 
-var mappingHttpMonitorProtocol = map[string]HttpMonitorProtocolEnum{
-	"HTTP":  HttpMonitorProtocolHttp,
-	"HTTPS": HttpMonitorProtocolHttps,
-}
+// GetHttpMonitorProtocolEnumValues Enumerates the set of values for HttpProbeProtocolEnum
+// Consider using GetHttpProbeProtocolEnumValue
+// Deprecated
+var GetHttpMonitorProtocolEnumValues = GetHttpProbeProtocolEnumValues
 
-// GetHttpMonitorProtocolEnumValues Enumerates the set of values for HttpMonitorProtocolEnum
-func GetHttpMonitorProtocolEnumValues() []HttpMonitorProtocolEnum {
-	values := make([]HttpMonitorProtocolEnum, 0)
-	for _, v := range mappingHttpMonitorProtocol {
-		values = append(values, v)
-	}
-	return values
-}
+// HttpMonitorMethodEnum is an alias to type: HttpProbeMethodEnum
+// Consider using HttpProbeMethodEnum instead
+// Deprecated
+type HttpMonitorMethodEnum = HttpProbeMethodEnum
 
-// HttpMonitorMethodEnum Enum with underlying type: string
-type HttpMonitorMethodEnum string
-
-// Set of constants representing the allowable values for HttpMonitorMethodEnum
+// Set of constants representing the allowable values for HttpProbeMethodEnum
+// Deprecated
 const (
-	HttpMonitorMethodGet  HttpMonitorMethodEnum = "GET"
-	HttpMonitorMethodHead HttpMonitorMethodEnum = "HEAD"
+	HttpMonitorMethodGet  HttpProbeMethodEnum = "GET"
+	HttpMonitorMethodHead HttpProbeMethodEnum = "HEAD"
 )
 
-var mappingHttpMonitorMethod = map[string]HttpMonitorMethodEnum{
-	"GET":  HttpMonitorMethodGet,
-	"HEAD": HttpMonitorMethodHead,
-}
-
-// GetHttpMonitorMethodEnumValues Enumerates the set of values for HttpMonitorMethodEnum
-func GetHttpMonitorMethodEnumValues() []HttpMonitorMethodEnum {
-	values := make([]HttpMonitorMethodEnum, 0)
-	for _, v := range mappingHttpMonitorMethod {
-		values = append(values, v)
-	}
-	return values
-}
+// GetHttpMonitorMethodEnumValues Enumerates the set of values for HttpProbeMethodEnum
+// Consider using GetHttpProbeMethodEnumValue
+// Deprecated
+var GetHttpMonitorMethodEnumValues = GetHttpProbeMethodEnumValues

@@ -71,11 +71,6 @@ func ObjectStorageObjectsDataSource() *schema.Resource {
 					},
 				},
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
 		},
 	}
 }

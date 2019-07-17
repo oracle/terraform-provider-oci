@@ -18,7 +18,7 @@ provider service key. An invalid key returns a 404 error.
 ```hcl
 data "oci_core_fast_connect_provider_service_key" "test_fast_connect_provider_service_key" {
 	#Required
-	provider_service_id = "${oci_core_provider_service.test_provider_service.id}"
+	provider_service_id = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}"
 	provider_service_key_name = "${var.fast_connect_provider_service_key_provider_service_key_name}"
 }
 ```

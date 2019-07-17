@@ -10,14 +10,35 @@
 
 package containerengine
 
-import (
-	"github.com/oracle/oci-go-sdk/common"
+// WorkRequestOperationTypeEnum Enum with underlying type: string
+type WorkRequestOperationTypeEnum string
+
+// Set of constants representing the allowable values for WorkRequestOperationTypeEnum
+const (
+	WorkRequestOperationTypeClusterCreate     WorkRequestOperationTypeEnum = "CLUSTER_CREATE"
+	WorkRequestOperationTypeClusterUpdate     WorkRequestOperationTypeEnum = "CLUSTER_UPDATE"
+	WorkRequestOperationTypeClusterDelete     WorkRequestOperationTypeEnum = "CLUSTER_DELETE"
+	WorkRequestOperationTypeNodepoolCreate    WorkRequestOperationTypeEnum = "NODEPOOL_CREATE"
+	WorkRequestOperationTypeNodepoolUpdate    WorkRequestOperationTypeEnum = "NODEPOOL_UPDATE"
+	WorkRequestOperationTypeNodepoolDelete    WorkRequestOperationTypeEnum = "NODEPOOL_DELETE"
+	WorkRequestOperationTypeWorkrequestCancel WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
 )
 
-// WorkRequestOperationType The types of work request operations.
-type WorkRequestOperationType struct {
+var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
+	"CLUSTER_CREATE":     WorkRequestOperationTypeClusterCreate,
+	"CLUSTER_UPDATE":     WorkRequestOperationTypeClusterUpdate,
+	"CLUSTER_DELETE":     WorkRequestOperationTypeClusterDelete,
+	"NODEPOOL_CREATE":    WorkRequestOperationTypeNodepoolCreate,
+	"NODEPOOL_UPDATE":    WorkRequestOperationTypeNodepoolUpdate,
+	"NODEPOOL_DELETE":    WorkRequestOperationTypeNodepoolDelete,
+	"WORKREQUEST_CANCEL": WorkRequestOperationTypeWorkrequestCancel,
 }
 
-func (m WorkRequestOperationType) String() string {
-	return common.PointerString(m)
+// GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
+func GetWorkRequestOperationTypeEnumValues() []WorkRequestOperationTypeEnum {
+	values := make([]WorkRequestOperationTypeEnum, 0)
+	for _, v := range mappingWorkRequestOperationType {
+		values = append(values, v)
+	}
+	return values
 }

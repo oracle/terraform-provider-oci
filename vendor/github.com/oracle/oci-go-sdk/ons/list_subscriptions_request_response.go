@@ -17,10 +17,12 @@ type ListSubscriptionsRequest struct {
 	// Return all subscriptions that are subscribed to the given topic OCID. Either this query parameter or the compartmentId query parameter must be set.
 	TopicId *string `mandatory:"false" contributesTo:"query" name:"topicId"`
 
-	// For list pagination. The value of the opc-next-page response header from the previous "List" call. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. The value of the opc-next-page response header from the previous "List" call.
+	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
+	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -55,7 +57,8 @@ type ListSubscriptionsResponse struct {
 	// A list of []SubscriptionSummary instances
 	Items []SubscriptionSummary `presentIn:"body"`
 
-	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call. Default value: 10. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call. Default value: 10.
+	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

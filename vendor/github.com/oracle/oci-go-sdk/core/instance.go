@@ -229,6 +229,7 @@ type InstanceLifecycleStateEnum string
 
 // Set of constants representing the allowable values for InstanceLifecycleStateEnum
 const (
+	InstanceLifecycleStateMoving        InstanceLifecycleStateEnum = "MOVING"
 	InstanceLifecycleStateProvisioning  InstanceLifecycleStateEnum = "PROVISIONING"
 	InstanceLifecycleStateRunning       InstanceLifecycleStateEnum = "RUNNING"
 	InstanceLifecycleStateStarting      InstanceLifecycleStateEnum = "STARTING"
@@ -240,6 +241,7 @@ const (
 )
 
 var mappingInstanceLifecycleState = map[string]InstanceLifecycleStateEnum{
+	"MOVING":         InstanceLifecycleStateMoving,
 	"PROVISIONING":   InstanceLifecycleStateProvisioning,
 	"RUNNING":        InstanceLifecycleStateRunning,
 	"STARTING":       InstanceLifecycleStateStarting,

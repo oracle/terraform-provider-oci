@@ -3622,6 +3622,53 @@ func (client IdentityClient) listWorkRequests(ctx context.Context, request commo
 	return response, err
 }
 
+// MoveCompartment Move the compartment tree to a different parent compartment.
+func (client IdentityClient) MoveCompartment(ctx context.Context, request MoveCompartmentRequest) (response MoveCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.moveCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = MoveCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MoveCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MoveCompartmentResponse")
+	}
+	return
+}
+
+// moveCompartment implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) moveCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/moveCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response MoveCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemoveUserFromGroup Removes a user from a group by deleting the corresponding `UserGroupMembership`.
 func (client IdentityClient) RemoveUserFromGroup(ctx context.Context, request RemoveUserFromGroupRequest) (response RemoveUserFromGroupResponse, err error) {
 	var ociResponse common.OCIResponse

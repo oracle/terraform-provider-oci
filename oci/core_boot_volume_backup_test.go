@@ -30,7 +30,7 @@ var (
 
 	bootVolumeBackupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"boot_volume_id": Representation{repType: Optional, create: `${oci_core_instance.test_instance.boot_volume_id}`},
+		"boot_volume_id": Representation{repType: Optional, create: `${oci_core_boot_volume.test_boot_volume.id}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, bootVolumeBackupDataSourceFilterRepresentation}}
@@ -40,14 +40,14 @@ var (
 	}
 
 	bootVolumeBackupRepresentation = map[string]interface{}{
-		"boot_volume_id": Representation{repType: Required, create: `${oci_core_instance.test_instance.boot_volume_id}`},
+		"boot_volume_id": Representation{repType: Required, create: `${oci_core_boot_volume.test_boot_volume.id}`},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"type":           Representation{repType: Optional, create: `INCREMENTAL`},
 	}
 
-	BootVolumeBackupResourceDependencies = InstanceRequiredOnlyResource
+	BootVolumeBackupResourceDependencies = BootVolumeOptionalResource
 )
 
 func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
@@ -170,6 +170,7 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "boot_volume_backups.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.image_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.kms_key_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.size_in_gbs"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.source_type"),
 					resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_backups.0.state"),
@@ -193,6 +194,7 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "image_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_gbs"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "source_type"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

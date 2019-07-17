@@ -31,10 +31,10 @@ type Budget struct {
 	Amount *float32 `mandatory:"true" json:"amount"`
 
 	// The reset period for the budget.
-	ResetPeriod BudgetResetPeriodEnum `mandatory:"true" json:"resetPeriod"`
+	ResetPeriod ResetPeriodEnum `mandatory:"true" json:"resetPeriod"`
 
 	// The current state of the budget.
-	LifecycleState BudgetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Total number of alert rules in the budget
 	AlertRuleCount *int `mandatory:"true" json:"alertRuleCount"`
@@ -75,46 +75,35 @@ func (m Budget) String() string {
 	return common.PointerString(m)
 }
 
-// BudgetResetPeriodEnum Enum with underlying type: string
-type BudgetResetPeriodEnum string
+// BudgetResetPeriodEnum is an alias to type: ResetPeriodEnum
+// Consider using ResetPeriodEnum instead
+// Deprecated
+type BudgetResetPeriodEnum = ResetPeriodEnum
 
-// Set of constants representing the allowable values for BudgetResetPeriodEnum
+// Set of constants representing the allowable values for ResetPeriodEnum
+// Deprecated
 const (
-	BudgetResetPeriodMonthly BudgetResetPeriodEnum = "MONTHLY"
+	BudgetResetPeriodMonthly ResetPeriodEnum = "MONTHLY"
 )
 
-var mappingBudgetResetPeriod = map[string]BudgetResetPeriodEnum{
-	"MONTHLY": BudgetResetPeriodMonthly,
-}
+// GetBudgetResetPeriodEnumValues Enumerates the set of values for ResetPeriodEnum
+// Consider using GetResetPeriodEnumValue
+// Deprecated
+var GetBudgetResetPeriodEnumValues = GetResetPeriodEnumValues
 
-// GetBudgetResetPeriodEnumValues Enumerates the set of values for BudgetResetPeriodEnum
-func GetBudgetResetPeriodEnumValues() []BudgetResetPeriodEnum {
-	values := make([]BudgetResetPeriodEnum, 0)
-	for _, v := range mappingBudgetResetPeriod {
-		values = append(values, v)
-	}
-	return values
-}
+// BudgetLifecycleStateEnum is an alias to type: LifecycleStateEnum
+// Consider using LifecycleStateEnum instead
+// Deprecated
+type BudgetLifecycleStateEnum = LifecycleStateEnum
 
-// BudgetLifecycleStateEnum Enum with underlying type: string
-type BudgetLifecycleStateEnum string
-
-// Set of constants representing the allowable values for BudgetLifecycleStateEnum
+// Set of constants representing the allowable values for LifecycleStateEnum
+// Deprecated
 const (
-	BudgetLifecycleStateActive   BudgetLifecycleStateEnum = "ACTIVE"
-	BudgetLifecycleStateInactive BudgetLifecycleStateEnum = "INACTIVE"
+	BudgetLifecycleStateActive   LifecycleStateEnum = "ACTIVE"
+	BudgetLifecycleStateInactive LifecycleStateEnum = "INACTIVE"
 )
 
-var mappingBudgetLifecycleState = map[string]BudgetLifecycleStateEnum{
-	"ACTIVE":   BudgetLifecycleStateActive,
-	"INACTIVE": BudgetLifecycleStateInactive,
-}
-
-// GetBudgetLifecycleStateEnumValues Enumerates the set of values for BudgetLifecycleStateEnum
-func GetBudgetLifecycleStateEnumValues() []BudgetLifecycleStateEnum {
-	values := make([]BudgetLifecycleStateEnum, 0)
-	for _, v := range mappingBudgetLifecycleState {
-		values = append(values, v)
-	}
-	return values
-}
+// GetBudgetLifecycleStateEnumValues Enumerates the set of values for LifecycleStateEnum
+// Consider using GetLifecycleStateEnumValue
+// Deprecated
+var GetBudgetLifecycleStateEnumValues = GetLifecycleStateEnumValues
