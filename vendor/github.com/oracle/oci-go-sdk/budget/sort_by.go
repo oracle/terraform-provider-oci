@@ -8,16 +8,25 @@
 
 package budget
 
-import (
-	"github.com/oracle/oci-go-sdk/common"
+// SortByEnum Enum with underlying type: string
+type SortByEnum string
+
+// Set of constants representing the allowable values for SortByEnum
+const (
+	SortByTimeCreated SortByEnum = "timeCreated"
+	SortByDisplayName SortByEnum = "displayName"
 )
 
-// SortBy The field to sort by. If not specified, the default is timeCreated.
-// The default sort order for timeCreated is DESC.
-// The default sort order for displayName is ASC in alphanumeric order.
-type SortBy struct {
+var mappingSortBy = map[string]SortByEnum{
+	"timeCreated": SortByTimeCreated,
+	"displayName": SortByDisplayName,
 }
 
-func (m SortBy) String() string {
-	return common.PointerString(m)
+// GetSortByEnumValues Enumerates the set of values for SortByEnum
+func GetSortByEnumValues() []SortByEnum {
+	values := make([]SortByEnum, 0)
+	for _, v := range mappingSortBy {
+		values = append(values, v)
+	}
+	return values
 }

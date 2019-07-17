@@ -10,14 +10,25 @@
 
 package healthchecks
 
-import (
-	"github.com/oracle/oci-go-sdk/common"
+// HttpProbeProtocolEnum Enum with underlying type: string
+type HttpProbeProtocolEnum string
+
+// Set of constants representing the allowable values for HttpProbeProtocolEnum
+const (
+	HttpProbeProtocolHttp  HttpProbeProtocolEnum = "HTTP"
+	HttpProbeProtocolHttps HttpProbeProtocolEnum = "HTTPS"
 )
 
-// HttpProbeProtocol The supported protocols available for HTTP probes.
-type HttpProbeProtocol struct {
+var mappingHttpProbeProtocol = map[string]HttpProbeProtocolEnum{
+	"HTTP":  HttpProbeProtocolHttp,
+	"HTTPS": HttpProbeProtocolHttps,
 }
 
-func (m HttpProbeProtocol) String() string {
-	return common.PointerString(m)
+// GetHttpProbeProtocolEnumValues Enumerates the set of values for HttpProbeProtocolEnum
+func GetHttpProbeProtocolEnumValues() []HttpProbeProtocolEnum {
+	values := make([]HttpProbeProtocolEnum, 0)
+	for _, v := range mappingHttpProbeProtocol {
+		values = append(values, v)
+	}
+	return values
 }

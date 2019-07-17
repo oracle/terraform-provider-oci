@@ -8,14 +8,25 @@
 
 package budget
 
-import (
-	"github.com/oracle/oci-go-sdk/common"
+// ThresholdTypeEnum Enum with underlying type: string
+type ThresholdTypeEnum string
+
+// Set of constants representing the allowable values for ThresholdTypeEnum
+const (
+	ThresholdTypePercentage ThresholdTypeEnum = "PERCENTAGE"
+	ThresholdTypeAbsolute   ThresholdTypeEnum = "ABSOLUTE"
 )
 
-// ThresholdType The type of threshold. Valid values are PERCENTAGE or ABSOLUTE.
-type ThresholdType struct {
+var mappingThresholdType = map[string]ThresholdTypeEnum{
+	"PERCENTAGE": ThresholdTypePercentage,
+	"ABSOLUTE":   ThresholdTypeAbsolute,
 }
 
-func (m ThresholdType) String() string {
-	return common.PointerString(m)
+// GetThresholdTypeEnumValues Enumerates the set of values for ThresholdTypeEnum
+func GetThresholdTypeEnumValues() []ThresholdTypeEnum {
+	values := make([]ThresholdTypeEnum, 0)
+	for _, v := range mappingThresholdType {
+		values = append(values, v)
+	}
+	return values
 }

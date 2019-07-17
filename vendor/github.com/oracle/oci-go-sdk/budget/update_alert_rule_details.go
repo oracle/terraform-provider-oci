@@ -20,7 +20,7 @@ type UpdateAlertRuleDetails struct {
 
 	// Type of alert. Valid values are ACTUAL (the alert will trigger based on actual usage) or
 	// FORECAST (the alert will trigger based on predicted usage).
-	Type UpdateAlertRuleDetailsTypeEnum `mandatory:"false" json:"type,omitempty"`
+	Type AlertTypeEnum `mandatory:"false" json:"type,omitempty"`
 
 	// The threshold for triggering the alert expressed as a whole number or decimal value.
 	// If thresholdType is ABSOLUTE, threshold can have at most 12 digits before the decimal point and up to 2 digits after the decimal point.
@@ -28,7 +28,7 @@ type UpdateAlertRuleDetails struct {
 	Threshold *float32 `mandatory:"false" json:"threshold"`
 
 	// The type of threshold.
-	ThresholdType UpdateAlertRuleDetailsThresholdTypeEnum `mandatory:"false" json:"thresholdType,omitempty"`
+	ThresholdType ThresholdTypeEnum `mandatory:"false" json:"thresholdType,omitempty"`
 
 	// The audience that will received the alert when it triggers.
 	Recipients *string `mandatory:"false" json:"recipients"`
@@ -54,48 +54,36 @@ func (m UpdateAlertRuleDetails) String() string {
 	return common.PointerString(m)
 }
 
-// UpdateAlertRuleDetailsTypeEnum Enum with underlying type: string
-type UpdateAlertRuleDetailsTypeEnum string
+// UpdateAlertRuleDetailsTypeEnum is an alias to type: AlertTypeEnum
+// Consider using AlertTypeEnum instead
+// Deprecated
+type UpdateAlertRuleDetailsTypeEnum = AlertTypeEnum
 
-// Set of constants representing the allowable values for UpdateAlertRuleDetailsTypeEnum
+// Set of constants representing the allowable values for AlertTypeEnum
+// Deprecated
 const (
-	UpdateAlertRuleDetailsTypeActual   UpdateAlertRuleDetailsTypeEnum = "ACTUAL"
-	UpdateAlertRuleDetailsTypeForecast UpdateAlertRuleDetailsTypeEnum = "FORECAST"
+	UpdateAlertRuleDetailsTypeActual   AlertTypeEnum = "ACTUAL"
+	UpdateAlertRuleDetailsTypeForecast AlertTypeEnum = "FORECAST"
 )
 
-var mappingUpdateAlertRuleDetailsType = map[string]UpdateAlertRuleDetailsTypeEnum{
-	"ACTUAL":   UpdateAlertRuleDetailsTypeActual,
-	"FORECAST": UpdateAlertRuleDetailsTypeForecast,
-}
+// GetUpdateAlertRuleDetailsTypeEnumValues Enumerates the set of values for AlertTypeEnum
+// Consider using GetAlertTypeEnumValue
+// Deprecated
+var GetUpdateAlertRuleDetailsTypeEnumValues = GetAlertTypeEnumValues
 
-// GetUpdateAlertRuleDetailsTypeEnumValues Enumerates the set of values for UpdateAlertRuleDetailsTypeEnum
-func GetUpdateAlertRuleDetailsTypeEnumValues() []UpdateAlertRuleDetailsTypeEnum {
-	values := make([]UpdateAlertRuleDetailsTypeEnum, 0)
-	for _, v := range mappingUpdateAlertRuleDetailsType {
-		values = append(values, v)
-	}
-	return values
-}
+// UpdateAlertRuleDetailsThresholdTypeEnum is an alias to type: ThresholdTypeEnum
+// Consider using ThresholdTypeEnum instead
+// Deprecated
+type UpdateAlertRuleDetailsThresholdTypeEnum = ThresholdTypeEnum
 
-// UpdateAlertRuleDetailsThresholdTypeEnum Enum with underlying type: string
-type UpdateAlertRuleDetailsThresholdTypeEnum string
-
-// Set of constants representing the allowable values for UpdateAlertRuleDetailsThresholdTypeEnum
+// Set of constants representing the allowable values for ThresholdTypeEnum
+// Deprecated
 const (
-	UpdateAlertRuleDetailsThresholdTypePercentage UpdateAlertRuleDetailsThresholdTypeEnum = "PERCENTAGE"
-	UpdateAlertRuleDetailsThresholdTypeAbsolute   UpdateAlertRuleDetailsThresholdTypeEnum = "ABSOLUTE"
+	UpdateAlertRuleDetailsThresholdTypePercentage ThresholdTypeEnum = "PERCENTAGE"
+	UpdateAlertRuleDetailsThresholdTypeAbsolute   ThresholdTypeEnum = "ABSOLUTE"
 )
 
-var mappingUpdateAlertRuleDetailsThresholdType = map[string]UpdateAlertRuleDetailsThresholdTypeEnum{
-	"PERCENTAGE": UpdateAlertRuleDetailsThresholdTypePercentage,
-	"ABSOLUTE":   UpdateAlertRuleDetailsThresholdTypeAbsolute,
-}
-
-// GetUpdateAlertRuleDetailsThresholdTypeEnumValues Enumerates the set of values for UpdateAlertRuleDetailsThresholdTypeEnum
-func GetUpdateAlertRuleDetailsThresholdTypeEnumValues() []UpdateAlertRuleDetailsThresholdTypeEnum {
-	values := make([]UpdateAlertRuleDetailsThresholdTypeEnum, 0)
-	for _, v := range mappingUpdateAlertRuleDetailsThresholdType {
-		values = append(values, v)
-	}
-	return values
-}
+// GetUpdateAlertRuleDetailsThresholdTypeEnumValues Enumerates the set of values for ThresholdTypeEnum
+// Consider using GetThresholdTypeEnumValue
+// Deprecated
+var GetUpdateAlertRuleDetailsThresholdTypeEnumValues = GetThresholdTypeEnumValues

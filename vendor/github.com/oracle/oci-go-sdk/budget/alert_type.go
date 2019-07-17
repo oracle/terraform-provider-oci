@@ -8,15 +8,25 @@
 
 package budget
 
-import (
-	"github.com/oracle/oci-go-sdk/common"
+// AlertTypeEnum Enum with underlying type: string
+type AlertTypeEnum string
+
+// Set of constants representing the allowable values for AlertTypeEnum
+const (
+	AlertTypeActual   AlertTypeEnum = "ACTUAL"
+	AlertTypeForecast AlertTypeEnum = "FORECAST"
 )
 
-// AlertType Valid values are ACTUAL (the alert will trigger based on actual usage) or
-// FORECAST (the alert will trigger based on predicted usage).
-type AlertType struct {
+var mappingAlertType = map[string]AlertTypeEnum{
+	"ACTUAL":   AlertTypeActual,
+	"FORECAST": AlertTypeForecast,
 }
 
-func (m AlertType) String() string {
-	return common.PointerString(m)
+// GetAlertTypeEnumValues Enumerates the set of values for AlertTypeEnum
+func GetAlertTypeEnumValues() []AlertTypeEnum {
+	values := make([]AlertTypeEnum, 0)
+	for _, v := range mappingAlertType {
+		values = append(values, v)
+	}
+	return values
 }

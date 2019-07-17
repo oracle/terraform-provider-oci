@@ -29,7 +29,7 @@ type WaasPolicySummary struct {
 	Domain *string `mandatory:"false" json:"domain"`
 
 	// The current lifecycle state of the WAAS policy.
-	LifecycleState WaasPolicySummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The date and time the policy was created, expressed in RFC 3339 timestamp format.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -45,33 +45,23 @@ func (m WaasPolicySummary) String() string {
 	return common.PointerString(m)
 }
 
-// WaasPolicySummaryLifecycleStateEnum Enum with underlying type: string
-type WaasPolicySummaryLifecycleStateEnum string
+// WaasPolicySummaryLifecycleStateEnum is an alias to type: LifecycleStatesEnum
+// Consider using LifecycleStatesEnum instead
+// Deprecated
+type WaasPolicySummaryLifecycleStateEnum = LifecycleStatesEnum
 
-// Set of constants representing the allowable values for WaasPolicySummaryLifecycleStateEnum
+// Set of constants representing the allowable values for LifecycleStatesEnum
+// Deprecated
 const (
-	WaasPolicySummaryLifecycleStateCreating WaasPolicySummaryLifecycleStateEnum = "CREATING"
-	WaasPolicySummaryLifecycleStateActive   WaasPolicySummaryLifecycleStateEnum = "ACTIVE"
-	WaasPolicySummaryLifecycleStateFailed   WaasPolicySummaryLifecycleStateEnum = "FAILED"
-	WaasPolicySummaryLifecycleStateUpdating WaasPolicySummaryLifecycleStateEnum = "UPDATING"
-	WaasPolicySummaryLifecycleStateDeleting WaasPolicySummaryLifecycleStateEnum = "DELETING"
-	WaasPolicySummaryLifecycleStateDeleted  WaasPolicySummaryLifecycleStateEnum = "DELETED"
+	WaasPolicySummaryLifecycleStateCreating LifecycleStatesEnum = "CREATING"
+	WaasPolicySummaryLifecycleStateActive   LifecycleStatesEnum = "ACTIVE"
+	WaasPolicySummaryLifecycleStateFailed   LifecycleStatesEnum = "FAILED"
+	WaasPolicySummaryLifecycleStateUpdating LifecycleStatesEnum = "UPDATING"
+	WaasPolicySummaryLifecycleStateDeleting LifecycleStatesEnum = "DELETING"
+	WaasPolicySummaryLifecycleStateDeleted  LifecycleStatesEnum = "DELETED"
 )
 
-var mappingWaasPolicySummaryLifecycleState = map[string]WaasPolicySummaryLifecycleStateEnum{
-	"CREATING": WaasPolicySummaryLifecycleStateCreating,
-	"ACTIVE":   WaasPolicySummaryLifecycleStateActive,
-	"FAILED":   WaasPolicySummaryLifecycleStateFailed,
-	"UPDATING": WaasPolicySummaryLifecycleStateUpdating,
-	"DELETING": WaasPolicySummaryLifecycleStateDeleting,
-	"DELETED":  WaasPolicySummaryLifecycleStateDeleted,
-}
-
-// GetWaasPolicySummaryLifecycleStateEnumValues Enumerates the set of values for WaasPolicySummaryLifecycleStateEnum
-func GetWaasPolicySummaryLifecycleStateEnumValues() []WaasPolicySummaryLifecycleStateEnum {
-	values := make([]WaasPolicySummaryLifecycleStateEnum, 0)
-	for _, v := range mappingWaasPolicySummaryLifecycleState {
-		values = append(values, v)
-	}
-	return values
-}
+// GetWaasPolicySummaryLifecycleStateEnumValues Enumerates the set of values for LifecycleStatesEnum
+// Consider using GetLifecycleStatesEnumValue
+// Deprecated
+var GetWaasPolicySummaryLifecycleStateEnumValues = GetLifecycleStatesEnumValues

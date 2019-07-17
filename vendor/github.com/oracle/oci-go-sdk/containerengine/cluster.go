@@ -54,34 +54,3 @@ type Cluster struct {
 func (m Cluster) String() string {
 	return common.PointerString(m)
 }
-
-// ClusterLifecycleStateEnum Enum with underlying type: string
-type ClusterLifecycleStateEnum string
-
-// Set of constants representing the allowable values for ClusterLifecycleStateEnum
-const (
-	ClusterLifecycleStateCreating ClusterLifecycleStateEnum = "CREATING"
-	ClusterLifecycleStateActive   ClusterLifecycleStateEnum = "ACTIVE"
-	ClusterLifecycleStateFailed   ClusterLifecycleStateEnum = "FAILED"
-	ClusterLifecycleStateDeleting ClusterLifecycleStateEnum = "DELETING"
-	ClusterLifecycleStateDeleted  ClusterLifecycleStateEnum = "DELETED"
-	ClusterLifecycleStateUpdating ClusterLifecycleStateEnum = "UPDATING"
-)
-
-var mappingClusterLifecycleState = map[string]ClusterLifecycleStateEnum{
-	"CREATING": ClusterLifecycleStateCreating,
-	"ACTIVE":   ClusterLifecycleStateActive,
-	"FAILED":   ClusterLifecycleStateFailed,
-	"DELETING": ClusterLifecycleStateDeleting,
-	"DELETED":  ClusterLifecycleStateDeleted,
-	"UPDATING": ClusterLifecycleStateUpdating,
-}
-
-// GetClusterLifecycleStateEnumValues Enumerates the set of values for ClusterLifecycleStateEnum
-func GetClusterLifecycleStateEnumValues() []ClusterLifecycleStateEnum {
-	values := make([]ClusterLifecycleStateEnum, 0)
-	for _, v := range mappingClusterLifecycleState {
-		values = append(values, v)
-	}
-	return values
-}

@@ -19,10 +19,10 @@ type WorkRequestSummary struct {
 	Id *string `mandatory:"true" json:"id"`
 
 	// A description of the operation requested by the work request.
-	OperationType WorkRequestSummaryOperationTypeEnum `mandatory:"true" json:"operationType"`
+	OperationType WorkRequestOperationTypesEnum `mandatory:"true" json:"operationType"`
 
 	// The current status of the work request.
-	Status WorkRequestSummaryStatusEnum `mandatory:"true" json:"status"`
+	Status WorkRequestStatusValuesEnum `mandatory:"true" json:"status"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -47,60 +47,42 @@ func (m WorkRequestSummary) String() string {
 	return common.PointerString(m)
 }
 
-// WorkRequestSummaryOperationTypeEnum Enum with underlying type: string
-type WorkRequestSummaryOperationTypeEnum string
+// WorkRequestSummaryOperationTypeEnum is an alias to type: WorkRequestOperationTypesEnum
+// Consider using WorkRequestOperationTypesEnum instead
+// Deprecated
+type WorkRequestSummaryOperationTypeEnum = WorkRequestOperationTypesEnum
 
-// Set of constants representing the allowable values for WorkRequestSummaryOperationTypeEnum
+// Set of constants representing the allowable values for WorkRequestOperationTypesEnum
+// Deprecated
 const (
-	WorkRequestSummaryOperationTypeCreateWaasPolicy WorkRequestSummaryOperationTypeEnum = "CREATE_WAAS_POLICY"
-	WorkRequestSummaryOperationTypeUpdateWaasPolicy WorkRequestSummaryOperationTypeEnum = "UPDATE_WAAS_POLICY"
-	WorkRequestSummaryOperationTypeDeleteWaasPolicy WorkRequestSummaryOperationTypeEnum = "DELETE_WAAS_POLICY"
-	WorkRequestSummaryOperationTypePurgeWaasPolicy  WorkRequestSummaryOperationTypeEnum = "PURGE_WAAS_POLICY"
+	WorkRequestSummaryOperationTypeCreateWaasPolicy WorkRequestOperationTypesEnum = "CREATE_WAAS_POLICY"
+	WorkRequestSummaryOperationTypeUpdateWaasPolicy WorkRequestOperationTypesEnum = "UPDATE_WAAS_POLICY"
+	WorkRequestSummaryOperationTypeDeleteWaasPolicy WorkRequestOperationTypesEnum = "DELETE_WAAS_POLICY"
+	WorkRequestSummaryOperationTypePurgeWaasPolicy  WorkRequestOperationTypesEnum = "PURGE_WAAS_POLICY"
 )
 
-var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperationTypeEnum{
-	"CREATE_WAAS_POLICY": WorkRequestSummaryOperationTypeCreateWaasPolicy,
-	"UPDATE_WAAS_POLICY": WorkRequestSummaryOperationTypeUpdateWaasPolicy,
-	"DELETE_WAAS_POLICY": WorkRequestSummaryOperationTypeDeleteWaasPolicy,
-	"PURGE_WAAS_POLICY":  WorkRequestSummaryOperationTypePurgeWaasPolicy,
-}
+// GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypesEnum
+// Consider using GetWorkRequestOperationTypesEnumValue
+// Deprecated
+var GetWorkRequestSummaryOperationTypeEnumValues = GetWorkRequestOperationTypesEnumValues
 
-// GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
-func GetWorkRequestSummaryOperationTypeEnumValues() []WorkRequestSummaryOperationTypeEnum {
-	values := make([]WorkRequestSummaryOperationTypeEnum, 0)
-	for _, v := range mappingWorkRequestSummaryOperationType {
-		values = append(values, v)
-	}
-	return values
-}
+// WorkRequestSummaryStatusEnum is an alias to type: WorkRequestStatusValuesEnum
+// Consider using WorkRequestStatusValuesEnum instead
+// Deprecated
+type WorkRequestSummaryStatusEnum = WorkRequestStatusValuesEnum
 
-// WorkRequestSummaryStatusEnum Enum with underlying type: string
-type WorkRequestSummaryStatusEnum string
-
-// Set of constants representing the allowable values for WorkRequestSummaryStatusEnum
+// Set of constants representing the allowable values for WorkRequestStatusValuesEnum
+// Deprecated
 const (
-	WorkRequestSummaryStatusAccepted   WorkRequestSummaryStatusEnum = "ACCEPTED"
-	WorkRequestSummaryStatusInProgress WorkRequestSummaryStatusEnum = "IN_PROGRESS"
-	WorkRequestSummaryStatusFailed     WorkRequestSummaryStatusEnum = "FAILED"
-	WorkRequestSummaryStatusSucceeded  WorkRequestSummaryStatusEnum = "SUCCEEDED"
-	WorkRequestSummaryStatusCanceling  WorkRequestSummaryStatusEnum = "CANCELING"
-	WorkRequestSummaryStatusCanceled   WorkRequestSummaryStatusEnum = "CANCELED"
+	WorkRequestSummaryStatusAccepted   WorkRequestStatusValuesEnum = "ACCEPTED"
+	WorkRequestSummaryStatusInProgress WorkRequestStatusValuesEnum = "IN_PROGRESS"
+	WorkRequestSummaryStatusFailed     WorkRequestStatusValuesEnum = "FAILED"
+	WorkRequestSummaryStatusSucceeded  WorkRequestStatusValuesEnum = "SUCCEEDED"
+	WorkRequestSummaryStatusCanceling  WorkRequestStatusValuesEnum = "CANCELING"
+	WorkRequestSummaryStatusCanceled   WorkRequestStatusValuesEnum = "CANCELED"
 )
 
-var mappingWorkRequestSummaryStatus = map[string]WorkRequestSummaryStatusEnum{
-	"ACCEPTED":    WorkRequestSummaryStatusAccepted,
-	"IN_PROGRESS": WorkRequestSummaryStatusInProgress,
-	"FAILED":      WorkRequestSummaryStatusFailed,
-	"SUCCEEDED":   WorkRequestSummaryStatusSucceeded,
-	"CANCELING":   WorkRequestSummaryStatusCanceling,
-	"CANCELED":    WorkRequestSummaryStatusCanceled,
-}
-
-// GetWorkRequestSummaryStatusEnumValues Enumerates the set of values for WorkRequestSummaryStatusEnum
-func GetWorkRequestSummaryStatusEnumValues() []WorkRequestSummaryStatusEnum {
-	values := make([]WorkRequestSummaryStatusEnum, 0)
-	for _, v := range mappingWorkRequestSummaryStatus {
-		values = append(values, v)
-	}
-	return values
-}
+// GetWorkRequestSummaryStatusEnumValues Enumerates the set of values for WorkRequestStatusValuesEnum
+// Consider using GetWorkRequestStatusValuesEnumValue
+// Deprecated
+var GetWorkRequestSummaryStatusEnumValues = GetWorkRequestStatusValuesEnumValues
