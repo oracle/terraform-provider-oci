@@ -22,7 +22,7 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 1
 }
 
-resource "oci_core_virtual_network" "vcn1" {
+resource "oci_core_vcn" "vcn1" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = "${var.compartment_ocid}"
   display_name   = "TFExampleVCN"
@@ -31,7 +31,7 @@ resource "oci_core_virtual_network" "vcn1" {
 
 resource "oci_core_security_list" "test_security_list" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_virtual_network.vcn1.id}"
+  vcn_id         = "${oci_core_vcn.vcn1.id}"
   display_name   = "TFExampleSecurityList"
 
   // allow outbound tcp traffic on all ports
@@ -53,10 +53,10 @@ resource "oci_core_subnet" "test_subnet" {
   display_name        = "TFADSubnet"
   dns_label           = "adsubnet"
   compartment_id      = "${var.compartment_ocid}"
-  vcn_id              = "${oci_core_virtual_network.vcn1.id}"
+  vcn_id              = "${oci_core_vcn.vcn1.id}"
   security_list_ids   = ["${oci_core_security_list.test_security_list.id}"]
-  route_table_id      = "${oci_core_virtual_network.vcn1.default_route_table_id}"
-  dhcp_options_id     = "${oci_core_virtual_network.vcn1.default_dhcp_options_id}"
+  route_table_id      = "${oci_core_vcn.vcn1.default_route_table_id}"
+  dhcp_options_id     = "${oci_core_vcn.vcn1.default_dhcp_options_id}"
 }
 
 resource "oci_database_db_system" "test_db_system" {
@@ -119,6 +119,6 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 
 resource "oci_core_network_security_group" "test_network_security_group" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_virtual_network.vcn1.id}"
+  vcn_id         = "${oci_core_vcn.vcn1.id}"
   display_name   = "tf-example-nsg"
 }

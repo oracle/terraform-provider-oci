@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
@@ -62,6 +63,14 @@ func (s *OnsSubscriptionDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.CreatedTime != nil {
+		s.D.Set("created_time", strconv.FormatInt(*s.Res.CreatedTime, 10))
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -85,6 +94,10 @@ func (s *OnsSubscriptionDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TopicId != nil {
+		s.D.Set("topic_id", *s.Res.TopicId)
+	}
 
 	return nil
 }

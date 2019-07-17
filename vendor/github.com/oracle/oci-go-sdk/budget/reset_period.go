@@ -8,14 +8,23 @@
 
 package budget
 
-import (
-	"github.com/oracle/oci-go-sdk/common"
+// ResetPeriodEnum Enum with underlying type: string
+type ResetPeriodEnum string
+
+// Set of constants representing the allowable values for ResetPeriodEnum
+const (
+	ResetPeriodMonthly ResetPeriodEnum = "MONTHLY"
 )
 
-// ResetPeriod The reset period for the budget. Valid value is MONTHLY.
-type ResetPeriod struct {
+var mappingResetPeriod = map[string]ResetPeriodEnum{
+	"MONTHLY": ResetPeriodMonthly,
 }
 
-func (m ResetPeriod) String() string {
-	return common.PointerString(m)
+// GetResetPeriodEnumValues Enumerates the set of values for ResetPeriodEnum
+func GetResetPeriodEnumValues() []ResetPeriodEnum {
+	values := make([]ResetPeriodEnum, 0)
+	for _, v := range mappingResetPeriod {
+		values = append(values, v)
+	}
+	return values
 }

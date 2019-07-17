@@ -462,6 +462,10 @@ func DeleteResource(d *schema.ResourceData, sync ResourceDeleter) error {
 		time.Sleep(ew.ExtraWaitPostCreateDelete())
 	}
 
+	if ew, waitOK := sync.(ExtraWaitPostDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostDelete())
+	}
+
 	sync.VoidState()
 
 	if metrics.ShouldWriteMetrics() {

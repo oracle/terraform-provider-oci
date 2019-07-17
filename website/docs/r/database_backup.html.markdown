@@ -41,7 +41,6 @@ The following attributes are exported:
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `database_edition` - The Oracle Database edition of the DB system from which the database backup was taken. 
 * `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
-* `db_data_size_in_mbs` (Deprecated) - Size of the database in megabytes (MB) at the time the backup was taken. Use `database_size_in_gbs` instead.
 * `database_size_in_gbs` - The size of the database in gigabytes at the time the backup was taken. 
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup.

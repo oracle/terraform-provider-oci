@@ -1,3 +1,38 @@
+## 3.34.0 (Unreleased)
+
+### Added
+- Support for Functions as a service
+- Support for adding resource limits to compartments
+- Support for KMS encryption key for Cross-region backup copy in Block Storage.
+- Support for exposing KmsKeyId on backups in Block Storage.
+- Support for Permitted Methods feature in LBaaS
+- Support for VCN access control lists via `load_balancer_rule_set`
+- Support for LBaaS Cookie Insertion (Sticky Cookie) 
+- Support for VCN Transit Routing to Oracle Services via Service Gateways
+- Support for moving `ons_notification_topic`, `ons_subscription` resources across compartments
+- Support for moving `oci_load_balancer` resources across compartments
+- Support for moving `oci_kms_key` and `oci_kms_vault` resources across compartments
+- Support for moving `core_instance` resources across compartments
+- Support for moving `identity_compartment` resource tree across compartments
+- Support for moving `dns_zone` and `dns_steering_policy` resources across compartments
+
+### Fixed
+- Removing deprecated fields that have no current valid use
+    - We are removing page and limit in list operations that are obsolete in terraform because of our pagination logic
+    - We are also removing deprecated "time_modified" fields that are not being populated from the following resources:
+        - core_internet_gateway
+        - core_route_table
+        - identity_compartment
+        - identity_group
+        - identity_policy
+        - identity_user
+- Removing deprecated field `time_state_modifed` from data source `oci_core_ip_sec_connection_device_status`.  `time_state_modified` should be used instead
+- Removing deprecated fields `content-length` and `content-type` from data source `oci_objectstorage_object_head`. `content_length` and `content_type` should be used instead
+- Removing `compartment_id` from resource `oci_core_drg_attachment` as an Optional field as the service does not accept it. The compartment of the VCN is the one used by the service. Keeping it as a computed field. 
+- Removing deprecated field `db_data_size_in_mbs` from resource `oci_database_backup`. `database_size_in_gbs` should be used instead
+- Fixed `extended_metadata` field in `oci_core_instance` to correctly handle JSON [Issue #817](https://github.com/terraform-providers/terraform-provider-oci/issues/817)
+- Consistently use the new `oci_core_vcn` rather than the legacy `oci_core_virtual_network` resource for VCN in examples
+
 ## 3.33.0 (July 10, 2019)
 
 ### Added

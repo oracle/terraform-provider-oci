@@ -8,14 +8,29 @@
 
 package objectstorage
 
-import (
-	"github.com/oracle/oci-go-sdk/common"
+// WorkRequestResourceMetadataKeyEnum Enum with underlying type: string
+type WorkRequestResourceMetadataKeyEnum string
+
+// Set of constants representing the allowable values for WorkRequestResourceMetadataKeyEnum
+const (
+	WorkRequestResourceMetadataKeyRegion    WorkRequestResourceMetadataKeyEnum = "REGION"
+	WorkRequestResourceMetadataKeyNamespace WorkRequestResourceMetadataKeyEnum = "NAMESPACE"
+	WorkRequestResourceMetadataKeyBucket    WorkRequestResourceMetadataKeyEnum = "BUCKET"
+	WorkRequestResourceMetadataKeyObject    WorkRequestResourceMetadataKeyEnum = "OBJECT"
 )
 
-// WorkRequestResourceMetadataKey The keys of WorkRequestResource metadata.
-type WorkRequestResourceMetadataKey struct {
+var mappingWorkRequestResourceMetadataKey = map[string]WorkRequestResourceMetadataKeyEnum{
+	"REGION":    WorkRequestResourceMetadataKeyRegion,
+	"NAMESPACE": WorkRequestResourceMetadataKeyNamespace,
+	"BUCKET":    WorkRequestResourceMetadataKeyBucket,
+	"OBJECT":    WorkRequestResourceMetadataKeyObject,
 }
 
-func (m WorkRequestResourceMetadataKey) String() string {
-	return common.PointerString(m)
+// GetWorkRequestResourceMetadataKeyEnumValues Enumerates the set of values for WorkRequestResourceMetadataKeyEnum
+func GetWorkRequestResourceMetadataKeyEnumValues() []WorkRequestResourceMetadataKeyEnum {
+	values := make([]WorkRequestResourceMetadataKeyEnum, 0)
+	for _, v := range mappingWorkRequestResourceMetadataKey {
+		values = append(values, v)
+	}
+	return values
 }

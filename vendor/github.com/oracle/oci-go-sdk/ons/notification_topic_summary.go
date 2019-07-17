@@ -1,10 +1,10 @@
 // Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Notification API
+// Notifications API
 //
-// Use the Notification API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see Notification Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
+// Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
+// For information about managing topics, subscriptions, and messages, see Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
 //
 
 package ons
@@ -16,7 +16,7 @@ import (
 // NotificationTopicSummary A summary of the properties that define a topic.
 type NotificationTopicSummary struct {
 
-	// The name of the topic. Avoid entering confidential information.
+	// The name of the topic.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic.
@@ -34,7 +34,7 @@ type NotificationTopicSummary struct {
 	// The endpoint for managing topic subscriptions or publishing messages to the topic.
 	ApiEndpoint *string `mandatory:"true" json:"apiEndpoint"`
 
-	// The description of the topic. Avoid entering confidential information.
+	// The description of the topic.
 	Description *string `mandatory:"false" json:"description"`
 
 	// For optimistic concurrency control. See `if-match`.

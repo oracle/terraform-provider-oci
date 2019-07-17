@@ -26,6 +26,16 @@ type CopyVolumeBackupDetails struct {
 	// A user-friendly name for the volume backup. Does not have to be unique and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The OCID of the KMS key in the destination region which will be the master encryption key
+	// for the copied volume backup.
+	// If you do not specify this attribute the volume backup will be encrypted with the Oracle-provided encryption
+	// key when it is copied to the destination region.
+	//
+	// For more information about the Key Management service and encryption keys, see
+	// Overview of Key Management (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm) and
+	// Using Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/usingkeys.htm).
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
 func (m CopyVolumeBackupDetails) String() string {

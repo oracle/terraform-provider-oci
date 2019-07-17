@@ -24,6 +24,9 @@ var (
 	BootVolumeRequiredOnlyResource = BootVolumeResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation)
 
+	BootVolumeOptionalResource = BootVolumeResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Create, bootVolumeRepresentation)
+
 	BootVolumeResourceConfig = BootVolumeResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Optional, Update, bootVolumeRepresentation)
 

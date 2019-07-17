@@ -62,7 +62,7 @@ type HttpProbeResultSummary struct {
 	// The error information indicating why a probe execution failed.
 	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 
-	Protocol HttpProbeResultSummaryProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
+	Protocol HttpProbeProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
 
 	Connection *TcpConnection `mandatory:"false" json:"connection"`
 
@@ -148,25 +148,19 @@ func GetHttpProbeResultSummaryErrorCategoryEnumValues() []HttpProbeResultSummary
 	return values
 }
 
-// HttpProbeResultSummaryProtocolEnum Enum with underlying type: string
-type HttpProbeResultSummaryProtocolEnum string
+// HttpProbeResultSummaryProtocolEnum is an alias to type: HttpProbeProtocolEnum
+// Consider using HttpProbeProtocolEnum instead
+// Deprecated
+type HttpProbeResultSummaryProtocolEnum = HttpProbeProtocolEnum
 
-// Set of constants representing the allowable values for HttpProbeResultSummaryProtocolEnum
+// Set of constants representing the allowable values for HttpProbeProtocolEnum
+// Deprecated
 const (
-	HttpProbeResultSummaryProtocolHttp  HttpProbeResultSummaryProtocolEnum = "HTTP"
-	HttpProbeResultSummaryProtocolHttps HttpProbeResultSummaryProtocolEnum = "HTTPS"
+	HttpProbeResultSummaryProtocolHttp  HttpProbeProtocolEnum = "HTTP"
+	HttpProbeResultSummaryProtocolHttps HttpProbeProtocolEnum = "HTTPS"
 )
 
-var mappingHttpProbeResultSummaryProtocol = map[string]HttpProbeResultSummaryProtocolEnum{
-	"HTTP":  HttpProbeResultSummaryProtocolHttp,
-	"HTTPS": HttpProbeResultSummaryProtocolHttps,
-}
-
-// GetHttpProbeResultSummaryProtocolEnumValues Enumerates the set of values for HttpProbeResultSummaryProtocolEnum
-func GetHttpProbeResultSummaryProtocolEnumValues() []HttpProbeResultSummaryProtocolEnum {
-	values := make([]HttpProbeResultSummaryProtocolEnum, 0)
-	for _, v := range mappingHttpProbeResultSummaryProtocol {
-		values = append(values, v)
-	}
-	return values
-}
+// GetHttpProbeResultSummaryProtocolEnumValues Enumerates the set of values for HttpProbeProtocolEnum
+// Consider using GetHttpProbeProtocolEnumValue
+// Deprecated
+var GetHttpProbeResultSummaryProtocolEnumValues = GetHttpProbeProtocolEnumValues

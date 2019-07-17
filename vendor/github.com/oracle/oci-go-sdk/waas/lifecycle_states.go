@@ -8,14 +8,33 @@
 
 package waas
 
-import (
-	"github.com/oracle/oci-go-sdk/common"
+// LifecycleStatesEnum Enum with underlying type: string
+type LifecycleStatesEnum string
+
+// Set of constants representing the allowable values for LifecycleStatesEnum
+const (
+	LifecycleStatesCreating LifecycleStatesEnum = "CREATING"
+	LifecycleStatesActive   LifecycleStatesEnum = "ACTIVE"
+	LifecycleStatesFailed   LifecycleStatesEnum = "FAILED"
+	LifecycleStatesUpdating LifecycleStatesEnum = "UPDATING"
+	LifecycleStatesDeleting LifecycleStatesEnum = "DELETING"
+	LifecycleStatesDeleted  LifecycleStatesEnum = "DELETED"
 )
 
-// LifecycleStates The current status of the specified WAAS policy.
-type LifecycleStates struct {
+var mappingLifecycleStates = map[string]LifecycleStatesEnum{
+	"CREATING": LifecycleStatesCreating,
+	"ACTIVE":   LifecycleStatesActive,
+	"FAILED":   LifecycleStatesFailed,
+	"UPDATING": LifecycleStatesUpdating,
+	"DELETING": LifecycleStatesDeleting,
+	"DELETED":  LifecycleStatesDeleted,
 }
 
-func (m LifecycleStates) String() string {
-	return common.PointerString(m)
+// GetLifecycleStatesEnumValues Enumerates the set of values for LifecycleStatesEnum
+func GetLifecycleStatesEnumValues() []LifecycleStatesEnum {
+	values := make([]LifecycleStatesEnum, 0)
+	for _, v := range mappingLifecycleStates {
+		values = append(values, v)
+	}
+	return values
 }

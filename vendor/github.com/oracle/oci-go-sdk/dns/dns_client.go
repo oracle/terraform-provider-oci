@@ -38,7 +38,7 @@ func NewDnsClientWithConfigurationProvider(configProvider common.ConfigurationPr
 
 // SetRegion overrides the region of this client.
 func (client *DnsClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).Endpoint("dns")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("dns", "https://dns.{region}.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -57,6 +57,101 @@ func (client *DnsClient) setConfigurationProvider(configProvider common.Configur
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *DnsClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// ChangeSteeringPolicyCompartment Moves a steering policy into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+func (client DnsClient) ChangeSteeringPolicyCompartment(ctx context.Context, request ChangeSteeringPolicyCompartmentRequest) (response ChangeSteeringPolicyCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSteeringPolicyCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeSteeringPolicyCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSteeringPolicyCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSteeringPolicyCompartmentResponse")
+	}
+	return
+}
+
+// changeSteeringPolicyCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) changeSteeringPolicyCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/steeringPolicies/{steeringPolicyId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSteeringPolicyCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeZoneCompartment Moves a zone into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+// **Note:** All SteeringPolicyAttachment objects associated with this zone will also be moved into the provided compartment.
+func (client DnsClient) ChangeZoneCompartment(ctx context.Context, request ChangeZoneCompartmentRequest) (response ChangeZoneCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeZoneCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeZoneCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeZoneCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeZoneCompartmentResponse")
+	}
+	return
+}
+
+// changeZoneCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) changeZoneCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/zones/{zoneId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeZoneCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // CreateSteeringPolicy Creates a new steering policy in the specified compartment. For more information on

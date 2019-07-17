@@ -8,7 +8,7 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 1
 }
 
-resource "oci_core_virtual_network" "ExampleVCN" {
+resource "oci_core_vcn" "ExampleVCN" {
   cidr_block     = "10.1.0.0/16"
   compartment_id = "${var.compartment_ocid}"
   display_name   = "TFExampleVCN"
@@ -18,12 +18,12 @@ resource "oci_core_virtual_network" "ExampleVCN" {
 resource "oci_core_internet_gateway" "ExampleInternetGateway" {
   compartment_id = "${var.compartment_ocid}"
   display_name   = "TFExampleInternetGateway"
-  vcn_id         = "${oci_core_virtual_network.ExampleVCN.id}"
+  vcn_id         = "${oci_core_vcn.ExampleVCN.id}"
 }
 
 resource "oci_core_route_table" "ExampleRouteTable" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_virtual_network.ExampleVCN.id}"
+  vcn_id         = "${oci_core_vcn.ExampleVCN.id}"
   display_name   = "TFExampleRouteTable"
 
   route_rules {
@@ -36,7 +36,7 @@ resource "oci_core_route_table" "ExampleRouteTable" {
 # https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/accessinginstance.htm#one
 resource "oci_core_security_list" "ExampleSecurityList" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_virtual_network.ExampleVCN.id}"
+  vcn_id         = "${oci_core_vcn.ExampleVCN.id}"
   display_name   = "TFExampleSecurityList"
 
   // allow inbound remote desktop traffic
@@ -83,7 +83,7 @@ resource "oci_core_subnet" "ExampleSubnet" {
   dns_label           = "tfexamplesubnet"
   security_list_ids   = ["${oci_core_security_list.ExampleSecurityList.id}"]
   compartment_id      = "${var.compartment_ocid}"
-  vcn_id              = "${oci_core_virtual_network.ExampleVCN.id}"
+  vcn_id              = "${oci_core_vcn.ExampleVCN.id}"
   route_table_id      = "${oci_core_route_table.ExampleRouteTable.id}"
-  dhcp_options_id     = "${oci_core_virtual_network.ExampleVCN.default_dhcp_options_id}"
+  dhcp_options_id     = "${oci_core_vcn.ExampleVCN.default_dhcp_options_id}"
 }

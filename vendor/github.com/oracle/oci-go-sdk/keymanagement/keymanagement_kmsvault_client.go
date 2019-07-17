@@ -108,6 +108,53 @@ func (client KmsVaultClient) cancelVaultDeletion(ctx context.Context, request co
 	return response, err
 }
 
+// ChangeVaultCompartment Moves a vault into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+func (client KmsVaultClient) ChangeVaultCompartment(ctx context.Context, request ChangeVaultCompartmentRequest) (response ChangeVaultCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeVaultCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeVaultCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeVaultCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeVaultCompartmentResponse")
+	}
+	return
+}
+
+// changeVaultCompartment implements the OCIOperation interface (enables retrying operations)
+func (client KmsVaultClient) changeVaultCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/vaults/{vaultId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeVaultCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateVault Creates a new vault. The type of vault you create determines key
 // placement, pricing, and available options. Options include storage
 // isolation, a dedicated service endpoint instead of a shared service

@@ -87,6 +87,12 @@ func (s *LoadBalancerBackendSetsDataSourceCrud) SetData() error {
 			backendSet["health_checker"] = nil
 		}
 
+		if r.LbCookieSessionPersistenceConfiguration != nil {
+			backendSet["lb_cookie_session_persistence_configuration"] = []interface{}{LBCookieSessionPersistenceConfigurationDetailsToMap(r.LbCookieSessionPersistenceConfiguration)}
+		} else {
+			backendSet["lb_cookie_session_persistence_configuration"] = nil
+		}
+
 		if r.Name != nil {
 			backendSet["name"] = *r.Name
 		}

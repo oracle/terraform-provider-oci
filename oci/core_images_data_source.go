@@ -45,16 +45,6 @@ func CoreImagesDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     GetDataSourceItemSchema(CoreImageResource()),
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
-			},
 			"sort_by": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -123,16 +113,6 @@ func (s *CoreImagesDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_core.ImageLifecycleStateEnum(state.(string))
-	}
-
-	if limit, ok := s.D.GetOkExists("limit"); ok {
-		tmp := limit.(int)
-		request.Limit = &tmp
-	}
-
-	if page, ok := s.D.GetOkExists("page"); ok {
-		tmp := page.(string)
-		request.Page = &tmp
 	}
 
 	if sortBy, ok := s.D.GetOkExists("sort_by"); ok {

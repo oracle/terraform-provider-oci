@@ -35,16 +35,6 @@ func CoreInternetGatewaysDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     GetDataSourceItemSchema(CoreInternetGatewayResource()),
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
-			},
 		},
 	}
 }
@@ -87,16 +77,6 @@ func (s *CoreInternetGatewaysDataSourceCrud) Get() error {
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
 		tmp := vcnId.(string)
 		request.VcnId = &tmp
-	}
-
-	if limit, ok := s.D.GetOkExists("limit"); ok {
-		tmp := limit.(int)
-		request.Limit = &tmp
-	}
-
-	if page, ok := s.D.GetOkExists("page"); ok {
-		tmp := page.(string)
-		request.Page = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")

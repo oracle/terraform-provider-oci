@@ -29,7 +29,6 @@ func DnsSteeringPolicyResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -425,6 +424,15 @@ func (s *DnsSteeringPolicyResourceCrud) Get() error {
 }
 
 func (s *DnsSteeringPolicyResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_dns.UpdateSteeringPolicyRequest{}
 
 	/* Do not uncomment until we get a solution to the terraform deficiency
@@ -1167,4 +1175,22 @@ func SteeringPolicyWeightedRuleCaseToMap(obj oci_dns.SteeringPolicyWeightedRuleC
 	}
 
 	return result
+}
+
+func (s *DnsSteeringPolicyResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_dns.ChangeSteeringPolicyCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.SteeringPolicyId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+
+	_, err := s.Client.ChangeSteeringPolicyCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

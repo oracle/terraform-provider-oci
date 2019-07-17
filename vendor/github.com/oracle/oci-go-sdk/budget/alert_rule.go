@@ -26,16 +26,16 @@ type AlertRule struct {
 
 	// The type of alert. Valid values are ACTUAL (the alert will trigger based on actual usage) or
 	// FORECAST (the alert will trigger based on predicted usage).
-	Type AlertRuleTypeEnum `mandatory:"true" json:"type"`
+	Type AlertTypeEnum `mandatory:"true" json:"type"`
 
 	// The threshold for triggering the alert. If thresholdType is PERCENTAGE, the maximum value is 10000.
 	Threshold *float32 `mandatory:"true" json:"threshold"`
 
 	// The type of threshold.
-	ThresholdType AlertRuleThresholdTypeEnum `mandatory:"true" json:"thresholdType"`
+	ThresholdType ThresholdTypeEnum `mandatory:"true" json:"thresholdType"`
 
 	// The current state of the alert rule.
-	LifecycleState AlertRuleLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Delimited list of email addresses to receive the alert when it triggers.
 	// Delimiter character can be comma, space, TAB, or semicolon.
@@ -71,71 +71,53 @@ func (m AlertRule) String() string {
 	return common.PointerString(m)
 }
 
-// AlertRuleTypeEnum Enum with underlying type: string
-type AlertRuleTypeEnum string
+// AlertRuleTypeEnum is an alias to type: AlertTypeEnum
+// Consider using AlertTypeEnum instead
+// Deprecated
+type AlertRuleTypeEnum = AlertTypeEnum
 
-// Set of constants representing the allowable values for AlertRuleTypeEnum
+// Set of constants representing the allowable values for AlertTypeEnum
+// Deprecated
 const (
-	AlertRuleTypeActual   AlertRuleTypeEnum = "ACTUAL"
-	AlertRuleTypeForecast AlertRuleTypeEnum = "FORECAST"
+	AlertRuleTypeActual   AlertTypeEnum = "ACTUAL"
+	AlertRuleTypeForecast AlertTypeEnum = "FORECAST"
 )
 
-var mappingAlertRuleType = map[string]AlertRuleTypeEnum{
-	"ACTUAL":   AlertRuleTypeActual,
-	"FORECAST": AlertRuleTypeForecast,
-}
+// GetAlertRuleTypeEnumValues Enumerates the set of values for AlertTypeEnum
+// Consider using GetAlertTypeEnumValue
+// Deprecated
+var GetAlertRuleTypeEnumValues = GetAlertTypeEnumValues
 
-// GetAlertRuleTypeEnumValues Enumerates the set of values for AlertRuleTypeEnum
-func GetAlertRuleTypeEnumValues() []AlertRuleTypeEnum {
-	values := make([]AlertRuleTypeEnum, 0)
-	for _, v := range mappingAlertRuleType {
-		values = append(values, v)
-	}
-	return values
-}
+// AlertRuleThresholdTypeEnum is an alias to type: ThresholdTypeEnum
+// Consider using ThresholdTypeEnum instead
+// Deprecated
+type AlertRuleThresholdTypeEnum = ThresholdTypeEnum
 
-// AlertRuleThresholdTypeEnum Enum with underlying type: string
-type AlertRuleThresholdTypeEnum string
-
-// Set of constants representing the allowable values for AlertRuleThresholdTypeEnum
+// Set of constants representing the allowable values for ThresholdTypeEnum
+// Deprecated
 const (
-	AlertRuleThresholdTypePercentage AlertRuleThresholdTypeEnum = "PERCENTAGE"
-	AlertRuleThresholdTypeAbsolute   AlertRuleThresholdTypeEnum = "ABSOLUTE"
+	AlertRuleThresholdTypePercentage ThresholdTypeEnum = "PERCENTAGE"
+	AlertRuleThresholdTypeAbsolute   ThresholdTypeEnum = "ABSOLUTE"
 )
 
-var mappingAlertRuleThresholdType = map[string]AlertRuleThresholdTypeEnum{
-	"PERCENTAGE": AlertRuleThresholdTypePercentage,
-	"ABSOLUTE":   AlertRuleThresholdTypeAbsolute,
-}
+// GetAlertRuleThresholdTypeEnumValues Enumerates the set of values for ThresholdTypeEnum
+// Consider using GetThresholdTypeEnumValue
+// Deprecated
+var GetAlertRuleThresholdTypeEnumValues = GetThresholdTypeEnumValues
 
-// GetAlertRuleThresholdTypeEnumValues Enumerates the set of values for AlertRuleThresholdTypeEnum
-func GetAlertRuleThresholdTypeEnumValues() []AlertRuleThresholdTypeEnum {
-	values := make([]AlertRuleThresholdTypeEnum, 0)
-	for _, v := range mappingAlertRuleThresholdType {
-		values = append(values, v)
-	}
-	return values
-}
+// AlertRuleLifecycleStateEnum is an alias to type: LifecycleStateEnum
+// Consider using LifecycleStateEnum instead
+// Deprecated
+type AlertRuleLifecycleStateEnum = LifecycleStateEnum
 
-// AlertRuleLifecycleStateEnum Enum with underlying type: string
-type AlertRuleLifecycleStateEnum string
-
-// Set of constants representing the allowable values for AlertRuleLifecycleStateEnum
+// Set of constants representing the allowable values for LifecycleStateEnum
+// Deprecated
 const (
-	AlertRuleLifecycleStateActive   AlertRuleLifecycleStateEnum = "ACTIVE"
-	AlertRuleLifecycleStateInactive AlertRuleLifecycleStateEnum = "INACTIVE"
+	AlertRuleLifecycleStateActive   LifecycleStateEnum = "ACTIVE"
+	AlertRuleLifecycleStateInactive LifecycleStateEnum = "INACTIVE"
 )
 
-var mappingAlertRuleLifecycleState = map[string]AlertRuleLifecycleStateEnum{
-	"ACTIVE":   AlertRuleLifecycleStateActive,
-	"INACTIVE": AlertRuleLifecycleStateInactive,
-}
-
-// GetAlertRuleLifecycleStateEnumValues Enumerates the set of values for AlertRuleLifecycleStateEnum
-func GetAlertRuleLifecycleStateEnumValues() []AlertRuleLifecycleStateEnum {
-	values := make([]AlertRuleLifecycleStateEnum, 0)
-	for _, v := range mappingAlertRuleLifecycleState {
-		values = append(values, v)
-	}
-	return values
-}
+// GetAlertRuleLifecycleStateEnumValues Enumerates the set of values for LifecycleStateEnum
+// Consider using GetLifecycleStateEnumValue
+// Deprecated
+var GetAlertRuleLifecycleStateEnumValues = GetLifecycleStateEnumValues

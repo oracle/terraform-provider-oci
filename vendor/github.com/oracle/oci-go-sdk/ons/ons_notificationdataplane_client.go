@@ -1,10 +1,10 @@
 // Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Notification API
+// Notifications API
 //
-// Use the Notification API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see Notification Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
+// Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
+// For information about managing topics, subscriptions, and messages, see Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
 //
 
 package ons
@@ -38,7 +38,7 @@ func NewNotificationDataPlaneClientWithConfigurationProvider(configProvider comm
 
 // SetRegion overrides the region of this client.
 func (client *NotificationDataPlaneClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).Endpoint("notification")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("notifications", "https://notification.{region}.oraclecloud.com")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -59,7 +59,58 @@ func (client *NotificationDataPlaneClient) ConfigurationProvider() *common.Confi
 	return client.config
 }
 
+// ChangeSubscriptionCompartment Moves a subscription into a different compartment within the same tenancy. For information about moving
+// resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
+func (client NotificationDataPlaneClient) ChangeSubscriptionCompartment(ctx context.Context, request ChangeSubscriptionCompartmentRequest) (response ChangeSubscriptionCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSubscriptionCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeSubscriptionCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSubscriptionCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSubscriptionCompartmentResponse")
+	}
+	return
+}
+
+// changeSubscriptionCompartment implements the OCIOperation interface (enables retrying operations)
+func (client NotificationDataPlaneClient) changeSubscriptionCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subscriptions/{subscriptionId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSubscriptionCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateSubscription Creates a subscription for the specified topic.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) CreateSubscription(ctx context.Context, request CreateSubscriptionRequest) (response CreateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -107,6 +158,7 @@ func (client NotificationDataPlaneClient) createSubscription(ctx context.Context
 }
 
 // DeleteSubscription Deletes the specified subscription.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) DeleteSubscription(ctx context.Context, request DeleteSubscriptionRequest) (response DeleteSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -149,6 +201,7 @@ func (client NotificationDataPlaneClient) deleteSubscription(ctx context.Context
 }
 
 // GetConfirmSubscription Gets the confirmation details for the specified subscription.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) GetConfirmSubscription(ctx context.Context, request GetConfirmSubscriptionRequest) (response GetConfirmSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -191,6 +244,7 @@ func (client NotificationDataPlaneClient) getConfirmSubscription(ctx context.Con
 }
 
 // GetSubscription Gets the specified subscription's configuration information.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) GetSubscription(ctx context.Context, request GetSubscriptionRequest) (response GetSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -233,6 +287,7 @@ func (client NotificationDataPlaneClient) getSubscription(ctx context.Context, r
 }
 
 // GetUnsubscription Gets the unsubscription details for the specified subscription.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) GetUnsubscription(ctx context.Context, request GetUnsubscriptionRequest) (response GetUnsubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -275,6 +330,7 @@ func (client NotificationDataPlaneClient) getUnsubscription(ctx context.Context,
 }
 
 // ListSubscriptions Lists the subscriptions in the specified compartment or topic.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) ListSubscriptions(ctx context.Context, request ListSubscriptionsRequest) (response ListSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -316,7 +372,11 @@ func (client NotificationDataPlaneClient) listSubscriptions(ctx context.Context,
 	return response, err
 }
 
-// PublishMessage Publishes a message to the specified topic. For more information about publishing messages, see Publishing Messages (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/publishingmessages.htm).
+// PublishMessage Publishes a message to the specified topic. Limits information follows.
+// Message size limit per request: 64KB.
+// Message delivery rate limit per endpoint: 60 messages per minute for HTTPS (PagerDuty) protocol, 10 messages per minute for Email protocol.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60 per topic.
+// For more information about publishing messages, see Publishing Messages (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/publishingmessages.htm).
 func (client NotificationDataPlaneClient) PublishMessage(ctx context.Context, request PublishMessageRequest) (response PublishMessageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -359,6 +419,7 @@ func (client NotificationDataPlaneClient) publishMessage(ctx context.Context, re
 }
 
 // ResendSubscriptionConfirmation Resends the confirmation details for the specified subscription.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) ResendSubscriptionConfirmation(ctx context.Context, request ResendSubscriptionConfirmationRequest) (response ResendSubscriptionConfirmationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -401,6 +462,7 @@ func (client NotificationDataPlaneClient) resendSubscriptionConfirmation(ctx con
 }
 
 // UpdateSubscription Updates the specified subscription's configuration.
+// Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationDataPlaneClient) UpdateSubscription(ctx context.Context, request UpdateSubscriptionRequest) (response UpdateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

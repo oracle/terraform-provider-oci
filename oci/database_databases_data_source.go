@@ -35,16 +35,6 @@ func DatabaseDatabasesDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     GetDataSourceItemSchema(DatabaseDatabaseDataSource()),
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
-			},
 		},
 	}
 }
@@ -88,13 +78,6 @@ func (s *DatabaseDatabasesDataSourceCrud) Get() error {
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_database.DatabaseSummaryLifecycleStateEnum(state.(string))
 	}
-
-	if limit, ok := s.D.GetOkExists("limit"); ok {
-		tmp := limit.(int)
-		request.Limit = &tmp
-	}
-
-	// @CODEGEN "page" was never wired up, omit
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
 

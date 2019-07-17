@@ -22,7 +22,7 @@ type CreateHttpMonitorDetails struct {
 
 	Targets []string `mandatory:"true" json:"targets"`
 
-	Protocol CreateHttpMonitorDetailsProtocolEnum `mandatory:"true" json:"protocol"`
+	Protocol HttpProbeProtocolEnum `mandatory:"true" json:"protocol"`
 
 	// A user-friendly and mutable name suitable for display in a user interface.
 	DisplayName *string `mandatory:"true" json:"displayName"`
@@ -40,7 +40,7 @@ type CreateHttpMonitorDetails struct {
 	// The probe timeout must be less than or equal to `intervalInSeconds` for monitors.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
-	Method CreateHttpMonitorDetailsMethodEnum `mandatory:"false" json:"method,omitempty"`
+	Method HttpProbeMethodEnum `mandatory:"false" json:"method,omitempty"`
 
 	// The optional URL path to probe, including query parameters.
 	Path *string `mandatory:"false" json:"path"`
@@ -68,48 +68,36 @@ func (m CreateHttpMonitorDetails) String() string {
 	return common.PointerString(m)
 }
 
-// CreateHttpMonitorDetailsProtocolEnum Enum with underlying type: string
-type CreateHttpMonitorDetailsProtocolEnum string
+// CreateHttpMonitorDetailsProtocolEnum is an alias to type: HttpProbeProtocolEnum
+// Consider using HttpProbeProtocolEnum instead
+// Deprecated
+type CreateHttpMonitorDetailsProtocolEnum = HttpProbeProtocolEnum
 
-// Set of constants representing the allowable values for CreateHttpMonitorDetailsProtocolEnum
+// Set of constants representing the allowable values for HttpProbeProtocolEnum
+// Deprecated
 const (
-	CreateHttpMonitorDetailsProtocolHttp  CreateHttpMonitorDetailsProtocolEnum = "HTTP"
-	CreateHttpMonitorDetailsProtocolHttps CreateHttpMonitorDetailsProtocolEnum = "HTTPS"
+	CreateHttpMonitorDetailsProtocolHttp  HttpProbeProtocolEnum = "HTTP"
+	CreateHttpMonitorDetailsProtocolHttps HttpProbeProtocolEnum = "HTTPS"
 )
 
-var mappingCreateHttpMonitorDetailsProtocol = map[string]CreateHttpMonitorDetailsProtocolEnum{
-	"HTTP":  CreateHttpMonitorDetailsProtocolHttp,
-	"HTTPS": CreateHttpMonitorDetailsProtocolHttps,
-}
+// GetCreateHttpMonitorDetailsProtocolEnumValues Enumerates the set of values for HttpProbeProtocolEnum
+// Consider using GetHttpProbeProtocolEnumValue
+// Deprecated
+var GetCreateHttpMonitorDetailsProtocolEnumValues = GetHttpProbeProtocolEnumValues
 
-// GetCreateHttpMonitorDetailsProtocolEnumValues Enumerates the set of values for CreateHttpMonitorDetailsProtocolEnum
-func GetCreateHttpMonitorDetailsProtocolEnumValues() []CreateHttpMonitorDetailsProtocolEnum {
-	values := make([]CreateHttpMonitorDetailsProtocolEnum, 0)
-	for _, v := range mappingCreateHttpMonitorDetailsProtocol {
-		values = append(values, v)
-	}
-	return values
-}
+// CreateHttpMonitorDetailsMethodEnum is an alias to type: HttpProbeMethodEnum
+// Consider using HttpProbeMethodEnum instead
+// Deprecated
+type CreateHttpMonitorDetailsMethodEnum = HttpProbeMethodEnum
 
-// CreateHttpMonitorDetailsMethodEnum Enum with underlying type: string
-type CreateHttpMonitorDetailsMethodEnum string
-
-// Set of constants representing the allowable values for CreateHttpMonitorDetailsMethodEnum
+// Set of constants representing the allowable values for HttpProbeMethodEnum
+// Deprecated
 const (
-	CreateHttpMonitorDetailsMethodGet  CreateHttpMonitorDetailsMethodEnum = "GET"
-	CreateHttpMonitorDetailsMethodHead CreateHttpMonitorDetailsMethodEnum = "HEAD"
+	CreateHttpMonitorDetailsMethodGet  HttpProbeMethodEnum = "GET"
+	CreateHttpMonitorDetailsMethodHead HttpProbeMethodEnum = "HEAD"
 )
 
-var mappingCreateHttpMonitorDetailsMethod = map[string]CreateHttpMonitorDetailsMethodEnum{
-	"GET":  CreateHttpMonitorDetailsMethodGet,
-	"HEAD": CreateHttpMonitorDetailsMethodHead,
-}
-
-// GetCreateHttpMonitorDetailsMethodEnumValues Enumerates the set of values for CreateHttpMonitorDetailsMethodEnum
-func GetCreateHttpMonitorDetailsMethodEnumValues() []CreateHttpMonitorDetailsMethodEnum {
-	values := make([]CreateHttpMonitorDetailsMethodEnum, 0)
-	for _, v := range mappingCreateHttpMonitorDetailsMethod {
-		values = append(values, v)
-	}
-	return values
-}
+// GetCreateHttpMonitorDetailsMethodEnumValues Enumerates the set of values for HttpProbeMethodEnum
+// Consider using GetHttpProbeMethodEnumValue
+// Deprecated
+var GetCreateHttpMonitorDetailsMethodEnumValues = GetHttpProbeMethodEnumValues

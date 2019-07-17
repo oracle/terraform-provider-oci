@@ -44,7 +44,7 @@ data "oci_identity_availability_domain" "ad" {
 }
 
 # Creates a VCN
-resource "oci_core_virtual_network" "TFVcn" {
+resource "oci_core_vcn" "TFVcn" {
   cidr_block     = "10.1.0.0/16"
   compartment_id = "${var.compartment_ocid}"
   display_name   = "TFVcn"
@@ -57,11 +57,11 @@ resource "oci_core_subnet" "TFSubnet" {
   cidr_block          = "10.1.20.0/24"
   display_name        = "TFSubnet"
   dns_label           = "tfsubnet"
-  security_list_ids   = ["${oci_core_virtual_network.TFVcn.default_security_list_id}"]
+  security_list_ids   = ["${oci_core_vcn.TFVcn.default_security_list_id}"]
   compartment_id      = "${var.compartment_ocid}"
-  vcn_id              = "${oci_core_virtual_network.TFVcn.id}"
-  route_table_id      = "${oci_core_virtual_network.TFVcn.default_route_table_id}"
-  dhcp_options_id     = "${oci_core_virtual_network.TFVcn.default_dhcp_options_id}"
+  vcn_id              = "${oci_core_vcn.TFVcn.id}"
+  route_table_id      = "${oci_core_vcn.TFVcn.default_route_table_id}"
+  dhcp_options_id     = "${oci_core_vcn.TFVcn.default_dhcp_options_id}"
 }
 
 # Creates an instance (without assigning a public IP to the primary private IP on the VNIC)

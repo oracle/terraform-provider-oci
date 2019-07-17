@@ -21,7 +21,7 @@ type PublishMessageRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Type of message body in the request. Default value: JSON.
+	// Type of message body in the request.
 	MessageType PublishMessageMessageTypeEnum `mandatory:"false" contributesTo:"header" name:"messageType"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

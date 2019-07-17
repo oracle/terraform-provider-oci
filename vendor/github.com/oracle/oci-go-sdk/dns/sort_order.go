@@ -9,14 +9,25 @@
 
 package dns
 
-import (
-	"github.com/oracle/oci-go-sdk/common"
+// SortOrderEnum Enum with underlying type: string
+type SortOrderEnum string
+
+// Set of constants representing the allowable values for SortOrderEnum
+const (
+	SortOrderAsc  SortOrderEnum = "ASC"
+	SortOrderDesc SortOrderEnum = "DESC"
 )
 
-// SortOrder The order to sort the resources.
-type SortOrder struct {
+var mappingSortOrder = map[string]SortOrderEnum{
+	"ASC":  SortOrderAsc,
+	"DESC": SortOrderDesc,
 }
 
-func (m SortOrder) String() string {
-	return common.PointerString(m)
+// GetSortOrderEnumValues Enumerates the set of values for SortOrderEnum
+func GetSortOrderEnumValues() []SortOrderEnum {
+	values := make([]SortOrderEnum, 0)
+	for _, v := range mappingSortOrder {
+		values = append(values, v)
+	}
+	return values
 }

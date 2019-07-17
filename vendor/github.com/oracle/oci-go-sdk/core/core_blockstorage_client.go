@@ -62,7 +62,9 @@ func (client *BlockstorageClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
-// ChangeBootVolumeBackupCompartment Change the compartment of a boot volume backup
+// ChangeBootVolumeBackupCompartment Moves a boot volume backup into a different compartment within the same tenancy.
+// For information about moving resources between compartments,
+// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client BlockstorageClient) ChangeBootVolumeBackupCompartment(ctx context.Context, request ChangeBootVolumeBackupCompartmentRequest) (response ChangeBootVolumeBackupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -104,7 +106,9 @@ func (client BlockstorageClient) changeBootVolumeBackupCompartment(ctx context.C
 	return response, err
 }
 
-// ChangeBootVolumeCompartment Change the compartment of a boot volume
+// ChangeBootVolumeCompartment Moves a boot volume into a different compartment within the same tenancy.
+// For information about moving resources between compartments,
+// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client BlockstorageClient) ChangeBootVolumeCompartment(ctx context.Context, request ChangeBootVolumeCompartmentRequest) (response ChangeBootVolumeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -146,7 +150,9 @@ func (client BlockstorageClient) changeBootVolumeCompartment(ctx context.Context
 	return response, err
 }
 
-// ChangeVolumeBackupCompartment Change the compartment of a volume backup
+// ChangeVolumeBackupCompartment Moves a volume backup into a different compartment within the same tenancy.
+// For information about moving resources between compartments,
+// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client BlockstorageClient) ChangeVolumeBackupCompartment(ctx context.Context, request ChangeVolumeBackupCompartmentRequest) (response ChangeVolumeBackupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -188,7 +194,9 @@ func (client BlockstorageClient) changeVolumeBackupCompartment(ctx context.Conte
 	return response, err
 }
 
-// ChangeVolumeCompartment Change the compartment of a volume
+// ChangeVolumeCompartment Moves a volume into a different compartment within the same tenancy.
+// For information about moving resources between compartments,
+// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client BlockstorageClient) ChangeVolumeCompartment(ctx context.Context, request ChangeVolumeCompartmentRequest) (response ChangeVolumeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -230,7 +238,9 @@ func (client BlockstorageClient) changeVolumeCompartment(ctx context.Context, re
 	return response, err
 }
 
-// ChangeVolumeGroupBackupCompartment Change the compartment of a volume group backup
+// ChangeVolumeGroupBackupCompartment Moves a volume group backup into a different compartment within the same tenancy.
+// For information about moving resources between compartments,
+// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client BlockstorageClient) ChangeVolumeGroupBackupCompartment(ctx context.Context, request ChangeVolumeGroupBackupCompartmentRequest) (response ChangeVolumeGroupBackupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -272,7 +282,9 @@ func (client BlockstorageClient) changeVolumeGroupBackupCompartment(ctx context.
 	return response, err
 }
 
-// ChangeVolumeGroupCompartment Change the compartment of a volume group
+// ChangeVolumeGroupCompartment Moves a volume group into a different compartment within the same tenancy.
+// For information about moving resources between compartments,
+// see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client BlockstorageClient) ChangeVolumeGroupCompartment(ctx context.Context, request ChangeVolumeGroupCompartmentRequest) (response ChangeVolumeGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
