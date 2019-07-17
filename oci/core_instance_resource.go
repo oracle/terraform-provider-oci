@@ -221,6 +221,59 @@ func CoreInstanceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"launch_options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"boot_volume_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"firmware": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"is_consistent_volume_naming_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"is_pv_encryption_in_transit_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"network_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"remote_data_volume_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"metadata": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -293,45 +346,6 @@ func CoreInstanceResource() *schema.Resource {
 			"launch_mode": {
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"launch_options": {
-				Type:     schema.TypeList,
-				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"boot_volume_type": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"firmware": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"is_consistent_volume_naming_enabled": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"is_pv_encryption_in_transit_enabled": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"network_type": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"remote_data_volume_type": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
 			},
 			"region": {
 				Type:     schema.TypeString,
@@ -602,6 +616,17 @@ func (s *CoreInstanceResourceCrud) Create() error {
 	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists("is_pv_encryption_in_transit_enabled"); ok {
 		tmp := isPvEncryptionInTransitEnabled.(bool)
 		request.IsPvEncryptionInTransitEnabled = &tmp
+	}
+
+	if launchOptions, ok := s.D.GetOkExists("launch_options"); ok {
+		if tmpList := launchOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "launch_options", 0)
+			tmp, err := s.mapToLaunchOptions(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LaunchOptions = &tmp
+		}
 	}
 
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
@@ -1216,6 +1241,38 @@ func InstanceAgentConfigToMap(obj *oci_core.InstanceAgentConfig) map[string]inte
 	}
 
 	return result
+}
+
+func (s *CoreInstanceResourceCrud) mapToLaunchOptions(fieldKeyFormat string) (oci_core.LaunchOptions, error) {
+	result := oci_core.LaunchOptions{}
+
+	if bootVolumeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_type")); ok {
+		result.BootVolumeType = oci_core.LaunchOptionsBootVolumeTypeEnum(bootVolumeType.(string))
+	}
+
+	if firmware, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "firmware")); ok {
+		result.Firmware = oci_core.LaunchOptionsFirmwareEnum(firmware.(string))
+	}
+
+	if isConsistentVolumeNamingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_consistent_volume_naming_enabled")); ok {
+		tmp := isConsistentVolumeNamingEnabled.(bool)
+		result.IsConsistentVolumeNamingEnabled = &tmp
+	}
+
+	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
+		tmp := isPvEncryptionInTransitEnabled.(bool)
+		result.IsPvEncryptionInTransitEnabled = &tmp
+	}
+
+	if networkType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_type")); ok {
+		result.NetworkType = oci_core.LaunchOptionsNetworkTypeEnum(networkType.(string))
+	}
+
+	if remoteDataVolumeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_data_volume_type")); ok {
+		result.RemoteDataVolumeType = oci_core.LaunchOptionsRemoteDataVolumeTypeEnum(remoteDataVolumeType.(string))
+	}
+
+	return result, nil
 }
 
 func mapToExtendedMetadata(rm map[string]interface{}) (map[string]interface{}, error) {

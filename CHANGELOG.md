@@ -1,7 +1,8 @@
 ## 3.47.0 (Unreleased)
 
 ### Added
-- Support for Audit v2 enhancements. Note: `oci_audit_events` data source schema is updated.
+- Support for Audit v2 enhancements. Note: `oci_audit_events` data source schema is updated
+- Support for specifying network_type in `launch_options` for the `core_instance` resource
 
 ## 3.46.0 (October 02, 2019)
 
