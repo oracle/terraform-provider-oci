@@ -44,26 +44,3 @@ type PingProbe struct {
 func (m PingProbe) String() string {
 	return common.PointerString(m)
 }
-
-// PingProbeProtocolEnum Enum with underlying type: string
-type PingProbeProtocolEnum string
-
-// Set of constants representing the allowable values for PingProbeProtocolEnum
-const (
-	PingProbeProtocolIcmp PingProbeProtocolEnum = "ICMP"
-	PingProbeProtocolTcp  PingProbeProtocolEnum = "TCP"
-)
-
-var mappingPingProbeProtocol = map[string]PingProbeProtocolEnum{
-	"ICMP": PingProbeProtocolIcmp,
-	"TCP":  PingProbeProtocolTcp,
-}
-
-// GetPingProbeProtocolEnumValues Enumerates the set of values for PingProbeProtocolEnum
-func GetPingProbeProtocolEnumValues() []PingProbeProtocolEnum {
-	values := make([]PingProbeProtocolEnum, 0)
-	for _, v := range mappingPingProbeProtocol {
-		values = append(values, v)
-	}
-	return values
-}

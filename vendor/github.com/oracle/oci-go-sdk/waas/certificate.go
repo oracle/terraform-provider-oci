@@ -53,7 +53,7 @@ type Certificate struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The current lifecycle state of the SSL certificate.
-	LifecycleState CertificateLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The date and time the certificate was created, expressed in RFC 3339 timestamp format.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -63,33 +63,23 @@ func (m Certificate) String() string {
 	return common.PointerString(m)
 }
 
-// CertificateLifecycleStateEnum Enum with underlying type: string
-type CertificateLifecycleStateEnum string
+// CertificateLifecycleStateEnum is an alias to type: LifecycleStatesEnum
+// Consider using LifecycleStatesEnum instead
+// Deprecated
+type CertificateLifecycleStateEnum = LifecycleStatesEnum
 
-// Set of constants representing the allowable values for CertificateLifecycleStateEnum
+// Set of constants representing the allowable values for LifecycleStatesEnum
+// Deprecated
 const (
-	CertificateLifecycleStateCreating CertificateLifecycleStateEnum = "CREATING"
-	CertificateLifecycleStateActive   CertificateLifecycleStateEnum = "ACTIVE"
-	CertificateLifecycleStateFailed   CertificateLifecycleStateEnum = "FAILED"
-	CertificateLifecycleStateUpdating CertificateLifecycleStateEnum = "UPDATING"
-	CertificateLifecycleStateDeleting CertificateLifecycleStateEnum = "DELETING"
-	CertificateLifecycleStateDeleted  CertificateLifecycleStateEnum = "DELETED"
+	CertificateLifecycleStateCreating LifecycleStatesEnum = "CREATING"
+	CertificateLifecycleStateActive   LifecycleStatesEnum = "ACTIVE"
+	CertificateLifecycleStateFailed   LifecycleStatesEnum = "FAILED"
+	CertificateLifecycleStateUpdating LifecycleStatesEnum = "UPDATING"
+	CertificateLifecycleStateDeleting LifecycleStatesEnum = "DELETING"
+	CertificateLifecycleStateDeleted  LifecycleStatesEnum = "DELETED"
 )
 
-var mappingCertificateLifecycleState = map[string]CertificateLifecycleStateEnum{
-	"CREATING": CertificateLifecycleStateCreating,
-	"ACTIVE":   CertificateLifecycleStateActive,
-	"FAILED":   CertificateLifecycleStateFailed,
-	"UPDATING": CertificateLifecycleStateUpdating,
-	"DELETING": CertificateLifecycleStateDeleting,
-	"DELETED":  CertificateLifecycleStateDeleted,
-}
-
-// GetCertificateLifecycleStateEnumValues Enumerates the set of values for CertificateLifecycleStateEnum
-func GetCertificateLifecycleStateEnumValues() []CertificateLifecycleStateEnum {
-	values := make([]CertificateLifecycleStateEnum, 0)
-	for _, v := range mappingCertificateLifecycleState {
-		values = append(values, v)
-	}
-	return values
-}
+// GetCertificateLifecycleStateEnumValues Enumerates the set of values for LifecycleStatesEnum
+// Consider using GetLifecycleStatesEnumValue
+// Deprecated
+var GetCertificateLifecycleStateEnumValues = GetLifecycleStatesEnumValues

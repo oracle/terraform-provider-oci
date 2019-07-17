@@ -39,7 +39,7 @@ type ClusterSummary struct {
 	Metadata *ClusterMetadata `mandatory:"false" json:"metadata"`
 
 	// The state of the cluster masters.
-	LifecycleState ClusterSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleState ClusterLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Details about the state of the cluster masters.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -55,33 +55,23 @@ func (m ClusterSummary) String() string {
 	return common.PointerString(m)
 }
 
-// ClusterSummaryLifecycleStateEnum Enum with underlying type: string
-type ClusterSummaryLifecycleStateEnum string
+// ClusterSummaryLifecycleStateEnum is an alias to type: ClusterLifecycleStateEnum
+// Consider using ClusterLifecycleStateEnum instead
+// Deprecated
+type ClusterSummaryLifecycleStateEnum = ClusterLifecycleStateEnum
 
-// Set of constants representing the allowable values for ClusterSummaryLifecycleStateEnum
+// Set of constants representing the allowable values for ClusterLifecycleStateEnum
+// Deprecated
 const (
-	ClusterSummaryLifecycleStateCreating ClusterSummaryLifecycleStateEnum = "CREATING"
-	ClusterSummaryLifecycleStateActive   ClusterSummaryLifecycleStateEnum = "ACTIVE"
-	ClusterSummaryLifecycleStateFailed   ClusterSummaryLifecycleStateEnum = "FAILED"
-	ClusterSummaryLifecycleStateDeleting ClusterSummaryLifecycleStateEnum = "DELETING"
-	ClusterSummaryLifecycleStateDeleted  ClusterSummaryLifecycleStateEnum = "DELETED"
-	ClusterSummaryLifecycleStateUpdating ClusterSummaryLifecycleStateEnum = "UPDATING"
+	ClusterSummaryLifecycleStateCreating ClusterLifecycleStateEnum = "CREATING"
+	ClusterSummaryLifecycleStateActive   ClusterLifecycleStateEnum = "ACTIVE"
+	ClusterSummaryLifecycleStateFailed   ClusterLifecycleStateEnum = "FAILED"
+	ClusterSummaryLifecycleStateDeleting ClusterLifecycleStateEnum = "DELETING"
+	ClusterSummaryLifecycleStateDeleted  ClusterLifecycleStateEnum = "DELETED"
+	ClusterSummaryLifecycleStateUpdating ClusterLifecycleStateEnum = "UPDATING"
 )
 
-var mappingClusterSummaryLifecycleState = map[string]ClusterSummaryLifecycleStateEnum{
-	"CREATING": ClusterSummaryLifecycleStateCreating,
-	"ACTIVE":   ClusterSummaryLifecycleStateActive,
-	"FAILED":   ClusterSummaryLifecycleStateFailed,
-	"DELETING": ClusterSummaryLifecycleStateDeleting,
-	"DELETED":  ClusterSummaryLifecycleStateDeleted,
-	"UPDATING": ClusterSummaryLifecycleStateUpdating,
-}
-
-// GetClusterSummaryLifecycleStateEnumValues Enumerates the set of values for ClusterSummaryLifecycleStateEnum
-func GetClusterSummaryLifecycleStateEnumValues() []ClusterSummaryLifecycleStateEnum {
-	values := make([]ClusterSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingClusterSummaryLifecycleState {
-		values = append(values, v)
-	}
-	return values
-}
+// GetClusterSummaryLifecycleStateEnumValues Enumerates the set of values for ClusterLifecycleStateEnum
+// Consider using GetClusterLifecycleStateEnumValue
+// Deprecated
+var GetClusterSummaryLifecycleStateEnumValues = GetClusterLifecycleStateEnumValues

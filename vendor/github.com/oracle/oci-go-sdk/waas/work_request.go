@@ -19,10 +19,10 @@ type WorkRequest struct {
 	Id *string `mandatory:"true" json:"id"`
 
 	// A description of the operation requested by the work request.
-	OperationType WorkRequestOperationTypeEnum `mandatory:"true" json:"operationType"`
+	OperationType WorkRequestOperationTypesEnum `mandatory:"true" json:"operationType"`
 
 	// The current status of the work request.
-	Status WorkRequestStatusEnum `mandatory:"true" json:"status"`
+	Status WorkRequestStatusValuesEnum `mandatory:"true" json:"status"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -53,60 +53,42 @@ func (m WorkRequest) String() string {
 	return common.PointerString(m)
 }
 
-// WorkRequestOperationTypeEnum Enum with underlying type: string
-type WorkRequestOperationTypeEnum string
+// WorkRequestOperationTypeEnum is an alias to type: WorkRequestOperationTypesEnum
+// Consider using WorkRequestOperationTypesEnum instead
+// Deprecated
+type WorkRequestOperationTypeEnum = WorkRequestOperationTypesEnum
 
-// Set of constants representing the allowable values for WorkRequestOperationTypeEnum
+// Set of constants representing the allowable values for WorkRequestOperationTypesEnum
+// Deprecated
 const (
-	WorkRequestOperationTypeCreateWaasPolicy WorkRequestOperationTypeEnum = "CREATE_WAAS_POLICY"
-	WorkRequestOperationTypeUpdateWaasPolicy WorkRequestOperationTypeEnum = "UPDATE_WAAS_POLICY"
-	WorkRequestOperationTypeDeleteWaasPolicy WorkRequestOperationTypeEnum = "DELETE_WAAS_POLICY"
-	WorkRequestOperationTypePurgeWaasPolicy  WorkRequestOperationTypeEnum = "PURGE_WAAS_POLICY"
+	WorkRequestOperationTypeCreateWaasPolicy WorkRequestOperationTypesEnum = "CREATE_WAAS_POLICY"
+	WorkRequestOperationTypeUpdateWaasPolicy WorkRequestOperationTypesEnum = "UPDATE_WAAS_POLICY"
+	WorkRequestOperationTypeDeleteWaasPolicy WorkRequestOperationTypesEnum = "DELETE_WAAS_POLICY"
+	WorkRequestOperationTypePurgeWaasPolicy  WorkRequestOperationTypesEnum = "PURGE_WAAS_POLICY"
 )
 
-var mappingWorkRequestOperationType = map[string]WorkRequestOperationTypeEnum{
-	"CREATE_WAAS_POLICY": WorkRequestOperationTypeCreateWaasPolicy,
-	"UPDATE_WAAS_POLICY": WorkRequestOperationTypeUpdateWaasPolicy,
-	"DELETE_WAAS_POLICY": WorkRequestOperationTypeDeleteWaasPolicy,
-	"PURGE_WAAS_POLICY":  WorkRequestOperationTypePurgeWaasPolicy,
-}
+// GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypesEnum
+// Consider using GetWorkRequestOperationTypesEnumValue
+// Deprecated
+var GetWorkRequestOperationTypeEnumValues = GetWorkRequestOperationTypesEnumValues
 
-// GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
-func GetWorkRequestOperationTypeEnumValues() []WorkRequestOperationTypeEnum {
-	values := make([]WorkRequestOperationTypeEnum, 0)
-	for _, v := range mappingWorkRequestOperationType {
-		values = append(values, v)
-	}
-	return values
-}
+// WorkRequestStatusEnum is an alias to type: WorkRequestStatusValuesEnum
+// Consider using WorkRequestStatusValuesEnum instead
+// Deprecated
+type WorkRequestStatusEnum = WorkRequestStatusValuesEnum
 
-// WorkRequestStatusEnum Enum with underlying type: string
-type WorkRequestStatusEnum string
-
-// Set of constants representing the allowable values for WorkRequestStatusEnum
+// Set of constants representing the allowable values for WorkRequestStatusValuesEnum
+// Deprecated
 const (
-	WorkRequestStatusAccepted   WorkRequestStatusEnum = "ACCEPTED"
-	WorkRequestStatusInProgress WorkRequestStatusEnum = "IN_PROGRESS"
-	WorkRequestStatusFailed     WorkRequestStatusEnum = "FAILED"
-	WorkRequestStatusSucceeded  WorkRequestStatusEnum = "SUCCEEDED"
-	WorkRequestStatusCanceling  WorkRequestStatusEnum = "CANCELING"
-	WorkRequestStatusCanceled   WorkRequestStatusEnum = "CANCELED"
+	WorkRequestStatusAccepted   WorkRequestStatusValuesEnum = "ACCEPTED"
+	WorkRequestStatusInProgress WorkRequestStatusValuesEnum = "IN_PROGRESS"
+	WorkRequestStatusFailed     WorkRequestStatusValuesEnum = "FAILED"
+	WorkRequestStatusSucceeded  WorkRequestStatusValuesEnum = "SUCCEEDED"
+	WorkRequestStatusCanceling  WorkRequestStatusValuesEnum = "CANCELING"
+	WorkRequestStatusCanceled   WorkRequestStatusValuesEnum = "CANCELED"
 )
 
-var mappingWorkRequestStatus = map[string]WorkRequestStatusEnum{
-	"ACCEPTED":    WorkRequestStatusAccepted,
-	"IN_PROGRESS": WorkRequestStatusInProgress,
-	"FAILED":      WorkRequestStatusFailed,
-	"SUCCEEDED":   WorkRequestStatusSucceeded,
-	"CANCELING":   WorkRequestStatusCanceling,
-	"CANCELED":    WorkRequestStatusCanceled,
-}
-
-// GetWorkRequestStatusEnumValues Enumerates the set of values for WorkRequestStatusEnum
-func GetWorkRequestStatusEnumValues() []WorkRequestStatusEnum {
-	values := make([]WorkRequestStatusEnum, 0)
-	for _, v := range mappingWorkRequestStatus {
-		values = append(values, v)
-	}
-	return values
-}
+// GetWorkRequestStatusEnumValues Enumerates the set of values for WorkRequestStatusValuesEnum
+// Consider using GetWorkRequestStatusValuesEnumValue
+// Deprecated
+var GetWorkRequestStatusEnumValues = GetWorkRequestStatusValuesEnumValues

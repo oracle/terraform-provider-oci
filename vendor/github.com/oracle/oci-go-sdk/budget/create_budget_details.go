@@ -25,7 +25,7 @@ type CreateBudgetDetails struct {
 	Amount *float32 `mandatory:"true" json:"amount"`
 
 	// The reset period for the budget.
-	ResetPeriod CreateBudgetDetailsResetPeriodEnum `mandatory:"true" json:"resetPeriod"`
+	ResetPeriod ResetPeriodEnum `mandatory:"true" json:"resetPeriod"`
 
 	// The displayName of the budget.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -48,23 +48,18 @@ func (m CreateBudgetDetails) String() string {
 	return common.PointerString(m)
 }
 
-// CreateBudgetDetailsResetPeriodEnum Enum with underlying type: string
-type CreateBudgetDetailsResetPeriodEnum string
+// CreateBudgetDetailsResetPeriodEnum is an alias to type: ResetPeriodEnum
+// Consider using ResetPeriodEnum instead
+// Deprecated
+type CreateBudgetDetailsResetPeriodEnum = ResetPeriodEnum
 
-// Set of constants representing the allowable values for CreateBudgetDetailsResetPeriodEnum
+// Set of constants representing the allowable values for ResetPeriodEnum
+// Deprecated
 const (
-	CreateBudgetDetailsResetPeriodMonthly CreateBudgetDetailsResetPeriodEnum = "MONTHLY"
+	CreateBudgetDetailsResetPeriodMonthly ResetPeriodEnum = "MONTHLY"
 )
 
-var mappingCreateBudgetDetailsResetPeriod = map[string]CreateBudgetDetailsResetPeriodEnum{
-	"MONTHLY": CreateBudgetDetailsResetPeriodMonthly,
-}
-
-// GetCreateBudgetDetailsResetPeriodEnumValues Enumerates the set of values for CreateBudgetDetailsResetPeriodEnum
-func GetCreateBudgetDetailsResetPeriodEnumValues() []CreateBudgetDetailsResetPeriodEnum {
-	values := make([]CreateBudgetDetailsResetPeriodEnum, 0)
-	for _, v := range mappingCreateBudgetDetailsResetPeriod {
-		values = append(values, v)
-	}
-	return values
-}
+// GetCreateBudgetDetailsResetPeriodEnumValues Enumerates the set of values for ResetPeriodEnum
+// Consider using GetResetPeriodEnumValue
+// Deprecated
+var GetCreateBudgetDetailsResetPeriodEnumValues = GetResetPeriodEnumValues

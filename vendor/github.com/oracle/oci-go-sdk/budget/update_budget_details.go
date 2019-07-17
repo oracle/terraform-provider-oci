@@ -25,7 +25,7 @@ type UpdateBudgetDetails struct {
 	Amount *float32 `mandatory:"false" json:"amount"`
 
 	// The reset period for the budget.
-	ResetPeriod UpdateBudgetDetailsResetPeriodEnum `mandatory:"false" json:"resetPeriod,omitempty"`
+	ResetPeriod ResetPeriodEnum `mandatory:"false" json:"resetPeriod,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -42,23 +42,18 @@ func (m UpdateBudgetDetails) String() string {
 	return common.PointerString(m)
 }
 
-// UpdateBudgetDetailsResetPeriodEnum Enum with underlying type: string
-type UpdateBudgetDetailsResetPeriodEnum string
+// UpdateBudgetDetailsResetPeriodEnum is an alias to type: ResetPeriodEnum
+// Consider using ResetPeriodEnum instead
+// Deprecated
+type UpdateBudgetDetailsResetPeriodEnum = ResetPeriodEnum
 
-// Set of constants representing the allowable values for UpdateBudgetDetailsResetPeriodEnum
+// Set of constants representing the allowable values for ResetPeriodEnum
+// Deprecated
 const (
-	UpdateBudgetDetailsResetPeriodMonthly UpdateBudgetDetailsResetPeriodEnum = "MONTHLY"
+	UpdateBudgetDetailsResetPeriodMonthly ResetPeriodEnum = "MONTHLY"
 )
 
-var mappingUpdateBudgetDetailsResetPeriod = map[string]UpdateBudgetDetailsResetPeriodEnum{
-	"MONTHLY": UpdateBudgetDetailsResetPeriodMonthly,
-}
-
-// GetUpdateBudgetDetailsResetPeriodEnumValues Enumerates the set of values for UpdateBudgetDetailsResetPeriodEnum
-func GetUpdateBudgetDetailsResetPeriodEnumValues() []UpdateBudgetDetailsResetPeriodEnum {
-	values := make([]UpdateBudgetDetailsResetPeriodEnum, 0)
-	for _, v := range mappingUpdateBudgetDetailsResetPeriod {
-		values = append(values, v)
-	}
-	return values
-}
+// GetUpdateBudgetDetailsResetPeriodEnumValues Enumerates the set of values for ResetPeriodEnum
+// Consider using GetResetPeriodEnumValue
+// Deprecated
+var GetUpdateBudgetDetailsResetPeriodEnumValues = GetResetPeriodEnumValues
