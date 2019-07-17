@@ -61,6 +61,9 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_ons_subscription.test_subscription"
 	datasourceName := "data.oci_ons_subscriptions.test_subscriptions"
 	singularDatasourceName := "data.oci_ons_subscription.test_subscription"
@@ -116,6 +119,33 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 				),
 			},
 
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SubscriptionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_ons_subscription", "test_subscription", Optional, Create,
+						representationCopyWithNewProperties(subscriptionRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "endpoint", "john.smith@example.com"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "protocol", "EMAIL"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "topic_id"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
+				),
+			},
+
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + SubscriptionResourceDependencies +
@@ -150,6 +180,8 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "topic_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "subscriptions.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.created_time"),
 					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.delivery_policy.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.endpoint", "john.smith@example.com"),
@@ -158,6 +190,7 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "subscriptions.0.protocol", "EMAIL"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "subscriptions.0.topic_id"),
 				),
 			},
 			// verify singular datasource
@@ -168,6 +201,8 @@ func TestOnsSubscriptionResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subscription_id"),
 
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_time"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "endpoint", "john.smith@example.com"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),

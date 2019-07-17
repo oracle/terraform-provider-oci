@@ -22,7 +22,7 @@ type CreateOnDemandHttpProbeDetails struct {
 
 	Targets []string `mandatory:"true" json:"targets"`
 
-	Protocol CreateOnDemandHttpProbeDetailsProtocolEnum `mandatory:"true" json:"protocol"`
+	Protocol HttpProbeProtocolEnum `mandatory:"true" json:"protocol"`
 
 	VantagePointNames []string `mandatory:"false" json:"vantagePointNames"`
 
@@ -34,7 +34,7 @@ type CreateOnDemandHttpProbeDetails struct {
 	// The probe timeout must be less than or equal to `intervalInSeconds` for monitors.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
-	Method CreateOnDemandHttpProbeDetailsMethodEnum `mandatory:"false" json:"method,omitempty"`
+	Method HttpProbeMethodEnum `mandatory:"false" json:"method,omitempty"`
 
 	// The optional URL path to probe, including query parameters.
 	Path *string `mandatory:"false" json:"path"`
@@ -48,48 +48,36 @@ func (m CreateOnDemandHttpProbeDetails) String() string {
 	return common.PointerString(m)
 }
 
-// CreateOnDemandHttpProbeDetailsProtocolEnum Enum with underlying type: string
-type CreateOnDemandHttpProbeDetailsProtocolEnum string
+// CreateOnDemandHttpProbeDetailsProtocolEnum is an alias to type: HttpProbeProtocolEnum
+// Consider using HttpProbeProtocolEnum instead
+// Deprecated
+type CreateOnDemandHttpProbeDetailsProtocolEnum = HttpProbeProtocolEnum
 
-// Set of constants representing the allowable values for CreateOnDemandHttpProbeDetailsProtocolEnum
+// Set of constants representing the allowable values for HttpProbeProtocolEnum
+// Deprecated
 const (
-	CreateOnDemandHttpProbeDetailsProtocolHttp  CreateOnDemandHttpProbeDetailsProtocolEnum = "HTTP"
-	CreateOnDemandHttpProbeDetailsProtocolHttps CreateOnDemandHttpProbeDetailsProtocolEnum = "HTTPS"
+	CreateOnDemandHttpProbeDetailsProtocolHttp  HttpProbeProtocolEnum = "HTTP"
+	CreateOnDemandHttpProbeDetailsProtocolHttps HttpProbeProtocolEnum = "HTTPS"
 )
 
-var mappingCreateOnDemandHttpProbeDetailsProtocol = map[string]CreateOnDemandHttpProbeDetailsProtocolEnum{
-	"HTTP":  CreateOnDemandHttpProbeDetailsProtocolHttp,
-	"HTTPS": CreateOnDemandHttpProbeDetailsProtocolHttps,
-}
+// GetCreateOnDemandHttpProbeDetailsProtocolEnumValues Enumerates the set of values for HttpProbeProtocolEnum
+// Consider using GetHttpProbeProtocolEnumValue
+// Deprecated
+var GetCreateOnDemandHttpProbeDetailsProtocolEnumValues = GetHttpProbeProtocolEnumValues
 
-// GetCreateOnDemandHttpProbeDetailsProtocolEnumValues Enumerates the set of values for CreateOnDemandHttpProbeDetailsProtocolEnum
-func GetCreateOnDemandHttpProbeDetailsProtocolEnumValues() []CreateOnDemandHttpProbeDetailsProtocolEnum {
-	values := make([]CreateOnDemandHttpProbeDetailsProtocolEnum, 0)
-	for _, v := range mappingCreateOnDemandHttpProbeDetailsProtocol {
-		values = append(values, v)
-	}
-	return values
-}
+// CreateOnDemandHttpProbeDetailsMethodEnum is an alias to type: HttpProbeMethodEnum
+// Consider using HttpProbeMethodEnum instead
+// Deprecated
+type CreateOnDemandHttpProbeDetailsMethodEnum = HttpProbeMethodEnum
 
-// CreateOnDemandHttpProbeDetailsMethodEnum Enum with underlying type: string
-type CreateOnDemandHttpProbeDetailsMethodEnum string
-
-// Set of constants representing the allowable values for CreateOnDemandHttpProbeDetailsMethodEnum
+// Set of constants representing the allowable values for HttpProbeMethodEnum
+// Deprecated
 const (
-	CreateOnDemandHttpProbeDetailsMethodGet  CreateOnDemandHttpProbeDetailsMethodEnum = "GET"
-	CreateOnDemandHttpProbeDetailsMethodHead CreateOnDemandHttpProbeDetailsMethodEnum = "HEAD"
+	CreateOnDemandHttpProbeDetailsMethodGet  HttpProbeMethodEnum = "GET"
+	CreateOnDemandHttpProbeDetailsMethodHead HttpProbeMethodEnum = "HEAD"
 )
 
-var mappingCreateOnDemandHttpProbeDetailsMethod = map[string]CreateOnDemandHttpProbeDetailsMethodEnum{
-	"GET":  CreateOnDemandHttpProbeDetailsMethodGet,
-	"HEAD": CreateOnDemandHttpProbeDetailsMethodHead,
-}
-
-// GetCreateOnDemandHttpProbeDetailsMethodEnumValues Enumerates the set of values for CreateOnDemandHttpProbeDetailsMethodEnum
-func GetCreateOnDemandHttpProbeDetailsMethodEnumValues() []CreateOnDemandHttpProbeDetailsMethodEnum {
-	values := make([]CreateOnDemandHttpProbeDetailsMethodEnum, 0)
-	for _, v := range mappingCreateOnDemandHttpProbeDetailsMethod {
-		values = append(values, v)
-	}
-	return values
-}
+// GetCreateOnDemandHttpProbeDetailsMethodEnumValues Enumerates the set of values for HttpProbeMethodEnum
+// Consider using GetHttpProbeMethodEnumValue
+// Deprecated
+var GetCreateOnDemandHttpProbeDetailsMethodEnumValues = GetHttpProbeMethodEnumValues

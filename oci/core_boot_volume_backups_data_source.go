@@ -142,6 +142,10 @@ func (s *CoreBootVolumeBackupsDataSourceCrud) SetData() error {
 			bootVolumeBackup["image_id"] = *r.ImageId
 		}
 
+		if r.KmsKeyId != nil {
+			bootVolumeBackup["kms_key_id"] = *r.KmsKeyId
+		}
+
 		if r.SizeInGBs != nil {
 			bootVolumeBackup["size_in_gbs"] = strconv.FormatInt(*r.SizeInGBs, 10)
 		}

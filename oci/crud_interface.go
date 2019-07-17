@@ -72,6 +72,15 @@ type ExtraWaitPostCreateDelete interface {
 	ExtraWaitPostCreateDelete() time.Duration
 }
 
+// Some resources in the oracle API are removed asynchronously, so even
+// after they claim to be gone, other dependencies haven't been notified
+// of that fact. This facility allows us to add an artificial delay for
+// resources that need a little time to let the oracle API backend catch
+// up with reality post DELETE
+type ExtraWaitPostDelete interface {
+	ExtraWaitPostDelete() time.Duration
+}
+
 type StatefulResource interface {
 	ResourceReader
 	State() string

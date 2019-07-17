@@ -25,7 +25,6 @@ func KmsVaultResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -204,6 +203,15 @@ func (s *KmsVaultResourceCrud) Get() error {
 }
 
 func (s *KmsVaultResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_kms.UpdateVaultRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -284,5 +292,23 @@ func (s *KmsVaultResourceCrud) SetData() error {
 
 	s.D.Set("vault_type", s.Res.VaultType)
 
+	return nil
+}
+
+func (s *KmsVaultResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_kms.ChangeVaultCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.VaultId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+
+	_, err := s.Client.ChangeVaultCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
 	return nil
 }

@@ -17,7 +17,7 @@ type CreateAlertRuleDetails struct {
 
 	// Type of alert. Valid values are ACTUAL (the alert will trigger based on actual usage) or
 	// FORECAST (the alert will trigger based on predicted usage).
-	Type CreateAlertRuleDetailsTypeEnum `mandatory:"true" json:"type"`
+	Type AlertTypeEnum `mandatory:"true" json:"type"`
 
 	// The threshold for triggering the alert expressed as a whole number or decimal value.
 	// If thresholdType is ABSOLUTE, threshold can have at most 12 digits before the decimal point and up to 2 digits after the decimal point.
@@ -25,7 +25,7 @@ type CreateAlertRuleDetails struct {
 	Threshold *float32 `mandatory:"true" json:"threshold"`
 
 	// The type of threshold.
-	ThresholdType CreateAlertRuleDetailsThresholdTypeEnum `mandatory:"true" json:"thresholdType"`
+	ThresholdType ThresholdTypeEnum `mandatory:"true" json:"thresholdType"`
 
 	// The audience that will received the alert when it triggers.
 	Recipients *string `mandatory:"true" json:"recipients"`
@@ -54,48 +54,36 @@ func (m CreateAlertRuleDetails) String() string {
 	return common.PointerString(m)
 }
 
-// CreateAlertRuleDetailsTypeEnum Enum with underlying type: string
-type CreateAlertRuleDetailsTypeEnum string
+// CreateAlertRuleDetailsTypeEnum is an alias to type: AlertTypeEnum
+// Consider using AlertTypeEnum instead
+// Deprecated
+type CreateAlertRuleDetailsTypeEnum = AlertTypeEnum
 
-// Set of constants representing the allowable values for CreateAlertRuleDetailsTypeEnum
+// Set of constants representing the allowable values for AlertTypeEnum
+// Deprecated
 const (
-	CreateAlertRuleDetailsTypeActual   CreateAlertRuleDetailsTypeEnum = "ACTUAL"
-	CreateAlertRuleDetailsTypeForecast CreateAlertRuleDetailsTypeEnum = "FORECAST"
+	CreateAlertRuleDetailsTypeActual   AlertTypeEnum = "ACTUAL"
+	CreateAlertRuleDetailsTypeForecast AlertTypeEnum = "FORECAST"
 )
 
-var mappingCreateAlertRuleDetailsType = map[string]CreateAlertRuleDetailsTypeEnum{
-	"ACTUAL":   CreateAlertRuleDetailsTypeActual,
-	"FORECAST": CreateAlertRuleDetailsTypeForecast,
-}
+// GetCreateAlertRuleDetailsTypeEnumValues Enumerates the set of values for AlertTypeEnum
+// Consider using GetAlertTypeEnumValue
+// Deprecated
+var GetCreateAlertRuleDetailsTypeEnumValues = GetAlertTypeEnumValues
 
-// GetCreateAlertRuleDetailsTypeEnumValues Enumerates the set of values for CreateAlertRuleDetailsTypeEnum
-func GetCreateAlertRuleDetailsTypeEnumValues() []CreateAlertRuleDetailsTypeEnum {
-	values := make([]CreateAlertRuleDetailsTypeEnum, 0)
-	for _, v := range mappingCreateAlertRuleDetailsType {
-		values = append(values, v)
-	}
-	return values
-}
+// CreateAlertRuleDetailsThresholdTypeEnum is an alias to type: ThresholdTypeEnum
+// Consider using ThresholdTypeEnum instead
+// Deprecated
+type CreateAlertRuleDetailsThresholdTypeEnum = ThresholdTypeEnum
 
-// CreateAlertRuleDetailsThresholdTypeEnum Enum with underlying type: string
-type CreateAlertRuleDetailsThresholdTypeEnum string
-
-// Set of constants representing the allowable values for CreateAlertRuleDetailsThresholdTypeEnum
+// Set of constants representing the allowable values for ThresholdTypeEnum
+// Deprecated
 const (
-	CreateAlertRuleDetailsThresholdTypePercentage CreateAlertRuleDetailsThresholdTypeEnum = "PERCENTAGE"
-	CreateAlertRuleDetailsThresholdTypeAbsolute   CreateAlertRuleDetailsThresholdTypeEnum = "ABSOLUTE"
+	CreateAlertRuleDetailsThresholdTypePercentage ThresholdTypeEnum = "PERCENTAGE"
+	CreateAlertRuleDetailsThresholdTypeAbsolute   ThresholdTypeEnum = "ABSOLUTE"
 )
 
-var mappingCreateAlertRuleDetailsThresholdType = map[string]CreateAlertRuleDetailsThresholdTypeEnum{
-	"PERCENTAGE": CreateAlertRuleDetailsThresholdTypePercentage,
-	"ABSOLUTE":   CreateAlertRuleDetailsThresholdTypeAbsolute,
-}
-
-// GetCreateAlertRuleDetailsThresholdTypeEnumValues Enumerates the set of values for CreateAlertRuleDetailsThresholdTypeEnum
-func GetCreateAlertRuleDetailsThresholdTypeEnumValues() []CreateAlertRuleDetailsThresholdTypeEnum {
-	values := make([]CreateAlertRuleDetailsThresholdTypeEnum, 0)
-	for _, v := range mappingCreateAlertRuleDetailsThresholdType {
-		values = append(values, v)
-	}
-	return values
-}
+// GetCreateAlertRuleDetailsThresholdTypeEnumValues Enumerates the set of values for ThresholdTypeEnum
+// Consider using GetThresholdTypeEnumValue
+// Deprecated
+var GetCreateAlertRuleDetailsThresholdTypeEnumValues = GetThresholdTypeEnumValues

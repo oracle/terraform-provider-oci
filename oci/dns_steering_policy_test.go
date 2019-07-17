@@ -160,6 +160,9 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_dns_steering_policy.test_steering_policy"
 
 	datasourceName := "data.oci_dns_steering_policies.test_steering_policies"
@@ -257,6 +260,79 @@ func TestDnsSteeringPolicyResource_basic(t *testing.T) {
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						log.Print(resId)
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + SteeringPolicyResourceDependencies +
+					generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Optional, Create,
+						representationCopyWithNewProperties(steeringPolicyRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "answers.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "answers.0.is_disabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "answers.0.name", "name"),
+					resource.TestCheckResourceAttr(resourceName, "answers.0.pool", "pool"),
+					resource.TestCheckResourceAttr(resourceName, "answers.0.rdata", "192.0.2.1"),
+					resource.TestCheckResourceAttr(resourceName, "answers.0.rtype", "A"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "health_check_monitor_id"),
+					resource.TestCheckResourceAttr(resourceName, "rules.#", "5"),
+					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.answer_data.0.should_keep", "false"),
+					resource.TestCheckResourceAttr(resourceName, "rules.0.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+					resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+					resource.TestCheckResourceAttr(resourceName, "rules.0.default_answer_data.0.should_keep", "false"),
+					resource.TestCheckResourceAttr(resourceName, "rules.0.description", "filter description"),
+					resource.TestCheckResourceAttr(resourceName, "rules.0.rule_type", "FILTER"),
+					resource.TestCheckResourceAttr(resourceName, "rules.1.cases.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "rules.1.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+					resource.TestCheckResourceAttr(resourceName, "rules.1.description", "health description"),
+					resource.TestCheckResourceAttr(resourceName, "rules.1.rule_type", "HEALTH"),
+					resource.TestCheckResourceAttr(resourceName, "rules.2.cases.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+					resource.TestCheckResourceAttr(resourceName, "rules.2.cases.0.count", "10"),
+					resource.TestCheckResourceAttr(resourceName, "rules.2.default_count", "10"),
+					resource.TestCheckResourceAttr(resourceName, "rules.2.description", "limit description"),
+					resource.TestCheckResourceAttr(resourceName, "rules.2.rule_type", "LIMIT"),
+					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.answer_data.0.value", "10"),
+					resource.TestCheckResourceAttr(resourceName, "rules.3.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+					resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+					resource.TestCheckResourceAttr(resourceName, "rules.3.default_answer_data.0.value", "10"),
+					resource.TestCheckResourceAttr(resourceName, "rules.3.description", "priority description"),
+					resource.TestCheckResourceAttr(resourceName, "rules.3.rule_type", "PRIORITY"),
+					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.answer_condition", "answer.name == 'sampler'"),
+					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.answer_data.0.value", "10"),
+					resource.TestCheckResourceAttr(resourceName, "rules.4.cases.0.case_condition", "query.client.address in (subnet '198.51.100.0/24')"),
+					resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.answer_condition", "answer.name == 'sampler'"),
+					resource.TestCheckResourceAttr(resourceName, "rules.4.default_answer_data.0.value", "10"),
+					resource.TestCheckResourceAttr(resourceName, "rules.4.description", "weighted description"),
+					resource.TestCheckResourceAttr(resourceName, "rules.4.rule_type", "WEIGHTED"),
+					resource.TestCheckResourceAttr(resourceName, "template", "CUSTOM"),
+					resource.TestCheckResourceAttr(resourceName, "ttl", "10"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
 						return err
 					},
 				),

@@ -54,7 +54,7 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 	customer_bgp_asn = "${var.virtual_circuit_customer_bgp_asn}"
 	display_name = "${var.virtual_circuit_display_name}"
 	gateway_id = "${oci_core_gateway.test_gateway.id}"
-	provider_service_id = "${oci_core_provider_service.test_provider_service.id}"
+	provider_service_id = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}"
 	provider_service_key_name = "${var.virtual_circuit_provider_service_key_name}"
 	public_prefixes {
 		#Required
@@ -92,7 +92,7 @@ The following arguments are supported:
 * `public_prefixes` - (Optional) For a public virtual circuit. The public IP prefixes (CIDRs) the customer wants to advertise across the connection. 
 	* `cidr_block` - (Required) An individual public IP prefix (CIDR) to add to the public virtual circuit. Must be /31 or less specific. 
 * `region` - (Optional) The Oracle Cloud Infrastructure region where this virtual circuit is located. Example: `phx` 
-* `type` - (Required) The type of IP addresses used in this virtual circuit. PRIVATE means [RFC 1918](https://tools.ietf.org/html/rfc1918) addresses (10.0.0.0/8, 172.16/12, and 192.168/16). Only PRIVATE is supported. 
+* `type` - (Required) The type of IP addresses used in this virtual circuit. PRIVATE means [RFC 1918](https://tools.ietf.org/html/rfc1918) addresses (10.0.0.0/8, 172.16/12, and 192.168/16). 
 
 
 ** IMPORTANT **

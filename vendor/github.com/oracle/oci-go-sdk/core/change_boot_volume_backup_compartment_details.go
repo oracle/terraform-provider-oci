@@ -16,10 +16,10 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ChangeBootVolumeBackupCompartmentDetails Contains details indicating which compartment the resource should move to
+// ChangeBootVolumeBackupCompartmentDetails Contains the details for the compartment to move the boot volume backup to.
 type ChangeBootVolumeBackupCompartmentDetails struct {
 
-	// The OCID of the new compartment
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the boot volume backup to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

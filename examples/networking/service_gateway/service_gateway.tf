@@ -48,7 +48,8 @@ resource "oci_core_service_gateway" "test_service_gateway" {
   vcn_id = "${oci_core_vcn.test_vcn.id}"
 
   #Optional
-  display_name = "testServiceGateway"
+  display_name   = "testServiceGateway"
+  route_table_id = "${oci_core_route_table.test_route_table_transit_routing.id}"
 }
 
 data "oci_core_service_gateways" "test_service_gateways" {
@@ -74,6 +75,12 @@ resource "oci_core_route_table" "test_route_table" {
     destination_type  = "SERVICE_CIDR_BLOCK"
     network_entity_id = "${oci_core_service_gateway.test_service_gateway.id}"
   }
+}
+
+resource "oci_core_route_table" "test_route_table_transit_routing" {
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id         = "${oci_core_vcn.test_vcn.id}"
+  display_name   = "testRouteTableTransitRouting"
 }
 
 resource "oci_core_security_list" "test_security_list" {

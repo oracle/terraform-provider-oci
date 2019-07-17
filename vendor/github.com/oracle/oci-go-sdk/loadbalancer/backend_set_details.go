@@ -16,6 +16,9 @@ import (
 // BackendSetDetails The configuration details for a load balancer backend set.
 // For more information on backend set configuration, see
 // Managing Backend Sets (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingbackendsets.htm).
+// **Note:** The `sessionPersistenceConfiguration` (application cookie stickiness) and `lbCookieSessionPersistenceConfiguration`
+// (LB cookie stickiness) attributes are mutually exclusive. To avoid returning an error, configure only one of these two
+// attributes per backend set.
 type BackendSetDetails struct {
 
 	// The load balancer policy for the backend set. To get a list of available policies, use the
@@ -30,6 +33,8 @@ type BackendSetDetails struct {
 	SslConfiguration *SslConfigurationDetails `mandatory:"false" json:"sslConfiguration"`
 
 	SessionPersistenceConfiguration *SessionPersistenceConfigurationDetails `mandatory:"false" json:"sessionPersistenceConfiguration"`
+
+	LbCookieSessionPersistenceConfiguration *LbCookieSessionPersistenceConfigurationDetails `mandatory:"false" json:"lbCookieSessionPersistenceConfiguration"`
 }
 
 func (m BackendSetDetails) String() string {

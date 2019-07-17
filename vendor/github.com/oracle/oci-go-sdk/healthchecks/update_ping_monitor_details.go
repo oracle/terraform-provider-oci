@@ -28,7 +28,7 @@ type UpdatePingMonitorDetails struct {
 	// The probe timeout must be less than or equal to `intervalInSeconds` for monitors.
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
-	Protocol UpdatePingMonitorDetailsProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
+	Protocol PingProbeProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
 
 	// A user-friendly and mutable name suitable for display in a user interface.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -55,25 +55,19 @@ func (m UpdatePingMonitorDetails) String() string {
 	return common.PointerString(m)
 }
 
-// UpdatePingMonitorDetailsProtocolEnum Enum with underlying type: string
-type UpdatePingMonitorDetailsProtocolEnum string
+// UpdatePingMonitorDetailsProtocolEnum is an alias to type: PingProbeProtocolEnum
+// Consider using PingProbeProtocolEnum instead
+// Deprecated
+type UpdatePingMonitorDetailsProtocolEnum = PingProbeProtocolEnum
 
-// Set of constants representing the allowable values for UpdatePingMonitorDetailsProtocolEnum
+// Set of constants representing the allowable values for PingProbeProtocolEnum
+// Deprecated
 const (
-	UpdatePingMonitorDetailsProtocolIcmp UpdatePingMonitorDetailsProtocolEnum = "ICMP"
-	UpdatePingMonitorDetailsProtocolTcp  UpdatePingMonitorDetailsProtocolEnum = "TCP"
+	UpdatePingMonitorDetailsProtocolIcmp PingProbeProtocolEnum = "ICMP"
+	UpdatePingMonitorDetailsProtocolTcp  PingProbeProtocolEnum = "TCP"
 )
 
-var mappingUpdatePingMonitorDetailsProtocol = map[string]UpdatePingMonitorDetailsProtocolEnum{
-	"ICMP": UpdatePingMonitorDetailsProtocolIcmp,
-	"TCP":  UpdatePingMonitorDetailsProtocolTcp,
-}
-
-// GetUpdatePingMonitorDetailsProtocolEnumValues Enumerates the set of values for UpdatePingMonitorDetailsProtocolEnum
-func GetUpdatePingMonitorDetailsProtocolEnumValues() []UpdatePingMonitorDetailsProtocolEnum {
-	values := make([]UpdatePingMonitorDetailsProtocolEnum, 0)
-	for _, v := range mappingUpdatePingMonitorDetailsProtocol {
-		values = append(values, v)
-	}
-	return values
-}
+// GetUpdatePingMonitorDetailsProtocolEnumValues Enumerates the set of values for PingProbeProtocolEnum
+// Consider using GetPingProbeProtocolEnumValue
+// Deprecated
+var GetUpdatePingMonitorDetailsProtocolEnumValues = GetPingProbeProtocolEnumValues

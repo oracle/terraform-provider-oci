@@ -16,10 +16,10 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ChangeVolumeGroupCompartmentDetails Contains details indicating which compartment the resource should move to
+// ChangeVolumeGroupCompartmentDetails Contains the details for the compartment to move the volume group to.
 type ChangeVolumeGroupCompartmentDetails struct {
 
-	// The OCID of the new compartment
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the volume group to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

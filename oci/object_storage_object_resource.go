@@ -119,7 +119,7 @@ func ObjectStorageObjectResource() *schema.Resource {
 				Optional:      true,
 				ForceNew:      true,
 				ConflictsWith: []string{"content", "source_uri_details"},
-				StateFunc:     setSourceState,
+				StateFunc:     getSourceFileState,
 				ValidateFunc:  validateSourceValue,
 			},
 			"source_uri_details": {
@@ -197,17 +197,6 @@ func createObjectStorageObject(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).objectStorageClient
 
 	return CreateResource(d, sync)
-}
-
-func setSourceState(source interface{}) string {
-	sourcePath := source.(string)
-	sourceInfo, err := os.Stat(sourcePath)
-
-	if err != nil {
-		return sourcePath
-	}
-
-	return sourcePath + " " + sourceInfo.ModTime().String()
 }
 
 func (s *ObjectStorageObjectResourceCrud) createMultiPartObject() error {

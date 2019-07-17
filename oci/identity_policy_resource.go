@@ -106,12 +106,6 @@ func IdentityPolicyResource() *schema.Resource {
 				// someone references this. This should not be referenced because it is only used for internal diff suppression.
 				Deprecated: FieldDeprecatedAndAvoidReferences("lastUpdateETag"),
 			},
-			// @Deprecated: time_modified (removed)
-			"time_modified": {
-				Type:       schema.TypeString,
-				Deprecated: FieldDeprecated("time_modified"),
-				Computed:   true,
-			},
 		},
 	}
 }

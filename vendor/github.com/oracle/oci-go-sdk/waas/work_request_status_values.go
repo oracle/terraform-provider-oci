@@ -8,14 +8,33 @@
 
 package waas
 
-import (
-	"github.com/oracle/oci-go-sdk/common"
+// WorkRequestStatusValuesEnum Enum with underlying type: string
+type WorkRequestStatusValuesEnum string
+
+// Set of constants representing the allowable values for WorkRequestStatusValuesEnum
+const (
+	WorkRequestStatusValuesAccepted   WorkRequestStatusValuesEnum = "ACCEPTED"
+	WorkRequestStatusValuesInProgress WorkRequestStatusValuesEnum = "IN_PROGRESS"
+	WorkRequestStatusValuesFailed     WorkRequestStatusValuesEnum = "FAILED"
+	WorkRequestStatusValuesSucceeded  WorkRequestStatusValuesEnum = "SUCCEEDED"
+	WorkRequestStatusValuesCanceling  WorkRequestStatusValuesEnum = "CANCELING"
+	WorkRequestStatusValuesCanceled   WorkRequestStatusValuesEnum = "CANCELED"
 )
 
-// WorkRequestStatusValues The possible status values for a work request.
-type WorkRequestStatusValues struct {
+var mappingWorkRequestStatusValues = map[string]WorkRequestStatusValuesEnum{
+	"ACCEPTED":    WorkRequestStatusValuesAccepted,
+	"IN_PROGRESS": WorkRequestStatusValuesInProgress,
+	"FAILED":      WorkRequestStatusValuesFailed,
+	"SUCCEEDED":   WorkRequestStatusValuesSucceeded,
+	"CANCELING":   WorkRequestStatusValuesCanceling,
+	"CANCELED":    WorkRequestStatusValuesCanceled,
 }
 
-func (m WorkRequestStatusValues) String() string {
-	return common.PointerString(m)
+// GetWorkRequestStatusValuesEnumValues Enumerates the set of values for WorkRequestStatusValuesEnum
+func GetWorkRequestStatusValuesEnumValues() []WorkRequestStatusValuesEnum {
+	values := make([]WorkRequestStatusValuesEnum, 0)
+	for _, v := range mappingWorkRequestStatusValues {
+		values = append(values, v)
+	}
+	return values
 }

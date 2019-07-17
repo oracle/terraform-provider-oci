@@ -34,7 +34,6 @@ func (s *DatasourceCoreDrgAttachmentTestSuite) SetupTest() {
 		display_name = "-tf-drg"
 	}
 	resource "oci_core_drg_attachment" "t" {
-		compartment_id = "${var.compartment_id}"
 		drg_id = "${oci_core_drg.t.id}"
 		vcn_id = "${oci_core_virtual_network.t.id}"
 		display_name = "-tf-drg-attachment"

@@ -110,7 +110,7 @@ func getDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, d
 	}
 
 	switch statusCode {
-	case 400, 401, 403:
+	case 400, 401, 403, 413:
 		return 0
 	case 404:
 		if disableNotFoundRetries {

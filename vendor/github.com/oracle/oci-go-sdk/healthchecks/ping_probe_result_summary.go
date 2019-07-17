@@ -59,7 +59,7 @@ type PingProbeResultSummary struct {
 	// The error information indicating why a probe execution failed.
 	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 
-	Protocol PingProbeResultSummaryProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
+	Protocol PingProbeProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
 
 	Connection *Connection `mandatory:"false" json:"connection"`
 
@@ -115,25 +115,19 @@ func GetPingProbeResultSummaryErrorCategoryEnumValues() []PingProbeResultSummary
 	return values
 }
 
-// PingProbeResultSummaryProtocolEnum Enum with underlying type: string
-type PingProbeResultSummaryProtocolEnum string
+// PingProbeResultSummaryProtocolEnum is an alias to type: PingProbeProtocolEnum
+// Consider using PingProbeProtocolEnum instead
+// Deprecated
+type PingProbeResultSummaryProtocolEnum = PingProbeProtocolEnum
 
-// Set of constants representing the allowable values for PingProbeResultSummaryProtocolEnum
+// Set of constants representing the allowable values for PingProbeProtocolEnum
+// Deprecated
 const (
-	PingProbeResultSummaryProtocolIcmp PingProbeResultSummaryProtocolEnum = "ICMP"
-	PingProbeResultSummaryProtocolTcp  PingProbeResultSummaryProtocolEnum = "TCP"
+	PingProbeResultSummaryProtocolIcmp PingProbeProtocolEnum = "ICMP"
+	PingProbeResultSummaryProtocolTcp  PingProbeProtocolEnum = "TCP"
 )
 
-var mappingPingProbeResultSummaryProtocol = map[string]PingProbeResultSummaryProtocolEnum{
-	"ICMP": PingProbeResultSummaryProtocolIcmp,
-	"TCP":  PingProbeResultSummaryProtocolTcp,
-}
-
-// GetPingProbeResultSummaryProtocolEnumValues Enumerates the set of values for PingProbeResultSummaryProtocolEnum
-func GetPingProbeResultSummaryProtocolEnumValues() []PingProbeResultSummaryProtocolEnum {
-	values := make([]PingProbeResultSummaryProtocolEnum, 0)
-	for _, v := range mappingPingProbeResultSummaryProtocol {
-		values = append(values, v)
-	}
-	return values
-}
+// GetPingProbeResultSummaryProtocolEnumValues Enumerates the set of values for PingProbeProtocolEnum
+// Consider using GetPingProbeProtocolEnumValue
+// Deprecated
+var GetPingProbeResultSummaryProtocolEnumValues = GetPingProbeProtocolEnumValues
