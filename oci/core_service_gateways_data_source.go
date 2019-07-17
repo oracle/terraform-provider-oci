@@ -124,6 +124,10 @@ func (s *CoreServiceGatewaysDataSourceCrud) SetData() error {
 			serviceGateway["id"] = *r.Id
 		}
 
+		if r.RouteTableId != nil {
+			serviceGateway["route_table_id"] = *r.RouteTableId
+		}
+
 		services := []interface{}{}
 		for _, item := range r.Services {
 			services = append(services, ServiceIdResponseDetailsToMap(item))

@@ -59,6 +59,54 @@ func (client *LoadBalancerClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
+// ChangeLoadBalancerCompartment Moves a load balancer into a different compartment within the same tenancy. For information about moving resources
+// between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+func (client LoadBalancerClient) ChangeLoadBalancerCompartment(ctx context.Context, request ChangeLoadBalancerCompartmentRequest) (response ChangeLoadBalancerCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeLoadBalancerCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeLoadBalancerCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeLoadBalancerCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeLoadBalancerCompartmentResponse")
+	}
+	return
+}
+
+// changeLoadBalancerCompartment implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) changeLoadBalancerCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/loadBalancers/{loadBalancerId}/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeLoadBalancerCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateBackend Adds a backend server to a backend set.
 func (client LoadBalancerClient) CreateBackend(ctx context.Context, request CreateBackendRequest) (response CreateBackendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1412,6 +1460,53 @@ func (client LoadBalancerClient) listHostnames(ctx context.Context, request comm
 	}
 
 	var response ListHostnamesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListListenerRules Lists all of the rules from all of the rule sets associated with the specified listener. The response organizes
+// the rules in the following order:
+// *  Access control rules
+// *  Allow method rules
+// *  Request header rules
+// *  Response header rules
+func (client LoadBalancerClient) ListListenerRules(ctx context.Context, request ListListenerRulesRequest) (response ListListenerRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listListenerRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListListenerRulesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListListenerRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListListenerRulesResponse")
+	}
+	return
+}
+
+// listListenerRules implements the OCIOperation interface (enables retrying operations)
+func (client LoadBalancerClient) listListenerRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/loadBalancers/{loadBalancerId}/listeners/{listenerName}/rules")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListListenerRulesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

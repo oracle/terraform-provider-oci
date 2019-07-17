@@ -46,32 +46,26 @@ type PingMonitorSummary struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	Protocol PingMonitorSummaryProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
+	Protocol PingProbeProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
 }
 
 func (m PingMonitorSummary) String() string {
 	return common.PointerString(m)
 }
 
-// PingMonitorSummaryProtocolEnum Enum with underlying type: string
-type PingMonitorSummaryProtocolEnum string
+// PingMonitorSummaryProtocolEnum is an alias to type: PingProbeProtocolEnum
+// Consider using PingProbeProtocolEnum instead
+// Deprecated
+type PingMonitorSummaryProtocolEnum = PingProbeProtocolEnum
 
-// Set of constants representing the allowable values for PingMonitorSummaryProtocolEnum
+// Set of constants representing the allowable values for PingProbeProtocolEnum
+// Deprecated
 const (
-	PingMonitorSummaryProtocolIcmp PingMonitorSummaryProtocolEnum = "ICMP"
-	PingMonitorSummaryProtocolTcp  PingMonitorSummaryProtocolEnum = "TCP"
+	PingMonitorSummaryProtocolIcmp PingProbeProtocolEnum = "ICMP"
+	PingMonitorSummaryProtocolTcp  PingProbeProtocolEnum = "TCP"
 )
 
-var mappingPingMonitorSummaryProtocol = map[string]PingMonitorSummaryProtocolEnum{
-	"ICMP": PingMonitorSummaryProtocolIcmp,
-	"TCP":  PingMonitorSummaryProtocolTcp,
-}
-
-// GetPingMonitorSummaryProtocolEnumValues Enumerates the set of values for PingMonitorSummaryProtocolEnum
-func GetPingMonitorSummaryProtocolEnumValues() []PingMonitorSummaryProtocolEnum {
-	values := make([]PingMonitorSummaryProtocolEnum, 0)
-	for _, v := range mappingPingMonitorSummaryProtocol {
-		values = append(values, v)
-	}
-	return values
-}
+// GetPingMonitorSummaryProtocolEnumValues Enumerates the set of values for PingProbeProtocolEnum
+// Consider using GetPingProbeProtocolEnumValue
+// Deprecated
+var GetPingMonitorSummaryProtocolEnumValues = GetPingProbeProtocolEnumValues

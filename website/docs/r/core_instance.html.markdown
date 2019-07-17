@@ -106,7 +106,7 @@ The following arguments are supported:
 * `agent_config` - (Optional) (Updatable) 
 	* `is_monitoring_disabled` - (Optional) (Updatable) Whether the agent running on the instance can gather performance metrics and monitor the instance. Default value is false. 
 * `availability_domain` - (Required) The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment.
 * `create_vnic_details` - (Optional) Details for the primary VNIC, which is automatically created and attached when the instance is launched. 
 	* `assign_public_ip` - (Optional) Whether the VNIC should be assigned a public IP address. Defaults to true. If left blank or set to true and `prohibitPublicIpOnVnic` = true, an error is returned.
 

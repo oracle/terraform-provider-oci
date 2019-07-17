@@ -43,16 +43,6 @@ func CoreShapesDataSource() *schema.Resource {
 					},
 				},
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
-			},
 		},
 	}
 }
@@ -91,16 +81,6 @@ func (s *CoreShapesDataSourceCrud) Get() error {
 	if imageId, ok := s.D.GetOkExists("image_id"); ok {
 		tmp := imageId.(string)
 		request.ImageId = &tmp
-	}
-
-	if limit, ok := s.D.GetOkExists("limit"); ok {
-		tmp := limit.(int)
-		request.Limit = &tmp
-	}
-
-	if page, ok := s.D.GetOkExists("page"); ok {
-		tmp := page.(string)
-		request.Page = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")

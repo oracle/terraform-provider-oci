@@ -27,7 +27,6 @@ func DnsZoneResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -274,6 +273,15 @@ func (s *DnsZoneResourceCrud) Get() error {
 }
 
 func (s *DnsZoneResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_dns.UpdateZoneRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -484,4 +492,22 @@ func TSIGToMap(obj *oci_dns.Tsig) map[string]interface{} {
 	}
 
 	return result
+}
+
+func (s *DnsZoneResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_dns.ChangeZoneCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.ZoneId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
+
+	_, err := s.Client.ChangeZoneCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

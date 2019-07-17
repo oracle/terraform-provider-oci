@@ -112,7 +112,6 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 
 		if r.DatabaseSizeInGBs != nil {
 			backup["database_size_in_gbs"] = *r.DatabaseSizeInGBs
-			backup["db_data_size_in_mbs"] = (*r.DatabaseSizeInGBs) * 1024
 		}
 
 		if r.DisplayName != nil {

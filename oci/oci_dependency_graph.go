@@ -7,6 +7,7 @@ var DependencyGraph map[string][]string
 func initDependencyGraph() {
 	DependencyGraph = make(map[string][]string)
 
+	DependencyGraph["application"] = append(DependencyGraph["application"], "FunctionsFunction")
 	DependencyGraph["asset"] = append(DependencyGraph["asset"], "CoreVolumeBackupPolicyAssignment")
 	DependencyGraph["autonomousContainerDatabase"] = append(DependencyGraph["autonomousContainerDatabase"], "DatabaseAutonomousDatabase")
 	DependencyGraph["autonomousDataWarehouse"] = append(DependencyGraph["autonomousDataWarehouse"], "DatabaseAutonomousDataWarehouseBackup")
@@ -35,6 +36,7 @@ func initDependencyGraph() {
 	DependencyGraph["farCrossConnectOrCrossConnectGroup"] = append(DependencyGraph["farCrossConnectOrCrossConnectGroup"], "CoreCrossConnect")
 	DependencyGraph["fileSystem"] = append(DependencyGraph["fileSystem"], "FileStorageExport")
 	DependencyGraph["fileSystem"] = append(DependencyGraph["fileSystem"], "FileStorageSnapshot")
+	DependencyGraph["function"] = append(DependencyGraph["function"], "FunctionsInvokeFunction")
 	DependencyGraph["gateway"] = append(DependencyGraph["gateway"], "CoreVirtualCircuit")
 	DependencyGraph["group"] = append(DependencyGraph["group"], "IdentityIdpGroupMapping")
 	DependencyGraph["group"] = append(DependencyGraph["group"], "IdentityUserGroupMembership")
@@ -70,6 +72,7 @@ func initDependencyGraph() {
 	DependencyGraph["providerService"] = append(DependencyGraph["providerService"], "CoreVirtualCircuit")
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreDrgAttachment")
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreLocalPeeringGateway")
+	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreServiceGateway")
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreSubnet")
 	DependencyGraph["steeringPolicy"] = append(DependencyGraph["steeringPolicy"], "DnsSteeringPolicyAttachment")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "CoreInstance")

@@ -20,7 +20,7 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 1
 }
 
-resource "oci_core_virtual_network" "vcn1" {
+resource "oci_core_vcn" "vcn1" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = "${var.compartment_ocid}"
   display_name   = "TFExampleVCN"
@@ -33,10 +33,10 @@ resource "oci_core_subnet" "subnet1" {
   display_name      = "TFRegionalSubnet"
   dns_label         = "regionalsubnet"
   compartment_id    = "${var.compartment_ocid}"
-  vcn_id            = "${oci_core_virtual_network.vcn1.id}"
-  security_list_ids = ["${oci_core_virtual_network.vcn1.default_security_list_id}"]
-  route_table_id    = "${oci_core_virtual_network.vcn1.default_route_table_id}"
-  dhcp_options_id   = "${oci_core_virtual_network.vcn1.default_dhcp_options_id}"
+  vcn_id            = "${oci_core_vcn.vcn1.id}"
+  security_list_ids = ["${oci_core_vcn.vcn1.default_security_list_id}"]
+  route_table_id    = "${oci_core_vcn.vcn1.default_route_table_id}"
+  dhcp_options_id   = "${oci_core_vcn.vcn1.default_dhcp_options_id}"
 }
 
 // An AD based subnet will supply an Availability Domain
@@ -46,8 +46,8 @@ resource "oci_core_subnet" "subnet2" {
   display_name        = "TFADSubnet"
   dns_label           = "adsubnet"
   compartment_id      = "${var.compartment_ocid}"
-  vcn_id              = "${oci_core_virtual_network.vcn1.id}"
-  security_list_ids   = ["${oci_core_virtual_network.vcn1.default_security_list_id}"]
-  route_table_id      = "${oci_core_virtual_network.vcn1.default_route_table_id}"
-  dhcp_options_id     = "${oci_core_virtual_network.vcn1.default_dhcp_options_id}"
+  vcn_id              = "${oci_core_vcn.vcn1.id}"
+  security_list_ids   = ["${oci_core_vcn.vcn1.default_security_list_id}"]
+  route_table_id      = "${oci_core_vcn.vcn1.default_route_table_id}"
+  dhcp_options_id     = "${oci_core_vcn.vcn1.default_dhcp_options_id}"
 }

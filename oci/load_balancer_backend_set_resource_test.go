@@ -401,6 +401,358 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 	})
 }
 
+// todo: BackendSet health_checker appears to be missing 3 properties
+// https://docs.us-phoenix-1.oraclecloud.com/api/#/en/loadbalancer/20170115/requests/HealthCheckerDetails
+func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBackendSetLBCookie_basic() {
+	var res, res2 string
+	resource.UnitTest(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			// test create
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "ROUND_ROBIN"
+					health_checker {
+						interval_ms = 30000
+						port = 1234
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/"
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "name", "-tf-backend-set"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "ROUND_ROBIN"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "30000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "1234"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res, err = fromInstanceState(ts, s.ResourceName, "name")
+						return err
+					},
+				),
+			},
+			// test update
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "LEAST_CONNECTIONS"
+					health_checker {
+						interval_ms = 29999
+						port = 4321
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/"
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res != res2 {
+							return fmt.Errorf("new resource created when it should not have been")
+						}
+						return err
+					},
+				),
+			},
+			// test add session persistence
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "IP_HASH"
+					health_checker {
+						interval_ms = 29999
+						port = 4321
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/"
+					}
+
+					lb_cookie_session_persistence_configuration {
+                        cookie_name = "example_cookie"
+						domain = "example.oracle.com"
+		                max_age_in_seconds = 10
+		                path = "/tmp/example"
+						disable_fallback = true
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "IP_HASH"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "example_cookie"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.disable_fallback", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.domain", "example.oracle.com"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "10"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.path", "/tmp/example"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res != res2 {
+							return fmt.Errorf("new resource created when it should not have been")
+						}
+						return err
+					},
+				),
+			},
+			// test add ssl
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "LEAST_CONNECTIONS"
+					health_checker {
+						interval_ms = 29999
+						port = 4321
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/"
+					}
+				
+					lb_cookie_session_persistence_configuration {
+                        cookie_name = "example_cookie"
+						domain = "example.oracle.com"
+		                max_age_in_seconds = 10
+		                path = "/tmp/example"
+						disable_fallback = true
+					}
+				
+					ssl_configuration {
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
+						verify_depth = 6
+						verify_peer_certificate = false
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "example_cookie"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.disable_fallback", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.domain", "example.oracle.com"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "10"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.path", "/tmp/example"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.certificate_name", "tf_cert_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res != res2 {
+							return fmt.Errorf("new resource created when it should not have been")
+						}
+						return err
+					},
+				),
+			},
+			// test create backend and update backendset (the two operations may happen concurrently)
+			// This test is needed because CreateBackend and UpdateBackendSet both update the same backend set
+			// resource. Test that both changes are applied sequentially.
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "LEAST_CONNECTIONS"
+					health_checker {
+						interval_ms = 29999
+						port = 8080
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/"
+					}
+
+					lb_cookie_session_persistence_configuration {
+                        cookie_name = "example_cookie"
+						domain = "example.oracle.com"
+		                max_age_in_seconds = 10
+		                path = "/tmp/example"
+						disable_fallback = true
+					}
+
+					ssl_configuration {
+						certificate_name = "${oci_load_balancer_certificate.t.id}"
+						verify_depth = 6
+						verify_peer_certificate = false
+					}
+				}
+
+				// Create a new backend
+				resource "oci_load_balancer_backend" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					backendset_name = "${oci_load_balancer_backendset.t.name}"
+					ip_address = "1.2.3.4"
+					port = 8080
+				}
+
+				data "oci_load_balancer_backendsets" "t" {
+					depends_on = ["oci_load_balancer_backend.t", "oci_load_balancer_backendset.t"]
+					load_balancer_id = "${oci_load_balancer.t.id}"
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
+					// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.
+					// If UpdateBackendSet happens first, then you will see 0. If CreateBackend happens first, then you will see 1.
+					//resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "1"),
+					resource.TestCheckResourceAttr("data.oci_load_balancer_backendsets.t", "backendsets.#", "1"),
+					resource.TestCheckResourceAttr("data.oci_load_balancer_backendsets.t", "backendsets.0.backend.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "8080"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					resource.TestCheckResourceAttrSet(s.BackendResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "backendset_name", "-tf-backend-set"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "ip_address", "1.2.3.4"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "port", "8080"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "backup", "false"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "drain", "false"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "offline", "false"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "weight", "1"),
+					resource.TestCheckResourceAttrSet(s.BackendResourceName, "name"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+				),
+				ExpectNonEmptyPlan: true,
+			},
+			// test ForceNew backend and update backendset (the operations may happen concurrently)
+			// This test is needed because DeleteBackend, CreateBackend and UpdateBackendSet all update the same backend set
+			// resource. Test that all changes are applied sequentially.
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "LEAST_CONNECTIONS"
+					health_checker {
+						interval_ms = 29999
+						port = 80
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/"
+					}
+
+					lb_cookie_session_persistence_configuration {
+                        cookie_name = "example_cookie"
+						domain = "example.oracle.com"
+		                max_age_in_seconds = 10
+		                path = "/tmp/example"
+						disable_fallback = true
+					}
+
+					ssl_configuration {
+						certificate_name = "${oci_load_balancer_certificate.t.id}"
+						verify_depth = 6
+						verify_peer_certificate = false
+					}
+				}
+
+				resource "oci_load_balancer_backend" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					backendset_name = "${oci_load_balancer_backendset.t.name}"
+					ip_address = "1.2.3.4"
+					port = 80
+				}
+
+				data "oci_load_balancer_backendsets" "t" {
+					depends_on = ["oci_load_balancer_backend.t", "oci_load_balancer_backendset.t"]
+					load_balancer_id = "${oci_load_balancer.t.id}"
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
+					// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.
+					// If UpdateBackendSet happens first, then you will see 0. If CreateBackend happens first, then you will see 1.
+					//resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "1"),
+					resource.TestCheckResourceAttr("data.oci_load_balancer_backendsets.t", "backendsets.#", "1"),
+					resource.TestCheckResourceAttr("data.oci_load_balancer_backendsets.t", "backendsets.0.backend.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "80"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					resource.TestCheckResourceAttrSet(s.BackendResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "backendset_name", "-tf-backend-set"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "ip_address", "1.2.3.4"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "port", "80"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "backup", "false"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "drain", "false"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "offline", "false"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "weight", "1"),
+					resource.TestCheckResourceAttrSet(s.BackendResourceName, "name"),
+					resource.TestCheckResourceAttr(s.BackendResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+				),
+				ExpectNonEmptyPlan: true,
+			},
+		},
+	})
+}
+
 func TestResourceLoadBalancerBackendSetTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceLoadBalancerBackendSetTestSuite")
 	defer httpreplay.SaveScenario()

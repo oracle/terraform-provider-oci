@@ -5,7 +5,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
   compartment_id     = "${var.compartment_ocid}"
   kubernetes_version = "${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions.0}"
   name               = "${var.cluster_name}"
-  vcn_id             = "${oci_core_virtual_network.test_vcn.id}"
+  vcn_id             = "${oci_core_vcn.test_vcn.id}"
 
   #Optional
   options {

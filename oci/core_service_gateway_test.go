@@ -36,17 +36,17 @@ var (
 		"services":       RepresentationGroup{Required, serviceGatewayServicesRepresentation},
 		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"display_name":   Representation{repType: Optional, create: `MyServiceGateway`, update: `displayName2`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"route_table_id": Representation{repType: Optional, create: `${oci_core_vcn.test_vcn.default_route_table_id}`, update: `${oci_core_route_table.test_route_table.id}`},
 	}
 	serviceGatewayServicesRepresentation = map[string]interface{}{
 		"service_id": Representation{repType: Required, create: `${lookup(data.oci_core_services.test_services.services[0], "id")}`},
 	}
 
-	ServiceGatewayResourceDependencies = VcnRequiredOnlyResource + VcnResourceDependencies + `
-data "oci_core_services" "test_services" {
-}
-`
+	ServiceGatewayResourceDependencies = DefinedTagsDependencies + VcnResourceConfig + ObjectStorageCoreService +
+		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, representationCopyWithRemovedProperties(routeTableRepresentation, []string{"route_rules"})) +
+		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_network_entity", Required, Create, internetGatewayRepresentation)
 )
 
 func TestCoreServiceGatewayResource_basic(t *testing.T) {
@@ -106,9 +106,10 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "block_traffic"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "MyServiceGateway"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "services", map[string]string{},
 						[]string{
@@ -136,9 +137,10 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "block_traffic"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "MyServiceGateway"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "services", map[string]string{},
 						[]string{
@@ -169,6 +171,7 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 					resource.TestCheckResourceAttr(resourceName, "services.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "services", map[string]string{},
 						[]string{
@@ -205,6 +208,7 @@ func TestCoreServiceGatewayResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "service_gateways.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "service_gateways.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "service_gateways.0.id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "service_gateways.0.route_table_id"),
 					resource.TestCheckResourceAttr(datasourceName, "service_gateways.0.services.#", "1"),
 					CheckResourceSetContainsElementWithProperties(datasourceName, "service_gateways.0.services", map[string]string{},
 						[]string{

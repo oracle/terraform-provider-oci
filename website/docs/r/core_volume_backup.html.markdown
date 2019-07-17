@@ -42,7 +42,8 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `type` - (Optional) The type of backup to create. If omitted, defaults to INCREMENTAL.
 * `volume_id` - (Required) The OCID of the volume that needs to be backed up.
-* `source_details` - (Optional) Details of the volume backup source in the cloud. 
+* `source_details` - (Optional) Details of the volume backup source in the cloud.
+    * `kms_key_id` - The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
     * `region` - The region of the volume backup source.
     * `volume_backup_id` - The OCID of the source volume backup.
 
@@ -60,6 +61,7 @@ The following attributes are exported:
 * `expiration_time` - The date and time the volume backup will expire and be automatically deleted. Format defined by RFC3339. This parameter will always be present for backups that were created automatically by a scheduled-backup policy. For manually created backups, it will be absent, signifying that there is no expiration time and the backup will last forever until manually deleted. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the volume backup.
+* `kms_key_id` - The OCID of the KMS key which is the master encryption key for the volume backup. For more information about the Key Management service and encryption keys, see [Overview of Key Management](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 * `size_in_gbs` - The size of the volume, in GBs. 
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_type` - Specifies whether the backup was created manually, or via scheduled backup policy.

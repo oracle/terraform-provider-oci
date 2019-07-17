@@ -12,6 +12,7 @@ import (
 type GetTopicRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic to retrieve.
+	// Transactions Per Minute (TPM) per-tenancy limit for this operation: 120.
 	TopicId *string `mandatory:"true" contributesTo:"path" name:"topicId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

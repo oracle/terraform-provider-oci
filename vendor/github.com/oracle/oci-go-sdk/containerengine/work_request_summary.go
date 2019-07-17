@@ -21,10 +21,10 @@ type WorkRequestSummary struct {
 	Id *string `mandatory:"false" json:"id"`
 
 	// The type of work the work request is doing.
-	OperationType WorkRequestSummaryOperationTypeEnum `mandatory:"false" json:"operationType,omitempty"`
+	OperationType WorkRequestOperationTypeEnum `mandatory:"false" json:"operationType,omitempty"`
 
 	// The current status of the work request.
-	Status WorkRequestSummaryStatusEnum `mandatory:"false" json:"status,omitempty"`
+	Status WorkRequestStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	// The OCID of the compartment in which the work request exists.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
@@ -46,66 +46,45 @@ func (m WorkRequestSummary) String() string {
 	return common.PointerString(m)
 }
 
-// WorkRequestSummaryOperationTypeEnum Enum with underlying type: string
-type WorkRequestSummaryOperationTypeEnum string
+// WorkRequestSummaryOperationTypeEnum is an alias to type: WorkRequestOperationTypeEnum
+// Consider using WorkRequestOperationTypeEnum instead
+// Deprecated
+type WorkRequestSummaryOperationTypeEnum = WorkRequestOperationTypeEnum
 
-// Set of constants representing the allowable values for WorkRequestSummaryOperationTypeEnum
+// Set of constants representing the allowable values for WorkRequestOperationTypeEnum
+// Deprecated
 const (
-	WorkRequestSummaryOperationTypeClusterCreate     WorkRequestSummaryOperationTypeEnum = "CLUSTER_CREATE"
-	WorkRequestSummaryOperationTypeClusterUpdate     WorkRequestSummaryOperationTypeEnum = "CLUSTER_UPDATE"
-	WorkRequestSummaryOperationTypeClusterDelete     WorkRequestSummaryOperationTypeEnum = "CLUSTER_DELETE"
-	WorkRequestSummaryOperationTypeNodepoolCreate    WorkRequestSummaryOperationTypeEnum = "NODEPOOL_CREATE"
-	WorkRequestSummaryOperationTypeNodepoolUpdate    WorkRequestSummaryOperationTypeEnum = "NODEPOOL_UPDATE"
-	WorkRequestSummaryOperationTypeNodepoolDelete    WorkRequestSummaryOperationTypeEnum = "NODEPOOL_DELETE"
-	WorkRequestSummaryOperationTypeWorkrequestCancel WorkRequestSummaryOperationTypeEnum = "WORKREQUEST_CANCEL"
+	WorkRequestSummaryOperationTypeClusterCreate     WorkRequestOperationTypeEnum = "CLUSTER_CREATE"
+	WorkRequestSummaryOperationTypeClusterUpdate     WorkRequestOperationTypeEnum = "CLUSTER_UPDATE"
+	WorkRequestSummaryOperationTypeClusterDelete     WorkRequestOperationTypeEnum = "CLUSTER_DELETE"
+	WorkRequestSummaryOperationTypeNodepoolCreate    WorkRequestOperationTypeEnum = "NODEPOOL_CREATE"
+	WorkRequestSummaryOperationTypeNodepoolUpdate    WorkRequestOperationTypeEnum = "NODEPOOL_UPDATE"
+	WorkRequestSummaryOperationTypeNodepoolDelete    WorkRequestOperationTypeEnum = "NODEPOOL_DELETE"
+	WorkRequestSummaryOperationTypeWorkrequestCancel WorkRequestOperationTypeEnum = "WORKREQUEST_CANCEL"
 )
 
-var mappingWorkRequestSummaryOperationType = map[string]WorkRequestSummaryOperationTypeEnum{
-	"CLUSTER_CREATE":     WorkRequestSummaryOperationTypeClusterCreate,
-	"CLUSTER_UPDATE":     WorkRequestSummaryOperationTypeClusterUpdate,
-	"CLUSTER_DELETE":     WorkRequestSummaryOperationTypeClusterDelete,
-	"NODEPOOL_CREATE":    WorkRequestSummaryOperationTypeNodepoolCreate,
-	"NODEPOOL_UPDATE":    WorkRequestSummaryOperationTypeNodepoolUpdate,
-	"NODEPOOL_DELETE":    WorkRequestSummaryOperationTypeNodepoolDelete,
-	"WORKREQUEST_CANCEL": WorkRequestSummaryOperationTypeWorkrequestCancel,
-}
+// GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
+// Consider using GetWorkRequestOperationTypeEnumValue
+// Deprecated
+var GetWorkRequestSummaryOperationTypeEnumValues = GetWorkRequestOperationTypeEnumValues
 
-// GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
-func GetWorkRequestSummaryOperationTypeEnumValues() []WorkRequestSummaryOperationTypeEnum {
-	values := make([]WorkRequestSummaryOperationTypeEnum, 0)
-	for _, v := range mappingWorkRequestSummaryOperationType {
-		values = append(values, v)
-	}
-	return values
-}
+// WorkRequestSummaryStatusEnum is an alias to type: WorkRequestStatusEnum
+// Consider using WorkRequestStatusEnum instead
+// Deprecated
+type WorkRequestSummaryStatusEnum = WorkRequestStatusEnum
 
-// WorkRequestSummaryStatusEnum Enum with underlying type: string
-type WorkRequestSummaryStatusEnum string
-
-// Set of constants representing the allowable values for WorkRequestSummaryStatusEnum
+// Set of constants representing the allowable values for WorkRequestStatusEnum
+// Deprecated
 const (
-	WorkRequestSummaryStatusAccepted   WorkRequestSummaryStatusEnum = "ACCEPTED"
-	WorkRequestSummaryStatusInProgress WorkRequestSummaryStatusEnum = "IN_PROGRESS"
-	WorkRequestSummaryStatusFailed     WorkRequestSummaryStatusEnum = "FAILED"
-	WorkRequestSummaryStatusSucceeded  WorkRequestSummaryStatusEnum = "SUCCEEDED"
-	WorkRequestSummaryStatusCanceling  WorkRequestSummaryStatusEnum = "CANCELING"
-	WorkRequestSummaryStatusCanceled   WorkRequestSummaryStatusEnum = "CANCELED"
+	WorkRequestSummaryStatusAccepted   WorkRequestStatusEnum = "ACCEPTED"
+	WorkRequestSummaryStatusInProgress WorkRequestStatusEnum = "IN_PROGRESS"
+	WorkRequestSummaryStatusFailed     WorkRequestStatusEnum = "FAILED"
+	WorkRequestSummaryStatusSucceeded  WorkRequestStatusEnum = "SUCCEEDED"
+	WorkRequestSummaryStatusCanceling  WorkRequestStatusEnum = "CANCELING"
+	WorkRequestSummaryStatusCanceled   WorkRequestStatusEnum = "CANCELED"
 )
 
-var mappingWorkRequestSummaryStatus = map[string]WorkRequestSummaryStatusEnum{
-	"ACCEPTED":    WorkRequestSummaryStatusAccepted,
-	"IN_PROGRESS": WorkRequestSummaryStatusInProgress,
-	"FAILED":      WorkRequestSummaryStatusFailed,
-	"SUCCEEDED":   WorkRequestSummaryStatusSucceeded,
-	"CANCELING":   WorkRequestSummaryStatusCanceling,
-	"CANCELED":    WorkRequestSummaryStatusCanceled,
-}
-
-// GetWorkRequestSummaryStatusEnumValues Enumerates the set of values for WorkRequestSummaryStatusEnum
-func GetWorkRequestSummaryStatusEnumValues() []WorkRequestSummaryStatusEnum {
-	values := make([]WorkRequestSummaryStatusEnum, 0)
-	for _, v := range mappingWorkRequestSummaryStatus {
-		values = append(values, v)
-	}
-	return values
-}
+// GetWorkRequestSummaryStatusEnumValues Enumerates the set of values for WorkRequestStatusEnum
+// Consider using GetWorkRequestStatusEnumValue
+// Deprecated
+var GetWorkRequestSummaryStatusEnumValues = GetWorkRequestStatusEnumValues

@@ -40,16 +40,6 @@ func CoreVolumesDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     GetDataSourceItemSchema(CoreVolumeResource()),
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
-			},
 		},
 	}
 }
@@ -97,16 +87,6 @@ func (s *CoreVolumesDataSourceCrud) Get() error {
 	if volumeGroupId, ok := s.D.GetOkExists("volume_group_id"); ok {
 		tmp := volumeGroupId.(string)
 		request.VolumeGroupId = &tmp
-	}
-
-	if limit, ok := s.D.GetOkExists("limit"); ok {
-		tmp := limit.(int)
-		request.Limit = &tmp
-	}
-
-	if page, ok := s.D.GetOkExists("page"); ok {
-		tmp := page.(string)
-		request.Page = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")

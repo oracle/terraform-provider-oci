@@ -23,16 +23,6 @@ func CoreCpesDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     GetDataSourceItemSchema(CoreCpeResource()),
 			},
-			"limit": {
-				Type:       schema.TypeInt,
-				Optional:   true,
-				Deprecated: FieldDeprecated("limit"),
-			},
-			"page": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: FieldDeprecated("page"),
-			},
 		},
 	}
 }
@@ -61,16 +51,6 @@ func (s *CoreCpesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
-	}
-
-	if limit, ok := s.D.GetOkExists("limit"); ok {
-		tmp := limit.(int)
-		request.Limit = &tmp
-	}
-
-	if page, ok := s.D.GetOkExists("page"); ok {
-		tmp := page.(string)
-		request.Page = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")

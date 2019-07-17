@@ -35,7 +35,7 @@ type WaasPolicy struct {
 	Cname *string `mandatory:"false" json:"cname"`
 
 	// The current lifecycle state of the WAAS policy.
-	LifecycleState WaasPolicyLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The date and time the policy was created, expressed in RFC 3339 timestamp format.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -58,33 +58,23 @@ func (m WaasPolicy) String() string {
 	return common.PointerString(m)
 }
 
-// WaasPolicyLifecycleStateEnum Enum with underlying type: string
-type WaasPolicyLifecycleStateEnum string
+// WaasPolicyLifecycleStateEnum is an alias to type: LifecycleStatesEnum
+// Consider using LifecycleStatesEnum instead
+// Deprecated
+type WaasPolicyLifecycleStateEnum = LifecycleStatesEnum
 
-// Set of constants representing the allowable values for WaasPolicyLifecycleStateEnum
+// Set of constants representing the allowable values for LifecycleStatesEnum
+// Deprecated
 const (
-	WaasPolicyLifecycleStateCreating WaasPolicyLifecycleStateEnum = "CREATING"
-	WaasPolicyLifecycleStateActive   WaasPolicyLifecycleStateEnum = "ACTIVE"
-	WaasPolicyLifecycleStateFailed   WaasPolicyLifecycleStateEnum = "FAILED"
-	WaasPolicyLifecycleStateUpdating WaasPolicyLifecycleStateEnum = "UPDATING"
-	WaasPolicyLifecycleStateDeleting WaasPolicyLifecycleStateEnum = "DELETING"
-	WaasPolicyLifecycleStateDeleted  WaasPolicyLifecycleStateEnum = "DELETED"
+	WaasPolicyLifecycleStateCreating LifecycleStatesEnum = "CREATING"
+	WaasPolicyLifecycleStateActive   LifecycleStatesEnum = "ACTIVE"
+	WaasPolicyLifecycleStateFailed   LifecycleStatesEnum = "FAILED"
+	WaasPolicyLifecycleStateUpdating LifecycleStatesEnum = "UPDATING"
+	WaasPolicyLifecycleStateDeleting LifecycleStatesEnum = "DELETING"
+	WaasPolicyLifecycleStateDeleted  LifecycleStatesEnum = "DELETED"
 )
 
-var mappingWaasPolicyLifecycleState = map[string]WaasPolicyLifecycleStateEnum{
-	"CREATING": WaasPolicyLifecycleStateCreating,
-	"ACTIVE":   WaasPolicyLifecycleStateActive,
-	"FAILED":   WaasPolicyLifecycleStateFailed,
-	"UPDATING": WaasPolicyLifecycleStateUpdating,
-	"DELETING": WaasPolicyLifecycleStateDeleting,
-	"DELETED":  WaasPolicyLifecycleStateDeleted,
-}
-
-// GetWaasPolicyLifecycleStateEnumValues Enumerates the set of values for WaasPolicyLifecycleStateEnum
-func GetWaasPolicyLifecycleStateEnumValues() []WaasPolicyLifecycleStateEnum {
-	values := make([]WaasPolicyLifecycleStateEnum, 0)
-	for _, v := range mappingWaasPolicyLifecycleState {
-		values = append(values, v)
-	}
-	return values
-}
+// GetWaasPolicyLifecycleStateEnumValues Enumerates the set of values for LifecycleStatesEnum
+// Consider using GetLifecycleStatesEnumValue
+// Deprecated
+var GetWaasPolicyLifecycleStateEnumValues = GetLifecycleStatesEnumValues

@@ -15,7 +15,7 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-resource "oci_core_virtual_network" "vcn1" {
+resource "oci_core_vcn" "vcn1" {
   cidr_block     = "10.0.0.0/16"
   dns_label      = "vcn1"
   compartment_id = "${var.compartment_ocid}"

@@ -20,16 +20,18 @@ type ListTopicsRequest struct {
 	// A filter to only return resources that match the given name exactly.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
-	// For list pagination. The value of the opc-next-page response header from the previous "List" call. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. The value of the opc-next-page response header from the previous "List" call.
+	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
+	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The field to sort by. Only one field can be selected for sorting. Default value: TIMECREATED.
+	// The field to sort by. Only one field can be selected for sorting.
 	SortBy ListTopicsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The sort order to use (ascending or descending). Default value: ASC.
+	// The sort order to use (ascending or descending).
 	SortOrder ListTopicsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// Filter returned list by specified lifecycle state. This parameter is case-insensitive.
@@ -67,7 +69,8 @@ type ListTopicsResponse struct {
 	// A list of []NotificationTopicSummary instances
 	Items []NotificationTopicSummary `presentIn:"body"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination.
+	// For list pagination. When this header appears in the response, additional pages of results remain.
+	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about

@@ -31,10 +31,10 @@ type BudgetSummary struct {
 	Amount *float32 `mandatory:"true" json:"amount"`
 
 	// The reset period for the budget.
-	ResetPeriod BudgetSummaryResetPeriodEnum `mandatory:"true" json:"resetPeriod"`
+	ResetPeriod ResetPeriodEnum `mandatory:"true" json:"resetPeriod"`
 
 	// The current state of the budget.
-	LifecycleState BudgetSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Total number of alert rules in the budget
 	AlertRuleCount *int `mandatory:"true" json:"alertRuleCount"`
@@ -75,46 +75,35 @@ func (m BudgetSummary) String() string {
 	return common.PointerString(m)
 }
 
-// BudgetSummaryResetPeriodEnum Enum with underlying type: string
-type BudgetSummaryResetPeriodEnum string
+// BudgetSummaryResetPeriodEnum is an alias to type: ResetPeriodEnum
+// Consider using ResetPeriodEnum instead
+// Deprecated
+type BudgetSummaryResetPeriodEnum = ResetPeriodEnum
 
-// Set of constants representing the allowable values for BudgetSummaryResetPeriodEnum
+// Set of constants representing the allowable values for ResetPeriodEnum
+// Deprecated
 const (
-	BudgetSummaryResetPeriodMonthly BudgetSummaryResetPeriodEnum = "MONTHLY"
+	BudgetSummaryResetPeriodMonthly ResetPeriodEnum = "MONTHLY"
 )
 
-var mappingBudgetSummaryResetPeriod = map[string]BudgetSummaryResetPeriodEnum{
-	"MONTHLY": BudgetSummaryResetPeriodMonthly,
-}
+// GetBudgetSummaryResetPeriodEnumValues Enumerates the set of values for ResetPeriodEnum
+// Consider using GetResetPeriodEnumValue
+// Deprecated
+var GetBudgetSummaryResetPeriodEnumValues = GetResetPeriodEnumValues
 
-// GetBudgetSummaryResetPeriodEnumValues Enumerates the set of values for BudgetSummaryResetPeriodEnum
-func GetBudgetSummaryResetPeriodEnumValues() []BudgetSummaryResetPeriodEnum {
-	values := make([]BudgetSummaryResetPeriodEnum, 0)
-	for _, v := range mappingBudgetSummaryResetPeriod {
-		values = append(values, v)
-	}
-	return values
-}
+// BudgetSummaryLifecycleStateEnum is an alias to type: LifecycleStateEnum
+// Consider using LifecycleStateEnum instead
+// Deprecated
+type BudgetSummaryLifecycleStateEnum = LifecycleStateEnum
 
-// BudgetSummaryLifecycleStateEnum Enum with underlying type: string
-type BudgetSummaryLifecycleStateEnum string
-
-// Set of constants representing the allowable values for BudgetSummaryLifecycleStateEnum
+// Set of constants representing the allowable values for LifecycleStateEnum
+// Deprecated
 const (
-	BudgetSummaryLifecycleStateActive   BudgetSummaryLifecycleStateEnum = "ACTIVE"
-	BudgetSummaryLifecycleStateInactive BudgetSummaryLifecycleStateEnum = "INACTIVE"
+	BudgetSummaryLifecycleStateActive   LifecycleStateEnum = "ACTIVE"
+	BudgetSummaryLifecycleStateInactive LifecycleStateEnum = "INACTIVE"
 )
 
-var mappingBudgetSummaryLifecycleState = map[string]BudgetSummaryLifecycleStateEnum{
-	"ACTIVE":   BudgetSummaryLifecycleStateActive,
-	"INACTIVE": BudgetSummaryLifecycleStateInactive,
-}
-
-// GetBudgetSummaryLifecycleStateEnumValues Enumerates the set of values for BudgetSummaryLifecycleStateEnum
-func GetBudgetSummaryLifecycleStateEnumValues() []BudgetSummaryLifecycleStateEnum {
-	values := make([]BudgetSummaryLifecycleStateEnum, 0)
-	for _, v := range mappingBudgetSummaryLifecycleState {
-		values = append(values, v)
-	}
-	return values
-}
+// GetBudgetSummaryLifecycleStateEnumValues Enumerates the set of values for LifecycleStateEnum
+// Consider using GetLifecycleStateEnumValue
+// Deprecated
+var GetBudgetSummaryLifecycleStateEnumValues = GetLifecycleStateEnumValues
