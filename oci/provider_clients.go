@@ -11,6 +11,7 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_email "github.com/oracle/oci-go-sdk/email"
+	oci_events "github.com/oracle/oci-go-sdk/events"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
@@ -39,6 +40,7 @@ type OracleClients struct {
 	databaseClient                 *oci_database.DatabaseClient
 	dnsClient                      *oci_dns.DnsClient
 	emailClient                    *oci_email.EmailClient
+	eventsClient                   *oci_events.EventsClient
 	fileStorageClient              *oci_file_storage.FileStorageClient
 	functionsInvokeClient          *oci_functions.FunctionsInvokeClient
 	functionsManagementClient      *oci_functions.FunctionsManagementClient
@@ -192,6 +194,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.emailClient = &emailClient
+
+	eventsClient, err := oci_events.NewEventsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&eventsClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.eventsClient = &eventsClient
 
 	fileStorageClient, err := oci_file_storage.NewFileStorageClientWithConfigurationProvider(configProvider)
 	if err != nil {
