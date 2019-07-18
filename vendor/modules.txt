@@ -213,6 +213,7 @@ github.com/oracle/oci-go-sdk/core
 github.com/oracle/oci-go-sdk/database
 github.com/oracle/oci-go-sdk/dns
 github.com/oracle/oci-go-sdk/email
+github.com/oracle/oci-go-sdk/events
 github.com/oracle/oci-go-sdk/filestorage
 github.com/oracle/oci-go-sdk/functions
 github.com/oracle/oci-go-sdk/healthchecks
