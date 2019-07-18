@@ -17,7 +17,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateInstanceConfigurationDetails An instance configuration that can be used to launch
+// CreateInstanceConfigurationDetails Create an instance configuration from API input.
 type CreateInstanceConfigurationDetails struct {
 
 	// The OCID of the compartment containing the instance configuration.
@@ -39,8 +39,42 @@ type CreateInstanceConfigurationDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 }
 
+//GetCompartmentId returns CompartmentId
+func (m CreateInstanceConfigurationDetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetDefinedTags returns DefinedTags
+func (m CreateInstanceConfigurationDetails) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+//GetDisplayName returns DisplayName
+func (m CreateInstanceConfigurationDetails) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+//GetFreeformTags returns FreeformTags
+func (m CreateInstanceConfigurationDetails) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
 func (m CreateInstanceConfigurationDetails) String() string {
 	return common.PointerString(m)
+}
+
+// MarshalJSON marshals to json representation
+func (m CreateInstanceConfigurationDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateInstanceConfigurationDetails CreateInstanceConfigurationDetails
+	s := struct {
+		DiscriminatorParam string `json:"source"`
+		MarshalTypeCreateInstanceConfigurationDetails
+	}{
+		"NONE",
+		(MarshalTypeCreateInstanceConfigurationDetails)(m),
+	}
+
+	return json.Marshal(&s)
 }
 
 // UnmarshalJSON unmarshals from json

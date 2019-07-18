@@ -362,7 +362,13 @@ func (client BudgetClient) listAlertRules(ctx context.Context, request common.OC
 	return response, err
 }
 
-// ListBudgets Gets a list of all Budgets in a compartment.
+// ListBudgets Gets a list of Budgets in a compartment.
+// By default, ListBudgets returns budgets of 'COMPARTMENT' target type and the budget records with only ONE target compartment OCID.
+// To list ALL budgets, set the targetType query parameter to ALL.
+// Example:
+//   'targetType=ALL'
+// Additional targetTypes would be available in future releases. Clients should ignore new targetType
+// or upgrade to latest version of client SDK to handle new targetType.
 func (client BudgetClient) ListBudgets(ctx context.Context, request ListBudgetsRequest) (response ListBudgetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

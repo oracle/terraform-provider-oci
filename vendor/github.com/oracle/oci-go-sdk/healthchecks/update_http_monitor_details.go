@@ -16,8 +16,11 @@ import (
 
 // UpdateHttpMonitorDetails The request body used to update an HTTP monitor.
 type UpdateHttpMonitorDetails struct {
+
+	// A list of targets (hostnames or IP addresses) of the probe.
 	Targets []string `mandatory:"false" json:"targets"`
 
+	// A list of names of vantage points from which to execute the probe.
 	VantagePointNames []string `mandatory:"false" json:"vantagePointNames"`
 
 	// The port on which to probe endpoints. If unspecified, probes will use the
