@@ -42,7 +42,13 @@ type roundTripperProxy struct {
 }
 
 func (rtp *roundTripperProxy) RoundTrip(r *http.Request) (*http.Response, error) {
-	return rtp.recorder.RoundTrip(r, rtp.chained)
+	res, err := rtp.recorder.RoundTrip(r, rtp.chained)
+	if err != nil && err.Error() == "Requested interaction not found" {
+		debugLogf("stop RoundTrip for err: %v", err)
+		panic(err)
+	}
+
+	return res, err
 }
 
 func (rtp *roundTripperProxy) CancelRequest(r *http.Request) {
