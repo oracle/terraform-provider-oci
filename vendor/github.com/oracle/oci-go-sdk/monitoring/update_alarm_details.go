@@ -4,6 +4,7 @@
 // Monitoring API
 //
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
+// Endpoints vary by operation. For PostMetric, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For information about monitoring, see Monitoring Overview (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm).
 //
 
@@ -87,9 +88,10 @@ type UpdateAlarmDetails struct {
 	// Example: `High CPU usage alert. Follow runbook instructions for resolution.`
 	Body *string `mandatory:"false" json:"body"`
 
-	// An array of OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to which the notifications for
-	// this alarm will be delivered. An example destination is an OCID for a topic managed by the
-	// Oracle Cloud Infrastructure Notification service.
+	// A list of destinations to which the notifications for this alarm will be delivered.
+	// Each destination is represented by an OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) related to the supported destination service.
+	// For example, a destination using the Notifications service is represented by a topic OCID.
+	// Supported destination services: Notifications Service. Limit: One destination per supported destination service.
 	Destinations []string `mandatory:"false" json:"destinations"`
 
 	// The frequency at which notifications are re-submitted, if the alarm keeps firing without

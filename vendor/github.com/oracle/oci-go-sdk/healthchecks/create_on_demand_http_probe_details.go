@@ -20,10 +20,12 @@ type CreateOnDemandHttpProbeDetails struct {
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// A list of targets (hostnames or IP addresses) of the probe.
 	Targets []string `mandatory:"true" json:"targets"`
 
 	Protocol HttpProbeProtocolEnum `mandatory:"true" json:"protocol"`
 
+	// A list of names of vantage points from which to execute the probe.
 	VantagePointNames []string `mandatory:"false" json:"vantagePointNames"`
 
 	// The port on which to probe endpoints. If unspecified, probes will use the

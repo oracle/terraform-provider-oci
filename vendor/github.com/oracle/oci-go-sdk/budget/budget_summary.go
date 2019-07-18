@@ -21,9 +21,6 @@ type BudgetSummary struct {
 	// The OCID of the compartment
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the compartment on which budget is applied
-	TargetCompartmentId *string `mandatory:"true" json:"targetCompartmentId"`
-
 	// The display name of the budget.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
@@ -45,8 +42,21 @@ type BudgetSummary struct {
 	// Time budget was updated
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
+	// This is DEPRECATED. For backwards compatability, the property will be populated when
+	// targetType is "COMPARTMENT" AND targets contains EXACT ONE target compartment ocid.
+	// For all other scenarios, this property will be left empty.
+	TargetCompartmentId *string `mandatory:"false" json:"targetCompartmentId"`
+
 	// The description of the budget.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The type of target on which the budget is applied.
+	TargetType TargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
+
+	// The list of targets on which the budget is applied.
+	//   If targetType is "COMPARTMENT", targets contains list of compartment OCIDs.
+	//   If targetType is "TAG", targets contains list of tag identifiers in the form of "{tagNamespace}.{tagKey}.{tagValue}".
+	Targets []string `mandatory:"false" json:"targets"`
 
 	// Version of the budget. Starts from 1 and increments by 1.
 	Version *int `mandatory:"false" json:"version"`
@@ -90,6 +100,23 @@ const (
 // Consider using GetResetPeriodEnumValue
 // Deprecated
 var GetBudgetSummaryResetPeriodEnumValues = GetResetPeriodEnumValues
+
+// BudgetSummaryTargetTypeEnum is an alias to type: TargetTypeEnum
+// Consider using TargetTypeEnum instead
+// Deprecated
+type BudgetSummaryTargetTypeEnum = TargetTypeEnum
+
+// Set of constants representing the allowable values for TargetTypeEnum
+// Deprecated
+const (
+	BudgetSummaryTargetTypeCompartment TargetTypeEnum = "COMPARTMENT"
+	BudgetSummaryTargetTypeTag         TargetTypeEnum = "TAG"
+)
+
+// GetBudgetSummaryTargetTypeEnumValues Enumerates the set of values for TargetTypeEnum
+// Consider using GetTargetTypeEnumValue
+// Deprecated
+var GetBudgetSummaryTargetTypeEnumValues = GetTargetTypeEnumValues
 
 // BudgetSummaryLifecycleStateEnum is an alias to type: LifecycleStateEnum
 // Consider using LifecycleStateEnum instead
