@@ -253,6 +253,47 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 				},
 				ResourceName: resourceName,
 			},
+			// verify update with LB session persistence
+			{
+				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Create, backendSetLBRepresentation) +
+					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "10"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTP"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "10"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
+					resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/healthcheck"),
+					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "example_cookie"),
+					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.disable_fallback", "false"),
+					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.domain", "example.oracle.com"),
+					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_http_only", "false"),
+					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.is_secure", "false"),
+					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "10"),
+					resource.TestCheckResourceAttr(resourceName, "lb_cookie_session_persistence_configuration.0.path", "/tmp/example"),
+					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "0"),
+					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
+					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "ssl_configuration.0.certificate_name"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
 			// delete before next create
 			{
 				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies,
