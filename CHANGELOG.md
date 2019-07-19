@@ -9,6 +9,9 @@
 - Support for moving `database_autonomous_container_database` and `database_autonomous_exadata_infrastructure` resources across compartments
 - Support for scheduling KMS vault deletion by specified time
 
+### Fixed
+- Fixed `oci_load_balancer_backend_set` by explicitly making `session_persistence_configuration` and `lb_cookie_session_persistence_configuration` mutually exclusive [Issue #825](https://github.com/terraform-providers/terraform-provider-oci/issues/825)
+
 ## 3.34.0 (July 17, 2019)
 
 ### Added

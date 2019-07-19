@@ -254,6 +254,242 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					},
 				),
 			},
+			// update prop which is not force new
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "LEAST_CONNECTIONS"
+					health_checker {
+						interval_ms = 29999
+						port = 4321
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/abc"
+					}
+				
+					lb_cookie_session_persistence_configuration {
+                        cookie_name = "example_cookie"
+						domain = "example.oracle.com"
+		                max_age_in_seconds = 10
+		                path = "/tmp/example"
+						disable_fallback = true
+					}
+				
+					ssl_configuration {
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
+						verify_depth = 6
+						verify_peer_certificate = false
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "example_cookie"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.disable_fallback", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.domain", "example.oracle.com"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "10"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.path", "/tmp/example"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.certificate_name", "tf_cert_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/abc"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res != res2 {
+							return fmt.Errorf("new resource created when it should not have been")
+						}
+						return err
+					},
+				),
+			},
+			// switch from session persistence to LB cookie session persistence
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "LEAST_CONNECTIONS"
+					health_checker {
+						interval_ms = 29999
+						port = 4321
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/"
+					}
+				
+					lb_cookie_session_persistence_configuration {
+                        cookie_name = "example_cookie"
+						domain = "example.oracle.com"
+		                max_age_in_seconds = 10
+		                path = "/tmp/example"
+						disable_fallback = true
+					}
+				
+					ssl_configuration {
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
+						verify_depth = 6
+						verify_peer_certificate = false
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "example_cookie"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.disable_fallback", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.domain", "example.oracle.com"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "10"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.path", "/tmp/example"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.certificate_name", "tf_cert_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res != res2 {
+							return fmt.Errorf("new resource created when it should not have been")
+						}
+						return err
+					},
+				),
+			},
+			// switch from LB cookie session persistence back to session persistence
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "LEAST_CONNECTIONS"
+					health_checker {
+						interval_ms = 29999
+						port = 4321
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/"
+					}
+				
+					session_persistence_configuration {
+						cookie_name = "lb-session2"
+						disable_fallback = false
+					}
+				
+					ssl_configuration {
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
+						verify_depth = 6
+						verify_peer_certificate = false
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.0.cookie_name", "lb-session2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.0.disable_fallback", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.certificate_name", "tf_cert_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res != res2 {
+							return fmt.Errorf("new resource created when it should not have been")
+						}
+						return err
+					},
+				),
+			},
+			// update session persistence attribute
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "LEAST_CONNECTIONS"
+					health_checker {
+						interval_ms = 29999
+						port = 4321
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/"
+					}
+				
+					session_persistence_configuration {
+						cookie_name = "lb-session2"
+						disable_fallback = true
+					}
+				
+					ssl_configuration {
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
+						verify_depth = 6
+						verify_peer_certificate = false
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.0.cookie_name", "lb-session2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.0.disable_fallback", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.certificate_name", "tf_cert_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res != res2 {
+							return fmt.Errorf("new resource created when it should not have been")
+						}
+						return err
+					},
+				),
+			},
 			// test create backend and update backendset (the two operations may happen concurrently)
 			// This test is needed because CreateBackend and UpdateBackendSet both update the same backend set
 			// resource. Test that both changes are applied sequentially.
@@ -586,6 +822,233 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res != res2 {
+							return fmt.Errorf("new resource created when it should not have been")
+						}
+						return err
+					},
+				),
+			},
+			// test switching from LB cookie to session cookie
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "LEAST_CONNECTIONS"
+					health_checker {
+						interval_ms = 29999
+						port = 4321
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/"
+					}
+				
+					session_persistence_configuration {
+						cookie_name = "lb-session1"
+						disable_fallback = true
+					}
+				
+					ssl_configuration {
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
+						verify_depth = 6
+						verify_peer_certificate = false
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.0.cookie_name", "lb-session1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.0.disable_fallback", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.certificate_name", "tf_cert_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res != res2 {
+							return fmt.Errorf("new resource created when it should not have been")
+						}
+						return err
+					},
+				),
+			},
+			// test switching back to LB session cookie
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "LEAST_CONNECTIONS"
+					health_checker {
+						interval_ms = 29999
+						port = 4321
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/"
+					}
+				
+					lb_cookie_session_persistence_configuration {
+                        cookie_name = "example_cookie"
+						domain = "example.oracle.com"
+		                max_age_in_seconds = 10
+					}
+				
+					ssl_configuration {
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
+						verify_depth = 6
+						verify_peer_certificate = false
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "example_cookie"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.domain", "example.oracle.com"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "10"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.certificate_name", "tf_cert_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res != res2 {
+							return fmt.Errorf("new resource created when it should not have been")
+						}
+						return err
+					},
+				),
+			},
+			// update non force-new property without update lb cookie session
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "LEAST_CONNECTIONS"
+					health_checker {
+						interval_ms = 29999
+						port = 4321
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/abc"
+					}
+				
+					lb_cookie_session_persistence_configuration {
+                        cookie_name = "example_cookie"
+						domain = "example.oracle.com"
+		                max_age_in_seconds = 10
+					}
+				
+					ssl_configuration {
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
+						verify_depth = 6
+						verify_peer_certificate = false
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "example_cookie"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.domain", "example.oracle.com"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "10"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.certificate_name", "tf_cert_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/abc"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res != res2 {
+							return fmt.Errorf("new resource created when it should not have been")
+						}
+						return err
+					},
+				),
+			},
+			// update lb cookie session persistence attribute
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "LEAST_CONNECTIONS"
+					health_checker {
+						interval_ms = 29999
+						port = 4321
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/abc"
+					}
+				
+					lb_cookie_session_persistence_configuration {
+                        cookie_name = "example_cookie"
+						domain = "example.oracle.com"
+		                max_age_in_seconds = 20
+					}
+				
+					ssl_configuration {
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
+						verify_depth = 6
+						verify_peer_certificate = false
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.cookie_name", "example_cookie"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.domain", "example.oracle.com"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.0.max_age_in_seconds", "20"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.certificate_name", "tf_cert_name"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_depth", "6"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/abc"),
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
