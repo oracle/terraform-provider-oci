@@ -27,6 +27,14 @@ variable "metric_namespace" {
   default = "oci_lbaas"
 }
 
+variable "metric_resource_group" {
+  default = ""
+}
+
+variable "metric_data_resource_group" {
+  default = ""
+}
+
 variable "metric_data_compartment_id_in_subtree" {
   default = false
 }
@@ -68,6 +76,7 @@ data "oci_monitoring_metric_data" "test_metric_data" {
   #Optional
   compartment_id_in_subtree = "${var.metric_data_compartment_id_in_subtree}"
   resolution                = "${var.metric_data_resolution}"
+  resource_group            = "${var.metric_data_resource_group}"
 }
 
 data "oci_monitoring_metrics" "test_metrics" {
@@ -78,6 +87,7 @@ data "oci_monitoring_metrics" "test_metrics" {
   compartment_id_in_subtree = "${var.metric_compartment_id_in_subtree}"
   name                      = "${var.metric_name}"
   namespace                 = "${var.metric_namespace}"
+  resource_group            = "${var.metric_resource_group}"
 }
 
 output "metricData" {

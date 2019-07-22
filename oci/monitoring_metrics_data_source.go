@@ -42,6 +42,10 @@ func MonitoringMetricsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"resource_group": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"metrics": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -84,6 +88,12 @@ func MonitoringMetricsDataSource() *schema.Resource {
 							ForceNew: true,
 						},
 						"namespace": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"resource_group": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -160,6 +170,11 @@ func (s *MonitoringMetricsDataSourceCrud) Get() error {
 		request.Namespace = &tmp
 	}
 
+	if resourceGroup, ok := s.D.GetOkExists("resource_group"); ok {
+		tmp := resourceGroup.(string)
+		request.ResourceGroup = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "monitoring")
 
 	response, err := s.Client.ListMetrics(context.Background(), request)
@@ -206,6 +221,10 @@ func (s *MonitoringMetricsDataSourceCrud) SetData() error {
 
 		if r.Namespace != nil {
 			metric["namespace"] = *r.Namespace
+		}
+
+		if r.ResourceGroup != nil {
+			metric["resource_group"] = *r.ResourceGroup
 		}
 
 		resources = append(resources, metric)

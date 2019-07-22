@@ -25,6 +25,7 @@ var (
 		"compartment_id_in_subtree": Representation{repType: Optional, create: `false`},
 		"end_time":                  Representation{repType: Optional, create: metricDataEndTimeStr},
 		"resolution":                Representation{repType: Optional, create: `2m`},
+		"resource_group":            Representation{repType: Optional, create: `resourceGroup`},
 		"start_time":                Representation{repType: Optional, create: metricDataStartTimeStr},
 	}
 
@@ -72,6 +73,7 @@ func TestMonitoringMetricDataResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "namespace", "oci_vcn"),
 					resource.TestCheckResourceAttr(datasourceName, "query", "VnicToNetworkPackets[4m].max()"),
 					resource.TestCheckResourceAttr(datasourceName, "resolution", "2m"),
+					resource.TestCheckResourceAttr(datasourceName, "resource_group", "resourceGroup"),
 					resource.TestCheckResourceAttr(datasourceName, "start_time", metricDataStartTimeStr),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "metric_data.#"),
