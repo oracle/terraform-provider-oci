@@ -66,10 +66,22 @@ func CoreVirtualCircuitResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"customer_bgp_peering_ipv6": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: ipv6CompressionDiffSuppressFunction,
+						},
 						"oracle_bgp_peering_ip": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"oracle_bgp_peering_ipv6": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: ipv6CompressionDiffSuppressFunction,
 						},
 						"vlan": {
 							Type:     schema.TypeInt,
@@ -726,9 +738,19 @@ func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat
 			result.CustomerBgpPeeringIp = &tmp
 		}
 
+		if customerBgpPeeringIpv6, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_bgp_peering_ipv6")); ok {
+			tmp := customerBgpPeeringIpv6.(string)
+			result.CustomerBgpPeeringIpv6 = &tmp
+		}
+
 		if oracleBgpPeeringIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_bgp_peering_ip")); ok {
 			tmp := oracleBgpPeeringIp.(string)
 			result.OracleBgpPeeringIp = &tmp
+		}
+
+		if oracleBgpPeeringIpv6, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_bgp_peering_ipv6")); ok {
+			tmp := oracleBgpPeeringIpv6.(string)
+			result.OracleBgpPeeringIpv6 = &tmp
 		}
 	}
 
@@ -758,8 +780,16 @@ func CrossConnectMappingToMap(obj oci_core.CrossConnectMapping) map[string]inter
 		result["customer_bgp_peering_ip"] = string(*obj.CustomerBgpPeeringIp)
 	}
 
+	if obj.CustomerBgpPeeringIpv6 != nil {
+		result["customer_bgp_peering_ipv6"] = string(*obj.CustomerBgpPeeringIpv6)
+	}
+
 	if obj.OracleBgpPeeringIp != nil {
 		result["oracle_bgp_peering_ip"] = string(*obj.OracleBgpPeeringIp)
+	}
+
+	if obj.OracleBgpPeeringIpv6 != nil {
+		result["oracle_bgp_peering_ipv6"] = string(*obj.OracleBgpPeeringIpv6)
 	}
 
 	if obj.Vlan != nil {

@@ -2,6 +2,7 @@
 
 ### Added
 - Support for ipv6 in `oci_core_vcn`, `oci_core_subnet` and `oci_load_balancer` resources.
+- Support for ipv6 in `oci_core_virtual_circuit` resources.
 
 ## 3.36.0 (July 31, 2019)
 
