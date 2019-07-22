@@ -14,6 +14,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
@@ -169,9 +170,10 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 							Computed: true,
 						},
 						"domain": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Type:         schema.TypeString,
+							Optional:     true,
+							Computed:     true,
+							ValidateFunc: validateNotEmptyString(),
 						},
 						"is_http_only": {
 							Type:     schema.TypeBool,
@@ -184,9 +186,10 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 							Computed: true,
 						},
 						"max_age_in_seconds": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
+							Type:         schema.TypeInt,
+							Optional:     true,
+							Computed:     true,
+							ValidateFunc: validation.IntAtLeast(1),
 						},
 						"path": {
 							Type:     schema.TypeString,
@@ -886,7 +889,10 @@ func (s *LoadBalancerBackendSetResourceCrud) mapToLBCookieSessionPersistenceConf
 
 	if domain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "domain")); ok {
 		tmp := domain.(string)
-		result.Domain = &tmp
+		//@Codegen: When not specified, an unwanted empty string is set for this attribute in terraform state. This check removes this unwanted value before sending request
+		if tmp != "" {
+			result.Domain = &tmp
+		}
 	}
 
 	if isHttpOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_http_only")); ok {
@@ -901,7 +907,10 @@ func (s *LoadBalancerBackendSetResourceCrud) mapToLBCookieSessionPersistenceConf
 
 	if maxAgeInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_age_in_seconds")); ok {
 		tmp := maxAgeInSeconds.(int)
-		result.MaxAgeInSeconds = &tmp
+		//@Codegen: When not specified, an unwanted value of 0 is set for this attribute in terraform state. This check removes this unwanted value before sending request.
+		if tmp > 0 {
+			result.MaxAgeInSeconds = &tmp
+		}
 	}
 
 	if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {

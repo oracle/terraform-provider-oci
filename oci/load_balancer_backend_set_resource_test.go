@@ -682,6 +682,49 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					},
 				),
 			},
+			// test add session persistence without optionals
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer_backendset" "t" {
+					load_balancer_id = "${oci_load_balancer.t.id}"
+					name = "-tf-backend-set"
+					policy = "IP_HASH"
+					health_checker {
+						interval_ms = 30000
+						port = 1234
+						protocol = "TCP"
+						response_body_regex = ".*"
+						url_path = "/"
+					}
+
+					lb_cookie_session_persistence_configuration {
+					}
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "policy", "IP_HASH"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "30000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "1234"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.url_path", "/"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.retries", "3"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.return_code", "200"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.response_body_regex", ".*"),
+					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.timeout_in_millis", "3000"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ssl_configuration.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.WorkRequestLifecycleStateSucceeded)),
+					func(ts *terraform.State) (err error) {
+						res2, err = fromInstanceState(ts, s.ResourceName, "name")
+						if res != res2 {
+							return fmt.Errorf("new resource created when it should not have been")
+						}
+						return err
+					},
+				),
+			},
 			// test update
 			{
 				Config: s.Config + `
@@ -696,6 +739,9 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 						response_body_regex = ".*"
 						url_path = "/"
 					}
+
+                    lb_cookie_session_persistence_configuration {
+					}
 				}
 				`,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -703,6 +749,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					resource.TestCheckResourceAttrSet(s.ResourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "backend.#", "0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "session_persistence_configuration.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "lb_cookie_session_persistence_configuration.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.interval_ms", "29999"),
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.port", "4321"),
 					resource.TestCheckResourceAttr(s.ResourceName, "health_checker.0.protocol", "TCP"),
