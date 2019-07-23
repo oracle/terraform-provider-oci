@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
@@ -34,12 +35,15 @@ var (
 		"values": Representation{repType: Required, create: []string{`${oci_kms_vault.test_vault.id}`}},
 	}
 
+	kmsVaultDeletionTime = time.Now().UTC().AddDate(0, 0, 8).Truncate(time.Millisecond)
+
 	vaultRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"display_name":   Representation{repType: Required, create: `Vault 1`, update: `displayName2`},
-		"vault_type":     Representation{repType: Required, create: `VIRTUAL_PRIVATE`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":   Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":     Representation{repType: Required, create: `Vault 1`, update: `displayName2`},
+		"vault_type":       Representation{repType: Required, create: `VIRTUAL_PRIVATE`},
+		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"time_of_deletion": Representation{repType: Optional, create: deletionTime.Format(time.RFC3339Nano)},
 	}
 
 	VaultResourceDependencies = DefinedTagsDependencies
@@ -248,6 +252,9 @@ func testAccCheckKMSVaultDestroy(s *terraform.State) error {
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.
 					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.LifecycleState)
+				}
+				if !response.TimeOfDeletion.Equal(kmsVaultDeletionTime) && !httpreplay.ModeRecordReplay() {
+					return fmt.Errorf("resource time_of_deletion: %s is not set to %s", response.TimeOfDeletion.Format(time.RFC3339Nano), kmsVaultDeletionTime.Format(time.RFC3339Nano))
 				}
 				//resource lifecycle state is in expected deleted lifecycle states. continue with next one.
 				continue

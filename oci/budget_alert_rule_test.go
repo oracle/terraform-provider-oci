@@ -47,7 +47,7 @@ var (
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"message":        Representation{repType: Optional, create: `message`, update: `message2`},
 	}
 

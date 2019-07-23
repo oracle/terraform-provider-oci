@@ -63,7 +63,6 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -276,6 +275,15 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Get() error {
 }
 
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_database.UpdateAutonomousContainerDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -409,4 +417,22 @@ func AutonomousContainerDatabaseBackupConfigToMap(obj *oci_database.AutonomousCo
 	}
 
 	return result
+}
+
+func (s *DatabaseAutonomousContainerDatabaseResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_database.ChangeAutonomousContainerDatabaseCompartmentRequest{}
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.AutonomousContainerDatabaseId = &idTmp
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.ChangeAutonomousContainerDatabaseCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

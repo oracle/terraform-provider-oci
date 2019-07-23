@@ -26,8 +26,10 @@ type HttpProbe struct {
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// A list of targets (hostnames or IP addresses) of the probe.
 	Targets []string `mandatory:"false" json:"targets"`
 
+	// A list of names of vantage points from which to execute the probe.
 	VantagePointNames []string `mandatory:"false" json:"vantagePointNames"`
 
 	// The port on which to probe endpoints. If unspecified, probes will use the

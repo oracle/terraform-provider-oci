@@ -205,6 +205,7 @@ func (s *DatabaseAutonomousDataWarehouseResourceCrud) UpdatedPending() []string 
 		string(oci_database.AutonomousDataWarehouseLifecycleStateProvisioning),
 		string(oci_database.AutonomousDataWarehouseLifecycleStateUnavailable),
 		string(oci_database.AutonomousDataWarehouseLifecycleStateScaleInProgress),
+		string(oci_database.AutonomousDataWarehouseLifecycleStateUpdating),
 	}
 }
 

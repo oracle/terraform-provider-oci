@@ -52,8 +52,8 @@ The following attributes are exported:
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
-* `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Autonomous Database CPU core count. 
-* `is_dedicated` - True if it is dedicated database. 
+* `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Autonomous Database CPU core count. Note that auto scaling is available for [serverless deployments](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI) only. 
+* `is_dedicated` - True if the database uses the [dedicated deployment](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm) option. 
 * `is_preview` - Indicates if the Autonomous Database version is a preview version.
 * `license_model` - The Oracle license model that applies to the Oracle Autonomous Database. The default is BRING_YOUR_OWN_LICENSE. 
 * `lifecycle_details` - Information about the current lifecycle state.
@@ -61,5 +61,5 @@ The following attributes are exported:
 * `state` - The current state of the database.
 * `time_created` - The date and time the database was created.
 * `used_data_storage_size_in_tbs` - The amount of storage that has been used, in terabytes.
-* `whitelisted_ips` - The client IP access control list (ACL). Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance. This is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet.
+* `whitelisted_ips` - The client IP access control list (ACL). This feature is available for [serverless deployments](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI) only.  Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance. This is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet. 
 

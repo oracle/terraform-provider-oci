@@ -33,7 +33,7 @@ data "oci_database_db_systems" "test_db_systems" {
 The following arguments are supported:
 
 * `availability_domain` - (Optional) A filter to return only resources that match the given availability domain exactly.
-* `backup_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup. Specify a backupId to list only the DB systems that support creating a database using this backup in this compartment.
+* `backup_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup. Specify a backupId to list only the DB systems or DB homes that support creating a database using this backup in this compartment.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
@@ -50,7 +50,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `availability_domain` - The name of the availability domain that the DB system is located in.
-* `backup_network_nsg_ids` - The list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the backup network of this DB system. Applicable only to Exadata DB systems. A maximum of 5 allowed. 
+* `backup_network_nsg_ids` - A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata DB systems. 
 * `backup_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup network subnet the DB system is associated with. Applicable only to Exadata DB systems.
 
 	**Subnet Restriction:** See the subnet restrictions information for **subnetId**. 
@@ -73,7 +73,7 @@ The following attributes are exported:
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `listener_port` - The port number configured for the listener on the DB system.
 * `node_count` - The number of nodes in the DB system. For RAC DB systems, the value is greater than 1. 
-* `nsg_ids` - The list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this DB system. A maximum of 5 allowed. 
+* `nsg_ids` - A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
 * `reco_storage_size_in_gb` - The RECO/REDO storage size, in gigabytes, that is currently allocated to the DB system. Applies only for virtual machine DB systems. 
 * `scan_dns_record_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DNS record for the SCAN IP addresses that are associated with the DB system. 
 * `scan_ip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IP addresses associated with the DB system. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster.

@@ -101,6 +101,24 @@ resource "oci_autoscaling_auto_scaling_configuration" "TFAutoScalingConfiguratio
         }
       }
     }
+
+    rules {
+      action {
+        type  = "CHANGE_COUNT_BY"
+        value = "-1"
+      }
+
+      display_name = "TFScaleInRule"
+
+      metric {
+        metric_type = "CPU_UTILIZATION"
+
+        threshold {
+          operator = "LT"
+          value    = "1"
+        }
+      }
+    }
   }
 
   auto_scaling_resources {
