@@ -104,6 +104,10 @@ func (s *BudgetBudgetDataSourceCrud) SetData() error {
 		s.D.Set("target_compartment_id", *s.Res.TargetCompartmentId)
 	}
 
+	s.D.Set("target_type", s.Res.TargetType)
+
+	s.D.Set("targets", s.Res.Targets)
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}

@@ -4,9 +4,11 @@ package provider
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
@@ -50,6 +52,11 @@ func KmsVaultResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"time_of_deletion": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"crypto_endpoint": {
@@ -65,10 +72,6 @@ func KmsVaultResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_of_deletion": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -250,6 +253,14 @@ func (s *KmsVaultResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.VaultId = &tmp
+
+	if timeOfDeletion, ok := s.D.GetOkExists("time_of_deletion"); ok {
+		tmpTime, err := time.Parse(time.RFC3339Nano, timeOfDeletion.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeOfDeletion = &oci_common.SDKTime{Time: tmpTime}
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
 

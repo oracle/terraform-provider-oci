@@ -42,7 +42,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			// @CODEGEN cpu_core_count was made optional because the service ignores it when one provides a VM shape. This causes diffs after an apply
 			"cpu_core_count": {
@@ -733,6 +732,15 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 }
 
 func (s *DatabaseDbSystemResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_database.UpdateDbSystemRequest{}
 
 	request.BackupNetworkNsgIds = []string{}
@@ -1784,4 +1792,22 @@ func waitForDatabaseUpdateRetryPolicy(timeout time.Duration) *oci_common.RetryPo
 		},
 		MaximumNumberAttempts: 0,
 	}
+}
+
+func (s *DatabaseDbSystemResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_database.ChangeDbSystemCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.DbSystemId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.ChangeDbSystemCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

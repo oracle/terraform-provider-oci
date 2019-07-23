@@ -39,7 +39,7 @@ resource "oci_health_checks_ping_monitor" "test_ping_monitor" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Required) (Updatable) A user-friendly and mutable name suitable for display in a user interface.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
@@ -47,9 +47,9 @@ The following arguments are supported:
 * `is_enabled` - (Optional) (Updatable) Enables or disables the monitor. Set to 'true' to launch monitoring. 
 * `port` - (Optional) (Updatable) The port on which to probe endpoints. If unspecified, probes will use the default port of their protocol. 
 * `protocol` - (Required) (Updatable) The protocols for ping probes.
-* `targets` - (Required) (Updatable) An array of A target hostname or IP address of the probe.
+* `targets` - (Required) (Updatable) A list of targets (hostnames or IP addresses) of the probe.
 * `timeout_in_seconds` - (Optional) (Updatable) The probe timeout in seconds. Valid values: 10, 20, 30, and 60. The probe timeout must be less than or equal to `intervalInSeconds` for monitors. 
-* `vantage_point_names` - (Optional) (Updatable) An array of The name of a vantage point from which to execute the probe.
+* `vantage_point_names` - (Optional) (Updatable) A list of names of vantage points from which to execute the probe.
 
 
 ** IMPORTANT **
@@ -69,9 +69,9 @@ The following attributes are exported:
 * `port` - The port on which to probe endpoints. If unspecified, probes will use the default port of their protocol. 
 * `protocol` - The protocols for ping probes.
 * `results_url` - A URL for fetching the probe results.
-* `targets` - An array of A target hostname or IP address of the probe.
+* `targets` - A list of targets (hostnames or IP addresses) of the probe.
 * `timeout_in_seconds` - The probe timeout in seconds. Valid values: 10, 20, 30, and 60. The probe timeout must be less than or equal to `intervalInSeconds` for monitors. 
-* `vantage_point_names` - An array of The name of a vantage point from which to execute the probe.
+* `vantage_point_names` - A list of names of vantage points from which to execute the probe.
 
 ## Import
 

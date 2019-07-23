@@ -35,6 +35,12 @@ type ListBudgetsRequest struct {
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// The type of target to filter by.
+	//   * ALL - List all budgets
+	//   * COMPARTMENT - List all budgets with targetType == "COMPARTMENT"
+	//   * TAG - List all budgets with targetType == "TAG"
+	TargetType ListBudgetsTargetTypeEnum `mandatory:"false" contributesTo:"query" name:"targetType" omitEmpty:"true"`
+
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -104,6 +110,31 @@ var mappingListBudgetsSortOrder = map[string]ListBudgetsSortOrderEnum{
 func GetListBudgetsSortOrderEnumValues() []ListBudgetsSortOrderEnum {
 	values := make([]ListBudgetsSortOrderEnum, 0)
 	for _, v := range mappingListBudgetsSortOrder {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListBudgetsTargetTypeEnum Enum with underlying type: string
+type ListBudgetsTargetTypeEnum string
+
+// Set of constants representing the allowable values for ListBudgetsTargetTypeEnum
+const (
+	ListBudgetsTargetTypeAll         ListBudgetsTargetTypeEnum = "ALL"
+	ListBudgetsTargetTypeCompartment ListBudgetsTargetTypeEnum = "COMPARTMENT"
+	ListBudgetsTargetTypeTag         ListBudgetsTargetTypeEnum = "TAG"
+)
+
+var mappingListBudgetsTargetType = map[string]ListBudgetsTargetTypeEnum{
+	"ALL":         ListBudgetsTargetTypeAll,
+	"COMPARTMENT": ListBudgetsTargetTypeCompartment,
+	"TAG":         ListBudgetsTargetTypeTag,
+}
+
+// GetListBudgetsTargetTypeEnumValues Enumerates the set of values for ListBudgetsTargetTypeEnum
+func GetListBudgetsTargetTypeEnumValues() []ListBudgetsTargetTypeEnum {
+	values := make([]ListBudgetsTargetTypeEnum, 0)
+	for _, v := range mappingListBudgetsTargetType {
 		values = append(values, v)
 	}
 	return values

@@ -78,6 +78,9 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_monitoring_alarm.test_alarm"
 	datasourceName := "data.oci_monitoring_alarms.test_alarms"
 	singularDatasourceName := "data.oci_monitoring_alarm.test_alarm"
@@ -147,6 +150,48 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AlarmResourceDependencies +
+					generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Optional, Create,
+						representationCopyWithNewProperties(alarmRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "body", "CPU utilization has reached high values."),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "destinations.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "High CPU Utilization"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+					resource.TestCheckResourceAttrSet(resourceName, "metric_compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "metric_compartment_id_in_subtree", "false"),
+					resource.TestCheckResourceAttr(resourceName, "namespace", "oci_computeagent"),
+					resource.TestCheckResourceAttr(resourceName, "pending_duration", "PT5M"),
+					resource.TestCheckResourceAttr(resourceName, "query", "CpuUtilization[10m].percentile(0.9) < 85"),
+					resource.TestCheckResourceAttr(resourceName, "repeat_notification_duration", "PT2H"),
+					resource.TestCheckResourceAttr(resourceName, "resolution", "1m"),
+					resource.TestCheckResourceAttr(resourceName, "severity", "WARNING"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "suppression.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "suppression.0.description", "System Maintenance"),
+					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_from", "2126-02-01T18:00:00.001Z"),
+					resource.TestCheckResourceAttr(resourceName, "suppression.0.time_suppress_until", "2126-02-01T19:00:00.001Z"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
 						return err
 					},
 				),

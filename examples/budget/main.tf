@@ -22,10 +22,14 @@ provider "oci" {
 
 resource "oci_budget_budget" "test_budget" {
   #Required
-  amount                = "1"
-  compartment_id        = "${var.tenancy_ocid}"
-  reset_period          = "MONTHLY"
-  target_compartment_id = "${var.compartment_ocid}"
+  amount         = "1"
+  compartment_id = "${var.tenancy_ocid}"
+  reset_period   = "MONTHLY"
+  target_type    = "COMPARTMENT"
+
+  targets = [
+    "${var.compartment_ocid}",
+  ]
 
   #Optional
   description  = "budget1 description"
@@ -38,17 +42,17 @@ data "oci_budget_budget" "budget1" {
 
 output "budget" {
   value = {
-    amount                = "${data.oci_budget_budget.budget1.amount}"
-    compartment_id        = "${data.oci_budget_budget.budget1.compartment_id}"
-    reset_period          = "${data.oci_budget_budget.budget1.reset_period}"
-    target_compartment_id = "${data.oci_budget_budget.budget1.target_compartment_id}"
-    description           = "${data.oci_budget_budget.budget1.description}"
-    display_name          = "${data.oci_budget_budget.budget1.display_name}"
-    alert_rule_count      = "${data.oci_budget_budget.budget1.alert_rule_count}"
-    state                 = "${data.oci_budget_budget.budget1.state}"
-    time_created          = "${data.oci_budget_budget.budget1.time_created}"
-    time_updated          = "${data.oci_budget_budget.budget1.time_updated}"
-    version               = "${data.oci_budget_budget.budget1.version}"
+    amount           = "${data.oci_budget_budget.budget1.amount}"
+    compartment_id   = "${data.oci_budget_budget.budget1.compartment_id}"
+    reset_period     = "${data.oci_budget_budget.budget1.reset_period}"
+    targets          = "${data.oci_budget_budget.budget1.targets.0}"
+    description      = "${data.oci_budget_budget.budget1.description}"
+    display_name     = "${data.oci_budget_budget.budget1.display_name}"
+    alert_rule_count = "${data.oci_budget_budget.budget1.alert_rule_count}"
+    state            = "${data.oci_budget_budget.budget1.state}"
+    time_created     = "${data.oci_budget_budget.budget1.time_created}"
+    time_updated     = "${data.oci_budget_budget.budget1.time_updated}"
+    version          = "${data.oci_budget_budget.budget1.version}"
 
     # These values are not always present
     //    actual_spend        = "${data.oci_budget_budget.budget1.actual_spend}"

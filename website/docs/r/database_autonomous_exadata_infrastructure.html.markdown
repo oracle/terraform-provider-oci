@@ -52,7 +52,7 @@ resource "oci_database_autonomous_exadata_infrastructure" "test_autonomous_exada
 The following arguments are supported:
 
 * `availability_domain` - (Required) The availability domain where the Autonomous Exadata Infrastructure is located.
-* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment the Autonomous Exadata Infrastructure belongs in.
+* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment the Autonomous Exadata Infrastructure belongs in.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) The user-friendly name for the Autonomous Exadata Infrastructure. It does not have to be unique.
 * `domain` - (Optional) A domain name used for the Autonomous Exadata Infrastructure. If the Oracle-provided Internet and VCN Resolver is enabled for the specified subnet, the domain name for the subnet is used (don't provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted. 
@@ -61,7 +61,8 @@ The following arguments are supported:
 * `maintenance_window_details` - (Optional) (Updatable) 
 	* `days_of_week` - (Optional) (Updatable) Days during the week when maintenance should be performed.
 		* `name` - (Required) (Updatable) Name of the day of the week.
-	* `hours_of_day` - (Optional) (Updatable) The window of hours during the day when maintenance should be performed.
+	* `hours_of_day` - (Optional) (Updatable) The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
+		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
 	* `months` - (Optional) (Updatable) Months during the year when maintenance should be performed.
 		* `name` - (Required) (Updatable) Name of the month of the year.
 	* `preference` - (Required) (Updatable) The maintenance window scheduling preference.
@@ -96,7 +97,8 @@ The following attributes are exported:
 * `maintenance_window` - 
 	* `days_of_week` - Days during the week when maintenance should be performed.
 		* `name` - Name of the day of the week.
-	* `hours_of_day` - The window of hours during the day when maintenance should be performed.
+	* `hours_of_day` - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
+		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
 	* `months` - Months during the year when maintenance should be performed.
 		* `name` - Name of the month of the year.
 	* `preference` - The maintenance window scheduling preference.

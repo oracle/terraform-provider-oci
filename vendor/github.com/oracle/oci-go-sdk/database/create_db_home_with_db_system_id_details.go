@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateDbHomeWithDbSystemIdDetails The representation of CreateDbHomeWithDbSystemIdDetails
+// CreateDbHomeWithDbSystemIdDetails Note that a valid `dbSystemId` value must be supplied for the `CreateDbHomeWithDbSystemId` API operation to successfully complete.
 type CreateDbHomeWithDbSystemIdDetails struct {
 
 	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.

@@ -23,6 +23,10 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseDBSystemAllVM")
 	defer httpreplay.SaveScenario()
 
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	var resId, resId2 string
 	provider := testAccProvider
 
@@ -290,6 +294,116 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr("data.oci_database_db_node.t", "software_storage_size_in_gb", "200"),
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+						return err
+					},
+				),
+			},
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: ResourceDatabaseBaseConfig + compartmentIdUVariableStr + ResourceDatabaseTokenFn(`
+				resource "oci_database_db_system" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id_for_update}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					//backup_subnet_id = "${oci_core_subnet.t2.id}" // this requires a specific shape
+					database_edition = "ENTERPRISE_EDITION"
+					disk_redundancy = "NORMAL"
+					shape = "VM.Standard2.1"
+					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+					display_name = "{{.token}}"
+					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
+					hostname = "myOracleDB" // this will be lowercased server side
+					data_storage_size_in_gb = "256"
+					license_model = "LICENSE_INCLUDED"
+					node_count = "1"
+					fault_domains = ["FAULT-DOMAIN-1"]
+					db_home {
+						db_version = "12.1.0.2"
+						display_name = "-tf-db-home"
+						database {
+							admin_password = "BEstrO0ng_#11"
+							db_name = "aTFdb"
+							character_set = "AL32UTF8"
+							defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+							freeform_tags = {"Department" = "Finance"}
+							ncharacter_set = "AL16UTF16"
+							db_workload = "OLTP"
+							pdb_name = "pdbName"
+							db_backup_config {
+								auto_backup_enabled = true
+								recovery_window_in_days = 10
+							}
+						}
+					}
+					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+					freeform_tags = {"Department" = "Finance"}
+					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
+				}`, nil),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					// DB System Resource tests
+					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
+					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "compartment_id", compartmentIdU),
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+						if resId != resId2 {
+							return fmt.Errorf("expected same ocids, got different")
+						}
+						return err
+					},
+				),
+			},
+			// switch compartment back to use data sources in the next step
+			{
+				Config: ResourceDatabaseBaseConfig + ResourceDatabaseTokenFn(`
+				resource "oci_database_db_system" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_id = "${oci_core_subnet.t.id}"
+					//backup_subnet_id = "${oci_core_subnet.t2.id}" // this requires a specific shape
+					database_edition = "ENTERPRISE_EDITION"
+					disk_redundancy = "NORMAL"
+					shape = "VM.Standard2.1"
+					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+					display_name = "{{.token}}"
+					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
+					hostname = "myOracleDB" // this will be lowercased server side
+					data_storage_size_in_gb = "256"
+					license_model = "LICENSE_INCLUDED"
+					node_count = "1"
+					fault_domains = ["FAULT-DOMAIN-1"]
+					db_home {
+						db_version = "12.1.0.2"
+						display_name = "-tf-db-home"
+						database {
+							admin_password = "BEstrO0ng_#11"
+							db_name = "aTFdb"
+							character_set = "AL32UTF8"
+							defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+							freeform_tags = {"Department" = "Finance"}
+							ncharacter_set = "AL16UTF16"
+							db_workload = "OLTP"
+							pdb_name = "pdbName"
+							db_backup_config {
+								auto_backup_enabled = true
+								recovery_window_in_days = 10
+							}
+						}
+					}
+					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+					freeform_tags = {"Department" = "Finance"}
+					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
+				}`, nil),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					// DB System Resource tests
+					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
+					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "compartment_id", compartmentId),
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, "oci_database_db_system.t", "id")
+						if resId != resId2 {
+							return fmt.Errorf("expected same ocids, got different")
+						}
 						return err
 					},
 				),

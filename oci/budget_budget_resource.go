@@ -35,11 +35,6 @@ func BudgetBudgetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"target_compartment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
 			"defined_tags": {
@@ -64,6 +59,30 @@ func BudgetBudgetResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"target_compartment_id": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"target_type"},
+				Deprecated:    FieldDeprecatedForAnother("target_compartment_id", "target_type"),
+			},
+			"target_type": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"target_compartment_id"},
+			},
+			"targets": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 
 			// Computed
@@ -209,6 +228,22 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 		request.TargetCompartmentId = &tmp
 	}
 
+	if targetType, ok := s.D.GetOkExists("target_type"); ok {
+		request.TargetType = oci_budget.CreateBudgetDetailsTargetTypeEnum(targetType.(string))
+	}
+
+	request.Targets = []string{}
+	if targets, ok := s.D.GetOkExists("targets"); ok {
+		interfaces := targets.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.Targets = tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")
 
 	response, err := s.Client.CreateBudget(context.Background(), request)
@@ -339,6 +374,10 @@ func (s *BudgetBudgetResourceCrud) SetData() error {
 	if s.Res.TargetCompartmentId != nil {
 		s.D.Set("target_compartment_id", *s.Res.TargetCompartmentId)
 	}
+
+	s.D.Set("target_type", s.Res.TargetType)
+
+	s.D.Set("targets", s.Res.Targets)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
