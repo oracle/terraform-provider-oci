@@ -89,6 +89,34 @@ func (s *ResourceIdentityUserCapabilitiesManagementTestSuite) TestAccResourceIde
 					resource.TestCheckResourceAttr(s.ResourceName, "can_use_smtp_credentials", "true"),
 				),
 			},
+			// verify can_use_auth_tokens regression
+			{
+				Config: s.Config +
+					tokenFn(
+						`
+						resource "oci_identity_user" "user" {
+							name = "{{.token}}"
+							description = "{{.description}}"
+							compartment_id = "${var.tenancy_ocid}"
+						}
+						resource "oci_identity_user_capabilities_management" "t" {
+							user_id = "${oci_identity_user.user.id}"
+							can_use_api_keys = true
+							can_use_auth_tokens = false
+							can_use_console_password = false
+							can_use_customer_secret_keys = false
+							can_use_smtp_credentials = false
+						}`,
+						map[string]string{"description": "automated test user"}),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "user_id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "can_use_api_keys", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "can_use_auth_tokens", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "can_use_console_password", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "can_use_customer_secret_keys", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "can_use_smtp_credentials", "false"),
+				),
+			},
 		},
 	})
 }
