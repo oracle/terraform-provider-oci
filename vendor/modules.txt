@@ -202,7 +202,7 @@ github.com/mitchellh/mapstructure
 github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk v5.15.0+incompatible => ../../oracle/oci-go-sdk
+# github.com/oracle/oci-go-sdk v6.0.0+incompatible
 github.com/oracle/oci-go-sdk/audit
 github.com/oracle/oci-go-sdk/autoscaling
 github.com/oracle/oci-go-sdk/budget
