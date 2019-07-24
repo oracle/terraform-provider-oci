@@ -43,6 +43,34 @@ data "oci_waas_certificates" "test_certificates" {
   ids           = ["${oci_waas_certificate.test_certificate.id}"]
 }
 
+resource "oci_waas_custom_protection_rule" "test_custom_protection_rule" {
+  compartment_id = "${var.compartment_ocid}"
+  display_name   = "tf_example_protection_rule"
+  template       = "SecRule REQUEST_URI / \"phase:2,   t:none,   capture,   msg:'Custom (XSS) Attack. Matched Data: %%{TX.0}   found within %%{MATCHED_VAR_NAME}: %%{MATCHED_VAR}',   id:{{id_1}},   ctl:ruleEngine={{mode}},   tag:'Custom',   severity:'2'\""
+
+  #Optional
+  #To use defined_tags, set the values below to an existing tag namespace, refer to the identity example on how to create tag namespaces
+  #defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+  description = "Tf example custom protection rule"
+
+  freeform_tags = {
+    "Department" = "Finance"
+  }
+}
+
+resource "oci_waas_address_list" "test_address_list" {
+  #Required
+  addresses      = ["0.0.0.0/16", "192.168.0.0/20"]
+  compartment_id = "${var.compartment_ocid}"
+  display_name   = "tf-example-address-list"
+
+  #To use defined_tags, set the values below to an existing tag namespace, refer to the identity example on how to create tag namespaces
+  #defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
+  freeform_tags = {
+    "Department" = "Finance"
+  }
+}
+
 resource "oci_waas_waas_policy" "test_waas_policy" {
   #Required
   compartment_id = "${var.compartment_ocid}"
@@ -51,6 +79,34 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
   #Optional
   additional_domains = ["somethingnew1.oracle.com", "somethingnew2.oracle.com"]
   display_name       = "${var.waas_policy_display_name}"
+
+  origin_groups {
+    label = "originGroups1"
+
+    origin_group {
+      origin = "primary"
+      weight = "1"
+    }
+
+    origin_group {
+      origin = "secondary"
+      weight = "2"
+    }
+  }
+
+  origin_groups {
+    label = "originGroups2"
+
+    origin_group {
+      origin = "primary"
+      weight = "1"
+    }
+
+    origin_group {
+      origin = "secondary"
+      weight = "2"
+    }
+  }
 
   origins {
     #Required
@@ -104,9 +160,9 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
   }
 
   timeouts {
-    create = "60m"
-    delete = "60m"
-    update = "60m"
+    create = "120m"
+    delete = "120m"
+    update = "120m"
   }
 
   waf_config {
@@ -129,6 +185,9 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
       block_error_page_description = "blockErrorPageDescription"
       block_error_page_message     = "blockErrorPageMessage"
       block_response_code          = 403
+      bypass_challenges            = ["JS_CHALLENGE"]
+      redirect_response_code       = "FOUND"
+      redirect_url                 = "http://192.168.0.3"
     }
 
     address_rate_limiting {
@@ -139,6 +198,25 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
       allowed_rate_per_address      = 10
       block_response_code           = 403
       max_delayed_count_per_address = 10
+    }
+
+    caching_rules {
+      #Required
+      action = "CACHE"
+
+      criteria {
+        #Required
+        condition = "URL_IS"
+        value     = "/public"
+      }
+
+      name = "name"
+
+      #Optional
+      caching_duration          = "PT1S"
+      client_caching_duration   = "PT1S"
+      is_client_caching_enabled = false
+      key                       = "key"
     }
 
     captchas {
@@ -152,6 +230,12 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
       #Optional
       footer_text = "footer_text"
       header_text = "header_text"
+    }
+
+    custom_protection_rules {
+      #Optional
+      action = "DETECT"
+      id     = "${oci_waas_custom_protection_rule.test_custom_protection_rule.id}"
     }
 
     device_fingerprint_challenge {
@@ -238,7 +322,8 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
       failure_threshold = 10
     }
 
-    origin = "primary"
+    origin        = "primary"
+    origin_groups = ["originGroups1"]
 
     protection_settings {
       #Optional
@@ -272,6 +357,30 @@ data "oci_waas_waas_policies" "test_waas_policies" {
   #Optional
   display_names                         = ["${var.waas_policy_display_name}"]
   ids                                   = ["${oci_waas_waas_policy.test_waas_policy.id}"]
+  states                                = ["ACTIVE"]
+  time_created_greater_than_or_equal_to = "2018-01-01T00:00:00.000Z"
+  time_created_less_than                = "2038-01-01T00:00:00.000Z"
+}
+
+data "oci_waas_address_lists" "test_address_lists" {
+  #Required
+  compartment_id = "${var.compartment_ocid}"
+
+  #Optional
+  ids                                   = ["${oci_waas_address_list.test_address_list.id}`}"]
+  names                                 = ["tf-example-address-list"]
+  states                                = ["ACTIVE"]
+  time_created_greater_than_or_equal_to = "2018-01-01T00:00:00.000Z"
+  time_created_less_than                = "2038-01-01T00:00:00.000Z"
+}
+
+data "oci_waas_custom_protection_rules" "test_custom_protection_rules" {
+  #Required
+  compartment_id = "${var.compartment_ocid}"
+
+  #Optional
+  display_names                         = ["tf_example_protection_rule"]
+  ids                                   = ["${oci_waas_custom_protection_rule.test_custom_protection_rule.id}"]
   states                                = ["ACTIVE"]
   time_created_greater_than_or_equal_to = "2018-01-01T00:00:00.000Z"
   time_created_less_than                = "2038-01-01T00:00:00.000Z"

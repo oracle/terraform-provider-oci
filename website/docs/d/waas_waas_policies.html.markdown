@@ -57,6 +57,8 @@ The following attributes are exported:
 * `domain` - The web application domain that the WAAS policy protects.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WAAS policy.
+* `origin_groups` - The map of origin groups and their keys used to associate origins to the wafConfig.
+	* `origins` - The list of objects containing origin references and additional properties.
 * `origins` - A map of host servers (origins) and their keys for the web application. Origin keys are used to associate origins to specific protection rules. The key should be a user-friendly name for the host. **Examples:** `primary` or `secondary`.
 	* `custom_headers` - A list of HTTP headers to forward to your origin.
 		* `name` - The name of the header.
@@ -66,8 +68,27 @@ The following attributes are exported:
 	* `uri` - The URI of the origin. Does not support paths. Port numbers should be specified in the `httpPort` and `httpsPort` fields.
 * `policy_config` - 
 	* `certificate_id` - The OCID of the SSL certificate to use if HTTPS is supported.
+	* `cipher_group` - The cipher group
+		* **DEFAULT:** Cipher group supports TLS 1.0, TLS 1.1, TLS 1.2, TLS 1.3 protocols. It has the following ciphers enabled: `ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:!DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA`
+	* `client_address_header` - The HTTP header used to pass the client IP address from the CDN if `isBehindCdn` is enabled. This feature consumes the header and its value as the true client IP address. It does not create the header. Using trusted chains (for example `X-Client-Ip: 11.1.1.1, 13.3.3.3`), the last IP address in the list will be used as true client IP address. In case of multiple headers with the same name, the first one will be used. If the header is not present it will use the connecting IP address as the true client IP address. It's assumed that CDN sets the correct client IP address and prevents spoofing.
+		* **X_FORWARDED_FOR:** Corresponds to `X-Forwarded-For` header name.
+		* **X_CLIENT_IP:** Corresponds to `X-Client-Ip` header name.
+		* **X_REAL_IP:** Corresponds to `X-Real-Ip` header name.
+		* **CLIENT_IP:** Corresponds to `Client-Ip` header name.
+		* **TRUE_CLIENT_IP:** Corresponds to `True-Client-Ip` header name.
+	* `is_behind_cdn` - Enable or disable the use of CDN. It allows to specify true client IP address if clients do not connect directly to us.
+	* `is_cache_control_respected` - Enable or disable automatic content caching based on the response `cache-control` header. This feature enables the origin to act as a proxy cache. Caching policies are usually defined using `cache-control` header. For example `cache-control: max-age=120` means that the returned resource is valid for 120 seconds. Caching rules will overwrite this setting.
 	* `is_https_enabled` - Enable or disable HTTPS support. If true, a `certificateId` is required. If unspecified, defaults to `false`.
 	* `is_https_forced` - Force HTTP to HTTPS redirection. If unspecified, defaults to `false`.
+	* `is_origin_compression_enabled` - Enable or disable GZIP compression of origin responses. If enabled, the header `Accept-Encoding: gzip` is sent to origin, otherwise - empty `Accept-Encoding:` header is used.
+	* `is_response_buffering_enabled` - Enable or disable buffering of responses from the origin. Buffering improves overall stability in case of network issues, but slightly increases Time To First Byte.
+	* `tls_protocols` - A list of allowed TLS protocols. Only applicable when HTTPS support is enabled. It affects client's connection to the edge nodes. The most secure TLS version will be chosen.
+		* **TLS_V1:** corresponds to TLS 1.0 specification.
+		* **TLS_V1_1:** corresponds to TLS 1.1 specification.
+		* **TLS_V1_2:** corresponds to TLS 1.2 specification.
+		* **TLS_V1_3:** corresponds to TLS 1.3 specification.
+
+		Enabled TLS protocols must go in a row. For example if TLS_v1_1 and TLS_V1_3 are enabled, TLS_V1_2 must be enabled too.
 * `state` - The current lifecycle state of the WAAS policy.
 * `time_created` - The date and time the policy was created, expressed in RFC 3339 timestamp format.
 * `waf_config` - 
@@ -76,11 +97,20 @@ The following attributes are exported:
 			* **ALLOW:** Takes no action, just logs the request.
 			* **DETECT:** Takes no action, but creates an alert for the request.
 			* **BLOCK:** Blocks the request by returning specified response code or showing error page.
+			* **BYPASS:** Bypasses some or all challenges.
+			* **REDIRECT:** Redirects the request to the specified URL.
+
+			Regardless of action, no further rules are processed once the rule is matched.
 		* `block_action` - The method used to block requests if `action` is set to `BLOCK` and the access criteria are met. If unspecified, defaults to `SET_RESPONSE_CODE`.
 		* `block_error_page_code` - The error code to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE`, and the access criteria are met. If unspecified, defaults to 'Access rules'.
 		* `block_error_page_description` - The description text to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE`, and the access criteria are met. If unspecified, defaults to 'Access blocked by website owner. Please contact support.'
 		* `block_error_page_message` - The message to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE`, and the access criteria are met. If unspecified, defaults to 'Access to the website is blocked.'
 		* `block_response_code` - The response status code to return when `action` is set to `BLOCK`, `blockAction` is set to `SET_RESPONSE_CODE`, and the access criteria are met. If unspecified, defaults to `403`.
+		* `bypass_challenges` - The list of challenges to bypass when `action` is set to `BYPASS`. If unspecified or empty, all challenges are bypassed.
+			* **JS_CHALLENGE:** Bypasses JavaScript Challenge.
+			* **DEVICE_FINGERPRINT_CHALLENGE:** Bypasses Device Fingerprint Challenge.
+			* **HUMAN_INTERACTION_CHALLENGE:** Bypasses Human Interaction Challenge.
+			* **CAPTCHA:** Bypasses CAPTCHA Challenge.
 		* `criteria` - The list of access rule criteria.
 			* `condition` - The criteria the access rule uses to determine if action should be taken on a request.
 				* **URL_IS:** Matches if the concatenation of request URL path and query is identical to the contents of the `value` field.
@@ -92,17 +122,47 @@ The following attributes are exported:
 				* **IP_IS:** Matches if the request originates from an IP address in the `value` field.
 				* **IP_IS_NOT:** Matches if the request does not originate from an IP address in the `value` field.
 				* **HTTP_HEADER_CONTAINS:** The HTTP_HEADER_CONTAINS criteria is defined using a compound value separated by a colon: a header field name and a header field value. `host:test.example.com` is an example of a criteria value where `host` is the header field name and `test.example.com` is the header field value. A request matches when the header field name is a case insensitive match and the header field value is a case insensitive, substring match. *Example:* With a criteria value of `host:test.example.com`, where `host` is the name of the field and `test.example.com` is the value of the host field, a request with the header values, `Host: www.test.example.com` will match, where as a request with header values of `host: www.example.com` or `host: test.sub.example.com` will not match.
+				* **IP_IN_LIST:** Matches if the request originates from one of IP addresses contained in the referenced address list. The `value` in this case is OCID of the address list.
+				* **IP_NOT_IN_LIST:** Matches if the request does not originate from any IP address contained in the referenced address list. The `value` field in this case is OCID of the address list.
+				* **HTTP_METHOD_IS:** Matches if the request method corresponds to the `value` field. The list of available methods: `GET`, `HEAD`, `POST`, `PUT`, `DELETE`, `CONNECT`, `OPTIONS`, `TRACE`, `PATCH`
+				* **HTTP_METHOD_IS_NOT:** Matches if the request method does not correspond to the `value` field. The list of available methods: `GET`, `HEAD`, `POST`, `PUT`, `DELETE`, `CONNECT`, `OPTIONS`, `TRACE`, `PATCH`
 				* **COUNTRY_IS:** Matches if the request originates from a country in the `value` field. Country codes are in ISO 3166-1 alpha-2 format. For a list of codes, see [ISO's website](https://www.iso.org/obp/ui/#search/code/).
 				* **COUNTRY_IS_NOT:** Matches if the request does not originate from a country in the `value` field. Country codes are in ISO 3166-1 alpha-2 format. For a list of codes, see [ISO's website](https://www.iso.org/obp/ui/#search/code/).
 				* **USER_AGENT_IS:** Matches if the requesting user agent is identical to the contents of the `value` field. Example: `Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0`
 				* **USER_AGENT_IS_NOT:** Matches if the requesting user agent is not identical to the contents of the `value` field. Example: `Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0`
 			* `value` - The criteria value.
 		* `name` - The unique name of the access rule.
+		* `redirect_response_code` - The response status code to return when `action` is set to `REDIRECT`.
+			* **MOVED_PERMANENTLY:** Used for designating the permanent movement of a page (numerical code - 301).
+			* **FOUND:** Used for designating the temporary movement of a page (numerical code - 302).
+		* `redirect_url` - The target to which the request should be redirected, represented as a URI reference.
 	* `address_rate_limiting` - The IP address rate limiting settings used to limit the number of requests from an address.
 		* `allowed_rate_per_address` - The number of allowed requests per second from one IP address. If unspecified, defaults to `1`.
 		* `block_response_code` - The response status code returned when a request is blocked. If unspecified, defaults to `503`.
 		* `is_enabled` - Enables or disables the address rate limiting Web Application Firewall feature.
 		* `max_delayed_count_per_address` - The maximum number of requests allowed to be queued before subsequent requests are dropped. If unspecified, defaults to `10`.
+	* `caching_rules` - A list of caching rules applied to the web application.
+		* `action` - The action to take on matched caching rules.
+			* **CACHE:** Allow to set caching rule, which would be cached.
+			* **BYPASS_CACHE:** Allow to set caching rule, which would never be cached. e.g. all requests would be passed directly to origin for those file types.
+		* `caching_duration` - The caching duration (applies only to `CACHE` action) specified in ISO 8601 extended format. Supported units: seconds, minutes, hours, days, weeks, months. Max value - 99. Mixing of multiple units is not supported.
+		* `client_caching_duration` - The client caching duration (applies only to `CACHE` action) specified in ISO 8601 extended format, in case client caching enabled. It sets Cache-Control header max-age time, i.e. the local browser cache expire time. Supported units: seconds, minutes, hours, days, weeks, months. Max value - 99. Mixing of multiple units is not supported.
+		* `criteria` - The array of the rule criteria with condition and value.
+			* `condition` - The condition of the caching rule criteria.
+				* **URL_IS:** Matches if the concatenation of request URL path and query is identical to the contents of the `value` field.
+				* **URL_STARTS_WITH:** Matches if the concatenation of request URL path and query starts with the contents of the `value` field.
+				* **URL_PART_ENDS_WITH:** Matches if the concatenation of request URL path and query ends with the contents of the `value` field.
+				* **URL_PART_CONTAINS:** Matches if the concatenation of request URL path and query contains the contents of the `value` field.
+
+				URL must start with /
+
+				URL can't contain restricted double slashes //
+
+				URL can't contain restricted ' & ? symbols
+			* `value` - The value of the caching rule criteria.
+		* `is_client_caching_enabled` - Enables or disables the client caching. Browsers use the Cache-Control header value for caching content locally, in the browser. This setting will control the addition of a Cache-Control header to responses. It overrides existing Cache-Control headers.
+		* `key` - The unique key for the caching rule.
+		* `name` - The name of the caching rule.
 	* `captchas` - A list of CAPTCHA challenge settings. These are used to challenge requests with a CAPTCHA to block bots.
 		* `failure_message` - The text to show when incorrect CAPTCHA text is entered. If unspecified, defaults to `The CAPTCHA was incorrect. Try again.`
 		* `footer_text` - The text to show in the footer when showing a CAPTCHA challenge. If unspecified, defaults to 'Enter the letters and numbers as they are shown in the image above.'
@@ -111,6 +171,9 @@ The following attributes are exported:
 		* `submit_label` - The text to show on the label of the CAPTCHA challenge submit button. If unspecified, defaults to `Yes, I am human`.
 		* `title` - The title used when displaying a CAPTCHA challenge. If unspecified, defaults to `Are you human?`
 		* `url` - The unique URL path at which to show the CAPTCHA challenge.
+	* `custom_protection_rules` - A list of the custom protection rule OCIDs and their actions.
+		* `action` - The action to take when the Custom Protection rule is triggered.
+		* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Custom Protection rule.
 	* `device_fingerprint_challenge` - The device fingerprint challenge settings. Used to detect unique devices based on the device fingerprint information collected in order to block bots.
 		* `action` - The action to take on requests from detected bots. If unspecified, defaults to `DETECT`.
 		* `action_expiration_in_seconds` - The number of seconds between challenges for the same IP address. If unspecified, defaults to `60`.
@@ -169,6 +232,7 @@ The following attributes are exported:
 			* `name` - The name of the header.
 			* `value` - The value of the header.
 	* `origin` - The key in the map of origins referencing the origin used for the Web Application Firewall. The origin must already be included in `Origins`. Required when creating the `WafConfig` resource, but not on update.
+	* `origin_groups` - The list of origin group references that provide support for additional origin servers. A list of combined unique origin servers from `origin` and `originGroups` will be used.
 	* `protection_settings` - The settings to apply to protection rules.
 		* `allowed_http_methods` - The list of allowed HTTP methods. If unspecified, default to `[OPTIONS, GET, HEAD, POST]`. This setting only applies if a corresponding protection rule is enabled, such as the "Restrict HTTP Request Methods" rule (key: 911100).
 		* `block_action` - If `action` is set to `BLOCK`, this specifies how the traffic is blocked when detected as malicious by a protection rule. If unspecified, defaults to `SET_RESPONSE_CODE`.

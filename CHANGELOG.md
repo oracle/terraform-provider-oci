@@ -5,6 +5,7 @@
 - Support for Stream Archiving
 - Support for moving `oci_core_dhcp_options`,`oci_core_internet_gateway`,`oci_core_local_peering_gateway`,`oci_core_network_security_group`, `oci_core_public_ip` resources across compartments
 - Support for evaluating quotas and limits
+- Support for Web Application Firewall 1.1 features
 
 ## 3.38.0 (August 14, 2019)
 
