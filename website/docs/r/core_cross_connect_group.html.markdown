@@ -35,7 +35,9 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group" {
 
 	#Optional
 	customer_reference_name = "${var.cross_connect_group_customer_reference_name}"
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.cross_connect_group_display_name}"
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 
@@ -45,7 +47,9 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the cross-connect group.
 * `customer_reference_name` - (Optional) (Updatable) A reference name or identifier for the physical fiber connection that this cross-connect group uses. 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 
 
 ** IMPORTANT **
@@ -57,7 +61,9 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the cross-connect group.
 * `customer_reference_name` - A reference name or identifier for the physical fiber connection that this cross-connect group uses. 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The display name of a user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The cross-connect group's Oracle ID (OCID).
 * `state` - The cross-connect group's current state.
 * `time_created` - The date and time the cross-connect group was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 

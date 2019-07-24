@@ -33,10 +33,12 @@ var (
 	remotePeeringConnectionRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"drg_id":         Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	RemotePeeringConnectionResourceDependencies = DrgRequiredOnlyResource
+	RemotePeeringConnectionResourceDependencies = DefinedTagsDependencies + DrgRequiredOnlyResource
 )
 
 func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
@@ -89,8 +91,10 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Optional, Create, remotePeeringConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
 					resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
@@ -137,8 +141,10 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_remote_peering_connection", "test_remote_peering_connection", Optional, Update, remotePeeringConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "is_cross_tenancy_peering"),
 					resource.TestCheckResourceAttrSet(resourceName, "peering_status"),
@@ -166,8 +172,10 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "remote_peering_connections.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "remote_peering_connections.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "remote_peering_connections.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "remote_peering_connections.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "remote_peering_connections.0.drg_id"),
+					resource.TestCheckResourceAttr(datasourceName, "remote_peering_connections.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "remote_peering_connections.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "remote_peering_connections.0.is_cross_tenancy_peering"),
 					resource.TestCheckResourceAttrSet(datasourceName, "remote_peering_connections.0.peering_status"),

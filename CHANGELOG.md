@@ -2,6 +2,7 @@
 ### Added
 - Support for moving `oci_core_cpe`, `oci_core_cross_connect_group`, `oci_core_cross_connect`, `oci_core_ipsec`, `CoreRemotePeeringConnectionResource` and `oci_core_virtual_circuit` resources across compartments
 - Support for moving `streaming_stream` resources across compartments
+- Support for `defined_tags` and `freeform_tags` attributes in `core_cross_connect_group`, `core_cross_connect`, `core_remote_peering_connection` and `core_virtual_circuit` resources
 
 ## 3.35.0 (July 24, 2019)
 
