@@ -57,7 +57,7 @@ The following attributes are exported:
 * `port` - The port on which to probe endpoints. If unspecified, probes will use the default port of their protocol. 
 * `protocol` - The supported protocols available for HTTP probes.
 * `results_url` - A URL for fetching the probe results.
-* `targets` - An array of A target hostname or IP address of the probe.
+* `targets` - A list of targets (hostnames or IP addresses) of the probe.
 * `timeout_in_seconds` - The probe timeout in seconds. Valid values: 10, 20, 30, and 60. The probe timeout must be less than or equal to `intervalInSeconds` for monitors. 
-* `vantage_point_names` - An array of The name of a vantage point from which to execute the probe.
+* `vantage_point_names` - A list of names of vantage points from which to execute the probe.
 

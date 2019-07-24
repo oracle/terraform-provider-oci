@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateDatabaseDetails Details for creating a database backup.
+// CreateDatabaseDetails Details for creating a database.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateDatabaseDetails struct {
 

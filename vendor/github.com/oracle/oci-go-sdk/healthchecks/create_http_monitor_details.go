@@ -20,6 +20,7 @@ type CreateHttpMonitorDetails struct {
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// A list of targets (hostnames or IP addresses) of the probe.
 	Targets []string `mandatory:"true" json:"targets"`
 
 	Protocol HttpProbeProtocolEnum `mandatory:"true" json:"protocol"`
@@ -30,6 +31,7 @@ type CreateHttpMonitorDetails struct {
 	// The monitor interval in seconds. Valid values: 10, 30, and 60.
 	IntervalInSeconds *int `mandatory:"true" json:"intervalInSeconds"`
 
+	// A list of names of vantage points from which to execute the probe.
 	VantagePointNames []string `mandatory:"false" json:"vantagePointNames"`
 
 	// The port on which to probe endpoints. If unspecified, probes will use the

@@ -1,4 +1,19 @@
-## 3.34.1 (Unreleased)
+## 3.35.0 (Unreleased)
+
+### Added
+- Support for creating `instance_configuration` resource from the specified instance
+- Support for Budget Alerts for Cost Tracking Tags
+- Support for moving `oci_monitoring_alarm` across compartments
+- Support for moving `health_checks_http_monitor` and `health_checks_ping_monitor` resources across compartments
+- Support for moving `database_autonomous_database` and `database_db_system` resources across compartments
+- Support for moving `database_autonomous_container_database` and `database_autonomous_exadata_infrastructure` resources across compartments
+- Support for scheduling KMS vault deletion by specified time
+
+### Fixed
+- Fixed `oci_load_balancer_backend_set` by explicitly making `session_persistence_configuration` and `lb_cookie_session_persistence_configuration` mutually exclusive [Issue #825](https://github.com/terraform-providers/terraform-provider-oci/issues/825)
+- Fixed use case of `oci_load_balancer_backend_set` with `lb_cookie_session_persistence_configuration` update operation without setting optional parameters `max_age_in_seconds` and `domain`
+- Fixed `oci_identity_user_capabilities_management` to correctly set `can_use_auth_tokens` field
+
 ## 3.34.0 (July 17, 2019)
 
 ### Added

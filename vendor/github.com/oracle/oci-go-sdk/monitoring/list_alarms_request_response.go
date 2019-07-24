@@ -14,6 +14,7 @@ type ListAlarmsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the
 	// resources monitored by the metric that you are searching for. Use tenancyId to search in
 	// the root compartment.
+	// Example: `ocid1.compartment.oc1..exampleuniqueID`
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Customer part of the request identifier token. If you need to contact Oracle about a particular
@@ -25,7 +26,6 @@ type ListAlarmsRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
-	// 1 is the minimum, 1000 is the maximum.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Default: 1000
 	// Example: 500

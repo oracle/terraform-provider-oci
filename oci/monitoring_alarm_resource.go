@@ -341,6 +341,15 @@ func (s *MonitoringAlarmResourceCrud) Get() error {
 }
 
 func (s *MonitoringAlarmResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_monitoring.UpdateAlarmRequest{}
 
 	tmp := s.D.Id()
@@ -580,4 +589,22 @@ func SuppressionToMap(obj *oci_monitoring.Suppression) map[string]interface{} {
 	}
 
 	return result
+}
+
+func (s *MonitoringAlarmResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_monitoring.ChangeAlarmCompartmentRequest{}
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.AlarmId = &idTmp
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "monitoring")
+
+	_, err := s.Client.ChangeAlarmCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

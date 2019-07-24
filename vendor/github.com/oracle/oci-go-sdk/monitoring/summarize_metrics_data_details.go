@@ -4,6 +4,7 @@
 // Monitoring API
 //
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
+// Endpoints vary by operation. For PostMetric, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For information about monitoring, see Monitoring Overview (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm).
 //
 
@@ -25,6 +26,7 @@ type SummarizeMetricsDataDetails struct {
 	// aggregate. The query must specify a metric, statistic, and interval. Supported values for
 	// interval: `1m`-`60m` (also `1h`). You can optionally specify dimensions and grouping functions.
 	// Supported grouping functions: `grouping()`, `groupBy()`.
+	// Construct your query to avoid exceeding limits on returned data. See MetricData.
 	// For details about Monitoring Query Language (MQL), see
 	// Monitoring Query Language (MQL) Reference (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm).
 	// For available dimensions, review the metric definition for the supported service.

@@ -31,9 +31,30 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+
+			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"instance_details": {
 				Type:     schema.TypeList,
-				Required: true,
+				Optional: true,
+				Computed: true,
 				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
@@ -501,25 +522,22 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 					},
 				},
 			},
-
-			// Optional
-			"defined_tags": {
-				Type:             schema.TypeMap,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: definedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
-			},
-			"display_name": {
+			"instance_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
 			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Computed: true,
-				Elem:     schema.TypeString,
+			"source": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					"INSTANCE",
+					"NONE",
+				}, true),
 			},
 
 			// Computed
@@ -584,38 +602,9 @@ func (s *CoreInstanceConfigurationResourceCrud) ID() string {
 
 func (s *CoreInstanceConfigurationResourceCrud) Create() error {
 	request := oci_core.CreateInstanceConfigurationRequest{}
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CreateInstanceConfiguration.CompartmentId = &tmp
-	}
-
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
-		if err != nil {
-			return err
-		}
-		request.CreateInstanceConfiguration.DefinedTags = convertedDefinedTags
-	}
-
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
-		tmp := displayName.(string)
-		request.CreateInstanceConfiguration.DisplayName = &tmp
-	}
-
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.CreateInstanceConfiguration.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
-	}
-
-	if instanceDetails, ok := s.D.GetOkExists("instance_details"); ok {
-		if tmpList := instanceDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "instance_details", 0)
-			tmp, err := s.mapToInstanceConfigurationInstanceDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.CreateInstanceConfiguration.InstanceDetails = tmp
-		}
+	err := s.populateTopLevelPolymorphicCreateInstanceConfigurationRequest(&request)
+	if err != nil {
+		return err
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -1441,6 +1430,78 @@ func InstanceConfigurationVolumeSourceDetailsToMap(obj *oci_core.InstanceConfigu
 	}
 
 	return result
+}
+
+func (s *CoreInstanceConfigurationResourceCrud) populateTopLevelPolymorphicCreateInstanceConfigurationRequest(request *oci_core.CreateInstanceConfigurationRequest) error {
+	//discriminator
+	sourceRaw, ok := s.D.GetOkExists("source")
+	var source string
+	if ok {
+		source = sourceRaw.(string)
+	} else {
+		source = "NONE" // default value
+	}
+	switch strings.ToLower(source) {
+	case strings.ToLower("INSTANCE"):
+		details := oci_core.CreateInstanceConfigurationFromInstanceDetails{}
+		if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
+			tmp := instanceId.(string)
+			details.InstanceId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateInstanceConfiguration = details
+	case strings.ToLower("NONE"):
+		details := oci_core.CreateInstanceConfigurationDetails{}
+		if instanceDetails, ok := s.D.GetOkExists("instance_details"); ok {
+			if tmpList := instanceDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "instance_details", 0)
+				tmp, err := s.mapToInstanceConfigurationInstanceDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.InstanceDetails = tmp
+			}
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateInstanceConfiguration = details
+	default:
+		return fmt.Errorf("unknown source '%v' was specified", source)
+	}
+	return nil
 }
 
 func (s *CoreInstanceConfigurationResourceCrud) updateCompartment(compartment interface{}) error {
