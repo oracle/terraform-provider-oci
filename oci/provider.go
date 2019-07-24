@@ -820,7 +820,11 @@ func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 			}
 
 			if simulateDb {
-				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems") || strings.Contains(r.URL.Path, "/autonomousData") || strings.Contains(r.URL.Path, "/dataGuardAssociations") || strings.Contains(r.URL.Path, "/autonomousExadata")) {
+				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems") ||
+					strings.Contains(r.URL.Path, "/autonomousData") ||
+					strings.Contains(r.URL.Path, "/dataGuardAssociations") ||
+					strings.Contains(r.URL.Path, "/autonomousExadata") ||
+					strings.Contains(r.URL.Path, "/autonomousContainer")) {
 					r.Header.Set(requestHeaderOpcHostSerial, "FAKEHOSTSERIAL")
 				}
 			}
