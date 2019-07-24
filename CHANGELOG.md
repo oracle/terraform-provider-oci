@@ -1,4 +1,5 @@
-## 3.35.0 (Unreleased)
+## 3.35.1 (Unreleased)
+## 3.35.0 (July 24, 2019)
 
 ### Added
 - Support for creating `instance_configuration` resource from the specified instance
