@@ -4,6 +4,7 @@
 // Monitoring API
 //
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
+// Endpoints vary by operation. For PostMetric, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For information about monitoring, see Monitoring Overview (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm).
 //
 
@@ -26,21 +27,24 @@ type MetricDataDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The name of the metric.
-	// A valid name value starts with an alphabetical character and includes only alphanumeric characters, dots, underscores, hyphens, and dollar signs.
+	// A valid name value starts with an alphabetical character and includes only alphanumeric characters, dots, underscores, hyphens, and dollar signs. The `oci_` prefix is reserved.
 	// Avoid entering confidential information.
 	// Example: `my_app.success_rate`
 	Name *string `mandatory:"true" json:"name"`
 
+	// Qualifiers provided in a metric definition. Available dimensions vary by metric namespace.
+	// Each dimension takes the form of a key-value pair.
+	// A valid dimension key includes only printable ASCII, excluding periods (.) and spaces. The character limit for a dimension key is 256.
+	// A valid dimension value includes only Unicode characters. The character limit for a dimension value is 256.
+	// Empty strings are not allowed for keys or values. Avoid entering confidential information.
+	// Example: `"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"`
+	Dimensions map[string]string `mandatory:"true" json:"dimensions"`
+
 	// A list of metric values with timestamps. At least one data point is required per call.
 	Datapoints []Datapoint `mandatory:"true" json:"datapoints"`
 
-	// Qualifiers provided in a metric definition. Available dimensions vary by metric namespace.
-	// Each dimension takes the form of a key-value pair. A valid dimension key includes only printable ASCII, excluding periods (.) and spaces. A valid dimension value includes only Unicode characters.
-	// Empty strings are not allowed for keys or values. Avoid entering confidential information.
-	// Example: `"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"`
-	Dimensions map[string]string `mandatory:"false" json:"dimensions"`
-
 	// Properties describing metrics. These are not part of the unique fields identifying the metric.
+	// Each metadata item takes the form of a key-value pair. The character limit for a metadata key is 256. The character limit for a metadata value is 256.
 	// Example: `"unit": "bytes"`
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
 }

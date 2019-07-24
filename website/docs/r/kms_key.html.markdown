@@ -44,7 +44,7 @@ The following arguments are supported:
 	* `algorithm` - (Required) The algorithm used by a key's KeyVersions to encrypt or decrypt.
 	* `length` - (Required) The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported. 
 * `management_endpoint` - (Required) The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
-* `time_of_deletion` - (Required) (Updatable) An optional property for the deletion time of the key, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z`
+* `time_of_deletion` - (Optional) (Updatable) An optional property for the deletion time of the key, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z`
 
 
 ** IMPORTANT **

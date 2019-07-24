@@ -67,6 +67,9 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_database_autonomous_container_database.test_autonomous_container_database"
 	datasourceName := "data.oci_database_autonomous_container_databases.test_autonomous_container_databases"
 	singularDatasourceName := "data.oci_database_autonomous_container_database.test_autonomous_container_database"
@@ -119,6 +122,36 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousContainerDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create,
+						representationCopyWithNewProperties(autonomousContainerDatabaseRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
+					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
 						return err
 					},
 				),

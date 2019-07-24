@@ -14,6 +14,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
@@ -169,9 +170,10 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 							Computed: true,
 						},
 						"domain": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Type:         schema.TypeString,
+							Optional:     true,
+							Computed:     true,
+							ValidateFunc: validateNotEmptyString(),
 						},
 						"is_http_only": {
 							Type:     schema.TypeBool,
@@ -184,9 +186,10 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 							Computed: true,
 						},
 						"max_age_in_seconds": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
+							Type:         schema.TypeInt,
+							Optional:     true,
+							Computed:     true,
+							ValidateFunc: validation.IntAtLeast(1),
 						},
 						"path": {
 							Type:     schema.TypeString,
@@ -197,6 +200,8 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 						// Computed
 					},
 				},
+				// @CODEGEN: lb_cookie_session_persistence_configuration and session_persistence_configuration are mutually exclusive
+				ConflictsWith: []string{"session_persistence_configuration"},
 			},
 			"session_persistence_configuration": {
 				Type:     schema.TypeList,
@@ -222,6 +227,8 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 						// Computed
 					},
 				},
+				// @CODEGEN: lb_cookie_session_persistence_configuration and session_persistence_configuration are mutually exclusive
+				ConflictsWith: []string{"lb_cookie_session_persistence_configuration"},
 			},
 			"ssl_configuration": {
 				Type:     schema.TypeList,
@@ -521,17 +528,6 @@ func (s *LoadBalancerBackendSetResourceCrud) Update() error {
 		}
 	}
 
-	if lbCookieSessionPersistenceConfiguration, ok := s.D.GetOkExists("lb_cookie_session_persistence_configuration"); ok {
-		if tmpList := lbCookieSessionPersistenceConfiguration.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "lb_cookie_session_persistence_configuration", 0)
-			tmp, err := s.mapToLBCookieSessionPersistenceConfigurationDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.LbCookieSessionPersistenceConfiguration = &tmp
-		}
-	}
-
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
 		tmp := loadBalancerId.(string)
 		request.LoadBalancerId = &tmp
@@ -542,7 +538,33 @@ func (s *LoadBalancerBackendSetResourceCrud) Update() error {
 		request.Policy = &tmp
 	}
 
-	if sessionPersistenceConfiguration, ok := s.D.GetOkExists("session_persistence_configuration"); ok {
+	//@CODEGEN: Since lbCookieSessionPersistenceConfiguration and sessionPersistenceConfiguration are mutually exclusive,
+	// when migrating from one persistence configuration to another we want to pick only the change coming from the config
+	// For lists HasChange returns false if you remove the list block from config
+	lbCookieSessionPersistenceConfigurationChanged := false
+	lbCookieSessionPersistenceConfiguration, lbCookieSessionPersistenceConfigurationPresent := s.D.GetOkExists("lb_cookie_session_persistence_configuration")
+	if lbCookieSessionPersistenceConfigurationPresent && s.D.HasChange("lb_cookie_session_persistence_configuration") {
+		lbCookieSessionPersistenceConfigurationChanged = true
+	}
+
+	sessionPersistenceConfigurationChanged := false
+	sessionPersistenceConfiguration, sessionPersistenceConfigurationPresent := s.D.GetOkExists("session_persistence_configuration")
+	if sessionPersistenceConfigurationPresent && s.D.HasChange("session_persistence_configuration") {
+		sessionPersistenceConfigurationChanged = true
+	}
+
+	if !sessionPersistenceConfigurationChanged && lbCookieSessionPersistenceConfigurationPresent && lbCookieSessionPersistenceConfiguration != nil {
+		if tmpList := lbCookieSessionPersistenceConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "lb_cookie_session_persistence_configuration", 0)
+			tmp, err := s.mapToLBCookieSessionPersistenceConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LbCookieSessionPersistenceConfiguration = &tmp
+		}
+	}
+
+	if !lbCookieSessionPersistenceConfigurationChanged && sessionPersistenceConfigurationPresent && sessionPersistenceConfiguration != nil {
 		if tmpList := sessionPersistenceConfiguration.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "session_persistence_configuration", 0)
 			tmp, err := s.mapToSessionPersistenceConfigurationDetails(fieldKeyFormat)
@@ -867,7 +889,10 @@ func (s *LoadBalancerBackendSetResourceCrud) mapToLBCookieSessionPersistenceConf
 
 	if domain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "domain")); ok {
 		tmp := domain.(string)
-		result.Domain = &tmp
+		//@Codegen: When not specified, an unwanted empty string is set for this attribute in terraform state. This check removes this unwanted value before sending request
+		if tmp != "" {
+			result.Domain = &tmp
+		}
 	}
 
 	if isHttpOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_http_only")); ok {
@@ -882,7 +907,10 @@ func (s *LoadBalancerBackendSetResourceCrud) mapToLBCookieSessionPersistenceConf
 
 	if maxAgeInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_age_in_seconds")); ok {
 		tmp := maxAgeInSeconds.(int)
-		result.MaxAgeInSeconds = &tmp
+		//@Codegen: When not specified, an unwanted value of 0 is set for this attribute in terraform state. This check removes this unwanted value before sending request.
+		if tmp > 0 {
+			result.MaxAgeInSeconds = &tmp
+		}
 	}
 
 	if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {

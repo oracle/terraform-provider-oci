@@ -25,7 +25,6 @@ func HealthChecksPingMonitorResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -240,6 +239,15 @@ func (s *HealthChecksPingMonitorResourceCrud) Get() error {
 }
 
 func (s *HealthChecksPingMonitorResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_health_checks.UpdatePingMonitorRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -374,5 +382,23 @@ func (s *HealthChecksPingMonitorResourceCrud) SetData() error {
 
 	s.D.Set("vantage_point_names", s.Res.VantagePointNames)
 
+	return nil
+}
+
+func (s *HealthChecksPingMonitorResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_health_checks.ChangePingMonitorCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.MonitorId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
+
+	_, err := s.Client.ChangePingMonitorCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
 	return nil
 }

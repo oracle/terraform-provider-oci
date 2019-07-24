@@ -10,6 +10,9 @@ description: |-
 This data source provides details about a specific Alarm History Collection resource in Oracle Cloud Infrastructure Monitoring service.
 
 Get the history of the specified alarm.
+For important limits information, see [Limits on Monitoring](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
+
+Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
 
 
 ## Example Usage

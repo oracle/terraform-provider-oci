@@ -32,7 +32,6 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"shape": {
 				Type:     schema.TypeString,
@@ -113,7 +112,7 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
-							MaxItems: 23,
+							MaxItems: 20,
 							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
@@ -198,7 +197,7 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 						"hours_of_day": {
 							Type:     schema.TypeList,
 							Computed: true,
-							MaxItems: 23,
+							MaxItems: 20,
 							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
@@ -424,6 +423,15 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Get() error {
 }
 
 func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_database.UpdateAutonomousExadataInfrastructureRequest{}
 
 	tmp := s.D.Id()
@@ -673,4 +681,22 @@ func MonthToMap(obj oci_database.Month) map[string]interface{} {
 	result["name"] = string(obj.Name)
 
 	return result
+}
+
+func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_database.ChangeAutonomousExadataInfrastructureCompartmentRequest{}
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.AutonomousExadataInfrastructureId = &idTmp
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.ChangeAutonomousExadataInfrastructureCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

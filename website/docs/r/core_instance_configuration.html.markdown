@@ -18,6 +18,11 @@ Creates an instance configuration
 resource "oci_core_instance_configuration" "test_instance_configuration" {
 	#Required
 	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
+	display_name = "${var.instance_configuration_display_name}"
+	freeform_tags = {"Department"= "Finance"}
 	instance_details {
 		#Required
 		instance_type = "${var.instance_configuration_instance_details_instance_type}"
@@ -107,11 +112,8 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 			nic_index = "${var.instance_configuration_instance_details_secondary_vnics_nic_index}"
 		}
 	}
-
-	#Optional
-	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.instance_configuration_display_name}"
-	freeform_tags = {"Department"= "Finance"}
+	instance_id = "${oci_core_instance.test_instance.id}"
+	source = "${var.instance_configuration_source}"
 }
 ```
 
@@ -123,7 +125,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name for the instance configuration 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `instance_details` - (Required) 
+* `instance_details` - (Required when source=NONE) 
 	* `block_volumes` - (Optional) 
 		* `attach_details` - (Optional) 
 			* `display_name` - (Applicable when instance_type=compute) A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering confidential information. 
@@ -226,6 +228,8 @@ The following arguments are supported:
 			* `subnet_id` - (Optional) The OCID of the subnet to create the VNIC in. See the `subnetId` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 		* `display_name` - (Optional) A user-friendly name for the attachment. Does not have to be unique, and it cannot be changed. 
 		* `nic_index` - (Optional) Which physical network interface card (NIC) the VNIC will use. Defaults to 0. Certain bare metal instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of these instances, you can specify which NIC the VNIC will use. For more information, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
+* `instance_id` - (Required when source=INSTANCE) The ID of the instance that will be used to create instance configuration. 
+* `source` - (Optional) The source of the instance configuration: NONE for creating a new instance configuration from the API input. INSTANCE for creating a new instance configuration from an existing instance. The default is NONE. 
 
 
 ** IMPORTANT **

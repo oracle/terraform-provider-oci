@@ -18,10 +18,10 @@ import (
 
 var (
 	BudgetRequiredOnlyResource = BudgetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentation)
+		generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentationWithTargetCompartmentId)
 
 	BudgetResourceConfig = BudgetResourceDependencies +
-		generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentation)
+		generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentationWithTargetCompartmentId)
 
 	budgetSingularDataSourceRepresentation = map[string]interface{}{
 		"budget_id": Representation{repType: Required, create: `${oci_budget_budget.test_budget.id}`},
@@ -31,21 +31,49 @@ var (
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
+		"target_type":    Representation{repType: Optional, create: `COMPARTMENT`},
 		"filter":         RepresentationGroup{Required, budgetDataSourceFilterRepresentation}}
 	budgetDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_budget_budget.test_budget.id}`}},
 	}
 
-	budgetRepresentation = map[string]interface{}{
+	//Service required target_compartment_id or targets to be set. Both cannot be empty
+	budgetRepresentationWithTargetCompartmentId = map[string]interface{}{
 		"amount":                Representation{repType: Required, create: `100`, update: `200`},
 		"compartment_id":        Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"reset_period":          Representation{repType: Required, create: `MONTHLY`},
-		"target_compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"defined_tags":          Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":           Representation{repType: Optional, create: `description`, update: `description2`},
 		"display_name":          Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"freeform_tags":         Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"freeform_tags":         Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"target_compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+	}
+
+	//Budget with target_type = COMPARTMENT
+	budgetRepresentationWithTargetTypeAsCompartmentAndTargets = map[string]interface{}{
+		"amount":         Representation{repType: Required, create: `100`, update: `200`},
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"reset_period":   Representation{repType: Required, create: `MONTHLY`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"target_type":    Representation{repType: Required, create: `COMPARTMENT`},
+		"targets":        Representation{repType: Required, create: []string{`${var.compartment_id}`}},
+	}
+
+	//Budget with target_type = TAG
+	budgetRepresentationWithTargetTypeAsTagAndTargets = map[string]interface{}{
+		"amount":         Representation{repType: Required, create: `100`, update: `200`},
+		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
+		"reset_period":   Representation{repType: Required, create: `MONTHLY`},
+		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    Representation{repType: Optional, create: `description`, update: `description2`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"target_type":    Representation{repType: Required, create: `TAG`},
+		"targets":        Representation{repType: Required, create: []string{`${oci_identity_tag_namespace.tag-namespace1.name}.CostCenter.test`}},
 	}
 
 	BudgetResourceDependencies = DefinedTagsDependencies
@@ -75,15 +103,169 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 		},
 		CheckDestroy: testAccCheckBudgetBudgetDestroy,
 		Steps: []resource.TestStep{
-			// verify create
+			// verify create for TargetType = Compartment
 			{
 				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentation),
+					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentationWithTargetTypeAsCompartmentAndTargets),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + BudgetResourceDependencies,
+			},
+			// verify create with optionals for TargetType = Compartment
+			{
+				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Create, budgetRepresentationWithTargetTypeAsCompartmentAndTargets),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
+					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "description", "description"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "target_compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "target_type", "COMPARTMENT"),
+					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify updates to updatable parameters for TargetType = Compartment
+			{
+				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentationWithTargetTypeAsCompartmentAndTargets),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
+					resource.TestCheckResourceAttr(resourceName, "amount", "200"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "target_compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "target_type", "COMPARTMENT"),
+					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// verify create for TargetType = Tag
+			{
+				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentationWithTargetTypeAsTagAndTargets),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + BudgetResourceDependencies,
+			},
+			// verify create with optionals for TargetType = Tag
+			{
+				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Create, budgetRepresentationWithTargetTypeAsTagAndTargets),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
+					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "description", "description"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "target_type", "TAG"),
+					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify updates to updatable parameters for TargetType = Tag
+			{
+				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentationWithTargetTypeAsTagAndTargets),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
+					resource.TestCheckResourceAttr(resourceName, "amount", "200"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "target_type", "TAG"),
+					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+
+			// verify create
+			{
+				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
+					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentationWithTargetCompartmentId),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -99,7 +281,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Create, budgetRepresentation),
+					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Create, budgetRepresentationWithTargetCompartmentId),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(resourceName, "amount", "100"),
@@ -112,6 +294,8 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "target_compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "target_type", "COMPARTMENT"),
+					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -125,7 +309,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + BudgetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentation),
+					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentationWithTargetCompartmentId),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "alert_rule_count"),
 					resource.TestCheckResourceAttr(resourceName, "amount", "200"),
@@ -138,6 +322,8 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "reset_period", "MONTHLY"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "target_compartment_id"),
+					resource.TestCheckResourceAttr(resourceName, "target_type", "COMPARTMENT"),
+					resource.TestCheckResourceAttr(resourceName, "targets.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -155,11 +341,12 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_budget_budgets", "test_budgets", Optional, Update, budgetDataSourceRepresentation) +
 					compartmentIdVariableStr + BudgetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentation),
+					generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Optional, Update, budgetRepresentationWithTargetCompartmentId),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(datasourceName, "target_type", "COMPARTMENT"),
 
 					resource.TestCheckResourceAttr(datasourceName, "budgets.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.actual_spend"),
@@ -175,6 +362,8 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "budgets.0.reset_period", "MONTHLY"),
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.target_compartment_id"),
+					resource.TestCheckResourceAttr(datasourceName, "budgets.0.target_type", "COMPARTMENT"),
+					resource.TestCheckResourceAttr(datasourceName, "budgets.0.targets.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.time_updated"),
 					resource.TestCheckResourceAttrSet(datasourceName, "budgets.0.version"),
@@ -198,6 +387,8 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "reset_period", "MONTHLY"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "target_type", "COMPARTMENT"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "targets.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
