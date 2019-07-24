@@ -70,9 +70,15 @@ func (s *CoreCrossConnectGroupDataSourceCrud) SetData() error {
 		s.D.Set("customer_reference_name", *s.Res.CustomerReferenceName)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
