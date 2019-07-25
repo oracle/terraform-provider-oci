@@ -76,6 +76,7 @@ func initDependencyGraph() {
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreServiceGateway")
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreSubnet")
 	DependencyGraph["steeringPolicy"] = append(DependencyGraph["steeringPolicy"], "DnsSteeringPolicyAttachment")
+	DependencyGraph["stream"] = append(DependencyGraph["stream"], "StreamingStreamArchiver")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "CoreInstance")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "DatabaseAutonomousExadataInfrastructure")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "FileStorageMountTarget")
