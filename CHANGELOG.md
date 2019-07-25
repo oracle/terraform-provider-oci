@@ -2,6 +2,7 @@
 
 ### Added
 - Support for creating and updating `oci_file_storage_file_system` resource with KMS key
+- Support for Stream Archiving
 
 ## 3.38.0 (August 14, 2019)
 
