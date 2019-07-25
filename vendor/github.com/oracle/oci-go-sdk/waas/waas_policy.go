@@ -40,7 +40,7 @@ type WaasPolicy struct {
 	// The date and time the policy was created, expressed in RFC 3339 timestamp format.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// A map of host to origin for the web application. The key should be a customer friendly name for the host, ex. primary, secondary, etc.
+	// A map of host servers (origins) and their keys for the web application. Origin keys are used to associate origins to specific protection rules. The key should be a user-friendly name for the host. **Examples:** `primary` or `secondary`.
 	Origins map[string]Origin `mandatory:"false" json:"origins"`
 
 	PolicyConfig *PolicyConfig `mandatory:"false" json:"policyConfig"`
