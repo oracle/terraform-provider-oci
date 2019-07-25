@@ -31,6 +31,8 @@ func AuditConfigurationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+
+			// Computed
 		},
 	}
 }

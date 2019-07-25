@@ -8,6 +8,8 @@
 - Fixed the diff for `options` arguments order in `oci_core_dhcp_options` resource [Issue #829](https://github.com/terraform-providers/terraform-provider-oci/issues/829)
 - Fixed typo in docs for `source_type` in `oci_core_network_security_group_security_rule` and docs updated
 - Fixed `listing_id` reference in docs for App Catalog
+- Removing `compartment_id` from `oci_core_volume_attachment` as the service does not accept that parameter. The compartment_id of the volume is the one used by the service.
+
  
 ## 3.36.0 (July 31, 2019)
 

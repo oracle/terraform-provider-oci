@@ -43,12 +43,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			// @CODEGEN cpu_core_count was made optional because the service ignores it when one provides a VM shape. This causes diffs after an apply
-			"cpu_core_count": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
 			"database_edition": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -294,6 +288,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"cpu_core_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
 			},
 			"data_storage_percentage": {
 				Type:     schema.TypeInt,

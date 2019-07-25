@@ -32,6 +32,11 @@ For more information on configuring a VCN's default security list, see [Managing
 resource "oci_core_security_list" "test_security_list" {
 	#Required
 	compartment_id = "${var.compartment_id}"
+	vcn_id = "${oci_core_vcn.test_vcn.id}"
+
+	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
+	display_name = "${var.security_list_display_name}"
 	egress_security_rules {
 		#Required
 		destination = "${var.security_list_egress_security_rules_destination}"
@@ -70,6 +75,7 @@ resource "oci_core_security_list" "test_security_list" {
 			}
 		}
 	}
+	freeform_tags = {"Department"= "Finance"}
 	ingress_security_rules {
 		#Required
 		protocol = "${var.security_list_ingress_security_rules_protocol}"
@@ -108,12 +114,6 @@ resource "oci_core_security_list" "test_security_list" {
 			}
 		}
 	}
-	vcn_id = "${oci_core_vcn.test_vcn.id}"
-
-	#Optional
-	defined_tags = {"Operations.CostCenter"= "42"}
-	display_name = "${var.security_list_display_name}"
-	freeform_tags = {"Department"= "Finance"}
 }
 ```
 

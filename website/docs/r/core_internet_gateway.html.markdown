@@ -44,6 +44,7 @@ resource "oci_core_internet_gateway" "test_internet_gateway" {
 	enabled = "${var.internet_gateway_enabled}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.internet_gateway_display_name}"
+	enabled = "${var.internet_gateway_enabled}"
 	freeform_tags = {"Department"= "Finance"}
 }
 ```
@@ -55,7 +56,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment to contain the internet gateway.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-* `enabled` - (Required) (Updatable) Whether the gateway is enabled upon creation.
+* `enabled` - (Optional) (Updatable) Whether the gateway is enabled upon creation.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `vcn_id` - (Required) The OCID of the VCN the internet gateway is attached to.
 
