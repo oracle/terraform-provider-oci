@@ -35,7 +35,6 @@ func (s *DatasourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		display_name = "-tf-volume"
 	}
 	resource "oci_core_volume_attachment" "t" {
-		compartment_id = "${var.compartment_id}"
 		instance_id = "${oci_core_instance.t.id}"
 		volume_id = "${oci_core_volume.t.id}"
 		attachment_type = "iscsi"

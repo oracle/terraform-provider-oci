@@ -17,9 +17,6 @@ import (
 )
 
 var (
-	AppCatalogSubscriptionRequiredOnlyResource = AppCatalogSubscriptionResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Required, Create, appCatalogSubscriptionRepresentation)
-
 	appCatalogSubscriptionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"listing_id":     Representation{repType: Optional, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_id}`},
@@ -30,13 +27,13 @@ var (
 	}
 
 	appCatalogSubscriptionRepresentation = map[string]interface{}{
-		"compartment_id":           Representation{repType: Optional, create: `${var.compartment_id}`},
-		"eula_link":                Representation{repType: Optional, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.eula_link}`},
-		"listing_id":               Representation{repType: Optional, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_id}`},
-		"listing_resource_version": Representation{repType: Optional, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_resource_version}`},
-		"oracle_terms_of_use_link": Representation{repType: Optional, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.oracle_terms_of_use_link}`},
-		"signature":                Representation{repType: Optional, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.signature}`},
-		"time_retrieved":           Representation{repType: Optional, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.time_retrieved}`},
+		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
+		"eula_link":                Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.eula_link}`},
+		"listing_id":               Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_id}`},
+		"listing_resource_version": Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.listing_resource_version}`},
+		"oracle_terms_of_use_link": Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.oracle_terms_of_use_link}`},
+		"signature":                Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.signature}`},
+		"time_retrieved":           Representation{repType: Required, create: `${oci_core_app_catalog_listing_resource_version_agreement.test_app_catalog_listing_resource_version_agreement.time_retrieved}`},
 	}
 
 	AppCatalogSubscriptionResourceDependencies = AppCatalogListingResourceVersionAgreementResourceConfig
@@ -65,10 +62,15 @@ func TestCoreAppCatalogSubscriptionResource_basic(t *testing.T) {
 			// verify create
 			{
 				Config: config + compartmentIdVariableStr + AppCatalogSubscriptionResourceDependencies +
-					generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Optional, Create, appCatalogSubscriptionRepresentation),
+					generateResourceFromRepresentationMap("oci_core_app_catalog_subscription", "test_app_catalog_subscription", Required, Create, appCatalogSubscriptionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "eula_link"),
 					resource.TestCheckResourceAttrSet(resourceName, "listing_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "listing_resource_version"),
+					resource.TestCheckResourceAttrSet(resourceName, "oracle_terms_of_use_link"),
+					resource.TestCheckResourceAttrSet(resourceName, "signature"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_retrieved"),
 				),
 			},
 

@@ -21,7 +21,6 @@ resource "oci_database_db_home" "test_db_home" {
 	database {
 		#Required
 		admin_password = "${var.db_home_database_admin_password}"
-		db_name = "${var.db_home_database_db_name}"
 
 		#Optional
 		backup_id = "${oci_database_backup.test_backup.id}"
@@ -33,6 +32,7 @@ resource "oci_database_db_home" "test_db_home" {
 			auto_backup_enabled = "${var.db_home_database_db_backup_config_auto_backup_enabled}"
 			recovery_window_in_days = "${var.db_home_database_db_backup_config_recovery_window_in_days}"
 		}
+		db_name = "${var.db_home_database_db_name}"
 		db_workload = "${var.db_home_database_db_workload}"
 		defined_tags = "${var.db_home_database_defined_tags}"
 		freeform_tags = "${var.db_home_database_freeform_tags}"
@@ -63,7 +63,7 @@ The following arguments are supported:
 	* `db_backup_config` - (Applicable when source=NONE) (Updatable) 
 		* `auto_backup_enabled` - (Applicable when source=NONE) (Updatable) If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
 		* `recovery_window_in_days` - (Applicable when source=NONE) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
-	* `db_name` - (Required) The display name of the database to be created from the backup. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
+	* `db_name` - (Required when source=NONE) The display name of the database to be created from the backup. It must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
 	* `db_workload` - (Applicable when source=NONE) The database workload type.
 	* `defined_tags` - (Applicable when source=NONE) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 	* `freeform_tags` - (Applicable when source=NONE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 

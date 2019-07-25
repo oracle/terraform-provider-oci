@@ -16,8 +16,7 @@ Create a subscription for listing resource version for a compartment. It will ta
 
 ```hcl
 resource "oci_core_app_catalog_subscription" "test_app_catalog_subscription" {
-
-	#Optional
+	#Required
 	compartment_id = "${var.compartment_id}"
 	eula_link = "${var.app_catalog_subscription_eula_link}"
 	listing_id = "${data.oci_core_app_catalog_listing.test_listing.id}"
@@ -32,13 +31,13 @@ resource "oci_core_app_catalog_subscription" "test_app_catalog_subscription" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The compartmentID for the subscription.
-* `eula_link` - (Optional) EULA link
-* `listing_id` - (Optional) The OCID of the listing.
-* `listing_resource_version` - (Optional) Listing resource version.
-* `oracle_terms_of_use_link` - (Optional) Oracle TOU link
-* `signature` - (Optional) A generated signature for this listing resource version retrieved the agreements API.
-* `time_retrieved` - (Optional) Date and time the agreements were retrieved, in RFC3339 format. Example: `2018-03-20T12:32:53.532Z` 
+* `compartment_id` - (Required) The compartmentID for the subscription.
+* `eula_link` - (Required) EULA link
+* `listing_id` - (Required) The OCID of the listing.
+* `listing_resource_version` - (Required) Listing resource version.
+* `oracle_terms_of_use_link` - (Required) Oracle TOU link
+* `signature` - (Required) A generated signature for this listing resource version retrieved the agreements API.
+* `time_retrieved` - (Required) Date and time the agreements were retrieved, in RFC3339 format. Example: `2018-03-20T12:32:53.532Z` 
 
 
 ** IMPORTANT **
