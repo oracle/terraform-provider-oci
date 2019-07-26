@@ -129,6 +129,12 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 			nodePool["name"] = *r.Name
 		}
 
+		if r.NodeConfigDetails != nil {
+			nodePool["node_config_details"] = []interface{}{NodePoolNodeConfigDetailsToMap(r.NodeConfigDetails)}
+		} else {
+			nodePool["node_config_details"] = nil
+		}
+
 		if r.NodeImageId != nil {
 			nodePool["node_image_id"] = *r.NodeImageId
 		}

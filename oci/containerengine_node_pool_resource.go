@@ -51,14 +51,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"subnet_ids": {
-				Type:     schema.TypeSet,
-				Required: true,
-				Set:      literalTypeHashCodeForSets,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
 
 			// Optional
 			"initial_node_labels": {
@@ -80,6 +72,49 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+
+						// Computed
+					},
+				},
+			},
+			"node_config_details": {
+				Type:          schema.TypeList,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"quantity_per_subnet", "subnet_ids"},
+				MaxItems:      1,
+				MinItems:      1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"placement_configs": {
+							Type:     schema.TypeList,
+							Required: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"availability_domain": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+									},
+									"subnet_id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
+						"size": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+
+						// Optional
 
 						// Computed
 					},
@@ -107,15 +142,26 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"quantity_per_subnet": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
+				Type:          schema.TypeInt,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"node_config_details"},
 			},
 			"ssh_public_key": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"subnet_ids": {
+				Type:          schema.TypeSet,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"node_config_details"},
+				Set:           literalTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 
 			// Computed
@@ -278,6 +324,17 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
+	if nodeConfigDetails, ok := s.D.GetOkExists("node_config_details"); ok {
+		if tmpList := nodeConfigDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_config_details", 0)
+			tmp, err := s.mapToCreateNodePoolNodeConfigDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NodeConfigDetails = &tmp
+		}
+	}
+
 	if nodeImageId, ok := s.D.GetOkExists("node_image_id"); ok {
 		tmp := nodeImageId.(string)
 		request.NodeImageName = &tmp
@@ -307,7 +364,6 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 		request.SshPublicKey = &tmp
 	}
 
-	request.SubnetIds = []string{}
 	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok {
 		set := subnetIds.(*schema.Set)
 		interfaces := set.List()
@@ -419,25 +475,40 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 		request.Name = &tmp
 	}
 
+	if nodeConfigDetails, ok := s.D.GetOkExists("node_config_details"); ok {
+		if s.D.HasChange("node_config_details") {
+			if tmpList := nodeConfigDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_config_details", 0)
+				tmp, err := s.mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				request.NodeConfigDetails = &tmp
+			}
+		}
+	}
+	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok {
+		if s.D.HasChange("subnet_ids") {
+			set := subnetIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			request.SubnetIds = tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.NodePoolId = &tmp
 
 	if quantityPerSubnet, ok := s.D.GetOkExists("quantity_per_subnet"); ok {
-		tmp := quantityPerSubnet.(int)
-		request.QuantityPerSubnet = &tmp
-	}
-
-	request.SubnetIds = []string{}
-	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok {
-		set := subnetIds.(*schema.Set)
-		interfaces := set.List()
-		tmp := make([]string, len(interfaces))
-		for i := range interfaces {
-			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(string)
-			}
+		if s.D.HasChange("quantity_per_subnet") {
+			tmp := quantityPerSubnet.(int)
+			request.QuantityPerSubnet = &tmp
 		}
-		request.SubnetIds = tmp
 	}
 
 	//Issue update request
@@ -517,6 +588,12 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	if s.Res.NodeConfigDetails != nil {
+		s.D.Set("node_config_details", []interface{}{NodePoolNodeConfigDetailsToMap(s.Res.NodeConfigDetails)})
+	} else {
+		s.D.Set("node_config_details", nil)
+	}
+
 	if s.Res.NodeImageId != nil {
 		s.D.Set("node_image_id", *s.Res.NodeImageId)
 	}
@@ -545,13 +622,87 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("ssh_public_key", *s.Res.SshPublicKey)
 	}
 
-	subnetIds := []interface{}{}
-	for _, item := range s.Res.SubnetIds {
-		subnetIds = append(subnetIds, item)
+	if s.Res.SubnetIds != nil {
+		subnetIds := []interface{}{}
+		for _, item := range s.Res.SubnetIds {
+			subnetIds = append(subnetIds, item)
+		}
+		s.D.Set("subnet_ids", schema.NewSet(literalTypeHashCodeForSets, subnetIds))
+	} else {
+		s.D.Set("subnet_ids", nil)
 	}
-	s.D.Set("subnet_ids", schema.NewSet(literalTypeHashCodeForSets, subnetIds))
 
 	return nil
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.CreateNodePoolNodeConfigDetails, error) {
+	result := oci_containerengine.CreateNodePoolNodeConfigDetails{}
+
+	result.PlacementConfigs = []oci_containerengine.NodePoolPlacementConfigDetails{}
+	if placementConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs")); ok {
+		interfaces := placementConfigs.([]interface{})
+		tmp := make([]oci_containerengine.NodePoolPlacementConfigDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "placement_configs"), stateDataIndex)
+			converted, err := s.mapToNodePoolPlacementConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		result.PlacementConfigs = tmp
+	}
+
+	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {
+		tmp := size.(int)
+		result.Size = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateNodePoolNodeConfigDetails, error) {
+	result := oci_containerengine.UpdateNodePoolNodeConfigDetails{}
+
+	result.PlacementConfigs = []oci_containerengine.NodePoolPlacementConfigDetails{}
+	if placementConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs")); ok {
+		interfaces := placementConfigs.([]interface{})
+		tmp := make([]oci_containerengine.NodePoolPlacementConfigDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "placement_configs"), stateDataIndex)
+			converted, err := s.mapToNodePoolPlacementConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		result.PlacementConfigs = tmp
+	}
+
+	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {
+		tmp := size.(int)
+		result.Size = &tmp
+	}
+
+	return result, nil
+}
+
+func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	placementConfigs := []interface{}{}
+	for _, item := range obj.PlacementConfigs {
+		placementConfigs = append(placementConfigs, NodePoolPlacementConfigDetailsToMap(item))
+	}
+	result["placement_configs"] = placementConfigs
+
+	if obj.Size != nil {
+		result["size"] = int(*obj.Size)
+	}
+
+	return result
 }
 
 func (s *ContainerengineNodePoolResourceCrud) mapToKeyValue(fieldKeyFormat string) (oci_containerengine.KeyValue, error) {
@@ -641,6 +792,36 @@ func NodeErrorToMap(obj *oci_containerengine.NodeError) map[string]interface{} {
 
 	if obj.Status != nil {
 		result["status"] = string(*obj.Status)
+	}
+
+	return result
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolPlacementConfigDetails(fieldKeyFormat string) (oci_containerengine.NodePoolPlacementConfigDetails, error) {
+	result := oci_containerengine.NodePoolPlacementConfigDetails{}
+
+	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
+		tmp := availabilityDomain.(string)
+		result.AvailabilityDomain = &tmp
+	}
+
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
+	return result, nil
+}
+
+func NodePoolPlacementConfigDetailsToMap(obj oci_containerengine.NodePoolPlacementConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
 	}
 
 	return result

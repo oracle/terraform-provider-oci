@@ -31,7 +31,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `images` - Available Kubernetes versions.
+* `images` - Available image names.
 * `kubernetes_versions` - Available Kubernetes versions.
 * `shapes` - Available shapes for nodes.
 

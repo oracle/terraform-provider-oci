@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_containerengine_cluster_kube_config
 This data source provides details about a specific Cluster Kube Config resource in Oracle Cloud Infrastructure Container Engine service.
 
-
+Create the Kubeconfig YAML for a cluster.
 
 ## Example Usage
 
@@ -29,8 +29,8 @@ data "oci_containerengine_cluster_kube_config" "test_cluster_kube_config" {
 The following arguments are supported:
 
 * `cluster_id` - (Required) The OCID of the cluster.
-* `expiration` - (Optional) The desired expiration, in seconds, to use for the kubeconfig token.
-* `token_version` - (Optional) The version of the kubeconfig token.
+* `expiration` - (Optional) The desired expiration, in seconds, to use for the kubeconfig token. 
+* `token_version` - (Optional) The version of the kubeconfig token. Supported value 1.0.0 
 
 
 ## Attributes Reference

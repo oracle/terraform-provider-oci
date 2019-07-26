@@ -250,7 +250,6 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					},
 				),
 			},
-
 			// verify updates to node_metadata should create new resource
 			{
 				Config: config + compartmentIdVariableStr + NodePoolResourceDependencies +
@@ -299,7 +298,6 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					},
 				),
 			},
-
 			// verify datasource
 			{
 				Config: config +
