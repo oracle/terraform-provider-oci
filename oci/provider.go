@@ -57,6 +57,7 @@ const (
 	userAgentProviderNameEnv              = "USER_AGENT_PROVIDER_NAME"
 	domainNameOverrideEnv                 = "domain_name_override"
 	customCertLocationEnv                 = "custom_cert_location"
+	acceptLocalCerts                      = "accept_local_certs"
 
 	authAttrName                 = "auth"
 	tenancyOcidAttrName          = "tenancy_ocid"
@@ -854,6 +855,12 @@ func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 			}
 			// install the certificates in the client
 			httpClient.Transport.(*http.Transport).TLSClientConfig.RootCAs = pool
+		}
+
+		if acceptLocalCerts := getEnvSettingWithBlankDefault(acceptLocalCerts); acceptLocalCerts != "" {
+			if bool, err := strconv.ParseBool(acceptLocalCerts); err == nil {
+				httpClient.Transport.(*http.Transport).TLSClientConfig.InsecureSkipVerify = bool
+			}
 		}
 
 		// install the hook for HTTP replaying

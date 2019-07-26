@@ -504,6 +504,79 @@ func TestUnitBuildClientConfigureFn_withCustomCert(t *testing.T) {
 	assert.NotNil(t, tr.TLSClientConfig.RootCAs)
 }
 
+// ensure local certs can be admitted
+func TestUnitBuildClientConfigureFn_acceptLocalCerts(t *testing.T) {
+	prevEnvVar, hadPreviousEnvVar := os.LookupEnv(acceptLocalCerts)
+	if hadPreviousEnvVar {
+		defer os.Setenv(acceptLocalCerts, prevEnvVar)
+	} else {
+		defer os.Unsetenv(acceptLocalCerts)
+	}
+
+	// ensure disabled by default - no env var
+	os.Unsetenv(acceptLocalCerts)
+	assert.Empty(t, getEnvSettingWithBlankDefault(acceptLocalCerts))
+	configProvider := oci_common.DefaultConfigProvider()
+	httpClient := buildHttpClient()
+	configureClientFn, _ := buildConfigureClientFn(configProvider, httpClient)
+	configureClientFn(&oci_common.BaseClient{})
+
+	tr := httpClient.Transport.(*http.Transport)
+	assert.NotNil(t, tr.Proxy, "expected http.ProxyFromEnvironment fn")
+	assert.Equal(t, uint16(tls.VersionTLS12), tr.TLSClientConfig.MinVersion, "expected min tls 1.2")
+	assert.False(t, tr.TLSClientConfig.InsecureSkipVerify)
+
+	// ensure disabled by default - env var with empty string
+	os.Setenv(acceptLocalCerts, "")
+	configProvider = oci_common.DefaultConfigProvider()
+	httpClient = buildHttpClient()
+	configureClientFn, _ = buildConfigureClientFn(configProvider, httpClient)
+	configureClientFn(&oci_common.BaseClient{})
+
+	tr = httpClient.Transport.(*http.Transport)
+	assert.False(t, tr.TLSClientConfig.InsecureSkipVerify)
+
+	// ensure disabled by default - not parsable boolean string
+	os.Setenv(acceptLocalCerts, "ftarlusee")
+	configProvider = oci_common.DefaultConfigProvider()
+	httpClient = buildHttpClient()
+	configureClientFn, _ = buildConfigureClientFn(configProvider, httpClient)
+	configureClientFn(&oci_common.BaseClient{})
+
+	tr = httpClient.Transport.(*http.Transport)
+	assert.False(t, tr.TLSClientConfig.InsecureSkipVerify)
+
+	// ensure explicitly disabled - env var set to false
+	os.Setenv(acceptLocalCerts, "false")
+	configProvider = oci_common.DefaultConfigProvider()
+	httpClient = buildHttpClient()
+	configureClientFn, _ = buildConfigureClientFn(configProvider, httpClient)
+	configureClientFn(&oci_common.BaseClient{})
+
+	tr = httpClient.Transport.(*http.Transport)
+	assert.False(t, tr.TLSClientConfig.InsecureSkipVerify)
+
+	// ensure explicitly enabled - env var set to true
+	os.Setenv(acceptLocalCerts, "true")
+	configProvider = oci_common.DefaultConfigProvider()
+	httpClient = buildHttpClient()
+	configureClientFn, _ = buildConfigureClientFn(configProvider, httpClient)
+	configureClientFn(&oci_common.BaseClient{})
+
+	tr = httpClient.Transport.(*http.Transport)
+	assert.True(t, tr.TLSClientConfig.InsecureSkipVerify)
+
+	// verify assumption that "1" will also coerce to true
+	os.Setenv(acceptLocalCerts, "1")
+	configProvider = oci_common.DefaultConfigProvider()
+	httpClient = buildHttpClient()
+	configureClientFn, _ = buildConfigureClientFn(configProvider, httpClient)
+	configureClientFn(&oci_common.BaseClient{})
+
+	tr = httpClient.Transport.(*http.Transport)
+	assert.True(t, tr.TLSClientConfig.InsecureSkipVerify)
+}
+
 // ensure a custom domain can be targeted and expected http client settings are preserved
 func TestUnitBuildClientConfigureFn_withDomainNameOverride(t *testing.T) {
 
