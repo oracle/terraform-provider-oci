@@ -47,11 +47,6 @@ func TestDatabaseAutonomousDbPreviewVersionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_preview_versions.#"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_preview_versions.0.db_workload"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_preview_versions.0.details"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_preview_versions.0.time_preview_begin"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_preview_versions.0.time_preview_end"),
-					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_db_preview_versions.0.version"),
 				),
 			},
 		},
