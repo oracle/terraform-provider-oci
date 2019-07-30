@@ -20,7 +20,7 @@ resource "oci_core_app_catalog_subscription" "test_app_catalog_subscription" {
 	#Optional
 	compartment_id = "${var.compartment_id}"
 	eula_link = "${var.app_catalog_subscription_eula_link}"
-	listing_id = "${oci_core_listing.test_listing.id}"
+	listing_id = "${data.oci_core_app_catalog_listing.test_listing.id}"
 	listing_resource_version = "${var.app_catalog_subscription_listing_resource_version}"
 	oracle_terms_of_use_link = "${var.app_catalog_subscription_oracle_terms_of_use_link}"
 	signature = "${var.app_catalog_subscription_signature}"
