@@ -197,7 +197,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 				Optional:         true,
 				Computed:         true,
 				ForceNew:         true,
-				DiffSuppressFunc: NewIsPrefixOfOldDiffSuppress,
+				DiffSuppressFunc: dbVersionDiffSuppress,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
