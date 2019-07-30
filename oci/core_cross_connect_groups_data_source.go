@@ -110,9 +110,15 @@ func (s *CoreCrossConnectGroupsDataSourceCrud) SetData() error {
 			crossConnectGroup["customer_reference_name"] = *r.CustomerReferenceName
 		}
 
+		if r.DefinedTags != nil {
+			crossConnectGroup["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			crossConnectGroup["display_name"] = *r.DisplayName
 		}
+
+		crossConnectGroup["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			crossConnectGroup["id"] = *r.Id

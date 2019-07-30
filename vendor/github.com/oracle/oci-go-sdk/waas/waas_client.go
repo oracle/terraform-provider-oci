@@ -148,6 +148,100 @@ func (client WaasClient) cancelWorkRequest(ctx context.Context, request common.O
 	return response, err
 }
 
+// ChangeCertificateCompartment Moves certificate into a different compartment. When provided, If-Match is checked against ETag values of the certificate.
+func (client WaasClient) ChangeCertificateCompartment(ctx context.Context, request ChangeCertificateCompartmentRequest) (response ChangeCertificateCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeCertificateCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeCertificateCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeCertificateCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeCertificateCompartmentResponse")
+	}
+	return
+}
+
+// changeCertificateCompartment implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) changeCertificateCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/certificates/{certificateId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeCertificateCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeWaasPolicyCompartment Moves WAAS policy into a different compartment. When provided, If-Match is checked against ETag values of the WAAS policy.
+func (client WaasClient) ChangeWaasPolicyCompartment(ctx context.Context, request ChangeWaasPolicyCompartmentRequest) (response ChangeWaasPolicyCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeWaasPolicyCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeWaasPolicyCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeWaasPolicyCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeWaasPolicyCompartmentResponse")
+	}
+	return
+}
+
+// changeWaasPolicyCompartment implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) changeWaasPolicyCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/waasPolicies/{waasPolicyId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeWaasPolicyCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateCertificate Allows an SSL certificate to be added to a WAAS policy. The Web Application Firewall terminates SSL connections to inspect requests in runtime, and then re-encrypts requests before sending them to the origin for fulfillment.
 // For more information, see WAF Settings (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/wafsettings.htm).
 func (client WaasClient) CreateCertificate(ctx context.Context, request CreateCertificateRequest) (response CreateCertificateResponse, err error) {
@@ -978,7 +1072,7 @@ func (client WaasClient) listEdgeSubnets(ctx context.Context, request common.OCI
 }
 
 // ListGoodBots Gets the list of good bots defined in the Web Application Firewall configuration for a WAAS policy.
-// The list is sorted ascending by `key`.
+// The list is sorted by `key`, in ascending order.
 func (client WaasClient) ListGoodBots(ctx context.Context, request ListGoodBotsRequest) (response ListGoodBotsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1020,8 +1114,8 @@ func (client WaasClient) listGoodBots(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
-// ListProtectionRules Gets the list of protection rules in the Web Application Firewall configuration for a WAAS policy, including currently defined rules and recommended rules.
-// The list is sorted ascending by `key`.
+// ListProtectionRules Gets the list of available protection rules for a WAAS policy. Use the `GetWafConfig` operation to view a list of currently configured protection rules for the Web Application Firewall, or use the `ListRecommendations` operation to get a list of recommended protection rules for the Web Application Firewall.
+// The list is sorted by `key`, in ascending order.
 func (client WaasClient) ListProtectionRules(ctx context.Context, request ListProtectionRulesRequest) (response ListProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1065,7 +1159,7 @@ func (client WaasClient) listProtectionRules(ctx context.Context, request common
 
 // ListRecommendations Gets the list of recommended Web Application Firewall protection rules.
 // Use the `POST /waasPolicies/{waasPolicyId}/actions/acceptWafConfigRecommendations` method to accept recommended Web Application Firewall protection rules. For more information, see WAF Protection Rules (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/wafprotectionrules.htm).
-// The list is sorted ascending by `key`.
+// The list is sorted by `key`, in ascending order.
 func (client WaasClient) ListRecommendations(ctx context.Context, request ListRecommendationsRequest) (response ListRecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1108,8 +1202,8 @@ func (client WaasClient) listRecommendations(ctx context.Context, request common
 }
 
 // ListThreatFeeds Gets the list of available web application threat intelligence feeds
-// and the actions set for each feed. The list is sorted ascending by
-// `key`.
+// and the actions set for each feed. The list is sorted by `key`,
+// in ascending order.
 func (client WaasClient) ListThreatFeeds(ctx context.Context, request ListThreatFeedsRequest) (response ListThreatFeedsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1193,7 +1287,7 @@ func (client WaasClient) listWaasPolicies(ctx context.Context, request common.OC
 	return response, err
 }
 
-// ListWafBlockedRequests Gets the number of blocked requests by a Web Application Firewall feature in five minute blocks, in ascending order by `timeObserved`.
+// ListWafBlockedRequests Gets the number of blocked requests by a Web Application Firewall feature in five minute blocks, sorted by `timeObserved` in ascending order (starting from oldest data).
 func (client WaasClient) ListWafBlockedRequests(ctx context.Context, request ListWafBlockedRequestsRequest) (response ListWafBlockedRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1236,8 +1330,8 @@ func (client WaasClient) listWafBlockedRequests(ctx context.Context, request com
 }
 
 // ListWafLogs Gets structured Web Application Firewall event logs for a WAAS
-// policy. The list is sorted by the `timeObserved` starting from the
-// oldest recorded event (ascending).
+// policy. Sorted by the `timeObserved` in ascending order (starting from the
+// oldest recorded event).
 func (client WaasClient) ListWafLogs(ctx context.Context, request ListWafLogsRequest) (response ListWafLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1281,7 +1375,7 @@ func (client WaasClient) listWafLogs(ctx context.Context, request common.OCIRequ
 
 // ListWafRequests Gets the number of requests managed by a Web Application Firewall
 // over a specified period of time, including blocked requests. Sorted
-// by `timeObserved` with oldest requests first (ascending).
+// by `timeObserved` in ascending order (starting from oldest requests).
 func (client WaasClient) ListWafRequests(ctx context.Context, request ListWafRequestsRequest) (response ListWafRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1324,7 +1418,7 @@ func (client WaasClient) listWafRequests(ctx context.Context, request common.OCI
 }
 
 // ListWafTraffic Gets the Web Application Firewall traffic data for a WAAS policy.
-// Sorted by `timeObserved` with oldest data points first (ascending).
+// Sorted by `timeObserved` in ascending order (starting from oldest data).
 func (client WaasClient) ListWafTraffic(ctx context.Context, request ListWafTrafficRequest) (response ListWafTrafficResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1452,10 +1546,9 @@ func (client WaasClient) listWorkRequests(ctx context.Context, request common.OC
 
 // UpdateAccessRules Updates the list of access rules in the Web Application Firewall configuration for a specified WAAS policy. Access rules allow explicit actions to be defined and executed for requests that meet various conditions. A rule action can be set to allow, detect, or block requests. The detect setting allows the request to pass through the Web Application Firewall and is tagged with a `DETECT` flag in the Web Application Firewall's log.
 // This operation can create, delete, update, and/or reorder access rules depending on the structure of the request body.
-// Updating an existing access rule can be accomplished by changing the properties of the access rule object with a non-empty `key` property in the list.
-// Reordering of access rules can be accomplished by changing the order of the access rules in the list when updating.
-// Creating an access rule can be accomplished by adding a new access rule object to the list without a `key` property. A `key` will be generated for the new access rule upon update.
-// Deleting an access rule can be accomplished by removing the existing access rule object from the list. Any existing access rule with a `key` that is not present in the list of access rules sent in the request will be deleted.
+// Access rules can be updated by changing the properties of the access rule object with the rule's key specified in the key field. Access rules can be reordered by changing the order of the access rules in the list when updating.
+// Access rules can be created by adding a new access rule object to the list without a `key` property specified. A `key` will be generated for the new access rule upon update.
+// Any existing access rules that are not specified with a `key` in the list of access rules will be deleted upon update.
 func (client WaasClient) UpdateAccessRules(ctx context.Context, request UpdateAccessRulesRequest) (response UpdateAccessRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1504,9 +1597,9 @@ func (client WaasClient) updateAccessRules(ctx context.Context, request common.O
 
 // UpdateCaptchas Updates the list of CAPTCHA challenges in the Web Application Firewall configuration for a WAAS policy.
 // This operation can create, update, or delete CAPTCHAs depending on the structure of the request body.
-// Updating an existing CAPTCHA can be accomplished by changing the properties of the CAPTCHA object with a non-empty `key` property in the list.
-// Creating a CAPTCHA can be accomplished by adding a new CAPTCHA object to the list without a `key` property. A `key` will be generated for the new CAPTCHA upon update.
-// Deleting a CAPTCHA can be accomplished by removing the existing CAPTCHA object from the list. Any existing CAPTCHA with a `key` that is not present in the list of CAPTCHAs sent in the request will be deleted.
+// CAPTCHA challenges can be updated by changing the properties of the CAPTCHA object with the rule's key specified in the key field. CAPTCHA challenges can be reordered by changing the order of the CAPTCHA challenges in the list when updating.
+// CAPTCHA challenges can be created by adding a new access rule object to the list without a `key` property specified. A `key` will be generated for the new CAPTCHA challenges upon update.
+// Any existing CAPTCHA challenges that are not specified with a `key` in the list of CAPTCHA challenges will be deleted upon update.
 func (client WaasClient) UpdateCaptchas(ctx context.Context, request UpdateCaptchasRequest) (response UpdateCaptchasResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1645,7 +1738,7 @@ func (client WaasClient) updateDeviceFingerprintChallenge(ctx context.Context, r
 }
 
 // UpdateGoodBots Updates the list of good bots in the Web Application Firewall configuration for a policy. Only the fields specified in the request body will be updated, all other configuration properties will remain unchanged.
-// Good bots allows you to manage access for bots from known providers, such as Google or Baidu. For more information about good bots, please see Bot Management (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/botmanagement.htm).
+// Good bots allows you to manage access for bots from known providers, such as Google or Baidu. For more information about good bots, see Bot Management (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/botmanagement.htm).
 func (client WaasClient) UpdateGoodBots(ctx context.Context, request UpdateGoodBotsRequest) (response UpdateGoodBotsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1835,7 +1928,7 @@ func (client WaasClient) updatePolicyConfig(ctx context.Context, request common.
 
 // UpdateProtectionRules Updates the action for each specified protection rule. Requests can either be allowed, blocked, or trigger an alert if they meet the parameters of an applied rule. For more information on protection rules, see WAF Protection Rules (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/wafprotectionrules.htm).
 // This operation can update or disable protection rules depending on the structure of the request body.
-// Updating an existing protection rule can be accomplished by changing the properties of the protection rule object with a non-empty `key` property in the list.
+// Protection rules can be updated by changing the properties of the protection rule object with the rule's key specified in the key field.
 func (client WaasClient) UpdateProtectionRules(ctx context.Context, request UpdateProtectionRulesRequest) (response UpdateProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1967,7 +2060,7 @@ func (client WaasClient) updateThreatFeeds(ctx context.Context, request common.O
 }
 
 // UpdateWaasPolicy Updates the details of a WAAS policy, including origins and tags. Only the fields specified in the request body will be updated; all other properties will remain unchanged.
-// To update platform provided resources such as `GoodBots`, `ProtectionRules`, and `ThreatFeeds` first retrieve the list of available resources with the related list operation such as `GetThreatFeeds` or `GetProtectionRules`.
+// To update platform provided resources such as `GoodBots`, `ProtectionRules`, and `ThreatFeeds`, first retrieve the list of available resources with the related list operation such as `GetThreatFeeds` or `GetProtectionRules`.
 // The returned list will contain objects with `key` properties that can be used to update the resource during the `UpdateWaasPolicy` request.
 func (client WaasClient) UpdateWaasPolicy(ctx context.Context, request UpdateWaasPolicyRequest) (response UpdateWaasPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2063,8 +2156,8 @@ func (client WaasClient) updateWafAddressRateLimiting(ctx context.Context, reque
 }
 
 // UpdateWafConfig Updates the Web Application Firewall configuration for a specified WAAS policy.
-// To update platform provided resources such as `GoodBots`, `ProtectionRules`, and `ThreatFeeds`
-// first retrieve the list of available resources with the related list operation such as
+// To update platform provided resources such as `GoodBots`, `ProtectionRules`, and `ThreatFeeds`,
+// first retrieve the list of available resources with the related list operation, such as
 // `GetThreatFeeds` or `GetProtectionRules`.
 // The returned list will contain objects with `key` properties that can be used to update the
 // resource during the `UpdateWafConfig` request.
@@ -2116,10 +2209,9 @@ func (client WaasClient) updateWafConfig(ctx context.Context, request common.OCI
 
 // UpdateWhitelists Updates the list of IP addresses that bypass the Web Application Firewall for a WAAS policy. Supports both single IP addresses or subnet masks (CIDR notation).
 // This operation can create, delete, update, and/or reorder whitelists depending on the structure of the request body.
-// Updating an existing whitelist can be accomplished by changing the properties of the whitelist object with a non-empty `key` property in the list.
-// Reordering of whitelists can be accomplished by changing the order of the whitelists in the list when updating.
-// Creating a whitelist can be accomplished by adding a new whitelist object to the list without a `key` property. A `key` will be generated for the new whitelist upon update.
-// Deleting a whitelist can be accomplished by removing the existing whitelist object from the list. Any existing whitelist with a `key` that is not present in the list of whitelists sent in the request will be deleted.
+// Whitelists can be updated by changing the properties of the whitelist object with the rule's key specified in the `key` field. Whitelists can be reordered by changing the order of the whitelists in the list of objects when updating.
+// Whitelists can be created by adding a new whitelist object to the list without a `key` property specified. A `key` will be generated for the new whitelist upon update.
+// Whitelists can be deleted by removing the existing whitelist object from the list. Any existing whitelists that are not specified with a `key` in the list of access rules will be deleted upon update.
 func (client WaasClient) UpdateWhitelists(ctx context.Context, request UpdateWhitelistsRequest) (response UpdateWhitelistsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

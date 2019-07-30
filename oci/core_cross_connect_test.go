@@ -44,7 +44,9 @@ var (
 		"port_speed_shape_name":   Representation{repType: Required, create: `10 Gbps`},
 		"cross_connect_group_id":  Representation{repType: Optional, create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
 		"customer_reference_name": Representation{repType: Optional, create: `customerReferenceName`, update: `customerReferenceName2`},
+		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":            Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"is_active":               Representation{repType: Optional, create: `true`},
 	}
 
@@ -60,6 +62,9 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_core_cross_connect.test_cross_connect"
 	datasourceName := "data.oci_core_cross_connects.test_cross_connects"
@@ -103,13 +108,40 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "location_name"),
 					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
 					resource.TestCheckResourceAttr(resourceName, "state", "PROVISIONED"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CrossConnectResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create,
+						representationCopyWithNewProperties(crossConnectRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
+					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttrSet(resourceName, "location_name"),
+					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
 						return err
 					},
 				),
@@ -123,7 +155,9 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName2"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "location_name"),
 					resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
 					resource.TestCheckResourceAttr(resourceName, "state", "PROVISIONED"),
@@ -152,7 +186,9 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.cross_connect_group_id"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.customer_reference_name", "customerReferenceName2"),
+					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.location_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.port_name"),
@@ -173,7 +209,9 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "customer_reference_name", "customerReferenceName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "location_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "port_name"),

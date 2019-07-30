@@ -682,7 +682,7 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 		databaseId = s.Database.Id
 	}
 	if databaseId == nil || *databaseId == "" {
-		databaseIdStr, ok := s.D.GetOkExists("dbhome.0.database.0.id")
+		databaseIdStr, ok := s.D.GetOkExists("db_home.0.database.0.id")
 		// if we don't have the Database Id in the config we get the earliest database in the dbHome from the service
 		if !ok || databaseIdStr == "" {
 			listDatabasesRequest := oci_database.ListDatabasesRequest{}

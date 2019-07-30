@@ -29,7 +29,6 @@ func CoreVirtualCircuitResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"type": {
 				Type:     schema.TypeString,
@@ -87,10 +86,23 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"gateway_id": {
 				Type:     schema.TypeString,
@@ -287,9 +299,21 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 		request.CustomerBgpAsn = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if gatewayId, ok := s.D.GetOkExists("gateway_id"); ok {
@@ -391,6 +415,15 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 			return fmt.Errorf("unable to update 'public_prefixes', error: %v", err)
 		}
 	}
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 
 	request := oci_core.UpdateVirtualCircuitRequest{}
 
@@ -420,9 +453,21 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 		request.CustomerBgpAsn = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if gatewayId, ok := s.D.GetOkExists("gateway_id"); ok {
@@ -559,9 +604,15 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 		s.D.Set("customer_bgp_asn", *s.Res.CustomerBgpAsn)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.GatewayId != nil {
 		s.D.Set("gateway_id", *s.Res.GatewayId)
@@ -725,4 +776,21 @@ func publicPrefixesHashCodeForSets(v interface{}) int {
 		buf.WriteString(fmt.Sprintf("%v-", cidrBlock))
 	}
 	return hashcode.String(buf.String())
+}
+func (s *CoreVirtualCircuitResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangeVirtualCircuitCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.VirtualCircuitId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.ChangeVirtualCircuitCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

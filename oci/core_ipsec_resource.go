@@ -25,7 +25,6 @@ func CoreIpSecConnectionResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"cpe_id": {
 				Type:     schema.TypeString,
@@ -253,6 +252,15 @@ func (s *CoreIpSecConnectionResourceCrud) Get() error {
 }
 
 func (s *CoreIpSecConnectionResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_core.UpdateIPSecConnectionRequest{}
 
 	if cpeLocalIdentifier, ok := s.D.GetOkExists("cpe_local_identifier"); ok {
@@ -356,5 +364,25 @@ func (s *CoreIpSecConnectionResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
+}
+
+func (s *CoreIpSecConnectionResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangeIPSecConnectionCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	if ipsecId, ok := s.D.GetOkExists("ipsec_id"); ok {
+		tmp := ipsecId.(string)
+		changeCompartmentRequest.IpscId = &tmp
+	}
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.ChangeIPSecConnectionCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
 	return nil
 }

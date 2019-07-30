@@ -54,7 +54,7 @@ resource "oci_database_exadata_iorm_config" "test_exadata_iorm_config" {
   db_system_id = "${oci_database_db_system.test_db_system.id}"
   objective    = "AUTO"
 
-  db_plans = {
+  db_plans {
     db_name = "default"
     share   = 1
   }

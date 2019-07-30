@@ -52,7 +52,7 @@ resource "oci_core_ipsec" "test_ip_sec_connection" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment to contain the IPSec connection.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the IPSec connection.
 * `cpe_id` - (Required) The OCID of the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Cpe/) object.
 * `cpe_local_identifier` - (Optional) (Updatable) Your identifier for your CPE device. Can be either an IP address or a hostname (specifically, the fully qualified domain name (FQDN)). The type of identifier you provide here must correspond to the value for `cpeLocalIdentifierType`.
 
