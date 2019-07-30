@@ -35,7 +35,7 @@ func TestCoreAppCatalogListingResourceVersionAgreementResource_basic(t *testing.
 
 	provider := testAccProvider
 	config := testProviderConfig()
-	RCF3339NanoReg := regexp.MustCompile(`^\d{4}-\d{2}-\d{2}(T|t)\d{2}:\d{2}:\d{2}\.(\d{2}|\d{3})Z$`)
+	RCF3339NanoReg := regexp.MustCompile(`^\d{4}-\d{2}-\d{2}(T|t)\d{2}:\d{2}:\d{2}\.(\d|\d{2}|\d{3})Z$`)
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 

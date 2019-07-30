@@ -90,7 +90,7 @@ func TestTerraformVersions(t *testing.T) {
 }
 
 func RunExamples(t *testing.T, planOnly bool) {
-	rootPath := "../examples"
+	rootPath := getEnvSettingWithDefault("examples_root", "../examples")
 	log.Printf("Testing examples under %v", rootPath)
 
 	pathList, err := GetConfigPaths(t, rootPath)
@@ -154,7 +154,26 @@ func GetConfigPaths(t *testing.T, rootPath string) (pathList []string, err error
 }
 
 func shouldSkip(dir string) bool {
-	blackList := []string{"/db_exadata", "/db_systems", "/adw_backup", "/atp_backup", "/block", "launch_by_subscription", "volume_backup", "subscription", "object_storage"}
+	blackList := []string{
+		"/db_exadata",
+		"/db_systems",
+		"/adw_backup",
+		"/atp_backup",
+		"/block",
+		"/atp-d",
+		"/lb_full",
+		"/identity_providers",
+		"/alarms",
+		"/metrics",
+		"budget",
+		"launch_by_subscription",
+		"volume_backup",
+		"subscription",
+		"object_storage",
+		"functions",
+		"kms",
+		"identity",
+	}
 	var flag bool
 	for _, blackDir := range blackList {
 		flag = flag || strings.HasSuffix(dir, blackDir)

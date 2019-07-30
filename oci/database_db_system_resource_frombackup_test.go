@@ -40,7 +40,6 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 		license_model = "LICENSE_INCLUDED"
 		node_count = "1"
 		display_name = "tfDbSystemTest"
-		backup_network_nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
         nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 		db_home {
 			db_version = "12.1.0.2"

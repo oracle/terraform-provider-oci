@@ -17,10 +17,11 @@ resource "oci_database_autonomous_database" "autonomous_data_warehouse" {
   db_name                  = "adbdw1"
 
   #Optional
-  db_workload   = "${var.autonomous_data_warehouse_db_workload}"
-  display_name  = "example_autonomous_data_warehouse"
-  freeform_tags = "${var.autonomous_database_freeform_tags}"
-  license_model = "${var.autonomous_database_license_model}"
+  db_workload             = "${var.autonomous_data_warehouse_db_workload}"
+  display_name            = "example_autonomous_data_warehouse"
+  freeform_tags           = "${var.autonomous_database_freeform_tags}"
+  is_auto_scaling_enabled = "false"
+  license_model           = "${var.autonomous_database_license_model}"
 }
 
 data "oci_database_autonomous_databases" "autonomous_data_warehouses" {

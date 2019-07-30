@@ -98,6 +98,10 @@ func (s *CoreRemotePeeringConnectionsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.DefinedTags != nil {
+			remotePeeringConnection["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			remotePeeringConnection["display_name"] = *r.DisplayName
 		}
@@ -105,6 +109,8 @@ func (s *CoreRemotePeeringConnectionsDataSourceCrud) SetData() error {
 		if r.DrgId != nil {
 			remotePeeringConnection["drg_id"] = *r.DrgId
 		}
+
+		remotePeeringConnection["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			remotePeeringConnection["id"] = *r.Id

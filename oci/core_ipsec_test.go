@@ -59,6 +59,9 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_core_ipsec.test_ip_sec_connection"
 	datasourceName := "data.oci_core_ipsec_connections.test_ip_sec_connections"
 
@@ -111,6 +114,36 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + IpSecConnectionResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_ipsec", "test_ip_sec_connection", Optional, Create,
+						representationCopyWithNewProperties(ipSecConnectionRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
+					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier", "189.44.2.135"),
+					resource.TestCheckResourceAttr(resourceName, "cpe_local_identifier_type", "IP_ADDRESS"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "MyIPSecConnection"),
+					resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
 						return err
 					},
 				),

@@ -51,7 +51,9 @@ func CoreDhcpOptionsResource() *schema.Resource {
 						"custom_dns_servers": {
 							Type:     schema.TypeList,
 							Optional: true,
-							Computed: true,
+							// remove `computed` because it prevents unsetting the `custom_dns_servers` list when
+							// changing dhcp_options-> options-> server_type from `CustomDnsServer` to `VcnLocalPlusInternet`
+							//Computed: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
