@@ -84,9 +84,15 @@ func (s *CoreVirtualCircuitDataSourceCrud) SetData() error {
 		s.D.Set("customer_bgp_asn", *s.Res.CustomerBgpAsn)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.GatewayId != nil {
 		s.D.Set("gateway_id", *s.Res.GatewayId)

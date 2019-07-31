@@ -21,7 +21,9 @@ resource "oci_core_remote_peering_connection" "test_remote_peering_connection" {
 	drg_id = "${oci_core_drg.test_drg.id}"
 
 	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.remote_peering_connection_display_name}"
+	freeform_tags = {"Department"= "Finance"}
 	peer_id = "${oci_core_remote_peering_connection.test_remote_peering_connection2.id}"
 	peer_region_name = "${var.remote_peering_connection_peer_region_name}"
 }
@@ -35,9 +37,11 @@ resource "oci_core_remote_peering_connection" "test_remote_peering_connection" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment to contain the RPC.
+* `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the RPC.
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `drg_id` - (Required) The OCID of the DRG the RPC belongs to.
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `peer_id` - (Optional) The OCID of the RPC you want to peer with.
 * `peer_region_name` - (Optional) The name of the region that contains the RPC you want to peer with.  Example: `us-ashburn-1`
 
@@ -50,8 +54,10 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains the RPC.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `drg_id` - The OCID of the DRG that this RPC belongs to.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the RPC.
 * `is_cross_tenancy_peering` - Whether the VCN at the other end of the peering is in a different tenancy.  Example: `false` 
 * `peer_id` - If this RPC is peered, this value is the OCID of the other RPC. 

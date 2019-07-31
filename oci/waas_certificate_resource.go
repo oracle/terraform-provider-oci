@@ -27,7 +27,6 @@ func WaasCertificateResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"private_key_data": {
 				Type:      schema.TypeString,
@@ -374,6 +373,15 @@ func (s *WaasCertificateResourceCrud) Get() error {
 }
 
 func (s *WaasCertificateResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_waas.UpdateCertificateRequest{}
 
 	tmp := s.D.Id()
@@ -558,4 +566,22 @@ func CertificateSubjectNameToMap(obj *oci_waas.CertificateSubjectName) map[strin
 	}
 
 	return result
+}
+
+func (s *WaasCertificateResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_waas.ChangeCertificateCompartmentRequest{}
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.CertificateId = &idTmp
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+
+	_, err := s.Client.ChangeCertificateCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

@@ -30,13 +30,16 @@ type ProtectionSettings struct {
 	// The description text to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE`, and the traffic is detected as malicious by a protection rule. If unspecified, defaults to `Access blocked by website owner. Please contact support.`
 	BlockErrorPageDescription *string `mandatory:"false" json:"blockErrorPageDescription"`
 
-	// The maximum number of arguments allowed to be passed to your application before an action is taken. If unspecified, defaults to `255`.
+	// The maximum number of arguments allowed to be passed to your application before an action is taken. Arguements are query parameters or body parameters in a PUT or POST request. If unspecified, defaults to `255`. This setting only applies if a corresponding protection rule is enabled, such as the "Number of Arguments Limits" rule (key: 960335).
+	// Example: If `maxArgumentCount` to `2` for the Max Number of Arguments protection rule (key: 960335), the following requests would be blocked:
+	// `GET /myapp/path?query=one&query=two&query=three`
+	// `POST /myapp/path` with Body `{"argument1":"one","argument2":"two","argument3":"three"}`
 	MaxArgumentCount *int `mandatory:"false" json:"maxArgumentCount"`
 
-	// The maximum length allowed for each argument name, in characters. If unspecified, defaults to `400`.
+	// The maximum length allowed for each argument name, in characters. Arguements are query parameters or body parameters in a PUT or POST request. If unspecified, defaults to `400`. This setting only applies if a corresponding protection rule is enabled, such as the "Values Limits" rule (key: 960208).
 	MaxNameLengthPerArgument *int `mandatory:"false" json:"maxNameLengthPerArgument"`
 
-	// The maximum length allowed for the sum of all argument names, in characters. If unspecified, defaults to `64000`.
+	// The maximum length allowed for the sum of the argument name and value, in characters. Arguements are query parameters or body parameters in a PUT or POST request. If unspecified, defaults to `64000`. This setting only applies if a corresponding protection rule is enabled, such as the "Total Arguments Limits" rule (key: 960341).
 	MaxTotalNameLengthOfArguments *int `mandatory:"false" json:"maxTotalNameLengthOfArguments"`
 
 	// The length of time to analyze traffic traffic, in days. After the analysis period, `WafRecommendations` will be populated. If unspecified, defaults to `10`.
@@ -50,10 +53,10 @@ type ProtectionSettings struct {
 	// The maximum response size to be fully inspected, in binary kilobytes (KiB). Anything over this limit will be partially inspected. If unspecified, defaults to `1024`.
 	MaxResponseSizeInKiB *int `mandatory:"false" json:"maxResponseSizeInKiB"`
 
-	// The list of allowed HTTP methods. If unspecified, default to `[OPTIONS, GET, HEAD, POST]`.
+	// The list of allowed HTTP methods. If unspecified, default to `[OPTIONS, GET, HEAD, POST]`. This setting only applies if a corresponding protection rule is enabled, such as the "Restrict HTTP Request Methods" rule (key: 911100).
 	AllowedHttpMethods []ProtectionSettingsAllowedHttpMethodsEnum `mandatory:"false" json:"allowedHttpMethods,omitempty"`
 
-	// The list of media types to allow for inspection, if `isResponseInspected` is enabled. Only responses with MIME types in this list will be inspected. If unspecified, defaults to `[`text/html`, `text/plain`, `text/xml`]`.
+	// The list of media types to allow for inspection, if `isResponseInspected` is enabled. Only responses with MIME types in this list will be inspected. If unspecified, defaults to `["text/html", "text/plain", "text/xml"]`.
 	//     Supported MIME types include:
 	//     - text/html
 	//     - text/plain

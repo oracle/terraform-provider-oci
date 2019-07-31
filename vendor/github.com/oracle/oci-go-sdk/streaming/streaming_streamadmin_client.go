@@ -58,6 +58,48 @@ func (client *StreamAdminClient) ConfigurationProvider() *common.ConfigurationPr
 	return client.config
 }
 
+// ChangeStreamCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+func (client StreamAdminClient) ChangeStreamCompartment(ctx context.Context, request ChangeStreamCompartmentRequest) (response ChangeStreamCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeStreamCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeStreamCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeStreamCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeStreamCompartmentResponse")
+	}
+	return
+}
+
+// changeStreamCompartment implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) changeStreamCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams/{streamId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeStreamCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateStream Starts the provisioning of a new stream.
 // To track the progress of the provisioning, you can periodically call GetStream.
 // In the response, the `lifecycleState` parameter of the Stream object tells you its current state.

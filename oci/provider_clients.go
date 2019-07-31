@@ -3,14 +3,6 @@
 package provider
 
 import (
-	"crypto/x509"
-	"fmt"
-	"io/ioutil"
-	"net/http"
-	"regexp"
-	"strconv"
-	"strings"
-
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
@@ -19,6 +11,7 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_email "github.com/oracle/oci-go-sdk/email"
+	oci_events "github.com/oracle/oci-go-sdk/events"
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
@@ -33,337 +26,10 @@ import (
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
-
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
-type ConfigureClient func(client *oci_common.BaseClient) error
-
-var configureClient ConfigureClient
-
-func setGoSDKClients(clients *OracleClients, officialSdkConfigProvider oci_common.ConfigurationProvider, httpClient *http.Client, userAgent string) (err error) {
-	// Official Go SDK clients:
-
-	auditClient, err := oci_audit.NewAuditClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	autoScalingClient, err := oci_auto_scaling.NewAutoScalingClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	blockstorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	budgetClient, err := oci_budget.NewBudgetClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	computeClient, err := oci_core.NewComputeClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	computeManagementClient, err := oci_core.NewComputeManagementClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	containerEngineClient, err := oci_containerengine.NewContainerEngineClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	databaseClient, err := oci_database.NewDatabaseClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	dnsClient, err := oci_dns.NewDnsClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	emailClient, err := oci_email.NewEmailClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	fileStorageClient, err := oci_file_storage.NewFileStorageClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	functionsInvokeClient, err := oci_functions.NewFunctionsInvokeClientWithConfigurationProvider(officialSdkConfigProvider, "DUMMY_ENDPOINT")
-	if err != nil {
-		return
-	}
-	functionsManagementClient, err := oci_functions.NewFunctionsManagementClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	healthChecksClient, err := oci_health_checks.NewHealthChecksClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	kmsCryptoClient, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(officialSdkConfigProvider, "DUMMY_ENDPOINT")
-	if err != nil {
-		return
-	}
-	kmsManagementClient, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(officialSdkConfigProvider, "DUMMY_ENDPOINT")
-	if err != nil {
-		return
-	}
-	kmsVaultClient, err := oci_kms.NewKmsVaultClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	loadBalancerClient, err := oci_load_balancer.NewLoadBalancerClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	monitoringClient, err := oci_monitoring.NewMonitoringClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	notificationControlPlaneClient, err := oci_ons.NewNotificationControlPlaneClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	notificationDataPlaneClient, err := oci_ons.NewNotificationDataPlaneClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	objectStorageClient, err := oci_object_storage.NewObjectStorageClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	quotasClient, err := oci_limits.NewQuotasClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	streamAdminClient, err := oci_streaming.NewStreamAdminClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	virtualNetworkClient, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-	waasClient, err := oci_waas.NewWaasClientWithConfigurationProvider(officialSdkConfigProvider)
-	if err != nil {
-		return
-	}
-
-	useOboToken, err := strconv.ParseBool(getEnvSettingWithDefault("use_obo_token", "false"))
-	if err != nil {
-		return
-	}
-
-	simulateDb, _ := strconv.ParseBool(getEnvSettingWithDefault("simulate_db", "false"))
-
-	requestSigner := oci_common.DefaultRequestSigner(officialSdkConfigProvider)
-	var oboTokenProvider OboTokenProvider
-	oboTokenProvider = emptyOboTokenProvider{}
-	if useOboToken {
-		// Add Obo token to the default list and update the signer
-		httpHeadersToSign := append(oci_common.DefaultGenericHeaders(), requestHeaderOpcOboToken)
-		requestSigner = oci_common.RequestSigner(officialSdkConfigProvider, httpHeadersToSign, oci_common.DefaultBodyHeaders())
-		oboTokenProvider = oboTokenProviderFromEnv{}
-	}
-
-	configureClient = func(client *oci_common.BaseClient) error {
-		client.HTTPClient = httpClient
-		client.UserAgent = userAgent
-		client.Signer = requestSigner
-		client.Interceptor = func(r *http.Request) error {
-			if oboToken, err := oboTokenProvider.OboToken(); err == nil && oboToken != "" {
-				r.Header.Set(requestHeaderOpcOboToken, oboToken)
-			}
-
-			if simulateDb {
-				if r.Method == http.MethodPost && (strings.Contains(r.URL.Path, "/dbSystems") || strings.Contains(r.URL.Path, "/autonomousData") || strings.Contains(r.URL.Path, "/dataGuardAssociations") || strings.Contains(r.URL.Path, "/autonomousExadata")) {
-					r.Header.Set(requestHeaderOpcHostSerial, "FAKEHOSTSERIAL")
-				}
-			}
-			return nil
-		}
-
-		domainNameOverride := getEnvSettingWithBlankDefault(domainNameOverrideEnv)
-		customCertLoc := getEnvSettingWithBlankDefault(customCertLocationEnv)
-
-		if domainNameOverride != "" {
-			re := regexp.MustCompile(`(.*?)[-\w]+\.\w+$`)                             // (capture: preamble) match: d0main-name . tld end-of-string
-			client.Host = re.ReplaceAllString(client.Host, "${1}"+domainNameOverride) // non-match conveniently returns original string
-		}
-
-		if customCertLoc != "" {
-			cert, err := ioutil.ReadFile(customCertLoc)
-			if err != nil {
-				return err
-			}
-			pool := x509.NewCertPool()
-			if ok := pool.AppendCertsFromPEM(cert); !ok {
-				return fmt.Errorf("failed to append R1 cert to the cert pool")
-			}
-			// install the certificates in the client
-			if h, ok := client.HTTPClient.(*http.Client); ok {
-				h.Transport.(*http.Transport).TLSClientConfig.RootCAs = pool
-			} else {
-				return fmt.Errorf("the client dispatcher is not of http.Client type, can not patch the tls config")
-			}
-		}
-
-		// install the hook for HTTP replaying
-		if h, ok := client.HTTPClient.(*http.Client); ok {
-			_, err := httpreplay.InstallRecorder(h)
-			if err != nil {
-				return err
-			}
-		}
-
-		return nil
-	}
-
-	err = configureClient(&auditClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&autoScalingClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&blockstorageClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&budgetClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&computeClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&computeManagementClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&containerEngineClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&databaseClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&dnsClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&emailClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&fileStorageClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&functionsInvokeClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&functionsManagementClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&healthChecksClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&identityClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&kmsCryptoClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&kmsManagementClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&kmsVaultClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&loadBalancerClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&monitoringClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&notificationControlPlaneClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&notificationDataPlaneClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&objectStorageClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&quotasClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&streamAdminClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&virtualNetworkClient.BaseClient)
-	if err != nil {
-		return
-	}
-	err = configureClient(&waasClient.BaseClient)
-	if err != nil {
-		return
-	}
-
-	clients.auditClient = &auditClient
-	clients.autoScalingClient = &autoScalingClient
-	clients.blockstorageClient = &blockstorageClient
-	clients.budgetClient = &budgetClient
-	clients.computeClient = &computeClient
-	clients.computeManagementClient = &computeManagementClient
-	clients.containerEngineClient = &containerEngineClient
-	clients.databaseClient = &databaseClient
-	clients.dnsClient = &dnsClient
-	clients.emailClient = &emailClient
-	clients.fileStorageClient = &fileStorageClient
-	clients.functionsInvokeClient = &functionsInvokeClient
-	clients.functionsManagementClient = &functionsManagementClient
-	clients.healthChecksClient = &healthChecksClient
-	clients.identityClient = &identityClient
-	clients.kmsCryptoClient = &kmsCryptoClient
-	clients.kmsManagementClient = &kmsManagementClient
-	clients.kmsVaultClient = &kmsVaultClient
-	clients.loadBalancerClient = &loadBalancerClient
-	clients.monitoringClient = &monitoringClient
-	clients.notificationControlPlaneClient = &notificationControlPlaneClient
-	clients.notificationDataPlaneClient = &notificationDataPlaneClient
-	clients.objectStorageClient = &objectStorageClient
-	clients.quotasClient = &quotasClient
-	clients.streamAdminClient = &streamAdminClient
-	clients.virtualNetworkClient = &virtualNetworkClient
-	clients.waasClient = &waasClient
-
-	return
-}
-
 type OracleClients struct {
+	configuration                  map[string]string
 	auditClient                    *oci_audit.AuditClient
 	autoScalingClient              *oci_auto_scaling.AutoScalingClient
 	blockstorageClient             *oci_core.BlockstorageClient
@@ -374,6 +40,7 @@ type OracleClients struct {
 	databaseClient                 *oci_database.DatabaseClient
 	dnsClient                      *oci_dns.DnsClient
 	emailClient                    *oci_email.EmailClient
+	eventsClient                   *oci_events.EventsClient
 	fileStorageClient              *oci_file_storage.FileStorageClient
 	functionsInvokeClient          *oci_functions.FunctionsInvokeClient
 	functionsManagementClient      *oci_functions.FunctionsManagementClient
@@ -391,7 +58,6 @@ type OracleClients struct {
 	streamAdminClient              *oci_streaming.StreamAdminClient
 	virtualNetworkClient           *oci_core.VirtualNetworkClient
 	waasClient                     *oci_waas.WaasClient
-	configuration                  map[string]string
 }
 
 func (m *OracleClients) FunctionsInvokeClient(endpoint string) (*oci_functions.FunctionsInvokeClient, error) {
@@ -425,4 +91,289 @@ func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManage
 	} else {
 		return nil, err
 	}
+}
+
+func createSDKClients(clients *OracleClients, configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (err error) {
+
+	auditClient, err := oci_audit.NewAuditClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&auditClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.auditClient = &auditClient
+
+	autoScalingClient, err := oci_auto_scaling.NewAutoScalingClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&autoScalingClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.autoScalingClient = &autoScalingClient
+
+	blockstorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&blockstorageClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.blockstorageClient = &blockstorageClient
+
+	budgetClient, err := oci_budget.NewBudgetClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&budgetClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.budgetClient = &budgetClient
+
+	computeClient, err := oci_core.NewComputeClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&computeClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.computeClient = &computeClient
+
+	computeManagementClient, err := oci_core.NewComputeManagementClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&computeManagementClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.computeManagementClient = &computeManagementClient
+
+	containerEngineClient, err := oci_containerengine.NewContainerEngineClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&containerEngineClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.containerEngineClient = &containerEngineClient
+
+	databaseClient, err := oci_database.NewDatabaseClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&databaseClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.databaseClient = &databaseClient
+
+	dnsClient, err := oci_dns.NewDnsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&dnsClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.dnsClient = &dnsClient
+
+	emailClient, err := oci_email.NewEmailClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&emailClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.emailClient = &emailClient
+
+	eventsClient, err := oci_events.NewEventsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&eventsClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.eventsClient = &eventsClient
+
+	fileStorageClient, err := oci_file_storage.NewFileStorageClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&fileStorageClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.fileStorageClient = &fileStorageClient
+
+	functionsInvokeClient, err := oci_functions.NewFunctionsInvokeClientWithConfigurationProvider(configProvider, "DUMMY_ENDPOINT")
+	if err != nil {
+		return
+	}
+	err = configureClient(&functionsInvokeClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.functionsInvokeClient = &functionsInvokeClient
+
+	functionsManagementClient, err := oci_functions.NewFunctionsManagementClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&functionsManagementClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.functionsManagementClient = &functionsManagementClient
+
+	healthChecksClient, err := oci_health_checks.NewHealthChecksClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&healthChecksClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.healthChecksClient = &healthChecksClient
+
+	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&identityClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.identityClient = &identityClient
+
+	kmsCryptoClient, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(configProvider, "DUMMY_ENDPOINT")
+	if err != nil {
+		return
+	}
+	err = configureClient(&kmsCryptoClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.kmsCryptoClient = &kmsCryptoClient
+
+	kmsManagementClient, err := oci_kms.NewKmsManagementClientWithConfigurationProvider(configProvider, "DUMMY_ENDPOINT")
+	if err != nil {
+		return
+	}
+	err = configureClient(&kmsManagementClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.kmsManagementClient = &kmsManagementClient
+
+	kmsVaultClient, err := oci_kms.NewKmsVaultClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&kmsVaultClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.kmsVaultClient = &kmsVaultClient
+
+	loadBalancerClient, err := oci_load_balancer.NewLoadBalancerClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&loadBalancerClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.loadBalancerClient = &loadBalancerClient
+
+	monitoringClient, err := oci_monitoring.NewMonitoringClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&monitoringClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.monitoringClient = &monitoringClient
+
+	notificationControlPlaneClient, err := oci_ons.NewNotificationControlPlaneClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&notificationControlPlaneClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.notificationControlPlaneClient = &notificationControlPlaneClient
+
+	notificationDataPlaneClient, err := oci_ons.NewNotificationDataPlaneClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&notificationDataPlaneClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.notificationDataPlaneClient = &notificationDataPlaneClient
+
+	objectStorageClient, err := oci_object_storage.NewObjectStorageClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&objectStorageClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.objectStorageClient = &objectStorageClient
+
+	quotasClient, err := oci_limits.NewQuotasClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&quotasClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.quotasClient = &quotasClient
+
+	streamAdminClient, err := oci_streaming.NewStreamAdminClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&streamAdminClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.streamAdminClient = &streamAdminClient
+
+	virtualNetworkClient, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&virtualNetworkClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.virtualNetworkClient = &virtualNetworkClient
+
+	waasClient, err := oci_waas.NewWaasClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&waasClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.waasClient = &waasClient
+
+	return
 }

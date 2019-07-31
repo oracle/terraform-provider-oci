@@ -124,9 +124,15 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 			virtualCircuit["customer_bgp_asn"] = *r.CustomerBgpAsn
 		}
 
+		if r.DefinedTags != nil {
+			virtualCircuit["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			virtualCircuit["display_name"] = *r.DisplayName
 		}
+
+		virtualCircuit["freeform_tags"] = r.FreeformTags
 
 		if r.GatewayId != nil {
 			virtualCircuit["gateway_id"] = *r.GatewayId
