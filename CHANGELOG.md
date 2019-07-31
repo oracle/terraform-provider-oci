@@ -1,4 +1,4 @@
-## 3.36.0 (Unreleased)
+## 3.36.0 (July 31, 2019)
 
 ### Added
 - Support for moving `oci_core_cpe`, `oci_core_cross_connect_group`, `oci_core_cross_connect`, `oci_core_ipsec`, `oci_core_remote_peering_connection` and `oci_core_virtual_circuit` resources across compartments
