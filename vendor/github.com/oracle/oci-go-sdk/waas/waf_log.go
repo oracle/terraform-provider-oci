@@ -12,13 +12,14 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// WafLog A list of Web Application Firewall log entries. Each entry is a JSON object whose fields vary based on log type. Logs record what rules and countermeasures are triggered by requests and are used as a basis to move request handling into block mode.
+// WafLog A list of Web Application Firewall log entries. Each entry is a JSON object, including a timestamp property and other fields varying based on log type. Logs record what rules and countermeasures are triggered by requests and are used as a basis to move request handling into block mode. For more information about WAF logs, see WAF Logs (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/waflogs.htm).
 type WafLog struct {
 
-	// The action taken on the request.
+	// The action taken on the request, either `ALLOW`, `DETECT`, or `BLOCK`.
 	Action *string `mandatory:"false" json:"action"`
 
-	// The CAPTCHA action taken on the request.
+	// The CAPTCHA action taken on the request, `ALLOW` or `BLOCK`. For more information about
+	// CAPTCHAs, see `UpdateCaptchas`.
 	CaptchaAction *string `mandatory:"false" json:"captchaAction"`
 
 	// The CAPTCHA challenge answer that was expected.
@@ -33,16 +34,18 @@ type WafLog struct {
 	// The IPv4 address of the requesting client.
 	ClientAddress *string `mandatory:"false" json:"clientAddress"`
 
-	// The name of the country where the request was made.
+	// The name of the country where the request originated.
 	CountryName *string `mandatory:"false" json:"countryName"`
 
-	// The `User-Agent` header value of the request.
+	// The value of the request's `User-Agent` header field.
 	UserAgent *string `mandatory:"false" json:"userAgent"`
 
-	// The domain where the request was sent.
+	// The `Host` header data of the request.
 	Domain *string `mandatory:"false" json:"domain"`
 
-	// A map of protection rule keys to detection message details.
+	// A map of protection rule keys to detection message details. Detections are
+	// requests that matched the criteria of a protection rule but the rule's
+	// action was set to `DETECT`.
 	ProtectionRuleDetections map[string]string `mandatory:"false" json:"protectionRuleDetections"`
 
 	// The HTTP method of the request.
@@ -51,7 +54,7 @@ type WafLog struct {
 	// The path and query string of the request.
 	RequestUrl *string `mandatory:"false" json:"requestUrl"`
 
-	// The map of header names to values of the request sent to the origin.
+	// The map of the request's header names to their respective values.
 	HttpHeaders map[string]string `mandatory:"false" json:"httpHeaders"`
 
 	// The `Referrer` header value of the request.
@@ -63,41 +66,48 @@ type WafLog struct {
 	// The size in bytes of the response.
 	ResponseSize *int `mandatory:"false" json:"responseSize"`
 
-	// The incident key that matched the request.
+	// The incident key of a request. An incident key is generated for
+	// each request processed by the Web Application Firewall and is used to
+	// idenitfy blocked requests in applicable logs.
 	IncidentKey *string `mandatory:"false" json:"incidentKey"`
 
-	// TODO: what is this? MD5 hash of the request? SHA1?
+	// The hashed signature of the device's fingerprint. For more information,
+	// see `DeviceFingerPrintChallenge`.
 	Fingerprint *string `mandatory:"false" json:"fingerprint"`
 
 	// The type of device that the request was made from.
 	Device *string `mandatory:"false" json:"device"`
 
-	// The ISO 3166-1 country code of the request.
+	// ISO 3166-1 alpha-2 code of the country from which the request originated.
+	// For a list of codes, see ISO's website (https://www.iso.org/obp/ui/#search/code/).
 	CountryCode *string `mandatory:"false" json:"countryCode"`
 
-	// A map of header names to values of the original request.
+	// A map of header names to values of the request sent to the origin, including any headers
+	// appended by the Web Application Firewall.
 	RequestHeaders map[string]string `mandatory:"false" json:"requestHeaders"`
 
-	// The `ThreatFeed` key that matched the request.
+	// The `ThreatFeed` key that matched the request. For more information about
+	// threat feeds, see `UpdateThreatFeeds`.
 	ThreatFeedKey *string `mandatory:"false" json:"threatFeedKey"`
 
-	// The `AccessRule` key that matched the request.
+	// The `AccessRule` key that matched the request. For more information about
+	// access rules, see `UpdateAccessRules`.
 	AccessRuleKey *string `mandatory:"false" json:"accessRuleKey"`
 
-	// The `AddressRateLimiting` key that matched the request.
+	// The `AddressRateLimiting` key that matched the request. For more information
+	// about address rate limiting, see `UpdateWafAddressRateLimiting`.
 	AddressRateLimitingKey *string `mandatory:"false" json:"addressRateLimitingKey"`
 
-	// The `Date` header value of the request.
+	// The date and time the Web Application Firewall processed the request and logged it.
 	Timestamp *string `mandatory:"false" json:"timestamp"`
 
-	// The type of log of the request.
+	// The type of log of the request. For more about log types, see WAF Logs (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/waflogs.htm).
 	LogType *string `mandatory:"false" json:"logType"`
 
 	// The address of the origin server where the request was sent.
 	OriginAddress *string `mandatory:"false" json:"originAddress"`
 
-	// The amount of time it took the origin server to respond to the request.
-	// TODO: determine unit of time and example
+	// The amount of time it took the origin server to respond to the request, in seconds.
 	OriginResponseTime *string `mandatory:"false" json:"originResponseTime"`
 }
 

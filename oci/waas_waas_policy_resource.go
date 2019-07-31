@@ -34,7 +34,6 @@ func WaasWaasPolicyResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"domain": {
 				Type:     schema.TypeString,
@@ -1141,6 +1140,15 @@ func (s *WaasWaasPolicyResourceCrud) Get() error {
 }
 
 func (s *WaasWaasPolicyResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_waas.UpdateWaasPolicyRequest{}
 
 	request.AdditionalDomains = []string{}
@@ -2470,6 +2478,24 @@ func WhitelistToMap(obj oci_waas.Whitelist) map[string]interface{} {
 	}
 
 	return result
+}
+
+func (s *WaasWaasPolicyResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_waas.ChangeWaasPolicyCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.WaasPolicyId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "waas")
+
+	_, err := s.Client.ChangeWaasPolicyCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func originsHashCodeForSets(v interface{}) int {
