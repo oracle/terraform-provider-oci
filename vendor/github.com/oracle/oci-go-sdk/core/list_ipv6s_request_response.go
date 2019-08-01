@@ -8,8 +8,8 @@ import (
 	"net/http"
 )
 
-// ListPrivateIpsRequest wrapper for the ListPrivateIps operation
-type ListPrivateIpsRequest struct {
+// ListIpv6sRequest wrapper for the ListIpv6s operation
+type ListIpv6sRequest struct {
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated
 	// "List" call. For important details about how pagination works, see
@@ -32,7 +32,7 @@ type ListPrivateIpsRequest struct {
 	// The OCID of the VNIC.
 	VnicId *string `mandatory:"false" contributesTo:"query" name:"vnicId"`
 
-	// Unique Oracle-assigned identifier for the request.
+	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -41,28 +41,28 @@ type ListPrivateIpsRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request ListPrivateIpsRequest) String() string {
+func (request ListIpv6sRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListPrivateIpsRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ListIpv6sRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListPrivateIpsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListIpv6sRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// ListPrivateIpsResponse wrapper for the ListPrivateIps operation
-type ListPrivateIpsResponse struct {
+// ListIpv6sResponse wrapper for the ListIpv6s operation
+type ListIpv6sResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of []PrivateIp instances
-	Items []PrivateIp `presentIn:"body"`
+	// A list of []Ipv6 instances
+	Items []Ipv6 `presentIn:"body"`
 
 	// For list pagination. When this header appears in the response, additional pages
 	// of results remain. For important details about how pagination works, see
@@ -74,11 +74,11 @@ type ListPrivateIpsResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response ListPrivateIpsResponse) String() string {
+func (response ListIpv6sResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response ListPrivateIpsResponse) HTTPResponse() *http.Response {
+func (response ListIpv6sResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
