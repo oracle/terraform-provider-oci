@@ -75,7 +75,7 @@ The following arguments are supported:
 * `destination` - (Optional) Conceptually, this is the range of IP addresses that a packet originating from the instance can go to.
 
     Allowed values:
-    * An IP address range in CIDR notation. For example: `192.168.1.0/24`
+    * An IP address range in CIDR notation. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`
     * The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/), if you're setting up a security rule for traffic destined for a particular `Service` through a service gateway. For example: `oci-phx-objectstorage`.
     * The OCID of a [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/) in the same VCN. The value can be the NSG that the rule belongs to if the rule's intent is to control traffic between VNICs in the same NSG. 
 * `destination_type` - (Optional) Type of destination for the rule. Required if `direction` = `EGRESS`.
@@ -96,7 +96,7 @@ The following arguments are supported:
 * `source` - (Optional) Conceptually, this is the range of IP addresses that a packet coming into the instance can come from.
 
     Allowed values:
-    * An IP address range in CIDR notation. For example: `192.168.1.0/24`
+    * An IP address range in CIDR notation. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`
     * The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/), if you're setting up a security rule for traffic coming from a particular `Service` through a service gateway. For example: `oci-phx-objectstorage`.
     * The OCID of a [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/) in the same VCN. The value can be the NSG that the rule belongs to if the rule's intent is to control traffic between VNICs in the same NSG. 
 * `source_type` - (Optional) Type of source for the rule. Required if `direction` = `INGRESS`.
@@ -132,7 +132,7 @@ The following attributes are exported:
 * `destination` - Conceptually, this is the range of IP addresses that a packet originating from the instance can go to.
 
     Allowed values:
-    * An IP address range in CIDR notation. For example: `192.168.1.0/24`
+    * An IP address range in CIDR notation. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`
     * The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/), if you're setting up a security rule for traffic destined for a particular `Service` through a service gateway. For example: `oci-phx-objectstorage`.
     * The OCID of a [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/) in the same VCN. The value can be the NSG that the rule belongs to if the rule's intent is to control traffic between VNICs in the same NSG. 
 * `destination_type` - Type of destination for the rule. Required if `direction` = `EGRESS`.
@@ -155,7 +155,7 @@ The following attributes are exported:
 * `source` - Conceptually, this is the range of IP addresses that a packet coming into the instance can come from.
 
     Allowed values:
-    * An IP address range in CIDR notation. For example: `192.168.1.0/24`
+    * An IP address range in CIDR notation. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`
     * The `cidrBlock` value for a [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Service/), if you're setting up a security rule for traffic coming from a particular `Service` through a service gateway. For example: `oci-phx-objectstorage`.
     * The OCID of a [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/) in the same VCN. The value can be the NSG that the rule belongs to if the rule's intent is to control traffic between VNICs in the same NSG. 
 * `source_type` - Type of source for the rule. Required if `direction` = `INGRESS`.
