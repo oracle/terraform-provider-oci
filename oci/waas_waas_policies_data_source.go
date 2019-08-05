@@ -108,13 +108,13 @@ func (s *WaasWaasPoliciesDataSourceCrud) Get() error {
 		request.Id = tmp
 	}
 
-	request.LifecycleState = []string{}
+	request.LifecycleState = []oci_waas.ListWaasPoliciesLifecycleStateEnum{}
 	if states, ok := s.D.GetOkExists("states"); ok {
 		interfaces := states.([]interface{})
-		tmp := make([]string, len(interfaces))
+		tmp := make([]oci_waas.ListWaasPoliciesLifecycleStateEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(string)
+				tmp[i] = oci_waas.ListWaasPoliciesLifecycleStateEnum(interfaces[i].(string))
 			}
 		}
 		request.LifecycleState = tmp
