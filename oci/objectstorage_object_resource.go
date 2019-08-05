@@ -59,7 +59,6 @@ func ObjectStorageObjectResource() *schema.Resource {
 			"object": {
 				Type:     schema.TypeString,
 				Required: true,
-				// @CODEGEN 06/2018: object renames are now supported
 			},
 
 			// Optional
@@ -885,8 +884,6 @@ func (s *ObjectStorageObjectResourceCrud) setDataObject() error {
 
 	return nil
 }
-
-// @CODEGEN 2/2018: Remove generated mapToObjectSummary as it's not being called
 
 func ObjectSummaryToMap(obj oci_object_storage.ObjectSummary) map[string]interface{} {
 	result := map[string]interface{}{}
