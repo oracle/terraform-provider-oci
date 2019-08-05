@@ -23,14 +23,14 @@ data "oci_identity_availability_domain" "ad" {
 resource "oci_core_vcn" "vcn1" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = "${var.compartment_ocid}"
-  display_name   = "TFExampleVCN"
+  display_name   = "exampleVCN"
   dns_label      = "tfexamplevcn"
 }
 
 // A regional subnet will not specify an Availability Domain
-resource "oci_core_subnet" "subnet1" {
+resource "oci_core_subnet" "regional_subnet" {
   cidr_block        = "10.0.1.0/24"
-  display_name      = "TFRegionalSubnet"
+  display_name      = "regionalSubnet"
   dns_label         = "regionalsubnet"
   compartment_id    = "${var.compartment_ocid}"
   vcn_id            = "${oci_core_vcn.vcn1.id}"
@@ -40,10 +40,10 @@ resource "oci_core_subnet" "subnet1" {
 }
 
 // An AD based subnet will supply an Availability Domain
-resource "oci_core_subnet" "subnet2" {
+resource "oci_core_subnet" "ad_subnet" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "10.0.2.0/24"
-  display_name        = "TFADSubnet"
+  display_name        = "ADSubnet"
   dns_label           = "adsubnet"
   compartment_id      = "${var.compartment_ocid}"
   vcn_id              = "${oci_core_vcn.vcn1.id}"

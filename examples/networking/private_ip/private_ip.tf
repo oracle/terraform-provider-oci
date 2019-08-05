@@ -41,35 +41,35 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 1
 }
 
-resource "oci_core_vcn" "ExampleVCN" {
+resource "oci_core_vcn" "example_vcn" {
   cidr_block     = "10.1.0.0/16"
   compartment_id = "${var.compartment_ocid}"
-  display_name   = "TFExampleVCN"
+  display_name   = "exampleVCN"
   dns_label      = "tfexamplevcn"
 }
 
-resource "oci_core_subnet" "ExampleSubnet" {
+resource "oci_core_subnet" "example_subnet" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "10.1.20.0/24"
-  display_name        = "TFExampleSubnet"
+  display_name        = "exampleSubnet"
   dns_label           = "tfexamplesubnet"
-  security_list_ids   = ["${oci_core_vcn.ExampleVCN.default_security_list_id}"]
+  security_list_ids   = ["${oci_core_vcn.example_vcn.default_security_list_id}"]
   compartment_id      = "${var.compartment_ocid}"
-  vcn_id              = "${oci_core_vcn.ExampleVCN.id}"
-  route_table_id      = "${oci_core_vcn.ExampleVCN.default_route_table_id}"
-  dhcp_options_id     = "${oci_core_vcn.ExampleVCN.default_dhcp_options_id}"
+  vcn_id              = "${oci_core_vcn.example_vcn.id}"
+  route_table_id      = "${oci_core_vcn.example_vcn.default_route_table_id}"
+  dhcp_options_id     = "${oci_core_vcn.example_vcn.default_dhcp_options_id}"
 }
 
 # Create Instance
-resource "oci_core_instance" "TFInstance1" {
+resource "oci_core_instance" "test_instance1" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
-  display_name        = "TFInstance"
+  display_name        = "testInstance"
   hostname_label      = "instance"
   shape               = "${var.instance_shape}"
 
   create_vnic_details {
-    subnet_id = "${oci_core_subnet.ExampleSubnet.id}"
+    subnet_id = "${oci_core_subnet.example_subnet.id}"
   }
 
   source_details {
@@ -79,30 +79,30 @@ resource "oci_core_instance" "TFInstance1" {
 }
 
 # Gets a list of VNIC attachments on the instance
-data "oci_core_vnic_attachments" "InstanceVnics" {
+data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.TFInstance1.id}"
+  instance_id         = "${oci_core_instance.test_instance1.id}"
 }
 
 # Gets the OCID of the first (default) VNIC
-data "oci_core_vnic" "InstanceVnic" {
-  vnic_id = "${lookup(data.oci_core_vnic_attachments.InstanceVnics.vnic_attachments[0],"vnic_id")}"
+data "oci_core_vnic" "instance_vnic" {
+  vnic_id = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
 }
 
 # Create PrivateIP
-resource "oci_core_private_ip" "TFPrivateIP" {
-  vnic_id        = "${lookup(data.oci_core_vnic_attachments.InstanceVnics.vnic_attachments[0],"vnic_id")}"
+resource "oci_core_private_ip" "private_ip" {
+  vnic_id        = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
   display_name   = "someDisplayName"
   hostname_label = "somehostnamelabel"
 }
 
 # List Private IPs
-data "oci_core_private_ips" "privateIpDatasource" {
-  depends_on = ["oci_core_private_ip.TFPrivateIP"]
-  vnic_id    = "${oci_core_private_ip.TFPrivateIP.vnic_id}"
+data "oci_core_private_ips" "private_ip_datasource" {
+  depends_on = ["oci_core_private_ip.private_ip"]
+  vnic_id    = "${oci_core_private_ip.private_ip.vnic_id}"
 }
 
-output "privateIPs" {
-  value = ["${data.oci_core_private_ips.privateIpDatasource.private_ips}"]
+output "private_ips" {
+  value = ["${data.oci_core_private_ips.private_ip_datasource.private_ips}"]
 }
