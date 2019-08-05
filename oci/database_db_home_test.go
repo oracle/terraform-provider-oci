@@ -77,7 +77,10 @@ var (
 		"admin_password":      Representation{repType: Required, create: `BEstrO0ng_#11`},
 		"backup_id":           Representation{repType: Required, create: `${oci_database_backup.test_backup.id}`},
 		"backup_tde_password": Representation{repType: Required, create: `BEstrO0ng_#11`},
-		"db_name":             Representation{repType: Optional, create: `dbBackup`},
+		// Modifying db_name as mandatory. If not mandatory test fails with error "The specified database name 'tfDbName' exists."
+		// The test takes the backup of the DB created in the db_system which has the db_name=tfDbName.
+		// When db_home is created with source as "DB_BACKUP" and db_name is not provided, Service uses the db_name from the backup which is causing this test to fail.
+		"db_name": Representation{repType: Required, create: `dbBackup`},
 	}
 
 	DbHomeResourceDependencies = BackupResourceDependencies +
