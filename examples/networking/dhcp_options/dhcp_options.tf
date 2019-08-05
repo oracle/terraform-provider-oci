@@ -1,8 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-/*
- * This example demonstrates the various dhcp option configurations.
- */
+# This example demonstrates the various dhcp option configurations.
 
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
@@ -19,17 +17,17 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-resource "oci_core_vcn" "ExampleVCN" {
+resource "oci_core_vcn" "example_vcn" {
   cidr_block     = "10.1.0.0/16"
   compartment_id = "${var.compartment_ocid}"
-  display_name   = "TFExampleVCN"
+  display_name   = "exampleVCN"
   dns_label      = "tfexamplevcn"
 }
 
-resource "oci_core_dhcp_options" "ExampleDhcpOptions1" {
+resource "oci_core_dhcp_options" "example_dhcp_options_1" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_vcn.ExampleVCN.id}"
-  display_name   = "TFExampleDhcpOptions1"
+  vcn_id         = "${oci_core_vcn.example_vcn.id}"
+  display_name   = "exampleDhcpOptions1"
 
   // required
   options {
@@ -44,10 +42,10 @@ resource "oci_core_dhcp_options" "ExampleDhcpOptions1" {
   }
 }
 
-resource "oci_core_dhcp_options" "ExampleDhcpOptions2" {
+resource "oci_core_dhcp_options" "example_dhcp_options_2" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_vcn.ExampleVCN.id}"
-  display_name   = "TFExampleDhcpOptions2"
+  vcn_id         = "${oci_core_vcn.example_vcn.id}"
+  display_name   = "exampleDhcpOptions2"
 
   // required
   options {
