@@ -435,25 +435,6 @@ func (s *DnsSteeringPolicyResourceCrud) Update() error {
 	}
 	request := oci_dns.UpdateSteeringPolicyRequest{}
 
-	/* Do not uncomment until we get a solution to the terraform deficiency
-	 * by having a GetOK function that does not return a value if it is not in the config but it is in the statefile.
-	 * This property cannot be converted to a set because the order of it matters to the service.
-	request.Answers = []oci_dns.SteeringPolicyAnswer{}
-	if answers, ok := s.D.GetOkExists("answers"); ok {
-		interfaces := answers.([]interface{})
-		tmp := make([]oci_dns.SteeringPolicyAnswer, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "answers", stateDataIndex)
-			converted, err := s.mapToSteeringPolicyAnswer(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		request.Answers = tmp
-	}
-	*/
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -475,26 +456,6 @@ func (s *DnsSteeringPolicyResourceCrud) Update() error {
 		tmp := healthCheckMonitorId.(string)
 		request.HealthCheckMonitorId = &tmp
 	}
-
-	/* Do not uncomment until we get a solution to the terraform deficiency
-	 * by having a GetOK function that does not return a value if it is not in the config but it is in the statefile.
-	 * This property cannot be converted to a set because the order of it matters to the service.
-	request.Rules = []oci_dns.SteeringPolicyRule{}
-	if rules, ok := s.D.GetOkExists("rules"); ok {
-		interfaces := rules.([]interface{})
-		tmp := make([]oci_dns.SteeringPolicyRule, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rules", stateDataIndex)
-			converted, err := s.mapToSteeringPolicyRule(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		request.Rules = tmp
-	}
-	*/
 
 	tmp := s.D.Id()
 	request.SteeringPolicyId = &tmp
