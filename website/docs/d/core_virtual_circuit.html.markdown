@@ -47,6 +47,8 @@ The following attributes are exported:
 
 		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv6 addresses.
 
+		Note that IPv6 addressing is currently supported only in the Government Cloud.
+
 		Example: `2001:db8::1/64` 
 	* `oracle_bgp_peering_ip` - The IPv4 address for Oracle's end of the BGP session. Must use a /30 or /31 subnet mask. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
 
@@ -56,6 +58,8 @@ The following attributes are exported:
 	* `oracle_bgp_peering_ipv6` - The IPv6 address for Oracle's end of the BGP session.  Only subnet masks from /64 up to /127 are allowed. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
 
 		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv6 addresses.
+
+		Note that IPv6 addressing is currently supported only in the Government Cloud.
 
 		Example: `2001:db8::2/64` 
 	* `vlan` - The number of the specific VLAN (on the cross-connect or cross-connect group) that is assigned to this virtual circuit. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider).  Example: `200` 
