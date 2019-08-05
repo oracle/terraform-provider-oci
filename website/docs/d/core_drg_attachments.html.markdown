@@ -49,7 +49,11 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `drg_id` - The OCID of the DRG.
 * `id` - The DRG attachment's Oracle ID (OCID).
-* `route_table_id` - The OCID of the route table the DRG attachment is using. For information about why you would associate a route table with a DRG attachment, see [Advanced Scenario: Transit Routing](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm). 
+* `route_table_id` - The OCID of the route table the DRG attachment is using.
+
+	For information about why you would associate a route table with a DRG attachment, see:
+	* [Transit Routing: Access to Multiple VCNs in Same Region](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
+	* [Transit Routing: Private Access to Oracle Services](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm) 
 * `state` - The DRG attachment's current state.
 * `time_created` - The date and time the DRG attachment was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_id` - The OCID of the VCN.
