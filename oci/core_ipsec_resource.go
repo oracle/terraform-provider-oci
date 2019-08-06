@@ -373,10 +373,8 @@ func (s *CoreIpSecConnectionResourceCrud) updateCompartment(compartment interfac
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	if ipsecId, ok := s.D.GetOkExists("ipsec_id"); ok {
-		tmp := ipsecId.(string)
-		changeCompartmentRequest.IpscId = &tmp
-	}
+	tmp := s.D.Id()
+	changeCompartmentRequest.IpscId = &tmp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
