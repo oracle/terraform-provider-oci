@@ -740,7 +740,9 @@ func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat
 
 		if customerBgpPeeringIpv6, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_bgp_peering_ipv6")); ok {
 			tmp := customerBgpPeeringIpv6.(string)
-			result.CustomerBgpPeeringIpv6 = &tmp
+			if tmp != "" {
+				result.CustomerBgpPeeringIpv6 = &tmp
+			}
 		}
 
 		if oracleBgpPeeringIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_bgp_peering_ip")); ok {
@@ -750,7 +752,9 @@ func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat
 
 		if oracleBgpPeeringIpv6, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_bgp_peering_ipv6")); ok {
 			tmp := oracleBgpPeeringIpv6.(string)
-			result.OracleBgpPeeringIpv6 = &tmp
+			if tmp != "" {
+				result.OracleBgpPeeringIpv6 = &tmp
+			}
 		}
 	}
 
