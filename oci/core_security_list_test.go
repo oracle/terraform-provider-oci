@@ -34,12 +34,12 @@ var (
 
 	securityListRepresentation = map[string]interface{}{
 		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"egress_security_rules":  []RepresentationGroup{{Required, securityListEgressSecurityRulesICMPRepresentation}, {Optional, securityListEgressSecurityRulesTCPRepresentation}, {Optional, securityListEgressSecurityRulesUDPRepresentation}},
-		"ingress_security_rules": []RepresentationGroup{{Required, securityListIngressSecurityRulesICMPRepresentation}, {Optional, securityListIngressSecurityRulesTCPRepresentation}, {Optional, securityListIngressSecurityRulesUDPRepresentation}},
 		"vcn_id":                 Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":           Representation{repType: Optional, create: `MyPrivateSubnetSecurityList`, update: `displayName2`},
+		"egress_security_rules":  []RepresentationGroup{{Required, securityListEgressSecurityRulesICMPRepresentation}, {Optional, securityListEgressSecurityRulesTCPRepresentation}, {Optional, securityListEgressSecurityRulesUDPRepresentation}},
 		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"ingress_security_rules": []RepresentationGroup{{Required, securityListIngressSecurityRulesICMPRepresentation}, {Optional, securityListIngressSecurityRulesTCPRepresentation}, {Optional, securityListIngressSecurityRulesUDPRepresentation}},
 	}
 	securityListEgressSecurityRulesICMPRepresentation = map[string]interface{}{
 		"destination":      Representation{repType: Required, create: `10.0.2.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},

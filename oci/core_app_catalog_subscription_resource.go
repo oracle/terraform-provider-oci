@@ -64,6 +64,8 @@ func CoreAppCatalogSubscriptionResource() *schema.Resource {
 				ForceNew: true,
 			},
 
+			// Optional
+
 			// Computed
 			"display_name": {
 				Type:     schema.TypeString,

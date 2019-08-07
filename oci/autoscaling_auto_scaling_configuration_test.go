@@ -63,8 +63,8 @@ var (
 	}
 	autoScalingConfigurationPoliciesScaleOutRuleRepresentation = map[string]interface{}{
 		"action":       RepresentationGroup{Required, autoScalingConfigurationPoliciesScaleOutRuleActionRepresentation},
-		"metric":       RepresentationGroup{Required, autoScalingConfigurationPoliciesScaleOutRuleMetricRepresentation},
 		"display_name": Representation{repType: Required, create: `scale out rule`, update: `scale out rule - updated`},
+		"metric":       RepresentationGroup{Required, autoScalingConfigurationPoliciesScaleOutRuleMetricRepresentation},
 	}
 	autoScalingConfigurationPoliciesScaleOutRuleActionRepresentation = map[string]interface{}{
 		"type":  Representation{repType: Required, create: `CHANGE_COUNT_BY`, update: `CHANGE_COUNT_BY`},

@@ -29,6 +29,31 @@ func CoreRouteTableResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"vcn_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+
+			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"route_rules": {
 				Type: schema.TypeSet,
 				// Code-gen and specs say this should be required and has a max item limit
@@ -66,31 +91,6 @@ func CoreRouteTableResource() *schema.Resource {
 						// Computed
 					},
 				},
-			},
-			"vcn_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-
-			// Optional
-			"defined_tags": {
-				Type:             schema.TypeMap,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: definedTagsDiffSuppressFunction,
-				Elem:             schema.TypeString,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Computed: true,
-				Elem:     schema.TypeString,
 			},
 
 			// Computed

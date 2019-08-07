@@ -27,12 +27,6 @@ func CoreInternetGatewayResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"enabled": {
-				Type: schema.TypeBool,
-				// Keep 'enabled' optional & set the default to true to avoid a breaking change.
-				Optional: true,
-				Default:  true,
-			},
 			"vcn_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -51,6 +45,11 @@ func CoreInternetGatewayResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  true,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,

@@ -94,9 +94,6 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
-				// The legacy provider required this, but the API no longer accepts it. Keep as optional
-				// to avoid a breaking change. The value will be ignored if defined in the config.
-				Optional: true,
 			},
 			"ipv4": {
 				Type:     schema.TypeString,

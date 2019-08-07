@@ -48,7 +48,9 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 		bgp_md5auth_key = "${var.virtual_circuit_cross_connect_mappings_bgp_md5auth_key}"
 		cross_connect_or_cross_connect_group_id = "${oci_core_cross_connect_or_cross_connect_group.test_cross_connect_or_cross_connect_group.id}"
 		customer_bgp_peering_ip = "${var.virtual_circuit_cross_connect_mappings_customer_bgp_peering_ip}"
+		customer_bgp_peering_ipv6 = "${var.virtual_circuit_cross_connect_mappings_customer_bgp_peering_ipv6}"
 		oracle_bgp_peering_ip = "${var.virtual_circuit_cross_connect_mappings_oracle_bgp_peering_ip}"
+		oracle_bgp_peering_ipv6 = "${var.virtual_circuit_cross_connect_mappings_oracle_bgp_peering_ipv6}"
 		vlan = "${var.virtual_circuit_cross_connect_mappings_vlan}"
 	}
 	customer_bgp_asn = "${var.virtual_circuit_customer_bgp_asn}"
@@ -80,11 +82,25 @@ The following arguments are supported:
 		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv4 addresses.
 
 		Example: `10.0.0.18/31` 
+	* `customer_bgp_peering_ipv6` - (Optional) (Updatable) IPv6 is currently supported only in the Government Cloud. The BGP IPv6 address for the router on the other end of the BGP session from Oracle. Specified by the owner of that router. If the session goes from Oracle to a customer, this is the BGP IPv6 address of the customer's edge router. If the session goes from Oracle to a provider, this is the BGP IPv6 address of the provider's edge router. Only subnet masks from /64 up to /127 are allowed.
+
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv6 addresses.
+
+		Note that IPv6 addressing is currently supported only in the Government Cloud.
+
+		Example: `2001:db8::1/64` 
 	* `oracle_bgp_peering_ip` - (Optional) (Updatable) The IPv4 address for Oracle's end of the BGP session. Must use a /30 or /31 subnet mask. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
 
 		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv4 addresses.
 
 		Example: `10.0.0.19/31` 
+	* `oracle_bgp_peering_ipv6` - (Optional) (Updatable) IPv6 is currently supported only in the Government Cloud. The IPv6 address for Oracle's end of the BGP session.  Only subnet masks from /64 up to /127 are allowed. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
+
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv6 addresses.
+
+		Note that IPv6 addressing is currently supported only in the Government Cloud.
+
+		Example: `2001:db8::2/64` 
 	* `vlan` - (Optional) (Updatable) The number of the specific VLAN (on the cross-connect or cross-connect group) that is assigned to this virtual circuit. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider).  Example: `200` 
 * `customer_bgp_asn` - (Optional) (Updatable) Your BGP ASN (either public or private). Provide this value only if there's a BGP session that goes from your edge router to Oracle. Otherwise, leave this empty or null. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -118,11 +134,25 @@ The following attributes are exported:
 		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv4 addresses.
 
 		Example: `10.0.0.18/31` 
+	* `customer_bgp_peering_ipv6` - The BGP IPv6 address for the router on the other end of the BGP session from Oracle. Specified by the owner of that router. If the session goes from Oracle to a customer, this is the BGP IPv6 address of the customer's edge router. If the session goes from Oracle to a provider, this is the BGP IPv6 address of the provider's edge router. Only subnet masks from /64 up to /127 are allowed.
+
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv6 addresses.
+
+		Note that IPv6 addressing is currently supported only in the Government Cloud.
+
+		Example: `2001:db8::1/64` 
 	* `oracle_bgp_peering_ip` - The IPv4 address for Oracle's end of the BGP session. Must use a /30 or /31 subnet mask. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
 
 		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv4 addresses.
 
 		Example: `10.0.0.19/31` 
+	* `oracle_bgp_peering_ipv6` - The IPv6 address for Oracle's end of the BGP session.  Only subnet masks from /64 up to /127 are allowed. If the session goes from Oracle to a customer's edge router, the customer specifies this information. If the session goes from Oracle to a provider's edge router, the provider specifies this.
+
+		There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv6 addresses.
+
+		Note that IPv6 addressing is currently supported only in the Government Cloud.
+
+		Example: `2001:db8::2/64` 
 	* `vlan` - The number of the specific VLAN (on the cross-connect or cross-connect group) that is assigned to this virtual circuit. Specified by the owner of the cross-connect or cross-connect group (the customer if the customer is colocated with Oracle, or the provider if the customer is connecting via provider).  Example: `200` 
 * `customer_bgp_asn` - The BGP ASN of the network at the other end of the BGP session from Oracle. If the session is between the customer's edge router and Oracle, the value is the customer's ASN. If the BGP session is between the provider's edge router and Oracle, the value is the provider's ASN. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 

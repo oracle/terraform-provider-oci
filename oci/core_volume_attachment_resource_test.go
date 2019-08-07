@@ -74,26 +74,7 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 		}
 	}
 
-	resource "oci_core_instance" "t2" {
-		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-		compartment_id = "${var.compartment_id}"
-		display_name = "-tf-instance"
-		image = "${var.InstanceImageOCID[var.region]}"
-		shape = "VM.Standard2.1"
-		subnet_id = "${oci_core_subnet.t.id}"
-		metadata = {
-			ssh_authorized_keys = "${var.ssh_public_key}"
-		}
-		timeouts {
-			create = "15m"
-		}
-	}
-
-	resource "oci_core_volume" "t2" {
-		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-		compartment_id = "${var.compartment_id}"
-		display_name = "display_name"
-	}`
+`
 
 	s.ResourceName = "oci_core_volume_attachment.t"
 }
@@ -115,7 +96,6 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 
 				resource "oci_core_volume_attachment" "t" {
 					attachment_type = "iSCSI"	# case-insensitive
-					compartment_id = "${var.compartment_id}"
 					instance_id = "${oci_core_instance.t.id}"
 					volume_id = "${oci_core_volume.t.id}"
 				}`,
@@ -152,7 +132,6 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 
 				resource "oci_core_volume_attachment" "t" {
 					attachment_type = "IscSi"	# case-insensitive
-					compartment_id = "${var.compartment_id}"
 					instance_id = "${oci_core_instance.t.id}"
 					volume_id = "${oci_core_volume.t.id}"
 				}`,
@@ -170,7 +149,6 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 
 				resource "oci_core_volume_attachment" "t" {
 					attachment_type = "IscSi"	# case-insensitive
-					compartment_id = "${var.compartment_id}"
 					instance_id = "${oci_core_instance.t.id}"
 					volume_id = "${oci_core_volume.t.id}"
 					display_name = "tf-vol-attach-upd"
@@ -203,133 +181,12 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					},
 				),
 			},
-			// verify instance id update forces new resource creation
-			{
-				Config: s.Config + `
-				resource "oci_core_volume" "t" {
-					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-					compartment_id = "${var.compartment_id}"
-					display_name = "updated_display_name"
-				}
-
-				resource "oci_core_volume_attachment" "t" {
-					attachment_type = "IscSi"	# case-insensitive
-					compartment_id = "${var.compartment_id}"
-					instance_id = "${oci_core_instance.t2.id}"
-					volume_id = "${oci_core_volume.t.id}"
-					display_name = "tf-vol-attach-upd"
-					is_read_only = true
-					use_chap = true
-				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
-					resource.TestCheckResourceAttr(s.ResourceName, "is_pv_encryption_in_transit_enabled", "false"),
-					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "true"),
-					resource.TestCheckResourceAttr(s.ResourceName, "use_chap", "true"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
-					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "iscsi"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeAttachmentLifecycleStateAttached)),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
-					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
-						if resId2 == resId {
-							return fmt.Errorf("resource not recreated when expected to be when updating instance id")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-			// verify volume id update forces new resource creation
-			{
-				Config: s.Config + `
-				resource "oci_core_volume_attachment" "t" {
-					attachment_type = "IscSi"	# case-insensitive
-					compartment_id = "${var.compartment_id}"
-					instance_id = "${oci_core_instance.t2.id}"
-					volume_id = "${oci_core_volume.t2.id}"
-					display_name = "tf-vol-attach-upd"
-					is_read_only = true
-					use_chap = true
-				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
-					resource.TestCheckResourceAttr(s.ResourceName, "is_pv_encryption_in_transit_enabled", "false"),
-					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "true"),
-					resource.TestCheckResourceAttr(s.ResourceName, "use_chap", "true"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
-					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "iscsi"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeAttachmentLifecycleStateAttached)),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
-					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
-						if resId2 == resId {
-							return fmt.Errorf("resource not recreated when expected to be when updating volume id")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
-			// verify attachment type update to paravirtualized forces creation of a new resource
-			{
-				Config: s.Config + `
-				resource "oci_core_volume_attachment" "t" {
-					attachment_type = "paRAviRTualized"	# case-insensitive
-					compartment_id = "${var.compartment_id}"
-					instance_id = "${oci_core_instance.t2.id}"
-					volume_id = "${oci_core_volume.t2.id}"
-					display_name = "tf-vol-attach-upd"
-					is_read_only = true
-					use_chap = true # This should be ignored for paravirtualized attachments
-					is_pv_encryption_in_transit_enabled = true
-				}`,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
-					resource.TestCheckResourceAttr(s.ResourceName, "is_pv_encryption_in_transit_enabled", "true"),
-					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "true"),
-					resource.TestCheckNoResourceAttr(s.ResourceName, "chap_secret"),
-					resource.TestCheckNoResourceAttr(s.ResourceName, "chap_username"),
-					resource.TestCheckNoResourceAttr(s.ResourceName, "ipv4"),
-					resource.TestCheckNoResourceAttr(s.ResourceName, "iqn"),
-					resource.TestCheckNoResourceAttr(s.ResourceName, "port"),
-					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "paravirtualized"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeAttachmentLifecycleStateAttached)),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
-					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
-						if resId2 == resId {
-							return fmt.Errorf("resource not recreated when expected to be when updating attachment type")
-						}
-						resId = resId2
-						return err
-					},
-				),
-			},
 		},
 	})
 }
 
 func TestResourceCoreVolumeAttachmentTestSuite(t *testing.T) {
-	if httpreplay.ModeRecordReplay() {
-		t.Skip("Skip TestResourceCoreVolumeAttachmentTestSuite for httpreplay mode.")
-	}
+	httpreplay.SetScenario("TestResourceCoreVolumeAttachmentTestSuite")
+	defer httpreplay.SaveScenario()
 	suite.Run(t, new(ResourceCoreVolumeAttachmentTestSuite))
 }

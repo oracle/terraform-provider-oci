@@ -63,9 +63,13 @@ The following attributes are exported:
 	* `is_monitoring_supported` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
 * `base_image_id` - The OCID of the image originally used to launch the instance.
 * `compartment_id` - The OCID of the compartment containing the instance you want to use as the basis for the image. 
-* `create_image_allowed` - Whether instances launched with this image can be used to create new images. For example, you cannot create an image of an Oracle Database instance. Example: `true` 
+* `create_image_allowed` - Whether instances launched with this image can be used to create new images. For example, you cannot create an image of an Oracle Database instance.  Example: `true` 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information. You cannot use an Oracle-provided image name as a custom image name.  Example: `My custom Oracle Linux image` 
+* `display_name` - A user-friendly name for the image. It does not have to be unique, and it's changeable. Avoid entering confidential information.
+
+	You cannot use an Oracle-provided image name as a custom image name.
+
+	Example: `My custom Oracle Linux image` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the image.
 * `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:

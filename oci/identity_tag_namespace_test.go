@@ -99,7 +99,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_retired"),
+					resource.TestCheckResourceAttr(resourceName, "is_retired", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "BillingTags"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -123,7 +123,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "description", "This namespace contains tags that will be used in billing."),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_retired"),
+					resource.TestCheckResourceAttr(resourceName, "is_retired", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "BillingTags"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -147,7 +147,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "is_retired"),
+					resource.TestCheckResourceAttr(resourceName, "is_retired", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "BillingTags"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -177,7 +177,7 @@ func TestIdentityTagNamespaceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "tag_namespaces.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "tag_namespaces.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespaces.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespaces.0.is_retired"),
+					resource.TestCheckResourceAttr(datasourceName, "tag_namespaces.0.is_retired", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "tag_namespaces.0.name", "BillingTags"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespaces.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespaces.0.time_created"),

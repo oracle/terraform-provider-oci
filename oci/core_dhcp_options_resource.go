@@ -3,11 +3,13 @@
 package provider
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"strings"
 
+	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
@@ -32,8 +34,9 @@ func CoreDhcpOptionsResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"options": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Required: true,
+				Set:      optionsHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -215,10 +218,11 @@ func (s *CoreDhcpOptionsResourceCrud) Create() error {
 
 	request.Options = []oci_core.DhcpOption{}
 	if options, ok := s.D.GetOkExists("options"); ok {
-		interfaces := options.([]interface{})
+		set := options.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_core.DhcpOption, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := optionsHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "options", stateDataIndex)
 			converted, err := s.mapToDhcpOption(fieldKeyFormat)
 			if err != nil {
@@ -299,10 +303,11 @@ func (s *CoreDhcpOptionsResourceCrud) Update() error {
 
 	request.Options = []oci_core.DhcpOption{}
 	if options, ok := s.D.GetOkExists("options"); ok {
-		interfaces := options.([]interface{})
+		set := options.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_core.DhcpOption, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := optionsHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "options", stateDataIndex)
 			converted, err := s.mapToDhcpOption(fieldKeyFormat)
 			if err != nil {
@@ -355,7 +360,7 @@ func (s *CoreDhcpOptionsResourceCrud) SetData() error {
 	for _, item := range s.Res.Options {
 		options = append(options, DhcpOptionToMap(item))
 	}
-	s.D.Set("options", options)
+	s.D.Set("options", schema.NewSet(optionsHashCodeForSets, options))
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -437,4 +442,32 @@ func DhcpOptionToMap(obj oci_core.DhcpOption) map[string]interface{} {
 	}
 
 	return result
+}
+
+func optionsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if customDnsServers, ok := m["custom_dns_servers"]; ok && customDnsServers != "" {
+		if tmpList, ok := customDnsServers.([]interface{}); ok && len(tmpList) > 0 && tmpList[0] != "" {
+			buf.WriteString("custom_dns_servers-")
+			for _, customDnsServer := range tmpList {
+				buf.WriteString(fmt.Sprintf("%v-", customDnsServer))
+			}
+		}
+	}
+	if searchDomainNames, ok := m["search_domain_names"]; ok && searchDomainNames != "" {
+		if tmpList, ok := searchDomainNames.([]interface{}); ok && len(tmpList) > 0 && tmpList[0] != "" {
+			buf.WriteString("search_domain_names-")
+			for _, searchDomainName := range tmpList {
+				buf.WriteString(fmt.Sprintf("%v-", searchDomainName))
+			}
+		}
+	}
+	if serverType, ok := m["server_type"]; ok && serverType != "" {
+		buf.WriteString(fmt.Sprintf("%v-", serverType))
+	}
+	if type_, ok := m["type"]; ok && type_ != "" {
+		buf.WriteString(fmt.Sprintf("%v-", strings.ToLower(type_.(string))))
+	}
+	return hashcode.String(buf.String())
 }

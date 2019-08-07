@@ -52,6 +52,7 @@ resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
+	ip_mode = "${var.load_balancer_ip_mode}"
 	is_private = "${var.load_balancer_is_private}"
 	network_security_group_ids = "${var.load_balancer_network_security_group_ids}"
 }
@@ -65,6 +66,13 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Required) (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: `example_load_balancer` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `ip_mode` - (Optional) IPv6 is currently supported only in the Government Cloud. Whether the load balancer has an IPv4 or IPv6 IP address.
+
+	If "IPV4", the service assigns an IPv4 address and the load balancer supports IPv4 traffic.
+
+	If "IPV6", the service assigns an IPv6 address and the load balancer supports IPv6 traffic.
+
+	Example: "ipMode":"IPV6" 
 * `is_private` - (Optional) Whether the load balancer has a VCN-local (private) IP address.
 
 	If "true", the service assigns a private IP address to the load balancer.

@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"net"
 	"strings"
 	"time"
 
@@ -139,4 +140,22 @@ func getSubnetExpectedRetryDuration(response oci_common.OCIOperationResponse, di
 		}
 	}
 	return defaultRetryTime
+}
+
+// This before suppression is required because
+//`fd00:aaaa:0123::/48` in request comes back as `fd00:aaaa:123::/48` in response
+func ipv6CompressionDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
+	if old == "" || new == "" {
+		return false
+	}
+	oldIp := strings.Split(old, "/")
+	newIp := strings.Split(new, "/")
+	if len(oldIp) < 2 || len(newIp) < 2 {
+		return false
+	}
+	oldParsedIp := net.ParseIP(oldIp[0])
+	oldSubnetMask := oldIp[1]
+	newParsedIp := net.ParseIP(newIp[0])
+	newSubnetMask := oldIp[1]
+	return strings.EqualFold(oldParsedIp.String(), newParsedIp.String()) && strings.EqualFold(oldSubnetMask, newSubnetMask)
 }
