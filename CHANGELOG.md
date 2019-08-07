@@ -1,4 +1,4 @@
-## 3.37.0 (Unreleased)
+## 3.37.0 (August 07, 2019)
 
 ### Added
 - Support for ipv6 in `oci_core_vcn`, `oci_core_subnet` and `oci_load_balancer` resources.
