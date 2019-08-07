@@ -54,6 +54,10 @@ func AuditAuditEventsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"compartment_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"credential_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -131,6 +135,10 @@ func AuditAuditEventsDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"tenant_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"user_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -222,6 +230,10 @@ func (s *AuditAuditEventsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.CompartmentName != nil {
+			auditEvent["compartment_name"] = *r.CompartmentName
+		}
+
 		if r.CredentialId != nil {
 			auditEvent["credential_id"] = *r.CredentialId
 		}
@@ -288,6 +300,10 @@ func (s *AuditAuditEventsDataSourceCrud) SetData() error {
 
 		if r.TenantId != nil {
 			auditEvent["tenant_id"] = *r.TenantId
+		}
+
+		if r.UserName != nil {
+			auditEvent["user_name"] = *r.UserName
 		}
 
 		resources = append(resources, auditEvent)
