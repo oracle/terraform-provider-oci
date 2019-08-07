@@ -278,6 +278,8 @@ github.com/oracle/oci-go-sdk v6.0.0+incompatible h1:oxUPiF7KPhC0hRoAhAK3hTIZ1K0c
 github.com/oracle/oci-go-sdk v6.0.0+incompatible/go.mod h1:VQb79nF8Z2cwLkLS35ukwStZIg5F66tcBccjip/j888=
 github.com/oracle/oci-go-sdk v6.1.0+incompatible h1:sksvnP7m17+YuV9X11D39LNr7ZIraoRLba9NciVO0tw=
 github.com/oracle/oci-go-sdk v6.1.0+incompatible/go.mod h1:VQb79nF8Z2cwLkLS35ukwStZIg5F66tcBccjip/j888=
+github.com/oracle/oci-go-sdk v6.2.0+incompatible h1:XFJmDeeei0QHR93RXzatrG/XTEuteoYSmfLUuUMI0gk=
+github.com/oracle/oci-go-sdk v6.2.0+incompatible/go.mod h1:VQb79nF8Z2cwLkLS35ukwStZIg5F66tcBccjip/j888=
 github.com/packer-community/winrmcp v0.0.0-20180102160824-81144009af58/go.mod h1:f6Izs6JvFTdnRbziASagjZ2vmf55NSIkC/weStxCHqk=
 github.com/pascaldekloe/goe v0.0.0-20180627143212-57f6aae5913c/go.mod h1:lzWF7FIEvWOWxwDKqyGYQf6ZUaNfKdP144TG7ZOy1lc=
 github.com/pkg/errors v0.0.0-20170505043639-c605e284fe17/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
