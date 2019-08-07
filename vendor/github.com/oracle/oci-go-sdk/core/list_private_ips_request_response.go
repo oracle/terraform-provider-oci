@@ -22,7 +22,7 @@ type ListPrivateIpsRequest struct {
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// An IP address.
+	// An IP address. This could be either IPv4 or IPv6, depending on the resource.
 	// Example: `10.0.3.3`
 	IpAddress *string `mandatory:"false" contributesTo:"query" name:"ipAddress"`
 

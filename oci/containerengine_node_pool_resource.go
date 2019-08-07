@@ -61,20 +61,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			},
 
 			// Optional
-			"node_image_name": {
-				Type:          schema.TypeString,
-				Optional:      true,
-				ForceNew:      true,
-				Computed:      true,
-				ConflictsWith: []string{"node_image_id"},
-			},
-			"node_image_id": {
-				Type:          schema.TypeString,
-				Optional:      true,
-				ForceNew:      true,
-				Computed:      true,
-				ConflictsWith: []string{"node_image_name"},
-			},
 			"initial_node_labels": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -98,6 +84,20 @@ func ContainerengineNodePoolResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"node_image_id": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				Computed:      true,
+				ConflictsWith: []string{"node_image_name"},
+			},
+			"node_image_name": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				Computed:      true,
+				ConflictsWith: []string{"node_image_id"},
 			},
 			"node_metadata": {
 				Type:     schema.TypeMap,

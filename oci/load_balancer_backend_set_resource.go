@@ -97,57 +97,10 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 			},
 			"policy": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 			},
 
 			// Optional
-			"backend": {
-				Type: schema.TypeSet,
-				//Optional: true, // @CODEGEN Marking this computed only as backend should be created using the `backend` resource
-				Computed: true,
-				Set:      backendHashCodeForSets,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"ip_address": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						"port": {
-							Type:     schema.TypeInt,
-							Required: true,
-						},
-
-						// Optional
-						"backup": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Default:  false,
-						},
-						"drain": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Default:  false,
-						},
-						"offline": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Default:  false,
-						},
-						"weight": {
-							Type:     schema.TypeInt,
-							Optional: true,
-							Computed: true,
-						},
-
-						// Computed
-						"name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
 			"lb_cookie_session_persistence_configuration": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -262,6 +215,52 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 			},
 
 			// Computed
+			"backend": {
+				Type:     schema.TypeSet,
+				Computed: true,
+				Set:      backendHashCodeForSets,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"ip_address": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"port": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+
+						// Optional
+						"backup": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default:  false,
+						},
+						"drain": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default:  false,
+						},
+						"offline": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Default:  false,
+						},
+						"weight": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			// internal for work request access
 			"state": {
 				Type:     schema.TypeString,

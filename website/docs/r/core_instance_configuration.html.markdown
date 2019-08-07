@@ -9,7 +9,8 @@ description: |-
 # oci_core_instance_configuration
 This resource provides the Instance Configuration resource in Oracle Cloud Infrastructure Core service.
 
-Creates an instance configuration
+Creates an instance configuration. An instance configuration is a template that defines the
+settings to use when creating Compute instances.
 
 
 ## Example Usage
@@ -121,9 +122,9 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) (Updatable) The OCID of the compartment containing the instance configuration. 
+* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the instance configuration. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - (Optional) (Updatable) A user-friendly name for the instance configuration 
+* `display_name` - (Optional) (Updatable) A user-friendly name for the instance configuration.  Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `instance_details` - (Required when source=NONE) 
 	* `block_volumes` - (Optional) 
@@ -228,8 +229,12 @@ The following arguments are supported:
 			* `subnet_id` - (Optional) The OCID of the subnet to create the VNIC in. See the `subnetId` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 		* `display_name` - (Optional) A user-friendly name for the attachment. Does not have to be unique, and it cannot be changed. 
 		* `nic_index` - (Optional) Which physical network interface card (NIC) the VNIC will use. Defaults to 0. Certain bare metal instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of these instances, you can specify which NIC the VNIC will use. For more information, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
-* `instance_id` - (Required when source=INSTANCE) The ID of the instance that will be used to create instance configuration. 
-* `source` - (Optional) The source of the instance configuration: NONE for creating a new instance configuration from the API input. INSTANCE for creating a new instance configuration from an existing instance. The default is NONE. 
+* `instance_id` - (Required when source=INSTANCE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance to use to create the instance configuration. 
+* `source` - (Optional) The source of the instance configuration. An instance configuration defines the settings to use when creating Compute instances, including details such as the base image, shape, and metadata. You can also specify the associated resources for the instance, such as block volume attachments and network configuration.
+
+	The following values are supported:
+	* `NONE`: Creates an instance configuration using the list of settings that you specify.
+	* `INSTANCE`: Creates an instance configuration using an existing instance as a template. The instance configuration uses the same settings as the instance. 
 
 
 ** IMPORTANT **
@@ -239,12 +244,12 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the compartment containing the instance configuration. 
-* `deferred_fields` - The required details when using the [LaunchInstanceConfiguration](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstanceConfiguration) operation. These attributes are optional when using the [CreateInstanceConfiguration ](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConfiguration/CreateInstanceConfiguration) operation. 
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the instance configuration. 
+* `deferred_fields` - Parameters that were not specified when the instance configuration was created, but that are required to launch an instance from the instance configuration. See the [LaunchInstanceConfiguration](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstanceConfiguration) operation. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the instance configuration. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `id` - The OCID of the instance configuration.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration.
 * `instance_details` - 
 	* `block_volumes` - 
 		* `attach_details` - 
@@ -348,7 +353,7 @@ The following attributes are exported:
 			* `subnet_id` - The OCID of the subnet to create the VNIC in. See the `subnetId` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/CreateVnicDetails/) for more information. 
 		* `display_name` - A user-friendly name for the attachment. Does not have to be unique, and it cannot be changed. 
 		* `nic_index` - Which physical network interface card (NIC) the VNIC will use. Defaults to 0. Certain bare metal instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of these instances, you can specify which NIC the VNIC will use. For more information, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
-* `time_created` - The date and time the instance configuration was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the instance configuration was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Import
 

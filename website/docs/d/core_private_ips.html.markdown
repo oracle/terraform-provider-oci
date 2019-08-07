@@ -53,7 +53,7 @@ data "oci_core_private_ips" "test_private_ips_by_ip_address" {
 
 The following arguments are supported:
 
-* `ip_address` - (Optional) An IP address. Example: `10.0.3.3` 
+* `ip_address` - (Optional) An IP address. This could be either IPv4 or IPv6, depending on the resource. Example: `10.0.3.3` 
 * `subnet_id` - (Optional) The OCID of the subnet.
 * `vnic_id` - (Optional) The OCID of the VNIC.
 

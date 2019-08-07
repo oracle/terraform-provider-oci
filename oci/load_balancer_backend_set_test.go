@@ -164,7 +164,6 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetRepresentation) +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "backend.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
 						"backup":     "true",
 						"drain":      "true",
@@ -343,7 +342,6 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Optional, Update, backendSetLBRepresentation) +
 					generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Optional, Update, backendRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "backend.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
 						"backup":     "true",
 						"drain":      "true",
@@ -400,13 +398,23 @@ func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "load_balancer_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.backup", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.drain", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.ip_address", "10.0.0.3"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.offline", "true"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.port", "10"),
-					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.weight", "11"),
+					CheckResourceSetContainsElementWithProperties(datasourceName, "backendsets.0.backend", map[string]string{
+						"backup":     "true",
+						"drain":      "true",
+						"ip_address": "10.0.0.3",
+						"offline":    "true",
+						"port":       "10",
+						"weight":     "11",
+					},
+						[]string{
+							"backup",
+							"drain",
+							"ip_address",
+							"name",
+							"offline",
+							"port",
+							"weight",
+						}),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.interval_ms", "2000"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.port", "11"),

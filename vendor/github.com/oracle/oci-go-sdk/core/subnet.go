@@ -89,6 +89,22 @@ type Subnet struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// For an IPv6-enabled subnet, this is the IPv6 CIDR block for the subnet's private IP address
+	// space. The subnet size is always /64.
+	// Example: `2001:0db8:0123:1111::/64`
+	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
+
+	// For an IPv6-enabled subnet, this is the IPv6 CIDR block for the subnet's public IP address
+	// space. The subnet size is always /64. The left 48 bits are inherited from the
+	// `ipv6PublicCidrBlock` of the Vcn,
+	// and the remaining 16 bits are from the subnet's `ipv6CidrBlock`.
+	// Example: `2001:0db8:0123:1111::/64`
+	Ipv6PublicCidrBlock *string `mandatory:"false" json:"ipv6PublicCidrBlock"`
+
+	// For an IPv6-enabled subnet, this is the IPv6 address of the virtual router.
+	// Example: `2001:0db8:0123:1111:89ab:cdef:1234:5678`
+	Ipv6VirtualRouterIp *string `mandatory:"false" json:"ipv6VirtualRouterIp"`
+
 	// Whether VNICs within this subnet can have public IP addresses.
 	// Defaults to false, which means VNICs created in this subnet will
 	// automatically be assigned public IP addresses unless specified

@@ -38,6 +38,7 @@ resource "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configu
 				type = "${var.auto_scaling_configuration_policies_rules_action_type}"
 				value = "${var.auto_scaling_configuration_policies_rules_action_value}"
 			}
+			display_name = "${var.auto_scaling_configuration_policies_rules_display_name}"
 			metric {
 				#Required
 				metric_type = "${var.auto_scaling_configuration_policies_rules_metric_metric_type}"
@@ -47,8 +48,6 @@ resource "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configu
 					value = "${var.auto_scaling_configuration_policies_rules_metric_threshold_value}"
 				}
 			}
-
-			display_name = "${var.auto_scaling_configuration_policies_rules_display_name}"
 		}
 
 		#Optional

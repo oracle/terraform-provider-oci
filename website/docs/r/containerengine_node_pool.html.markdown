@@ -24,13 +24,13 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	subnet_ids = "${var.node_pool_subnet_ids}"
 
 	#Optional
-	node_image_name = "${var.node_pool_node_image_name}"
 	initial_node_labels {
 
 		#Optional
 		key = "${var.node_pool_initial_node_labels_key}"
 		value = "${var.node_pool_initial_node_labels_value}"
 	}
+	node_image_name = "${var.node_pool_node_image_name}"
 	node_metadata = "${var.node_pool_node_metadata}"
 	quantity_per_subnet = "${var.node_pool_quantity_per_subnet}"
 	ssh_public_key = "${var.node_pool_ssh_public_key}"
@@ -48,8 +48,8 @@ The following arguments are supported:
 	* `value` - (Optional) (Updatable) The value of the pair.
 * `kubernetes_version` - (Required) (Updatable) The version of Kubernetes to install on the nodes in the node pool.
 * `name` - (Required) (Updatable) The name of the node pool. Avoid entering confidential information.
-* `node_image_name` - (Optional) The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
 * `node_image_id` - (Optional) The OCID of the image running on the nodes in the node pool. Cannot be used when `node_image_name` is specified.
+* `node_image_name` - (Optional) The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
 * `node_metadata` - (Optional) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool.
 * `node_shape` - (Required) The name of the node shape of the nodes in the node pool.
 * `quantity_per_subnet` - (Optional) (Updatable) The number of nodes to create in each subnet.
