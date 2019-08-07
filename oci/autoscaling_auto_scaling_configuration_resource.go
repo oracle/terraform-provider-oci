@@ -139,6 +139,11 @@ func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 											},
 										},
 									},
+									"display_name": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
 									"metric": {
 										Type:     schema.TypeList,
 										Required: true,
@@ -186,12 +191,8 @@ func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 											},
 										},
 									},
-									// Modifying to Required, since we do not have a good work around for calculating hashcode for optional computed fields
-									"display_name": {
-										Type:     schema.TypeString,
-										Required: true,
-										ForceNew: true,
-									},
+
+									// Optional
 
 									// Computed
 									"id": {

@@ -14,7 +14,7 @@ The `oci_core_app_catalog_listing_resource_version_agreement` resource creates A
 ```hcl
 resource "oci_core_app_catalog_listing_resource_version_agreement" "test_app_catalog_listing_resource_version_agreement" {
 	#Required
-	listing_id = "${oci_core_listing.test_listing.id}"
+	listing_id = "${data.oci_core_app_catalog_listing.test_listing.id}"
 	listing_resource_version = "${var.app_catalog_listing_resource_version_agreement_listing_resource_version}"
 }
 ```

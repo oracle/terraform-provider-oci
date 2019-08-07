@@ -50,6 +50,12 @@ func OnsSubscriptionResource() *schema.Resource {
 				DiffSuppressFunc: definedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"delivery_policy": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: jsonStringDiffSuppresionFunction,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -61,13 +67,6 @@ func OnsSubscriptionResource() *schema.Resource {
 			"created_time": {
 				Type:     schema.TypeString,
 				Computed: true,
-			},
-			"delivery_policy": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				//json string, convert to json to see if they are the same
-				DiffSuppressFunc: jsonStringDiffSuppresionFunction,
 			},
 			"etag": {
 				Type:     schema.TypeString,

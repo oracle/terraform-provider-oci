@@ -46,7 +46,7 @@ The following arguments are supported:
 
 	If you don't specify a route table here, the LPG is created without an associated route table. The Networking service does NOT automatically associate the attached VCN's default route table with the LPG.
 
-	For information about why you would associate a route table with an LPG, see [Advanced Scenario: Transit Routing](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm). 
+	For information about why you would associate a route table with an LPG, see [Transit Routing: Access to Multiple VCNs in Same Region](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm). 
 * `vcn_id` - (Required) The OCID of the VCN the LPG belongs to.
 
 
@@ -67,7 +67,9 @@ The following attributes are exported:
 * `peer_advertised_cidr_details` - The specific ranges of IP addresses available on or via the VCN at the other end of the peering from this LPG. The value is `null` if the LPG is not peered. You can use these as destination CIDRs for route rules to route a subnet's traffic to this LPG.  Example: [`192.168.0.0/16`, `172.16.0.0/24`] 
 * `peering_status` - Whether the LPG is peered with another LPG. `NEW` means the LPG has not yet been peered. `PENDING` means the peering is being established. `REVOKED` means the LPG at the other end of the peering has been deleted. 
 * `peering_status_details` - Additional information regarding the peering status, if applicable.
-* `route_table_id` - The OCID of the route table the LPG is using. For information about why you would associate a route table with an LPG, see [Advanced Scenario: Transit Routing](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm). 
+* `route_table_id` - The OCID of the route table the LPG is using.
+
+	For information about why you would associate a route table with an LPG, see [Transit Routing: Access to Multiple VCNs in Same Region](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm). 
 * `state` - The LPG's current lifecycle state.
 * `time_created` - The date and time the LPG was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_id` - The OCID of the VCN the LPG belongs to.

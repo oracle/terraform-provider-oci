@@ -53,6 +53,7 @@ export no_proxy=localhost,127.0.0.1
 ### Verbose logging for OCI Terraform Provider
 
 To get verbose console output when the provider is running, precede your Terraform command with the `TF_LOG` and `OCI_GO_SDK_DEBUG` flags:
+
 ```sh
 TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform plan
 ```

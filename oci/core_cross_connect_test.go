@@ -29,10 +29,9 @@ var (
 	}
 
 	crossConnectDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
-		"cross_connect_group_id": Representation{repType: Optional, create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
-		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
-		"filter":                 RepresentationGroup{Required, crossConnectDataSourceFilterRepresentation}}
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"filter":         RepresentationGroup{Required, crossConnectDataSourceFilterRepresentation}}
 	crossConnectDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_core_cross_connect.test_cross_connect.id}`}},
@@ -42,7 +41,6 @@ var (
 		"compartment_id":          Representation{repType: Required, create: `${var.compartment_id}`},
 		"location_name":           Representation{repType: Required, create: `${data.oci_core_cross_connect_locations.test_cross_connect_locations.cross_connect_locations.0.name}`},
 		"port_speed_shape_name":   Representation{repType: Required, create: `10 Gbps`},
-		"cross_connect_group_id":  Representation{repType: Optional, create: `${oci_core_cross_connect_group.test_cross_connect_group.id}`},
 		"customer_reference_name": Representation{repType: Optional, create: `customerReferenceName`, update: `customerReferenceName2`},
 		"defined_tags":            Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":            Representation{repType: Optional, create: `displayName`, update: `displayName2`},
@@ -50,7 +48,7 @@ var (
 		"is_active":               Representation{repType: Optional, create: `true`},
 	}
 
-	CrossConnectResourceDependencies = CrossConnectGroupResourceConfig + generateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation)
+	CrossConnectResourceDependencies = DefinedTagsDependencies + generateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation)
 )
 
 func TestCoreCrossConnectResource_basic(t *testing.T) {
@@ -106,7 +104,6 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Create, crossConnectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -131,7 +128,6 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "location_name"),
@@ -153,7 +149,6 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName2"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -179,12 +174,10 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Optional, Update, crossConnectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.cross_connect_group_id"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.customer_reference_name", "customerReferenceName2"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.display_name", "displayName2"),
@@ -204,7 +197,6 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + CrossConnectResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_group_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cross_connect_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

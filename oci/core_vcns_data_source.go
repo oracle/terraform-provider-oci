@@ -140,6 +140,14 @@ func (s *CoreVcnsDataSourceCrud) SetData() error {
 			vcn["id"] = *r.Id
 		}
 
+		if r.Ipv6CidrBlock != nil {
+			vcn["ipv6cidr_block"] = *r.Ipv6CidrBlock
+		}
+
+		if r.Ipv6PublicCidrBlock != nil {
+			vcn["ipv6public_cidr_block"] = *r.Ipv6PublicCidrBlock
+		}
+
 		vcn["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
