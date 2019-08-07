@@ -1382,6 +1382,53 @@ func (client VirtualNetworkClient) createInternetGateway(ctx context.Context, re
 	return response, err
 }
 
+// CreateIpv6 Creates an IPv6 for the specified VNIC.
+func (client VirtualNetworkClient) CreateIpv6(ctx context.Context, request CreateIpv6Request) (response CreateIpv6Response, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createIpv6, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateIpv6Response{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateIpv6Response); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateIpv6Response")
+	}
+	return
+}
+
+// createIpv6 implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createIpv6(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/ipv6")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateIpv6Response
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateLocalPeeringGateway Creates a new local peering gateway (LPG) for the specified VCN.
 func (client VirtualNetworkClient) CreateLocalPeeringGateway(ctx context.Context, request CreateLocalPeeringGatewayRequest) (response CreateLocalPeeringGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2403,6 +2450,49 @@ func (client VirtualNetworkClient) deleteInternetGateway(ctx context.Context, re
 	}
 
 	var response DeleteInternetGatewayResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteIpv6 Unassigns and deletes the specified IPv6. You must specify the object's OCID.
+// The IPv6 address is returned to the subnet's pool of available addresses.
+func (client VirtualNetworkClient) DeleteIpv6(ctx context.Context, request DeleteIpv6Request) (response DeleteIpv6Response, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteIpv6, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteIpv6Response{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteIpv6Response); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteIpv6Response")
+	}
+	return
+}
+
+// deleteIpv6 implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteIpv6(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/ipv6/{ipv6Id}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteIpv6Response
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -3686,6 +3776,51 @@ func (client VirtualNetworkClient) getInternetGateway(ctx context.Context, reque
 	}
 
 	var response GetInternetGatewayResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetIpv6 Gets the specified IPv6. You must specify the object's OCID.
+// Alternatively, you can get the object by using
+// ListIpv6s
+// with the IPv6 address (for example, 2001:0db8:0123:1111:98fe:dcba:9876:4321) and subnet OCID.
+func (client VirtualNetworkClient) GetIpv6(ctx context.Context, request GetIpv6Request) (response GetIpv6Response, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getIpv6, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetIpv6Response{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetIpv6Response); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetIpv6Response")
+	}
+	return
+}
+
+// getIpv6 implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getIpv6(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/ipv6/{ipv6Id}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetIpv6Response
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -5002,6 +5137,54 @@ func (client VirtualNetworkClient) listInternetGateways(ctx context.Context, req
 	return response, err
 }
 
+// ListIpv6s Lists the Ipv6 objects based
+// on one of these filters:
+//   * Subnet OCID.
+//   * VNIC OCID.
+//   * Both IPv6 address and subnet OCID: This lets you get an `Ipv6` object based on its private
+//   IPv6 address (for example, 2001:0db8:0123:1111:abcd:ef01:2345:6789) and not its OCID. For comparison,
+//   GetIpv6 requires the OCID.
+func (client VirtualNetworkClient) ListIpv6s(ctx context.Context, request ListIpv6sRequest) (response ListIpv6sResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listIpv6s, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListIpv6sResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListIpv6sResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListIpv6sResponse")
+	}
+	return
+}
+
+// listIpv6s implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listIpv6s(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/ipv6")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListIpv6sResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListLocalPeeringGateways Lists the local peering gateways (LPGs) for the specified VCN and compartment
 // (the LPG's compartment).
 func (client VirtualNetworkClient) ListLocalPeeringGateways(ctx context.Context, request ListLocalPeeringGatewaysRequest) (response ListLocalPeeringGatewaysResponse, err error) {
@@ -6218,6 +6401,53 @@ func (client VirtualNetworkClient) updateInternetGateway(ctx context.Context, re
 	}
 
 	var response UpdateInternetGatewayResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateIpv6 Updates the specified IPv6. You must specify the object's OCID.
+// Use this operation if you want to:
+//   * Move an IPv6 to a different VNIC in the same subnet.
+//   * Enable/disable internet access for an IPv6.
+//   * Change the display name for an IPv6.
+//   * Update resource tags for an IPv6.
+func (client VirtualNetworkClient) UpdateIpv6(ctx context.Context, request UpdateIpv6Request) (response UpdateIpv6Response, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateIpv6, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateIpv6Response{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateIpv6Response); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateIpv6Response")
+	}
+	return
+}
+
+// updateIpv6 implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateIpv6(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/ipv6/{ipv6Id}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateIpv6Response
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

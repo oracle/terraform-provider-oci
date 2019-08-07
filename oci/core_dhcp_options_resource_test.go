@@ -181,41 +181,49 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "display_name", "display_name1"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "options.0.server_type", "VcnLocalPlusInternet"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "options.0.custom_dns_servers.#", "0"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt1", "options.0.search_domain_names.#", "0"),
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt1", "options", map[string]string{
+						"type":        "DomainNameServer",
+						"server_type": "VcnLocalPlusInternet",
+					}, []string{}),
 
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt2", "display_name", "display_name2"),
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt2", "options.#", "2"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt2", "options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt2", "options.0.server_type", "VcnLocalPlusInternet"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt2", "options.1.type", "SearchDomain"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt2", "options.0.custom_dns_servers.#", "0"),
-					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt2", "options.1.search_domain_names.#"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt2", "options.1.search_domain_names.0", "test.com"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt2", "options.0.custom_dns_servers.#", "0"),
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt2", "options", map[string]string{
+						"type":        "DomainNameServer",
+						"server_type": "VcnLocalPlusInternet",
+					}, []string{}),
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt2", "options", map[string]string{
+						"type":                  "SearchDomain",
+						"search_domain_names.0": "test.com",
+					}, []string{}),
 
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt3", "display_name", "display_name3"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt3", "options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt3", "options.0.server_type", "CustomDnsServer"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt3", "options.0.search_domain_names.#", "0"),
-					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt3", "options.0.custom_dns_servers.#"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt3", "options.0.custom_dns_servers.0", "8.8.4.4"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt3", "options.0.custom_dns_servers.1", "8.8.8.8"),
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt3", "options", map[string]string{
+						"type":                 "DomainNameServer",
+						"server_type":          "CustomDnsServer",
+						"custom_dns_servers.0": "8.8.4.4",
+						"custom_dns_servers.1": "8.8.8.8",
+					}, []string{}),
 
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt4", "display_name", "display_name4"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt4", "options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt4", "options.0.server_type", "CustomDnsServer"),
-					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt4", "options.0.custom_dns_servers.#"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt4", "options.0.custom_dns_servers.0", "8.8.4.4"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt4", "options.0.custom_dns_servers.1", "8.8.8.8"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt4", "options.1.type", "SearchDomain"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt4", "options.1.search_domain_names.0", "test.com"),
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt4", "options", map[string]string{
+						"type":                 "DomainNameServer",
+						"server_type":          "CustomDnsServer",
+						"custom_dns_servers.0": "8.8.4.4",
+						"custom_dns_servers.1": "8.8.8.8",
+					}, []string{}),
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt4", "options", map[string]string{
+						"type":                  "SearchDomain",
+						"search_domain_names.0": "test.com",
+					}, []string{}),
 
-					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.server_type", "CustomDnsServer"),
-					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.1.type", "SearchDomain"),
+					CheckResourceSetContainsElementWithProperties("oci_core_default_dhcp_options.default", "options", map[string]string{
+						"type":        "DomainNameServer",
+						"server_type": "CustomDnsServer",
+					}, []string{}),
+					CheckResourceSetContainsElementWithProperties("oci_core_default_dhcp_options.default", "options", map[string]string{
+						"type": "SearchDomain",
+					}, []string{}),
 
 					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt1", "vcn_id"),
 					resource.TestCheckResourceAttrSet("oci_core_dhcp_options.opt1", "id"),
@@ -262,12 +270,16 @@ func TestResourceCoreDHCPOptions_basic(t *testing.T) {
 			{
 				Config: config + additionalDhcpOption4 + defaultDhcpOpts,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.server_type", "CustomDnsServer"),
-					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.custom_dns_servers.0", "8.8.4.4"),
-					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.0.custom_dns_servers.1", "8.8.8.8"),
-					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.1.type", "SearchDomain"),
-					resource.TestCheckResourceAttr("oci_core_default_dhcp_options.default", "options.1.search_domain_names.0", "test.com"),
+					CheckResourceSetContainsElementWithProperties("oci_core_default_dhcp_options.default", "options", map[string]string{
+						"type":                 "DomainNameServer",
+						"server_type":          "CustomDnsServer",
+						"custom_dns_servers.0": "8.8.4.4",
+						"custom_dns_servers.1": "8.8.8.8",
+					}, []string{}),
+					CheckResourceSetContainsElementWithProperties("oci_core_default_dhcp_options.default", "options", map[string]string{
+						"type":                  "SearchDomain",
+						"search_domain_names.0": "test.com",
+					}, []string{}),
 					resource.TestCheckResourceAttrSet("oci_core_default_dhcp_options.default", "manage_default_resource_id"),
 					resource.TestCheckResourceAttrSet("oci_core_default_dhcp_options.default", "id"),
 					resource.TestCheckResourceAttrSet("oci_core_default_dhcp_options.default", "time_created"),
@@ -372,8 +384,10 @@ func TestResourceCoreDHCPOptions_avoidServiceDefault(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "display_name", "testDhcpOptions"),
 					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "options.#", "1"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "options.0.type", "DomainNameServer"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "options.0.server_type", "VcnLocalPlusInternet"),
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
+						"type":        "DomainNameServer",
+						"server_type": "VcnLocalPlusInternet",
+					}, []string{}),
 				),
 			},
 		},
@@ -414,8 +428,10 @@ func TestResourceCoreDHCPOptions_changeOptionsServerType(t *testing.T) {
 					    }
 					}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "options.0.server_type", "CustomDnsServer"),
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "options.0.custom_dns_servers.#", "2"),
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
+						"server_type":          "CustomDnsServer",
+						"custom_dns_servers.#": "2",
+					}, []string{}),
 				),
 			},
 			{
@@ -439,8 +455,167 @@ func TestResourceCoreDHCPOptions_changeOptionsServerType(t *testing.T) {
 					    }
 					}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("oci_core_dhcp_options.opt", "options.0.server_type", "VcnLocalPlusInternet"),
-					resource.TestCheckNoResourceAttr("oci_core_dhcp_options.opt", "options.0.custom_dns_servers"),
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
+						"server_type": "VcnLocalPlusInternet",
+					}, []string{}),
+				),
+			},
+		},
+	})
+}
+
+func TestResourceCoreDHCPOptions_changeOptionsOrder(t *testing.T) {
+	httpreplay.SetScenario("TestResourceCoreDHCPOptions_changeOptionsOrder")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			{
+				Config: legacyTestProviderConfig() + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block     = "10.1.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						display_name   = "testVcn"
+						dns_label      = "tftestvcn"
+					}
+
+					resource "oci_core_dhcp_options" "opt" {
+						compartment_id = "${var.compartment_id}"
+						vcn_id         = "${oci_core_virtual_network.t.id}"
+  						display_name   = "testDhcpOptions"
+
+  						// required
+  						options {
+    						type = "DomainNameServer"
+    						server_type = "VcnLocalPlusInternet"
+  						}
+
+  						options {
+    						type = "SearchDomain"
+    						search_domain_names = ["test.com"]
+						}
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
+						"type":        "DomainNameServer",
+						"server_type": "VcnLocalPlusInternet",
+					}, []string{}),
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
+						"type":                  "SearchDomain",
+						"search_domain_names.0": "test.com",
+					}, []string{}),
+				),
+			},
+			{
+				Config: legacyTestProviderConfig() + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block     = "10.1.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						display_name   = "testVcn"
+						dns_label      = "tftestvcn"
+					}
+
+					resource "oci_core_dhcp_options" "opt" {
+						compartment_id = "${var.compartment_id}"
+						vcn_id         = "${oci_core_virtual_network.t.id}"
+  						display_name   = "testDhcpOptions"
+
+  						// required
+						options {
+    						type = "SearchDomain"
+    						search_domain_names = ["test.com"]
+						}
+
+  						options {
+    						type = "DomainNameServer"
+    						server_type = "VcnLocalPlusInternet"
+  						}
+					}`,
+				PlanOnly:           true,
+				ExpectNonEmptyPlan: false,
+			},
+			{
+				Config: legacyTestProviderConfig() + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block     = "10.1.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						display_name   = "testVcn"
+						dns_label      = "tftestvcn"
+					}
+
+					resource "oci_core_dhcp_options" "opt" {
+						compartment_id = "${var.compartment_id}"
+						vcn_id         = "${oci_core_virtual_network.t.id}"
+  						display_name   = "testDhcpOptions"
+
+  						// required
+  						options {
+    						type = "DomainNameServer"
+    						server_type = "VcnLocalPlusInternet"
+  						}
+
+  						options {
+    						type = "DomainNameServer"
+							server_type = "CustomDnsServer"
+    						custom_dns_servers = ["8.8.4.4", "8.8.8.8"]
+						}
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
+						"type":        "DomainNameServer",
+						"server_type": "VcnLocalPlusInternet",
+					}, []string{}),
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
+						"type":                 "DomainNameServer",
+						"server_type":          "CustomDnsServer",
+						"custom_dns_servers.0": "8.8.4.4",
+						"custom_dns_servers.1": "8.8.8.8",
+					}, []string{}),
+				),
+			},
+			{
+				Config: legacyTestProviderConfig() + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block     = "10.1.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						display_name   = "testVcn"
+						dns_label      = "tftestvcn"
+					}
+
+					resource "oci_core_dhcp_options" "opt" {
+						compartment_id = "${var.compartment_id}"
+						vcn_id         = "${oci_core_virtual_network.t.id}"
+  						display_name   = "testDhcpOptions"
+
+  						// required
+  						options {
+    						type = "DomainNameServer"
+    						server_type = "VcnLocalPlusInternet"
+  						}
+
+  						options {
+    						type = "DomainNameServer"
+							server_type = "CustomDnsServer"
+    						custom_dns_servers = ["8.8.8.8", "8.8.4.4"]
+						}
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
+						"type":        "DomainNameServer",
+						"server_type": "VcnLocalPlusInternet",
+					}, []string{}),
+					CheckResourceSetContainsElementWithProperties("oci_core_dhcp_options.opt", "options", map[string]string{
+						"type":                 "DomainNameServer",
+						"server_type":          "CustomDnsServer",
+						"custom_dns_servers.0": "8.8.8.8",
+						"custom_dns_servers.1": "8.8.4.4",
+					}, []string{}),
 				),
 			},
 		},

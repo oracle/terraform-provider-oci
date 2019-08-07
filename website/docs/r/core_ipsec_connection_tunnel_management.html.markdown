@@ -52,7 +52,7 @@ The following arguments are supported:
 * `ipsec_id` - (Required) The OCID of the IPSec connection.
 * `tunnel_id` - (Required) The OCID of the IPSec connection's tunnel.
 * `routing` - (Required) The type of routing to use for this tunnel (either BGP dynamic routing or static routing). 
-* `bgp_session_config` - (Optional) Information for establishing a BGP session for the IPSec tunnel. Required if the tunnel uses BGP dynamic routing.
+* `bgp_session_info` - (Optional) Information for establishing a BGP session for the IPSec tunnel. Required if the tunnel uses BGP dynamic routing.
 
 	If the tunnel instead uses static routing, you may optionally provide this object and set an IP address for one or both ends of the IPSec tunnel for the purposes of troubleshooting or monitoring the tunnel. 
 	* `customer_bgp_asn` - (Optional) If the tunnel's `routing` attribute is set to `BGP` (see [IPSecConnectionTunnel](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnel/)), this ASN is required and used for the tunnel's BGP session. This is the ASN of the network on the CPE end of the BGP session. Can be a 2-byte or 4-byte ASN. Uses "asplain" format.

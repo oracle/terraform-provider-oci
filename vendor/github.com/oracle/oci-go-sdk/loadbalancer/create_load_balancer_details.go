@@ -43,6 +43,12 @@ type CreateLoadBalancerDetails struct {
 	// Example: `true`
 	IsPrivate *bool `mandatory:"false" json:"isPrivate"`
 
+	// Whether the load balancer has an IPv4 or IPv6 IP address.
+	// If "IPV4", the service assigns an IPv4 address and the load balancer supports IPv4 traffic.
+	// If "IPV6", the service assigns an IPv6 address and the load balancer supports IPv6 traffic.
+	// Example: "ipMode":"IPV6"
+	IpMode CreateLoadBalancerDetailsIpModeEnum `mandatory:"false" json:"ipMode,omitempty"`
+
 	Listeners map[string]ListenerDetails `mandatory:"false" json:"listeners"`
 
 	Hostnames map[string]HostnameDetails `mandatory:"false" json:"hostnames"`
@@ -71,4 +77,27 @@ type CreateLoadBalancerDetails struct {
 
 func (m CreateLoadBalancerDetails) String() string {
 	return common.PointerString(m)
+}
+
+// CreateLoadBalancerDetailsIpModeEnum Enum with underlying type: string
+type CreateLoadBalancerDetailsIpModeEnum string
+
+// Set of constants representing the allowable values for CreateLoadBalancerDetailsIpModeEnum
+const (
+	CreateLoadBalancerDetailsIpModeIpv4 CreateLoadBalancerDetailsIpModeEnum = "IPV4"
+	CreateLoadBalancerDetailsIpModeIpv6 CreateLoadBalancerDetailsIpModeEnum = "IPV6"
+)
+
+var mappingCreateLoadBalancerDetailsIpMode = map[string]CreateLoadBalancerDetailsIpModeEnum{
+	"IPV4": CreateLoadBalancerDetailsIpModeIpv4,
+	"IPV6": CreateLoadBalancerDetailsIpModeIpv6,
+}
+
+// GetCreateLoadBalancerDetailsIpModeEnumValues Enumerates the set of values for CreateLoadBalancerDetailsIpModeEnum
+func GetCreateLoadBalancerDetailsIpModeEnumValues() []CreateLoadBalancerDetailsIpModeEnum {
+	values := make([]CreateLoadBalancerDetailsIpModeEnum, 0)
+	for _, v := range mappingCreateLoadBalancerDetailsIpMode {
+		values = append(values, v)
+	}
+	return values
 }

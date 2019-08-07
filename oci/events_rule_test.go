@@ -123,7 +123,6 @@ func TestEventsRuleResource_basic(t *testing.T) {
 						"is_enabled":  "false",
 					},
 						[]string{
-							"description",
 							"id",
 							"state",
 							"stream_id",
@@ -145,6 +144,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 					},
 				),
 			},
+
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
 				Config: config + compartmentIdVariableStr + imageVariableStr + compartmentIdUVariableStr + RuleResourceDependencies +
@@ -161,7 +161,6 @@ func TestEventsRuleResource_basic(t *testing.T) {
 						"is_enabled":  "false",
 					},
 						[]string{
-							"description",
 							"id",
 							"state",
 							"stream_id",
@@ -186,6 +185,7 @@ func TestEventsRuleResource_basic(t *testing.T) {
 					},
 				),
 			},
+
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + imageVariableStr + RuleResourceDependencies +
@@ -200,7 +200,6 @@ func TestEventsRuleResource_basic(t *testing.T) {
 						"is_enabled":  "true",
 					},
 						[]string{
-							"description",
 							"id",
 							"state",
 							"topic_id",
@@ -211,7 +210,6 @@ func TestEventsRuleResource_basic(t *testing.T) {
 						"is_enabled":  "true",
 					},
 						[]string{
-							"description",
 							"id",
 							"state",
 							"topic_id",
@@ -222,7 +220,6 @@ func TestEventsRuleResource_basic(t *testing.T) {
 						"is_enabled":  "true",
 					},
 						[]string{
-							"description",
 							"function_id",
 							"id",
 							"state",

@@ -52,3 +52,7 @@ The following attributes are exported:
 * `objective` - Value for the IORM objective Default is "Auto" 
 * `state` - The current config state of IORM settings for this Exadata System. 
 
+## Import
+
+Import is not supported for this resource.
+

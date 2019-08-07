@@ -26,6 +26,24 @@ type CreateVcnDetails struct {
 	// The OCID of the compartment to contain the VCN.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// If you enable IPv6 for the VCN (see `isIpv6Enabled`), you may optionally provide an IPv6
+	// /48 CIDR block from the supported ranges (see IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).
+	// The addresses in this block will be considered private and cannot be accessed
+	// from the internet. The documentation refers to this as a *custom CIDR* for the VCN.
+	// If you don't provide a custom CIDR for the VCN, Oracle assigns the VCN's IPv6 /48 CIDR block.
+	// Regardless of whether you or Oracle assigns the `ipv6CidrBlock`,
+	// Oracle *also* assigns the VCN an IPv6 CIDR block for the VCN's public IP address space
+	// (see the `ipv6PublicCidrBlock` of the Vcn object). If you do
+	// not assign a custom CIDR, Oracle uses the *same* Oracle-assigned CIDR for both the private
+	// IP address space (`ipv6CidrBlock` in the `Vcn` object) and the public IP addreses space
+	// (`ipv6PublicCidrBlock` in the `Vcn` object). This means that a given VNIC might use the same
+	// IPv6 IP address for both private and public (internet) communication. You control whether
+	// an IPv6 address can be used for internet communication by using the `isInternetAccessAllowed`
+	// attribute in the Ipv6 object.
+	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).
+	// Example: `2001:0db8:0123::/48`
+	Ipv6CidrBlock *string `mandatory:"false" json:"ipv6CidrBlock"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -52,6 +70,11 @@ type CreateVcnDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Whether IPv6 is enabled for the VCN. Default is `false`. You cannot change this later.
+	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/Content/Network/Concepts/ipv6.htm).
+	// Example: `true`
+	IsIpv6Enabled *bool `mandatory:"false" json:"isIpv6Enabled"`
 }
 
 func (m CreateVcnDetails) String() string {

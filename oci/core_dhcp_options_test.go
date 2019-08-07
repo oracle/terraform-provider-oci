@@ -81,7 +81,16 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.type", "DomainNameServer"),
+					resource.ComposeAggregateTestCheckFunc(
+						CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
+							"type":        "DomainNameServer",
+							"server_type": "VcnLocalPlusInternet",
+						}, []string{}),
+					),
+					CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
+						"type":                  "SearchDomain",
+						"search_domain_names.0": "test.com",
+					}, []string{}),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 					func(s *terraform.State) (err error) {
@@ -106,7 +115,16 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.type", "DomainNameServer"),
+					resource.ComposeAggregateTestCheckFunc(
+						CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
+							"type":        "DomainNameServer",
+							"server_type": "VcnLocalPlusInternet",
+						}, []string{}),
+					),
+					CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
+						"type":                  "SearchDomain",
+						"search_domain_names.0": "test.com",
+					}, []string{}),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -128,8 +146,16 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "options.#", "2"),
-					resource.TestCheckResourceAttr(resourceName, "options.0.type", "DomainNameServer"),
+					resource.ComposeAggregateTestCheckFunc(
+						CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
+							"type":        "DomainNameServer",
+							"server_type": "VcnLocalPlusInternet",
+						}, []string{}),
+					),
+					CheckResourceSetContainsElementWithProperties(resourceName, "options", map[string]string{
+						"type":                  "SearchDomain",
+						"search_domain_names.0": "test.com",
+					}, []string{}),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
@@ -162,7 +188,8 @@ func TestCoreDhcpOptionsResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "options.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "options.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "options.0.options.#", "2"),
-					resource.TestCheckResourceAttr(datasourceName, "options.0.options.0.type", "DomainNameServer"),
+					resource.TestCheckResourceAttrSet(datasourceName, "options.0.options.0.type"),
+					resource.TestCheckResourceAttrSet(datasourceName, "options.0.options.1.type"),
 					resource.TestCheckResourceAttrSet(datasourceName, "options.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "options.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "options.0.vcn_id"),

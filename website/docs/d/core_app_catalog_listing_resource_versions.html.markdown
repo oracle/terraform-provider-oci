@@ -16,7 +16,7 @@ Gets all resource versions for a particular listing.
 ```hcl
 data "oci_core_app_catalog_listing_resource_versions" "test_app_catalog_listing_resource_versions" {
 	#Required
-	listing_id = "${oci_core_listing.test_listing.id}"
+	listing_id = "${data.oci_core_app_catalog_listing.test_listing.id}"
 }
 ```
 
