@@ -434,6 +434,10 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 			if err != nil {
 				return err
 			}
+
+			if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
+				return waitErr
+			}
 		}
 	}
 
