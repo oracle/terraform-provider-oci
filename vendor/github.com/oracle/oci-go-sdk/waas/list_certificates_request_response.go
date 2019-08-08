@@ -36,7 +36,7 @@ type ListCertificatesRequest struct {
 	DisplayName []string `contributesTo:"query" name:"displayName" collectionFormat:"multi"`
 
 	// Filter certificates using a list of lifecycle states.
-	LifecycleState []string `contributesTo:"query" name:"lifecycleState" collectionFormat:"multi"`
+	LifecycleState []ListCertificatesLifecycleStateEnum `contributesTo:"query" name:"lifecycleState" omitEmpty:"true" collectionFormat:"multi"`
 
 	// A filter that matches certificates created on or after the specified date-time.
 	TimeCreatedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedGreaterThanOrEqualTo"`
@@ -135,6 +135,37 @@ var mappingListCertificatesSortOrder = map[string]ListCertificatesSortOrderEnum{
 func GetListCertificatesSortOrderEnumValues() []ListCertificatesSortOrderEnum {
 	values := make([]ListCertificatesSortOrderEnum, 0)
 	for _, v := range mappingListCertificatesSortOrder {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListCertificatesLifecycleStateEnum Enum with underlying type: string
+type ListCertificatesLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListCertificatesLifecycleStateEnum
+const (
+	ListCertificatesLifecycleStateCreating ListCertificatesLifecycleStateEnum = "CREATING"
+	ListCertificatesLifecycleStateActive   ListCertificatesLifecycleStateEnum = "ACTIVE"
+	ListCertificatesLifecycleStateFailed   ListCertificatesLifecycleStateEnum = "FAILED"
+	ListCertificatesLifecycleStateUpdating ListCertificatesLifecycleStateEnum = "UPDATING"
+	ListCertificatesLifecycleStateDeleting ListCertificatesLifecycleStateEnum = "DELETING"
+	ListCertificatesLifecycleStateDeleted  ListCertificatesLifecycleStateEnum = "DELETED"
+)
+
+var mappingListCertificatesLifecycleState = map[string]ListCertificatesLifecycleStateEnum{
+	"CREATING": ListCertificatesLifecycleStateCreating,
+	"ACTIVE":   ListCertificatesLifecycleStateActive,
+	"FAILED":   ListCertificatesLifecycleStateFailed,
+	"UPDATING": ListCertificatesLifecycleStateUpdating,
+	"DELETING": ListCertificatesLifecycleStateDeleting,
+	"DELETED":  ListCertificatesLifecycleStateDeleted,
+}
+
+// GetListCertificatesLifecycleStateEnumValues Enumerates the set of values for ListCertificatesLifecycleStateEnum
+func GetListCertificatesLifecycleStateEnumValues() []ListCertificatesLifecycleStateEnum {
+	values := make([]ListCertificatesLifecycleStateEnum, 0)
+	for _, v := range mappingListCertificatesLifecycleState {
 		values = append(values, v)
 	}
 	return values

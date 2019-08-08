@@ -55,9 +55,6 @@ type UpdateProtectionSettingsResponse struct {
 	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
