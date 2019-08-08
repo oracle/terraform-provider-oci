@@ -3,6 +3,7 @@
 ### Added
 - Support for creating and updating `oci_file_storage_file_system` resource with KMS key
 - Support for Stream Archiving
+- Support for moving `oci_core_dhcp_options`,`oci_core_internet_gateway`,`oci_core_local_peering_gateway`,`oci_core_network_security_group`, `oci_core_public_ip` resources across compartments
 
 ## 3.38.0 (August 14, 2019)
 

@@ -257,9 +257,9 @@ The following attributes are exported:
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
 	* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
 	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the boot volume's paravirtualized attachment. The default value is false.
-	* `network_type` - Emulation type for NIC.
+	* `network_type` - Emulation type for the physical network interface card (NIC).
 		* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
-		* `VFIO` - Direct attached Virtual Function network controller.  Default for Oracle provided images.
+		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
 		* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers. 
 	* `remote_data_volume_type` - Emulation type for volume.
 		* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
