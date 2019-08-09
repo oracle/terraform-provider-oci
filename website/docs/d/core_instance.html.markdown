@@ -33,6 +33,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `agent_config` - 
+	* `is_management_disabled` - Whether the agent running on the instance can run all the available management plugins. 
 	* `is_monitoring_disabled` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
 * `availability_domain` - The availability domain the instance is running in.  Example: `Uocm:PHX-AD-1` 
 * `boot_volume_id` - The OCID of the attached boot volume. If the `source_type` is `bootVolume`, this will be the same OCID as the `source_id`.

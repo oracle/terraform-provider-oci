@@ -65,6 +65,11 @@ func CoreInstanceResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"is_management_disabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"is_monitoring_disabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -1298,6 +1303,11 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 func (s *CoreInstanceResourceCrud) mapToLaunchInstanceAgentConfigDetails(fieldKeyFormat string) (oci_core.LaunchInstanceAgentConfigDetails, error) {
 	result := oci_core.LaunchInstanceAgentConfigDetails{}
 
+	if isManagementDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_management_disabled")); ok {
+		tmp := isManagementDisabled.(bool)
+		result.IsManagementDisabled = &tmp
+	}
+
 	if isMonitoringDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monitoring_disabled")); ok {
 		tmp := isMonitoringDisabled.(bool)
 		result.IsMonitoringDisabled = &tmp
@@ -1313,12 +1323,20 @@ func (s *CoreInstanceResourceCrud) mapToUpdateInstanceAgentConfigDetails(fieldKe
 		tmp := isMonitoringDisabled.(bool)
 		result.IsMonitoringDisabled = &tmp
 	}
+	if isManagementDisabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_management_disabled")); ok {
+		tmp := isManagementDisabled.(bool)
+		result.IsManagementDisabled = &tmp
+	}
 
 	return result, nil
 }
 
 func InstanceAgentConfigToMap(obj *oci_core.InstanceAgentConfig) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.IsManagementDisabled != nil {
+		result["is_management_disabled"] = bool(*obj.IsManagementDisabled)
+	}
 
 	if obj.IsMonitoringDisabled != nil {
 		result["is_monitoring_disabled"] = bool(*obj.IsMonitoringDisabled)
