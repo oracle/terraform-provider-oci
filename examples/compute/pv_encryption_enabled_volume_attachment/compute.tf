@@ -37,7 +37,6 @@ resource "oci_core_volume" "TFVolume" {
 
 resource "oci_core_volume_attachment" "TFVolumeAttachment" {
   attachment_type                     = "paravirtualized"
-  compartment_id                      = "${var.compartment_ocid}"
   instance_id                         = "${oci_core_instance.TFInstance.id}"
   volume_id                           = "${oci_core_volume.TFVolume.id}"
   display_name                        = "tf-vol-attach"
