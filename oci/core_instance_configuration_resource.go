@@ -338,11 +338,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										ForceNew: true,
 									},
 									"extended_metadata": {
-										Type:     schema.TypeMap,
-										Optional: true,
-										Computed: true,
-										ForceNew: true,
-										Elem:     schema.TypeString,
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: jsonStringDiffSuppressFunction,
+										Elem:             schema.TypeString,
 									},
 									"fault_domain": {
 										Type:     schema.TypeString,
@@ -1352,7 +1353,7 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["extended_metadata"] = obj.ExtendedMetadata
+	result["extended_metadata"] = genericMapToJsonMap(obj.ExtendedMetadata)
 
 	if obj.FaultDomain != nil {
 		result["fault_domain"] = string(*obj.FaultDomain)

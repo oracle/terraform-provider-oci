@@ -5,9 +5,11 @@ package provider
 import (
 	"bytes"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
+	"reflect"
 	"sort"
 	"strings"
 	"text/template"
@@ -435,4 +437,39 @@ func testExportCompartment(OCID *string, compartmentId *string) error {
 		}
 	}
 	return nil
+}
+
+func checkJsonStringsEqual(expectedJsonString string, actualJsonString string) error {
+	if expectedJsonString == actualJsonString {
+		return nil
+	}
+
+	var expected, actual interface{}
+	if err := json.Unmarshal([]byte(expectedJsonString), &expected); err != nil {
+		return err
+	}
+
+	if err := json.Unmarshal([]byte(actualJsonString), &actual); err != nil {
+		return err
+	}
+
+	if !reflect.DeepEqual(expected, actual) {
+		return fmt.Errorf("expected JSON '%s', but got JSON '%s'", expectedJsonString, actualJsonString)
+	}
+	return nil
+}
+
+// Compares an attribute against a JSON string's unmarshalled value
+func testCheckJsonResourceAttr(name, key, expectedJson string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		actualJsonFromState, err := fromInstanceState(s, name, key)
+		if err != nil {
+			return err
+		}
+
+		if err := checkJsonStringsEqual(expectedJson, actualJsonFromState); err != nil {
+			return fmt.Errorf("%s: Attribute '%s' %s", name, key, err)
+		}
+		return nil
+	}
 }

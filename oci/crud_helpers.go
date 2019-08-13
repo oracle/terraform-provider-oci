@@ -909,10 +909,10 @@ func getWorkRequestErrors(workRequestClient *oci_work_requests.WorkRequestClient
 // Helper to marshal JSON objects from service into strings that can be stored in state.
 // This limitation exists because Terraform doesn't support maps of nested objects and so we use JSON strings representation
 // as a workaround.
-func genericMapToJsonMap(extendedMetadata map[string]interface{}) map[string]interface{} {
+func genericMapToJsonMap(genericMap map[string]interface{}) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	for key, value := range extendedMetadata {
+	for key, value := range genericMap {
 		switch v := value.(type) {
 		case string:
 			result[key] = v

@@ -124,8 +124,8 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 					resource.TestCheckResourceAttrSet(s.ResourceName, "metadata.ssh_authorized_keys"),
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.%", "3"),
 					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyA", "valA"),
-					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyB", "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"),
-					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyC", "[\"valC1\", \"valC2\"]"),
+					testCheckJsonResourceAttr(s.ResourceName, "extended_metadata.keyB", "{\"keyB1\":\"valB1\",\"keyB2\":{\"keyB2\":\"valB2\"}}"),
+					testCheckJsonResourceAttr(s.ResourceName, "extended_metadata.keyC", "[\"valC1\",\"valC2\"]"),
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "region"),
@@ -480,6 +480,45 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_basic() {
 						return err
 					},
 				),
+			},
+			// changing order of map elements within JSON strings should not result in diff
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					metadata = {
+						ssh_authorized_keys = "${var.ssh_public_key}"
+						user_data = "ZWNobyBoZWxsbw=="
+					}
+					extended_metadata = {
+						keyA = "valA"
+						keyB = "{\"keyB2\": {\"keyB2\": \"valB2\"}, \"keyB1\": \"valB1\"}" # Order has been changed here, no diff expected
+						keyC = "[\"valC1\", \"valC2\"]"
+					}
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						display_name = "-tf-vnic-2"
+						assign_public_ip = false
+						private_ip = "10.0.1.20"
+						skip_source_dest_check = true
+						defined_tags = "${map(
+							"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue"
+							)}"
+						freeform_tags = { "Department" = "Finance" }
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				PlanOnly: true,
 			},
 		},
 	})
