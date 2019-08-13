@@ -4,6 +4,7 @@ package oci
 
 import (
 	oci_analytics "github.com/oracle/oci-go-sdk/analytics"
+	oci_apigateway "github.com/oracle/oci-go-sdk/apigateway"
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
@@ -46,12 +47,15 @@ type OracleClients struct {
 	computeManagementClient        *oci_core.ComputeManagementClient
 	containerEngineClient          *oci_containerengine.ContainerEngineClient
 	databaseClient                 *oci_database.DatabaseClient
+	deploymentClient               *oci_apigateway.DeploymentClient
 	dnsClient                      *oci_dns.DnsClient
 	emailClient                    *oci_email.EmailClient
 	eventsClient                   *oci_events.EventsClient
 	fileStorageClient              *oci_file_storage.FileStorageClient
 	functionsInvokeClient          *oci_functions.FunctionsInvokeClient
 	functionsManagementClient      *oci_functions.FunctionsManagementClient
+	gatewayClient                  *oci_apigateway.GatewayClient
+	gatewayWorkRequestsClient      *oci_apigateway.WorkRequestsClient
 	healthChecksClient             *oci_health_checks.HealthChecksClient
 	identityClient                 *oci_identity.IdentityClient
 	integrationInstanceClient      *oci_integration.IntegrationInstanceClient
@@ -209,6 +213,12 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 	}
 	clients.databaseClient = &databaseClient
 
+	deploymentClient, err := oci_apigateway.NewDeploymentClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	clients.deploymentClient = &deploymentClient
+
 	dnsClient, err := oci_dns.NewDnsClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return
@@ -268,6 +278,18 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.functionsManagementClient = &functionsManagementClient
+
+	gatewayClient, err := oci_apigateway.NewGatewayClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	clients.gatewayClient = &gatewayClient
+
+	gatewayWorkRequestsClient, err := oci_apigateway.NewWorkRequestsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	clients.gatewayWorkRequestsClient = &gatewayWorkRequestsClient
 
 	healthChecksClient, err := oci_health_checks.NewHealthChecksClientWithConfigurationProvider(configProvider)
 	if err != nil {

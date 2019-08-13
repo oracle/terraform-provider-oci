@@ -206,6 +206,10 @@ func schemaMap() map[string]*schema.Schema {
 
 func DataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
+		"oci_apigateway_gateway":                                      ApigatewayGatewayDataSource(),
+		"oci_apigateway_gateways":                                     ApigatewayGatewaysDataSource(),
+		"oci_apigateway_deployment":                                   ApigatewayDeploymentDataSource(),
+		"oci_apigateway_deployments":                                  ApigatewayDeploymentsDataSource(),
 		"oci_analytics_analytics_instance":                            AnalyticsAnalyticsInstanceDataSource(),
 		"oci_analytics_analytics_instances":                           AnalyticsAnalyticsInstancesDataSource(),
 		"oci_audit_configuration":                                     AuditConfigurationDataSource(),
@@ -512,6 +516,8 @@ func DataSourcesMap() map[string]*schema.Resource {
 
 func ResourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
+		"oci_apigateway_gateway":                                      ApigatewayGatewayResource(),
+		"oci_apigateway_deployment":                                   ApigatewayDeploymentResource(),
 		"oci_analytics_analytics_instance":                            AnalyticsAnalyticsInstanceResource(),
 		"oci_autoscaling_auto_scaling_configuration":                  AutoScalingAutoScalingConfigurationResource(),
 		"oci_budget_budget":                                           BudgetBudgetResource(),
