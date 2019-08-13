@@ -124,7 +124,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 										Computed: true,
 										ForceNew: true,
 									},
-									// this supports OLTP or DSS, returns "" if not supplied
 									"db_workload": {
 										Type:     schema.TypeString,
 										Optional: true,

@@ -1,8 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-/*
- * This example demonstrates some basic security list options.
- */
+# This example demonstrates some basic security list options.
 
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
@@ -19,20 +17,20 @@ provider "oci" {
   region           = "${var.region}"
 }
 
-resource "oci_core_vcn" "ExampleVCN" {
+resource "oci_core_vcn" "example_vcn" {
   cidr_block     = "10.0.0.0/16"
   dns_label      = "examplevcn"
   compartment_id = "${var.compartment_ocid}"
-  display_name   = "TFExampleVCN"
+  display_name   = "exampleVCN"
 }
 
 # Protocols are specified as protocol numbers.
 # http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 
-resource "oci_core_security_list" "ExampleSecurityList" {
+resource "oci_core_security_list" "example_security_list" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_vcn.ExampleVCN.id}"
-  display_name   = "TFExampleSecurityList"
+  vcn_id         = "${oci_core_vcn.example_vcn.id}"
+  display_name   = "exampleSecurityList"
 
   // allow outbound tcp traffic on all ports
   egress_security_rules {

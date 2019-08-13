@@ -452,7 +452,7 @@ func (s *WaasCertificateResourceCrud) SetData() error {
 	}
 
 	if s.Res.IssuerName != nil {
-		s.D.Set("issuer_name", []interface{}{CertificateSubjectNameToMap(s.Res.IssuerName)})
+		s.D.Set("issuer_name", []interface{}{CertificateIssuerNameToMap(s.Res.IssuerName)})
 	} else {
 		s.D.Set("issuer_name", nil)
 	}
@@ -511,6 +511,40 @@ func CertificateExtensionToMap(obj oci_waas.CertificateExtensions) map[string]in
 
 	if obj.Value != nil {
 		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func CertificateIssuerNameToMap(obj *oci_waas.CertificateIssuerName) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CommonName != nil {
+		result["common_name"] = string(*obj.CommonName)
+	}
+
+	if obj.Country != nil {
+		result["country"] = string(*obj.Country)
+	}
+
+	if obj.EmailAddress != nil {
+		result["email_address"] = string(*obj.EmailAddress)
+	}
+
+	if obj.Locality != nil {
+		result["locality"] = string(*obj.Locality)
+	}
+
+	if obj.Organization != nil {
+		result["organization"] = string(*obj.Organization)
+	}
+
+	if obj.OrganizationalUnit != nil {
+		result["organizational_unit"] = string(*obj.OrganizationalUnit)
+	}
+
+	if obj.StateProvince != nil {
+		result["state_province"] = string(*obj.StateProvince)
 	}
 
 	return result

@@ -22,6 +22,9 @@ type AccessRule struct {
 	Criteria []AccessRuleCriteria `mandatory:"true" json:"criteria"`
 
 	// The action to take when the access criteria are met for a rule. If unspecified, defaults to `ALLOW`.
+	// - **ALLOW:** Takes no action, just logs the request.
+	// - **DETECT:** Takes no action, but creates an alert for the request.
+	// - **BLOCK:** Blocks the request by returning specified response code or showing error page.
 	Action AccessRuleActionEnum `mandatory:"true" json:"action"`
 
 	// The method used to block requests if `action` is set to `BLOCK` and the access criteria are met. If unspecified, defaults to `SET_RESPONSE_CODE`.

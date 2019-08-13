@@ -238,6 +238,7 @@ func (s *KmsKeyResourceCrud) UpdatedPending() []string {
 	return []string{
 		string(oci_kms.KeyLifecycleStateEnabling),
 		string(oci_kms.KeyLifecycleStateDisabling),
+		string(oci_kms.KeyLifecycleStateUpdating),
 	}
 }
 

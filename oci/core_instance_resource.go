@@ -76,8 +76,6 @@ func CoreInstanceResource() *schema.Resource {
 			"create_vnic_details": {
 				Type:     schema.TypeList,
 				Optional: true,
-				// This must be set to computed, since it's optional and required subnet_id param is being refreshed.
-				// If this isn't computed, then that would always force a change on users who do not set create_vnic_details.
 				Computed: true,
 				MaxItems: 1,
 				MinItems: 1,
@@ -96,9 +94,8 @@ func CoreInstanceResource() *schema.Resource {
 							// values for boolean nested objects correctly.
 							Type:     schema.TypeString,
 							Optional: true,
-							// @CODEGEN 1/2018: Avoid breaking change by setting assign_public_ip to true by default.
-							ForceNew: true,
 							Default:  "true",
+							ForceNew: true,
 							ValidateFunc: func(v interface{}, k string) ([]string, []error) {
 								// Verify that we can parse the string value as a bool value.
 								var es []error
@@ -119,27 +116,23 @@ func CoreInstanceResource() *schema.Resource {
 							Computed:         true,
 							DiffSuppressFunc: definedTagsDiffSuppressFunction,
 							Elem:             schema.TypeString,
-							// @CODEGEN 6/2018: Remove ForceNew, this is updatable via vnic update
 						},
 						"display_name": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							// @CODEGEN 1/2018: Remove ForceNew, this is updatable via vnic update
 						},
 						"freeform_tags": {
 							Type:     schema.TypeMap,
 							Optional: true,
 							Computed: true,
 							Elem:     schema.TypeString,
-							// @CODEGEN 6/2018: Remove ForceNew, this is updatable via vnic update
 						},
 						"hostname_label": {
 							Type:             schema.TypeString,
 							Optional:         true,
 							Computed:         true,
 							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
-							// @CODEGEN 1/2018: Remove ForceNew, this is updatable via vnic update
 						},
 						"nsg_ids": {
 							Type:     schema.TypeSet,
@@ -159,7 +152,6 @@ func CoreInstanceResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
-							// @CODEGEN 1/2018: Remove ForceNew, this is updatable via vnic update
 						},
 
 						// Computed

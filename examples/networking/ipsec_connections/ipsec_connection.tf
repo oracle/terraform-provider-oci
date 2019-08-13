@@ -1,52 +1,19 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
-variable "ip_sec_connection_cpe_local_identifier" {
-  default = "189.44.2.135"
-}
 
-variable "ip_sec_connection_cpe_local_identifier_type" {
-  default = "IP_ADDRESS"
-}
+variable "tenancy_ocid" {}
+variable "user_ocid" {}
+variable "fingerprint" {}
+variable "private_key_path" {}
+variable "region" {}
 
-variable "ip_sec_connection_defined_tags_value" {
-  default = "value"
-}
+variable "compartment_ocid" {}
 
-variable "ip_sec_connection_display_name" {
-  default = "MyIPSecConnection"
-}
-
-variable "ip_sec_connection_freeform_tags" {
-  default = {
-    "Department" = "Finance"
-  }
-}
-
-variable "ip_sec_connection_static_routes" {
-  default = ["10.0.0.0/16"]
-}
-
-variable "ip_sec_connection_tunnel_configuration_bgp_session_config_customer_bgp_asn" {
-  default = "1587232876"
-}
-
-variable "ip_sec_connection_tunnel_configuration_bgp_session_config_customer_interface_ip" {
-  default = "10.0.0.16/31"
-}
-
-variable "ip_sec_connection_tunnel_configuration_bgp_session_config_oracle_interface_ip" {
-  default = "10.0.0.17/31"
-}
-
-variable "ip_sec_connection_tunnel_configuration_display_name" {
-  default = "MyIPSecConnection"
-}
-
-variable "ip_sec_connection_tunnel_configuration_routing" {
-  default = "BGP"
-}
-
-variable "ip_sec_connection_tunnel_configuration_shared_secret" {
-  default = "sharedSecret"
+provider "oci" {
+  tenancy_ocid     = "${var.tenancy_ocid}"
+  user_ocid        = "${var.user_ocid}"
+  fingerprint      = "${var.fingerprint}"
+  private_key_path = "${var.private_key_path}"
+  region           = "${var.region}"
 }
 
 resource oci_core_cpe "test_cpe" {
@@ -65,14 +32,17 @@ resource "oci_core_ipsec" "test_ip_sec_connection" {
   compartment_id = "${var.compartment_ocid}"
   cpe_id         = "${oci_core_cpe.test_cpe.id}"
   drg_id         = "${oci_core_drg.test_drg.id}"
-  static_routes  = "${var.ip_sec_connection_static_routes}"
+  static_routes  = ["10.0.0.0/16"]
 
   #Optional
-  cpe_local_identifier      = "${var.ip_sec_connection_cpe_local_identifier}"
-  cpe_local_identifier_type = "${var.ip_sec_connection_cpe_local_identifier_type}"
-  defined_tags              = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.ip_sec_connection_defined_tags_value}")}"
-  display_name              = "${var.ip_sec_connection_display_name}"
-  freeform_tags             = "${var.ip_sec_connection_freeform_tags}"
+  cpe_local_identifier      = "189.44.2.135"
+  cpe_local_identifier_type = "IP_ADDRESS"
+  defined_tags              = "${map("${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
+  display_name              = "MyIPSecConnection"
+
+  freeform_tags = {
+    "Department" = "Finance"
+  }
 }
 
 data "oci_core_ipsec_connections" "test_ip_sec_connections" {
@@ -99,12 +69,33 @@ resource "oci_core_ipsec_connection_tunnel_management" "test_ipsec_connection_tu
 
   #Optional
   bgp_session_info {
-    customer_bgp_asn      = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_customer_bgp_asn}"
-    customer_interface_ip = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_customer_interface_ip}"
-    oracle_interface_ip   = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_oracle_interface_ip}"
+    customer_bgp_asn      = "1587232876"
+    customer_interface_ip = "10.0.0.16/31"
+    oracle_interface_ip   = "10.0.0.17/31"
   }
 
-  display_name  = "${var.ip_sec_connection_tunnel_configuration_display_name}"
-  routing       = "${var.ip_sec_connection_tunnel_configuration_routing}"
-  shared_secret = "${var.ip_sec_connection_tunnel_configuration_shared_secret}"
+  display_name  = "MyIPSecConnection"
+  routing       = "BGP"
+  shared_secret = "sharedSecret"
+}
+
+resource "oci_identity_tag_namespace" "tag_namespace1" {
+  #Required
+  compartment_id = "${var.tenancy_ocid}"
+  description    = "Just a test"
+  name           = "testexamples-tag-namespace"
+}
+
+resource "oci_identity_tag" "tag1" {
+  #Required
+  description      = "tf example tag"
+  name             = "tf-example-tag"
+  tag_namespace_id = "${oci_identity_tag_namespace.tag_namespace1.id}"
+}
+
+resource "oci_identity_tag" "tag2" {
+  #Required
+  description      = "tf example tag 2"
+  name             = "tf-example-tag-2"
+  tag_namespace_id = "${oci_identity_tag_namespace.tag_namespace1.id}"
 }

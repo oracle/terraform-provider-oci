@@ -64,7 +64,6 @@ const (
 	WorkRequestOperationTypeCreateWaasPolicy WorkRequestOperationTypesEnum = "CREATE_WAAS_POLICY"
 	WorkRequestOperationTypeUpdateWaasPolicy WorkRequestOperationTypesEnum = "UPDATE_WAAS_POLICY"
 	WorkRequestOperationTypeDeleteWaasPolicy WorkRequestOperationTypesEnum = "DELETE_WAAS_POLICY"
-	WorkRequestOperationTypePurgeWaasPolicy  WorkRequestOperationTypesEnum = "PURGE_WAAS_POLICY"
 )
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypesEnum

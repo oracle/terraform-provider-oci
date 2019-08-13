@@ -43,7 +43,7 @@ The following arguments are supported:
 * `metadata` - (Optional) Optional user-defined metadata key and value.
 Note: All specified keys must be in lower case.
 * `namespace` - (Required) The Object Storage namespace used for the request.
-* `object` - (Required) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
+* `object` - (Required) (Updatable) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
 * `source` - (Optional) An absolute path to a file on the local system. Cannot be defined if `content` or `source_uri_details` is defined.
 * `source_uri_details` - (Optional) Details of the source URI of the object in the cloud. Cannot be defined if `content` or `source` is defined. 
 Note: To enable object copy, you must authorize the service to manage objects on your behalf.
@@ -54,6 +54,7 @@ Note: To enable object copy, you must authorize the service to manage objects on
     * `source_object_if_match_etag` - (Optional) The entity tag to match the source object.
     * `destination_object_if_match_etag` - (Optional) The entity tag to match the target object.
     * `destination_object_if_none_match_etag` - (Optional) The entity tag to not match the target object.
+
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values

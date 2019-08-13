@@ -17,11 +17,11 @@ import (
 //     "exclusions": [
 //         {
 //             "target":"REQUEST_COOKIES",
-//             "exclusions":["yourcompany.com", "Wed, 21 Oct 2015 07:28:00 GMT", "12345", "219ffwef9w0f"]
+//             "exclusions":["example.com", "Wed, 21 Oct 2015 07:28:00 GMT", "12345", "219ffwef9w0f"]
 //         },
 //                             {
 //             "target":"REQUEST_COOKIES_NAMES",
-//             "exclusions":["domain", "expires", "id", "sessionid"]
+//             "exclusions":["OAMAuthnCookie", "JSESSIONID", "HCM-PSJSESSIONID"]
 //         }
 //     ],
 //     "key": "1000000",

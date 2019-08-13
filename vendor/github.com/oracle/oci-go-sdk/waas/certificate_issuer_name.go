@@ -12,8 +12,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CertificateSubjectName The entity to be secured by the certificate.
-type CertificateSubjectName struct {
+// CertificateIssuerName The issuer of the certificate.
+type CertificateIssuerName struct {
 
 	// ISO 3166-1 alpha-2 code of the country where the organization is located. For a list of codes, see ISO's website (https://www.iso.org/obp/ui/#search/code/).
 	Country *string `mandatory:"false" json:"country"`
@@ -30,13 +30,13 @@ type CertificateSubjectName struct {
 	// The field to differentiate between divisions within an organization.
 	OrganizationalUnit *string `mandatory:"false" json:"organizationalUnit"`
 
-	// The fully qualified domain name used for DNS lookups of the server.
+	// The Certificate Authority (CA) name.
 	CommonName *string `mandatory:"false" json:"commonName"`
 
 	// The email address of the server's administrator.
 	EmailAddress *string `mandatory:"false" json:"emailAddress"`
 }
 
-func (m CertificateSubjectName) String() string {
+func (m CertificateIssuerName) String() string {
 	return common.PointerString(m)
 }
