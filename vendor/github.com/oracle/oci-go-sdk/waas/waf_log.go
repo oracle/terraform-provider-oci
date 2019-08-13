@@ -99,7 +99,7 @@ type WafLog struct {
 	AddressRateLimitingKey *string `mandatory:"false" json:"addressRateLimitingKey"`
 
 	// The date and time the Web Application Firewall processed the request and logged it.
-	Timestamp *string `mandatory:"false" json:"timestamp"`
+	Timestamp *common.SDKTime `mandatory:"false" json:"timestamp"`
 
 	// The type of log of the request. For more about log types, see WAF Logs (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/waflogs.htm).
 	LogType *string `mandatory:"false" json:"logType"`

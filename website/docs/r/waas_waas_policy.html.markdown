@@ -33,9 +33,9 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
 
 	#Optional
 	additional_domains = "${var.waas_policy_additional_domains}"
-	defined_tags = "${var.waas_policy_defined_tags}"
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.waas_policy_display_name}"
-	freeform_tags = "${var.waas_policy_freeform_tags}"
+	freeform_tags = {"Department"= "Finance"}
 	origins {
 		#Required
 		uri = "${var.waas_policy_origins_uri}"
@@ -212,10 +212,10 @@ The following arguments are supported:
 
 * `additional_domains` - (Optional) (Updatable) An array of additional domains for the specified web application.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to create the WAAS policy.
-* `defined_tags` - (Optional) (Updatable) A key-value pair with a defined schema that restricts the values of tags. These predefined keys are scoped to namespaces.
-* `display_name` - (Optional) (Updatable) A user-friendly name for the WAAS policy. The name is can be changed and does not need to be unique.
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `display_name` - (Optional) (Updatable) A user-friendly name for the WAAS policy. The name can be changed and does not need to be unique.
 * `domain` - (Required) The web application domain that the WAAS policy protects.
-* `freeform_tags` - (Optional) (Updatable) A simple key-value pair without any defined schema.
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `origins` - (Optional) (Updatable) A map of host to origin for the web application. The key should be a customer friendly name for the host, ex. primary, secondary, etc.
 	* `custom_headers` - (Optional) (Updatable) A list of HTTP headers to forward to your origin.
 		* `name` - (Required) (Updatable) The name of the header.
@@ -230,6 +230,9 @@ The following arguments are supported:
 * `waf_config` - (Optional) (Updatable) 
 	* `access_rules` - (Optional) (Updatable) The access rules applied to the Web Application Firewall. Access rules allow custom content access policies to be defined and `ALLOW`, `DETECT`, or `BLOCK` actions to be taken on a request when specified criteria are met.
 		* `action` - (Required) (Updatable) The action to take when the access criteria are met for a rule. If unspecified, defaults to `ALLOW`.
+			* **ALLOW:** Takes no action, just logs the request.
+			* **DETECT:** Takes no action, but creates an alert for the request.
+			* **BLOCK:** Blocks the request by returning specified response code or showing error page.
 		* `block_action` - (Optional) (Updatable) The method used to block requests if `action` is set to `BLOCK` and the access criteria are met. If unspecified, defaults to `SET_RESPONSE_CODE`.
 		* `block_error_page_code` - (Optional) (Updatable) The error code to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE`, and the access criteria are met. If unspecified, defaults to 'Access rules'.
 		* `block_error_page_description` - (Optional) (Updatable) The description text to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE`, and the access criteria are met. If unspecified, defaults to 'Access blocked by website owner. Please contact support.'
@@ -376,10 +379,10 @@ The following attributes are exported:
 * `additional_domains` - An array of additional domains for this web application.
 * `cname` - The CNAME record to add to your DNS configuration to route traffic for the domain, and all additional domains, through the WAF.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WAAS policy's compartment.
-* `defined_tags` - A key-value pair with a defined schema that restricts the values of tags. These predefined keys are scoped to namespaces.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The user-friendly name of the WAAS policy. The name can be changed and does not need to be unique.
 * `domain` - The web application domain that the WAAS policy protects.
-* `freeform_tags` - A simple key-value pair without any defined schema.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WAAS policy.
 * `origins` - A map of host servers (origins) and their keys for the web application. Origin keys are used to associate origins to specific protection rules. The key should be a user-friendly name for the host. **Examples:** `primary` or `secondary`.
 	* `custom_headers` - A list of HTTP headers to forward to your origin.
@@ -397,6 +400,9 @@ The following attributes are exported:
 * `waf_config` - 
 	* `access_rules` - The access rules applied to the Web Application Firewall. Used for defining custom access policies with the combination of `ALLOW`, `DETECT`, and `BLOCK` rules, based on different criteria.
 		* `action` - The action to take when the access criteria are met for a rule. If unspecified, defaults to `ALLOW`.
+			* **ALLOW:** Takes no action, just logs the request.
+			* **DETECT:** Takes no action, but creates an alert for the request.
+			* **BLOCK:** Blocks the request by returning specified response code or showing error page.
 		* `block_action` - The method used to block requests if `action` is set to `BLOCK` and the access criteria are met. If unspecified, defaults to `SET_RESPONSE_CODE`.
 		* `block_error_page_code` - The error code to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE`, and the access criteria are met. If unspecified, defaults to 'Access rules'.
 		* `block_error_page_description` - The description text to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE`, and the access criteria are met. If unspecified, defaults to 'Access blocked by website owner. Please contact support.'

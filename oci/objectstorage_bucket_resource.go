@@ -282,14 +282,6 @@ func (s *ObjectStorageBucketResourceCrud) Update() error {
 		request.Metadata = resourceObjectStorageMapToMetadata(metadata.(map[string]interface{}))
 	}
 
-	// @CODEGEN 2/2018: This should be used to change the name of a bucket, but the "name" field
-	// is already being used to identify the bucket. Should have a new field for this.
-	// Existing provider omits this, so we will omit it for now to avoid a potential breaking change.
-	//if name, ok := s.D.GetOkExists("name"); ok {
-	//	tmp := name.(string)
-	//	request.Name = &tmp
-	//}
-
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
 		tmp := namespace.(string)
 		request.NamespaceName = &tmp

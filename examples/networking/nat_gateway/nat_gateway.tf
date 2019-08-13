@@ -1,15 +1,13 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-/*
- * Sets up a VCN with:
- * - NAT gateway
- * - bastion subnet and bastion instance
- * - private subnet that routes all traffic to the NAT
- * - a test instance in the private subnet
- *
- * After applying, you should be able to ssh into the private instance
- * via the bastion and verify internet access via the NAT.
- */
+# Sets up a VCN with:
+# - NAT gateway
+# - bastion subnet and bastion instance
+# - private subnet that routes all traffic to the NAT
+# - a test instance in the private subnet
+#
+# After applying, you should be able to ssh into the private instance
+# via the bastion and verify internet access via the NAT.
 
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
