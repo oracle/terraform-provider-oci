@@ -489,6 +489,7 @@ github.com/nu7hatch/gouuid
 github.com/oklog/run
 # github.com/oracle/oci-go-sdk v13.1.0+incompatible => ../../oracle/oci-go-sdk
 github.com/oracle/oci-go-sdk/analytics
+github.com/oracle/oci-go-sdk/apigateway
 github.com/oracle/oci-go-sdk/audit
 github.com/oracle/oci-go-sdk/autoscaling
 github.com/oracle/oci-go-sdk/budget
