@@ -2,7 +2,6 @@ module github.com/terraform-providers/terraform-provider-oci
 
 require (
 	github.com/aws/aws-sdk-go v1.25.2 // indirect
-	github.com/cweill/gotests v1.5.3 // indirect
 	github.com/fatih/color v1.7.0
 	github.com/hashicorp/hcl v0.0.0-20180404174102-ef8a98b0bbce
 	github.com/hashicorp/terraform v0.12.4-0.20190628193153-a74738cd35fc
