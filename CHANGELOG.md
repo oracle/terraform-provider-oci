@@ -1,4 +1,5 @@
-## 3.38.0 (Unreleased)
+## 3.38.1 (Unreleased)
+## 3.38.0 (August 14, 2019)
 
 ### Added
 - Documentation update for `oci_waas_waas_policy` and `oci_waas_certificate` with the latest WAF API change
