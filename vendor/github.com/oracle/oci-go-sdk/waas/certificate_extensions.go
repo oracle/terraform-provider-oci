@@ -14,10 +14,14 @@ import (
 
 // CertificateExtensions The representation of CertificateExtensions
 type CertificateExtensions struct {
+
+	// The certificate extension name.
 	Name *string `mandatory:"false" json:"name"`
 
+	// The critical flag of the extension. Critical extensions must be processed, non-critical extensions can be ignored.
 	IsCritical *bool `mandatory:"false" json:"isCritical"`
 
+	// The certificate extension value.
 	Value *string `mandatory:"false" json:"value"`
 }
 

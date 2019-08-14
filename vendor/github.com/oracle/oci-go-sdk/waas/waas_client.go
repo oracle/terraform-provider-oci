@@ -37,7 +37,7 @@ func NewWaasClientWithConfigurationProvider(configProvider common.ConfigurationP
 
 // SetRegion overrides the region of this client.
 func (client *WaasClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).Endpoint("waas")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("waas", "https://waas.{region}.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -899,7 +899,7 @@ func (client WaasClient) getWorkRequest(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// ListAccessRules Gets the currently configured access rules for the Web Application Firewall configration of a specified WAAS policy.
+// ListAccessRules Gets the currently configured access rules for the Web Application Firewall configuration of a specified WAAS policy.
 // The order of the access rules is important. The rules will be checked in the order they are specified and the first matching rule will be used.
 func (client WaasClient) ListAccessRules(ctx context.Context, request ListAccessRulesRequest) (response ListAccessRulesResponse, err error) {
 	var ociResponse common.OCIResponse

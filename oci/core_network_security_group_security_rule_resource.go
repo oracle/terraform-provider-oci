@@ -587,7 +587,9 @@ func (s *CoreSecurityRuleResourceCrud) mapToIcmpOptions(fieldKeyFormat string) (
 
 	if code, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "code")); ok {
 		tmp := code.(int)
-		result.Code = &tmp
+		if tmp > -1 {
+			result.Code = &tmp
+		}
 	}
 
 	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {

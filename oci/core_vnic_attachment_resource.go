@@ -28,8 +28,6 @@ func CoreVnicAttachmentResource() *schema.Resource {
 			"create_vnic_details": {
 				Type:     schema.TypeList,
 				Required: true,
-				// @CODEGEN 1/2018: Generator says create_vnic_details is a ForceNew property. Remove it to avoid
-				// a breaking change with existing provider, which allows some vnic properties to be updated.
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -47,7 +45,6 @@ func CoreVnicAttachmentResource() *schema.Resource {
 							// values for boolean nested objects correctly.
 							Type:     schema.TypeString,
 							Optional: true,
-							// @CODEGEN 1/2018: Avoid breaking change by setting assign_public_ip to true by default.
 							Default:  "true",
 							ForceNew: true,
 							ValidateFunc: func(v interface{}, k string) ([]string, []error) {
@@ -70,26 +67,22 @@ func CoreVnicAttachmentResource() *schema.Resource {
 							Computed:         true,
 							DiffSuppressFunc: definedTagsDiffSuppressFunction,
 							Elem:             schema.TypeString,
-							// @CODEGEN 6/2018: Remove ForceNew for this attribute, it can be updated.
 						},
 						"display_name": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							// @CODEGEN 1/2018: Remove ForceNew for this attribute, it can be updated.
 						},
 						"freeform_tags": {
 							Type:     schema.TypeMap,
 							Optional: true,
 							Computed: true,
 							Elem:     schema.TypeString,
-							// @CODEGEN 6/2018: Remove ForceNew for this attribute, it can be updated.
 						},
 						"hostname_label": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							// @CODEGEN 1/2018: Remove ForceNew for this attribute, it can be updated.
 						},
 						"nsg_ids": {
 							Type:     schema.TypeSet,
@@ -107,10 +100,8 @@ func CoreVnicAttachmentResource() *schema.Resource {
 						},
 						"skip_source_dest_check": {
 							Type:     schema.TypeBool,
-							Default:  false,
 							Optional: true,
-							// @CODEGEN 1/2018: Remove Computed and ForceNew for this attribute, it can be updated
-							// and it should be false by default to avoid a breaking change.
+							Default:  false,
 						},
 
 						// Computed

@@ -20,9 +20,22 @@ var (
 		"description":               Representation{repType: Optional, create: `description`, update: `updated description`},
 		"destination":               Representation{repType: Optional, create: `10.0.0.0/24`},
 	}
+
+	networkSecurityGroupIngressSecurityRuleResourceRepresentation = map[string]interface{}{
+		"network_security_group_id": Representation{repType: Required, create: `${oci_core_network_security_group.test_network_security_group.id}`},
+		"direction":                 Representation{repType: Required, create: `INGRESS`},
+		"protocol":                  Representation{repType: Required, create: `1`},
+		"source":                    Representation{repType: Optional, create: `10.0.1.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"icmp_options":              RepresentationGroup{Optional, nsgSecurityRulesIcmpOptionsRepresentation},
+		"source_type":               Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
+		"stateless":                 Representation{repType: Optional, create: `false`, update: `true`},
+	}
+	nsgSecurityRulesIcmpOptionsRepresentation = map[string]interface{}{
+		"type": Representation{repType: Required, create: `3`},
+	}
 )
 
-func TestAccResourceCoreNetworkSecurityGroupSecurityRule_multipleRules(t *testing.T) {
+func TestAccResourceCoreNetworkSecurityGroupSecurityRule_scenarios(t *testing.T) {
 	httpreplay.SetScenario("TestAccResourceCoreNetworkSecurityGroupSecurityRule_multipleRules")
 	defer httpreplay.SaveScenario()
 
@@ -94,6 +107,28 @@ func TestAccResourceCoreNetworkSecurityGroupSecurityRule_multipleRules(t *testin
 						}
 						return nil
 					},
+				),
+			},
+			// delete
+			{
+				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies,
+			},
+			// create rule without specifying `code` in icmp options
+			{
+				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Create, networkSecurityGroupIngressSecurityRuleResourceRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "icmp_options.0.code", "-1"),
+				),
+			},
+			// update rule without specifying code in icmp options
+			{
+				Config: config + compartmentIdVariableStr + NetworkSecurityGroupSecurityRuleResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_network_security_group_security_rule", "test_network_security_group_security_rule", Optional, Update, networkSecurityGroupIngressSecurityRuleResourceRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "icmp_options.0.code", "-1"),
 				),
 			},
 		},

@@ -22,7 +22,7 @@ type CreateWaasPolicyDetails struct {
 	// The web application domain that the WAAS policy protects.
 	Domain *string `mandatory:"true" json:"domain"`
 
-	// A user-friendly name for the WAAS policy. The name is can be changed and does not need to be unique.
+	// A user-friendly name for the WAAS policy. The name can be changed and does not need to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// An array of additional domains for the specified web application.
@@ -35,10 +35,14 @@ type CreateWaasPolicyDetails struct {
 
 	WafConfig *WafConfigDetails `mandatory:"false" json:"wafConfig"`
 
-	// A simple key-value pair without any defined schema.
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// A key-value pair with a defined schema that restricts the values of tags. These predefined keys are scoped to namespaces.
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
