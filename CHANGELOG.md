@@ -1,4 +1,11 @@
-## 3.37.1 (Unreleased)
+## 3.38.0 (Unreleased)
+
+### Added
+- Documentation update for `oci_waas_waas_policy` and `oci_waas_certificate` with the latest WAF API change
+
+### Fixed
+- Fixed the invalid parameter issue on provisioning `oci_core_network_security_group_security_rule` with `icmp_options` without optional attribute `code`
+
 ## 3.37.0 (August 07, 2019)
 
 ### Added

@@ -43,6 +43,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment.
+* `compartment_name` - The name of the compartment. This value is the friendly name associated with compartmentId. This value can change, but the service logs the value that appeared at the time of the audit event. 
 * `credential_id` - The credential ID of the user. This value is extracted from the HTTP 'Authorization' request header. It consists of the tenantId, userId, and user fingerprint, all delimited by a slash (/).
 * `event_id` - The GUID of the event.
 * `event_name` - The name of the event. Example: `LaunchInstance` 
@@ -62,4 +63,5 @@ The following attributes are exported:
 * `response_status` - The status code of the response.
 * `response_time` - The time of the response to the audited request, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.
 * `tenant_id` - The OCID of the tenant.
+* `user_name` - The name of the user or service. This value is the friendly name associated with principalId.
 

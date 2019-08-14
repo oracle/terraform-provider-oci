@@ -140,7 +140,7 @@ variable "virtual_circuit_type" { default = "PRIVATE" }
 variable "virtual_circuit_type" { default = "PUBLIC" }
 
 `
-	VirtualCircuitResourceDependencies = DrgRequiredOnlyResource + CrossConnectResourceConfig
+	VirtualCircuitResourceDependencies = DrgRequiredOnlyResource + CrossConnectWithGroupResourceConfig
 )
 
 func TestCoreVirtualCircuitResource_basic(t *testing.T) {

@@ -48,7 +48,7 @@ var (
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	ApplicationResourceDependencies = AvailabilityDomainConfig + DhcpOptionsRequiredOnlyResource + RouteTableRequiredOnlyResource +
+	ApplicationResourceDependencies = AvailabilityDomainConfig + DhcpOptionsRequiredOnlyResource + RouteTableResource +
 		`
 	resource "oci_core_security_list" "test_security_list" {
 		compartment_id = "${var.compartment_id}"

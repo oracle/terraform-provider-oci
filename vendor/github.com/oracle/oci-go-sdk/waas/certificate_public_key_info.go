@@ -12,12 +12,16 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CertificatePublicKeyInfo The representation of CertificatePublicKeyInfo
+// CertificatePublicKeyInfo Information about the public key and the algorithm used by the public key.
 type CertificatePublicKeyInfo struct {
+
+	// The algorithm identifier and parameters for the public key.
 	Algorithm *string `mandatory:"false" json:"algorithm"`
 
+	// The private key exponent.
 	Exponent *int `mandatory:"false" json:"exponent"`
 
+	// The number of bits in a key used by a cryptographic algorithm.
 	KeySize *int `mandatory:"false" json:"keySize"`
 }
 

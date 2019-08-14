@@ -49,7 +49,7 @@ const (
 	requestHeaderOpcHostSerial            = "opc-host-serial"
 	defaultRequestTimeout                 = 0
 	defaultConnectionTimeout              = 10 * time.Second
-	defaultTLSHandshakeTimeout            = 5 * time.Second
+	defaultTLSHandshakeTimeout            = 10 * time.Second
 	defaultUserAgentProviderName          = "Oracle-TerraformProvider"
 	unknownTerraformCLIVersion            = "unknown"
 	testTerraformCLIVersion               = "test"

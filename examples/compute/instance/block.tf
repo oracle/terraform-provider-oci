@@ -11,7 +11,6 @@ resource "oci_core_volume" "TFBlock" {
 resource "oci_core_volume_attachment" "TFBlockAttach" {
   count           = "${var.NumInstances * var.NumIscsiVolumesPerInstance}"
   attachment_type = "iscsi"
-  compartment_id  = "${var.compartment_ocid}"
   instance_id     = "${oci_core_instance.TFInstance.*.id[floor(count.index / var.NumIscsiVolumesPerInstance)]}"
   volume_id       = "${oci_core_volume.TFBlock.*.id[count.index]}"
   device          = "${count.index == 0 ? var.volume_attachment_device : ""}"
@@ -35,7 +34,6 @@ resource "oci_core_volume" "TFBlockParavirtualized" {
 resource "oci_core_volume_attachment" "TFBlockAttachParavirtualized" {
   count           = "${var.NumInstances * var.NumParavirtualizedVolumesPerInstance}"
   attachment_type = "paravirtualized"
-  compartment_id  = "${var.compartment_ocid}"
   instance_id     = "${oci_core_instance.TFInstance.*.id[floor(count.index / var.NumParavirtualizedVolumesPerInstance)]}"
   volume_id       = "${oci_core_volume.TFBlockParavirtualized.*.id[count.index]}"
 

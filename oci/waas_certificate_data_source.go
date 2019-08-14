@@ -87,7 +87,7 @@ func (s *WaasCertificateDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.IssuerName != nil {
-		s.D.Set("issuer_name", []interface{}{CertificateSubjectNameToMap(s.Res.IssuerName)})
+		s.D.Set("issuer_name", []interface{}{CertificateIssuerNameToMap(s.Res.IssuerName)})
 	} else {
 		s.D.Set("issuer_name", nil)
 	}

@@ -16,14 +16,12 @@ const (
 	WorkRequestOperationTypesCreateWaasPolicy WorkRequestOperationTypesEnum = "CREATE_WAAS_POLICY"
 	WorkRequestOperationTypesUpdateWaasPolicy WorkRequestOperationTypesEnum = "UPDATE_WAAS_POLICY"
 	WorkRequestOperationTypesDeleteWaasPolicy WorkRequestOperationTypesEnum = "DELETE_WAAS_POLICY"
-	WorkRequestOperationTypesPurgeWaasPolicy  WorkRequestOperationTypesEnum = "PURGE_WAAS_POLICY"
 )
 
 var mappingWorkRequestOperationTypes = map[string]WorkRequestOperationTypesEnum{
 	"CREATE_WAAS_POLICY": WorkRequestOperationTypesCreateWaasPolicy,
 	"UPDATE_WAAS_POLICY": WorkRequestOperationTypesUpdateWaasPolicy,
 	"DELETE_WAAS_POLICY": WorkRequestOperationTypesDeleteWaasPolicy,
-	"PURGE_WAAS_POLICY":  WorkRequestOperationTypesPurgeWaasPolicy,
 }
 
 // GetWorkRequestOperationTypesEnumValues Enumerates the set of values for WorkRequestOperationTypesEnum

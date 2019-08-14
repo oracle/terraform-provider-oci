@@ -21,6 +21,9 @@ var (
 	RouteTableRequiredOnlyResource = RouteTableResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation)
 
+	RouteTableResource = RouteTableResourceDependencies +
+		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Create, routeTableRepresentation)
+
 	routeTableDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"vcn_id":         Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
