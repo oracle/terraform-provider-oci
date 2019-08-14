@@ -8,20 +8,16 @@ variable "compartment_ocid" {}
 variable "region" {}
 variable "ssh_public_key" {}
 
-variable "SecondaryVnicCount" {
+variable "secondary_vnic_count" {
   default = 1
-}
-
-variable "instance_shape" {
-  default = "VM.Standard2.1"
 }
 
 variable "instance_image_ocid" {
   type = "map"
 
   default = {
-    // See https://docs.us-phoenix-1.oraclecloud.com/images/
-    // Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
+    # See https://docs.us-phoenix-1.oraclecloud.com/images/
+    # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
     us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
 
     us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
@@ -43,40 +39,40 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 1
 }
 
-resource "oci_core_vcn" "ExampleVCN" {
+resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = "${var.compartment_ocid}"
   display_name   = "CompleteVCN"
   dns_label      = "examplevcn"
 }
 
-resource "oci_core_subnet" "ExampleSubnet" {
+resource "oci_core_subnet" "test_subnet" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "10.0.1.0/24"
-  display_name        = "TFExampleSubnet"
+  display_name        = "TestSubnet"
   compartment_id      = "${var.compartment_ocid}"
-  vcn_id              = "${oci_core_vcn.ExampleVCN.id}"
-  route_table_id      = "${oci_core_vcn.ExampleVCN.default_route_table_id}"
-  security_list_ids   = ["${oci_core_vcn.ExampleVCN.default_security_list_id}"]
-  dhcp_options_id     = "${oci_core_vcn.ExampleVCN.default_dhcp_options_id}"
+  vcn_id              = "${oci_core_vcn.test_vcn.id}"
+  route_table_id      = "${oci_core_vcn.test_vcn.default_route_table_id}"
+  security_list_ids   = ["${oci_core_vcn.test_vcn.default_security_list_id}"]
+  dhcp_options_id     = "${oci_core_vcn.test_vcn.default_dhcp_options_id}"
   dns_label           = "examplesubnet"
 }
 
-resource "oci_core_network_security_group" "ExampleNetworkSecurityGroup" {
+resource "oci_core_network_security_group" "test_network_security_group" {
   #Required
   compartment_id = "${var.compartment_ocid}"
-  vcn_id         = "${oci_core_vcn.ExampleVCN.id}"
+  vcn_id         = "${oci_core_vcn.test_vcn.id}"
 
   #Optional
-  display_name = "TFExampleNetworkSecurityGroup"
+  display_name = "TestNetworkSecurityGroup"
 }
 
-resource "oci_core_instance" "ExampleInstance" {
+resource "oci_core_instance" "test_instance" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
-  display_name        = "TFExampleInstance"
-  shape               = "${var.instance_shape}"
-  subnet_id           = "${oci_core_subnet.ExampleSubnet.id}"
+  display_name        = "TestInstance"
+  shape               = "VM.Standard2.1"
+  subnet_id           = "${oci_core_subnet.test_subnet.id}"
 
   source_details {
     source_type = "image"
@@ -84,8 +80,8 @@ resource "oci_core_instance" "ExampleInstance" {
   }
 
   create_vnic_details {
-    subnet_id      = "${oci_core_subnet.ExampleSubnet.id}"
-    hostname_label = "exampleinstance"
+    subnet_id      = "${oci_core_subnet.test_subnet.id}"
+    hostname_label = "testinstance"
   }
 
   metadata = {
@@ -97,36 +93,36 @@ resource "oci_core_instance" "ExampleInstance" {
   }
 }
 
-resource "oci_core_vnic_attachment" "SecondaryVnicAttachment" {
-  instance_id  = "${oci_core_instance.ExampleInstance.id}"
+resource "oci_core_vnic_attachment" "secondary_vnic_attachment" {
+  instance_id  = "${oci_core_instance.test_instance.id}"
   display_name = "SecondaryVnicAttachment_${count.index}"
 
   create_vnic_details {
-    subnet_id              = "${oci_core_subnet.ExampleSubnet.id}"
+    subnet_id              = "${oci_core_subnet.test_subnet.id}"
     display_name           = "SecondaryVnic_${count.index}"
     assign_public_ip       = true
     skip_source_dest_check = true
-    nsg_ids                = ["${oci_core_network_security_group.ExampleNetworkSecurityGroup.id}"]
+    nsg_ids                = ["${oci_core_network_security_group.test_network_security_group.id}"]
   }
 
-  count = "${var.SecondaryVnicCount}"
+  count = "${var.secondary_vnic_count}"
 }
 
-data "oci_core_vnic" "SecondaryVnic" {
-  count   = "${var.SecondaryVnicCount}"
-  vnic_id = "${element(oci_core_vnic_attachment.SecondaryVnicAttachment.*.vnic_id, count.index)}"
+data "oci_core_vnic" "secondary_vnic" {
+  count   = "${var.secondary_vnic_count}"
+  vnic_id = "${element(oci_core_vnic_attachment.secondary_vnic_attachment.*.vnic_id, count.index)}"
 }
 
-output "PrimaryIPAddresses" {
-  value = ["${oci_core_instance.ExampleInstance.public_ip}",
-    "${oci_core_instance.ExampleInstance.private_ip}",
+output "primary_ip_addresses" {
+  value = ["${oci_core_instance.test_instance.public_ip}",
+    "${oci_core_instance.test_instance.private_ip}",
   ]
 }
 
-output "SecondaryPublicIPAddresses" {
-  value = ["${data.oci_core_vnic.SecondaryVnic.*.public_ip_address}"]
+output "secondary_public_ip_addresses" {
+  value = ["${data.oci_core_vnic.secondary_vnic.*.public_ip_address}"]
 }
 
-output "SecondaryPrivateIPAddresses" {
-  value = ["${data.oci_core_vnic.SecondaryVnic.*.private_ip_address}"]
+output "secondary_private_ip_addresses" {
+  value = ["${data.oci_core_vnic.secondary_vnic.*.private_ip_address}"]
 }

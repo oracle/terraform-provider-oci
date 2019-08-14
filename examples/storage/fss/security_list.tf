@@ -14,8 +14,8 @@ resource "oci_core_security_list" "my_security_list" {
     protocol    = "all"
   }
 
-  // See https://docs.us-phoenix-1.oraclecloud.com/Content/File/Tasks/creatingfilesystems.htm.
-  // Specific security list rules are required to allow mount targets to work properly.
+  # See https://docs.us-phoenix-1.oraclecloud.com/Content/File/Tasks/creatingfilesystems.htm.
+  # Specific security list rules are required to allow mount targets to work properly.
   ingress_security_rules {
     protocol = "6"
     source   = "${var.my_vcn-cidr}"

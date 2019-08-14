@@ -19,8 +19,8 @@ variable "instance_image_ocid" {
   type = "map"
 
   default = {
-    // See https://docs.us-phoenix-1.oraclecloud.com/images/
-    // Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
+    # See https://docs.us-phoenix-1.oraclecloud.com/images/
+    # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
     us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
 
     us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
