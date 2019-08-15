@@ -25,6 +25,9 @@ type AccessRule struct {
 	// - **ALLOW:** Takes no action, just logs the request.
 	// - **DETECT:** Takes no action, but creates an alert for the request.
 	// - **BLOCK:** Blocks the request by returning specified response code or showing error page.
+	// - **BYPASS:** Bypasses some or all challenges.
+	// - **REDIRECT:** Redirects the request to the specified URL.
+	// Regardless of action, no further rules are processed once the rule is matched.
 	Action AccessRuleActionEnum `mandatory:"true" json:"action"`
 
 	// The method used to block requests if `action` is set to `BLOCK` and the access criteria are met. If unspecified, defaults to `SET_RESPONSE_CODE`.
@@ -41,6 +44,21 @@ type AccessRule struct {
 
 	// The description text to show on the error page when `action` is set to `BLOCK`, `blockAction` is set to `SHOW_ERROR_PAGE`, and the access criteria are met. If unspecified, defaults to 'Access blocked by website owner. Please contact support.'
 	BlockErrorPageDescription *string `mandatory:"false" json:"blockErrorPageDescription"`
+
+	// The list of challenges to bypass when `action` is set to `BYPASS`. If unspecified or empty, all challenges are bypassed.
+	// - **JS_CHALLENGE:** Bypasses JavaScript Challenge.
+	// - **DEVICE_FINGERPRINT_CHALLENGE:** Bypasses Device Fingerprint Challenge.
+	// - **HUMAN_INTERACTION_CHALLENGE:** Bypasses Human Interaction Challenge.
+	// - **CAPTCHA:** Bypasses CAPTCHA Challenge.
+	BypassChallenges []AccessRuleBypassChallengesEnum `mandatory:"false" json:"bypassChallenges,omitempty"`
+
+	// The target to which the request should be redirected, represented as a URI reference.
+	RedirectUrl *string `mandatory:"false" json:"redirectUrl"`
+
+	// The response status code to return when `action` is set to `REDIRECT`.
+	// - **MOVED_PERMANENTLY:** Used for designating the permanent movement of a page (numerical code - 301).
+	// - **FOUND:** Used for designating the temporary movement of a page (numerical code - 302).
+	RedirectResponseCode AccessRuleRedirectResponseCodeEnum `mandatory:"false" json:"redirectResponseCode,omitempty"`
 }
 
 func (m AccessRule) String() string {
@@ -52,15 +70,19 @@ type AccessRuleActionEnum string
 
 // Set of constants representing the allowable values for AccessRuleActionEnum
 const (
-	AccessRuleActionAllow  AccessRuleActionEnum = "ALLOW"
-	AccessRuleActionDetect AccessRuleActionEnum = "DETECT"
-	AccessRuleActionBlock  AccessRuleActionEnum = "BLOCK"
+	AccessRuleActionAllow    AccessRuleActionEnum = "ALLOW"
+	AccessRuleActionDetect   AccessRuleActionEnum = "DETECT"
+	AccessRuleActionBlock    AccessRuleActionEnum = "BLOCK"
+	AccessRuleActionBypass   AccessRuleActionEnum = "BYPASS"
+	AccessRuleActionRedirect AccessRuleActionEnum = "REDIRECT"
 )
 
 var mappingAccessRuleAction = map[string]AccessRuleActionEnum{
-	"ALLOW":  AccessRuleActionAllow,
-	"DETECT": AccessRuleActionDetect,
-	"BLOCK":  AccessRuleActionBlock,
+	"ALLOW":    AccessRuleActionAllow,
+	"DETECT":   AccessRuleActionDetect,
+	"BLOCK":    AccessRuleActionBlock,
+	"BYPASS":   AccessRuleActionBypass,
+	"REDIRECT": AccessRuleActionRedirect,
 }
 
 // GetAccessRuleActionEnumValues Enumerates the set of values for AccessRuleActionEnum
@@ -90,6 +112,56 @@ var mappingAccessRuleBlockAction = map[string]AccessRuleBlockActionEnum{
 func GetAccessRuleBlockActionEnumValues() []AccessRuleBlockActionEnum {
 	values := make([]AccessRuleBlockActionEnum, 0)
 	for _, v := range mappingAccessRuleBlockAction {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AccessRuleBypassChallengesEnum Enum with underlying type: string
+type AccessRuleBypassChallengesEnum string
+
+// Set of constants representing the allowable values for AccessRuleBypassChallengesEnum
+const (
+	AccessRuleBypassChallengesJsChallenge                AccessRuleBypassChallengesEnum = "JS_CHALLENGE"
+	AccessRuleBypassChallengesDeviceFingerprintChallenge AccessRuleBypassChallengesEnum = "DEVICE_FINGERPRINT_CHALLENGE"
+	AccessRuleBypassChallengesHumanInteractionChallenge  AccessRuleBypassChallengesEnum = "HUMAN_INTERACTION_CHALLENGE"
+	AccessRuleBypassChallengesCaptcha                    AccessRuleBypassChallengesEnum = "CAPTCHA"
+)
+
+var mappingAccessRuleBypassChallenges = map[string]AccessRuleBypassChallengesEnum{
+	"JS_CHALLENGE":                 AccessRuleBypassChallengesJsChallenge,
+	"DEVICE_FINGERPRINT_CHALLENGE": AccessRuleBypassChallengesDeviceFingerprintChallenge,
+	"HUMAN_INTERACTION_CHALLENGE":  AccessRuleBypassChallengesHumanInteractionChallenge,
+	"CAPTCHA":                      AccessRuleBypassChallengesCaptcha,
+}
+
+// GetAccessRuleBypassChallengesEnumValues Enumerates the set of values for AccessRuleBypassChallengesEnum
+func GetAccessRuleBypassChallengesEnumValues() []AccessRuleBypassChallengesEnum {
+	values := make([]AccessRuleBypassChallengesEnum, 0)
+	for _, v := range mappingAccessRuleBypassChallenges {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AccessRuleRedirectResponseCodeEnum Enum with underlying type: string
+type AccessRuleRedirectResponseCodeEnum string
+
+// Set of constants representing the allowable values for AccessRuleRedirectResponseCodeEnum
+const (
+	AccessRuleRedirectResponseCodeMovedPermanently AccessRuleRedirectResponseCodeEnum = "MOVED_PERMANENTLY"
+	AccessRuleRedirectResponseCodeFound            AccessRuleRedirectResponseCodeEnum = "FOUND"
+)
+
+var mappingAccessRuleRedirectResponseCode = map[string]AccessRuleRedirectResponseCodeEnum{
+	"MOVED_PERMANENTLY": AccessRuleRedirectResponseCodeMovedPermanently,
+	"FOUND":             AccessRuleRedirectResponseCodeFound,
+}
+
+// GetAccessRuleRedirectResponseCodeEnumValues Enumerates the set of values for AccessRuleRedirectResponseCodeEnum
+func GetAccessRuleRedirectResponseCodeEnumValues() []AccessRuleRedirectResponseCodeEnum {
+	values := make([]AccessRuleRedirectResponseCodeEnum, 0)
+	for _, v := range mappingAccessRuleRedirectResponseCode {
 		values = append(values, v)
 	}
 	return values

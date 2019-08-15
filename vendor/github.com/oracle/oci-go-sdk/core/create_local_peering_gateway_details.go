@@ -44,7 +44,7 @@ type CreateLocalPeeringGatewayDetails struct {
 	// table. The Networking service does NOT automatically associate the attached VCN's default route table
 	// with the LPG.
 	// For information about why you would associate a route table with an LPG, see
-	// Advanced Scenario: Transit Routing (https://docs.cloud.oracle.com/Content/Network/Tasks/transitrouting.htm).
+	// Transit Routing: Access to Multiple VCNs in Same Region (https://docs.cloud.oracle.com/Content/Network/Tasks/transitrouting.htm).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
