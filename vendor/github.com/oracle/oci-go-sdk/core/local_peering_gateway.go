@@ -83,9 +83,9 @@ type LocalPeeringGateway struct {
 	// Additional information regarding the peering status, if applicable.
 	PeeringStatusDetails *string `mandatory:"false" json:"peeringStatusDetails"`
 
-	// The OCID of the route table the LPG is using. For information about why you
-	// would associate a route table with an LPG, see
-	// Advanced Scenario: Transit Routing (https://docs.cloud.oracle.com/Content/Network/Tasks/transitrouting.htm).
+	// The OCID of the route table the LPG is using.
+	// For information about why you would associate a route table with an LPG, see
+	// Transit Routing: Access to Multiple VCNs in Same Region (https://docs.cloud.oracle.com/Content/Network/Tasks/transitrouting.htm).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 

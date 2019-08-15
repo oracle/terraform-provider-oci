@@ -39,6 +39,15 @@ type WafConfig struct {
 	// The key in the map of origins referencing the origin used for the Web Application Firewall. The origin must already be included in `Origins`. Required when creating the `WafConfig` resource, but not on update.
 	Origin *string `mandatory:"false" json:"origin"`
 
+	// A list of caching rules applied to the web application.
+	CachingRules []CachingRule `mandatory:"false" json:"cachingRules"`
+
+	// A list of the custom protection rule OCIDs and their actions.
+	CustomProtectionRules []CustomProtectionRuleSetting `mandatory:"false" json:"customProtectionRules"`
+
+	// The list of origin group references that provide support for additional origin servers. A list of combined unique origin servers from `origin` and `originGroups` will be used.
+	OriginGroups []string `mandatory:"false" json:"originGroups"`
+
 	// A list of the protection rules and their details.
 	ProtectionRules []ProtectionRule `mandatory:"false" json:"protectionRules"`
 

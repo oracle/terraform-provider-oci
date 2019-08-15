@@ -17,10 +17,11 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateInstanceConfigurationBase An instance configuration that can be used to launch
+// CreateInstanceConfigurationBase Creation details for an instance configuration.
 type CreateInstanceConfigurationBase interface {
 
-	// The OCID of the compartment containing the instance configuration.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
+	// containing the instance configuration.
 	GetCompartmentId() *string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -28,7 +29,8 @@ type CreateInstanceConfigurationBase interface {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 
-	// A user-friendly name for the instance configuration
+	// A user-friendly name for the instance configuration.  Does not have to be unique,
+	// and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no

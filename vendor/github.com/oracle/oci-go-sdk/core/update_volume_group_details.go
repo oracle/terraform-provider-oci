@@ -24,7 +24,7 @@ type UpdateVolumeGroupDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A user-friendly name for the volume group.
+	// A user-friendly name for the volume group. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no

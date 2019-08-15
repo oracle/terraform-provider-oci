@@ -22,14 +22,14 @@ type VolumeBackupSchedule struct {
 	// The type of backup to create.
 	BackupType VolumeBackupScheduleBackupTypeEnum `mandatory:"true" json:"backupType"`
 
-	// The number of seconds that the backup time should be shifted from the default interval boundaries specified by the period. Backup time = Frequency start time + Offset.
-	OffsetSeconds *int `mandatory:"true" json:"offsetSeconds"`
-
 	// How often the backup should occur.
 	Period VolumeBackupSchedulePeriodEnum `mandatory:"true" json:"period"`
 
 	// How long, in seconds, backups created by this schedule should be kept until being automatically deleted.
 	RetentionSeconds *int `mandatory:"true" json:"retentionSeconds"`
+
+	// The number of seconds that the backup time should be shifted from the default interval boundaries specified by the period. Backup time = Frequency start time + Offset.
+	OffsetSeconds *int `mandatory:"false" json:"offsetSeconds"`
 }
 
 func (m VolumeBackupSchedule) String() string {
