@@ -154,9 +154,16 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
 
   policy_config {
     #Optional
-    certificate_id   = "${oci_waas_certificate.test_certificate.id}"
-    is_https_enabled = true
-    is_https_forced  = true
+    certificate_id                = "${oci_waas_certificate.test_certificate.id}"
+    cipher_group                  = "DEFAULT"
+    client_address_header         = "X_FORWARDED_FOR"
+    is_behind_cdn                 = true
+    is_cache_control_respected    = true
+    is_https_enabled              = true
+    is_https_forced               = true
+    is_origin_compression_enabled = true
+    is_response_buffering_enabled = true
+    tls_protocols                 = ["TLS_V1_1"]
   }
 
   timeouts {
