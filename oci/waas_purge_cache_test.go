@@ -17,7 +17,7 @@ var (
 		generateResourceFromRepresentationMap("oci_waas_purge_cache", "test_purge_cache", Required, Create, purgeCacheRepresentation)
 
 	purgeCacheRepresentation = map[string]interface{}{
-		"waas_policy_id": Representation{repType: Required, create: `${oci_waas_waas_policy.test_waas_policy.id}`},
+		"waas_policy_id": Representation{repType: Required, create: `${oci_waas_waas_policy.test_scenario_waas_policy.id}`},
 		"resources":      Representation{repType: Optional, create: []string{`/about`, `/home`}},
 	}
 

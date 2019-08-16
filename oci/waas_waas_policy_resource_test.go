@@ -102,13 +102,14 @@ func TestResourceWaasWaasPolicyResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "domain", waasPolicyDomain),
 					resource.TestCheckResourceAttr(resourceName, "waf_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.action", "CACHE"),
-					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.client_caching_duration", "PT1S"),
+					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.caching_duration", "PT2S"),
+					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.client_caching_duration", "PT2S"),
 					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.criteria.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.criteria.0.condition", "URL_IS"),
-					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.criteria.0.value", "/public"),
-					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.is_client_caching_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.key", "key"),
-					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.name", "name"),
+					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.criteria.0.condition", "URL_STARTS_WITH"),
+					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.criteria.0.value", "/publ"),
+					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.is_client_caching_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.key", "key2"),
+					resource.TestCheckResourceAttr(resourceName, "waf_config.0.caching_rules.0.name", "name2"),
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
 						if resId != resId2 {

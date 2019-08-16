@@ -2387,7 +2387,7 @@ func JsChallengeToMap(obj *oci_waas.JsChallenge) map[string]interface{} {
 func (s *WaasWaasPolicyResourceCrud) mapToPolicyConfig(fieldKeyFormat string) (oci_waas.PolicyConfig, error) {
 	result := oci_waas.PolicyConfig{}
 
-	if certificateId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_id")); ok {
+	if certificateId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_id")); ok && certificateId != "" {
 		tmp := certificateId.(string)
 		result.CertificateId = &tmp
 	}
