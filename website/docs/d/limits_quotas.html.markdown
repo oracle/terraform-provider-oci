@@ -50,6 +50,6 @@ The following attributes are exported:
 * `id` - The OCID of the quota.
 * `name` - The name you assign to the quota during creation. The name must be unique across all quotas in the tenancy and cannot be changed. 
 * `state` - The quota's current state.
-* `statements` - An array of one or more quota statements written in the declarative language.
+* `statements` - An array of one or more quota statements written in the declarative quota statement language.
 * `time_created` - Date and time the quota was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
 

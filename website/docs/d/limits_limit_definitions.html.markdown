@@ -10,8 +10,8 @@ description: |-
 This data source provides the list of Limit Definitions in Oracle Cloud Infrastructure Limits service.
 
 Includes a list of resource limits that are currently supported.
-If the 'areQuotasSupported' property is true, then it means that the customer can create quota policies on top of this limit at the
-compartment level they wish to.
+If the 'areQuotasSupported' property is true, you can create quota policies on top of this limit at the
+compartment level.
 
 
 ## Example Usage
