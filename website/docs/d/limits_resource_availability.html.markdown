@@ -33,7 +33,7 @@ data "oci_limits_resource_availability" "test_resource_availability" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Optional) This field is mandatory, if the scopeType of the target resource limit is AD. Otherwise, this field should be omitted. If the above are not respected, the API will return a 400 - InvalidParameter response. 
+* `availability_domain` - (Optional) This field is mandatory if the scopeType of the target resource limit is AD. Otherwise, this field should be omitted. If the above requirements are not met, the API will return a 400 - InvalidParameter response. 
 * `compartment_id` - (Required) The OCID of the compartment for which data is being fetched.
 * `limit_name` - (Required) The limit name for which to fetch the data.
 * `service_name` - (Required) The service name of the target quota.
