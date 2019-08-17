@@ -126,6 +126,10 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.DedicatedVmHostId != nil {
+			instance["dedicated_vm_host_id"] = *r.DedicatedVmHostId
+		}
+
 		if r.DefinedTags != nil {
 			instance["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
