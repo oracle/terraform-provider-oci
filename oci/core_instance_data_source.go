@@ -78,6 +78,10 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DedicatedVmHostId != nil {
+		s.D.Set("dedicated_vm_host_id", *s.Res.DedicatedVmHostId)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
