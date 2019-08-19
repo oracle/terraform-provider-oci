@@ -741,7 +741,7 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 	}
 	request := oci_database.UpdateDbSystemRequest{}
 
-	request.BackupNetworkNsgIds = []string{}
+	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be supplied as the feature may or may not be supported
 	if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
 		set := backupNetworkNsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -779,7 +779,7 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.NsgIds = []string{}
+	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be supplied as the feature may or may not be supported
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -915,11 +915,14 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
-	backupNetworkNsgIds := []interface{}{}
-	for _, item := range s.Res.BackupNetworkNsgIds {
-		backupNetworkNsgIds = append(backupNetworkNsgIds, item)
+	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be set in state as the feature may or may not be supported
+	if s.Res.BackupNetworkNsgIds != nil {
+		backupNetworkNsgIds := []interface{}{}
+		for _, item := range s.Res.BackupNetworkNsgIds {
+			backupNetworkNsgIds = append(backupNetworkNsgIds, item)
+		}
+		s.D.Set("backup_network_nsg_ids", schema.NewSet(literalTypeHashCodeForSets, backupNetworkNsgIds))
 	}
-	s.D.Set("backup_network_nsg_ids", schema.NewSet(literalTypeHashCodeForSets, backupNetworkNsgIds))
 
 	if s.Res.BackupSubnetId != nil {
 		s.D.Set("backup_subnet_id", *s.Res.BackupSubnetId)
@@ -987,11 +990,14 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("node_count", *s.Res.NodeCount)
 	}
 
-	nsgIds := []interface{}{}
-	for _, item := range s.Res.NsgIds {
-		nsgIds = append(nsgIds, item)
+	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be set in state as the feature may or may not be supported
+	if s.Res.NsgIds != nil {
+		nsgIds := []interface{}{}
+		for _, item := range s.Res.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 	}
-	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 
 	if s.Res.RecoStorageSizeInGB != nil {
 		s.D.Set("reco_storage_size_in_gb", *s.Res.RecoStorageSizeInGB)
@@ -1512,7 +1518,8 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := availabilityDomain.(string)
 			details.AvailabilityDomain = &tmp
 		}
-		details.BackupNetworkNsgIds = []string{}
+
+		// @Codegen: BackUpNsgIds is applicable only for exadata systems. If not specified, we don't set this field in request
 		if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
 			set := backupNetworkNsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -1585,7 +1592,8 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := nodeCount.(int)
 			details.NodeCount = &tmp
 		}
-		details.NsgIds = []string{}
+
+		// @Codegen: BackUpNsgIds is applicable only for exadata systems. If not specified, we don't set this field in request
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -1650,7 +1658,7 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := availabilityDomain.(string)
 			details.AvailabilityDomain = &tmp
 		}
-		details.BackupNetworkNsgIds = []string{}
+		// @Codegen: BackUpNsgIds is applicable only for exadata systems. If not specified, we don't set this field in request
 		if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
 			set := backupNetworkNsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -1723,7 +1731,7 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := nodeCount.(int)
 			details.NodeCount = &tmp
 		}
-		details.NsgIds = []string{}
+		// @Codegen: BackUpNsgIds is applicable only for exadata systems. If not specified, we don't set this field in request
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()

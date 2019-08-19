@@ -384,10 +384,11 @@ func (s *DatabaseDataGuardAssociationResourceCrud) SetData() error {
 		s.D.Set("apply_rate", *s.Res.ApplyRate)
 	}
 
+	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be set in state as the feature may or may not be supported
 	if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
 		s.D.Set("backup_network_nsg_ids", backupNetworkNsgIds)
 	} else {
-		s.D.Set("backup_network_nsg_ids", []string{})
+		s.D.Set("backup_network_nsg_ids", nil)
 	}
 
 	if s.Res.DatabaseId != nil {
@@ -397,11 +398,11 @@ func (s *DatabaseDataGuardAssociationResourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
-
+	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be set in state as the feature may or may not be supported
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 		s.D.Set("nsg_ids", nsgIds)
 	} else {
-		s.D.Set("nsg_ids", []string{})
+		s.D.Set("nsg_ids", nil)
 	}
 
 	if s.Res.PeerDataGuardAssociationId != nil {
@@ -474,7 +475,7 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			tmp := availabilityDomain.(string)
 			details.AvailabilityDomain = &tmp
 		}
-		details.BackupNetworkNsgIds = []string{}
+		//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be supplied as the feature may or may not be supported
 		if backupNetworkNsgIds, ok := s.D.GetOkExists("backup_network_nsg_ids"); ok {
 			set := backupNetworkNsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -494,7 +495,7 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			tmp := hostname.(string)
 			details.Hostname = &tmp
 		}
-		details.NsgIds = []string{}
+		//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be supplied as the feature may or may not be supported
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
