@@ -32,16 +32,16 @@ Destroying `the oci_core_ipsec_connection_tunnel_management` leaves the resource
 	#Required
 	ipsec_id = "${oci_core_ipsec.test_ipsec.id}"
 	tunnel_id = "${oci_core_tunnel.test_tunnel.id}"
-	routing = "${var.ip_sec_connection_tunnel_configuration_routing}"
+	routing = "${var.ip_sec_connection_tunnel_management_routing}"
 	#Optional
-	bgp_session_config {
+	bgp_session_info {
 		#Optional
-		customer_bgp_asn = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_customer_bgp_asn}"
-		customer_interface_ip = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_customer_interface_ip}"
-		oracle_interface_ip = "${var.ip_sec_connection_tunnel_configuration_bgp_session_config_oracle_interface_ip}"
+		customer_bgp_asn = "${var.ip_sec_connection_tunnel_management_bgp_session_info_customer_bgp_asn}"
+		customer_interface_ip = "${var.ip_sec_connection_tunnel_management_bgp_session_info_customer_interface_ip}"
+		oracle_interface_ip = "${var.ip_sec_connection_tunnel_management_bgp_session_info_oracle_interface_ip}"
 	}
-	display_name = "${var.ip_sec_connection_tunnel_configuration_display_name}"
-	shared_secret = "${var.ip_sec_connection_tunnel_configuration_shared_secret}"
+	display_name = "${var.ip_sec_connection_tunnel_management_display_name}"
+	shared_secret = "${var.ip_sec_connection_tunnel_management_shared_secret}"
 }
 ```
 
