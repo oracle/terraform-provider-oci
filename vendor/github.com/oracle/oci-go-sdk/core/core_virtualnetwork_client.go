@@ -367,6 +367,55 @@ func (client VirtualNetworkClient) changeCrossConnectGroupCompartment(ctx contex
 	return response, err
 }
 
+// ChangeDhcpOptionsCompartment Moves a set of DHCP options into a different compartment within the same tenancy. For information
+// about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+func (client VirtualNetworkClient) ChangeDhcpOptionsCompartment(ctx context.Context, request ChangeDhcpOptionsCompartmentRequest) (response ChangeDhcpOptionsCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeDhcpOptionsCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeDhcpOptionsCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDhcpOptionsCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDhcpOptionsCompartmentResponse")
+	}
+	return
+}
+
+// changeDhcpOptionsCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) changeDhcpOptionsCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dhcps/{dhcpId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDhcpOptionsCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeIPSecConnectionCompartment Moves an IPSec connection into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
@@ -416,6 +465,104 @@ func (client VirtualNetworkClient) changeIPSecConnectionCompartment(ctx context.
 	return response, err
 }
 
+// ChangeInternetGatewayCompartment Moves an internet gateway into a different compartment within the same tenancy. For information
+// about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+func (client VirtualNetworkClient) ChangeInternetGatewayCompartment(ctx context.Context, request ChangeInternetGatewayCompartmentRequest) (response ChangeInternetGatewayCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeInternetGatewayCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeInternetGatewayCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeInternetGatewayCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeInternetGatewayCompartmentResponse")
+	}
+	return
+}
+
+// changeInternetGatewayCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) changeInternetGatewayCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internetGateways/{igId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeInternetGatewayCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeLocalPeeringGatewayCompartment Moves a local peering gateway into a different compartment within the same tenancy. For information
+// about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+func (client VirtualNetworkClient) ChangeLocalPeeringGatewayCompartment(ctx context.Context, request ChangeLocalPeeringGatewayCompartmentRequest) (response ChangeLocalPeeringGatewayCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeLocalPeeringGatewayCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeLocalPeeringGatewayCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeLocalPeeringGatewayCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeLocalPeeringGatewayCompartmentResponse")
+	}
+	return
+}
+
+// changeLocalPeeringGatewayCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) changeLocalPeeringGatewayCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/localPeeringGateways/{localPeeringGatewayId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeLocalPeeringGatewayCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeNatGatewayCompartment Moves a NAT gateway into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
@@ -453,6 +600,105 @@ func (client VirtualNetworkClient) changeNatGatewayCompartment(ctx context.Conte
 	}
 
 	var response ChangeNatGatewayCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeNetworkSecurityGroupCompartment Moves a network security group into a different compartment within the same tenancy. For
+// information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+func (client VirtualNetworkClient) ChangeNetworkSecurityGroupCompartment(ctx context.Context, request ChangeNetworkSecurityGroupCompartmentRequest) (response ChangeNetworkSecurityGroupCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeNetworkSecurityGroupCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeNetworkSecurityGroupCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeNetworkSecurityGroupCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeNetworkSecurityGroupCompartmentResponse")
+	}
+	return
+}
+
+// changeNetworkSecurityGroupCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) changeNetworkSecurityGroupCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkSecurityGroups/{networkSecurityGroupId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeNetworkSecurityGroupCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangePublicIpCompartment Moves a public IP into a different compartment within the same tenancy. For information
+// about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// This operation applies only to reserved public IPs. Ephemeral public IPs always belong to the
+// same compartment as their VNIC and move accordingly.
+func (client VirtualNetworkClient) ChangePublicIpCompartment(ctx context.Context, request ChangePublicIpCompartmentRequest) (response ChangePublicIpCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changePublicIpCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangePublicIpCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangePublicIpCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangePublicIpCompartmentResponse")
+	}
+	return
+}
+
+// changePublicIpCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) changePublicIpCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/publicIps/{publicIpId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangePublicIpCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

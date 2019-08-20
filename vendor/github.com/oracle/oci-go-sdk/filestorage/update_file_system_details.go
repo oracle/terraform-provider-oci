@@ -30,6 +30,12 @@ type UpdateFileSystemDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// A KMS key OCID that will be associated with the given file system. If it is empty the Update operation will
+	// actually remove the KMS key, if there is one, from the given file system. Note that the old KMS key should
+	// still be enabled in KMS otherwise all the files in the file system encrypted with the old KMS key will no
+	// longer be accessible.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
 func (m UpdateFileSystemDetails) String() string {

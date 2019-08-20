@@ -24,11 +24,15 @@ func WaasWaasPolicyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createWaasWaasPolicy,
-		Read:     readWaasWaasPolicy,
-		Update:   updateWaasWaasPolicy,
-		Delete:   deleteWaasWaasPolicy,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &TwoHours,
+			Update: &TwoHours,
+			Delete: &TwoHours,
+		},
+		Create: createWaasWaasPolicy,
+		Read:   readWaasWaasPolicy,
+		Update: updateWaasWaasPolicy,
+		Delete: deleteWaasWaasPolicy,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -67,6 +71,37 @@ func WaasWaasPolicyResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"origin_groups": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Computed: true,
+				Set:      originGroupsHashCodeForSets,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"label": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"origin_group": {
+							Type:     schema.TypeList,
+							Required: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"origin": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"weight": {
+										Type:     schema.TypeInt,
+										Default:  1,
+										Optional: true,
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			"origins": {
 				Type:     schema.TypeSet,
@@ -136,6 +171,27 @@ func WaasWaasPolicyResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"cipher_group": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"client_address_header": {
+							Type:     schema.TypeString,
+							Optional: true,
+							//@Codegen: The field is polymorphic in nature and cannot be set when is_behind_cdn=false
+							//Computed: true,
+						},
+						"is_behind_cdn": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_cache_control_respected": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"is_https_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -145,6 +201,24 @@ func WaasWaasPolicyResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
+						},
+						"is_origin_compression_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_response_buffering_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"tls_protocols": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
 						},
 
 						// Computed
@@ -225,6 +299,24 @@ func WaasWaasPolicyResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"bypass_challenges": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"redirect_response_code": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"redirect_url": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 
 									// Computed
 								},
@@ -257,6 +349,71 @@ func WaasWaasPolicyResource() *schema.Resource {
 									},
 									"max_delayed_count_per_address": {
 										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"caching_rules": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"action": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"criteria": {
+										Type:     schema.TypeList,
+										Required: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"condition": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"caching_duration": {
+										Type:     schema.TypeString,
+										Optional: true,
+										//@Codegen: field is polymorphic in nature and cannot be set when action=BYPASS_CACHE
+										//Computed: true,
+									},
+									"client_caching_duration": {
+										Type:     schema.TypeString,
+										Optional: true,
+										//@Codegen: field is polymorphic in nature and cannot be set when action=BYPASS_CACHE
+										//Computed: true,
+									},
+									"is_client_caching_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"key": {
+										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
@@ -300,6 +457,30 @@ func WaasWaasPolicyResource() *schema.Resource {
 										Computed: true,
 									},
 									"header_text": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"custom_protection_rules": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -680,6 +861,14 @@ func WaasWaasPolicyResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"origin_groups": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"protection_settings": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -926,6 +1115,16 @@ func (s *WaasWaasPolicyResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if originGroups, ok := s.D.GetOkExists("origin_groups"); ok {
+		resultMap, err := s.objectMapToOriginGroupMap(originGroups)
+		if err != nil {
+			return err
+		}
+		if len(resultMap) > 0 {
+			request.OriginGroups = resultMap
+		}
+	}
+
 	if origins, ok := s.D.GetOkExists("origins"); ok {
 		resultMap, err := s.objectMapToOriginMap(origins)
 		if err != nil {
@@ -1122,6 +1321,28 @@ func (s *WaasWaasPolicyResourceCrud) mapToOrigin(fieldKeyFormat string) (oci_waa
 	return result, nil
 }
 
+func (s *WaasWaasPolicyResourceCrud) mapToOriginGroup(fieldKeyFormat string) (oci_waas.OriginGroup, error) {
+	result := oci_waas.OriginGroup{}
+
+	result.Origins = []oci_waas.OriginGroupOrigins{}
+	if originGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "origin_group")); ok {
+		interfaces := originGroup.([]interface{})
+		tmp := make([]oci_waas.OriginGroupOrigins, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "origin_group"), stateDataIndex)
+			converted, err := s.mapToOriginGroupOrigins(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		result.Origins = tmp
+	}
+
+	return result, nil
+}
+
 func (s *WaasWaasPolicyResourceCrud) Get() error {
 	request := oci_waas.GetWaasPolicyRequest{}
 
@@ -1178,6 +1399,14 @@ func (s *WaasWaasPolicyResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if originGroups, ok := s.D.GetOkExists("origin_groups"); ok {
+		resultMap, err := s.objectMapToOriginGroupMap(originGroups)
+		if err != nil {
+			return err
+		}
+		request.OriginGroups = resultMap
 	}
 
 	if origins, ok := s.D.GetOkExists("origins"); ok {
@@ -1246,6 +1475,28 @@ func (s *WaasWaasPolicyResourceCrud) objectMapToOriginMap(origins interface{}) (
 	return resultMap, nil
 }
 
+func (s *WaasWaasPolicyResourceCrud) objectMapToOriginGroupMap(originGroups interface{}) (map[string]oci_waas.OriginGroup, error) {
+
+	resultMap := map[string]oci_waas.OriginGroup{}
+	set := originGroups.(*schema.Set)
+	tmpList := set.List()
+	for _, ifc := range tmpList {
+		stateDataIndex := originGroupsHashCodeForSets(ifc)
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "origin_groups", stateDataIndex)
+		converted, err := s.mapToOriginGroup(fieldKeyFormat)
+		if err != nil {
+			return nil, err
+		}
+
+		if label, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "label")); ok {
+			tmp := label.(string)
+			resultMap[tmp] = converted
+		}
+	}
+
+	return resultMap, nil
+}
+
 func (s *WaasWaasPolicyResourceCrud) Delete() error {
 	request := oci_waas.DeleteWaasPolicyRequest{}
 
@@ -1290,6 +1541,12 @@ func (s *WaasWaasPolicyResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.OriginGroups != nil {
+		s.D.Set("origin_groups", schema.NewSet(originGroupsHashCodeForSets, OriginGroupMapToMap(s.Res.OriginGroups)))
+	} else {
+		s.D.Set("origin_groups", nil)
+	}
 
 	if s.Res.Origins != nil {
 		s.D.Set("origins", schema.NewSet(originsHashCodeForSets, OriginMapToMap(s.Res.Origins)))
@@ -1349,6 +1606,18 @@ func (s *WaasWaasPolicyResourceCrud) mapToAccessRule(fieldKeyFormat string) (oci
 		result.BlockResponseCode = &tmp
 	}
 
+	result.BypassChallenges = []oci_waas.AccessRuleBypassChallengesEnum{}
+	if bypassChallenges, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bypass_challenges")); ok {
+		interfaces := bypassChallenges.([]interface{})
+		tmp := make([]oci_waas.AccessRuleBypassChallengesEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_waas.AccessRuleBypassChallengesEnum(interfaces[i].(string))
+			}
+		}
+		result.BypassChallenges = tmp
+	}
+
 	result.Criteria = []oci_waas.AccessRuleCriteria{}
 	if criteria, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "criteria")); ok {
 		interfaces := criteria.([]interface{})
@@ -1368,6 +1637,15 @@ func (s *WaasWaasPolicyResourceCrud) mapToAccessRule(fieldKeyFormat string) (oci
 	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
 		tmp := name.(string)
 		result.Name = &tmp
+	}
+
+	if redirectResponseCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "redirect_response_code")); ok {
+		result.RedirectResponseCode = oci_waas.AccessRuleRedirectResponseCodeEnum(redirectResponseCode.(string))
+	}
+
+	if redirectUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "redirect_url")); ok {
+		tmp := redirectUrl.(string)
+		result.RedirectUrl = &tmp
 	}
 
 	return result, nil
@@ -1396,6 +1674,8 @@ func AccessRuleToMap(obj oci_waas.AccessRule) map[string]interface{} {
 		result["block_response_code"] = int(*obj.BlockResponseCode)
 	}
 
+	result["bypass_challenges"] = obj.BypassChallenges
+
 	criteria := []interface{}{}
 	for _, item := range obj.Criteria {
 		criteria = append(criteria, AccessRuleCriteriaToMap(item))
@@ -1404,6 +1684,12 @@ func AccessRuleToMap(obj oci_waas.AccessRule) map[string]interface{} {
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
+	}
+
+	result["redirect_response_code"] = string(obj.RedirectResponseCode)
+
+	if obj.RedirectUrl != nil {
+		result["redirect_url"] = string(*obj.RedirectUrl)
 	}
 
 	return result
@@ -1574,6 +1860,118 @@ func BlockChallengeSettingsToMap(obj *oci_waas.BlockChallengeSettings) map[strin
 	return result
 }
 
+func (s *WaasWaasPolicyResourceCrud) mapToCachingRule(fieldKeyFormat string) (oci_waas.CachingRule, error) {
+	result := oci_waas.CachingRule{}
+
+	if action, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action")); ok {
+		result.Action = oci_waas.CachingRuleActionEnum(action.(string))
+	}
+
+	if cachingDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "caching_duration")); ok && cachingDuration != "" {
+		tmp := cachingDuration.(string)
+		result.CachingDuration = &tmp
+	}
+
+	if clientCachingDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_caching_duration")); ok && clientCachingDuration != "" {
+		tmp := clientCachingDuration.(string)
+		result.ClientCachingDuration = &tmp
+	}
+
+	result.Criteria = []oci_waas.CachingRuleCriteria{}
+	if criteria, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "criteria")); ok {
+		interfaces := criteria.([]interface{})
+		tmp := make([]oci_waas.CachingRuleCriteria, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "criteria"), stateDataIndex)
+			converted, err := s.mapToCachingRuleCriteria(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		result.Criteria = tmp
+	}
+
+	if isClientCachingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_client_caching_enabled")); ok {
+		tmp := isClientCachingEnabled.(bool)
+		result.IsClientCachingEnabled = &tmp
+	}
+
+	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+		tmp := key.(string)
+		result.Key = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	return result, nil
+}
+
+func CachingRuleToMap(obj oci_waas.CachingRule) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["action"] = string(obj.Action)
+
+	if obj.CachingDuration != nil {
+		result["caching_duration"] = string(*obj.CachingDuration)
+	}
+
+	if obj.ClientCachingDuration != nil {
+		result["client_caching_duration"] = string(*obj.ClientCachingDuration)
+	}
+
+	criteria := []interface{}{}
+	for _, item := range obj.Criteria {
+		criteria = append(criteria, CachingRuleCriteriaToMap(item))
+	}
+	result["criteria"] = criteria
+
+	if obj.IsClientCachingEnabled != nil {
+		result["is_client_caching_enabled"] = bool(*obj.IsClientCachingEnabled)
+	}
+
+	if obj.Key != nil {
+		result["key"] = string(*obj.Key)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
+func (s *WaasWaasPolicyResourceCrud) mapToCachingRuleCriteria(fieldKeyFormat string) (oci_waas.CachingRuleCriteria, error) {
+	result := oci_waas.CachingRuleCriteria{}
+
+	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok {
+		result.Condition = oci_waas.CachingRuleCriteriaConditionEnum(condition.(string))
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func CachingRuleCriteriaToMap(obj oci_waas.CachingRuleCriteria) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["condition"] = string(obj.Condition)
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
 func (s *WaasWaasPolicyResourceCrud) mapToCaptcha(fieldKeyFormat string) (oci_waas.Captcha, error) {
 	result := oci_waas.Captcha{}
 
@@ -1644,6 +2042,33 @@ func CaptchaToMap(obj oci_waas.Captcha) map[string]interface{} {
 
 	if obj.Url != nil {
 		result["url"] = string(*obj.Url)
+	}
+
+	return result
+}
+
+func (s *WaasWaasPolicyResourceCrud) mapToCustomProtectionRuleSetting(fieldKeyFormat string) (oci_waas.CustomProtectionRuleSetting, error) {
+	result := oci_waas.CustomProtectionRuleSetting{}
+
+	if action, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action")); ok {
+		result.Action = oci_waas.CustomProtectionRuleSettingActionEnum(action.(string))
+	}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	return result, nil
+}
+
+func CustomProtectionRuleSettingToMap(obj oci_waas.CustomProtectionRuleSetting) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["action"] = string(obj.Action)
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
 	}
 
 	return result
@@ -1747,6 +2172,22 @@ func (s *WaasWaasPolicyResourceCrud) mapToHeader(fieldKeyFormat string) (oci_waa
 	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
 		tmp := value.(string)
 		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *WaasWaasPolicyResourceCrud) mapToOriginGroupOrigins(fieldKeyFormat string) (oci_waas.OriginGroupOrigins, error) {
+	result := oci_waas.OriginGroupOrigins{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "origin")); ok {
+		tmp := name.(string)
+		result.Origin = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weight")); ok {
+		tmp := value.(int)
+		result.Weight = &tmp
 	}
 
 	return result, nil
@@ -1946,9 +2387,27 @@ func JsChallengeToMap(obj *oci_waas.JsChallenge) map[string]interface{} {
 func (s *WaasWaasPolicyResourceCrud) mapToPolicyConfig(fieldKeyFormat string) (oci_waas.PolicyConfig, error) {
 	result := oci_waas.PolicyConfig{}
 
-	if certificateId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_id")); ok {
+	if certificateId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_id")); ok && certificateId != "" {
 		tmp := certificateId.(string)
 		result.CertificateId = &tmp
+	}
+
+	if cipherGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cipher_group")); ok {
+		result.CipherGroup = oci_waas.PolicyConfigCipherGroupEnum(cipherGroup.(string))
+	}
+
+	if clientAddressHeader, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_address_header")); ok && clientAddressHeader != "" {
+		result.ClientAddressHeader = oci_waas.PolicyConfigClientAddressHeaderEnum(clientAddressHeader.(string))
+	}
+
+	if isBehindCdn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_behind_cdn")); ok {
+		tmp := isBehindCdn.(bool)
+		result.IsBehindCdn = &tmp
+	}
+
+	if isCacheControlRespected, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_cache_control_respected")); ok {
+		tmp := isCacheControlRespected.(bool)
+		result.IsCacheControlRespected = &tmp
 	}
 
 	if isHttpsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_https_enabled")); ok {
@@ -1961,6 +2420,28 @@ func (s *WaasWaasPolicyResourceCrud) mapToPolicyConfig(fieldKeyFormat string) (o
 		result.IsHttpsForced = &tmp
 	}
 
+	if isOriginCompressionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_origin_compression_enabled")); ok {
+		tmp := isOriginCompressionEnabled.(bool)
+		result.IsOriginCompressionEnabled = &tmp
+	}
+
+	if isResponseBufferingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_response_buffering_enabled")); ok {
+		tmp := isResponseBufferingEnabled.(bool)
+		result.IsResponseBufferingEnabled = &tmp
+	}
+
+	result.TlsProtocols = []oci_waas.PolicyConfigTlsProtocolsEnum{}
+	if tlsProtocols, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tls_protocols")); ok {
+		interfaces := tlsProtocols.([]interface{})
+		tmp := make([]oci_waas.PolicyConfigTlsProtocolsEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_waas.PolicyConfigTlsProtocolsEnum(interfaces[i].(string))
+			}
+		}
+		result.TlsProtocols = tmp
+	}
+
 	return result, nil
 }
 
@@ -1971,6 +2452,18 @@ func PolicyConfigToMap(obj *oci_waas.PolicyConfig) map[string]interface{} {
 		result["certificate_id"] = string(*obj.CertificateId)
 	}
 
+	result["cipher_group"] = string(obj.CipherGroup)
+
+	result["client_address_header"] = string(obj.ClientAddressHeader)
+
+	if obj.IsBehindCdn != nil {
+		result["is_behind_cdn"] = bool(*obj.IsBehindCdn)
+	}
+
+	if obj.IsCacheControlRespected != nil {
+		result["is_cache_control_respected"] = bool(*obj.IsCacheControlRespected)
+	}
+
 	if obj.IsHttpsEnabled != nil {
 		result["is_https_enabled"] = bool(*obj.IsHttpsEnabled)
 	}
@@ -1978,6 +2471,16 @@ func PolicyConfigToMap(obj *oci_waas.PolicyConfig) map[string]interface{} {
 	if obj.IsHttpsForced != nil {
 		result["is_https_forced"] = bool(*obj.IsHttpsForced)
 	}
+
+	if obj.IsOriginCompressionEnabled != nil {
+		result["is_origin_compression_enabled"] = bool(*obj.IsOriginCompressionEnabled)
+	}
+
+	if obj.IsResponseBufferingEnabled != nil {
+		result["is_response_buffering_enabled"] = bool(*obj.IsResponseBufferingEnabled)
+	}
+
+	result["tls_protocols"] = obj.TlsProtocols
 
 	return result
 }
@@ -2031,6 +2534,45 @@ func OriginMapToMap(originMap map[string]oci_waas.Origin) []interface{} {
 	}
 
 	return origins
+}
+
+func originGroupOriginsToMap(obj oci_waas.OriginGroupOrigins) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Origin != nil {
+		result["origin"] = string(*obj.Origin)
+	}
+
+	if obj.Weight != nil {
+		result["weight"] = int(*obj.Weight)
+	}
+
+	return result
+}
+
+func OriginGroupToMap(obj oci_waas.OriginGroup) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	originGroupOrigins := []interface{}{}
+	for _, item := range obj.Origins {
+		originGroupOrigins = append(originGroupOrigins, originGroupOriginsToMap(item))
+	}
+	result["origin_group"] = originGroupOrigins
+
+	return result
+}
+
+func OriginGroupMapToMap(originGroupMap map[string]oci_waas.OriginGroup) []interface{} {
+	originGroups := []interface{}{}
+
+	// This is because we model the API's map as a List for Terraform convenience
+	for label, originGroup := range originGroupMap {
+		originResultMap := OriginGroupToMap(originGroup)
+		originResultMap["label"] = label
+		originGroups = append(originGroups, originResultMap)
+	}
+
+	return originGroups
 }
 
 func (s *WaasWaasPolicyResourceCrud) mapToProtectionSettings(fieldKeyFormat string) (oci_waas.ProtectionSettings, error) {
@@ -2199,6 +2741,22 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfigDetails(fieldKeyFormat string
 		}
 	}
 
+	result.CachingRules = []oci_waas.CachingRule{}
+	if cachingRules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "caching_rules")); ok {
+		interfaces := cachingRules.([]interface{})
+		tmp := make([]oci_waas.CachingRule, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "caching_rules"), stateDataIndex)
+			converted, err := s.mapToCachingRule(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		result.CachingRules = tmp
+	}
+
 	result.Captchas = []oci_waas.Captcha{}
 	if captchas, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "captchas")); ok {
 		interfaces := captchas.([]interface{})
@@ -2213,6 +2771,22 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfigDetails(fieldKeyFormat string
 			tmp[i] = converted
 		}
 		result.Captchas = tmp
+	}
+
+	result.CustomProtectionRules = []oci_waas.CustomProtectionRuleSetting{}
+	if customProtectionRules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_protection_rules")); ok {
+		interfaces := customProtectionRules.([]interface{})
+		tmp := make([]oci_waas.CustomProtectionRuleSetting, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "custom_protection_rules"), stateDataIndex)
+			converted, err := s.mapToCustomProtectionRuleSetting(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		result.CustomProtectionRules = tmp
 	}
 
 	if deviceFingerprintChallenge, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "device_fingerprint_challenge")); ok {
@@ -2251,6 +2825,17 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfigDetails(fieldKeyFormat string
 	if origin, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "origin")); ok {
 		tmp := origin.(string)
 		result.Origin = &tmp
+	}
+
+	if originGroups, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "origin_groups")); ok {
+		interfaces := originGroups.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		result.OriginGroups = tmp
 	}
 
 	if protectionSettings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protection_settings")); ok {
@@ -2313,6 +2898,22 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfig(fieldKeyFormat string) (oci_
 		}
 	}
 
+	result.CachingRules = []oci_waas.CachingRule{}
+	if cachingRules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "caching_rules")); ok {
+		interfaces := cachingRules.([]interface{})
+		tmp := make([]oci_waas.CachingRule, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "caching_rules"), stateDataIndex)
+			converted, err := s.mapToCachingRule(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		result.CachingRules = tmp
+	}
+
 	result.Captchas = []oci_waas.Captcha{}
 	if captchas, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "captchas")); ok {
 		interfaces := captchas.([]interface{})
@@ -2327,6 +2928,22 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfig(fieldKeyFormat string) (oci_
 			tmp[i] = converted
 		}
 		result.Captchas = tmp
+	}
+
+	result.CustomProtectionRules = []oci_waas.CustomProtectionRuleSetting{}
+	if customProtectionRules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_protection_rules")); ok {
+		interfaces := customProtectionRules.([]interface{})
+		tmp := make([]oci_waas.CustomProtectionRuleSetting, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "custom_protection_rules"), stateDataIndex)
+			converted, err := s.mapToCustomProtectionRuleSetting(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		result.CustomProtectionRules = tmp
 	}
 
 	if deviceFingerprintChallenge, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "device_fingerprint_challenge")); ok {
@@ -2365,6 +2982,17 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfig(fieldKeyFormat string) (oci_
 	if origin, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "origin")); ok {
 		tmp := origin.(string)
 		result.Origin = &tmp
+	}
+
+	if originGroups, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "origin_groups")); ok {
+		interfaces := originGroups.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		result.OriginGroups = tmp
 	}
 
 	if protectionSettings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protection_settings")); ok {
@@ -2410,11 +3038,23 @@ func WafConfigToMap(obj *oci_waas.WafConfig) map[string]interface{} {
 		result["address_rate_limiting"] = []interface{}{AddressRateLimitingToMap(obj.AddressRateLimiting)}
 	}
 
+	cachingRules := []interface{}{}
+	for _, item := range obj.CachingRules {
+		cachingRules = append(cachingRules, CachingRuleToMap(item))
+	}
+	result["caching_rules"] = cachingRules
+
 	captchas := []interface{}{}
 	for _, item := range obj.Captchas {
 		captchas = append(captchas, CaptchaToMap(item))
 	}
 	result["captchas"] = captchas
+
+	customProtectionRules := []interface{}{}
+	for _, item := range obj.CustomProtectionRules {
+		customProtectionRules = append(customProtectionRules, CustomProtectionRuleSettingToMap(item))
+	}
+	result["custom_protection_rules"] = customProtectionRules
 
 	if obj.DeviceFingerprintChallenge != nil {
 		result["device_fingerprint_challenge"] = []interface{}{DeviceFingerprintChallengeToMap(obj.DeviceFingerprintChallenge)}
@@ -2431,6 +3071,8 @@ func WafConfigToMap(obj *oci_waas.WafConfig) map[string]interface{} {
 	if obj.Origin != nil {
 		result["origin"] = string(*obj.Origin)
 	}
+
+	result["origin_groups"] = obj.OriginGroups
 
 	if obj.ProtectionSettings != nil {
 		result["protection_settings"] = []interface{}{ProtectionSettingsToMap(obj.ProtectionSettings)}
@@ -2522,6 +3164,30 @@ func originsHashCodeForSets(v interface{}) int {
 					buf.WriteString(fmt.Sprintf("%v-", name))
 				}
 				if value, ok := tmpMap["value"]; ok {
+					buf.WriteString(fmt.Sprintf("%v-", value))
+				}
+			}
+		}
+	}
+	return hashcode.String(buf.String())
+}
+
+func originGroupsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if label, ok := m["label"]; ok && label != "" {
+		buf.WriteString(fmt.Sprintf("%v-", label))
+	}
+
+	if originGroup, ok := m["origin_group"]; ok {
+		if tmpList := originGroup.([]interface{}); len(tmpList) > 0 {
+			buf.WriteString("origin_group-")
+			for _, originGroupRaw := range tmpList {
+				tmpMap := originGroupRaw.(map[string]interface{})
+				if name, ok := tmpMap["origin"]; ok {
+					buf.WriteString(fmt.Sprintf("%v-", name))
+				}
+				if value, ok := tmpMap["weight"]; ok {
 					buf.WriteString(fmt.Sprintf("%v-", value))
 				}
 			}

@@ -1,9 +1,9 @@
 // Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Quotas APIs
+// Service limits APIs
 //
-// APIs for managing Compartment Resource Quotas.
+// APIs that interact with the resource limits of a specific resource type
 //
 
 package limits
@@ -25,7 +25,7 @@ type CreateQuotaDetails struct {
 	// in the tenancy and cannot be changed.
 	Name *string `mandatory:"true" json:"name"`
 
-	// An array of quota statements written in the declarative language.
+	// An array of quota statements written in the declarative quota statement language.
 	Statements []string `mandatory:"true" json:"statements"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

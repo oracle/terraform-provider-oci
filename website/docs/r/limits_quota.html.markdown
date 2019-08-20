@@ -36,7 +36,7 @@ The following arguments are supported:
 * `description` - (Required) (Updatable) The description you assign to the quota.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) The name you assign to the quota during creation. The name must be unique across all quotas in the tenancy and cannot be changed. 
-* `statements` - (Required) (Updatable) An array of quota statements written in the declarative language. 
+* `statements` - (Required) (Updatable) An array of quota statements written in the declarative quota statement language. 
 
 
 ** IMPORTANT **
@@ -53,7 +53,7 @@ The following attributes are exported:
 * `id` - The OCID of the quota.
 * `name` - The name you assign to the quota during creation. The name must be unique across all quotas in the tenancy and cannot be changed. 
 * `state` - The quota's current state.
-* `statements` - An array of one or more quota statements written in the declarative language.
+* `statements` - An array of one or more quota statements written in the declarative quota statement language.
 * `time_created` - Date and time the quota was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
 
 ## Import

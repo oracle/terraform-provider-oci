@@ -38,9 +38,10 @@ var (
 		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":        Representation{repType: Optional, create: `media-files-1`, update: `displayName2`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`, update: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[1], "id")}`},
 	}
 
-	FileSystemResourceDependencies = AvailabilityDomainConfig + DefinedTagsDependencies
+	FileSystemResourceDependencies = AvailabilityDomainConfig + DefinedTagsDependencies + KeyResourceDependencyConfig
 )
 
 func TestFileStorageFileSystemResource_basic(t *testing.T) {
@@ -98,6 +99,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -123,6 +125,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "media-files-1"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -148,6 +151,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -181,6 +185,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "file_systems.0.freeform_tags.%", "1"),
 					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.id", "oci_file_storage_file_system.test_file_system", "id"),
+					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.kms_key_id", "oci_file_storage_file_system.test_file_system", "kms_key_id"),
 					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.metered_bytes", "oci_file_storage_file_system.test_file_system", "metered_bytes"),
 					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.state", "oci_file_storage_file_system.test_file_system", "state"),
 					TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.time_created", "oci_file_storage_file_system.test_file_system", "time_created"),
