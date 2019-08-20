@@ -148,6 +148,53 @@ func (client WaasClient) cancelWorkRequest(ctx context.Context, request common.O
 	return response, err
 }
 
+// ChangeAddressListCompartment Moves address list into a different compartment. When provided, If-Match is checked against ETag values of the address list.
+func (client WaasClient) ChangeAddressListCompartment(ctx context.Context, request ChangeAddressListCompartmentRequest) (response ChangeAddressListCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeAddressListCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeAddressListCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeAddressListCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeAddressListCompartmentResponse")
+	}
+	return
+}
+
+// changeAddressListCompartment implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) changeAddressListCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/addressLists/{addressListId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeAddressListCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeCertificateCompartment Moves certificate into a different compartment. When provided, If-Match is checked against ETag values of the certificate.
 func (client WaasClient) ChangeCertificateCompartment(ctx context.Context, request ChangeCertificateCompartmentRequest) (response ChangeCertificateCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -183,6 +230,53 @@ func (client WaasClient) changeCertificateCompartment(ctx context.Context, reque
 	}
 
 	var response ChangeCertificateCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeCustomProtectionRuleCompartment Moves Custom Protection rule into a different compartment. When provided, If-Match is checked against ETag values of the Custom Protection rule.
+func (client WaasClient) ChangeCustomProtectionRuleCompartment(ctx context.Context, request ChangeCustomProtectionRuleCompartmentRequest) (response ChangeCustomProtectionRuleCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeCustomProtectionRuleCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeCustomProtectionRuleCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeCustomProtectionRuleCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeCustomProtectionRuleCompartmentResponse")
+	}
+	return
+}
+
+// changeCustomProtectionRuleCompartment implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) changeCustomProtectionRuleCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/customProtectionRules/{customProtectionRuleId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeCustomProtectionRuleCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -242,6 +336,54 @@ func (client WaasClient) changeWaasPolicyCompartment(ctx context.Context, reques
 	return response, err
 }
 
+// CreateAddressList Creates an address list in set compartment and allows it to be used in a WAAS policy.
+// For more information, see WAF Settings (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/wafsettings.htm).
+func (client WaasClient) CreateAddressList(ctx context.Context, request CreateAddressListRequest) (response CreateAddressListResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAddressList, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateAddressListResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAddressListResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAddressListResponse")
+	}
+	return
+}
+
+// createAddressList implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) createAddressList(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/addressLists")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAddressListResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateCertificate Allows an SSL certificate to be added to a WAAS policy. The Web Application Firewall terminates SSL connections to inspect requests in runtime, and then re-encrypts requests before sending them to the origin for fulfillment.
 // For more information, see WAF Settings (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/wafsettings.htm).
 func (client WaasClient) CreateCertificate(ctx context.Context, request CreateCertificateRequest) (response CreateCertificateResponse, err error) {
@@ -278,6 +420,53 @@ func (client WaasClient) createCertificate(ctx context.Context, request common.O
 	}
 
 	var response CreateCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateCustomProtectionRule Creates a new Custom Protection rule in the specified compartment.
+func (client WaasClient) CreateCustomProtectionRule(ctx context.Context, request CreateCustomProtectionRuleRequest) (response CreateCustomProtectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createCustomProtectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateCustomProtectionRuleResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateCustomProtectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateCustomProtectionRuleResponse")
+	}
+	return
+}
+
+// createCustomProtectionRule implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) createCustomProtectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/customProtectionRules")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateCustomProtectionRuleResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -343,6 +532,53 @@ func (client WaasClient) createWaasPolicy(ctx context.Context, request common.OC
 	return response, err
 }
 
+// DeleteAddressList Deletes the address list from the compartment if it is not used.
+func (client WaasClient) DeleteAddressList(ctx context.Context, request DeleteAddressListRequest) (response DeleteAddressListResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteAddressList, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteAddressListResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAddressListResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAddressListResponse")
+	}
+	return
+}
+
+// deleteAddressList implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) deleteAddressList(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/addressLists/{addressListId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAddressListResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteCertificate Deletes an SSL certificate from the WAAS service.
 func (client WaasClient) DeleteCertificate(ctx context.Context, request DeleteCertificateRequest) (response DeleteCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -378,6 +614,53 @@ func (client WaasClient) deleteCertificate(ctx context.Context, request common.O
 	}
 
 	var response DeleteCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteCustomProtectionRule Deletes a Custom Protection rule.
+func (client WaasClient) DeleteCustomProtectionRule(ctx context.Context, request DeleteCustomProtectionRuleRequest) (response DeleteCustomProtectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteCustomProtectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteCustomProtectionRuleResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteCustomProtectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCustomProtectionRuleResponse")
+	}
+	return
+}
+
+// deleteCustomProtectionRule implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) deleteCustomProtectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/customProtectionRules/{customProtectionRuleId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCustomProtectionRuleResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -437,6 +720,48 @@ func (client WaasClient) deleteWaasPolicy(ctx context.Context, request common.OC
 	return response, err
 }
 
+// GetAddressList Gets the details of an address list.
+func (client WaasClient) GetAddressList(ctx context.Context, request GetAddressListRequest) (response GetAddressListResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAddressList, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetAddressListResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAddressListResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAddressListResponse")
+	}
+	return
+}
+
+// getAddressList implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) getAddressList(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/addressLists/{addressListId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAddressListResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetCertificate Gets the details of an SSL certificate.
 func (client WaasClient) GetCertificate(ctx context.Context, request GetCertificateRequest) (response GetCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -467,6 +792,48 @@ func (client WaasClient) getCertificate(ctx context.Context, request common.OCIR
 	}
 
 	var response GetCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCustomProtectionRule Gets the details of a Custom Protection rule.
+func (client WaasClient) GetCustomProtectionRule(ctx context.Context, request GetCustomProtectionRuleRequest) (response GetCustomProtectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCustomProtectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetCustomProtectionRuleResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCustomProtectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCustomProtectionRuleResponse")
+	}
+	return
+}
+
+// getCustomProtectionRule implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) getCustomProtectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/customProtectionRules/{customProtectionRuleId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCustomProtectionRuleResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -942,6 +1309,91 @@ func (client WaasClient) listAccessRules(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// ListAddressLists Gets a list of address lists that can be used in a WAAS policy.
+func (client WaasClient) ListAddressLists(ctx context.Context, request ListAddressListsRequest) (response ListAddressListsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAddressLists, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListAddressListsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAddressListsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAddressListsResponse")
+	}
+	return
+}
+
+// listAddressLists implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) listAddressLists(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/addressLists")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAddressListsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCachingRules Gets the currently configured caching rules for the Web Application Firewall configuration of a specified WAAS policy.
+// The order of the caching rules is important. The rules will be checked in the order they are specified and the first matching rule will be used.
+func (client WaasClient) ListCachingRules(ctx context.Context, request ListCachingRulesRequest) (response ListCachingRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCachingRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListCachingRulesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCachingRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCachingRulesResponse")
+	}
+	return
+}
+
+// listCachingRules implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) listCachingRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/cachingRules")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCachingRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListCaptchas Gets the list of currently configured CAPTCHA challenges in the Web
 // Application Firewall configuration of a WAAS policy.
 // The order of the CAPTCHA challenges is important. The URL for each
@@ -1017,6 +1469,48 @@ func (client WaasClient) listCertificates(ctx context.Context, request common.OC
 	}
 
 	var response ListCertificatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCustomProtectionRules Gets a list of Custom Protection rules.
+func (client WaasClient) ListCustomProtectionRules(ctx context.Context, request ListCustomProtectionRulesRequest) (response ListCustomProtectionRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCustomProtectionRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListCustomProtectionRulesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCustomProtectionRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCustomProtectionRulesResponse")
+	}
+	return
+}
+
+// listCustomProtectionRules implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) listCustomProtectionRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/customProtectionRules")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCustomProtectionRulesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1287,6 +1781,48 @@ func (client WaasClient) listWaasPolicies(ctx context.Context, request common.OC
 	return response, err
 }
 
+// ListWaasPolicyCustomProtectionRules Gets the list of currently configured custom protection rules for a WAAS policy.
+func (client WaasClient) ListWaasPolicyCustomProtectionRules(ctx context.Context, request ListWaasPolicyCustomProtectionRulesRequest) (response ListWaasPolicyCustomProtectionRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listWaasPolicyCustomProtectionRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListWaasPolicyCustomProtectionRulesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListWaasPolicyCustomProtectionRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListWaasPolicyCustomProtectionRulesResponse")
+	}
+	return
+}
+
+// listWaasPolicyCustomProtectionRules implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) listWaasPolicyCustomProtectionRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/waasPolicies/{waasPolicyId}/wafConfig/customProtectionRules")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListWaasPolicyCustomProtectionRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListWafBlockedRequests Gets the number of blocked requests by a Web Application Firewall feature in five minute blocks, sorted by `timeObserved` in ascending order (starting from oldest data).
 func (client WaasClient) ListWafBlockedRequests(ctx context.Context, request ListWafBlockedRequestsRequest) (response ListWafBlockedRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1544,6 +2080,48 @@ func (client WaasClient) listWorkRequests(ctx context.Context, request common.OC
 	return response, err
 }
 
+// PurgeCache Accepts a list of resources that will get it's cache purged. If resources property is not passed, then the entire cache for Web Application will be purged.
+func (client WaasClient) PurgeCache(ctx context.Context, request PurgeCacheRequest) (response PurgeCacheResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.purgeCache, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = PurgeCacheResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PurgeCacheResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PurgeCacheResponse")
+	}
+	return
+}
+
+// purgeCache implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) purgeCache(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/waasPolicies/{waasPolicyId}/actions/purgeCache")
+	if err != nil {
+		return nil, err
+	}
+
+	var response PurgeCacheResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateAccessRules Updates the list of access rules in the Web Application Firewall configuration for a specified WAAS policy. Access rules allow explicit actions to be defined and executed for requests that meet various conditions. A rule action can be set to allow, detect, or block requests. The detect setting allows the request to pass through the Web Application Firewall and is tagged with a `DETECT` flag in the Web Application Firewall's log.
 // This operation can create, delete, update, and/or reorder access rules depending on the structure of the request body.
 // Access rules can be updated by changing the properties of the access rule object with the rule's key specified in the key field. Access rules can be reordered by changing the order of the access rules in the list when updating.
@@ -1583,6 +2161,98 @@ func (client WaasClient) updateAccessRules(ctx context.Context, request common.O
 	}
 
 	var response UpdateAccessRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAddressList Updates the details of an address list. Only the fields specified in the request body will be updated; all other properties will remain unchanged.
+func (client WaasClient) UpdateAddressList(ctx context.Context, request UpdateAddressListRequest) (response UpdateAddressListResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAddressList, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateAddressListResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAddressListResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAddressListResponse")
+	}
+	return
+}
+
+// updateAddressList implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) updateAddressList(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/addressLists/{addressListId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAddressListResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCachingRules Updates the configuration for each specified caching rule.
+// This operation can update or delete caching rules depending on the structure of the request body.
+// Caching rules can be updated by changing the properties of the caching rule object with the rule's key specified in the key field.
+// Any existing caching rules that are not specified with a key in the list of access rules will be deleted upon update.
+func (client WaasClient) UpdateCachingRules(ctx context.Context, request UpdateCachingRulesRequest) (response UpdateCachingRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateCachingRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateCachingRulesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCachingRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCachingRulesResponse")
+	}
+	return
+}
+
+// updateCachingRules implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) updateCachingRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/cachingRules")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCachingRulesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1676,6 +2346,53 @@ func (client WaasClient) updateCertificate(ctx context.Context, request common.O
 	}
 
 	var response UpdateCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCustomProtectionRule Updates the details of a Custom Protection rule. Only the fields specified in the request body will be updated; all other properties will remain unchanged.
+func (client WaasClient) UpdateCustomProtectionRule(ctx context.Context, request UpdateCustomProtectionRuleRequest) (response UpdateCustomProtectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateCustomProtectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateCustomProtectionRuleResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCustomProtectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCustomProtectionRuleResponse")
+	}
+	return
+}
+
+// updateCustomProtectionRule implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) updateCustomProtectionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/customProtectionRules/{customProtectionRuleId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCustomProtectionRuleResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2096,6 +2813,53 @@ func (client WaasClient) updateWaasPolicy(ctx context.Context, request common.OC
 	}
 
 	var response UpdateWaasPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateWaasPolicyCustomProtectionRules Updates the action for each specified custom protection rule. Only the `DETECT` and `BLOCK` actions can be set. Disabled rules should not be included in the list. For more information on protection rules, see WAF Protection Rules (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/wafprotectionrules.htm).
+func (client WaasClient) UpdateWaasPolicyCustomProtectionRules(ctx context.Context, request UpdateWaasPolicyCustomProtectionRulesRequest) (response UpdateWaasPolicyCustomProtectionRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateWaasPolicyCustomProtectionRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateWaasPolicyCustomProtectionRulesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateWaasPolicyCustomProtectionRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateWaasPolicyCustomProtectionRulesResponse")
+	}
+	return
+}
+
+// updateWaasPolicyCustomProtectionRules implements the OCIOperation interface (enables retrying operations)
+func (client WaasClient) updateWaasPolicyCustomProtectionRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/waasPolicies/{waasPolicyId}/wafConfig/customProtectionRules")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateWaasPolicyCustomProtectionRulesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

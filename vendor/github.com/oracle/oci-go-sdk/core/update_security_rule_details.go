@@ -33,13 +33,14 @@ type UpdateSecurityRuleDetails struct {
 	// Options are supported only for ICMP ("1"), TCP ("6"), UDP ("17"), and ICMPv6 ("58").
 	Protocol *string `mandatory:"true" json:"protocol"`
 
-	// An optional description of your choice for the rule.
+	// An optional description of your choice for the rule. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Conceptually, this is the range of IP addresses that a packet originating from the instance
 	// can go to.
 	// Allowed values:
 	//   * An IP address range in CIDR notation. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`
+	//     Note that IPv6 addressing is currently supported only in the Government Cloud.
 	//   * The `cidrBlock` value for a Service, if you're
 	//     setting up a security rule for traffic destined for a particular `Service` through
 	//     a service gateway. For example: `oci-phx-objectstorage`.
@@ -80,6 +81,7 @@ type UpdateSecurityRuleDetails struct {
 	// can come from.
 	// Allowed values:
 	//   * An IP address range in CIDR notation. For example: `192.168.1.0/24` or `2001:0db8:0123:45::/56`
+	//     Note that IPv6 addressing is currently supported only in the Government Cloud.
 	//   * The `cidrBlock` value for a Service, if you're
 	//     setting up a security rule for traffic coming from a particular `Service` through
 	//     a service gateway. For example: `oci-phx-objectstorage`.
@@ -93,7 +95,7 @@ type UpdateSecurityRuleDetails struct {
 	//   * `SERVICE_CIDR_BLOCK`: If the rule's `source` is the `cidrBlock` value for a
 	//     Service (the rule is for traffic coming from a
 	//     particular `Service` through a service gateway).
-	//   * `NETWORK_SECURITY_GROUP`: If the rule's `destination` is the OCID of a
+	//   * `NETWORK_SECURITY_GROUP`: If the rule's `source` is the OCID of a
 	//     NetworkSecurityGroup.
 	SourceType UpdateSecurityRuleDetailsSourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
 

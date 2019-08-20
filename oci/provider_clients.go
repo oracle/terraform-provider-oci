@@ -49,6 +49,7 @@ type OracleClients struct {
 	kmsCryptoClient                *oci_kms.KmsCryptoClient
 	kmsManagementClient            *oci_kms.KmsManagementClient
 	kmsVaultClient                 *oci_kms.KmsVaultClient
+	limitsClient                   *oci_limits.LimitsClient
 	loadBalancerClient             *oci_load_balancer.LoadBalancerClient
 	monitoringClient               *oci_monitoring.MonitoringClient
 	notificationControlPlaneClient *oci_ons.NotificationControlPlaneClient
@@ -284,6 +285,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.kmsVaultClient = &kmsVaultClient
+
+	limitsClient, err := oci_limits.NewLimitsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&limitsClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.limitsClient = &limitsClient
 
 	loadBalancerClient, err := oci_load_balancer.NewLoadBalancerClientWithConfigurationProvider(configProvider)
 	if err != nil {

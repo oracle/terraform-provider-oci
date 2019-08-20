@@ -53,6 +53,10 @@ func FileStorageFileSystemResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 
 			// Computed
 			"metered_bytes": {
@@ -169,6 +173,11 @@ func (s *FileStorageFileSystemResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		request.KmsKeyId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.CreateFileSystem(context.Background(), request)
@@ -229,6 +238,11 @@ func (s *FileStorageFileSystemResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		request.KmsKeyId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	response, err := s.Client.UpdateFileSystem(context.Background(), request)
@@ -270,6 +284,10 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
 
 	if s.Res.MeteredBytes != nil {
 		s.D.Set("metered_bytes", strconv.FormatInt(*s.Res.MeteredBytes, 10))

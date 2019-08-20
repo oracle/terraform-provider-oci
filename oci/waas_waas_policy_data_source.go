@@ -51,9 +51,36 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"origin_groups": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"label": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"origin_group": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"origin": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"weight": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 			"origins": {
 				Type:     schema.TypeList,
-				Optional: true,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -115,6 +142,26 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"cipher_group": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"client_address_header": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"is_behind_cdn": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_cache_control_respected": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"is_https_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -124,6 +171,24 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
+						},
+						"is_origin_compression_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_response_buffering_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"tls_protocols": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
 						},
 
 						// Computed
@@ -209,6 +274,24 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"bypass_challenges": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"redirect_response_code": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"redirect_url": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 
 									// Computed
 								},
@@ -241,6 +324,69 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 									},
 									"max_delayed_count_per_address": {
 										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"caching_rules": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"action": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"criteria": {
+										Type:     schema.TypeList,
+										Required: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"condition": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+
+												// Computed
+											},
+										},
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"caching_duration": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"client_caching_duration": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"is_client_caching_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"key": {
+										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
@@ -284,6 +430,30 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"header_text": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"custom_protection_rules": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"action": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -664,6 +834,14 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"origin_groups": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"protection_settings": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -852,6 +1030,12 @@ func (s *WaasWaasPolicyDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.OriginGroups != nil {
+		s.D.Set("origin_groups", OriginGroupMapToMap(s.Res.OriginGroups))
+	} else {
+		s.D.Set("origin_groups", nil)
+	}
 
 	if s.Res.Origins != nil {
 		s.D.Set("origins", OriginMapToMap(s.Res.Origins))

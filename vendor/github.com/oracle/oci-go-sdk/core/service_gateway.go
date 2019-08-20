@@ -69,9 +69,9 @@ type ServiceGateway struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID of the route table the service gateway is using. For information about why you
-	// would associate a route table with a service gateway, see
-	// Transit Routing: Private Access to Oracle Services Network (https://docs.cloud.oracle.com/Content/Network/Tasks/transitroutingoracleservices.htm).
+	// The OCID of the route table the service gateway is using.
+	// For information about why you would associate a route table with a service gateway, see
+	// Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/Content/Network/Tasks/transitroutingoracleservices.htm).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 
 	// The date and time the service gateway was created, in the format defined by RFC3339.

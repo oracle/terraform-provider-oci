@@ -29,7 +29,6 @@ func CoreLocalPeeringGatewayResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"vcn_id": {
 				Type:     schema.TypeString,
@@ -289,6 +288,15 @@ func (s *CoreLocalPeeringGatewayResourceCrud) Get() error {
 }
 
 func (s *CoreLocalPeeringGatewayResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_core.UpdateLocalPeeringGatewayRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -384,6 +392,24 @@ func (s *CoreLocalPeeringGatewayResourceCrud) SetData() error {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
+	return nil
+}
+
+func (s *CoreLocalPeeringGatewayResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangeLocalPeeringGatewayCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.LocalPeeringGatewayId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	_, err := s.Client.ChangeLocalPeeringGatewayCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

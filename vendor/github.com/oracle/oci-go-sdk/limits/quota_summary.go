@@ -1,9 +1,9 @@
 // Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// Quotas APIs
+// Service limits APIs
 //
-// APIs for managing Compartment Resource Quotas.
+// APIs that interact with the resource limits of a specific resource type
 //
 
 package limits

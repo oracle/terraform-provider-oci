@@ -13,15 +13,23 @@ type WorkRequestOperationTypesEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypesEnum
 const (
-	WorkRequestOperationTypesCreateWaasPolicy WorkRequestOperationTypesEnum = "CREATE_WAAS_POLICY"
-	WorkRequestOperationTypesUpdateWaasPolicy WorkRequestOperationTypesEnum = "UPDATE_WAAS_POLICY"
-	WorkRequestOperationTypesDeleteWaasPolicy WorkRequestOperationTypesEnum = "DELETE_WAAS_POLICY"
+	WorkRequestOperationTypesCreateWaasPolicy           WorkRequestOperationTypesEnum = "CREATE_WAAS_POLICY"
+	WorkRequestOperationTypesUpdateWaasPolicy           WorkRequestOperationTypesEnum = "UPDATE_WAAS_POLICY"
+	WorkRequestOperationTypesDeleteWaasPolicy           WorkRequestOperationTypesEnum = "DELETE_WAAS_POLICY"
+	WorkRequestOperationTypesPurgeWaasPolicyCache       WorkRequestOperationTypesEnum = "PURGE_WAAS_POLICY_CACHE"
+	WorkRequestOperationTypesCreateCustomProtectionRule WorkRequestOperationTypesEnum = "CREATE_CUSTOM_PROTECTION_RULE"
+	WorkRequestOperationTypesUpdateCustomProtectionRule WorkRequestOperationTypesEnum = "UPDATE_CUSTOM_PROTECTION_RULE"
+	WorkRequestOperationTypesDeleteCustomProtectionRule WorkRequestOperationTypesEnum = "DELETE_CUSTOM_PROTECTION_RULE"
 )
 
 var mappingWorkRequestOperationTypes = map[string]WorkRequestOperationTypesEnum{
-	"CREATE_WAAS_POLICY": WorkRequestOperationTypesCreateWaasPolicy,
-	"UPDATE_WAAS_POLICY": WorkRequestOperationTypesUpdateWaasPolicy,
-	"DELETE_WAAS_POLICY": WorkRequestOperationTypesDeleteWaasPolicy,
+	"CREATE_WAAS_POLICY":            WorkRequestOperationTypesCreateWaasPolicy,
+	"UPDATE_WAAS_POLICY":            WorkRequestOperationTypesUpdateWaasPolicy,
+	"DELETE_WAAS_POLICY":            WorkRequestOperationTypesDeleteWaasPolicy,
+	"PURGE_WAAS_POLICY_CACHE":       WorkRequestOperationTypesPurgeWaasPolicyCache,
+	"CREATE_CUSTOM_PROTECTION_RULE": WorkRequestOperationTypesCreateCustomProtectionRule,
+	"UPDATE_CUSTOM_PROTECTION_RULE": WorkRequestOperationTypesUpdateCustomProtectionRule,
+	"DELETE_CUSTOM_PROTECTION_RULE": WorkRequestOperationTypesDeleteCustomProtectionRule,
 }
 
 // GetWorkRequestOperationTypesEnumValues Enumerates the set of values for WorkRequestOperationTypesEnum
