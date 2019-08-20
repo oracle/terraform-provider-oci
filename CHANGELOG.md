@@ -7,6 +7,9 @@
 - Support for evaluating quotas and limits
 - Support for Web Application Firewall 1.1 features
 
+###Fixed
+- Fixed initialization of nsg_ids in `oci_database_db_system`, `oci_database_data_guard_association` and `oci_load_balancer_load_balancer`
+
 ## 3.38.0 (August 14, 2019)
 
 ### Added
