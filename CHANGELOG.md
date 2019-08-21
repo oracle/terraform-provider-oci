@@ -1,4 +1,4 @@
-## 3.39.0 (Unreleased)
+## 3.39.0 (August 21, 2019)
 
 ### Added
 - Support for creating and updating `oci_file_storage_file_system` resource with KMS key
