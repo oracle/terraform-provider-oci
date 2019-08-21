@@ -17,10 +17,11 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateInstanceConfigurationDetails Create an instance configuration from API input.
+// CreateInstanceConfigurationDetails Details for creating an instance configuration by providing a list of configuration settings.
 type CreateInstanceConfigurationDetails struct {
 
-	// The OCID of the compartment containing the instance configuration.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
+	// containing the instance configuration.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	InstanceDetails InstanceConfigurationInstanceDetails `mandatory:"true" json:"instanceDetails"`
@@ -30,7 +31,8 @@ type CreateInstanceConfigurationDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A user-friendly name for the instance configuration
+	// A user-friendly name for the instance configuration.  Does not have to be unique,
+	// and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no

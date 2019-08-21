@@ -55,9 +55,13 @@ type WorkRequestSummaryOperationTypeEnum = WorkRequestOperationTypesEnum
 // Set of constants representing the allowable values for WorkRequestOperationTypesEnum
 // Deprecated
 const (
-	WorkRequestSummaryOperationTypeCreateWaasPolicy WorkRequestOperationTypesEnum = "CREATE_WAAS_POLICY"
-	WorkRequestSummaryOperationTypeUpdateWaasPolicy WorkRequestOperationTypesEnum = "UPDATE_WAAS_POLICY"
-	WorkRequestSummaryOperationTypeDeleteWaasPolicy WorkRequestOperationTypesEnum = "DELETE_WAAS_POLICY"
+	WorkRequestSummaryOperationTypeCreateWaasPolicy           WorkRequestOperationTypesEnum = "CREATE_WAAS_POLICY"
+	WorkRequestSummaryOperationTypeUpdateWaasPolicy           WorkRequestOperationTypesEnum = "UPDATE_WAAS_POLICY"
+	WorkRequestSummaryOperationTypeDeleteWaasPolicy           WorkRequestOperationTypesEnum = "DELETE_WAAS_POLICY"
+	WorkRequestSummaryOperationTypePurgeWaasPolicyCache       WorkRequestOperationTypesEnum = "PURGE_WAAS_POLICY_CACHE"
+	WorkRequestSummaryOperationTypeCreateCustomProtectionRule WorkRequestOperationTypesEnum = "CREATE_CUSTOM_PROTECTION_RULE"
+	WorkRequestSummaryOperationTypeUpdateCustomProtectionRule WorkRequestOperationTypesEnum = "UPDATE_CUSTOM_PROTECTION_RULE"
+	WorkRequestSummaryOperationTypeDeleteCustomProtectionRule WorkRequestOperationTypesEnum = "DELETE_CUSTOM_PROTECTION_RULE"
 )
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypesEnum

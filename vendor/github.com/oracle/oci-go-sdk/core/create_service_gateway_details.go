@@ -54,7 +54,7 @@ type CreateServiceGatewayDetails struct {
 	// table. The Networking service does NOT automatically associate the attached VCN's default route table
 	// with the service gateway.
 	// For information about why you would associate a route table with a service gateway, see
-	// Transit Routing: Private Access to Oracle Services Network (https://docs.cloud.oracle.com/Content/Network/Tasks/transitroutingoracleservices.htm).
+	// Transit Routing: Private Access to Oracle Services (https://docs.cloud.oracle.com/Content/Network/Tasks/transitroutingoracleservices.htm).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 

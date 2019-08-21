@@ -53,6 +53,20 @@ data "oci_streaming_streams" "streams" {
   //  name  = "${oci_streaming_stream.stream.name}"
 }
 
-output "streams" {
-  value = "${data.oci_streaming_streams.streams.streams}"
+resource "oci_streaming_stream_archiver" "test_stream_archiver" {
+  #Required
+  batch_rollover_size_in_mbs     = "10"
+  batch_rollover_time_in_seconds = "10"
+  bucket                         = "TFTestBucket"
+  start_position                 = "LATEST"
+  stream_id                      = "${oci_streaming_stream.stream.id}"
+  use_existing_bucket            = "false"
+
+  # optional
+  state = "stopped"
+}
+
+data "oci_streaming_stream_archiver" "test_stream_archiver" {
+  #Required
+  stream_id = "${oci_streaming_stream.stream.id}"
 }

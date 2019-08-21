@@ -61,6 +61,17 @@ func (s *ResourceLoadBalancerLBTestSuite) SetupTest() {
 	data "oci_load_balancer_shapes" "t" {
 		compartment_id = "${var.compartment_id}"
 	}
+
+	resource "oci_core_network_security_group" "test_network_security_group" {
+         compartment_id  = "${var.compartment_id}"
+		 vcn_id            = "${oci_core_virtual_network.t.id}"
+         display_name      =  "displayName"
+    }
+
+	resource "oci_core_network_security_group" "test_network_security_group2" {
+		compartment_id = "${var.compartment_id}"
+		vcn_id            = "${oci_core_virtual_network.t.id}"
+	}
 	`
 	s.ResourceName = "oci_load_balancer.t"
 }
@@ -88,13 +99,14 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					resource.TestCheckResourceAttr(s.ResourceName, "is_private", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.LoadBalancerLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "nsg_ids.#", "0"),
 					func(ts *terraform.State) (err error) {
 						resId, err = fromInstanceState(ts, s.ResourceName, "id")
 						return err
 					},
 				),
 			},
-			// test update
+			// test update without nsgIds
 			{
 				Config: s.Config + `
 				resource "oci_load_balancer" "t" {
@@ -120,6 +132,61 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					},
 				),
 			},
+			// test update with nsgIds
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer" "t" {
+					shape          = "${data.oci_load_balancer_shapes.t.shapes.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_ids     = ["${oci_core_subnet.t.id}"]
+					display_name   = "-tf-lb-updated"
+					network_security_group_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb-updated"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "shape"),
+					resource.TestCheckResourceAttr(s.ResourceName, "subnet_ids.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "ip_address_details.#"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_private", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.LoadBalancerLifecycleStateActive)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "network_security_group_ids.#", "1"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId2 != resId {
+							return fmt.Errorf("resource recreated when it should not have been")
+						}
+						return err
+					},
+				),
+			},
+			// test update with removing nsgIds
+			{
+				Config: s.Config + `
+				resource "oci_load_balancer" "t" {
+					shape          = "${data.oci_load_balancer_shapes.t.shapes.0.name}"
+					compartment_id = "${var.compartment_id}"
+					subnet_ids     = ["${oci_core_subnet.t.id}"]
+					display_name   = "-tf-lb-updated"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb-updated"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "shape"),
+					resource.TestCheckResourceAttr(s.ResourceName, "subnet_ids.#", "1"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "ip_address_details.#"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_private", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.LoadBalancerLifecycleStateActive)),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "network_security_group_ids.#", "0"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId2 != resId {
+							return fmt.Errorf("resource recreated when it should not have been")
+						}
+						return err
+					},
+				),
+			},
 			// verify force update
 			{
 				Config: s.Config + `
@@ -129,6 +196,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					subnet_ids     = ["${oci_core_subnet.t.id}", "${oci_core_subnet.t2.id}"]
 					display_name   = "-tf-lb-updated"
 					is_private 	   = false
+					network_security_group_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-lb-updated"),
@@ -138,6 +206,7 @@ func (s *ResourceLoadBalancerLBTestSuite) TestAccResourceLoadBalancerLB_basicPri
 					resource.TestCheckResourceAttr(s.ResourceName, "is_private", "false"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(loadbalancer.LoadBalancerLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName, "network_security_group_ids.#", "1"),
 					func(ts *terraform.State) (err error) {
 						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
 						if resId2 == resId {

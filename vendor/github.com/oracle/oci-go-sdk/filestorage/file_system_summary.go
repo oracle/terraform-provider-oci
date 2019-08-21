@@ -55,6 +55,9 @@ type FileSystemSummary struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The OCID of KMS key used to encrypt the encryption keys associated with this file system.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
 func (m FileSystemSummary) String() string {

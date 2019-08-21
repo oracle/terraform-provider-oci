@@ -1,4 +1,15 @@
-## 3.38.1 (Unreleased)
+## 3.39.0 (Unreleased)
+
+### Added
+- Support for creating and updating `oci_file_storage_file_system` resource with KMS key
+- Support for Stream Archiving
+- Support for moving `oci_core_dhcp_options`,`oci_core_internet_gateway`,`oci_core_local_peering_gateway`,`oci_core_network_security_group`, `oci_core_public_ip` resources across compartments
+- Support for evaluating quotas and limits
+- Support for Web Application Firewall 1.1 features
+
+### Fixed
+- Fixed initialization of nsg_ids in `oci_database_db_system`, `oci_database_data_guard_association` and `oci_load_balancer_load_balancer`
+
 ## 3.38.0 (August 14, 2019)
 
 ### Added

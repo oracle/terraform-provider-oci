@@ -217,7 +217,8 @@ func (client ComputeManagementClient) changeInstancePoolCompartment(ctx context.
 	return response, err
 }
 
-// CreateInstanceConfiguration Creates an instance configuration
+// CreateInstanceConfiguration Creates an instance configuration. An instance configuration is a template that defines the
+// settings to use when creating Compute instances.
 func (client ComputeManagementClient) CreateInstanceConfiguration(ctx context.Context, request CreateInstanceConfigurationRequest) (response CreateInstanceConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -526,7 +527,12 @@ func (client ComputeManagementClient) getInstancePoolLoadBalancerAttachment(ctx 
 	return response, err
 }
 
-// LaunchInstanceConfiguration Launch an instance from an instance configuration
+// LaunchInstanceConfiguration Launches an instance from an instance configuration.
+// If the instance configuration does not include all of the parameters that are
+// required to launch an instance, such as the availability domain and subnet ID, you must
+// provide these parameters when you launch an instance from the instance configuration.
+// For more information, see the InstanceConfiguration
+// resource.
 func (client ComputeManagementClient) LaunchInstanceConfiguration(ctx context.Context, request LaunchInstanceConfigurationRequest) (response LaunchInstanceConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -573,7 +579,7 @@ func (client ComputeManagementClient) launchInstanceConfiguration(ctx context.Co
 	return response, err
 }
 
-// ListInstanceConfigurations Lists the available instanceConfigurations in the specific compartment.
+// ListInstanceConfigurations Lists the instance configurations in the specified compartment.
 func (client ComputeManagementClient) ListInstanceConfigurations(ctx context.Context, request ListInstanceConfigurationsRequest) (response ListInstanceConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -933,7 +939,7 @@ func (client ComputeManagementClient) terminateInstancePool(ctx context.Context,
 	return response, err
 }
 
-// UpdateInstanceConfiguration Updates the freeFormTags, definedTags, and display name of an instance configuration.
+// UpdateInstanceConfiguration Updates the free-form tags, defined tags, and display name of an instance configuration.
 func (client ComputeManagementClient) UpdateInstanceConfiguration(ctx context.Context, request UpdateInstanceConfigurationRequest) (response UpdateInstanceConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
