@@ -239,7 +239,7 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 		request.IsPrivate = &tmp
 	}
 
-	request.NetworkSecurityGroupIds = []string{}
+	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be supplied as the feature may or may not be supported
 	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
 		set := networkSecurityGroupIds.(*schema.Set)
 		interfaces := set.List()
@@ -449,11 +449,14 @@ func (s *LoadBalancerLoadBalancerResourceCrud) SetData() error {
 		s.D.Set("is_private", *s.Res.IsPrivate)
 	}
 
-	networkSecurityGroupIds := []interface{}{}
-	for _, item := range s.Res.NetworkSecurityGroupIds {
-		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
+	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be set in state as the feature may or may not be supported
+	if s.Res.NetworkSecurityGroupIds != nil {
+		networkSecurityGroupIds := []interface{}{}
+		for _, item := range s.Res.NetworkSecurityGroupIds {
+			networkSecurityGroupIds = append(networkSecurityGroupIds, item)
+		}
+		s.D.Set("network_security_group_ids", schema.NewSet(literalTypeHashCodeForSets, networkSecurityGroupIds))
 	}
-	s.D.Set("network_security_group_ids", schema.NewSet(literalTypeHashCodeForSets, networkSecurityGroupIds))
 
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape", *s.Res.ShapeName)
@@ -505,8 +508,7 @@ func (s *LoadBalancerLoadBalancerResourceCrud) updateCompartment(compartment int
 func (s *LoadBalancerLoadBalancerResourceCrud) updateNetworkSecurityGroups() error {
 	updateNsgIdsRequest := oci_load_balancer.UpdateNetworkSecurityGroupsRequest{}
 
-	updateNsgIdsRequest.NetworkSecurityGroupIds = []string{}
-
+	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be supplied as the feature may or may not be supported
 	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
 		set := networkSecurityGroupIds.(*schema.Set)
 		interfaces := set.List()

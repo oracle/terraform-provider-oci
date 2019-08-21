@@ -20,7 +20,7 @@ import (
 // CreateImageDetails Either instanceId or imageSourceDetails must be provided in addition to other required parameters.
 type CreateImageDetails struct {
 
-	// The OCID of the compartment containing the instance you want to use as the basis for the image.
+	// The OCID of the compartment you want the image to be created in.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

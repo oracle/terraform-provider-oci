@@ -25,6 +25,9 @@ type UpdateWaasPolicyDetails struct {
 	// A map of host to origin for the web application. The key should be a customer friendly name for the host, ex. primary, secondary, etc.
 	Origins map[string]Origin `mandatory:"false" json:"origins"`
 
+	// The map of origin groups and their keys used to associate origins to the wafConfig.
+	OriginGroups map[string]OriginGroup `mandatory:"false" json:"originGroups"`
+
 	PolicyConfig *PolicyConfig `mandatory:"false" json:"policyConfig"`
 
 	WafConfig *WafConfig `mandatory:"false" json:"wafConfig"`

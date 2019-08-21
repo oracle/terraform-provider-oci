@@ -140,6 +140,10 @@ func (s *FileStorageFileSystemsDataSourceCrud) SetData() error {
 			fileSystem["id"] = *r.Id
 		}
 
+		if r.KmsKeyId != nil {
+			fileSystem["kms_key_id"] = *r.KmsKeyId
+		}
+
 		if r.MeteredBytes != nil {
 			fileSystem["metered_bytes"] = strconv.FormatInt(*r.MeteredBytes, 10)
 		}

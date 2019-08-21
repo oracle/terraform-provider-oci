@@ -54,6 +54,7 @@ func initDependencyGraph() {
 	DependencyGraph["key"] = append(DependencyGraph["key"], "KmsKeyVersion")
 	DependencyGraph["kmsKey"] = append(DependencyGraph["kmsKey"], "CoreBootVolume")
 	DependencyGraph["kmsKey"] = append(DependencyGraph["kmsKey"], "CoreVolume")
+	DependencyGraph["kmsKey"] = append(DependencyGraph["kmsKey"], "FileStorageFileSystem")
 	DependencyGraph["kmsKey"] = append(DependencyGraph["kmsKey"], "ObjectStorageBucket")
 	DependencyGraph["listing"] = append(DependencyGraph["listing"], "CoreAppCatalogSubscription")
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerBackend")
@@ -75,6 +76,7 @@ func initDependencyGraph() {
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreServiceGateway")
 	DependencyGraph["routeTable"] = append(DependencyGraph["routeTable"], "CoreSubnet")
 	DependencyGraph["steeringPolicy"] = append(DependencyGraph["steeringPolicy"], "DnsSteeringPolicyAttachment")
+	DependencyGraph["stream"] = append(DependencyGraph["stream"], "StreamingStreamArchiver")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "CoreInstance")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "DatabaseAutonomousExadataInfrastructure")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "FileStorageMountTarget")
@@ -106,5 +108,6 @@ func initDependencyGraph() {
 	DependencyGraph["volume"] = append(DependencyGraph["volume"], "CoreVolumeAttachment")
 	DependencyGraph["volume"] = append(DependencyGraph["volume"], "CoreVolumeBackup")
 	DependencyGraph["volumeGroup"] = append(DependencyGraph["volumeGroup"], "CoreVolumeGroupBackup")
+	DependencyGraph["waasPolicy"] = append(DependencyGraph["waasPolicy"], "WaasPurgeCache")
 	DependencyGraph["zone"] = append(DependencyGraph["zone"], "DnsSteeringPolicyAttachment")
 }
