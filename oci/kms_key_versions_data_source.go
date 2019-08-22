@@ -111,8 +111,14 @@ func (s *KmsKeyVersionsDataSourceCrud) SetData() error {
 			keyVersion["key_version_id"] = *r.Id
 		}
 
+		keyVersion["state"] = r.LifecycleState
+
 		if r.TimeCreated != nil {
 			keyVersion["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.TimeOfDeletion != nil {
+			keyVersion["time_of_deletion"] = *r.TimeOfDeletion
 		}
 
 		if r.VaultId != nil {
