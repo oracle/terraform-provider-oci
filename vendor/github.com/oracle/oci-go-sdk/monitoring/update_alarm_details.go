@@ -43,6 +43,12 @@ type UpdateAlarmDetails struct {
 	// Example: `oci_computeagent`
 	Namespace *string `mandatory:"false" json:"namespace"`
 
+	// Resource group that you want to use as a filter. The alarm retrieves metric data associated with the specified resource group only. Only one resource group can be applied per metric.
+	// A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
+	// Avoid entering confidential information.
+	// Example: `frontend-fleet`
+	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
+
 	// The Monitoring Query Language (MQL) expression to evaluate for the alarm. The Alarms feature of
 	// the Monitoring service interprets results for each returned time series as Boolean values,
 	// where zero represents false and a non-zero value represents true. A true value means that the trigger

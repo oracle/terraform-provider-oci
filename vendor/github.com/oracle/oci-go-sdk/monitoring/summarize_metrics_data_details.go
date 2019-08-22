@@ -34,6 +34,12 @@ type SummarizeMetricsDataDetails struct {
 	// Example: `CpuUtilization[1m].sum()`
 	Query *string `mandatory:"true" json:"query"`
 
+	// Resource group that you want to use as a filter. The specified resource group must exist in the definition of the posted metric. Only one resource group can be applied per metric.
+	// A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
+	// Avoid entering confidential information.
+	// Example: `frontend-fleet`
+	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
+
 	// The beginning of the time range to use when searching for metric data points.
 	// Format is defined by RFC3339. The response includes metric data points for the startTime.
 	// Default value: the timestamp 3 hours before the call was sent.

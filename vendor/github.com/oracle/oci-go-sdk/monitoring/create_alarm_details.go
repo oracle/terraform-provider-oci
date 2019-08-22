@@ -76,6 +76,12 @@ type CreateAlarmDetails struct {
 	// Example: `true`
 	MetricCompartmentIdInSubtree *bool `mandatory:"false" json:"metricCompartmentIdInSubtree"`
 
+	// Resource group that you want to use as a filter. The alarm retrieves metric data associated with the specified resource group only. Only one resource group can be applied per metric.
+	// A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
+	// Avoid entering confidential information.
+	// Example: `frontend-fleet`
+	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
+
 	// The time between calculated aggregation windows for the alarm. Supported value: `1m`
 	Resolution *string `mandatory:"false" json:"resolution"`
 
