@@ -7,6 +7,7 @@
 - Support for Cross-region boot volume backups
 - Support for `is_management_disabled` attribute in `oci_core_instance` and `oci_core_image` resources and datasources
 - Support for `dns_tsig_key` resource and datasources
+- Support for Economy vaults in Key management service
 - documentation update for Oracle Kubernetes engine
 
 ### Notes

@@ -5,6 +5,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 
@@ -14,6 +15,7 @@ import (
 	"net/url"
 	"regexp"
 
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
@@ -40,9 +42,18 @@ func KmsKeyVersionResource() *schema.Resource {
 			},
 
 			// Optional
+			"time_of_deletion": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -107,7 +118,25 @@ func readKmsKeyVersion(d *schema.ResourceData, m interface{}) error {
 }
 
 func deleteKmsKeyVersion(d *schema.ResourceData, m interface{}) error {
-	return nil
+	// prevent kms version deletion as part of testing as version deletion is only applicable when the version is not the current version of the key
+	disableKmsVersionDeletion, _ := strconv.ParseBool(getEnvSettingWithDefault("disable_kms_version_delete", "false"))
+	if disableKmsVersionDeletion {
+		return nil
+	}
+
+	sync := &KmsKeyVersionResourceCrud{}
+	sync.D = d
+	endpoint, ok := d.GetOkExists("management_endpoint")
+	if !ok {
+		return fmt.Errorf("management endpoint missing")
+	}
+	client, err := m.(*OracleClients).KmsManagementClient(endpoint.(string))
+	if err != nil {
+		return err
+	}
+	sync.Client = client
+
+	return DeleteResource(d, sync)
 }
 
 type KmsKeyVersionResourceCrud struct {
@@ -119,6 +148,34 @@ type KmsKeyVersionResourceCrud struct {
 
 func (s *KmsKeyVersionResourceCrud) ID() string {
 	return getKeyVersionCompositeId(*s.Res.KeyId, *s.Res.Id)
+}
+
+func (s *KmsKeyVersionResourceCrud) CreatedPending() []string {
+	return []string{
+		string(oci_kms.KeyVersionLifecycleStateCreating),
+		string(oci_kms.KeyVersionLifecycleStateEnabling),
+	}
+}
+
+func (s *KmsKeyVersionResourceCrud) CreatedTarget() []string {
+	return []string{
+		string(oci_kms.KeyVersionLifecycleStateEnabled),
+	}
+}
+
+func (s *KmsKeyVersionResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_kms.KeyVersionLifecycleStateDisabled),
+		string(oci_kms.KeyVersionLifecycleStateDeleting),
+		string(oci_kms.KeyVersionLifecycleStateSchedulingDeletion),
+	}
+}
+
+func (s *KmsKeyVersionResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_kms.KeyVersionLifecycleStateDeleted),
+		string(oci_kms.KeyVersionLifecycleStatePendingDeletion),
+	}
 }
 
 func (s *KmsKeyVersionResourceCrud) Create() error {
@@ -164,6 +221,32 @@ func (s *KmsKeyVersionResourceCrud) Get() error {
 	return nil
 }
 
+func (s *KmsKeyVersionResourceCrud) Delete() error {
+	request := oci_kms.ScheduleKeyVersionDeletionRequest{}
+
+	keyId, keyVersionId, err := parseKeyVersionCompositeId(s.D.Id())
+	if err == nil {
+		request.KeyId = &keyId
+		request.KeyVersionId = &keyVersionId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+		return err
+	}
+
+	if timeOfDeletion, ok := s.D.GetOkExists("time_of_deletion"); ok {
+		tmpTime, err := time.Parse(time.RFC3339Nano, timeOfDeletion.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeOfDeletion = &oci_common.SDKTime{Time: tmpTime}
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "kms")
+
+	_, error := s.Client.ScheduleKeyVersionDeletion(context.Background(), request)
+	return error
+}
+
 func (s *KmsKeyVersionResourceCrud) SetData() error {
 
 	keyId, keyVersionId, err := parseKeyVersionCompositeId(s.D.Id())
@@ -182,8 +265,14 @@ func (s *KmsKeyVersionResourceCrud) SetData() error {
 		s.D.Set("key_id", *s.Res.KeyId)
 	}
 
+	s.D.Set("state", s.Res.LifecycleState)
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeOfDeletion != nil {
+		s.D.Set("time_of_deletion", *s.Res.TimeOfDeletion)
 	}
 
 	if s.Res.VaultId != nil {

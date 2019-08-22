@@ -12,6 +12,11 @@ This data source provides the list of Vaults in Oracle Cloud Infrastructure Kms 
 
 Lists the vaults in the specified compartment.
 
+As a provisioning operation, this call is subject to a Key Management limit that applies to 
+the total number of requests across all provisioning read operations. Key Management might 
+throttle this call to reject an otherwise valid request when the total rate of provisioning 
+read operations exceeds 10 requests per second for a given tenancy.
+
 
 ## Example Usage
 
@@ -40,14 +45,14 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains a particular vault.
-* `crypto_endpoint` - The service endpoint to perform cryptographic operations against. Cryptographic operations include 'Encrypt,' 'Decrypt,' and 'GenerateDataEncryptionKey' operations. 
-* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "foo-value"}` 
+* `crypto_endpoint` - The service endpoint to perform cryptographic operations against. Cryptographic operations include  [Encrypt](/api/#/en/key/release/EncryptedData/Encrypt), [Decrypt](/api/#/en/key/release/DecryptedData/Decrypt),  and [GenerateDataEncryptionKey](/api/#/en/key/release/GeneratedKey/GenerateDataEncryptionKey) operations. 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name for the vault. It does not have to be unique, and it is changeable. Avoid entering confidential information. 
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the vault.
-* `management_endpoint` - The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. 
+* `management_endpoint` - The service endpoint to perform management operations against. Management operations include "Create," "Update," "List," "Get," and "Delete" operations. 
 * `state` - The vault's current state.  Example: `DELETED` 
 * `time_created` - The date and time this vault was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-04-03T21:10:29.600Z` 
-* `time_of_deletion` - An optional property for the deletion time of the vault, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
-* `vault_type` - The type of vault. Each type of vault stores the key with different degrees of isolation and has different options and pricing.
+* `time_of_deletion` - An optional property to indicate when to delete the vault, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
+* `vault_type` - The type of vault. Each type of vault stores the key with different degrees of isolation and has different options and pricing. 
 
