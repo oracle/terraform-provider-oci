@@ -69,6 +69,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							pdb_name = "pdbName"
 							db_backup_config {
 								auto_backup_enabled = true
+								auto_backup_window = "SLOT_TWO"
 								recovery_window_in_days = 10
 							}
 						}
@@ -149,6 +150,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.freeform_tags.Department", "Finance"),
@@ -232,6 +234,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.compartment_id"),
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.db_home_id"),
 					resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.db_name", "aTFdb"),
@@ -252,6 +255,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "compartment_id"),
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr("data.oci_database_database.t", "db_backup_config.0.auto_backup_window", "SLOT_TWO"),
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttrSet("data.oci_database_database.t", "db_home_id"),
 					resource.TestCheckResourceAttr("data.oci_database_database.t", "db_name", "aTFdb"),
@@ -331,6 +335,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							pdb_name = "pdbName"
 							db_backup_config {
 								auto_backup_enabled = true
+								auto_backup_window = "SLOT_TWO"
 								recovery_window_in_days = 10
 							}
 						}
@@ -386,6 +391,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							pdb_name = "pdbName"
 							db_backup_config {
 								auto_backup_enabled = true
+								auto_backup_window = "SLOT_TWO"
 								recovery_window_in_days = 10
 							}
 						}
@@ -442,6 +448,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							pdb_name = "pdbName"
 							db_backup_config {
 								auto_backup_enabled = false
+								auto_backup_window = "SLOT_TWO"
 								recovery_window_in_days = 10
 							}
 						}
@@ -524,6 +531,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "false"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DbSystemLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "defined_tags.example-tag-namespace-all.example-tag", "updateValue"),

@@ -5,7 +5,8 @@
 - Support for Granular security lists in Autonomous Database - Dedicated
 - Regional Subnet integration for Oracle Kubernetes Container engine
 - Documentation update for `oci_containerengine_cluster_kube_config`
-- Support Kubernetes secret encryption for clusters using `kms_key_id`  
+- Support Kubernetes secret encryption for clusters using `kms_key_id`
+- Support for Allowing user selected Autobackup start time window using `auto_backup_window` 
 
 ## 3.41.0 (September 04, 2019)
 
