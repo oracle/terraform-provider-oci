@@ -1,6 +1,7 @@
 module github.com/terraform-providers/terraform-provider-oci
 
 require (
+	github.com/aws/aws-sdk-go v1.23.13 // indirect
 	github.com/hashicorp/hcl v0.0.0-20180404174102-ef8a98b0bbce // indirect
 	github.com/hashicorp/terraform v0.12.4-0.20190628193153-a74738cd35fc
 	github.com/oracle/oci-go-sdk v8.1.0+incompatible

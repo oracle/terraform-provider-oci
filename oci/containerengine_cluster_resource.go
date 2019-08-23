@@ -56,6 +56,12 @@ func ContainerengineClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"options": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -389,6 +395,11 @@ func (s *ContainerengineClusterResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+		tmp := kmsKeyId.(string)
+		request.KmsKeyId = &tmp
+	}
+
 	if kubernetesVersion, ok := s.D.GetOkExists("kubernetes_version"); ok {
 		tmp := kubernetesVersion.(string)
 		request.KubernetesVersion = &tmp
@@ -560,6 +571,10 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 		s.D.Set("endpoints", []interface{}{ClusterEndpointsToMap(s.Res.Endpoints)})
 	} else {
 		s.D.Set("endpoints", nil)
+	}
+
+	if s.Res.KmsKeyId != nil {
+		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
 
 	if s.Res.KubernetesVersion != nil {
