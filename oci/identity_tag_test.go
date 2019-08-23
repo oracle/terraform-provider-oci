@@ -34,7 +34,7 @@ resource "oci_identity_tag_namespace" "tag-namespace1" {
 resource "oci_identity_tag" "tag1" {
   		#Required
   		description = "example tag"
-  		name = "example-tag"
+  		name = "example-tag-test"
         tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace1.id}"
 
 		is_retired = false
