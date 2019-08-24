@@ -16,11 +16,15 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createDatabaseAutonomousContainerDatabase,
-		Read:     readDatabaseAutonomousContainerDatabase,
-		Update:   updateDatabaseAutonomousContainerDatabase,
-		Delete:   deleteDatabaseAutonomousContainerDatabase,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &TwelveHours,
+			Update: &TwelveHours,
+			Delete: &TwelveHours,
+		},
+		Create: createDatabaseAutonomousContainerDatabase,
+		Read:   readDatabaseAutonomousContainerDatabase,
+		Update: updateDatabaseAutonomousContainerDatabase,
+		Delete: deleteDatabaseAutonomousContainerDatabase,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"autonomous_exadata_infrastructure_id": {

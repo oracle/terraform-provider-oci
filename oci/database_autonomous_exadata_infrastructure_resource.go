@@ -16,11 +16,15 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createDatabaseAutonomousExadataInfrastructure,
-		Read:     readDatabaseAutonomousExadataInfrastructure,
-		Update:   updateDatabaseAutonomousExadataInfrastructure,
-		Delete:   deleteDatabaseAutonomousExadataInfrastructure,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &TwelveHours,
+			Update: &TwelveHours,
+			Delete: &TwelveHours,
+		},
+		Create: createDatabaseAutonomousExadataInfrastructure,
+		Read:   readDatabaseAutonomousExadataInfrastructure,
+		Update: updateDatabaseAutonomousExadataInfrastructure,
+		Delete: deleteDatabaseAutonomousExadataInfrastructure,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -149,6 +153,14 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 
 						// Computed
 					},
+				},
+			},
+			"nsg_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Set:      literalTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
 				},
 			},
 
@@ -384,6 +396,18 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Create() error {
 		}
 	}
 
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.NsgIds = tmp
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.Shape = &tmp
@@ -465,6 +489,21 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Update() error {
 		}
 	}
 
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.UpdateAutonomousExadataInfrastructuresDetails.NsgIds = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateAutonomousExadataInfrastructure(context.Background(), request)
@@ -534,6 +573,12 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) SetData() error {
 	if s.Res.NextMaintenanceRunId != nil {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
+
+	nsgIds := []interface{}{}
+	for _, item := range s.Res.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
