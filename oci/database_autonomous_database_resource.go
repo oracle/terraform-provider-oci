@@ -18,11 +18,15 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createDatabaseAutonomousDatabase,
-		Read:     readDatabaseAutonomousDatabase,
-		Update:   updateDatabaseAutonomousDatabase,
-		Delete:   deleteDatabaseAutonomousDatabase,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &TwelveHours,
+			Update: &TwelveHours,
+			Delete: &TwelveHours,
+		},
+		Create: createDatabaseAutonomousDatabase,
+		Read:   readDatabaseAutonomousDatabase,
+		Update: updateDatabaseAutonomousDatabase,
+		Delete: deleteDatabaseAutonomousDatabase,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"admin_password": {
