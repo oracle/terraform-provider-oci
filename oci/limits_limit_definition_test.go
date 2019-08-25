@@ -19,7 +19,7 @@ var (
 		"service_name":   Representation{repType: Optional, create: `${data.oci_limits_services.test_services.services.0.name}`},
 	}
 
-	LimitDefinitionResourceConfig = LimitsServiceResourceConfig
+	LimitDefinitionResourceConfig = generateDataSourceFromRepresentationMap("oci_limits_services", "test_services", Required, Create, limitsServiceDataSourceRepresentation)
 )
 
 func TestLimitsLimitDefinitionResource_basic(t *testing.T) {

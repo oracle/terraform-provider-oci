@@ -59,14 +59,16 @@ var (
 		"type": Representation{repType: Required, create: `bootVolume`},
 	}
 
-	BootVolumeResourceDependencies = InstanceRequiredOnlyResource + KeyResourceDependencyConfig + VolumeGroupAsDependency + `
-data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
-	filter {
-		name = "display_name"
-		values = [ "silver" ]
-	}
-}
-`
+	BootVolumeResourceDependencies = OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		VolumeBackupPolicyDependency +
+		generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation) +
+		SourceVolumeListDependency +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies +
+		KeyResourceDependencyConfig
 )
 
 func TestCoreBootVolumeResource_basic(t *testing.T) {

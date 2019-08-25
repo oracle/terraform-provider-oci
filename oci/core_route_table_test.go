@@ -44,37 +44,14 @@ var (
 		"route_rules":    RepresentationGroup{Optional, routeTableRouteRulesRepresentation},
 	}
 	routeTableRouteRulesRepresentation = map[string]interface{}{
-		"network_entity_id": Representation{repType: Required, create: `${oci_core_internet_gateway.test_network_entity.id}`},
+		"network_entity_id": Representation{repType: Required, create: `${oci_core_internet_gateway.test_internet_gateway.id}`},
 		"destination":       Representation{repType: Optional, create: `0.0.0.0/0`, update: `10.0.0.0/8`},
 		"destination_type":  Representation{repType: Optional, create: `CIDR_BLOCK`},
 	}
 
-	RouteTableResourceDependencies = VcnResourceConfig + VcnResourceDependencies + ObjectStorageCoreService +
-		generateResourceFromRepresentationMap("oci_core_local_peering_gateway", "test_local_peering_gateway", Required, Create, localPeeringGatewayRepresentation) +
-		`
-	resource "oci_core_internet_gateway" "test_network_entity" {
-		compartment_id = "${var.compartment_id}"
-		vcn_id = "${oci_core_vcn.test_vcn.id}"
-		display_name = "-tf-internet-gateway"
-	}
-
-	resource "oci_core_service_gateway" "test_service_gateway" {
-		#Required
-		compartment_id = "${var.compartment_id}"
-		services {
-			service_id = "${lookup(data.oci_core_services.test_services.services[0], "id")}"
-		}
-		vcn_id = "${oci_core_vcn.test_vcn.id}"
-	}`
-
-	ObjectStorageCoreService = `data "oci_core_services" "test_services" {
-  		filter {
-    		name   = "name"
-    		values = ["OCI .* Object Storage"]
-			regex  = true
-  		}
-	}
-	`
+	RouteTableResourceDependencies = generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestCoreRouteTableResource_basic(t *testing.T) {

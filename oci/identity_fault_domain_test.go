@@ -19,7 +19,7 @@ var (
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
 	}
 
-	FaultDomainResourceConfig = ""
+	FaultDomainResourceConfig = AvailabilityDomainConfig
 )
 
 func TestIdentityFaultDomainResource_basic(t *testing.T) {
@@ -42,7 +42,7 @@ func TestIdentityFaultDomainResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config + AvailabilityDomainConfig +
+				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_fault_domains", "test_fault_domains", Required, Create, faultDomainDataSourceRepresentation) +
 					compartmentIdVariableStr + FaultDomainResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(

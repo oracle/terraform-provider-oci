@@ -40,7 +40,10 @@ var (
 		"weight":           Representation{repType: Optional, create: `10`, update: `11`},
 	}
 
-	BackendResourceDependencies = BackendSetRequiredOnlyResource
+	BackendResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+		LoadBalancerSubnetDependencies
 )
 
 func TestLoadBalancerBackendResource_basic(t *testing.T) {

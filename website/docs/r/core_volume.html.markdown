@@ -38,7 +38,7 @@ resource "oci_core_volume" "test_volume" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.volume_display_name}"
 	freeform_tags = {"Department"= "Finance"}
-	kms_key_id = "${oci_core_kms_key.test_kms_key.id}"
+	kms_key_id = "${oci_kms_key.test_key.id}"
 	size_in_gbs = "${var.volume_size_in_gbs}"
 	size_in_mbs = "${var.volume_size_in_mbs}"
 	source_details {

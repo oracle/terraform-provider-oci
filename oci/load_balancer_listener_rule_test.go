@@ -18,8 +18,14 @@ var (
 		"load_balancer_id": Representation{repType: Required, create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 	}
 
-	ListenerRuleResourceConfig = ListenerResourceDependencies +
-		generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Optional, Create, listenerRepresentation)
+	ListenerRuleResourceConfig = generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, representationCopyWithNewProperties(listenerRepresentation, map[string]interface{}{
+			"rule_set_names": Representation{repType: Required, create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
+		})) +
+		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetRepresentation) +
+		LoadBalancerSubnetDependencies
 )
 
 func TestLoadBalancerListenerRuleResource_basic(t *testing.T) {

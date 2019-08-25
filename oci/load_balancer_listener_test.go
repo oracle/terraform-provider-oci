@@ -41,10 +41,10 @@ var (
 		"verify_peer_certificate": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 
-	ListenerResourceDependencies = LoadBalancerResourceDependencies +
+	ListenerResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation) +
 		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
-		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation) +
+		LoadBalancerSubnetDependencies +
 		generateResourceFromRepresentationMap("oci_load_balancer_path_route_set", "test_path_route_set", Required, Create, pathRouteSetRepresentation) +
 		generateResourceFromRepresentationMap("oci_load_balancer_hostname", "test_hostname", Required, Create, hostnameRepresentation) +
 		generateResourceFromRepresentationMap("oci_load_balancer_rule_set", "test_rule_set", Required, Create, ruleSetRepresentation) +
@@ -84,7 +84,7 @@ func TestLoadBalancerListenerResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
 					generateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener", Required, Create, listenerRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "default_backend_set_name", "backendSet1"),
+					resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
 					resource.TestCheckResourceAttr(resourceName, "port", "10"),

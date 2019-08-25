@@ -18,8 +18,14 @@ import (
 )
 
 var (
-	SubnetRequiredOnlyResource = SubnetRequiredOnlyResourceDependencies +
-		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation)
+	SubnetRequiredOnlyResource = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		"dns_label":           Representation{repType: Required, create: `dnslabel`},
+		"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
+	})) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		AvailabilityDomainConfig
 
 	SubnetResourceConfig = SubnetResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation)
@@ -40,7 +46,7 @@ var (
 	}
 
 	subnetRepresentation = map[string]interface{}{
-		"cidr_block":                 Representation{repType: Required, create: `10.0.0.0/16`},
+		"cidr_block":                 Representation{repType: Required, create: `10.0.0.0/24`},
 		"compartment_id":             Representation{repType: Required, create: `${var.compartment_id}`},
 		"vcn_id":                     Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
 		"availability_domain":        Representation{repType: Optional, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
@@ -54,9 +60,18 @@ var (
 		"security_list_ids":          Representation{repType: Optional, create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}, update: []string{`${oci_core_security_list.test_security_list.id}`}},
 	}
 
+	SubnetResourceDependencies = generateResourceFromRepresentationMap("oci_core_dhcp_options", "test_dhcp_options", Required, Create, dhcpOptionsRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation) +
+		generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies
 	AnotherSecurityListRequiredOnlyResource = generateResourceFromRepresentationMap("oci_core_security_list", "test_security_list", Required, Create, securityListRepresentation)
 	SubnetRequiredOnlyResourceDependencies  = AvailabilityDomainConfig + VcnResourceConfig
-	SubnetResourceDependencies              = AvailabilityDomainConfig + DhcpOptionsRequiredOnlyResource + RouteTableRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource
 )
 
 func TestCoreSubnetResource_basic(t *testing.T) {
@@ -90,7 +105,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + SubnetResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -111,7 +126,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, subnetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -142,7 +157,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -174,7 +189,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, subnetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
-					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "dhcp_options_id"),
@@ -213,7 +228,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "subnets.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.availability_domain"),
-					resource.TestCheckResourceAttr(datasourceName, "subnets.0.cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(datasourceName, "subnets.0.cidr_block", "10.0.0.0/24"),
 					resource.TestCheckResourceAttr(datasourceName, "subnets.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "subnets.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "subnets.0.dhcp_options_id"),

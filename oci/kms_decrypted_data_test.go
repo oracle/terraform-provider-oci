@@ -20,7 +20,8 @@ var (
 		"associated_data": Representation{repType: Optional, create: map[string]string{"associatedData": "associatedData"}, update: map[string]string{"associatedData2": "associatedData2"}},
 	}
 
-	DecryptedDataResourceConfig = EncryptedDataRequiredOnlyResource
+	DecryptedDataResourceConfig = generateResourceFromRepresentationMap("oci_kms_encrypted_data", "test_encrypted_data", Required, Create, encryptedDataRepresentation) +
+		KeyResourceDependencyConfig
 )
 
 func TestKmsDecryptedDataResource_basic(t *testing.T) {

@@ -64,7 +64,7 @@ var (
 		"description":         Representation{repType: Optional, create: `System Maintenance`, update: `description2`},
 	}
 
-	AlarmResourceDependencies = DefinedTagsDependencies + AvailabilityDomainConfig +
+	AlarmResourceDependencies = DefinedTagsDependencies +
 		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "talarm1")) +
 		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic2", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(10, charsetWithoutDigits, "talarm2"))
 )

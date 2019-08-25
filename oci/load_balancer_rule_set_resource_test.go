@@ -42,11 +42,11 @@ var (
 
 	itemsConditionsRepresentationSourceIPCondition = map[string]interface{}{
 		"attribute_name":  Representation{repType: Required, create: `SOURCE_IP_ADDRESS`, update: `SOURCE_VCN_ID`},
-		"attribute_value": Representation{repType: Required, create: `129.0.0.0/8`, update: `${oci_core_vcn.test_vcn.id}`},
+		"attribute_value": Representation{repType: Required, create: `129.0.0.0/8`, update: `${oci_core_vcn.test_lb_vcn.id}`},
 	}
 	itemsConditionsRepresentationSourceVCNID = map[string]interface{}{
 		"attribute_name":  Representation{repType: Required, create: `SOURCE_VCN_ID`},
-		"attribute_value": Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"attribute_value": Representation{repType: Required, create: `${oci_core_vcn.test_lb_vcn.id}`},
 	}
 	itemsConditionsRepresentationSourceVCNIP = map[string]interface{}{
 		"attribute_name":  Representation{repType: Required, create: `SOURCE_VCN_IP_ADDRESS`},

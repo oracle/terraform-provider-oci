@@ -26,7 +26,7 @@ resource "oci_objectstorage_bucket" "test_bucket" {
 	access_type = "${var.bucket_access_type}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
-	kms_key_id = "${oci_objectstorage_kms_key.test_kms_key.id}"
+	kms_key_id = "${oci_kms_key.test_key.id}"
 	metadata = "${var.bucket_metadata}"
 	object_events_enabled = "${var.bucket_object_events_enabled}"
 	storage_tier = "${var.bucket_storage_tier}"

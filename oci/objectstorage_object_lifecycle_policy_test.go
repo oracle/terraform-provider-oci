@@ -28,12 +28,12 @@ var (
 
 	objectLifecyclePolicySingularDataSourceRepresentation = map[string]interface{}{
 		"bucket":    Representation{repType: Required, create: bucketName},
-		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
+		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
 	objectLifecyclePolicyRepresentation = map[string]interface{}{
 		"bucket":    Representation{repType: Required, create: bucketName},
-		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
+		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"rules":     RepresentationGroup{Optional, objectLifecyclePolicyRulesRepresentation},
 	}
 	objectLifecyclePolicyRulesRepresentation = map[string]interface{}{
@@ -50,9 +50,8 @@ var (
 		"inclusion_prefixes": Representation{repType: Optional, create: []string{bucketName, bucketName2}, update: []string{bucketName, bucketName2, bucketName3}},
 	}
 
-	ObjectLifecyclePolicyResourceDependencies = BucketResourceDependencies +
-		generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create,
-			getUpdatedRepresentationCopy("name", Representation{repType: Required, create: bucketName}, bucketRepresentation))
+	ObjectLifecyclePolicyResourceDependencies = generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, getUpdatedRepresentationCopy("name", Representation{repType: Required, create: bucketName}, bucketRepresentation)) +
+		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 )
 
 func TestObjectStorageObjectLifecyclePolicyResource_basic(t *testing.T) {

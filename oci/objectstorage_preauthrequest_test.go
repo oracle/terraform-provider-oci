@@ -49,7 +49,9 @@ var (
 		"object":       Representation{repType: Optional, create: `my-test-object-1`},
 	}
 
-	PreauthenticatedRequestResourceDependencies = ObjectRequiredOnlyResource
+	PreauthenticatedRequestResourceDependencies = generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
+		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
+		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectRepresentation)
 )
 
 func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {

@@ -21,7 +21,8 @@ var (
 		"scope_type":          Representation{repType: Optional, create: `AD`},
 	}
 
-	LimitValueResourceConfig = LimitsServiceResourceConfig + AvailabilityDomainConfig
+	LimitValueResourceConfig = AvailabilityDomainConfig +
+		generateDataSourceFromRepresentationMap("oci_limits_services", "test_services", Required, Create, limitsServiceDataSourceRepresentation)
 )
 
 func TestLimitsLimitValueResource_basic(t *testing.T) {

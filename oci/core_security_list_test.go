@@ -128,7 +128,9 @@ var (
 		"min": Representation{repType: Required, create: `1521`, update: `1522`},
 	}
 
-	SecurityListResourceDependencies = DefinedTagsDependencies + VcnResourceConfig + generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation)
+	SecurityListResourceDependencies = generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestCoreSecurityListResource_basic(t *testing.T) {

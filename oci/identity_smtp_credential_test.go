@@ -29,7 +29,7 @@ var (
 		"user_id":     Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
 	}
 
-	SmtpCredentialResourceDependencies = UserRequiredOnlyResource
+	SmtpCredentialResourceDependencies = generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 )
 
 func TestIdentitySmtpCredentialResource_basic(t *testing.T) {

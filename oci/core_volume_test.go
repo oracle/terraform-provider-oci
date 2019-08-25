@@ -20,7 +20,7 @@ import (
 )
 
 var (
-	VolumeRequiredOnlyResource = VolumeResourceRequiredOnlyDependencies +
+	VolumeRequiredOnlyResource = VolumeResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation)
 
 	VolumeResourceConfig = VolumeResourceDependencies +
@@ -57,22 +57,11 @@ var (
 		"type": Representation{repType: Required, create: `volume`},
 	}
 
-	VolumeResourceDependencies             = DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig + VolumeResourceRequiredOnlyDependencies
-	VolumeResourceRequiredOnlyDependencies = `
-resource "oci_core_volume" "source_volume" {
-	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
-	compartment_id = "${var.compartment_id}"
-	size_in_gbs = "50"
-}
-
-data "oci_core_volume_backup_policies" "test_volume_backup_policies" {
-	filter {
-		name = "display_name"
-		values = [ "silver" ]
-	}
-}
-
-`
+	VolumeResourceDependencies = VolumeBackupPolicyDependency +
+		generateResourceFromRepresentationMap("oci_core_volume", "source_volume", Required, Create, volumeRepresentation) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies +
+		KeyResourceDependencyConfig
 )
 
 func TestCoreVolumeResource_basic(t *testing.T) {

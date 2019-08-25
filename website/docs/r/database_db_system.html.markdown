@@ -63,11 +63,11 @@ resource "oci_database_db_system" "test_db_system" {
 	hostname = "${var.db_system_hostname}"
 	shape = "${var.db_system_shape}"
 	ssh_public_keys = "${var.db_system_ssh_public_keys}"
-	subnet_id = "${oci_database_subnet.test_subnet.id}"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
 
 	#Optional
 	backup_network_nsg_ids = "${var.db_system_backup_network_nsg_ids}"
-	backup_subnet_id = "${oci_database_backup_subnet.test_backup_subnet.id}"
+	backup_subnet_id = "${oci_core_subnet.test_subnet.id}"
 	cluster_name = "${var.db_system_cluster_name}"
 	cpu_core_count = "${var.db_system_cpu_core_count}"
 	data_storage_percentage = "${var.db_system_data_storage_percentage}"
