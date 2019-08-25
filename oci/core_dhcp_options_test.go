@@ -49,7 +49,8 @@ var (
 		"search_domain_names": Representation{repType: Required, create: []string{"test.com"}},
 	}
 
-	DhcpOptionsResourceDependencies = VcnRequiredOnlyResource + VcnResourceDependencies
+	DhcpOptionsResourceDependencies = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestCoreDhcpOptionsResource_basic(t *testing.T) {

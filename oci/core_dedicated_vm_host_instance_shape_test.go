@@ -19,7 +19,7 @@ var (
 		"dedicated_vm_host_shape": Representation{repType: Optional, create: `DVH.Standard2.52`},
 	}
 
-	DedicatedVmHostInstanceShapeResourceConfig = ""
+	DedicatedVmHostInstanceShapeResourceConfig = AvailabilityDomainConfig
 )
 
 func TestCoreDedicatedVmHostInstanceShapeResource_basic(t *testing.T) {

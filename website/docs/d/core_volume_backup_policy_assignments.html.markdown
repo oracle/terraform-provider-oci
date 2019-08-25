@@ -19,7 +19,7 @@ one item (since any given asset can only have one policy assigned to it).
 ```hcl
 data "oci_core_volume_backup_policy_assignments" "test_volume_backup_policy_assignments" {
 	#Required
-	asset_id = "${oci_core_asset.test_asset.id}"
+	asset_id = "${oci_core_volume.test_volume.id}"
 }
 ```
 

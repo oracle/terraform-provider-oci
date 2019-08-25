@@ -38,7 +38,8 @@ var (
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	RemotePeeringConnectionResourceDependencies = DefinedTagsDependencies + DrgRequiredOnlyResource
+	RemotePeeringConnectionResourceDependencies = generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {

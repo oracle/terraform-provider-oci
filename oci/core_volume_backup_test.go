@@ -59,7 +59,9 @@ var (
 	volumeBackupId, volumeId                string
 	volumeBackupSourceDetailsRepresentation = map[string]interface{}{}
 
-	VolumeBackupResourceDependencies = VolumeResourceConfig
+	VolumeBackupResourceDependencies = generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies
 )
 
 func TestCoreVolumeBackupResource_basic(t *testing.T) {

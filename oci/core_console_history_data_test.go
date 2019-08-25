@@ -19,7 +19,12 @@ var (
 		"offset":             Representation{repType: Optional, create: `0`},
 	}
 
-	ConsoleHistoryContentResourceConfig = ConsoleHistoryRequiredOnlyResource
+	ConsoleHistoryContentResourceConfig = generateResourceFromRepresentationMap("oci_core_console_history", "test_console_history", Required, Create, consoleHistoryRepresentation) +
+		OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		AvailabilityDomainConfig
 )
 
 func TestCoreConsoleHistoryContentResource_basic(t *testing.T) {

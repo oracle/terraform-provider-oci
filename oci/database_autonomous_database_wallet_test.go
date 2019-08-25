@@ -19,7 +19,7 @@ var (
 		"base64_encode_content":  Representation{repType: Optional, create: `true`},
 	}
 
-	AutonomousDatabaseWalletResourceConfig = AutonomousDatabaseResourceConfig
+	AutonomousDatabaseWalletResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation)
 )
 
 func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {

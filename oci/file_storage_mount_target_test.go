@@ -42,10 +42,18 @@ var (
 		"display_name":        Representation{repType: Optional, create: `mount-target-5`, update: `displayName2`},
 		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"hostname_label":      Representation{repType: Optional, create: `hostnameLabel`},
-		"ip_address":          Representation{repType: Optional, create: `10.0.1.5`},
+		"ip_address":          Representation{repType: Optional, create: `10.0.0.5`},
 	}
 
-	MountTargetResourceDependencies = SubnetResourceConfig
+	MountTargetResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
+		"dns_label":           Representation{repType: Required, create: `dnslabel`},
+	})) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies
 )
 
 func TestFileStorageMountTargetResource_basic(t *testing.T) {
@@ -107,7 +115,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "private_ip_ids.0"),
 					resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
@@ -136,7 +144,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -165,7 +173,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "state", string(oci_file_storage.MountTargetLifecycleStateActive)),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -241,7 +249,7 @@ func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", Optional, Create, mountTargetRepresentation) +
 					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", Optional, Create, mountTargetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 				),
 				ExpectError: regexp.MustCompile("Resource creation failed"),
 			},

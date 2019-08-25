@@ -39,7 +39,10 @@ var (
 		"match_type": Representation{repType: Required, create: `EXACT_MATCH`},
 	}
 
-	PathRouteSetResourceDependencies = BackendSetRequiredOnlyResource
+	PathRouteSetResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+		LoadBalancerSubnetDependencies
 )
 
 func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {

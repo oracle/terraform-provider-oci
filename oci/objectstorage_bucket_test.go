@@ -29,12 +29,12 @@ var (
 
 	bucketSingularDataSourceRepresentation = map[string]interface{}{
 		"name":      Representation{repType: Required, create: testBucketName2},
-		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
+		"namespace": Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
 	bucketDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"namespace":      Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
+		"namespace":      Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"filter":         RepresentationGroup{Required, bucketDataSourceFilterRepresentation}}
 	bucketDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `name`},
@@ -44,7 +44,7 @@ var (
 	bucketRepresentation = map[string]interface{}{
 		"compartment_id":        Representation{repType: Required, create: `${var.compartment_id}`},
 		"name":                  Representation{repType: Required, create: testBucketName, update: testBucketName2},
-		"namespace":             Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
+		"namespace":             Representation{repType: Required, create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 		"access_type":           Representation{repType: Optional, create: `NoPublicAccess`, update: `ObjectRead`},
 		"defined_tags":          Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":         Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
@@ -54,10 +54,9 @@ var (
 		"storage_tier":          Representation{repType: Optional, create: `Standard`},
 	}
 
-	BucketResourceDependencies = DefinedTagsDependencies + KeyResourceDependencyConfig + `
-data "oci_objectstorage_namespace" "t" {
-}
-`
+	BucketResourceDependencies = generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
+		DefinedTagsDependencies +
+		KeyResourceDependencyConfig
 )
 
 func TestObjectStorageBucketResource_basic(t *testing.T) {

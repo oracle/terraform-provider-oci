@@ -31,7 +31,8 @@ var (
 		"name":             Representation{repType: Required, create: `example_hostname_001`},
 	}
 
-	HostnameResourceDependencies = LoadBalancerResourceConfig
+	HostnameResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+		LoadBalancerSubnetDependencies
 )
 
 func TestLoadBalancerHostnameResource_basic(t *testing.T) {

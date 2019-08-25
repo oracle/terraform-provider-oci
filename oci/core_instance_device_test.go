@@ -19,7 +19,11 @@ var (
 		"name":         Representation{repType: Optional, create: `/dev/oracleoci/oraclevdb`},
 	}
 
-	InstanceDeviceResourceConfig = InstanceRequiredOnlyResource
+	InstanceDeviceResourceConfig = OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		AvailabilityDomainConfig
 )
 
 func TestCoreInstanceDeviceResource_basic(t *testing.T) {

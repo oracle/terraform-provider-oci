@@ -20,7 +20,8 @@ var (
 		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 	}
 
-	ResourceAvailabilityResourceConfig = LimitsServiceResourceConfig + AvailabilityDomainConfig
+	ResourceAvailabilityResourceConfig = AvailabilityDomainConfig +
+		generateDataSourceFromRepresentationMap("oci_limits_services", "test_services", Required, Create, limitsServiceDataSourceRepresentation)
 )
 
 func TestLimitsResourceAvailabilityResource_basic(t *testing.T) {

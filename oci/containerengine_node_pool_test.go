@@ -81,19 +81,18 @@ var (
 		"value": Representation{repType: Optional, create: `value`, update: `value2`},
 	}
 
-	// @CODEGEN: OKE does not support regional subnets
-	NodePoolResourceDependencies = ClusterRequiredOnlyResource + InstanceCommonVariables +
-		generateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_1", Optional, Create,
-			getMultipleUpdatedRepresenationCopy(
-				[]string{"cidr_block", "dns_label"},
-				[]interface{}{Representation{repType: Optional, create: `10.0.22.0/24`}, Representation{repType: Optional, create: `nodepool1`}},
-				subnetRepresentation)) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_2", Optional, Create,
-			getMultipleUpdatedRepresenationCopy(
-				[]string{"cidr_block", "dns_label"},
-				[]interface{}{Representation{repType: Optional, create: `10.0.23.0/24`}, Representation{repType: Optional, create: `nodepool2`}},
-				subnetRepresentation)) +
-		generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation)
+	NodePoolResourceDependencies = generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_1", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.22.0/24`}, "dns_label": Representation{repType: Required, create: `nodepool1`}})) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "nodePool_Subnet_2", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.23.0/24`}, "dns_label": Representation{repType: Required, create: `nodepool2`}})) +
+		generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.20.0/24`}, "dns_label": Representation{repType: Required, create: `cluster1`}})) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.21.0/24`}, "dns_label": Representation{repType: Required, create: `cluster2`}})) +
+		AvailabilityDomainConfig +
+		generateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Required, Create, clusterOptionSingularDataSourceRepresentation) +
+		OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		}))
 )
 
 func TestContainerengineNodePoolResource_basic(t *testing.T) {
@@ -172,7 +171,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
-					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.4"),
+					resource.TestCheckResourceAttrSet(resourceName, "node_image_name"),
 					resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "1"),
@@ -216,7 +215,7 @@ func TestContainerengineNodePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(resourceName, "node_image_id"),
-					resource.TestCheckResourceAttr(resourceName, "node_image_name", "Oracle-Linux-7.4"),
+					resource.TestCheckResourceAttrSet(resourceName, "node_image_name"),
 					resource.TestCheckResourceAttr(resourceName, "node_metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "node_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "quantity_per_subnet", "2"),

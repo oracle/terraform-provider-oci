@@ -33,7 +33,7 @@ var (
 		"state":                          Representation{repType: Required, create: `stopped`},
 	}
 
-	StreamArchiverResourceDependencies = StreamResourceConfig
+	StreamArchiverResourceDependencies = generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Required, Create, streamRepresentation)
 )
 
 func TestStreamingStreamArchiverResource_basic(t *testing.T) {
