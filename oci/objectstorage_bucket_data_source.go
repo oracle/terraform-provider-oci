@@ -107,6 +107,10 @@ func (s *ObjectStorageBucketDataSourceCrud) SetData() error {
 
 	s.D.Set("metadata", s.Res.Metadata)
 
+	if s.Res.ObjectEventsEnabled != nil {
+		s.D.Set("object_events_enabled", *s.Res.ObjectEventsEnabled)
+	}
+
 	if s.Res.ObjectLifecyclePolicyEtag != nil {
 		s.D.Set("object_lifecycle_policy_etag", *s.Res.ObjectLifecyclePolicyEtag)
 	}
