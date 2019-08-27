@@ -42,15 +42,16 @@ var (
 	}
 
 	bucketRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"name":           Representation{repType: Required, create: testBucketName, update: testBucketName2},
-		"namespace":      Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
-		"access_type":    Representation{repType: Optional, create: `NoPublicAccess`, update: `ObjectRead`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"kms_key_id":     Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"metadata":       Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
-		"storage_tier":   Representation{repType: Optional, create: `Standard`},
+		"compartment_id":        Representation{repType: Required, create: `${var.compartment_id}`},
+		"name":                  Representation{repType: Required, create: testBucketName, update: testBucketName2},
+		"namespace":             Representation{repType: Required, create: `${data.oci_objectstorage_namespace.t.namespace}`},
+		"access_type":           Representation{repType: Optional, create: `NoPublicAccess`, update: `ObjectRead`},
+		"defined_tags":          Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":         Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":            Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"metadata":              Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
+		"object_events_enabled": Representation{repType: Optional, create: `false`, update: `true`},
+		"storage_tier":          Representation{repType: Optional, create: `Standard`},
 	}
 
 	BucketResourceDependencies = DefinedTagsDependencies + KeyResourceDependencyConfig + `
@@ -120,6 +121,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "name", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+					resource.TestCheckResourceAttr(resourceName, "object_events_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -185,6 +187,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "name", testBucketName2),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+					resource.TestCheckResourceAttr(resourceName, "object_events_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -242,6 +245,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					// This is difficult to test because TF is eager in creating the datasource and gives stale results.
 					// If a depends_on is added, we get an error like "After applying this step and refreshing, the plan was not empty:"
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "object_lifecycle_policy_etag"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "object_events_enabled", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_count"),

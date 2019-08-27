@@ -72,6 +72,11 @@ func ObjectStorageBucketResource() *schema.Resource {
 				Optional: true,
 				Elem:     schema.TypeString,
 			},
+			"object_events_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"storage_tier": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -196,6 +201,11 @@ func (s *ObjectStorageBucketResourceCrud) Create() error {
 		request.NamespaceName = &tmp
 	}
 
+	if objectEventsEnabled, ok := s.D.GetOkExists("object_events_enabled"); ok {
+		tmp := objectEventsEnabled.(bool)
+		request.ObjectEventsEnabled = &tmp
+	}
+
 	if storageTier, ok := s.D.GetOkExists("storage_tier"); ok {
 		request.StorageTier = oci_object_storage.CreateBucketDetailsStorageTierEnum(storageTier.(string))
 	}
@@ -285,6 +295,11 @@ func (s *ObjectStorageBucketResourceCrud) Update() error {
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
 		tmp := namespace.(string)
 		request.NamespaceName = &tmp
+	}
+
+	if objectEventsEnabled, ok := s.D.GetOkExists("object_events_enabled"); ok {
+		tmp := objectEventsEnabled.(bool)
+		request.ObjectEventsEnabled = &tmp
 	}
 
 	// @CODEGEN 2/2018: This should be used to change the name of a bucket, but the "namespace" field
@@ -377,6 +392,10 @@ func (s *ObjectStorageBucketResourceCrud) SetData() error {
 
 	if s.Res.Namespace != nil {
 		s.D.Set("namespace", *s.Res.Namespace)
+	}
+
+	if s.Res.ObjectEventsEnabled != nil {
+		s.D.Set("object_events_enabled", *s.Res.ObjectEventsEnabled)
 	}
 
 	if s.Res.ObjectLifecyclePolicyEtag != nil {
