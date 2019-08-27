@@ -10,6 +10,7 @@ import (
 	"log"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/customdiff"
 
@@ -544,6 +545,8 @@ func (s *CoreInstanceResourceCrud) Create() error {
 	if dedicatedVmHostId, ok := s.D.GetOkExists("dedicated_vm_host_id"); ok {
 		tmp := dedicatedVmHostId.(string)
 		request.DedicatedVmHostId = &tmp
+		//@codegen: Adding wait to ensure that the DVH is available
+		time.Sleep(1 * time.Minute)
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
