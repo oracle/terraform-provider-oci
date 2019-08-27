@@ -1,4 +1,8 @@
-## 3.41.1 (Unreleased)
+## 3.42.0 (Unreleased)
+
+### Added
+- Documentation update for OCI notification service
+
 ## 3.41.0 (September 04, 2019)
 
 ### Added
