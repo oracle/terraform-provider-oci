@@ -1,4 +1,7 @@
-## 3.45.1 (Unreleased)
+## 3.46.0 (Unreleased)
+
+### Added
+- Support DBaaS VM DB Fast Provisioning
 
 ### Fixed
 - Fix compositeId parsing for pre-authenticated requests in object storage [Issue #867](https://github.com/terraform-providers/terraform-provider-oci/issues/867)
