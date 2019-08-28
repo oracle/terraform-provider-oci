@@ -29,6 +29,7 @@ data "oci_monitoring_metric_data" "test_metric_data" {
 	compartment_id_in_subtree = "${var.metric_data_compartment_id_in_subtree}"
 	end_time = "${var.metric_data_end_time}"
 	resolution = "${var.metric_data_resolution}"
+	resource_group = "${var.metric_data_resource_group}"
 	start_time = "${var.metric_data_start_time}"
 }
 ```
@@ -49,6 +50,7 @@ The following arguments are supported:
 
 	Example: `CpuUtilization[1m].sum()` 
 * `resolution` - (Optional) The time between calculated aggregation windows. Use with the query interval to vary the frequency at which aggregated data points are returned. For example, use a query interval of 5 minutes with a resolution of 1 minute to retrieve five-minute aggregations at a one-minute frequency. The resolution must be equal or less than the interval in the query. The default resolution is 1m (one minute). Supported values: `1m`-`60m` (also `1h`).  Example: `5m` 
+* `resource_group` - (Optional) Resource group that you want to use as a filter. The specified resource group must exist in the definition of the posted metric. Only one resource group can be applied per metric. A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). Avoid entering confidential information.  Example: `frontend-fleet` 
 * `start_time` - (Optional) The beginning of the time range to use when searching for metric data points. Format is defined by RFC3339. The response includes metric data points for the startTime. Default value: the timestamp 3 hours before the call was sent.  Example: `2019-02-01T01:02:29.600Z` 
 
 
@@ -71,4 +73,5 @@ The following attributes are exported:
 * `name` - The name of the metric.  Example: `CpuUtilization` 
 * `namespace` - The reference provided in a metric definition to indicate the source service or application that emitted the metric.  Example: `oci_computeagent` 
 * `resolution` - The time between calculated aggregation windows. Use with the query interval to vary the frequency at which aggregated data points are returned. For example, use a query interval of 5 minutes with a resolution of 1 minute to retrieve five-minute aggregations at a one-minute frequency. The resolution must be equal or less than the interval in the query. The default resolution is 1m (one minute). Supported values: `1m`-`60m` (also `1h`).  Example: `5m` 
+* `resource_group` - Resource group provided with the posted metric. A resource group is a custom string that can be used as a filter. Only one resource group can be applied per metric. A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). Avoid entering confidential information.  Example: `frontend-fleet` 
 

@@ -56,6 +56,9 @@ type Instance struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// The OCID of dedicated VM host.
+	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -140,6 +143,7 @@ func (m Instance) String() string {
 // UnmarshalJSON unmarshals from json
 func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		DedicatedVmHostId        *string                           `json:"dedicatedVmHostId"`
 		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName              *string                           `json:"displayName"`
 		ExtendedMetadata         map[string]interface{}            `json:"extendedMetadata"`
@@ -166,6 +170,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
+	m.DedicatedVmHostId = model.DedicatedVmHostId
 	m.DefinedTags = model.DefinedTags
 	m.DisplayName = model.DisplayName
 	m.ExtendedMetadata = model.ExtendedMetadata

@@ -40,6 +40,10 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"resource_group": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"start_time": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -81,6 +85,12 @@ func MonitoringMetricDataDataSource() *schema.Resource {
 							DiffSuppressFunc: timeDiffSuppressFunction,
 						},
 						"resolution": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"resource_group": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -191,6 +201,11 @@ func (s *MonitoringMetricDataDataSourceCrud) Get() error {
 		request.Resolution = &tmp
 	}
 
+	if resourceGroup, ok := s.D.GetOkExists("resource_group"); ok {
+		tmp := resourceGroup.(string)
+		request.ResourceGroup = &tmp
+	}
+
 	if startTime, ok := s.D.GetOkExists("start_time"); ok {
 		tmp, err := time.Parse(time.RFC3339, startTime.(string))
 		if err != nil {
@@ -240,6 +255,10 @@ func (s *MonitoringMetricDataDataSourceCrud) SetData() error {
 
 		if r.Resolution != nil {
 			metricData["resolution"] = *r.Resolution
+		}
+
+		if r.ResourceGroup != nil {
+			metricData["resource_group"] = *r.ResourceGroup
 		}
 
 		resources = append(resources, metricData)

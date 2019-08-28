@@ -37,6 +37,9 @@ type LaunchInstanceDetails struct {
 	// the instance is launched.
 	CreateVnicDetails *CreateVnicDetails `mandatory:"false" json:"createVnicDetails"`
 
+	// The OCID of dedicated VM host.
+	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -167,6 +170,7 @@ func (m LaunchInstanceDetails) String() string {
 func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		CreateVnicDetails              *CreateVnicDetails                `json:"createVnicDetails"`
+		DedicatedVmHostId              *string                           `json:"dedicatedVmHostId"`
 		DefinedTags                    map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName                    *string                           `json:"displayName"`
 		ExtendedMetadata               map[string]interface{}            `json:"extendedMetadata"`
@@ -190,6 +194,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	m.CreateVnicDetails = model.CreateVnicDetails
+	m.DedicatedVmHostId = model.DedicatedVmHostId
 	m.DefinedTags = model.DefinedTags
 	m.DisplayName = model.DisplayName
 	m.ExtendedMetadata = model.ExtendedMetadata
