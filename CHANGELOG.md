@@ -1,4 +1,9 @@
-## 3.39.1 (Unreleased)
+## 3.40.0 (Unreleased)
+
+###Added
+- Add `resource_group` optional field for metrics
+- Support for dedicated virtual machine hosts
+
 ## 3.39.0 (August 21, 2019)
 
 ### Added

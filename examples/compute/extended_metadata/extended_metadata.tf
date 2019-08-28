@@ -5,7 +5,6 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-
 variable "compartment_ocid" {}
 variable "ssh_public_key" {}
 variable "ssh_private_key" {}
@@ -14,8 +13,8 @@ variable "instance_image_ocid" {
   type = "map"
 
   default = {
-    // See https://docs.us-phoenix-1.oraclecloud.com/images/
-    // Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
+    # See https://docs.us-phoenix-1.oraclecloud.com/images/
+    # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
     us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
 
     us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
@@ -41,60 +40,60 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 1
 }
 
-resource "oci_core_vcn" "ExampleVCN" {
+resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.1.0.0/16"
   compartment_id = "${var.compartment_ocid}"
-  display_name   = "TFExampleVCN"
-  dns_label      = "tfexamplevcn"
+  display_name   = "TestVcn"
+  dns_label      = "testvcn"
 }
 
-resource "oci_core_subnet" "ExampleSubnet" {
+resource "oci_core_subnet" "test_subnet" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "10.1.20.0/24"
-  display_name        = "TFExampleSubnet"
-  dns_label           = "tfexamplesubnet"
-  security_list_ids   = ["${oci_core_vcn.ExampleVCN.default_security_list_id}"]
+  display_name        = "TestSubnet"
+  dns_label           = "testsubnet"
+  security_list_ids   = ["${oci_core_vcn.test_vcn.default_security_list_id}"]
   compartment_id      = "${var.compartment_ocid}"
-  vcn_id              = "${oci_core_vcn.ExampleVCN.id}"
-  route_table_id      = "${oci_core_vcn.ExampleVCN.default_route_table_id}"
-  dhcp_options_id     = "${oci_core_vcn.ExampleVCN.default_dhcp_options_id}"
+  vcn_id              = "${oci_core_vcn.test_vcn.id}"
+  route_table_id      = "${oci_core_vcn.test_vcn.default_route_table_id}"
+  dhcp_options_id     = "${oci_core_vcn.test_vcn.default_dhcp_options_id}"
 }
 
-resource "oci_core_internet_gateway" "ExampleIG" {
+resource "oci_core_internet_gateway" "test_internet_gateway" {
   compartment_id = "${var.compartment_ocid}"
-  display_name   = "TFExampleIG"
-  vcn_id         = "${oci_core_vcn.ExampleVCN.id}"
+  display_name   = "Test_IG"
+  vcn_id         = "${oci_core_vcn.test_vcn.id}"
 }
 
-resource "oci_core_default_route_table" "ExampleRT" {
-  manage_default_resource_id = "${oci_core_vcn.ExampleVCN.default_route_table_id}"
+resource "oci_core_default_route_table" "test_route_table" {
+  manage_default_resource_id = "${oci_core_vcn.test_vcn.default_route_table_id}"
 
   route_rules {
     destination       = "0.0.0.0/0"
     destination_type  = "CIDR_BLOCK"
-    network_entity_id = "${oci_core_internet_gateway.ExampleIG.id}"
+    network_entity_id = "${oci_core_internet_gateway.test_internet_gateway.id}"
   }
 }
 
 # Gets a list of vNIC attachments on the instance
-data "oci_core_vnic_attachments" "InstanceVnics" {
+data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.TFInstance1.id}"
+  instance_id         = "${oci_core_instance.test_instance.id}"
 }
 
 # Gets the OCID of the first (default) vNIC
-data "oci_core_vnic" "InstanceVnic" {
-  vnic_id = "${lookup(data.oci_core_vnic_attachments.InstanceVnics.vnic_attachments[0],"vnic_id")}"
+data "oci_core_vnic" "instance_vnic" {
+  vnic_id = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
 }
 
-resource "oci_core_instance" "TFInstance1" {
+resource "oci_core_instance" "test_instance" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
-  display_name        = "TFInstance"
-  hostname_label      = "instance3"
-  shape               = "${var.instance_shape}"
-  subnet_id           = "${oci_core_subnet.ExampleSubnet.id}"
+  display_name        = "TestInstance"
+  hostname_label      = "testinstance"
+  shape               = "VM.Standard2.1"
+  subnet_id           = "${oci_core_subnet.test_subnet.id}"
 
   source_details {
     source_type = "image"
@@ -110,13 +109,13 @@ resource "oci_core_instance" "TFInstance1" {
 }
 
 resource "null_resource" "remote-exec" {
-  depends_on = ["oci_core_instance.TFInstance1"]
+  depends_on = ["oci_core_instance.test_instance"]
 
   provisioner "remote-exec" {
     connection {
       agent       = false
       timeout     = "30m"
-      host        = "${data.oci_core_vnic.InstanceVnic.public_ip_address}"
+      host        = "${data.oci_core_vnic.instance_vnic.public_ip_address}"
       user        = "opc"
       private_key = "${var.ssh_private_key}"
     }
@@ -130,6 +129,6 @@ resource "null_resource" "remote-exec" {
   }
 }
 
-output "InstancePublicIP" {
-  value = ["${data.oci_core_vnic.InstanceVnic.public_ip_address}"]
+output "instance_public_ip" {
+  value = ["${data.oci_core_vnic.instance_vnic.public_ip_address}"]
 }

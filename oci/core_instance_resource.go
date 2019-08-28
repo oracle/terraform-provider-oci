@@ -10,6 +10,7 @@ import (
 	"log"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/customdiff"
 
@@ -157,6 +158,12 @@ func CoreInstanceResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"dedicated_vm_host_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -535,6 +542,13 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		}
 	}
 
+	if dedicatedVmHostId, ok := s.D.GetOkExists("dedicated_vm_host_id"); ok {
+		tmp := dedicatedVmHostId.(string)
+		request.DedicatedVmHostId = &tmp
+		//@codegen: Adding wait to ensure that the DVH is available
+		time.Sleep(1 * time.Minute)
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -786,6 +800,10 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DedicatedVmHostId != nil {
+		s.D.Set("dedicated_vm_host_id", *s.Res.DedicatedVmHostId)
 	}
 
 	if s.Res.DefinedTags != nil {

@@ -80,6 +80,7 @@ The following attributes are exported:
 
 	Example: `PT2H` 
 * `resolution` - The time between calculated aggregation windows for the alarm. Supported value: `1m` 
+* `resource_group` - Resource group specified as a filter for metric data retrieved by the alarm. A resource group is a custom string that can be used as a filter. Only one resource group can be applied per metric. A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($). Avoid entering confidential information.  Example: `frontend-fleet` 
 * `severity` - The perceived type of response required when the alarm is in the "FIRING" state.  Example: `CRITICAL` 
 * `state` - The current lifecycle state of the alarm.  Example: `DELETED` 
 * `suppression` - The configuration details for suppressing an alarm. 

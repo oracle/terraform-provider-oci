@@ -18,8 +18,8 @@ import (
 )
 
 var (
-	topicNameRequiredOnly                 = `t` + "topicrequired"
-	topicName                             = `t` + "topic"
+	topicNameRequiredOnly                 = `t` + randomString(10, charset)
+	topicName                             = `t` + randomString(10, charset)
 	NotificationTopicRequiredOnlyResource = NotificationTopicResourceDependencies +
 		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, representationCopyWithNewProperties(notificationTopicRepresentation, map[string]interface{}{
 			"name": Representation{repType: Required, create: topicNameRequiredOnly},

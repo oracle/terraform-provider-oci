@@ -809,7 +809,6 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 	switch strings.ToLower(ruleType) {
 	case strings.ToLower("FILTER"):
 		details := oci_dns.SteeringPolicyFilterRule{}
-		details.Cases = []oci_dns.SteeringPolicyFilterRuleCase{}
 		if cases, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cases")); ok {
 			interfaces := cases.([]interface{})
 			tmp := make([]oci_dns.SteeringPolicyFilterRuleCase, len(interfaces))
@@ -824,7 +823,6 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 			}
 			details.Cases = tmp
 		}
-		details.DefaultAnswerData = []oci_dns.SteeringPolicyFilterAnswerData{}
 		if defaultAnswerData, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "default_answer_data")); ok {
 			interfaces := defaultAnswerData.([]interface{})
 			tmp := make([]oci_dns.SteeringPolicyFilterAnswerData, len(interfaces))
@@ -846,7 +844,6 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 		baseObject = details
 	case strings.ToLower("HEALTH"):
 		details := oci_dns.SteeringPolicyHealthRule{}
-		details.Cases = []oci_dns.SteeringPolicyHealthRuleCase{}
 		if cases, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cases")); ok {
 			interfaces := cases.([]interface{})
 			tmp := make([]oci_dns.SteeringPolicyHealthRuleCase, len(interfaces))
@@ -868,7 +865,6 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 		baseObject = details
 	case strings.ToLower("LIMIT"):
 		details := oci_dns.SteeringPolicyLimitRule{}
-		details.Cases = []oci_dns.SteeringPolicyLimitRuleCase{}
 		if cases, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cases")); ok {
 			interfaces := cases.([]interface{})
 			tmp := make([]oci_dns.SteeringPolicyLimitRuleCase, len(interfaces))
@@ -894,7 +890,6 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 		baseObject = details
 	case strings.ToLower("PRIORITY"):
 		details := oci_dns.SteeringPolicyPriorityRule{}
-		details.Cases = []oci_dns.SteeringPolicyPriorityRuleCase{}
 		if cases, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cases")); ok {
 			interfaces := cases.([]interface{})
 			tmp := make([]oci_dns.SteeringPolicyPriorityRuleCase, len(interfaces))
@@ -909,7 +904,6 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 			}
 			details.Cases = tmp
 		}
-		details.DefaultAnswerData = []oci_dns.SteeringPolicyPriorityAnswerData{}
 		if defaultAnswerData, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "default_answer_data")); ok {
 			interfaces := defaultAnswerData.([]interface{})
 			tmp := make([]oci_dns.SteeringPolicyPriorityAnswerData, len(interfaces))
@@ -931,7 +925,6 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 		baseObject = details
 	case strings.ToLower("WEIGHTED"):
 		details := oci_dns.SteeringPolicyWeightedRule{}
-		details.Cases = []oci_dns.SteeringPolicyWeightedRuleCase{}
 		if cases, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cases")); ok {
 			interfaces := cases.([]interface{})
 			tmp := make([]oci_dns.SteeringPolicyWeightedRuleCase, len(interfaces))
@@ -946,7 +939,6 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 			}
 			details.Cases = tmp
 		}
-		details.DefaultAnswerData = []oci_dns.SteeringPolicyWeightedAnswerData{}
 		if defaultAnswerData, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "default_answer_data")); ok {
 			interfaces := defaultAnswerData.([]interface{})
 			tmp := make([]oci_dns.SteeringPolicyWeightedAnswerData, len(interfaces))

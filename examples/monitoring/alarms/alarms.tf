@@ -61,6 +61,10 @@ variable "alarm_resolution" {
   default = "1m"
 }
 
+variable "alarm_resource_group" {
+  default = "resourceGroup"
+}
+
 variable "alarm_severity" {
   default = "WARNING"
 }
@@ -145,6 +149,7 @@ resource "oci_monitoring_alarm" "test_alarm" {
   pending_duration                 = "${var.alarm_pending_duration}"
   repeat_notification_duration     = "${var.alarm_repeat_notification_duration}"
   resolution                       = "${var.alarm_resolution}"
+  resource_group                   = "${var.alarm_resource_group}"
 
   suppression {
     #Required
@@ -183,4 +188,9 @@ data "oci_monitoring_alarm_statuses" "test_alarm_statuses" {
   #Optional
   compartment_id_in_subtree = "${var.alarm_status_compartment_id_in_subtree}"
   display_name              = "${var.alarm_status_display_name}"
+}
+
+data "oci_monitoring_alarm" "test_alarm" {
+  #Required
+  alarm_id = "${oci_monitoring_alarm.test_alarm.id}"
 }

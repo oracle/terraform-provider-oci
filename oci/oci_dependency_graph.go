@@ -28,6 +28,7 @@ func initDependencyGraph() {
 	DependencyGraph["database"] = append(DependencyGraph["database"], "DatabaseBackup")
 	DependencyGraph["database"] = append(DependencyGraph["database"], "DatabaseDataGuardAssociation")
 	DependencyGraph["dbSystem"] = append(DependencyGraph["dbSystem"], "DatabaseDbHome")
+	DependencyGraph["dedicatedVmHost"] = append(DependencyGraph["dedicatedVmHost"], "CoreInstance")
 	DependencyGraph["dhcpOptions"] = append(DependencyGraph["dhcpOptions"], "CoreSubnet")
 	DependencyGraph["drg"] = append(DependencyGraph["drg"], "CoreDrgAttachment")
 	DependencyGraph["drg"] = append(DependencyGraph["drg"], "CoreIpSecConnection")
