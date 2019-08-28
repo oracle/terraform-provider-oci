@@ -39,7 +39,11 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `backup` - Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.  Example: `false` 
+* `backup` - Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
+
+	**Note:** You cannot add a backend server marked as `backup` to a backend set that uses the IP Hash policy.
+
+	Example: `false` 
 * `drain` - Whether the load balancer should drain this server. Servers marked "drain" receive no new incoming traffic.  Example: `false` 
 * `ip_address` - The IP address of the backend server.  Example: `10.0.0.3` 
 * `name` - A read-only field showing the IP address and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080` 
