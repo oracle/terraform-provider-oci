@@ -19,6 +19,7 @@ var (
 		"dimension_filters":         Representation{repType: Optional, create: map[string]string{"resourceId": "${oci_load_balancer_load_balancer.test_load_balancer.id}"}},
 		"name":                      Representation{repType: Optional, create: `AcceptedConnections`},
 		"namespace":                 Representation{repType: Optional, create: `oci_lbaas`},
+		"resource_group":            Representation{repType: Optional, create: `resourceGroup`},
 	}
 
 	MetricResourceConfig = LoadBalancerResourceConfig
@@ -56,6 +57,7 @@ func TestMonitoringMetricResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "dimension_filters.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "name", "AcceptedConnections"),
 					resource.TestCheckResourceAttr(datasourceName, "namespace", "oci_lbaas"),
+					resource.TestCheckResourceAttr(datasourceName, "resource_group", "resourceGroup"),
 
 					resource.TestCheckResourceAttrSet(datasourceName, "metrics.#"),
 

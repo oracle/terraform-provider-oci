@@ -43,6 +43,12 @@ type MetricDataDetails struct {
 	// A list of metric values with timestamps. At least one data point is required per call.
 	Datapoints []Datapoint `mandatory:"true" json:"datapoints"`
 
+	// Resource group to assign to the metric. A resource group is a custom string that can be used as a filter. Only one resource group can be applied per metric.
+	// A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
+	// Avoid entering confidential information.
+	// Example: `frontend-fleet`
+	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
+
 	// Properties describing metrics. These are not part of the unique fields identifying the metric.
 	// Each metadata item takes the form of a key-value pair. The character limit for a metadata key is 256. The character limit for a metadata value is 256.
 	// Example: `"unit": "bytes"`

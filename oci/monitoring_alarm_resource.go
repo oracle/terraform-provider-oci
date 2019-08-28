@@ -100,6 +100,11 @@ func MonitoringAlarmResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"resource_group": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"suppression": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -297,6 +302,11 @@ func (s *MonitoringAlarmResourceCrud) Create() error {
 		request.Resolution = &tmp
 	}
 
+	if resourceGroup, ok := s.D.GetOkExists("resource_group"); ok {
+		tmp := resourceGroup.(string)
+		request.ResourceGroup = &tmp
+	}
+
 	if severity, ok := s.D.GetOkExists("severity"); ok {
 		request.Severity = oci_monitoring.AlarmSeverityEnum(severity.(string))
 	}
@@ -434,6 +444,11 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 		request.Resolution = &tmp
 	}
 
+	if resourceGroup, ok := s.D.GetOkExists("resource_group"); ok {
+		tmp := resourceGroup.(string)
+		request.ResourceGroup = &tmp
+	}
+
 	if severity, ok := s.D.GetOkExists("severity"); ok {
 		request.Severity = oci_monitoring.AlarmSeverityEnum(severity.(string))
 	}
@@ -523,6 +538,10 @@ func (s *MonitoringAlarmResourceCrud) SetData() error {
 
 	if s.Res.Resolution != nil {
 		s.D.Set("resolution", *s.Res.Resolution)
+	}
+
+	if s.Res.ResourceGroup != nil {
+		s.D.Set("resource_group", *s.Res.ResourceGroup)
 	}
 
 	s.D.Set("severity", s.Res.Severity)
