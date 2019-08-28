@@ -14,6 +14,8 @@ var (
 	adbDedicatedName       = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adbDedicatedUpdateName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adbDedicatedCloneName  = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adDedicatedName        = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adDedicatedUpdateName  = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 
 	AutonomousDatabaseDedicatedRequiredOnlyResource = AutonomousDatabaseDedicatedResourceDependencies +
 		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseDedicatedRepresentation)
@@ -25,6 +27,7 @@ var (
 		autonomousDatabaseDataSourceRepresentation,
 		map[string]interface{}{
 			"autonomous_container_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+			"display_name":                     Representation{repType: Optional, create: adDedicatedName, update: adDedicatedUpdateName},
 		})
 
 	autonomousDatabaseDedicatedRepresentation = representationCopyWithNewProperties(
@@ -32,14 +35,16 @@ var (
 		map[string]interface{}{
 			"autonomous_container_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 			"is_dedicated":                     Representation{repType: Optional, create: `true`},
+			"display_name":                     Representation{repType: Optional, create: adDedicatedName, update: adDedicatedUpdateName},
 		})
 
 	autonomousDatabaseDedicatedRepresentationForClone = representationCopyWithNewProperties(
 		representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbDedicatedCloneName}, autonomousDatabaseDedicatedRepresentation), []string{"license_model"}),
 		map[string]interface{}{
-			"clone_type": Representation{repType: Optional, create: `FULL`},
-			"source":     Representation{repType: Optional, create: `DATABASE`},
-			"source_id":  Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
+			"clone_type":   Representation{repType: Optional, create: `FULL`},
+			"display_name": Representation{repType: Optional, create: "example_autonomous_database_dedicated"},
+			"source":       Representation{repType: Optional, create: `DATABASE`},
+			"source_id":    Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
 		})
 
 	AutonomousDatabaseDedicatedResourceDependencies = AutonomousContainerDatabaseResourceConfig
@@ -80,7 +85,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbDedicatedName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", adDedicatedName),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
@@ -106,7 +111,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbDedicatedName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", adDedicatedUpdateName),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
@@ -134,7 +139,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbDedicatedUpdateName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", adDedicatedUpdateName),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
@@ -151,7 +156,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_id"),
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "db_workload", "OLTP"),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", adDedicatedUpdateName),
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.#", "1"),
@@ -165,7 +170,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.db_version"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.display_name", "displayName2"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.display_name", adDedicatedUpdateName),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_dedicated", "true"),
@@ -192,7 +197,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", adDedicatedUpdateName),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_dedicated", "true"),
@@ -239,7 +244,7 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbDedicatedCloneName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database_dedicated"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "source", "DATABASE"),

@@ -50,6 +50,12 @@ type MetricData struct {
 	// For important limits information related to data points, see MetricData Reference at the top of this page.
 	AggregatedDatapoints []AggregatedDatapoint `mandatory:"true" json:"aggregatedDatapoints"`
 
+	// Resource group provided with the posted metric. A resource group is a custom string that can be used as a filter. Only one resource group can be applied per metric.
+	// A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
+	// Avoid entering confidential information.
+	// Example: `frontend-fleet`
+	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
+
 	// The references provided in a metric definition to indicate extra information about the metric.
 	// Example: `"unit": "bytes"`
 	Metadata map[string]string `mandatory:"false" json:"metadata"`

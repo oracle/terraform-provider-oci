@@ -18,7 +18,8 @@ import (
 )
 
 var (
-	InstanceRequiredOnlyResource = InstanceResourceDependencies +
+	InstanceRequiredOnlyResource = SubnetResourceConfig + InstanceCommonVariables +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation)
 
 	InstanceResourceConfig = InstanceResourceDependencies +
@@ -40,13 +41,14 @@ var (
 	}
 
 	instanceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
-		"shape":               Representation{repType: Required, create: `VM.Standard2.1`},
-		"agent_config":        RepresentationGroup{Optional, instanceAgentConfigRepresentation},
-		"create_vnic_details": RepresentationGroup{Optional, instanceCreateVnicDetailsRepresentation},
-		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":        Representation{repType: Optional, create: `displayName`, update: `displayName2`},
+		"availability_domain":  Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
+		"shape":                Representation{repType: Required, create: `VM.Standard2.1`},
+		"agent_config":         RepresentationGroup{Optional, instanceAgentConfigRepresentation},
+		"create_vnic_details":  RepresentationGroup{Optional, instanceCreateVnicDetailsRepresentation},
+		"dedicated_vm_host_id": Representation{repType: Optional, create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
+		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":         Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"extended_metadata": Representation{repType: Optional, create: map[string]string{
 			"some_string":   "stringA",
 			"nested_object": "{\\\"some_string\\\": \\\"stringB\\\", \\\"object\\\": {\\\"some_string\\\": \\\"stringC\\\"}}",
@@ -55,7 +57,7 @@ var (
 			"nested_object": "{\\\"some_string\\\": \\\"stringB\\\", \\\"object\\\": {\\\"some_string\\\": \\\"stringC\\\"}}",
 			"other_string":  "stringD",
 		}},
-		"fault_domain":                        Representation{repType: Optional, create: `FAULT-DOMAIN-2`},
+		"fault_domain":                        Representation{repType: Optional, create: `FAULT-DOMAIN-3`},
 		"freeform_tags":                       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"hostname_label":                      Representation{repType: Optional, create: `hostnamelabel`},
 		"image":                               Representation{repType: Required, create: `${var.InstanceImageOCID[var.region]}`},
@@ -110,7 +112,7 @@ resource "oci_core_instance" "test_instance" {
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 }
 `
-	InstanceResourceDependencies = SubnetResourceConfig + InstanceCommonVariables +
+	InstanceResourceDependencies = generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation) + SubnetResourceConfig + InstanceCommonVariables +
 		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation)
 )
 
@@ -206,10 +208,11 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "dedicated_vm_host_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
-					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-2"),
+					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -254,10 +257,11 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "dedicated_vm_host_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
-					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-2"),
+					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -303,10 +307,11 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
 					resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "dedicated_vm_host_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "3"),
-					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-2"),
+					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -349,10 +354,11 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.is_monitoring_disabled", "true"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.dedicated_vm_host_id"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.extended_metadata.%", "3"),
-					resource.TestCheckResourceAttr(datasourceName, "instances.0.fault_domain", "FAULT-DOMAIN-2"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.fault_domain", "FAULT-DOMAIN-3"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.image"),
@@ -384,7 +390,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "fault_domain", "FAULT-DOMAIN-2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "fault_domain", "FAULT-DOMAIN-3"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "image"),
@@ -425,7 +431,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
-					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-2"),
+					resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),

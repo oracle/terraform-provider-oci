@@ -266,6 +266,53 @@ func (client ComputeClient) captureConsoleHistory(ctx context.Context, request c
 	return response, err
 }
 
+// ChangeDedicatedVmHostCompartment Moves a dedicated vm host from one compartment to another
+func (client ComputeClient) ChangeDedicatedVmHostCompartment(ctx context.Context, request ChangeDedicatedVmHostCompartmentRequest) (response ChangeDedicatedVmHostCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeDedicatedVmHostCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeDedicatedVmHostCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDedicatedVmHostCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDedicatedVmHostCompartmentResponse")
+	}
+	return
+}
+
+// changeDedicatedVmHostCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) changeDedicatedVmHostCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dedicatedVmHosts/{dedicatedVmHostId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDedicatedVmHostCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeImageCompartment Moves an image into a different compartment within the same tenancy. For information about moving
 // resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
@@ -401,6 +448,53 @@ func (client ComputeClient) createAppCatalogSubscription(ctx context.Context, re
 	}
 
 	var response CreateAppCatalogSubscriptionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateDedicatedVmHost Creates a new dedicated virtual machine (VM) host in the specified compartment and the specified availability domain.
+func (client ComputeClient) CreateDedicatedVmHost(ctx context.Context, request CreateDedicatedVmHostRequest) (response CreateDedicatedVmHostResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDedicatedVmHost, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateDedicatedVmHostResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDedicatedVmHostResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDedicatedVmHostResponse")
+	}
+	return
+}
+
+// createDedicatedVmHost implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) createDedicatedVmHost(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dedicatedVmHosts")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDedicatedVmHostResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -598,6 +692,49 @@ func (client ComputeClient) deleteConsoleHistory(ctx context.Context, request co
 	}
 
 	var response DeleteConsoleHistoryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDedicatedVmHost Deletes the specified dedicated virtual machine (VM) host.
+// If any VM instances are assigned to the dedicated VM host, it will not be deleted and the service will return a 409 response code.
+func (client ComputeClient) DeleteDedicatedVmHost(ctx context.Context, request DeleteDedicatedVmHostRequest) (response DeleteDedicatedVmHostResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDedicatedVmHost, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteDedicatedVmHostResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDedicatedVmHostResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDedicatedVmHostResponse")
+	}
+	return
+}
+
+// deleteDedicatedVmHost implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) deleteDedicatedVmHost(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dedicatedVmHosts/{dedicatedVmHostId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDedicatedVmHostResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1129,6 +1266,48 @@ func (client ComputeClient) getConsoleHistoryContent(ctx context.Context, reques
 	}
 
 	var response GetConsoleHistoryContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDedicatedVmHost Gets information about the specified dedicated virtual machine (VM) host.
+func (client ComputeClient) GetDedicatedVmHost(ctx context.Context, request GetDedicatedVmHostRequest) (response GetDedicatedVmHostResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDedicatedVmHost, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetDedicatedVmHostResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDedicatedVmHostResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDedicatedVmHostResponse")
+	}
+	return
+}
+
+// getDedicatedVmHost implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) getDedicatedVmHost(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHosts/{dedicatedVmHostId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDedicatedVmHostResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1729,6 +1908,177 @@ func (client ComputeClient) listConsoleHistories(ctx context.Context, request co
 	return response, err
 }
 
+// ListDedicatedVmHostInstanceShapes Lists the shapes that can be used to launch a virtual machine (VM) instance on a dedicated VM host within the specified compartment.
+// You can filter the list by compatibility with a specific dedicated VM host shape.
+func (client ComputeClient) ListDedicatedVmHostInstanceShapes(ctx context.Context, request ListDedicatedVmHostInstanceShapesRequest) (response ListDedicatedVmHostInstanceShapesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDedicatedVmHostInstanceShapes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListDedicatedVmHostInstanceShapesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDedicatedVmHostInstanceShapesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDedicatedVmHostInstanceShapesResponse")
+	}
+	return
+}
+
+// listDedicatedVmHostInstanceShapes implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listDedicatedVmHostInstanceShapes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHostInstanceShapes")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDedicatedVmHostInstanceShapesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDedicatedVmHostInstances Returns the list of instances on the dedicated virtual machine (VM) hosts that match the specified criteria.
+func (client ComputeClient) ListDedicatedVmHostInstances(ctx context.Context, request ListDedicatedVmHostInstancesRequest) (response ListDedicatedVmHostInstancesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDedicatedVmHostInstances, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListDedicatedVmHostInstancesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDedicatedVmHostInstancesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDedicatedVmHostInstancesResponse")
+	}
+	return
+}
+
+// listDedicatedVmHostInstances implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listDedicatedVmHostInstances(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHosts/{dedicatedVmHostId}/instances")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDedicatedVmHostInstancesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDedicatedVmHostShapes Lists the shapes that can be used to launch a dedicated virtual machine (VM) host within the specified compartment.
+func (client ComputeClient) ListDedicatedVmHostShapes(ctx context.Context, request ListDedicatedVmHostShapesRequest) (response ListDedicatedVmHostShapesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDedicatedVmHostShapes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListDedicatedVmHostShapesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDedicatedVmHostShapesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDedicatedVmHostShapesResponse")
+	}
+	return
+}
+
+// listDedicatedVmHostShapes implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listDedicatedVmHostShapes(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHostShapes")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDedicatedVmHostShapesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDedicatedVmHosts Returns the list of dedicated virtual machine (VM) hosts that match the specified criteria from the specified compartment.
+// You can limit the list by specifying a dedicated VM host display name. The list will include all the identically-named
+// dedicated VM hosts in the compartment.
+func (client ComputeClient) ListDedicatedVmHosts(ctx context.Context, request ListDedicatedVmHostsRequest) (response ListDedicatedVmHostsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDedicatedVmHosts, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListDedicatedVmHostsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDedicatedVmHostsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDedicatedVmHostsResponse")
+	}
+	return
+}
+
+// listDedicatedVmHosts implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listDedicatedVmHosts(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedVmHosts")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDedicatedVmHostsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListImages Lists the available images in the specified compartment, including both
 // Oracle-provided images (https://docs.cloud.oracle.com/Content/Compute/References/images.htm) and
 // custom images (https://docs.cloud.oracle.com/Content/Compute/Tasks/managingcustomimages.htm) that have
@@ -2130,6 +2480,54 @@ func (client ComputeClient) updateConsoleHistory(ctx context.Context, request co
 	}
 
 	var response UpdateConsoleHistoryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDedicatedVmHost Updates the displayName, freeformTags, and definedTags attributes for the specified dedicated virtual machine (VM) host.
+// If an attribute value is not included, it will not be updated.
+func (client ComputeClient) UpdateDedicatedVmHost(ctx context.Context, request UpdateDedicatedVmHostRequest) (response UpdateDedicatedVmHostResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateDedicatedVmHost, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateDedicatedVmHostResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDedicatedVmHostResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDedicatedVmHostResponse")
+	}
+	return
+}
+
+// updateDedicatedVmHost implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) updateDedicatedVmHost(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dedicatedVmHosts/{dedicatedVmHostId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDedicatedVmHostResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

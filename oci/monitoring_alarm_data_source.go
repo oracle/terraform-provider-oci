@@ -114,6 +114,10 @@ func (s *MonitoringAlarmDataSourceCrud) SetData() error {
 		s.D.Set("resolution", *s.Res.Resolution)
 	}
 
+	if s.Res.ResourceGroup != nil {
+		s.D.Set("resource_group", *s.Res.ResourceGroup)
+	}
+
 	s.D.Set("severity", s.Res.Severity)
 
 	s.D.Set("state", s.Res.LifecycleState)

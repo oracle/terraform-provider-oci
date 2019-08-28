@@ -33,11 +33,11 @@ type ActionTypeEnum string
 
 // Set of constants representing the allowable values for ActionTypeEnum
 const (
-	ActionTypeBy ActionTypeEnum = "CHANGE_COUNT_BY"
+	ActionTypeChangeCountBy ActionTypeEnum = "CHANGE_COUNT_BY"
 )
 
 var mappingActionType = map[string]ActionTypeEnum{
-	"CHANGE_COUNT_BY": ActionTypeBy,
+	"CHANGE_COUNT_BY": ActionTypeChangeCountBy,
 }
 
 // GetActionTypeEnumValues Enumerates the set of values for ActionTypeEnum
