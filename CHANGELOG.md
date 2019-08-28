@@ -1,4 +1,4 @@
-## 3.40.0 (Unreleased)
+## 3.40.0 (August 28, 2019)
 
 ###Added
 - Add `resource_group` optional field for metrics
