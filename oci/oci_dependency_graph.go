@@ -53,6 +53,7 @@ func initDependencyGraph() {
 	DependencyGraph["key"] = append(DependencyGraph["key"], "KmsEncryptedData")
 	DependencyGraph["key"] = append(DependencyGraph["key"], "KmsGeneratedKey")
 	DependencyGraph["key"] = append(DependencyGraph["key"], "KmsKeyVersion")
+	DependencyGraph["kmsKey"] = append(DependencyGraph["kmsKey"], "ContainerengineCluster")
 	DependencyGraph["kmsKey"] = append(DependencyGraph["kmsKey"], "CoreBootVolume")
 	DependencyGraph["kmsKey"] = append(DependencyGraph["kmsKey"], "CoreVolume")
 	DependencyGraph["kmsKey"] = append(DependencyGraph["kmsKey"], "FileStorageFileSystem")

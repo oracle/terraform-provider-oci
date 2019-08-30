@@ -372,7 +372,6 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.source_details.0.source_id"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.source_details.0.source_type", "image"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.system_tags"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.time_created"),
 				),
 			},
@@ -404,7 +403,6 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.source_type", "image"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "system_tags"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "public_ip"),

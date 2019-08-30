@@ -171,6 +171,10 @@ func (s *CoreVolumesDataSourceCrud) SetData() error {
 
 		volume["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			volume["system_tags"] = systemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			volume["time_created"] = r.TimeCreated.String()
 		}
