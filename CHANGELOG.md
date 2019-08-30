@@ -3,7 +3,8 @@
 ### Added
 - Documentation update for OCI notification service
 - Support for Granular security lists in Autonomous Database - Dedicated
-- Regional Subnet integration for Oracle Kubernetes Container engine  
+- Regional Subnet integration for Oracle Kubernetes Container engine
+- Documentation update for `oci_containerengine_cluster_kube_config`  
 
 ## 3.41.0 (September 04, 2019)
 

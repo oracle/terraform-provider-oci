@@ -29,8 +29,8 @@ data "oci_containerengine_cluster_kube_config" "test_cluster_kube_config" {
 The following arguments are supported:
 
 * `cluster_id` - (Required) The OCID of the cluster.
-* `expiration` - (Optional) The desired expiration, in seconds, to use for the kubeconfig token. 
-* `token_version` - (Optional) The version of the kubeconfig token. Supported value 1.0.0 
+* `expiration` - (Optional) The desired expiration, in seconds, to use for the kubeconfig token. Important Note, expiration field is only honored for token version 1.0.0 
+* `token_version` - (Optional) The version of the kubeconfig token. Supported values 1.0.0 and 2.0.0 
 
 
 ## Attributes Reference
