@@ -155,6 +155,10 @@ func (s *CoreBootVolumesDataSourceCrud) SetData() error {
 
 		bootVolume["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			bootVolume["system_tags"] = systemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			bootVolume["time_created"] = r.TimeCreated.String()
 		}
