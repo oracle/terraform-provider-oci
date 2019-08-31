@@ -100,6 +100,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_free_tier": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_preview_version_with_service_terms_accepted": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -217,7 +222,20 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_deletion_of_free_autonomous_database": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_reclamation_of_free_autonomous_database": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -403,6 +421,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.IsAutoScalingEnabled = &tmp
 	}
 
+	if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok && s.D.HasChange("is_free_tier") {
+		tmp := isFreeTier.(bool)
+		request.IsFreeTier = &tmp
+	}
+
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
 		request.LicenseModel = oci_database.UpdateAutonomousDatabaseDetailsLicenseModelEnum(licenseModel.(string))
 	}
@@ -499,6 +522,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("is_dedicated", *s.Res.IsDedicated)
 	}
 
+	if s.Res.IsFreeTier != nil {
+		s.D.Set("is_free_tier", *s.Res.IsFreeTier)
+	}
+
 	if s.Res.IsPreview != nil {
 		s.D.Set("is_preview", *s.Res.IsPreview)
 	}
@@ -515,8 +542,20 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeDeletionOfFreeAutonomousDatabase != nil {
+		s.D.Set("time_deletion_of_free_autonomous_database", *s.Res.TimeDeletionOfFreeAutonomousDatabase)
+	}
+
+	if s.Res.TimeReclamationOfFreeAutonomousDatabase != nil {
+		s.D.Set("time_reclamation_of_free_autonomous_database", *s.Res.TimeReclamationOfFreeAutonomousDatabase)
 	}
 
 	if s.Res.UsedDataStorageSizeInTBs != nil {
@@ -634,6 +673,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
 		}
+		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
+			tmp := isFreeTier.(bool)
+			details.IsFreeTier = &tmp
+		}
 		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
 			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
 			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
@@ -692,6 +735,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
+		}
+		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
+			tmp := isFreeTier.(bool)
+			details.IsFreeTier = &tmp
 		}
 		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
 			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
