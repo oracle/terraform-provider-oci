@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_core_dedicated_vm_hosts_instances
 This data source provides the list of Dedicated Vm Hosts Instances in Oracle Cloud Infrastructure Core service.
 
-Returns the list of instances on the dedicated virtual machine (VM) hosts that match the specified criteria.
+Returns the list of instances on the dedicated virtual machine hosts that match the specified criteria.
 
 
 ## Example Usage

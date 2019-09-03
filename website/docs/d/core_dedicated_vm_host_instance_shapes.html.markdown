@@ -9,8 +9,8 @@ description: |-
 # Data Source: oci_core_dedicated_vm_host_instance_shapes
 This data source provides the list of Dedicated Vm Host Instance Shapes in Oracle Cloud Infrastructure Core service.
 
-Lists the shapes that can be used to launch a virtual machine (VM) instance on a dedicated VM host within the specified compartment.
-You can filter the list by compatibility with a specific dedicated VM host shape.
+Lists the shapes that can be used to launch a virtual machine instance on a dedicated virtual machine host within the specified compartment.
+You can filter the list by compatibility with a specific dedicated virtual machine host shape.
 
 
 ## Example Usage

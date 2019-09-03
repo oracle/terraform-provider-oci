@@ -226,6 +226,7 @@ github.com/oracle/oci-go-sdk/objectstorage
 github.com/oracle/oci-go-sdk/ons
 github.com/oracle/oci-go-sdk/streaming
 github.com/oracle/oci-go-sdk/waas
+github.com/oracle/oci-go-sdk/workrequests
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib
 # github.com/posener/complete v1.2.1
