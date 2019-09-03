@@ -24,6 +24,7 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
+	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
 )
@@ -59,6 +60,7 @@ type OracleClients struct {
 	streamAdminClient              *oci_streaming.StreamAdminClient
 	virtualNetworkClient           *oci_core.VirtualNetworkClient
 	waasClient                     *oci_waas.WaasClient
+	workRequestClient              *oci_work_requests.WorkRequestClient
 }
 
 func (m *OracleClients) FunctionsInvokeClient(endpoint string) (*oci_functions.FunctionsInvokeClient, error) {
@@ -385,6 +387,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.waasClient = &waasClient
+
+	workRequestClient, err := oci_work_requests.NewWorkRequestClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&workRequestClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.workRequestClient = &workRequestClient
 
 	return
 }

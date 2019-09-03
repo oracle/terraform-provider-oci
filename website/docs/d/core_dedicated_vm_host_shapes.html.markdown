@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_core_dedicated_vm_host_shapes
 This data source provides the list of Dedicated Vm Host Shapes in Oracle Cloud Infrastructure Core service.
 
-Lists the shapes that can be used to launch a dedicated virtual machine (VM) host within the specified compartment.
+Lists the shapes that can be used to launch a dedicated virtual machine host within the specified compartment.
 
 
 ## Example Usage
@@ -31,7 +31,7 @@ The following arguments are supported:
 
 * `availability_domain` - (Optional) The name of the availability domain.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `instance_shape_name` - (Optional) Instance shape name 
+* `instance_shape_name` - (Optional) The name for the instance's shape. 
 
 
 ## Attributes Reference

@@ -9,7 +9,7 @@ description: |-
 # Data Source: oci_core_dedicated_vm_host
 This data source provides details about a specific Dedicated Vm Host resource in Oracle Cloud Infrastructure Core service.
 
-Gets information about the specified dedicated virtual machine (VM) host.
+Gets information about the specified dedicated virtual machine host.
 
 ## Example Usage
 
@@ -31,16 +31,16 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `availability_domain` - The availability domain the dedicated VM host is running in.  Example: `Uocm:PHX-AD-1` 
-* `compartment_id` - The OCID of the compartment that contains the dedicated VM host. 
-* `dedicated_vm_host_shape` - The shape of the dedicated VM host. The shape determines the number of CPUs and other resources available for VMs. 
+* `availability_domain` - The availability domain the dedicated virtual machine host is running in.  Example: `Uocm:PHX-AD-1` 
+* `compartment_id` - The OCID of the compartment that contains the dedicated virtual machine host.
+* `dedicated_vm_host_shape` - The dedicated virtual machine host shape. The shape determines the number of CPUs and other resources available for VMs. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My Dedicated Vm Host` 
-* `fault_domain` - The fault domain for the dedicated VM host's assigned instances. For more information, see Fault Domains.
+* `fault_domain` - The fault domain for the dedicated virtual machine host's assigned instances. For more information, see [Fault Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm#fault).
 
-	If you do not specify the fault domain, the system selects one for you. To change the fault domain for a dedicated VM host, delete it and create a new dedicated VM host in the preferred fault domain.
+	If you do not specify the fault domain, the system selects one for you. To change the fault domain for a dedicated virtual machine host, delete it, and then create a new dedicated virtual machine host in the preferred fault domain.
 
-	To get a list of fault domains, use the ListFaultDomains operation in the Identity and Access Management Service API.
+	To get a list of fault domains, use the `ListFaultDomains` operation in the [Identity and Access Management Service API](/iaas/api/#/en/identity/20160918/).
 
 	Example: `FAULT-DOMAIN-1` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
