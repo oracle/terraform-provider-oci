@@ -101,7 +101,7 @@ resource "oci_core_network_security_group_security_rule" "test_network_security_
   network_security_group_id = "${oci_core_network_security_group.test_network_security_group.id}"
   destination               = "0.0.0.0/0"
   direction                 = "EGRESS"
-  protocol                  = "1"
+  protocol                  = "17"
   stateless                 = false
 
   udp_options {

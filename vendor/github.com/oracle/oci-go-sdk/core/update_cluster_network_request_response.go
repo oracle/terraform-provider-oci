@@ -1,18 +1,21 @@
 // Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-package database
+package core
 
 import (
 	"github.com/oracle/oci-go-sdk/common"
 	"net/http"
 )
 
-// LaunchAutonomousExadataInfrastructureRequest wrapper for the LaunchAutonomousExadataInfrastructure operation
-type LaunchAutonomousExadataInfrastructureRequest struct {
+// UpdateClusterNetworkRequest wrapper for the UpdateClusterNetwork operation
+type UpdateClusterNetworkRequest struct {
 
-	// Request to launch a Autonomous Exadata Infrastructure.
-	LaunchAutonomousExadataInfrastructureDetails `contributesTo:"body"`
+	// The OCID of the cluster network.
+	ClusterNetworkId *string `mandatory:"true" contributesTo:"path" name:"clusterNetworkId"`
+
+	// Update cluster network
+	UpdateClusterNetworkDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -20,6 +23,11 @@ type LaunchAutonomousExadataInfrastructureRequest struct {
 	// has been deleted and purged from the system, then a retry of the original creation request
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -30,45 +38,42 @@ type LaunchAutonomousExadataInfrastructureRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request LaunchAutonomousExadataInfrastructureRequest) String() string {
+func (request UpdateClusterNetworkRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request LaunchAutonomousExadataInfrastructureRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request UpdateClusterNetworkRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request LaunchAutonomousExadataInfrastructureRequest) RetryPolicy() *common.RetryPolicy {
+func (request UpdateClusterNetworkRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// LaunchAutonomousExadataInfrastructureResponse wrapper for the LaunchAutonomousExadataInfrastructure operation
-type LaunchAutonomousExadataInfrastructureResponse struct {
+// UpdateClusterNetworkResponse wrapper for the UpdateClusterNetwork operation
+type UpdateClusterNetworkResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The AutonomousExadataInfrastructure instance
-	AutonomousExadataInfrastructure `presentIn:"body"`
+	// The ClusterNetwork instance
+	ClusterNetwork `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
 
-	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
-	// a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the work request. Multiple OCID values are returned in a comma-separated list. Use GetWorkRequest with a work request OCID to track the status of the request.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
-func (response LaunchAutonomousExadataInfrastructureResponse) String() string {
+func (response UpdateClusterNetworkResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response LaunchAutonomousExadataInfrastructureResponse) HTTPResponse() *http.Response {
+func (response UpdateClusterNetworkResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

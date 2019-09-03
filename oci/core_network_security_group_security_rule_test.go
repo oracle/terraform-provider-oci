@@ -26,7 +26,7 @@ var (
 	networkSecurityGroupSecurityRuleRepresentation = map[string]interface{}{
 		"network_security_group_id": Representation{repType: Required, create: `${oci_core_network_security_group.test_network_security_group.id}`},
 		"direction":                 Representation{repType: Required, create: `EGRESS`},
-		"protocol":                  Representation{repType: Required, create: `1`},
+		"protocol":                  Representation{repType: Required, create: `6`},
 		"description":               Representation{repType: Optional, create: `description`, update: `updated description`},
 	}
 
@@ -34,21 +34,17 @@ var (
 		"direction":        Representation{repType: Required, create: `EGRESS`},
 		"destination":      Representation{repType: Optional, create: `10.0.0.0/16`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
 		"destination_type": Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
-		"protocol":         Representation{repType: Required, create: `1`},
-		"icmp_options":     RepresentationGroup{Optional, securityRulesIcmpOptionsRepresentation},
+		"protocol":         Representation{repType: Required, create: `6`},
 		"stateless":        Representation{repType: Optional, create: `false`, update: `true`},
 		"tcp_options":      RepresentationGroup{Optional, securityRulesTcpOptionsRepresentation},
-		"udp_options":      RepresentationGroup{Optional, securityRulesUdpOptionsRepresentation},
 	}
 	ingressSecurityRulesRepresentation = map[string]interface{}{
-		"direction":    Representation{repType: Required, create: `INGRESS`},
-		"protocol":     Representation{repType: Required, create: `1`},
-		"source":       Representation{repType: Optional, create: `10.0.1.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
-		"icmp_options": RepresentationGroup{Optional, securityRulesIcmpOptionsRepresentation},
-		"source_type":  Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
-		"stateless":    Representation{repType: Optional, create: `false`, update: `true`},
-		"tcp_options":  RepresentationGroup{Optional, securityRulesTcpOptionsRepresentation},
-		"udp_options":  RepresentationGroup{Optional, securityRulesUdpOptionsRepresentation},
+		"direction":   Representation{repType: Required, create: `INGRESS`},
+		"protocol":    Representation{repType: Required, create: `6`},
+		"source":      Representation{repType: Optional, create: `10.0.1.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
+		"source_type": Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
+		"stateless":   Representation{repType: Optional, create: `false`, update: `true`},
+		"tcp_options": RepresentationGroup{Optional, securityRulesTcpOptionsRepresentation},
 	}
 	securityRulesIcmpOptionsRepresentation = map[string]interface{}{
 		"type": Representation{repType: Required, create: `3`},
@@ -115,13 +111,11 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "description"),
 					resource.TestCheckResourceAttrSet(resourceName, "destination"),
 					resource.TestCheckResourceAttr(resourceName, "destination_type", "CIDR_BLOCK"),
-					resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "protocol"),
 					resource.TestCheckResourceAttrSet(resourceName, "stateless"),
 					resource.TestCheckResourceAttr(resourceName, "tcp_options.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "udp_options.#", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -141,13 +135,11 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "description", "updated description"),
 					resource.TestCheckResourceAttrSet(resourceName, "destination"),
 					resource.TestCheckResourceAttr(resourceName, "destination_type", "SERVICE_CIDR_BLOCK"),
-					resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "protocol"),
 					resource.TestCheckResourceAttrSet(resourceName, "stateless"),
 					resource.TestCheckResourceAttr(resourceName, "tcp_options.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "udp_options.#", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -173,13 +165,11 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "description"),
 					resource.TestCheckResourceAttrSet(resourceName, "source"),
 					resource.TestCheckResourceAttr(resourceName, "source_type", "CIDR_BLOCK"),
-					resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "protocol"),
 					resource.TestCheckResourceAttrSet(resourceName, "stateless"),
 					resource.TestCheckResourceAttr(resourceName, "tcp_options.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "udp_options.#", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -199,13 +189,11 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "description", "updated description"),
 					resource.TestCheckResourceAttrSet(resourceName, "source"),
 					resource.TestCheckResourceAttr(resourceName, "source_type", "SERVICE_CIDR_BLOCK"),
-					resource.TestCheckResourceAttr(resourceName, "icmp_options.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "protocol"),
 					resource.TestCheckResourceAttrSet(resourceName, "stateless"),
 					resource.TestCheckResourceAttr(resourceName, "tcp_options.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "udp_options.#", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -228,14 +216,12 @@ func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.description"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.direction"),
-					resource.TestCheckResourceAttr(datasourceName, "security_rules.0.icmp_options.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.is_valid"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.protocol"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.stateless"),
 					resource.TestCheckResourceAttr(datasourceName, "security_rules.0.tcp_options.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "security_rules.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "security_rules.0.udp_options.#", "1"),
 				),
 			},
 		},
