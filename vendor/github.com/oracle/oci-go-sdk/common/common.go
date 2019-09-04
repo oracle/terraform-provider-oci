@@ -34,7 +34,8 @@ const (
 	RegionEUZurich1 Region = "eu-zurich-1"
 	//RegionSASaopaulo1 region for Sao Paulo
 	RegionSASaopaulo1 Region = "sa-saopaulo-1"
-
+	//RegionAPSydney1 region for Sydney
+	RegionAPSydney1 Region = "ap-sydney-1"
 	//RegionUSLangley1 region for langley
 	RegionUSLangley1 Region = "us-langley-1"
 	//RegionUSLuke1 region for luke
@@ -62,6 +63,7 @@ var regionRealm = map[Region]string{
 	RegionCAToronto1:  "oc1",
 	RegionAPTokyo1:    "oc1",
 	RegionAPSeoul1:    "oc1",
+	RegionAPSydney1:   "oc1",
 	RegionAPMumbai1:   "oc1",
 	RegionEUZurich1:   "oc1",
 	RegionSASaopaulo1: "oc1",
