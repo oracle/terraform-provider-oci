@@ -1,4 +1,4 @@
-## 3.41.0 (Unreleased)
+## 3.41.0 (September 04, 2019)
 
 ### Added
 - Support for Cluster Network in the Compute service
