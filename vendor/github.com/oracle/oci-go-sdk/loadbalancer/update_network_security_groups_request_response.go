@@ -11,10 +11,10 @@ import (
 // UpdateNetworkSecurityGroupsRequest wrapper for the UpdateNetworkSecurityGroups operation
 type UpdateNetworkSecurityGroupsRequest struct {
 
-	// The details for updating the NSGs of the load balancer.
+	// The details for updating the NSGs associated with the specified load balancer.
 	UpdateNetworkSecurityGroupsDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer on which update the NSGs.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer to update the NSGs for.
 	LoadBalancerId *string `mandatory:"true" contributesTo:"path" name:"loadBalancerId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

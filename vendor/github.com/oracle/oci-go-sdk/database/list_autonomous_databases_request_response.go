@@ -36,6 +36,10 @@ type ListAutonomousDatabasesRequest struct {
 	// A filter to return only autonomous database resources that match the specified workload type.
 	DbWorkload AutonomousDatabaseSummaryDbWorkloadEnum `mandatory:"false" contributesTo:"query" name:"dbWorkload" omitEmpty:"true"`
 
+	// Filter on the value of the resource's 'isFreeTier' property. A value of `true` returns only Always Free resources.
+	// A value of `false` excludes Always Free resources from the returned results. Omitting this parameter returns both Always Free and paid resources.
+	IsFreeTier *bool `mandatory:"false" contributesTo:"query" name:"isFreeTier"`
+
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 

@@ -34,6 +34,7 @@ type BackendDetails struct {
 
 	// Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress
 	// traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
+	// **Note:** You cannot add a backend server marked as `backup` to a backend set that uses the IP Hash policy.
 	// Example: `false`
 	Backup *bool `mandatory:"false" json:"backup"`
 

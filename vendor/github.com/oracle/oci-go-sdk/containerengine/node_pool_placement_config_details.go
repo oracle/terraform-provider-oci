@@ -14,19 +14,17 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// NodePoolOptions Options for creating or updating node pools.
-type NodePoolOptions struct {
+// NodePoolPlacementConfigDetails The location where a node pool will place nodes.
+type NodePoolPlacementConfigDetails struct {
 
-	// Available Kubernetes versions.
-	KubernetesVersions []string `mandatory:"false" json:"kubernetesVersions"`
+	// The availability domain in which to place nodes.
+	// Example: `Uocm:PHX-AD-1`
+	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// Available image names.
-	Images []string `mandatory:"false" json:"images"`
-
-	// Available shapes for nodes.
-	Shapes []string `mandatory:"false" json:"shapes"`
+	// The OCID of the subnet in which to place nodes.
+	SubnetId *string `mandatory:"true" json:"subnetId"`
 }
 
-func (m NodePoolOptions) String() string {
+func (m NodePoolPlacementConfigDetails) String() string {
 	return common.PointerString(m)
 }
