@@ -60,6 +60,10 @@ type Volume struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// Specifies whether the cloned volume's data has finished copying from the source volume or backup.
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
 
@@ -86,6 +90,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
+		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
 		IsHydrated         *bool                             `json:"isHydrated"`
 		KmsKeyId           *string                           `json:"kmsKeyId"`
 		SizeInGBs          *int64                            `json:"sizeInGBs"`
@@ -106,6 +111,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	}
 	m.DefinedTags = model.DefinedTags
 	m.FreeformTags = model.FreeformTags
+	m.SystemTags = model.SystemTags
 	m.IsHydrated = model.IsHydrated
 	m.KmsKeyId = model.KmsKeyId
 	m.SizeInGBs = model.SizeInGBs

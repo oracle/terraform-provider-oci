@@ -35,10 +35,13 @@ type CreateAutonomousDatabaseBase interface {
 	// The autonomous database workload type. OLTP indicates an Autonomous Transaction Processing database and DW indicates an Autonomous Data Warehouse. The default is OLTP.
 	GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum
 
+	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB memory. For Always Free databases, memory and CPU cannot be scaled.
+	GetIsFreeTier() *bool
+
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
 	GetDisplayName() *string
 
-	// The Oracle license model that applies to the Oracle Autonomous Database. The default is BRING_YOUR_OWN_LICENSE. Note that when provisioning an Autonomous Database using the dedicated deployment (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm) option, this attribute must be null.
+	// The Oracle license model that applies to the Oracle Autonomous Database. The default for Autonomous Database using the shared deployment is BRING_YOUR_OWN_LICENSE. Note that when provisioning an Autonomous Database using the dedicated deployment (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm) option, this attribute must be null because the attribute is already set on Autonomous Exadata Infrastructure level.
 	GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum
 
 	// If set to true, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for serverless deployments (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI).
@@ -60,7 +63,6 @@ type CreateAutonomousDatabaseBase interface {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 }
 
@@ -72,6 +74,7 @@ type createautonomousdatabasebase struct {
 	DataStorageSizeInTBs                     *int                                         `mandatory:"true" json:"dataStorageSizeInTBs"`
 	AdminPassword                            *string                                      `mandatory:"true" json:"adminPassword"`
 	DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum   `mandatory:"false" json:"dbWorkload,omitempty"`
+	IsFreeTier                               *bool                                        `mandatory:"false" json:"isFreeTier"`
 	DisplayName                              *string                                      `mandatory:"false" json:"displayName"`
 	LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 	IsPreviewVersionWithServiceTermsAccepted *bool                                        `mandatory:"false" json:"isPreviewVersionWithServiceTermsAccepted"`
@@ -100,6 +103,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.DataStorageSizeInTBs = s.Model.DataStorageSizeInTBs
 	m.AdminPassword = s.Model.AdminPassword
 	m.DbWorkload = s.Model.DbWorkload
+	m.IsFreeTier = s.Model.IsFreeTier
 	m.DisplayName = s.Model.DisplayName
 	m.LicenseModel = s.Model.LicenseModel
 	m.IsPreviewVersionWithServiceTermsAccepted = s.Model.IsPreviewVersionWithServiceTermsAccepted
@@ -163,6 +167,11 @@ func (m createautonomousdatabasebase) GetAdminPassword() *string {
 //GetDbWorkload returns DbWorkload
 func (m createautonomousdatabasebase) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
+}
+
+//GetIsFreeTier returns IsFreeTier
+func (m createautonomousdatabasebase) GetIsFreeTier() *bool {
+	return m.IsFreeTier
 }
 
 //GetDisplayName returns DisplayName

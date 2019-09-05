@@ -2133,7 +2133,7 @@ func (client LoadBalancerClient) updateLoadBalancer(ctx context.Context, request
 	return response, err
 }
 
-// UpdateNetworkSecurityGroups Updates the network security groups to be used by a load balancer.
+// UpdateNetworkSecurityGroups Updates the network security groups associated with the specified load balancer.
 func (client LoadBalancerClient) UpdateNetworkSecurityGroups(ctx context.Context, request UpdateNetworkSecurityGroupsRequest) (response UpdateNetworkSecurityGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

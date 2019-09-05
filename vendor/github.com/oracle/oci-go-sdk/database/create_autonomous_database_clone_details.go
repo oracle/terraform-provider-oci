@@ -34,6 +34,9 @@ type CreateAutonomousDatabaseCloneDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that you will clone to create a new Autonomous Database.
 	SourceId *string `mandatory:"true" json:"sourceId"`
 
+	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB memory. For Always Free databases, memory and CPU cannot be scaled.
+	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
+
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -56,7 +59,6 @@ type CreateAutonomousDatabaseCloneDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The Autonomous Database clone type.
@@ -65,7 +67,7 @@ type CreateAutonomousDatabaseCloneDetails struct {
 	// The autonomous database workload type. OLTP indicates an Autonomous Transaction Processing database and DW indicates an Autonomous Data Warehouse. The default is OLTP.
 	DbWorkload CreateAutonomousDatabaseBaseDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
-	// The Oracle license model that applies to the Oracle Autonomous Database. The default is BRING_YOUR_OWN_LICENSE. Note that when provisioning an Autonomous Database using the dedicated deployment (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm) option, this attribute must be null.
+	// The Oracle license model that applies to the Oracle Autonomous Database. The default for Autonomous Database using the shared deployment is BRING_YOUR_OWN_LICENSE. Note that when provisioning an Autonomous Database using the dedicated deployment (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm) option, this attribute must be null because the attribute is already set on Autonomous Exadata Infrastructure level.
 	LicenseModel CreateAutonomousDatabaseBaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 }
 
@@ -92,6 +94,11 @@ func (m CreateAutonomousDatabaseCloneDetails) GetDbWorkload() CreateAutonomousDa
 //GetDataStorageSizeInTBs returns DataStorageSizeInTBs
 func (m CreateAutonomousDatabaseCloneDetails) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
+}
+
+//GetIsFreeTier returns IsFreeTier
+func (m CreateAutonomousDatabaseCloneDetails) GetIsFreeTier() *bool {
+	return m.IsFreeTier
 }
 
 //GetAdminPassword returns AdminPassword
