@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"reflect"
@@ -103,6 +104,11 @@ func (s *BaseCrud) State() string {
 func handleMissingResourceError(sync ResourceVoider, err *error) {
 
 	if err != nil {
+		// patch till OCE service returns correct error response code for invalid auth token
+		if strings.Contains((*err).Error(), "IDCS token validation has failed") {
+			return
+		}
+
 		if strings.Contains((*err).Error(), "does not exist") ||
 			strings.Contains((*err).Error(), " not present in ") ||
 			strings.Contains((*err).Error(), "not found") ||
@@ -898,4 +904,26 @@ func getWorkRequestErrors(workRequestClient *oci_work_requests.WorkRequestClient
 	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workRequestId, entityType, action, errorMessage)
 
 	return workRequestErr
+}
+
+// Helper to marshal JSON objects from service into strings that can be stored in state.
+// This limitation exists because Terraform doesn't support maps of nested objects and so we use JSON strings representation
+// as a workaround.
+func genericMapToJsonMap(extendedMetadata map[string]interface{}) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	for key, value := range extendedMetadata {
+		switch v := value.(type) {
+		case string:
+			result[key] = v
+		default:
+			bytes, err := json.Marshal(v)
+			if err != nil {
+				continue
+			}
+			result[key] = string(bytes)
+		}
+	}
+
+	return result
 }
