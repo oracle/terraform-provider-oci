@@ -1,4 +1,9 @@
 ## 3.64.0 (Unreleased)
+
+### Added
+- Support Functions integration for ONS service
+- Support IP-based policy for Identity Service
+
 ## 3.63.0 (February 19, 2020)
 
 ### Added
