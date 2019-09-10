@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	major = "8"
-	minor = "1"
+	major = "9"
+	minor = "0"
 	patch = "0"
 	tag   = ""
 )
