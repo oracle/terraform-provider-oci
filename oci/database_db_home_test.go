@@ -34,6 +34,7 @@ var (
 		"display_name":   Representation{repType: Optional, create: `createdDbHome`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
 		"filter":         RepresentationGroup{Required, dbHomeDataSourceFilterRepresentation}}
+
 	dbHomeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
 		"values": Representation{repType: Required, create: []string{`${oci_database_db_home.test_db_home_source_none.id}`}},
@@ -66,9 +67,13 @@ var (
 		"db_name": Representation{repType: Required, create: `dbNone0`},
 	})
 	dbHomeDatabaseDbBackupConfigRepresentation = map[string]interface{}{
-		"auto_backup_enabled":     Representation{repType: Optional, create: `true`, update: `false`},
-		"auto_backup_window":      Representation{repType: Optional, create: `SLOT_TWO`, update: `SLOT_THREE`},
-		"recovery_window_in_days": Representation{repType: Optional, create: `10`},
+		"auto_backup_enabled":        Representation{repType: Optional, create: `true`, update: `false`},
+		"auto_backup_window":         Representation{repType: Optional, create: `SLOT_TWO`, update: `SLOT_TWO`},
+		"backup_destination_details": RepresentationGroup{Optional, dbHomeDatabaseDbBackupConfigBackupDestinationDetails1Representation},
+	}
+	dbHomeDatabaseDbBackupConfigBackupDestinationDetails1Representation = map[string]interface{}{
+		"id":   Representation{repType: Optional, create: `${oci_database_backup_destination.test_backup_destination1.id}`},
+		"type": Representation{repType: Optional, create: `NFS`},
 	}
 	dbHomeRepresentationSourceDbBackup = representationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
 		"database": RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceDbBackup},
@@ -84,7 +89,43 @@ var (
 		"db_name": Representation{repType: Required, create: `dbBackup`},
 	}
 
-	DbHomeResourceDependencies = BackupResourceDependencies +
+	dbHomeRepresentationSourceVmClusterNew = map[string]interface{}{
+		"database":      RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceVmClusterNew},
+		"display_name":  Representation{repType: Optional, create: `createdDbHome`},
+		"source":        Representation{repType: Required, create: `VM_CLUSTER_NEW`},
+		"db_version":    Representation{repType: Required, create: `12.1.0.2`},
+		"vm_cluster_id": Representation{repType: Required, create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+	}
+	dbHomeDatabaseRepresentationSourceVmClusterNew = map[string]interface{}{
+		"admin_password":   Representation{repType: Required, create: `BEstrO0ng_#11`},
+		"character_set":    Representation{repType: Optional, create: `AL32UTF8`},
+		"db_backup_config": RepresentationGroup{Optional, dbHomeDatabaseDbBackupConfigVmClusterNewRepresentation},
+		"db_name":          Representation{repType: Required, create: `dbVMClus`},
+		"db_workload":      Representation{repType: Optional, create: `OLTP`},
+		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set":   Representation{repType: Optional, create: `AL16UTF16`},
+		"pdb_name":         Representation{repType: Optional, create: `pdbName`},
+	}
+
+	dbHomeDatabaseDbBackupConfigVmClusterNewRepresentation = map[string]interface{}{
+		"auto_backup_enabled":        Representation{repType: Optional, create: `true`, update: `false`},
+		"auto_backup_window":         Representation{repType: Optional, create: `SLOT_TWO`},
+		"backup_destination_details": RepresentationGroup{Optional, dbHomeDatabaseDbBackupConfigBackupDestinationDetails2Representation},
+		"recovery_window_in_days":    Representation{repType: Optional, create: `10`},
+	}
+
+	dbHomeDatabaseDbBackupConfigBackupDestinationDetails2Representation = map[string]interface{}{
+		"id":   Representation{repType: Optional, create: `${oci_database_backup_destination.test_backup_destination2.id}`},
+		"type": Representation{repType: Required, create: `NFS`},
+	}
+
+	DbHomeResourceDependencies = BackupResourceDependencies + generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination1", Optional, Create, backupDestinationNFSRepresentation) +
+		generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination2", Optional, Create, backupDestinationNFSRepresentation) +
+		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
+			representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}})) +
+		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation) +
+		generateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", Required, Create, vmClusterRepresentation) +
 		generateResourceFromRepresentationMap("oci_database_backup", "test_backup", Required, Create, backupRepresentation)
 )
 
@@ -113,7 +154,9 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Required, Create, dbHomeRepresentationSourceNoneRequiredOnly) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Required, Create, dbHomeRepresentationSourceDbBackup),
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Required, Create, dbHomeRepresentationSourceDbBackup) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Required, Create, dbHomeRepresentationSourceVmClusterNew),
+
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
@@ -128,6 +171,12 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "db_system_id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "db_version", "12.1.0.2"),
 					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "source", "DB_BACKUP"),
+
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
 				),
 			},
 
@@ -139,7 +188,9 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Create, dbHomeRepresentationSourceNone) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Create, dbHomeRepresentationSourceDbBackup),
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Create, dbHomeRepresentationSourceDbBackup) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Create, dbHomeRepresentationSourceVmClusterNew),
+
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
@@ -148,7 +199,9 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.backup_destination_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "database.0.db_backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.backup_destination_details.0.type", "NFS"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.defined_tags.%", "1"),
@@ -174,13 +227,38 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "source", "DB_BACKUP"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "state"),
+
+					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.character_set", "AL32UTF8"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_name", "dbVMClus"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.ncharacter_set", "AL16UTF16"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.pdb_name", "pdbName"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "display_name", "createdDbHome"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "state"),
 				),
 			},
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + DbHomeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", Optional, Update, dbHomeRepresentationSourceNone) +
-					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup),
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", Optional, Update, dbHomeRepresentationSourceDbBackup) +
+					generateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_vm_cluster_new", Optional, Update, dbHomeRepresentationSourceVmClusterNew),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
@@ -188,8 +266,10 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "false"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_window", "SLOT_THREE"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.backup_destination_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "database.0.db_backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.backup_destination_details.0.type", "NFS"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.defined_tags.%", "1"),
@@ -215,6 +295,30 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "source", "DB_BACKUP"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_db_backup", "state"),
+
+					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "compartment_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.admin_password", "BEstrO0ng_#11"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.character_set", "AL32UTF8"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.auto_backup_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.backup_destination_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_name", "dbVMClus"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.freeform_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.ncharacter_set", "AL16UTF16"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.pdb_name", "pdbName"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "display_name", "createdDbHome"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "id"),
+					resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
+					resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "state"),
 				),
 			},
 

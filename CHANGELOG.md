@@ -1,4 +1,10 @@
 ## 3.44.0 (Unreleased)
+
+### Added
+
+- Support for `oci_database_exadata_infrastructure`, `oci_database_vm_cluster_network`, `oci_database_vm_cluster` resources for Exadata Cloud at Customer
+- Support for backups in Exadata Cloud at Customer
+
 ## 3.43.0 (September 11, 2019)
 
 ### Added

@@ -16,7 +16,7 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 			"filter": dataSourceFiltersSchema(),
 			"availability_domain": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"compartment_id": {
 				Type:     schema.TypeString,
@@ -60,6 +60,10 @@ func DatabaseDbSystemShapesDataSource() *schema.Resource {
 							Type:       schema.TypeString,
 							Computed:   true,
 							Deprecated: FieldDeprecatedForAnother("shape", "name"),
+						},
+						"shape_family": {
+							Type:     schema.TypeString,
+							Computed: true,
 						},
 					},
 				},
@@ -159,6 +163,10 @@ func (s *DatabaseDbSystemShapesDataSourceCrud) SetData() error {
 
 		if r.Shape != nil {
 			dbSystemShape["shape"] = *r.Shape
+		}
+
+		if r.ShapeFamily != nil {
+			dbSystemShape["shape_family"] = *r.ShapeFamily
 		}
 
 		resources = append(resources, dbSystemShape)

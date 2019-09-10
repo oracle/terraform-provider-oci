@@ -14,8 +14,8 @@ import (
 
 var (
 	dbSystemShapeDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"availability_domain": Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 	}
 
 	DbSystemShapeResourceConfig = AvailabilityDomainConfig
@@ -42,7 +42,7 @@ func TestDatabaseDbSystemShapeResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
-					generateDataSourceFromRepresentationMap("oci_database_db_system_shapes", "test_db_system_shapes", Required, Create, dbSystemShapeDataSourceRepresentation) +
+					generateDataSourceFromRepresentationMap("oci_database_db_system_shapes", "test_db_system_shapes", Optional, Create, dbSystemShapeDataSourceRepresentation) +
 					compartmentIdVariableStr + DbSystemShapeResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
@@ -56,6 +56,7 @@ func TestDatabaseDbSystemShapeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.minimum_node_count"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.shape"),
+					resource.TestCheckResourceAttrSet(datasourceName, "db_system_shapes.0.shape_family"),
 				),
 			},
 		},
