@@ -1,4 +1,4 @@
-## 3.42.0 (Unreleased)
+## 3.43.0 (Unreleased)
 
 ### Added
 - Support for Granular security lists in Autonomous Database - Dedicated
