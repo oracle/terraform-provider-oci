@@ -88,5 +88,9 @@ func (s *DatabaseDbHomeDataSourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.VmClusterId != nil {
+		s.D.Set("vm_cluster_id", *s.Res.VmClusterId)
+	}
+
 	return nil
 }
