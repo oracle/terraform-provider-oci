@@ -67,6 +67,7 @@ var (
 	})
 	dbHomeDatabaseDbBackupConfigRepresentation = map[string]interface{}{
 		"auto_backup_enabled":     Representation{repType: Optional, create: `true`, update: `false`},
+		"auto_backup_window":      Representation{repType: Optional, create: `SLOT_TWO`, update: `SLOT_THREE`},
 		"recovery_window_in_days": Representation{repType: Optional, create: `10`},
 	}
 	dbHomeRepresentationSourceDbBackup = representationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
@@ -146,6 +147,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
@@ -186,6 +188,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.character_set", "AL32UTF8"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_window", "SLOT_THREE"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),

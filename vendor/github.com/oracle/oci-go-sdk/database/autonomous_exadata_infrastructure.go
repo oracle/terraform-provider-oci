@@ -49,6 +49,9 @@ type AutonomousExadataInfrastructure struct {
 
 	MaintenanceWindow *MaintenanceWindow `mandatory:"true" json:"maintenanceWindow"`
 
+	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// Additional information about the current lifecycle state of the Autonomous Exadata Infrastructure.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -71,7 +74,6 @@ type AutonomousExadataInfrastructure struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 

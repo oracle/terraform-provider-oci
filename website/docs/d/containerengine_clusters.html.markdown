@@ -48,6 +48,7 @@ The following attributes are exported:
 * `endpoints` - Endpoints served up by the cluster masters.
 	* `kubernetes` - The Kubernetes API server endpoint.
 * `id` - The OCID of the cluster.
+* `kms_key_id` - The OCID of the KMS key to be used as the master encryption key for Kubernetes secret encryption.
 * `kubernetes_version` - The version of Kubernetes running on the cluster masters.
 * `lifecycle_details` - Details about the state of the cluster masters.
 * `metadata` - Metadata about the cluster.

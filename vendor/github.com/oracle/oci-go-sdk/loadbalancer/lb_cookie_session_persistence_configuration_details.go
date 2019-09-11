@@ -20,7 +20,7 @@ import (
 // When you configure LB cookie stickiness, the load balancer inserts a cookie into the response. The parameters configured
 // in the cookie enable session stickiness. This method is useful when you have applications and Web backend services
 // that cannot generate their own cookies.
-// Path route rules take precedence to determine the target backend server. The load balancer verfies that session stickiness
+// Path route rules take precedence to determine the target backend server. The load balancer verifies that session stickiness
 // is enabled for the backend server and that the cookie configuration (domain, path, and cookie hash) is valid for the
 // target. The system ignores invalid cookies.
 // To disable LB cookie stickiness on a running load balancer, use the
@@ -62,7 +62,7 @@ type LbCookieSessionPersistenceConfigurationDetails struct {
 	//    If the value of the `Domain` attribute is `example.com` in the `Set-cookie` header, the client includes
 	//    the same cookie in the `Cookie` header when making HTTP requests to `example.com`, `www.example.com`, and
 	//    `www.abc.example.com`. If the `Domain` attribute is not present, the client returns the cookie only for
-	//    the domain to which the origianl request was made.
+	//    the domain to which the original request was made.
 	// *  Ensure that this attribute specifies the correct domain value. If the `Domain` attribute in the `Set-cookie`
 	//    header does not include the domain to which the original request was made, the client or browser might reject
 	//    the cookie. As specified in RFC 6265, the client accepts a cookie with the `Domain` attribute value `example.com`

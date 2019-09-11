@@ -22,11 +22,7 @@ variable "autonomous_database_license_model" {
 }
 
 variable "autonomous_exadata_infrastructure_domain" {
-  default = "subnetexadata.tfvcn.oraclevcn.com"
-}
-
-variable "autonomous_exadata_infrastructure_shape" {
-  default = "Exadata.Quarter2.92"
+  default = "subnetexadata.examplevcn.oraclevcn.com"
 }
 
 variable "autonomous_container_database_backup_config_recovery_window_in_days" {

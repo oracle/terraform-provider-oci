@@ -36,9 +36,10 @@ var (
 
 	clusterRepresentation = map[string]interface{}{
 		"compartment_id":     Representation{repType: Required, create: `${var.compartment_id}`},
-		"kubernetes_version": Representation{repType: Required, create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions.0}`, update: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions.1}`},
+		"kubernetes_version": Representation{repType: Required, create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-1]}`},
 		"name":               Representation{repType: Required, create: `name`, update: `name2`},
 		"vcn_id":             Representation{repType: Required, create: `${oci_core_vcn.test_vcn.id}`},
+		"kms_key_id":         Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"options":            RepresentationGroup{Required, clusterOptionsRepresentation}, // @CODEGEN: Change to Optional once service fixes the regression
 	}
 	clusterOptionsRepresentation = map[string]interface{}{
@@ -56,7 +57,7 @@ var (
 	}
 
 	// @CODEGEN: OKE does not support regional subnets
-	ClusterResourceDependencies = AvailabilityDomainConfig + VcnResourceConfig + VcnResourceDependencies +
+	ClusterResourceDependencies = AvailabilityDomainConfig + KeyResourceDependencyConfig + VcnResourceConfig + VcnResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", Optional, Create,
 			getMultipleUpdatedRepresenationCopy(
 				[]string{"cidr_block", "dns_label"},
@@ -120,6 +121,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Create, clusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttr(resourceName, "options.#", "1"),
@@ -145,6 +147,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Optional, Update, clusterRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "kubernetes_version"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 					resource.TestCheckResourceAttr(resourceName, "options.#", "1"),

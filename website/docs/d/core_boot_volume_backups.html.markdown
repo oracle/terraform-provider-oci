@@ -58,6 +58,7 @@ The following attributes are exported:
 * `size_in_gbs` - The size of the boot volume, in GBs. 
 * `source_type` - Specifies whether the backup was created manually, or via scheduled backup policy.
 * `state` - The current state of a boot volume backup.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the boot volume backup was created. This is the time the actual point-in-time image of the volume data was taken. Format defined by RFC3339. 
 * `time_request_received` - The date and time the request to create the boot volume backup was received. Format defined by RFC3339. 
 * `type` - The type of a volume backup. Supported values are 'FULL' or 'INCREMENTAL'.

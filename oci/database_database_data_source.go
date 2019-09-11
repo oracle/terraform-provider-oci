@@ -68,6 +68,10 @@ func DatabaseDatabaseDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"auto_backup_window": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"recovery_window_in_days": {
 							Type:     schema.TypeInt,
 							Computed: true,

@@ -77,6 +77,7 @@ The following attributes are exported:
 	* `id` - The OCID of the boot volume or boot volume backup.
 	* `type` - The type can be one of these values: `bootVolume`, `bootVolumeBackup`
 * `state` - The current state of a boot volume.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the boot volume was created. Format defined by RFC3339.
 * `volume_group_id` - The OCID of the source volume group.
 

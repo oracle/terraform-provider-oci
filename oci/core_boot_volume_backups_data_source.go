@@ -154,6 +154,10 @@ func (s *CoreBootVolumeBackupsDataSourceCrud) SetData() error {
 
 		bootVolumeBackup["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			bootVolumeBackup["system_tags"] = systemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			bootVolumeBackup["time_created"] = r.TimeCreated.String()
 		}
