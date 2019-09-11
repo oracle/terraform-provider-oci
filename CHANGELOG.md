@@ -1,4 +1,4 @@
-## 3.43.0 (Unreleased)
+## 3.43.0 (September 11, 2019)
 
 ### Added
 - Support for Granular security lists in Autonomous Database - Dedicated
