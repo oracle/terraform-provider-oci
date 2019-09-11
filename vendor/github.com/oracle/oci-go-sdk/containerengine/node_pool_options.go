@@ -20,7 +20,7 @@ type NodePoolOptions struct {
 	// Available Kubernetes versions.
 	KubernetesVersions []string `mandatory:"false" json:"kubernetesVersions"`
 
-	// Available Kubernetes versions.
+	// Available image names.
 	Images []string `mandatory:"false" json:"images"`
 
 	// Available shapes for nodes.

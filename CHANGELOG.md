@@ -1,4 +1,12 @@
-## 3.41.1 (Unreleased)
+## 3.43.0 (Unreleased)
+
+### Added
+- Support for Granular security lists in Autonomous Database - Dedicated
+- Support for regional subnet integration for Oracle Kubernetes Container engine
+- Support Kubernetes secret encryption for clusters using `kms_key_id`
+- Support for allowing user selected Autobackup start time window using `auto_backup_window` 
+- Support for system tags in core instances, block storage, load balancer and autonomous transaction processing
+
 ## 3.41.0 (September 04, 2019)
 
 ### Added

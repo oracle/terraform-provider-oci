@@ -553,6 +553,27 @@ func NewIsPrefixOfOldDiffSuppress(key string, old string, new string, d *schema.
 	return strings.HasPrefix(strings.ToLower(old), strings.ToLower(new))
 }
 
+func dbVersionDiffSuppress(key string, old string, new string, d *schema.ResourceData) bool {
+	if old == "" || new == "" {
+		return false
+	}
+	if new == "18.0.0.0" || new == "19.0.0.0" {
+		oldVersion := strings.Split(old, ".")
+		newVersion := strings.Split(new, ".")
+		oldVersionNumber, err := strconv.Atoi(oldVersion[0])
+		if err != nil {
+			return false
+		}
+		newVersionNumber, err := strconv.Atoi(newVersion[0])
+		if err != nil {
+			return false
+		}
+
+		return oldVersionNumber == newVersionNumber
+	}
+	return strings.HasPrefix(strings.ToLower(old), strings.ToLower(new))
+}
+
 func EqualIgnoreCaseSuppressDiff(key string, old string, new string, d *schema.ResourceData) bool {
 	return strings.EqualFold(old, new)
 }

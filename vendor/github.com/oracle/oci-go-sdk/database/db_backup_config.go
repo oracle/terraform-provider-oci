@@ -23,8 +23,55 @@ type DbBackupConfig struct {
 	// This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window.
 	// When the value is updated, it is applied to all existing automatic backups.
 	RecoveryWindowInDays *int `mandatory:"false" json:"recoveryWindowInDays"`
+
+	// Time window selected for initiating automatic backup for the database system. There are twelve available two-hour time windows. If no option is selected, a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).
+	// Example: `SLOT_TWO`
+	AutoBackupWindow DbBackupConfigAutoBackupWindowEnum `mandatory:"false" json:"autoBackupWindow,omitempty"`
 }
 
 func (m DbBackupConfig) String() string {
 	return common.PointerString(m)
+}
+
+// DbBackupConfigAutoBackupWindowEnum Enum with underlying type: string
+type DbBackupConfigAutoBackupWindowEnum string
+
+// Set of constants representing the allowable values for DbBackupConfigAutoBackupWindowEnum
+const (
+	DbBackupConfigAutoBackupWindowOne    DbBackupConfigAutoBackupWindowEnum = "SLOT_ONE"
+	DbBackupConfigAutoBackupWindowTwo    DbBackupConfigAutoBackupWindowEnum = "SLOT_TWO"
+	DbBackupConfigAutoBackupWindowThree  DbBackupConfigAutoBackupWindowEnum = "SLOT_THREE"
+	DbBackupConfigAutoBackupWindowFour   DbBackupConfigAutoBackupWindowEnum = "SLOT_FOUR"
+	DbBackupConfigAutoBackupWindowFive   DbBackupConfigAutoBackupWindowEnum = "SLOT_FIVE"
+	DbBackupConfigAutoBackupWindowSix    DbBackupConfigAutoBackupWindowEnum = "SLOT_SIX"
+	DbBackupConfigAutoBackupWindowSeven  DbBackupConfigAutoBackupWindowEnum = "SLOT_SEVEN"
+	DbBackupConfigAutoBackupWindowEight  DbBackupConfigAutoBackupWindowEnum = "SLOT_EIGHT"
+	DbBackupConfigAutoBackupWindowNine   DbBackupConfigAutoBackupWindowEnum = "SLOT_NINE"
+	DbBackupConfigAutoBackupWindowTen    DbBackupConfigAutoBackupWindowEnum = "SLOT_TEN"
+	DbBackupConfigAutoBackupWindowEleven DbBackupConfigAutoBackupWindowEnum = "SLOT_ELEVEN"
+	DbBackupConfigAutoBackupWindowTwelve DbBackupConfigAutoBackupWindowEnum = "SLOT_TWELVE"
+)
+
+var mappingDbBackupConfigAutoBackupWindow = map[string]DbBackupConfigAutoBackupWindowEnum{
+	"SLOT_ONE":    DbBackupConfigAutoBackupWindowOne,
+	"SLOT_TWO":    DbBackupConfigAutoBackupWindowTwo,
+	"SLOT_THREE":  DbBackupConfigAutoBackupWindowThree,
+	"SLOT_FOUR":   DbBackupConfigAutoBackupWindowFour,
+	"SLOT_FIVE":   DbBackupConfigAutoBackupWindowFive,
+	"SLOT_SIX":    DbBackupConfigAutoBackupWindowSix,
+	"SLOT_SEVEN":  DbBackupConfigAutoBackupWindowSeven,
+	"SLOT_EIGHT":  DbBackupConfigAutoBackupWindowEight,
+	"SLOT_NINE":   DbBackupConfigAutoBackupWindowNine,
+	"SLOT_TEN":    DbBackupConfigAutoBackupWindowTen,
+	"SLOT_ELEVEN": DbBackupConfigAutoBackupWindowEleven,
+	"SLOT_TWELVE": DbBackupConfigAutoBackupWindowTwelve,
+}
+
+// GetDbBackupConfigAutoBackupWindowEnumValues Enumerates the set of values for DbBackupConfigAutoBackupWindowEnum
+func GetDbBackupConfigAutoBackupWindowEnumValues() []DbBackupConfigAutoBackupWindowEnum {
+	values := make([]DbBackupConfigAutoBackupWindowEnum, 0)
+	for _, v := range mappingDbBackupConfigAutoBackupWindow {
+		values = append(values, v)
+	}
+	return values
 }

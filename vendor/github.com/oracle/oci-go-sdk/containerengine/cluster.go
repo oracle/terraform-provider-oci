@@ -32,6 +32,9 @@ type Cluster struct {
 	// The version of Kubernetes running on the cluster masters.
 	KubernetesVersion *string `mandatory:"false" json:"kubernetesVersion"`
 
+	// The OCID of the KMS key to be used as the master encryption key for Kubernetes secret encryption.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
 	// Optional attributes for the cluster.
 	Options *ClusterCreateOptions `mandatory:"false" json:"options"`
 

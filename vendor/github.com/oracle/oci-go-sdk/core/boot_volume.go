@@ -51,6 +51,10 @@ type BootVolume struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -88,6 +92,7 @@ func (m BootVolume) String() string {
 func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
 		DisplayName        *string                           `json:"displayName"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		ImageId            *string                           `json:"imageId"`
@@ -109,6 +114,7 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	m.DefinedTags = model.DefinedTags
+	m.SystemTags = model.SystemTags
 	m.DisplayName = model.DisplayName
 	m.FreeformTags = model.FreeformTags
 	m.ImageId = model.ImageId

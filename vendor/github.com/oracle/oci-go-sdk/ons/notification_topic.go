@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// NotificationTopic The properties that define a topic.
+// NotificationTopic The properties that define a topic. For general information about topics, see
+// Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
 type NotificationTopic struct {
 
 	// The name of the topic.

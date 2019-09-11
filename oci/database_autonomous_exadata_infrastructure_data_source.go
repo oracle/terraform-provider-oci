@@ -108,6 +108,8 @@ func (s *DatabaseAutonomousExadataInfrastructureDataSourceCrud) SetData() error 
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
 
+	s.D.Set("nsg_ids", s.Res.NsgIds)
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
