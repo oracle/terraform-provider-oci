@@ -35,9 +35,6 @@ type CreateNodePoolDetails struct {
 	// The name of the node shape of the nodes in the node pool.
 	NodeShape *string `mandatory:"true" json:"nodeShape"`
 
-	// The OCIDs of the subnets in which to place nodes for this node pool.
-	SubnetIds []string `mandatory:"true" json:"subnetIds"`
-
 	// A list of key/value pairs to add to each underlying OCI instance in the node pool.
 	NodeMetadata map[string]string `mandatory:"false" json:"nodeMetadata"`
 
@@ -47,8 +44,18 @@ type CreateNodePoolDetails struct {
 	// The SSH public key to add to each node in the node pool.
 	SshPublicKey *string `mandatory:"false" json:"sshPublicKey"`
 
-	// The number of nodes to create in each subnet.
+	// Optional, default to 1. The number of nodes to create in each subnet specified in subnetIds property.
+	// When used, subnetIds is required. This property is deprecated, use nodeConfigDetails instead.
 	QuantityPerSubnet *int `mandatory:"false" json:"quantityPerSubnet"`
+
+	// The OCIDs of the subnets in which to place nodes for this node pool. When used, quantityPerSubnet
+	// can be provided. This property is deprecated, use nodeConfigDetails. Exactly one of the
+	// subnetIds or nodeConfigDetails properties must be specified.
+	SubnetIds []string `mandatory:"false" json:"subnetIds"`
+
+	// The configuration of nodes in the node pool. Exactly one of the
+	// subnetIds or nodeConfigDetails properties must be specified.
+	NodeConfigDetails *CreateNodePoolNodeConfigDetails `mandatory:"false" json:"nodeConfigDetails"`
 }
 
 func (m CreateNodePoolDetails) String() string {

@@ -157,6 +157,10 @@ func (s *LoadBalancerLoadBalancersDataSourceCrud) SetData() error {
 
 		loadBalancer["subnet_ids"] = r.SubnetIds
 
+		if r.SystemTags != nil {
+			loadBalancer["system_tags"] = systemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			loadBalancer["time_created"] = r.TimeCreated.String()
 		}

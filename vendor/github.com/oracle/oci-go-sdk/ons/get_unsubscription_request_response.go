@@ -17,7 +17,9 @@ type GetUnsubscriptionRequest struct {
 	// The subscription confirmation token.
 	Token *string `mandatory:"true" contributesTo:"query" name:"token"`
 
-	// The subscription protocol. Valid values: EMAIL, HTTPS.
+	// The protocol used for the subscription.
+	// For information about subscription protocols, see
+	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#createSub).
 	Protocol *string `mandatory:"true" contributesTo:"query" name:"protocol"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

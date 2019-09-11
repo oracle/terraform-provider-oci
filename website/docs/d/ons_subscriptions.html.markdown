@@ -51,11 +51,11 @@ The following attributes are exported:
 	* `backoff_retry_policy` - 
 		* `max_retry_duration` - The maximum retry duration in milliseconds.
 		* `policy_type` - The type of delivery policy. Default value: EXPONENTIAL. 
-* `endpoint` - The endpoint of the subscription. Valid values depend on the protocol.  For EMAIL, only an email address is valid. For HTTPS, only a PagerDuty URL is valid. A URL cannot exceed 512 characters. Avoid entering confidential information. 
+* `endpoint` - A locator that corresponds to the subscription protocol.  For example, an email address for a subscription that uses the `EMAIL` protocol, or a URL for a subscription that uses an HTTP-based protocol. Avoid entering confidential information. 
 * `etag` - For optimistic concurrency control. See `if-match`. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription. 
-* `protocol` - The protocol used for the subscription. Valid values: EMAIL, HTTPS. 
+* `protocol` - The protocol used for the subscription.  For information about subscription protocols, see  [To create a subscription](https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#createSub). 
 * `state` - The lifecycle state of the subscription. The status of a new subscription is PENDING; when confirmed, the subscription status changes to ACTIVE. 
 * `topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the associated topic. 
 

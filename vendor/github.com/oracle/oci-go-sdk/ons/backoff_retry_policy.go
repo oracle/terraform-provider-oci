@@ -13,7 +13,8 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// BackoffRetryPolicy The backoff retry portion of the subscription delivery policy.
+// BackoffRetryPolicy The backoff retry portion of the subscription delivery policy. For information about retry durations for subscriptions, see
+// How Notifications Works (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#how).
 type BackoffRetryPolicy struct {
 
 	// The maximum retry duration in milliseconds. Default value is `7200000` (2 hours).

@@ -161,6 +161,8 @@ func (s *DatabaseAutonomousExadataInfrastructuresDataSourceCrud) SetData() error
 			autonomousExadataInfrastructure["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}
 
+		autonomousExadataInfrastructure["nsg_ids"] = r.NsgIds
+
 		if r.Shape != nil {
 			autonomousExadataInfrastructure["shape"] = *r.Shape
 		}

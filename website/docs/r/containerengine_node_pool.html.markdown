@@ -48,13 +48,20 @@ The following arguments are supported:
 	* `value` - (Optional) (Updatable) The value of the pair.
 * `kubernetes_version` - (Required) (Updatable) The version of Kubernetes to install on the nodes in the node pool.
 * `name` - (Required) (Updatable) The name of the node pool. Avoid entering confidential information.
+* `node_config_details` - (Optional) (Updatable) The configuration of nodes in the node pool. Exactly one of the subnetIds or nodeConfigDetails properties must be specified. 
+	* `placement_configs` - (Required) (Updatable) The placement configurations for the node pool. Provide one placement  configuration for each availability domain in which you intend to launch a node.
+
+		To use the node pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
+		* `availability_domain` - (Required) (Updatable) The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
+		* `subnet_id` - (Required) (Updatable) The OCID of the subnet in which to place nodes.
+	* `size` - (Required) (Updatable) The number of nodes that should be in the node pool. 
 * `node_image_id` - (Optional) The OCID of the image running on the nodes in the node pool. Cannot be used when `node_image_name` is specified.
 * `node_image_name` - (Optional) The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
 * `node_metadata` - (Optional) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool.
 * `node_shape` - (Required) The name of the node shape of the nodes in the node pool.
-* `quantity_per_subnet` - (Optional) (Updatable) The number of nodes to create in each subnet.
+* `quantity_per_subnet` - (Optional) (Updatable) Optional, default to 1. The number of nodes to create in each subnet specified in subnetIds property.  When used, subnetIds is required. This property is deprecated, use nodeConfigDetails instead. 
 * `ssh_public_key` - (Optional) The SSH public key to add to each node in the node pool.
-* `subnet_ids` - (Required) (Updatable) The OCIDs of the subnets in which to place nodes for this node pool.
+* `subnet_ids` - (Optional) (Updatable) The OCIDs of the subnets in which to place nodes for this node pool. When used, quantityPerSubnet can be provided. This property is deprecated, use nodeConfigDetails. Exactly one of the subnetIds or nodeConfigDetails properties must be specified. 
 
 
 ** IMPORTANT **
@@ -72,6 +79,13 @@ The following attributes are exported:
 	* `value` - The value of the pair.
 * `kubernetes_version` - The version of Kubernetes running on the nodes in the node pool.
 * `name` - The name of the node pool.
+* `node_config_details` - The configuration of nodes in the node pool.
+	* `placement_configs` - The placement configurations for the node pool. Provide one placement  configuration for each availability domain in which you intend to launch a node.
+
+		To use the node pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
+		* `availability_domain` - The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
+		* `subnet_id` - The OCID of the subnet in which to place nodes.
+	* `size` - The number of nodes in the node pool. 
 * `node_image_id` - The OCID of the image running on the nodes in the node pool.
 * `node_image_name` - The name of the image running on the nodes in the node pool.
 * `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool.
@@ -81,6 +95,7 @@ The following attributes are exported:
 	* `error` - An error that may be associated with the node.
 		* `code` - A short error code that defines the upstream error, meant for programmatic parsing. See [API Errors](https://docs.cloud.oracle.com/iaas/Content/API/References/apierrors.htm).
 		* `message` - A human-readable error string of the upstream error.
+		* `status` - The status of the HTTP response encountered in the upstream error.
 	* `id` - The OCID of the compute instance backing this node.
 	* `lifecycle_details` - Details about the state of the node.
 	* `name` - The name of the node.
