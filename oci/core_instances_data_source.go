@@ -192,6 +192,10 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 
 		instance["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			instance["system_tags"] = systemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			instance["time_created"] = r.TimeCreated.String()
 		}

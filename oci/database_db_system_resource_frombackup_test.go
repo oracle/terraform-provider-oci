@@ -53,6 +53,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 				pdb_name = "pdbName"
 				db_backup_config {
 					auto_backup_enabled = true
+					auto_backup_window = "SLOT_TWO"
 					recovery_window_in_days = 10
 				}
 			}

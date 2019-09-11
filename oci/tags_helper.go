@@ -85,3 +85,7 @@ func toLowerCaseKeyMap(original map[string]interface{}) map[string]interface{} {
 	}
 	return lowercaseKeyMap
 }
+
+func systemTagsToMap(systemTags map[string]map[string]interface{}) map[string]interface{} {
+	return definedTagsToMap(systemTags)
+}

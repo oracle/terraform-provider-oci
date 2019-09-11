@@ -114,7 +114,7 @@ func StringToRegion(stringRegion string) (r Region) {
 	switch strings.ToLower(stringRegion) {
 	case "sea":
 		r = RegionSEA
-	case "ca-toronto-1":
+	case "yyz", "ca-toronto-1":
 		r = RegionCAToronto1
 	case "phx", "us-phoenix-1":
 		r = RegionPHX
@@ -124,15 +124,15 @@ func StringToRegion(stringRegion string) (r Region) {
 		r = RegionFRA
 	case "lhr", "uk-london-1":
 		r = RegionLHR
-	case "ap-tokyo-1":
+	case "nrt", "ap-tokyo-1":
 		r = RegionAPTokyo1
-	case "ap-seoul-1":
+	case "icn", "ap-seoul-1":
 		r = RegionAPSeoul1
-	case "ap-mumbai-1":
+	case "bom", "ap-mumbai-1":
 		r = RegionAPMumbai1
-	case "eu-zurich-1":
+	case "zrh", "eu-zurich-1":
 		r = RegionEUZurich1
-	case "sa-saopaulo-1":
+	case "gru", "sa-saopaulo-1":
 		r = RegionSASaopaulo1
 	case "us-langley-1":
 		r = RegionUSLangley1

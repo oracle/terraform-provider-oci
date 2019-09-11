@@ -22,15 +22,21 @@ type CreateSubscriptionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for the subscription.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The protocol to use for delivering messages. Valid values: EMAIL, HTTPS.
+	// The protocol used for the subscription.
+	// For information about subscription protocols, see
+	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#createSub).
 	Protocol *string `mandatory:"true" json:"protocol"`
 
-	// The endpoint of the subscription. Valid values depend on the protocol.
-	// For EMAIL, only an email address is valid. For HTTPS, only a PagerDuty URL is valid. A URL cannot exceed 512 characters.
+	// A locator that corresponds to the subscription protocol.
+	// For example, an email address for a subscription that uses the `EMAIL` protocol, or a URL for a subscription that uses an HTTP-based protocol.
+	// HTTP-based protocols use URL endpoints that begin with "http:" or "https:".
+	// A URL cannot exceed 512 characters.
 	// Avoid entering confidential information.
+	// For protocol-specific endpoint formats and steps to get or create endpoints, see
+	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#createSub).
 	Endpoint *string `mandatory:"true" json:"endpoint"`
 
-	// Metadata for the subscription. Avoid entering confidential information.
+	// Metadata for the subscription.
 	Metadata *string `mandatory:"false" json:"metadata"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

@@ -118,6 +118,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("is_dedicated", *s.Res.IsDedicated)
 	}
 
+	if s.Res.IsFreeTier != nil {
+		s.D.Set("is_free_tier", *s.Res.IsFreeTier)
+	}
+
 	if s.Res.IsPreview != nil {
 		s.D.Set("is_preview", *s.Res.IsPreview)
 	}
@@ -134,8 +138,20 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeDeletionOfFreeAutonomousDatabase != nil {
+		s.D.Set("time_deletion_of_free_autonomous_database", *s.Res.TimeDeletionOfFreeAutonomousDatabase)
+	}
+
+	if s.Res.TimeReclamationOfFreeAutonomousDatabase != nil {
+		s.D.Set("time_reclamation_of_free_autonomous_database", *s.Res.TimeReclamationOfFreeAutonomousDatabase)
 	}
 
 	if s.Res.UsedDataStorageSizeInTBs != nil {

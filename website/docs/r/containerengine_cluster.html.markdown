@@ -22,6 +22,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 	vcn_id = "${oci_containerengine_vcn.test_vcn.id}"
 
 	#Optional
+	kms_key_id = "${oci_containerengine_kms_key.test_kms_key.id}"
 	options {
 
 		#Optional
@@ -47,6 +48,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment in which to create the cluster.
+* `kms_key_id` - (Optional) The OCID of the KMS key to be used as the master encryption key for Kubernetes secret encryption. When used, `kubernetesVersion` must be at least `v1.13.0`. 
 * `kubernetes_version` - (Required) (Updatable) The version of Kubernetes to install into the cluster masters.
 * `name` - (Required) (Updatable) The name of the cluster. Avoid entering confidential information.
 * `options` - (Optional) Optional attributes for the cluster.
@@ -72,6 +74,7 @@ The following attributes are exported:
 * `endpoints` - Endpoints served up by the cluster masters.
 	* `kubernetes` - The Kubernetes API server endpoint.
 * `id` - The OCID of the cluster.
+* `kms_key_id` - The OCID of the KMS key to be used as the master encryption key for Kubernetes secret encryption.
 * `kubernetes_version` - The version of Kubernetes running on the cluster masters.
 * `lifecycle_details` - Details about the state of the cluster masters.
 * `metadata` - Metadata about the cluster.

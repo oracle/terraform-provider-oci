@@ -30,6 +30,10 @@ func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_free_tier": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -81,6 +85,11 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
+		tmp := isFreeTier.(bool)
+		request.IsFreeTier = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -179,6 +188,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_dedicated"] = *r.IsDedicated
 		}
 
+		if r.IsFreeTier != nil {
+			autonomousDatabase["is_free_tier"] = *r.IsFreeTier
+		}
+
 		if r.IsPreview != nil {
 			autonomousDatabase["is_preview"] = *r.IsPreview
 		}
@@ -195,8 +208,20 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		autonomousDatabase["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			autonomousDatabase["system_tags"] = systemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			autonomousDatabase["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.TimeDeletionOfFreeAutonomousDatabase != nil {
+			autonomousDatabase["time_deletion_of_free_autonomous_database"] = *r.TimeDeletionOfFreeAutonomousDatabase
+		}
+
+		if r.TimeReclamationOfFreeAutonomousDatabase != nil {
+			autonomousDatabase["time_reclamation_of_free_autonomous_database"] = *r.TimeReclamationOfFreeAutonomousDatabase
 		}
 
 		if r.UsedDataStorageSizeInTBs != nil {

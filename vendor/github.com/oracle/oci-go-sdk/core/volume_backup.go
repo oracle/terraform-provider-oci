@@ -51,6 +51,10 @@ type VolumeBackup struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The date and time the volume backup will expire and be automatically deleted.
 	// Format defined by RFC3339. This parameter will always be present for backups that
 	// were created automatically by a scheduled-backup policy. For manually created backups,

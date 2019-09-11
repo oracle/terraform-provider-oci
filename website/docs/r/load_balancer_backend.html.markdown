@@ -34,7 +34,11 @@ resource "oci_load_balancer_backend" "test_backend" {
 The following arguments are supported:
 
 * `backendset_name` - (Required) The name of the backend set to add the backend server to.  Example: `example_backend_set` 
-* `backup` - (Optional) (Updatable) Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.  Example: `false` 
+* `backup` - (Optional) (Updatable) Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
+
+	**Note:** You cannot add a backend server marked as `backup` to a backend set that uses the IP Hash policy.
+
+	Example: `false` 
 * `drain` - (Optional) (Updatable) Whether the load balancer should drain this server. Servers marked "drain" receive no new incoming traffic.  Example: `false` 
 * `ip_address` - (Required) The IP address of the backend server.  Example: `10.0.0.3` 
 * `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer associated with the backend set and servers.
@@ -50,7 +54,11 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `backup` - Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.  Example: `false` 
+* `backup` - Whether the load balancer should treat this server as a backup unit. If `true`, the load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "backup" fail the health check policy.
+
+	**Note:** You cannot add a backend server marked as `backup` to a backend set that uses the IP Hash policy.
+
+	Example: `false` 
 * `drain` - Whether the load balancer should drain this server. Servers marked "drain" receive no new incoming traffic.  Example: `false` 
 * `ip_address` - The IP address of the backend server.  Example: `10.0.0.3` 
 * `name` - A read-only field showing the IP address and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080` 

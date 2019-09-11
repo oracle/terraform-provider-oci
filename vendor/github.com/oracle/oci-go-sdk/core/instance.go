@@ -127,6 +127,10 @@ type Instance struct {
 	// Details for creating an instance
 	SourceDetails InstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	AgentConfig *InstanceAgentConfig `mandatory:"false" json:"agentConfig"`
 
 	// The date and time the instance is expected to be stopped / started,  in the format defined by RFC3339.
@@ -155,6 +159,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		LaunchOptions            *LaunchOptions                    `json:"launchOptions"`
 		Metadata                 map[string]string                 `json:"metadata"`
 		SourceDetails            instancesourcedetails             `json:"sourceDetails"`
+		SystemTags               map[string]map[string]interface{} `json:"systemTags"`
 		AgentConfig              *InstanceAgentConfig              `json:"agentConfig"`
 		TimeMaintenanceRebootDue *common.SDKTime                   `json:"timeMaintenanceRebootDue"`
 		AvailabilityDomain       *string                           `json:"availabilityDomain"`
@@ -190,6 +195,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.SourceDetails = nil
 	}
+	m.SystemTags = model.SystemTags
 	m.AgentConfig = model.AgentConfig
 	m.TimeMaintenanceRebootDue = model.TimeMaintenanceRebootDue
 	m.AvailabilityDomain = model.AvailabilityDomain
