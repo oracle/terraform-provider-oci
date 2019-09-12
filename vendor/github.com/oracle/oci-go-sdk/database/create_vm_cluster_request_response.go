@@ -8,11 +8,11 @@ import (
 	"net/http"
 )
 
-// CreateDbHomeRequest wrapper for the CreateDbHome operation
-type CreateDbHomeRequest struct {
+// CreateVmClusterRequest wrapper for the CreateVmCluster operation
+type CreateVmClusterRequest struct {
 
-	// Request to create a new database home.
-	CreateDbHomeWithDbSystemIdDetails CreateDbHomeBase `contributesTo:"body"`
+	// Request to create a VM cluster.
+	CreateVmClusterDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -21,8 +21,7 @@ type CreateDbHomeRequest struct {
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Unique Oracle-assigned identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
+	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -30,28 +29,28 @@ type CreateDbHomeRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CreateDbHomeRequest) String() string {
+func (request CreateVmClusterRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreateDbHomeRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request CreateVmClusterRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDbHomeRequest) RetryPolicy() *common.RetryPolicy {
+func (request CreateVmClusterRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// CreateDbHomeResponse wrapper for the CreateDbHome operation
-type CreateDbHomeResponse struct {
+// CreateVmClusterResponse wrapper for the CreateVmCluster operation
+type CreateVmClusterResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The DbHome instance
-	DbHome `presentIn:"body"`
+	// The VmCluster instance
+	VmCluster `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
@@ -61,11 +60,11 @@ type CreateDbHomeResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response CreateDbHomeResponse) String() string {
+func (response CreateVmClusterResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CreateDbHomeResponse) HTTPResponse() *http.Response {
+func (response CreateVmClusterResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
