@@ -8,11 +8,17 @@ import (
 	"net/http"
 )
 
-// CreateDbHomeRequest wrapper for the CreateDbHome operation
-type CreateDbHomeRequest struct {
+// ActivateExadataInfrastructureRequest wrapper for the ActivateExadataInfrastructure operation
+type ActivateExadataInfrastructureRequest struct {
 
-	// Request to create a new database home.
-	CreateDbHomeWithDbSystemIdDetails CreateDbHomeBase `contributesTo:"body"`
+	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	ExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"exadataInfrastructureId"`
+
+	// The activation details for the Exadata infrastructure.
+	ActivateExadataInfrastructureDetails `contributesTo:"body"`
+
+	// Unique identifier for the request.
+	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
@@ -21,37 +27,33 @@ type CreateDbHomeRequest struct {
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Unique Oracle-assigned identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
-	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CreateDbHomeRequest) String() string {
+func (request ActivateExadataInfrastructureRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreateDbHomeRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ActivateExadataInfrastructureRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDbHomeRequest) RetryPolicy() *common.RetryPolicy {
+func (request ActivateExadataInfrastructureRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// CreateDbHomeResponse wrapper for the CreateDbHome operation
-type CreateDbHomeResponse struct {
+// ActivateExadataInfrastructureResponse wrapper for the ActivateExadataInfrastructure operation
+type ActivateExadataInfrastructureResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The DbHome instance
-	DbHome `presentIn:"body"`
+	// The ExadataInfrastructure instance
+	ExadataInfrastructure `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
@@ -61,11 +63,11 @@ type CreateDbHomeResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response CreateDbHomeResponse) String() string {
+func (response ActivateExadataInfrastructureResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CreateDbHomeResponse) HTTPResponse() *http.Response {
+func (response ActivateExadataInfrastructureResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

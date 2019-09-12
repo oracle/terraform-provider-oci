@@ -36,6 +36,9 @@ type DbHome struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB system.
 	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster.
+	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
+
 	// The date and time the database home was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }

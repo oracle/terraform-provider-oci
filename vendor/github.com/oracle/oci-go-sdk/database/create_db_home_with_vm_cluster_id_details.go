@@ -13,11 +13,11 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateDbHomeWithDbSystemIdDetails Note that a valid `dbSystemId` value must be supplied for the `CreateDbHomeWithDbSystemId` API operation to successfully complete.
-type CreateDbHomeWithDbSystemIdDetails struct {
+// CreateDbHomeWithVmClusterIdDetails Note that a valid `vmClusterId` value must be supplied for the `CreateDbHomeWithVmClusterId` API operation to successfully complete.
+type CreateDbHomeWithVmClusterIdDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DB system.
-	DbSystemId *string `mandatory:"true" json:"dbSystemId"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster.
+	VmClusterId *string `mandatory:"true" json:"vmClusterId"`
 
 	// A valid Oracle Database version. To get a list of supported versions, use the ListDbVersions operation.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
@@ -29,23 +29,23 @@ type CreateDbHomeWithDbSystemIdDetails struct {
 }
 
 //GetDisplayName returns DisplayName
-func (m CreateDbHomeWithDbSystemIdDetails) GetDisplayName() *string {
+func (m CreateDbHomeWithVmClusterIdDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-func (m CreateDbHomeWithDbSystemIdDetails) String() string {
+func (m CreateDbHomeWithVmClusterIdDetails) String() string {
 	return common.PointerString(m)
 }
 
 // MarshalJSON marshals to json representation
-func (m CreateDbHomeWithDbSystemIdDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCreateDbHomeWithDbSystemIdDetails CreateDbHomeWithDbSystemIdDetails
+func (m CreateDbHomeWithVmClusterIdDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateDbHomeWithVmClusterIdDetails CreateDbHomeWithVmClusterIdDetails
 	s := struct {
 		DiscriminatorParam string `json:"source"`
-		MarshalTypeCreateDbHomeWithDbSystemIdDetails
+		MarshalTypeCreateDbHomeWithVmClusterIdDetails
 	}{
-		"NONE",
-		(MarshalTypeCreateDbHomeWithDbSystemIdDetails)(m),
+		"VM_CLUSTER_NEW",
+		(MarshalTypeCreateDbHomeWithVmClusterIdDetails)(m),
 	}
 
 	return json.Marshal(&s)
