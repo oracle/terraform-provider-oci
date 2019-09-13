@@ -405,7 +405,9 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.NsgIds = tmp
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {
@@ -627,7 +629,6 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 		}
 	}
 
-	result.DaysOfWeek = []oci_database.DayOfWeek{}
 	if daysOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "days_of_week")); ok {
 		interfaces := daysOfWeek.([]interface{})
 		tmp := make([]oci_database.DayOfWeek, len(interfaces))
@@ -640,10 +641,11 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 			}
 			tmp[i] = converted
 		}
-		result.DaysOfWeek = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "days_of_week")) {
+			result.DaysOfWeek = tmp
+		}
 	}
 
-	result.HoursOfDay = []int{}
 	if hoursOfDay, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hours_of_day")); ok {
 		interfaces := hoursOfDay.([]interface{})
 		tmp := make([]int, len(interfaces))
@@ -652,10 +654,11 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 				tmp[i] = interfaces[i].(int)
 			}
 		}
-		result.HoursOfDay = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "hours_of_day")) {
+			result.HoursOfDay = tmp
+		}
 	}
 
-	result.Months = []oci_database.Month{}
 	if months, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "months")); ok {
 		interfaces := months.([]interface{})
 		tmp := make([]oci_database.Month, len(interfaces))
@@ -668,10 +671,11 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 			}
 			tmp[i] = converted
 		}
-		result.Months = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "months")) {
+			result.Months = tmp
+		}
 	}
 
-	result.WeeksOfMonth = []int{}
 	if weeksOfMonth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")); ok {
 		interfaces := weeksOfMonth.([]interface{})
 		tmp := make([]int, len(interfaces))
@@ -680,7 +684,9 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 				tmp[i] = interfaces[i].(int)
 			}
 		}
-		result.WeeksOfMonth = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")) {
+			result.WeeksOfMonth = tmp
+		}
 	}
 
 	return result, nil

@@ -267,7 +267,9 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.DnsServer = tmp
+		if len(tmp) != 0 || s.D.HasChange("dns_server") {
+			request.DnsServer = tmp
+		}
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -298,7 +300,9 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.NtpServer = tmp
+		if len(tmp) != 0 || s.D.HasChange("ntp_server") {
+			request.NtpServer = tmp
+		}
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {

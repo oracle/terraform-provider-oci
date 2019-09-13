@@ -439,7 +439,9 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.WhitelistedIps = tmp
+		if len(tmp) != 0 || s.D.HasChange("whitelisted_ips") {
+			request.WhitelistedIps = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")

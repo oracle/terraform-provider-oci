@@ -266,7 +266,6 @@ func (s *CoreSubnetResourceCrud) Create() error {
 		request.RouteTableId = &tmp
 	}
 
-	request.SecurityListIds = []string{}
 	if securityListIds, ok := s.D.GetOkExists("security_list_ids"); ok {
 		set := securityListIds.(*schema.Set)
 		interfaces := set.List()
@@ -276,7 +275,9 @@ func (s *CoreSubnetResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.SecurityListIds = tmp
+		if len(tmp) != 0 || s.D.HasChange("security_list_ids") {
+			request.SecurityListIds = tmp
+		}
 	}
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
@@ -351,7 +352,6 @@ func (s *CoreSubnetResourceCrud) Update() error {
 		request.RouteTableId = &tmp
 	}
 
-	request.SecurityListIds = []string{}
 	if securityListIds, ok := s.D.GetOkExists("security_list_ids"); ok {
 		set := securityListIds.(*schema.Set)
 		interfaces := set.List()
@@ -361,7 +361,9 @@ func (s *CoreSubnetResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.SecurityListIds = tmp
+		if len(tmp) != 0 || s.D.HasChange("security_list_ids") {
+			request.SecurityListIds = tmp
+		}
 	}
 
 	tmp := s.D.Id()

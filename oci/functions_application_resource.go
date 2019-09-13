@@ -175,7 +175,6 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.SubnetIds = []string{}
 	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok {
 		interfaces := subnetIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -184,7 +183,9 @@ func (s *FunctionsApplicationResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.SubnetIds = tmp
+		if len(tmp) != 0 || s.D.HasChange("subnet_ids") {
+			request.SubnetIds = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "functions")

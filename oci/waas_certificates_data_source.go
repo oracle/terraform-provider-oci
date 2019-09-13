@@ -84,7 +84,6 @@ func (s *WaasCertificatesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.DisplayName = []string{}
 	if displayNames, ok := s.D.GetOkExists("display_names"); ok {
 		interfaces := displayNames.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -93,10 +92,11 @@ func (s *WaasCertificatesDataSourceCrud) Get() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.DisplayName = tmp
+		if len(tmp) != 0 || s.D.HasChange("display_names") {
+			request.DisplayName = tmp
+		}
 	}
 
-	request.Id = []string{}
 	if ids, ok := s.D.GetOkExists("ids"); ok {
 		interfaces := ids.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -105,10 +105,11 @@ func (s *WaasCertificatesDataSourceCrud) Get() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Id = tmp
+		if len(tmp) != 0 || s.D.HasChange("ids") {
+			request.Id = tmp
+		}
 	}
 
-	request.LifecycleState = []oci_waas.ListCertificatesLifecycleStateEnum{}
 	if states, ok := s.D.GetOkExists("states"); ok {
 		interfaces := states.([]interface{})
 		tmp := make([]oci_waas.ListCertificatesLifecycleStateEnum, len(interfaces))
@@ -117,7 +118,9 @@ func (s *WaasCertificatesDataSourceCrud) Get() error {
 				tmp[i] = oci_waas.ListCertificatesLifecycleStateEnum(interfaces[i].(string))
 			}
 		}
-		request.LifecycleState = tmp
+		if len(tmp) != 0 || s.D.HasChange("states") {
+			request.LifecycleState = tmp
+		}
 	}
 
 	if timeCreatedGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_created_greater_than_or_equal_to"); ok {

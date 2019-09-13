@@ -156,7 +156,6 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 		request.Protocol = oci_health_checks.CreateOnDemandHttpProbeDetailsProtocolEnum(protocol.(string))
 	}
 
-	request.Targets = []string{}
 	if targets, ok := s.D.GetOkExists("targets"); ok {
 		interfaces := targets.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -165,7 +164,9 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Targets = tmp
+		if len(tmp) != 0 || s.D.HasChange("targets") {
+			request.Targets = tmp
+		}
 	}
 
 	if timeoutInSeconds, ok := s.D.GetOkExists("timeout_in_seconds"); ok {
@@ -182,7 +183,9 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.VantagePointNames = tmp
+		if len(tmp) != 0 || s.D.HasChange("vantage_point_names") {
+			request.VantagePointNames = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")

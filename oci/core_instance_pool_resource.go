@@ -297,7 +297,6 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 		request.InstanceConfigurationId = &tmp
 	}
 
-	request.LoadBalancers = []oci_core.AttachLoadBalancerDetails{}
 	if loadBalancers, ok := s.D.GetOkExists("load_balancers"); ok {
 		interfaces := loadBalancers.([]interface{})
 		tmp := make([]oci_core.AttachLoadBalancerDetails, len(interfaces))
@@ -310,10 +309,11 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.LoadBalancers = tmp
+		if len(tmp) != 0 || s.D.HasChange("load_balancers") {
+			request.LoadBalancers = tmp
+		}
 	}
 
-	request.PlacementConfigurations = []oci_core.CreateInstancePoolPlacementConfigurationDetails{}
 	if placementConfigurations, ok := s.D.GetOkExists("placement_configurations"); ok {
 		interfaces := placementConfigurations.([]interface{})
 		tmp := make([]oci_core.CreateInstancePoolPlacementConfigurationDetails, len(interfaces))
@@ -326,7 +326,9 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.PlacementConfigurations = tmp
+		if len(tmp) != 0 || s.D.HasChange("placement_configurations") {
+			request.PlacementConfigurations = tmp
+		}
 	}
 
 	if size, ok := s.D.GetOkExists("size"); ok {
@@ -434,7 +436,6 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.InstancePoolId = &tmp
 
-	request.PlacementConfigurations = []oci_core.UpdateInstancePoolPlacementConfigurationDetails{}
 	if placementConfigurations, ok := s.D.GetOkExists("placement_configurations"); ok {
 		interfaces := placementConfigurations.([]interface{})
 		tmp := make([]oci_core.UpdateInstancePoolPlacementConfigurationDetails, len(interfaces))
@@ -447,7 +448,9 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 			}
 			tmp[i] = converted
 		}
-		request.PlacementConfigurations = tmp
+		if len(tmp) != 0 || s.D.HasChange("placement_configurations") {
+			request.PlacementConfigurations = tmp
+		}
 	}
 
 	if size, ok := s.D.GetOkExists("size"); ok {
@@ -618,7 +621,6 @@ func (s *CoreInstancePoolResourceCrud) mapToCreateInstancePoolPlacementConfigura
 		result.PrimarySubnetId = &tmp
 	}
 
-	result.SecondaryVnicSubnets = []oci_core.InstancePoolPlacementSecondaryVnicSubnet{}
 	if secondaryVnicSubnets, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secondary_vnic_subnets")); ok {
 		interfaces := secondaryVnicSubnets.([]interface{})
 		tmp := make([]oci_core.InstancePoolPlacementSecondaryVnicSubnet, len(interfaces))
@@ -631,7 +633,9 @@ func (s *CoreInstancePoolResourceCrud) mapToCreateInstancePoolPlacementConfigura
 			}
 			tmp[i] = converted
 		}
-		result.SecondaryVnicSubnets = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "secondary_vnic_subnets")) {
+			result.SecondaryVnicSubnets = tmp
+		}
 	}
 
 	return result, nil
