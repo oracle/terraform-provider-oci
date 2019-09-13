@@ -805,7 +805,9 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.BackupNetworkNsgIds = tmp
+		if len(tmp) != 0 || s.D.HasChange("backup_network_nsg_ids") {
+			request.BackupNetworkNsgIds = tmp
+		}
 	}
 
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
@@ -843,10 +845,11 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.NsgIds = tmp
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
 	}
 
-	request.SshPublicKeys = []string{}
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 		interfaces := sshPublicKeys.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -855,7 +858,9 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.SshPublicKeys = tmp
+		if len(tmp) != 0 || s.D.HasChange("ssh_public_keys") {
+			request.SshPublicKeys = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -988,14 +993,11 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
-	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be set in state as the feature may or may not be supported
-	if s.Res.BackupNetworkNsgIds != nil {
-		backupNetworkNsgIds := []interface{}{}
-		for _, item := range s.Res.BackupNetworkNsgIds {
-			backupNetworkNsgIds = append(backupNetworkNsgIds, item)
-		}
-		s.D.Set("backup_network_nsg_ids", schema.NewSet(literalTypeHashCodeForSets, backupNetworkNsgIds))
+	backupNetworkNsgIds := []interface{}{}
+	for _, item := range s.Res.BackupNetworkNsgIds {
+		backupNetworkNsgIds = append(backupNetworkNsgIds, item)
 	}
+	s.D.Set("backup_network_nsg_ids", schema.NewSet(literalTypeHashCodeForSets, backupNetworkNsgIds))
 
 	if s.Res.BackupSubnetId != nil {
 		s.D.Set("backup_subnet_id", *s.Res.BackupSubnetId)
@@ -1069,14 +1071,11 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("node_count", *s.Res.NodeCount)
 	}
 
-	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be set in state as the feature may or may not be supported
-	if s.Res.NsgIds != nil {
-		nsgIds := []interface{}{}
-		for _, item := range s.Res.NsgIds {
-			nsgIds = append(nsgIds, item)
-		}
-		s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+	nsgIds := []interface{}{}
+	for _, item := range s.Res.NsgIds {
+		nsgIds = append(nsgIds, item)
 	}
+	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
 
 	if s.Res.RecoStorageSizeInGB != nil {
 		s.D.Set("reco_storage_size_in_gb", *s.Res.RecoStorageSizeInGB)
@@ -1672,7 +1671,9 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.BackupNetworkNsgIds = tmp
+			if len(tmp) != 0 || s.D.HasChange("backup_network_nsg_ids") {
+				details.BackupNetworkNsgIds = tmp
+			}
 		}
 		if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
 			tmp := backupSubnetId.(string)
@@ -1723,7 +1724,6 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := domain.(string)
 			details.Domain = &tmp
 		}
-		details.FaultDomains = []string{}
 		if faultDomains, ok := s.D.GetOkExists("fault_domains"); ok {
 			interfaces := faultDomains.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -1732,7 +1732,9 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.FaultDomains = tmp
+			if len(tmp) != 0 || s.D.HasChange("fault_domains") {
+				details.FaultDomains = tmp
+			}
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
@@ -1756,7 +1758,9 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.NsgIds = tmp
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
@@ -1766,7 +1770,6 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := sparseDiskgroup.(bool)
 			details.SparseDiskgroup = &tmp
 		}
-		details.SshPublicKeys = []string{}
 		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 			interfaces := sshPublicKeys.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -1775,7 +1778,9 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.SshPublicKeys = tmp
+			if len(tmp) != 0 || s.D.HasChange("ssh_public_keys") {
+				details.SshPublicKeys = tmp
+			}
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -1821,7 +1826,9 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.BackupNetworkNsgIds = tmp
+			if len(tmp) != 0 || s.D.HasChange("backup_network_nsg_ids") {
+				details.BackupNetworkNsgIds = tmp
+			}
 		}
 		if backupSubnetId, ok := s.D.GetOkExists("backup_subnet_id"); ok {
 			tmp := backupSubnetId.(string)
@@ -1872,7 +1879,6 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := domain.(string)
 			details.Domain = &tmp
 		}
-		details.FaultDomains = []string{}
 		if faultDomains, ok := s.D.GetOkExists("fault_domains"); ok {
 			interfaces := faultDomains.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -1881,7 +1887,9 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.FaultDomains = tmp
+			if len(tmp) != 0 || s.D.HasChange("fault_domains") {
+				details.FaultDomains = tmp
+			}
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
@@ -1894,7 +1902,6 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := nodeCount.(int)
 			details.NodeCount = &tmp
 		}
-		// @Codegen: BackUpNsgIds is applicable only for exadata systems. If not specified, we don't set this field in request
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -1904,7 +1911,9 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.NsgIds = tmp
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
@@ -1914,7 +1923,6 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := sparseDiskgroup.(bool)
 			details.SparseDiskgroup = &tmp
 		}
-		details.SshPublicKeys = []string{}
 		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 			interfaces := sshPublicKeys.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -1923,7 +1931,9 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.SshPublicKeys = tmp
+			if len(tmp) != 0 || s.D.HasChange("ssh_public_keys") {
+				details.SshPublicKeys = tmp
+			}
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)

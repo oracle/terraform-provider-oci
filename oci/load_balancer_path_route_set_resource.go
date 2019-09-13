@@ -183,7 +183,6 @@ func (s *LoadBalancerPathRouteSetResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.PathRoutes = []oci_load_balancer.PathRoute{}
 	if pathRoutes, ok := s.D.GetOkExists("path_routes"); ok {
 		interfaces := pathRoutes.([]interface{})
 		tmp := make([]oci_load_balancer.PathRoute, len(interfaces))
@@ -196,7 +195,9 @@ func (s *LoadBalancerPathRouteSetResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.PathRoutes = tmp
+		if len(tmp) != 0 || s.D.HasChange("path_routes") {
+			request.PathRoutes = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
@@ -276,7 +277,6 @@ func (s *LoadBalancerPathRouteSetResourceCrud) Update() error {
 		request.PathRouteSetName = &tmp
 	}
 
-	request.PathRoutes = []oci_load_balancer.PathRoute{}
 	if pathRoutes, ok := s.D.GetOkExists("path_routes"); ok {
 		interfaces := pathRoutes.([]interface{})
 		tmp := make([]oci_load_balancer.PathRoute, len(interfaces))
@@ -289,7 +289,9 @@ func (s *LoadBalancerPathRouteSetResourceCrud) Update() error {
 			}
 			tmp[i] = converted
 		}
-		request.PathRoutes = tmp
+		if len(tmp) != 0 || s.D.HasChange("path_routes") {
+			request.PathRoutes = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")

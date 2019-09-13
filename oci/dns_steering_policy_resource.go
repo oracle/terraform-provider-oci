@@ -327,7 +327,6 @@ func (s *DnsSteeringPolicyResourceCrud) DeletedTarget() []string {
 func (s *DnsSteeringPolicyResourceCrud) Create() error {
 	request := oci_dns.CreateSteeringPolicyRequest{}
 
-	request.Answers = []oci_dns.SteeringPolicyAnswer{}
 	if answers, ok := s.D.GetOkExists("answers"); ok {
 		interfaces := answers.([]interface{})
 		tmp := make([]oci_dns.SteeringPolicyAnswer, len(interfaces))
@@ -340,7 +339,9 @@ func (s *DnsSteeringPolicyResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.Answers = tmp
+		if len(tmp) != 0 || s.D.HasChange("answers") {
+			request.Answers = tmp
+		}
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -370,7 +371,6 @@ func (s *DnsSteeringPolicyResourceCrud) Create() error {
 		request.HealthCheckMonitorId = &tmp
 	}
 
-	request.Rules = []oci_dns.SteeringPolicyRule{}
 	if rules, ok := s.D.GetOkExists("rules"); ok {
 		interfaces := rules.([]interface{})
 		tmp := make([]oci_dns.SteeringPolicyRule, len(interfaces))
@@ -383,7 +383,9 @@ func (s *DnsSteeringPolicyResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.Rules = tmp
+		if len(tmp) != 0 || s.D.HasChange("rules") {
+			request.Rules = tmp
+		}
 	}
 
 	if template, ok := s.D.GetOkExists("template"); ok {
@@ -632,7 +634,6 @@ func SteeringPolicyFilterAnswerDataToMap(obj oci_dns.SteeringPolicyFilterAnswerD
 func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyFilterRuleCase(fieldKeyFormat string) (oci_dns.SteeringPolicyFilterRuleCase, error) {
 	result := oci_dns.SteeringPolicyFilterRuleCase{}
 
-	result.AnswerData = []oci_dns.SteeringPolicyFilterAnswerData{}
 	if answerData, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "answer_data")); ok {
 		interfaces := answerData.([]interface{})
 		tmp := make([]oci_dns.SteeringPolicyFilterAnswerData, len(interfaces))
@@ -645,7 +646,9 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyFilterRuleCase(fieldK
 			}
 			tmp[i] = converted
 		}
-		result.AnswerData = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "answer_data")) {
+			result.AnswerData = tmp
+		}
 	}
 
 	if caseCondition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "case_condition")); ok {
@@ -756,7 +759,6 @@ func SteeringPolicyPriorityAnswerDataToMap(obj oci_dns.SteeringPolicyPriorityAns
 func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyPriorityRuleCase(fieldKeyFormat string) (oci_dns.SteeringPolicyPriorityRuleCase, error) {
 	result := oci_dns.SteeringPolicyPriorityRuleCase{}
 
-	result.AnswerData = []oci_dns.SteeringPolicyPriorityAnswerData{}
 	if answerData, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "answer_data")); ok {
 		interfaces := answerData.([]interface{})
 		tmp := make([]oci_dns.SteeringPolicyPriorityAnswerData, len(interfaces))
@@ -769,7 +771,9 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyPriorityRuleCase(fiel
 			}
 			tmp[i] = converted
 		}
-		result.AnswerData = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "answer_data")) {
+			result.AnswerData = tmp
+		}
 	}
 
 	if caseCondition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "case_condition")); ok {
@@ -821,7 +825,9 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 				}
 				tmp[i] = converted
 			}
-			details.Cases = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cases")) {
+				details.Cases = tmp
+			}
 		}
 		if defaultAnswerData, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "default_answer_data")); ok {
 			interfaces := defaultAnswerData.([]interface{})
@@ -835,7 +841,9 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 				}
 				tmp[i] = converted
 			}
-			details.DefaultAnswerData = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "default_answer_data")) {
+				details.DefaultAnswerData = tmp
+			}
 		}
 		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
 			tmp := description.(string)
@@ -856,7 +864,9 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 				}
 				tmp[i] = converted
 			}
-			details.Cases = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cases")) {
+				details.Cases = tmp
+			}
 		}
 		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
 			tmp := description.(string)
@@ -877,7 +887,9 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 				}
 				tmp[i] = converted
 			}
-			details.Cases = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cases")) {
+				details.Cases = tmp
+			}
 		}
 		if defaultCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "default_count")); ok {
 			tmp := defaultCount.(int)
@@ -902,7 +914,9 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 				}
 				tmp[i] = converted
 			}
-			details.Cases = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cases")) {
+				details.Cases = tmp
+			}
 		}
 		if defaultAnswerData, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "default_answer_data")); ok {
 			interfaces := defaultAnswerData.([]interface{})
@@ -916,7 +930,9 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 				}
 				tmp[i] = converted
 			}
-			details.DefaultAnswerData = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "default_answer_data")) {
+				details.DefaultAnswerData = tmp
+			}
 		}
 		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
 			tmp := description.(string)
@@ -937,7 +953,9 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 				}
 				tmp[i] = converted
 			}
-			details.Cases = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cases")) {
+				details.Cases = tmp
+			}
 		}
 		if defaultAnswerData, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "default_answer_data")); ok {
 			interfaces := defaultAnswerData.([]interface{})
@@ -951,7 +969,9 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyRule(fieldKeyFormat s
 				}
 				tmp[i] = converted
 			}
-			details.DefaultAnswerData = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "default_answer_data")) {
+				details.DefaultAnswerData = tmp
+			}
 		}
 		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
 			tmp := description.(string)
@@ -1090,7 +1110,6 @@ func SteeringPolicyWeightedAnswerDataToMap(obj oci_dns.SteeringPolicyWeightedAns
 func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyWeightedRuleCase(fieldKeyFormat string) (oci_dns.SteeringPolicyWeightedRuleCase, error) {
 	result := oci_dns.SteeringPolicyWeightedRuleCase{}
 
-	result.AnswerData = []oci_dns.SteeringPolicyWeightedAnswerData{}
 	if answerData, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "answer_data")); ok {
 		interfaces := answerData.([]interface{})
 		tmp := make([]oci_dns.SteeringPolicyWeightedAnswerData, len(interfaces))
@@ -1103,7 +1122,9 @@ func (s *DnsSteeringPolicyResourceCrud) mapToSteeringPolicyWeightedRuleCase(fiel
 			}
 			tmp[i] = converted
 		}
-		result.AnswerData = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "answer_data")) {
+			result.AnswerData = tmp
+		}
 	}
 
 	if caseCondition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "case_condition")); ok {

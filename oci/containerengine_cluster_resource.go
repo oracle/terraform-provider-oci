@@ -673,7 +673,9 @@ func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyF
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		result.ServiceLbSubnetIds = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "service_lb_subnet_ids")) {
+			result.ServiceLbSubnetIds = tmp
+		}
 	}
 
 	return result, nil

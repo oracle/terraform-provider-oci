@@ -244,7 +244,6 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 		request.IsPrivate = &tmp
 	}
 
-	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be supplied as the feature may or may not be supported
 	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
 		set := networkSecurityGroupIds.(*schema.Set)
 		interfaces := set.List()
@@ -254,7 +253,9 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.NetworkSecurityGroupIds = tmp
+		if len(tmp) != 0 || s.D.HasChange("network_security_group_ids") {
+			request.NetworkSecurityGroupIds = tmp
+		}
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {
@@ -262,7 +263,6 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 		request.ShapeName = &tmp
 	}
 
-	request.SubnetIds = []string{}
 	if subnetIds, ok := s.D.GetOkExists("subnet_ids"); ok {
 		interfaces := subnetIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -271,7 +271,9 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.SubnetIds = tmp
+		if len(tmp) != 0 || s.D.HasChange("subnet_ids") {
+			request.SubnetIds = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
@@ -454,14 +456,11 @@ func (s *LoadBalancerLoadBalancerResourceCrud) SetData() error {
 		s.D.Set("is_private", *s.Res.IsPrivate)
 	}
 
-	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be set in state as the feature may or may not be supported
-	if s.Res.NetworkSecurityGroupIds != nil {
-		networkSecurityGroupIds := []interface{}{}
-		for _, item := range s.Res.NetworkSecurityGroupIds {
-			networkSecurityGroupIds = append(networkSecurityGroupIds, item)
-		}
-		s.D.Set("network_security_group_ids", schema.NewSet(literalTypeHashCodeForSets, networkSecurityGroupIds))
+	networkSecurityGroupIds := []interface{}{}
+	for _, item := range s.Res.NetworkSecurityGroupIds {
+		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
 	}
+	s.D.Set("network_security_group_ids", schema.NewSet(literalTypeHashCodeForSets, networkSecurityGroupIds))
 
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape", *s.Res.ShapeName)

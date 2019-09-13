@@ -74,7 +74,6 @@ func (s *WaasPurgeCacheResourceCrud) ID() string {
 func (s *WaasPurgeCacheResourceCrud) Create() error {
 	request := oci_waas.PurgeCacheRequest{}
 
-	request.Resources = []string{}
 	if resources, ok := s.D.GetOkExists("resources"); ok {
 		interfaces := resources.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -83,7 +82,9 @@ func (s *WaasPurgeCacheResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Resources = tmp
+		if len(tmp) != 0 || s.D.HasChange("resources") {
+			request.Resources = tmp
+		}
 	}
 
 	if waasPolicyId, ok := s.D.GetOkExists("waas_policy_id"); ok {

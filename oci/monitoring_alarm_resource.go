@@ -241,7 +241,6 @@ func (s *MonitoringAlarmResourceCrud) Create() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	request.Destinations = []string{}
 	if destinations, ok := s.D.GetOkExists("destinations"); ok {
 		interfaces := destinations.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -250,7 +249,9 @@ func (s *MonitoringAlarmResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Destinations = tmp
+		if len(tmp) != 0 || s.D.HasChange("destinations") {
+			request.Destinations = tmp
+		}
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -383,7 +384,6 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	request.Destinations = []string{}
 	if destinations, ok := s.D.GetOkExists("destinations"); ok {
 		interfaces := destinations.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -392,7 +392,9 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Destinations = tmp
+		if len(tmp) != 0 || s.D.HasChange("destinations") {
+			request.Destinations = tmp
+		}
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {

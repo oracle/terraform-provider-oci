@@ -307,7 +307,6 @@ func (s *CoreVolumeGroupResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.VolumeGroupId = &tmp
 
-	request.VolumeIds = []string{}
 	if volumeIds, ok := s.D.GetOkExists("volume_ids"); ok {
 		interfaces := volumeIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -316,7 +315,9 @@ func (s *CoreVolumeGroupResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.VolumeIds = tmp
+		if len(tmp) != 0 || s.D.HasChange("volume_ids") {
+			request.VolumeIds = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -421,7 +422,6 @@ func (s *CoreVolumeGroupResourceCrud) mapToVolumeGroupSourceDetails(fieldKeyForm
 		baseObject = details
 	case strings.ToLower("volumeIds"):
 		details := oci_core.VolumeGroupSourceFromVolumesDetails{}
-		details.VolumeIds = []string{}
 		if volumeIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_ids")); ok {
 			set := volumeIds.(*schema.Set)
 			interfaces := set.List()
@@ -431,7 +431,9 @@ func (s *CoreVolumeGroupResourceCrud) mapToVolumeGroupSourceDetails(fieldKeyForm
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.VolumeIds = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "volume_ids")) {
+				details.VolumeIds = tmp
+			}
 		}
 		baseObject = details
 	default:

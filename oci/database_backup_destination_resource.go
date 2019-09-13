@@ -387,7 +387,6 @@ func (s *DatabaseBackupDestinationResourceCrud) populateTopLevelPolymorphicCreat
 			tmp := connectionString.(string)
 			details.ConnectionString = &tmp
 		}
-		details.VpcUsers = []string{}
 		if vpcUsers, ok := s.D.GetOkExists("vpc_users"); ok {
 			interfaces := vpcUsers.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -396,7 +395,9 @@ func (s *DatabaseBackupDestinationResourceCrud) populateTopLevelPolymorphicCreat
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.VpcUsers = tmp
+			if len(tmp) != 0 || s.D.HasChange("vpc_users") {
+				details.VpcUsers = tmp
+			}
 		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
