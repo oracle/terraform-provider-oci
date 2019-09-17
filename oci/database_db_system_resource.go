@@ -113,6 +113,32 @@ func DatabaseDbSystemResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 												},
+												"backup_destination_details": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"type": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
 												"recovery_window_in_days": {
 													Type:     schema.TypeInt,
 													Optional: true,
@@ -859,6 +885,25 @@ func waitForDbSystemIfItIsUpdating(dbSystemID *string, client *oci_database.Data
 	return &getDbSystemResponse, err
 }
 
+func waitForVmClusterIfItIsUpdating(vmClusterId *string, client *oci_database.DatabaseClient, timeout time.Duration) (*oci_database.GetVmClusterResponse, error) {
+	getVmClusterRequest := oci_database.GetVmClusterRequest{}
+
+	getVmClusterRequest.VmClusterId = vmClusterId
+
+	vmClusterUpdating := func(response oci_common.OCIOperationResponse) bool {
+		if getVmClusterResponse, ok := response.Response.(oci_database.GetVmClusterResponse); ok {
+			if getVmClusterResponse.LifecycleState == oci_database.VmClusterLifecycleStateUpdating {
+				return true
+			}
+		}
+		return false
+	}
+
+	getVmClusterRequest.RequestMetadata.RetryPolicy = getRetryPolicyWithAdditionalRetryCondition(timeout, vmClusterUpdating, "database")
+	getVmClusterResponse, err := client.GetVmCluster(context.Background(), getVmClusterRequest)
+	return &getVmClusterResponse, err
+}
+
 func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
 	err := s.getDbHomeInfo()
 	if err != nil {
@@ -1059,6 +1104,21 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *DatabaseDbSystemResourceCrud) mapToBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
+	result := oci_database.BackupDestinationDetails{}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
+	}
+
+	return result, nil
 }
 
 func (s *DatabaseDbSystemResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat string) (oci_database.UpdateDatabaseDetails, error) {
@@ -1472,6 +1532,21 @@ func (s *DatabaseDbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string
 		result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
 	}
 
+	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
+		interfaces := backupDestinationDetails.([]interface{})
+		tmp := make([]oci_database.BackupDestinationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "backup_destination_details"), stateDataIndex)
+			converted, err := s.mapToBackupDestinationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		result.BackupDestinationDetails = tmp
+	}
+
 	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok {
 		tmp := recoveryWindowInDays.(int)
 		result.RecoveryWindowInDays = &tmp
@@ -1488,6 +1563,12 @@ func DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{
 	}
 
 	result["auto_backup_window"] = string(obj.AutoBackupWindow)
+
+	backupDestinationDetails := []interface{}{}
+	for _, item := range obj.BackupDestinationDetails {
+		backupDestinationDetails = append(backupDestinationDetails, BackupDestinationDetailsToMap(item))
+	}
+	result["backup_destination_details"] = backupDestinationDetails
 
 	if obj.RecoveryWindowInDays != nil {
 		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)

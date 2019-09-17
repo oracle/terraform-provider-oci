@@ -87,6 +87,29 @@ func DatabaseDbHomeResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"backup_destination_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+
+												// Optional
+												"id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+											},
+										},
+									},
 									"recovery_window_in_days": {
 										Type:     schema.TypeInt,
 										Optional: true,
@@ -185,13 +208,14 @@ func DatabaseDbHomeResource() *schema.Resource {
 					},
 				},
 			},
-			"db_system_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
+			"db_system_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"db_version": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -214,7 +238,14 @@ func DatabaseDbHomeResource() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{
 					"DB_BACKUP",
 					"NONE",
+					"VM_CLUSTER_NEW",
 				}, true),
+			},
+			"vm_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -334,9 +365,22 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 	endTime := startTime.Add(s.D.Timeout(schema.TimeoutCreate))
 	for dbSystemMayBeUpdating {
 		timeout := endTime.Sub(time.Now())
-		_, err = waitForDbSystemIfItIsUpdating(request.GetDbSystemId(), s.Client, timeout)
-		if err != nil {
-			return err
+
+		switch v := (request.CreateDbHomeWithDbSystemIdDetails).(type) {
+		case oci_database.CreateDbHomeWithDbSystemIdDetails:
+		case oci_database.CreateDbHomeWithDbSystemIdFromBackupDetails:
+			_, err = waitForDbSystemIfItIsUpdating(v.DbSystemId, s.Client, timeout)
+			if err != nil {
+				return err
+			}
+		case oci_database.CreateDbHomeWithVmClusterIdFromBackupDetails:
+		case oci_database.CreateDbHomeWithVmClusterIdDetails:
+			_, err = waitForVmClusterIfItIsUpdating(v.VmClusterId, s.Client, timeout)
+			if err != nil {
+				return err
+			}
+		default:
+			log.Printf("[WARN] Received 'CreateDbHomeWithDbSystemIdDetails' of unknown type %v", request.CreateDbHomeWithDbSystemIdDetails)
 		}
 
 		response, err := s.Client.CreateDbHome(context.Background(), request)
@@ -542,6 +586,10 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.VmClusterId != nil {
+		s.D.Set("vm_cluster_id", *s.Res.VmClusterId)
+	}
+
 	if s.Database != nil {
 		s.D.Set("database", []interface{}{s.DatabaseToMap(s.Database)})
 	}
@@ -550,6 +598,21 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 		s.D.Set("source", "NONE")
 	}
 	return nil
+}
+
+func (s *DatabaseDbHomeResourceCrud) mapToBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
+	result := oci_database.BackupDestinationDetails{}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
+	}
+
+	return result, nil
 }
 
 func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat string) (oci_database.CreateDatabaseDetails, error) {
@@ -792,6 +855,22 @@ func (s *DatabaseDbHomeResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) 
 		result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
 	}
 
+	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
+		result.BackupDestinationDetails = []oci_database.BackupDestinationDetails{}
+		interfaces := backupDestinationDetails.([]interface{})
+		tmp := make([]oci_database.BackupDestinationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "backup_destination_details"), stateDataIndex)
+			converted, err := s.mapToBackupDestinationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		result.BackupDestinationDetails = tmp
+	}
+
 	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok {
 		tmp := recoveryWindowInDays.(int)
 		result.RecoveryWindowInDays = &tmp
@@ -808,6 +887,12 @@ func (s *DatabaseDbHomeResourceCrud) DbBackupConfigToMap(obj *oci_database.DbBac
 	}
 
 	result["auto_backup_window"] = string(obj.AutoBackupWindow)
+
+	backupDestinationDetails := []interface{}{}
+	for _, item := range obj.BackupDestinationDetails {
+		backupDestinationDetails = append(backupDestinationDetails, BackupDestinationDetailsToMap(item))
+	}
+	result["backup_destination_details"] = backupDestinationDetails
 
 	if obj.RecoveryWindowInDays != nil {
 		result["recovery_window_in_days"] = int(*obj.RecoveryWindowInDays)
@@ -846,9 +931,55 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
 		}
-		request.CreateDbHomeWithDbSystemIdBase = details
+		request.CreateDbHomeWithDbSystemIdDetails = details
 	case strings.ToLower("NONE"):
 		details := oci_database.CreateDbHomeWithDbSystemIdDetails{}
+		if database, ok := s.D.GetOkExists("database"); ok {
+			if tmpList := database.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+				tmp, err := s.mapToCreateDatabaseDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Database = &tmp
+			}
+		}
+		if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
+			tmp := dbSystemId.(string)
+			details.DbSystemId = &tmp
+		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		request.CreateDbHomeWithDbSystemIdDetails = details
+	case strings.ToLower("VM_CLUSTER_BACKUP"):
+		details := oci_database.CreateDbHomeWithVmClusterIdFromBackupDetails{}
+		if database, ok := s.D.GetOkExists("database"); ok {
+			if tmpList := database.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+				tmp, err := s.mapToCreateDatabaseFromBackupDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Database = &tmp
+			}
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if vmClusterId, ok := s.D.GetOkExists("vm_cluster_id"); ok {
+			tmp := vmClusterId.(string)
+			details.VmClusterId = &tmp
+		}
+		request.CreateDbHomeWithDbSystemIdDetails = details
+	case strings.ToLower("VM_CLUSTER_NEW"):
+		details := oci_database.CreateDbHomeWithVmClusterIdDetails{}
 		if database, ok := s.D.GetOkExists("database"); ok {
 			if tmpList := database.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
@@ -863,19 +994,15 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := dbVersion.(string)
 			details.DbVersion = &tmp
 		}
-		if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
-			tmp := dbSystemId.(string)
-			details.DbSystemId = &tmp
-		}
-		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
-			tmp := dbVersion.(string)
-			details.DbVersion = &tmp
-		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
 		}
-		request.CreateDbHomeWithDbSystemIdBase = details
+		if vmClusterId, ok := s.D.GetOkExists("vm_cluster_id"); ok {
+			tmp := vmClusterId.(string)
+			details.VmClusterId = &tmp
+		}
+		request.CreateDbHomeWithDbSystemIdDetails = details
 	default:
 		return fmt.Errorf("unknown source '%v' was specified", source)
 	}

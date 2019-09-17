@@ -11,11 +11,11 @@ import (
 // ListDbSystemShapesRequest wrapper for the ListDbSystemShapes operation
 type ListDbSystemShapesRequest struct {
 
-	// The name of the Availability Domain.
-	AvailabilityDomain *string `mandatory:"true" contributesTo:"query" name:"availabilityDomain"`
-
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
+	// The name of the Availability Domain.
+	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
 
 	// The maximum number of items to return per page.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
