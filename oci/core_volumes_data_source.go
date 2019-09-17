@@ -183,6 +183,10 @@ func (s *CoreVolumesDataSourceCrud) SetData() error {
 			volume["volume_group_id"] = *r.VolumeGroupId
 		}
 
+		if r.VpusPerGB != nil {
+			volume["vpus_per_gb"] = strconv.FormatInt(*r.VpusPerGB, 10)
+		}
+
 		resources = append(resources, volume)
 	}
 

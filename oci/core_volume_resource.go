@@ -123,6 +123,13 @@ func CoreVolumeResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"vpus_per_gb": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ValidateFunc:     validateInt64TypeString,
+				DiffSuppressFunc: int64StringDiffSuppressFunction,
+			},
 
 			// Computed
 			"is_hydrated": {
@@ -310,6 +317,15 @@ func (s *CoreVolumeResourceCrud) Create() error {
 		request.VolumeBackupId = &tmp
 	}
 
+	if vpusPerGB, ok := s.D.GetOkExists("vpus_per_gb"); ok {
+		tmp := vpusPerGB.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert vpusPerGB string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.VpusPerGB = &tmpInt64
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateVolume(context.Background(), request)
@@ -396,6 +412,15 @@ func (s *CoreVolumeResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.VolumeId = &tmp
 
+	if vpusPerGB, ok := s.D.GetOkExists("vpus_per_gb"); ok {
+		tmp := vpusPerGB.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert vpusPerGB string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.VpusPerGB = &tmpInt64
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateVolume(context.Background(), request)
@@ -476,6 +501,10 @@ func (s *CoreVolumeResourceCrud) SetData() error {
 
 	if s.Res.VolumeGroupId != nil {
 		s.D.Set("volume_group_id", *s.Res.VolumeGroupId)
+	}
+
+	if s.Res.VpusPerGB != nil {
+		s.D.Set("vpus_per_gb", strconv.FormatInt(*s.Res.VpusPerGB, 10))
 	}
 
 	// Add backup policy id from the other API

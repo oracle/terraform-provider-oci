@@ -47,6 +47,7 @@ resource "oci_core_volume" "test_volume" {
 		id = "${var.volume_source_details_id}"
 		type = "${var.volume_source_details_type}"
 	}
+	vpus_per_gb = "${var.volume_vpus_per_gb}"
 }
 ```
 
@@ -67,6 +68,7 @@ The following arguments are supported:
 	* `id` - (Required) The OCID of the volume or volume backup.
 	* `type` - (Required) The type can be one of these values: `volume`, `volumeBackup`
 * `volume_backup_id` - (Optional) The OCID of the volume backup from which the data should be restored on the newly created volume. This field is deprecated. Use the `source_details` field instead to specify the backup for the volume. 
+* `vpus_per_gb` - (Optional) (Updatable) The number of Volume Performance Units that will be applied to this volume per GB.
 
 
 ** IMPORTANT **
@@ -93,6 +95,7 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the volume was created. Format defined by RFC3339.
 * `volume_group_id` - The OCID of the source volume group.
+* `vpus_per_gb` - The number of Volume Performance Units that will be applied to this volume per GB.
 
 ## Import
 
