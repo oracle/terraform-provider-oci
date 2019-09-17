@@ -23,6 +23,7 @@ data "oci_database_db_homes" "test_db_homes" {
 	#Optional
 	display_name = "${var.db_home_display_name}"
 	state = "${var.db_home_state}"
+	vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
 }
 ```
 
@@ -31,9 +32,10 @@ data "oci_database_db_homes" "test_db_homes" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `db_system_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
+* `db_system_id` - (Applicable when source=DB_BACKUP | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
+* `vm_cluster_id` - (Applicable when source= VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 
 
 ## Attributes Reference
@@ -54,4 +56,5 @@ The following attributes are exported:
 * `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation is started.
 * `state` - The current state of the database home.
 * `time_created` - The date and time the database home was created.
+* `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 

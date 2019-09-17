@@ -506,6 +506,19 @@ func waitForUpdatedState(d *schema.ResourceData, sync ResourceUpdater) error {
 	return nil
 }
 
+// Helper function to wait for create to reach terminal state before doing another operation
+// Useful in situations where another operation is done right after create
+func waitForCreatedState(d *schema.ResourceData, sync ResourceCreator) error {
+	d.SetId(sync.ID())
+	if stateful, ok := sync.(StatefullyCreatedResource); ok {
+		if e := waitForStateRefresh(stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+			return e
+		}
+	}
+
+	return nil
+}
+
 // waitForStateRefresh takes a StatefulResource, a timeout duration, a list of states to treat as Pending, and a list of states to treat as Target. It uses those to wrap resource.StateChangeConf.WaitForState(). If the resource returns a missing status, it will not be treated as an error.
 //
 // sync.D.Id must be set.
