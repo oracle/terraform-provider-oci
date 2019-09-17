@@ -1532,7 +1532,6 @@ func (s *DatabaseDbSystemResourceCrud) mapToDbBackupConfig(fieldKeyFormat string
 		result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
 	}
 
-	result.BackupDestinationDetails = []oci_database.BackupDestinationDetails{}
 	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
 		interfaces := backupDestinationDetails.([]interface{})
 		tmp := make([]oci_database.BackupDestinationDetails, len(interfaces))
