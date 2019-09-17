@@ -67,13 +67,9 @@ var (
 		"db_name": Representation{repType: Required, create: `dbNone0`},
 	})
 	dbHomeDatabaseDbBackupConfigRepresentation = map[string]interface{}{
-		"auto_backup_enabled":        Representation{repType: Optional, create: `true`, update: `false`},
-		"auto_backup_window":         Representation{repType: Optional, create: `SLOT_TWO`, update: `SLOT_TWO`},
-		"backup_destination_details": RepresentationGroup{Optional, dbHomeDatabaseDbBackupConfigBackupDestinationDetails1Representation},
-	}
-	dbHomeDatabaseDbBackupConfigBackupDestinationDetails1Representation = map[string]interface{}{
-		"id":   Representation{repType: Optional, create: `${oci_database_backup_destination.test_backup_destination1.id}`},
-		"type": Representation{repType: Optional, create: `NFS`},
+		"auto_backup_enabled":     Representation{repType: Optional, create: `true`, update: `false`},
+		"auto_backup_window":      Representation{repType: Optional, create: `SLOT_TWO`},
+		"recovery_window_in_days": Representation{repType: Optional, create: `10`},
 	}
 	dbHomeRepresentationSourceDbBackup = representationCopyWithNewProperties(dbHomeRepresentationBase, map[string]interface{}{
 		"database": RepresentationGroup{Required, dbHomeDatabaseRepresentationSourceDbBackup},
@@ -116,12 +112,11 @@ var (
 	}
 
 	dbHomeDatabaseDbBackupConfigBackupDestinationDetails2Representation = map[string]interface{}{
-		"id":   Representation{repType: Optional, create: `${oci_database_backup_destination.test_backup_destination2.id}`},
+		"id":   Representation{repType: Optional, create: `${oci_database_backup_destination.test_backup_destination.id}`},
 		"type": Representation{repType: Required, create: `NFS`},
 	}
 
-	DbHomeResourceDependencies = BackupResourceDependencies + DefinedTagsDependencies + generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination1", Optional, Create, backupDestinationNFSRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination2", Optional, Create, backupDestinationNFSRepresentation) +
+	DbHomeResourceDependencies = BackupResourceDependencies + DefinedTagsDependencies + generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", Optional, Create, backupDestinationNFSRepresentation) +
 		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
 			representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}})) +
 		generateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", Optional, Update, vmClusterNetworkValidateRepresentation) +
@@ -199,9 +194,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.backup_destination_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "database.0.db_backup_config.0.backup_destination_details.0.id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.backup_destination_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.defined_tags.%", "1"),
@@ -267,9 +260,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.backup_destination_details.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "database.0.db_backup_config.0.backup_destination_details.0.id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.backup_destination_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.defined_tags.%", "1"),
