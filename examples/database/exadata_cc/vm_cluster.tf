@@ -151,7 +151,7 @@ resource "oci_database_db_home" "test_db_home_vm_cluster" {
       auto_backup_window  = "SLOT_TWO"
 
       backup_destination_details {
-        id   = "${oci_database_backup_destination.test_backup_destination_recovery_appliance.id}"
+        id   = "${oci_database_backup_destination.test_backup_destination_nfs.id}"
         type = "NFS"
       }
     }
@@ -162,11 +162,11 @@ resource "oci_database_db_home" "test_db_home_vm_cluster" {
   display_name = "createdDbHome"
 }
 
-resource "oci_database_backup_destination" "test_backup_destination_recovery_appliance" {
+resource "oci_database_backup_destination" "test_backup_destination_nfs" {
   #Required
   compartment_id = "${var.compartment_id}"
-  display_name   = "testBackupDestinationRecovery Appliance"
-  type           = "RECOVERY_APPLIANCE"
+  display_name   = "testBackupDestination"
+  type           = "NFS"
 
   #Optional
   connection_string = "connectionString"
@@ -175,7 +175,7 @@ resource "oci_database_backup_destination" "test_backup_destination_recovery_app
     "Department" = "Finance"
   }
 
-  vpc_users = ["bkupUser1", "bkupUser2"]
+  local_mount_point_path = "local_mount_point_path"
 }
 
 data "oci_database_vm_cluster_network_download_config_file" "test_vm_cluster_network_download_config_file" {
