@@ -121,5 +121,9 @@ func (s *CoreVolumeDataSourceCrud) SetData() error {
 		s.D.Set("volume_group_id", *s.Res.VolumeGroupId)
 	}
 
+	if s.Res.VpusPerGB != nil {
+		s.D.Set("vpus_per_gb", strconv.FormatInt(*s.Res.VpusPerGB, 10))
+	}
+
 	return nil
 }
