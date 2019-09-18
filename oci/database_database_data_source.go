@@ -72,6 +72,27 @@ func DatabaseDatabaseDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"backup_destination_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"recovery_window_in_days": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -234,6 +255,18 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	result["type"] = string(obj.Type)
+
+	return result
 }
 
 func DatabaseConnectionStringsToMap(obj *oci_database.DatabaseConnectionStrings) map[string]interface{} {

@@ -16,8 +16,10 @@ Gets a list of the shapes that can be used to launch a new DB system. The shape 
 ```hcl
 data "oci_database_db_system_shapes" "test_db_system_shapes" {
 	#Required
-	availability_domain = "${var.db_system_shape_availability_domain}"
 	compartment_id = "${var.compartment_id}"
+
+	#Optional
+	availability_domain = "${var.db_system_shape_availability_domain}"
 }
 ```
 
@@ -25,7 +27,7 @@ data "oci_database_db_system_shapes" "test_db_system_shapes" {
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The name of the Availability Domain.
+* `availability_domain` - (Optional) The name of the Availability Domain.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
@@ -46,4 +48,5 @@ The following attributes are exported:
 * `minimum_node_count` - The minimum number of database nodes available for this shape.
 * `name` - The name of the shape used for the DB system.
 * `shape` - Deprecated. Use `name` instead of `shape`.
+* `shape_family` - The family of the shape used for the DB system.
 

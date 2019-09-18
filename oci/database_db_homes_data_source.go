@@ -30,6 +30,10 @@ func DatabaseDbHomesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"vm_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"db_homes": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -77,6 +81,11 @@ func (s *DatabaseDbHomesDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_database.DbHomeSummaryLifecycleStateEnum(state.(string))
+	}
+
+	if vmClusterId, ok := s.D.GetOkExists("vm_cluster_id"); ok {
+		tmp := vmClusterId.(string)
+		request.VmClusterId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
@@ -137,6 +146,10 @@ func (s *DatabaseDbHomesDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			dbHome["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.VmClusterId != nil {
+			dbHome["vm_cluster_id"] = *r.VmClusterId
 		}
 
 		resources = append(resources, dbHome)

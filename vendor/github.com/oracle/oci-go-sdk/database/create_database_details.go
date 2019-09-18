@@ -22,6 +22,9 @@ type CreateDatabaseDetails struct {
 	// A strong password for SYS, SYSTEM, and PDB Admin. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
 	AdminPassword *string `mandatory:"true" json:"adminPassword"`
 
+	// The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
+	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
+
 	// The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 	PdbName *string `mandatory:"false" json:"pdbName"`
 

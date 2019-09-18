@@ -25,6 +25,9 @@ type DbSystemShapeSummary struct {
 	// The maximum number of CPU cores that can be enabled on the DB system for this shape.
 	AvailableCoreCount *int `mandatory:"true" json:"availableCoreCount"`
 
+	// The family of the shape used for the DB system.
+	ShapeFamily *string `mandatory:"false" json:"shapeFamily"`
+
 	// Deprecated. Use `name` instead of `shape`.
 	Shape *string `mandatory:"false" json:"shape"`
 
