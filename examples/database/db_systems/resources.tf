@@ -58,7 +58,7 @@ resource "oci_database_db_system" "test_db_system" {
 resource "oci_database_backup_destination" "test_backup_destination_nfs1" {
   #Required
   compartment_id = "${var.compartment_ocid}"
-  display_name   = "testBackupDestinationRecovery Appliance"
+  display_name   = "testBackupDestinationNFS"
   type           = "NFS"
 
   #Optional
@@ -68,7 +68,7 @@ resource "oci_database_backup_destination" "test_backup_destination_nfs1" {
     "Department" = "Finance"
   }
 
-  vpc_users = ["bkupUser1", "bkupUser2"]
+  local_mount_point_path = "local_mount_point_path"
 }
 
 // The creation of an oci_database_db_system requires that it be created with exactly one oci_database_db_home. Therefore the first db home will have to be a property of the db system resource and any further db homes to be added to the db system will have to be added as first class resources using "oci_database_db_home".
@@ -104,7 +104,7 @@ resource "oci_database_db_home" "test_db_home" {
 resource "oci_database_backup_destination" "test_backup_destination_nfs2" {
   #Required
   compartment_id = "${var.compartment_ocid}"
-  display_name   = "testBackupDestinationRecovery Appliance"
+  display_name   = "testBackupDestinationNFS"
   type           = "NFS"
 
   #Optional
@@ -114,7 +114,7 @@ resource "oci_database_backup_destination" "test_backup_destination_nfs2" {
     "Department" = "Finance"
   }
 
-  vpc_users = ["bkupUser1", "bkupUser2"]
+  local_mount_point_path = "local_mount_point_path"
 }
 
 resource "oci_database_backup" "test_backup" {
