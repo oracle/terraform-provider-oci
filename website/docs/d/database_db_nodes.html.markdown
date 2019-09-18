@@ -22,6 +22,7 @@ data "oci_database_db_nodes" "test_db_nodes" {
 
 	#Optional
 	state = "${var.db_node_state}"
+	vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
 }
 ```
 
@@ -32,6 +33,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `db_system_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
+* `vm_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 
 
 ## Attributes Reference

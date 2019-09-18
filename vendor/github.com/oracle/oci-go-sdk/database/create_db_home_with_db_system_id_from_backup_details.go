@@ -25,11 +25,6 @@ type CreateDbHomeWithDbSystemIdFromBackupDetails struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 }
 
-//GetDbSystemId returns DbSystemId
-func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetDbSystemId() *string {
-	return m.DbSystemId
-}
-
 //GetDisplayName returns DisplayName
 func (m CreateDbHomeWithDbSystemIdFromBackupDetails) GetDisplayName() *string {
 	return m.DisplayName
