@@ -5,6 +5,10 @@
 
 - Support for `oci_database_exadata_infrastructure`, `oci_database_vm_cluster_network`, `oci_database_vm_cluster` resources for Exadata Cloud at Customer
 - Support for backups in Exadata Cloud at Customer
+- Support for free tier resources and system tags in the Load Balancing service
+- Support for free tier resources and system tags in the Compute service
+- Support for free tier resources and system tags in the Block Storage service
+- Support for free tier and system tags on autonomous databases in the Database service
 
 ## 3.43.0 (September 11, 2019)
 
