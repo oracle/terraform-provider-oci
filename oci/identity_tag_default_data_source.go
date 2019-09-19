@@ -66,6 +66,10 @@ func (s *IdentityTagDefaultDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.IsRequired != nil {
+		s.D.Set("is_required", *s.Res.IsRequired)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TagDefinitionId != nil {

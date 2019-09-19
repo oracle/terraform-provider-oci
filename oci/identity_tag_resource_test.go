@@ -4,10 +4,10 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
-
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 )
 
 var (
@@ -92,6 +92,95 @@ func TestIdentityTagDeletion(t *testing.T) {
 					resource.TestCheckResourceAttr(costTagResourceNames[0], "name", costTagResourceValues[0]),
 					resource.TestCheckResourceAttr(costTagResourceNames[1], "description", "tf cost tracking deletion example tag-2"),
 					resource.TestCheckResourceAttr(costTagResourceNames[1], "name", costTagResourceValues[1]),
+				),
+			},
+		},
+	})
+}
+
+// execute this test in identity compartment only and not on root compartment
+func TestResourceIdentityDefaultTag_required(t *testing.T) {
+	httpreplay.SetScenario("TestResourceIdentityDefaultTag_required")
+	defer httpreplay.SaveScenario()
+
+	provider := testAccProvider
+	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
+
+	config := legacyTestProviderConfig() + `
+	variable defined_tag_namespace_name { default = "" }
+	resource "oci_identity_tag_namespace" "tag-namespace1" {
+  		#Required
+		compartment_id = "${var.compartment_id}"
+  		description = "Just a test"
+  		name = "example-tag-default-namespace"
+
+		is_retired = false
+	}
+	resource "oci_identity_tag" "tag1" {
+  		#Required
+  		description = "tf example tag 2"
+  		name = "tf-example-tag-default"
+        tag_namespace_id = "${oci_identity_tag_namespace.tag-namespace1.id}"
+
+		is_retired = false
+	}
+	`
+
+	resourceName := "oci_identity_tag_default.test_tag_default"
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { testAccPreCheck(t) },
+		Providers: map[string]terraform.ResourceProvider{
+			"oci": provider,
+		},
+		Steps: []resource.TestStep{
+			{
+				Config: config +
+					`
+					resource "oci_identity_tag_default" "test_tag_default" {
+						compartment_id = "${var.compartment_id}"
+						is_required = "true"
+						value="W123" 
+						tag_definition_id = "${oci_identity_tag.tag1.id}"
+					}
+					resource "oci_identity_tag_namespace" "tag-namespace-test-1" {
+  						compartment_id = "${var.compartment_id}"
+  						description = "test namespace 1"
+  						name = "example-test-delete-default-namespace-1"
+
+						defined_tags   = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${oci_identity_tag_default.test_tag_default.value}")}"
+						is_retired = false
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
+					resource.TestCheckResourceAttr(resourceName, "value", "W123"),
+					// stream
+					resource.TestCheckResourceAttr("oci_identity_tag_namespace.tag-namespace-test-1", "compartment_id", compartmentId),
+				),
+			},
+			{
+				Config: config +
+					`
+				resource "oci_identity_tag_default" "test_tag_default" {
+					compartment_id = "${var.compartment_id}"
+					is_required = "false"
+					value="W123" 
+					tag_definition_id = "${oci_identity_tag.tag1.id}"
+				}
+				resource "oci_identity_tag_namespace" "tag-namespace-test-2" {
+  						compartment_id = "${var.compartment_id}"
+  						description = "test namespace 2"
+  						name = "example-test-delete-default-namespace-2"
+
+						is_retired = false
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
+					resource.TestCheckResourceAttr(resourceName, "value", "W123"),
+					// stream
+					resource.TestCheckResourceAttr("oci_identity_tag_namespace.tag-namespace-test-2", "compartment_id", compartmentId),
 				),
 			},
 		},
