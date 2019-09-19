@@ -1,4 +1,8 @@
 ## 3.45.1 (Unreleased)
+
+### Fixed
+- Fix compositeId parsing for pre-authenticated requests in object storage [Issue #867](https://github.com/terraform-providers/terraform-provider-oci/issues/867)
+
 ## 3.45.0 (September 25, 2019)
 
 ### Added

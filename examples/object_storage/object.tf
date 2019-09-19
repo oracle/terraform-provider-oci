@@ -85,8 +85,8 @@ output object-source-head-data {
   value = <<EOF
 
   object = ${data.oci_objectstorage_object_head.source_object_head.object}
-  content-length = ${data.oci_objectstorage_object_head.source_object_head.content-length}
-  content-type = ${data.oci_objectstorage_object_head.source_object_head.content-type}
+  content-length = ${data.oci_objectstorage_object_head.source_object_head.content_length}
+  content-type = ${data.oci_objectstorage_object_head.source_object_head.content_type}
 EOF
 }
 
