@@ -47,11 +47,11 @@ The following attributes are exported:
 * `name` - The name of the region.
 
 	Allowed values are:
-	* `ap-seoul-1`
-	* `ap-tokyo-1`
-	* `ca-toronto-1`
-	* `eu-frankurt-1`
-	* `uk-london-1`
+	* `us-phoenix-1`
 	* `us-ashburn-1`
-	* `us-phoenix-1` 
-
+	* `eu-frankfurt-1`
+	* `uk-london-1` 
+	* `ca-toronto-1`
+    * `ap-tokyo-1`
+    * `ap-seoul-1`
+ 

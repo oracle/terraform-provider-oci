@@ -78,6 +78,32 @@ func IdentityCostTrackingTagsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"validator": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"validator_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"values": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -196,6 +222,16 @@ func (s *IdentityCostTrackingTagsDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			costTrackingTag["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.Validator != nil {
+			validatorArray := []interface{}{}
+			if validatorMap := BaseTagDefinitionValidatorToMap(&r.Validator); validatorMap != nil {
+				validatorArray = append(validatorArray, validatorMap)
+			}
+			costTrackingTag["validator"] = validatorArray
+		} else {
+			costTrackingTag["validator"] = nil
 		}
 
 		resources = append(resources, costTrackingTag)
