@@ -22,6 +22,11 @@ You must also specify a *description* for the tag.
 It does not have to be unique, and you can change it with
 [UpdateTag](https://docs.cloud.oracle.com/iaas/api/#/en/identity/latest/Tag/UpdateTag).
 
+If no 'validator' is set on this tag definition, then any (valid) value can be set for this definedTag.
+
+If a 'validator' is set on this tag definition, then the only valid values that can be set for this
+definedTag those that pass the additional validation imposed by the set 'validator'.
+
 
 ## Example Usage
 
@@ -36,6 +41,11 @@ resource "oci_identity_tag" "test_tag" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
 	is_cost_tracking = "${var.tag_is_cost_tracking}"
+	validator {
+		#Required
+		validator_type = "${var.tag_validator_validator_type}"
+		values = "${var.tag_validator_values}"
+	}
     is_retired = false
 }
 ```
@@ -48,8 +58,15 @@ The following arguments are supported:
 * `description` - (Required) (Updatable) The description you assign to the tag during creation.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `is_cost_tracking` - (Optional) (Updatable) Indicates whether the tag is enabled for cost tracking. 
-* `name` - (Required) The name you assign to the tag during creation. The name must be unique within the tag namespace and cannot be changed. 
+* `name` - (Required) The name you assign to the tag during creation. This is the tag key definition. The name must be unique within the tag namespace and cannot be changed. 
 * `tag_namespace_id` - (Required) The OCID of the tag namespace. 
+* `validator` - (Optional) (Updatable) Additional validation rule for values specified for the tag definition.
+
+	If no validator is defined for a tag definition, then any (valid) value will be accepted.
+
+	Remove the `validator` from config to update the tag to default.
+	* `validator_type` - (Required) (Updatable) The primitive that any value set for this definedTag must be parseable as. Only supported value is `ENUM`. Do not specify `validator` for default type.
+	* `values` - (Applicable when validator_type=ENUM) (Required) (Updatable) The list of allowed values for a definedTag value. 
 * `is_retired` - (Optional) (Updatable) Indicates whether the tag is retired. See [Retiring Key Definitions and Namespace Definitions](https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
 
 
@@ -66,10 +83,14 @@ The following attributes are exported:
 * `id` - The OCID of the tag definition.
 * `is_cost_tracking` - Indicates whether the tag is enabled for cost tracking. 
 * `is_retired` - Indicates whether the tag is retired. See [Retiring Key Definitions and Namespace Definitions](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/taggingoverview.htm#Retiring). 
-* `name` - The name of the tag. The name must be unique across all tags in the tag namespace and can't be changed. 
+* `name` - The name assigned to the tag during creation. This is the tag key definition. The name must be unique within the tag namespace and cannot be changed. 
 * `state` - The tag's current state. After creating a tag, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tag, make sure its `lifecycleState` is INACTIVE before using it. If you delete a tag, you cannot delete another tag until the deleted tag's `lifecycleState` changes from DELETING to DELETED.
 * `tag_namespace_id` - The OCID of the namespace that contains the tag definition.
 * `time_created` - Date and time the tag was created, in the format defined by RFC3339. Example: `2016-08-25T21:10:29.600Z` 
+* `validator` - Additional validation rule for values specified for the tag definition.
+
+	* `validator_type` - The primitive that any value set for this definedTag must be parseable as. 
+	* `values` - The list of allowed values for a definedTag value. 
 
 ## Import
 
