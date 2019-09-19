@@ -2,6 +2,7 @@
 
 ### Added
 - Support DBaaS VM DB Fast Provisioning
+- Support for required default tags
 
 ### Fixed
 - Fix compositeId parsing for pre-authenticated requests in object storage [Issue #867](https://github.com/terraform-providers/terraform-provider-oci/issues/867)

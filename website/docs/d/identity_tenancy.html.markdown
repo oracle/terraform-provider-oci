@@ -40,7 +40,10 @@ The following attributes are exported:
 	* `IAD`
 	* `PHX`
 	* `FRA`
-	* `LHR` 
+	* `LHR`
+	* `ICN`
+	* `YYZ`
+	* `NRT` 
 * `id` - The OCID of the tenancy.
 * `name` - The name of the tenancy.
 

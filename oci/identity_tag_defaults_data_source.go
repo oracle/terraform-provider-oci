@@ -121,6 +121,10 @@ func (s *IdentityTagDefaultsDataSourceCrud) SetData() error {
 			tagDefault["id"] = *r.Id
 		}
 
+		if r.IsRequired != nil {
+			tagDefault["is_required"] = *r.IsRequired
+		}
+
 		tagDefault["state"] = r.LifecycleState
 
 		if r.TagDefinitionId != nil {
