@@ -97,6 +97,49 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 	})
 }
 
+func TestUnitResourceObjectstoragePAR_parseIds(t *testing.T) {
+	t.Run("Parse Composite Ids", func(t *testing.T) {
+		tests := []struct {
+			parId       string
+			expectError bool
+			error       string
+			parsedParId string
+		}{
+			{`n/dxterraformdev/b/bucket/p/dJoeW0iJzmjVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object`, false, "", "dJoeW0iJzmjVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object"},
+			{`n/dxterraformdev/b/bucket/p/dJo/W/0iJzmjVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object`, false, "", "dJo/W/0iJzmjVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object"},
+			{`n/dxterraformdev/b/bucket/p/dJo/W/0iJzmjVX4x6rAKn/UUF8Wx4XAYzwI5YcACNtzyY=:object`, false, "", "dJo/W/0iJzmjVX4x6rAKn/UUF8Wx4XAYzwI5YcACNtzyY=:object"},
+			{`n/dxterraformdev/b/bucket/p/dJo/W0iJzmj/n/VX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object`, false, "", "dJo/W0iJzmj/n/VX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object"},
+			{`n/dxterraformdev/b/bucket/p/dJo/W0iJzm/p/jVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object`, false, "", "jVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object"},
+			{`n/dxterraformdev/b/bucket/p/dJo/W0in/JzmjVX4x/b/6rAKnUUF/p/8Wx4XAYzwI5YcACNtzyY=:object`, false, "", "dJo/W0in/JzmjVX4x/b/6rAKnUUF/p/8Wx4XAYzwI5YcACNtzyY=:object"},
+			{`n/dxterraformdev/b/bucket/p/dJo/W0in/JzmjVX4x/b/6rAKnUUF/p/8Wx4XAY%2FzwI5YcACNtzyY=:object`, false, "", "8Wx4XAY/zwI5YcACNtzyY=:object"},
+			{`dJo/W0iJzmjVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object`, true, "illegal compositeId dJo/W0iJzmjVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object encountered", ""},
+			{`n/dxterraformdev/p/dJo/W0iJzmjVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object`, true, "illegal compositeId n/dxterraformdev/p/dJo/W0iJzmjVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object encountered", ""},
+			{`n/dxterraformdev/b/bucket/dJo/W0iJzmjVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object`, true, "illegal compositeId n/dxterraformdev/b/bucket/dJo/W0iJzmjVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object encountered", ""},
+			{`p/dJo/W0iJzmjVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object`, true, "illegal compositeId p/dJo/W0iJzmjVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object encountered", ""},
+			{`/b/bucket/p/dJo/W0iJzm/p/jVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object`, true, "illegal compositeId /b/bucket/p/dJo/W0iJzm/p/jVX4x6rAKnUUF8Wx4XAYzwI5YcACNtzyY=:object encountered", ""},
+		}
+
+		for _, test := range tests {
+			if _, _, parId, err := parsePreauthenticatedRequestCompositeId(test.parId); err != nil {
+
+				if test.expectError && err == nil {
+					t.Fatalf("expected an error but got none")
+				}
+				if !test.expectError && err != nil {
+					t.Fatalf("did not expect an error but got one %s ", err.Error())
+				}
+				if test.expectError && err != nil && err.Error() != test.error {
+					t.Fatalf("unexpected error %s, expected: %s ", err.Error(), test.error)
+				}
+
+				if !test.expectError && err == nil && parId != test.parsedParId {
+					t.Fatalf("parId parsed incorrectly, got: %s, expected: %s ", parId, test.parsedParId)
+				}
+			}
+		}
+	})
+}
+
 func TestResourceObjectstoragePARTestSuite(t *testing.T) {
 	httpreplay.SetScenario("TestResourceObjectstoragePARTestSuite")
 	defer httpreplay.SaveScenario()
