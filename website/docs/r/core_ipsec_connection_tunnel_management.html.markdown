@@ -79,6 +79,7 @@ The following arguments are supported:
 
 		Example: `10.0.0.4/31` 
   * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+  * `ike_version` - (Optional) Internet Key Exchange protocol version. 
   * `shared_secret` - (Optional) The shared secret (pre-shared key) to use for the IPSec tunnel. If you don't provide a value, Oracle generates a value for you. You can specify your own shared secret later if you like with [UpdateIPSecConnectionTunnelSharedSecret](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnectionTunnelSharedSecret/UpdateIPSecConnectionTunnelSharedSecret).  Example: `EXAMPLEToUis6j1c.p8G.dVQxcmdfMO0yXMLi.lZTbYCMDGu4V8o`
 
 ## Attributes Reference
@@ -96,6 +97,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `id` - The tunnel's Oracle ID (OCID).
 * `routing` - the routing strategy used for this tunnel, either static route or BGP dynamic routing
+* `ike_version` - Internet Key Exchange protocol version.
 * `state` - The IPSec connection's tunnel's lifecycle state.
 * `status` - The tunnel's current state.
 * `time_created` - The date and time the IPSec connection tunnel was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 

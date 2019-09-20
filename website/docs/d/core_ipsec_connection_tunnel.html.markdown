@@ -45,6 +45,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `id` - The tunnel's Oracle ID (OCID).
 * `routing` - the routing strategy used for this tunnel, either static route or BGP dynamic routing
+* `ike_version` - Internet Key Exchange protocol version.
 * `state` - The IPSec connection's tunnel's lifecycle state.
 * `status` - The tunnel's current state.
 * `time_created` - The date and time the IPSec connection tunnel was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 

@@ -67,6 +67,10 @@ func CoreIpSecConnectionTunnelDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"ike_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"routing": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -161,6 +165,8 @@ func (s *CoreIpSecConnectionTunnelDataSourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("ike_version", s.Res.IkeVersion)
 
 	s.D.Set("routing", s.Res.Routing)
 

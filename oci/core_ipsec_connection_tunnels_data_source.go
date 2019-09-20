@@ -79,6 +79,10 @@ func CoreIpSecConnectionTunnelsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"ike_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"routing": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -191,6 +195,8 @@ func (s *CoreIpSecConnectionTunnelsDataSourceCrud) SetData() error {
 		if r.Id != nil {
 			ipSecConnectionTunnel["id"] = *r.Id
 		}
+
+		ipSecConnectionTunnel["ike_version"] = r.IkeVersion
 
 		ipSecConnectionTunnel["routing"] = r.Routing
 

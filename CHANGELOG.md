@@ -4,6 +4,7 @@
 - Support for updating `assign_public_ip` attribute in `oci_core_instance` resource
 - Support for Oracle Analytics cloud
 - Support for Oracle Integration cloud
+- Support for IKE version selections for IPSec connection in VPN
 
 ## 3.50.0 (October 30, 2019)
 
