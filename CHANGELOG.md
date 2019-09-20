@@ -7,6 +7,7 @@
 
 ### Fixed
 - Fix compositeId parsing for pre-authenticated requests in object storage [Issue #867](https://github.com/terraform-providers/terraform-provider-oci/issues/867)
+- Fixed ssl_configuration is optional only in `oci_load_balancer_backend_set` resource
 
 ## 3.45.0 (September 25, 2019)
 
