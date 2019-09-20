@@ -73,6 +73,11 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"ike_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"shared_secret": {
 				Type:         schema.TypeString,
 				Optional:     true,
