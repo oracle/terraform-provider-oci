@@ -1,4 +1,6 @@
-## 3.47.1 (Unreleased)
+## 3.48.0 (Unreleased)
+### Added
+- Support for Oracle Digital Assistant
 
 ### Fixed
 - Update for whitelisted ips in `oci_autonomous_database`
