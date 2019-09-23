@@ -145,27 +145,16 @@ func (s *IdentityCostTrackingTagsDataSourceCrud) Get() error {
 	}
 
 	s.Res = &response
-	// TODO- remove this custom code handling paging once service fixes Opc-Next-Page in spec
-	if s.Res != nil && s.Res.RawResponse != nil {
-		rawResponse := s.Res.RawResponse
-		nextPage := rawResponse.Header.Get(OpcNextPageHeader)
-		request.Page = &nextPage
+	request.Page = s.Res.OpcNextPage
 
-		for request.Page != nil && *request.Page != "" {
-			listResponse, err := s.Client.ListCostTrackingTags(context.Background(), request)
-			if err != nil {
-				return err
-			}
-
-			s.Res.Items = append(s.Res.Items, listResponse.Items...)
-			if listResponse.RawResponse != nil {
-				nextPage = listResponse.RawResponse.Header.Get(OpcNextPageHeader)
-				request.Page = &nextPage
-			} else {
-				request.Page = nil
-			}
-
+	for request.Page != nil {
+		listResponse, err := s.Client.ListCostTrackingTags(context.Background(), request)
+		if err != nil {
+			return err
 		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
 	}
 
 	return nil
