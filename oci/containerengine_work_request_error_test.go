@@ -18,7 +18,8 @@ var (
 		"work_request_id": Representation{repType: Required, create: `${lookup(data.oci_containerengine_work_requests.test_work_requests.work_requests[0], "id")}`},
 	}
 
-	WorkRequestErrorResourceConfig = generateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", Required, Create, workRequestDataSourceRepresentation)
+	WorkRequestErrorResourceConfig = WorkRequestResourceConfig +
+		generateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", Required, Create, workRequestDataSourceRepresentation)
 )
 
 func TestContainerengineWorkRequestErrorResource_basic(t *testing.T) {

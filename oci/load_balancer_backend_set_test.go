@@ -70,9 +70,9 @@ var (
 		"verify_peer_certificate": Representation{repType: Optional, create: `false`},
 	}
 
-	BackendSetResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation) +
+	BackendSetResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Optional, Create, certificateRepresentation) +
 		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
-		LoadBalancerSubnetDependencies
+		LoadBalancerResourceDependencies
 )
 
 func TestLoadBalancerBackendSetResource_basic(t *testing.T) {
