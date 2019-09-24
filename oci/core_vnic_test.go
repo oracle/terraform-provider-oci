@@ -18,7 +18,17 @@ var (
 	}
 
 	VnicResourceConfig             = ``
-	VnicResourceConfigDependencies = InstanceResourceConfig + KeyResourceDependencyConfig
+	VnicResourceConfigDependencies = OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies
 )
 
 func TestCoreVnicResource_basic(t *testing.T) {

@@ -21,3 +21,7 @@ resource "oci_core_vcn" "vcn1" {
   compartment_id = "${var.compartment_ocid}"
   display_name   = "vcn1"
 }
+
+output "vcn_id" {
+  value = "${oci_core_vcn.vcn1.id}"
+}

@@ -120,7 +120,7 @@ var (
 		"type": Representation{repType: Required, create: `NFS`},
 	}
 
-	DbHomeResourceDependencies = BackupResourceDependencies + generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination1", Optional, Create, backupDestinationNFSRepresentation) +
+	DbHomeResourceDependencies = BackupResourceDependencies + DefinedTagsDependencies + generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination1", Optional, Create, backupDestinationNFSRepresentation) +
 		generateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination2", Optional, Create, backupDestinationNFSRepresentation) +
 		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
 			representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}})) +

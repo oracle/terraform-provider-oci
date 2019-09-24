@@ -18,8 +18,8 @@ import (
 )
 
 var (
-	InstanceRequiredOnlyResource = SubnetResourceConfig + InstanceCommonVariables +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation) +
+	InstanceRequiredOnlyResource = SubnetResourceConfig + OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation)
 
 	InstanceResourceConfig = InstanceResourceDependencies +
@@ -78,7 +78,7 @@ var (
 		"display_name":           Representation{repType: Optional, create: `displayName`},
 		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Accounting"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"hostname_label":         Representation{repType: Optional, create: `hostnamelabel`},
-		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{}},
+		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{}},
 		"private_ip":             Representation{repType: Optional, create: `10.0.0.5`},
 		"skip_source_dest_check": Representation{repType: Optional, create: `false`},
 	}
@@ -88,20 +88,6 @@ var (
 		"kms_key_id":  Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
 
-	InstanceCommonVariables = `
-variable "InstanceImageOCID" {
-	type = "map"
-	default = {
-		// See https://docs.us-phoenix-1.oraclecloud.com/images/
-		// Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-		us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaadjnj3da72bztpxinmqpih62c2woscbp6l3wjn36by2cvmdhjub6a"
-		us-ashburn-1 = "ocid1.image.oc1.iad.aaaaaaaawufnve5jxze4xf7orejupw5iq3pms6cuadzjc7klojix6vmk42va"
-		eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaagbrvhganmn7awcr7plaaf5vhabmzhx763z5afiitswjwmzh7upna"
-		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaajwtut4l7fo3cvyraate6erdkyf2wdk5vpk6fp6ycng3dv2y3ymvq"
-	}
-}
-
-`
 	InstanceWithPVEncryptionInTransitEnabled = `
 resource "oci_core_instance" "test_instance" {
 	availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
@@ -112,8 +98,18 @@ resource "oci_core_instance" "test_instance" {
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 }
 `
-	InstanceResourceDependencies = generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation) + SubnetResourceConfig + InstanceCommonVariables +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation)
+	InstanceResourceDependencies = generateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", Optional, Update, dedicatedVmHostRepresentation) +
+		OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies +
+		KeyResourceDependencyConfig
 )
 
 func TestCoreInstanceResource_basic(t *testing.T) {
@@ -125,7 +121,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 		provider oci {
 			test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
 		}
-	` + commonTestVariables() + KeyResourceDependencyConfig
+	` + commonTestVariables()
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)

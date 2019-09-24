@@ -35,7 +35,7 @@ var (
 		"display_name":                 Representation{repType: Required, create: `Monthly Backup`},
 	}
 
-	AutonomousDataWarehouseBackupResourceDependencies = AutonomousDataWarehouseResourceConfig
+	AutonomousDataWarehouseBackupResourceDependencies = generateResourceFromRepresentationMap("oci_database_autonomous_data_warehouse", "test_autonomous_data_warehouse", Required, Create, autonomousDataWarehouseRepresentation)
 )
 
 func TestDatabaseAutonomousDataWarehouseBackupResource_basic(t *testing.T) {

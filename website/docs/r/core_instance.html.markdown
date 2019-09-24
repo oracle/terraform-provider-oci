@@ -94,7 +94,7 @@ resource "oci_core_instance" "test_instance" {
 
 		#Optional
 		boot_volume_size_in_gbs = "${var.instance_source_details_boot_volume_size_in_gbs}"
-		kms_key_id = "${oci_core_kms_key.test_kms_key.id}"
+		kms_key_id = "${oci_kms_key.test_key.id}"
 	}
 	preserve_boot_volume = false
 }

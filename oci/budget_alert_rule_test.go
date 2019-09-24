@@ -51,7 +51,8 @@ var (
 		"message":        Representation{repType: Optional, create: `message`, update: `message2`},
 	}
 
-	AlertRuleResourceDependencies = BudgetResourceConfig
+	AlertRuleResourceDependencies = generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentationWithTargetCompartmentId) +
+		DefinedTagsDependencies
 )
 
 func TestBudgetAlertRuleResource_basic(t *testing.T) {

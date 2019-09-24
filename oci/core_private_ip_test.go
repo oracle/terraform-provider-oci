@@ -41,17 +41,26 @@ var (
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"hostname_label": Representation{repType: Optional, create: `privateiptestinstance`, update: `privateiptestinstance2`},
-		"ip_address":     Representation{repType: Optional, create: `10.0.1.5`},
+		"ip_address":     Representation{repType: Optional, create: `10.0.0.5`},
 	}
 
-	PrivateIpResourceDependencies = instanceDnsConfig + `
+	PrivateIpResourceDependencies = OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies + `
 	data "oci_core_vnic_attachments" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
 		compartment_id = "${var.compartment_id}"
-		instance_id = "${oci_core_instance.t.id}"
+		instance_id = "${oci_core_instance.test_instance.id}"
 	}
 
-` + AvailabilityDomainConfig
+`
 )
 
 func TestCorePrivateIpResource_basic(t *testing.T) {
@@ -104,7 +113,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 					func(s *terraform.State) (err error) {
@@ -123,7 +132,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance2"),
-					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.1.5"),
+					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 					func(s *terraform.State) (err error) {
@@ -145,14 +154,13 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.#", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.availability_domain"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.compartment_id"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.hostname_label", "privateiptestinstance2"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.ip_address", "10.0.1.5"),
+					resource.TestCheckResourceAttr(datasourceName, "private_ips.0.ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_primary"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.subnet_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.time_created"),
@@ -167,14 +175,13 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip_id"),
 
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "privateiptestinstance2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.1.5"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.0.5"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),

@@ -46,7 +46,9 @@ var (
 		"freeform_tags":             Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	IpSecConnectionResourceDependencies = CpeRequiredOnlyResource + DrgRequiredOnlyResource
+	IpSecConnectionResourceDependencies = generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Required, Create, cpeRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestCoreIpSecConnectionResource_basic(t *testing.T) {

@@ -89,6 +89,23 @@ func TestTerraformVersions(t *testing.T) {
 	}
 }
 
+/*
+ * Test for end-to-end Terraform import
+ * The acceptance import tests have a test gap, because they do not cover Terraform's resource state to state file
+ * normalization logic. Import tests only verify that in-memory state is correct.
+ */
+func TestTerraformImport(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skipping TestTerraformImport")
+	}
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestTerraformImport") {
+		t.Skip("Skipping TestTerraformImport")
+	}
+	if RunConfigAndImport(t) {
+		log.Printf("Successfully ran all Terraform import tests")
+	}
+}
+
 func RunExamples(t *testing.T, planOnly bool) {
 	rootPath := getEnvSettingWithDefault("examples_root", "../examples")
 	log.Printf("Testing examples under %v", rootPath)
@@ -106,7 +123,7 @@ func RunExamples(t *testing.T, planOnly bool) {
 	}
 }
 
-func GetTerraformBinaries(binPath string) ([]string, error) {
+func GetTerraformBinaries(binPath string, targetPrefixes []string) ([]string, error) {
 	results := []string{}
 
 	entries, err := ioutil.ReadDir(binPath)
@@ -117,7 +134,16 @@ func GetTerraformBinaries(binPath string) ([]string, error) {
 	for _, entry := range entries {
 		// Include any binaries that start with "terraform" prefix
 		if name := entry.Name(); !entry.IsDir() && strings.HasPrefix(name, defaultTerraformBinary) {
-			results = append(results, name)
+			if len(targetPrefixes) == 0 {
+				results = append(results, name)
+			} else {
+				for _, prefix := range targetPrefixes {
+					if strings.HasPrefix(name, prefix) {
+						results = append(results, name)
+						break
+					}
+				}
+			}
 		}
 	}
 
@@ -185,7 +211,7 @@ func shouldSkip(dir string) bool {
 }
 
 func RunConfigOnAllTerraformVersions(t *testing.T, path string, planOnly bool) bool {
-	terraformBinaries, err := GetTerraformBinaries(localBinPath)
+	terraformBinaries, err := GetTerraformBinaries(localBinPath, []string{})
 	if err != nil {
 		t.Errorf("Error retrieving terraform binaries: %v", err)
 		return false
@@ -199,9 +225,8 @@ func RunConfigOnAllTerraformVersions(t *testing.T, path string, planOnly bool) b
 	result := true
 	for _, tfBin := range terraformBinaries {
 		log.Printf("=== Terraform Version ('%s'), Config Path ('%s') ===\n", tfBin, path)
-		if !runCommandWithOutputOptions(t, path, fmt.Sprintf("%s version", tfBin), true) {
+		if _, result = runCommandWithOutputOptions(t, path, fmt.Sprintf("%s version", tfBin), true); !result {
 			log.Printf("Unable to run version command. Skipping test for %s.\n", tfBin)
-			result = false
 			continue
 		}
 
@@ -249,11 +274,84 @@ func RunConfig(t *testing.T, path string, planOnly bool, terraformBinary string)
 	}
 }
 
-func RunCommand(t *testing.T, path, command string) bool {
-	return runCommandWithOutputOptions(t, path, command, false)
+func RunConfigAndImport(t *testing.T) bool {
+	path := vcnExamplePath
+	terraformBinaries, err := GetTerraformBinaries(localBinPath, []string{"terraform-0.11", "terraform-0.12"})
+	if err != nil {
+		t.Errorf("Error retrieving terraform binaries: %v", err)
+		return false
+	}
+
+	if len(terraformBinaries) == 0 {
+		t.Errorf("Did not find any terraform binaries")
+		return false
+	}
+
+	result := true
+	for _, tfBin := range terraformBinaries {
+		var output []byte
+		var vcnId string
+		log.Printf("=== Terraform Version ('%s'), Config Path ('%s') ===\n", tfBin, path)
+		if _, result := runCommandWithOutputOptions(t, path, fmt.Sprintf("%s version", tfBin), true); !result {
+			log.Printf("Unable to run version command. Skipping test for %s.\n", tfBin)
+			continue
+		}
+
+		if !RunCommand(t, path, fmt.Sprintf("%s init", tfBin)) {
+			log.Printf("Unable to init terraform. Skipping test for %s.\n", tfBin)
+			return false
+		}
+
+		// Create a VCN resource
+		if result = RunCommand(t, path, fmt.Sprintf("%s apply -auto-approve -state=%v", tfBin, examplesTestStateFile)); !result {
+			goto cleanup
+		}
+
+		// Get the ID of the VCN
+		if output, result = runCommandWithOutputOptions(t, path, fmt.Sprintf("%s output -state=%v vcn_id", tfBin, examplesTestStateFile), true); !result {
+			goto cleanup
+		}
+		vcnId = string(output)
+
+		// Remove VCN from state file
+		if result = RunCommand(t, path, fmt.Sprintf("%s state rm -state=%v oci_core_vcn.vcn1", tfBin, examplesTestStateFile)); !result {
+			goto cleanup
+		}
+
+		// Import the VCN
+		if result = RunCommand(t, path, fmt.Sprintf("%s import -state=%v oci_core_vcn.vcn1 %v", tfBin, examplesTestStateFile, vcnId)); !result {
+			goto cleanup
+		}
+
+		// Plan should show no differences.
+		if result = RunCommand(t, path, fmt.Sprintf("%s plan -detailed-exitcode -state=%v", tfBin, examplesTestStateFile)); !result {
+			goto cleanup
+		}
+
+	cleanup:
+		// Regardless of the result, attempt to destroy.
+		if RunCommand(t, path, fmt.Sprintf("%s destroy -force -state=%v", tfBin, examplesTestStateFile)) {
+			// Only remove the state file if destroy was successful. Otherwise, leave it in place so that further
+			// cleanup can be done manually.
+			result = RunCommand(t, path, fmt.Sprintf("rm %v*", examplesTestStateFile)) && result
+		} else {
+			result = false
+		}
+
+		if !result {
+			break
+		}
+	}
+
+	return result
 }
 
-func runCommandWithOutputOptions(t *testing.T, path, command string, displayOutputOnSuccess bool) bool {
+func RunCommand(t *testing.T, path, command string) bool {
+	_, result := runCommandWithOutputOptions(t, path, command, false)
+	return result
+}
+
+func runCommandWithOutputOptions(t *testing.T, path, command string, displayOutputOnSuccess bool) ([]byte, bool) {
 	log.Printf("Running command '%v' at %v", command, path)
 
 	env := make([]string, len(examplesTestAllowedEnvironmentVariables))
@@ -269,12 +367,12 @@ func runCommandWithOutputOptions(t *testing.T, path, command string, displayOutp
 	if err != nil {
 		log.Printf("Error: Command Failed. Output: %s", output)
 		t.Errorf("Error running command %v at %v: %v", command, path, err)
-		return false
+		return output, false
 	}
 
 	if displayOutputOnSuccess {
 		log.Printf("Output: %s", output)
 	}
 
-	return true
+	return output, true
 }

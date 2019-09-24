@@ -270,7 +270,9 @@ var (
 		"value": Representation{repType: Required, create: `value`, update: `value2`},
 	}
 
-	WaasPolicyResourceDependencies = WaasCertificateRequiredOnlyResource + CustomProtectionRuleRequiredResourceWithoutDependencies
+	WaasPolicyResourceDependencies = DefinedTagsDependencies +
+		generateResourceFromRepresentationMap("oci_waas_certificate", "test_certificate", Required, Create, waasCertificateRepresentation) +
+		CustomProtectionRuleRequiredResourceWithoutDependencies
 )
 
 func TestWaasWaasPolicyResource_basic(t *testing.T) {

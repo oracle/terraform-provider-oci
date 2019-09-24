@@ -29,7 +29,7 @@ var (
 		"user_id":     Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
 	}
 
-	SwiftPasswordResourceDependencies = UserRequiredOnlyResource
+	SwiftPasswordResourceDependencies = generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 )
 
 func TestIdentitySwiftPasswordResource_basic(t *testing.T) {

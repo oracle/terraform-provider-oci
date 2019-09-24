@@ -22,7 +22,7 @@ data "oci_dns_steering_policies" "test_steering_policies" {
 	#Optional
 	display_name = "${var.steering_policy_display_name}"
 	display_name_contains = "${var.steering_policy_display_name_contains}"
-	health_check_monitor_id = "${oci_dns_health_check_monitor.test_health_check_monitor.id}"
+	health_check_monitor_id = "${oci_health_checks_http_monitor.test_http_monitor.id}"
 	id = "${var.steering_policy_id}"
 	state = "${var.steering_policy_state}"
 	template = "${var.steering_policy_template}"

@@ -26,8 +26,9 @@ resource "oci_objectstorage_bucket" "test_bucket" {
 	access_type = "${var.bucket_access_type}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
-	kms_key_id = "${oci_objectstorage_kms_key.test_kms_key.id}"
+	kms_key_id = "${oci_kms_key.test_key.id}"
 	metadata = "${var.bucket_metadata}"
+	object_events_enabled = "${var.bucket_object_events_enabled}"
 	storage_tier = "${var.bucket_storage_tier}"
 }
 ```
@@ -44,6 +45,7 @@ The following arguments are supported:
 * `metadata` - (Optional) (Updatable) Arbitrary string, up to 4KB, of keys and values for user-defined metadata.
 * `name` - (Required) The name of the bucket. Valid characters are uppercase or lowercase letters, numbers, and dashes. Bucket names must be unique within an Object Storage namespace. Avoid entering confidential information. example: Example: my-new-bucket1 
 * `namespace` - (Required) The Object Storage namespace used for the request.
+* `object_events_enabled` - (Optional) (Updatable) A property that determines whether events will be generated for operations on objects in this bucket. This is false by default. 
 * `storage_tier` - (Optional) The type of storage tier of this bucket. A bucket is set to 'Standard' tier by default, which means the bucket will be put in the standard storage tier. When 'Archive' tier type is set explicitly, the bucket is put in the Archive Storage tier. The 'storageTier' property is immutable after bucket is created. 
 
 
@@ -66,6 +68,7 @@ The following attributes are exported:
 * `metadata` - Arbitrary string keys and values for user-defined metadata.
 * `name` - The name of the bucket. Avoid entering confidential information. Example: my-new-bucket1 
 * `namespace` - The Object Storage namespace in which the bucket lives.
+* `object_events_enabled` - A property that determines whether events will be generated for operations on objects in this bucket. This is false by default. 
 * `object_lifecycle_policy_etag` - The entity tag (ETag) for the live object lifecycle policy on the bucket.
 * `storage_tier` - The storage tier type assigned to the bucket. A bucket is set to 'Standard' tier by default, which means objects uploaded or copied to the bucket will be in the standard storage tier. When the 'Archive' tier type is set explicitly for a bucket, objects uploaded or copied to the bucket will be stored in archive storage. The 'storageTier' property is immutable after bucket is created. 
 * `time_created` - The date and time the bucket was created, as described in [RFC 2616](https://tools.ietf.org/rfc/rfc2616), section 14.29.

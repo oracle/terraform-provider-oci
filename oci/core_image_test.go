@@ -45,7 +45,12 @@ var (
 		"create": Representation{repType: Required, create: `30m`},
 	}
 
-	ImageResourceDependencies = InstanceRequiredOnlyResource
+	ImageResourceDependencies = OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies
 )
 
 func TestCoreImageResource_basic(t *testing.T) {

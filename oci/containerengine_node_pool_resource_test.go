@@ -53,18 +53,18 @@ var (
 		"security_list_ids":          Representation{repType: Optional, create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}, update: []string{`${oci_core_security_list.test_security_list.id}`}},
 	}
 
-	NodePoolReginalResourceDependencies = ClusterRequiredOnlyResource + InstanceCommonVariables +
-		generateResourceFromRepresentationMap("oci_core_subnet", "node_pool_regional_subnet_1", Optional, Create,
-			getMultipleUpdatedRepresenationCopy(
-				[]string{"cidr_block", "dns_label"},
-				[]interface{}{Representation{repType: Optional, create: `10.0.24.0/24`}, Representation{repType: Optional, create: `nodepool1`}},
-				subnetRegionalRepresentation)) +
-		generateResourceFromRepresentationMap("oci_core_subnet", "node_pool_regional_subnet_2", Optional, Create,
-			getMultipleUpdatedRepresenationCopy(
-				[]string{"cidr_block", "dns_label"},
-				[]interface{}{Representation{repType: Optional, create: `10.0.25.0/24`}, Representation{repType: Optional, create: `nodepool2`}},
-				subnetRegionalRepresentation)) +
-		generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation)
+	NodePoolReginalResourceDependencies = generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "node_pool_regional_subnet_1", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.24.0/24`}, "dns_label": Representation{repType: Required, create: `nodepool1`}})) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "node_pool_regional_subnet_2", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.25.0/24`}, "dns_label": Representation{repType: Required, create: `nodepool2`}})) +
+		generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.20.0/24`}, "dns_label": Representation{repType: Required, create: `cluster1`}})) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.21.0/24`}, "dns_label": Representation{repType: Required, create: `cluster2`}})) +
+		AvailabilityDomainConfig +
+		generateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Required, Create, clusterOptionSingularDataSourceRepresentation) +
+		OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		}))
 )
 
 func TestResourceContainerengineNodePool_regionalsubnet(t *testing.T) {

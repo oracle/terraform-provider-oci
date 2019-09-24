@@ -35,7 +35,7 @@ resource "oci_dns_steering_policy" "test_steering_policy" {
 	}
 	defined_tags = "${var.steering_policy_defined_tags}"
 	freeform_tags = "${var.steering_policy_freeform_tags}"
-	health_check_monitor_id = "${oci_dns_health_check_monitor.test_health_check_monitor.id}"
+	health_check_monitor_id = "${oci_health_checks_http_monitor.test_http_monitor.id}"
 	rules {
 		#Required
 		rule_type = "${var.steering_policy_rules_rule_type}"

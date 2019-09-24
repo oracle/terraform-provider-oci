@@ -55,7 +55,9 @@ var (
 		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 	})
 
-	DataGuardAssociationResourceDependenciesBase = AvailabilityDomainConfig + NetworkSecurityGroupResourceConfig + `
+	DataGuardAssociationResourceDependenciesBase = AvailabilityDomainConfig + DefinedTagsDependencies + VcnResourceConfig +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Optional, Update, networkSecurityGroupRepresentation) +
+		`
 #dataguard requires the some port to be open on the subnet
 resource "oci_core_subnet" "test_subnet" {
   availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"

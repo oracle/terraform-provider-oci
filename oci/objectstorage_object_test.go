@@ -61,7 +61,8 @@ var (
 		"metadata":         Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
 	}
 
-	ObjectResourceDependencies = BucketRequiredOnlyResource
+	ObjectResourceDependencies = generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
+		generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation)
 )
 
 func TestObjectStorageObjectResource_basic(t *testing.T) {

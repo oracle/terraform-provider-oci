@@ -71,6 +71,21 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "ad_number", "2"),
 					resource.TestMatchResourceAttr(singularDatasourceName, "name", regexp.MustCompile(`\w+-AD-2`)),
+					func(s *terraform.State) (err error) {
+						adName, err := fromInstanceState(s, singularDatasourceName, "name")
+						if err != nil {
+							return err
+						}
+
+						regex := regexp.MustCompile(`(?i)AD-(\d)`)
+						res := regex.FindAllStringSubmatch(adName, -1)
+
+						// no matching AD name
+						if res == nil || len(res) < 1 {
+							err = fmt.Errorf("no match found for case insensitive search")
+						}
+						return err
+					},
 				),
 			},
 		},

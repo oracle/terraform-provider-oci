@@ -30,7 +30,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 		key = "${var.node_pool_initial_node_labels_key}"
 		value = "${var.node_pool_initial_node_labels_value}"
 	}
-	node_image_name = "${var.node_pool_node_image_name}"
+	node_image_name = "${oci_core_image.test_image.name}"
 	node_metadata = "${var.node_pool_node_metadata}"
 	quantity_per_subnet = "${var.node_pool_quantity_per_subnet}"
 	ssh_public_key = "${var.node_pool_ssh_public_key}"

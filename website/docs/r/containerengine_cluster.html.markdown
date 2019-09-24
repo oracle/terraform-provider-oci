@@ -19,10 +19,10 @@ resource "oci_containerengine_cluster" "test_cluster" {
 	compartment_id = "${var.compartment_id}"
 	kubernetes_version = "${var.cluster_kubernetes_version}"
 	name = "${var.cluster_name}"
-	vcn_id = "${oci_containerengine_vcn.test_vcn.id}"
+	vcn_id = "${oci_core_vcn.test_vcn.id}"
 
 	#Optional
-	kms_key_id = "${oci_containerengine_kms_key.test_kms_key.id}"
+	kms_key_id = "${oci_kms_key.test_key.id}"
 	options {
 
 		#Optional
