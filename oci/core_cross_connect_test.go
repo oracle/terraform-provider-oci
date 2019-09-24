@@ -48,7 +48,9 @@ var (
 		"is_active":               Representation{repType: Optional, create: `true`},
 	}
 
-	CrossConnectResourceDependencies = DefinedTagsDependencies + generateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation)
+	CrossConnectResourceDependencies = generateResourceFromRepresentationMap("oci_core_cross_connect_group", "test_cross_connect_group", Required, Create, crossConnectGroupRepresentation) +
+		generateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestCoreCrossConnectResource_basic(t *testing.T) {

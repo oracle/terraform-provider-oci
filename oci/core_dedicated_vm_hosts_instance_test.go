@@ -19,7 +19,7 @@ var (
 		"availability_domain":  Representation{repType: Optional, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 	}
 
-	DedicatedVmHostsInstanceResourceConfig = KeyResourceDependencyConfig + InstanceResourceConfig
+	DedicatedVmHostsInstanceResourceConfig = InstanceResourceConfig
 )
 
 func TestCoreDedicatedVmHostsInstanceResource_basic(t *testing.T) {

@@ -127,7 +127,8 @@ func (s *AvailabilityDomainDataSourceCrud) SetData() error {
 }
 
 func adNumberFromName(adName string) int {
-	regex := regexp.MustCompile(`AD-(\d)`)
+	// case insensitive matching
+	regex := regexp.MustCompile(`(?i)AD-(\d)`)
 	res := regex.FindAllStringSubmatch(adName, -1)
 
 	// no matching AD name

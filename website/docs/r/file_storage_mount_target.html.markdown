@@ -50,7 +50,7 @@ resource "oci_file_storage_mount_target" "test_mount_target" {
 	#Required
 	availability_domain = "${var.mount_target_availability_domain}"
 	compartment_id = "${var.compartment_id}"
-	subnet_id = "${oci_file_storage_subnet.test_subnet.id}"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

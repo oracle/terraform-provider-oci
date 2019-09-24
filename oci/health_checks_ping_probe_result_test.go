@@ -23,7 +23,7 @@ var (
 		"target":                              Representation{repType: Optional, create: `www.oracle.com`},
 	}
 
-	PingProbeResultResourceConfig = PingMonitorRequiredOnlyResource
+	PingProbeResultResourceConfig = generateResourceFromRepresentationMap("oci_health_checks_ping_monitor", "test_ping_monitor", Required, Create, pingMonitorRepresentation)
 )
 
 func TestHealthChecksPingProbeResultResource_basic(t *testing.T) {

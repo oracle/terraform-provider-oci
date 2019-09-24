@@ -40,7 +40,10 @@ var (
 		"type":            Representation{repType: Optional, create: `INCREMENTAL`},
 	}
 
-	VolumeGroupBackupResourceDependencies = VolumeGroupResourceConfig
+	VolumeGroupBackupResourceDependencies = generateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", Required, Create, volumeGroupRepresentation) +
+		SourceVolumeListDependency +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies
 )
 
 func TestCoreVolumeGroupBackupResource_basic(t *testing.T) {

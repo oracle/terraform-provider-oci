@@ -20,9 +20,8 @@ var (
 		"timestamp_less_than":                Representation{repType: Optional, create: `${timestamp()}`},
 	}
 
-	AlarmHistoryCollectionResourceConfig = DefinedTagsDependencies + AvailabilityDomainConfig +
-		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, getTopicRepresentationCopyWithRandomNameOrHttpReplayValue(20, charsetWithoutDigits, "talarmhistorycollection")) +
-		generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation)
+	AlarmHistoryCollectionResourceConfig = generateResourceFromRepresentationMap("oci_monitoring_alarm", "test_alarm", Required, Create, alarmRepresentation) +
+		generateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", Required, Create, notificationTopicRepresentation)
 )
 
 func TestMonitoringAlarmHistoryCollectionResource_basic(t *testing.T) {

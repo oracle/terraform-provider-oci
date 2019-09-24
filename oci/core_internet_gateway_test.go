@@ -41,7 +41,8 @@ var (
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	InternetGatewayResourceDependencies = VcnRequiredOnlyResource + VcnResourceDependencies
+	InternetGatewayResourceDependencies = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestCoreInternetGatewayResource_basic(t *testing.T) {

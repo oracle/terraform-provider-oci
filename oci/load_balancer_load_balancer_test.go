@@ -46,7 +46,10 @@ var (
 		"network_security_group_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, update: []string{}},
 	}
 
-	LoadBalancerSubnetDependencies = AvailabilityDomainConfig + `
+	LoadBalancerSubnetDependencies = generateResourceFromRepresentationMap("oci_core_vcn", "test_lb_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+		"dns_label": Representation{repType: Required, create: `dnslabel`},
+	})) +
+		`
 	data "oci_load_balancer_shapes" "t" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -57,27 +60,30 @@ var (
 
 	resource "oci_core_subnet" "lb_test_subnet_1" {
 		#Required
-		availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 		cidr_block = "10.0.0.0/24"
 		compartment_id = "${var.compartment_id}"
-		vcn_id = "${oci_core_vcn.test_vcn.id}"
+		vcn_id = "${oci_core_vcn.test_lb_vcn.id}"
 		display_name        = "lbTestSubnet"
-		security_list_ids = ["${oci_core_vcn.test_vcn.default_security_list_id}"]
+		security_list_ids = ["${oci_core_vcn.test_lb_vcn.default_security_list_id}"]
 	}
 	
 	resource "oci_core_subnet" "lb_test_subnet_2" {
 		#Required
-		availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}"
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.1.name}"
 		cidr_block = "10.0.1.0/24"
 		compartment_id = "${var.compartment_id}"
-		vcn_id = "${oci_core_vcn.test_vcn.id}"
+		vcn_id = "${oci_core_vcn.test_lb_vcn.id}"
 		display_name        = "lbTestSubnet2"
-		security_list_ids = ["${oci_core_vcn.test_vcn.default_security_list_id}"]
+		security_list_ids = ["${oci_core_vcn.test_lb_vcn.default_security_list_id}"]
 	}
 `
 
-	LoadBalancerResourceDependencies = VcnRequiredOnlyResource + VcnResourceDependencies + LoadBalancerSubnetDependencies +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation)
+	LoadBalancerResourceDependencies = LoadBalancerSubnetDependencies +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, representationCopyWithNewProperties(networkSecurityGroupRepresentation, map[string]interface{}{
+			"vcn_id": Representation{repType: Required, create: `${oci_core_vcn.test_lb_vcn.id}`},
+		})) +
+		DefinedTagsDependencies
 )
 
 func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {

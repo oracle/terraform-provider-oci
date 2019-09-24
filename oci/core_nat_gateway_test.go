@@ -48,7 +48,8 @@ var (
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	NatGatewayResourceDependencies = DefinedTagsDependencies + VcnResourceConfig
+	NatGatewayResourceDependencies = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestCoreNatGatewayResource_basic(t *testing.T) {

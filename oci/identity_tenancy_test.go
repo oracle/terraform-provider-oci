@@ -15,6 +15,8 @@ var (
 	tenancySingularDataSourceRepresentation = map[string]interface{}{
 		"tenancy_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
 	}
+
+	TenancyResourceConfig = ""
 )
 
 func TestIdentityTenancyResource_basic(t *testing.T) {

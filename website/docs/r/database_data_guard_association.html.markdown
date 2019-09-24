@@ -36,8 +36,8 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	display_name = "${var.data_guard_association_display_name}"
 	hostname = "${var.data_guard_association_hostname}"
 	nsg_ids = "${var.data_guard_association_nsg_ids}"
-	peer_db_system_id = "${oci_database_peer_db_system.test_peer_db_system.id}"
-	subnet_id = "${oci_database_subnet.test_subnet.id}"
+	peer_db_system_id = "${oci_database_db_system.test_db_system.id}"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
 }
 ```
 

@@ -579,16 +579,19 @@ func getAutonomousDatabaseIds(compartment string) ([]string, error) {
 
 	listAutonomousDatabasesRequest := oci_database.ListAutonomousDatabasesRequest{}
 	listAutonomousDatabasesRequest.CompartmentId = &compartmentId
-	listAutonomousDatabasesRequest.LifecycleState = oci_database.AutonomousDatabaseSummaryLifecycleStateAvailable
 	listAutonomousDatabasesResponse, err := databaseClient.ListAutonomousDatabases(context.Background(), listAutonomousDatabasesRequest)
 
 	if err != nil {
 		return resourceIds, fmt.Errorf("Error getting AutonomousDatabase list for compartment id : %s , %s \n", compartmentId, err)
 	}
 	for _, autonomousDatabase := range listAutonomousDatabasesResponse.Items {
-		id := *autonomousDatabase.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "AutonomousDatabaseId", id)
+		// if autonomousDatabase is in unavailable state, it also needs to be deleted, otherwise other resources which has dependency on it can not be deleted.
+		if autonomousDatabase.LifecycleState == oci_database.AutonomousDatabaseSummaryLifecycleStateAvailable ||
+			autonomousDatabase.LifecycleState == oci_database.AutonomousDatabaseSummaryLifecycleStateUnavailable {
+			id := *autonomousDatabase.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "AutonomousDatabaseId", id)
+		}
 	}
 	return resourceIds, nil
 }

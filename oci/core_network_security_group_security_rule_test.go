@@ -76,7 +76,9 @@ var (
 		"min": Representation{repType: Required, create: `1521`, update: `1522`},
 	}
 
-	NetworkSecurityGroupSecurityRuleResourceDependencies = NetworkSecurityGroupResourceConfig + ObjectStorageCoreService
+	NetworkSecurityGroupSecurityRuleResourceDependencies = ObjectStorageCoreService +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
 func TestCoreNetworkSecurityGroupSecurityRuleResource_basic(t *testing.T) {

@@ -51,7 +51,10 @@ var (
 		"timeout_in_seconds": Representation{repType: Optional, create: `30`, update: `31`},
 	}
 
-	FunctionResourceDependencies = ApplicationResourceConfig
+	FunctionResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestFunctionsFunctionResource_basic(t *testing.T) {

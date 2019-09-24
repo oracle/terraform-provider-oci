@@ -19,7 +19,8 @@ var (
 		"image_id":            Representation{repType: Optional, create: `${oci_core_image.test_image.id}`},
 	}
 
-	ShapeResourceConfig = ``
+	ShapeResourceConfig = OciImageIdsVariable +
+		AvailabilityDomainConfig
 )
 
 func TestCoreShapeResource_basic(t *testing.T) {

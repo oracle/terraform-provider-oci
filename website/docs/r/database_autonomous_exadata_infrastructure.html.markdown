@@ -20,7 +20,7 @@ resource "oci_database_autonomous_exadata_infrastructure" "test_autonomous_exada
 	availability_domain = "${var.autonomous_exadata_infrastructure_availability_domain}"
 	compartment_id = "${var.compartment_id}"
 	shape = "${var.autonomous_exadata_infrastructure_shape}"
-	subnet_id = "${oci_database_subnet.test_subnet.id}"
+	subnet_id = "${oci_core_subnet.test_subnet.id}"
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

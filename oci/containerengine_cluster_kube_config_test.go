@@ -15,11 +15,17 @@ import (
 var (
 	clusterKubeConfigSingularDataSourceRepresentation = map[string]interface{}{
 		"cluster_id":    Representation{repType: Required, create: `${oci_containerengine_cluster.test_cluster.id}`},
-		"expiration":    Representation{repType: Optional, create: `2592000`},
-		"token_version": Representation{repType: Optional, create: `1.0.0`},
+		"token_version": Representation{repType: Optional, create: `2.0.0`},
 	}
 
-	ClusterKubeConfigResourceConfig = ClusterResourceConfig
+	ClusterKubeConfigResourceConfig = generateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", Required, Create, clusterRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.20.0/24`}, "dns_label": Representation{repType: Required, create: `cluster1`}})) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_2", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{"availability_domain": Representation{repType: Required, create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": Representation{repType: Required, create: `10.0.21.0/24`}, "dns_label": Representation{repType: Required, create: `cluster2`}})) +
+		AvailabilityDomainConfig +
+		generateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Required, Create, clusterOptionSingularDataSourceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		}))
 )
 
 func TestContainerengineClusterKubeConfigResource_basic(t *testing.T) {
@@ -47,8 +53,7 @@ func TestContainerengineClusterKubeConfigResource_basic(t *testing.T) {
 					compartmentIdVariableStr + ClusterKubeConfigResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "expiration", "2592000"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "token_version", "1.0.0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "token_version", "2.0.0"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),
 				),
 			},

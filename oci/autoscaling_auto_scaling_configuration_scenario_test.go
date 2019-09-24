@@ -28,7 +28,7 @@ type ResourceAutoScalingConfigurationTestSuite struct {
 func (s *ResourceAutoScalingConfigurationTestSuite) SetupTest() {
 	s.Providers = testAccProviders
 	testAccPreCheck(s.T())
-	s.Config = legacyTestProviderConfig() + InstanceCommonVariables + `
+	s.Config = legacyTestProviderConfig() + OciImageIdsVariable + `
 		data "oci_identity_availability_domains" "ADs" {
 			compartment_id = "${var.tenancy_ocid}"
 		}

@@ -49,7 +49,7 @@ resource "oci_file_storage_file_system" "test_file_system" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.file_system_display_name}"
 	freeform_tags = {"Department"= "Finance"}
-	kms_key_id = "${oci_file_storage_kms_key.test_kms_key.id}"
+	kms_key_id = "${oci_kms_key.test_key.id}"
 }
 ```
 

@@ -17,7 +17,8 @@ var (
 		"identity_provider_id": Representation{repType: Required, create: `${oci_identity_identity_provider.test_identity_provider.id}`},
 	}
 
-	IdentityProviderGroupResourceConfig = IdentityProviderRequiredOnlyResource
+	IdentityProviderGroupResourceConfig = generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation) +
+		IdentityProviderPropertyVariables
 )
 
 func TestIdentityIdentityProviderGroupResource_basic(t *testing.T) {
