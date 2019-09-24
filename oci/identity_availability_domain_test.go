@@ -82,7 +82,7 @@ func TestIdentityAvailabilityDomainResource_basic(t *testing.T) {
 
 						// no matching AD name
 						if res == nil || len(res) < 1 {
-							fmt.Errorf("No match found for case insensitive search")
+							err = fmt.Errorf("no match found for case insensitive search")
 						}
 						return err
 					},
