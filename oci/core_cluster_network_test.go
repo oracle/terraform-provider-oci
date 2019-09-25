@@ -83,7 +83,7 @@ var (
 
 	ClusterNetworkResourceRequiredOnlyDependencies = AvailabilityDomainClusterNetworkConfig + DhcpOptionsRequiredOnlyResource + RouteTableRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.2.0/24`}, subnetRepresentation)) +
-		InstanceCommonVariables +
+		OciImageIdsVariable +
 		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation)
 
 	ClusterNetworkResourceDependencies = ClusterNetworkResourceRequiredOnlyDependencies +

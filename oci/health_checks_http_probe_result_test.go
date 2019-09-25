@@ -23,7 +23,7 @@ var (
 		"target":                              Representation{repType: Optional, create: `www.oracle.com`},
 	}
 
-	HttpProbeResultResourceConfig = HttpMonitorRequiredOnlyResource
+	HttpProbeResultResourceConfig = generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorRepresentation)
 )
 
 func TestHealthChecksHttpProbeResultResource_basic(t *testing.T) {

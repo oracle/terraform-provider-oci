@@ -147,7 +147,8 @@ var (
 		"value":            Representation{repType: Optional, create: `10`},
 	}
 
-	SteeringPolicyResourceDependencies = HttpMonitorRequiredOnlyResource
+	SteeringPolicyResourceDependencies = generateResourceFromRepresentationMap("oci_health_checks_http_monitor", "test_http_monitor", Required, Create, httpMonitorRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestDnsSteeringPolicyResource_basic(t *testing.T) {

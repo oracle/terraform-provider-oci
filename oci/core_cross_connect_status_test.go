@@ -17,7 +17,8 @@ var (
 		"cross_connect_id": Representation{repType: Required, create: `${oci_core_cross_connect.test_cross_connect.id}`},
 	}
 
-	CrossConnectStatusResourceConfig = CrossConnectResourceConfig
+	CrossConnectStatusResourceConfig = generateDataSourceFromRepresentationMap("oci_core_cross_connect_locations", "test_cross_connect_locations", Required, Create, crossConnectLocationDataSourceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_cross_connect", "test_cross_connect", Required, Create, crossConnectRepresentation)
 )
 
 func TestCoreCrossConnectStatusResource_basic(t *testing.T) {

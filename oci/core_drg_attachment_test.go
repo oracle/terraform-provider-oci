@@ -38,7 +38,10 @@ var (
 		"route_table_id": Representation{repType: Required, create: `${oci_core_vcn.test_vcn.default_route_table_id}`},
 	}
 
-	DrgAttachmentResourceDependencies = DrgRequiredOnlyResource + VcnRequiredOnlyResource + VcnResourceDependencies
+	DrgAttachmentResourceDependencies = generateResourceFromRepresentationMap("oci_core_drg", "test_drg", Required, Create, drgRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
 )
 
 func TestCoreDrgAttachmentResource_basic(t *testing.T) {

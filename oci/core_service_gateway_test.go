@@ -44,9 +44,11 @@ var (
 		"service_id": Representation{repType: Required, create: `${lookup(data.oci_core_services.test_services.services[0], "id")}`},
 	}
 
-	ServiceGatewayResourceDependencies = DefinedTagsDependencies + VcnResourceConfig + ObjectStorageCoreService +
-		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, representationCopyWithRemovedProperties(routeTableRepresentation, []string{"route_rules"})) +
-		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_network_entity", Required, Create, internetGatewayRepresentation)
+	ServiceGatewayResourceDependencies = generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
+		generateDataSourceFromRepresentationMap("oci_core_services", "test_services", Required, Create, serviceDataSourceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestCoreServiceGatewayResource_basic(t *testing.T) {

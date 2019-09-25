@@ -1,4 +1,9 @@
-## 3.44.1 (Unreleased)
+## 3.45.0 (Unreleased)
+
+### Added
+
+- Support for Event Notifications on `oci_objectstorage_bucket`
+
 ## 3.44.0 (September 18, 2019)
 
 ### Added

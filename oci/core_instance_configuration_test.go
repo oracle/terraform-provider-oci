@@ -110,7 +110,7 @@ var (
 		"assign_public_ip":       Representation{repType: Optional, create: `false`},
 		"display_name":           Representation{repType: Optional, create: `backend-servers`},
 		"hostname_label":         Representation{repType: Optional, create: `hostnameLabel`},
-		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}},
+		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"private_ip":             Representation{repType: Optional, create: `privateIp`},
 		"skip_source_dest_check": Representation{repType: Optional, create: `false`},
 		"subnet_id":              Representation{repType: Optional, create: `${oci_core_subnet.test_subnet.id}`},
@@ -124,7 +124,7 @@ var (
 		"assign_public_ip":       Representation{repType: Optional, create: `false`},
 		"display_name":           Representation{repType: Optional, create: `backend-servers`},
 		"hostname_label":         Representation{repType: Optional, create: `hostnameLabel`},
-		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}},
+		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"private_ip":             Representation{repType: Optional, create: `privateIp`},
 		"skip_source_dest_check": Representation{repType: Optional, create: `false`},
 		"subnet_id":              Representation{repType: Optional, create: `${oci_core_subnet.test_subnet.id}`},
@@ -134,8 +134,16 @@ var (
 		"id":   Representation{repType: Optional, create: `${oci_core_boot_volume.test_boot_volume.id}`},
 	}
 
-	InstanceConfigurationResourceDependencies = InstanceRequiredOnlyResource
-	InstanceConfigurationVmShape              = `VM.Standard2.1`
+	InstanceConfigurationResourceDependencies = generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation) +
+		OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		VolumeBackupPolicyDependency +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies
+	InstanceConfigurationVmShape = `VM.Standard2.1`
 
 	InstanceConfigurationResourceImageConfig = generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 		getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation))
@@ -211,7 +219,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 			},
 			// verify create with optionals launch_details
 			{
-				Config: config + compartmentIdVariableStr + ImageRequiredOnlyResource +
+				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -256,7 +264,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ImageRequiredOnlyResource +
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + InstanceConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, representationCopyWithNewProperties(
 						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsLaunchRepresentation}, instanceConfigurationRepresentation),
 						map[string]interface{}{"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`}})),
@@ -301,7 +309,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 			},
 			// verify recreate with optionals block_volumes.create_details
 			{
-				Config: config + compartmentIdVariableStr + BootVolumeRequiredOnlyResource +
+				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsBlockRepresentation}, instanceConfigurationRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -334,7 +342,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 			},
 			// verify recreate with optionals block_volumes.create_details to block_volumes.attach_details
 			{
-				Config: config + compartmentIdVariableStr + BootVolumeRequiredOnlyResource +
+				Config: config + compartmentIdVariableStr + InstanceConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
 						getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional,
 							getUpdatedRepresentationCopy("block_volumes", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsBlockVolumesAttachRepresentation}, instanceConfigurationInstanceDetailsBlockRepresentation)}, instanceConfigurationRepresentation)),

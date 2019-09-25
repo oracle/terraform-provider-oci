@@ -26,7 +26,7 @@ resource "oci_budget_budget" "test_budget" {
 	description = "${var.budget_description}"
 	display_name = "${var.budget_display_name}"
 	freeform_tags = {"Department"= "Finance"}
-	target_compartment_id = "${oci_budget_target_compartment.test_target_compartment.id}"
+	target_compartment_id = "${oci_identity_compartment.test_compartment.id}"
 	target_type = "${var.budget_target_type}"
 	targets = "${var.budget_targets}"
 }

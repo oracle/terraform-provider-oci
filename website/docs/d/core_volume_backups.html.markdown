@@ -21,7 +21,7 @@ data "oci_core_volume_backups" "test_volume_backups" {
 
 	#Optional
 	display_name = "${var.volume_backup_display_name}"
-	source_volume_backup_id = "${oci_core_source_volume_backup.test_source_volume_backup.id}"
+	source_volume_backup_id = "${oci_core_volume_backup.test_volume_backup.id}"
 	state = "${var.volume_backup_state}"
 	volume_id = "${oci_core_volume.test_volume.id}"
 }

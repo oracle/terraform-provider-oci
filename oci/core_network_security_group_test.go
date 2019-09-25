@@ -47,7 +47,8 @@ var (
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	NetworkSecurityGroupResourceDependencies = DefinedTagsDependencies + VcnResourceConfig
+	NetworkSecurityGroupResourceDependencies = generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		DefinedTagsDependencies
 )
 
 func TestCoreNetworkSecurityGroupResource_basic(t *testing.T) {

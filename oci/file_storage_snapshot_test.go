@@ -43,7 +43,9 @@ var (
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	SnapshotResourceDependencies = DefinedTagsDependencies + AvailabilityDomainConfig + FileSystemRequiredOnlyResource
+	SnapshotResourceDependencies = generateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", Required, Create, fileSystemRepresentation) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies
 )
 
 func TestFileStorageSnapshotResource_basic(t *testing.T) {

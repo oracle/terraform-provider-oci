@@ -35,7 +35,10 @@ var (
 		"max_fs_stat_files": Representation{repType: Optional, create: `9223372036854775807`},
 	}
 
-	ExportSetResourceDependencies = MountTargetRequiredOnlyResource
+	ExportSetResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", Required, Create, mountTargetRepresentation) +
+		AvailabilityDomainConfig
 )
 
 func TestFileStorageExportSetResource_basic(t *testing.T) {

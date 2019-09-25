@@ -46,7 +46,8 @@ var (
 		"value":  Representation{repType: Required, create: `example_header_value`, update: ``},
 	}
 
-	RuleSetResourceDependencies      = LoadBalancerResourceConfig
+	RuleSetResourceDependencies = generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+		LoadBalancerSubnetDependencies
 	RuleSetResourceWithMultipleRules = `
 resource "oci_load_balancer_rule_set" "test_rule_set" {
 	#Required
@@ -108,7 +109,7 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 		conditions {
 			#Required
 			attribute_name = "SOURCE_VCN_ID"
-			attribute_value = "${oci_core_vcn.test_vcn.id}"
+			attribute_value = "${oci_core_vcn.test_lb_vcn.id}"
 		}
 		conditions {
 			#Required

@@ -29,7 +29,7 @@ var (
 		"user_id":      Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
 	}
 
-	CustomerSecretKeyResourceDependencies = UserRequiredOnlyResource
+	CustomerSecretKeyResourceDependencies = generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 )
 
 func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {

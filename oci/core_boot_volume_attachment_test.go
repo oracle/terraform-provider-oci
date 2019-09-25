@@ -21,7 +21,12 @@ var (
 		"instance_id":         Representation{repType: Optional, create: `${oci_core_instance.test_instance.id}`},
 	}
 
-	BootVolumeAttachmentResourceConfig = BootVolumeResourceConfig
+	BootVolumeAttachmentResourceConfig = generateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", Required, Create, bootVolumeRepresentation) +
+		OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		AvailabilityDomainConfig
 )
 
 func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
