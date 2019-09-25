@@ -3,6 +3,8 @@
 package provider
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"log"
 	"math/rand"
@@ -252,4 +254,13 @@ func jsonStringDiffSuppressFunction(key, old, new string, d *schema.ResourceData
 	}
 
 	return reflect.DeepEqual(oldVal, newVal)
+}
+
+func getMd5Hash(source interface{}) string {
+	if source == nil {
+		return ""
+	}
+	data := source.(string)
+	hexSum := md5.Sum([]byte(data))
+	return hex.EncodeToString(hexSum[:])
 }
