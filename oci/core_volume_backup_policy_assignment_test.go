@@ -29,7 +29,9 @@ var (
 		"policy_id": Representation{repType: Required, create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
 	}
 
-	VolumeBackupPolicyAssignmentResourceDependencies = VolumeResourceConfig
+	VolumeBackupPolicyAssignmentResourceDependencies = VolumeBackupPolicyDependency +
+		generateResourceFromRepresentationMap("oci_core_volume", "test_volume", Required, Create, volumeRepresentation) +
+		AvailabilityDomainConfig
 )
 
 func TestCoreVolumeBackupPolicyAssignmentResource_basic(t *testing.T) {

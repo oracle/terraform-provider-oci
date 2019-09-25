@@ -30,8 +30,47 @@ var (
 		"fn_invoke_type":       Representation{repType: Optional, create: `sync`},
 	}
 
-	InvokeFunctionResourceDependencies = FunctionRequiredOnlyResource
-	sourceFile                         *os.File
+	InvokeFunctionResourceDependencies = generateResourceFromRepresentationMap("oci_functions_application", "test_application", Required, Create, applicationRepresentation) +
+		generateResourceFromRepresentationMap("oci_functions_function", "test_function", Required, Create, functionRepresentation) +
+		AvailabilityDomainConfig +
+		DhcpOptionsRequiredOnlyResource +
+		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Create, routeTableRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Required, Create, internetGatewayRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation) +
+		DefinedTagsDependencies +
+		`
+	resource "oci_core_security_list" "test_security_list" {
+		compartment_id = "${var.compartment_id}"
+		egress_security_rules {
+    		destination = "0.0.0.0/0"
+    		protocol    = "6"
+  		}
+		ingress_security_rules {
+			protocol = "1"
+			source = "10.0.1.0/24"
+		}
+		vcn_id = "${oci_core_vcn.test_vcn.id}"
+	}
+
+	resource "oci_core_subnet" "test_subnet" {
+		availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
+		cidr_block = "10.0.0.0/16"
+		compartment_id = "${var.compartment_id}"
+		defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}"
+		dhcp_options_id = "${oci_core_dhcp_options.test_dhcp_options.id}"
+		display_name = "tf-subnet"
+		dns_label = "dnslabel"
+		freeform_tags = {
+			"Department" = "Accounting"
+		}
+		prohibit_public_ip_on_vnic = "false"
+		route_table_id = "${oci_core_route_table.test_route_table.id}"
+		security_list_ids = ["${oci_core_security_list.test_security_list.id}"]
+		vcn_id = "${oci_core_vcn.test_vcn.id}"
+	}
+
+	`
+	sourceFile *os.File
 )
 
 func createTmpSourceFile() (string, error) {

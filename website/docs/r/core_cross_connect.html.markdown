@@ -44,9 +44,9 @@ resource "oci_core_cross_connect" "test_cross_connect" {
 	customer_reference_name = "${var.cross_connect_customer_reference_name}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.cross_connect_display_name}"
-	far_cross_connect_or_cross_connect_group_id = "${oci_core_far_cross_connect_or_cross_connect_group.test_far_cross_connect_or_cross_connect_group.id}"
+	far_cross_connect_or_cross_connect_group_id = "${oci_core_cross_connect_group.test_cross_connect_group.id}"
 	freeform_tags = {"Department"= "Finance"}
-	near_cross_connect_or_cross_connect_group_id = "${oci_core_near_cross_connect_or_cross_connect_group.test_near_cross_connect_or_cross_connect_group.id}"
+	near_cross_connect_or_cross_connect_group_id = "${oci_core_cross_connect_group.test_cross_connect_group.id}"
 }
 ```
 

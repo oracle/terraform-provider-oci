@@ -19,7 +19,11 @@ var (
 		"depends_on":       Representation{repType: Required, create: []string{`oci_load_balancer_backend.test_backend`}},
 	}
 
-	BackendSetHealthResourceConfig = BackendRequiredOnlyResource
+	BackendSetHealthResourceConfig = generateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", Required, Create, backendRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+		LoadBalancerSubnetDependencies
 )
 
 func TestLoadBalancerBackendSetHealthResource_basic(t *testing.T) {

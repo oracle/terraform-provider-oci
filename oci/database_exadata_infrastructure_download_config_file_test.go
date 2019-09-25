@@ -18,7 +18,7 @@ var (
 		"base64_encode_content":     Representation{repType: Optional, create: `true`},
 	}
 
-	ExadataInfrastructureDownloadConfigFileResourceConfig = ExadataInfrastructureRequiredOnlyResource
+	ExadataInfrastructureDownloadConfigFileResourceConfig = generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Required, Create, exadataInfrastructureRepresentation)
 )
 
 func TestDatabaseExadataInfrastructureDownloadConfigFileResource_basic(t *testing.T) {

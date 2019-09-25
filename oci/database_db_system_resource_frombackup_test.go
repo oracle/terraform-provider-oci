@@ -79,7 +79,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 		Steps: []resource.TestStep{
 			// create
 			{
-				Config: ResourceDatabaseBaseConfig + SubnetResourceConfig + DataBaseSystemWithBackup + `
+				Config: ResourceDatabaseBaseConfig + SubnetRequiredOnlyResource + DataBaseSystemWithBackup + `
 				data "oci_database_databases" "t" {
   					compartment_id = "${var.compartment_id}"
   					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
@@ -95,7 +95,7 @@ func TestResourceDatabaseDBSystemFromBackup(t *testing.T) {
 			{
 				PreConfig: waitTillCondition(testAccProvider, &resId, dbBackupAvailableWaitCondition, DBWaitConditionDuration,
 					listBackupsFetchOperation, "core", false),
-				Config: ResourceDatabaseBaseConfig + SubnetResourceConfig + DataBaseSystemWithBackup + `
+				Config: ResourceDatabaseBaseConfig + SubnetRequiredOnlyResource + DataBaseSystemWithBackup + `
 				data "oci_database_databases" "t" {
   					compartment_id = "${var.compartment_id}"
   					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"

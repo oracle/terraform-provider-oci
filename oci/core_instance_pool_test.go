@@ -101,7 +101,7 @@ var (
 		"skip_source_dest_check": Representation{repType: Optional, create: `false`},
 	}
 
-	InstancePoolResourceDependenciesWithoutSecondaryVnic = SubnetResourceConfig + InstanceCommonVariables + `
+	InstancePoolResourceDependenciesWithoutSecondaryVnic = SubnetResourceConfig + OciImageIdsVariable + `
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}` +
@@ -109,9 +109,17 @@ var (
 			getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional,
 				representationCopyWithRemovedProperties(instanceConfigurationInstanceDetailsPoolRepresentation, []string{"secondary_vnics"})}, instanceConfigurationPoolRepresentation))
 
-	InstancePoolResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.2.0/24`}, subnetRepresentation)) +
-		InstanceCommonVariables + BackendSetRequiredOnlyResource +
-		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, instanceConfigurationPoolRepresentation)
+	InstancePoolResourceDependencies = OciImageIdsVariable +
+		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, instanceConfigurationPoolRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies +
+		generateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", Required, Create, backendSetRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", Required, Create, certificateRepresentation) +
+		generateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", Required, Create, loadBalancerRepresentation) +
+		LoadBalancerSubnetDependencies
 )
 
 func TestCoreInstancePoolResource_basic(t *testing.T) {

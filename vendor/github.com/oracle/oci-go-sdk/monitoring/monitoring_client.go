@@ -110,7 +110,9 @@ func (client MonitoringClient) changeAlarmCompartment(ctx context.Context, reque
 
 // CreateAlarm Creates a new alarm in the specified compartment.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
+// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+// or transactions, per second (TPS) for a given tenancy.
 func (client MonitoringClient) CreateAlarm(ctx context.Context, request CreateAlarmRequest) (response CreateAlarmResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -159,7 +161,9 @@ func (client MonitoringClient) createAlarm(ctx context.Context, request common.O
 
 // DeleteAlarm Deletes the specified alarm.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
+// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+// or transactions, per second (TPS) for a given tenancy.
 func (client MonitoringClient) DeleteAlarm(ctx context.Context, request DeleteAlarmRequest) (response DeleteAlarmResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -203,7 +207,9 @@ func (client MonitoringClient) deleteAlarm(ctx context.Context, request common.O
 
 // GetAlarm Gets the specified alarm.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
+// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+// or transactions, per second (TPS) for a given tenancy.
 func (client MonitoringClient) GetAlarm(ctx context.Context, request GetAlarmRequest) (response GetAlarmResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -247,7 +253,9 @@ func (client MonitoringClient) getAlarm(ctx context.Context, request common.OCIR
 
 // GetAlarmHistory Get the history of the specified alarm.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
+// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+// or transactions, per second (TPS) for a given tenancy.
 func (client MonitoringClient) GetAlarmHistory(ctx context.Context, request GetAlarmHistoryRequest) (response GetAlarmHistoryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -291,7 +299,9 @@ func (client MonitoringClient) getAlarmHistory(ctx context.Context, request comm
 
 // ListAlarms Lists the alarms for the specified compartment.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
+// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+// or transactions, per second (TPS) for a given tenancy.
 func (client MonitoringClient) ListAlarms(ctx context.Context, request ListAlarmsRequest) (response ListAlarmsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -335,7 +345,9 @@ func (client MonitoringClient) listAlarms(ctx context.Context, request common.OC
 
 // ListAlarmsStatus List the status of each alarm in the specified compartment.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
+// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+// or transactions, per second (TPS) for a given tenancy.
 func (client MonitoringClient) ListAlarmsStatus(ctx context.Context, request ListAlarmsStatusRequest) (response ListAlarmsStatusResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -380,7 +392,7 @@ func (client MonitoringClient) listAlarmsStatus(ctx context.Context, request com
 // ListMetrics Returns metric definitions that match the criteria specified in the request. Compartment OCID required.
 // For information about metrics, see Metrics Overview (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#MetricsOverview).
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
+// Transactions Per Second (TPS) per-tenancy limit for this operation: 10.
 func (client MonitoringClient) ListMetrics(ctx context.Context, request ListMetricsRequest) (response ListMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -478,7 +490,9 @@ func (client MonitoringClient) postMetricData(ctx context.Context, request commo
 
 // RemoveAlarmSuppression Removes any existing suppression for the specified alarm.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
+// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+// or transactions, per second (TPS) for a given tenancy.
 func (client MonitoringClient) RemoveAlarmSuppression(ctx context.Context, request RemoveAlarmSuppressionRequest) (response RemoveAlarmSuppressionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -567,7 +581,9 @@ func (client MonitoringClient) summarizeMetricsData(ctx context.Context, request
 
 // UpdateAlarm Updates the specified alarm.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
-// Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
+// This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+// Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+// or transactions, per second (TPS) for a given tenancy.
 func (client MonitoringClient) UpdateAlarm(ctx context.Context, request UpdateAlarmRequest) (response UpdateAlarmResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

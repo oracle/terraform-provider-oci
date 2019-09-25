@@ -50,7 +50,8 @@ var (
 		"freeform_tags":           Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
-	DedicatedVmHostResourceDependencies = DefinedTagsDependencies + AvailabilityDomainConfig
+	DedicatedVmHostResourceDependencies = AvailabilityDomainConfig +
+		DefinedTagsDependencies
 )
 
 func TestCoreDedicatedVmHostResource_basic(t *testing.T) {

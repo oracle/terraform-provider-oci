@@ -41,7 +41,9 @@ var (
 		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`, update: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[1], "id")}`},
 	}
 
-	FileSystemResourceDependencies = AvailabilityDomainConfig + DefinedTagsDependencies + KeyResourceDependencyConfig
+	FileSystemResourceDependencies = AvailabilityDomainConfig +
+		DefinedTagsDependencies +
+		KeyResourceDependencyConfig
 )
 
 func TestFileStorageFileSystemResource_basic(t *testing.T) {

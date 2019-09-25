@@ -21,6 +21,8 @@ var (
 		"name":   Representation{repType: Required, create: `is_home_region`},
 		"values": Representation{repType: Required, create: []string{`true`}},
 	}
+
+	RegionSubscriptionResourceConfig = ""
 )
 
 func TestIdentityRegionSubscriptionResource_basic(t *testing.T) {

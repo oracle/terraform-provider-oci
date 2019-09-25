@@ -21,7 +21,7 @@ resource "oci_core_instance_pool" "test_instance_pool" {
 	placement_configurations {
 		#Required
 		availability_domain = "${var.instance_pool_placement_configurations_availability_domain}"
-		primary_subnet_id = "${oci_core_primary_subnet.test_primary_subnet.id}"
+		primary_subnet_id = "${oci_core_subnet.test_subnet.id}"
 
 		#Optional
 		secondary_vnic_subnets {
@@ -40,8 +40,8 @@ resource "oci_core_instance_pool" "test_instance_pool" {
 	freeform_tags = {"Department"= "Finance"}
 	load_balancers {
 		#Required
-		backend_set_name = "${oci_core_backend_set.test_backend_set.name}"
-		load_balancer_id = "${oci_core_load_balancer.test_load_balancer.id}"
+		backend_set_name = "${oci_load_balancer_backend_set.test_backend_set.name}"
+		load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 		port = "${var.instance_pool_load_balancers_port}"
 		vnic_selection = "${var.instance_pool_load_balancers_vnic_selection}"
 	}

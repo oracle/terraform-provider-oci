@@ -30,7 +30,9 @@ var (
 		"idp_group_name":       Representation{repType: Required, create: `idpGroupName`, update: `idpGroupName2`},
 	}
 
-	IdpGroupMappingResourceDependencies = GroupResourceConfig + IdentityProviderRequiredOnlyResource
+	IdpGroupMappingResourceDependencies = generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation) +
+		generateResourceFromRepresentationMap("oci_identity_identity_provider", "test_identity_provider", Required, Create, identityProviderRepresentation) +
+		IdentityProviderPropertyVariables
 )
 
 func TestIdentityIdpGroupMappingResource_basic(t *testing.T) {

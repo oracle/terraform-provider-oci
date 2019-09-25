@@ -31,7 +31,8 @@ var (
 		"user_id":  Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
 	}
 
-	UserGroupMembershipResourceDependencies = GroupResourceConfig + UserRequiredOnlyResource
+	UserGroupMembershipResourceDependencies = generateResourceFromRepresentationMap("oci_identity_group", "test_group", Required, Create, groupRepresentation) +
+		generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 )
 
 func TestIdentityUserGroupMembershipResource_basic(t *testing.T) {

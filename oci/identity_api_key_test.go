@@ -29,7 +29,7 @@ var (
 		"user_id":   Representation{repType: Required, create: `${oci_identity_user.test_user.id}`},
 	}
 
-	ApiKeyResourceDependencies = UserRequiredOnlyResource
+	ApiKeyResourceDependencies = generateResourceFromRepresentationMap("oci_identity_user", "test_user", Required, Create, userRepresentation)
 
 	apiKey = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4fGHcxbEs3VaWoKaGUiP

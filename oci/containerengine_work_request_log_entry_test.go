@@ -19,7 +19,7 @@ var (
 	}
 
 	WorkRequestLogEntryResourceConfig = WorkRequestResourceConfig +
-		generateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", Optional, Create, workRequestDataSourceRepresentation)
+		generateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", Required, Create, workRequestDataSourceRepresentation)
 )
 
 func TestContainerengineWorkRequestLogEntryResource_basic(t *testing.T) {

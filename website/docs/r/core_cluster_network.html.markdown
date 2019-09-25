@@ -30,7 +30,7 @@ resource "oci_core_cluster_network" "test_cluster_network" {
 	placement_configuration {
 		#Required
 		availability_domain = "${var.cluster_network_placement_configuration_availability_domain}"
-		primary_subnet_id = "${oci_core_primary_subnet.test_primary_subnet.id}"
+		primary_subnet_id = "${oci_core_subnet.test_subnet.id}"
 
 		#Optional
 		secondary_vnic_subnets {

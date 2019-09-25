@@ -65,7 +65,8 @@ var (
 		"display_name":       Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 	}
 
-	SteeringPolicyAttachmentResourceDependencies = SteeringPolicyRequiredOnlyResource + generateResourceFromRepresentationMap("oci_dns_record", "test_record", Required, Create, recordRepresentation) + RecordResourceDependencies
+	SteeringPolicyAttachmentResourceDependencies = RecordResourceDependencies +
+		generateResourceFromRepresentationMap("oci_dns_steering_policy", "test_steering_policy", Required, Create, steeringPolicyRepresentation)
 )
 
 func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
