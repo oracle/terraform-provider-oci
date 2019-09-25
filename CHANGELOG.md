@@ -1,7 +1,8 @@
-## 3.50.1 (Unreleased)
+## 3.51.0 (Unreleased)
 
 ### Added
 - Support for updating `assign_public_ip` attribute in `oci_core_instance` resource
+- Support for Oracle Analytics cloud
 
 ## 3.50.0 (October 30, 2019)
 

@@ -3,6 +3,7 @@
 package provider
 
 import (
+	oci_analytics "github.com/oracle/oci-go-sdk/analytics"
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
@@ -34,6 +35,7 @@ import (
 type OracleClients struct {
 	configuration                  map[string]string
 	auditClient                    *oci_audit.AuditClient
+	analyticsClient                *oci_analytics.AnalyticsClient
 	autoScalingClient              *oci_auto_scaling.AutoScalingClient
 	blockstorageClient             *oci_core.BlockstorageClient
 	budgetClient                   *oci_budget.BudgetClient
@@ -112,6 +114,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.auditClient = &auditClient
+
+	analyticsClient, err := oci_analytics.NewAnalyticsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&analyticsClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.analyticsClient = &analyticsClient
 
 	autoScalingClient, err := oci_auto_scaling.NewAutoScalingClientWithConfigurationProvider(configProvider)
 	if err != nil {
