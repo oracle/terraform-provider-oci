@@ -36,6 +36,7 @@ const (
 	RegionSASaopaulo1 Region = "sa-saopaulo-1"
 	//RegionAPSydney1 region for Sydney
 	RegionAPSydney1 Region = "ap-sydney-1"
+
 	//RegionUSLangley1 region for langley
 	RegionUSLangley1 Region = "us-langley-1"
 	//RegionUSLuke1 region for luke
@@ -134,6 +135,8 @@ func StringToRegion(stringRegion string) (r Region) {
 		r = RegionEUZurich1
 	case "gru", "sa-saopaulo-1":
 		r = RegionSASaopaulo1
+	case "syd", "ap-sydney-1":
+		r = RegionAPSydney1
 	case "us-langley-1":
 		r = RegionUSLangley1
 	case "us-luke-1":

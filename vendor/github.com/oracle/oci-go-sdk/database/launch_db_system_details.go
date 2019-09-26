@@ -94,6 +94,8 @@ type LaunchDbSystemDetails struct {
 	// The time zone to use for the DB system. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
+	DbSystemOptions *DbSystemOptions `mandatory:"false" json:"dbSystemOptions"`
+
 	// If true, Sparse Diskgroup is configured for Exadata dbsystem. If False, Sparse diskgroup is not configured.
 	SparseDiskgroup *bool `mandatory:"false" json:"sparseDiskgroup"`
 
@@ -186,6 +188,11 @@ func (m LaunchDbSystemDetails) GetShape() *string {
 //GetTimeZone returns TimeZone
 func (m LaunchDbSystemDetails) GetTimeZone() *string {
 	return m.TimeZone
+}
+
+//GetDbSystemOptions returns DbSystemOptions
+func (m LaunchDbSystemDetails) GetDbSystemOptions() *DbSystemOptions {
+	return m.DbSystemOptions
 }
 
 //GetSparseDiskgroup returns SparseDiskgroup

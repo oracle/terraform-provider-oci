@@ -14,7 +14,7 @@ type ChangeDedicatedVmHostCompartmentRequest struct {
 	// The OCID of the dedicated VM host.
 	DedicatedVmHostId *string `mandatory:"true" contributesTo:"path" name:"dedicatedVmHostId"`
 
-	// Request to change the compartment of a given dedicated vm host.
+	// The request to move the dedicated virtual machine host to a different compartment.
 	ChangeDedicatedVmHostCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
