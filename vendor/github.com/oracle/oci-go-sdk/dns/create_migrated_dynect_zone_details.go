@@ -14,9 +14,9 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateZoneDetails The body for defining a new zone.
+// CreateMigratedDynectZoneDetails The body for migrating a zone from DynECT.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
-type CreateZoneDetails struct {
+type CreateMigratedDynectZoneDetails struct {
 
 	// The name of the zone.
 	Name *string `mandatory:"true" json:"name"`
@@ -36,71 +36,43 @@ type CreateZoneDetails struct {
 	// **Example:** `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// External master servers for the zone. `externalMasters` becomes a
-	// required parameter when the `zoneType` value is `SECONDARY`.
-	ExternalMasters []ExternalMaster `mandatory:"false" json:"externalMasters"`
-
-	// The type of the zone. Must be either `PRIMARY` or `SECONDARY`.
-	ZoneType CreateZoneDetailsZoneTypeEnum `mandatory:"false" json:"zoneType,omitempty"`
+	DynectMigrationDetails *DynectMigrationDetails `mandatory:"false" json:"dynectMigrationDetails"`
 }
 
 //GetName returns Name
-func (m CreateZoneDetails) GetName() *string {
+func (m CreateMigratedDynectZoneDetails) GetName() *string {
 	return m.Name
 }
 
 //GetCompartmentId returns CompartmentId
-func (m CreateZoneDetails) GetCompartmentId() *string {
+func (m CreateMigratedDynectZoneDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
 //GetFreeformTags returns FreeformTags
-func (m CreateZoneDetails) GetFreeformTags() map[string]string {
+func (m CreateMigratedDynectZoneDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
 //GetDefinedTags returns DefinedTags
-func (m CreateZoneDetails) GetDefinedTags() map[string]map[string]interface{} {
+func (m CreateMigratedDynectZoneDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-func (m CreateZoneDetails) String() string {
+func (m CreateMigratedDynectZoneDetails) String() string {
 	return common.PointerString(m)
 }
 
 // MarshalJSON marshals to json representation
-func (m CreateZoneDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCreateZoneDetails CreateZoneDetails
+func (m CreateMigratedDynectZoneDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateMigratedDynectZoneDetails CreateMigratedDynectZoneDetails
 	s := struct {
 		DiscriminatorParam string `json:"migrationSource"`
-		MarshalTypeCreateZoneDetails
+		MarshalTypeCreateMigratedDynectZoneDetails
 	}{
-		"NONE",
-		(MarshalTypeCreateZoneDetails)(m),
+		"DYNECT",
+		(MarshalTypeCreateMigratedDynectZoneDetails)(m),
 	}
 
 	return json.Marshal(&s)
-}
-
-// CreateZoneDetailsZoneTypeEnum Enum with underlying type: string
-type CreateZoneDetailsZoneTypeEnum string
-
-// Set of constants representing the allowable values for CreateZoneDetailsZoneTypeEnum
-const (
-	CreateZoneDetailsZoneTypePrimary   CreateZoneDetailsZoneTypeEnum = "PRIMARY"
-	CreateZoneDetailsZoneTypeSecondary CreateZoneDetailsZoneTypeEnum = "SECONDARY"
-)
-
-var mappingCreateZoneDetailsZoneType = map[string]CreateZoneDetailsZoneTypeEnum{
-	"PRIMARY":   CreateZoneDetailsZoneTypePrimary,
-	"SECONDARY": CreateZoneDetailsZoneTypeSecondary,
-}
-
-// GetCreateZoneDetailsZoneTypeEnumValues Enumerates the set of values for CreateZoneDetailsZoneTypeEnum
-func GetCreateZoneDetailsZoneTypeEnumValues() []CreateZoneDetailsZoneTypeEnum {
-	values := make([]CreateZoneDetailsZoneTypeEnum, 0)
-	for _, v := range mappingCreateZoneDetailsZoneType {
-		values = append(values, v)
-	}
-	return values
 }

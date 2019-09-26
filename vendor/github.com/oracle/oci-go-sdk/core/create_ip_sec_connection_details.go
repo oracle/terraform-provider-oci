@@ -35,8 +35,10 @@ type CreateIpSecConnectionDetails struct {
 	// you must provide at least one valid static route. If you configure both
 	// tunnels to use BGP dynamic routing, you can provide an empty list for the static routes.
 	// For more information, see the important note in IPSecConnection.
-	//
+	// The CIDR can be either IPv4 or IPv6. Note that IPv6 addressing is currently supported only
+	// in the Government Cloud.
 	// Example: `10.0.1.0/24`
+	// Example: `2001:db8::/32`
 	StaticRoutes []string `mandatory:"true" json:"staticRoutes"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

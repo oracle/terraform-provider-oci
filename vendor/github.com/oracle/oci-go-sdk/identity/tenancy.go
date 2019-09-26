@@ -37,6 +37,9 @@ type Tenancy struct {
 	// - `PHX`
 	// - `FRA`
 	// - `LHR`
+	// - `ICN`
+	// - `YYZ`
+	// - `NRT`
 	HomeRegionKey *string `mandatory:"false" json:"homeRegionKey"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

@@ -8,11 +8,14 @@ import (
 	"net/http"
 )
 
-// CreateDedicatedVmHostRequest wrapper for the CreateDedicatedVmHost operation
-type CreateDedicatedVmHostRequest struct {
+// ChangeDrgCompartmentRequest wrapper for the ChangeDrgCompartment operation
+type ChangeDrgCompartmentRequest struct {
 
-	// The details for creating a new dedicated virtual machine host.
-	CreateDedicatedVmHostDetails `contributesTo:"body"`
+	// The OCID of the DRG.
+	DrgId *string `mandatory:"true" contributesTo:"path" name:"drgId"`
+
+	// Request to change the compartment of a DRG.
+	ChangeDrgCompartmentDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -30,28 +33,25 @@ type CreateDedicatedVmHostRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CreateDedicatedVmHostRequest) String() string {
+func (request ChangeDrgCompartmentRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreateDedicatedVmHostRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ChangeDrgCompartmentRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreateDedicatedVmHostRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeDrgCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// CreateDedicatedVmHostResponse wrapper for the CreateDedicatedVmHost operation
-type CreateDedicatedVmHostResponse struct {
+// ChangeDrgCompartmentResponse wrapper for the ChangeDrgCompartment operation
+type ChangeDrgCompartmentResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
-
-	// The DedicatedVmHost instance
-	DedicatedVmHost `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
@@ -65,11 +65,11 @@ type CreateDedicatedVmHostResponse struct {
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
-func (response CreateDedicatedVmHostResponse) String() string {
+func (response ChangeDrgCompartmentResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CreateDedicatedVmHostResponse) HTTPResponse() *http.Response {
+func (response ChangeDrgCompartmentResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

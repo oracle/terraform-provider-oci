@@ -9,6 +9,7 @@
 package identity
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/common"
 )
 
@@ -34,8 +35,45 @@ type UpdateTagDetails struct {
 
 	// Indicates whether the tag is enabled for cost tracking.
 	IsCostTracking *bool `mandatory:"false" json:"isCostTracking"`
+
+	// Additional validation rule for values specified for the tag definition.
+	// If no validator is defined for a tag definition, then any (valid) value will be accepted.
+	// The default value for `validator` is an empty map (no additional validation).
+	Validator BaseTagDefinitionValidator `mandatory:"false" json:"validator"`
 }
 
 func (m UpdateTagDetails) String() string {
 	return common.PointerString(m)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateTagDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description    *string                           `json:"description"`
+		IsRetired      *bool                             `json:"isRetired"`
+		FreeformTags   map[string]string                 `json:"freeformTags"`
+		DefinedTags    map[string]map[string]interface{} `json:"definedTags"`
+		IsCostTracking *bool                             `json:"isCostTracking"`
+		Validator      basetagdefinitionvalidator        `json:"validator"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	m.Description = model.Description
+	m.IsRetired = model.IsRetired
+	m.FreeformTags = model.FreeformTags
+	m.DefinedTags = model.DefinedTags
+	m.IsCostTracking = model.IsCostTracking
+	nn, e := model.Validator.UnmarshalPolymorphicJSON(model.Validator.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.Validator = nn.(BaseTagDefinitionValidator)
+	} else {
+		m.Validator = nil
+	}
+	return
 }

@@ -8,8 +8,8 @@ import (
 	"net/http"
 )
 
-// ListCostTrackingTagsRequest wrapper for the ListCostTrackingTags operation
-type ListCostTrackingTagsRequest struct {
+// ListTaggingWorkRequestsRequest wrapper for the ListTaggingWorkRequests operation
+type ListTaggingWorkRequestsRequest struct {
 
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
@@ -20,6 +20,9 @@ type ListCostTrackingTagsRequest struct {
 	// The maximum number of items to return in a paginated "List" call.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
+	// The identifier of the resource the work request affects.
+	ResourceIdentifier *string `mandatory:"false" contributesTo:"query" name:"resourceIdentifier"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -29,45 +32,44 @@ type ListCostTrackingTagsRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request ListCostTrackingTagsRequest) String() string {
+func (request ListTaggingWorkRequestsRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListCostTrackingTagsRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request ListTaggingWorkRequestsRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListCostTrackingTagsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListTaggingWorkRequestsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// ListCostTrackingTagsResponse wrapper for the ListCostTrackingTags operation
-type ListCostTrackingTagsResponse struct {
+// ListTaggingWorkRequestsResponse wrapper for the ListTaggingWorkRequests operation
+type ListTaggingWorkRequestsResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of []Tag instances
-	Items []Tag `presentIn:"body"`
+	// A list of []TaggingWorkRequestSummary instances
+	Items []TaggingWorkRequestSummary `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of cost tracking tag. When paging through a list, if this header appears in the response,
+	// For pagination of a list of items. When paging through a list, if this header appears in the response,
 	// then a partial list might have been returned. Include this value as the `page` parameter for the
-	// subsequent GET request to get the next batch of items. For important details about how pagination works,
-	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// subsequent GET request to get the next batch of items.
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
-func (response ListCostTrackingTagsResponse) String() string {
+func (response ListTaggingWorkRequestsResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response ListCostTrackingTagsResponse) HTTPResponse() *http.Response {
+func (response ListTaggingWorkRequestsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
