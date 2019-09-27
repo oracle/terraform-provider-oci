@@ -168,17 +168,17 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_tags", "test_tags", Optional, Update, tagDataSourceRepresentation) +
 					compartmentIdVariableStr + TagResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, tagRepresentation),
+					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, representationCopyWithRemovedProperties(tagRepresentation, []string{"validator"})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "tags.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.description", "description2"),
+					resource.TestCheckResourceAttr(datasourceName, "tags.0.description", "This tag will show the cost center that will be used for billing of associated resources."),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.is_cost_tracking", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "tags.0.is_cost_tracking", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.is_retired", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.name", "TFTestTag"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.state"),
