@@ -374,7 +374,6 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 			if err != nil {
 				return err
 			}
-		case oci_database.CreateDbHomeWithVmClusterIdFromBackupDetails:
 		case oci_database.CreateDbHomeWithVmClusterIdDetails:
 			_, err = waitForVmClusterIfItIsUpdating(v.VmClusterId, s.Client, timeout)
 			if err != nil {
@@ -958,27 +957,6 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
-		}
-		request.CreateDbHomeWithDbSystemIdDetails = details
-	case strings.ToLower("VM_CLUSTER_BACKUP"):
-		details := oci_database.CreateDbHomeWithVmClusterIdFromBackupDetails{}
-		if database, ok := s.D.GetOkExists("database"); ok {
-			if tmpList := database.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
-				tmp, err := s.mapToCreateDatabaseFromBackupDetails(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				details.Database = &tmp
-			}
-		}
-		if displayName, ok := s.D.GetOkExists("display_name"); ok {
-			tmp := displayName.(string)
-			details.DisplayName = &tmp
-		}
-		if vmClusterId, ok := s.D.GetOkExists("vm_cluster_id"); ok {
-			tmp := vmClusterId.(string)
-			details.VmClusterId = &tmp
 		}
 		request.CreateDbHomeWithDbSystemIdDetails = details
 	case strings.ToLower("VM_CLUSTER_NEW"):
