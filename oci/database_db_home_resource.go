@@ -9,6 +9,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/oracle/oci-go-sdk/common"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
@@ -254,7 +256,15 @@ func DatabaseDbHomeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"db_home_location": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"last_patch_history_entry_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -525,6 +535,12 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
+	// Delete nested database to be able to delete dbhome. Shared DBHome case
+	dbErr := s.deleteNestedDB()
+	if dbErr != nil {
+		log.Printf("[WARN] Could not delete nested database in DbHome. Will proceed to delete dbHome: %v", dbErr)
+	}
+
 	// Only one dbHome can be deleted at a time on service side as the dbSystem will go into UPDATING state.
 	// A 409 is returned if you try to delete a dbHome when the state of the dbSystem is UPDATING
 	// For the case of multiple dbHomes we want to wait for the dbSystem to not be UPDATING so that we use the Delete Timeout instead of the retry timeout
@@ -557,9 +573,65 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 	return nil
 }
 
+func (s *DatabaseDbHomeResourceCrud) deleteNestedDB() error {
+
+	request := oci_database.DeleteDatabaseRequest{}
+
+	dbCompartment, ok := s.D.GetOkExists("compartment_id")
+	if !ok {
+		return fmt.Errorf("no compartment information to delete nested database")
+	}
+
+	dbHomeIdStr := s.D.Id()
+	dbCompartmentStr := dbCompartment.(string)
+
+	listDBRequest := oci_database.ListDatabasesRequest{}
+	listDBRequest.CompartmentId = &dbCompartmentStr
+	listDBRequest.DbHomeId = &dbHomeIdStr
+	listDBRequest.SortBy = oci_database.ListDatabasesSortByTimecreated
+	listDBRequest.SortOrder = oci_database.ListDatabasesSortOrderAsc
+	listDBRequest.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
+	listDatabasesResponse, err := s.Client.ListDatabases(context.Background(), listDBRequest)
+	if err != nil {
+		return err
+	}
+
+	if len(listDatabasesResponse.Items) == 0 {
+		return fmt.Errorf("failed to get details of the nested database in dbHome")
+	}
+
+	dbHomeTimeCreated, ok := s.D.GetOkExists("time_created")
+	if !ok {
+		tmp, err := time.Parse(time.RFC3339, dbHomeTimeCreated.(string))
+		if err != nil {
+			return err
+		}
+		if listDatabasesResponse.Items[0].TimeCreated.Sub(common.SDKTime{Time: tmp}.Time) > time.Hour*24 {
+			return fmt.Errorf("the first database of the dbHome has since been terminated. Will not try to delete dbHome's database")
+		}
+	}
+
+	request.DatabaseId = listDatabasesResponse.Items[0].Id
+
+	if performFinalBackup, ok := s.D.GetOkExists("perform_final_backup"); ok {
+		tmp := performFinalBackup.(bool)
+		request.PerformFinalBackup = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err = s.Client.DeleteDatabase(context.Background(), request)
+
+	return nil
+}
+
 func (s *DatabaseDbHomeResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DbHomeLocation != nil {
+		s.D.Set("db_home_location", *s.Res.DbHomeLocation)
 	}
 
 	if s.Res.DbSystemId != nil {
@@ -580,6 +652,10 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 
 	if s.Res.LastPatchHistoryEntryId != nil {
 		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)
+	}
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
