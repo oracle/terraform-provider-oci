@@ -16,6 +16,12 @@ When you have many resources (for example, instances, VCNs, load balancers, and 
 * **Freeform tags:** Freeform tags are simple key value map
 * **Defined tags:** Defined tags provide a key/value map and are organized by combining the tag namespaces with tag keys using dot notation. For example, a tag namespace called `HumanResources` could have a key named `CostCenter`. You then associate the namespace and key `HumanResource.CostCenter` and then assign the desired tag, as shown in the following example.
 
+### Propagation of tagging on resources
+
+If your Terraform configuration has a primary resource (e.g. compute instance) with a nested secondary resource(e.g. VNIC for the compute instance) where both these resources support **Freeform tags** or **Defined tags**, OCI Services will propagate all the primary resource's **Freeform tags** and **Defined tags** to secondary resource. This could cause a drift in the Terraform state resulting in a diff after apply. To avoid this, explicitly add all the primary resource's **Freeform tags** and **Defined tags** on the secondary resources as part of the configuration.
+The same behavior could be seen while using the **Tag Default** or **Required Tags** feature. This can also be avoided by applying the **Tag Default** or **Required Tags** on all resources(primary and secondary if any) in the tenancy where **Tag Default** or **Required Tags** exist.
+   
+
 ### Examples:
 #### Example 1:
 ```hcl
