@@ -5,15 +5,26 @@ labels: bug
 ---
 
 <!---
-Please note the following potential times when an issue might be in Terraform core:
+Before filing a bug report, see if your issue is already covered in the [troubleshooting guide](https://www.terraform.io/docs/providers/oci/guides/troubleshooting.html)
 
+Please note the following times when an issue is likely outside of the OCI provider.
+This could be either due to issues in the Oracle Cloud Infrastructure service or the Terraform core.
+
+Examples of Oracle Cloud Infrastructure service issues:
+* You receive an error with HTTP status code such as 500
+* One of your resources timed out while waiting to reach a specific state, even after increasing your operation timeout value
+
+If you are running into one of the above scenarios, we recommend contacting Oracle support at https://docs.cloud.oracle.com/iaas/Content/GSG/Tasks/contactingsupport.htm
+
+
+Examples of Terraform core issues:
 * [Configuration Language](https://www.terraform.io/docs/configuration/index.html) or resource ordering issues
 * [State](https://www.terraform.io/docs/state/index.html) and [State Backend](https://www.terraform.io/docs/backends/index.html) issues
 * [Provisioner](https://www.terraform.io/docs/provisioners/index.html) issues
 * [Registry](https://registry.terraform.io/) issues
 * Spans resources across multiple providers
 
-If you are running into one of these scenarios, we recommend opening an issue in the [Terraform core repository](https://github.com/hashicorp/terraform/) instead.
+If you are running into a Terraform core issue, we recommend opening an issue in the [Terraform core repository](https://github.com/hashicorp/terraform/) instead.
 --->
 
 <!--- Please keep this note for the community --->

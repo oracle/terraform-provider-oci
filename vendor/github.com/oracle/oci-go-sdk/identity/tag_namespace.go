@@ -12,8 +12,10 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// TagNamespace A managed container for defined tags. A tag namespace is unique in a tenancy. A tag namespace can't be deleted.
-// For more information, see Managing Tags and Tag Namespaces (https://docs.cloud.oracle.com/Content/Identity/Concepts/taggingoverview.htm).
+// TagNamespace A managed container for defined tags. A tag namespace is unique in a tenancy. For more information,
+// see Managing Tags and Tag Namespaces (https://docs.cloud.oracle.com/Content/Identity/Concepts/taggingoverview.htm).
+// **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values
+// using the API.
 type TagNamespace struct {
 
 	// The OCID of the tag namespace.

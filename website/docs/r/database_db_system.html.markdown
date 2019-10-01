@@ -72,6 +72,11 @@ resource "oci_database_db_system" "test_db_system" {
 	cpu_core_count = "${var.db_system_cpu_core_count}"
 	data_storage_percentage = "${var.db_system_data_storage_percentage}"
 	data_storage_size_in_gb = "${var.db_system_data_storage_size_in_gb}"
+	db_system_options {
+
+		#Optional
+		storage_management = "${var.db_system_db_system_options_storage_management}"
+	}
 	defined_tags = {"Operations.CostCenter"= "42"}
 	disk_redundancy = "${var.db_system_disk_redundancy}"
 	display_name = "${var.db_system_display_name}"
@@ -136,6 +141,8 @@ The following arguments are supported:
     	* `pdb_name` - (Applicable when source=NONE | VM_CLUSTER_NEW) The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
     * `db_version` - (Required when source=NONE) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.
 	* `display_name` - (Optional) The user-provided name of the database home.
+* `db_system_options` - (Optional) 
+	* `storage_management` - (Optional) The storage option used in DB system. You can specify either [Automatic Storage Management (ASM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=OSTMG-GUID-BC612D35-5399-4A35-843E-CF76E3D3CDB5) or [Logical Volume Manager (LVM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=ADMIN-GUID-57C50259-9472-4ED0-8818-DB9ABA96EC8E).
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `disk_redundancy` - (Optional) The type of redundancy configured for the DB system. Normal is 2-way redundancy, recommended for test and development systems. High is 3-way redundancy, recommended for production systems. 
 * `display_name` - (Optional) The user-friendly name for the DB system. The name does not have to be unique.
@@ -194,6 +201,8 @@ The following attributes are exported:
 * `data_storage_percentage` - The percentage assigned to DATA storage (user data and database files). The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 40 and 80. The default is 80 percent assigned to DATA storage. Not applicable for virtual machine DB systems. 
 * `data_storage_size_in_gb` - The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems. 
 * `database_edition` - The Oracle Database edition that applies to all the databases on the DB system. 
+* `db_system_options` - 
+	* `storage_management` - The storage option used in DB system. You can specify either [Automatic Storage Management (ASM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=OSTMG-GUID-BC612D35-5399-4A35-843E-CF76E3D3CDB5) or [Logical Volume Manager (LVM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=ADMIN-GUID-57C50259-9472-4ED0-8818-DB9ABA96EC8E).
 * `db_home` -
     * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
     * `database` 

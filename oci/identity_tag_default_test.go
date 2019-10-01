@@ -16,6 +16,9 @@ import (
 )
 
 var (
+	TagDefaultRequiredOnlyResource = TagDefaultResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Required, Create, tagDefaultRepresentation)
+
 	TagDefaultResourceConfig = TagDefaultResourceDependencies +
 		generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Update, tagDefaultRepresentation)
 
@@ -46,6 +49,7 @@ var (
 		"compartment_id":    Representation{repType: Required, create: `${var.compartment_id}`},
 		"tag_definition_id": Representation{repType: Required, create: `${oci_identity_tag.test_tag.id}`},
 		"value":             Representation{repType: Required, create: `W123`, update: `value2`},
+		"is_required":       Representation{repType: Optional, create: `true`, update: `false`},
 	}
 
 	TagDefaultResourceDependencies = TagRequiredOnlyResource
@@ -91,6 +95,31 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 				),
 			},
 
+			// delete before next create
+			{
+				Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies,
+			},
+			// verify create with optionals
+			{
+				Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
+					generateResourceFromRepresentationMap("oci_identity_tag_default", "test_tag_default", Optional, Create, tagDefaultRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_required", "true"),
+					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_name"),
+					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "value", "W123"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + TagDefaultResourceDependencies +
@@ -98,6 +127,7 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_required", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_name"),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
@@ -181,6 +211,7 @@ func TestIdentityTagDefaultResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_required", "false"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_definition_name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_namespace_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

@@ -24,7 +24,7 @@ type ListDedicatedVmHostsRequest struct {
 	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// Instance shape name
+	// The name for the instance's shape.
 	InstanceShapeName *string `mandatory:"false" contributesTo:"query" name:"instanceShapeName"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated

@@ -18,7 +18,7 @@ type ListDedicatedVmHostShapesRequest struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
 
-	// Instance shape name
+	// The name for the instance's shape.
 	InstanceShapeName *string `mandatory:"false" contributesTo:"query" name:"instanceShapeName"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated

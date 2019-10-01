@@ -152,6 +152,12 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 
 		dbSystem["database_edition"] = r.DatabaseEdition
 
+		if r.DbSystemOptions != nil {
+			dbSystem["db_system_options"] = []interface{}{DbSystemOptionsToMap(r.DbSystemOptions)}
+		} else {
+			dbSystem["db_system_options"] = nil
+		}
+
 		if r.DefinedTags != nil {
 			dbSystem["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}

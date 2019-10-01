@@ -335,6 +335,29 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"db_system_options": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"storage_management": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -1000,6 +1023,12 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
 	s.D.Set("database_edition", s.Res.DatabaseEdition)
 
+	if s.Res.DbSystemOptions != nil {
+		s.D.Set("db_system_options", []interface{}{DbSystemOptionsToMap(s.Res.DbSystemOptions)})
+	} else {
+		s.D.Set("db_system_options", nil)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
@@ -1577,6 +1606,24 @@ func DbBackupConfigToMap(obj *oci_database.DbBackupConfig) map[string]interface{
 	return result
 }
 
+func (s *DatabaseDbSystemResourceCrud) mapToDbSystemOptions(fieldKeyFormat string) (oci_database.DbSystemOptions, error) {
+	result := oci_database.DbSystemOptions{}
+
+	if storageManagement, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_management")); ok {
+		result.StorageManagement = oci_database.DbSystemOptionsStorageManagementEnum(storageManagement.(string))
+	}
+
+	return result, nil
+}
+
+func DbSystemOptionsToMap(obj *oci_database.DbSystemOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["storage_management"] = string(obj.StorageManagement)
+
+	return result
+}
+
 // @CODEGEN 08/2018: mapToPatchDetails and PatchDetailsToMap are not yet supported
 
 func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystemRequest(request *oci_database.LaunchDbSystemRequest) error {
@@ -1650,6 +1697,16 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
 			tmp := dataStorageSizeInGB.(int)
 			details.InitialDataStorageSizeInGB = &tmp
+		}
+		if dbSystemOptions, ok := s.D.GetOkExists("db_system_options"); ok {
+			if tmpList := dbSystemOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_system_options", 0)
+				tmp, err := s.mapToDbSystemOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DbSystemOptions = &tmp
+			}
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
@@ -1789,6 +1846,16 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
 			tmp := dataStorageSizeInGB.(int)
 			details.InitialDataStorageSizeInGB = &tmp
+		}
+		if dbSystemOptions, ok := s.D.GetOkExists("db_system_options"); ok {
+			if tmpList := dbSystemOptions.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_system_options", 0)
+				tmp, err := s.mapToDbSystemOptions(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DbSystemOptions = &tmp
+			}
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))

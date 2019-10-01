@@ -5,7 +5,7 @@ variable "cluster_kube_config_expiration" {
 }
 
 variable "cluster_kube_config_token_version" {
-  default = "1.0.0"
+  default = "2.0.0"
 }
 
 data "oci_containerengine_cluster_kube_config" "test_cluster_kube_config" {

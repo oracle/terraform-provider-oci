@@ -15,8 +15,8 @@ import (
 // MoveCompartmentDetails The representation of MoveCompartmentDetails
 type MoveCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the parent compartment
-	// into which the compartment should be moved.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the destination compartment
+	// into which to move the compartment.
 	TargetCompartmentId *string `mandatory:"true" json:"targetCompartmentId"`
 }
 

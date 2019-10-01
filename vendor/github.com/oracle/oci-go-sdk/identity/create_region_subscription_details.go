@@ -21,6 +21,9 @@ type CreateRegionSubscriptionDetails struct {
 	// - `IAD`
 	// - `FRA`
 	// - `LHR`
+	// - `YYZ`
+	// - `NRT`
+	// - `ICN`
 	// Example: `PHX`
 	RegionKey *string `mandatory:"true" json:"regionKey"`
 }

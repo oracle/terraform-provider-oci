@@ -1,4 +1,16 @@
-## 3.45.1 (Unreleased)
+## 3.46.0 (Unreleased)
+
+### Added
+- Support DBaaS VM DB Fast Provisioning
+- Support for required default tags
+- Support for moving `oci_core_drg` resources across compartments
+- Support for enumerated tag values
+
+### Fixed
+
+- Fix compositeId parsing for pre-authenticated requests in object storage [Issue #867](https://github.com/terraform-providers/terraform-provider-oci/issues/867)
+- Fixed ssl_configuration is optional only in `oci_load_balancer_backend_set` resource
+
 ## 3.45.0 (September 25, 2019)
 
 ### Added

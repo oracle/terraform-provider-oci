@@ -78,6 +78,32 @@ func IdentityCostTrackingTagsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"validator": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"validator_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"values": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -119,27 +145,16 @@ func (s *IdentityCostTrackingTagsDataSourceCrud) Get() error {
 	}
 
 	s.Res = &response
-	// TODO- remove this custom code handling paging once service fixes Opc-Next-Page in spec
-	if s.Res != nil && s.Res.RawResponse != nil {
-		rawResponse := s.Res.RawResponse
-		nextPage := rawResponse.Header.Get(OpcNextPageHeader)
-		request.Page = &nextPage
+	request.Page = s.Res.OpcNextPage
 
-		for request.Page != nil && *request.Page != "" {
-			listResponse, err := s.Client.ListCostTrackingTags(context.Background(), request)
-			if err != nil {
-				return err
-			}
-
-			s.Res.Items = append(s.Res.Items, listResponse.Items...)
-			if listResponse.RawResponse != nil {
-				nextPage = listResponse.RawResponse.Header.Get(OpcNextPageHeader)
-				request.Page = &nextPage
-			} else {
-				request.Page = nil
-			}
-
+	for request.Page != nil {
+		listResponse, err := s.Client.ListCostTrackingTags(context.Background(), request)
+		if err != nil {
+			return err
 		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
 	}
 
 	return nil
@@ -196,6 +211,16 @@ func (s *IdentityCostTrackingTagsDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			costTrackingTag["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.Validator != nil {
+			validatorArray := []interface{}{}
+			if validatorMap := BaseTagDefinitionValidatorToMap(&r.Validator); validatorMap != nil {
+				validatorArray = append(validatorArray, validatorMap)
+			}
+			costTrackingTag["validator"] = validatorArray
+		} else {
+			costTrackingTag["validator"] = nil
 		}
 
 		resources = append(resources, costTrackingTag)
