@@ -1,4 +1,8 @@
-## 3.46.1 (Unreleased)
+## 3.47.0 (Unreleased)
+
+### Added
+- Support for Audit v2 enhancements. Note: `oci_audit_events` data source schema is updated.
+
 ## 3.46.0 (October 02, 2019)
 
 ### Added

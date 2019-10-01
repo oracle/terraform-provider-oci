@@ -31,5 +31,5 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `retention_period_days` - The retention period days
+* `retention_period_days` - The retention period setting, specified in days. The minimum is 90, the maximum 365.  Example: `90` 
 
