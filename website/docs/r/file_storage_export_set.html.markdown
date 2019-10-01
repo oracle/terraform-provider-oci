@@ -17,6 +17,7 @@ When a mount target is deleted, the export set associated with it is also delete
 However, export sets expose a few attributes that can be updated.
 
 Hence we provide this resource for managing the already created export set from within Terraform.
+Only one export set resource should be created per mount target.
 
 ## Example Usage
 

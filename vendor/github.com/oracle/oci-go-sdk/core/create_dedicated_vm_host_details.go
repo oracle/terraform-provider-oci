@@ -16,18 +16,18 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateDedicatedVmHostDetails The details for creating a new dedicated virtual machine (VM) host.
+// CreateDedicatedVmHostDetails The details for creating a new dedicated virtual machine host.
 type CreateDedicatedVmHostDetails struct {
 
-	// The availability domain of the dedicated VM host.
+	// The availability domain of the dedicated virtual machine host.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The shape of the dedicated VM host. The shape determines the number of CPUs and
-	// other resources available for VMs.
+	// The dedicated virtual machine host shape. The shape determines the number of CPUs and
+	// other resources available for VM instances launched on the dedicated virtual machine host.
 	DedicatedVmHostShape *string `mandatory:"true" json:"dedicatedVmHostShape"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -40,10 +40,12 @@ type CreateDedicatedVmHostDetails struct {
 	// Example: `My dedicated VM host`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The fault domain for the dedicated VM host's assigned instances. For more information, see Fault Domains.
-	// If you do not specify the fault domain, the system selects one for you. To change the fault domain for a dedicated VM host,
-	// delete it and create a new dedicated VM host in the preferred fault domain.
-	// To get a list of fault domains, use the ListFaultDomains operation in the Identity and Access Management Service API.
+	// The fault domain for the dedicated virtual machine host's assigned instances.
+	// For more information, see Fault Domains (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm#fault).
+	// If you do not specify the fault domain, the system selects one for you. To change the fault domain for a dedicated virtual machine host,
+	// delete it and create a new dedicated virtual machine host in the preferred fault domain.
+	// To get a list of fault domains, use the `ListFaultDomains` operation in
+	// the Identity and Access Management Service API (https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/).
 	// Example: `FAULT-DOMAIN-1`
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 

@@ -12,7 +12,7 @@ import (
 type CreateZoneRequest struct {
 
 	// Details for creating a new zone.
-	CreateZoneDetails `contributesTo:"body"`
+	CreateZoneDetails CreateZoneBaseDetails `contributesTo:"body"`
 
 	// The OCID of the compartment the resource belongs to.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`

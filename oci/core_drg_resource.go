@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 )
 
 func CoreDrgResource() *schema.Resource {
@@ -25,7 +26,6 @@ func CoreDrgResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 
 			// Optional
@@ -81,7 +81,7 @@ func updateCoreDrg(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDrgResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).virtualNetworkClient
-
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 	return UpdateResource(d, sync)
 }
 
@@ -97,6 +97,7 @@ func deleteCoreDrg(d *schema.ResourceData, m interface{}) error {
 type CoreDrgResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.VirtualNetworkClient
+	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_core.Drg
 	DisableNotFoundRetries bool
 }
@@ -183,6 +184,15 @@ func (s *CoreDrgResourceCrud) Get() error {
 }
 
 func (s *CoreDrgResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_core.UpdateDrgRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -249,5 +259,28 @@ func (s *CoreDrgResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
+}
+
+func (s *CoreDrgResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_core.ChangeDrgCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.DrgId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.ChangeDrgCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	_, err = WaitForWorkRequest(s.workRequestClient, workId, "core", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	if err != nil {
+		return err
+	}
 	return nil
 }

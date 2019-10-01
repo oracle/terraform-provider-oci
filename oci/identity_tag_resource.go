@@ -5,11 +5,13 @@ package provider
 import (
 	"context"
 	"fmt"
+	"log"
 	"regexp"
 	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
@@ -68,6 +70,35 @@ func IdentityTagResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
+			},
+			"validator": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"validator_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"ENUM",
+							}, true),
+						},
+
+						"values": {
+							Type:     schema.TypeList,
+							Required: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Computed
+					},
+				},
 			},
 
 			// Computed
@@ -188,6 +219,17 @@ func (s *IdentityTagResourceCrud) Create() error {
 	if tagNamespaceId, ok := s.D.GetOkExists("tag_namespace_id"); ok {
 		tmp := tagNamespaceId.(string)
 		request.TagNamespaceId = &tmp
+	}
+
+	if validator, ok := s.D.GetOkExists("validator"); ok {
+		if tmpList := validator.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "validator", 0)
+			tmp, err := s.mapToBaseTagDefinitionValidator(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Validator = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
@@ -315,6 +357,23 @@ func (s *IdentityTagResourceCrud) Update() error {
 		request.TagNamespaceId = &tmp
 	}
 
+	if validator, ok := s.D.GetOkExists("validator"); ok {
+		if tmpList := validator.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "validator", 0)
+			tmp, err := s.mapToBaseTagDefinitionValidator(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Validator = tmp
+		} else {
+			// For case when updating ENUM type to DEFAULT: validator absent in config but s.D.GetOkExists("validator") returns true
+			var baseObject oci_identity.BaseTagDefinitionValidator
+			details := oci_identity.DefaultTagDefinitionValidator{}
+			baseObject = details
+			request.Validator = baseObject
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "identity")
 
 	response, err := s.Client.UpdateTag(context.Background(), request)
@@ -407,7 +466,68 @@ func (s *IdentityTagResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.Validator != nil {
+		validatorArray := []interface{}{}
+		if validatorMap := BaseTagDefinitionValidatorToMap(&s.Res.Validator); validatorMap != nil {
+			validatorArray = append(validatorArray, validatorMap)
+		}
+		s.D.Set("validator", validatorArray)
+	} else {
+		s.D.Set("validator", nil)
+	}
+
 	return nil
+}
+
+func (s *IdentityTagResourceCrud) mapToBaseTagDefinitionValidator(fieldKeyFormat string) (oci_identity.BaseTagDefinitionValidator, error) {
+	var baseObject oci_identity.BaseTagDefinitionValidator
+	//discriminator
+	validatorTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "validator_type"))
+	var validatorType string
+	if ok {
+		validatorType = validatorTypeRaw.(string)
+	} else {
+		validatorType = "" // default value
+	}
+	switch strings.ToLower(validatorType) {
+	case strings.ToLower("DEFAULT"):
+		details := oci_identity.DefaultTagDefinitionValidator{}
+		baseObject = details
+	case strings.ToLower("ENUM"):
+		details := oci_identity.EnumTagDefinitionValidator{}
+		details.Values = []string{}
+		if values, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "values")); ok {
+			interfaces := values.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.Values = tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown validator_type '%v' was specified", validatorType)
+	}
+	return baseObject, nil
+}
+
+func BaseTagDefinitionValidatorToMap(obj *oci_identity.BaseTagDefinitionValidator) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_identity.DefaultTagDefinitionValidator:
+		result["validator_type"] = "DEFAULT"
+	case oci_identity.EnumTagDefinitionValidator:
+		result["validator_type"] = "ENUM"
+
+		result["values"] = v.Values
+	default:
+		log.Printf("[WARN] Received 'validator_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }
 
 func parseTagCompositeId(compositeId string) (tagName string, tagNamespaceId string, err error) {

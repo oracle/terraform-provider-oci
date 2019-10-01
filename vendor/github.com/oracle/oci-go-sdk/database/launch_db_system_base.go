@@ -93,6 +93,8 @@ type LaunchDbSystemBase interface {
 	// The time zone to use for the DB system. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	GetTimeZone() *string
 
+	GetDbSystemOptions() *DbSystemOptions
+
 	// If true, Sparse Diskgroup is configured for Exadata dbsystem. If False, Sparse diskgroup is not configured.
 	GetSparseDiskgroup() *bool
 
@@ -140,6 +142,7 @@ type launchdbsystembase struct {
 	NsgIds                     []string                          `mandatory:"false" json:"nsgIds"`
 	BackupNetworkNsgIds        []string                          `mandatory:"false" json:"backupNetworkNsgIds"`
 	TimeZone                   *string                           `mandatory:"false" json:"timeZone"`
+	DbSystemOptions            *DbSystemOptions                  `mandatory:"false" json:"dbSystemOptions"`
 	SparseDiskgroup            *bool                             `mandatory:"false" json:"sparseDiskgroup"`
 	Domain                     *string                           `mandatory:"false" json:"domain"`
 	ClusterName                *string                           `mandatory:"false" json:"clusterName"`
@@ -175,6 +178,7 @@ func (m *launchdbsystembase) UnmarshalJSON(data []byte) error {
 	m.NsgIds = s.Model.NsgIds
 	m.BackupNetworkNsgIds = s.Model.BackupNetworkNsgIds
 	m.TimeZone = s.Model.TimeZone
+	m.DbSystemOptions = s.Model.DbSystemOptions
 	m.SparseDiskgroup = s.Model.SparseDiskgroup
 	m.Domain = s.Model.Domain
 	m.ClusterName = s.Model.ClusterName
@@ -273,6 +277,11 @@ func (m launchdbsystembase) GetBackupNetworkNsgIds() []string {
 //GetTimeZone returns TimeZone
 func (m launchdbsystembase) GetTimeZone() *string {
 	return m.TimeZone
+}
+
+//GetDbSystemOptions returns DbSystemOptions
+func (m launchdbsystembase) GetDbSystemOptions() *DbSystemOptions {
+	return m.DbSystemOptions
 }
 
 //GetSparseDiskgroup returns SparseDiskgroup
