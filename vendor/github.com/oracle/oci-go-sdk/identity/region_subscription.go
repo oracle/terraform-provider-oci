@@ -25,14 +25,20 @@ type RegionSubscription struct {
 	// - `IAD`
 	// - `FRA`
 	// - `LHR`
+	// - `YYZ`
+	// - `NRT`
+	// - `ICN`
 	RegionKey *string `mandatory:"true" json:"regionKey"`
 
 	// The region's name.
 	// Allowed values are:
-	// - `us-phoenix-1`
-	// - `us-ashburn-1`
+	// - `ap-seoul-1`
+	// - `ap-tokyo-1`
+	// - `ca-toronto-1`
 	// - `eu-frankurt-1`
 	// - `uk-london-1`
+	// - `us-ashburn-1`
+	// - `us-phoenix-1`
 	RegionName *string `mandatory:"true" json:"regionName"`
 
 	// The region subscription status.

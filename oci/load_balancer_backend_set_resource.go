@@ -186,7 +186,6 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 			"ssl_configuration": {
 				Type:     schema.TypeList,
 				Optional: true,
-				Computed: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{

@@ -16,11 +16,11 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ChangeDedicatedVmHostCompartmentDetails Contains details indicating which compartment the resource should move to
+// ChangeDedicatedVmHostCompartmentDetails Specifies the compartment to move the dedicated virtual machine host to.
 type ChangeDedicatedVmHostCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
-	// into which the resource should be moved.
+	// to move the dedicated virtual machine host to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

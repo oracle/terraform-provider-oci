@@ -56,7 +56,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					node_count = "1"
 					fault_domains = ["FAULT-DOMAIN-1"]
 					db_home {
-						db_version = "12.1.0.2"
+						db_version = "19.0.0.0"
 						display_name = "-tf-db-home"
 						database {
 							admin_password = "BEstrO0ng_#11"
@@ -73,6 +73,9 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 								recovery_window_in_days = 10
 							}
 						}
+					}
+					db_system_options {
+						storage_management = "LVM"
 					}
 					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
 					freeform_tags = {"Department" = "Finance"}
@@ -141,7 +144,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "fault_domains.#", "1"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "reco_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "listener_port", "1521"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "19.0.0.0"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.display_name", "-tf-db-home"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),
@@ -154,6 +157,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.freeform_tags.Department", "Finance"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_system_options.0.storage_management", "LVM"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "state"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "defined_tags.example-tag-namespace-all.example-tag", "originalValue"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "freeform_tags.Department", "Finance"),
@@ -176,6 +180,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.display_name", ResourceDatabaseToken),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.domain", "tfsubnet.tfvcn.oraclevcn.com"),
 					resource.TestCheckResourceAttrSet("data.oci_database_db_systems.t", "db_systems.0.hostname"), // see comment in SetData fn as to why this is removed
+					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.db_system_options.#", "1"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.data_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.data_storage_percentage", "80"),
@@ -322,7 +327,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					node_count = "1"
 					fault_domains = ["FAULT-DOMAIN-1"]
 					db_home {
-						db_version = "12.1.0.2"
+						db_version = "19.0.0.0"
 						display_name = "-tf-db-home"
 						database {
 							admin_password = "BEstrO0ng_#11"
@@ -339,6 +344,9 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 								recovery_window_in_days = 10
 							}
 						}
+					}
+					db_system_options {
+						storage_management = "LVM"
 					}
 					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
 					freeform_tags = {"Department" = "Finance"}
@@ -378,7 +386,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					node_count = "1"
 					fault_domains = ["FAULT-DOMAIN-1"]
 					db_home {
-						db_version = "12.1.0.2"
+						db_version = "19.0.0.0"
 						display_name = "-tf-db-home"
 						database {
 							admin_password = "BEstrO0ng_#11"
@@ -395,6 +403,9 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 								recovery_window_in_days = 10
 							}
 						}
+					}
+					db_system_options {
+						storage_management = "LVM"
 					}
 					defined_tags = "${map("example-tag-namespace-all.example-tag", "originalValue")}"
 					freeform_tags = {"Department" = "Finance"}
@@ -435,7 +446,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					node_count = "1"
 					fault_domains = ["FAULT-DOMAIN-1"]
 					db_home {
-						db_version = "12.1.0.2"
+						db_version = "19.0.0.0"
 						display_name = "-tf-db-home"
 						database {
 							admin_password = "BEstrO0ng_#11"
@@ -452,6 +463,9 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 								recovery_window_in_days = 10
 							}
 						}
+					}
+					db_system_options {
+						storage_management = "LVM"
 					}
 					defined_tags = "${map("example-tag-namespace-all.example-tag", "updateValue")}"
 					freeform_tags = {"Department" = "Admin"}
@@ -520,7 +534,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "fault_domains.#", "1"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "reco_storage_size_in_gb", "256"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "listener_port", "1521"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "19.0.0.0"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.display_name", "-tf-db-home"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),

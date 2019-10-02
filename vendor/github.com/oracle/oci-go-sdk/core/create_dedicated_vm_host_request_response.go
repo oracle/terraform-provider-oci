@@ -11,7 +11,7 @@ import (
 // CreateDedicatedVmHostRequest wrapper for the CreateDedicatedVmHost operation
 type CreateDedicatedVmHostRequest struct {
 
-	// The details for creating a new dedicated virtual machine (VM) host.
+	// The details for creating a new dedicated virtual machine host.
 	CreateDedicatedVmHostDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

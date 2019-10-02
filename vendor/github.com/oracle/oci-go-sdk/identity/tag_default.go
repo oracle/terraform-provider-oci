@@ -46,6 +46,14 @@ type TagDefault struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// If you specify that a value is required, a value is set during resource creation (either by the
+	// user creating the resource or another tag defualt). If no value is set, resource creation is
+	// blocked.
+	// * If the `isRequired` flag is set to "true", the value is set during resource creation.
+	// * If the `isRequired` flag is set to "false", the value you enter is set during resource creation.
+	// Example: `false`
+	IsRequired *bool `mandatory:"true" json:"isRequired"`
+
 	// The tag default's current state. After creating a `TagDefault`, make sure its `lifecycleState` is ACTIVE before using it.
 	LifecycleState TagDefaultLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }

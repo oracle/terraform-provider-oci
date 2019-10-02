@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -38,6 +39,11 @@ func IdentityTagDefaultResource() *schema.Resource {
 			},
 
 			// Optional
+			"is_required": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"state": {
@@ -130,6 +136,11 @@ func (s *IdentityTagDefaultResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if isRequired, ok := s.D.GetOkExists("is_required"); ok {
+		tmp := isRequired.(bool)
+		request.IsRequired = &tmp
+	}
+
 	if tagDefinitionId, ok := s.D.GetOkExists("tag_definition_id"); ok {
 		tmp := tagDefinitionId.(string)
 		request.TagDefinitionId = &tmp
@@ -148,6 +159,16 @@ func (s *IdentityTagDefaultResourceCrud) Create() error {
 	}
 
 	s.Res = &response.TagDefault
+
+	// service takes some time for the isRequired effect to get stabilized
+	if isRequired, ok := s.D.GetOkExists("is_required"); ok {
+		tmp := isRequired.(bool)
+
+		if tmp {
+			time.Sleep(20 * time.Second)
+		}
+	}
+
 	return nil
 }
 
@@ -171,6 +192,11 @@ func (s *IdentityTagDefaultResourceCrud) Get() error {
 func (s *IdentityTagDefaultResourceCrud) Update() error {
 	request := oci_identity.UpdateTagDefaultRequest{}
 
+	if isRequired, ok := s.D.GetOkExists("is_required"); ok {
+		tmp := isRequired.(bool)
+		request.IsRequired = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.TagDefaultId = &tmp
 
@@ -187,6 +213,14 @@ func (s *IdentityTagDefaultResourceCrud) Update() error {
 	}
 
 	s.Res = &response.TagDefault
+	// service takes some time for the isRequired effect to get stabilized
+	if isRequired, ok := s.D.GetOkExists("is_required"); ok && s.D.HasChange("is_required") {
+		tmp := isRequired.(bool)
+
+		if tmp {
+			time.Sleep(20 * time.Second)
+		}
+	}
 	return nil
 }
 
@@ -205,6 +239,10 @@ func (s *IdentityTagDefaultResourceCrud) Delete() error {
 func (s *IdentityTagDefaultResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.IsRequired != nil {
+		s.D.Set("is_required", *s.Res.IsRequired)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

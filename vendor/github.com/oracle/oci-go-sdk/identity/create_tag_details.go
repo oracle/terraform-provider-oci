@@ -9,13 +9,15 @@
 package identity
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/common"
 )
 
 // CreateTagDetails The representation of CreateTagDetails
 type CreateTagDetails struct {
 
-	// The name you assign to the tag during creation. The name must be unique within the tag namespace and cannot be changed.
+	// The name you assign to the tag during creation. This is the tag key definition.
+	// The name must be unique within the tag namespace and cannot be changed.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The description you assign to the tag during creation.
@@ -33,8 +35,45 @@ type CreateTagDetails struct {
 
 	// Indicates whether the tag is enabled for cost tracking.
 	IsCostTracking *bool `mandatory:"false" json:"isCostTracking"`
+
+	// Additional validation rule for values specified for the tag definition.
+	// If no validator is defined for a tag definition, then any (valid) value will be accepted.
+	// The default value for `validator` is an empty map (no additional validation).
+	Validator BaseTagDefinitionValidator `mandatory:"false" json:"validator"`
 }
 
 func (m CreateTagDetails) String() string {
 	return common.PointerString(m)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateTagDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		FreeformTags   map[string]string                 `json:"freeformTags"`
+		DefinedTags    map[string]map[string]interface{} `json:"definedTags"`
+		IsCostTracking *bool                             `json:"isCostTracking"`
+		Validator      basetagdefinitionvalidator        `json:"validator"`
+		Name           *string                           `json:"name"`
+		Description    *string                           `json:"description"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	m.FreeformTags = model.FreeformTags
+	m.DefinedTags = model.DefinedTags
+	m.IsCostTracking = model.IsCostTracking
+	nn, e := model.Validator.UnmarshalPolymorphicJSON(model.Validator.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.Validator = nn.(BaseTagDefinitionValidator)
+	} else {
+		m.Validator = nil
+	}
+	m.Name = model.Name
+	m.Description = model.Description
+	return
 }

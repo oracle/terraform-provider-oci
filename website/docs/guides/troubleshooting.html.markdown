@@ -5,11 +5,37 @@ sidebar_current: "docs-oci-guide-troubleshooting"
 description: |-
   The Oracle Cloud Infrastructure provider. Troubleshooting
 ---
+
+## Troubleshooting
+
+When troubleshooting or getting support for the OCI Terraform Provider, it is often useful to first check the status of the OCI services and to collect verbose logging.
+
+
+### Checking OCI service status and outages
+
+To check on the latest status and whether there are any outages in OCI, see [OCI Status](https://ocistatus.oraclecloud.com/)
+
+
+### Verbose logging for OCI Terraform Provider
+
+To get verbose console output when the provider is running, precede your Terraform command with the `TF_LOG` and `OCI_GO_SDK_DEBUG` flags:
+
+```sh
+TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform plan
+```
+
+The [tf_log](https://www.terraform.io/docs/internals/debugging.html) level and `OCI_GO_SDK_DEBUG` flags can also be set as environment variables.
+
+
+## Common Issues
+
 ### Not Authenticated Error when configuring Terraform
 
 _If the Terraform CLI gives an error message like:_
 
-`* oci_core_vcn.resource1: Service error:NotAuthenticated. The required information to complete authentication was not provided or was incorrect.. http status code: 401`
+```
+* oci_core_vcn.resource1: Service error:NotAuthenticated. The required information to complete authentication was not provided or was incorrect.. http status code: 401
+```
 
 * Verify you have properly set `user_ocid`, `tenancy_ocid`, `fingerprint` and `private_key_path` 
 * Verify your `private_key_path` is pointing to your private key and not the corresponding public key
@@ -50,12 +76,24 @@ export https_proxy=http://www.your-proxy.com:80/
 export no_proxy=localhost,127.0.0.1
 ```
 
-### Verbose logging for OCI Terraform Provider
 
-To get verbose console output when the provider is running, precede your Terraform command with the `TF_LOG` and `OCI_GO_SDK_DEBUG` flags:
+### Errors about service limits
 
-```sh
-TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform plan
+While using Terraform, you may encounter errors indicating that you have reached or exceeded the service limits for a resource.
+
+To understand more about your OCI service limits and how to request a limit increase, see [Service Limits](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm)
+
+
+### Timeout errors when waiting for a state change
+
+_If the Terraform CLI gives an error message like:_
+
+```
+* oci_database_backup.mydb: timeout while waiting for state to become 'ACTIVE' (last state: 'CREATING', timeout: 15m0s)
 ```
 
-The [tf_log](https://www.terraform.io/docs/internals/debugging.html) level and `OCI_GO_SDK_DEBUG` flags can also be set as environment variables.
+Then the OCI service is indicating that the resource has not yet reached the expected state after polling for some time.
+
+You may need to increase the operation timeout for your resource to continue polling for longer. See [Operation Timeouts](https://www.terraform.io/docs/configuration/resources.html#operation-timeouts) for details on how to do this.
+
+ 

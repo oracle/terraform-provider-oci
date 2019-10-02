@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/url"
 	"regexp"
-	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -192,7 +191,7 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) Get() error {
 		request.NamespaceName = &namespace
 		request.ParId = &parId
 	} else {
-		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+		log.Printf("[WARN] Get() unable to parse current ID: %s, err: %s ", s.D.Id(), err)
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
@@ -249,7 +248,7 @@ func (s *ObjectStoragePreauthenticatedRequestResourceCrud) SetData() error {
 		s.D.Set("namespace", &namespace)
 		s.D.Set("par_id", &parId)
 	} else {
-		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+		log.Printf("[WARN] SetData() unable to parse current ID: %s, err: %s ", s.D.Id(), err)
 	}
 
 	s.D.Set("access_type", s.Res.AccessType)
@@ -286,15 +285,16 @@ func getPreauthenticatedRequestCompositeId(bucket string, namespace string, parI
 }
 
 func parsePreauthenticatedRequestCompositeId(compositeId string) (bucket string, namespace string, parId string, err error) {
-	parts := strings.Split(compositeId, "/")
-	match, _ := regexp.MatchString("n/.*/b/.*/p/.*", compositeId)
-	if !match || len(parts) != 6 {
+	re := regexp.MustCompile(`n/([^/]+)/b/([^/]+)/p/(.+$)`)
+
+	subMatchAll := re.FindStringSubmatch(compositeId)
+	if subMatchAll == nil || len(subMatchAll) != 4 {
 		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
 		return
 	}
-	namespace, _ = url.PathUnescape(parts[1])
-	bucket, _ = url.PathUnescape(parts[3])
-	parId, _ = url.PathUnescape(parts[5])
+	namespace, _ = url.PathUnescape(subMatchAll[1])
+	bucket, _ = url.PathUnescape(subMatchAll[2])
+	parId, _ = url.PathUnescape(subMatchAll[3])
 
 	return
 }

@@ -19,7 +19,7 @@ var (
 	}
 
 	WorkRequestErrorResourceConfig = WorkRequestResourceConfig +
-		generateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", Required, Create, workRequestDataSourceRepresentation)
+		generateDataSourceFromRepresentationMap("oci_containerengine_work_requests", "test_work_requests", Optional, Create, workRequestDataSourceRepresentation)
 )
 
 func TestContainerengineWorkRequestErrorResource_basic(t *testing.T) {

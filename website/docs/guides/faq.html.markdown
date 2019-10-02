@@ -30,7 +30,9 @@ See - http://darylscorner.com/2016/11/using-terraform-across-multiple-cloud-prov
 The change you made outside of Terraform will be overwritten the next time you apply the configuration unless you add the `ignore_changes` parameter to the resource in the configuration file.
 
 #### Q: How do I get help?
-You can file an issue against the project  
+First, see if your question is already answered by the [troubleshooting guide](https://www.terraform.io/docs/providers/oci/guides/troubleshooting.html)
+
+You can also file an issue against the project  
 https://github.com/terraform-providers/terraform-provider-oci/issues
 
 or meet us in the OCI forums

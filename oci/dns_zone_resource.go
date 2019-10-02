@@ -196,10 +196,10 @@ func (s *DnsZoneResourceCrud) ID() string {
 
 func (s *DnsZoneResourceCrud) Create() error {
 	request := oci_dns.CreateZoneRequest{}
-
+	createZoneDetailsRequest := oci_dns.CreateZoneDetails{}
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
-		request.CreateZoneDetails.CompartmentId = &tmp
+		createZoneDetailsRequest.CompartmentId = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -207,10 +207,10 @@ func (s *DnsZoneResourceCrud) Create() error {
 		if err != nil {
 			return err
 		}
-		request.DefinedTags = convertedDefinedTags
+		createZoneDetailsRequest.DefinedTags = convertedDefinedTags
 	}
 
-	request.ExternalMasters = []oci_dns.ExternalMaster{}
+	createZoneDetailsRequest.ExternalMasters = []oci_dns.ExternalMaster{}
 	if externalMasters, ok := s.D.GetOkExists("external_masters"); ok {
 		interfaces := externalMasters.([]interface{})
 		tmp := make([]oci_dns.ExternalMaster, len(interfaces))
@@ -223,21 +223,22 @@ func (s *DnsZoneResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.ExternalMasters = tmp
+		createZoneDetailsRequest.ExternalMasters = tmp
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		createZoneDetailsRequest.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
-		request.Name = &tmp
+		createZoneDetailsRequest.Name = &tmp
 	}
 
 	if zoneType, ok := s.D.GetOkExists("zone_type"); ok {
-		request.ZoneType = oci_dns.CreateZoneDetailsZoneTypeEnum(zoneType.(string))
+		createZoneDetailsRequest.ZoneType = oci_dns.CreateZoneDetailsZoneTypeEnum(zoneType.(string))
 	}
+	request.CreateZoneDetails = createZoneDetailsRequest
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dns")
 

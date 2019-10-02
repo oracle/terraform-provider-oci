@@ -202,7 +202,7 @@ github.com/mitchellh/mapstructure
 github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk v10.1.0+incompatible
+# github.com/oracle/oci-go-sdk v11.0.0+incompatible
 github.com/oracle/oci-go-sdk/audit
 github.com/oracle/oci-go-sdk/autoscaling
 github.com/oracle/oci-go-sdk/budget
@@ -226,6 +226,7 @@ github.com/oracle/oci-go-sdk/objectstorage
 github.com/oracle/oci-go-sdk/ons
 github.com/oracle/oci-go-sdk/streaming
 github.com/oracle/oci-go-sdk/waas
+github.com/oracle/oci-go-sdk/workrequests
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib
 # github.com/posener/complete v1.2.1
