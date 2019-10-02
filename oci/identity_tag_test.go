@@ -57,11 +57,16 @@ var (
 
 	tagRepresentation = map[string]interface{}{
 		"description":      Representation{repType: Required, create: `This tag will show the cost center that will be used for billing of associated resources.`, update: `description2`},
-		"name":             Representation{repType: Required, create: `CostCenter`},
+		"name":             Representation{repType: Required, create: `TFTestTag`},
 		"tag_namespace_id": Representation{repType: Required, create: `${oci_identity_tag_namespace.tag-namespace1.id}`},
 		"defined_tags":     Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"is_cost_tracking": Representation{repType: Optional, create: `false`, update: `true`},
+		"validator":        RepresentationGroup{Optional, tagValidatorRepresentation},
+	}
+	tagValidatorRepresentation = map[string]interface{}{
+		"validator_type": Representation{repType: Required, create: `ENUM`},
+		"values":         Representation{repType: Required, create: []string{`value1`, `value2`}},
 	}
 
 	TagResourceDependencies = DefinedTagsDependencies
@@ -95,7 +100,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "description", "This tag will show the cost center that will be used for billing of associated resources."),
-					resource.TestCheckResourceAttr(resourceName, "name", "CostCenter"),
+					resource.TestCheckResourceAttr(resourceName, "name", "TFTestTag"),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
 
 					func(s *terraform.State) (err error) {
@@ -120,9 +125,12 @@ func TestIdentityTagResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_cost_tracking", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_retired", "false"),
-					resource.TestCheckResourceAttr(resourceName, "name", "CostCenter"),
+					resource.TestCheckResourceAttr(resourceName, "name", "TFTestTag"),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "validator.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "validator.0.validator_type", "ENUM"),
+					resource.TestCheckResourceAttr(resourceName, "validator.0.values.#", "2"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -134,7 +142,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + TagResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, tagRepresentation),
+					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, representationCopyWithRemovedProperties(tagRepresentation, []string{"validator"})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -142,7 +150,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "is_cost_tracking", "true"),
 					resource.TestCheckResourceAttr(resourceName, "is_retired", "false"),
-					resource.TestCheckResourceAttr(resourceName, "name", "CostCenter"),
+					resource.TestCheckResourceAttr(resourceName, "name", "TFTestTag"),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_namespace_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -160,19 +168,19 @@ func TestIdentityTagResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_tags", "test_tags", Optional, Update, tagDataSourceRepresentation) +
 					compartmentIdVariableStr + TagResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, tagRepresentation),
+					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, representationCopyWithRemovedProperties(tagRepresentation, []string{"validator"})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "tags.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.description", "description2"),
+					resource.TestCheckResourceAttr(datasourceName, "tags.0.description", "This tag will show the cost center that will be used for billing of associated resources."),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.is_cost_tracking", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "tags.0.is_cost_tracking", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.is_retired", "false"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.name", "CostCenter"),
+					resource.TestCheckResourceAttr(datasourceName, "tags.0.name", "TFTestTag"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.time_created"),
 				),

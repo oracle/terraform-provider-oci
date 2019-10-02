@@ -10,6 +10,7 @@
 package dns
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/common"
 )
 
@@ -19,9 +20,6 @@ type CreateZoneDetails struct {
 
 	// The name of the zone.
 	Name *string `mandatory:"true" json:"name"`
-
-	// The type of the zone. Must be either `PRIMARY` or `SECONDARY`.
-	ZoneType CreateZoneDetailsZoneTypeEnum `mandatory:"true" json:"zoneType"`
 
 	// The OCID of the compartment containing the zone.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -41,10 +39,47 @@ type CreateZoneDetails struct {
 	// External master servers for the zone. `externalMasters` becomes a
 	// required parameter when the `zoneType` value is `SECONDARY`.
 	ExternalMasters []ExternalMaster `mandatory:"false" json:"externalMasters"`
+
+	// The type of the zone. Must be either `PRIMARY` or `SECONDARY`.
+	ZoneType CreateZoneDetailsZoneTypeEnum `mandatory:"false" json:"zoneType,omitempty"`
+}
+
+//GetName returns Name
+func (m CreateZoneDetails) GetName() *string {
+	return m.Name
+}
+
+//GetCompartmentId returns CompartmentId
+func (m CreateZoneDetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+//GetFreeformTags returns FreeformTags
+func (m CreateZoneDetails) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+//GetDefinedTags returns DefinedTags
+func (m CreateZoneDetails) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m CreateZoneDetails) String() string {
 	return common.PointerString(m)
+}
+
+// MarshalJSON marshals to json representation
+func (m CreateZoneDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateZoneDetails CreateZoneDetails
+	s := struct {
+		DiscriminatorParam string `json:"migrationSource"`
+		MarshalTypeCreateZoneDetails
+	}{
+		"NONE",
+		(MarshalTypeCreateZoneDetails)(m),
+	}
+
+	return json.Marshal(&s)
 }
 
 // CreateZoneDetailsZoneTypeEnum Enum with underlying type: string

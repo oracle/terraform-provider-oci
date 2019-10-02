@@ -21,7 +21,8 @@ type TagSummary struct {
 	// The OCID of the tag definition.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The name of the tag. The name must be unique across all tags in the tag namespace and can't be changed.
+	// The name assigned to the tag during creation. This is the tag key definition.
+	// The name must be unique within the tag namespace and cannot be changed.
 	Name *string `mandatory:"false" json:"name"`
 
 	// The description you assign to the tag.
@@ -41,7 +42,7 @@ type TagSummary struct {
 	// See Retiring Key Definitions and Namespace Definitions (https://docs.cloud.oracle.com/Content/Identity/Concepts/taggingoverview.htm#Retiring).
 	IsRetired *bool `mandatory:"false" json:"isRetired"`
 
-	// The tag's current state. After creating a tag, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tag, make sure its `lifecycleState` is INACTIVE before using it.
+	// The tag's current state. After creating a tag, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tag, make sure its `lifecycleState` is INACTIVE before using it. If you delete a tag, you cannot delete another tag until the deleted tag's `lifecycleState` changes from DELETING to DELETED.
 	LifecycleState TagLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Date and time the tag was created, in the format defined by RFC3339.

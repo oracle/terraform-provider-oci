@@ -47,6 +47,11 @@ The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment. The tag default applies to all new resources that get created in the compartment. Resources that existed before the tag default was created are not tagged. 
 * `id` - The OCID of the tag default.
+* `is_required` - If you specify that a value is required, a value is set during resource creation (either by the  user creating the resource or another tag defualt). If no value is set, resource creation is  blocked.
+	* If the `isRequired` flag is set to "true", the value is set during resource creation.
+	* If the `isRequired` flag is set to "false", the value you enter is set during resource creation.
+
+	Example: `false` 
 * `state` - The tag default's current state. After creating a `TagDefault`, make sure its `lifecycleState` is ACTIVE before using it. 
 * `tag_definition_id` - The OCID of the tag definition. The tag default will always assign a default value for this tag definition. 
 * `tag_definition_name` - The name used in the tag definition. This field is informational in the context of the tag default. 

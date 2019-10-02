@@ -17,8 +17,7 @@ var (
 		"network_security_group_id": Representation{repType: Required, create: `${oci_core_network_security_group.test_network_security_group.id}`},
 	}
 
-	NetworkSecurityGroupVnicResourceConfig = generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation) +
-		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation)
+	NetworkSecurityGroupVnicResourceConfig = VnicAttachmentResourceConfig
 )
 
 func TestCoreNetworkSecurityGroupVnicResource_basic(t *testing.T) {

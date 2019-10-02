@@ -134,6 +134,8 @@ func StringToRegion(stringRegion string) (r Region) {
 		r = RegionEUZurich1
 	case "gru", "sa-saopaulo-1":
 		r = RegionSASaopaulo1
+	case "syd", "ap-sydney-1":
+		r = RegionAPSydney1
 	case "us-langley-1":
 		r = RegionUSLangley1
 	case "us-luke-1":

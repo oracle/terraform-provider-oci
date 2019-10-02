@@ -18,6 +18,7 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 	"github.com/terraform-providers/terraform-provider-oci/metrics"
@@ -794,4 +795,76 @@ func getRetryPolicyWithAdditionalRetryCondition(timeout time.Duration, retryCond
 
 func elaspedInMillisecond(start time.Time) int64 {
 	return time.Since(start).Nanoseconds() / int64(time.Millisecond)
+}
+
+func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool) (*string, error) {
+	retryPolicy := getRetryPolicy(disableFoundRetries, "work_request")
+	retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
+
+	response := oci_work_requests.GetWorkRequestResponse{}
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_work_requests.WorkRequestStatusInProgress),
+			string(oci_work_requests.WorkRequestStatusAccepted),
+			string(oci_work_requests.WorkRequestStatusCanceling),
+		},
+		Target: []string{
+			string(oci_work_requests.WorkRequestStatusSucceeded),
+			string(oci_work_requests.WorkRequestStatusFailed),
+			string(oci_work_requests.WorkRequestStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = workRequestClient.GetWorkRequest(context.Background(),
+				oci_work_requests.GetWorkRequestRequest{
+					WorkRequestId: workRequestId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+			if res.ActionType == action {
+				identifier = res.Identifier
+				break
+			}
+		}
+	}
+
+	return identifier, nil
+}
+
+func workRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if shouldRetry(response, false, "work_request", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_work_requests.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
 }

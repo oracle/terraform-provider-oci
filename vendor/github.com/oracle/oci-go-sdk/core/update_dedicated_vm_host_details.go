@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateDedicatedVmHostDetails Update dedicated VM host details.
+// UpdateDedicatedVmHostDetails Details for updating the dedicated virtual machine host details.
 type UpdateDedicatedVmHostDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
