@@ -4,6 +4,7 @@
 - Support for Audit v2 enhancements. Note: `oci_audit_events` data source schema is updated
 - Support for specifying network_type in `launch_options` for the `core_instance` resource
 - Support for `home_region` and `time_created` attributes in health_checks resources and datasources
+- Support for custom scheduled backup policies in Block Storage 
 
 ## 3.46.0 (October 02, 2019)
 
