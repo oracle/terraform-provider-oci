@@ -1,4 +1,4 @@
-## 3.46.0 (Unreleased)
+## 3.46.0 (October 02, 2019)
 
 ### Added
 - Support DBaaS VM DB Fast Provisioning
