@@ -32,6 +32,7 @@ var (
 	OneHour                       = 60 * time.Minute
 	TwoHours                      = 120 * time.Minute
 	TwoAndHalfHours               = 150 * time.Minute
+	ThreeHours                    = 180 * time.Minute
 	TwelveHours                   = 12 * time.Hour
 	ZeroTime        time.Duration = 0
 

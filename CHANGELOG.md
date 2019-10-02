@@ -2,6 +2,7 @@
 
 ### Added
 - Support for pod security policy in kubernetes
+- Support for Oracle Big Data Service
 
 ## 3.68.0 (March 25, 2020)
 
