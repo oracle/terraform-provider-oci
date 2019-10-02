@@ -83,7 +83,15 @@ func HealthChecksHttpProbeResource() *schema.Resource {
 			},
 
 			// Computed
+			"home_region": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"results_url": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -195,6 +203,10 @@ func (s *HealthChecksHttpProbeResourceCrud) SetData() error {
 
 	s.D.Set("headers", s.Res.Headers)
 
+	if s.Res.HomeRegion != nil {
+		s.D.Set("home_region", *s.Res.HomeRegion)
+	}
+
 	s.D.Set("method", s.Res.Method)
 
 	if s.Res.Path != nil {
@@ -212,6 +224,10 @@ func (s *HealthChecksHttpProbeResourceCrud) SetData() error {
 	}
 
 	s.D.Set("targets", s.Res.Targets)
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.TimeoutInSeconds != nil {
 		s.D.Set("timeout_in_seconds", *s.Res.TimeoutInSeconds)
