@@ -85,7 +85,15 @@ func HealthChecksPingMonitorResource() *schema.Resource {
 			},
 
 			// Computed
+			"home_region": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"results_url": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -356,6 +364,10 @@ func (s *HealthChecksPingMonitorResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.HomeRegion != nil {
+		s.D.Set("home_region", *s.Res.HomeRegion)
+	}
+
 	if s.Res.IntervalInSeconds != nil {
 		s.D.Set("interval_in_seconds", *s.Res.IntervalInSeconds)
 	}
@@ -375,6 +387,10 @@ func (s *HealthChecksPingMonitorResourceCrud) SetData() error {
 	}
 
 	s.D.Set("targets", s.Res.Targets)
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.TimeoutInSeconds != nil {
 		s.D.Set("timeout_in_seconds", *s.Res.TimeoutInSeconds)
