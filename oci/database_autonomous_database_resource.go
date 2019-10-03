@@ -194,6 +194,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"machine_learning_user_management_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"sql_dev_web_url": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -599,6 +603,10 @@ func AutonomousDatabaseConnectionUrlsToMap(obj *oci_database.AutonomousDatabaseC
 
 	if obj.ApexUrl != nil {
 		result["apex_url"] = string(*obj.ApexUrl)
+	}
+
+	if obj.MachineLearningUserManagementUrl != nil {
+		result["machine_learning_user_management_url"] = string(*obj.MachineLearningUserManagementUrl)
 	}
 
 	if obj.SqlDevWebUrl != nil {

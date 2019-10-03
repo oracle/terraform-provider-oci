@@ -2,6 +2,7 @@
 
 ### Added
 - Support for specifying compartment ID for container engine options APIs
+- Support for console access to APEX and SQL Dev in autonomous databases
 
 ## 3.51.0 (November 06, 2019)
 
