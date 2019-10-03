@@ -16,28 +16,18 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// VolumeBackupPolicy A policy for automatically creating volume backups according to a
-// recurring schedule. Has a set of one or more schedules that control when and
-// how backups are created.
-// **Warning:** Oracle recommends that you avoid using any confidential information when you
-// supply string values using the API.
-type VolumeBackupPolicy struct {
+// CreateVolumeBackupPolicyDetails Contains properties for a scheduled backup policy.
+type CreateVolumeBackupPolicyDetails struct {
+
+	// The OCID of the compartment that contains the backup policy.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name for the volume backup policy. Does not have to be unique and it's changeable.
 	// Avoid entering confidential information.
-	DisplayName *string `mandatory:"true" json:"displayName"`
-
-	// The OCID of the volume backup policy.
-	Id *string `mandatory:"true" json:"id"`
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The collection of schedules that this policy will apply.
-	Schedules []VolumeBackupSchedule `mandatory:"true" json:"schedules"`
-
-	// The date and time the volume backup policy was created. Format defined by RFC3339.
-	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
-
-	// The OCID of the compartment that contains the volume backup.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+	Schedules []VolumeBackupSchedule `mandatory:"false" json:"schedules"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -50,6 +40,6 @@ type VolumeBackupPolicy struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 }
 
-func (m VolumeBackupPolicy) String() string {
+func (m CreateVolumeBackupPolicyDetails) String() string {
 	return common.PointerString(m)
 }
