@@ -30,6 +30,24 @@ type VolumeBackupSchedule struct {
 
 	// The number of seconds that the backup time should be shifted from the default interval boundaries specified by the period. Backup time = Frequency start time + Offset.
 	OffsetSeconds *int `mandatory:"false" json:"offsetSeconds"`
+
+	// Indicates how offset is defined. If value is `STRUCTURED`, then `hourOfDay`, `dayOfWeek`, `dayOfMonth`, and `month` fields are used and `offsetSeconds` will be ignored in requests and users should ignore its value from the respones. `hourOfDay` is applicable for periods `ONE_DAY`, `ONE_WEEK`, `ONE_MONTH` and `ONE_YEAR`. `dayOfWeek` is applicable for period `ONE_WEEK`. `dayOfMonth` is applicable for periods `ONE_MONTH` and `ONE_YEAR`. 'month' is applicable for period 'ONE_YEAR'. They will be ignored in the requests for inapplicable periods. If value is `NUMERIC_SECONDS`, then `offsetSeconds` will be used for both requests and responses and the structured fields will be ignored in the requests and users should ignore their values from the respones. For clients using older versions of Apis and not sending `offsetType` in their requests, the behaviour is just like `NUMERIC_SECONDS`.
+	OffsetType VolumeBackupScheduleOffsetTypeEnum `mandatory:"false" json:"offsetType,omitempty"`
+
+	// The hour of the day to schedule the backup
+	HourOfDay *int `mandatory:"false" json:"hourOfDay"`
+
+	// The day of the week to schedule the backup
+	DayOfWeek VolumeBackupScheduleDayOfWeekEnum `mandatory:"false" json:"dayOfWeek,omitempty"`
+
+	// The day of the month to schedule the backup
+	DayOfMonth *int `mandatory:"false" json:"dayOfMonth"`
+
+	// The month of the year to schedule the backup
+	Month VolumeBackupScheduleMonthEnum `mandatory:"false" json:"month,omitempty"`
+
+	// Specifies what time zone is the schedule in
+	TimeZone VolumeBackupScheduleTimeZoneEnum `mandatory:"false" json:"timeZone,omitempty"`
 }
 
 func (m VolumeBackupSchedule) String() string {
@@ -83,6 +101,128 @@ var mappingVolumeBackupSchedulePeriod = map[string]VolumeBackupSchedulePeriodEnu
 func GetVolumeBackupSchedulePeriodEnumValues() []VolumeBackupSchedulePeriodEnum {
 	values := make([]VolumeBackupSchedulePeriodEnum, 0)
 	for _, v := range mappingVolumeBackupSchedulePeriod {
+		values = append(values, v)
+	}
+	return values
+}
+
+// VolumeBackupScheduleOffsetTypeEnum Enum with underlying type: string
+type VolumeBackupScheduleOffsetTypeEnum string
+
+// Set of constants representing the allowable values for VolumeBackupScheduleOffsetTypeEnum
+const (
+	VolumeBackupScheduleOffsetTypeStructured     VolumeBackupScheduleOffsetTypeEnum = "STRUCTURED"
+	VolumeBackupScheduleOffsetTypeNumericSeconds VolumeBackupScheduleOffsetTypeEnum = "NUMERIC_SECONDS"
+)
+
+var mappingVolumeBackupScheduleOffsetType = map[string]VolumeBackupScheduleOffsetTypeEnum{
+	"STRUCTURED":      VolumeBackupScheduleOffsetTypeStructured,
+	"NUMERIC_SECONDS": VolumeBackupScheduleOffsetTypeNumericSeconds,
+}
+
+// GetVolumeBackupScheduleOffsetTypeEnumValues Enumerates the set of values for VolumeBackupScheduleOffsetTypeEnum
+func GetVolumeBackupScheduleOffsetTypeEnumValues() []VolumeBackupScheduleOffsetTypeEnum {
+	values := make([]VolumeBackupScheduleOffsetTypeEnum, 0)
+	for _, v := range mappingVolumeBackupScheduleOffsetType {
+		values = append(values, v)
+	}
+	return values
+}
+
+// VolumeBackupScheduleDayOfWeekEnum Enum with underlying type: string
+type VolumeBackupScheduleDayOfWeekEnum string
+
+// Set of constants representing the allowable values for VolumeBackupScheduleDayOfWeekEnum
+const (
+	VolumeBackupScheduleDayOfWeekMonday    VolumeBackupScheduleDayOfWeekEnum = "MONDAY"
+	VolumeBackupScheduleDayOfWeekTuesday   VolumeBackupScheduleDayOfWeekEnum = "TUESDAY"
+	VolumeBackupScheduleDayOfWeekWednesday VolumeBackupScheduleDayOfWeekEnum = "WEDNESDAY"
+	VolumeBackupScheduleDayOfWeekThursday  VolumeBackupScheduleDayOfWeekEnum = "THURSDAY"
+	VolumeBackupScheduleDayOfWeekFriday    VolumeBackupScheduleDayOfWeekEnum = "FRIDAY"
+	VolumeBackupScheduleDayOfWeekSaturday  VolumeBackupScheduleDayOfWeekEnum = "SATURDAY"
+	VolumeBackupScheduleDayOfWeekSunday    VolumeBackupScheduleDayOfWeekEnum = "SUNDAY"
+)
+
+var mappingVolumeBackupScheduleDayOfWeek = map[string]VolumeBackupScheduleDayOfWeekEnum{
+	"MONDAY":    VolumeBackupScheduleDayOfWeekMonday,
+	"TUESDAY":   VolumeBackupScheduleDayOfWeekTuesday,
+	"WEDNESDAY": VolumeBackupScheduleDayOfWeekWednesday,
+	"THURSDAY":  VolumeBackupScheduleDayOfWeekThursday,
+	"FRIDAY":    VolumeBackupScheduleDayOfWeekFriday,
+	"SATURDAY":  VolumeBackupScheduleDayOfWeekSaturday,
+	"SUNDAY":    VolumeBackupScheduleDayOfWeekSunday,
+}
+
+// GetVolumeBackupScheduleDayOfWeekEnumValues Enumerates the set of values for VolumeBackupScheduleDayOfWeekEnum
+func GetVolumeBackupScheduleDayOfWeekEnumValues() []VolumeBackupScheduleDayOfWeekEnum {
+	values := make([]VolumeBackupScheduleDayOfWeekEnum, 0)
+	for _, v := range mappingVolumeBackupScheduleDayOfWeek {
+		values = append(values, v)
+	}
+	return values
+}
+
+// VolumeBackupScheduleMonthEnum Enum with underlying type: string
+type VolumeBackupScheduleMonthEnum string
+
+// Set of constants representing the allowable values for VolumeBackupScheduleMonthEnum
+const (
+	VolumeBackupScheduleMonthJanuary   VolumeBackupScheduleMonthEnum = "JANUARY"
+	VolumeBackupScheduleMonthFebruary  VolumeBackupScheduleMonthEnum = "FEBRUARY"
+	VolumeBackupScheduleMonthMarch     VolumeBackupScheduleMonthEnum = "MARCH"
+	VolumeBackupScheduleMonthApril     VolumeBackupScheduleMonthEnum = "APRIL"
+	VolumeBackupScheduleMonthMay       VolumeBackupScheduleMonthEnum = "MAY"
+	VolumeBackupScheduleMonthJune      VolumeBackupScheduleMonthEnum = "JUNE"
+	VolumeBackupScheduleMonthJuly      VolumeBackupScheduleMonthEnum = "JULY"
+	VolumeBackupScheduleMonthAugust    VolumeBackupScheduleMonthEnum = "AUGUST"
+	VolumeBackupScheduleMonthSeptember VolumeBackupScheduleMonthEnum = "SEPTEMBER"
+	VolumeBackupScheduleMonthOctober   VolumeBackupScheduleMonthEnum = "OCTOBER"
+	VolumeBackupScheduleMonthNovember  VolumeBackupScheduleMonthEnum = "NOVEMBER"
+	VolumeBackupScheduleMonthDecember  VolumeBackupScheduleMonthEnum = "DECEMBER"
+)
+
+var mappingVolumeBackupScheduleMonth = map[string]VolumeBackupScheduleMonthEnum{
+	"JANUARY":   VolumeBackupScheduleMonthJanuary,
+	"FEBRUARY":  VolumeBackupScheduleMonthFebruary,
+	"MARCH":     VolumeBackupScheduleMonthMarch,
+	"APRIL":     VolumeBackupScheduleMonthApril,
+	"MAY":       VolumeBackupScheduleMonthMay,
+	"JUNE":      VolumeBackupScheduleMonthJune,
+	"JULY":      VolumeBackupScheduleMonthJuly,
+	"AUGUST":    VolumeBackupScheduleMonthAugust,
+	"SEPTEMBER": VolumeBackupScheduleMonthSeptember,
+	"OCTOBER":   VolumeBackupScheduleMonthOctober,
+	"NOVEMBER":  VolumeBackupScheduleMonthNovember,
+	"DECEMBER":  VolumeBackupScheduleMonthDecember,
+}
+
+// GetVolumeBackupScheduleMonthEnumValues Enumerates the set of values for VolumeBackupScheduleMonthEnum
+func GetVolumeBackupScheduleMonthEnumValues() []VolumeBackupScheduleMonthEnum {
+	values := make([]VolumeBackupScheduleMonthEnum, 0)
+	for _, v := range mappingVolumeBackupScheduleMonth {
+		values = append(values, v)
+	}
+	return values
+}
+
+// VolumeBackupScheduleTimeZoneEnum Enum with underlying type: string
+type VolumeBackupScheduleTimeZoneEnum string
+
+// Set of constants representing the allowable values for VolumeBackupScheduleTimeZoneEnum
+const (
+	VolumeBackupScheduleTimeZoneUtc                    VolumeBackupScheduleTimeZoneEnum = "UTC"
+	VolumeBackupScheduleTimeZoneRegionalDataCenterTime VolumeBackupScheduleTimeZoneEnum = "REGIONAL_DATA_CENTER_TIME"
+)
+
+var mappingVolumeBackupScheduleTimeZone = map[string]VolumeBackupScheduleTimeZoneEnum{
+	"UTC": VolumeBackupScheduleTimeZoneUtc,
+	"REGIONAL_DATA_CENTER_TIME": VolumeBackupScheduleTimeZoneRegionalDataCenterTime,
+}
+
+// GetVolumeBackupScheduleTimeZoneEnumValues Enumerates the set of values for VolumeBackupScheduleTimeZoneEnum
+func GetVolumeBackupScheduleTimeZoneEnumValues() []VolumeBackupScheduleTimeZoneEnum {
+	values := make([]VolumeBackupScheduleTimeZoneEnum, 0)
+	for _, v := range mappingVolumeBackupScheduleTimeZone {
 		values = append(values, v)
 	}
 	return values

@@ -35,7 +35,7 @@ type ConfirmationResult struct {
 	Message *string `mandatory:"true" json:"message"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription specified in the request.
-	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+	SubscriptionId *string `mandatory:"true" json:"subscriptionId"`
 }
 
 func (m ConfirmationResult) String() string {
