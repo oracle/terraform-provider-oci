@@ -28,6 +28,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	#Optional
 	autonomous_container_database_id = "${oci_database_autonomous_container_database.test_autonomous_container_database.id}"
 	clone_type = "${var.autonomous_database_clone_type}"
+	data_safe_status = "${var.data_safe_status}"
 	db_workload = "${var.autonomous_database_db_workload}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.autonomous_database_display_name}"
@@ -53,6 +54,7 @@ The following arguments are supported:
     * `METADATA` - This option creates a new database that includes the source database schema and select metadata, but not the source database data.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment of the autonomous database.
 * `cpu_core_count` - (Required) (Updatable) The number of CPU Cores to be made available to the database. This input is ignored for Always Free resources.
+* `data_safe_status` - (Optional) (Updatable) Target status of the Data Safe registration for this Autonomous Database. Could be set to REGISTERED or NOT_REGISTERED.
 * `data_storage_size_in_tbs` - (Required) (Updatable) The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. This input is ignored for Always Free resources.
 * `db_name` - (Required) The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
 * `db_workload` - (Optional) The autonomous database workload type. OLTP indicates an Autonomous Transaction Processing database and DW indicates an Autonomous Data Warehouse. The default is OLTP.
@@ -90,6 +92,7 @@ The following attributes are exported:
 	* `machine_learning_user_management_url` - Oracle Machine Learning User Management URL.
 	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `cpu_core_count` - The number of CPU cores to be made available to the database.
+* `data_safe_status` - Status of the Data Safe registration for this Autonomous Database.
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
 * `db_name` - The database name.
 * `db_version` - A valid Oracle Database version for Autonomous Database.

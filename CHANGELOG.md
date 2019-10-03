@@ -1,10 +1,11 @@
-## 3.51.1 (Unreleased)
+## 3.52.0 (Unreleased)
 
 ### Added
 - Support for specifying compartment ID for container engine options APIs
 - Support for console access to APEX and SQL Dev in autonomous databases
 - Support for Volume Performance Units in `oci_core_boot_volume` and `oci_core_volume` resources
 - Support for URL Redirect Feature in `oci_load_balancer_rule_set` resource
+- Support for data safe integration in `oci_database_autonomous_database` resource
 
 ## 3.51.0 (November 06, 2019)
 

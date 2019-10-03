@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform/helper/validation"
 
 	oci_database "github.com/oracle/oci-go-sdk/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 )
 
 func DatabaseAutonomousDatabaseResource() *schema.Resource {
@@ -64,6 +65,16 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"data_safe_status": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_database.AutonomousDatabaseDataSafeStatusRegistered),
+					string(oci_database.AutonomousDatabaseSummaryDataSafeStatusNotRegistered),
+				}, true),
 			},
 			"db_workload": {
 				Type:     schema.TypeString,
@@ -254,8 +265,26 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
-	return CreateResource(d, sync)
+	configDataSafeStatus := oci_database.AutonomousDatabaseDataSafeStatusNotRegistered
+	if dataSafeStatus, ok := sync.D.GetOkExists("data_safe_status"); ok {
+		configDataSafeStatus = oci_database.AutonomousDatabaseDataSafeStatusEnum(strings.ToUpper(dataSafeStatus.(string)))
+	}
+
+	if e := CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if configDataSafeStatus == oci_database.AutonomousDatabaseDataSafeStatusRegistered {
+		err := sync.updateDataSafeStatus(sync.D.Id(), oci_database.AutonomousDatabaseDataSafeStatusRegistered)
+		if err != nil {
+			return err
+		}
+		return ReadResource(sync)
+	}
+
+	return nil
 }
 
 func readDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
@@ -270,6 +299,7 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).databaseClient
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
 }
@@ -286,6 +316,7 @@ func deleteDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 type DatabaseAutonomousDatabaseResourceCrud struct {
 	BaseCrud
 	Client                 *oci_database.DatabaseClient
+	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_database.AutonomousDatabase
 	DisableNotFoundRetries bool
 }
@@ -381,6 +412,18 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 			}
 		}
 	}
+
+	if dataSafeStatus, ok := s.D.GetOkExists("data_safe_status"); ok && s.D.HasChange("data_safe_status") {
+		oldRaw, newRaw := s.D.GetChange("data_safe_status")
+		if newRaw != "" && oldRaw != "" {
+			configDataSafeStatus := oci_database.AutonomousDatabaseDataSafeStatusEnum(strings.ToUpper(dataSafeStatus.(string)))
+			err := s.updateDataSafeStatus(s.D.Id(), configDataSafeStatus)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	request := oci_database.UpdateAutonomousDatabaseRequest{}
 
 	// @CODEGEN 09/2018: Cannot update the password and scale the Autonomous Transaction Processing in same request, only include changed properties in request
@@ -496,6 +539,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.CpuCoreCount != nil {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
 	}
+
+	s.D.Set("data_safe_status", s.Res.DataSafeStatus)
 
 	if s.Res.DataStorageSizeInTBs != nil {
 		s.D.Set("data_storage_size_in_tbs", *s.Res.DataStorageSizeInTBs)
@@ -776,9 +821,58 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateCompartment(compartment i
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeAutonomousDatabaseCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeAutonomousDatabaseCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
+
+	workId := response.OpcWorkRequestId
+	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	if err != nil {
+		return err
+	}
+
 	return nil
+}
+
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomousDatabaseId string, dataSafeStatus oci_database.AutonomousDatabaseDataSafeStatusEnum) error {
+	switch dataSafeStatus {
+	case oci_database.AutonomousDatabaseDataSafeStatusRegistered:
+		request := oci_database.RegisterAutonomousDatabaseDataSafeRequest{}
+		request.AutonomousDatabaseId = &autonomousDatabaseId
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+		response, err := s.Client.RegisterAutonomousDatabaseDataSafe(context.Background(), request)
+
+		if err != nil {
+			return err
+		}
+		workId := response.OpcWorkRequestId
+		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	case oci_database.AutonomousDatabaseDataSafeStatusNotRegistered:
+		request := oci_database.DeregisterAutonomousDatabaseDataSafeRequest{}
+		request.AutonomousDatabaseId = &autonomousDatabaseId
+		request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+		response, err := s.Client.DeregisterAutonomousDatabaseDataSafe(context.Background(), request)
+
+		if err != nil {
+			return err
+		}
+		workId := response.OpcWorkRequestId
+		_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	default:
+		return fmt.Errorf("received unknown 'data_safe_status' %s", dataSafeStatus)
+	}
+
 }
