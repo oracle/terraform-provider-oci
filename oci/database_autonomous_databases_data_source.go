@@ -152,6 +152,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["cpu_core_count"] = *r.CpuCoreCount
 		}
 
+		autonomousDatabase["data_safe_status"] = r.DataSafeStatus
+
 		if r.DataStorageSizeInTBs != nil {
 			autonomousDatabase["data_storage_size_in_tbs"] = *r.DataStorageSizeInTBs
 		}
