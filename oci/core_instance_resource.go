@@ -201,6 +201,7 @@ func CoreInstanceResource() *schema.Resource {
 				Computed:         true,
 				ForceNew:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				Deprecated:       FieldDeprecatedForAnother("hostname_label", "hostname_label under create_vnic_details"),
 			},
 			"image": {
 				Type:       schema.TypeString,
@@ -330,10 +331,11 @@ func CoreInstanceResource() *schema.Resource {
 				},
 			},
 			"subnet_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				ForceNew:   true,
+				Deprecated: FieldDeprecatedForAnother("subnet_id", "subnet_id under create_vnic_details"),
 			},
 
 			// Computed
