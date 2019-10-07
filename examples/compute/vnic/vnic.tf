@@ -72,7 +72,6 @@ resource "oci_core_instance" "test_instance" {
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TestInstance"
   shape               = "VM.Standard2.1"
-  subnet_id           = "${oci_core_subnet.test_subnet.id}"
 
   source_details {
     source_type = "image"

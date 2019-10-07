@@ -183,13 +183,16 @@ resource "oci_core_instance" "test_instance" {
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "${var.instance_name}"
   shape               = "VM.Standard2.1"
-  subnet_id           = "${oci_core_subnet.test_subnet.id}"
-  hostname_label      = "winmachine"
 
   # Refer cloud-init in https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchInstanceDetails
   metadata = {
     # Base64 encoded YAML based user_data to be passed to cloud-init
     user_data = "${data.template_cloudinit_config.cloudinit_config.rendered}"
+  }
+
+  create_vnic_details {
+    subnet_id      = "${oci_core_subnet.test_subnet.id}"
+    hostname_label = "winmachine"
   }
 
   source_details {
