@@ -1,3 +1,8 @@
+## 3.48.0 (Unreleased)
+
+### Fixed
+- Update for whitelisted ips in `oci_autonomous_database`
+
 ## 3.47.0 (Unreleased)
 
 ### Added
