@@ -1,4 +1,16 @@
-## 3.46.1 (Unreleased)
+## 3.47.0 (Unreleased)
+
+### Added
+- Support for Audit v2 enhancements. Note: `oci_audit_events` data source schema is updated
+- Support for specifying network_type in `launch_options` for the `core_instance` resource
+- Support for `home_region` and `time_created` attributes in health_checks resources and datasources
+- Support for custom scheduled backup policies in Block Storage 
+- Support for importing `oci_load_balancer_certificate` resource
+
+### Notes
+Starting with this version, newly created load balancer certificates will have an `id` in the form of `loadBalancers/{loadBalancerId}/certificates/{certificateName}`.
+Load balancer certificates created with previous versions and upgrading to this version will continue to store `id` in the form of `{certificateName}`.
+
 ## 3.46.0 (October 02, 2019)
 
 ### Added

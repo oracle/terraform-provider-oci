@@ -5,6 +5,11 @@ package provider
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
+	"net/url"
+	"regexp"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -13,6 +18,9 @@ import (
 
 func LoadBalancerCertificateResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: DefaultTimeout,
 		Create:   createLoadBalancerCertificate,
 		Read:     readLoadBalancerCertificate,
@@ -102,12 +110,12 @@ type LoadBalancerCertificateResourceCrud struct {
 }
 
 func (s *LoadBalancerCertificateResourceCrud) ID() string {
-	id, workSuccess := LoadBalancerResourceID(s.Res, s.WorkRequest)
-	if id != nil {
-		return *id
-	}
-	if workSuccess {
-		return s.D.Get("certificate_name").(string)
+	if s.WorkRequest != nil {
+		if s.WorkRequest.LifecycleState == oci_load_balancer.WorkRequestLifecycleStateSucceeded {
+			return getCertificateCompositeId(s.D.Get("certificate_name").(string), s.D.Get("load_balancer_id").(string))
+		} else {
+			return *s.WorkRequest.Id
+		}
 	}
 	return ""
 }
@@ -211,6 +219,18 @@ func (s *LoadBalancerCertificateResourceCrud) Get() error {
 		request.LoadBalancerId = &tmp
 	}
 
+	certificateName := s.D.Get("certificate_name").(string)
+
+	if !strings.HasPrefix(s.D.Id(), "ocid1.loadbalancerworkrequest.") {
+		certNameFromId, loadBalancerId, err := parseCertificateCompositeId(s.D.Id())
+		if err == nil {
+			certificateName = certNameFromId
+			request.LoadBalancerId = &loadBalancerId
+		} else {
+			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
 	response, err := s.Client.ListCertificates(context.Background(), request)
@@ -218,7 +238,6 @@ func (s *LoadBalancerCertificateResourceCrud) Get() error {
 		return err
 	}
 
-	certificateName := s.D.Get("certificate_name").(string)
 	for _, item := range response.Items {
 		if *item.CertificateName == certificateName {
 			s.Res = &item
@@ -269,6 +288,15 @@ func (s *LoadBalancerCertificateResourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
+
+	certificateName, loadBalancerId, err := parseCertificateCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("certificate_name", &certificateName)
+		s.D.Set("load_balancer_id", &loadBalancerId)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
 	if s.Res.CaCertificate != nil {
 		s.D.Set("ca_certificate", *s.Res.CaCertificate)
 	}
@@ -282,4 +310,24 @@ func (s *LoadBalancerCertificateResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getCertificateCompositeId(certificateName string, loadBalancerId string) string {
+	certificateName = url.PathEscape(certificateName)
+	loadBalancerId = url.PathEscape(loadBalancerId)
+	compositeId := "loadBalancers/" + loadBalancerId + "/certificates/" + certificateName
+	return compositeId
+}
+
+func parseCertificateCompositeId(compositeId string) (certificateName string, loadBalancerId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("loadBalancers/.*/certificates/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	loadBalancerId, _ = url.PathUnescape(parts[1])
+	certificateName, _ = url.PathUnescape(parts[3])
+
+	return
 }

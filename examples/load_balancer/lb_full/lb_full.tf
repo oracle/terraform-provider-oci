@@ -349,7 +349,7 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 
     conditions {
       attribute_name  = "SOURCE_VCN_ID"
-      attribute_value = "${oci_core_virtual_network.vcn1.id}"
+      attribute_value = "${oci_core_vcn.vcn1.id}"
     }
 
     conditions {

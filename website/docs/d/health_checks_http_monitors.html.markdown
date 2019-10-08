@@ -21,6 +21,7 @@ data "oci_health_checks_http_monitors" "test_http_monitors" {
 
 	#Optional
 	display_name = "${var.http_monitor_display_name}"
+	home_region = "${var.http_monitor_home_region}"
 }
 ```
 
@@ -30,6 +31,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) Filters results by compartment.
 * `display_name` - (Optional) Filters results that exactly match the `displayName` field.
+* `home_region` - (Optional) Filters results that match the `homeRegion`.
 
 
 ## Attributes Reference
@@ -49,6 +51,7 @@ The following attributes are exported:
 * `headers` - A dictionary of HTTP request headers.
 
 	*Note:* Monitors and probes do not support the use of the `Authorization` HTTP header. 
+* `home_region` - The region where updates must be made and where results must be fetched from. 
 * `id` - The OCID of the resource.
 * `interval_in_seconds` - The monitor interval in seconds. Valid values: 10, 30, and 60. 
 * `is_enabled` - Enables or disables the monitor. Set to 'true' to launch monitoring. 
@@ -58,6 +61,7 @@ The following attributes are exported:
 * `protocol` - The supported protocols available for HTTP probes.
 * `results_url` - A URL for fetching the probe results.
 * `targets` - A list of targets (hostnames or IP addresses) of the probe.
+* `time_created` - The RFC 3339-formatted creation date and time of the probe. 
 * `timeout_in_seconds` - The probe timeout in seconds. Valid values: 10, 20, 30, and 60. The probe timeout must be less than or equal to `intervalInSeconds` for monitors. 
 * `vantage_point_names` - A list of names of vantage points from which to execute the probe.
 

@@ -14,60 +14,14 @@ func CoreVolumeBackupPoliciesDataSource() *schema.Resource {
 		Read: readCoreVolumeBackupPolicies,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"volume_backup_policies": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"display_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"schedules": {
-							Type:     schema.TypeList,
-							Computed: true,
-							MinItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
-									"backup_type": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"offset_seconds": {
-										Type:     schema.TypeInt,
-										Computed: true,
-									},
-									"period": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"retention_seconds": {
-										Type:     schema.TypeInt,
-										Computed: true,
-									},
-								},
-							},
-						},
-						"time_created": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
+				Elem:     GetDataSourceItemSchema(CoreVolumeBackupPolicyResource()),
 			},
 		},
 	}
@@ -93,6 +47,11 @@ func (s *CoreVolumeBackupPoliciesDataSourceCrud) VoidState() {
 
 func (s *CoreVolumeBackupPoliciesDataSourceCrud) Get() error {
 	request := oci_core.ListVolumeBackupPoliciesRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "core")
 
@@ -128,9 +87,19 @@ func (s *CoreVolumeBackupPoliciesDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		volumeBackupPolicy := map[string]interface{}{}
 
+		if r.CompartmentId != nil {
+			volumeBackupPolicy["compartment_id"] = *r.CompartmentId
+		}
+
+		if r.DefinedTags != nil {
+			volumeBackupPolicy["defined_tags"] = definedTagsToMap(r.DefinedTags)
+		}
+
 		if r.DisplayName != nil {
 			volumeBackupPolicy["display_name"] = *r.DisplayName
 		}
+
+		volumeBackupPolicy["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			volumeBackupPolicy["id"] = *r.Id
@@ -158,22 +127,4 @@ func (s *CoreVolumeBackupPoliciesDataSourceCrud) SetData() error {
 	}
 
 	return nil
-}
-
-func VolumeBackupScheduleToMap(obj oci_core.VolumeBackupSchedule) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["backup_type"] = string(obj.BackupType)
-
-	if obj.OffsetSeconds != nil {
-		result["offset_seconds"] = int(*obj.OffsetSeconds)
-	}
-
-	result["period"] = string(obj.Period)
-
-	if obj.RetentionSeconds != nil {
-		result["retention_seconds"] = int(*obj.RetentionSeconds)
-	}
-
-	return result
 }
