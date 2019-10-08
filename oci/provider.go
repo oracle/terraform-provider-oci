@@ -539,6 +539,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_default_security_list":                              CoreDefaultSecurityListResource(),
 		"oci_core_security_list":                                      CoreSecurityListResource(),
 		"oci_core_service_gateway":                                    CoreServiceGatewayResource(),
+		"oci_core_shape_management":                                   CoreShapeResource(),
 		"oci_core_subnet":                                             CoreSubnetResource(),
 		"oci_core_virtual_circuit":                                    CoreVirtualCircuitResource(),
 		"oci_core_virtual_network":                                    CoreVcnResource(), //This is a legacy name for VCN, removing it can cause breaking changes
