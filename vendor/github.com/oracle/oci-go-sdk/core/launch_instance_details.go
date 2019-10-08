@@ -102,6 +102,8 @@ type LaunchInstanceDetails struct {
 	// For more information about iPXE, see http://ipxe.org.
 	IpxeScript *string `mandatory:"false" json:"ipxeScript"`
 
+	LaunchOptions *LaunchOptions `mandatory:"false" json:"launchOptions"`
+
 	// Custom metadata key/value pairs that you provide, such as the SSH public key
 	// required to connect to the instance.
 	// A metadata service runs on every launched instance. The service is an HTTP
@@ -179,6 +181,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		HostnameLabel                  *string                           `json:"hostnameLabel"`
 		ImageId                        *string                           `json:"imageId"`
 		IpxeScript                     *string                           `json:"ipxeScript"`
+		LaunchOptions                  *LaunchOptions                    `json:"launchOptions"`
 		Metadata                       map[string]string                 `json:"metadata"`
 		AgentConfig                    *LaunchInstanceAgentConfigDetails `json:"agentConfig"`
 		SourceDetails                  instancesourcedetails             `json:"sourceDetails"`
@@ -203,6 +206,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.HostnameLabel = model.HostnameLabel
 	m.ImageId = model.ImageId
 	m.IpxeScript = model.IpxeScript
+	m.LaunchOptions = model.LaunchOptions
 	m.Metadata = model.Metadata
 	m.AgentConfig = model.AgentConfig
 	nn, e := model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)

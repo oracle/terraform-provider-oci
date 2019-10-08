@@ -83,6 +83,16 @@ resource "oci_core_instance" "test_instance" {
 	hostname_label = "${var.instance_hostname_label}"
 	ipxe_script = "${var.instance_ipxe_script}"
 	is_pv_encryption_in_transit_enabled = "${var.instance_is_pv_encryption_in_transit_enabled}"
+	launch_options {
+
+		#Optional
+		boot_volume_type = "${var.instance_launch_options_boot_volume_type}"
+		firmware = "${var.instance_launch_options_firmware}"
+		is_consistent_volume_naming_enabled = "${var.instance_launch_options_is_consistent_volume_naming_enabled}"
+		is_pv_encryption_in_transit_enabled = "${var.instance_launch_options_is_pv_encryption_in_transit_enabled}"
+		network_type = "${var.instance_launch_options_network_type}"
+		remote_data_volume_type = "${var.instance_launch_options_remote_data_volume_type}"
+	}
 	metadata = {
 		ssh_authorized_keys = "${var.ssh_public_key}"
 		user_data = "${base64encode(file(var.custom_bootstrap_file_name))}"
@@ -160,6 +170,28 @@ The following arguments are supported:
 
 	For more information about iPXE, see http://ipxe.org. 
 * `is_pv_encryption_in_transit_enabled` - (Optional) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
+* `launch_options` - (Optional) 
+	* `boot_volume_type` - (Optional) Emulation type for volume.
+		* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
+		* `SCSI` - Emulated SCSI disk.
+		* `IDE` - Emulated IDE disk.
+		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
+		* `PARAVIRTUALIZED` - Paravirtualized disk. 
+	* `firmware` - (Optional) Firmware used to boot VM.  Select the option that matches your operating system.
+		* `BIOS` - Boot VM using BIOS style firmware.  This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
+		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems.  This is the default for Oracle provided images. 
+	* `is_consistent_volume_naming_enabled` - (Optional) Whether to enable consistent volume naming feature. Defaults to false.
+	* `is_pv_encryption_in_transit_enabled` - (Optional) Whether to enable in-transit encryption for the boot volume's paravirtualized attachment. The default value is false.
+	* `network_type` - (Optional) Emulation type for the physical network interface card (NIC).
+		* `E1000` - Emulated Gigabit ethernet controller.  Compatible with Linux e1000 network driver.
+		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
+		* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using virtio drivers. 
+	* `remote_data_volume_type` - (Optional) Emulation type for volume.
+		* `ISCSI` - ISCSI attached block storage device. This is the default for Boot Volumes and Remote Block Storage volumes on Oracle provided images.
+		* `SCSI` - Emulated SCSI disk.
+		* `IDE` - Emulated IDE disk.
+		* `VFIO` - Direct attached Virtual Function storage.  This is the default option for Local data volumes on Oracle provided images.
+		* `PARAVIRTUALIZED` - Paravirtualized disk. 
 * `metadata` - (Optional) (Updatable) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 	A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:

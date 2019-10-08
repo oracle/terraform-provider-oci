@@ -513,7 +513,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 
 					ssl_configuration {
-						certificate_name = "${oci_load_balancer_certificate.t.id}"
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
 						verify_depth = 6
 						verify_peer_certificate = false
 					}
@@ -585,7 +585,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 
 					ssl_configuration {
-						certificate_name = "${oci_load_balancer_certificate.t.id}"
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
 						verify_depth = 6
 						verify_peer_certificate = false
 					}
@@ -1136,7 +1136,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 
 					ssl_configuration {
-						certificate_name = "${oci_load_balancer_certificate.t.id}"
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
 						verify_depth = 6
 						verify_peer_certificate = false
 					}
@@ -1211,7 +1211,7 @@ func (s *ResourceLoadBalancerBackendSetTestSuite) TestAccResourceLoadBalancerBac
 					}
 
 					ssl_configuration {
-						certificate_name = "${oci_load_balancer_certificate.t.id}"
+						certificate_name = "${oci_load_balancer_certificate.t.certificate_name}"
 						verify_depth = 6
 						verify_peer_certificate = false
 					}

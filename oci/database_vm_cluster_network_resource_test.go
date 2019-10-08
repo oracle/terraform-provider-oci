@@ -42,7 +42,7 @@ var (
 )
 
 func TestResourceDatabaseVmClusterNetwork_basic(t *testing.T) {
-	httpreplay.SetScenario("TestDatabaseVmClusterNetworkResource_basic")
+	httpreplay.SetScenario("TestResourceDatabaseVmClusterNetwork_basic")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider

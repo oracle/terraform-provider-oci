@@ -328,6 +328,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 	if activationFile, ok := s.D.GetOkExists("activation_file"); ok {
 		response, err := s.activateExadataInfrastructure(activationFile.(string), s.D.Id())
 		if err != nil {
+			s.D.Set("activation_file", "")
 			return err
 		}
 		s.Res = &response.ExadataInfrastructure
@@ -466,6 +467,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 	if activationFile, ok := s.D.GetOkExists("activation_file"); ok {
 		response, err := s.activateExadataInfrastructure(activationFile.(string), s.D.Id())
 		if err != nil {
+			s.D.Set("activation_file", "")
 			return err
 		}
 		s.Res = &response.ExadataInfrastructure
