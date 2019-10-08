@@ -1,4 +1,8 @@
-## 3.49.1 (Unreleased)
+## 3.50.0 (Unreleased)
+
+### Added
+- Support for Wallet Management.
+
 ## 3.49.0 (October 23, 2019)
 
 ### Added
