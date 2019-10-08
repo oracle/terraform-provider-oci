@@ -27,10 +27,10 @@ var (
 		"compartment_id":              Representation{repType: Required, create: `${var.compartment_id}`},
 		"corporate_proxy":             Representation{repType: Required, create: `http://192.168.19.1:80`, update: `http://192.168.19.2:80`},
 		"display_name":                Representation{repType: Required, create: `tstExaInfra`},
-		"dns_server":                  Representation{repType: Required, create: []string{`192.168.10.10`}, update: []string{`192.168.10.11`, `192.168.10.11`}},
+		"dns_server":                  Representation{repType: Required, create: []string{`192.168.10.10`}, update: []string{`192.168.10.11`, `192.168.10.12`}},
 		"gateway":                     Representation{repType: Required, create: `192.168.20.1`, update: `192.168.20.2`},
 		"infini_band_network_cidr":    Representation{repType: Required, create: `10.172.19.1/24`, update: `10.172.19.1/20`},
-		"netmask":                     Representation{repType: Required, create: `255.255.0.0`, update: `255.255.255.0`},
+		"netmask":                     Representation{repType: Required, create: `255.255.0.0`, update: `255.254.0.0`},
 		"ntp_server":                  Representation{repType: Required, create: []string{`192.168.10.20`}, update: []string{`192.168.10.22`, `192.168.10.24`}},
 		"shape":                       Representation{repType: Required, create: `ExadataCC.Quarter3.100`},
 		"time_zone":                   Representation{repType: Required, create: `US/Pacific`, update: `UTC`},
@@ -42,7 +42,7 @@ var (
 )
 
 func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
-	httpreplay.SetScenario("TestDatabaseExadataInfrastructureResource_basic")
+	httpreplay.SetScenario("TestResourceDatabaseExadataInfrastructure_basic")
 	defer httpreplay.SaveScenario()
 
 	provider := testAccProvider
@@ -84,7 +84,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "gateway", "192.168.20.2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.172.19.1/20"),
-					resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.255.0"),
+					resource.TestCheckResourceAttr(resourceName, "netmask", "255.254.0.0"),
 					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
 					resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
@@ -113,7 +113,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "gateway", "192.168.20.2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.172.19.1/20"),
-					resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.255.0"),
+					resource.TestCheckResourceAttr(resourceName, "netmask", "255.254.0.0"),
 					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
 					resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
@@ -143,7 +143,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "gateway", "192.168.20.2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.172.19.1/20"),
-					resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.255.0"),
+					resource.TestCheckResourceAttr(resourceName, "netmask", "255.254.0.0"),
 					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
 					resource.TestCheckResourceAttr(resourceName, "time_zone", "UTC"),
