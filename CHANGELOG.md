@@ -2,6 +2,7 @@
 
 ### Added
 - Support for Wallet Management.
+- Support for Add/Remove Compatible Shape from Custom Images
 
 ## 3.49.0 (October 23, 2019)
 
