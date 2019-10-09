@@ -23,6 +23,12 @@ type PingMonitorSummary struct {
 	// A URL for fetching the probe results.
 	ResultsUrl *string `mandatory:"false" json:"resultsUrl"`
 
+	// The region where updates must be made and where results must be fetched from.
+	HomeRegion *string `mandatory:"false" json:"homeRegion"`
+
+	// The RFC 3339-formatted creation date and time of the probe.
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 

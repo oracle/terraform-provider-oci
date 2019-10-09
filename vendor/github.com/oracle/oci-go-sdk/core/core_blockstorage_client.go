@@ -584,6 +584,53 @@ func (client BlockstorageClient) createVolumeBackup(ctx context.Context, request
 	return response, err
 }
 
+// CreateVolumeBackupPolicy Creates a new backup policy for the caller.
+func (client BlockstorageClient) CreateVolumeBackupPolicy(ctx context.Context, request CreateVolumeBackupPolicyRequest) (response CreateVolumeBackupPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createVolumeBackupPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateVolumeBackupPolicyResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateVolumeBackupPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateVolumeBackupPolicyResponse")
+	}
+	return
+}
+
+// createVolumeBackupPolicy implements the OCIOperation interface (enables retrying operations)
+func (client BlockstorageClient) createVolumeBackupPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/volumeBackupPolicies")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateVolumeBackupPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateVolumeBackupPolicyAssignment Assigns a policy to the specified asset, such as a volume. Note that a given asset can
 // only have one policy assigned to it; if this method is called for an asset that previously
 // has a different policy assigned, the prior assignment will be silently deleted.
@@ -932,6 +979,48 @@ func (client BlockstorageClient) deleteVolumeBackup(ctx context.Context, request
 	}
 
 	var response DeleteVolumeBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteVolumeBackupPolicy Deletes the specified scheduled backup policy.
+func (client BlockstorageClient) DeleteVolumeBackupPolicy(ctx context.Context, request DeleteVolumeBackupPolicyRequest) (response DeleteVolumeBackupPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeBackupPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteVolumeBackupPolicyResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteVolumeBackupPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteVolumeBackupPolicyResponse")
+	}
+	return
+}
+
+// deleteVolumeBackupPolicy implements the OCIOperation interface (enables retrying operations)
+func (client BlockstorageClient) deleteVolumeBackupPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/volumeBackupPolicies/{policyId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteVolumeBackupPolicyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -2074,6 +2163,54 @@ func (client BlockstorageClient) updateVolumeBackup(ctx context.Context, request
 	}
 
 	var response UpdateVolumeBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateVolumeBackupPolicy Updates a volume backup policy.
+// Avoid entering confidential information.
+func (client BlockstorageClient) UpdateVolumeBackupPolicy(ctx context.Context, request UpdateVolumeBackupPolicyRequest) (response UpdateVolumeBackupPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateVolumeBackupPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateVolumeBackupPolicyResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateVolumeBackupPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateVolumeBackupPolicyResponse")
+	}
+	return
+}
+
+// updateVolumeBackupPolicy implements the OCIOperation interface (enables retrying operations)
+func (client BlockstorageClient) updateVolumeBackupPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/volumeBackupPolicies/{policyId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateVolumeBackupPolicyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

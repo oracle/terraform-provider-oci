@@ -543,6 +543,7 @@ func resourcesMap() map[string]*schema.Resource {
 		"oci_core_volume_group_backup":                            CoreVolumeGroupBackupResource(),
 		"oci_core_volume_attachment":                              CoreVolumeAttachmentResource(),
 		"oci_core_volume_backup":                                  CoreVolumeBackupResource(),
+		"oci_core_volume_backup_policy":                           CoreVolumeBackupPolicyResource(),
 		"oci_core_volume_backup_policy_assignment":                CoreVolumeBackupPolicyAssignmentResource(),
 		"oci_database_autonomous_container_database":              DatabaseAutonomousContainerDatabaseResource(),
 		"oci_database_autonomous_data_warehouse":                  DatabaseAutonomousDataWarehouseResource(),

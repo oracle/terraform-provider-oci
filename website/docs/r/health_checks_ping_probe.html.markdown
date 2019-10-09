@@ -51,11 +51,13 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment.
+* `home_region` - The region where updates must be made and where results must be fetched from. 
 * `id` - The OCID of the resource.
 * `port` - The port on which to probe endpoints. If unspecified, probes will use the default port of their protocol. 
 * `protocol` - The protocols for ping probes.
 * `results_url` - A URL for fetching the probe results.
 * `targets` - A list of targets (hostnames or IP addresses) of the probe.
+* `time_created` - The RFC 3339-formatted creation date and time of the probe. 
 * `timeout_in_seconds` - The probe timeout in seconds. Valid values: 10, 20, 30, and 60. The probe timeout must be less than or equal to `intervalInSeconds` for monitors. 
 * `vantage_point_names` - A list of names of vantage points from which to execute the probe.
 

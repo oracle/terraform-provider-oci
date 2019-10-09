@@ -34,6 +34,9 @@ type ListPingMonitorsRequest struct {
 	// Filters results that exactly match the `displayName` field.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// Filters results that match the `homeRegion`.
+	HomeRegion *string `mandatory:"false" contributesTo:"query" name:"homeRegion"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -90,11 +93,13 @@ type ListPingMonitorsSortByEnum string
 const (
 	ListPingMonitorsSortById          ListPingMonitorsSortByEnum = "id"
 	ListPingMonitorsSortByDisplayname ListPingMonitorsSortByEnum = "displayName"
+	ListPingMonitorsSortByTimecreated ListPingMonitorsSortByEnum = "timeCreated"
 )
 
 var mappingListPingMonitorsSortBy = map[string]ListPingMonitorsSortByEnum{
 	"id":          ListPingMonitorsSortById,
 	"displayName": ListPingMonitorsSortByDisplayname,
+	"timeCreated": ListPingMonitorsSortByTimecreated,
 }
 
 // GetListPingMonitorsSortByEnumValues Enumerates the set of values for ListPingMonitorsSortByEnum
