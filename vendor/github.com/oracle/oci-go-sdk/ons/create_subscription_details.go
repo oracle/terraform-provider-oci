@@ -23,6 +23,12 @@ type CreateSubscriptionDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The protocol used for the subscription.
+	// Allowed values:
+	//   * `CUSTOM_HTTPS`
+	//   * `EMAIL`
+	//   * `HTTPS` (deprecated; for PagerDuty endpoints, use `PAGERDUTY`)
+	//   * `PAGERDUTY`
+	//   * `SLACK`
 	// For information about subscription protocols, see
 	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#createSub).
 	Protocol *string `mandatory:"true" json:"protocol"`

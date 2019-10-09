@@ -3,7 +3,9 @@
 
 // Audit API
 //
-// API for the Audit Service. You can use this API for queries, but not bulk-export operations.
+// API for the Audit Service. Use this API for compliance monitoring in your tenancy.
+// For more information, see Overview of Audit (https://docs.cloud.oracle.com/iaas/Content/Audit/Concepts/auditoverview.htm).
+// **Tip**: This API is good for queries, but not bulk-export operations.
 //
 
 package audit
@@ -12,10 +14,12 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// Configuration The representation of Configuration
+// Configuration The retention period setting, specified in days. For more information, see Setting Audit
+// Log Retention Period (https://docs.cloud.oracle.com/iaas/Content/Audit/Tasks/settingretentionperiod.htm).
 type Configuration struct {
 
-	// The retention period days
+	// The retention period setting, specified in days. The minimum is 90, the maximum 365.
+	// Example: `90`
 	RetentionPeriodDays *int `mandatory:"false" json:"retentionPeriodDays"`
 }
 
