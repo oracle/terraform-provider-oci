@@ -1,9 +1,9 @@
-## 3.48.0 (Unreleased)
+## 3.47.1 (Unreleased)
 
 ### Fixed
 - Update for whitelisted ips in `oci_autonomous_database`
 
-## 3.47.0 (Unreleased)
+## 3.47.0 (October 09, 2019)
 
 ### Added
 - Support for Audit v2 enhancements. Note: `oci_audit_events` data source schema is updated
