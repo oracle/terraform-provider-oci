@@ -48,6 +48,7 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 								"CONTROL_ACCESS_USING_HTTP_METHODS",
 								"EXTEND_HTTP_REQUEST_HEADER_VALUE",
 								"EXTEND_HTTP_RESPONSE_HEADER_VALUE",
+								"REDIRECT",
 								"REMOVE_HTTP_REQUEST_HEADER",
 								"REMOVE_HTTP_RESPONSE_HEADER",
 							}, true),
@@ -74,6 +75,7 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 										Required:         true,
 										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"PATH",
 											"SOURCE_IP_ADDRESS",
 											"SOURCE_VCN_ID",
 											"SOURCE_VCN_IP_ADDRESS",
@@ -85,6 +87,11 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 									},
 
 									// Optional
+									"operator": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 
 									// Computed
 								},
@@ -102,6 +109,52 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 						},
 						"prefix": {
 							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"redirect_uri": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"host": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"path": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"port": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"protocol": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"query": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"response_code": {
+							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 						},
@@ -460,6 +513,63 @@ func parseRuleSetCompositeId(compositeId string) (loadBalancerId string, name st
 	return
 }
 
+func (s *LoadBalancerRuleSetResourceCrud) mapToRedirectUri(fieldKeyFormat string) (oci_load_balancer.RedirectUri, error) {
+	result := oci_load_balancer.RedirectUri{}
+
+	if host, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host")); ok {
+		tmp := host.(string)
+		result.Host = &tmp
+	}
+
+	if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+		tmp := path.(string)
+		result.Path = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	if protocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol")); ok {
+		tmp := protocol.(string)
+		result.Protocol = &tmp
+	}
+
+	if query, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query")); ok {
+		tmp := query.(string)
+		result.Query = &tmp
+	}
+
+	return result, nil
+}
+
+func RedirectUriToMap(obj *oci_load_balancer.RedirectUri) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Host != nil {
+		result["host"] = string(*obj.Host)
+	}
+
+	if obj.Path != nil {
+		result["path"] = string(*obj.Path)
+	}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
+	}
+
+	if obj.Protocol != nil {
+		result["protocol"] = string(*obj.Protocol)
+	}
+
+	if obj.Query != nil {
+		result["query"] = string(*obj.Query)
+	}
+
+	return result
+}
+
 func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_load_balancer.Rule, error) {
 	var baseObject oci_load_balancer.Rule
 	//discriminator
@@ -565,6 +675,39 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_
 			details.Suffix = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("REDIRECT"):
+		details := oci_load_balancer.RedirectRule{}
+		if conditions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "conditions")); ok {
+			interfaces := conditions.([]interface{})
+			tmp := make([]oci_load_balancer.RuleCondition, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "conditions"), stateDataIndex)
+				converted, err := s.mapToRuleCondition(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "conditions")) {
+				details.Conditions = tmp
+			}
+		}
+		if redirectUri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "redirect_uri")); ok {
+			if tmpList := redirectUri.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "redirect_uri"), 0)
+				tmp, err := s.mapToRedirectUri(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert redirect_uri, encountered error: %v", err)
+				}
+				details.RedirectUri = &tmp
+			}
+		}
+		if responseCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_code")); ok {
+			tmp := responseCode.(int)
+			details.ResponseCode = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("REMOVE_HTTP_REQUEST_HEADER"):
 		details := oci_load_balancer.RemoveHttpRequestHeaderRule{}
 		if header, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "header")); ok {
@@ -656,6 +799,22 @@ func RuleToMap(obj oci_load_balancer.Rule) map[string]interface{} {
 		if v.Suffix != nil {
 			result["suffix"] = string(*v.Suffix)
 		}
+	case oci_load_balancer.RedirectRule:
+		result["action"] = "REDIRECT"
+
+		conditions := []interface{}{}
+		for _, item := range v.Conditions {
+			conditions = append(conditions, RuleConditionToMap(item))
+		}
+		result["conditions"] = conditions
+
+		if v.RedirectUri != nil {
+			result["redirect_uri"] = []interface{}{RedirectUriToMap(v.RedirectUri)}
+		}
+
+		if v.ResponseCode != nil {
+			result["response_code"] = int(*v.ResponseCode)
+		}
 	case oci_load_balancer.RemoveHttpRequestHeaderRule:
 		result["action"] = "REMOVE_HTTP_REQUEST_HEADER"
 
@@ -687,6 +846,16 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRuleCondition(fieldKeyFormat stri
 		attributeName = "" // default value
 	}
 	switch strings.ToLower(attributeName) {
+	case strings.ToLower("PATH"):
+		details := oci_load_balancer.PathMatchCondition{}
+		if attributeValue, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "attribute_value")); ok {
+			tmp := attributeValue.(string)
+			details.AttributeValue = &tmp
+		}
+		if operator, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operator")); ok {
+			details.Operator = oci_load_balancer.PathMatchConditionOperatorEnum(operator.(string))
+		}
+		baseObject = details
 	case strings.ToLower("SOURCE_IP_ADDRESS"):
 		details := oci_load_balancer.SourceIpAddressCondition{}
 		if attributeValue, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "attribute_value")); ok {
@@ -717,6 +886,14 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRuleCondition(fieldKeyFormat stri
 func RuleConditionToMap(obj oci_load_balancer.RuleCondition) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
+	case oci_load_balancer.PathMatchCondition:
+		result["attribute_name"] = "PATH"
+
+		if v.AttributeValue != nil {
+			result["attribute_value"] = string(*v.AttributeValue)
+		}
+
+		result["operator"] = string(v.Operator)
 	case oci_load_balancer.SourceIpAddressCondition:
 		result["attribute_name"] = "SOURCE_IP_ADDRESS"
 
@@ -783,6 +960,30 @@ func itemsHashCodeForSets(v interface{}) int {
 	}
 	if prefix, ok := m["prefix"]; ok && prefix != "" {
 		buf.WriteString(fmt.Sprintf("%v-", prefix))
+	}
+	if redirectUri, ok := m["redirect_uri"]; ok {
+		if tmpList := redirectUri.([]interface{}); len(tmpList) > 0 {
+			buf.WriteString("redirect_uri-")
+			redirectUriRaw := tmpList[0].(map[string]interface{})
+			if host, ok := redirectUriRaw["host"]; ok && host != "" {
+				buf.WriteString(fmt.Sprintf("%v-", host))
+			}
+			if path, ok := redirectUriRaw["path"]; ok && path != "" {
+				buf.WriteString(fmt.Sprintf("%v-", path))
+			}
+			if port, ok := redirectUriRaw["port"]; ok {
+				buf.WriteString(fmt.Sprintf("%v-", port))
+			}
+			if protocol, ok := redirectUriRaw["protocol"]; ok && protocol != "" {
+				buf.WriteString(fmt.Sprintf("%v-", protocol))
+			}
+			if query, ok := redirectUriRaw["query"]; ok && query != "" {
+				buf.WriteString(fmt.Sprintf("%v-", query))
+			}
+		}
+	}
+	if responseCode, ok := m["response_code"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", responseCode))
 	}
 	if suffix, ok := m["suffix"]; ok && suffix != "" {
 		buf.WriteString(fmt.Sprintf("%v-", suffix))

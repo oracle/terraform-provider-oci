@@ -364,6 +364,26 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
     }
   }
 
+  items {
+    action = "REDIRECT"
+
+    conditions {
+      attribute_name  = "PATH"
+      attribute_value = "/example"
+      operator        = "FORCE_LONGEST_PREFIX_MATCH"
+    }
+
+    redirect_uri {
+      protocol = "{protocol}"
+      host     = "in{host}"
+      port     = 8081
+      path     = "{path}/video"
+      query    = "?lang=en"
+    }
+
+    response_code = 302
+  }
+
   load_balancer_id = "${oci_load_balancer.lb1.id}"
   name             = "example_rule_set_name"
 }
