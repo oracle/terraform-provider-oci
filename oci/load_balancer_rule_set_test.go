@@ -117,6 +117,24 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 			attribute_value = "10.10.1.0/24"
 		}
 	}
+	items {
+		#Required
+		action = "REDIRECT"
+		conditions {
+			#Required
+			attribute_name = "PATH"
+			attribute_value = "/example"
+			operator = "SUFFIX_MATCH"
+		}
+		redirect_uri {
+			protocol = "{protocol}"
+			host = "in{host}"
+			port = 8081
+			path = "{path}/video"
+			query = "?lang=en"
+		}
+		response_code = 302
+	}
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 	name = "example_rule_set"
 }
@@ -173,7 +191,7 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 					RuleSetResourceWithMultipleRules,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "items.#", "9"),
+					resource.TestCheckResourceAttr(resourceName, "items.#", "10"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action": "ADD_HTTP_REQUEST_HEADER",
 						"header": "example_header_name",
@@ -224,6 +242,13 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 						"action":       "ALLOW",
 						"conditions.#": "2",
+					},
+						[]string{}),
+					CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+						"action":         "REDIRECT",
+						"conditions.#":   "1",
+						"redirect_uri.#": "1",
+						"response_code":  "302",
 					},
 						[]string{}),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
