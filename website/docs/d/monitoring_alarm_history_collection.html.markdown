@@ -12,7 +12,9 @@ This data source provides details about a specific Alarm History Collection reso
 Get the history of the specified alarm.
 For important limits information, see [Limits on Monitoring](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
 
-Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
+This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations. 
+Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests, 
+or transactions, per second (TPS) for a given tenancy.
 
 
 ## Example Usage
