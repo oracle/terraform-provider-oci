@@ -303,7 +303,9 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.CrossConnectMappings = tmp
+		if len(tmp) != 0 || s.D.HasChange("cross_connect_mappings") {
+			request.CrossConnectMappings = tmp
+		}
 	}
 
 	if customerBgpAsn, ok := s.D.GetOkExists("customer_bgp_asn"); ok {
@@ -356,7 +358,9 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.PublicPrefixes = tmp
+		if len(tmp) != 0 || s.D.HasChange("public_prefixes") {
+			request.PublicPrefixes = tmp
+		}
 	}
 
 	// Virtual Circuit of type 'PRIVATE' does not support publicPrefixes in payload
@@ -448,7 +452,6 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 		request.BandwidthShapeName = &tmp
 	}
 
-	request.CrossConnectMappings = []oci_core.CrossConnectMapping{}
 	if crossConnectMappings, ok := s.D.GetOkExists("cross_connect_mappings"); ok {
 		interfaces := crossConnectMappings.([]interface{})
 		tmp := make([]oci_core.CrossConnectMapping, len(interfaces))
@@ -461,7 +464,9 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 			}
 			tmp[i] = converted
 		}
-		request.CrossConnectMappings = tmp
+		if len(tmp) != 0 || s.D.HasChange("cross_connect_mappings") {
+			request.CrossConnectMappings = tmp
+		}
 	}
 
 	if customerBgpAsn, ok := s.D.GetOkExists("customer_bgp_asn"); ok {

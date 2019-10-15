@@ -16,42 +16,50 @@ import (
 )
 
 var (
-	DbSystemResourceConfig = SubnetRequiredOnlyResource + `
-resource "oci_database_db_system" "test_db_system" {
-	availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
-	compartment_id = "${var.compartment_id}"
-	subnet_id = "${oci_core_subnet.test_subnet.id}"
-	database_edition = "ENTERPRISE_EDITION"
-	disk_redundancy = "NORMAL"
-	shape = "BM.DenseIO2.52"
-	cpu_core_count = "2"
-	ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-	domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
-	hostname = "myOracleDB"
-	data_storage_size_in_gb = "256"
-	license_model = "LICENSE_INCLUDED"
-	node_count = "1"
-	display_name = "tfDbSystemTest"
-	db_home {
-		db_version = "12.1.0.2"
-		display_name = "dbHome1"
-		database {
-			admin_password = "BEstrO0ng_#11"
-			db_name = "tfDbName"
+	DbSystemResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+		"route_table_id": Representation{repType: Optional, create: `${oci_core_route_table.test_route_table.id}`}})) +
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Optional, Create, vcnRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Optional, Create, routeTableRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", Optional, Create, internetGatewayRepresentation)
+
+	DbSystemResourceConfig = DbSystemResourceDependencies + AvailabilityDomainConfig + DefinedTagsDependencies + `
+
+	resource "oci_database_db_system" "test_db_system" {
+		availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
+		compartment_id = "${var.compartment_id}"
+		subnet_id = "${oci_core_subnet.test_subnet.id}"
+		database_edition = "ENTERPRISE_EDITION"
+		disk_redundancy = "NORMAL"
+		shape = "BM.DenseIO2.52"
+		cpu_core_count = "2"
+		ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
+		domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
+		hostname = "myOracleDB"
+		data_storage_size_in_gb = "256"
+		license_model = "LICENSE_INCLUDED"
+		node_count = "1"
+		display_name = "tfDbSystemTest"
+		db_home {
+			db_version = "12.1.0.2"
+			display_name = "dbHome1"
+			database {
+				admin_password = "BEstrO0ng_#11"
+				db_name = "tfDbName"
+			}
 		}
 	}
-}
+	
+	data "oci_database_db_homes" "t" {
+		compartment_id = "${var.compartment_id}"
+		db_system_id = "${oci_database_db_system.test_db_system.id}"
+		filter {
+			name = "display_name"
+			values = ["dbHome1"]
+		}
+	}`
 
-data "oci_database_db_homes" "t" {
-	compartment_id = "${var.compartment_id}"
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
-	filter {
-		name = "display_name"
-		values = ["dbHome1"]
-	}
-}
-`
-	ResourceDatabaseBaseConfig = legacyTestProviderConfig() + `
+	ResourceDatabaseBaseConfig = legacyTestProviderConfig() + DefinedTagsDependencies + `
+
 	data "oci_identity_availability_domains" "ADs" {
 		compartment_id = "${var.compartment_id}"
 	}
@@ -63,13 +71,27 @@ data "oci_database_db_homes" "t" {
 		dns_label = "tfvcn"
 	}
 
+	resource "oci_core_route_table" "t" {
+		compartment_id = "${var.compartment_id}"
+		vcn_id = "${oci_core_virtual_network.t.id}"
+		route_rules {
+			cidr_block = "0.0.0.0/0"
+			network_entity_id = "${oci_core_internet_gateway.t.id}"
+		}
+	}
+	resource "oci_core_internet_gateway" "t" {
+		compartment_id = "${var.compartment_id}"
+		vcn_id = "${oci_core_virtual_network.t.id}"
+		display_name = "-tf-internet-gateway"
+	}
+
 	resource "oci_core_subnet" "t" {
 		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
 		cidr_block          = "10.1.20.0/24"
 		display_name        = "TFSubnet1"
 		compartment_id      = "${var.compartment_id}"
 		vcn_id              = "${oci_core_virtual_network.t.id}"
-		route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+		route_table_id      = "${oci_core_route_table.t.id}"
 		dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
 		security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
 		dns_label           = "tfsubnet"
@@ -80,7 +102,7 @@ data "oci_database_db_homes" "t" {
 		display_name        = "TFSubnet2"
 		compartment_id      = "${var.compartment_id}"
 		vcn_id              = "${oci_core_virtual_network.t.id}"
-		route_table_id      = "${oci_core_virtual_network.t.default_route_table_id}"
+		route_table_id      = "${oci_core_route_table.t.id}"
 		dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
 		security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
 		dns_label           = "tfsubnet2"

@@ -17,7 +17,6 @@ var (
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"end_time":       Representation{repType: Required, create: `${timestamp()}`},
 		"start_time":     Representation{repType: Required, create: `${timeadd(timestamp(), "-1m")}`},
-		"limit":          Representation{repType: Required, create: `1`},
 	}
 
 	AuditEventResourceConfig = ""

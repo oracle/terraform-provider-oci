@@ -64,7 +64,15 @@ func HealthChecksPingProbeResource() *schema.Resource {
 			},
 
 			// Computed
+			"home_region": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"results_url": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -116,7 +124,6 @@ func (s *HealthChecksPingProbeResourceCrud) Create() error {
 		request.Protocol = oci_health_checks.CreateOnDemandPingProbeDetailsProtocolEnum(protocol.(string))
 	}
 
-	request.Targets = []string{}
 	if targets, ok := s.D.GetOkExists("targets"); ok {
 		interfaces := targets.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -125,7 +132,9 @@ func (s *HealthChecksPingProbeResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Targets = tmp
+		if len(tmp) != 0 || s.D.HasChange("targets") {
+			request.Targets = tmp
+		}
 	}
 
 	if timeoutInSeconds, ok := s.D.GetOkExists("timeout_in_seconds"); ok {
@@ -133,7 +142,6 @@ func (s *HealthChecksPingProbeResourceCrud) Create() error {
 		request.TimeoutInSeconds = &tmp
 	}
 
-	request.VantagePointNames = []string{}
 	if vantagePointNames, ok := s.D.GetOkExists("vantage_point_names"); ok {
 		interfaces := vantagePointNames.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -142,7 +150,9 @@ func (s *HealthChecksPingProbeResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.VantagePointNames = tmp
+		if len(tmp) != 0 || s.D.HasChange("vantage_point_names") {
+			request.VantagePointNames = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
@@ -161,6 +171,10 @@ func (s *HealthChecksPingProbeResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.HomeRegion != nil {
+		s.D.Set("home_region", *s.Res.HomeRegion)
+	}
+
 	if s.Res.Port != nil {
 		s.D.Set("port", *s.Res.Port)
 	}
@@ -172,6 +186,10 @@ func (s *HealthChecksPingProbeResourceCrud) SetData() error {
 	}
 
 	s.D.Set("targets", s.Res.Targets)
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.TimeoutInSeconds != nil {
 		s.D.Set("timeout_in_seconds", *s.Res.TimeoutInSeconds)

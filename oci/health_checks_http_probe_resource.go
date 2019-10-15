@@ -83,7 +83,15 @@ func HealthChecksHttpProbeResource() *schema.Resource {
 			},
 
 			// Computed
+			"home_region": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"results_url": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -148,7 +156,6 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 		request.Protocol = oci_health_checks.CreateOnDemandHttpProbeDetailsProtocolEnum(protocol.(string))
 	}
 
-	request.Targets = []string{}
 	if targets, ok := s.D.GetOkExists("targets"); ok {
 		interfaces := targets.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -157,7 +164,9 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Targets = tmp
+		if len(tmp) != 0 || s.D.HasChange("targets") {
+			request.Targets = tmp
+		}
 	}
 
 	if timeoutInSeconds, ok := s.D.GetOkExists("timeout_in_seconds"); ok {
@@ -174,7 +183,9 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.VantagePointNames = tmp
+		if len(tmp) != 0 || s.D.HasChange("vantage_point_names") {
+			request.VantagePointNames = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "health_checks")
@@ -195,6 +206,10 @@ func (s *HealthChecksHttpProbeResourceCrud) SetData() error {
 
 	s.D.Set("headers", s.Res.Headers)
 
+	if s.Res.HomeRegion != nil {
+		s.D.Set("home_region", *s.Res.HomeRegion)
+	}
+
 	s.D.Set("method", s.Res.Method)
 
 	if s.Res.Path != nil {
@@ -212,6 +227,10 @@ func (s *HealthChecksHttpProbeResourceCrud) SetData() error {
 	}
 
 	s.D.Set("targets", s.Res.Targets)
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.TimeoutInSeconds != nil {
 		s.D.Set("timeout_in_seconds", *s.Res.TimeoutInSeconds)

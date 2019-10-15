@@ -307,7 +307,9 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Dns = tmp
+		if len(tmp) != 0 || s.D.HasChange("dns") {
+			request.Dns = tmp
+		}
 	}
 
 	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
@@ -328,7 +330,9 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Ntp = tmp
+		if len(tmp) != 0 || s.D.HasChange("ntp") {
+			request.Ntp = tmp
+		}
 	}
 
 	if scans, ok := s.D.GetOkExists("scans"); ok {
@@ -345,7 +349,9 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.Scans = tmp
+		if len(tmp) != 0 || s.D.HasChange("scans") {
+			request.Scans = tmp
+		}
 	}
 
 	if vmNetworks, ok := s.D.GetOkExists("vm_networks"); ok {
@@ -363,7 +369,9 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.VmNetworks = tmp
+		if len(tmp) != 0 || s.D.HasChange("vm_networks") {
+			request.VmNetworks = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -442,7 +450,9 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Dns = tmp
+		if len(tmp) != 0 || s.D.HasChange("dns") {
+			request.Dns = tmp
+		}
 	}
 
 	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
@@ -463,7 +473,9 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Ntp = tmp
+		if len(tmp) != 0 || s.D.HasChange("ntp") {
+			request.Ntp = tmp
+		}
 	}
 
 	if scans, ok := s.D.GetOkExists("scans"); ok {
@@ -480,7 +492,9 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Update() error {
 			}
 			tmp[i] = converted
 		}
-		request.Scans = tmp
+		if len(tmp) != 0 || s.D.HasChange("scans") {
+			request.Scans = tmp
+		}
 	}
 
 	tmp := s.D.Id()
@@ -500,7 +514,9 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Update() error {
 			}
 			tmp[i] = converted
 		}
-		request.VmNetworks = tmp
+		if len(tmp) != 0 || s.D.HasChange("vm_networks") {
+			request.VmNetworks = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -660,7 +676,6 @@ func (s *DatabaseVmClusterNetworkResourceCrud) mapToScanDetails(fieldKeyFormat s
 		result.Hostname = &tmp
 	}
 
-	result.Ips = []string{}
 	if ips, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ips")); ok {
 		interfaces := ips.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -669,7 +684,9 @@ func (s *DatabaseVmClusterNetworkResourceCrud) mapToScanDetails(fieldKeyFormat s
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		result.Ips = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ips")) {
+			result.Ips = tmp
+		}
 	}
 
 	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
@@ -718,7 +735,6 @@ func (s *DatabaseVmClusterNetworkResourceCrud) mapToVmNetworkDetails(fieldKeyFor
 		result.NetworkType = oci_database.VmNetworkDetailsNetworkTypeEnum(networkType.(string))
 	}
 
-	result.Nodes = []oci_database.NodeDetails{}
 	if nodes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nodes")); ok {
 		set := nodes.(*schema.Set)
 		interfaces := set.List()
@@ -732,7 +748,9 @@ func (s *DatabaseVmClusterNetworkResourceCrud) mapToVmNetworkDetails(fieldKeyFor
 			}
 			tmp[i] = converted
 		}
-		result.Nodes = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nodes")) {
+			result.Nodes = tmp
+		}
 	}
 
 	if vlanId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vlan_id")); ok {

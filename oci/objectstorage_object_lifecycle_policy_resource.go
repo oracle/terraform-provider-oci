@@ -194,6 +194,7 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) Create() error {
 		request.NamespaceName = &tmp
 	}
 
+	// Adding empty list by default to compensate for service behavior
 	request.Items = []oci_object_storage.ObjectLifecycleRule{}
 	if rules, ok := s.D.GetOkExists("rules"); ok {
 		set := rules.(*schema.Set)
@@ -433,7 +434,6 @@ func ObjectLifecycleRuleToMap(obj oci_object_storage.ObjectLifecycleRule) map[st
 func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) mapToObjectNameFilter(fieldKeyFormat string) (oci_object_storage.ObjectNameFilter, error) {
 	result := oci_object_storage.ObjectNameFilter{}
 
-	result.ExclusionPatterns = []string{}
 	if exclusionPatterns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exclusion_patterns")); ok {
 		set := exclusionPatterns.(*schema.Set)
 		interfaces := set.List()
@@ -443,10 +443,11 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) mapToObjectNameFilter(f
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		result.ExclusionPatterns = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "exclusion_patterns")) {
+			result.ExclusionPatterns = tmp
+		}
 	}
 
-	result.InclusionPatterns = []string{}
 	if inclusionPatterns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "inclusion_patterns")); ok {
 		set := inclusionPatterns.(*schema.Set)
 		interfaces := set.List()
@@ -456,7 +457,9 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) mapToObjectNameFilter(f
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		result.InclusionPatterns = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "inclusion_patterns")) {
+			result.InclusionPatterns = tmp
+		}
 	}
 
 	result.InclusionPrefixes = []string{}

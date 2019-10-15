@@ -210,7 +210,6 @@ func (s *IdentityPolicyResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.Statements = []string{}
 	if statements, ok := s.D.GetOkExists("statements"); ok {
 		interfaces := statements.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -219,7 +218,9 @@ func (s *IdentityPolicyResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Statements = tmp
+		if len(tmp) != 0 || s.D.HasChange("statements") {
+			request.Statements = tmp
+		}
 	}
 
 	if versionDate, ok := s.D.GetOkExists("version_date"); ok {
@@ -293,7 +294,6 @@ func (s *IdentityPolicyResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.PolicyId = &tmp
 
-	request.Statements = []string{}
 	if statements, ok := s.D.GetOkExists("statements"); ok {
 		interfaces := statements.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -302,7 +302,9 @@ func (s *IdentityPolicyResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Statements = tmp
+		if len(tmp) != 0 || s.D.HasChange("statements") {
+			request.Statements = tmp
+		}
 	}
 
 	if versionDate, ok := s.D.GetOkExists("version_date"); ok {

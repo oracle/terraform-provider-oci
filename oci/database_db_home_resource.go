@@ -91,6 +91,7 @@ func DatabaseDbHomeResource() *schema.Resource {
 										Type:     schema.TypeList,
 										Optional: true,
 										Computed: true,
+										ForceNew: true,
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 
@@ -868,7 +869,9 @@ func (s *DatabaseDbHomeResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) 
 			}
 			tmp[i] = converted
 		}
-		result.BackupDestinationDetails = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")) {
+			result.BackupDestinationDetails = tmp
+		}
 	}
 
 	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok {

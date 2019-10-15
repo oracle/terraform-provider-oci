@@ -267,7 +267,9 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.DnsServer = tmp
+		if len(tmp) != 0 || s.D.HasChange("dns_server") {
+			request.DnsServer = tmp
+		}
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -298,7 +300,9 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.NtpServer = tmp
+		if len(tmp) != 0 || s.D.HasChange("ntp_server") {
+			request.NtpServer = tmp
+		}
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {
@@ -328,6 +332,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 	if activationFile, ok := s.D.GetOkExists("activation_file"); ok {
 		response, err := s.activateExadataInfrastructure(activationFile.(string), s.D.Id())
 		if err != nil {
+			s.D.Set("activation_file", "")
 			return err
 		}
 		s.Res = &response.ExadataInfrastructure
@@ -466,6 +471,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 	if activationFile, ok := s.D.GetOkExists("activation_file"); ok {
 		response, err := s.activateExadataInfrastructure(activationFile.(string), s.D.Id())
 		if err != nil {
+			s.D.Set("activation_file", "")
 			return err
 		}
 		s.Res = &response.ExadataInfrastructure

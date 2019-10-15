@@ -215,7 +215,6 @@ func (s *CoreDhcpOptionsResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.Options = []oci_core.DhcpOption{}
 	if options, ok := s.D.GetOkExists("options"); ok {
 		set := options.(*schema.Set)
 		interfaces := set.List()
@@ -229,7 +228,9 @@ func (s *CoreDhcpOptionsResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.Options = tmp
+		if len(tmp) != 0 || s.D.HasChange("options") {
+			request.Options = tmp
+		}
 	}
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
@@ -309,7 +310,6 @@ func (s *CoreDhcpOptionsResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.Options = []oci_core.DhcpOption{}
 	if options, ok := s.D.GetOkExists("options"); ok {
 		set := options.(*schema.Set)
 		interfaces := set.List()
@@ -323,7 +323,9 @@ func (s *CoreDhcpOptionsResourceCrud) Update() error {
 			}
 			tmp[i] = converted
 		}
-		request.Options = tmp
+		if len(tmp) != 0 || s.D.HasChange("options") {
+			request.Options = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -406,6 +408,7 @@ func (s *CoreDhcpOptionsResourceCrud) mapToDhcpOption(fieldKeyFormat string) (oc
 				}
 			}
 			details.CustomDnsServers = tmp
+
 		}
 		if serverType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_type")); ok {
 			details.ServerType = oci_core.DhcpDnsOptionServerTypeEnum(serverType.(string))

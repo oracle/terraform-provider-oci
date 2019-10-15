@@ -197,7 +197,6 @@ func (s *DatabaseExadataIormConfigResourceCrud) Get() error {
 func (s *DatabaseExadataIormConfigResourceCrud) Update() error {
 	request := oci_database.UpdateExadataIormConfigRequest{}
 
-	request.DbPlans = []oci_database.DbIormConfigUpdateDetail{}
 	if dbPlans, ok := s.D.GetOkExists("db_plans"); ok {
 		set := dbPlans.(*schema.Set)
 		interfaces := set.List()
@@ -211,7 +210,9 @@ func (s *DatabaseExadataIormConfigResourceCrud) Update() error {
 			}
 			tmp[i] = converted
 		}
-		request.DbPlans = tmp
+		if len(tmp) != 0 || s.D.HasChange("db_plans") {
+			request.DbPlans = tmp
+		}
 	}
 
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {

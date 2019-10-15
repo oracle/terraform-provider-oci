@@ -76,6 +76,10 @@ func (s *HealthChecksPingMonitorDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.HomeRegion != nil {
+		s.D.Set("home_region", *s.Res.HomeRegion)
+	}
+
 	if s.Res.IntervalInSeconds != nil {
 		s.D.Set("interval_in_seconds", *s.Res.IntervalInSeconds)
 	}
@@ -95,6 +99,10 @@ func (s *HealthChecksPingMonitorDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("targets", s.Res.Targets)
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	if s.Res.TimeoutInSeconds != nil {
 		s.D.Set("timeout_in_seconds", *s.Res.TimeoutInSeconds)

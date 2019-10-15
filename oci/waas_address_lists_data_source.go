@@ -84,7 +84,6 @@ func (s *WaasAddressListsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.Id = []string{}
 	if ids, ok := s.D.GetOkExists("ids"); ok {
 		interfaces := ids.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -93,10 +92,11 @@ func (s *WaasAddressListsDataSourceCrud) Get() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Id = tmp
+		if len(tmp) != 0 || s.D.HasChange("ids") {
+			request.Id = tmp
+		}
 	}
 
-	request.Name = []string{}
 	if names, ok := s.D.GetOkExists("names"); ok {
 		interfaces := names.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -105,10 +105,11 @@ func (s *WaasAddressListsDataSourceCrud) Get() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Name = tmp
+		if len(tmp) != 0 || s.D.HasChange("names") {
+			request.Name = tmp
+		}
 	}
 
-	request.LifecycleState = []oci_waas.ListAddressListsLifecycleStateEnum{}
 	if states, ok := s.D.GetOkExists("states"); ok {
 		interfaces := states.([]interface{})
 		tmp := make([]oci_waas.ListAddressListsLifecycleStateEnum, len(interfaces))
@@ -117,7 +118,9 @@ func (s *WaasAddressListsDataSourceCrud) Get() error {
 				tmp[i] = oci_waas.ListAddressListsLifecycleStateEnum(interfaces[i].(string))
 			}
 		}
-		request.LifecycleState = tmp
+		if len(tmp) != 0 || s.D.HasChange("states") {
+			request.LifecycleState = tmp
+		}
 	}
 
 	if timeCreatedGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_created_greater_than_or_equal_to"); ok {

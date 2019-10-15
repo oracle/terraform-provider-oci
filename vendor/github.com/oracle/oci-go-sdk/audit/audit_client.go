@@ -3,7 +3,9 @@
 
 // Audit API
 //
-// API for the Audit Service. You can use this API for queries, but not bulk-export operations.
+// API for the Audit Service. Use this API for compliance monitoring in your tenancy.
+// For more information, see Overview of Audit (https://docs.cloud.oracle.com/iaas/Content/Audit/Concepts/auditoverview.htm).
+// **Tip**: This API is good for queries, but not bulk-export operations.
 //
 
 package audit
@@ -30,14 +32,14 @@ func NewAuditClientWithConfigurationProvider(configProvider common.Configuration
 	}
 
 	client = AuditClient{BaseClient: baseClient}
-	client.BasePath = "20160918"
+	client.BasePath = "20190901"
 	err = client.setConfigurationProvider(configProvider)
 	return
 }
 
 // SetRegion overrides the region of this client.
 func (client *AuditClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).Endpoint("audit")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("audit", "https://audit.{region}.oraclecloud.com")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -100,7 +102,8 @@ func (client AuditClient) getConfiguration(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListEvents Returns all audit events for the specified compartment that were processed within the specified time range.
+// ListEvents Returns all the audit events processed for the specified compartment within the specified
+// time range.
 func (client AuditClient) ListEvents(ctx context.Context, request ListEventsRequest) (response ListEventsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
