@@ -90,6 +90,16 @@ func CoreImageResource() *schema.Resource {
 							Optional: true,
 							ForceNew: true,
 						},
+						"operating_system": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"operating_system_version": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
 						"source_image_type": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -488,6 +498,14 @@ func (s *CoreImageResourceCrud) mapToImageSourceDetails(fieldKeyFormat string) (
 			tmp := objectName.(string)
 			details.ObjectName = &tmp
 		}
+		if operatingSystem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operating_system")); ok {
+			tmp := operatingSystem.(string)
+			details.OperatingSystem = &tmp
+		}
+		if operatingSystemVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operating_system_version")); ok {
+			tmp := operatingSystemVersion.(string)
+			details.OperatingSystemVersion = &tmp
+		}
 		if sourceImageType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_image_type")); ok {
 			details.SourceImageType = oci_core.ImageSourceDetailsSourceImageTypeEnum(sourceImageType.(string))
 		}
@@ -497,6 +515,14 @@ func (s *CoreImageResourceCrud) mapToImageSourceDetails(fieldKeyFormat string) (
 		if sourceUri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_uri")); ok {
 			tmp := sourceUri.(string)
 			details.SourceUri = &tmp
+		}
+		if operatingSystem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operating_system")); ok {
+			tmp := operatingSystem.(string)
+			details.OperatingSystem = &tmp
+		}
+		if operatingSystemVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operating_system_version")); ok {
+			tmp := operatingSystemVersion.(string)
+			details.OperatingSystemVersion = &tmp
 		}
 		if sourceImageType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_image_type")); ok {
 			details.SourceImageType = oci_core.ImageSourceDetailsSourceImageTypeEnum(sourceImageType.(string))
