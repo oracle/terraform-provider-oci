@@ -5,6 +5,7 @@
 - Support for Oracle Analytics cloud
 - Support for Oracle Integration cloud
 - Support for IKE version selections for IPSec connection in VPN
+- Support for `operating_system` and `operating_system_version` attributes in `oci_core_image` resource's `image_source_details`  
 
 ## 3.50.0 (October 30, 2019)
 
