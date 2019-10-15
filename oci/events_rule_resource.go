@@ -586,7 +586,6 @@ func EventsActionToMap(obj oci_events.Action) map[string]interface{} {
 func (s *EventsRuleResourceCrud) mapToActionDetailsList(fieldKeyFormat string) (oci_events.ActionDetailsList, error) {
 	result := oci_events.ActionDetailsList{}
 
-	result.Actions = []oci_events.ActionDetails{}
 	if actions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "actions")); ok {
 		set := actions.(*schema.Set)
 		interfaces := set.List()
@@ -600,7 +599,9 @@ func (s *EventsRuleResourceCrud) mapToActionDetailsList(fieldKeyFormat string) (
 			}
 			tmp[i] = converted
 		}
-		result.Actions = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "actions")) {
+			result.Actions = tmp
+		}
 	}
 
 	return result, nil

@@ -265,7 +265,9 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.SshPublicKeys = tmp
+		if len(tmp) != 0 || s.D.HasChange("ssh_public_keys") {
+			request.SshPublicKeys = tmp
+		}
 	}
 
 	if timeZone, ok := s.D.GetOkExists("time_zone"); ok {

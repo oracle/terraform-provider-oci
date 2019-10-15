@@ -298,7 +298,6 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
-	request.InitialNodeLabels = []oci_containerengine.KeyValue{}
 	if initialNodeLabels, ok := s.D.GetOkExists("initial_node_labels"); ok {
 		interfaces := initialNodeLabels.([]interface{})
 		tmp := make([]oci_containerengine.KeyValue, len(interfaces))
@@ -311,7 +310,9 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.InitialNodeLabels = tmp
+		if len(tmp) != 0 || s.D.HasChange("initial_node_labels") {
+			request.InitialNodeLabels = tmp
+		}
 	}
 
 	if kubernetesVersion, ok := s.D.GetOkExists("kubernetes_version"); ok {
@@ -373,7 +374,9 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.SubnetIds = tmp
+		if len(tmp) != 0 || s.D.HasChange("subnet_ids") {
+			request.SubnetIds = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
@@ -449,7 +452,6 @@ func (s *ContainerengineNodePoolResourceCrud) Get() error {
 func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	request := oci_containerengine.UpdateNodePoolRequest{}
 
-	request.InitialNodeLabels = []oci_containerengine.KeyValue{}
 	if initialNodeLabels, ok := s.D.GetOkExists("initial_node_labels"); ok {
 		interfaces := initialNodeLabels.([]interface{})
 		tmp := make([]oci_containerengine.KeyValue, len(interfaces))
@@ -462,7 +464,9 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 			}
 			tmp[i] = converted
 		}
-		request.InitialNodeLabels = tmp
+		if len(tmp) != 0 || s.D.HasChange("initial_node_labels") {
+			request.InitialNodeLabels = tmp
+		}
 	}
 
 	if kubernetesVersion, ok := s.D.GetOkExists("kubernetes_version"); ok {
@@ -638,7 +642,6 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.CreateNodePoolNodeConfigDetails, error) {
 	result := oci_containerengine.CreateNodePoolNodeConfigDetails{}
 
-	result.PlacementConfigs = []oci_containerengine.NodePoolPlacementConfigDetails{}
 	if placementConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs")); ok {
 		interfaces := placementConfigs.([]interface{})
 		tmp := make([]oci_containerengine.NodePoolPlacementConfigDetails, len(interfaces))
@@ -651,7 +654,9 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetai
 			}
 			tmp[i] = converted
 		}
-		result.PlacementConfigs = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "placement_configs")) {
+			result.PlacementConfigs = tmp
+		}
 	}
 
 	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {

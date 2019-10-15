@@ -353,7 +353,6 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) Create() error {
 		request.IsEnabled = &tmp
 	}
 
-	request.Policies = []oci_auto_scaling.CreateAutoScalingPolicyDetails{}
 	if policies, ok := s.D.GetOkExists("policies"); ok {
 		interfaces := policies.([]interface{})
 		tmp := make([]oci_auto_scaling.CreateAutoScalingPolicyDetails, len(interfaces))
@@ -366,7 +365,9 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.Policies = tmp
+		if len(tmp) != 0 || s.D.HasChange("policies") {
+			request.Policies = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "auto_scaling")
@@ -587,7 +588,6 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToCreateAutoScaling
 	switch strings.ToLower(policyType) {
 	case strings.ToLower("threshold"):
 		details := oci_auto_scaling.CreateThresholdPolicyDetails{}
-		details.Rules = []oci_auto_scaling.CreateConditionDetails{}
 		if rules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rules")); ok {
 			set := rules.(*schema.Set)
 			interfaces := set.List()
@@ -601,7 +601,9 @@ func (s *AutoScalingAutoScalingConfigurationResourceCrud) mapToCreateAutoScaling
 				}
 				tmp[i] = converted
 			}
-			details.Rules = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "rules")) {
+				details.Rules = tmp
+			}
 		}
 		if capacity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capacity")); ok {
 			if tmpList := capacity.([]interface{}); len(tmpList) > 0 {

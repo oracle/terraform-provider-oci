@@ -141,7 +141,6 @@ func (s *WaasAddressListResourceCrud) DeletedTarget() []string {
 func (s *WaasAddressListResourceCrud) Create() error {
 	request := oci_waas.CreateAddressListRequest{}
 
-	request.Addresses = []string{}
 	if addresses, ok := s.D.GetOkExists("addresses"); ok {
 		interfaces := addresses.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -150,7 +149,9 @@ func (s *WaasAddressListResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Addresses = tmp
+		if len(tmp) != 0 || s.D.HasChange("addresses") {
+			request.Addresses = tmp
+		}
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -218,7 +219,6 @@ func (s *WaasAddressListResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.AddressListId = &tmp
 
-	request.Addresses = []string{}
 	if addresses, ok := s.D.GetOkExists("addresses"); ok {
 		interfaces := addresses.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -227,7 +227,9 @@ func (s *WaasAddressListResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Addresses = tmp
+		if len(tmp) != 0 || s.D.HasChange("addresses") {
+			request.Addresses = tmp
+		}
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {

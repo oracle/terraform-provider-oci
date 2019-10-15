@@ -165,7 +165,6 @@ func (s *LimitsQuotaResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	request.Statements = []string{}
 	if statements, ok := s.D.GetOkExists("statements"); ok {
 		interfaces := statements.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -174,7 +173,9 @@ func (s *LimitsQuotaResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Statements = tmp
+		if len(tmp) != 0 || s.D.HasChange("statements") {
+			request.Statements = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "limits")
@@ -228,7 +229,6 @@ func (s *LimitsQuotaResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.QuotaId = &tmp
 
-	request.Statements = []string{}
 	if statements, ok := s.D.GetOkExists("statements"); ok {
 		interfaces := statements.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -237,7 +237,9 @@ func (s *LimitsQuotaResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Statements = tmp
+		if len(tmp) != 0 || s.D.HasChange("statements") {
+			request.Statements = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "limits")

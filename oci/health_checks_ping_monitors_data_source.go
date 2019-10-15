@@ -22,6 +22,10 @@ func HealthChecksPingMonitorsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"home_region": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"ping_monitors": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -60,6 +64,11 @@ func (s *HealthChecksPingMonitorsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if homeRegion, ok := s.D.GetOkExists("home_region"); ok {
+		tmp := homeRegion.(string)
+		request.HomeRegion = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "health_checks")
@@ -108,6 +117,10 @@ func (s *HealthChecksPingMonitorsDataSourceCrud) SetData() error {
 
 		pingMonitor["freeform_tags"] = r.FreeformTags
 
+		if r.HomeRegion != nil {
+			pingMonitor["home_region"] = *r.HomeRegion
+		}
+
 		if r.Id != nil {
 			pingMonitor["id"] = *r.Id
 		}
@@ -124,6 +137,10 @@ func (s *HealthChecksPingMonitorsDataSourceCrud) SetData() error {
 
 		if r.ResultsUrl != nil {
 			pingMonitor["results_url"] = *r.ResultsUrl
+		}
+
+		if r.TimeCreated != nil {
+			pingMonitor["time_created"] = r.TimeCreated.String()
 		}
 
 		resources = append(resources, pingMonitor)

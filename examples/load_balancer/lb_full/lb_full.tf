@@ -153,11 +153,14 @@ resource "oci_core_instance" "instance1" {
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "be-instance1"
   shape               = "${var.instance_shape}"
-  subnet_id           = "${oci_core_subnet.subnet1.id}"
-  hostname_label      = "be-instance1"
 
   metadata = {
     user_data = "${base64encode(var.user-data)}"
+  }
+
+  create_vnic_details {
+    subnet_id      = "${oci_core_subnet.subnet1.id}"
+    hostname_label = "be-instance1"
   }
 
   source_details {
@@ -171,11 +174,14 @@ resource "oci_core_instance" "instance2" {
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "be-instance2"
   shape               = "${var.instance_shape}"
-  subnet_id           = "${oci_core_subnet.subnet2.id}"
-  hostname_label      = "be-instance2"
 
   metadata = {
     user_data = "${base64encode(var.user-data)}"
+  }
+
+  create_vnic_details {
+    subnet_id      = "${oci_core_subnet.subnet2.id}"
+    hostname_label = "be-instance2"
   }
 
   source_details {
@@ -349,7 +355,7 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 
     conditions {
       attribute_name  = "SOURCE_VCN_ID"
-      attribute_value = "${oci_core_virtual_network.vcn1.id}"
+      attribute_value = "${oci_core_vcn.vcn1.id}"
     }
 
     conditions {
