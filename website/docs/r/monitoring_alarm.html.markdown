@@ -12,7 +12,9 @@ This resource provides the Alarm resource in Oracle Cloud Infrastructure Monitor
 Creates a new alarm in the specified compartment.
 For important limits information, see [Limits on Monitoring](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
 
-Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
+This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations. 
+Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests, 
+or transactions, per second (TPS) for a given tenancy.
 
 
 ## Example Usage
@@ -67,11 +69,13 @@ The following arguments are supported:
 * `metric_compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric being evaluated by the alarm. 
 * `metric_compartment_id_in_subtree` - (Optional) (Updatable) When true, the alarm evaluates metrics from all compartments and subcompartments. The parameter can only be set to true when metricCompartmentId is the tenancy OCID (the tenancy is the root compartment). A true value requires the user to have tenancy-level permissions. If this requirement is not met, then the call is rejected. When false, the alarm evaluates metrics from only the compartment specified in metricCompartmentId. Default is false.  Example: `true` 
 * `namespace` - (Required) (Updatable) The source service or application emitting the metric that is evaluated by the alarm.  Example: `oci_computeagent` 
-* `pending_duration` - (Optional) (Updatable) The period of time that the condition defined in the alarm must persist before the alarm state  changes from "OK" to "FIRING" or vice versa. For example, a value of 5 minutes means that the  alarm must persist in breaching the condition for five minutes before the alarm updates its  state to "FIRING"; likewise, the alarm must persist in not breaching the condition for five  minutes before the alarm updates its state to "OK."
+* `pending_duration` - (Optional) (Updatable) The period of time that the condition defined in the alarm must persist before the alarm state  changes from "OK" to "FIRING". For example, a value of 5 minutes means that the  alarm must persist in breaching the condition for five minutes before the alarm updates its  state to "FIRING". 
 
 	The duration is specified as a string in ISO 8601 format (`PT10M` for ten minutes or `PT1H` for one hour). Minimum: PT1M. Maximum: PT1H. Default: PT1M.
 
-	Under the default value of PT1M, the first evaluation that breaches the alarm updates the state to "FIRING" and the first evaluation that does not breach the alarm updates the state to "OK".
+	Under the default value of PT1M, the first evaluation that breaches the alarm updates the state to "FIRING". 
+
+	The alarm updates its status to "OK" when the breaching condition has been clear for  the most recent minute. 
 
 	Example: `PT5M` 
 * `query` - (Required) (Updatable) The Monitoring Query Language (MQL) expression to evaluate for the alarm. The Alarms feature of  the Monitoring service interprets results for each returned time series as Boolean values,  where zero represents false and a non-zero value represents true. A true value means that the trigger  rule condition has been met. The query must specify a metric, statistic, interval, and trigger  rule (threshold or absence). Supported values for interval: `1m`-`60m` (also `1h`). You can optionally  specify dimensions and grouping functions. Supported grouping functions: `grouping()`, `groupBy()`.  For details about Monitoring Query Language (MQL), see [Monitoring Query Language (MQL) Reference](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm). For available dimensions, review the metric definition for the supported service.  See [Supported Services](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices).
@@ -131,11 +135,13 @@ The following attributes are exported:
 * `metric_compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the metric being evaluated by the alarm. 
 * `metric_compartment_id_in_subtree` - When true, the alarm evaluates metrics from all compartments and subcompartments. The parameter can only be set to true when metricCompartmentId is the tenancy OCID (the tenancy is the root compartment). A true value requires the user to have tenancy-level permissions. If this requirement is not met, then the call is rejected. When false, the alarm evaluates metrics from only the compartment specified in metricCompartmentId. Default is false.  Example: `true` 
 * `namespace` - The source service or application emitting the metric that is evaluated by the alarm.  Example: `oci_computeagent` 
-* `pending_duration` - The period of time that the condition defined in the alarm must persist before the alarm state  changes from "OK" to "FIRING" or vice versa. For example, a value of 5 minutes means that the  alarm must persist in breaching the condition for five minutes before the alarm updates its  state to "FIRING"; likewise, the alarm must persist in not breaching the condition for five  minutes before the alarm updates its state to "OK."
+* `pending_duration` - The period of time that the condition defined in the alarm must persist before the alarm state  changes from "OK" to "FIRING". For example, a value of 5 minutes means that the  alarm must persist in breaching the condition for five minutes before the alarm updates its  state to "FIRING". 
 
 	The duration is specified as a string in ISO 8601 format (`PT10M` for ten minutes or `PT1H` for one hour). Minimum: PT1M. Maximum: PT1H. Default: PT1M.
 
-	Under the default value of PT1M, the first evaluation that breaches the alarm updates the state to "FIRING" and the first evaluation that does not breach the alarm updates the state to "OK".
+	Under the default value of PT1M, the first evaluation that breaches the alarm updates the state to "FIRING". 
+
+	The alarm updates its status to "OK" when the breaching condition has been clear for  the most recent minute. 
 
 	Example: `PT5M` 
 * `query` - The Monitoring Query Language (MQL) expression to evaluate for the alarm. The Alarms feature of  the Monitoring service interprets results for each returned time series as Boolean values,  where zero represents false and a non-zero value represents true. A true value means that the trigger  rule condition has been met. The query must specify a metric, statistic, interval, and trigger  rule (threshold or absence). Supported values for interval: `1m`-`60m` (also `1h`). You can optionally  specify dimensions and grouping functions. Supported grouping functions: `grouping()`, `groupBy()`.  For details about Monitoring Query Language (MQL), see [Monitoring Query Language (MQL) Reference](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm).  For available dimensions, review the metric definition for the supported service.  See [Supported Services](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices).

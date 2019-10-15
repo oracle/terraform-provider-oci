@@ -44,6 +44,13 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `protocol` - (Required) The protocol used for the subscription. 
 
+	Allowed values: 
+	* `CUSTOM_HTTPS` 
+	* `EMAIL`
+	* `HTTPS` (deprecated; for PagerDuty endpoints, use `PAGERDUTY`)
+	* `PAGERDUTY` 
+	* `SLACK` 
+
 	For information about subscription protocols, see  [To create a subscription](https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#createSub). 
 * `topic_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic for the subscription. 
 
