@@ -17,6 +17,7 @@ import (
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
+	oci_integration "github.com/oracle/oci-go-sdk/integration"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -51,6 +52,7 @@ type OracleClients struct {
 	functionsManagementClient      *oci_functions.FunctionsManagementClient
 	healthChecksClient             *oci_health_checks.HealthChecksClient
 	identityClient                 *oci_identity.IdentityClient
+	integrationInstanceClient      *oci_integration.IntegrationInstanceClient
 	kmsCryptoClient                *oci_kms.KmsCryptoClient
 	kmsManagementClient            *oci_kms.KmsManagementClient
 	kmsVaultClient                 *oci_kms.KmsVaultClient
@@ -274,6 +276,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.identityClient = &identityClient
+
+	integrationInstanceClient, err := oci_integration.NewIntegrationInstanceClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&integrationInstanceClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.integrationInstanceClient = &integrationInstanceClient
 
 	kmsCryptoClient, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(configProvider, "DUMMY_ENDPOINT")
 	if err != nil {
