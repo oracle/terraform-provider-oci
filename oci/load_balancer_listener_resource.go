@@ -233,6 +233,7 @@ func (s *LoadBalancerListenerResourceCrud) Create() error {
 		request.DefaultBackendSetName = &tmp
 	}
 
+	// patch for backward compatibility
 	request.HostnameNames = []string{}
 	if hostnameNames, ok := s.D.GetOkExists("hostname_names"); ok {
 		interfaces := hostnameNames.([]interface{})
@@ -270,7 +271,6 @@ func (s *LoadBalancerListenerResourceCrud) Create() error {
 		request.Protocol = &tmp
 	}
 
-	request.RuleSetNames = []string{}
 	if ruleSetNames, ok := s.D.GetOkExists("rule_set_names"); ok {
 		interfaces := ruleSetNames.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -279,7 +279,9 @@ func (s *LoadBalancerListenerResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.RuleSetNames = tmp
+		if len(tmp) != 0 || s.D.HasChange("rule_set_names") {
+			request.RuleSetNames = tmp
+		}
 	}
 
 	if sslConfiguration, ok := s.D.GetOkExists("ssl_configuration"); ok {
@@ -382,7 +384,6 @@ func (s *LoadBalancerListenerResourceCrud) Update() error {
 		request.DefaultBackendSetName = &tmp
 	}
 
-	request.HostnameNames = []string{}
 	if hostnameNames, ok := s.D.GetOkExists("hostname_names"); ok {
 		interfaces := hostnameNames.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -391,7 +392,9 @@ func (s *LoadBalancerListenerResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.HostnameNames = tmp
+		if len(tmp) != 0 || s.D.HasChange("hostname_names") {
+			request.HostnameNames = tmp
+		}
 	}
 
 	if listenerName, ok := s.D.GetOkExists("name"); ok {
@@ -419,7 +422,6 @@ func (s *LoadBalancerListenerResourceCrud) Update() error {
 		request.Protocol = &tmp
 	}
 
-	request.RuleSetNames = []string{}
 	if ruleSetNames, ok := s.D.GetOkExists("rule_set_names"); ok {
 		interfaces := ruleSetNames.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -428,7 +430,9 @@ func (s *LoadBalancerListenerResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.RuleSetNames = tmp
+		if len(tmp) != 0 || s.D.HasChange("rule_set_names") {
+			request.RuleSetNames = tmp
+		}
 	}
 
 	if sslConfiguration, ok := s.D.GetOkExists("ssl_configuration"); ok {

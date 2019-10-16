@@ -148,7 +148,6 @@ func (s *MonitoringMetricsDataSourceCrud) Get() error {
 		request.DimensionFilters = objectMapToStringMap(dimensionFilters.(map[string]interface{}))
 	}
 
-	request.GroupBy = []string{}
 	if groupBy, ok := s.D.GetOkExists("group_by"); ok {
 		interfaces := groupBy.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -157,7 +156,9 @@ func (s *MonitoringMetricsDataSourceCrud) Get() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.GroupBy = tmp
+		if len(tmp) != 0 || s.D.HasChange("group_by") {
+			request.GroupBy = tmp
+		}
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {

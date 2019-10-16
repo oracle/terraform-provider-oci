@@ -173,7 +173,6 @@ func (s *FileStorageExportResourceCrud) DeletedTarget() []string {
 func (s *FileStorageExportResourceCrud) Create() error {
 	request := oci_file_storage.CreateExportRequest{}
 
-	request.ExportOptions = []oci_file_storage.ClientOptions{}
 	if exportOptions, ok := s.D.GetOkExists("export_options"); ok {
 		interfaces := exportOptions.([]interface{})
 		tmp := make([]oci_file_storage.ClientOptions, len(interfaces))
@@ -186,7 +185,9 @@ func (s *FileStorageExportResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.ExportOptions = tmp
+		if len(tmp) != 0 || s.D.HasChange("export_options") {
+			request.ExportOptions = tmp
+		}
 	}
 
 	if exportSetId, ok := s.D.GetOkExists("export_set_id"); ok {
@@ -238,7 +239,6 @@ func (s *FileStorageExportResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ExportId = &tmp
 
-	request.ExportOptions = []oci_file_storage.ClientOptions{}
 	if exportOptions, ok := s.D.GetOkExists("export_options"); ok {
 		interfaces := exportOptions.([]interface{})
 		tmp := make([]oci_file_storage.ClientOptions, len(interfaces))
@@ -251,7 +251,9 @@ func (s *FileStorageExportResourceCrud) Update() error {
 			}
 			tmp[i] = converted
 		}
-		request.ExportOptions = tmp
+		if len(tmp) != 0 || s.D.HasChange("export_options") {
+			request.ExportOptions = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "file_storage")

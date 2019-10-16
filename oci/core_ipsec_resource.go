@@ -211,7 +211,6 @@ func (s *CoreIpSecConnectionResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.StaticRoutes = []string{}
 	if staticRoutes, ok := s.D.GetOkExists("static_routes"); ok {
 		interfaces := staticRoutes.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -220,7 +219,9 @@ func (s *CoreIpSecConnectionResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.StaticRoutes = tmp
+		if len(tmp) != 0 || s.D.HasChange("static_routes") {
+			request.StaticRoutes = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -292,7 +293,6 @@ func (s *CoreIpSecConnectionResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.IpscId = &tmp
 
-	request.StaticRoutes = []string{}
 	if staticRoutes, ok := s.D.GetOkExists("static_routes"); ok {
 		interfaces := staticRoutes.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -301,7 +301,9 @@ func (s *CoreIpSecConnectionResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.StaticRoutes = tmp
+		if len(tmp) != 0 || s.D.HasChange("static_routes") {
+			request.StaticRoutes = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")

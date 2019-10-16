@@ -210,7 +210,6 @@ func (s *DnsZoneResourceCrud) Create() error {
 		createZoneDetailsRequest.DefinedTags = convertedDefinedTags
 	}
 
-	createZoneDetailsRequest.ExternalMasters = []oci_dns.ExternalMaster{}
 	if externalMasters, ok := s.D.GetOkExists("external_masters"); ok {
 		interfaces := externalMasters.([]interface{})
 		tmp := make([]oci_dns.ExternalMaster, len(interfaces))
@@ -223,7 +222,9 @@ func (s *DnsZoneResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		createZoneDetailsRequest.ExternalMasters = tmp
+		if len(tmp) != 0 || s.D.HasChange("external_masters") {
+			createZoneDetailsRequest.ExternalMasters = tmp
+		}
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -298,7 +299,6 @@ func (s *DnsZoneResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	request.ExternalMasters = []oci_dns.ExternalMaster{}
 	if externalMasters, ok := s.D.GetOkExists("external_masters"); ok {
 		interfaces := externalMasters.([]interface{})
 		tmp := make([]oci_dns.ExternalMaster, len(interfaces))
@@ -311,7 +311,9 @@ func (s *DnsZoneResourceCrud) Update() error {
 			}
 			tmp[i] = converted
 		}
-		request.ExternalMasters = tmp
+		if len(tmp) != 0 || s.D.HasChange("external_masters") {
+			request.ExternalMasters = tmp
+		}
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {

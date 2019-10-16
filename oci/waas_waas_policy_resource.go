@@ -1076,7 +1076,6 @@ func (s *WaasWaasPolicyResourceCrud) DeletedTarget() []string {
 func (s *WaasWaasPolicyResourceCrud) Create() error {
 	request := oci_waas.CreateWaasPolicyRequest{}
 
-	request.AdditionalDomains = []string{}
 	if additionalDomains, ok := s.D.GetOkExists("additional_domains"); ok {
 		interfaces := additionalDomains.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -1085,7 +1084,9 @@ func (s *WaasWaasPolicyResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.AdditionalDomains = tmp
+		if len(tmp) != 0 || s.D.HasChange("additional_domains") {
+			request.AdditionalDomains = tmp
+		}
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -1372,7 +1373,6 @@ func (s *WaasWaasPolicyResourceCrud) Update() error {
 	}
 	request := oci_waas.UpdateWaasPolicyRequest{}
 
-	request.AdditionalDomains = []string{}
 	if additionalDomains, ok := s.D.GetOkExists("additional_domains"); ok {
 		interfaces := additionalDomains.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -1381,7 +1381,9 @@ func (s *WaasWaasPolicyResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.AdditionalDomains = tmp
+		if len(tmp) != 0 || s.D.HasChange("additional_domains") {
+			request.AdditionalDomains = tmp
+		}
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -1606,7 +1608,6 @@ func (s *WaasWaasPolicyResourceCrud) mapToAccessRule(fieldKeyFormat string) (oci
 		result.BlockResponseCode = &tmp
 	}
 
-	result.BypassChallenges = []oci_waas.AccessRuleBypassChallengesEnum{}
 	if bypassChallenges, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bypass_challenges")); ok {
 		interfaces := bypassChallenges.([]interface{})
 		tmp := make([]oci_waas.AccessRuleBypassChallengesEnum, len(interfaces))
@@ -1615,10 +1616,11 @@ func (s *WaasWaasPolicyResourceCrud) mapToAccessRule(fieldKeyFormat string) (oci
 				tmp[i] = oci_waas.AccessRuleBypassChallengesEnum(interfaces[i].(string))
 			}
 		}
-		result.BypassChallenges = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "bypass_challenges")) {
+			result.BypassChallenges = tmp
+		}
 	}
 
-	result.Criteria = []oci_waas.AccessRuleCriteria{}
 	if criteria, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "criteria")); ok {
 		interfaces := criteria.([]interface{})
 		tmp := make([]oci_waas.AccessRuleCriteria, len(interfaces))
@@ -1631,7 +1633,9 @@ func (s *WaasWaasPolicyResourceCrud) mapToAccessRule(fieldKeyFormat string) (oci
 			}
 			tmp[i] = converted
 		}
-		result.Criteria = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "criteria")) {
+			result.Criteria = tmp
+		}
 	}
 
 	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
@@ -1877,7 +1881,6 @@ func (s *WaasWaasPolicyResourceCrud) mapToCachingRule(fieldKeyFormat string) (oc
 		result.ClientCachingDuration = &tmp
 	}
 
-	result.Criteria = []oci_waas.CachingRuleCriteria{}
 	if criteria, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "criteria")); ok {
 		interfaces := criteria.([]interface{})
 		tmp := make([]oci_waas.CachingRuleCriteria, len(interfaces))
@@ -1890,7 +1893,9 @@ func (s *WaasWaasPolicyResourceCrud) mapToCachingRule(fieldKeyFormat string) (oc
 			}
 			tmp[i] = converted
 		}
-		result.Criteria = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "criteria")) {
+			result.Criteria = tmp
+		}
 	}
 
 	if isClientCachingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_client_caching_enabled")); ok {
@@ -2430,7 +2435,6 @@ func (s *WaasWaasPolicyResourceCrud) mapToPolicyConfig(fieldKeyFormat string) (o
 		result.IsResponseBufferingEnabled = &tmp
 	}
 
-	result.TlsProtocols = []oci_waas.PolicyConfigTlsProtocolsEnum{}
 	if tlsProtocols, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tls_protocols")); ok {
 		interfaces := tlsProtocols.([]interface{})
 		tmp := make([]oci_waas.PolicyConfigTlsProtocolsEnum, len(interfaces))
@@ -2439,7 +2443,9 @@ func (s *WaasWaasPolicyResourceCrud) mapToPolicyConfig(fieldKeyFormat string) (o
 				tmp[i] = oci_waas.PolicyConfigTlsProtocolsEnum(interfaces[i].(string))
 			}
 		}
-		result.TlsProtocols = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "tls_protocols")) {
+			result.TlsProtocols = tmp
+		}
 	}
 
 	return result, nil
@@ -2578,7 +2584,6 @@ func OriginGroupMapToMap(originGroupMap map[string]oci_waas.OriginGroup) []inter
 func (s *WaasWaasPolicyResourceCrud) mapToProtectionSettings(fieldKeyFormat string) (oci_waas.ProtectionSettings, error) {
 	result := oci_waas.ProtectionSettings{}
 
-	result.AllowedHttpMethods = []oci_waas.ProtectionSettingsAllowedHttpMethodsEnum{}
 	if allowedHttpMethods, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowed_http_methods")); ok {
 		interfaces := allowedHttpMethods.([]interface{})
 		tmp := make([]oci_waas.ProtectionSettingsAllowedHttpMethodsEnum, len(interfaces))
@@ -2587,7 +2592,9 @@ func (s *WaasWaasPolicyResourceCrud) mapToProtectionSettings(fieldKeyFormat stri
 				tmp[i] = oci_waas.ProtectionSettingsAllowedHttpMethodsEnum(interfaces[i].(string))
 			}
 		}
-		result.AllowedHttpMethods = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowed_http_methods")) {
+			result.AllowedHttpMethods = tmp
+		}
 	}
 
 	if blockAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_action")); ok {
@@ -2639,7 +2646,6 @@ func (s *WaasWaasPolicyResourceCrud) mapToProtectionSettings(fieldKeyFormat stri
 		result.MaxTotalNameLengthOfArguments = &tmp
 	}
 
-	result.MediaTypes = []string{}
 	if mediaTypes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "media_types")); ok {
 		interfaces := mediaTypes.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -2648,7 +2654,9 @@ func (s *WaasWaasPolicyResourceCrud) mapToProtectionSettings(fieldKeyFormat stri
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		result.MediaTypes = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "media_types")) {
+			result.MediaTypes = tmp
+		}
 	}
 
 	if recommendationsPeriodInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recommendations_period_in_days")); ok {
@@ -2714,7 +2722,6 @@ func ProtectionSettingsToMap(obj *oci_waas.ProtectionSettings) map[string]interf
 func (s *WaasWaasPolicyResourceCrud) mapToWafConfigDetails(fieldKeyFormat string) (oci_waas.WafConfigDetails, error) {
 	result := oci_waas.WafConfigDetails{}
 
-	result.AccessRules = []oci_waas.AccessRule{}
 	if accessRules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_rules")); ok {
 		interfaces := accessRules.([]interface{})
 		tmp := make([]oci_waas.AccessRule, len(interfaces))
@@ -2727,7 +2734,9 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfigDetails(fieldKeyFormat string
 			}
 			tmp[i] = converted
 		}
-		result.AccessRules = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "access_rules")) {
+			result.AccessRules = tmp
+		}
 	}
 
 	if addressRateLimiting, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "address_rate_limiting")); ok {
@@ -2741,7 +2750,6 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfigDetails(fieldKeyFormat string
 		}
 	}
 
-	result.CachingRules = []oci_waas.CachingRule{}
 	if cachingRules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "caching_rules")); ok {
 		interfaces := cachingRules.([]interface{})
 		tmp := make([]oci_waas.CachingRule, len(interfaces))
@@ -2754,10 +2762,11 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfigDetails(fieldKeyFormat string
 			}
 			tmp[i] = converted
 		}
-		result.CachingRules = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "caching_rules")) {
+			result.CachingRules = tmp
+		}
 	}
 
-	result.Captchas = []oci_waas.Captcha{}
 	if captchas, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "captchas")); ok {
 		interfaces := captchas.([]interface{})
 		tmp := make([]oci_waas.Captcha, len(interfaces))
@@ -2770,10 +2779,11 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfigDetails(fieldKeyFormat string
 			}
 			tmp[i] = converted
 		}
-		result.Captchas = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "captchas")) {
+			result.Captchas = tmp
+		}
 	}
 
-	result.CustomProtectionRules = []oci_waas.CustomProtectionRuleSetting{}
 	if customProtectionRules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_protection_rules")); ok {
 		interfaces := customProtectionRules.([]interface{})
 		tmp := make([]oci_waas.CustomProtectionRuleSetting, len(interfaces))
@@ -2786,7 +2796,9 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfigDetails(fieldKeyFormat string
 			}
 			tmp[i] = converted
 		}
-		result.CustomProtectionRules = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "custom_protection_rules")) {
+			result.CustomProtectionRules = tmp
+		}
 	}
 
 	if deviceFingerprintChallenge, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "device_fingerprint_challenge")); ok {
@@ -2992,7 +3004,9 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfig(fieldKeyFormat string) (oci_
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		result.OriginGroups = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "origin_groups")) {
+			result.OriginGroups = tmp
+		}
 	}
 
 	if protectionSettings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protection_settings")); ok {
@@ -3006,7 +3020,6 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfig(fieldKeyFormat string) (oci_
 		}
 	}
 
-	result.Whitelists = []oci_waas.Whitelist{}
 	if whitelists, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "whitelists")); ok {
 		interfaces := whitelists.([]interface{})
 		tmp := make([]oci_waas.Whitelist, len(interfaces))
@@ -3019,7 +3032,9 @@ func (s *WaasWaasPolicyResourceCrud) mapToWafConfig(fieldKeyFormat string) (oci_
 			}
 			tmp[i] = converted
 		}
-		result.Whitelists = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "whitelists")) {
+			result.Whitelists = tmp
+		}
 	}
 
 	return result, nil
@@ -3090,7 +3105,6 @@ func WafConfigToMap(obj *oci_waas.WafConfig) map[string]interface{} {
 func (s *WaasWaasPolicyResourceCrud) mapToWhitelist(fieldKeyFormat string) (oci_waas.Whitelist, error) {
 	result := oci_waas.Whitelist{}
 
-	result.Addresses = []string{}
 	if addresses, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "addresses")); ok {
 		interfaces := addresses.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -3099,7 +3113,9 @@ func (s *WaasWaasPolicyResourceCrud) mapToWhitelist(fieldKeyFormat string) (oci_
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		result.Addresses = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "addresses")) {
+			result.Addresses = tmp
+		}
 	}
 
 	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {

@@ -201,6 +201,7 @@ func CoreInstanceResource() *schema.Resource {
 				Computed:         true,
 				ForceNew:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				Deprecated:       FieldDeprecatedForAnother("hostname_label", "hostname_label under create_vnic_details"),
 			},
 			"image": {
 				Type:       schema.TypeString,
@@ -330,10 +331,11 @@ func CoreInstanceResource() *schema.Resource {
 				},
 			},
 			"subnet_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				ForceNew:   true,
+				Deprecated: FieldDeprecatedForAnother("subnet_id", "subnet_id under create_vnic_details"),
 			},
 
 			// Computed
@@ -999,7 +1001,6 @@ func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat
 		result.HostnameLabel = &tmp
 	}
 
-	result.NsgIds = []string{}
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -1009,7 +1010,9 @@ func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		result.NsgIds = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
 	}
 
 	if privateIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_ip")); ok {

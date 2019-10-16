@@ -920,7 +920,6 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 		result.HostnameLabel = &tmp
 	}
 
-	result.NsgIds = []string{}
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -930,7 +929,9 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		result.NsgIds = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
 	}
 
 	if privateIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_ip")); ok {
@@ -1102,7 +1103,6 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 	switch strings.ToLower(instanceType) {
 	case strings.ToLower("compute"):
 		details := oci_core.ComputeInstanceDetails{}
-		details.BlockVolumes = []oci_core.InstanceConfigurationBlockVolumeDetails{}
 		if blockVolumes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_volumes")); ok {
 			interfaces := blockVolumes.([]interface{})
 			tmp := make([]oci_core.InstanceConfigurationBlockVolumeDetails, len(interfaces))
@@ -1115,7 +1115,9 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 				}
 				tmp[i] = converted
 			}
-			details.BlockVolumes = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "block_volumes")) {
+				details.BlockVolumes = tmp
+			}
 		}
 		if launchDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "launch_details")); ok {
 			if tmpList := launchDetails.([]interface{}); len(tmpList) > 0 {
@@ -1127,7 +1129,6 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 				details.LaunchDetails = &tmp
 			}
 		}
-		details.SecondaryVnics = []oci_core.InstanceConfigurationAttachVnicDetails{}
 		if secondaryVnics, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secondary_vnics")); ok {
 			interfaces := secondaryVnics.([]interface{})
 			tmp := make([]oci_core.InstanceConfigurationAttachVnicDetails, len(interfaces))
@@ -1140,7 +1141,9 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 				}
 				tmp[i] = converted
 			}
-			details.SecondaryVnics = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "secondary_vnics")) {
+				details.SecondaryVnics = tmp
+			}
 		}
 		baseObject = details
 	default:
