@@ -231,7 +231,6 @@ func (s *LoadBalancerRuleSetResourceCrud) DeletedTarget() []string {
 func (s *LoadBalancerRuleSetResourceCrud) Create() error {
 	request := oci_load_balancer.CreateRuleSetRequest{}
 
-	request.Items = []oci_load_balancer.Rule{}
 	if items, ok := s.D.GetOkExists("items"); ok {
 		set := items.(*schema.Set)
 		interfaces := set.List()
@@ -245,7 +244,9 @@ func (s *LoadBalancerRuleSetResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.Items = tmp
+		if len(tmp) != 0 || s.D.HasChange("items") {
+			request.Items = tmp
+		}
 	}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -325,7 +326,6 @@ func (s *LoadBalancerRuleSetResourceCrud) Get() error {
 func (s *LoadBalancerRuleSetResourceCrud) Update() error {
 	request := oci_load_balancer.UpdateRuleSetRequest{}
 
-	request.Items = []oci_load_balancer.Rule{}
 	if items, ok := s.D.GetOkExists("items"); ok {
 		set := items.(*schema.Set)
 		interfaces := set.List()
@@ -339,7 +339,9 @@ func (s *LoadBalancerRuleSetResourceCrud) Update() error {
 			}
 			tmp[i] = converted
 		}
-		request.Items = tmp
+		if len(tmp) != 0 || s.D.HasChange("items") {
+			request.Items = tmp
+		}
 	}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -493,7 +495,6 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_
 		baseObject = details
 	case strings.ToLower("ALLOW"):
 		details := oci_load_balancer.AllowRule{}
-		details.Conditions = []oci_load_balancer.RuleCondition{}
 		if conditions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "conditions")); ok {
 			interfaces := conditions.([]interface{})
 			tmp := make([]oci_load_balancer.RuleCondition, len(interfaces))
@@ -506,7 +507,9 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_
 				}
 				tmp[i] = converted
 			}
-			details.Conditions = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "conditions")) {
+				details.Conditions = tmp
+			}
 		}
 		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
 			tmp := description.(string)
@@ -515,7 +518,6 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_
 		baseObject = details
 	case strings.ToLower("CONTROL_ACCESS_USING_HTTP_METHODS"):
 		details := oci_load_balancer.ControlAccessUsingHttpMethodsRule{}
-		details.AllowedMethods = []string{}
 		if allowedMethods, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "allowed_methods")); ok {
 			interfaces := allowedMethods.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -524,7 +526,9 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.AllowedMethods = tmp
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "allowed_methods")) {
+				details.AllowedMethods = tmp
+			}
 		}
 		if statusCode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "status_code")); ok {
 			tmp := statusCode.(int)

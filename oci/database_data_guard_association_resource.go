@@ -485,7 +485,9 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.BackupNetworkNsgIds = tmp
+			if len(tmp) != 0 || s.D.HasChange("backup_network_nsg_ids") {
+				details.BackupNetworkNsgIds = tmp
+			}
 		}
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
@@ -505,7 +507,9 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 					tmp[i] = interfaces[i].(string)
 				}
 			}
-			details.NsgIds = tmp
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)

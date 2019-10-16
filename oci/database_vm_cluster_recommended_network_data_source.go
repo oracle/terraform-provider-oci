@@ -234,7 +234,6 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	request.Dns = []string{}
 	if dns, ok := s.D.GetOkExists("dns"); ok {
 		interfaces := dns.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -243,7 +242,9 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) Get() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Dns = tmp
+		if len(tmp) != 0 || s.D.HasChange("dns") {
+			request.Dns = tmp
+		}
 	}
 
 	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
@@ -255,7 +256,6 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) Get() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.Networks = []oci_database.InfoForNetworkGenDetails{}
 	if networks, ok := s.D.GetOkExists("networks"); ok {
 		interfaces := networks.([]interface{})
 		tmp := make([]oci_database.InfoForNetworkGenDetails, len(interfaces))
@@ -268,10 +268,11 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) Get() error {
 			}
 			tmp[i] = converted
 		}
-		request.Networks = tmp
+		if len(tmp) != 0 || s.D.HasChange("networks") {
+			request.Networks = tmp
+		}
 	}
 
-	request.Ntp = []string{}
 	if ntp, ok := s.D.GetOkExists("ntp"); ok {
 		interfaces := ntp.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -280,7 +281,9 @@ func (s *DatabaseVmClusterRecommendedNetworkDataSourceCrud) Get() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Ntp = tmp
+		if len(tmp) != 0 || s.D.HasChange("ntp") {
+			request.Ntp = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")

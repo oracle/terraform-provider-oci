@@ -136,7 +136,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"whitelisted_ips": {
 				Type:     schema.TypeList,
 				Optional: true,
-				Computed: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -439,7 +438,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.WhitelistedIps = tmp
+		if len(tmp) != 0 {
+			request.WhitelistedIps = tmp
+		} else if s.D.HasChange("whitelisted_ips") {
+			request.WhitelistedIps = []string{""}
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")

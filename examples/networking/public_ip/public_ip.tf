@@ -66,7 +66,6 @@ resource "oci_core_instance" "test_instance" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "testInstance"
-  hostname_label      = "instance"
   shape               = "${var.instance_shape}"
 
   source_details {
@@ -78,6 +77,7 @@ resource "oci_core_instance" "test_instance" {
     assign_public_ip = false
     display_name     = "primaryVnic"
     subnet_id        = "${oci_core_subnet.test_subnet.id}"
+    hostname_label   = "instance"
   }
 }
 

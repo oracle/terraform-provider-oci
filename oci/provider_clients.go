@@ -21,6 +21,7 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+	oci_oda "github.com/oracle/oci-go-sdk/oda"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
@@ -56,6 +57,7 @@ type OracleClients struct {
 	notificationControlPlaneClient *oci_ons.NotificationControlPlaneClient
 	notificationDataPlaneClient    *oci_ons.NotificationDataPlaneClient
 	objectStorageClient            *oci_object_storage.ObjectStorageClient
+	odaClient                      *oci_oda.OdaClient
 	quotasClient                   *oci_limits.QuotasClient
 	streamAdminClient              *oci_streaming.StreamAdminClient
 	virtualNetworkClient           *oci_core.VirtualNetworkClient
@@ -347,6 +349,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.objectStorageClient = &objectStorageClient
+
+	odaClient, err := oci_oda.NewOdaClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&odaClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.odaClient = &odaClient
 
 	quotasClient, err := oci_limits.NewQuotasClientWithConfigurationProvider(configProvider)
 	if err != nil {

@@ -1,4 +1,14 @@
-## 3.47.1 (Unreleased)
+## 3.48.0 (Unreleased)
+
+### Added
+- Support for Oracle Digital Assistant
+
+### Deprecated
+- Instances: The `hostname_label` and `subnet_id` attributes are now deprecated. Please use the `hostname_label` and `subnet_id` attributes under `create_vnic_details`.
+
+### Fixed
+- Update for whitelisted ips in `oci_autonomous_database`
+
 ## 3.47.0 (October 09, 2019)
 
 ### Added

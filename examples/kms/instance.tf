@@ -4,12 +4,15 @@ resource "oci_core_instance" "my_instance" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_id}"
   display_name        = "my instance with FSS access"
-  hostname_label      = "myinstance"
   shape               = "${var.instance_shape}"
-  subnet_id           = "${oci_core_subnet.my_subnet.id}"
 
   metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
+  }
+
+  create_vnic_details {
+    subnet_id      = "${oci_core_subnet.my_subnet.id}"
+    hostname_label = "myinstance"
   }
 
   source_details {

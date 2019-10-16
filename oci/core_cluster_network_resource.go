@@ -360,7 +360,6 @@ func (s *CoreClusterNetworkResourceCrud) Create() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	request.InstancePools = []oci_core.CreateClusterNetworkInstancePoolDetails{}
 	if instancePools, ok := s.D.GetOkExists("instance_pools"); ok {
 		interfaces := instancePools.([]interface{})
 		tmp := make([]oci_core.CreateClusterNetworkInstancePoolDetails, len(interfaces))
@@ -373,7 +372,9 @@ func (s *CoreClusterNetworkResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.InstancePools = tmp
+		if len(tmp) != 0 || s.D.HasChange("instance_pools") {
+			request.InstancePools = tmp
+		}
 	}
 
 	if placementConfiguration, ok := s.D.GetOkExists("placement_configuration"); ok {
@@ -523,7 +524,6 @@ func (s *CoreClusterNetworkResourceCrud) mapToClusterNetworkPlacementConfigurati
 		result.PrimarySubnetId = &tmp
 	}
 
-	result.SecondaryVnicSubnets = []oci_core.InstancePoolPlacementSecondaryVnicSubnet{}
 	if secondaryVnicSubnets, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secondary_vnic_subnets")); ok {
 		set := secondaryVnicSubnets.(*schema.Set)
 		interfaces := set.List()
@@ -537,7 +537,9 @@ func (s *CoreClusterNetworkResourceCrud) mapToClusterNetworkPlacementConfigurati
 			}
 			tmp[i] = converted
 		}
-		result.SecondaryVnicSubnets = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "secondary_vnic_subnets")) {
+			result.SecondaryVnicSubnets = tmp
+		}
 	}
 
 	return result, nil

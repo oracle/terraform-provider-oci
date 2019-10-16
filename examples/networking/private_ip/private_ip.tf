@@ -65,11 +65,11 @@ resource "oci_core_instance" "test_instance1" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "testInstance"
-  hostname_label      = "instance"
   shape               = "${var.instance_shape}"
 
   create_vnic_details {
-    subnet_id = "${oci_core_subnet.example_subnet.id}"
+    subnet_id      = "${oci_core_subnet.example_subnet.id}"
+    hostname_label = "instance"
   }
 
   source_details {

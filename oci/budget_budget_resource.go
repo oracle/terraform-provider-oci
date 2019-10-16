@@ -232,7 +232,6 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 		request.TargetType = oci_budget.CreateBudgetDetailsTargetTypeEnum(targetType.(string))
 	}
 
-	request.Targets = []string{}
 	if targets, ok := s.D.GetOkExists("targets"); ok {
 		interfaces := targets.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -241,7 +240,9 @@ func (s *BudgetBudgetResourceCrud) Create() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-		request.Targets = tmp
+		if len(tmp) != 0 || s.D.HasChange("targets") {
+			request.Targets = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "budget")

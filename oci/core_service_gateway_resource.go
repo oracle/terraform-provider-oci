@@ -197,7 +197,6 @@ func (s *CoreServiceGatewayResourceCrud) Create() error {
 		request.RouteTableId = &tmp
 	}
 
-	request.Services = []oci_core.ServiceIdRequestDetails{}
 	if services, ok := s.D.GetOkExists("services"); ok {
 		set := services.(*schema.Set)
 		interfaces := set.List()
@@ -211,7 +210,9 @@ func (s *CoreServiceGatewayResourceCrud) Create() error {
 			}
 			tmp[i] = converted
 		}
-		request.Services = tmp
+		if len(tmp) != 0 || s.D.HasChange("services") {
+			request.Services = tmp
+		}
 	}
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
@@ -289,7 +290,6 @@ func (s *CoreServiceGatewayResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ServiceGatewayId = &tmp
 
-	request.Services = []oci_core.ServiceIdRequestDetails{}
 	if services, ok := s.D.GetOkExists("services"); ok {
 		set := services.(*schema.Set)
 		interfaces := set.List()
@@ -303,7 +303,9 @@ func (s *CoreServiceGatewayResourceCrud) Update() error {
 			}
 			tmp[i] = converted
 		}
-		request.Services = tmp
+		if len(tmp) != 0 || s.D.HasChange("services") {
+			request.Services = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
