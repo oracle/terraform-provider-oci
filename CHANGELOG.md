@@ -1,4 +1,4 @@
-## 3.48.0 (Unreleased)
+## 3.48.0 (October 16, 2019)
 
 ### Added
 - Support for Oracle Digital Assistant
