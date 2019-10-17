@@ -797,8 +797,13 @@ func elaspedInMillisecond(start time.Time) int64 {
 	return time.Since(start).Nanoseconds() / int64(time.Millisecond)
 }
 
-func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+func WaitForWorkRequestWithErrorHandling(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool) (*string, error) {
+	return WaitForWorkRequest(workRequestClient, workRequestId, entityType, action, timeout, disableFoundRetries, true)
+}
+
+func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, expectIdentifier bool) (*string, error) {
 	retryPolicy := getRetryPolicy(disableFoundRetries, "work_request")
 	retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
 
@@ -843,6 +848,10 @@ func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, 
 		}
 	}
 
+	if expectIdentifier && identifier == nil {
+		return nil, getWorkRequestErrors(workRequestClient, workRequestId, retryPolicy, entityType, action)
+	}
+
 	return identifier, nil
 }
 
@@ -867,4 +876,26 @@ func workRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.
 		}
 		return false
 	}
+}
+
+func getWorkRequestErrors(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+	response, err := workRequestClient.ListWorkRequestErrors(context.Background(), oci_work_requests.ListWorkRequestErrorsRequest{
+		WorkRequestId: workRequestId,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workRequestId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
