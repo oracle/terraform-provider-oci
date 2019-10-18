@@ -3,6 +3,7 @@
 ### Added
 - Support for Wallet Management.
 - Support for Add/Remove Compatible Shape from Custom Images
+- Support for HTTP Redirects
 
 ## 3.49.0 (October 23, 2019)
 
