@@ -70,7 +70,9 @@ var (
 			"source_id":  Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
 		})
 
-	AutonomousDatabaseResourceDependencies = DefinedTagsDependencies
+	AutonomousDatabaseResourceDependencies = DefinedTagsDependencies +
+		generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation) +
+		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation)
 )
 
 func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
@@ -403,11 +405,13 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"admin_password",
+					"autonomous_database_backup_id",
 					"clone_type",
 					"is_preview_version_with_service_terms_accepted",
 					"source",
 					"source_id",
 					"lifecycle_details",
+					"timestamp",
 					// Need this workaround due to import behavior change introduced by https://github.com/hashicorp/terraform/issues/20985
 					"used_data_storage_size_in_tbs",
 				},

@@ -6,10 +6,12 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
+	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 )
@@ -55,6 +57,18 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 
 			// Optional
 			"autonomous_container_database_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"autonomous_database_backup_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"autonomous_database_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -134,6 +148,8 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"BACKUP_FROM_ID",
+					"BACKUP_FROM_TIMESTAMP",
 					"DATABASE",
 					"NONE",
 				}, true),
@@ -143,6 +159,13 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"timestamp": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: timeDiffSuppressFunction,
 			},
 			"whitelisted_ips": {
 				Type:     schema.TypeList,
@@ -687,6 +710,177 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		source = "NONE" // default value
 	}
 	switch strings.ToLower(source) {
+	case strings.ToLower("BACKUP_FROM_ID"):
+		details := oci_database.CreateAutonomousDatabaseFromBackupDetails{}
+		if autonomousDatabaseBackupId, ok := s.D.GetOkExists("autonomous_database_backup_id"); ok {
+			tmp := autonomousDatabaseBackupId.(string)
+			details.AutonomousDatabaseBackupId = &tmp
+		}
+		if cloneType, ok := s.D.GetOkExists("clone_type"); ok {
+			details.CloneType = oci_database.CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum(cloneType.(string))
+		}
+		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
+			tmp := adminPassword.(string)
+			details.AdminPassword = &tmp
+		}
+		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
+			tmp := autonomousContainerDatabaseId.(string)
+			details.AutonomousContainerDatabaseId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
+		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+			tmp := dataStorageSizeInTBs.(int)
+			details.DataStorageSizeInTBs = &tmp
+		}
+		if dbName, ok := s.D.GetOkExists("db_name"); ok {
+			tmp := dbName.(string)
+			details.DbName = &tmp
+		}
+		if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
+			details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
+			tmp := isAutoScalingEnabled.(bool)
+			details.IsAutoScalingEnabled = &tmp
+		}
+		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
+			tmp := isDedicated.(bool)
+			details.IsDedicated = &tmp
+		}
+		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
+			tmp := isFreeTier.(bool)
+			details.IsFreeTier = &tmp
+		}
+		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
+			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
+			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
+			interfaces := whitelistedIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("whitelisted_ips") {
+				details.WhitelistedIps = tmp
+			}
+		}
+		request.CreateAutonomousDatabaseDetails = details
+	case strings.ToLower("BACKUP_FROM_TIMESTAMP"):
+		details := oci_database.CreateAutonomousDatabaseFromBackupTimestampDetails{}
+		if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
+			tmp := autonomousDatabaseId.(string)
+			details.AutonomousDatabaseId = &tmp
+		}
+		if cloneType, ok := s.D.GetOkExists("clone_type"); ok {
+			details.CloneType = oci_database.CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum(cloneType.(string))
+		}
+		if timestamp, ok := s.D.GetOkExists("timestamp"); ok {
+			tmp, err := time.Parse(time.RFC3339, timestamp.(string))
+			if err != nil {
+				return err
+			}
+			details.Timestamp = &oci_common.SDKTime{Time: tmp}
+		}
+		if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
+			tmp := adminPassword.(string)
+			details.AdminPassword = &tmp
+		}
+		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
+			tmp := autonomousContainerDatabaseId.(string)
+			details.AutonomousContainerDatabaseId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
+		if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+			tmp := dataStorageSizeInTBs.(int)
+			details.DataStorageSizeInTBs = &tmp
+		}
+		if dbName, ok := s.D.GetOkExists("db_name"); ok {
+			tmp := dbName.(string)
+			details.DbName = &tmp
+		}
+		if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
+			details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
+			tmp := isAutoScalingEnabled.(bool)
+			details.IsAutoScalingEnabled = &tmp
+		}
+		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
+			tmp := isDedicated.(bool)
+			details.IsDedicated = &tmp
+		}
+		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
+			tmp := isFreeTier.(bool)
+			details.IsFreeTier = &tmp
+		}
+		if isPreviewVersionWithServiceTermsAccepted, ok := s.D.GetOkExists("is_preview_version_with_service_terms_accepted"); ok {
+			tmp := isPreviewVersionWithServiceTermsAccepted.(bool)
+			details.IsPreviewVersionWithServiceTermsAccepted = &tmp
+		}
+		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
+			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
+			interfaces := whitelistedIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("whitelisted_ips") {
+				details.WhitelistedIps = tmp
+			}
+		}
+		request.CreateAutonomousDatabaseDetails = details
 	case strings.ToLower("DATABASE"):
 		details := oci_database.CreateAutonomousDatabaseCloneDetails{}
 		if cloneType, ok := s.D.GetOkExists("clone_type"); ok {
