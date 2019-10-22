@@ -101,13 +101,17 @@ resource "oci_core_instance" "example_instance" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "testInstance"
-  hostname_label      = "instance"
-  image               = "${var.instance_image_ocid[var.region]}"
   shape               = "${var.instance_shape}"
 
   create_vnic_details {
+    hostname_label         = "instance"
     subnet_id              = "${oci_core_subnet.example_subnet.id}"
     skip_source_dest_check = true
     assign_public_ip       = true
+  }
+
+  source_details {
+    source_type = "image"
+    source_id   = "${var.instance_image_ocid[var.region]}"
   }
 }

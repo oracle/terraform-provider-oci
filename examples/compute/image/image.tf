@@ -128,5 +128,5 @@ data "oci_core_images" "supported_shape_images" {
 }
 
 output "supported_shape_images" {
-  value = "${data.oci_core_images.supported_shape_images}"
+  value = "${data.oci_core_images.supported_shape_images.images}"
 }

@@ -13,9 +13,6 @@ import (
 )
 
 var (
-	ConfigurationRequiredOnlyResource = ConfigurationResourceDependencies +
-		generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationRepresentation)
-
 	ConfigurationResourceConfig = ConfigurationResourceDependencies +
 		generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Optional, Update, configurationRepresentation)
 
@@ -23,7 +20,6 @@ var (
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
 	}
 
-	//@CODEGEN the service does not allow retention_period_days to be optional but it is optional in the spec HYD-9426. Service only supports PUT but not POST
 	configurationRepresentation = map[string]interface{}{
 		"compartment_id":        Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"retention_period_days": Representation{repType: Required, create: `100`, update: `91`},
@@ -58,6 +54,7 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 				Config: config + ConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Required, Create, configurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "retention_period_days", "100"),
 
 					func(s *terraform.State) (err error) {
@@ -72,6 +69,7 @@ func TestAuditConfigurationResource_basic(t *testing.T) {
 				Config: config + ConfigurationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_audit_configuration", "test_configuration", Optional, Update, configurationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttr(resourceName, "retention_period_days", "91"),
 
 					func(s *terraform.State) (err error) {

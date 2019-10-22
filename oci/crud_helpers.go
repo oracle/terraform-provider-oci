@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"reflect"
@@ -103,6 +104,11 @@ func (s *BaseCrud) State() string {
 func handleMissingResourceError(sync ResourceVoider, err *error) {
 
 	if err != nil {
+		// patch till OCE service returns correct error response code for invalid auth token
+		if strings.Contains((*err).Error(), "IDCS token validation has failed") {
+			return
+		}
+
 		if strings.Contains((*err).Error(), "does not exist") ||
 			strings.Contains((*err).Error(), " not present in ") ||
 			strings.Contains((*err).Error(), "not found") ||
@@ -797,8 +803,13 @@ func elaspedInMillisecond(start time.Time) int64 {
 	return time.Since(start).Nanoseconds() / int64(time.Millisecond)
 }
 
-func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+func WaitForWorkRequestWithErrorHandling(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool) (*string, error) {
+	return WaitForWorkRequest(workRequestClient, workRequestId, entityType, action, timeout, disableFoundRetries, true)
+}
+
+func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, expectIdentifier bool) (*string, error) {
 	retryPolicy := getRetryPolicy(disableFoundRetries, "work_request")
 	retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
 
@@ -843,6 +854,10 @@ func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, 
 		}
 	}
 
+	if expectIdentifier && identifier == nil {
+		return nil, getWorkRequestErrors(workRequestClient, workRequestId, retryPolicy, entityType, action)
+	}
+
 	return identifier, nil
 }
 
@@ -867,4 +882,48 @@ func workRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.
 		}
 		return false
 	}
+}
+
+func getWorkRequestErrors(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum) error {
+	response, err := workRequestClient.ListWorkRequestErrors(context.Background(), oci_work_requests.ListWorkRequestErrorsRequest{
+		WorkRequestId: workRequestId,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workRequestId, entityType, action, errorMessage)
+
+	return workRequestErr
+}
+
+// Helper to marshal JSON objects from service into strings that can be stored in state.
+// This limitation exists because Terraform doesn't support maps of nested objects and so we use JSON strings representation
+// as a workaround.
+func genericMapToJsonMap(extendedMetadata map[string]interface{}) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	for key, value := range extendedMetadata {
+		switch v := value.(type) {
+		case string:
+			result[key] = v
+		default:
+			bytes, err := json.Marshal(v)
+			if err != nil {
+				continue
+			}
+			result[key] = string(bytes)
+		}
+	}
+
+	return result
 }

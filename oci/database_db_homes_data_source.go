@@ -20,7 +20,7 @@ func DatabaseDbHomesDataSource() *schema.Resource {
 			},
 			"db_system_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,

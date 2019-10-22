@@ -1,4 +1,8 @@
-## 3.48.1 (Unreleased)
+## 3.49.0 (Unreleased)
+
+### Added
+- Support for Oracle Content and Experience
+
 ## 3.48.0 (October 16, 2019)
 
 ### Added

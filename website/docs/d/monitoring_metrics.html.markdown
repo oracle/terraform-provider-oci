@@ -13,7 +13,7 @@ Returns metric definitions that match the criteria specified in the request. Com
 For information about metrics, see [Metrics Overview](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#MetricsOverview).
 For important limits information, see [Limits on Monitoring](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
 
-Transactions Per Second (TPS) per-tenancy limit for this operation: 1.
+Transactions Per Second (TPS) per-tenancy limit for this operation: 10.
 
 
 ## Example Usage
