@@ -278,7 +278,8 @@ func (s *CoreDrgResourceCrud) updateCompartment(compartment interface{}) error {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	_, err = WaitForWorkRequest(s.workRequestClient, workId, "core", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	// work request doesn't return identifier once succeeded
+	_, err = WaitForWorkRequest(s.workRequestClient, workId, "core", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, false)
 	if err != nil {
 		return err
 	}
