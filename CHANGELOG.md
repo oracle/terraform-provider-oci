@@ -1,4 +1,8 @@
 ## 3.50.1 (Unreleased)
+
+### Added
+- Support for updating `assign_public_ip` attribute in `oci_core_instance` resource
+
 ## 3.50.0 (October 30, 2019)
 
 ### Added
