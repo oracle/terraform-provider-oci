@@ -10,16 +10,13 @@ description: |-
 This resource provides the Configuration resource in Oracle Cloud Infrastructure Audit service.
 
 
-
 ## Example Usage
 
 ```hcl
 resource "oci_audit_configuration" "test_configuration" {
-  #Required
-  compartment_id = "${var.tenancy_ocid}"
-  
-  #Optional
-  retention_period_days = "${var.configuration_retention_period_days}"
+	#Required
+	compartment_id = "${var.tenancy_ocid}"
+	retention_period_days = "${var.configuration_retention_period_days}"
 }
 ```
 
@@ -28,7 +25,8 @@ resource "oci_audit_configuration" "test_configuration" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) ID of the root compartment (tenancy)
-* `retention_period_days` - (Optional) (Updatable) The retention period days
+* `retention_period_days` - (Required) (Updatable) The retention period setting, specified in days. The minimum is 90, the maximum 365.  Example: `90` 
+
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values

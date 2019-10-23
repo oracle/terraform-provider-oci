@@ -747,3 +747,22 @@ func TestUnitGetPathElements_MultiLevelNonMap(t *testing.T) {
 		t.Errorf("Expected Error")
 	}
 }
+
+func TestUnitNestedMap(t *testing.T) {
+	item := map[string]interface{}{
+		"level1": map[string]interface{}{
+			"level2": map[string]interface{}{
+				"level3":   "value",
+				"level3_1": []string{"A", "B", "C"},
+				"level3_2": []int{2, 3, 4},
+				"level3_3": []float64{2.1, 3.1, 4.1},
+				"level3_4": []interface{}{2, 3, 4},
+			},
+		},
+	}
+	services := genericMapToJsonMap(item)
+
+	if len(services) != 1 {
+		t.Errorf("unexpected number of values returned in map")
+	}
+}

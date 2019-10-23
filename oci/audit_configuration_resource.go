@@ -23,14 +23,14 @@ func AuditConfigurationResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
+			},
+			"retention_period_days": {
+				Type:     schema.TypeInt,
+				Required: true,
 			},
 
 			// Optional
-			"retention_period_days": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
 
 			// Computed
 		},
