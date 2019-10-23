@@ -1078,6 +1078,124 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_fetchVnicWhe
 	})
 }
 
+func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssignPublicIp() {
+
+	var resId, resId2 string
+
+	resource.Test(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			// create with assign_public_ip
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
+					func(ts *terraform.State) (err error) {
+						resId, err = fromInstanceState(ts, s.ResourceName, "id")
+						return err
+					},
+				),
+			},
+			// update assign_public_ip to false
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = false
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "public_ip", ""),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "false"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// update assign_public_ip to true with freeform_tags
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+						freeform_tags = { "Department" = "Accounting"}
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+		},
+	})
+}
+
 func TestResourceCoreInstanceTestSuite(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip TestResourceCoreInstanceTestSuite in HttpReplay mode.")
