@@ -43,7 +43,7 @@ type WaasPolicy struct {
 	// A map of host servers (origins) and their keys for the web application. Origin keys are used to associate origins to specific protection rules. The key should be a user-friendly name for the host. **Examples:** `primary` or `secondary`.
 	Origins map[string]Origin `mandatory:"false" json:"origins"`
 
-	// The map of origin groups and their keys used to associate origins to the wafConfig.
+	// The map of origin groups and their keys used to associate origins to the `wafConfig`. Origin groups allow you to apply weights to groups of origins for load balancing purposes. Origins with higher weights will receive larger proportions of client requests.
 	OriginGroups map[string]OriginGroup `mandatory:"false" json:"originGroups"`
 
 	PolicyConfig *PolicyConfig `mandatory:"false" json:"policyConfig"`

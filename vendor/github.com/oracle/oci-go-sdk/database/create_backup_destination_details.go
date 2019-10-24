@@ -106,3 +106,26 @@ func (m createbackupdestinationdetails) GetDefinedTags() map[string]map[string]i
 func (m createbackupdestinationdetails) String() string {
 	return common.PointerString(m)
 }
+
+// CreateBackupDestinationDetailsTypeEnum Enum with underlying type: string
+type CreateBackupDestinationDetailsTypeEnum string
+
+// Set of constants representing the allowable values for CreateBackupDestinationDetailsTypeEnum
+const (
+	CreateBackupDestinationDetailsTypeNfs               CreateBackupDestinationDetailsTypeEnum = "NFS"
+	CreateBackupDestinationDetailsTypeRecoveryAppliance CreateBackupDestinationDetailsTypeEnum = "RECOVERY_APPLIANCE"
+)
+
+var mappingCreateBackupDestinationDetailsType = map[string]CreateBackupDestinationDetailsTypeEnum{
+	"NFS":                CreateBackupDestinationDetailsTypeNfs,
+	"RECOVERY_APPLIANCE": CreateBackupDestinationDetailsTypeRecoveryAppliance,
+}
+
+// GetCreateBackupDestinationDetailsTypeEnumValues Enumerates the set of values for CreateBackupDestinationDetailsTypeEnum
+func GetCreateBackupDestinationDetailsTypeEnumValues() []CreateBackupDestinationDetailsTypeEnum {
+	values := make([]CreateBackupDestinationDetailsTypeEnum, 0)
+	for _, v := range mappingCreateBackupDestinationDetailsType {
+		values = append(values, v)
+	}
+	return values
+}

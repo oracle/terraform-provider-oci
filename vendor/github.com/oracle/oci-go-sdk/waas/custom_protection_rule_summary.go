@@ -12,22 +12,22 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CustomProtectionRuleSummary Summary information about a Custom Protection rule.
+// CustomProtectionRuleSummary An overview of a custom protection rule.
 type CustomProtectionRuleSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Custom Protection rule.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the custom protection rule.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Custom Protection rule's compartment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the custom protection rule's compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The user-friendly name of the Custom Protection rule.
+	// The user-friendly name of the custom protection rule.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The list of the ModSecurity rule IDs that apply to this protection rule. For more information about ModSecurity's open source WAF rules, see Mod Security's documentation (https://www.modsecurity.org/CRS/Documentation/index.html).
+	// The auto-generated ID for the custom protection rule. These IDs are referenced in logs.
 	ModSecurityRuleIds []string `mandatory:"false" json:"modSecurityRuleIds"`
 
-	// The current lifecycle state of the Custom Protection rule.
+	// The current lifecycle state of the custom protection rule.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The date and time the protection rule was created, expressed in RFC 3339 timestamp format.
