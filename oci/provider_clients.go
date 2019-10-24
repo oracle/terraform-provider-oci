@@ -26,6 +26,7 @@ import (
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/resourcemanager"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
@@ -37,6 +38,7 @@ type OracleClients struct {
 	configuration                  map[string]string
 	auditClient                    *oci_audit.AuditClient
 	analyticsClient                *oci_analytics.AnalyticsClient
+	resourceManagerClient          *oci_resourcemanager.ResourceManagerClient
 	autoScalingClient              *oci_auto_scaling.AutoScalingClient
 	blockstorageClient             *oci_core.BlockstorageClient
 	budgetClient                   *oci_budget.BudgetClient
@@ -126,6 +128,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.analyticsClient = &analyticsClient
+
+	resourceManagerClient, err := oci_resourcemanager.NewResourceManagerClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&resourceManagerClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.resourceManagerClient = &resourceManagerClient
 
 	autoScalingClient, err := oci_auto_scaling.NewAutoScalingClientWithConfigurationProvider(configProvider)
 	if err != nil {
