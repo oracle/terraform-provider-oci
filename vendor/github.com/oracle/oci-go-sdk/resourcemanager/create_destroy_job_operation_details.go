@@ -1,0 +1,41 @@
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
+// Code generated. DO NOT EDIT.
+
+// Resource Manager API
+//
+// API for the Resource Manager service. Use this API to install, configure, and manage resources via the "infrastructure-as-code" model. For more information, see Overview of Resource Manager (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm).
+//
+
+package resourcemanager
+
+import (
+	"encoding/json"
+	"github.com/oracle/oci-go-sdk/common"
+)
+
+// CreateDestroyJobOperationDetails Job details that are specific to destroy operations.
+type CreateDestroyJobOperationDetails struct {
+
+	// Specifies the source of the execution plan to apply.
+	// Currently, only `AUTO_APPROVED` is allowed, which indicates that the job
+	// will be run without an execution plan.
+	ExecutionPlanStrategy DestroyJobOperationDetailsExecutionPlanStrategyEnum `mandatory:"true" json:"executionPlanStrategy"`
+}
+
+func (m CreateDestroyJobOperationDetails) String() string {
+	return common.PointerString(m)
+}
+
+// MarshalJSON marshals to json representation
+func (m CreateDestroyJobOperationDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateDestroyJobOperationDetails CreateDestroyJobOperationDetails
+	s := struct {
+		DiscriminatorParam string `json:"operation"`
+		MarshalTypeCreateDestroyJobOperationDetails
+	}{
+		"DESTROY",
+		(MarshalTypeCreateDestroyJobOperationDetails)(m),
+	}
+
+	return json.Marshal(&s)
+}
