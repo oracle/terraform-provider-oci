@@ -18,7 +18,8 @@ var (
 		"verification_state": Representation{repType: Optional, create: `COMPLETED`},
 	}
 
-	VirtualCircuitPublicPrefixResourceConfig = VirtualCircuitPublicPropertyVariables + VirtualCircuitResourceDependencies +
+	VirtualCircuitPublicPrefixResourceConfig = VirtualCircuitPublicPropertyVariables +
+		VirtualCircuitResourceDependencies +
 		generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyRepresentation)
 )
 

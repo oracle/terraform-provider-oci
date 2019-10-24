@@ -87,8 +87,7 @@ var (
 		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation)
 
 	ClusterNetworkResourceDependencies = ClusterNetworkResourceRequiredOnlyDependencies +
-		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
-			getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsClusterNetworkRepresentation}, instanceConfigurationRepresentation))
+		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsClusterNetworkRepresentation}, instanceConfigurationRepresentation))
 
 	ClusterNetworkResourceDependenciesWithoutSecondaryVnic = ClusterNetworkResourceRequiredOnlyDependencies +
 		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create,
