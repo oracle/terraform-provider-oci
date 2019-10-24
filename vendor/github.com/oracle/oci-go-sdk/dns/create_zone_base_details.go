@@ -112,3 +112,26 @@ func (m createzonebasedetails) GetDefinedTags() map[string]map[string]interface{
 func (m createzonebasedetails) String() string {
 	return common.PointerString(m)
 }
+
+// CreateZoneBaseDetailsMigrationSourceEnum Enum with underlying type: string
+type CreateZoneBaseDetailsMigrationSourceEnum string
+
+// Set of constants representing the allowable values for CreateZoneBaseDetailsMigrationSourceEnum
+const (
+	CreateZoneBaseDetailsMigrationSourceNone   CreateZoneBaseDetailsMigrationSourceEnum = "NONE"
+	CreateZoneBaseDetailsMigrationSourceDynect CreateZoneBaseDetailsMigrationSourceEnum = "DYNECT"
+)
+
+var mappingCreateZoneBaseDetailsMigrationSource = map[string]CreateZoneBaseDetailsMigrationSourceEnum{
+	"NONE":   CreateZoneBaseDetailsMigrationSourceNone,
+	"DYNECT": CreateZoneBaseDetailsMigrationSourceDynect,
+}
+
+// GetCreateZoneBaseDetailsMigrationSourceEnumValues Enumerates the set of values for CreateZoneBaseDetailsMigrationSourceEnum
+func GetCreateZoneBaseDetailsMigrationSourceEnumValues() []CreateZoneBaseDetailsMigrationSourceEnum {
+	values := make([]CreateZoneBaseDetailsMigrationSourceEnum, 0)
+	for _, v := range mappingCreateZoneBaseDetailsMigrationSource {
+		values = append(values, v)
+	}
+	return values
+}

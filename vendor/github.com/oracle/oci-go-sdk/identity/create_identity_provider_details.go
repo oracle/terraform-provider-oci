@@ -152,3 +152,26 @@ func GetCreateIdentityProviderDetailsProductTypeEnumValues() []CreateIdentityPro
 	}
 	return values
 }
+
+// CreateIdentityProviderDetailsProtocolEnum Enum with underlying type: string
+type CreateIdentityProviderDetailsProtocolEnum string
+
+// Set of constants representing the allowable values for CreateIdentityProviderDetailsProtocolEnum
+const (
+	CreateIdentityProviderDetailsProtocolSaml2 CreateIdentityProviderDetailsProtocolEnum = "SAML2"
+	CreateIdentityProviderDetailsProtocolAdfs  CreateIdentityProviderDetailsProtocolEnum = "ADFS"
+)
+
+var mappingCreateIdentityProviderDetailsProtocol = map[string]CreateIdentityProviderDetailsProtocolEnum{
+	"SAML2": CreateIdentityProviderDetailsProtocolSaml2,
+	"ADFS":  CreateIdentityProviderDetailsProtocolAdfs,
+}
+
+// GetCreateIdentityProviderDetailsProtocolEnumValues Enumerates the set of values for CreateIdentityProviderDetailsProtocolEnum
+func GetCreateIdentityProviderDetailsProtocolEnumValues() []CreateIdentityProviderDetailsProtocolEnum {
+	values := make([]CreateIdentityProviderDetailsProtocolEnum, 0)
+	for _, v := range mappingCreateIdentityProviderDetailsProtocol {
+		values = append(values, v)
+	}
+	return values
+}

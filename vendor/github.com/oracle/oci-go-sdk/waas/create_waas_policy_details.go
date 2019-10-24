@@ -31,7 +31,8 @@ type CreateWaasPolicyDetails struct {
 	// A map of host to origin for the web application. The key should be a customer friendly name for the host, ex. primary, secondary, etc.
 	Origins map[string]Origin `mandatory:"false" json:"origins"`
 
-	// The map of origin groups and their keys used to associate origins to the wafConfig.
+	// The map of origin groups and their keys used to associate origins to the `wafConfig`. Origin groups allow you to apply weights to groups of origins for load balancing purposes. Origins with higher weights will receive larger proportions of client requests.
+	// To add additional origins to your WAAS policy, update the `origins` field of a `UpdateWaasPolicy` request.
 	OriginGroups map[string]OriginGroup `mandatory:"false" json:"originGroups"`
 
 	PolicyConfig *PolicyConfig `mandatory:"false" json:"policyConfig"`

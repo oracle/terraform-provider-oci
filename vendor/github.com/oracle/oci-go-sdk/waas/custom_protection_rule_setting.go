@@ -12,13 +12,14 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CustomProtectionRuleSetting The OCID and action of a Custom Protection rule.
+// CustomProtectionRuleSetting The OCID and action of a custom protection rule.
 type CustomProtectionRuleSetting struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Custom Protecion rule.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the custom protection rule.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The action to take when the Custom Protection rule is triggered.
+	// The action to take when the custom protection rule is triggered.
+	// `DETECT` - Logs the request when the criteria of the custom protection rule are met. `BLOCK` - Blocks the request when the criteria of the custom protection rule are met.
 	Action CustomProtectionRuleSettingActionEnum `mandatory:"false" json:"action,omitempty"`
 }
 
