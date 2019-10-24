@@ -27,7 +27,7 @@ var (
 	clusterDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"name":           Representation{repType: Optional, create: `name`, update: `name2`},
-		"state":          Representation{repType: Optional, create: []string{"CREATING", "ACTIVE", "FAILED", "DELETING", "DELETED", "UPDATING"}},
+		"state":          Representation{repType: Optional, create: []string{`CREATING`, `ACTIVE`, `FAILED`, `DELETING`, `DELETED`, `UPDATING`}},
 		"filter":         RepresentationGroup{Required, clusterDataSourceFilterRepresentation}}
 	clusterDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `id`},
