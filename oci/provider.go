@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-package provider
+package oci
 
 import (
 	"crypto/rsa"
@@ -122,13 +122,12 @@ func init() {
 	}
 }
 
-// Provider is the adapter for terraform, that gives access to all the resources
-func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
+func Provider() terraform.ResourceProvider {
 	ociProvider = &schema.Provider{
 		DataSourcesMap: DataSourcesMap(),
 		Schema:         schemaMap(),
 		ResourcesMap:   ResourcesMap(),
-		ConfigureFunc:  configfn,
+		ConfigureFunc:  ProviderConfig,
 	}
 	return ociProvider
 }
