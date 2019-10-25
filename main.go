@@ -38,7 +38,7 @@ func main() {
 		log.Println("Executable runs in Terraform plugin mode by default. For additional usage options, please run with the '-help' flag.")
 		plugin.Serve(&plugin.ServeOpts{
 			ProviderFunc: func() terraform.ResourceProvider {
-				return provider.Provider(provider.ProviderConfig)
+				return provider.Provider()
 			},
 		})
 	} else {
