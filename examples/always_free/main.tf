@@ -87,12 +87,10 @@ resource "oci_core_security_list" "test_security_list" {
   vcn_id         = "${oci_core_virtual_network.test_vcn.id}"
   display_name   = "testSecurityList"
 
-  egress_security_rules = [
-    {
-      protocol    = "6"
-      destination = "0.0.0.0/0"
-    },
-  ]
+  egress_security_rules {
+    protocol    = "6"
+    destination = "0.0.0.0/0"
+  }
 
   ingress_security_rules {
     protocol = "6"
@@ -153,7 +151,7 @@ resource "oci_core_instance" "free_instance0" {
     source_id   = "${var.images[var.region]}"
   }
 
-  metadata {
+  metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
   }
 }
@@ -176,7 +174,7 @@ resource "oci_core_instance" "free_instance1" {
     source_id   = "${var.images[var.region]}"
   }
 
-  metadata {
+  metadata = {
     ssh_authorized_keys = "${var.ssh_public_key}"
   }
 }
