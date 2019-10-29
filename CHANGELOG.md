@@ -4,6 +4,13 @@
 - Support for Wallet Management.
 - Support for Add/Remove Compatible Shape from Custom Images
 - Support for HTTP Redirects
+- Support for OCI Resource Discovery to generate configurations and state files from existing compartments
+
+### Fixed
+- `extended_metadata` fields should be imported as part of instances and instance configurations
+
+### Notes
+Starting with this version, the terraform-provider-oci supports resource discovery.
 
 ## 3.49.0 (October 23, 2019)
 
