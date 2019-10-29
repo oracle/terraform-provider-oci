@@ -359,6 +359,27 @@ func setEnvSetting(s, v string) error {
 	return nil
 }
 
+// Temporary fix for identity resource export tests
+func isIdentityOcid(ocid *string) bool {
+	identityOcidPrefixes := []string{
+		"authenticationPolicies/",
+		"ocid1.compartment.",
+		"ocid1.dynamicgroup.",
+		"ocid1.group.",
+		"ocid1.saml2idp.",
+		"ocid1.policy.",
+		"ocid1.tagdefinition.",
+		"ocid1.user.",
+	}
+
+	for _, prefix := range identityOcidPrefixes {
+		if strings.HasPrefix(*ocid, prefix) {
+			return true
+		}
+	}
+	return false
+}
+
 func testExportCompartment(OCID *string, compartmentId *string) error {
 	var arg ExportCommandArgs
 	dir, _ := os.Getwd()
@@ -380,6 +401,11 @@ func testExportCompartment(OCID *string, compartmentId *string) error {
 	arg.GenerateState = true
 	arg.OutputDir = &outputDir
 	arg.IDs = []string{*OCID}
+
+	if isIdentityOcid(OCID) {
+		arg.Services = []string{"identity"}
+	}
+
 	if errExport := RunExportCommand(&arg); errExport != nil {
 		return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport)
 	}
