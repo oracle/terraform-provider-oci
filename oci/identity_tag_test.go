@@ -82,17 +82,26 @@ func TestIdentityTagResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	tagNamespaceResourceName := "oci_identity_tag_namespace.tag-namespace1"
 	resourceName := "oci_identity_tag.test_tag"
 	datasourceName := "data.oci_identity_tags.test_tags"
 
 	var resId, resId2 string
-
+	var tagNamespceId string
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
-		//CheckDestroy: testAccCheckIdentityTagDestroy,
+		CheckDestroy: func(s *terraform.State) (err error){
+			tagNamespceId, err = fromInstanceState(s, tagNamespaceResourceName, "id")
+			if err == nil {
+				// Remove validator from tag if present
+				identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+				err = resetIdentityTagResourceImport("TFTestTag", tagNamespceId, identityClient)
+			}
+			return err
+		},
 		Steps: []resource.TestStep{
 			// verify create
 			{
