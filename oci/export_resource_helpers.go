@@ -721,6 +721,7 @@ func processIdentityAuthenticationPolicies(clients *OracleClients, resources []*
 	// Add composite id as the resource's import ID
 	for _, resource := range resources {
 		resource.importId = getAuthenticationPolicyCompositeId(resource.compartmentId)
+		resource.id = resource.importId
 	}
 	return resources, nil
 }
