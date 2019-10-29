@@ -9,7 +9,9 @@ description: |-
 ## Discovering Terraform resources in an Oracle Cloud Infrastructure compartment
 
 ### Overview
-The terraform-oci-provider can be run as a command line tool to discover resources that have been created within Oracle Cloud Infrastructure compartments and generate Terraform configuration files for the discovered resources.
+Beginning with version 3.50, the terraform-oci-provider can be run as a command line tool to discover resources that have been created within Oracle Cloud Infrastructure compartments and generate Terraform configuration files for the discovered resources.
+
+The latest version of the terraform-oci-provider can be downloaded using `terraform init` or by going to https://releases.hashicorp.com/terraform-provider-oci/
 
 ### Prerequisites
 To discover resources in your compartment, the terraform-oci-provider will need authentication information about the user, tenancy, and region with which to discover
