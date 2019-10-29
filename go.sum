@@ -345,6 +345,8 @@ github.com/oracle/oci-go-sdk v12.0.0+incompatible h1:pOqoy1WI6HpIDiwWsmcSZB0cPpA
 github.com/oracle/oci-go-sdk v12.0.0+incompatible/go.mod h1:VQb79nF8Z2cwLkLS35ukwStZIg5F66tcBccjip/j888=
 github.com/oracle/oci-go-sdk v12.1.0+incompatible h1:I5VSXSg3wAhUo8dtbyauQM8kZGMmXtIljFn/z5VC7Ds=
 github.com/oracle/oci-go-sdk v12.1.0+incompatible/go.mod h1:VQb79nF8Z2cwLkLS35ukwStZIg5F66tcBccjip/j888=
+github.com/oracle/oci-go-sdk v12.2.0+incompatible h1:z5FqDVTRHSYzR9td6FdQpFw2M3MGyPLSUPaBRlzjBco=
+github.com/oracle/oci-go-sdk v12.2.0+incompatible/go.mod h1:VQb79nF8Z2cwLkLS35ukwStZIg5F66tcBccjip/j888=
 github.com/packer-community/winrmcp v0.0.0-20180102160824-81144009af58 h1:m3CEgv3ah1Rhy82L+c0QG/U3VyY1UsvsIdkh0/rU97Y=
 github.com/packer-community/winrmcp v0.0.0-20180102160824-81144009af58/go.mod h1:f6Izs6JvFTdnRbziASagjZ2vmf55NSIkC/weStxCHqk=
 github.com/pascaldekloe/goe v0.0.0-20180627143212-57f6aae5913c/go.mod h1:lzWF7FIEvWOWxwDKqyGYQf6ZUaNfKdP144TG7ZOy1lc=
