@@ -263,3 +263,26 @@ func GetCreateAutonomousDatabaseBaseLicenseModelEnumValues() []CreateAutonomousD
 	}
 	return values
 }
+
+// CreateAutonomousDatabaseBaseSourceEnum Enum with underlying type: string
+type CreateAutonomousDatabaseBaseSourceEnum string
+
+// Set of constants representing the allowable values for CreateAutonomousDatabaseBaseSourceEnum
+const (
+	CreateAutonomousDatabaseBaseSourceNone     CreateAutonomousDatabaseBaseSourceEnum = "NONE"
+	CreateAutonomousDatabaseBaseSourceDatabase CreateAutonomousDatabaseBaseSourceEnum = "DATABASE"
+)
+
+var mappingCreateAutonomousDatabaseBaseSource = map[string]CreateAutonomousDatabaseBaseSourceEnum{
+	"NONE":     CreateAutonomousDatabaseBaseSourceNone,
+	"DATABASE": CreateAutonomousDatabaseBaseSourceDatabase,
+}
+
+// GetCreateAutonomousDatabaseBaseSourceEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseSourceEnum
+func GetCreateAutonomousDatabaseBaseSourceEnumValues() []CreateAutonomousDatabaseBaseSourceEnum {
+	values := make([]CreateAutonomousDatabaseBaseSourceEnum, 0)
+	for _, v := range mappingCreateAutonomousDatabaseBaseSource {
+		values = append(values, v)
+	}
+	return values
+}

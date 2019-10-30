@@ -1,9 +1,12 @@
 module github.com/terraform-providers/terraform-provider-oci
 
 require (
-	github.com/hashicorp/hcl v0.0.0-20180404174102-ef8a98b0bbce // indirect
+	github.com/aws/aws-sdk-go v1.25.2 // indirect
+	github.com/fatih/color v1.7.0
+	github.com/hashicorp/hcl v0.0.0-20180404174102-ef8a98b0bbce
 	github.com/hashicorp/terraform v0.12.4-0.20190628193153-a74738cd35fc
-	github.com/oracle/oci-go-sdk v12.1.0+incompatible
+	github.com/mitchellh/cli v1.0.0
+	github.com/oracle/oci-go-sdk v12.2.0+incompatible
 	github.com/stretchr/objx v0.1.1 // indirect
 	github.com/stretchr/testify v1.3.0
 	gopkg.in/yaml.v2 v2.2.2

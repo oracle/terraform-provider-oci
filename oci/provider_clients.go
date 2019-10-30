@@ -61,6 +61,7 @@ type OracleClients struct {
 	oceInstanceClient              *oci_oce.OceInstanceClient
 	odaClient                      *oci_oda.OdaClient
 	quotasClient                   *oci_limits.QuotasClient
+	redirectClient                 *oci_waas.RedirectClient
 	streamAdminClient              *oci_streaming.StreamAdminClient
 	virtualNetworkClient           *oci_core.VirtualNetworkClient
 	waasClient                     *oci_waas.WaasClient
@@ -381,6 +382,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.quotasClient = &quotasClient
+
+	redirectClient, err := oci_waas.NewRedirectClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&redirectClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.redirectClient = &redirectClient
 
 	streamAdminClient, err := oci_streaming.NewStreamAdminClientWithConfigurationProvider(configProvider)
 	if err != nil {

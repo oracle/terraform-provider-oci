@@ -43,9 +43,9 @@ func init() {
 // Provider is the adapter for terraform, that gives access to all the resources
 func testProvider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
 	result := &schema.Provider{
-		DataSourcesMap: dataSourcesMap(),
+		DataSourcesMap: DataSourcesMap(),
 		Schema:         schemaMap(),
-		ResourcesMap:   resourcesMap(),
+		ResourcesMap:   ResourcesMap(),
 		ConfigureFunc:  configfn,
 	}
 

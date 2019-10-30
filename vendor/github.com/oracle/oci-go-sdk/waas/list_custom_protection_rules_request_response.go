@@ -23,16 +23,16 @@ type ListCustomProtectionRulesRequest struct {
 	// The value of the `opc-next-page` response header from the previous paginated call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The value by which Custom Protection rules are sorted in a paginated 'List' call. If unspecified, defaults to `timeCreated`.
+	// The value by which custom protection rules are sorted in a paginated 'List' call. If unspecified, defaults to `timeCreated`.
 	SortBy ListCustomProtectionRulesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The value of the sorting direction of resources in a paginated 'List' call. If unspecified, defaults to `DESC`.
 	SortOrder ListCustomProtectionRulesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// Filter Custom Protection rules using a list of Custom Protection rules OCIDs.
+	// Filter custom protection rules using a list of custom protection rule OCIDs.
 	Id []string `contributesTo:"query" name:"id" collectionFormat:"multi"`
 
-	// Filter Custom Protection rules using a list of display names.
+	// Filter custom protection rules using a list of display names.
 	DisplayName []string `contributesTo:"query" name:"displayName" collectionFormat:"multi"`
 
 	// Filter Custom Protection rules using a list of lifecycle states.
@@ -41,7 +41,7 @@ type ListCustomProtectionRulesRequest struct {
 	// A filter that matches Custom Protection rules created on or after the specified date-time.
 	TimeCreatedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedGreaterThanOrEqualTo"`
 
-	// A filter that matches Custom Protection rules created before the specified date-time.
+	// A filter that matches custom protection rules created before the specified date-time.
 	TimeCreatedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedLessThan"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
