@@ -88,3 +88,38 @@ func (m *rule) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 func (m rule) String() string {
 	return common.PointerString(m)
 }
+
+// RuleActionEnum Enum with underlying type: string
+type RuleActionEnum string
+
+// Set of constants representing the allowable values for RuleActionEnum
+const (
+	RuleActionAddHttpRequestHeader          RuleActionEnum = "ADD_HTTP_REQUEST_HEADER"
+	RuleActionExtendHttpRequestHeaderValue  RuleActionEnum = "EXTEND_HTTP_REQUEST_HEADER_VALUE"
+	RuleActionRemoveHttpRequestHeader       RuleActionEnum = "REMOVE_HTTP_REQUEST_HEADER"
+	RuleActionAddHttpResponseHeader         RuleActionEnum = "ADD_HTTP_RESPONSE_HEADER"
+	RuleActionExtendHttpResponseHeaderValue RuleActionEnum = "EXTEND_HTTP_RESPONSE_HEADER_VALUE"
+	RuleActionRemoveHttpResponseHeader      RuleActionEnum = "REMOVE_HTTP_RESPONSE_HEADER"
+	RuleActionAllow                         RuleActionEnum = "ALLOW"
+	RuleActionControlAccessUsingHttpMethods RuleActionEnum = "CONTROL_ACCESS_USING_HTTP_METHODS"
+)
+
+var mappingRuleAction = map[string]RuleActionEnum{
+	"ADD_HTTP_REQUEST_HEADER":           RuleActionAddHttpRequestHeader,
+	"EXTEND_HTTP_REQUEST_HEADER_VALUE":  RuleActionExtendHttpRequestHeaderValue,
+	"REMOVE_HTTP_REQUEST_HEADER":        RuleActionRemoveHttpRequestHeader,
+	"ADD_HTTP_RESPONSE_HEADER":          RuleActionAddHttpResponseHeader,
+	"EXTEND_HTTP_RESPONSE_HEADER_VALUE": RuleActionExtendHttpResponseHeaderValue,
+	"REMOVE_HTTP_RESPONSE_HEADER":       RuleActionRemoveHttpResponseHeader,
+	"ALLOW": RuleActionAllow,
+	"CONTROL_ACCESS_USING_HTTP_METHODS": RuleActionControlAccessUsingHttpMethods,
+}
+
+// GetRuleActionEnumValues Enumerates the set of values for RuleActionEnum
+func GetRuleActionEnumValues() []RuleActionEnum {
+	values := make([]RuleActionEnum, 0)
+	for _, v := range mappingRuleAction {
+		values = append(values, v)
+	}
+	return values
+}

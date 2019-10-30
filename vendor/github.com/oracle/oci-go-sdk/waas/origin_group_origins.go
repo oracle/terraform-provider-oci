@@ -15,10 +15,10 @@ import (
 // OriginGroupOrigins The representation of OriginGroupOrigins
 type OriginGroupOrigins struct {
 
-	// The reference string to the origin server.
+	// The IP address or CIDR notation of the origin server.
 	Origin *string `mandatory:"false" json:"origin"`
 
-	// The weight of the origin used in load balancing. The higher the weight, the larger the proportion of client requests the server receives.
+	// The weight of the origin used in load balancing. Origins with higher weights will receive larger proportions of client requests.
 	Weight *int `mandatory:"false" json:"weight"`
 }
 

@@ -148,7 +148,9 @@ func (client WaasClient) cancelWorkRequest(ctx context.Context, request common.O
 	return response, err
 }
 
-// ChangeAddressListCompartment Moves address list into a different compartment. When provided, If-Match is checked against ETag values of the address list.
+// ChangeAddressListCompartment Moves address list into a different compartment. When provided, If-Match
+// is checked against ETag values of the address list. For information about moving
+// resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client WaasClient) ChangeAddressListCompartment(ctx context.Context, request ChangeAddressListCompartmentRequest) (response ChangeAddressListCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -196,6 +198,7 @@ func (client WaasClient) changeAddressListCompartment(ctx context.Context, reque
 }
 
 // ChangeCertificateCompartment Moves certificate into a different compartment. When provided, If-Match is checked against ETag values of the certificate.
+// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client WaasClient) ChangeCertificateCompartment(ctx context.Context, request ChangeCertificateCompartmentRequest) (response ChangeCertificateCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -242,7 +245,7 @@ func (client WaasClient) changeCertificateCompartment(ctx context.Context, reque
 	return response, err
 }
 
-// ChangeCustomProtectionRuleCompartment Moves Custom Protection rule into a different compartment. When provided, If-Match is checked against ETag values of the Custom Protection rule.
+// ChangeCustomProtectionRuleCompartment Moves a custom protection rule into a different compartment within the same tenancy. When provided, If-Match is checked against ETag values of the custom protection rule. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client WaasClient) ChangeCustomProtectionRuleCompartment(ctx context.Context, request ChangeCustomProtectionRuleCompartmentRequest) (response ChangeCustomProtectionRuleCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -290,6 +293,7 @@ func (client WaasClient) changeCustomProtectionRuleCompartment(ctx context.Conte
 }
 
 // ChangeWaasPolicyCompartment Moves WAAS policy into a different compartment. When provided, If-Match is checked against ETag values of the WAAS policy.
+// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client WaasClient) ChangeWaasPolicyCompartment(ctx context.Context, request ChangeWaasPolicyCompartmentRequest) (response ChangeWaasPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -336,8 +340,7 @@ func (client WaasClient) changeWaasPolicyCompartment(ctx context.Context, reques
 	return response, err
 }
 
-// CreateAddressList Creates an address list in set compartment and allows it to be used in a WAAS policy.
-// For more information, see WAF Settings (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/wafsettings.htm).
+// CreateAddressList Creates an address list in a set compartment and allows it to be used in a WAAS policy and referenced by access rules. Addresses can be IP addresses and CIDR notations.
 func (client WaasClient) CreateAddressList(ctx context.Context, request CreateAddressListRequest) (response CreateAddressListResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -432,7 +435,8 @@ func (client WaasClient) createCertificate(ctx context.Context, request common.O
 	return response, err
 }
 
-// CreateCustomProtectionRule Creates a new Custom Protection rule in the specified compartment.
+// CreateCustomProtectionRule Creates a new custom protection rule in the specified compartment.
+// Custom protection rules allow you to create rules in addition to the rulesets provided by the Web Application Firewall service, including rules from ModSecurity (https://modsecurity.org/). The syntax for custom rules is based on the ModSecurity syntax. For more information about custom protection rules, see Custom Protection Rules (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/customprotectionrules.htm).
 func (client WaasClient) CreateCustomProtectionRule(ctx context.Context, request CreateCustomProtectionRuleRequest) (response CreateCustomProtectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -804,7 +808,7 @@ func (client WaasClient) getCertificate(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// GetCustomProtectionRule Gets the details of a Custom Protection rule.
+// GetCustomProtectionRule Gets the details of a custom protection rule.
 func (client WaasClient) GetCustomProtectionRule(ctx context.Context, request GetCustomProtectionRuleRequest) (response GetCustomProtectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1352,7 +1356,7 @@ func (client WaasClient) listAddressLists(ctx context.Context, request common.OC
 }
 
 // ListCachingRules Gets the currently configured caching rules for the Web Application Firewall configuration of a specified WAAS policy.
-// The order of the caching rules is important. The rules will be checked in the order they are specified and the first matching rule will be used.
+// The rules are processed in the order they are specified in and the first matching rule will be used when processing a request.
 func (client WaasClient) ListCachingRules(ctx context.Context, request ListCachingRulesRequest) (response ListCachingRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1481,7 +1485,7 @@ func (client WaasClient) listCertificates(ctx context.Context, request common.OC
 	return response, err
 }
 
-// ListCustomProtectionRules Gets a list of Custom Protection rules.
+// ListCustomProtectionRules Gets a list of custom protection rules for the specified Web Application Firewall.
 func (client WaasClient) ListCustomProtectionRules(ctx context.Context, request ListCustomProtectionRulesRequest) (response ListCustomProtectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2080,7 +2084,8 @@ func (client WaasClient) listWorkRequests(ctx context.Context, request common.OC
 	return response, err
 }
 
-// PurgeCache Accepts a list of resources that will get it's cache purged. If resources property is not passed, then the entire cache for Web Application will be purged.
+// PurgeCache Performs a purge of the cache for each specified resource. If no resources are passed, the cache for the entire Web Application Firewall will be purged.
+// For more information, see Caching Rules (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/cachingrules.htm#purge).
 func (client WaasClient) PurgeCache(ctx context.Context, request PurgeCacheRequest) (response PurgeCacheResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2216,9 +2221,9 @@ func (client WaasClient) updateAddressList(ctx context.Context, request common.O
 }
 
 // UpdateCachingRules Updates the configuration for each specified caching rule.
-// This operation can update or delete caching rules depending on the structure of the request body.
-// Caching rules can be updated by changing the properties of the caching rule object with the rule's key specified in the key field.
-// Any existing caching rules that are not specified with a key in the list of access rules will be deleted upon update.
+// Caching rules WAF policies allow you to selectively cache content on Oracle Cloud Infrastructure's edge servers, such as webpages or certain file types. For more information about caching rules, see Caching Rules (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/cachingrules.htm).
+// This operation can create, delete, update, and/or reorder caching rules depending on the structure of the request body. Caching rules can be updated by changing the properties of the caching rule object with the rule's key specified in the key field. Any existing caching rules that are not specified with a key in the list of access rules will be deleted upon update.
+// The order the caching rules are specified in is important. The rules are processed in the order they are specified and the first matching rule will be used when processing a request. Use `ListCachingRules` to view a list of all available caching rules in a compartment.
 func (client WaasClient) UpdateCachingRules(ctx context.Context, request UpdateCachingRulesRequest) (response UpdateCachingRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2358,7 +2363,7 @@ func (client WaasClient) updateCertificate(ctx context.Context, request common.O
 	return response, err
 }
 
-// UpdateCustomProtectionRule Updates the details of a Custom Protection rule. Only the fields specified in the request body will be updated; all other properties will remain unchanged.
+// UpdateCustomProtectionRule Updates the configuration of a custom protection rule. Only the fields specified in the request body will be updated; all other properties will remain unchanged.
 func (client WaasClient) UpdateCustomProtectionRule(ctx context.Context, request UpdateCustomProtectionRuleRequest) (response UpdateCustomProtectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

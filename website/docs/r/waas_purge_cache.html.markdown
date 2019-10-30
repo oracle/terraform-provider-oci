@@ -9,7 +9,8 @@ description: |-
 # oci_waas_purge_cache
 This resource provides the Purge Cache resource in Oracle Cloud Infrastructure Waas service.
 
-Accepts a list of resources that will get its cache purged. If resources property is not passed, then the entire cache for Web Application will be purged.
+Performs a purge of the cache for each specified resource. If no resources are passed, the cache for the entire Web Application Firewall will be purged.
+For more information, see [Caching Rules](https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/cachingrules.htm#purge).
 
 ## Example Usage
 
@@ -27,7 +28,7 @@ resource "oci_waas_purge_cache" "test_purge_cache" {
 
 The following arguments are supported:
 
-* `resources` - (Optional) A resource to purge, identified by either a hostless absolute path starting with a single slash (e.g., "/path/to/resource") or by a relative path in which the first component will be interpreted as a domain protected by this policy (e.g., "example.com/path/to/resource").
+* `resources` - (Optional) A resource to purge, specified by either a hostless absolute path starting with a single slash (Example: `/path/to/resource`) or by a relative path in which the first component will be interpreted as a domain protected by the WAAS policy (Example: `example.com/path/to/resource`).
 * `waas_policy_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the WAAS policy.
 
 

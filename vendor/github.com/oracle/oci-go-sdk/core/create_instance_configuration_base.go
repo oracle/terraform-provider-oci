@@ -113,3 +113,26 @@ func (m createinstanceconfigurationbase) GetFreeformTags() map[string]string {
 func (m createinstanceconfigurationbase) String() string {
 	return common.PointerString(m)
 }
+
+// CreateInstanceConfigurationBaseSourceEnum Enum with underlying type: string
+type CreateInstanceConfigurationBaseSourceEnum string
+
+// Set of constants representing the allowable values for CreateInstanceConfigurationBaseSourceEnum
+const (
+	CreateInstanceConfigurationBaseSourceNone     CreateInstanceConfigurationBaseSourceEnum = "NONE"
+	CreateInstanceConfigurationBaseSourceInstance CreateInstanceConfigurationBaseSourceEnum = "INSTANCE"
+)
+
+var mappingCreateInstanceConfigurationBaseSource = map[string]CreateInstanceConfigurationBaseSourceEnum{
+	"NONE":     CreateInstanceConfigurationBaseSourceNone,
+	"INSTANCE": CreateInstanceConfigurationBaseSourceInstance,
+}
+
+// GetCreateInstanceConfigurationBaseSourceEnumValues Enumerates the set of values for CreateInstanceConfigurationBaseSourceEnum
+func GetCreateInstanceConfigurationBaseSourceEnumValues() []CreateInstanceConfigurationBaseSourceEnum {
+	values := make([]CreateInstanceConfigurationBaseSourceEnum, 0)
+	for _, v := range mappingCreateInstanceConfigurationBaseSource {
+		values = append(values, v)
+	}
+	return values
+}

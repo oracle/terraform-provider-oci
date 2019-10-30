@@ -62,6 +62,48 @@ func (client *ComputeClient) ConfigurationProvider() *common.ConfigurationProvid
 	return client.config
 }
 
+// AddImageShapeCompatibilityEntry Adds a shape to the compatible shapes list for the image.
+func (client ComputeClient) AddImageShapeCompatibilityEntry(ctx context.Context, request AddImageShapeCompatibilityEntryRequest) (response AddImageShapeCompatibilityEntryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addImageShapeCompatibilityEntry, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = AddImageShapeCompatibilityEntryResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddImageShapeCompatibilityEntryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddImageShapeCompatibilityEntryResponse")
+	}
+	return
+}
+
+// addImageShapeCompatibilityEntry implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) addImageShapeCompatibilityEntry(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/images/{imageId}/shapes/{shapeName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddImageShapeCompatibilityEntryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AttachBootVolume Attaches the specified boot volume to the specified instance.
 func (client ComputeClient) AttachBootVolume(ctx context.Context, request AttachBootVolumeRequest) (response AttachBootVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2404,6 +2446,48 @@ func (client ComputeClient) listVolumeAttachments(ctx context.Context, request c
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &listvolumeattachment{})
+	return response, err
+}
+
+// RemoveImageShapeCompatibilityEntry Removes a shape from the compatible shapes list for the image.
+func (client ComputeClient) RemoveImageShapeCompatibilityEntry(ctx context.Context, request RemoveImageShapeCompatibilityEntryRequest) (response RemoveImageShapeCompatibilityEntryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeImageShapeCompatibilityEntry, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = RemoveImageShapeCompatibilityEntryResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveImageShapeCompatibilityEntryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveImageShapeCompatibilityEntryResponse")
+	}
+	return
+}
+
+// removeImageShapeCompatibilityEntry implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/images/{imageId}/shapes/{shapeName}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveImageShapeCompatibilityEntryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 

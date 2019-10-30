@@ -178,9 +178,10 @@ func CoreInstanceResource() *schema.Resource {
 				Computed: true,
 			},
 			"extended_metadata": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Elem:     schema.TypeString,
+				Type:             schema.TypeMap,
+				Optional:         true,
+				DiffSuppressFunc: jsonStringDiffSuppressFunction,
+				Elem:             schema.TypeString,
 			},
 			"fault_domain": {
 				Type:             schema.TypeString,
@@ -846,13 +847,9 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	// Extended metadata (a json blob) may not return with the same node order in which it
-	// was originally created, the solution is to not set it here after subsequent GETS to
-	// prevent inadvertent diffs or destroy/creates
-	// if s.Res.ExtendedMetadata != nil {
-	// // extended_metadata is an arbitrarily structured json object, `objectToMap` would not work
-	// 	s.D.Set("extended_metadata", []interface{}{objectToMap(s.Res.ExtendedMetadata)})
-	// }
+	if s.Res.ExtendedMetadata != nil {
+		s.D.Set("extended_metadata", genericMapToJsonMap(s.Res.ExtendedMetadata))
+	}
 
 	if s.Res.FaultDomain != nil {
 		s.D.Set("fault_domain", *s.Res.FaultDomain)

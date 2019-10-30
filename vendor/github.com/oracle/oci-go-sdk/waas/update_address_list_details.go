@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateAddressListDetails The data used to update the address list.
+// UpdateAddressListDetails The data used to update the address list: IP addresses and CIDR notations.
 type UpdateAddressListDetails struct {
 
 	// A unique user-friendly name for the address list.
