@@ -43,6 +43,31 @@ func ContainerengineNodePoolOptionDataSource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"sources": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"image_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"source_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"source_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 		},
 	}
 }
@@ -101,6 +126,12 @@ func (s *ContainerengineNodePoolOptionDataSourceCrud) SetData() error {
 	s.D.Set("kubernetes_versions", s.Res.KubernetesVersions)
 
 	s.D.Set("shapes", s.Res.Shapes)
+
+	sources := []interface{}{}
+	for _, item := range s.Res.Sources {
+		sources = append(sources, NodeSourceOptionToMap(&item))
+	}
+	s.D.Set("sources", sources)
 
 	return nil
 }
