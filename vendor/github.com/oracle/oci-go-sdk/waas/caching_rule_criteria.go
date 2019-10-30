@@ -20,9 +20,7 @@ type CachingRuleCriteria struct {
 	// - **URL_STARTS_WITH:** Matches if the concatenation of request URL path and query starts with the contents of the `value` field.
 	// - **URL_PART_ENDS_WITH:** Matches if the concatenation of request URL path and query ends with the contents of the `value` field.
 	// - **URL_PART_CONTAINS:** Matches if the concatenation of request URL path and query contains the contents of the `value` field.
-	// URL must start with /
-	// URL can't contain restricted double slashes //
-	// URL can't contain restricted ' & ? symbols
+	// URLs must start with a `/`. URLs can't contain restricted double slashes `//`. URLs can't contain the restricted `'` `&` `?` symbols. Resources to cache can only be specified by a URL, any query parameters are ignored.
 	Condition CachingRuleCriteriaConditionEnum `mandatory:"true" json:"condition"`
 
 	// The value of the caching rule criteria.

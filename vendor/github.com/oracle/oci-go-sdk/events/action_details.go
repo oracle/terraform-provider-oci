@@ -90,3 +90,28 @@ func (m actiondetails) GetDescription() *string {
 func (m actiondetails) String() string {
 	return common.PointerString(m)
 }
+
+// ActionDetailsActionTypeEnum Enum with underlying type: string
+type ActionDetailsActionTypeEnum string
+
+// Set of constants representing the allowable values for ActionDetailsActionTypeEnum
+const (
+	ActionDetailsActionTypeOns  ActionDetailsActionTypeEnum = "ONS"
+	ActionDetailsActionTypeOss  ActionDetailsActionTypeEnum = "OSS"
+	ActionDetailsActionTypeFaas ActionDetailsActionTypeEnum = "FAAS"
+)
+
+var mappingActionDetailsActionType = map[string]ActionDetailsActionTypeEnum{
+	"ONS":  ActionDetailsActionTypeOns,
+	"OSS":  ActionDetailsActionTypeOss,
+	"FAAS": ActionDetailsActionTypeFaas,
+}
+
+// GetActionDetailsActionTypeEnumValues Enumerates the set of values for ActionDetailsActionTypeEnum
+func GetActionDetailsActionTypeEnumValues() []ActionDetailsActionTypeEnum {
+	values := make([]ActionDetailsActionTypeEnum, 0)
+	for _, v := range mappingActionDetailsActionType {
+		values = append(values, v)
+	}
+	return values
+}

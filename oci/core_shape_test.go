@@ -19,8 +19,21 @@ var (
 		"image_id":            Representation{repType: Optional, create: `${oci_core_image.test_image.id}`},
 	}
 
+	shapeResourceRepresentation = map[string]interface{}{
+		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"image_id":       Representation{repType: Required, create: `${oci_core_image.test_image.id}`},
+		"shape_name":     Representation{repType: Required, create: `VM.Standard.B1.1`},
+	}
+
 	ShapeResourceConfig = OciImageIdsVariable +
-		AvailabilityDomainConfig
+		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, representationCopyWithNewProperties(vcnRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, representationCopyWithNewProperties(subnetRepresentation, map[string]interface{}{
+			"dns_label": Representation{repType: Required, create: `dnslabel`},
+		})) +
+		AvailabilityDomainConfig + generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, instanceRepresentation) +
+		generateResourceFromRepresentationMap("oci_core_image", "test_image", Required, Create, imageRepresentation)
 )
 
 func TestCoreShapeResource_basic(t *testing.T) {
@@ -33,6 +46,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	resourceName := "oci_core_shape_management.test_shape"
 	datasourceName := "data.oci_core_shapes.test_shapes"
 
 	resource.Test(t, resource.TestCase{
@@ -41,6 +55,20 @@ func TestCoreShapeResource_basic(t *testing.T) {
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
+			// verify Add Compatible Image Shape
+			{
+				Config: config + compartmentIdVariableStr + ShapeResourceConfig +
+					generateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "image_id"),
+					resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.B1.1"),
+				),
+			},
+			// verify Delete Compatible Image Shape
+			{
+				Config: config + compartmentIdVariableStr,
+			},
+
 			// verify datasource
 			{
 				Config: config +

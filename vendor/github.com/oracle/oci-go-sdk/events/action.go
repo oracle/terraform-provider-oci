@@ -142,3 +142,28 @@ func GetActionLifecycleStateEnumValues() []ActionLifecycleStateEnum {
 	}
 	return values
 }
+
+// ActionActionTypeEnum Enum with underlying type: string
+type ActionActionTypeEnum string
+
+// Set of constants representing the allowable values for ActionActionTypeEnum
+const (
+	ActionActionTypeOns  ActionActionTypeEnum = "ONS"
+	ActionActionTypeOss  ActionActionTypeEnum = "OSS"
+	ActionActionTypeFaas ActionActionTypeEnum = "FAAS"
+)
+
+var mappingActionActionType = map[string]ActionActionTypeEnum{
+	"ONS":  ActionActionTypeOns,
+	"OSS":  ActionActionTypeOss,
+	"FAAS": ActionActionTypeFaas,
+}
+
+// GetActionActionTypeEnumValues Enumerates the set of values for ActionActionTypeEnum
+func GetActionActionTypeEnumValues() []ActionActionTypeEnum {
+	values := make([]ActionActionTypeEnum, 0)
+	for _, v := range mappingActionActionType {
+		values = append(values, v)
+	}
+	return values
+}

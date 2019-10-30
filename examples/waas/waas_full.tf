@@ -392,3 +392,41 @@ data "oci_waas_custom_protection_rules" "test_custom_protection_rules" {
   time_created_greater_than_or_equal_to = "2018-01-01T00:00:00.000Z"
   time_created_less_than                = "2038-01-01T00:00:00.000Z"
 }
+
+resource "oci_waas_http_redirect" "test_http_redirect" {
+  #Required
+  compartment_id = "${var.compartment_ocid}"
+  domain         = "example.net"
+
+  target {
+    #Required
+    host     = "example.com"
+    path     = "/test{path}"
+    protocol = "HTTP"
+    query    = "{query}"
+
+    #Optional
+    port = "8080"
+  }
+
+  #Optional
+  display_name = "displayName"
+
+  freeform_tags = {
+    "Department" = "Finance"
+  }
+
+  response_code = 301
+}
+
+data "oci_waas_http_redirects" "test_http_redirects" {
+  #Required
+  compartment_id = "${var.compartment_ocid}"
+
+  #Optional
+  display_names                         = ["${oci_waas_http_redirect.test_http_redirect.display_name}"]
+  ids                                   = ["${oci_waas_http_redirect.test_http_redirect.id}"]
+  states                                = ["${oci_waas_http_redirect.test_http_redirect.state}"]
+  time_created_greater_than_or_equal_to = "2018-01-01T00:00:00.000Z"
+  time_created_less_than                = "2038-01-01T00:00:00.000Z"
+}
