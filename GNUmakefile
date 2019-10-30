@@ -102,7 +102,7 @@ else
 endif
 
 ### `make release version=2.0.1`
-release: clean get
+release: clean
 ifdef version
 	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' oci/version.go && rm -f oci/version.go-e
 	gox -output ./bin/{{.OS}}_{{.Arch}}/terraform-provider-oci_v$(version)

@@ -11,7 +11,7 @@ import (
 // CreateCustomProtectionRuleRequest wrapper for the CreateCustomProtectionRule operation
 type CreateCustomProtectionRuleRequest struct {
 
-	// The details of the Custom Protection rule.
+	// The details of the custom protection rule.
 	CreateCustomProtectionRuleDetails `contributesTo:"body"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

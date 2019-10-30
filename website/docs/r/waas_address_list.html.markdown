@@ -9,8 +9,7 @@ description: |-
 # oci_waas_address_list
 This resource provides the Address List resource in Oracle Cloud Infrastructure Waas service.
 
-Creates an address list in set compartment and allows it to be used in a WAAS policy.
-For more information, see [WAF Settings](https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/wafsettings.htm).
+Creates an address list in a set compartment and allows it to be used in a WAAS policy and referenced by access rules. Addresses can be IP addresses and CIDR notations.
 
 ## Example Usage
 

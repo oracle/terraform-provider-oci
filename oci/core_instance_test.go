@@ -5,6 +5,8 @@ package provider
 import (
 	"context"
 	"fmt"
+	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -239,6 +241,11 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartment(&resId, &compartmentId); errExport != nil {
+								return errExport
+							}
+						}
 						return err
 					},
 				),
@@ -501,13 +508,48 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
-					// TODO: extended_metadata intentionally not set in resource Gets, even though supported
-					// by GetInstance calls. Remove this when the issue is resolved.
+					// extended_metadata is set by import but service may potentially reorder map elements in imported JSON strings.
+					// This is normally handled by diff suppress function but the Terraform import tests can't invoke diff suppression
+					// and so it may complain that values are different.
 					"extended_metadata",
 					"hostname_label",
 					"is_pv_encryption_in_transit_enabled",
 					"subnet_id",
 					"source_details.0.kms_key_id", //TODO: Service is not returning this value, remove when the service returns it. COM-26394
+				},
+				ImportStateCheck: func(states []*terraform.InstanceState) error {
+					var instanceState *terraform.InstanceState
+					for _, state := range states {
+						if state.ID == resId {
+							instanceState = state
+							break
+						}
+					}
+
+					if instanceState == nil {
+						return fmt.Errorf("could not find the imported instance state")
+					}
+
+					expectedExtendedMetadataMap := instanceRepresentation["extended_metadata"].(Representation).update.(map[string]string)
+
+					expectedValue := fmt.Sprintf("%d", len(expectedExtendedMetadataMap))
+					if actualValue := instanceState.Attributes["extended_metadata.%"]; actualValue != expectedValue {
+						return fmt.Errorf("expected 'extended_metadata' to have %s items, but got %s", expectedValue, actualValue)
+					}
+
+					for key, expectedJsonString := range expectedExtendedMetadataMap {
+						attributeKey := fmt.Sprintf("extended_metadata.%s", key)
+						actualJsonString, exists := instanceState.Attributes[attributeKey]
+						if !exists {
+							return fmt.Errorf("could not find expected attribute '%s' in imported state", attributeKey)
+						}
+
+						expectedJsonString = strings.Replace(expectedJsonString, "\\\"", "\"", -1)
+						if err := checkJsonStringsEqual(expectedJsonString, actualJsonString); err != nil {
+							return fmt.Errorf("%s: Attribute '%s' %s", resourceName, attributeKey, err)
+						}
+					}
+					return nil
 				},
 				ResourceName: resourceName,
 			},

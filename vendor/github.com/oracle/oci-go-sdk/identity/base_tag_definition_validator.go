@@ -69,3 +69,26 @@ func (m *basetagdefinitionvalidator) UnmarshalPolymorphicJSON(data []byte) (inte
 func (m basetagdefinitionvalidator) String() string {
 	return common.PointerString(m)
 }
+
+// BaseTagDefinitionValidatorValidatorTypeEnum Enum with underlying type: string
+type BaseTagDefinitionValidatorValidatorTypeEnum string
+
+// Set of constants representing the allowable values for BaseTagDefinitionValidatorValidatorTypeEnum
+const (
+	BaseTagDefinitionValidatorValidatorTypeEnumvalue BaseTagDefinitionValidatorValidatorTypeEnum = "ENUM"
+	BaseTagDefinitionValidatorValidatorTypeDefault   BaseTagDefinitionValidatorValidatorTypeEnum = "DEFAULT"
+)
+
+var mappingBaseTagDefinitionValidatorValidatorType = map[string]BaseTagDefinitionValidatorValidatorTypeEnum{
+	"ENUM":    BaseTagDefinitionValidatorValidatorTypeEnumvalue,
+	"DEFAULT": BaseTagDefinitionValidatorValidatorTypeDefault,
+}
+
+// GetBaseTagDefinitionValidatorValidatorTypeEnumValues Enumerates the set of values for BaseTagDefinitionValidatorValidatorTypeEnum
+func GetBaseTagDefinitionValidatorValidatorTypeEnumValues() []BaseTagDefinitionValidatorValidatorTypeEnum {
+	values := make([]BaseTagDefinitionValidatorValidatorTypeEnum, 0)
+	for _, v := range mappingBaseTagDefinitionValidatorValidatorType {
+		values = append(values, v)
+	}
+	return values
+}

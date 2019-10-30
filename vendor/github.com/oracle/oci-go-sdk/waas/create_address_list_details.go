@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateAddressListDetails The data used to create a new address list.
+// CreateAddressListDetails The data used to create a new address list of IP addresses and CIDR notations.
 type CreateAddressListDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to create the address list.

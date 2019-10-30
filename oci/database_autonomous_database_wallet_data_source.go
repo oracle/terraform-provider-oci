@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 
 	"github.com/hashicorp/terraform/helper/schema"
+
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
@@ -25,10 +26,18 @@ func DatabaseAutonomousDatabaseWalletDataSource() *schema.Resource {
 				Required:  true,
 				Sensitive: true,
 			},
+
+			// Optional
 			"base64_encode_content": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,
+			},
+			"generate_type": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Default:          "SINGLE",
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 			},
 
 			// Computed
@@ -64,6 +73,10 @@ func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) Get() error {
 	if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
 		tmp := autonomousDatabaseId.(string)
 		request.AutonomousDatabaseId = &tmp
+	}
+
+	if generateType, ok := s.D.GetOkExists("generate_type"); ok {
+		request.GenerateType = oci_database.GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum(generateType.(string))
 	}
 
 	if password, ok := s.D.GetOkExists("password"); ok {

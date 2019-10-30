@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"regexp"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -115,6 +116,11 @@ variable "dynamic_group_name" { default = "DevCompartmentDynamicGroup" }
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartment(&resId, &compartmentId); errExport != nil {
+								return errExport
+							}
+						}
 						return err
 					},
 				),

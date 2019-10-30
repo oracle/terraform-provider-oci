@@ -7,6 +7,8 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"reflect"
+	"sort"
 	"time"
 
 	"strconv"
@@ -204,4 +206,44 @@ func getSourceFileState(source interface{}) string {
 	}
 
 	return sourcePath + " " + sourceInfo.ModTime().String()
+}
+
+// Returns a slice of keys from the given map in alphabetical order
+func getSortedKeys(source map[string]interface{}) []string {
+	sortedKeys := make([]string, len(source))
+	cnt := 0
+	for k := range source {
+		sortedKeys[cnt] = k
+		cnt++
+	}
+	sort.Strings(sortedKeys)
+	return sortedKeys
+}
+
+// Diff suppression function to make sure that any change in ordering of attributes in JSON objects don't result in diffs.
+// For example, the config may have created this:
+//  extended_metadata = {
+//    nested_object       = "{\"some_string\": \"stringB\", \"object\": {\"some_string\": \"stringC\"}}"
+//  }
+//
+// But we use json.Marshal to convert the service value to string before storing in state.
+// The marshalling doesn't guarantee the same ordering as our config, and so the value in state may look like:
+//
+//  extended_metadata = {
+//    nested_object       = "{\"object\": {\"some_string\": \"stringC\"}, \"some_string\": \"stringB\"}"
+//  }
+//
+// These are the same JSON objects and should be treated as such.
+func jsonStringDiffSuppressFunction(key, old, new string, d *schema.ResourceData) bool {
+	var oldVal, newVal interface{}
+
+	if err := json.Unmarshal([]byte(old), &oldVal); err != nil {
+		return false
+	}
+
+	if err := json.Unmarshal([]byte(new), &newVal); err != nil {
+		return false
+	}
+
+	return reflect.DeepEqual(oldVal, newVal)
 }
