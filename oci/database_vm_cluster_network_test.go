@@ -269,6 +269,17 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 						[]string{}),
 					resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vm_cluster_networks.0.time_created"),
+					resource.TestCheckResourceAttr(datasourceName, "vm_cluster_networks.0.vm_networks.#", "2"),
+					CheckResourceSetContainsElementWithProperties(datasourceName, "vm_cluster_networks.0.vm_networks", map[string]string{
+						"domain_name":  "oracle.com",
+						"gateway":      "192.169.20.2",
+						"netmask":      "255.255.0.1",
+						"network_type": "BACKUP",
+						"nodes.#":      "2",
+					},
+						[]string{
+							"vlan_id",
+						}),
 				),
 			},
 			// verify singular datasource
