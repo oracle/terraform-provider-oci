@@ -459,7 +459,6 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							pdb_name = "pdbName"
 							db_backup_config {
 								auto_backup_enabled = false
-								auto_backup_window = "SLOT_TWO"
 								recovery_window_in_days = 10
 							}
 						}
@@ -545,7 +544,6 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "false"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.recovery_window_in_days", "10"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DbSystemLifecycleStateAvailable)),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "defined_tags.example-tag-namespace-all.example-tag", "updateValue"),
