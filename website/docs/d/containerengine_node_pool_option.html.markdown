@@ -36,7 +36,11 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `images` - Available image names.
+* `images` - Deprecated. See sources. When creating a node pool, only image names contained in this property can be passed to the `node_image_name` property. 
 * `kubernetes_versions` - Available Kubernetes versions.
 * `shapes` - Available shapes for nodes.
+* `sources` - Available source of the node.
+	* `image_id` - The OCID of the image.
+	* `source_name` - The user-friendly name of the entity corresponding to the OCID. 
+	* `source_type` - The source type of this option. `IMAGE` means the OCID is of an image. 
 
