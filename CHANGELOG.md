@@ -8,6 +8,9 @@
 - Support for `operating_system` and `operating_system_version` attributes in `oci_core_image` resource's `image_source_details`
 - Resource Manager data sources  
 
+### Fixed
+- Fixed `auto_backup_window` attribute in `database_db_system` and `database_db_home` resources
+
 ## 3.50.0 (October 30, 2019)
 
 ### Added
