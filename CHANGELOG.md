@@ -4,6 +4,7 @@
 - Support Functions integration for ONS service
 - Support IP-based policy for Identity Service
 - Support Extensions to Tenancy, User, Group entities in IAM
+- Support private access in `oci_database_autonomous_database` resource
 
 ## 3.63.0 (February 19, 2020)
 
