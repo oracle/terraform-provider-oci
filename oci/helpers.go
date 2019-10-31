@@ -37,6 +37,12 @@ variable "InstanceImageOCID" {
 		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaajwtut4l7fo3cvyraate6erdkyf2wdk5vpk6fp6ycng3dv2y3ymvq"
 	}
 }
+	// Gets a list of all Oracle Linux 7.5 images that support a given Instance shape
+	data "oci_core_images" "supported_shape_images" {
+		compartment_id   = "${var.tenancy_ocid}"
+		shape            = "VM.Standard2.1"
+		operating_system = "Oracle Linux"
+	}
 
 `
 	OciWindowsImageIdsVariable = `
