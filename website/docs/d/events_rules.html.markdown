@@ -1,4 +1,5 @@
 ---
+subcategory: "Events"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_events_rules"
 sidebar_current: "docs-oci-datasource-events-rules"

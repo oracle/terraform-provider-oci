@@ -1,4 +1,5 @@
 ---
+subcategory: "Object Storage"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_objectstorage_objects"
 sidebar_current: "docs-oci-datasource-objectstorage-objects"

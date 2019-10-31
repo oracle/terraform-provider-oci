@@ -1,4 +1,5 @@
 ---
+subcategory: "Identity"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_identity_tag_namespace"
 sidebar_current: "docs-oci-resource-identity-tag_namespace"

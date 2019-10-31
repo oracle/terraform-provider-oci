@@ -1,4 +1,5 @@
 ---
+subcategory: "Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_data_guard_associations"
 sidebar_current: "docs-oci-datasource-database-data_guard_associations"

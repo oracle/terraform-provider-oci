@@ -1,4 +1,5 @@
 ---
+subcategory: "Health Checks"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_health_checks_ping_monitor"
 sidebar_current: "docs-oci-resource-health_checks-ping_monitor"

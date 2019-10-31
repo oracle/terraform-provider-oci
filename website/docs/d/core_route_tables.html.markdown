@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_route_tables"
 sidebar_current: "docs-oci-datasource-core-route_tables"

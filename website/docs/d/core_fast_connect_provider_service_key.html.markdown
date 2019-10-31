@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_fast_connect_provider_service_key"
 sidebar_current: "docs-oci-datasource-core-fast_connect_provider_service_key"

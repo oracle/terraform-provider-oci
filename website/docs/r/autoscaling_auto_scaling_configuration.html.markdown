@@ -1,4 +1,5 @@
 ---
+subcategory: "Auto Scaling"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_autoscaling_auto_scaling_configuration"
 sidebar_current: "docs-oci-resource-autoscaling-auto_scaling_configuration"

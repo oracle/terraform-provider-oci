@@ -1,4 +1,5 @@
 ---
+subcategory: "Object Storage"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_objectstorage_object_lifecycle_policy"
 sidebar_current: "docs-oci-resource-objectstorage-object_lifecycle_policy"

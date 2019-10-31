@@ -1,4 +1,5 @@
 ---
+subcategory: "Ons"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ons_subscription"
 sidebar_current: "docs-oci-resource-ons-subscription"

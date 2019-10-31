@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_boot_volume_backup"
 sidebar_current: "docs-oci-resource-core-boot_volume_backup"

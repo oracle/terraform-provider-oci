@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_virtual_circuits"
 sidebar_current: "docs-oci-datasource-core-virtual_circuits"

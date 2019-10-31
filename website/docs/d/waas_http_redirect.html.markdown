@@ -1,4 +1,5 @@
 ---
+subcategory: "Waas"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_http_redirect"
 sidebar_current: "docs-oci-datasource-waas-http_redirect"

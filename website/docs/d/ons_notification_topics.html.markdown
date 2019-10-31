@@ -1,4 +1,5 @@
 ---
+subcategory: "Ons"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ons_notification_topics"
 sidebar_current: "docs-oci-datasource-ons-notification_topics"

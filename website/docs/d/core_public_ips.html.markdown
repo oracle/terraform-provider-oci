@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_public_ips"
 sidebar_current: "docs-oci-datasource-core-public_ips"
