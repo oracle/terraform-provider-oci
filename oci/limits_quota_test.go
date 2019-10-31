@@ -41,7 +41,7 @@ var (
 		"compartment_id": Representation{repType: Required, create: `${var.tenancy_ocid}`},
 		"description":    Representation{repType: Required, create: `Quotas for Compute VM.DenseIO1.16 resources`, update: `description2`},
 		"name":           Representation{repType: Required, create: `ComputeQuotas`},
-		"statements":     Representation{repType: Required, create: []string{`Set compute quotas to 0 in tenancy`}, update: []string{`Set compute quotas to 0 in tenancy`, `Set database quotas to 0 in tenancy`}},
+		"statements":     Representation{repType: Required, create: []string{`Set notifications quota topic-count to 99 in tenancy`}, update: []string{`Set notifications quota topic-count to 99 in tenancy`, `Set resource-manager quota stack-count to 499 in tenancy`}},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
