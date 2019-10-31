@@ -13,6 +13,7 @@ func initDependencyGraph() {
 	DependencyGraph["autonomousDataWarehouse"] = append(DependencyGraph["autonomousDataWarehouse"], "DatabaseAutonomousDataWarehouseBackup")
 	DependencyGraph["autonomousDataWarehouse"] = append(DependencyGraph["autonomousDataWarehouse"], "DatabaseAutonomousDataWarehouseWallet")
 	DependencyGraph["autonomousDatabase"] = append(DependencyGraph["autonomousDatabase"], "DatabaseAutonomousDatabaseBackup")
+	DependencyGraph["autonomousDatabase"] = append(DependencyGraph["autonomousDatabase"], "DatabaseAutonomousDatabaseInstanceWalletManagement")
 	DependencyGraph["autonomousDatabase"] = append(DependencyGraph["autonomousDatabase"], "DatabaseAutonomousDatabaseWallet")
 	DependencyGraph["autonomousExadataInfrastructure"] = append(DependencyGraph["autonomousExadataInfrastructure"], "DatabaseAutonomousContainerDatabase")
 	DependencyGraph["backupPolicy"] = append(DependencyGraph["backupPolicy"], "CoreBootVolume")
