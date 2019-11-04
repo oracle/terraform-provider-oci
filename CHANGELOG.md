@@ -1,4 +1,8 @@
 ## 3.65.0 (Unreleased)
+
+### Added
+- Support for updating `shape` attribute in `oci_database_db_system` resource
+
 ## 3.64.0 (February 26, 2020)
 
 ### Added
