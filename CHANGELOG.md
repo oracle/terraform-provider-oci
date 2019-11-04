@@ -1,4 +1,8 @@
 ## 3.51.1 (Unreleased)
+
+### Added
+- Support for specifying compartment ID for container engine options APIs
+
 ## 3.51.0 (November 06, 2019)
 
 ### Added
