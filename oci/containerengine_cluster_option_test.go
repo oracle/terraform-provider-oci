@@ -16,6 +16,7 @@ import (
 var (
 	clusterOptionSingularDataSourceRepresentation = map[string]interface{}{
 		"cluster_option_id": Representation{repType: Required, create: `all`},
+		"compartment_id":    Representation{repType: Optional, create: `${var.compartment_id}`},
 	}
 
 	ClusterOptionResourceConfig = ""
@@ -46,6 +47,19 @@ func TestContainerengineClusterOptionResource_basic(t *testing.T) {
 					compartmentIdVariableStr + ClusterOptionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_option_id"),
+
+					resource.TestMatchResourceAttr(singularDatasourceName, "kubernetes_versions.#", regexp.MustCompile("[1-9][0-9]*")),
+				),
+			},
+			// verify singular datasource with compartment_id
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", Optional, Create, clusterOptionSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + ClusterOptionResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_option_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+
 					resource.TestMatchResourceAttr(singularDatasourceName, "kubernetes_versions.#", regexp.MustCompile("[1-9][0-9]*")),
 				),
 			},

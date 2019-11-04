@@ -16,6 +16,7 @@ import (
 var (
 	nodePoolOptionSingularDataSourceRepresentation = map[string]interface{}{
 		"node_pool_option_id": Representation{repType: Required, create: `all`},
+		"compartment_id":      Representation{repType: Optional, create: `${var.compartment_id}`},
 	}
 
 	NodePoolOptionResourceConfig = ""
@@ -45,6 +46,20 @@ func TestContainerengineNodePoolOptionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Required, Create, nodePoolOptionSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + NodePoolOptionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_option_id"),
+
+					resource.TestMatchResourceAttr(singularDatasourceName, "images.#", regexp.MustCompile("[1-9][0-9]*")),
+					resource.TestMatchResourceAttr(singularDatasourceName, "kubernetes_versions.#", regexp.MustCompile("[1-9][0-9]*")),
+					resource.TestMatchResourceAttr(singularDatasourceName, "shapes.#", regexp.MustCompile("[1-9][0-9]*")),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_containerengine_node_pool_option", "test_node_pool_option", Optional, Create, nodePoolOptionSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + NodePoolOptionResourceConfig,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "node_pool_option_id"),
 
 					resource.TestMatchResourceAttr(singularDatasourceName, "images.#", regexp.MustCompile("[1-9][0-9]*")),
