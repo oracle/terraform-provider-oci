@@ -103,6 +103,7 @@ func initDependencyGraph() {
 	DependencyGraph["streamPool"] = append(DependencyGraph["streamPool"], "StreamingStream")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "ApigatewayGateway")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "CoreInstance")
+	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "DatabaseAutonomousDatabase")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "DatabaseAutonomousExadataInfrastructure")
 	DependencyGraph["subnet"] = append(DependencyGraph["subnet"], "FileStorageMountTarget")
 	DependencyGraph["tableNameOr"] = append(DependencyGraph["tableNameOr"], "NosqlIndex")

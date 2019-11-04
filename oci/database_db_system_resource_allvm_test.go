@@ -433,8 +433,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					//backup_subnet_id = "${oci_core_subnet.t2.id}" // this requires a specific shape
 					database_edition = "ENTERPRISE_EDITION"
 					disk_redundancy = "NORMAL"
-					cpu_core_count = "1"
-					shape = "VM.Standard2.1"
+					shape = "VM.Standard2.2"
 					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
 					display_name = "{{.token}}"
 					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
@@ -517,7 +516,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "VM.Standard2.2"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "cpu_core_count"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "display_name", ResourceDatabaseToken),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
