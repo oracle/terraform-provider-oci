@@ -2,6 +2,7 @@
 
 ### Added
 - Support for non-default profiles for credentials
+- Support for limits and usage data source in KMS
 
 ## 3.69.0 (April 01, 2020)
 
