@@ -286,8 +286,9 @@ func DatabaseDbSystemResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"ssh_public_keys": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Required: true,
+				Set:      literalTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -851,7 +852,8 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 	}
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
-		interfaces := sshPublicKeys.([]interface{})
+		set := sshPublicKeys.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -1095,7 +1097,11 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("sparse_diskgroup", *s.Res.SparseDiskgroup)
 	}
 
-	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)
+	sshPublicKeys := []interface{}{}
+	for _, item := range s.Res.SshPublicKeys {
+		sshPublicKeys = append(sshPublicKeys, item)
+	}
+	s.D.Set("ssh_public_keys", schema.NewSet(literalTypeHashCodeForSets, sshPublicKeys))
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -1775,7 +1781,8 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			details.SparseDiskgroup = &tmp
 		}
 		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
-			interfaces := sshPublicKeys.([]interface{})
+			set := sshPublicKeys.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
 				if interfaces[i] != nil {
@@ -1928,7 +1935,8 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			details.SparseDiskgroup = &tmp
 		}
 		if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
-			interfaces := sshPublicKeys.([]interface{})
+			set := sshPublicKeys.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
 				if interfaces[i] != nil {

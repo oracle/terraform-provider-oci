@@ -94,7 +94,6 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 					resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(resourceName, "gi_version", "19.1.0.0"),
-					resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 
 					func(s *terraform.State) (err error) {
@@ -123,7 +122,6 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 
@@ -152,7 +150,6 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 
@@ -181,7 +178,6 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-					resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 
@@ -220,7 +216,6 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.is_sparse_diskgroup_enabled", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.shape"),
-					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.ssh_public_keys.#", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.time_created"),
 					resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.time_zone", "US/Pacific"),
@@ -247,7 +242,6 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "is_sparse_diskgroup_enabled", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "ssh_public_keys.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
