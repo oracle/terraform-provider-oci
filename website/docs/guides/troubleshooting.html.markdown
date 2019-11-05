@@ -59,6 +59,16 @@ Error asking for user input: 1 error(s) occurred:
 You are likely using a version of the OCI Terraform Provider that is not compatible with the Terraform binary you have 
 installed. For OCI Provider versions v3.x.x and above, a minimum Terraform version of v.0.10.1 is required. 
 
+### Error message when field cannot be set
+
+_If the Terraform CLI gives an error message like:_
+
+``` 
+* Error: "field_name": this field cannot be set
+```
+
+You are likely using an older version of the OCI Terraform Provider and the field you are trying to set was released in later version. The OCI Terraform Provider documentation reflects the [latest version](https://github.com/terraform-providers/terraform-provider-oci/releases).
+
 
 ### Dial tcp i/o timeout when connecting via proxy
 

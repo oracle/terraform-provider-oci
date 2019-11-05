@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-package provider
+package oci
 
 import (
 	"fmt"
@@ -54,6 +54,8 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_objectStorageImage
 							namespace_name = "${data.oci_objectstorage_namespace.t.namespace}"
 							bucket_name = "test-fixtures-bucket"
 							object_name = "test-fixtures-image-export"
+							operating_system = "Oracle Linux"
+							operating_system_version = "7.2"
 						}
 						timeouts {
 							create = "30m"
@@ -74,8 +76,8 @@ func (s *ResourceCoreImageTestSuite) TestAccResourceCoreImage_objectStorageImage
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckNoResourceAttr("oci_core_image.i1", "instance_id"),
 					resource.TestCheckNoResourceAttr("oci_core_image.i1", "base_image_id"),
-					resource.TestCheckResourceAttr("oci_core_image.i1", "operating_system", "Custom"),
-					resource.TestCheckResourceAttr("oci_core_image.i1", "operating_system_version", "Custom"),
+					resource.TestCheckResourceAttr("oci_core_image.i1", "operating_system", "Oracle Linux"),
+					resource.TestCheckResourceAttr("oci_core_image.i1", "operating_system_version", "7.2"),
 
 					resource.TestCheckNoResourceAttr("oci_core_image.i2", "instance_id"),
 					resource.TestCheckNoResourceAttr("oci_core_image.i2", "base_image_id"),

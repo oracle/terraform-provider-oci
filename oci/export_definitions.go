@@ -1,4 +1,4 @@
-package provider
+package oci
 
 import (
 	oci_core "github.com/oracle/oci-go-sdk/core"

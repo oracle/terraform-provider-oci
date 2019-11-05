@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-package provider
+package oci
 
 import (
 	"context"
@@ -64,6 +64,10 @@ func CoreIpSecConnectionTunnelDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"display_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"ike_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -161,6 +165,8 @@ func (s *CoreIpSecConnectionTunnelDataSourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("ike_version", s.Res.IkeVersion)
 
 	s.D.Set("routing", s.Res.Routing)
 

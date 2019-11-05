@@ -26,6 +26,9 @@ type CreateIpSecConnectionTunnelDetails struct {
 	// The type of routing to use for this tunnel (either BGP dynamic routing or static routing).
 	Routing CreateIpSecConnectionTunnelDetailsRoutingEnum `mandatory:"false" json:"routing,omitempty"`
 
+	// Internet Key Exchange protocol version.
+	IkeVersion CreateIpSecConnectionTunnelDetailsIkeVersionEnum `mandatory:"false" json:"ikeVersion,omitempty"`
+
 	// The shared secret (pre-shared key) to use for the IPSec tunnel. Only numbers, letters, and
 	// spaces are allowed. If you don't provide a value,
 	// Oracle generates a value for you. You can specify your own shared secret later if
@@ -63,6 +66,29 @@ var mappingCreateIpSecConnectionTunnelDetailsRouting = map[string]CreateIpSecCon
 func GetCreateIpSecConnectionTunnelDetailsRoutingEnumValues() []CreateIpSecConnectionTunnelDetailsRoutingEnum {
 	values := make([]CreateIpSecConnectionTunnelDetailsRoutingEnum, 0)
 	for _, v := range mappingCreateIpSecConnectionTunnelDetailsRouting {
+		values = append(values, v)
+	}
+	return values
+}
+
+// CreateIpSecConnectionTunnelDetailsIkeVersionEnum Enum with underlying type: string
+type CreateIpSecConnectionTunnelDetailsIkeVersionEnum string
+
+// Set of constants representing the allowable values for CreateIpSecConnectionTunnelDetailsIkeVersionEnum
+const (
+	CreateIpSecConnectionTunnelDetailsIkeVersionV1 CreateIpSecConnectionTunnelDetailsIkeVersionEnum = "V1"
+	CreateIpSecConnectionTunnelDetailsIkeVersionV2 CreateIpSecConnectionTunnelDetailsIkeVersionEnum = "V2"
+)
+
+var mappingCreateIpSecConnectionTunnelDetailsIkeVersion = map[string]CreateIpSecConnectionTunnelDetailsIkeVersionEnum{
+	"V1": CreateIpSecConnectionTunnelDetailsIkeVersionV1,
+	"V2": CreateIpSecConnectionTunnelDetailsIkeVersionV2,
+}
+
+// GetCreateIpSecConnectionTunnelDetailsIkeVersionEnumValues Enumerates the set of values for CreateIpSecConnectionTunnelDetailsIkeVersionEnum
+func GetCreateIpSecConnectionTunnelDetailsIkeVersionEnumValues() []CreateIpSecConnectionTunnelDetailsIkeVersionEnum {
+	values := make([]CreateIpSecConnectionTunnelDetailsIkeVersionEnum, 0)
+	for _, v := range mappingCreateIpSecConnectionTunnelDetailsIkeVersion {
 		values = append(values, v)
 	}
 	return values

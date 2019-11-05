@@ -1,4 +1,4 @@
-package provider
+package oci
 
 import (
 	"context"
@@ -754,7 +754,8 @@ func findResourcesGeneric(clients *OracleClients, tfMeta *TerraformResourceAssoc
 		} else if val, ok := parent.sourceAttributes[queryValue]; ok {
 			d.Set(queryAttributeName, val)
 		} else {
-			return results, fmt.Errorf("[ERROR] no attribute '%s' found in parent '%s'\n", queryValue, parent.getTerraformReference())
+			log.Printf("[WARN] no attribute '%s' found in parent '%s', returning no results for this resource\n", queryValue, parent.getTerraformReference())
+			return results, nil
 		}
 	}
 
