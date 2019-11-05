@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-package provider
+package oci
 
 import (
 	"fmt"
@@ -315,9 +315,15 @@ func GetTestClients(data *schema.ResourceData) *OracleClients {
 func TestUnitProvider(t *testing.T) {
 	// Real client for the sanity check. Makes this more of an acceptance test.
 	client := &OracleClients{}
-	if err := Provider(func(d *schema.ResourceData) (interface{}, error) {
-		return client, nil
-	}).(*schema.Provider).InternalValidate(); err != nil {
+	testProvider := &schema.Provider{
+		DataSourcesMap: DataSourcesMap(),
+		Schema:         schemaMap(),
+		ResourcesMap:   ResourcesMap(),
+		ConfigureFunc: func(d *schema.ResourceData) (interface{}, error) {
+			return client, nil
+		},
+	}
+	if err := testProvider.InternalValidate(); err != nil {
 		t.Fatalf("err: %s", err)
 	}
 }

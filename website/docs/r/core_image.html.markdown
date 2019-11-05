@@ -68,6 +68,8 @@ resource "oci_core_image" "test_image" {
 		object_name = "${var.object_name}" # exported image name
         
 		#Optional
+		operating_system = "${var.image_image_source_details_operating_system}"
+		operating_system_version = "${var.image_image_source_details_operating_system_version}"
 		source_image_type = "${var.source_image_type}"
 	}
 }
@@ -88,6 +90,8 @@ resource "oci_core_image" "test_image" {
 		source_uri = "${var.source_uri}" 
 
 		#Optional
+		operating_system = "${var.image_image_source_details_operating_system}"
+		operating_system_version = "${var.image_image_source_details_operating_system_version}"
 		source_image_type = "${var.source_image_type}"
     }
 }
@@ -109,6 +113,8 @@ The following arguments are supported:
 	* `bucket_name` - (Required when source_type=objectStorageTuple) The Object Storage bucket for the image.
 	* `namespace_name` - (Required when source_type=objectStorageTuple) The Object Storage namespace for the image.
 	* `object_name` - (Required when source_type=objectStorageTuple) The Object Storage name for the image.
+    * `operating_system` - (Optional) The image's operating system.  Example: `Oracle Linux`
+    * `operating_system_version` - (Optional) The image's operating system version.  Example: `7.2`
 	* `source_image_type` - (Optional) The format of the image to be imported.  Only monolithic images are supported. This attribute is not used for exported Oracle images with the Oracle Cloud Infrastructure image format. Allowed values are:
 	    * `QCOW2`
 	    * `VMDK`

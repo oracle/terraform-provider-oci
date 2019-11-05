@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-package provider
+package oci
 
 import (
 	"crypto/rsa"
@@ -122,13 +122,12 @@ func init() {
 	}
 }
 
-// Provider is the adapter for terraform, that gives access to all the resources
-func Provider(configfn schema.ConfigureFunc) terraform.ResourceProvider {
+func Provider() terraform.ResourceProvider {
 	ociProvider = &schema.Provider{
 		DataSourcesMap: DataSourcesMap(),
 		Schema:         schemaMap(),
 		ResourcesMap:   ResourcesMap(),
-		ConfigureFunc:  configfn,
+		ConfigureFunc:  ProviderConfig,
 	}
 	return ociProvider
 }
@@ -207,6 +206,8 @@ func schemaMap() map[string]*schema.Schema {
 
 func DataSourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
+		"oci_analytics_analytics_instance":                            AnalyticsAnalyticsInstanceDataSource(),
+		"oci_analytics_analytics_instances":                           AnalyticsAnalyticsInstancesDataSource(),
 		"oci_audit_configuration":                                     AuditConfigurationDataSource(),
 		"oci_audit_events":                                            AuditAuditEventsDataSource(),
 		"oci_budget_budget":                                           BudgetBudgetDataSource(),
@@ -425,6 +426,8 @@ func DataSourcesMap() map[string]*schema.Resource {
 		"oci_identity_user":                                           IdentityUserDataSource(),
 		"oci_identity_users":                                          IdentityUsersDataSource(),
 		"oci_identity_region_subscriptions":                           IdentityRegionSubscriptionsDataSource(),
+		"oci_integration_integration_instance":                        IntegrationIntegrationInstanceDataSource(),
+		"oci_integration_integration_instances":                       IntegrationIntegrationInstancesDataSource(),
 		"oci_kms_decrypted_data":                                      KmsDecryptedDataDataSource(),
 		"oci_kms_encrypted_data":                                      KmsEncryptedDataDataSource(),
 		"oci_kms_key":                                                 KmsKeyDataSource(),
@@ -483,6 +486,9 @@ func DataSourcesMap() map[string]*schema.Resource {
 		"oci_streaming_stream_archiver":                               StreamingStreamArchiverDataSource(),
 		"oci_streaming_stream":                                        StreamingStreamDataSource(),
 		"oci_streaming_streams":                                       StreamingStreamsDataSource(),
+		"oci_resourcemanager_stack":                                   ResourcemanagerStackDataSource(),
+		"oci_resourcemanager_stack_tf_state":                          ResourcemanagerStackTfStateDataSource(),
+		"oci_resourcemanager_stacks":                                  ResourcemanagerStacksDataSource(),
 		"oci_waas_address_list":                                       WaasAddressListDataSource(),
 		"oci_waas_address_lists":                                      WaasAddressListsDataSource(),
 		"oci_waas_certificate":                                        WaasCertificateDataSource(),
@@ -499,6 +505,7 @@ func DataSourcesMap() map[string]*schema.Resource {
 
 func ResourcesMap() map[string]*schema.Resource {
 	return map[string]*schema.Resource{
+		"oci_analytics_analytics_instance":                            AnalyticsAnalyticsInstanceResource(),
 		"oci_autoscaling_auto_scaling_configuration":                  AutoScalingAutoScalingConfigurationResource(),
 		"oci_budget_budget":                                           BudgetBudgetResource(),
 		"oci_budget_alert_rule":                                       BudgetAlertRuleResource(),
@@ -610,6 +617,7 @@ func ResourcesMap() map[string]*schema.Resource {
 		"oci_identity_user":                                           IdentityUserResource(),
 		"oci_identity_user_capabilities_management":                   IdentityUserCapabilitiesManagementResource(),
 		"oci_identity_user_group_membership":                          IdentityUserGroupMembershipResource(),
+		"oci_integration_integration_instance":                        IntegrationIntegrationInstanceResource(),
 		"oci_kms_encrypted_data":                                      KmsEncryptedDataResource(),
 		"oci_kms_generated_key":                                       KmsGeneratedKeyResource(),
 		"oci_kms_key":                                                 KmsKeyResource(),

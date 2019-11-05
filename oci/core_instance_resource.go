@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-package provider
+package oci
 
 import (
 	"context"
@@ -17,6 +17,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/helper/validation"
 
+	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
@@ -96,7 +97,6 @@ func CoreInstanceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Default:  "true",
-							ForceNew: true,
 							ValidateFunc: func(v interface{}, k string) ([]string, []error) {
 								// Verify that we can parse the string value as a bool value.
 								var es []error
@@ -764,6 +764,11 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	}
 
 	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "create_vnic_details", 0)
+	err = s.updateVnicAssignPublicIp(vnic, fieldKeyFormat)
+	if err != nil {
+		return err
+	}
+
 	updateVnicDetails, err := s.mapToUpdateVnicDetailsInstance(fieldKeyFormat)
 	if err != nil {
 		return err
@@ -1127,6 +1132,74 @@ func (s *CoreInstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat
 	}
 
 	return result, nil
+}
+
+func (s *CoreInstanceResourceCrud) updateVnicAssignPublicIp(vnic *oci_core.Vnic, fieldKeyFormat string) error {
+
+	if assignPublicIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_public_ip")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "assign_public_ip")) {
+
+		tmp := assignPublicIp.(string)
+		assignPublicIpBoolVal, err := strconv.ParseBool(tmp)
+		if err != nil {
+			return err
+		}
+
+		if assignPublicIpBoolVal {
+
+			listPrivateIpsResponse, err := s.VirtualNetworkClient.ListPrivateIps(context.Background(), oci_core.ListPrivateIpsRequest{
+				VnicId: vnic.Id,
+				RequestMetadata: common.RequestMetadata{
+					RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+				},
+			})
+
+			if err != nil {
+				return err
+			}
+
+			for _, privateIp := range listPrivateIpsResponse.Items {
+				if strings.EqualFold(*privateIp.IpAddress, *vnic.PrivateIp) {
+					_, err = s.VirtualNetworkClient.CreatePublicIp(context.Background(), oci_core.CreatePublicIpRequest{
+						CreatePublicIpDetails: oci_core.CreatePublicIpDetails{
+							CompartmentId: vnic.CompartmentId,
+							Lifetime:      oci_core.CreatePublicIpDetailsLifetimeEphemeral,
+							PrivateIpId:   privateIp.Id,
+						},
+						RequestMetadata: common.RequestMetadata{
+							RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+						},
+					})
+					return err
+				}
+			}
+
+			return fmt.Errorf("unable to assign Ephemeral public ip for the vnic private ip: %s", *vnic.PrivateIp)
+
+		} else {
+			publicIpByIpAddressResponse, err := s.VirtualNetworkClient.GetPublicIpByIpAddress(context.Background(), oci_core.GetPublicIpByIpAddressRequest{
+				GetPublicIpByIpAddressDetails: oci_core.GetPublicIpByIpAddressDetails{
+					IpAddress: vnic.PublicIp,
+				},
+				RequestMetadata: common.RequestMetadata{
+					RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+				},
+			})
+
+			if err == nil {
+				_, err = s.VirtualNetworkClient.DeletePublicIp(context.Background(), oci_core.DeletePublicIpRequest{
+					PublicIpId: publicIpByIpAddressResponse.Id,
+					RequestMetadata: common.RequestMetadata{
+						RetryPolicy: getRetryPolicy(s.DisableNotFoundRetries, "core"),
+					},
+				})
+
+				return err
+			}
+		}
+	}
+
+	return nil
+
 }
 
 func (s *CoreInstanceResourceCrud) mapToInstanceSourceDetails(fieldKeyFormat string) (oci_core.InstanceSourceDetails, error) {

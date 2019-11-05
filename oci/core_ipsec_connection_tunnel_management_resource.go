@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-package provider
+package oci
 
 import (
 	"context"
@@ -69,6 +69,11 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				},
 			},
 			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"ike_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
