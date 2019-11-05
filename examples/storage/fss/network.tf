@@ -26,6 +26,7 @@ resource "oci_core_route_table" "my_route_table" {
 }
 
 resource "oci_core_subnet" "my_subnet" {
+  depends_on          = ["oci_core_network_security_group.test_network_security_group"]
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   cidr_block          = "${var.my_subnet_cidr}"
   display_name        = "mysubnet"
@@ -34,4 +35,10 @@ resource "oci_core_subnet" "my_subnet" {
   vcn_id              = "${oci_core_vcn.my_vcn.id}"
   security_list_ids   = ["${oci_core_security_list.my_security_list.id}"]
   route_table_id      = "${oci_core_route_table.my_route_table.id}"
+}
+
+resource "oci_core_network_security_group" "test_network_security_group" {
+  #Required
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id         = "${oci_core_vcn.my_vcn.id}"
 }
