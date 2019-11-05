@@ -9,6 +9,8 @@
 
 ### Fixed
 - Fixed `time_deletion_of_free_autonomous_database` and `time_reclamation_of_free_autonomous_database`attributes in `oci_database_autonomous_database` resource
+- Fix `ssh_public_keys` for DB systems and vm clusters, so that they are TypeSet. Otherwise, the service may return SSH keys out of order, which could result in plan diffs.
+- Extend the default operation timeout for DB backups to 1 hour, as current default of 15 minutes could possibly lead to early timeout.
 
 ## 3.51.0 (November 06, 2019)
 
