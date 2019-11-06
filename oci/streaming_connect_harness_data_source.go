@@ -9,44 +9,44 @@ import (
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 )
 
-func StreamingStreamDataSource() *schema.Resource {
+func StreamingConnectHarnessDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
-	fieldMap["stream_id"] = &schema.Schema{
+	fieldMap["connect_harness_id"] = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return GetSingularDataSourceItemSchema(StreamingStreamResource(), fieldMap, readSingularStreamingStream)
+	return GetSingularDataSourceItemSchema(StreamingConnectHarnessResource(), fieldMap, readSingularStreamingConnectHarness)
 }
 
-func readSingularStreamingStream(d *schema.ResourceData, m interface{}) error {
-	sync := &StreamingStreamDataSourceCrud{}
+func readSingularStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
+	sync := &StreamingConnectHarnessDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).streamAdminClient
 
 	return ReadResource(sync)
 }
 
-type StreamingStreamDataSourceCrud struct {
+type StreamingConnectHarnessDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_streaming.StreamAdminClient
-	Res    *oci_streaming.GetStreamResponse
+	Res    *oci_streaming.GetConnectHarnessResponse
 }
 
-func (s *StreamingStreamDataSourceCrud) VoidState() {
+func (s *StreamingConnectHarnessDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *StreamingStreamDataSourceCrud) Get() error {
-	request := oci_streaming.GetStreamRequest{}
+func (s *StreamingConnectHarnessDataSourceCrud) Get() error {
+	request := oci_streaming.GetConnectHarnessRequest{}
 
-	if streamId, ok := s.D.GetOkExists("stream_id"); ok {
-		tmp := streamId.(string)
-		request.StreamId = &tmp
+	if connectHarnessId, ok := s.D.GetOkExists("connect_harness_id"); ok {
+		tmp := connectHarnessId.(string)
+		request.ConnectHarnessId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "streaming")
 
-	response, err := s.Client.GetStream(context.Background(), request)
+	response, err := s.Client.GetConnectHarness(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -55,7 +55,7 @@ func (s *StreamingStreamDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *StreamingStreamDataSourceCrud) SetData() error {
+func (s *StreamingConnectHarnessDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -76,27 +76,11 @@ func (s *StreamingStreamDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_state_details", *s.Res.LifecycleStateDetails)
 	}
 
-	if s.Res.MessagesEndpoint != nil {
-		s.D.Set("messages_endpoint", *s.Res.MessagesEndpoint)
-	}
-
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
 
-	if s.Res.Partitions != nil {
-		s.D.Set("partitions", *s.Res.Partitions)
-	}
-
-	if s.Res.RetentionInHours != nil {
-		s.D.Set("retention_in_hours", *s.Res.RetentionInHours)
-	}
-
 	s.D.Set("state", s.Res.LifecycleState)
-
-	if s.Res.StreamPoolId != nil {
-		s.D.Set("stream_pool_id", *s.Res.StreamPoolId)
-	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
