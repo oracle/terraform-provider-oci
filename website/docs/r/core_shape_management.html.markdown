@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_shape_management"
 sidebar_current: "docs-oci-resource-core-shape_management"
@@ -28,7 +29,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment containing the image.
 * `image_id` - (Required) The OCID of the Image to which the shape should be added.
-* `shape_name` - (Required) The compatible shape that is to be added to the compatible shapes list for the image. 
+* `shape_name` - (Required) The compatible shape that is to be added to the compatible shapes list for the image.
 
 ## Attributes Reference
 
@@ -36,4 +37,4 @@ The following attributes are exported:
 
 * `id` - The image's Oracle ID (OCID).
 * `image_id` - The OCID of the image containing the shape.
-* `shape_name` - The compatible Shape for the image.  
+* `shape_name` - The compatible Shape for the image.

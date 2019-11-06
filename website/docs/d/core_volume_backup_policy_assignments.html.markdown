@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_volume_backup_policy_assignments"
 sidebar_current: "docs-oci-datasource-core-volume_backup_policy_assignments"

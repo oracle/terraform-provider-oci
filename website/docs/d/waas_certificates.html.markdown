@@ -1,4 +1,5 @@
 ---
+subcategory: "Waas"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_certificates"
 sidebar_current: "docs-oci-datasource-waas-certificates"

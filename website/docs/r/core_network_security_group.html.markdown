@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_network_security_group"
 sidebar_current: "docs-oci-resource-core-network_security_group"

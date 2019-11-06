@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_local_peering_gateways"
 sidebar_current: "docs-oci-datasource-core-local_peering_gateways"

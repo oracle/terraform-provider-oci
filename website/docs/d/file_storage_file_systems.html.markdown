@@ -1,4 +1,5 @@
 ---
+subcategory: "File Storage"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_file_storage_file_systems"
 sidebar_current: "docs-oci-datasource-file_storage-file_systems"

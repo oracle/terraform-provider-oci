@@ -1,4 +1,5 @@
 ---
+subcategory: "Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_exadata_infrastructure"
 sidebar_current: "docs-oci-resource-database-exadata_infrastructure"

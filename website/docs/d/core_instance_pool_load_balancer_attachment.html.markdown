@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_instance_pool_load_balancer_attachment"
 sidebar_current: "docs-oci-datasource-core-instance_pool_load_balancer_attachment"

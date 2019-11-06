@@ -1,4 +1,5 @@
 ---
+subcategory: "Dns"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_steering_policy_attachment"
 sidebar_current: "docs-oci-datasource-dns-steering_policy_attachment"

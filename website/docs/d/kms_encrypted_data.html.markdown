@@ -1,4 +1,5 @@
 ---
+subcategory: "Kms"
 layout: "oci"
 page_title: "OCI: oci_kms_encrypted_data"
 sidebar_current: "docs-oci-datasource-kms-encrypted_data"

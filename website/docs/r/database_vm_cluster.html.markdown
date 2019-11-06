@@ -1,4 +1,5 @@
 ---
+subcategory: "Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_vm_cluster"
 sidebar_current: "docs-oci-resource-database-vm_cluster"

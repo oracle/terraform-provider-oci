@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_vnic_attachment"
 sidebar_current: "docs-oci-resource-core-vnic_attachment"

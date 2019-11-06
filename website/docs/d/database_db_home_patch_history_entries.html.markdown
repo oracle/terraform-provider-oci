@@ -1,4 +1,5 @@
 ---
+subcategory: "Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_db_home_patch_history_entries"
 sidebar_current: "docs-oci-datasource-database-db_home_patch_history_entries"

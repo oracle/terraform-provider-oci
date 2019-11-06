@@ -1,4 +1,5 @@
 ---
+subcategory: "Streaming"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_streaming_stream"
 sidebar_current: "docs-oci-datasource-streaming-stream"

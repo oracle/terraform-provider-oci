@@ -1,4 +1,5 @@
 ---
+subcategory: "Container Engine"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_containerengine_node_pools"
 sidebar_current: "docs-oci-datasource-containerengine-node_pools"

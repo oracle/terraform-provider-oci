@@ -1,4 +1,5 @@
 ---
+subcategory: "Monitoring"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_monitoring_metric_data"
 sidebar_current: "docs-oci-datasource-monitoring-metric_data"

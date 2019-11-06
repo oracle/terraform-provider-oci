@@ -1,4 +1,5 @@
 ---
+subcategory: "Waas"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_address_lists"
 sidebar_current: "docs-oci-datasource-waas-address_lists"

@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_letter_of_authority"
 sidebar_current: "docs-oci-datasource-core-letter_of_authority"

@@ -1,4 +1,5 @@
 ---
+subcategory: "Identity"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_identity_cost_tracking_tags"
 sidebar_current: "docs-oci-datasource-identity-cost_tracking_tags"

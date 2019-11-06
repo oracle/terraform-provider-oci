@@ -1,4 +1,5 @@
 ---
+subcategory: "Budget"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_budget_budget"
 sidebar_current: "docs-oci-resource-budget-budget"
