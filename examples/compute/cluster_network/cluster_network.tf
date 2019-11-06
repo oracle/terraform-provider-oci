@@ -27,7 +27,7 @@ resource "oci_core_vcn" "test_vcn" {
 }
 
 resource "oci_core_route_table" "test_route_table" {
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
   vcn_id         = "${oci_core_vcn.test_vcn.id}"
   display_name   = "TestRouteTable"
 }
@@ -35,7 +35,7 @@ resource "oci_core_route_table" "test_route_table" {
 resource "oci_core_subnet" "test_subnet" {
   availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
   cidr_block          = "10.0.2.0/24"
-  compartment_id      = "${var.compartment_id}"
+  compartment_id      = "${var.compartment_ocid}"
   dhcp_options_id     = "${oci_core_vcn.test_vcn.default_dhcp_options_id}"
   display_name        = "TestSubnet"
   dns_label           = "dnslabel"
@@ -59,7 +59,7 @@ variable "InstanceImageOCID" {
 }
 
 resource "oci_core_network_security_group" "test_network_security_group1" {
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
   vcn_id         = "${oci_core_vcn.test_vcn.id}"
 }
 
@@ -72,7 +72,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 
     launch_details {
       availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
-      compartment_id      = "${var.compartment_id}"
+      compartment_id      = "${var.compartment_ocid}"
 
       create_vnic_details {
         assign_public_ip       = "false"
@@ -112,7 +112,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 }
 
 resource "oci_core_cluster_network" "test_cluster_network" {
-  compartment_id = "${var.compartment_id}"
+  compartment_id = "${var.compartment_ocid}"
   display_name   = "hpc-cluster-network"
 
   instance_pools {

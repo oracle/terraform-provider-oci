@@ -45,7 +45,7 @@ variable "db_version" {
 }
 
 variable "db_home_display_name" {
-  default = "MyTFDBHome"
+  default = "MyTFDBHome1"
 }
 
 variable "db_disk_redundancy" {
