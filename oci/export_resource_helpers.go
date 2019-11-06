@@ -1,4 +1,4 @@
-package provider
+package oci
 
 import (
 	"context"
@@ -645,8 +645,7 @@ func findLoadBalancerListeners(clients *OracleClients, tfMeta *TerraformResource
 
 	listenerResource := resourcesMap[tfMeta.resourceClass]
 
-	results := make([]*OCIResource, len(response.LoadBalancer.Listeners))
-	idx := 0
+	results := []*OCIResource{}
 	for listenerName, listener := range response.LoadBalancer.Listeners {
 		if *listener.DefaultBackendSetName != backendSetName {
 			continue
@@ -680,8 +679,7 @@ func findLoadBalancerListeners(clients *OracleClients, tfMeta *TerraformResource
 		} else {
 			resource.sourceAttributes["default_backend_set_name"] = parent.sourceAttributes["name"].(string)
 		}
-		results[idx] = resource
-		idx++
+		results = append(results, resource)
 	}
 
 	return results, nil

@@ -1,8 +1,10 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-package provider
+package oci
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"log"
 	"math/rand"
@@ -37,6 +39,12 @@ variable "InstanceImageOCID" {
 		uk-london-1 = "ocid1.image.oc1.uk-london-1.aaaaaaaajwtut4l7fo3cvyraate6erdkyf2wdk5vpk6fp6ycng3dv2y3ymvq"
 	}
 }
+	// Gets a list of all Oracle Linux 7.5 images that support a given Instance shape
+	data "oci_core_images" "supported_shape_images" {
+		compartment_id   = "${var.tenancy_ocid}"
+		shape            = "VM.Standard2.1"
+		operating_system = "Oracle Linux"
+	}
 
 `
 	OciWindowsImageIdsVariable = `
@@ -246,4 +254,13 @@ func jsonStringDiffSuppressFunction(key, old, new string, d *schema.ResourceData
 	}
 
 	return reflect.DeepEqual(oldVal, newVal)
+}
+
+func getMd5Hash(source interface{}) string {
+	if source == nil {
+		return ""
+	}
+	data := source.(string)
+	hexSum := md5.Sum([]byte(data))
+	return hex.EncodeToString(hexSum[:])
 }

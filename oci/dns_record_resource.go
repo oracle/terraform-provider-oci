@@ -7,7 +7,7 @@
  require custom diff suppression logic per type. See "normalizeRData" function for implementation.
 */
 
-package provider
+package oci
 
 import (
 	"context"

@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-package provider
+package oci
 
 import (
 	"context"
@@ -28,6 +28,7 @@ import (
 var (
 	FifteenMinutes                = 15 * time.Minute
 	TwentyMinutes                 = 20 * time.Minute
+	ThirtyMinutes                 = 30 * time.Minute
 	OneHour                       = 60 * time.Minute
 	TwoHours                      = 120 * time.Minute
 	TwoAndHalfHours               = 150 * time.Minute

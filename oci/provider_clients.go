@@ -1,8 +1,9 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-package provider
+package oci
 
 import (
+	oci_analytics "github.com/oracle/oci-go-sdk/analytics"
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
@@ -16,6 +17,7 @@ import (
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
+	oci_integration "github.com/oracle/oci-go-sdk/integration"
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
@@ -24,6 +26,7 @@ import (
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
+	oci_resourcemanager "github.com/oracle/oci-go-sdk/resourcemanager"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
@@ -34,6 +37,8 @@ import (
 type OracleClients struct {
 	configuration                  map[string]string
 	auditClient                    *oci_audit.AuditClient
+	analyticsClient                *oci_analytics.AnalyticsClient
+	resourceManagerClient          *oci_resourcemanager.ResourceManagerClient
 	autoScalingClient              *oci_auto_scaling.AutoScalingClient
 	blockstorageClient             *oci_core.BlockstorageClient
 	budgetClient                   *oci_budget.BudgetClient
@@ -49,6 +54,7 @@ type OracleClients struct {
 	functionsManagementClient      *oci_functions.FunctionsManagementClient
 	healthChecksClient             *oci_health_checks.HealthChecksClient
 	identityClient                 *oci_identity.IdentityClient
+	integrationInstanceClient      *oci_integration.IntegrationInstanceClient
 	kmsCryptoClient                *oci_kms.KmsCryptoClient
 	kmsManagementClient            *oci_kms.KmsManagementClient
 	kmsVaultClient                 *oci_kms.KmsVaultClient
@@ -112,6 +118,26 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.auditClient = &auditClient
+
+	analyticsClient, err := oci_analytics.NewAnalyticsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&analyticsClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.analyticsClient = &analyticsClient
+
+	resourceManagerClient, err := oci_resourcemanager.NewResourceManagerClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&resourceManagerClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.resourceManagerClient = &resourceManagerClient
 
 	autoScalingClient, err := oci_auto_scaling.NewAutoScalingClientWithConfigurationProvider(configProvider)
 	if err != nil {
@@ -262,6 +288,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.identityClient = &identityClient
+
+	integrationInstanceClient, err := oci_integration.NewIntegrationInstanceClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&integrationInstanceClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.integrationInstanceClient = &integrationInstanceClient
 
 	kmsCryptoClient, err := oci_kms.NewKmsCryptoClientWithConfigurationProvider(configProvider, "DUMMY_ENDPOINT")
 	if err != nil {
