@@ -1,7 +1,9 @@
 ## 3.54.0 (Unreleased)
 
 ### Added
--  support for Autonomous Database maintenance window
+- Support for Autonomous Database maintenance window
+- Support for `oci_database_autonomous_exadata_infrastructure_ocpu` datasource to get details of the OCPUs for the specified Autonomous Exadata Infrastructure instance.
+
 
 ### Fixed
 - Fixes an issue in resource discovery when duplicates of the same service are specified to the `-services` argument
