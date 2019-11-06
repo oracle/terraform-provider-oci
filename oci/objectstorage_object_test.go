@@ -51,14 +51,16 @@ var (
 	}
 
 	objectRepresentation = map[string]interface{}{
-		"bucket":           Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"content":          Representation{repType: Optional, create: `content`, update: `<a1>content</a1>`},
-		"namespace":        Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
-		"object":           Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-2`},
-		"content_encoding": Representation{repType: Optional, create: `identity`},
-		"content_language": Representation{repType: Optional, create: `en-US`, update: `en-CA`},
-		"content_type":     Representation{repType: Optional, create: `text/plain`, update: `text/xml`},
-		"metadata":         Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
+		"bucket":              Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"content":             Representation{repType: Optional, create: `content`, update: `<a1>content</a1>`},
+		"namespace":           Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"object":              Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-2`},
+		"cache_control":       Representation{repType: Optional, create: `no-cache`, update: `no-store`},
+		"content_disposition": Representation{repType: Optional, create: `inline`, update: `attachment; filename=\"filename.html\"`},
+		"content_encoding":    Representation{repType: Optional, create: `identity`},
+		"content_language":    Representation{repType: Optional, create: `en-US`, update: `en-CA`},
+		"content_type":        Representation{repType: Optional, create: `text/plain`, update: `text/xml`},
+		"metadata":            Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
 	}
 
 	ObjectResourceDependencies = generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
@@ -124,6 +126,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
+					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
@@ -153,6 +157,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + ObjectResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update, objectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
+					resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
@@ -182,6 +188,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("object", Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`}, objectRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
+					resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
@@ -213,6 +221,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Required, Create, objectSingularDataSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "cache_control", "no-store"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_disposition", "attachment; filename=\"filename.html\""),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-CA"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
@@ -235,6 +245,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectSingularDataSourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "cache_control", "no-store"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "content_disposition", "attachment; filename=\"filename.html\""),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_language", "en-CA"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "content_length", "16"),
@@ -525,14 +537,16 @@ func getObjectIds(compartment string) ([]string, error) {
 
 var (
 	objectSourceRepresentation = map[string]interface{}{
-		"bucket":           Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"namespace":        Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
-		"object":           Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`},
-		"source":           Representation{repType: Optional, create: ``},
-		"content_encoding": Representation{repType: Optional, create: `identity`},
-		"content_language": Representation{repType: Optional, create: `en-US`, update: `en-CA`},
-		"content_type":     Representation{repType: Optional, create: `text/plain`, update: `text/xml`},
-		"metadata":         Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
+		"bucket":              Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace":           Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"object":              Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-3`},
+		"source":              Representation{repType: Optional, create: ``},
+		"cache_control":       Representation{repType: Optional, create: `no-cache`},
+		"content_disposition": Representation{repType: Optional, create: `inline`},
+		"content_encoding":    Representation{repType: Optional, create: `identity`},
+		"content_language":    Representation{repType: Optional, create: `en-US`, update: `en-CA`},
+		"content_type":        Representation{repType: Optional, create: `text/plain`, update: `text/xml`},
+		"metadata":            Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
 	}
 )
 
@@ -610,6 +624,8 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "application/octet-stream"),
 					// New SDK doesn't set omitted values from response, check they are missing from state.
+					resource.TestCheckNoResourceAttr(resourceName, "cache_control"),
+					resource.TestCheckNoResourceAttr(resourceName, "content_disposition"),
 					resource.TestCheckNoResourceAttr(resourceName, "content"),
 					resource.TestCheckNoResourceAttr(resourceName, "content_language"),
 					resource.TestCheckNoResourceAttr(resourceName, "content_encoding"),
@@ -632,6 +648,8 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create,
 						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
+					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(singlePartFileSize)),
@@ -661,6 +679,8 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create,
 						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: multiPartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
+					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(multiPartFileSize)),
@@ -685,6 +705,8 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Update,
 						getUpdatedRepresentationCopy("source", Representation{repType: Optional, create: multiPartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
+					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(multiPartFileSize)),
@@ -845,6 +867,8 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, getUpdatedRepresentationCopy(
 						"source", Representation{repType: Optional, create: singlePartFilePath}, objectSourceRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
+					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(singlePartFileSize)),
@@ -869,6 +893,8 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceNameCopy, "object", "my-test-object-1-copy"),
 					//the values were not set for the object_copy, the source object are used
+					resource.TestCheckResourceAttr(resourceNameCopy, "cache_control", "no-cache"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_length", strconv.Itoa(singlePartFileSize)),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_type", "text/plain"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_encoding", "identity"),
@@ -886,6 +912,8 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + ObjectResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
+					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
@@ -913,6 +941,8 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceNameCopy, "object", "my-test-object-1-copy"),
 					//the values were not set for the object_copy, the source object are used
+					resource.TestCheckResourceAttr(resourceNameCopy, "cache_control", "no-cache"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_length", "7"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_type", "text/plain"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_encoding", "identity"),
@@ -931,6 +961,8 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceNameCopy, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceNameCopy, "object", "my-test-object-1-copy"),
 					//the values were not set for the object_copy, the source object are used
+					resource.TestCheckResourceAttr(resourceNameCopy, "cache_control", "no-cache"),
+					resource.TestCheckResourceAttr(resourceNameCopy, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_length", "7"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_type", "text/plain"),
 					resource.TestCheckResourceAttr(resourceNameCopy, "content_encoding", "identity"),
@@ -950,6 +982,8 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
 					//the values were not set for the object_copy, the source object are used
+					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
+					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
@@ -967,6 +1001,8 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
 					compartmentIdVariableStr,
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
+					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
 					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
 					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
 					resource.TestCheckResourceAttr(resourceName, "content_length", strconv.Itoa(singlePartFileSize)),

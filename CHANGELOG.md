@@ -4,6 +4,7 @@
 - Support Etag for ListObjects
 - Support for Network Security Groups in `oci_file_storage_mount_target` resource
 - Support for multi-attach for block storage
+- Support for cache control and control-disposition headers in `oci_objectstorage_object`
 
 ## 3.54.0 (November 27, 2019)
 

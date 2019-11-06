@@ -43,6 +43,14 @@ func ObjectStorageObjectDataSource() *schema.Resource {
 			},
 
 			// Computed
+			"cache_control": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"content_disposition": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"content": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -165,6 +173,14 @@ func (s *ObjectStorageObjectDataSourceCrud) SetData() error {
 		s.D.Set("content", base64.StdEncoding.EncodeToString(contentArray))
 	} else {
 		s.D.Set("content", string(contentArray))
+	}
+
+	if s.Res.CacheControl != nil {
+		s.D.Set("cache_control", *s.Res.CacheControl)
+	}
+
+	if s.Res.ContentDisposition != nil {
+		s.D.Set("content_disposition", *s.Res.ContentDisposition)
 	}
 
 	if s.Res.ContentEncoding != nil {
