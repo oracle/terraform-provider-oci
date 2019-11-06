@@ -34,6 +34,8 @@ type MultipartUploadData struct {
 	ObjectStorageClient *oci_object_storage.ObjectStorageClient `mandatory:"true"`
 	SourcePath          *string                                 `mandatory:"true"`
 	SourceInfo          *os.FileInfo                            `mandatory:"true"`
+	CacheControl        *string
+	ContentDisposition  *string
 	ContentMD5          *string
 	ContentType         *string
 	ContentLanguage     *string
@@ -143,15 +145,17 @@ func singlePartUpload(multipartUploadData MultipartUploadData) (string, error) {
 	tmpSize := sourceInfo.Size()
 
 	putObjectRequest := &oci_object_storage.PutObjectRequest{
-		ContentEncoding: multipartUploadData.ContentEncoding,
-		ContentLanguage: multipartUploadData.ContentLanguage,
-		ContentType:     multipartUploadData.ContentType,
-		BucketName:      multipartUploadData.BucketName,
-		ContentLength:   &tmpSize,
-		PutObjectBody:   ioutil.NopCloser(sourceFile),
-		OpcMeta:         resourceObjectStorageMapToMetadata(multipartUploadData.Metadata),
-		NamespaceName:   multipartUploadData.NamespaceName,
-		ObjectName:      multipartUploadData.ObjectName,
+		CacheControl:       multipartUploadData.CacheControl,
+		ContentDisposition: multipartUploadData.ContentDisposition,
+		ContentEncoding:    multipartUploadData.ContentEncoding,
+		ContentLanguage:    multipartUploadData.ContentLanguage,
+		ContentType:        multipartUploadData.ContentType,
+		BucketName:         multipartUploadData.BucketName,
+		ContentLength:      &tmpSize,
+		PutObjectBody:      ioutil.NopCloser(sourceFile),
+		OpcMeta:            resourceObjectStorageMapToMetadata(multipartUploadData.Metadata),
+		NamespaceName:      multipartUploadData.NamespaceName,
+		ObjectName:         multipartUploadData.ObjectName,
 	}
 	putObjectRequest.RequestMetadata.RetryPolicy = multipartUploadData.RequestMetadata.RetryPolicy
 
@@ -183,11 +187,13 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 		BucketName:      multipartUploadData.BucketName,
 		RequestMetadata: multipartUploadData.RequestMetadata,
 		CreateMultipartUploadDetails: oci_object_storage.CreateMultipartUploadDetails{
-			ContentEncoding: multipartUploadData.ContentEncoding,
-			ContentLanguage: multipartUploadData.ContentLanguage,
-			ContentType:     multipartUploadData.ContentType,
-			Object:          multipartUploadData.ObjectName,
-			Metadata:        resourceObjectStorageMapToOPCMetadata(multipartUploadData.Metadata),
+			CacheControl:       multipartUploadData.CacheControl,
+			ContentDisposition: multipartUploadData.ContentDisposition,
+			ContentEncoding:    multipartUploadData.ContentEncoding,
+			ContentLanguage:    multipartUploadData.ContentLanguage,
+			ContentType:        multipartUploadData.ContentType,
+			Object:             multipartUploadData.ObjectName,
+			Metadata:           resourceObjectStorageMapToOPCMetadata(multipartUploadData.Metadata),
 		},
 	}
 	source := multipartUploadData.SourcePath

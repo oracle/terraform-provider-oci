@@ -25,6 +25,8 @@ resource "oci_objectstorage_object" "test_object" {
 	object = "${var.object_object}"
 
 	#Optional
+	cache_control = "${var.object_cache_control}"
+	content_disposition = "${var.object_content_disposition}"
 	content_encoding = "${var.object_content_encoding}"
 	content_language = "${var.object_content_language}"
 	content_type = "${var.object_content_type}"
@@ -37,6 +39,8 @@ resource "oci_objectstorage_object" "test_object" {
 The following arguments are supported:
 
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
+* `cache_control` - (Optional) The cache-control header value to be returned in GetObjectResponse.
+* `content_disposition` - (Optional) The Content-Disposition header value to be returned in GetObjectResponse.
 * `content_encoding` - (Optional) The content encoding of the object.
 * `content_language` - (Optional) The content language of the object.
 * `content_type` - (Optional) The content type of the object.  Defaults to 'application/octet-stream' if not overridden during the PutObject call.
@@ -64,8 +68,10 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `bucket` - The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
+* `bucket` - The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1`
+* `cache_control` - The cache-control header value to be returned in GetObjectResponse. 
 * `content` - The object to upload to the object store.
+* `content_disposition` - The Content-Disposition header value to be returned in GetObjectResponse.
 * `content_encoding` - The content encoding of the object.
 * `content_language` - The content language of the object.
 * `content_length` - The content length of the body.
