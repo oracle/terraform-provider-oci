@@ -1,4 +1,5 @@
 ---
+subcategory: "Budget"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_budget_alert_rule"
 sidebar_current: "docs-oci-resource-budget-alert_rule"

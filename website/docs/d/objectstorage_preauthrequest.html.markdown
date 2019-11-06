@@ -1,4 +1,5 @@
 ---
+subcategory: "Object Storage"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_objectstorage_preauthrequest"
 sidebar_current: "docs-oci-datasource-objectstorage-preauthenticated_request"

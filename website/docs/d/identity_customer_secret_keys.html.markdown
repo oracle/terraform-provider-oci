@@ -1,4 +1,5 @@
 ---
+subcategory: "Identity"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_identity_customer_secret_keys"
 sidebar_current: "docs-oci-datasource-identity-customer_secret_keys"

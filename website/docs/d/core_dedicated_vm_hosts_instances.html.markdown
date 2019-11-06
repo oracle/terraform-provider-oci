@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_dedicated_vm_hosts_instances"
 sidebar_current: "docs-oci-datasource-core-dedicated_vm_hosts_instances"

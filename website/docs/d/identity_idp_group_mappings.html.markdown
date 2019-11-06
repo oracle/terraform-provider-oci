@@ -1,4 +1,5 @@
 ---
+subcategory: "Identity"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_identity_idp_group_mappings"
 sidebar_current: "docs-oci-datasource-identity-idp_group_mappings"

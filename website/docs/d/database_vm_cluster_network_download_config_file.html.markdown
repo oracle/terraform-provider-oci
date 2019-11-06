@@ -1,4 +1,5 @@
 ---
+subcategory: "Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_vm_cluster_network_download_config_file"
 sidebar_current: "docs-oci-datasource-database-vm_cluster_network_download_config_file"

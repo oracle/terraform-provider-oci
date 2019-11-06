@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_drg_attachments"
 sidebar_current: "docs-oci-datasource-core-drg_attachments"

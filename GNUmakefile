@@ -90,6 +90,9 @@ ifeq (,$(wildcard $(GOPATH)/src/$(WEBSITE_REPO)))
 endif
 	@$(MAKE) -C $(GOPATH)/src/$(WEBSITE_REPO) website-provider-test PROVIDER_PATH=$(shell pwd) PROVIDER_NAME=$(PKG_NAME)
 
+test-docscheck:
+	@sh -c "'$(CURDIR)/scripts/docscheck.sh'"
+
 ## Additional OCI stuff that will need to be moved eventually
 get: ;go get golang.org/x/tools/cmd/goimports; go get github.com/mitchellh/gox
 
@@ -129,4 +132,4 @@ zip:
 	tar -czvf openbsd_amd64.tar.gz openbsd_amd64; \
 	tar -czvf solaris_amd64.tar.gz solaris_amd64
 
-.PHONY: build test testacc vet fmt fmtcheck errcheck test-compile website website-test
+.PHONY: build test testacc vet fmt fmtcheck errcheck test-compile website website-test test-docscheck

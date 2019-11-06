@@ -1,4 +1,5 @@
 ---
+subcategory: "Waas"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_purge_cache"
 sidebar_current: "docs-oci-resource-waas-purge_cache"

@@ -1,4 +1,5 @@
 ---
+subcategory: "Identity"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_identity_identity_provider_groups"
 sidebar_current: "docs-oci-datasource-identity-identity_provider_groups"

@@ -1,4 +1,5 @@
 ---
+subcategory: "Kms"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_kms_key_versions"
 sidebar_current: "docs-oci-datasource-kms-key_versions"

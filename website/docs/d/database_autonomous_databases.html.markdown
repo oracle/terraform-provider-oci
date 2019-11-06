@@ -1,4 +1,5 @@
 ---
+subcategory: "Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_databases"
 sidebar_current: "docs-oci-datasource-database-autonomous_databases"

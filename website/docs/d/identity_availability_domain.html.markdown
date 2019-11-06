@@ -1,4 +1,5 @@
 ---
+subcategory: "Identity"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_identity_availability_domain"
 sidebar_current: "docs-oci-datasource-identity-availability-domain"

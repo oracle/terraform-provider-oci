@@ -1,4 +1,5 @@
 ---
+subcategory: "Identity"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_identity_tenancy"
 sidebar_current: "docs-oci-datasource-identity-tenancy"

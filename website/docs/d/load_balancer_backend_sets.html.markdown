@@ -1,4 +1,5 @@
 ---
+subcategory: "Load Balancer"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_load_balancer_backend_sets"
 sidebar_current: "docs-oci-datasource-load_balancer-backend_sets"

@@ -1,4 +1,5 @@
 ---
+subcategory: "Waas"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_waas_policy"
 sidebar_current: "docs-oci-datasource-waas-waas_policy"

@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "OCI: oci_core_app_catalog_listing_resource_version_agreement"
 sidebar_current: "docs-oci-datasource-core-app_catalog_listing_resource_version_agreement"

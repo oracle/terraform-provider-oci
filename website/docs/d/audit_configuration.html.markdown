@@ -1,4 +1,5 @@
 ---
+subcategory: "Audit"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_audit_configuration"
 sidebar_current: "docs-oci-datasource-audit-configuration"

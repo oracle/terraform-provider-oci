@@ -1,4 +1,5 @@
 ---
+subcategory: "Waas"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_custom_protection_rules"
 sidebar_current: "docs-oci-datasource-waas-custom_protection_rules"

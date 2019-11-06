@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_boot_volume_attachments"
 sidebar_current: "docs-oci-datasource-core-boot_volume_attachments"

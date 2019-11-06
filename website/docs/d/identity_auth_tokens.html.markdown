@@ -1,4 +1,5 @@
 ---
+subcategory: "Identity"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_identity_auth_tokens"
 sidebar_current: "docs-oci-datasource-identity-auth_tokens"

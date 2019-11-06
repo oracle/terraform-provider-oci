@@ -1,4 +1,5 @@
 ---
+subcategory: "Database"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_database_regional_wallet_management"
 sidebar_current: "docs-oci-resource-database-autonomous_database_regional_wallet_management"

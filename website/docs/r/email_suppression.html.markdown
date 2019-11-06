@@ -1,4 +1,5 @@
 ---
+subcategory: "Email"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_email_suppression"
 sidebar_current: "docs-oci-resource-email-suppression"

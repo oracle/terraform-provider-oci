@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_peer_region_for_remote_peerings"
 sidebar_current: "docs-oci-datasource-core-peer_region_for_remote_peerings"

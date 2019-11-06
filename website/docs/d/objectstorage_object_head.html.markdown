@@ -1,4 +1,5 @@
 ---
+subcategory: "Object Storage"
 layout: "oci"
 page_title: "OCI: oci_objectstorage_object_head"
 sidebar_current: "docs-oci-datasource-objectstorage-object_head"

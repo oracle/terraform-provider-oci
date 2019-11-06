@@ -1,4 +1,5 @@
 ---
+subcategory: "Oda"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_oda_oda_instance"
 sidebar_current: "docs-oci-datasource-oda-oda_instance"

@@ -1,4 +1,5 @@
 ---
+subcategory: "Oce"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_oce_oce_instances"
 sidebar_current: "docs-oci-datasource-oce-oce_instances"

@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_virtual_circuit_bandwidth_shapes"
 sidebar_current: "docs-oci-datasource-core-virtual_circuit_bandwidth_shapes"

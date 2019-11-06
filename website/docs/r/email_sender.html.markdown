@@ -1,4 +1,5 @@
 ---
+subcategory: "Email"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_email_sender"
 sidebar_current: "docs-oci-resource-email-sender"

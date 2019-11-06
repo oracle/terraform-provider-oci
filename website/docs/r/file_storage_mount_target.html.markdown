@@ -1,4 +1,5 @@
 ---
+subcategory: "File Storage"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_file_storage_mount_target"
 sidebar_current: "docs-oci-resource-file_storage-mount_target"

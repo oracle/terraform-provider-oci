@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_cross_connect_locations"
 sidebar_current: "docs-oci-datasource-core-cross_connect_locations"

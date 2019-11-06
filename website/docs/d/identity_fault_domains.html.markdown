@@ -1,4 +1,5 @@
 ---
+subcategory: "Identity"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_identity_fault_domains"
 sidebar_current: "docs-oci-datasource-identity-fault_domains"

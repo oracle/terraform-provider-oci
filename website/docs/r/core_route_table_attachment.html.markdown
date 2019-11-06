@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "OCI: oci_core_route_table_attachment"
 sidebar_current: "docs-oci-resource-core-route-table-attachment"

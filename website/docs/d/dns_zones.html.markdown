@@ -1,4 +1,5 @@
 ---
+subcategory: "Dns"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_dns_zones"
 sidebar_current: "docs-oci-datasource-dns-zones"

@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_dhcp_options"
 sidebar_current: "docs-oci-resource-core-dhcp_options"

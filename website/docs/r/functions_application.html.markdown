@@ -1,4 +1,5 @@
 ---
+subcategory: "Functions"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_functions_application"
 sidebar_current: "docs-oci-resource-functions-application"

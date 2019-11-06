@@ -1,4 +1,5 @@
 ---
+subcategory: "Core"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_core_app_catalog_subscriptions"
 sidebar_current: "docs-oci-datasource-core-app_catalog_subscriptions"

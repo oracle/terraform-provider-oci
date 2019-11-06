@@ -1,4 +1,5 @@
 ---
+subcategory: "Limits"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_limits_limit_definitions"
 sidebar_current: "docs-oci-datasource-limits-limit_definitions"

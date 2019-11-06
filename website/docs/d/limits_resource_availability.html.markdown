@@ -1,4 +1,5 @@
 ---
+subcategory: "Limits"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_limits_resource_availability"
 sidebar_current: "docs-oci-datasource-limits-resource_availability"
