@@ -10,36 +10,29 @@ import (
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 )
 
-func StreamingStreamResource() *schema.Resource {
+func StreamingConnectHarnessResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: DefaultTimeout,
-		Create:   createStreamingStream,
-		Read:     readStreamingStream,
-		Update:   updateStreamingStream,
-		Delete:   deleteStreamingStream,
+		Create:   createStreamingConnectHarness,
+		Read:     readStreamingConnectHarness,
+		Update:   updateStreamingConnectHarness,
+		Delete:   deleteStreamingConnectHarness,
 		Schema: map[string]*schema.Schema{
 			// Required
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"partitions": {
-				Type:     schema.TypeInt,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
-			"compartment_id": {
-				Type:          schema.TypeString,
-				Optional:      true,
-				Computed:      true,
-				ConflictsWith: []string{"stream_pool_id"},
-			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -53,25 +46,9 @@ func StreamingStreamResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"retention_in_hours": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-			},
-			"stream_pool_id": {
-				Type:          schema.TypeString,
-				Optional:      true,
-				Computed:      true,
-				ConflictsWith: []string{"compartment_id"},
-			},
 
 			// Computed
 			"lifecycle_state_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"messages_endpoint": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -87,32 +64,32 @@ func StreamingStreamResource() *schema.Resource {
 	}
 }
 
-func createStreamingStream(d *schema.ResourceData, m interface{}) error {
-	sync := &StreamingStreamResourceCrud{}
+func createStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
+	sync := &StreamingConnectHarnessResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).streamAdminClient
 
 	return CreateResource(d, sync)
 }
 
-func readStreamingStream(d *schema.ResourceData, m interface{}) error {
-	sync := &StreamingStreamResourceCrud{}
+func readStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
+	sync := &StreamingConnectHarnessResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).streamAdminClient
 
 	return ReadResource(sync)
 }
 
-func updateStreamingStream(d *schema.ResourceData, m interface{}) error {
-	sync := &StreamingStreamResourceCrud{}
+func updateStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
+	sync := &StreamingConnectHarnessResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).streamAdminClient
 
 	return UpdateResource(d, sync)
 }
 
-func deleteStreamingStream(d *schema.ResourceData, m interface{}) error {
-	sync := &StreamingStreamResourceCrud{}
+func deleteStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
+	sync := &StreamingConnectHarnessResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).streamAdminClient
 	sync.DisableNotFoundRetries = true
@@ -120,55 +97,55 @@ func deleteStreamingStream(d *schema.ResourceData, m interface{}) error {
 	return DeleteResource(d, sync)
 }
 
-type StreamingStreamResourceCrud struct {
+type StreamingConnectHarnessResourceCrud struct {
 	BaseCrud
 	Client                 *oci_streaming.StreamAdminClient
-	Res                    *oci_streaming.Stream
+	Res                    *oci_streaming.ConnectHarness
 	DisableNotFoundRetries bool
 }
 
-func (s *StreamingStreamResourceCrud) ID() string {
+func (s *StreamingConnectHarnessResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *StreamingStreamResourceCrud) CreatedPending() []string {
+func (s *StreamingConnectHarnessResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_streaming.StreamLifecycleStateCreating),
+		string(oci_streaming.ConnectHarnessLifecycleStateCreating),
 	}
 }
 
-func (s *StreamingStreamResourceCrud) CreatedTarget() []string {
+func (s *StreamingConnectHarnessResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_streaming.StreamLifecycleStateActive),
+		string(oci_streaming.ConnectHarnessLifecycleStateActive),
 	}
 }
 
-func (s *StreamingStreamResourceCrud) DeletedPending() []string {
+func (s *StreamingConnectHarnessResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_streaming.StreamLifecycleStateDeleting),
+		string(oci_streaming.ConnectHarnessLifecycleStateDeleting),
 	}
 }
 
-func (s *StreamingStreamResourceCrud) DeletedTarget() []string {
+func (s *StreamingConnectHarnessResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_streaming.StreamLifecycleStateDeleted),
+		string(oci_streaming.ConnectHarnessLifecycleStateDeleted),
 	}
 }
 
-func (s *StreamingStreamResourceCrud) UpdatedPending() []string {
+func (s *StreamingConnectHarnessResourceCrud) UpdatedPending() []string {
 	return []string{
-		string(oci_streaming.StreamLifecycleStateUpdating),
+		string(oci_streaming.ConnectHarnessLifecycleStateUpdating),
 	}
 }
 
-func (s *StreamingStreamResourceCrud) UpdatedTarget() []string {
+func (s *StreamingConnectHarnessResourceCrud) UpdatedTarget() []string {
 	return []string{
-		string(oci_streaming.StreamLifecycleStateActive),
+		string(oci_streaming.ConnectHarnessLifecycleStateActive),
 	}
 }
 
-func (s *StreamingStreamResourceCrud) Create() error {
-	request := oci_streaming.CreateStreamRequest{}
+func (s *StreamingConnectHarnessResourceCrud) Create() error {
+	request := oci_streaming.CreateConnectHarnessRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -192,50 +169,35 @@ func (s *StreamingStreamResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
-	if partitions, ok := s.D.GetOkExists("partitions"); ok {
-		tmp := partitions.(int)
-		request.Partitions = &tmp
-	}
-
-	if retentionInHours, ok := s.D.GetOkExists("retention_in_hours"); ok {
-		tmp := retentionInHours.(int)
-		request.RetentionInHours = &tmp
-	}
-
-	if streamPoolId, ok := s.D.GetOkExists("stream_pool_id"); ok {
-		tmp := streamPoolId.(string)
-		request.StreamPoolId = &tmp
-	}
-
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.CreateStream(context.Background(), request)
+	response, err := s.Client.CreateConnectHarness(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.Stream
+	s.Res = &response.ConnectHarness
 	return nil
 }
 
-func (s *StreamingStreamResourceCrud) Get() error {
-	request := oci_streaming.GetStreamRequest{}
+func (s *StreamingConnectHarnessResourceCrud) Get() error {
+	request := oci_streaming.GetConnectHarnessRequest{}
 
 	tmp := s.D.Id()
-	request.StreamId = &tmp
+	request.ConnectHarnessId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.GetStream(context.Background(), request)
+	response, err := s.Client.GetConnectHarness(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.Stream
+	s.Res = &response.ConnectHarness
 	return nil
 }
 
-func (s *StreamingStreamResourceCrud) Update() error {
+func (s *StreamingConnectHarnessResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -245,7 +207,10 @@ func (s *StreamingStreamResourceCrud) Update() error {
 			}
 		}
 	}
-	request := oci_streaming.UpdateStreamRequest{}
+	request := oci_streaming.UpdateConnectHarnessRequest{}
+
+	tmp := s.D.Id()
+	request.ConnectHarnessId = &tmp
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
@@ -259,38 +224,30 @@ func (s *StreamingStreamResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	tmp := s.D.Id()
-	request.StreamId = &tmp
-
-	if streamPoolId, ok := s.D.GetOkExists("stream_pool_id"); ok && s.D.HasChange("stream_pool_id") {
-		tmp := streamPoolId.(string)
-		request.StreamPoolId = &tmp
-	}
-
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.UpdateStream(context.Background(), request)
+	response, err := s.Client.UpdateConnectHarness(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.Stream
+	s.Res = &response.ConnectHarness
 	return nil
 }
 
-func (s *StreamingStreamResourceCrud) Delete() error {
-	request := oci_streaming.DeleteStreamRequest{}
+func (s *StreamingConnectHarnessResourceCrud) Delete() error {
+	request := oci_streaming.DeleteConnectHarnessRequest{}
 
 	tmp := s.D.Id()
-	request.StreamId = &tmp
+	request.ConnectHarnessId = &tmp
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	_, err := s.Client.DeleteStream(context.Background(), request)
+	_, err := s.Client.DeleteConnectHarness(context.Background(), request)
 	return err
 }
 
-func (s *StreamingStreamResourceCrud) SetData() error {
+func (s *StreamingConnectHarnessResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -305,27 +262,11 @@ func (s *StreamingStreamResourceCrud) SetData() error {
 		s.D.Set("lifecycle_state_details", *s.Res.LifecycleStateDetails)
 	}
 
-	if s.Res.MessagesEndpoint != nil {
-		s.D.Set("messages_endpoint", *s.Res.MessagesEndpoint)
-	}
-
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
 
-	if s.Res.Partitions != nil {
-		s.D.Set("partitions", *s.Res.Partitions)
-	}
-
-	if s.Res.RetentionInHours != nil {
-		s.D.Set("retention_in_hours", *s.Res.RetentionInHours)
-	}
-
 	s.D.Set("state", s.Res.LifecycleState)
-
-	if s.Res.StreamPoolId != nil {
-		s.D.Set("stream_pool_id", *s.Res.StreamPoolId)
-	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -334,21 +275,21 @@ func (s *StreamingStreamResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *StreamingStreamResourceCrud) updateCompartment(compartment interface{}) error {
-	changeCompartmentRequest := oci_streaming.ChangeStreamCompartmentRequest{}
+func (s *StreamingConnectHarnessResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_streaming.ChangeConnectHarnessCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
 	idTmp := s.D.Id()
-	changeCompartmentRequest.StreamId = &idTmp
+	changeCompartmentRequest.ConnectHarnessId = &idTmp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	_, err := s.Client.ChangeStreamCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeConnectHarnessCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
-	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_streaming.StreamLifecycleStateActive }
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_streaming.ConnectHarnessLifecycleStateActive }
 	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }

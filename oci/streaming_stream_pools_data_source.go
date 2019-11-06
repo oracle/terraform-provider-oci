@@ -9,14 +9,14 @@ import (
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 )
 
-func StreamingStreamsDataSource() *schema.Resource {
+func StreamingStreamPoolsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readStreamingStreams,
+		Read: readStreamingStreamPools,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 			},
 			"id": {
 				Type:     schema.TypeString,
@@ -30,39 +30,35 @@ func StreamingStreamsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"stream_pool_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"streams": {
+			"stream_pools": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(StreamingStreamResource()),
+				Elem:     GetDataSourceItemSchema(StreamingStreamPoolResource()),
 			},
 		},
 	}
 }
 
-func readStreamingStreams(d *schema.ResourceData, m interface{}) error {
-	sync := &StreamingStreamsDataSourceCrud{}
+func readStreamingStreamPools(d *schema.ResourceData, m interface{}) error {
+	sync := &StreamingStreamPoolsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*OracleClients).streamAdminClient
 
 	return ReadResource(sync)
 }
 
-type StreamingStreamsDataSourceCrud struct {
+type StreamingStreamPoolsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_streaming.StreamAdminClient
-	Res    *oci_streaming.ListStreamsResponse
+	Res    *oci_streaming.ListStreamPoolsResponse
 }
 
-func (s *StreamingStreamsDataSourceCrud) VoidState() {
+func (s *StreamingStreamPoolsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *StreamingStreamsDataSourceCrud) Get() error {
-	request := oci_streaming.ListStreamsRequest{}
+func (s *StreamingStreamPoolsDataSourceCrud) Get() error {
+	request := oci_streaming.ListStreamPoolsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -80,17 +76,12 @@ func (s *StreamingStreamsDataSourceCrud) Get() error {
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_streaming.StreamLifecycleStateEnum(state.(string))
-	}
-
-	if streamPoolId, ok := s.D.GetOkExists("stream_pool_id"); ok {
-		tmp := streamPoolId.(string)
-		request.StreamPoolId = &tmp
+		request.LifecycleState = oci_streaming.StreamPoolSummaryLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "streaming")
 
-	response, err := s.Client.ListStreams(context.Background(), request)
+	response, err := s.Client.ListStreamPools(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -99,7 +90,7 @@ func (s *StreamingStreamsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListStreams(context.Background(), request)
+		listResponse, err := s.Client.ListStreamPools(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -111,7 +102,7 @@ func (s *StreamingStreamsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *StreamingStreamsDataSourceCrud) SetData() error {
+func (s *StreamingStreamPoolsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -120,52 +111,38 @@ func (s *StreamingStreamsDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		stream := map[string]interface{}{}
-
-		if r.CompartmentId != nil {
-			stream["compartment_id"] = *r.CompartmentId
+		streamPool := map[string]interface{}{
+			"compartment_id": *r.CompartmentId,
 		}
 
 		if r.DefinedTags != nil {
-			stream["defined_tags"] = definedTagsToMap(r.DefinedTags)
+			streamPool["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
 
-		stream["freeform_tags"] = r.FreeformTags
+		streamPool["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
-			stream["id"] = *r.Id
-		}
-
-		if r.MessagesEndpoint != nil {
-			stream["messages_endpoint"] = *r.MessagesEndpoint
+			streamPool["id"] = *r.Id
 		}
 
 		if r.Name != nil {
-			stream["name"] = *r.Name
+			streamPool["name"] = *r.Name
 		}
 
-		if r.Partitions != nil {
-			stream["partitions"] = *r.Partitions
-		}
-
-		stream["state"] = r.LifecycleState
-
-		if r.StreamPoolId != nil {
-			stream["stream_pool_id"] = *r.StreamPoolId
-		}
+		streamPool["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
-			stream["time_created"] = r.TimeCreated.String()
+			streamPool["time_created"] = r.TimeCreated.String()
 		}
 
-		resources = append(resources, stream)
+		resources = append(resources, streamPool)
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		resources = ApplyFilters(f.(*schema.Set), resources, StreamingStreamsDataSource().Schema["streams"].Elem.(*schema.Resource).Schema)
+		resources = ApplyFilters(f.(*schema.Set), resources, StreamingStreamPoolsDataSource().Schema["stream_pools"].Elem.(*schema.Resource).Schema)
 	}
 
-	if err := s.D.Set("streams", resources); err != nil {
+	if err := s.D.Set("stream_pools", resources); err != nil {
 		return err
 	}
 

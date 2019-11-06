@@ -94,6 +94,7 @@ func TestStreamingStreamArchiverResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "start_position", "LATEST"),
 					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
 					resource.TestCheckResourceAttrSet(resourceName, "stream_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttr(resourceName, "use_existing_bucket", "true"),
 
 					func(s *terraform.State) (err error) {
@@ -119,6 +120,7 @@ func TestStreamingStreamArchiverResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "start_position", "TRIM_HORIZON"),
 					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
 					resource.TestCheckResourceAttrSet(resourceName, "stream_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttr(resourceName, "use_existing_bucket", "true"),
 
 					func(s *terraform.State) (err error) {

@@ -93,6 +93,24 @@ func TestStreamingStreamResource_basic(t *testing.T) {
 					},
 				),
 			},
+			// Verify that stream's compartment_id can be removed and stream_pool_id can be used
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StreamResourceDependencies +
+					generateResourceFromRepresentationMap("oci_streaming_stream_pool", "test_stream_pool", Required, Create, representationCopyWithNewProperties(streamPoolRepresentation, map[string]interface{}{
+						"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+					})) +
+					generateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", Optional, Create, streampoolidRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "name", "mynewstream"),
+					resource.TestCheckResourceAttr(resourceName, "partitions", "1"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = fromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
 
 			// delete before next create
 			{

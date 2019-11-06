@@ -3,6 +3,7 @@
 ### Added
 - Support VM Instance resizing with reboot in `oci_core_instance` resource
 - Support for improved custom image support in  `oci_containerengine_node_pool` resource
+- Support for Kafka compatibility in Oracle Streaming Service
 
 ### Notes
 Starting with this version, the terraform-provider-oci supports VM Instance resizing with reboot. Resizing can only happen within the shapes of same family. The shapes much be compatible with the image and the instance should not be associated to any `dedicated_vm_host_id`.
