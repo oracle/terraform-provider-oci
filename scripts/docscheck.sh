@@ -10,26 +10,22 @@ for doc in $docs; do
 
   case "$category" in
     "guides")
-      # Guides have no requirements
-      continue
+      # Guides require a page_title
+      if ! grep "^page_title: " "$doc" > /dev/null; then
+        echo "Guide is missing a page_title: $doc"
+        error=true
+      fi
       ;;
 
-    "d")
-      # Data sources have no requirements
-      continue
-      ;;
-
-		"r")
-      # Resources require a subcategory
-      grep "^subcategory: " "$doc" > /dev/null
-      if [[ "$?" == "1" ]]; then
+    "d" | "r")
+      # Resources and data sources require a subcategory
+      if ! grep "^subcategory: " "$doc" > /dev/null; then
         echo "Doc is missing a subcategory: $doc"
         error=true
       fi
       ;;
 
     *)
-      # Docs
       error=true
       echo "Unknown category \"$category\". " \
         "Docs can only exist in r/, d/, or guides/ folders."
