@@ -15,7 +15,6 @@ variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
 variable "ssh_public_key" {}
-variable "shape" {}
 
 variable "instance_image_ocid" {
   type = "map"
@@ -72,7 +71,7 @@ resource "oci_core_image" "custom_image" {
 resource "oci_core_shape_management" "compatible_shape" {
   compartment_id = "${var.compartment_ocid}"
   image_id       = "${oci_core_image.custom_image.id}"
-  shape_name     = "${var.shape}"
+  shape_name     = "VM.Standard2.1"
 }
 
 resource "oci_core_vcn" "test_vcn" {
