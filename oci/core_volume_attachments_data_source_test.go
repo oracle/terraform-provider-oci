@@ -1,13 +1,13 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-package provider
+package oci
 
 import (
 	"testing"
 
 	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
-	common "github.com/oracle/oci-go-sdk/common"
+	"github.com/oracle/oci-go-sdk/common"
 
 	oci_core "github.com/oracle/oci-go-sdk/core"
 

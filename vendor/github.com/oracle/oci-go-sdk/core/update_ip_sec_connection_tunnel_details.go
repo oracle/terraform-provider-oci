@@ -26,6 +26,9 @@ type UpdateIpSecConnectionTunnelDetails struct {
 	// The type of routing to use for this tunnel (either BGP dynamic routing or static routing).
 	Routing UpdateIpSecConnectionTunnelDetailsRoutingEnum `mandatory:"false" json:"routing,omitempty"`
 
+	// Internet Key Exchange protocol version.
+	IkeVersion UpdateIpSecConnectionTunnelDetailsIkeVersionEnum `mandatory:"false" json:"ikeVersion,omitempty"`
+
 	// Information for establishing a BGP session for the IPSec tunnel.
 	BgpSessionConfig *UpdateIpSecTunnelBgpSessionDetails `mandatory:"false" json:"bgpSessionConfig"`
 }
@@ -52,6 +55,29 @@ var mappingUpdateIpSecConnectionTunnelDetailsRouting = map[string]UpdateIpSecCon
 func GetUpdateIpSecConnectionTunnelDetailsRoutingEnumValues() []UpdateIpSecConnectionTunnelDetailsRoutingEnum {
 	values := make([]UpdateIpSecConnectionTunnelDetailsRoutingEnum, 0)
 	for _, v := range mappingUpdateIpSecConnectionTunnelDetailsRouting {
+		values = append(values, v)
+	}
+	return values
+}
+
+// UpdateIpSecConnectionTunnelDetailsIkeVersionEnum Enum with underlying type: string
+type UpdateIpSecConnectionTunnelDetailsIkeVersionEnum string
+
+// Set of constants representing the allowable values for UpdateIpSecConnectionTunnelDetailsIkeVersionEnum
+const (
+	UpdateIpSecConnectionTunnelDetailsIkeVersionV1 UpdateIpSecConnectionTunnelDetailsIkeVersionEnum = "V1"
+	UpdateIpSecConnectionTunnelDetailsIkeVersionV2 UpdateIpSecConnectionTunnelDetailsIkeVersionEnum = "V2"
+)
+
+var mappingUpdateIpSecConnectionTunnelDetailsIkeVersion = map[string]UpdateIpSecConnectionTunnelDetailsIkeVersionEnum{
+	"V1": UpdateIpSecConnectionTunnelDetailsIkeVersionV1,
+	"V2": UpdateIpSecConnectionTunnelDetailsIkeVersionV2,
+}
+
+// GetUpdateIpSecConnectionTunnelDetailsIkeVersionEnumValues Enumerates the set of values for UpdateIpSecConnectionTunnelDetailsIkeVersionEnum
+func GetUpdateIpSecConnectionTunnelDetailsIkeVersionEnumValues() []UpdateIpSecConnectionTunnelDetailsIkeVersionEnum {
+	values := make([]UpdateIpSecConnectionTunnelDetailsIkeVersionEnum, 0)
+	for _, v := range mappingUpdateIpSecConnectionTunnelDetailsIkeVersion {
 		values = append(values, v)
 	}
 	return values

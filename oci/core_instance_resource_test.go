@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-package provider
+package oci
 
 import (
 	"fmt"
@@ -1034,10 +1034,6 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_fetchVnicWhe
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.%", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "metadata.user_data", "ZWNobyBoZWxsbw=="),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "metadata.ssh_authorized_keys"),
-					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.%", "3"),
-					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyA", "valA"),
-					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyB", "{\"keyB1\": \"valB1\", \"keyB2\": {\"keyB2\": \"valB2\"}}"),
-					resource.TestCheckResourceAttr(s.ResourceName, "extended_metadata.keyC", "[\"valC1\", \"valC2\"]"),
 					resource.TestCheckResourceAttr(s.ResourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "region"),
@@ -1073,6 +1069,124 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_fetchVnicWhe
 					"source_details.0.kms_key_id", //TODO: Service is not returning this value, remove when the service returns it. COM-26394
 				},
 				ResourceName: resourceName,
+			},
+		},
+	})
+}
+
+func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_updateAssignPublicIp() {
+
+	var resId, resId2 string
+
+	resource.Test(s.T(), resource.TestCase{
+		Providers: s.Providers,
+		Steps: []resource.TestStep{
+			// create with assign_public_ip
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
+					func(ts *terraform.State) (err error) {
+						resId, err = fromInstanceState(ts, s.ResourceName, "id")
+						return err
+					},
+				),
+			},
+			// update assign_public_ip to false
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = false
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(s.ResourceName, "public_ip", ""),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "false"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// update assign_public_ip to true with freeform_tags
+			{
+				Config: s.Config + `
+				resource "oci_core_instance" "t" {
+					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+					compartment_id = "${var.compartment_id}"
+					image = "${var.InstanceImageOCID[var.region]}"
+					shape = "VM.Standard2.1"
+					display_name = "-tf-instance"
+					subnet_id = "${oci_core_subnet.t.id}"
+					create_vnic_details {
+						subnet_id = "${oci_core_subnet.t.id}"
+						skip_source_dest_check = false
+						assign_public_ip = true
+						freeform_tags = { "Department" = "Accounting"}
+					}
+				}
+				data "oci_core_vnic_attachments" "t" {
+					compartment_id = "${var.compartment_id}"
+					instance_id = "${oci_core_instance.t.id}"
+				}
+				data "oci_core_vnic" "t" {
+					vnic_id = "${lookup(data.oci_core_vnic_attachments.t.vnic_attachments[0],"vnic_id")}"
+				}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "public_ip"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "private_ip"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.assign_public_ip", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
 			},
 		},
 	})

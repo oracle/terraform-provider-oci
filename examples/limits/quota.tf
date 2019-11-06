@@ -21,9 +21,9 @@ provider "oci" {
 resource "oci_limits_quota" "test_quota" {
   #Required
   compartment_id = "${var.tenancy_ocid}"
-  description    = "Quotas for compute resources"
+  description    = "Quotas for notifications"
   name           = "TestQuotas"
-  statements     = ["Set compute quotas to 0 in tenancy"]
+  statements     = ["Set notifications quota topic-count to 99 in tenancy"]
 
   #Optional
   defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}"
