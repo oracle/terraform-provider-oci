@@ -14,6 +14,9 @@ type GetNodePoolOptionsRequest struct {
 	// The id of the option set to retrieve. Use "all" get all options, or use a cluster ID to get options specific to the provided cluster.
 	NodePoolOptionId *string `mandatory:"true" contributesTo:"path" name:"nodePoolOptionId"`
 
+	// The OCID of the compartment.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

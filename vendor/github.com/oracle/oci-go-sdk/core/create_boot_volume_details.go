@@ -54,6 +54,9 @@ type CreateBootVolumeDetails struct {
 
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
+
+	// The number of Volume Performance Units that will be applied to this boot volume per GB.
+	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 }
 
 func (m CreateBootVolumeDetails) String() string {
@@ -69,6 +72,7 @@ func (m *CreateBootVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		KmsKeyId           *string                           `json:"kmsKeyId"`
 		SizeInGBs          *int64                            `json:"sizeInGBs"`
+		VpusPerGB          *int64                            `json:"vpusPerGB"`
 		AvailabilityDomain *string                           `json:"availabilityDomain"`
 		CompartmentId      *string                           `json:"compartmentId"`
 		SourceDetails      bootvolumesourcedetails           `json:"sourceDetails"`
@@ -84,6 +88,7 @@ func (m *CreateBootVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 	m.KmsKeyId = model.KmsKeyId
 	m.SizeInGBs = model.SizeInGBs
+	m.VpusPerGB = model.VpusPerGB
 	m.AvailabilityDomain = model.AvailabilityDomain
 	m.CompartmentId = model.CompartmentId
 	nn, e := model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
