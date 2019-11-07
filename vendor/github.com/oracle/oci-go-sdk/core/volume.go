@@ -70,6 +70,9 @@ type Volume struct {
 	// The OCID of the KMS key which is the master encryption key for the volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
+	// The number of Volume Performance Units that will be applied to this volume per GB.
+	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
+
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -93,6 +96,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
 		IsHydrated         *bool                             `json:"isHydrated"`
 		KmsKeyId           *string                           `json:"kmsKeyId"`
+		VpusPerGB          *int64                            `json:"vpusPerGB"`
 		SizeInGBs          *int64                            `json:"sizeInGBs"`
 		SourceDetails      volumesourcedetails               `json:"sourceDetails"`
 		VolumeGroupId      *string                           `json:"volumeGroupId"`
@@ -114,6 +118,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	m.SystemTags = model.SystemTags
 	m.IsHydrated = model.IsHydrated
 	m.KmsKeyId = model.KmsKeyId
+	m.VpusPerGB = model.VpusPerGB
 	m.SizeInGBs = model.SizeInGBs
 	nn, e := model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
 	if e != nil {

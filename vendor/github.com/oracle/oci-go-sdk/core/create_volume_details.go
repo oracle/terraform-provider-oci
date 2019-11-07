@@ -48,6 +48,9 @@ type CreateVolumeDetails struct {
 	// The OCID of the KMS key to be used as the master encryption key for the volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
+	// The number of Volume Performance Units that will be applied to this volume per GB.
+	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
+
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -78,6 +81,7 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 		DisplayName        *string                           `json:"displayName"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		KmsKeyId           *string                           `json:"kmsKeyId"`
+		VpusPerGB          *int64                            `json:"vpusPerGB"`
 		SizeInGBs          *int64                            `json:"sizeInGBs"`
 		SizeInMBs          *int64                            `json:"sizeInMBs"`
 		SourceDetails      volumesourcedetails               `json:"sourceDetails"`
@@ -95,6 +99,7 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 	m.FreeformTags = model.FreeformTags
 	m.KmsKeyId = model.KmsKeyId
+	m.VpusPerGB = model.VpusPerGB
 	m.SizeInGBs = model.SizeInGBs
 	m.SizeInMBs = model.SizeInMBs
 	nn, e := model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
