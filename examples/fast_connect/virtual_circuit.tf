@@ -20,9 +20,9 @@ resource "oci_core_virtual_circuit" "virtual_circuit_private" {
     vlan                                    = "${var.virtual_circuit_cross_connect_mappings_vlan}"
   }
 
-  customer_bgp_asn = "${var.virtual_circuit_customer_bgp_asn}"
-  display_name     = "${var.virtual_circuit_display_name}"
-  gateway_id       = "${oci_core_drg.drg_private.id}"
+  customer_asn = "${var.virtual_circuit_customer_asn}"
+  display_name = "${var.virtual_circuit_display_name}"
+  gateway_id   = "${oci_core_drg.drg_private.id}"
 
   #provider_service_id = "${oci_core_provider_service.provider_service.id}"
   region = "${var.virtual_circuit_region}"
@@ -41,8 +41,8 @@ resource "oci_core_virtual_circuit" "virtual_circuit_public" {
     vlan                                    = "${var.virtual_circuit_cross_connect_mappings_vlan_public}"
   }
 
-  customer_bgp_asn = "${var.virtual_circuit_customer_bgp_asn}"
-  display_name     = "${var.virtual_circuit_display_name}"
+  customer_asn = "${var.virtual_circuit_customer_asn}"
+  display_name = "${var.virtual_circuit_display_name}"
 
   #provider_service_id = "${oci_core_provider_service.provider_service.id}"
 
@@ -80,7 +80,7 @@ resource "oci_core_virtual_circuit" "virtual_circuit_provider_private_layer2" {
     oracle_bgp_peering_ip   = "${var.virtual_circuit_cross_connect_mappings_oracle_bgp_peering_ip}"
   }
 
-  customer_bgp_asn    = "${var.virtual_circuit_customer_bgp_asn}"
+  customer_asn        = "${var.virtual_circuit_customer_asn}"
   display_name        = "${var.virtual_circuit_display_name}"
   gateway_id          = "${oci_core_drg.drg_provider_layer2.id}"
   provider_service_id = "${data.oci_core_fast_connect_provider_services.fast_connect_provider_services_private_layer2.fast_connect_provider_services.0.id}"

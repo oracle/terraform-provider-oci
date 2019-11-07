@@ -43,11 +43,16 @@ var (
 		"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
 		"public_prefixes":        RepresentationGroup{Required, virtualCircuitPublicPrefixesRepresentation},
 	}
+	virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation = representationCopyWithNewProperties(
+		representationCopyWithRemovedProperties(virtualCircuitPublicRequiredOnlyRepresentation, []string{"customer_bgp_asn"}), map[string]interface{}{
+			"customer_asn": Representation{repType: Required, create: `10`, update: `11`},
+		})
+
 	virtualCircuitRequiredOnlyRepresentation = map[string]interface{}{
 		"compartment_id":         Representation{repType: Required, create: `${var.compartment_id}`},
 		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
 		"cross_connect_mappings": RepresentationGroup{Required, crossConnectMappingsRequiredOnlyRepresentation},
-		"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
+		"customer_asn":           Representation{repType: Required, create: `10`, update: `11`},
 		"gateway_id":             Representation{repType: Required, create: `${oci_core_drg.test_drg.id}`},
 	}
 	virtualCircuitRepresentation = map[string]interface{}{
@@ -55,7 +60,7 @@ var (
 		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
 		"bandwidth_shape_name":   Representation{repType: Optional, create: `10 Gbps`, update: `20 Gbps`},
 		"cross_connect_mappings": RepresentationGroup{Required, crossConnectMappingsRequiredOnlyRepresentation},
-		"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
+		"customer_asn":           Representation{repType: Required, create: `10`, update: `11`},
 		"defined_tags":           Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":          Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
@@ -68,7 +73,7 @@ var (
 		"type":                   Representation{repType: Required, create: `${var.virtual_circuit_type}`},
 		"bandwidth_shape_name":   Representation{repType: Optional, create: "${data.oci_core_virtual_circuit_bandwidth_shapes.test_virtual_circuit_bandwidth_shapes.virtual_circuit_bandwidth_shapes.0.name}"},
 		"cross_connect_mappings": RepresentationGroup{Required, virtualCircuitCrossConnectMappingsRepresentation},
-		"customer_bgp_asn":       Representation{repType: Required, create: `10`, update: `11`},
+		"customer_asn":           Representation{repType: Required, create: `10`, update: `11`},
 		"display_name":           Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"gateway_id":             Representation{repType: Optional, create: `${oci_core_drg.test_drg.id}`},
 		"provider_service_id":    Representation{repType: Optional, create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
@@ -193,16 +198,42 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					},
 				),
 			},
+			// verify update from customer_bgp_asn to customer_asn
+			{
+				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
+					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Create, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
+					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
+					resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
+					resource.TestCheckResourceAttr(resourceName, "public_prefixes.#", "1"),
+					CheckResourceSetContainsElementWithProperties(resourceName, "public_prefixes", map[string]string{
+						"cidr_block": "11.0.0.0/24",
+					},
+						[]string{}),
+					resource.TestCheckResourceAttr(resourceName, "type", "PUBLIC"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
 			// verify update - PUBLIC Virtual Circuit
 			{
 				Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependencies + VirtualCircuitPublicPropertyVariables +
-					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Update, virtualCircuitPublicRequiredOnlyRepresentation),
+					generateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", Required, Update, virtualCircuitPublicRequiredOnlyWithoutDeprecatedRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "300"),
-					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "11"),
+					resource.TestCheckResourceAttr(resourceName, "customer_asn", "11"),
 					resource.TestCheckResourceAttr(resourceName, "public_prefixes.#", "1"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "public_prefixes", map[string]string{
 						"cidr_block": "11.0.1.0/24",
@@ -232,7 +263,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
-					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
+					resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
 					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "provider_service_id"),
 					resource.TestCheckResourceAttr(resourceName, "provider_state", "INACTIVE"),
@@ -253,7 +284,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
-					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "11"),
+					resource.TestCheckResourceAttr(resourceName, "customer_asn", "11"),
 					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "provider_service_id"),
 					resource.TestCheckResourceAttr(resourceName, "provider_state", "INACTIVE"),
@@ -283,7 +314,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
-					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
+					resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
 					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 					resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
@@ -311,7 +342,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
-					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
+					resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -346,7 +377,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.18/31"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
-					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "10"),
+					resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 					resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 					resource.TestCheckResourceAttr(resourceName, "region", "us-phoenix-1"),
@@ -374,7 +405,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
 					resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "300"),
-					resource.TestCheckResourceAttr(resourceName, "customer_bgp_asn", "11"),
+					resource.TestCheckResourceAttr(resourceName, "customer_asn", "11"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -410,7 +441,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.cross_connect_mappings.0.vlan", "300"),
-					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.customer_bgp_asn", "11"),
+					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.customer_asn", "11"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.freeform_tags.%", "1"),
@@ -441,7 +472,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cross_connect_mappings.0.vlan", "300"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "customer_bgp_asn", "11"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "customer_asn", "11"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
