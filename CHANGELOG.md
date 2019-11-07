@@ -1,4 +1,7 @@
-## 3.53.1 (Unreleased)
+## 3.54.0 (Unreleased)
+
+### Added
+-  support for Autonomous Database maintenance window
 
 ### Fixed
 - Fixes an issue in resource discovery when duplicates of the same service are specified to the `-services` argument

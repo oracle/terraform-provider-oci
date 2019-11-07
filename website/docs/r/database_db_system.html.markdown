@@ -78,7 +78,7 @@ resource "oci_database_db_system" "test_db_system" {
 		#Optional
 		storage_management = "${var.db_system_db_system_options_storage_management}"
 	}
-	defined_tags = {"Operations.CostCenter"= "42"}
+	defined_tags = "${var.db_system_defined_tags}"
 	disk_redundancy = "${var.db_system_disk_redundancy}"
 	display_name = "${var.db_system_display_name}"
 	domain = "${var.db_system_domain}"
@@ -104,7 +104,7 @@ The following arguments are supported:
 	**Subnet Restrictions:** See the subnet restrictions information for **subnetId**. 
 * `cluster_name` - (Optional) The cluster name for Exadata and 2-node RAC virtual machine DB systems. The cluster name must begin with an an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment the DB system  belongs in.
-* `cpu_core_count` - (Optional) (Updatable) The number of CPU cores to enable for a bare metal or Exadata DB system. The service ignores this value when a VM shape is specified. The valid values depend on the specified shape:
+* `cpu_core_count` - (Optional) (Updatable) The number of CPU cores to enable for a bare metal or Exadata DB system. The valid values depend on the specified shape:
 	* BM.DenseIO1.36 - Specify a multiple of 2, from 2 to 36.
 	* BM.DenseIO2.52 - Specify a multiple of 2, from 2 to 52.
 	* Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
@@ -143,7 +143,7 @@ The following arguments are supported:
     * `db_version` - (Required when source=NONE) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.
 	* `display_name` - (Optional) The user-provided name of the database home.
 * `db_system_options` - (Optional) 
-	* `storage_management` - (Optional) The storage option used in DB system. You can specify either [Automatic Storage Management (ASM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=OSTMG-GUID-BC612D35-5399-4A35-843E-CF76E3D3CDB5) or [Logical Volume Manager (LVM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=ADMIN-GUID-57C50259-9472-4ED0-8818-DB9ABA96EC8E).
+	* `storage_management` - (Optional) The storage option used in DB system. For 1-node VM systems, you can specify either [Automatic Storage Management (ASM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=OSTMG-GUID-BC612D35-5399-4A35-843E-CF76E3D3CDB5) or [Logical Volume Manager (LVM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=ADMIN-GUID-57C50259-9472-4ED0-8818-DB9ABA96EC8E). For more information, see [Bare Metal and Virtual Machine DB Systems](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/overview.htm#fastprovisioning).
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `disk_redundancy` - (Optional) The type of redundancy configured for the DB system. Normal is 2-way redundancy, recommended for test and development systems. High is 3-way redundancy, recommended for production systems. 
 * `display_name` - (Optional) The user-friendly name for the DB system. The name does not have to be unique.
@@ -163,7 +163,7 @@ The following arguments are supported:
 	The maximum length of the combined hostname and domain is 63 characters.
 
 	**Note:** The hostname must be unique within the subnet. If it is not unique, the DB system will fail to provision. 
-* `license_model` - (Optional) The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED. Allowed values are: LICENSE_INCLUDED, BRING_YOUR_OWN_LICENSE.
+* `license_model` - (Optional) The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED. 
 * `node_count` - (Optional) The number of nodes to launch for a 2-node RAC virtual machine DB system. 
 * `nsg_ids` - (Optional) (Updatable) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
 * `shape` - (Required) The shape of the DB system. The shape determines resources allocated to the DB system.
@@ -171,7 +171,7 @@ The following arguments are supported:
 	* For bare metal and Exadata shapes, the number of CPU cores, memory, and storage
 
 	To get a list of shapes, use the [ListDbSystemShapes](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes) operation. 
-* `source` - (Optional) The source of the database: NONE for creating a new database. DB_BACKUP for creating a new database by restoring from a backup. The default is NONE. 
+* `source` - (Optional) The source of the database: Use `NONE` for creating a new database. Use `DB_BACKUP` for creating a new database by restoring from a backup. The default is `NONE`. 
 * `sparse_diskgroup` - (Optional) If true, Sparse Diskgroup is configured for Exadata dbsystem. If False, Sparse diskgroup is not configured. 
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of the key pair to use for SSH access to the DB system. Multiple public keys can be provided. The length of the combined keys cannot exceed 40,000 characters.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the DB system is associated with.
@@ -203,7 +203,7 @@ The following attributes are exported:
 * `data_storage_size_in_gb` - The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems. 
 * `database_edition` - The Oracle Database edition that applies to all the databases on the DB system. 
 * `db_system_options` - 
-	* `storage_management` - The storage option used in DB system. You can specify either [Automatic Storage Management (ASM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=OSTMG-GUID-BC612D35-5399-4A35-843E-CF76E3D3CDB5) or [Logical Volume Manager (LVM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=ADMIN-GUID-57C50259-9472-4ED0-8818-DB9ABA96EC8E).
+	* `storage_management` - The storage option used in DB system. For 1-node VM systems, you can specify either [Automatic Storage Management (ASM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=OSTMG-GUID-BC612D35-5399-4A35-843E-CF76E3D3CDB5) or [Logical Volume Manager (LVM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=ADMIN-GUID-57C50259-9472-4ED0-8818-DB9ABA96EC8E).
 * `db_home` -
     * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
     * `database` 
