@@ -134,6 +134,13 @@ func CoreClusterNetworkResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"fault_domains": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"primary_subnet_id": {
 										Type:     schema.TypeString,
 										Computed: true,
