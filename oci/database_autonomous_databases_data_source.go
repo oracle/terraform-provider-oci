@@ -219,11 +219,11 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		}
 
 		if r.TimeDeletionOfFreeAutonomousDatabase != nil {
-			autonomousDatabase["time_deletion_of_free_autonomous_database"] = *r.TimeDeletionOfFreeAutonomousDatabase
+			autonomousDatabase["time_deletion_of_free_autonomous_database"] = r.TimeDeletionOfFreeAutonomousDatabase.String()
 		}
 
 		if r.TimeReclamationOfFreeAutonomousDatabase != nil {
-			autonomousDatabase["time_reclamation_of_free_autonomous_database"] = *r.TimeReclamationOfFreeAutonomousDatabase
+			autonomousDatabase["time_reclamation_of_free_autonomous_database"] = r.TimeReclamationOfFreeAutonomousDatabase.String()
 		}
 
 		if r.UsedDataStorageSizeInTBs != nil {

@@ -603,11 +603,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	}
 
 	if s.Res.TimeDeletionOfFreeAutonomousDatabase != nil {
-		s.D.Set("time_deletion_of_free_autonomous_database", *s.Res.TimeDeletionOfFreeAutonomousDatabase)
+		s.D.Set("time_deletion_of_free_autonomous_database", s.Res.TimeDeletionOfFreeAutonomousDatabase.String())
 	}
 
 	if s.Res.TimeReclamationOfFreeAutonomousDatabase != nil {
-		s.D.Set("time_reclamation_of_free_autonomous_database", *s.Res.TimeReclamationOfFreeAutonomousDatabase)
+		s.D.Set("time_reclamation_of_free_autonomous_database", s.Res.TimeReclamationOfFreeAutonomousDatabase.String())
 	}
 
 	if s.Res.UsedDataStorageSizeInTBs != nil {
