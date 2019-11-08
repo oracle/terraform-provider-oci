@@ -7,6 +7,9 @@
 - Support for URL Redirect Feature in `oci_load_balancer_rule_set` resource
 - Support for data safe integration in `oci_database_autonomous_database` resource
 
+### Fixed
+- Fixed `time_deletion_of_free_autonomous_database` and `time_reclamation_of_free_autonomous_database`attributes in `oci_database_autonomous_database` resource
+
 ## 3.51.0 (November 06, 2019)
 
 ### Added
