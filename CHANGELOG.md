@@ -1,4 +1,8 @@
 ## 3.54.1 (Unreleased)
+
+### Added
+- Support Etag for ListObjects
+
 ## 3.54.0 (November 27, 2019)
 
 ### Added
