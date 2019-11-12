@@ -260,6 +260,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "namespace"),
 
 					resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "objects.0.etag"),
 				),
 			},
 			// verify datasource for delimiter and prefix

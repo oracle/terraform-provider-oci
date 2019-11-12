@@ -888,6 +888,10 @@ func (s *ObjectStorageObjectResourceCrud) setDataObject() error {
 func ObjectSummaryToMap(obj oci_object_storage.ObjectSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.Etag != nil {
+		result["etag"] = string(*obj.Etag)
+	}
+
 	if obj.Md5 != nil {
 		result["md5"] = string(*obj.Md5)
 	}
