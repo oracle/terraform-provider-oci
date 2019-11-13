@@ -62,6 +62,7 @@ func init() {
 	exportLoadBalancerRuleSetHints.processDiscoveredResourcesFn = processLoadBalancerRuleSets
 
 	exportCoreBootVolumeHints.processDiscoveredResourcesFn = filterSourcedBootVolumes
+	exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
 	exportCoreDhcpOptionsHints.processDiscoveredResourcesFn = processDefaultDhcpOptions
 	exportCoreImageHints.processDiscoveredResourcesFn = filterCustomImages
 	exportCoreInstanceHints.discoverableLifecycleStates = append(exportCoreInstanceHints.discoverableLifecycleStates, string(oci_core.InstanceLifecycleStateStopped))
