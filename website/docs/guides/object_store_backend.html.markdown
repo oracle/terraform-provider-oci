@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: "Provider: Oracle Cloud Infrastructure"
+page_title: "Object Store Backend"
 sidebar_current: "docs-oci-guide-object_store_backend"
 description: |-
   The Oracle Cloud Infrastructure provider. Object Store Backend

@@ -1,14 +1,14 @@
 ---
-subcategory: "Waas"
+subcategory: "Web Application Acceleration and Security"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_custom_protection_rule"
 sidebar_current: "docs-oci-datasource-waas-custom_protection_rule"
 description: |-
-  Provides details about a specific Custom Protection Rule in Oracle Cloud Infrastructure Waas service
+  Provides details about a specific Custom Protection Rule in Oracle Cloud Infrastructure Web Application Acceleration and Security service
 ---
 
 # Data Source: oci_waas_custom_protection_rule
-This data source provides details about a specific Custom Protection Rule resource in Oracle Cloud Infrastructure Waas service.
+This data source provides details about a specific Custom Protection Rule resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
 
 Gets the details of a custom protection rule.
 

@@ -1,14 +1,14 @@
 ---
-subcategory: "Ons"
+subcategory: "Notifications"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ons_notification_topic"
 sidebar_current: "docs-oci-resource-ons-notification_topic"
 description: |-
-  Provides the Notification Topic resource in Oracle Cloud Infrastructure Ons service
+  Provides the Notification Topic resource in Oracle Cloud Infrastructure Notifications service
 ---
 
 # oci_ons_notification_topic
-This resource provides the Notification Topic resource in Oracle Cloud Infrastructure Ons service.
+This resource provides the Notification Topic resource in Oracle Cloud Infrastructure Notifications service.
 
 Creates a topic in the specified compartment. For general information about topics, see
 [Managing Topics and Subscriptions](https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm).

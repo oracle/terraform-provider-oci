@@ -1,14 +1,14 @@
 ---
-subcategory: "Waas"
+subcategory: "Web Application Acceleration and Security"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_http_redirect"
 sidebar_current: "docs-oci-datasource-waas-http_redirect"
 description: |-
-  Provides details about a specific Http Redirect in Oracle Cloud Infrastructure Waas service
+  Provides details about a specific Http Redirect in Oracle Cloud Infrastructure Web Application Acceleration and Security service
 ---
 
 # Data Source: oci_waas_http_redirect
-This data source provides details about a specific Http Redirect resource in Oracle Cloud Infrastructure Waas service.
+This data source provides details about a specific Http Redirect resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
 
 Gets the details of a HTTP Redirect.
 

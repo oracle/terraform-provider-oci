@@ -205,6 +205,30 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-oce") %>>
+            <a href="#">Content and Experience</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-oce-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/oce_oce_instance.html">oci_oce_oce_instance</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/oce_oce_instances.html">oci_oce_oce_instances</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-oce-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/oce_oce_instance.html">oci_oce_oce_instance</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-core") %>>
             <a href="#">Core</a>
             <ul class="nav">
@@ -827,6 +851,30 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/database_vm_cluster_network.html">oci_database_vm_cluster_network</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li<%= sidebar_current("docs-oci-oda") %>>
+            <a href="#">Digital Assistant</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-oda-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/oda_oda_instance.html">oci_oda_oda_instance</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/oda_oda_instances.html">oci_oda_oda_instances</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-oda-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/oda_oda_instance.html">oci_oda_oda_instance</a>
                         </li>
                     </ul>
                 </li>
@@ -1462,6 +1510,39 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-ons") %>>
+            <a href="#">Notifications</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-ons-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/ons_notification_topic.html">oci_ons_notification_topic</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/ons_notification_topics.html">oci_ons_notification_topics</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/ons_subscription.html">oci_ons_subscription</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/ons_subscriptions.html">oci_ons_subscriptions</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-ons-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/ons_notification_topic.html">oci_ons_notification_topic</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/ons_subscription.html">oci_ons_subscription</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-object_storage") %>>
             <a href="#">Object Storage</a>
             <ul class="nav">
@@ -1516,89 +1597,8 @@
                 </li>
             </ul>
         </li>
-        <li<%= sidebar_current("docs-oci-oce") %>>
-            <a href="#">Oce</a>
-            <ul class="nav">
-                <li<%= sidebar_current("docs-oci-oce-datasources") %>>
-                    <a href="#">Data Sources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/d/oce_oce_instance.html">oci_oce_oce_instance</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/oce_oce_instances.html">oci_oce_oce_instances</a>
-                        </li>
-                    </ul>
-                </li>
-                <li<%= sidebar_current("docs-oci-oce-resources") %>>
-                    <a href="#">Resources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/r/oce_oce_instance.html">oci_oce_oce_instance</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li<%= sidebar_current("docs-oci-oda") %>>
-            <a href="#">Oda</a>
-            <ul class="nav">
-                <li<%= sidebar_current("docs-oci-oda-datasources") %>>
-                    <a href="#">Data Sources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/d/oda_oda_instance.html">oci_oda_oda_instance</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/oda_oda_instances.html">oci_oda_oda_instances</a>
-                        </li>
-                    </ul>
-                </li>
-                <li<%= sidebar_current("docs-oci-oda-resources") %>>
-                    <a href="#">Resources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/r/oda_oda_instance.html">oci_oda_oda_instance</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li<%= sidebar_current("docs-oci-ons") %>>
-            <a href="#">Ons</a>
-            <ul class="nav">
-                <li<%= sidebar_current("docs-oci-ons-datasources") %>>
-                    <a href="#">Data Sources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/d/ons_notification_topic.html">oci_ons_notification_topic</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/ons_notification_topics.html">oci_ons_notification_topics</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/ons_subscription.html">oci_ons_subscription</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/d/ons_subscriptions.html">oci_ons_subscriptions</a>
-                        </li>
-                    </ul>
-                </li>
-                <li<%= sidebar_current("docs-oci-ons-resources") %>>
-                    <a href="#">Resources</a>
-                    <ul class="nav nav-auto-expand">
-                        <li>
-                            <a href="/docs/providers/oci/r/ons_notification_topic.html">oci_ons_notification_topic</a>
-                        </li>
-                        <li>
-                            <a href="/docs/providers/oci/r/ons_subscription.html">oci_ons_subscription</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
         <li<%= sidebar_current("docs-oci-resourcemanager") %>>
-            <a href="#">Resourcemanager</a>
+            <a href="#">Resource Manager</a>
             <ul class="nav">
                 <li<%= sidebar_current("docs-oci-resourcemanager-datasources") %>>
                     <a href="#">Data Sources</a>
@@ -1652,7 +1652,7 @@
             </ul>
         </li>
         <li<%= sidebar_current("docs-oci-waas") %>>
-            <a href="#">Waas</a>
+            <a href="#">Web Application Acceleration and Security</a>
             <ul class="nav">
                 <li<%= sidebar_current("docs-oci-waas-datasources") %>>
                     <a href="#">Data Sources</a>

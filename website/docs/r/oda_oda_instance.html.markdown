@@ -1,14 +1,14 @@
 ---
-subcategory: "Oda"
+subcategory: "Digital Assistant"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_oda_oda_instance"
 sidebar_current: "docs-oci-resource-oda-oda_instance"
 description: |-
-  Provides the Oda Instance resource in Oracle Cloud Infrastructure Oda service
+  Provides the Oda Instance resource in Oracle Cloud Infrastructure Digital Assistant service
 ---
 
 # oci_oda_oda_instance
-This resource provides the Oda Instance resource in Oracle Cloud Infrastructure Oda service.
+This resource provides the Oda Instance resource in Oracle Cloud Infrastructure Digital Assistant service.
 
 Starts an asynchronous job to create a Digital Assistant instance.
 
