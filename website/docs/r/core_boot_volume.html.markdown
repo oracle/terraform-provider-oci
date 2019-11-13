@@ -36,6 +36,7 @@ resource "oci_core_boot_volume" "test_boot_volume" {
 	freeform_tags = {"Department"= "Finance"}
 	kms_key_id = "${oci_kms_key.test_key.id}"
 	size_in_gbs = "${var.boot_volume_size_in_gbs}"
+	vpus_per_gb = "${var.boot_volume_vpus_per_gb}"
 }
 ```
 
@@ -54,6 +55,7 @@ The following arguments are supported:
 * `source_details` - (Required) Specifies the boot volume source details for a new boot volume. The volume source is either another boot volume in the same availability domain or a boot volume backup. This is a mandatory field for a boot volume. 
 	* `id` - (Required) The OCID of the boot volume or boot volume backup.
 	* `type` - (Required) The type can be one of these values: `bootVolume`, `bootVolumeBackup`
+* `vpus_per_gb` - (Optional) (Updatable) The number of Volume Performance Units that will be applied to this boot volume per GB.
 
 
 ** IMPORTANT **
@@ -81,6 +83,7 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the boot volume was created. Format defined by RFC3339.
 * `volume_group_id` - The OCID of the source volume group.
+* `vpus_per_gb` - The number of Volume Performance Units that will be applied to this boot volume per GB.
 
 ## Import
 

@@ -15,10 +15,14 @@ func DatabaseBackupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: DefaultTimeout,
-		Create:   createDatabaseBackup,
-		Read:     readDatabaseBackup,
-		Delete:   deleteDatabaseBackup,
+		Timeouts: &schema.ResourceTimeout{
+			Create: &OneHour,
+			Update: &OneHour,
+			Delete: &OneHour,
+		},
+		Create: createDatabaseBackup,
+		Read:   readDatabaseBackup,
+		Delete: deleteDatabaseBackup,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"database_id": {

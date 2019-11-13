@@ -66,4 +66,5 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the volume was created. Format defined by RFC3339.
 * `volume_group_id` - The OCID of the source volume group.
+* `vpus_per_gb` - The number of Volume Performance Units that will be applied to this volume per GB.
 

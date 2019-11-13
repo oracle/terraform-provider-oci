@@ -13,6 +13,10 @@ func ContainerengineNodePoolOptionDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularContainerengineNodePoolOption,
 		Schema: map[string]*schema.Schema{
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"node_pool_option_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -63,6 +67,11 @@ func (s *ContainerengineNodePoolOptionDataSourceCrud) VoidState() {
 
 func (s *ContainerengineNodePoolOptionDataSourceCrud) Get() error {
 	request := oci_containerengine.GetNodePoolOptionsRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
 
 	if nodePoolOptionId, ok := s.D.GetOkExists("node_pool_option_id"); ok {
 		tmp := nodePoolOptionId.(string)

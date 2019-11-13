@@ -5,6 +5,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -55,6 +56,10 @@ var (
 func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIntegrationIntegrationInstanceResource_basic")
 	defer httpreplay.SaveScenario()
+
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestIntegrationIntegrationInstanceResource_basic") {
+		t.Skip("Skipping suppressed TestIntegrationIntegrationInstanceResource_basic")
+	}
 
 	provider := testAccProvider
 	config := testProviderConfig()

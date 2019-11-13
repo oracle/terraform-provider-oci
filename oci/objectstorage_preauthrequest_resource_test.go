@@ -4,11 +4,12 @@ package oci
 
 import (
 	"testing"
-
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
+
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	"regexp"
 
@@ -50,6 +51,7 @@ func (s *ResourceObjectstoragePARTestSuite) SetupTest() {
 }
 
 func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basic() {
+
 	resource.Test(s.T(), resource.TestCase{
 		Providers: s.Providers,
 		Steps: []resource.TestStep{
@@ -61,7 +63,7 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 					bucket = "${oci_objectstorage_bucket.t.name}"
 					name = "-tf-par"
 					access_type = "ObjectRead"
-					time_expires = "2019-11-10T23:00:00Z"
+					time_expires = "` + expirationTimeForPar.Format(time.RFC3339Nano) + `"
 					object = "-tf-object"
 				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -69,7 +71,7 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 					resource.TestCheckResourceAttrSet(s.ResourceName, "namespace"),
 					resource.TestCheckResourceAttr(s.ResourceName, "bucket", s.Token),
 					resource.TestCheckResourceAttr(s.ResourceName, "access_type", "ObjectRead"),
-					resource.TestCheckResourceAttr(s.ResourceName, "time_expires", "2019-11-10T23:00:00Z"),
+					resource.TestCheckResourceAttr(s.ResourceName, "time_expires", expirationTimeForPar.Format(time.RFC3339Nano)),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "access_uri"),
 					// regex match example: /p/QJ1Geyhs3WKZvJr8jhw0TeqqqKd4OE1i9ZsGcJ5bzi8/n/internalbriangustafson/b/2018-02-05-130953-145201650/o/
 					resource.TestMatchResourceAttr(s.ResourceName, "access_uri", regexp.MustCompile("/p/.*/n/.*/b/"+s.Token+"/o/")),
@@ -86,7 +88,7 @@ func (s *ResourceObjectstoragePARTestSuite) TestAccResourceObjectstoragePAR_basi
 					bucket = "${oci_objectstorage_bucket.t.name}"
 					name = "-tf-par"
 					access_type = "ObjectRead"
-					time_expires = "2019-11-10T23:00:00Z"
+					time_expires = "` + expirationTimeForPar.Format(time.RFC3339Nano) + `"
 					object = "-tf-object"
 				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
