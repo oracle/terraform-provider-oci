@@ -1,14 +1,14 @@
 ---
-subcategory: "Waas"
+subcategory: "Web Application Acceleration and Security"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_purge_cache"
 sidebar_current: "docs-oci-resource-waas-purge_cache"
 description: |-
-  Provides the Purge Cache resource in Oracle Cloud Infrastructure Waas service
+  Provides the Purge Cache resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service
 ---
 
 # oci_waas_purge_cache
-This resource provides the Purge Cache resource in Oracle Cloud Infrastructure Waas service.
+This resource provides the Purge Cache resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
 
 Performs a purge of the cache for each specified resource. If no resources are passed, the cache for the entire Web Application Firewall will be purged.
 For more information, see [Caching Rules](https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/cachingrules.htm#purge).

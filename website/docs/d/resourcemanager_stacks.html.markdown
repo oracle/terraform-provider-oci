@@ -1,14 +1,14 @@
 ---
-subcategory: "Resourcemanager"
+subcategory: "Resource Manager"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_resourcemanager_stacks"
 sidebar_current: "docs-oci-datasource-resourcemanager-stacks"
 description: |-
-  Provides the list of Stacks in Oracle Cloud Infrastructure Resourcemanager service
+  Provides the list of Stacks in Oracle Cloud Infrastructure Resource Manager service
 ---
 
 # Data Source: oci_resourcemanager_stacks
-This data source provides the list of Stacks in Oracle Cloud Infrastructure Resourcemanager service.
+This data source provides the list of Stacks in Oracle Cloud Infrastructure Resource Manager service.
 
 Returns a list of stacks.
 - If called using the compartment ID, returns all stacks in the specified compartment.

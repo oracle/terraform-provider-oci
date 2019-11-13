@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: "Provider: Oracle Cloud Infrastructure"
+page_title: "Tagging Resources"
 sidebar_current: "docs-oci-guide-tagging_resources"
 description: |-
   The Oracle Cloud Infrastructure provider. Tagging

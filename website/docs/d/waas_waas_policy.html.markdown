@@ -1,14 +1,14 @@
 ---
-subcategory: "Waas"
+subcategory: "Web Application Acceleration and Security"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_waas_policy"
 sidebar_current: "docs-oci-datasource-waas-waas_policy"
 description: |-
-  Provides details about a specific Waas Policy in Oracle Cloud Infrastructure Waas service
+  Provides details about a specific Waas Policy in Oracle Cloud Infrastructure Web Application Acceleration and Security service
 ---
 
 # Data Source: oci_waas_waas_policy
-This data source provides details about a specific Waas Policy resource in Oracle Cloud Infrastructure Waas service.
+This data source provides details about a specific Waas Policy resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
 
 Gets the details of a WAAS policy.
 

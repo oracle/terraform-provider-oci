@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: "Provider: Oracle Cloud Infrastructure"
+page_title: "Best Practices"
 sidebar_current: "docs-oci-guide-best_practices"
 description: |-
   The Oracle Cloud Infrastructure provider. Best Practices

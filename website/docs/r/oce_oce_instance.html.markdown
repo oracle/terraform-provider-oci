@@ -1,14 +1,14 @@
 ---
-subcategory: "Oce"
+subcategory: "Content and Experience"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_oce_oce_instance"
 sidebar_current: "docs-oci-resource-oce-oce_instance"
 description: |-
-  Provides the Oce Instance resource in Oracle Cloud Infrastructure Oce service
+  Provides the Oce Instance resource in Oracle Cloud Infrastructure Content and Experience service
 ---
 
 # oci_oce_oce_instance
-This resource provides the Oce Instance resource in Oracle Cloud Infrastructure Oce service.
+This resource provides the Oce Instance resource in Oracle Cloud Infrastructure Content and Experience service.
 
 Creates a new OceInstance.
 
