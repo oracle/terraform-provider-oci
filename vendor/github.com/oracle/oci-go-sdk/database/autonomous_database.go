@@ -99,6 +99,9 @@ type AutonomousDatabase struct {
 
 	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count. Note that auto scaling is available for serverless deployments (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) only.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
+
+	// Status of the Data Safe registration for this Autonomous Database.
+	DataSafeStatus AutonomousDatabaseDataSafeStatusEnum `mandatory:"false" json:"dataSafeStatus,omitempty"`
 }
 
 func (m AutonomousDatabase) String() string {
@@ -195,6 +198,35 @@ var mappingAutonomousDatabaseDbWorkload = map[string]AutonomousDatabaseDbWorkloa
 func GetAutonomousDatabaseDbWorkloadEnumValues() []AutonomousDatabaseDbWorkloadEnum {
 	values := make([]AutonomousDatabaseDbWorkloadEnum, 0)
 	for _, v := range mappingAutonomousDatabaseDbWorkload {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseDataSafeStatusEnum Enum with underlying type: string
+type AutonomousDatabaseDataSafeStatusEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseDataSafeStatusEnum
+const (
+	AutonomousDatabaseDataSafeStatusRegistering   AutonomousDatabaseDataSafeStatusEnum = "REGISTERING"
+	AutonomousDatabaseDataSafeStatusRegistered    AutonomousDatabaseDataSafeStatusEnum = "REGISTERED"
+	AutonomousDatabaseDataSafeStatusDeregistering AutonomousDatabaseDataSafeStatusEnum = "DEREGISTERING"
+	AutonomousDatabaseDataSafeStatusNotRegistered AutonomousDatabaseDataSafeStatusEnum = "NOT_REGISTERED"
+	AutonomousDatabaseDataSafeStatusFailed        AutonomousDatabaseDataSafeStatusEnum = "FAILED"
+)
+
+var mappingAutonomousDatabaseDataSafeStatus = map[string]AutonomousDatabaseDataSafeStatusEnum{
+	"REGISTERING":    AutonomousDatabaseDataSafeStatusRegistering,
+	"REGISTERED":     AutonomousDatabaseDataSafeStatusRegistered,
+	"DEREGISTERING":  AutonomousDatabaseDataSafeStatusDeregistering,
+	"NOT_REGISTERED": AutonomousDatabaseDataSafeStatusNotRegistered,
+	"FAILED":         AutonomousDatabaseDataSafeStatusFailed,
+}
+
+// GetAutonomousDatabaseDataSafeStatusEnumValues Enumerates the set of values for AutonomousDatabaseDataSafeStatusEnum
+func GetAutonomousDatabaseDataSafeStatusEnumValues() []AutonomousDatabaseDataSafeStatusEnum {
+	values := make([]AutonomousDatabaseDataSafeStatusEnum, 0)
+	for _, v := range mappingAutonomousDatabaseDataSafeStatus {
 		values = append(values, v)
 	}
 	return values

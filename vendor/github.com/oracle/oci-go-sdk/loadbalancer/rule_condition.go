@@ -56,6 +56,10 @@ func (m *rulecondition) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		mm := SourceIpAddressCondition{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PATH":
+		mm := PathMatchCondition{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SOURCE_VCN_IP_ADDRESS":
 		mm := SourceVcnIpAddressCondition{}
 		err = json.Unmarshal(data, &mm)
@@ -74,15 +78,17 @@ type RuleConditionAttributeNameEnum string
 
 // Set of constants representing the allowable values for RuleConditionAttributeNameEnum
 const (
-	RuleConditionAttributeNameIpAddress    RuleConditionAttributeNameEnum = "SOURCE_IP_ADDRESS"
-	RuleConditionAttributeNameVcnId        RuleConditionAttributeNameEnum = "SOURCE_VCN_ID"
-	RuleConditionAttributeNameVcnIpAddress RuleConditionAttributeNameEnum = "SOURCE_VCN_IP_ADDRESS"
+	RuleConditionAttributeNameSourceIpAddress    RuleConditionAttributeNameEnum = "SOURCE_IP_ADDRESS"
+	RuleConditionAttributeNameSourceVcnId        RuleConditionAttributeNameEnum = "SOURCE_VCN_ID"
+	RuleConditionAttributeNameSourceVcnIpAddress RuleConditionAttributeNameEnum = "SOURCE_VCN_IP_ADDRESS"
+	RuleConditionAttributeNamePath               RuleConditionAttributeNameEnum = "PATH"
 )
 
 var mappingRuleConditionAttributeName = map[string]RuleConditionAttributeNameEnum{
-	"SOURCE_IP_ADDRESS":     RuleConditionAttributeNameIpAddress,
-	"SOURCE_VCN_ID":         RuleConditionAttributeNameVcnId,
-	"SOURCE_VCN_IP_ADDRESS": RuleConditionAttributeNameVcnIpAddress,
+	"SOURCE_IP_ADDRESS":     RuleConditionAttributeNameSourceIpAddress,
+	"SOURCE_VCN_ID":         RuleConditionAttributeNameSourceVcnId,
+	"SOURCE_VCN_IP_ADDRESS": RuleConditionAttributeNameSourceVcnIpAddress,
+	"PATH":                  RuleConditionAttributeNamePath,
 }
 
 // GetRuleConditionAttributeNameEnumValues Enumerates the set of values for RuleConditionAttributeNameEnum

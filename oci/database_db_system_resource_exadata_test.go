@@ -125,8 +125,6 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "Exadata.Quarter1.84"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "22"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "ssh_public_keys.#", "1"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "ssh_public_keys.0", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
 					resource.TestMatchResourceAttr(ResourceDatabaseResourceName, "display_name", regexp.MustCompile(`dbsystem\d+`)),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "subnetexadata1.tfvcn.oraclevcn.com"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
@@ -236,8 +234,6 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "Exadata.Quarter1.84"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "22"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "ssh_public_keys.#", "1"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "ssh_public_keys.0", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
 					resource.TestMatchResourceAttr(ResourceDatabaseResourceName, "display_name", regexp.MustCompile(`dbsystem\d+`)),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "subnetexadata1.tfvcn.oraclevcn.com"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
@@ -345,8 +341,6 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "Exadata.Quarter1.84"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "22"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "ssh_public_keys.#", "1"),
-					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "ssh_public_keys.0", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
 					resource.TestMatchResourceAttr(ResourceDatabaseResourceName, "display_name", regexp.MustCompile(`dbsystem\d+`)),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "subnetexadata1.tfvcn.oraclevcn.com"),
 					resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed

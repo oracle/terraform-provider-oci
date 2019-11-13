@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
@@ -18,6 +19,8 @@ import (
 )
 
 var (
+	expirationTimeForPar = time.Now().UTC().AddDate(0, 0, 1).Truncate(time.Millisecond)
+
 	PreauthenticatedRequestRequiredOnlyResource = PreauthenticatedRequestResourceDependencies +
 		generateResourceFromRepresentationMap("oci_objectstorage_preauthrequest", "test_preauthenticated_request", Required, Create, preauthenticatedRequestRepresentation)
 
@@ -45,7 +48,7 @@ var (
 		"bucket":       Representation{repType: Required, create: testBucketName},
 		"name":         Representation{repType: Required, create: `-tf-par`},
 		"namespace":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
-		"time_expires": Representation{repType: Required, create: `2020-01-01T00:00:00Z`},
+		"time_expires": Representation{repType: Required, create: expirationTimeForPar.Format(time.RFC3339Nano)},
 		"object":       Representation{repType: Optional, create: `my-test-object-1`},
 	}
 
@@ -84,7 +87,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttr(resourceName, "name", "-tf-par"),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
-					resource.TestCheckResourceAttr(resourceName, "time_expires", "2020-01-01T00:00:00Z"),
+					resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForPar.Format(time.RFC3339Nano)),
 				),
 			},
 
@@ -105,7 +108,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttr(resourceName, "time_expires", "2020-01-01T00:00:00Z"),
+					resource.TestCheckResourceAttr(resourceName, "time_expires", expirationTimeForPar.Format(time.RFC3339Nano)),
 				),
 			},
 
@@ -126,7 +129,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.name", "-tf-par"),
 					resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.object", "my-test-object-1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "preauthenticated_requests.0.time_created"),
-					resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.time_expires", "2020-01-01 00:00:00 +0000 UTC"),
+					resource.TestCheckResourceAttr(datasourceName, "preauthenticated_requests.0.time_expires", expirationTimeForPar.String()),
 				),
 			},
 			// verify singular datasource
@@ -146,7 +149,7 @@ func TestObjectStoragePreauthenticatedRequestResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "-tf-par"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "object", "my-test-object-1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "time_expires", "2020-01-01 00:00:00 +0000 UTC"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "time_expires", expirationTimeForPar.String()),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

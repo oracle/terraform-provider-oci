@@ -43,8 +43,9 @@ func DatabaseVmClusterResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"ssh_public_keys": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Required: true,
+				Set:      literalTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -258,7 +259,8 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 		request.SshPublicKeys = []string{}
-		interfaces := sshPublicKeys.([]interface{})
+		set := sshPublicKeys.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -343,7 +345,8 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok && s.D.HasChange("ssh_public_keys") {
 		request.SshPublicKeys = []string{}
-		interfaces := sshPublicKeys.([]interface{})
+		set := sshPublicKeys.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]string, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -428,7 +431,11 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 		s.D.Set("shape", *s.Res.Shape)
 	}
 
-	s.D.Set("ssh_public_keys", s.Res.SshPublicKeys)
+	sshPublicKeys := []interface{}{}
+	for _, item := range s.Res.SshPublicKeys {
+		sshPublicKeys = append(sshPublicKeys, item)
+	}
+	s.D.Set("ssh_public_keys", schema.NewSet(literalTypeHashCodeForSets, sshPublicKeys))
 
 	s.D.Set("state", s.Res.LifecycleState)
 

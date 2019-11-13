@@ -35,6 +35,9 @@ type UpdateBootVolumeDetails struct {
 
 	// The size to resize the volume to in GBs. Has to be larger than the current size.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
+
+	// The number of Volume Performance Units that will be applied to this boot volume per GB.
+	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 }
 
 func (m UpdateBootVolumeDetails) String() string {
