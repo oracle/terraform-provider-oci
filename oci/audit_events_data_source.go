@@ -560,9 +560,9 @@ func responseToMap(obj *oci_audit.Response) map[string]interface{} {
 func stateChangeToMap(obj *oci_audit.StateChange) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["current"] = obj.Current
+	result["current"] = genericMapToJsonMap(obj.Current)
 
-	result["previous"] = obj.Previous
+	result["previous"] = genericMapToJsonMap(obj.Previous)
 
 	return result
 }

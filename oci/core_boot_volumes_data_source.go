@@ -167,6 +167,10 @@ func (s *CoreBootVolumesDataSourceCrud) SetData() error {
 			bootVolume["volume_group_id"] = *r.VolumeGroupId
 		}
 
+		if r.VpusPerGB != nil {
+			bootVolume["vpus_per_gb"] = strconv.FormatInt(*r.VpusPerGB, 10)
+		}
+
 		resources = append(resources, bootVolume)
 	}
 

@@ -21,6 +21,9 @@ type AutonomousDatabaseConnectionUrls struct {
 
 	// Oracle Application Express (APEX) URL.
 	ApexUrl *string `mandatory:"false" json:"apexUrl"`
+
+	// Oracle Machine Learning User Management URL.
+	MachineLearningUserManagementUrl *string `mandatory:"false" json:"machineLearningUserManagementUrl"`
 }
 
 func (m AutonomousDatabaseConnectionUrls) String() string {

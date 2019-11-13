@@ -100,6 +100,9 @@ type AutonomousDatabaseSummary struct {
 
 	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count. Note that auto scaling is available for serverless deployments (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) only.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
+
+	// Status of the Data Safe registration for this Autonomous Database.
+	DataSafeStatus AutonomousDatabaseSummaryDataSafeStatusEnum `mandatory:"false" json:"dataSafeStatus,omitempty"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -196,6 +199,35 @@ var mappingAutonomousDatabaseSummaryDbWorkload = map[string]AutonomousDatabaseSu
 func GetAutonomousDatabaseSummaryDbWorkloadEnumValues() []AutonomousDatabaseSummaryDbWorkloadEnum {
 	values := make([]AutonomousDatabaseSummaryDbWorkloadEnum, 0)
 	for _, v := range mappingAutonomousDatabaseSummaryDbWorkload {
+		values = append(values, v)
+	}
+	return values
+}
+
+// AutonomousDatabaseSummaryDataSafeStatusEnum Enum with underlying type: string
+type AutonomousDatabaseSummaryDataSafeStatusEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryDataSafeStatusEnum
+const (
+	AutonomousDatabaseSummaryDataSafeStatusRegistering   AutonomousDatabaseSummaryDataSafeStatusEnum = "REGISTERING"
+	AutonomousDatabaseSummaryDataSafeStatusRegistered    AutonomousDatabaseSummaryDataSafeStatusEnum = "REGISTERED"
+	AutonomousDatabaseSummaryDataSafeStatusDeregistering AutonomousDatabaseSummaryDataSafeStatusEnum = "DEREGISTERING"
+	AutonomousDatabaseSummaryDataSafeStatusNotRegistered AutonomousDatabaseSummaryDataSafeStatusEnum = "NOT_REGISTERED"
+	AutonomousDatabaseSummaryDataSafeStatusFailed        AutonomousDatabaseSummaryDataSafeStatusEnum = "FAILED"
+)
+
+var mappingAutonomousDatabaseSummaryDataSafeStatus = map[string]AutonomousDatabaseSummaryDataSafeStatusEnum{
+	"REGISTERING":    AutonomousDatabaseSummaryDataSafeStatusRegistering,
+	"REGISTERED":     AutonomousDatabaseSummaryDataSafeStatusRegistered,
+	"DEREGISTERING":  AutonomousDatabaseSummaryDataSafeStatusDeregistering,
+	"NOT_REGISTERED": AutonomousDatabaseSummaryDataSafeStatusNotRegistered,
+	"FAILED":         AutonomousDatabaseSummaryDataSafeStatusFailed,
+}
+
+// GetAutonomousDatabaseSummaryDataSafeStatusEnumValues Enumerates the set of values for AutonomousDatabaseSummaryDataSafeStatusEnum
+func GetAutonomousDatabaseSummaryDataSafeStatusEnumValues() []AutonomousDatabaseSummaryDataSafeStatusEnum {
+	values := make([]AutonomousDatabaseSummaryDataSafeStatusEnum, 0)
+	for _, v := range mappingAutonomousDatabaseSummaryDataSafeStatus {
 		values = append(values, v)
 	}
 	return values

@@ -18,6 +18,9 @@ Get options available for clusters.
 data "oci_containerengine_cluster_option" "test_cluster_option" {
 	#Required
 	cluster_option_id = "${oci_containerengine_cluster_option.test_cluster_option.id}"
+
+	#Optional
+	compartment_id = "${var.compartment_id}"
 }
 ```
 
@@ -26,6 +29,7 @@ data "oci_containerengine_cluster_option" "test_cluster_option" {
 The following arguments are supported:
 
 * `cluster_option_id` - (Required) The id of the option set to retrieve. Only "all" is supported.
+* `compartment_id` - (Optional) The OCID of the compartment.
 
 
 ## Attributes Reference
