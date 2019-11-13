@@ -18,6 +18,9 @@ Get options available for node pools.
 data "oci_containerengine_node_pool_option" "test_node_pool_option" {
 	#Required
 	node_pool_option_id = "${oci_containerengine_node_pool_option.test_node_pool_option.id}"
+
+	#Optional
+	compartment_id = "${var.compartment_id}"
 }
 ```
 
@@ -25,6 +28,7 @@ data "oci_containerengine_node_pool_option" "test_node_pool_option" {
 
 The following arguments are supported:
 
+* `compartment_id` - (Optional) The OCID of the compartment.
 * `node_pool_option_id` - (Required) The id of the option set to retrieve. Use "all" get all options, or use a cluster ID to get options specific to the provided cluster.
 
 

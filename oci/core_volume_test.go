@@ -52,6 +52,7 @@ var (
 		"kms_key_id":          Representation{repType: Optional, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`, update: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[1], "id")}`},
 		"size_in_gbs":         Representation{repType: Optional, create: `51`, update: `52`},
 		"source_details":      RepresentationGroup{Optional, sourceDetailsVolumeRepresentation},
+		"vpus_per_gb":         Representation{repType: Optional, create: `10`, update: `20`},
 	}
 	sourceDetailsVolumeRepresentation = map[string]interface{}{
 		"id":   Representation{repType: Required, create: `${oci_core_volume.source_volume.id}`},
@@ -139,6 +140,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckNoResourceAttr(resourceName, "volume_backup_id"),
 					resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
+					resource.TestCheckResourceAttr(resourceName, "vpus_per_gb", "10"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -176,6 +178,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckNoResourceAttr(resourceName, "volume_backup_id"),
 					resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
+					resource.TestCheckResourceAttr(resourceName, "vpus_per_gb", "10"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -208,6 +211,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckNoResourceAttr(resourceName, "volume_backup_id"),
 					resource.TestCheckNoResourceAttr(resourceName, "volume_group_id"),
+					resource.TestCheckResourceAttr(resourceName, "vpus_per_gb", "20"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -245,6 +249,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "volumes.0.size_in_mbs", "53248"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "volumes.0.time_created"),
+					resource.TestCheckResourceAttr(datasourceName, "volumes.0.vpus_per_gb", "20"),
 				),
 			},
 			// verify singular datasource
@@ -270,6 +275,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "source_details.0.type"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "vpus_per_gb", "20"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

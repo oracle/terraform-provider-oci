@@ -70,6 +70,10 @@ func LoadBalancerListenerRulesDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"operator": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 											},
 										},
 									},
@@ -83,6 +87,45 @@ func LoadBalancerListenerRulesDataSource() *schema.Resource {
 									},
 									"prefix": {
 										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"redirect_uri": {
+										Type:     schema.TypeList,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"host": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"path": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"port": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"protocol": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"query": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"response_code": {
+										Type:     schema.TypeInt,
 										Computed: true,
 									},
 									"status_code": {

@@ -1,4 +1,5 @@
 ---
+subcategory: "Analytics"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_analytics_analytics_instance"
 sidebar_current: "docs-oci-resource-analytics-analytics_instance"

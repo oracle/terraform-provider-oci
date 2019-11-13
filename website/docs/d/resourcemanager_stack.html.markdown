@@ -1,4 +1,5 @@
 ---
+subcategory: "Resourcemanager"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_resourcemanager_stack"
 sidebar_current: "docs-oci-datasource-resourcemanager-stack"

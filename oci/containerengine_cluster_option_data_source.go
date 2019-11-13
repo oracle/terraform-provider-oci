@@ -17,6 +17,10 @@ func ContainerengineClusterOptionDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			// Computed
 			"kubernetes_versions": {
 				Type:     schema.TypeList,
@@ -53,6 +57,11 @@ func (s *ContainerengineClusterOptionDataSourceCrud) Get() error {
 	if clusterOptionId, ok := s.D.GetOkExists("cluster_option_id"); ok {
 		tmp := clusterOptionId.(string)
 		request.ClusterOptionId = &tmp
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "containerengine")

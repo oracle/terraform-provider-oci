@@ -1,4 +1,5 @@
 ---
+subcategory: "Integration"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_integration_integration_instance"
 sidebar_current: "docs-oci-resource-integration-integration_instance"

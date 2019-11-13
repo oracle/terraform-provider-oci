@@ -61,8 +61,10 @@ The following attributes are exported:
 	* `medium` - The Medium database service provides a lower level of resources to each SQL statement potentially resulting a lower level of performance, but supports more concurrent SQL statements.
 * `connection_urls` - 
 	* `apex_url` - Oracle Application Express (APEX) URL.
+	* `machine_learning_user_management_url` - Oracle Machine Learning User Management URL.
 	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `cpu_core_count` - The number of CPU cores to be made available to the database.
+* `data_safe_status` - Status of the Data Safe registration for this Autonomous Database.
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
 * `db_name` - The database name.
 * `db_version` - A valid Oracle Database version for Autonomous Database.

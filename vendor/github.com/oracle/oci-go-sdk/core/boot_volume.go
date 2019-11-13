@@ -70,6 +70,9 @@ type BootVolume struct {
 	// Specifies whether the boot volume's data has finished copying from the source boot volume or boot volume backup.
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
 
+	// The number of Volume Performance Units that will be applied to this boot volume per GB.
+	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
+
 	// The size of the boot volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -97,6 +100,7 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		ImageId            *string                           `json:"imageId"`
 		IsHydrated         *bool                             `json:"isHydrated"`
+		VpusPerGB          *int64                            `json:"vpusPerGB"`
 		SizeInGBs          *int64                            `json:"sizeInGBs"`
 		SourceDetails      bootvolumesourcedetails           `json:"sourceDetails"`
 		VolumeGroupId      *string                           `json:"volumeGroupId"`
@@ -119,6 +123,7 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 	m.ImageId = model.ImageId
 	m.IsHydrated = model.IsHydrated
+	m.VpusPerGB = model.VpusPerGB
 	m.SizeInGBs = model.SizeInGBs
 	nn, e := model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
 	if e != nil {
