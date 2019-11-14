@@ -14,7 +14,7 @@ type ListClusterNetworkInstancesRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID of the cluster network.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster network.
 	ClusterNetworkId *string `mandatory:"true" contributesTo:"path" name:"clusterNetworkId"`
 
 	// A filter to return only resources that match the given display name exactly.

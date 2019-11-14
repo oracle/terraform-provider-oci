@@ -11,7 +11,7 @@ import (
 // TerminateClusterNetworkRequest wrapper for the TerminateClusterNetwork operation
 type TerminateClusterNetworkRequest struct {
 
-	// The OCID of the cluster network.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster network.
 	ClusterNetworkId *string `mandatory:"true" contributesTo:"path" name:"clusterNetworkId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

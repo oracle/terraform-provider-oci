@@ -16,13 +16,15 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ClusterNetwork Cluster Network
+// ClusterNetwork A cluster network is a group of high performance computing (HPC) bare metal instances that are connected
+// with an ultra low latency network. For more information about cluster networks, see
+// Managing Cluster Networks (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
 type ClusterNetwork struct {
 
-	// The OCID of the cluster network.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster network.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment containing the cluster netowrk.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the cluster netowrk.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The current state of the cluster network.
@@ -41,7 +43,7 @@ type ClusterNetwork struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The user-friendly name.  Does not have to be unique.
+	// A user-friendly name. Does not have to be unique, and it's changeable.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
@@ -49,10 +51,11 @@ type ClusterNetwork struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// the instance pools in the cluster network.
+	// The instance pools in the cluster network.
+	// Each cluster network can have one instance pool.
 	InstancePools []InstancePool `mandatory:"false" json:"instancePools"`
 
-	// the placement data for the intance pools in the cluster network
+	// The placement configuration for the instance pools in the cluster network.
 	PlacementConfiguration *ClusterNetworkPlacementConfigurationDetails `mandatory:"false" json:"placementConfiguration"`
 }
 

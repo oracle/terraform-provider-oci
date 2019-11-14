@@ -16,13 +16,14 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ClusterNetworkSummary Condensed Cluster Network data when listing cluster networks.
+// ClusterNetworkSummary Summary information for a cluster network.
 type ClusterNetworkSummary struct {
 
-	// The OCID of the cluster network.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster network.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment containing the cluster netowrk.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the
+	// cluster netowrk.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The current state of the cluster network.
@@ -41,7 +42,7 @@ type ClusterNetworkSummary struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The user-friendly name.  Does not have to be unique.
+	// A user-friendly name for the cluster network. Does not have to be unique, and it's changeable.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
