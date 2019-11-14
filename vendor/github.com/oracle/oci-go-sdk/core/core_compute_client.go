@@ -616,7 +616,7 @@ func (client ComputeClient) createImage(ctx context.Context, request common.OCIR
 }
 
 // CreateInstanceConsoleConnection Creates a new console connection to the specified instance.
-// Once the console connection has been created and is available,
+// After the console connection has been created and is available,
 // you connect to the console using SSH.
 // For more information about console access, see Accessing the Console (https://docs.cloud.oracle.com/Content/Compute/References/serialconsole.htm).
 func (client ComputeClient) CreateInstanceConsoleConnection(ctx context.Context, request CreateInstanceConsoleConnectionRequest) (response CreateInstanceConsoleConnectionResponse, err error) {

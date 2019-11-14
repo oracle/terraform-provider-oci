@@ -11,7 +11,7 @@ import (
 // UpdateClusterNetworkRequest wrapper for the UpdateClusterNetwork operation
 type UpdateClusterNetworkRequest struct {
 
-	// The OCID of the cluster network.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster network.
 	ClusterNetworkId *string `mandatory:"true" contributesTo:"path" name:"clusterNetworkId"`
 
 	// Update cluster network

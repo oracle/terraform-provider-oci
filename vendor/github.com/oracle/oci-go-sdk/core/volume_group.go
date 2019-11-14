@@ -35,6 +35,9 @@ type VolumeGroup struct {
 	// The OCID for the volume group.
 	Id *string `mandatory:"true" json:"id"`
 
+	// The current state of a volume group.
+	LifecycleState VolumeGroupLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
 	// The aggregate size of the volume group in MBs.
 	SizeInMBs *int64 `mandatory:"true" json:"sizeInMBs"`
 
@@ -53,9 +56,6 @@ type VolumeGroup struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// The current state of a volume group.
-	LifecycleState VolumeGroupLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The aggregate size of the volume group in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
@@ -77,7 +77,6 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
-		LifecycleState     VolumeGroupLifecycleStateEnum     `json:"lifecycleState"`
 		SizeInGBs          *int64                            `json:"sizeInGBs"`
 		SourceDetails      volumegroupsourcedetails          `json:"sourceDetails"`
 		IsHydrated         *bool                             `json:"isHydrated"`
@@ -85,6 +84,7 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 		CompartmentId      *string                           `json:"compartmentId"`
 		DisplayName        *string                           `json:"displayName"`
 		Id                 *string                           `json:"id"`
+		LifecycleState     VolumeGroupLifecycleStateEnum     `json:"lifecycleState"`
 		SizeInMBs          *int64                            `json:"sizeInMBs"`
 		TimeCreated        *common.SDKTime                   `json:"timeCreated"`
 		VolumeIds          []string                          `json:"volumeIds"`
@@ -96,7 +96,6 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 	}
 	m.DefinedTags = model.DefinedTags
 	m.FreeformTags = model.FreeformTags
-	m.LifecycleState = model.LifecycleState
 	m.SizeInGBs = model.SizeInGBs
 	nn, e := model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
 	if e != nil {
@@ -112,6 +111,7 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 	m.CompartmentId = model.CompartmentId
 	m.DisplayName = model.DisplayName
 	m.Id = model.Id
+	m.LifecycleState = model.LifecycleState
 	m.SizeInMBs = model.SizeInMBs
 	m.TimeCreated = model.TimeCreated
 	m.VolumeIds = make([]string, len(model.VolumeIds))

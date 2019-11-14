@@ -26,6 +26,9 @@ type UpdateInstancePoolPlacementConfigurationDetails struct {
 	// The OCID of the primary subnet to place instances.
 	PrimarySubnetId *string `mandatory:"true" json:"primarySubnetId"`
 
+	// The fault domains to place instances.
+	FaultDomains []string `mandatory:"false" json:"faultDomains"`
+
 	// The set of subnet OCIDs for secondary VNICs for instances in the pool.
 	SecondaryVnicSubnets []InstancePoolPlacementSecondaryVnicSubnet `mandatory:"false" json:"secondaryVnicSubnets"`
 }

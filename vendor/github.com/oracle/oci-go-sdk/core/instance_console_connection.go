@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// InstanceConsoleConnection The `InstanceConsoleConnection` API provides you with console access to virtual machine (VM) instances,
+// InstanceConsoleConnection The `InstanceConsoleConnection` API provides you with console access to Compute instances,
 // enabling you to troubleshoot malfunctioning instances remotely.
 // For more information about console access, see
 // Accessing the Console (https://docs.cloud.oracle.com/Content/Compute/References/serialconsole.htm).

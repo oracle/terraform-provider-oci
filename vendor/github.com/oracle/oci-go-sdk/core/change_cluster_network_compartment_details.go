@@ -16,10 +16,10 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// ChangeClusterNetworkCompartmentDetails Contains details indicating which compartment the resource should move to
+// ChangeClusterNetworkCompartmentDetails The configuration details for the move operation.
 type ChangeClusterNetworkCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
 	// into which the resource should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
