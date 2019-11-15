@@ -7,6 +7,7 @@ var DependencyGraph map[string][]string
 func initDependencyGraph() {
 	DependencyGraph = make(map[string][]string)
 
+	DependencyGraph["agreement"] = append(DependencyGraph["agreement"], "MarketplaceAcceptedAgreement")
 	DependencyGraph["application"] = append(DependencyGraph["application"], "FunctionsFunction")
 	DependencyGraph["asset"] = append(DependencyGraph["asset"], "CoreVolumeBackupPolicyAssignment")
 	DependencyGraph["autonomousContainerDatabase"] = append(DependencyGraph["autonomousContainerDatabase"], "DatabaseAutonomousDatabase")
@@ -65,6 +66,7 @@ func initDependencyGraph() {
 	DependencyGraph["kmsKey"] = append(DependencyGraph["kmsKey"], "FileStorageFileSystem")
 	DependencyGraph["kmsKey"] = append(DependencyGraph["kmsKey"], "ObjectStorageBucket")
 	DependencyGraph["listing"] = append(DependencyGraph["listing"], "CoreAppCatalogSubscription")
+	DependencyGraph["listing"] = append(DependencyGraph["listing"], "MarketplaceAcceptedAgreement")
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerBackend")
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerBackendSet")
 	DependencyGraph["loadBalancer"] = append(DependencyGraph["loadBalancer"], "LoadBalancerCertificate")

@@ -22,6 +22,7 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+	oci_marketplace "github.com/oracle/oci-go-sdk/marketplace"
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
@@ -38,8 +39,9 @@ import (
 type OracleClients struct {
 	configuration                  map[string]string
 	auditClient                    *oci_audit.AuditClient
-	analyticsClient                *oci_analytics.AnalyticsClient
+	marketplaceClient              *oci_marketplace.MarketplaceClient
 	resourceManagerClient          *oci_resourcemanager.ResourceManagerClient
+	analyticsClient                *oci_analytics.AnalyticsClient
 	autoScalingClient              *oci_auto_scaling.AutoScalingClient
 	blockstorageClient             *oci_core.BlockstorageClient
 	budgetClient                   *oci_budget.BudgetClient
@@ -123,15 +125,15 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 	}
 	clients.auditClient = &auditClient
 
-	analyticsClient, err := oci_analytics.NewAnalyticsClientWithConfigurationProvider(configProvider)
+	marketplaceClient, err := oci_marketplace.NewMarketplaceClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return
 	}
-	err = configureClient(&analyticsClient.BaseClient)
+	err = configureClient(&marketplaceClient.BaseClient)
 	if err != nil {
 		return
 	}
-	clients.analyticsClient = &analyticsClient
+	clients.marketplaceClient = &marketplaceClient
 
 	resourceManagerClient, err := oci_resourcemanager.NewResourceManagerClientWithConfigurationProvider(configProvider)
 	if err != nil {
@@ -142,6 +144,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.resourceManagerClient = &resourceManagerClient
+
+	analyticsClient, err := oci_analytics.NewAnalyticsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&analyticsClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.analyticsClient = &analyticsClient
 
 	autoScalingClient, err := oci_auto_scaling.NewAutoScalingClientWithConfigurationProvider(configProvider)
 	if err != nil {

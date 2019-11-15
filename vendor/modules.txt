@@ -509,6 +509,7 @@ github.com/oracle/oci-go-sdk/integration
 github.com/oracle/oci-go-sdk/keymanagement
 github.com/oracle/oci-go-sdk/limits
 github.com/oracle/oci-go-sdk/loadbalancer
+github.com/oracle/oci-go-sdk/marketplace
 github.com/oracle/oci-go-sdk/monitoring
 github.com/oracle/oci-go-sdk/objectstorage
 github.com/oracle/oci-go-sdk/oce
