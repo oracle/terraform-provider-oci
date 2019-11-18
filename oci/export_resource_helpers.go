@@ -136,6 +136,10 @@ var identityResourceGraph = TerraformResourceGraph{
 			TerraformResourceHints: exportIdentityIdentityProviderHints,
 			datasourceQueryParams:  map[string]string{"protocol": "'SAML2'"},
 		},
+		{
+			TerraformResourceHints: exportIdentityPolicyHints,
+			datasourceQueryParams:  map[string]string{"compartment_id": "id"},
+		},
 	},
 	"oci_identity_compartment": {
 		{
