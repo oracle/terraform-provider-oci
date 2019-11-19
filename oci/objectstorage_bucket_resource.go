@@ -93,6 +93,10 @@ func ObjectStorageBucketResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"bucket_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"created_by": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -341,6 +345,8 @@ func (s *ObjectStorageBucketResourceCrud) Delete() error {
 }
 
 func (s *ObjectStorageBucketResourceCrud) SetData() error {
+
+	s.D.Set("bucket_id", *s.Res.Id)
 
 	bucket, namespace, err := parseBucketCompositeId(s.D.Id())
 	if err == nil {
