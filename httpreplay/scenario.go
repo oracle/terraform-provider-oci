@@ -565,12 +565,16 @@ func (s *Scenario) updateInternalFieldMap(oldValue, newValue interface{}) {
 	} else if mapOldValue, ok := oldValue.(jsonObj); ok {
 		mapNewValue, _ := newValue.(jsonObj)
 		for k, v := range mapOldValue {
-			s.updateInternalFieldMap(v, mapNewValue[k])
+			if newVal, ok := mapNewValue[k], ok; ok {
+				s.updateInternalFieldMap(v, newVal)
+			}
 		}
 	} else if mapOldValue, ok := oldValue.(map[string]interface{}); ok {
 		mapNewValue, _ := newValue.(map[string]interface{})
 		for k, v := range mapOldValue {
-			s.updateInternalFieldMap(v, mapNewValue[k])
+			if newVal, ok := mapNewValue[k], ok; ok {
+				s.updateInternalFieldMap(v, newVal)
+			}
 		}
 	} else if arrayOldValue, ok := oldValue.([]interface{}); ok {
 		arrayNewValue, _ := newValue.([]interface{})
