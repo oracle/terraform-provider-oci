@@ -1,4 +1,8 @@
 ## 3.53.1 (Unreleased)
+
+### Fixed
+- Fixes an issue in resource discovery when duplicates of the same service are specified to the `-services` argument
+
 ## 3.53.0 (November 20, 2019)
 
 ### Added

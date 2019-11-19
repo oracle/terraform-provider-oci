@@ -147,6 +147,22 @@ func RunExportCommand(args *ExportCommandArgs) error {
 	return runExportCommand(clients, args)
 }
 
+// Dedupes possible repeating services from command line and sorts them
+func (args *ExportCommandArgs) finalizeServices() {
+	seenServices := map[string]bool{}
+	finalServices := []string{}
+
+	for _, service := range args.Services {
+		if _, seen := seenServices[service]; seen {
+			continue
+		}
+		finalServices = append(finalServices, service)
+		seenServices[service] = true
+	}
+	args.Services = finalServices
+	sort.Strings(args.Services)
+}
+
 func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 	if args.OutputDir == nil || *args.OutputDir == "" {
 		return fmt.Errorf("[ERROR] no output directory specified")
@@ -160,7 +176,7 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 		args.Services = compartmentScopeServices
 	}
 
-	sort.Strings(args.Services)
+	args.finalizeServices()
 	generateConfigSteps, err := buildGenerateConfigSteps(args.CompartmentId, args.Services, oci_common.DefaultConfigProvider())
 	if err != nil {
 		return err
