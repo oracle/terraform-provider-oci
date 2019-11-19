@@ -4,6 +4,7 @@
 - Support for creating `oci_database_autonomous_database` resource with the specified `whitelisted_ips`
 - Support for `customer_asn` attribute in `core_virtual_circuit` resource
 - Support for fault domains in `core_instance_pool` resource 
+- Support for URL Redirect Feature in `oci_load_balancer_rule_set` resource
 
 ### Deprecated
 - Virtual Circuit resource: The `customer_bgp_asn` attribute is now deprecated. Please use the `customer_asn` instead.
