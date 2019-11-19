@@ -1,14 +1,14 @@
 ---
-subcategory: "Ons"
+subcategory: "Notifications"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ons_subscription"
 sidebar_current: "docs-oci-datasource-ons-subscription"
 description: |-
-  Provides details about a specific Subscription in Oracle Cloud Infrastructure Ons service
+  Provides details about a specific Subscription in Oracle Cloud Infrastructure Notifications service
 ---
 
 # Data Source: oci_ons_subscription
-This data source provides details about a specific Subscription resource in Oracle Cloud Infrastructure Ons service.
+This data source provides details about a specific Subscription resource in Oracle Cloud Infrastructure Notifications service.
 
 Gets the specified subscription's configuration information.
 

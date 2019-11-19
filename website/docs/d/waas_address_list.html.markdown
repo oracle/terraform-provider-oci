@@ -1,14 +1,14 @@
 ---
-subcategory: "Waas"
+subcategory: "Web Application Acceleration and Security"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_address_list"
 sidebar_current: "docs-oci-datasource-waas-address_list"
 description: |-
-  Provides details about a specific Address List in Oracle Cloud Infrastructure Waas service
+  Provides details about a specific Address List in Oracle Cloud Infrastructure Web Application Acceleration and Security service
 ---
 
 # Data Source: oci_waas_address_list
-This data source provides details about a specific Address List resource in Oracle Cloud Infrastructure Waas service.
+This data source provides details about a specific Address List resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
 
 Gets the details of an address list.
 

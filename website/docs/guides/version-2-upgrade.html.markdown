@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: " v2 Provider: Oracle Cloud Infrastructure"
+page_title: "Upgrading to Version 2"
 sidebar_current: "docs-oci-guide-version-2-upgrade"
 description: |-
   The Oracle Cloud Infrastructure provider. Version 2 Upgrade

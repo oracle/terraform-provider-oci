@@ -1,14 +1,14 @@
 ---
-subcategory: "Resourcemanager"
+subcategory: "Resource Manager"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_resourcemanager_stack"
 sidebar_current: "docs-oci-datasource-resourcemanager-stack"
 description: |-
-  Provides details about a specific Stack in Oracle Cloud Infrastructure Resourcemanager service
+  Provides details about a specific Stack in Oracle Cloud Infrastructure Resource Manager service
 ---
 
 # Data Source: oci_resourcemanager_stack
-This data source provides details about a specific Stack resource in Oracle Cloud Infrastructure Resourcemanager service.
+This data source provides details about a specific Stack resource in Oracle Cloud Infrastructure Resource Manager service.
 
 Gets a stack using the stack ID.
 

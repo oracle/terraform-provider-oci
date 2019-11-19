@@ -1,14 +1,14 @@
 ---
-subcategory: "Oda"
+subcategory: "Digital Assistant"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_oda_oda_instance"
 sidebar_current: "docs-oci-datasource-oda-oda_instance"
 description: |-
-  Provides details about a specific Oda Instance in Oracle Cloud Infrastructure Oda service
+  Provides details about a specific Oda Instance in Oracle Cloud Infrastructure Digital Assistant service
 ---
 
 # Data Source: oci_oda_oda_instance
-This data source provides details about a specific Oda Instance resource in Oracle Cloud Infrastructure Oda service.
+This data source provides details about a specific Oda Instance resource in Oracle Cloud Infrastructure Digital Assistant service.
 
 Gets the specified Digital Assistant instance.
 

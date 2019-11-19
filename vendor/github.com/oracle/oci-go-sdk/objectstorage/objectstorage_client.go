@@ -250,7 +250,7 @@ func (client ObjectStorageClient) CreateBucket(ctx context.Context, request Crea
 
 // createBucket implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) createBucket(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b")
 	if err != nil {
 		return nil, err
 	}
@@ -334,7 +334,7 @@ func (client ObjectStorageClient) CreatePreauthenticatedRequest(ctx context.Cont
 
 // createPreauthenticatedRequest implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) createPreauthenticatedRequest(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/p/")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/p")
 	if err != nil {
 		return nil, err
 	}
@@ -379,7 +379,7 @@ func (client ObjectStorageClient) DeleteBucket(ctx context.Context, request Dele
 
 // deleteBucket implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) deleteBucket(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/")
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}")
 	if err != nil {
 		return nil, err
 	}
@@ -547,7 +547,7 @@ func (client ObjectStorageClient) GetBucket(ctx context.Context, request GetBuck
 
 // getBucket implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) getBucket(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}")
 	if err != nil {
 		return nil, err
 	}
@@ -594,7 +594,7 @@ func (client ObjectStorageClient) GetNamespace(ctx context.Context, request GetN
 
 // getNamespace implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) getNamespace(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n")
 	if err != nil {
 		return nil, err
 	}
@@ -850,7 +850,7 @@ func (client ObjectStorageClient) HeadBucket(ctx context.Context, request HeadBu
 
 // headBucket implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) headBucket(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodHead, "/n/{namespaceName}/b/{bucketName}/")
+	httpRequest, err := request.HTTPRequest(http.MethodHead, "/n/{namespaceName}/b/{bucketName}")
 	if err != nil {
 		return nil, err
 	}
@@ -938,7 +938,7 @@ func (client ObjectStorageClient) ListBuckets(ctx context.Context, request ListB
 
 // listBuckets implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) listBuckets(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b")
 	if err != nil {
 		return nil, err
 	}
@@ -1109,7 +1109,7 @@ func (client ObjectStorageClient) ListPreauthenticatedRequests(ctx context.Conte
 
 // listPreauthenticatedRequests implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/p/")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/p")
 	if err != nil {
 		return nil, err
 	}
@@ -1509,7 +1509,7 @@ func (client ObjectStorageClient) UpdateBucket(ctx context.Context, request Upda
 
 // updateBucket implements the OCIOperation interface (enables retrying operations)
 func (client ObjectStorageClient) updateBucket(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}")
 	if err != nil {
 		return nil, err
 	}

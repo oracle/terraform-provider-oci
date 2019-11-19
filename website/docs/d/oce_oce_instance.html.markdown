@@ -1,14 +1,14 @@
 ---
-subcategory: "Oce"
+subcategory: "Content and Experience"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_oce_oce_instance"
 sidebar_current: "docs-oci-datasource-oce-oce_instance"
 description: |-
-  Provides details about a specific Oce Instance in Oracle Cloud Infrastructure Oce service
+  Provides details about a specific Oce Instance in Oracle Cloud Infrastructure Content and Experience service
 ---
 
 # Data Source: oci_oce_oce_instance
-This data source provides details about a specific Oce Instance resource in Oracle Cloud Infrastructure Oce service.
+This data source provides details about a specific Oce Instance resource in Oracle Cloud Infrastructure Content and Experience service.
 
 Gets a OceInstance by identifier
 

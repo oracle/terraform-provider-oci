@@ -87,7 +87,7 @@ func (client QuotasClient) CreateQuota(ctx context.Context, request CreateQuotaR
 
 // createQuota implements the OCIOperation interface (enables retrying operations)
 func (client QuotasClient) createQuota(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20181025/quotas/")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20181025/quotas")
 	if err != nil {
 		return nil, err
 	}
@@ -213,7 +213,7 @@ func (client QuotasClient) ListQuotas(ctx context.Context, request ListQuotasReq
 
 // listQuotas implements the OCIOperation interface (enables retrying operations)
 func (client QuotasClient) listQuotas(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20181025/quotas/")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20181025/quotas")
 	if err != nil {
 		return nil, err
 	}

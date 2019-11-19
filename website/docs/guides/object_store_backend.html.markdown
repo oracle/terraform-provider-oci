@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: "Provider: Oracle Cloud Infrastructure"
+page_title: "Object Store Backend"
 sidebar_current: "docs-oci-guide-object_store_backend"
 description: |-
   The Oracle Cloud Infrastructure provider. Object Store Backend
@@ -83,9 +83,10 @@ After completing these steps, you are able to use Oracle Cloud Infrastructure as
 
 Configuring the S3-compatible backend requires that the account be enabled with S3 authentication keys, which are set on a per-user basis.
 
-1. In the Console, open the navigation menu, then, under Governance and Administration, navigate to Identity, then Users. 
-Under User Details, click Amazon S3 Compatibility API Keys. For more guidance, 
+1. In the Console, go to your user account and create a customer secret key. For more guidance on creating customer secret keys, 
 see [Working with Amazon S3 Compatibility API Keys](https://docs.cloud.oracle.com/Content/Identity/Tasks/managingcredentials.htm#s3).
+
+After generating the customer secret key, take note of the access key and secret key values displayed the Console.
 
 2. Set the location for the credentials file. The default location is `~/.aws/credentials`. You can set an alternate location by using the S3 backend `shared_credentials_file` option. 
     
@@ -100,14 +101,16 @@ update the backend `profile` option in your Terraform configuration file.
     
     ```
     [default]
-    aws_access_key_id=ocid1.credential.oc1..aaaaaaaasbmhehdmefolvqwtbdjgwfsxjsgxgipdbph7odn2brgurgsyztca
+    aws_access_key_id=81bc020dd274d7386a58852fc5081c231874a137
     aws_secret_access_key=mSTdaWhlbWj3ty4JZXlm0NUZV52xlImWjayJLJ6OH9A=
     ```
     
-    Where `aws_access_key_id and aws_secret_access_key` are user-specific values provided from the Console. 
+    Where `aws_access_key_id` and `aws_secret_access_key` are user-specific values given by the Console in step 1. 
     The key values provided in the example are not valid and provided as examples only.
 
 4. Set the object storage endpoint value in the following format: `https://{namespace}.compat.objectstorage.{region}.oraclecloud.com`
+
+    Where `{namespace}` is the namespace of your object storage bucket and `{region}` is the region where your object storage bucket is located.
 
 Following is a full example of an Object Storage backend configuration:
 
@@ -117,7 +120,7 @@ terraform {
     bucket   = "terraform-state"
     key      = "terraform.tfstate"
     region   = "us-phoenix-1"
-    endpoint = "https://acme.compat.objectstorage.us-phoenix-1.oraclecloud.com"
+    endpoint = "https://mybucketnamespace.compat.objectstorage.us-phoenix-1.oraclecloud.com"
 
     skip_region_validation      = true
     skip_credentials_validation = true

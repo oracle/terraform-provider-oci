@@ -1,14 +1,14 @@
 ---
-subcategory: "Waas"
+subcategory: "Web Application Acceleration and Security"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_http_redirect"
 sidebar_current: "docs-oci-resource-waas-http_redirect"
 description: |-
-  Provides the Http Redirect resource in Oracle Cloud Infrastructure Waas service
+  Provides the Http Redirect resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service
 ---
 
 # oci_waas_http_redirect
-This resource provides the Http Redirect resource in Oracle Cloud Infrastructure Waas service.
+This resource provides the Http Redirect resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
 
 Creates a new HTTP Redirect on the WAF edge.
 

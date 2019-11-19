@@ -169,6 +169,7 @@ resource "oci_core_instance_pool" "test_instance_pool" {
 
   placement_configurations {
     availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+    fault_domains       = ["FAULT-DOMAIN-1"]
     primary_subnet_id   = "${oci_core_subnet.test_subnet.id}"
   }
 

@@ -109,7 +109,11 @@ func (client ComputeManagementClient) attachLoadBalancer(ctx context.Context, re
 	return response, err
 }
 
-// ChangeClusterNetworkCompartment Change the compartment of a cluster network.
+// ChangeClusterNetworkCompartment Moves a cluster network into a different compartment within the same tenancy. For
+// information about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// When you move a cluster network to a different compartment, associated resources such as the instances
+// in the cluster network, boot volumes, and VNICs are not moved.
 func (client ComputeManagementClient) ChangeClusterNetworkCompartment(ctx context.Context, request ChangeClusterNetworkCompartmentRequest) (response ChangeClusterNetworkCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -264,7 +268,8 @@ func (client ComputeManagementClient) changeInstancePoolCompartment(ctx context.
 	return response, err
 }
 
-// CreateClusterNetwork Create a cluster network.
+// CreateClusterNetwork Creates a cluster network. For more information about cluster networks, see
+// Managing Cluster Networks (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
 func (client ComputeManagementClient) CreateClusterNetwork(ctx context.Context, request CreateClusterNetworkRequest) (response CreateClusterNetworkResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -495,7 +500,7 @@ func (client ComputeManagementClient) detachLoadBalancer(ctx context.Context, re
 	return response, err
 }
 
-// GetClusterNetwork Gets the specified cluster network
+// GetClusterNetwork Gets information about the specified cluster network.
 func (client ComputeManagementClient) GetClusterNetwork(ctx context.Context, request GetClusterNetworkRequest) (response GetClusterNetworkResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -715,7 +720,7 @@ func (client ComputeManagementClient) launchInstanceConfiguration(ctx context.Co
 	return response, err
 }
 
-// ListClusterNetworkInstances List the instances in the specified cluster network.
+// ListClusterNetworkInstances Lists the instances in the specified cluster network.
 func (client ComputeManagementClient) ListClusterNetworkInstances(ctx context.Context, request ListClusterNetworkInstancesRequest) (response ListClusterNetworkInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1117,7 +1122,9 @@ func (client ComputeManagementClient) stopInstancePool(ctx context.Context, requ
 	return response, err
 }
 
-// TerminateClusterNetwork Terminate the specified cluster network.
+// TerminateClusterNetwork Terminates the specified cluster network.
+// When you delete a cluster network, all of its resources are permanently deleted,
+// including associated instances and instance pools.
 func (client ComputeManagementClient) TerminateClusterNetwork(ctx context.Context, request TerminateClusterNetworkRequest) (response TerminateClusterNetworkResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1201,8 +1208,7 @@ func (client ComputeManagementClient) terminateInstancePool(ctx context.Context,
 	return response, err
 }
 
-// UpdateClusterNetwork Update the specified cluster network.
-// The OCID of the cluster network remains the same.
+// UpdateClusterNetwork Updates the specified cluster network. The OCID of the cluster network remains the same.
 func (client ComputeManagementClient) UpdateClusterNetwork(ctx context.Context, request UpdateClusterNetworkRequest) (response UpdateClusterNetworkResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

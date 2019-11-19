@@ -5,6 +5,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 
@@ -55,8 +56,11 @@ var (
 		"is_auto_scaling_enabled":  Representation{repType: Optional, create: `false`},
 		"is_dedicated":             Representation{repType: Optional, create: `false`},
 		"is_preview_version_with_service_terms_accepted": Representation{repType: Optional, create: `false`},
-		"license_model": Representation{repType: Optional, create: `LICENSE_INCLUDED`},
+		"license_model":   Representation{repType: Optional, create: `LICENSE_INCLUDED`},
+		"whitelisted_ips": Representation{repType: Optional, create: []string{`1.1.1.1/28`}},
 	}
+
+	autonomousDatabaseCopyWithUpdatedIPsRepresentation = getUpdatedRepresentationCopy("whitelisted_ips", Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}, update: []string{}}, autonomousDatabaseRepresentation)
 
 	autonomousDatabaseRepresentationForClone = representationCopyWithNewProperties(
 		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbCloneName}, autonomousDatabaseRepresentation),
@@ -140,9 +144,15 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
 						return err
 					},
 				),
@@ -172,6 +182,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
 					resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -218,7 +229,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			// verify updates to whitelisted_ips
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{"whitelisted_ips": Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}}})),
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+						getUpdatedRepresentationCopy("whitelisted_ips", Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}}, autonomousDatabaseRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -248,7 +260,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			// verify remove whitelisted_ips
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseRepresentation),
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -278,7 +290,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			// verify autoscaling
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, representationCopyWithNewProperties(autonomousDatabaseRepresentation, map[string]interface{}{"is_auto_scaling_enabled": Representation{repType: Optional, update: `true`}})),
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, representationCopyWithNewProperties(autonomousDatabaseCopyWithUpdatedIPsRepresentation, map[string]interface{}{"is_auto_scaling_enabled": Representation{repType: Optional, update: `true`}})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -311,7 +323,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "test_autonomous_databases", Optional, Update, autonomousDatabaseDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseRepresentation),
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabaseCopyWithUpdatedIPsRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "db_workload", "OLTP"),
