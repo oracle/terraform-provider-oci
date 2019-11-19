@@ -4,6 +4,7 @@ package oci
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -119,6 +120,10 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 			crossConnectMappings = append(crossConnectMappings, CrossConnectMappingToMap(item))
 		}
 		virtualCircuit["cross_connect_mappings"] = crossConnectMappings
+
+		if r.CustomerAsn != nil {
+			virtualCircuit["customer_asn"] = strconv.FormatInt(*r.CustomerAsn, 10)
+		}
 
 		if r.CustomerBgpAsn != nil {
 			virtualCircuit["customer_bgp_asn"] = *r.CustomerBgpAsn

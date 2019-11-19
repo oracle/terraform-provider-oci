@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: "Provider: Oracle Cloud Infrastructure"
+page_title: "Upgrading to Terraform v0.12"
 sidebar_current: "docs-oci-guide-terraform_version_12_upgrade"
 description: |-
   The Oracle Cloud Infrastructure provider. Upgrading to Terraform v0.12

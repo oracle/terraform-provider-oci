@@ -94,6 +94,9 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+				// Keep as optional to avoid validation during destroy for the legacy configurations
+				Optional:   true,
+				Deprecated: FieldDeprecatedAndAvoidReferences("compartment_id"),
 			},
 			"ipv4": {
 				Type:     schema.TypeString,

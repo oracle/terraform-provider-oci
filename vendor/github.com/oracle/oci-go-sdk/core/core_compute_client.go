@@ -133,7 +133,7 @@ func (client ComputeClient) AttachBootVolume(ctx context.Context, request Attach
 
 // attachBootVolume implements the OCIOperation interface (enables retrying operations)
 func (client ComputeClient) attachBootVolume(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bootVolumeAttachments/")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bootVolumeAttachments")
 	if err != nil {
 		return nil, err
 	}
@@ -182,7 +182,7 @@ func (client ComputeClient) AttachVnic(ctx context.Context, request AttachVnicRe
 
 // attachVnic implements the OCIOperation interface (enables retrying operations)
 func (client ComputeClient) attachVnic(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vnicAttachments/")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vnicAttachments")
 	if err != nil {
 		return nil, err
 	}
@@ -229,7 +229,7 @@ func (client ComputeClient) AttachVolume(ctx context.Context, request AttachVolu
 
 // attachVolume implements the OCIOperation interface (enables retrying operations)
 func (client ComputeClient) attachVolume(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/volumeAttachments/")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/volumeAttachments")
 	if err != nil {
 		return nil, err
 	}
@@ -290,7 +290,7 @@ func (client ComputeClient) CaptureConsoleHistory(ctx context.Context, request C
 
 // captureConsoleHistory implements the OCIOperation interface (enables retrying operations)
 func (client ComputeClient) captureConsoleHistory(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConsoleHistories/")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instanceConsoleHistories")
 	if err != nil {
 		return nil, err
 	}
@@ -616,7 +616,7 @@ func (client ComputeClient) createImage(ctx context.Context, request common.OCIR
 }
 
 // CreateInstanceConsoleConnection Creates a new console connection to the specified instance.
-// Once the console connection has been created and is available,
+// After the console connection has been created and is available,
 // you connect to the console using SSH.
 // For more information about console access, see Accessing the Console (https://docs.cloud.oracle.com/Content/Compute/References/serialconsole.htm).
 func (client ComputeClient) CreateInstanceConsoleConnection(ctx context.Context, request CreateInstanceConsoleConnectionRequest) (response CreateInstanceConsoleConnectionResponse, err error) {
@@ -1725,7 +1725,7 @@ func (client ComputeClient) LaunchInstance(ctx context.Context, request LaunchIn
 
 // launchInstance implements the OCIOperation interface (enables retrying operations)
 func (client ComputeClient) launchInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instances/")
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instances")
 	if err != nil {
 		return nil, err
 	}
@@ -1894,7 +1894,7 @@ func (client ComputeClient) ListBootVolumeAttachments(ctx context.Context, reque
 
 // listBootVolumeAttachments implements the OCIOperation interface (enables retrying operations)
 func (client ComputeClient) listBootVolumeAttachments(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bootVolumeAttachments/")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bootVolumeAttachments")
 	if err != nil {
 		return nil, err
 	}
@@ -1936,7 +1936,7 @@ func (client ComputeClient) ListConsoleHistories(ctx context.Context, request Li
 
 // listConsoleHistories implements the OCIOperation interface (enables retrying operations)
 func (client ComputeClient) listConsoleHistories(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConsoleHistories/")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceConsoleHistories")
 	if err != nil {
 		return nil, err
 	}
@@ -2283,7 +2283,7 @@ func (client ComputeClient) ListInstances(ctx context.Context, request ListInsta
 
 // listInstances implements the OCIOperation interface (enables retrying operations)
 func (client ComputeClient) listInstances(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances")
 	if err != nil {
 		return nil, err
 	}
@@ -2370,7 +2370,7 @@ func (client ComputeClient) ListVnicAttachments(ctx context.Context, request Lis
 
 // listVnicAttachments implements the OCIOperation interface (enables retrying operations)
 func (client ComputeClient) listVnicAttachments(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vnicAttachments/")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vnicAttachments")
 	if err != nil {
 		return nil, err
 	}
@@ -2431,7 +2431,7 @@ func (client ComputeClient) ListVolumeAttachments(ctx context.Context, request L
 
 // listVolumeAttachments implements the OCIOperation interface (enables retrying operations)
 func (client ComputeClient) listVolumeAttachments(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/volumeAttachments/")
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/volumeAttachments")
 	if err != nil {
 		return nil, err
 	}

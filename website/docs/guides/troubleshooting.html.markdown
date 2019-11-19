@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: "Provider: Oracle Cloud Infrastructure"
+page_title: "Troubleshooting"
 sidebar_current: "docs-oci-guide-troubleshooting"
 description: |-
   The Oracle Cloud Infrastructure provider. Troubleshooting

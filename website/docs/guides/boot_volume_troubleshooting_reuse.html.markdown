@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: "Provider: Oracle Cloud Infrastructure"
+page_title: "Boot Volume reuse & troubleshooting"
 sidebar_current: "docs-oci-guide-boot_volume_troubleshooting"
 description: |-
   The Oracle Cloud Infrastructure provider. Boot Volume reuse and troubleshooting

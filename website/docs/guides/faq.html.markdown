@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: "Provider: Oracle Cloud Infrastructure"
+page_title: "Frequently Asked Questions"
 sidebar_current: "docs-oci-guide-faq"
 description: |-
   The Oracle Cloud Infrastructure provider. FAQ

@@ -19,10 +19,13 @@ import (
 // CreateClusterNetworkInstancePoolDetails The data to create an instance pool in a cluster network.
 type CreateClusterNetworkInstancePoolDetails struct {
 
-	// The OCID of the instance configuration associated to the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration
+	// associated with the instance pool.
 	InstanceConfigurationId *string `mandatory:"true" json:"instanceConfigurationId"`
 
 	// The number of instances that should be in the instance pool.
+	// If the required number of instances is not available or if some instances fail to launch,
+	// the cluster network is not created.
 	Size *int `mandatory:"true" json:"size"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -30,7 +33,7 @@ type CreateClusterNetworkInstancePoolDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The user-friendly name.  Does not have to be unique.
+	// A user-friendly name. Does not have to be unique. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no

@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: "Provider: Oracle Cloud Infrastructure"
+page_title: "Managing Default Resources"
 sidebar_current: "docs-oci-guide-managing_default_resources"
 description: |-
   The Oracle Cloud Infrastructure provider. Managing Default Resources

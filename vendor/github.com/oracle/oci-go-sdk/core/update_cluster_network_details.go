@@ -16,7 +16,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateClusterNetworkDetails The data to update a cluster network
+// UpdateClusterNetworkDetails The data to update a cluster network.
 type UpdateClusterNetworkDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -24,7 +24,8 @@ type UpdateClusterNetworkDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The user-friendly name.  Does not have to be unique.
+	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid
+	// entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no

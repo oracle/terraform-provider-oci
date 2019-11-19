@@ -1,14 +1,14 @@
 ---
-subcategory: "Waas"
+subcategory: "Web Application Acceleration and Security"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_certificate"
 sidebar_current: "docs-oci-datasource-waas-certificate"
 description: |-
-  Provides details about a specific Certificate in Oracle Cloud Infrastructure Waas service
+  Provides details about a specific Certificate in Oracle Cloud Infrastructure Web Application Acceleration and Security service
 ---
 
 # Data Source: oci_waas_certificate
-This data source provides details about a specific Certificate resource in Oracle Cloud Infrastructure Waas service.
+This data source provides details about a specific Certificate resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
 
 Gets the details of an SSL certificate.
 

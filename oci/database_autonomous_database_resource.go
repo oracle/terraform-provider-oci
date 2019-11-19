@@ -740,6 +740,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
+		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
+			interfaces := whitelistedIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.WhitelistedIps = tmp
+		}
 		request.CreateAutonomousDatabaseDetails = details
 	case strings.ToLower("NONE"):
 		details := oci_database.CreateAutonomousDatabaseDetails{}
@@ -802,6 +812,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
+			interfaces := whitelistedIps.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			details.WhitelistedIps = tmp
 		}
 		request.CreateAutonomousDatabaseDetails = details
 	default:

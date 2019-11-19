@@ -1,14 +1,14 @@
 ---
-subcategory: "Waas"
+subcategory: "Web Application Acceleration and Security"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_certificate"
 sidebar_current: "docs-oci-resource-waas-certificate"
 description: |-
-  Provides the Certificate resource in Oracle Cloud Infrastructure Waas service
+  Provides the Certificate resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service
 ---
 
 # oci_waas_certificate
-This resource provides the Certificate resource in Oracle Cloud Infrastructure Waas service.
+This resource provides the Certificate resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
 
 Allows an SSL certificate to be added to a WAAS policy. The Web Application Firewall terminates SSL connections to inspect requests in runtime, and then re-encrypts requests before sending them to the origin for fulfillment.
 
