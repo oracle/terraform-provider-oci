@@ -1,14 +1,14 @@
 ---
-subcategory: "Ons"
+subcategory: "Notifications"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ons_notification_topics"
 sidebar_current: "docs-oci-datasource-ons-notification_topics"
 description: |-
-  Provides the list of Notification Topics in Oracle Cloud Infrastructure Ons service
+  Provides the list of Notification Topics in Oracle Cloud Infrastructure Notifications service
 ---
 
 # Data Source: oci_ons_notification_topics
-This data source provides the list of Notification Topics in Oracle Cloud Infrastructure Ons service.
+This data source provides the list of Notification Topics in Oracle Cloud Infrastructure Notifications service.
 
 Lists topics in the specified compartment.
 

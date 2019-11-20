@@ -53,6 +53,7 @@ var (
 	instancePoolPlacementConfigurationsRepresentation = map[string]interface{}{
 		"availability_domain":    Representation{repType: Required, create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"primary_subnet_id":      Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"fault_domains":          Representation{repType: Optional, create: []string{`FAULT-DOMAIN-1`}, update: []string{`FAULT-DOMAIN-2`}},
 		"secondary_vnic_subnets": RepresentationGroup{Optional, instancePoolPlacementConfigurationsSecondaryVnicSubnetsRepresentation},
 	}
 	instancePoolLoadBalancersRepresentation = map[string]interface{}{
@@ -193,6 +194,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
 					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.secondary_vnic_subnets.0.display_name", "backend-servers-pool"),
@@ -204,7 +206,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
 						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
-							if errExport := testExportCompartment(&resId, &compartmentId); errExport != nil {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
 						}
@@ -237,6 +239,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
 					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "size", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -273,6 +276,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
 					resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "size", "3"),
 					resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
@@ -386,6 +390,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configurations.0.availability_domain"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.fault_domains.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "size", "3"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

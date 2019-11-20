@@ -11,7 +11,7 @@ import (
 // ChangeClusterNetworkCompartmentRequest wrapper for the ChangeClusterNetworkCompartment operation
 type ChangeClusterNetworkCompartmentRequest struct {
 
-	// The OCID of the cluster network.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster network.
 	ClusterNetworkId *string `mandatory:"true" contributesTo:"path" name:"clusterNetworkId"`
 
 	// Request to change the compartment of given cluster network.

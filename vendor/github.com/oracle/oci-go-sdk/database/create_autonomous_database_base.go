@@ -56,6 +56,12 @@ type CreateAutonomousDatabaseBase interface {
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	GetAutonomousContainerDatabaseId() *string
 
+	// The client IP access control list (ACL). This feature is available for serverless deployments (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) only.
+	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance. This is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
+	// To add the whitelist VCN specific subnet or IP, use a semicoln ';' as a deliminator to add the VCN specific subnets or IPs.
+	// Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.1.1","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.0.0/16"]`
+	GetWhitelistedIps() []string
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -81,6 +87,7 @@ type createautonomousdatabasebase struct {
 	IsAutoScalingEnabled                     *bool                                        `mandatory:"false" json:"isAutoScalingEnabled"`
 	IsDedicated                              *bool                                        `mandatory:"false" json:"isDedicated"`
 	AutonomousContainerDatabaseId            *string                                      `mandatory:"false" json:"autonomousContainerDatabaseId"`
+	WhitelistedIps                           []string                                     `mandatory:"false" json:"whitelistedIps"`
 	FreeformTags                             map[string]string                            `mandatory:"false" json:"freeformTags"`
 	DefinedTags                              map[string]map[string]interface{}            `mandatory:"false" json:"definedTags"`
 	Source                                   string                                       `json:"source"`
@@ -110,6 +117,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.IsAutoScalingEnabled = s.Model.IsAutoScalingEnabled
 	m.IsDedicated = s.Model.IsDedicated
 	m.AutonomousContainerDatabaseId = s.Model.AutonomousContainerDatabaseId
+	m.WhitelistedIps = s.Model.WhitelistedIps
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.Source = s.Model.Source
@@ -202,6 +210,11 @@ func (m createautonomousdatabasebase) GetIsDedicated() *bool {
 //GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
 func (m createautonomousdatabasebase) GetAutonomousContainerDatabaseId() *string {
 	return m.AutonomousContainerDatabaseId
+}
+
+//GetWhitelistedIps returns WhitelistedIps
+func (m createautonomousdatabasebase) GetWhitelistedIps() []string {
+	return m.WhitelistedIps
 }
 
 //GetFreeformTags returns FreeformTags

@@ -62,6 +62,7 @@ func init() {
 	exportLoadBalancerRuleSetHints.processDiscoveredResourcesFn = processLoadBalancerRuleSets
 
 	exportCoreBootVolumeHints.processDiscoveredResourcesFn = filterSourcedBootVolumes
+	exportCoreCrossConnectGroupHints.discoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.discoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
 	exportCoreDhcpOptionsHints.processDiscoveredResourcesFn = processDefaultDhcpOptions
 	exportCoreImageHints.processDiscoveredResourcesFn = filterCustomImages
 	exportCoreInstanceHints.discoverableLifecycleStates = append(exportCoreInstanceHints.discoverableLifecycleStates, string(oci_core.InstanceLifecycleStateStopped))
@@ -134,6 +135,10 @@ var identityResourceGraph = TerraformResourceGraph{
 		{
 			TerraformResourceHints: exportIdentityIdentityProviderHints,
 			datasourceQueryParams:  map[string]string{"protocol": "'SAML2'"},
+		},
+		{
+			TerraformResourceHints: exportIdentityPolicyHints,
+			datasourceQueryParams:  map[string]string{"compartment_id": "id"},
 		},
 	},
 	"oci_identity_compartment": {

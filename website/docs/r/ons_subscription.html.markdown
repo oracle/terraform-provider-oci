@@ -1,14 +1,14 @@
 ---
-subcategory: "Ons"
+subcategory: "Notifications"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_ons_subscription"
 sidebar_current: "docs-oci-resource-ons-subscription"
 description: |-
-  Provides the Subscription resource in Oracle Cloud Infrastructure Ons service
+  Provides the Subscription resource in Oracle Cloud Infrastructure Notifications service
 ---
 
 # oci_ons_subscription
-This resource provides the Subscription resource in Oracle Cloud Infrastructure Ons service.
+This resource provides the Subscription resource in Oracle Cloud Infrastructure Notifications service.
 
 Creates a subscription for the specified topic and sends a subscription confirmation URL to the endpoint. The subscription remains in "Pending" status until it has been confirmed. 
 For information about confirming subscriptions, see 

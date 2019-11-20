@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_core_cluster_network_instances
 This data source provides the list of Cluster Network Instances in Oracle Cloud Infrastructure Core service.
 
-List the instances in the specified cluster network.
+Lists the instances in the specified cluster network.
 
 ## Example Usage
 
@@ -29,7 +29,7 @@ data "oci_core_cluster_network_instances" "test_cluster_network_instances" {
 
 The following arguments are supported:
 
-* `cluster_network_id` - (Required) The OCID of the cluster network.
+* `cluster_network_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster network.
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 

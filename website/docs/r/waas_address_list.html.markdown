@@ -1,14 +1,14 @@
 ---
-subcategory: "Waas"
+subcategory: "Web Application Acceleration and Security"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_address_list"
 sidebar_current: "docs-oci-resource-waas-address_list"
 description: |-
-  Provides the Address List resource in Oracle Cloud Infrastructure Waas service
+  Provides the Address List resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service
 ---
 
 # oci_waas_address_list
-This resource provides the Address List resource in Oracle Cloud Infrastructure Waas service.
+This resource provides the Address List resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
 
 Creates an address list in a set compartment and allows it to be used in a WAAS policy and referenced by access rules. Addresses can be IP addresses and CIDR notations.
 

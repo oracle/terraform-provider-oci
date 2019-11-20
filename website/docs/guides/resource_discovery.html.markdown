@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: "Provider: Oracle Cloud Infrastructure"
+page_title: "Resource Discovery"
 sidebar_current: "docs-oci-guide-resource_discovery"
 description: |-
   The Oracle Cloud Infrastructure provider. Discovering resources in an existing compartment

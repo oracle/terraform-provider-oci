@@ -60,6 +60,7 @@ The following attributes are exported:
 	* `vnic_selection` - Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool.
 * `placement_configurations` - The placement configurations for the instance pool.
 	* `availability_domain` - The availability domain to place instances. Example: `Uocm:PHX-AD-1` 
+	* `fault_domains` - The fault domains to place instances. 
 	* `primary_subnet_id` - The OCID of the primary subnet to place instances.
 	* `secondary_vnic_subnets` - The set of secondary VNIC data for instances in the pool.
 		* `display_name` - The displayName of the vnic. This is also use to match against the Instance Configuration defined secondary vnic. 

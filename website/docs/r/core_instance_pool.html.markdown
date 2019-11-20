@@ -25,6 +25,7 @@ resource "oci_core_instance_pool" "test_instance_pool" {
 		primary_subnet_id = "${oci_core_subnet.test_subnet.id}"
 
 		#Optional
+		fault_domains = "${var.instance_pool_placement_configurations_fault_domains}"
 		secondary_vnic_subnets {
 			#Required
 			subnet_id = "${oci_core_subnet.test_subnet.id}"
@@ -67,6 +68,7 @@ The following arguments are supported:
 
 	To use the instance pool with a regional subnet, provide a placement configuration for each availability domain, and include the regional subnet in each placement configuration. 
 	* `availability_domain` - (Required) (Updatable) The availability domain to place instances. Example: `Uocm:PHX-AD-1` 
+	* `fault_domains` - (Optional) (Updatable) The fault domains to place instances. 
 	* `primary_subnet_id` - (Required) (Updatable) The OCID of the primary subnet to place instances.
 	* `secondary_vnic_subnets` - (Optional) (Updatable) The set of secondary VNIC data for instances in the pool.
 		* `display_name` - (Optional) (Updatable) The displayName of the vnic. This is also use to match against the Instance Configuration defined secondary vnic. 
@@ -98,6 +100,7 @@ The following attributes are exported:
 	* `vnic_selection` - Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool.
 * `placement_configurations` - The placement configurations for the instance pool.
 	* `availability_domain` - The availability domain to place instances. Example: `Uocm:PHX-AD-1` 
+	* `fault_domains` - The fault domains to place instances. 
 	* `primary_subnet_id` - The OCID of the primary subnet to place instances.
 	* `secondary_vnic_subnets` - The set of secondary VNIC data for instances in the pool.
 		* `display_name` - The displayName of the vnic. This is also use to match against the Instance Configuration defined secondary vnic. 

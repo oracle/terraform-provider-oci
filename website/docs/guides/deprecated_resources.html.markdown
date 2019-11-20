@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: "Provider: Oracle Cloud Infrastructure"
+page_title: "Deprecated Resources"
 sidebar_current: "docs-oci-guide-deprecated_resources"
 description: |-
   The Oracle Cloud Infrastructure provider deprecation guide

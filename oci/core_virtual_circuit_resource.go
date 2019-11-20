@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform/helper/hashcode"
@@ -93,10 +94,20 @@ func CoreVirtualCircuitResource() *schema.Resource {
 					},
 				},
 			},
+			"customer_asn": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ValidateFunc:     validateInt64TypeString,
+				DiffSuppressFunc: int64StringDiffSuppressFunction,
+				ConflictsWith:    []string{"customer_bgp_asn"},
+			},
 			"customer_bgp_asn": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
+				Type:          schema.TypeInt,
+				Optional:      true,
+				Computed:      true,
+				Deprecated:    FieldDeprecatedForAnother("customer_bgp_asn", "customer_asn"),
+				ConflictsWith: []string{"customer_asn"},
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -308,9 +319,18 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 		}
 	}
 
+	if customerAsn, ok := s.D.GetOkExists("customer_asn"); ok {
+		tmp := customerAsn.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert customerAsn string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.CustomerAsn = &tmpInt64
+	}
+
 	if customerBgpAsn, ok := s.D.GetOkExists("customer_bgp_asn"); ok {
-		tmp := customerBgpAsn.(int)
-		request.CustomerBgpAsn = &tmp
+		tmp := int64(customerBgpAsn.(int))
+		request.CustomerAsn = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -469,9 +489,18 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 		}
 	}
 
-	if customerBgpAsn, ok := s.D.GetOkExists("customer_bgp_asn"); ok {
-		tmp := customerBgpAsn.(int)
-		request.CustomerBgpAsn = &tmp
+	if customerAsn, ok := s.D.GetOkExists("customer_asn"); ok {
+		tmp := customerAsn.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert customerAsn string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.CustomerAsn = &tmpInt64
+	}
+
+	if customerBgpAsn, ok := s.D.GetOkExists("customer_bgp_asn"); ok && s.D.HasChange("customer_bgp_asn") {
+		tmp := int64(customerBgpAsn.(int))
+		request.CustomerAsn = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -621,8 +650,8 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 	}
 	s.D.Set("cross_connect_mappings", crossConnectMappings)
 
-	if s.Res.CustomerBgpAsn != nil {
-		s.D.Set("customer_bgp_asn", *s.Res.CustomerBgpAsn)
+	if s.Res.CustomerAsn != nil {
+		s.D.Set("customer_asn", strconv.FormatInt(*s.Res.CustomerAsn, 10))
 	}
 
 	if s.Res.DefinedTags != nil {
