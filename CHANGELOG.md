@@ -1,4 +1,5 @@
-## 3.53.0 (Unreleased)
+## 3.53.1 (Unreleased)
+## 3.53.0 (November 20, 2019)
 
 ### Added
 - Support for creating `oci_database_autonomous_database` resource with the specified `whitelisted_ips`
