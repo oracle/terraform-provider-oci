@@ -28,6 +28,7 @@ import (
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/resourcemanager"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
@@ -72,6 +73,7 @@ type OracleClients struct {
 	objectStorageClient            *oci_object_storage.ObjectStorageClient
 	oceInstanceClient              *oci_oce.OceInstanceClient
 	odaClient                      *oci_oda.OdaClient
+	osManagementClient             *oci_osmanagement.OsManagementClient
 	quotasClient                   *oci_limits.QuotasClient
 	redirectClient                 *oci_waas.RedirectClient
 	streamAdminClient              *oci_streaming.StreamAdminClient
@@ -442,6 +444,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.odaClient = &odaClient
+
+	osManagementClient, err := oci_osmanagement.NewOsManagementClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&osManagementClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.osManagementClient = &osManagementClient
 
 	quotasClient, err := oci_limits.NewQuotasClientWithConfigurationProvider(configProvider)
 	if err != nil {
