@@ -2,11 +2,11 @@
 
 ### Added
 - Support for Autonomous Database maintenance window
-- Support for `oci_database_autonomous_exadata_infrastructure_ocpu` datasource to get details of the OCPUs for the specified Autonomous Exadata Infrastructure instance.
-
+- Support for `oci_database_autonomous_exadata_infrastructure_ocpu` datasource to get details of the OCPUs for the specified Autonomous Exadata Infrastructure instance
 
 ### Fixed
 - Fixes an issue in resource discovery when duplicates of the same service are specified to the `-services` argument
+- Support and validation for the `ike_version`, `routing` attributes in `oci_core_ipsec_connection_tunnel_management` resource
 
 ## 3.53.0 (November 20, 2019)
 
