@@ -23,6 +23,7 @@ resource "oci_database_autonomous_database" "autonomous_database" {
   is_auto_scaling_enabled                        = "true"
   license_model                                  = "${var.autonomous_database_license_model}"
   is_preview_version_with_service_terms_accepted = "false"
+  whitelisted_ips                                = ["1.1.1.1/28"]
 }
 
 data "oci_database_autonomous_databases" "autonomous_databases" {

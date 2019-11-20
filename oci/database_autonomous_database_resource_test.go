@@ -31,7 +31,7 @@ var (
 		})
 
 	autonomousDatabaseDedicatedRepresentation = representationCopyWithNewProperties(
-		representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbDedicatedName}, autonomousDatabaseRepresentation), []string{"license_model"}),
+		representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbDedicatedName}, autonomousDatabaseRepresentation), []string{"license_model", "whitelisted_ips"}),
 		map[string]interface{}{
 			"autonomous_container_database_id": Representation{repType: Optional, create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 			"is_dedicated":                     Representation{repType: Optional, create: `true`},
@@ -423,7 +423,10 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 			// verify autoscaling
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, representationCopyWithNewProperties(autonomousDatabasePreviewRepresentation, map[string]interface{}{"is_auto_scaling_enabled": Representation{repType: Optional, update: `true`}})),
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+						representationCopyWithNewProperties(autonomousDatabasePreviewRepresentation, map[string]interface{}{
+							"whitelisted_ips":         Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}},
+							"is_auto_scaling_enabled": Representation{repType: Optional, update: `true`}})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -456,7 +459,10 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "test_autonomous_databases", Optional, Update, autonomousDatabaseDataSourceRepresentation) +
 					compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update, autonomousDatabasePreviewRepresentation),
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+						representationCopyWithNewProperties(autonomousDatabasePreviewRepresentation, map[string]interface{}{
+							"whitelisted_ips": Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "db_workload", "OLTP"),
@@ -487,7 +493,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + AutonomousDatabaseResourceConfig,
+					compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+						representationCopyWithNewProperties(autonomousDatabasePreviewRepresentation, map[string]interface{}{
+							"whitelisted_ips": Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}},
+						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
 
@@ -514,7 +524,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceConfig,
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
+						representationCopyWithNewProperties(autonomousDatabasePreviewRepresentation, map[string]interface{}{
+							"whitelisted_ips": Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}},
+						})),
 			},
 			// verify resource import
 			{

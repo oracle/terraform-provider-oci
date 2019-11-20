@@ -11,7 +11,7 @@ description: |-
 This resource provides the Instance Console Connection resource in Oracle Cloud Infrastructure Core service.
 
 Creates a new console connection to the specified instance.
-Once the console connection has been created and is available,
+After the console connection has been created and is available,
 you connect to the console using SSH.
 
 For more information about console access, see [Accessing the Console](https://docs.cloud.oracle.com/iaas/Content/Compute/References/serialconsole.htm).

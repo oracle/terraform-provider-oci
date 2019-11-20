@@ -359,43 +359,46 @@ func setEnvSetting(s, v string) error {
 	return nil
 }
 
-// Temporary fix for identity resource export tests
-func isIdentityOcid(ocid *string) bool {
-	identityOcidPrefixes := []string{
-		"authenticationPolicies/",
-		"ocid1.compartment.",
-		"ocid1.dynamicgroup.",
-		"ocid1.group.",
-		"ocid1.user.",
+func testExportCompartmentWithResourceName(id *string, compartmentId *string, resourceName string) error {
+	var exportCommandArgs ExportCommandArgs
+	if strings.Contains(resourceName, ".") {
+		resourceName = strings.Split(resourceName, ".")[0]
 	}
 
-	for _, prefix := range identityOcidPrefixes {
-		if strings.HasPrefix(*ocid, prefix) {
-			return true
+	var err error
+	exportCommandArgs.GenerateState, err = isResourceSupportImport(resourceName)
+	if err != nil {
+		return err
+	}
+
+	for serviceName, resourceGraph := range tenancyResourceGraphs {
+		for _, association := range resourceGraph {
+			for _, hint := range association {
+				if hint.resourceClass == resourceName {
+					exportCommandArgs.Services = []string{serviceName}
+					return testExportCompartment(id, compartmentId, &exportCommandArgs)
+				}
+			}
 		}
 	}
-	return false
-}
 
-// Temporarily skip export tests for following resources for now, because services
-// don't return full information for running terraform plan to succeed
-func skipExportForOcid(ocid *string) bool {
-	skipExportOcidPrefixes := []string{
-		"ocid1.saml2idp.",
-		"ocid1.tagdefinition.",
-		"ocid1.policy.",
-	}
-
-	for _, prefix := range skipExportOcidPrefixes {
-		if strings.HasPrefix(*ocid, prefix) {
-			return true
+	for serviceName, resourceGraph := range compartmentResourceGraphs {
+		for _, association := range resourceGraph {
+			for _, hint := range association {
+				if hint.resourceClass == resourceName {
+					exportCommandArgs.Services = []string{serviceName}
+					return testExportCompartment(id, compartmentId, &exportCommandArgs)
+				}
+			}
 		}
 	}
-	return false
+
+	// compartment export not support yet
+	log.Printf("[INFO] ===> Compartment export doesn't support this resource %v yet", resourceName)
+	return nil
 }
 
-func testExportCompartment(OCID *string, compartmentId *string) error {
-	var arg ExportCommandArgs
+func testExportCompartment(id *string, compartmentId *string, exportCommandArgs *ExportCommandArgs) error {
 	dir, _ := os.Getwd()
 	outputDir := fmt.Sprintf(dir + "/exportCompartment")
 	if err := os.RemoveAll(outputDir); err != nil {
@@ -411,20 +414,12 @@ func testExportCompartment(OCID *string, compartmentId *string) error {
 			log.Printf("unable to cleanup '%s' due to error '%v'", outputDir, err)
 		}
 	}()
-	arg.CompartmentId = compartmentId
-	arg.GenerateState = true
-	arg.OutputDir = &outputDir
-	arg.IDs = []string{*OCID}
+	exportCommandArgs.Services = append(exportCommandArgs.Services, "availability_domain")
+	exportCommandArgs.CompartmentId = compartmentId
+	exportCommandArgs.OutputDir = &outputDir
+	exportCommandArgs.IDs = []string{*id}
 
-	// Temporary fix for handling identity test requirements
-	if isIdentityOcid(OCID) {
-		arg.Services = []string{"identity"}
-	} else if skipExportForOcid(OCID) {
-		log.Printf("Skipping export test for OCID: %s", *OCID)
-		return nil
-	}
-
-	if errExport := RunExportCommand(&arg); errExport != nil {
+	if errExport := RunExportCommand(exportCommandArgs); errExport != nil {
 		return fmt.Errorf("[ERROR] RunExportCommand failed: %s", errExport)
 	}
 	meta := command.Meta{
@@ -451,12 +446,12 @@ func testExportCompartment(OCID *string, compartmentId *string) error {
 		log.Printf("[INFO] plugin dir: '%s'", pluginDir)
 		initArgs = append(initArgs, fmt.Sprintf("-plugin-dir=%v", pluginDir))
 	}
-	initArgs = append(initArgs, *arg.OutputDir)
+	initArgs = append(initArgs, *exportCommandArgs.OutputDir)
 	if errCode := initCmd.Run(initArgs); errCode != 0 {
 		return nil
 	}
 
-	// Need to set the compartment OCID environment variable for plan step
+	// Need to set the compartment id environment variable for plan step
 	compartmentOcidVarName := "TF_VAR_compartment_ocid"
 	storeCompartmentId := os.Getenv(compartmentOcidVarName)
 	if err := os.Setenv(compartmentOcidVarName, *compartmentId); err != nil {
@@ -472,8 +467,15 @@ func testExportCompartment(OCID *string, compartmentId *string) error {
 	}()
 
 	planCmd := command.PlanCommand{Meta: meta}
-	statefile := fmt.Sprintf(*arg.OutputDir + "/terraform.tfstate")
-	if errCode := planCmd.Run([]string{"-detailed-exitcode", fmt.Sprintf("-state=%v", statefile), *arg.OutputDir}); errCode != 0 {
+	var planArgs []string
+	if exportCommandArgs.GenerateState {
+		statefile := fmt.Sprintf(*exportCommandArgs.OutputDir + "/terraform.tfstate")
+		planArgs = append(planArgs, "-detailed-exitcode", fmt.Sprintf("-state=%v", statefile))
+	}
+
+	planArgs = append(planArgs, *exportCommandArgs.OutputDir)
+
+	if errCode := planCmd.Run(planArgs); errCode != 0 {
 		if errCode == 1 {
 			return fmt.Errorf("[ERROR] terraform plan command failed")
 		} else {
@@ -516,4 +518,15 @@ func testCheckJsonResourceAttr(name, key, expectedJson string) resource.TestChec
 		}
 		return nil
 	}
+}
+
+func isResourceSupportImport(resourceName string) (support bool, err error) {
+	if strings.Contains(resourceName, ".") {
+		resourceName = strings.Split(resourceName, ".")[0]
+	}
+	resource := resourcesMap[resourceName]
+	if resource == nil {
+		return false, fmt.Errorf("[ERROR]: resouce %v is not found in resource Map", resourceName)
+	}
+	return resource.Importer != nil, nil
 }

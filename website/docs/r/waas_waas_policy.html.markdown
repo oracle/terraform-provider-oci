@@ -1,14 +1,14 @@
 ---
-subcategory: "Waas"
+subcategory: "Web Application Acceleration and Security"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_waas_policy"
 sidebar_current: "docs-oci-resource-waas-waas_policy"
 description: |-
-  Provides the Waas Policy resource in Oracle Cloud Infrastructure Waas service
+  Provides the Waas Policy resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service
 ---
 
 # oci_waas_waas_policy
-This resource provides the Waas Policy resource in Oracle Cloud Infrastructure Waas service.
+This resource provides the Waas Policy resource in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
 
 Creates a new Web Application Acceleration and Security (WAAS) policy in the specified compartment. A WAAS policy must be established before creating Web Application Firewall (WAF) rules. To use WAF rules, your web application's origin servers must defined in the `WaasPolicy` schema.
 

@@ -56,6 +56,15 @@ func CoreInstancePoolResource() *schema.Resource {
 						},
 
 						// Optional
+						"fault_domains": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type:             schema.TypeString,
+								DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							},
+						},
 						"secondary_vnic_subnets": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -616,6 +625,19 @@ func (s *CoreInstancePoolResourceCrud) mapToCreateInstancePoolPlacementConfigura
 		result.AvailabilityDomain = &tmp
 	}
 
+	if faultDomains, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fault_domains")); ok {
+		interfaces := faultDomains.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "fault_domains")) {
+			result.FaultDomains = tmp
+		}
+	}
+
 	if primarySubnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_subnet_id")); ok {
 		tmp := primarySubnetId.(string)
 		result.PrimarySubnetId = &tmp
@@ -649,6 +671,19 @@ func (s *CoreInstancePoolResourceCrud) mapToUpdateInstancePoolPlacementConfigura
 		result.AvailabilityDomain = &tmp
 	}
 
+	if faultDomains, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fault_domains")); ok {
+		interfaces := faultDomains.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "fault_domains")) {
+			result.FaultDomains = tmp
+		}
+	}
+
 	if primarySubnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_subnet_id")); ok {
 		tmp := primarySubnetId.(string)
 		result.PrimarySubnetId = &tmp
@@ -678,6 +713,8 @@ func InstancePoolPlacementConfigurationToMap(obj oci_core.InstancePoolPlacementC
 	if obj.AvailabilityDomain != nil {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
 	}
+
+	result["fault_domains"] = obj.FaultDomains
 
 	if obj.PrimarySubnetId != nil {
 		result["primary_subnet_id"] = string(*obj.PrimarySubnetId)

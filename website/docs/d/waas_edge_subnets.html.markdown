@@ -1,14 +1,14 @@
 ---
-subcategory: "Waas"
+subcategory: "Web Application Acceleration and Security"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_waas_edge_subnets"
 sidebar_current: "docs-oci-datasource-waas-edge_subnets"
 description: |-
-  Provides the list of Edge Subnets in Oracle Cloud Infrastructure Waas service
+  Provides the list of Edge Subnets in Oracle Cloud Infrastructure Web Application Acceleration and Security service
 ---
 
 # Data Source: oci_waas_edge_subnets
-This data source provides the list of Edge Subnets in Oracle Cloud Infrastructure Waas service.
+This data source provides the list of Edge Subnets in Oracle Cloud Infrastructure Web Application Acceleration and Security service.
 
 Return the list of the tenant's edge node subnets. Use these CIDR blocks to restrict incoming traffic to your origin. These subnets are owned by Oracle Cloud Infrastructure and forward traffic to customer origins. They are not associated with specific regions or compartments.
 

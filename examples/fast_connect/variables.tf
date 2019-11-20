@@ -32,7 +32,7 @@ variable "virtual_circuit_cross_connect_mappings_vlan" {
   default = 200
 }
 
-variable "virtual_circuit_customer_bgp_asn" {
+variable "virtual_circuit_customer_asn" {
   default = 10
 }
 

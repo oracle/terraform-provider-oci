@@ -5,6 +5,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -81,10 +82,11 @@ var (
 
 	instanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation = getUpdatedRepresentationCopy("shape", Representation{repType: Optional, create: `BM.HPC2.36`}, instanceConfigurationInstanceDetailsLaunchDetailsRepresentation)
 
-	ClusterNetworkResourceRequiredOnlyDependencies = AvailabilityDomainClusterNetworkConfig + DhcpOptionsRequiredOnlyResource + RouteTableRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource +
+	ClusterNetworkResourceRequiredOnlyDependencies = AvailabilityDomainClusterNetworkConfig + DefinedTagsDependencies + VcnResourceConfig + DhcpOptionsRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource +
+		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Optional, Update, getUpdatedRepresentationCopy("cidr_block", Representation{repType: Required, create: `10.0.2.0/24`}, subnetRepresentation)) +
 		OciImageIdsVariable +
-		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", Required, Create, networkSecurityGroupRepresentation)
+		generateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", Required, Create, networkSecurityGroupRepresentation)
 
 	ClusterNetworkResourceDependencies = ClusterNetworkResourceRequiredOnlyDependencies +
 		generateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", Optional, Create, getUpdatedRepresentationCopy("instance_details", RepresentationGroup{Optional, instanceConfigurationInstanceDetailsClusterNetworkRepresentation}, instanceConfigurationRepresentation))
@@ -183,6 +185,11 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(getEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
 						return err
 					},
 				),

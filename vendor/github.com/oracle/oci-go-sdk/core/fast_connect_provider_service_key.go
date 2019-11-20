@@ -24,7 +24,7 @@ type FastConnectProviderServiceKey struct {
 	// from the provider to Oracle Cloud Infrastructure. Use this value as the `providerServiceKeyName`
 	// query parameter for
 	// GetFastConnectProviderServiceKey.
-	Name *string `mandatory:"false" json:"name"`
+	Name *string `mandatory:"true" json:"name"`
 
 	// The provisioned data rate of the connection.  To get a list of the
 	// available bandwidth levels (that is, shapes), see

@@ -22,8 +22,8 @@ type StreamClient struct {
 }
 
 // NewStreamClientWithConfigurationProvider Creates a new default Stream client with the given configuration provider.
-// the configuration provider will be used for the default signer as well as reading the region
-func NewStreamClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client StreamClient, err error) {
+// the configuration provider will be used for the default signer
+func NewStreamClientWithConfigurationProvider(configProvider common.ConfigurationProvider, endpoint string) (client StreamClient, err error) {
 	baseClient, err := common.NewClientWithConfig(configProvider)
 	if err != nil {
 		return
@@ -31,13 +31,9 @@ func NewStreamClientWithConfigurationProvider(configProvider common.Configuratio
 
 	client = StreamClient{BaseClient: baseClient}
 	client.BasePath = "20180418"
+	client.Host = endpoint
 	err = client.setConfigurationProvider(configProvider)
 	return
-}
-
-// SetRegion overrides the region of this client.
-func (client *StreamClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("streams", "https://streaming.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -46,9 +42,6 @@ func (client *StreamClient) setConfigurationProvider(configProvider common.Confi
 		return err
 	}
 
-	// Error has been checked already
-	region, _ := configProvider.Region()
-	client.SetRegion(region)
 	client.config = &configProvider
 	return nil
 }

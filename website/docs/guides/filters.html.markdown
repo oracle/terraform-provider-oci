@@ -1,6 +1,6 @@
 ---
 layout: "oci"
-page_title: "Provider: Oracle Cloud Infrastructure"
+page_title: "Filters"
 sidebar_current: "docs-oci-guide-filters"
 description: |-
   The Oracle Cloud Infrastructure provider. Filters
