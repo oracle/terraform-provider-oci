@@ -548,38 +548,40 @@ func (s *Scenario) updateFieldMap(req *Request, i *Interaction) {
 
 func (s *Scenario) updateInternalFieldMap(oldValue, newValue interface{}) {
 	if stringOldValue, ok := oldValue.(string); ok {
-		stringNewValue, _ := newValue.(string)
-		if strings.EqualFold(stringOldValue, stringNewValue) == false {
+		if stringNewValue, ok := newValue.(string); ok && strings.EqualFold(stringOldValue, stringNewValue) == false {
 			s.Fields[stringOldValue] = stringNewValue
 		}
 	} else if boolOldValue, ok := oldValue.(bool); ok {
-		boolNewValue, _ := newValue.(bool)
-		if boolOldValue != boolNewValue {
+		if boolNewValue, ok := newValue.(bool); ok && boolOldValue != boolNewValue {
 			s.Fields[strconv.FormatBool(boolOldValue)] = strconv.FormatBool(boolNewValue)
 		}
 	} else if jsonNumberOldValue, ok := oldValue.(json.Number); ok {
-		jsonNumberNewValue, _ := newValue.(json.Number)
-		if jsonNumberNewValue.String() != jsonNumberOldValue.String() {
+		if jsonNumberNewValue, ok := newValue.(json.Number); ok && jsonNumberNewValue.String() != jsonNumberOldValue.String() {
 			s.Fields[jsonNumberOldValue.String()] = jsonNumberNewValue.String()
 		}
 	} else if mapOldValue, ok := oldValue.(jsonObj); ok {
-		mapNewValue, _ := newValue.(jsonObj)
-		for k, v := range mapOldValue {
-			if newVal, ok := mapNewValue[k], ok; ok {
-				s.updateInternalFieldMap(v, newVal)
+		if mapNewValue, ok := newValue.(jsonObj); ok {
+			for k, v := range mapOldValue {
+				if newVal, ok := mapNewValue[k], ok; ok {
+					s.updateInternalFieldMap(v, newVal)
+				}
 			}
 		}
 	} else if mapOldValue, ok := oldValue.(map[string]interface{}); ok {
-		mapNewValue, _ := newValue.(map[string]interface{})
-		for k, v := range mapOldValue {
-			if newVal, ok := mapNewValue[k], ok; ok {
-				s.updateInternalFieldMap(v, newVal)
+		if mapNewValue, ok := newValue.(map[string]interface{}); ok {
+			for k, v := range mapOldValue {
+				if newVal, ok := mapNewValue[k], ok; ok {
+					s.updateInternalFieldMap(v, newVal)
+				}
 			}
 		}
 	} else if arrayOldValue, ok := oldValue.([]interface{}); ok {
-		arrayNewValue, _ := newValue.([]interface{})
-		for i := range arrayOldValue {
-			s.updateInternalFieldMap(arrayOldValue[i], arrayNewValue[i])
+		if arrayNewValue, ok := newValue.([]interface{}); ok {
+			for i := range arrayOldValue {
+				if i < len(arrayNewValue) {
+					s.updateInternalFieldMap(arrayOldValue[i], arrayNewValue[i])
+				}
+			}
 		}
 	} else {
 		debugLogf("HttpReplay will ignore the type match for type %s", reflect.TypeOf(oldValue))
