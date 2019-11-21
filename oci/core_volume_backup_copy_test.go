@@ -7,6 +7,8 @@ import (
 	"log"
 	"testing"
 
+	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
+
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
@@ -17,6 +19,9 @@ var (
 )
 
 func TestResourceCoreVolumeBackup_copy(t *testing.T) {
+	httpreplay.SetScenario("TestResourceCoreVolumeBackup_copy")
+	defer httpreplay.SaveScenario()
+
 	provider := testAccProvider
 	config := testProviderConfig()
 

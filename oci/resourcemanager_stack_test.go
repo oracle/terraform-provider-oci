@@ -5,6 +5,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -34,6 +35,10 @@ var (
 )
 
 func TestResourcemanagerStackResource_basic(t *testing.T) {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestResourcemanagerStackResource_basic") {
+		t.Skip("Skipping suppressed TestResourcemanagerStackResource_basic")
+	}
+
 	httpreplay.SetScenario("TestResourcemanagerStackResource_basic")
 	defer httpreplay.SaveScenario()
 
