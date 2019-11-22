@@ -1,9 +1,9 @@
 // Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// File Storage Service API
+// File Storage API
 //
-// The API for the File Storage Service.
+// API for the File Storage service. Use this API to manage file systems, mount targets, and snapshots. For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -49,6 +49,12 @@ type MountTargetSummary struct {
 	// systems will be exported using Network File System (NFS) protocol on
 	// this mount target.
 	ExportSetId *string `mandatory:"false" json:"exportSetId"`
+
+	// A list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this mount target.
+	// A maximum of 5 is allowed.
+	// Setting this to an empty array after the list is created removes the mount target from all NSGs.
+	// For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
