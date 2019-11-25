@@ -37,13 +37,16 @@ resource "oci_core_boot_volume_backup" "test_boot_volume_backup" {
 
 The following arguments are supported:
 
-* `boot_volume_id` - (Required) The OCID of the boot volume that needs to be backed up.
+* `boot_volume_id` - (Optional) The OCID of the boot volume that needs to be backed up. Cannot be defined if `source_details` is defined.
 * `compartment_id` - (Optional) (Updatable) The OCID of the compartment that contains the boot volume backup.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name for the boot volume backup. Does not have to be unique and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `type` - (Optional) The type of backup to create. If omitted, defaults to incremental.
-
+* `source_details` - (Optional) Details of the volume backup source in the cloud. Cannot be defined if `boot_volume_id` is defined.
+    * `kms_key_id` - The OCID of the KMS key in the destination region which will be the master encryption key for the copied volume backup.
+    * `region` - The region of the volume backup source.
+    * `volume_backup_id` - The OCID of the source volume backup.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -62,6 +65,7 @@ The following attributes are exported:
 * `image_id` - The image OCID used to create the boot volume the backup is taken from.
 * `kms_key_id` - The OCID of the Key Management master encryption assigned to the boot volume backup. For more information about the Key Management service and encryption keys, see [Overview of Key Management](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 * `size_in_gbs` - The size of the boot volume, in GBs. 
+* `source_boot_volume_backup_id` - The OCID of the source boot volume backup.
 * `source_type` - Specifies whether the backup was created manually, or via scheduled backup policy.
 * `state` - The current state of a boot volume backup.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
