@@ -97,6 +97,10 @@ func (s *CoreBootVolumeBackupDataSourceCrud) SetData() error {
 		s.D.Set("size_in_gbs", strconv.FormatInt(*s.Res.SizeInGBs, 10))
 	}
 
+	if s.Res.SourceBootVolumeBackupId != nil {
+		s.D.Set("source_boot_volume_backup_id", *s.Res.SourceBootVolumeBackupId)
+	}
+
 	s.D.Set("source_type", s.Res.SourceType)
 
 	s.D.Set("state", s.Res.LifecycleState)

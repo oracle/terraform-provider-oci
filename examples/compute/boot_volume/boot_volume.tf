@@ -14,6 +14,12 @@ variable "region" {}
 variable "compartment_ocid" {}
 variable "ssh_public_key" {}
 variable "ssh_private_key" {}
+variable "source_region" {}
+variable "source_boot_volume_backup_id" {}
+
+variable "display_name" {
+  default = "TestBootVolumeBackupCopy"
+}
 
 variable "instance_image_ocid" {
   type = "map"
@@ -51,6 +57,17 @@ resource "oci_core_boot_volume" "test_boot_volume_from_source_boot_volume" {
 resource "oci_core_boot_volume_backup" "test_boot_volume_backup_from_source_boot_volume" {
   #Required
   boot_volume_id = "${oci_core_boot_volume.test_boot_volume_from_source_boot_volume.id}"
+}
+
+resource "oci_core_boot_volume_backup" "test_boot_volume_backup_cross_region_sourced" {
+  #Required
+  source_details {
+    region                = "${var.source_region}"
+    boot_volume_backup_id = "${var.source_boot_volume_backup_id}"
+  }
+
+  #Optional
+  display_name = "${var.display_name}"
 }
 
 resource "oci_core_boot_volume" "test_boot_volume_from_source_boot_volume_backup" {
@@ -122,6 +139,15 @@ data "oci_core_boot_volume_backups" "test_boot_volume_backup_from_source_boot_vo
     name   = "id"
     values = ["${oci_core_boot_volume_backup.test_boot_volume_backup_from_source_boot_volume.id}"]
   }
+}
+
+data "oci_core_boot_volume_backups" "test_boot_volume_backup_from_source" {
+  #Required
+  compartment_id = "${var.compartment_ocid}"
+
+  #Optional
+  display_name                 = "${var.display_name}"
+  source_boot_volume_backup_id = "${var.source_boot_volume_backup_id}"
 }
 
 data "oci_core_boot_volumes" "test_boot_volume_from_source_boot_volume_datasource" {
