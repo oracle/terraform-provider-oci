@@ -152,6 +152,14 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("time_deletion_of_free_autonomous_database", *s.Res.TimeDeletionOfFreeAutonomousDatabase)
 	}
 
+	if s.Res.TimeMaintenanceBegin != nil {
+		s.D.Set("time_maintenance_begin", s.Res.TimeMaintenanceBegin.String())
+	}
+
+	if s.Res.TimeMaintenanceEnd != nil {
+		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
+	}
+
 	if s.Res.TimeReclamationOfFreeAutonomousDatabase != nil {
 		s.D.Set("time_reclamation_of_free_autonomous_database", *s.Res.TimeReclamationOfFreeAutonomousDatabase)
 	}

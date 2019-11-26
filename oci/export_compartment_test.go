@@ -480,6 +480,31 @@ func TestUnitRunExportCommand_basic(t *testing.T) {
 	os.RemoveAll(outputDir)
 }
 
+func TestUnitRunExportCommand_error(t *testing.T) {
+	initResourceDiscoveryTests()
+	compartmentId := resourceDiscoveryTestCompartmentOcid
+	outputDir, err := os.Getwd()
+	outputDir = fmt.Sprintf("%s%sdiscoveryTest-%d", outputDir, string(os.PathSeparator), time.Now().Nanosecond())
+	if err = os.Mkdir(outputDir, os.ModePerm); err != nil {
+		t.Logf("unable to mkdir %s. err: %v", outputDir, err)
+		t.Fail()
+	}
+
+	nonexistentOutputDir := fmt.Sprintf("%s%s%s", outputDir, string(os.PathSeparator), "baddirectory")
+	args := &ExportCommandArgs{
+		CompartmentId: &compartmentId,
+		Services:      []string{"compartment_testing", "tenancy_testing"},
+		OutputDir:     &nonexistentOutputDir,
+		GenerateState: false,
+	}
+	if err = RunExportCommand(args); err == nil {
+		t.Logf("export command expected to fail due to non-existent path, but it succeeded")
+		t.Fail()
+	}
+
+	os.RemoveAll(outputDir)
+}
+
 // Test that resources can be found using a resource dependency graph
 func TestUnitFindResources_basic(t *testing.T) {
 	initResourceDiscoveryTests()

@@ -47,7 +47,7 @@ The following arguments are supported:
 * `display_name` - (Required) (Updatable) The display name for the Autonomous Container Database.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `patch_model` - (Required) (Updatable) Database Patch model preference.
-* `service_level_agreement_type` - (Optional) The service level agreement type of the Autonomous Container Database. The default is STANDARD. For a Mission Critical Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
+* `service_level_agreement_type` - (Optional) The service level agreement type of the Autonomous Container Database. The default is STANDARD. For a mission critical Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
 
 
 ** IMPORTANT **
@@ -69,10 +69,10 @@ The following attributes are exported:
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
-* `patch_model` - Database Patch model preference.
+* `patch_model` - Database patch model preference.
 * `service_level_agreement_type` - The service level agreement type of the container database. The default is STANDARD.
 * `state` - The current state of the Autonomous Container Database.
-* `time_created` - The date and time the Autonomous was created.
+* `time_created` - The date and time the Autonomous Container Database was created.
 
 ## Import
 

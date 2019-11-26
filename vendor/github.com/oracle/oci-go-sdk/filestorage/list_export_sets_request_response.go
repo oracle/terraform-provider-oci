@@ -51,7 +51,8 @@ type ListExportSetsRequest struct {
 	SortBy ListExportSetsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'asc' or 'desc', where 'asc' is
-	// ascending and 'desc' is descending.
+	// ascending and 'desc' is descending. The default order is 'desc'
+	// except for numeric values.
 	SortOrder ListExportSetsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// Unique identifier for the request.

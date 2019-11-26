@@ -21,13 +21,13 @@ type AutonomousDatabase struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The current state of the database.
+	// The current state of the Autonomous Database.
 	LifecycleState AutonomousDatabaseLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The database name.
 	DbName *string `mandatory:"true" json:"dbName"`
 
-	// The number of CPU cores to be made available to the database.
+	// The number of OCPU cores to be made available to the database.
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
 	// The quantity of data in the database, in terabytes.
@@ -36,7 +36,7 @@ type AutonomousDatabase struct {
 	// Information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB memory. For Always Free databases, memory and CPU cannot be scaled.
+	// Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
@@ -55,7 +55,7 @@ type AutonomousDatabase struct {
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	AutonomousContainerDatabaseId *string `mandatory:"false" json:"autonomousContainerDatabaseId"`
 
-	// The date and time the database was created.
+	// The date and time the Autonomous Database was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
@@ -69,7 +69,8 @@ type AutonomousDatabase struct {
 
 	ConnectionUrls *AutonomousDatabaseConnectionUrls `mandatory:"false" json:"connectionUrls"`
 
-	// The Oracle license model that applies to the Oracle Autonomous Database. The default for Autonomous Database using the shared deployment is BRING_YOUR_OWN_LICENSE. Note that when provisioning an Autonomous Database using the dedicated deployment (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm) option, this attribute must be null because the attribute is already set on Autonomous Exadata Infrastructure level.
+	// The Oracle license model that applies to the Oracle Autonomous Database. Note that when provisioning an Autonomous Database using the dedicated deployment (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm) option, this attribute must be null because the attribute is already set at the
+	// Autonomous Exadata Infrastructure level. When using the serverless deployment (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#DeploymentTypes) option, if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	LicenseModel AutonomousDatabaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// The amount of storage that has been used, in terabytes.
@@ -104,6 +105,12 @@ type AutonomousDatabase struct {
 
 	// Status of the Data Safe registration for this Autonomous Database.
 	DataSafeStatus AutonomousDatabaseDataSafeStatusEnum `mandatory:"false" json:"dataSafeStatus,omitempty"`
+
+	// The date and time when maintenance will begin.
+	TimeMaintenanceBegin *common.SDKTime `mandatory:"false" json:"timeMaintenanceBegin"`
+
+	// The date and time when maintenance will end.
+	TimeMaintenanceEnd *common.SDKTime `mandatory:"false" json:"timeMaintenanceEnd"`
 }
 
 func (m AutonomousDatabase) String() string {

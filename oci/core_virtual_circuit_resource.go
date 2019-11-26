@@ -589,7 +589,7 @@ func (s *CoreVirtualCircuitResourceCrud) updatePublicPrefixes() error {
 		addRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 		addRequest.PublicPrefixes = publicPrefixesToAdd
 		addRequest.VirtualCircuitId = &virtualCircuitId
-		addErr := s.Client.BulkAddVirtualCircuitPublicPrefixes(context.Background(), addRequest)
+		_, addErr := s.Client.BulkAddVirtualCircuitPublicPrefixes(context.Background(), addRequest)
 		if addErr != nil {
 			return fmt.Errorf("failed to add public prefixes, error: %v", addErr)
 		}
@@ -606,7 +606,7 @@ func (s *CoreVirtualCircuitResourceCrud) updatePublicPrefixes() error {
 		deleteRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 		deleteRequest.PublicPrefixes = publicPrefixesToDelete
 		deleteRequest.VirtualCircuitId = &virtualCircuitId
-		deleteErr := s.Client.BulkDeleteVirtualCircuitPublicPrefixes(context.Background(), deleteRequest)
+		_, deleteErr := s.Client.BulkDeleteVirtualCircuitPublicPrefixes(context.Background(), deleteRequest)
 		if deleteErr != nil {
 			return fmt.Errorf("failed to delete public prefixes, error: %v", deleteErr)
 		}
