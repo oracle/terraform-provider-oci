@@ -396,11 +396,11 @@ data "oci_waas_custom_protection_rules" "test_custom_protection_rules" {
 resource "oci_waas_http_redirect" "test_http_redirect" {
   #Required
   compartment_id = "${var.compartment_ocid}"
-  domain         = "example.net"
+  domain         = "example.com"
 
   target {
     #Required
-    host     = "example.com"
+    host     = "example.net"
     path     = "/test{path}"
     protocol = "HTTP"
     query    = "{query}"

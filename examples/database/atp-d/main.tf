@@ -70,6 +70,15 @@ data "oci_database_autonomous_databases" "autonomous_databases" {
   db_workload                      = "OLTP"
 }
 
+data "oci_database_autonomous_exadata_infrastructure_ocpu" "test_autonomous_exadata_infrastructure_ocpu" {
+  #Required
+  autonomous_exadata_infrastructure_id = "${oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id}"
+}
+
+output "autonomous_database_consumed_cpu" {
+  value = "${data.oci_database_autonomous_exadata_infrastructure_ocpu.test_autonomous_exadata_infrastructure_ocpu.consumed_cpu}"
+}
+
 output "autonomous_database_admin_password" {
   value = "${random_string.autonomous_database_admin_password.result}"
 }

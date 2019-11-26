@@ -350,6 +350,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_begin"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_maintenance_end"),
 				),
 			},
 			// verify singular datasource
@@ -386,6 +388,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_begin"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_maintenance_end"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

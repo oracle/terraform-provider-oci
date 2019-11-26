@@ -6,6 +6,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform/helper/validation"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
@@ -29,6 +31,10 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 			"routing": {
 				Type:     schema.TypeString,
 				Required: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsRoutingBgp),
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsRoutingStatic),
+				}, true),
 			},
 			// Optional
 			"bgp_session_info": {
@@ -77,6 +83,10 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsIkeVersionV1),
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsIkeVersionV2),
+				}, true),
 			},
 			"shared_secret": {
 				Type:         schema.TypeString,
@@ -272,6 +282,10 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if ikeVersion, ok := s.D.GetOkExists("ike_version"); ok {
+		request.IkeVersion = oci_core.UpdateIpSecConnectionTunnelDetailsIkeVersionEnum(ikeVersion.(string))
+	}
+
 	if routing, ok := s.D.GetOkExists("routing"); ok {
 		request.Routing = oci_core.UpdateIpSecConnectionTunnelDetailsRoutingEnum(routing.(string))
 	}
@@ -337,6 +351,8 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("ike_version", s.Res.IkeVersion)
 
 	s.D.Set("routing", s.Res.Routing)
 

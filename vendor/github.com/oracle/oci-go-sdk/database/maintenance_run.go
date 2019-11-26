@@ -69,6 +69,7 @@ const (
 	MaintenanceRunLifecycleStateSucceeded  MaintenanceRunLifecycleStateEnum = "SUCCEEDED"
 	MaintenanceRunLifecycleStateSkipped    MaintenanceRunLifecycleStateEnum = "SKIPPED"
 	MaintenanceRunLifecycleStateFailed     MaintenanceRunLifecycleStateEnum = "FAILED"
+	MaintenanceRunLifecycleStateUpdating   MaintenanceRunLifecycleStateEnum = "UPDATING"
 )
 
 var mappingMaintenanceRunLifecycleState = map[string]MaintenanceRunLifecycleStateEnum{
@@ -77,6 +78,7 @@ var mappingMaintenanceRunLifecycleState = map[string]MaintenanceRunLifecycleStat
 	"SUCCEEDED":   MaintenanceRunLifecycleStateSucceeded,
 	"SKIPPED":     MaintenanceRunLifecycleStateSkipped,
 	"FAILED":      MaintenanceRunLifecycleStateFailed,
+	"UPDATING":    MaintenanceRunLifecycleStateUpdating,
 }
 
 // GetMaintenanceRunLifecycleStateEnumValues Enumerates the set of values for MaintenanceRunLifecycleStateEnum
@@ -93,13 +95,15 @@ type MaintenanceRunTargetResourceTypeEnum string
 
 // Set of constants representing the allowable values for MaintenanceRunTargetResourceTypeEnum
 const (
-	MaintenanceRunTargetResourceTypeExadataInfrastructure MaintenanceRunTargetResourceTypeEnum = "AUTONOMOUS_EXADATA_INFRASTRUCTURE"
-	MaintenanceRunTargetResourceTypeContainerDatabase     MaintenanceRunTargetResourceTypeEnum = "AUTONOMOUS_CONTAINER_DATABASE"
+	MaintenanceRunTargetResourceTypeAutonomousExadataInfrastructure MaintenanceRunTargetResourceTypeEnum = "AUTONOMOUS_EXADATA_INFRASTRUCTURE"
+	MaintenanceRunTargetResourceTypeAutonomousContainerDatabase     MaintenanceRunTargetResourceTypeEnum = "AUTONOMOUS_CONTAINER_DATABASE"
+	MaintenanceRunTargetResourceTypeExadataDbSystem                 MaintenanceRunTargetResourceTypeEnum = "EXADATA_DB_SYSTEM"
 )
 
 var mappingMaintenanceRunTargetResourceType = map[string]MaintenanceRunTargetResourceTypeEnum{
-	"AUTONOMOUS_EXADATA_INFRASTRUCTURE": MaintenanceRunTargetResourceTypeExadataInfrastructure,
-	"AUTONOMOUS_CONTAINER_DATABASE":     MaintenanceRunTargetResourceTypeContainerDatabase,
+	"AUTONOMOUS_EXADATA_INFRASTRUCTURE": MaintenanceRunTargetResourceTypeAutonomousExadataInfrastructure,
+	"AUTONOMOUS_CONTAINER_DATABASE":     MaintenanceRunTargetResourceTypeAutonomousContainerDatabase,
+	"EXADATA_DB_SYSTEM":                 MaintenanceRunTargetResourceTypeExadataDbSystem,
 }
 
 // GetMaintenanceRunTargetResourceTypeEnumValues Enumerates the set of values for MaintenanceRunTargetResourceTypeEnum
