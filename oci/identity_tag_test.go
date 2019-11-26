@@ -93,7 +93,7 @@ func TestIdentityTagResource_basic(t *testing.T) {
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
-		CheckDestroy: func(s *terraform.State) (err error){
+		CheckDestroy: func(s *terraform.State) (err error) {
 			tagNamespceId, err = fromInstanceState(s, tagNamespaceResourceName, "id")
 			if err == nil {
 				// Remove validator from tag if present
