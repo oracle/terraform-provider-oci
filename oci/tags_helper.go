@@ -3,12 +3,15 @@
 package oci
 
 import (
+	"context"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"reflect"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
 func definedTagsToMap(definedTags map[string]map[string]interface{}) map[string]interface{} {
@@ -88,4 +91,33 @@ func toLowerCaseKeyMap(original map[string]interface{}) map[string]interface{} {
 
 func systemTagsToMap(systemTags map[string]map[string]interface{}) map[string]interface{} {
 	return definedTagsToMap(systemTags)
+}
+
+func resetIdentityTagResourceImport(tagName string, tagNamespaceId string, identityClient *oci_identity.IdentityClient) error {
+	importIfExists, _ := strconv.ParseBool(getEnvSettingWithDefault("tags_import_if_exists", "false"))
+	if !importIfExists {
+		return nil
+	}
+	request := oci_identity.GetTagRequest{
+		TagName:        &tagName,
+		TagNamespaceId: &tagNamespaceId,
+	}
+	response, error := identityClient.GetTag(context.Background(), request)
+	if error != nil {
+		return error
+	}
+	validator := response.Tag.Validator
+	if validator != nil {
+		validator = oci_identity.DefaultTagDefinitionValidator{}
+		updateRequest := oci_identity.UpdateTagRequest{
+			TagName:          &tagName,
+			TagNamespaceId:   &tagNamespaceId,
+			UpdateTagDetails: oci_identity.UpdateTagDetails{Validator: validator},
+		}
+		_, error = identityClient.UpdateTag(context.Background(), updateRequest)
+		if error != nil {
+			return error
+		}
+	}
+	return nil
 }

@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// AutonomousDatabaseConsoleTokenDetails The token that allows the OCI Console to access the Autonomous Transaction Processing Service Console.
+// AutonomousDatabaseConsoleTokenDetails The token that allows the OCI Console to access the Autonomous Database Service Console.
 type AutonomousDatabaseConsoleTokenDetails struct {
 
 	// The token that allows the OCI Console to access the Autonomous Transaction Processing Service Console.

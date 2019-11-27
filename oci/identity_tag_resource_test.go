@@ -139,7 +139,7 @@ func TestResourceIdentityDefaultTag_required(t *testing.T) {
 					resource "oci_identity_tag_default" "test_tag_default" {
 						compartment_id = "${var.compartment_id}"
 						is_required = "true"
-						value="W123" 
+						value="value1" 
 						tag_definition_id = "${oci_identity_tag.tag1.id}"
 					}
 					resource "oci_identity_tag_namespace" "tag-namespace-test-1" {
@@ -153,7 +153,7 @@ func TestResourceIdentityDefaultTag_required(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
-					resource.TestCheckResourceAttr(resourceName, "value", "W123"),
+					resource.TestCheckResourceAttr(resourceName, "value", "value1"),
 					// stream
 					resource.TestCheckResourceAttr("oci_identity_tag_namespace.tag-namespace-test-1", "compartment_id", compartmentId),
 				),
@@ -164,7 +164,7 @@ func TestResourceIdentityDefaultTag_required(t *testing.T) {
 				resource "oci_identity_tag_default" "test_tag_default" {
 					compartment_id = "${var.compartment_id}"
 					is_required = "false"
-					value="W123" 
+					value="value1" 
 					tag_definition_id = "${oci_identity_tag.tag1.id}"
 				}
 				resource "oci_identity_tag_namespace" "tag-namespace-test-2" {
@@ -178,7 +178,7 @@ func TestResourceIdentityDefaultTag_required(t *testing.T) {
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "tag_definition_id"),
-					resource.TestCheckResourceAttr(resourceName, "value", "W123"),
+					resource.TestCheckResourceAttr(resourceName, "value", "value1"),
 					// stream
 					resource.TestCheckResourceAttr("oci_identity_tag_namespace.tag-namespace-test-2", "compartment_id", compartmentId),
 				),

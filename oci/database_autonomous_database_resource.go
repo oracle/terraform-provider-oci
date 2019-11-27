@@ -249,6 +249,14 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_maintenance_begin": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_maintenance_end": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_reclamation_of_free_autonomous_database": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -604,6 +612,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeDeletionOfFreeAutonomousDatabase != nil {
 		s.D.Set("time_deletion_of_free_autonomous_database", s.Res.TimeDeletionOfFreeAutonomousDatabase.String())
+	}
+
+	if s.Res.TimeMaintenanceBegin != nil {
+		s.D.Set("time_maintenance_begin", s.Res.TimeMaintenanceBegin.String())
+	}
+
+	if s.Res.TimeMaintenanceEnd != nil {
+		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
 	}
 
 	if s.Res.TimeReclamationOfFreeAutonomousDatabase != nil {

@@ -113,6 +113,10 @@ type ExportCommandArgs struct {
 }
 
 func RunExportCommand(args *ExportCommandArgs) error {
+	if err := args.validate(); err != nil {
+		return err
+	}
+
 	clients := &OracleClients{}
 	userAgentString := fmt.Sprintf(exportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, Version)
 	httpClient := buildHttpClient()
@@ -147,20 +151,50 @@ func RunExportCommand(args *ExportCommandArgs) error {
 	return runExportCommand(clients, args)
 }
 
+// Dedupes possible repeating services from command line and sorts them
+func (args *ExportCommandArgs) finalizeServices() {
+	seenServices := map[string]bool{}
+	finalServices := []string{}
+
+	for _, service := range args.Services {
+		if _, seen := seenServices[service]; seen {
+			continue
+		}
+		finalServices = append(finalServices, service)
+		seenServices[service] = true
+	}
+	args.Services = finalServices
+	sort.Strings(args.Services)
+}
+
+// Validate export command arguments and returns nil if there are no issues
+func (args *ExportCommandArgs) validate() error {
+	path, err := os.Stat(*args.OutputDir)
+	if os.IsNotExist(err) {
+		return fmt.Errorf("[ERROR] output_path does not exist: %s", err)
+	}
+
+	if !path.IsDir() {
+		return fmt.Errorf("[ERROR] output_path %s should be a directory", *args.OutputDir)
+	}
+
+	return nil
+}
+
 func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 	if args.OutputDir == nil || *args.OutputDir == "" {
 		return fmt.Errorf("[ERROR] no output directory specified")
 	}
 
-	stateOutputFile := fmt.Sprintf("%s/%s", *args.OutputDir, local.DefaultStateFilename)
-	tmpStateOutputFile := fmt.Sprintf("%s/%s", *args.OutputDir, defaultTmpStateFile)
+	stateOutputFile := fmt.Sprintf("%s%s%s", *args.OutputDir, string(os.PathSeparator), local.DefaultStateFilename)
+	tmpStateOutputFile := fmt.Sprintf("%s%s%s", *args.OutputDir, string(os.PathSeparator), defaultTmpStateFile)
 
 	log.Printf("Running export command\n")
 	if len(args.Services) == 0 {
 		args.Services = compartmentScopeServices
 	}
 
-	sort.Strings(args.Services)
+	args.finalizeServices()
 	generateConfigSteps, err := buildGenerateConfigSteps(args.CompartmentId, args.Services, oci_common.DefaultConfigProvider())
 	if err != nil {
 		return err
@@ -217,8 +251,8 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 	}()
 
 	for _, step := range generateConfigSteps {
-		configOutputFile := fmt.Sprintf("%s/%s.tf", *args.OutputDir, step.stepName)
-		tmpConfigOutputFile := fmt.Sprintf("%s/%s.tf.tmp", *args.OutputDir, step.stepName)
+		configOutputFile := fmt.Sprintf("%s%s%s.tf", *args.OutputDir, string(os.PathSeparator), step.stepName)
+		tmpConfigOutputFile := fmt.Sprintf("%s%s%s.tf.tmp", *args.OutputDir, string(os.PathSeparator), step.stepName)
 
 		file, err := os.OpenFile(tmpConfigOutputFile, os.O_CREATE|os.O_RDWR, 0666)
 		if err != nil {
@@ -469,16 +503,12 @@ func findResources(clients *OracleClients, root *OCIResource, resourceGraph Terr
 }
 
 func generateVarsFile(vars map[string]string, outputDir *string) error {
-	varsTmpFile := fmt.Sprintf("%s/%s.tmp", *outputDir, varsFile)
-	varsOutputFile := fmt.Sprintf("%s/%s", *outputDir, varsFile)
+	varsTmpFile := fmt.Sprintf("%s%s%s.tmp", *outputDir, string(os.PathSeparator), varsFile)
+	varsOutputFile := fmt.Sprintf("%s%s%s", *outputDir, string(os.PathSeparator), varsFile)
 	file, err := os.OpenFile(varsTmpFile, os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
 		return err
 	}
-
-	defer func() {
-		_ = file.Close()
-	}()
 
 	for variable, defaultVal := range vars {
 		if defaultVal != "" {
@@ -486,6 +516,10 @@ func generateVarsFile(vars map[string]string, outputDir *string) error {
 		} else {
 			_, _ = file.WriteString(fmt.Sprintf("variable %s {}\n", variable))
 		}
+	}
+
+	if err := file.Close(); err != nil {
+		return err
 	}
 
 	if err := os.Rename(varsTmpFile, varsOutputFile); err != nil {
