@@ -1,4 +1,4 @@
-## 3.54.0 (Unreleased)
+## 3.54.0 (November 27, 2019)
 
 ### Added
 - Support for Autonomous Database maintenance window
