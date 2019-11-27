@@ -1,9 +1,9 @@
 // Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// File Storage Service API
+// File Storage API
 //
-// The API for the File Storage Service.
+// API for the File Storage service. Use this API to manage file systems, mount targets, and snapshots. For more information, see Overview of File Storage (https://docs.cloud.oracle.com/iaas/Content/File/Concepts/filestorageoverview.htm).
 //
 
 package filestorage
@@ -201,6 +201,8 @@ func (client FileStorageClient) createExport(ctx context.Context, request common
 // more than one mount target at a time.
 // For information about access control and compartments, see
 // Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
+// For information about Network Security Groups access control, see
+// Network Security Groups (https://docs.cloud.oracle.com/Content/Network/Concepts/networksecuritygroups.htm).
 // For information about availability domains, see Regions and
 // Availability Domains (https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm).
 // To get a list of availability domains, use the

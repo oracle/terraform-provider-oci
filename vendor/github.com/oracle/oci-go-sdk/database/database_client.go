@@ -1506,7 +1506,7 @@ func (client DatabaseClient) deleteVmClusterNetwork(ctx context.Context, request
 	return response, err
 }
 
-// DeregisterAutonomousDatabaseDataSafe Asynchronously deregisters Data Safe for this Autonomous Database.
+// DeregisterAutonomousDatabaseDataSafe Asynchronously deregisters this Autonomous Database with Data Safe.
 func (client DatabaseClient) DeregisterAutonomousDatabaseDataSafe(ctx context.Context, request DeregisterAutonomousDatabaseDataSafeRequest) (response DeregisterAutonomousDatabaseDataSafeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2652,6 +2652,48 @@ func (client DatabaseClient) getExadataInfrastructure(ctx context.Context, reque
 	}
 
 	var response GetExadataInfrastructureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetExadataInfrastructureOcpus Gets details of the available and consumed OCPUs for the specified Autonomous Exadata Infrastructure instance.
+func (client DatabaseClient) GetExadataInfrastructureOcpus(ctx context.Context, request GetExadataInfrastructureOcpusRequest) (response GetExadataInfrastructureOcpusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getExadataInfrastructureOcpus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetExadataInfrastructureOcpusResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetExadataInfrastructureOcpusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetExadataInfrastructureOcpusResponse")
+	}
+	return
+}
+
+// getExadataInfrastructureOcpus implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getExadataInfrastructureOcpus(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousExadataInfrastructures/{autonomousExadataInfrastructureId}/ocpus")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetExadataInfrastructureOcpusResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -4067,7 +4109,7 @@ func (client DatabaseClient) listVmClusters(ctx context.Context, request common.
 	return response, err
 }
 
-// RegisterAutonomousDatabaseDataSafe Asynchronously registers Data Safe with this Autonomous Database.
+// RegisterAutonomousDatabaseDataSafe Asynchronously registers this Autonomous Database with Data Safe.
 func (client DatabaseClient) RegisterAutonomousDatabaseDataSafe(ctx context.Context, request RegisterAutonomousDatabaseDataSafeRequest) (response RegisterAutonomousDatabaseDataSafeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4657,7 +4699,7 @@ func (client DatabaseClient) terminateDbSystem(ctx context.Context, request comm
 	return response, err
 }
 
-// UpdateAutonomousContainerDatabase Updates the properties of an Autonomous Container Database, such as the CPU core count and storage size.
+// UpdateAutonomousContainerDatabase Updates the properties of an Autonomous Container Database, such as the OCPU core count and storage size.
 func (client DatabaseClient) UpdateAutonomousContainerDatabase(ctx context.Context, request UpdateAutonomousContainerDatabaseRequest) (response UpdateAutonomousContainerDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4741,7 +4783,7 @@ func (client DatabaseClient) updateAutonomousDataWarehouse(ctx context.Context, 
 	return response, err
 }
 
-// UpdateAutonomousDatabase Updates the specified Autonomous Database with a new CPU core count and size.
+// UpdateAutonomousDatabase Updates one or more attributes of the specified Autonomous Database. See the UpdateAutonomousDatabaseDetails resource for a full list of attributes that can be updated.
 func (client DatabaseClient) UpdateAutonomousDatabase(ctx context.Context, request UpdateAutonomousDatabaseRequest) (response UpdateAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -4,6 +4,7 @@ package oci
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -22,6 +23,10 @@ var (
 )
 
 func TestResourcemanagerStackTfStateResource_basic(t *testing.T) {
+	if strings.Contains(getEnvSettingWithBlankDefault("suppressed_tests"), "TestResourcemanagerStackTfStateResource_basic") {
+		t.Skip("Skipping suppressed TestResourcemanagerStackTfStateResource_basic")
+	}
+
 	httpreplay.SetScenario("TestResourcemanagerStackTfStateResource_basic")
 	defer httpreplay.SaveScenario()
 
