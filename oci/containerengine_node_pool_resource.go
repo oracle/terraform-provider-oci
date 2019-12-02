@@ -81,9 +81,9 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Type:          schema.TypeList,
 				Optional:      true,
 				Computed:      true,
-				ConflictsWith: []string{"quantity_per_subnet", "subnet_ids"},
 				MaxItems:      1,
 				MinItems:      1,
+				ConflictsWith: []string{"quantity_per_subnet", "subnet_ids"},
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -123,15 +123,15 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			"node_image_id": {
 				Type:          schema.TypeString,
 				Optional:      true,
-				ForceNew:      true,
 				Computed:      true,
+				ForceNew:      true,
 				ConflictsWith: []string{"node_image_name"},
 			},
 			"node_image_name": {
 				Type:          schema.TypeString,
 				Optional:      true,
-				ForceNew:      true,
 				Computed:      true,
+				ForceNew:      true,
 				ConflictsWith: []string{"node_image_id"},
 			},
 			"node_metadata": {

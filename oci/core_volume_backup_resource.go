@@ -26,11 +26,10 @@ func CoreVolumeBackupResource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// Optional
 			"volume_id": {
-				Type:          schema.TypeString,
-				Optional:      true,
-				ForceNew:      true,
-				Computed:      true,
-				ConflictsWith: []string{"source_details"},
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+				Computed: true,
 			},
 			"source_details": {
 				Type:          schema.TypeList,
@@ -38,7 +37,7 @@ func CoreVolumeBackupResource() *schema.Resource {
 				ForceNew:      true,
 				MaxItems:      1,
 				MinItems:      1,
-				ConflictsWith: []string{"volume_id"},
+				ConflictsWith: []string{"volume_id", "defined_tags", "freeform_tags", "type"},
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -75,7 +74,6 @@ func CoreVolumeBackupResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: definedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
-				ConflictsWith:    []string{"source_details"},
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -83,18 +81,16 @@ func CoreVolumeBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"freeform_tags": {
-				Type:          schema.TypeMap,
-				Optional:      true,
-				Computed:      true,
-				Elem:          schema.TypeString,
-				ConflictsWith: []string{"source_details"},
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"type": {
-				Type:          schema.TypeString,
-				Optional:      true,
-				Computed:      true,
-				ForceNew:      true,
-				ConflictsWith: []string{"source_details"},
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
