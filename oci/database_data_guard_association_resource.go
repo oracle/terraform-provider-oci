@@ -20,9 +20,9 @@ import (
 func DatabaseDataGuardAssociationResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: &schema.ResourceTimeout{
-			Create: &TwoHours,
-			Delete: &TwoHours,
-			Update: &TwoHours,
+			Create: getTimeoutDuration("2h"),
+			Update: getTimeoutDuration("2h"),
+			Delete: getTimeoutDuration("2h"),
 		},
 		Create: createDatabaseDataGuardAssociation,
 		Read:   readDatabaseDataGuardAssociation,
