@@ -20,9 +20,9 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &TwelveHours,
-			Update: &TwelveHours,
-			Delete: &TwelveHours,
+			Create: getTimeoutDuration("12h"),
+			Update: getTimeoutDuration("12h"),
+			Delete: getTimeoutDuration("12h"),
 		},
 		Create: createDatabaseAutonomousDatabase,
 		Read:   readDatabaseAutonomousDatabase,

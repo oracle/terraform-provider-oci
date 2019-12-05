@@ -16,9 +16,9 @@ func OnsNotificationTopicResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &FifteenMinutes,
-			Update: &FifteenMinutes,
-			Delete: &TwoAndHalfHours,
+			Create: getTimeoutDuration("15m"),
+			Update: getTimeoutDuration("15m"),
+			Delete: getTimeoutDuration("150m"),
 		},
 		Create: createOnsNotificationTopic,
 		Read:   readOnsNotificationTopic,

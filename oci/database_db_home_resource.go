@@ -21,9 +21,9 @@ func DatabaseDbHomeResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &TwelveHours,
-			Delete: &TwoHours,
-			Update: &TwoHours,
+			Create: getTimeoutDuration("12h"),
+			Update: getTimeoutDuration("2h"),
+			Delete: getTimeoutDuration("2h"),
 		},
 		Create: createDatabaseDbHome,
 		Read:   readDatabaseDbHome,
