@@ -13,9 +13,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/fatih/color"
-	"github.com/hashicorp/hcl2/hclwrite"
 	"github.com/hashicorp/terraform/backend/local"
+
 	"github.com/mitchellh/cli"
 
 	"github.com/hashicorp/terraform/command"
@@ -50,6 +49,7 @@ func init() {
 	resourceNameCount = map[string]int{}
 	vars = map[string]string{}
 	referenceMap = map[string]string{}
+
 	compartmentScopeServices = make([]string, len(compartmentResourceGraphs))
 	idx := 0
 	for mode := range compartmentResourceGraphs {
@@ -152,20 +152,38 @@ func RunExportCommand(args *ExportCommandArgs) error {
 		}
 	}
 
-	return runExportCommand(clients.(*OracleClients), args)
+	args.finalizeServices()
+
+	tenancyOcid, exists := clients.(*OracleClients).configuration["tenancy_ocid"]
+	if !exists {
+		return fmt.Errorf("[ERROR] could not get a tenancy OCID during initialization")
+	}
+
+	ctx := createResourceDiscoveryContext(clients.(*OracleClients), args, tenancyOcid)
+	return runExportCommand(ctx)
 }
 
-// Dedupes possible repeating services from command line and sorts them
-func (args *ExportCommandArgs) finalizeServices() {
-	seenServices := map[string]bool{}
-	finalServices := []string{}
-
-	for _, service := range args.Services {
-		if _, seen := seenServices[service]; seen {
+func convertStringSliceToSet(slice []string, omitEmptyStrings bool) map[string]bool {
+	result := map[string]bool{}
+	for _, item := range slice {
+		if omitEmptyStrings && item == "" {
 			continue
 		}
+		result[item] = false
+	}
+	return result
+}
+
+func (args *ExportCommandArgs) finalizeServices() {
+	if len(args.Services) == 0 {
+		args.Services = compartmentScopeServices
+	}
+
+	// Dedupes possible repeating services from command line and sorts them
+	finalServices := []string{}
+	serviceSet := convertStringSliceToSet(args.Services, true)
+	for service := range serviceSet {
 		finalServices = append(finalServices, service)
-		seenServices[service] = true
 	}
 	args.Services = finalServices
 	sort.Strings(args.Services)
@@ -173,6 +191,10 @@ func (args *ExportCommandArgs) finalizeServices() {
 
 // Validate export command arguments and returns nil if there are no issues
 func (args *ExportCommandArgs) validate() error {
+	if args.OutputDir == nil || *args.OutputDir == "" {
+		return fmt.Errorf("[ERROR] no output directory specified")
+	}
+
 	path, err := os.Stat(*args.OutputDir)
 	if os.IsNotExist(err) {
 		return fmt.Errorf("[ERROR] output_path does not exist: %s", err)
@@ -200,6 +222,16 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 	}
 	exportConfigProvider = sdkConfigProvider
 
+	// Note: In case of Instance Principal auth, the TenancyOCID will return
+	// the ocid for the tenancy for the compute instance and not the one for the customer
+	// This needs to be updated in future (if we have customer request) in order to enable
+	// tenancy level resources to be discovered with Instance Principal auth
+	clients.configuration["tenancy_ocid"], err = sdkConfigProvider.TenancyOCID()
+	if err != nil {
+		return nil, err
+	}
+
+	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
 	configureClientLocal, err := buildConfigureClientFn(sdkConfigProvider, httpClient)
 	if err != nil {
 		return nil, err
@@ -222,57 +254,26 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 	return clients, nil
 }
 
-func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
-	if args.OutputDir == nil || *args.OutputDir == "" {
-		return fmt.Errorf("[ERROR] no output directory specified")
-	}
-
-	stateOutputFile := fmt.Sprintf("%s%s%s", *args.OutputDir, string(os.PathSeparator), local.DefaultStateFilename)
-	tmpStateOutputFile := fmt.Sprintf("%s%s%s", *args.OutputDir, string(os.PathSeparator), defaultTmpStateFile)
-
+func runExportCommand(ctx *resourceDiscoveryContext) error {
 	log.Printf("Running export command\n")
-	if len(args.Services) == 0 {
-		args.Services = compartmentScopeServices
-	}
 
-	args.finalizeServices()
-	generateConfigSteps, err := buildGenerateConfigSteps(args.CompartmentId, args.Services)
+	steps, err := getDiscoverResourceSteps(ctx)
 	if err != nil {
 		return err
 	}
-	// Discover and build a model of all targeted resources
-	matchResourceIds := map[string]bool{}
-	for _, id := range args.IDs {
-		if id != "" {
-			matchResourceIds[id] = false
-		}
-	}
 
-	for _, step := range generateConfigSteps {
-		// Discover all resources in the compartment
-		ociResources, err := findResources(clients, step.root, step.resourceGraph, matchResourceIds)
+	// Discover and build a model of all targeted resources
+	for _, step := range steps {
+		err := step.discover()
 		if err != nil {
 			return err
-		}
-
-		// Filter out omitted resources from export
-		step.discoveredResources = []*OCIResource{}
-		step.omittedResources = []*OCIResource{}
-		for _, resource := range ociResources {
-			if !resource.omitFromExport {
-				referenceMap[resource.id] = resource.getHclReferenceIdString()
-				step.discoveredResources = append(step.discoveredResources, resource)
-			} else {
-				step.omittedResources = append(step.omittedResources, resource)
-			}
 		}
 	}
 
 	// Cull any references from the ref map that contain omitted resources
 	// This is to avoid omitted resources from being referenced in generated configs
-	for _, step := range generateConfigSteps {
-
-		for _, omittedResource := range step.omittedResources {
+	for _, step := range steps {
+		for _, omittedResource := range step.getOmittedResources() {
 			for key, reference := range referenceMap {
 				if strings.Contains(reference, omittedResource.getTerraformReference()) {
 					delete(referenceMap, key)
@@ -281,75 +282,21 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 		}
 	}
 
+	defer ctx.printSummary()
+
 	// Generate HCL configs from all discovered resources
-	allDiscoveredResources := []*OCIResource{}
-	summaryStatements := []string{}
-	defer func() {
-		for _, statement := range summaryStatements {
-			color.Green(statement)
-		}
-	}()
-
-	missingAttributesPerResource := make(map[string][]string)
-	for _, step := range generateConfigSteps {
-		configOutputFile := fmt.Sprintf("%s%s%s.tf", *args.OutputDir, string(os.PathSeparator), step.stepName)
-		tmpConfigOutputFile := fmt.Sprintf("%s%s%s.tf.tmp", *args.OutputDir, string(os.PathSeparator), step.stepName)
-
-		file, err := os.OpenFile(tmpConfigOutputFile, os.O_CREATE|os.O_RDWR, 0666)
-		if err != nil {
+	for _, step := range steps {
+		if err := step.writeConfiguration(); err != nil {
 			return err
 		}
-
-		// Build the HCL config
-		// Note that we still build a TF file even if no resources were discovered for this TF file.
-		// A user may run this command multiple times and may see stale resources if we don't overwrite the file with
-		// an empty one.
-		builder := &strings.Builder{}
-		builder.WriteString("## This configuration was generated by terraform-provider-oci\n\n")
-
-		for _, resource := range step.discoveredResources {
-			log.Printf("[INFO] ===> Generating resource '%s'", resource.getTerraformReference())
-			if err := resource.getHCLString(builder, referenceMap); err != nil {
-				_ = file.Close()
-				return err
-			}
-
-			if resource.terraformTypeInfo != nil && len(resource.terraformTypeInfo.ignorableRequiredMissingAttributes) > 0 {
-				attributes := make([]string, 0, len(resource.terraformTypeInfo.ignorableRequiredMissingAttributes))
-				for attribute := range resource.terraformTypeInfo.ignorableRequiredMissingAttributes {
-					attributes = append(attributes, attribute)
-				}
-				missingAttributesPerResource[resource.getTerraformReference()] = attributes
-			}
-			allDiscoveredResources = append(allDiscoveredResources, resource)
-		}
-
-		// Format the HCL config
-		formattedString := hclwrite.Format([]byte(builder.String()))
-
-		_, err = file.WriteString(string(formattedString))
-		if err != nil {
-			_ = file.Close()
-			return err
-		}
-
-		if fErr := file.Close(); fErr != nil {
-			return fErr
-		}
-
-		if err := os.Rename(tmpConfigOutputFile, configOutputFile); err != nil {
-			return err
-		}
-
-		summaryStatements = append(summaryStatements, fmt.Sprintf("Found %d '%s' resources. Generated under '%s'", len(step.discoveredResources), step.stepName, configOutputFile))
 	}
 
 	if isMissingRequiredAttributes {
-		summaryStatements = append(summaryStatements, "")
-		summaryStatements = append(summaryStatements, missingRequiredAttributeWarning)
-		summaryStatements = append(summaryStatements, "\nMissing required attributes:\n")
-		for key, value := range missingAttributesPerResource {
-			summaryStatements = append(summaryStatements, fmt.Sprintf("%s: %s", key, strings.Join(value, ",")))
+		ctx.summaryStatements = append(ctx.summaryStatements, "")
+		ctx.summaryStatements = append(ctx.summaryStatements, missingRequiredAttributeWarning)
+		ctx.summaryStatements = append(ctx.summaryStatements, "\nMissing required attributes:\n")
+		for key, value := range ctx.missingAttributesPerResource {
+			ctx.summaryStatements = append(ctx.summaryStatements, fmt.Sprintf("%s: %s", key, strings.Join(value, ",")))
 		}
 
 	}
@@ -359,15 +306,15 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 	}
 	vars["region"] = fmt.Sprintf("\"%s\"", region)
 
-	if err := generateProviderFile(args.OutputDir); err != nil {
+	if err := generateProviderFile(ctx.OutputDir); err != nil {
 		return err
 	}
 
-	if err := generateVarsFile(vars, args.OutputDir); err != nil {
+	if err := generateVarsFile(vars, ctx.OutputDir); err != nil {
 		return err
 	}
 
-	if args.GenerateState {
+	if ctx.GenerateState {
 		// Run init and import commands
 		meta := command.Meta{
 			Ui: &cli.BasicUi{
@@ -384,17 +331,19 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 			log.Printf("[INFO] plugin dir: '%s'", pluginDir)
 			initArgs = append(initArgs, fmt.Sprintf("-plugin-dir=%v", pluginDir))
 		}
-		initArgs = append(initArgs, *args.OutputDir)
+		initArgs = append(initArgs, *ctx.OutputDir)
 		if errCode := initCmd.Run(initArgs); errCode != 0 {
 			return nil
 		}
 
+		stateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), local.DefaultStateFilename)
+		tmpStateOutputFile := fmt.Sprintf("%s%s%s", *ctx.OutputDir, string(os.PathSeparator), defaultTmpStateFile)
 		if err := os.RemoveAll(tmpStateOutputFile); err != nil {
 			log.Printf("[WARN] unable to delete existing tmp state file %s", tmpStateOutputFile)
 			return err
 		}
 
-		for _, resource := range allDiscoveredResources {
+		for _, resource := range ctx.discoveredResources {
 			log.Printf("[INFO] ===> Importing resource '%s'", resource.getTerraformReference())
 
 			resourceDefinition, exists := resourcesMap[resource.terraformClass]
@@ -415,7 +364,7 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 			}
 
 			importArgs := []string{
-				fmt.Sprintf("-config=%s", *args.OutputDir),
+				fmt.Sprintf("-config=%s", *ctx.OutputDir),
 				fmt.Sprintf("-state=%s", tmpStateOutputFile),
 				resource.getTerraformReference(),
 				importId,
@@ -432,85 +381,63 @@ func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
 		}
 	}
 
-	if len(matchResourceIds) > 0 {
-		missingResourceIds := []string{}
-		for resourceId, found := range matchResourceIds {
-			if !found {
-				missingResourceIds = append(missingResourceIds, resourceId)
-			}
-		}
-
-		if len(missingResourceIds) > 0 {
-			summaryStatements = append(summaryStatements, "")
-			summaryStatements = append(summaryStatements, "Warning: The following resource IDs were not found.")
-			for _, resourceId := range missingResourceIds {
-				summaryStatements = append(summaryStatements, fmt.Sprintf("- %s", resourceId))
-			}
-			return fmt.Errorf("[ERROR] one or more expected resource ids were not found")
-		}
+	if err := ctx.postValidate(); err != nil {
+		return err
 	}
-
-	summaryStatements = append(summaryStatements, "\n=== COMPLETED ===")
-
 	return nil
 }
 
-func buildGenerateConfigSteps(compartmentId *string, services []string) ([]*GenerateConfigStep, error) {
-	result := []*GenerateConfigStep{}
+func getDiscoverResourceSteps(ctx *resourceDiscoveryContext) ([]resourceDiscoveryStep, error) {
+	return getDiscoverResourceWithGraphSteps(ctx)
+}
 
-	// Note: In case of Instance Principal auth, the TenancyOCID will return
-	// the ocid for the tenancy for the compute instance and not the one for the customer
-	// This needs to be updated in future (if we have customer request) in order to enable
-	// tenancy level resources to be discovered with Instance Principal auth
-	tenancyId, err := exportConfigProvider.TenancyOCID()
-	if err != nil {
-		return nil, err
-	}
+func getDiscoverResourceWithGraphSteps(ctx *resourceDiscoveryContext) ([]resourceDiscoveryStep, error) {
+	result := []resourceDiscoveryStep{}
 
 	tenancyResource := &OCIResource{
-		compartmentId: tenancyId,
+		compartmentId: ctx.tenancyOcid,
 		TerraformResource: TerraformResource{
-			id:             tenancyId,
+			id:             ctx.tenancyOcid,
 			terraformClass: "oci_identity_tenancy",
 			terraformName:  "export",
 		},
 	}
 
-	for _, mode := range services {
+	for _, mode := range ctx.Services {
 		if resourceGraph, exists := tenancyResourceGraphs[mode]; exists {
-			result = append(result, &GenerateConfigStep{
-				root:          tenancyResource,
-				resourceGraph: resourceGraph,
-				stepName:      mode,
+			result = append(result, &resourceDiscoveryWithGraph{
+				root:                      tenancyResource,
+				resourceGraph:             resourceGraph,
+				resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{name: mode, ctx: ctx},
 			})
 
-			vars["tenancy_ocid"] = fmt.Sprintf("\"%s\"", tenancyId)
-			referenceMap[tenancyId] = tfHclVersion.getVarHclString("tenancy_ocid")
+			vars["tenancy_ocid"] = fmt.Sprintf("\"%s\"", ctx.tenancyOcid)
+			referenceMap[ctx.tenancyOcid] = tfHclVersion.getVarHclString("tenancy_ocid")
 		}
 	}
 
-	if compartmentId == nil || *compartmentId == "" {
-		*compartmentId = tenancyId
+	if ctx.CompartmentId == nil || *ctx.CompartmentId == "" {
+		*ctx.CompartmentId = ctx.tenancyOcid
 	}
 	compartmentResource := &OCIResource{
-		compartmentId: *compartmentId,
+		compartmentId: *ctx.CompartmentId,
 		TerraformResource: TerraformResource{
-			id:             *compartmentId,
+			id:             *ctx.CompartmentId,
 			terraformClass: "oci_identity_compartment",
 			terraformName:  "export",
 		},
 	}
 
-	for _, mode := range services {
+	for _, mode := range ctx.Services {
 		if resourceGraph, exists := compartmentResourceGraphs[mode]; exists {
-			result = append(result, &GenerateConfigStep{
-				root:          compartmentResource,
-				resourceGraph: resourceGraph,
-				stepName:      mode,
+			result = append(result, &resourceDiscoveryWithGraph{
+				root:                      compartmentResource,
+				resourceGraph:             resourceGraph,
+				resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{name: mode, ctx: ctx},
 			})
 
-			vars["compartment_ocid"] = fmt.Sprintf("\"%s\"", *compartmentId)
-			referenceMap[*compartmentId] = tfHclVersion.getVarHclString("compartment_ocid")
+			vars["compartment_ocid"] = fmt.Sprintf("\"%s\"", *ctx.CompartmentId)
+			referenceMap[*ctx.CompartmentId] = tfHclVersion.getVarHclString("compartment_ocid")
 		}
 	}
 
