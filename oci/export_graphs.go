@@ -174,6 +174,10 @@ var coreResourceGraph = TerraformResourceGraph{
 				"asset_id": "boot_volume_id",
 			},
 		},
+		{
+			TerraformResourceHints: exportCoreVnicAttachmentHints,
+			datasourceQueryParams:  map[string]string{"instance_id": "id"},
+		},
 	},
 	"oci_core_network_security_group": {
 		{
