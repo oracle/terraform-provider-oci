@@ -28,6 +28,9 @@ type StreamSummary struct {
 	// The OCID of the compartment that contains the stream.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// The OCID of the stream pool that contains the stream.
+	StreamPoolId *string `mandatory:"true" json:"streamPoolId"`
+
 	// The current state of the stream.
 	LifecycleState StreamSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -62,6 +65,7 @@ const (
 	StreamSummaryLifecycleStateDeleting StreamSummaryLifecycleStateEnum = "DELETING"
 	StreamSummaryLifecycleStateDeleted  StreamSummaryLifecycleStateEnum = "DELETED"
 	StreamSummaryLifecycleStateFailed   StreamSummaryLifecycleStateEnum = "FAILED"
+	StreamSummaryLifecycleStateUpdating StreamSummaryLifecycleStateEnum = "UPDATING"
 )
 
 var mappingStreamSummaryLifecycleState = map[string]StreamSummaryLifecycleStateEnum{
@@ -70,6 +74,7 @@ var mappingStreamSummaryLifecycleState = map[string]StreamSummaryLifecycleStateE
 	"DELETING": StreamSummaryLifecycleStateDeleting,
 	"DELETED":  StreamSummaryLifecycleStateDeleted,
 	"FAILED":   StreamSummaryLifecycleStateFailed,
+	"UPDATING": StreamSummaryLifecycleStateUpdating,
 }
 
 // GetStreamSummaryLifecycleStateEnumValues Enumerates the set of values for StreamSummaryLifecycleStateEnum

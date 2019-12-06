@@ -68,14 +68,22 @@ func (m *CreateStackDetails) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.DisplayName = model.DisplayName
+
 	m.Description = model.Description
+
 	m.Variables = model.Variables
+
 	m.TerraformVersion = model.TerraformVersion
+
 	m.FreeformTags = model.FreeformTags
+
 	m.DefinedTags = model.DefinedTags
+
 	m.CompartmentId = model.CompartmentId
-	nn, e := model.ConfigSource.UnmarshalPolymorphicJSON(model.ConfigSource.JsonData)
+
+	nn, e = model.ConfigSource.UnmarshalPolymorphicJSON(model.ConfigSource.JsonData)
 	if e != nil {
 		return
 	}
