@@ -258,8 +258,8 @@ func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 			// verify resource creation fails for the second mount target with the same ip_address
 			{
 				Config: config + compartmentIdVariableStr + MountTargetResourceDependencies +
-					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", Optional, Create, mountTargetRepresentation) +
-					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", Optional, Create, mountTargetRepresentation),
+					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target1", Optional, Update, mountTargetRepresentation) +
+					generateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target2", Optional, Update, mountTargetRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 				),
