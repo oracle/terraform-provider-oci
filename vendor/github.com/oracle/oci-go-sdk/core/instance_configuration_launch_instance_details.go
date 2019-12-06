@@ -164,17 +164,28 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.AvailabilityDomain = model.AvailabilityDomain
+
 	m.CompartmentId = model.CompartmentId
+
 	m.CreateVnicDetails = model.CreateVnicDetails
+
 	m.DefinedTags = model.DefinedTags
+
 	m.DisplayName = model.DisplayName
+
 	m.ExtendedMetadata = model.ExtendedMetadata
+
 	m.FreeformTags = model.FreeformTags
+
 	m.IpxeScript = model.IpxeScript
+
 	m.Metadata = model.Metadata
+
 	m.Shape = model.Shape
-	nn, e := model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
+
+	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
 	if e != nil {
 		return
 	}
@@ -183,6 +194,7 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 	} else {
 		m.SourceDetails = nil
 	}
+
 	m.FaultDomain = model.FaultDomain
 	return
 }

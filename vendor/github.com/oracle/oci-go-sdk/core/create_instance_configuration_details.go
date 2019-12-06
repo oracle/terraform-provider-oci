@@ -93,11 +93,16 @@ func (m *CreateInstanceConfigurationDetails) UnmarshalJSON(data []byte) (e error
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.DefinedTags = model.DefinedTags
+
 	m.DisplayName = model.DisplayName
+
 	m.FreeformTags = model.FreeformTags
+
 	m.CompartmentId = model.CompartmentId
-	nn, e := model.InstanceDetails.UnmarshalPolymorphicJSON(model.InstanceDetails.JsonData)
+
+	nn, e = model.InstanceDetails.UnmarshalPolymorphicJSON(model.InstanceDetails.JsonData)
 	if e != nil {
 		return
 	}

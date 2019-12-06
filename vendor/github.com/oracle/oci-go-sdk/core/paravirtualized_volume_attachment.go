@@ -51,6 +51,9 @@ type ParavirtualizedVolumeAttachment struct {
 	// Whether the attachment was created in read-only mode.
 	IsReadOnly *bool `mandatory:"false" json:"isReadOnly"`
 
+	// Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
+	IsShareable *bool `mandatory:"false" json:"isShareable"`
+
 	// Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 
@@ -91,6 +94,11 @@ func (m ParavirtualizedVolumeAttachment) GetInstanceId() *string {
 //GetIsReadOnly returns IsReadOnly
 func (m ParavirtualizedVolumeAttachment) GetIsReadOnly() *bool {
 	return m.IsReadOnly
+}
+
+//GetIsShareable returns IsShareable
+func (m ParavirtualizedVolumeAttachment) GetIsShareable() *bool {
+	return m.IsShareable
 }
 
 //GetLifecycleState returns LifecycleState

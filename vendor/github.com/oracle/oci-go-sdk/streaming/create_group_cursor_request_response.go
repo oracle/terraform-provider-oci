@@ -11,7 +11,7 @@ import (
 // CreateGroupCursorRequest wrapper for the CreateGroupCursor operation
 type CreateGroupCursorRequest struct {
 
-	// The OCID of the stream to create a cursor for.
+	// The OCID of the stream.
 	StreamId *string `mandatory:"true" contributesTo:"path" name:"streamId"`
 
 	// The information used to create the cursor.

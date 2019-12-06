@@ -11,7 +11,7 @@ import (
 // PutMessagesRequest wrapper for the PutMessages operation
 type PutMessagesRequest struct {
 
-	// The OCID of the stream where you want to put messages.
+	// The OCID of the stream.
 	StreamId *string `mandatory:"true" contributesTo:"path" name:"streamId"`
 
 	// Array of messages to put into the stream.

@@ -11,7 +11,7 @@ import (
 // UpdateGroupRequest wrapper for the UpdateGroup operation
 type UpdateGroupRequest struct {
 
-	// The OCID of the stream, on which the group is operating.
+	// The OCID of the stream.
 	StreamId *string `mandatory:"true" contributesTo:"path" name:"streamId"`
 
 	// The name of the consumer group.
