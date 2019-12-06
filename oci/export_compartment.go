@@ -531,7 +531,20 @@ func runExportCommand(ctx *resourceDiscoveryContext) error {
 }
 
 func getDiscoverResourceSteps(ctx *resourceDiscoveryContext) ([]resourceDiscoveryStep, error) {
-	return getDiscoverResourceWithGraphSteps(ctx)
+	if !ctx.targetSpecificResources {
+		return getDiscoverResourceWithGraphSteps(ctx)
+	}
+
+	result := make([]resourceDiscoveryStep, 1)
+	result[0] = &resourceDiscoveryWithTargetIds{
+		resourceDiscoveryBaseStep: resourceDiscoveryBaseStep{
+			ctx:                 ctx,
+			name:                "resources",
+			discoveredResources: []*OCIResource{},
+			omittedResources:    []*OCIResource{},
+		},
+	}
+	return result, nil
 }
 
 func getDiscoverResourceWithGraphSteps(ctx *resourceDiscoveryContext) ([]resourceDiscoveryStep, error) {
@@ -1306,6 +1319,34 @@ func generateOciResourceFromResourceData(d *schema.ResourceData, rawResource int
 
 	if tfMeta.getHCLStringOverrideFn != nil {
 		resource.getHclStringFn = tfMeta.getHCLStringOverrideFn
+	}
+
+	return resource, nil
+}
+
+func getOciResource(d *schema.ResourceData, resourceSchema map[string]*schema.Schema, compartmentId string, resourceHint *TerraformResourceHints) (*OCIResource, error) {
+	resourceMap, err := convertDatasourceItemToMap(d, "", resourceSchema)
+	if err != nil {
+		return nil, err
+	}
+
+	resource := &OCIResource{
+		compartmentId:    compartmentId,
+		sourceAttributes: resourceMap,
+		rawResource:      d,
+		TerraformResource: TerraformResource{
+			terraformClass:    resourceHint.resourceClass,
+			terraformTypeInfo: resourceHint,
+		},
+		getHclStringFn: getHclStringFromGenericMap,
+	}
+
+	if resourceId, resourceIdExists := resourceMap["id"]; resourceIdExists {
+		resource.id = resourceId.(string)
+	}
+
+	if resource.id == "" {
+		resource.id = d.Id()
 	}
 
 	return resource, nil
