@@ -19,6 +19,7 @@ import (
 
 	"github.com/oracle/oci-go-sdk/common"
 	oci_core "github.com/oracle/oci-go-sdk/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 )
 
 func CoreInstanceResource() *schema.Resource {
@@ -50,7 +51,6 @@ func CoreInstanceResource() *schema.Resource {
 			"shape": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 
 			// Optional
@@ -448,6 +448,7 @@ func updateCoreInstance(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*OracleClients).computeClient
 	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
 	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
+	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	// switch to power on
 	powerOn, powerOff := false, false
@@ -496,6 +497,7 @@ type CoreInstanceResourceCrud struct {
 	Client                 *oci_core.ComputeClient
 	VirtualNetworkClient   *oci_core.VirtualNetworkClient
 	BlockStorageClient     *oci_core.BlockstorageClient
+	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_core.Instance
 	DisableNotFoundRetries bool
 }
@@ -690,6 +692,15 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
 			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
+		oldRaw, newRaw := s.D.GetChange("shape")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateShape(shape)
 			if err != nil {
 				return err
 			}
@@ -1446,6 +1457,29 @@ func (s *CoreInstanceResourceCrud) updateCompartment(compartment interface{}) er
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	_, err := s.Client.ChangeInstanceCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *CoreInstanceResourceCrud) updateShape(shape interface{}) error {
+	changeShapeRequest := oci_core.UpdateInstanceRequest{}
+
+	shapeTmp := shape.(string)
+	changeShapeRequest.Shape = &shapeTmp
+
+	idTmp := s.D.Id()
+	changeShapeRequest.InstanceId = &idTmp
+
+	changeShapeRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.UpdateInstance(context.Background(), changeShapeRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	_, err = WaitForWorkRequestWithErrorHandling(s.workRequestClient, workId, "instance", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}

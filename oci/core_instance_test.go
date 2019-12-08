@@ -167,6 +167,28 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				),
 			},
 
+			// verify update to shape within the same family is not force new. Resizing can only be done to intances not using dedicated_vm_host_id
+			{
+				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, getUpdatedRepresentationCopy("shape", Representation{repType: Required, create: `VM.Standard2.2`}, instanceRepresentation)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.2"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "time_maintenance_reboot_due", ""),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "VFIO"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
+				),
+			},
+
 			// delete before next create
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependencies,
