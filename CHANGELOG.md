@@ -1,4 +1,11 @@
-## 3.55.1 (Unreleased)
+## 3.56.0 (Unreleased)
+
+### Added
+- Support VM Instance resizing with reboot in `oci_core_instance` resource
+
+### Notes
+Starting with this version, the terraform-provider-oci supports VM Instance resizing with reboot. Resizing can only happen within the shapes of same family. The shapes much be compatible with the image and the instance should not be associated to any `dedicated_vm_host_id`.
+
 ## 3.55.0 (December 11, 2019)
 
 ### Added
