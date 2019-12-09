@@ -86,8 +86,9 @@ func DnsZoneResource() *schema.Resource {
 										Required: true,
 									},
 									"secret": {
-										Type:     schema.TypeString,
-										Required: true,
+										Type:      schema.TypeString,
+										Required:  true,
+										Sensitive: true,
 									},
 
 									// Optional
@@ -95,6 +96,11 @@ func DnsZoneResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"tsig_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 
 						// Computed
@@ -427,6 +433,11 @@ func (s *DnsZoneResourceCrud) mapToExternalMaster(fieldKeyFormat string) (oci_dn
 		}
 	}
 
+	if tsigKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tsig_key_id")); ok {
+		tmp := tsigKeyId.(string)
+		result.TsigKeyId = &tmp
+	}
+
 	return result, nil
 }
 
@@ -443,6 +454,10 @@ func ExternalMasterToMap(obj oci_dns.ExternalMaster) map[string]interface{} {
 
 	if obj.Tsig != nil {
 		result["tsig"] = []interface{}{TSIGToMap(obj.Tsig)}
+	}
+
+	if obj.TsigKeyId != nil {
+		result["tsig_key_id"] = string(*obj.TsigKeyId)
 	}
 
 	return result

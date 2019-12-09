@@ -6,6 +6,7 @@
 - Support for Kafka compatibility in Oracle Streaming Service
 - Support for Cross-region boot volume backups
 - Support for `is_management_disabled` attribute in `oci_core_instance` and `oci_core_image` resources and datasources
+- Support for `dns_tsig_key` resource and datasources
 
 ### Notes
 Starting with this version, the terraform-provider-oci supports VM Instance resizing with reboot. Resizing can only happen within the shapes of same family. The shapes much be compatible with the image and the instance should not be associated to any `dedicated_vm_host_id`.
