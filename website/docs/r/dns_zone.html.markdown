@@ -36,6 +36,7 @@ resource "oci_dns_zone" "test_zone" {
 			name = "${var.zone_external_masters_tsig_name}"
 			secret = "${var.zone_external_masters_tsig_secret}"
 		}
+		tsig_key_id = "${oci_dns_tsig_key.test_tsig_key.id}"
 	}
 	freeform_tags = "${var.zone_freeform_tags}"
 }
@@ -56,6 +57,7 @@ The following arguments are supported:
 		* `algorithm` - (Required) (Updatable) TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha512. For more information on these algorithms, see [RFC 4635](https://tools.ietf.org/html/rfc4635#section-2). 
 		* `name` - (Required) (Updatable) A domain name identifying the key for a given pair of hosts.
 		* `secret` - (Required) (Updatable) A base64 string encoding the binary shared secret.
+	* `tsig_key_id` - (Optional) (Updatable) The OCID of the TSIG key.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 
 	 **Example:** `{"Department": "Finance"}` 
@@ -81,6 +83,7 @@ The following attributes are exported:
 		* `algorithm` - TSIG Algorithms are encoded as domain names, but most consist of only one non-empty label, which is not required to be explicitly absolute. Applicable algorithms include: hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha512. For more information on these algorithms, see [RFC 4635](https://tools.ietf.org/html/rfc4635#section-2). 
 		* `name` - A domain name identifying the key for a given pair of hosts.
 		* `secret` - A base64 string encoding the binary shared secret.
+	* `tsig_key_id` - The OCID of the TSIG key.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 
 	 **Example:** `{"Department": "Finance"}` 
