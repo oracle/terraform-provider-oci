@@ -59,7 +59,7 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 
 The following arguments are supported:
 
-* `items` - (Required) (Updatable) An array of rules that compose the rule set.
+* `items` - (Required) (Updatable) An array of rules that compose the rule set. For more information, see [Managing Rule Sets](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/managingrulesets.htm)
 	* `action` - (Required) (Updatable) The action can be one of these values: `ADD_HTTP_REQUEST_HEADER`, `ADD_HTTP_RESPONSE_HEADER`, `ALLOW`, `CONTROL_ACCESS_USING_HTTP_METHODS`, `EXTEND_HTTP_REQUEST_HEADER_VALUE`, `EXTEND_HTTP_RESPONSE_HEADER_VALUE`, `REDIRECT`, `REMOVE_HTTP_REQUEST_HEADER`, `REMOVE_HTTP_RESPONSE_HEADER`
 	* `allowed_methods` - (Required when action=CONTROL_ACCESS_USING_HTTP_METHODS) (Updatable) The list of HTTP methods allowed for this listener.
 
