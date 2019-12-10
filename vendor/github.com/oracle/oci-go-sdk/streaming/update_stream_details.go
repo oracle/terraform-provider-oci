@@ -15,6 +15,9 @@ import (
 // UpdateStreamDetails Object used to update a stream.
 type UpdateStreamDetails struct {
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the stream pool where the stream should be moved.
+	StreamPoolId *string `mandatory:"false" json:"streamPoolId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair that is applied with no predefined name, type, or namespace. Exists for cross-compatibility only.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

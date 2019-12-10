@@ -106,12 +106,18 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.Id = model.Id
+
 	m.StackId = model.StackId
+
 	m.CompartmentId = model.CompartmentId
+
 	m.DisplayName = model.DisplayName
+
 	m.Operation = model.Operation
-	nn, e := model.JobOperationDetails.UnmarshalPolymorphicJSON(model.JobOperationDetails.JsonData)
+
+	nn, e = model.JobOperationDetails.UnmarshalPolymorphicJSON(model.JobOperationDetails.JsonData)
 	if e != nil {
 		return
 	}
@@ -120,15 +126,25 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.JobOperationDetails = nil
 	}
+
 	m.ApplyJobPlanResolution = model.ApplyJobPlanResolution
+
 	m.ResolvedPlanJobId = model.ResolvedPlanJobId
+
 	m.TimeCreated = model.TimeCreated
+
 	m.TimeFinished = model.TimeFinished
+
 	m.LifecycleState = model.LifecycleState
+
 	m.FailureDetails = model.FailureDetails
+
 	m.WorkingDirectory = model.WorkingDirectory
+
 	m.Variables = model.Variables
+
 	m.FreeformTags = model.FreeformTags
+
 	m.DefinedTags = model.DefinedTags
 	return
 }

@@ -16,10 +16,10 @@ import (
 type Group struct {
 
 	// The streamId for which the group exists.
-	StreamId *string `mandatory:"false" json:"streamId"`
+	StreamId *string `mandatory:"true" json:"streamId"`
 
 	// The name of the consumer group.
-	GroupName *string `mandatory:"false" json:"groupName"`
+	GroupName *string `mandatory:"true" json:"groupName"`
 
 	// An array of the partition reservations of a group.
 	Reservations []PartitionReservation `mandatory:"false" json:"reservations"`

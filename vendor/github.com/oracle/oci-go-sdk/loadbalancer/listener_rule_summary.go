@@ -40,7 +40,8 @@ func (m *ListenerRuleSummary) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
-	nn, e := model.Rule.UnmarshalPolymorphicJSON(model.Rule.JsonData)
+	var nn interface{}
+	nn, e = model.Rule.UnmarshalPolymorphicJSON(model.Rule.JsonData)
 	if e != nil {
 		return
 	}
@@ -49,6 +50,7 @@ func (m *ListenerRuleSummary) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Rule = nil
 	}
+
 	m.RuleSetName = model.RuleSetName
 	return
 }

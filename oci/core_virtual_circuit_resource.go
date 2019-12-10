@@ -106,8 +106,8 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				Type:          schema.TypeInt,
 				Optional:      true,
 				Computed:      true,
-				Deprecated:    FieldDeprecatedForAnother("customer_bgp_asn", "customer_asn"),
 				ConflictsWith: []string{"customer_asn"},
+				Deprecated:    FieldDeprecatedForAnother("customer_bgp_asn", "customer_asn"),
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,

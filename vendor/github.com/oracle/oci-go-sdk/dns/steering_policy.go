@@ -135,22 +135,31 @@ func (m *SteeringPolicy) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.CompartmentId = model.CompartmentId
+
 	m.DisplayName = model.DisplayName
+
 	m.Ttl = model.Ttl
+
 	m.HealthCheckMonitorId = model.HealthCheckMonitorId
+
 	m.Template = model.Template
+
 	m.FreeformTags = model.FreeformTags
+
 	m.DefinedTags = model.DefinedTags
+
 	m.Answers = make([]SteeringPolicyAnswer, len(model.Answers))
 	for i, n := range model.Answers {
 		m.Answers[i] = n
 	}
+
 	m.Rules = make([]SteeringPolicyRule, len(model.Rules))
 	for i, n := range model.Rules {
-		nn, err := n.UnmarshalPolymorphicJSON(n.JsonData)
-		if err != nil {
-			return err
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
 		}
 		if nn != nil {
 			m.Rules[i] = nn.(SteeringPolicyRule)
@@ -158,9 +167,13 @@ func (m *SteeringPolicy) UnmarshalJSON(data []byte) (e error) {
 			m.Rules[i] = nil
 		}
 	}
+
 	m.Self = model.Self
+
 	m.Id = model.Id
+
 	m.TimeCreated = model.TimeCreated
+
 	m.LifecycleState = model.LifecycleState
 	return
 }

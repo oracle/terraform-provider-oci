@@ -94,10 +94,14 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.DefinedTags = model.DefinedTags
+
 	m.FreeformTags = model.FreeformTags
+
 	m.SizeInGBs = model.SizeInGBs
-	nn, e := model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
+
+	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
 	if e != nil {
 		return
 	}
@@ -106,14 +110,23 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.SourceDetails = nil
 	}
+
 	m.IsHydrated = model.IsHydrated
+
 	m.AvailabilityDomain = model.AvailabilityDomain
+
 	m.CompartmentId = model.CompartmentId
+
 	m.DisplayName = model.DisplayName
+
 	m.Id = model.Id
+
 	m.LifecycleState = model.LifecycleState
+
 	m.SizeInMBs = model.SizeInMBs
+
 	m.TimeCreated = model.TimeCreated
+
 	m.VolumeIds = make([]string, len(model.VolumeIds))
 	for i, n := range model.VolumeIds {
 		m.VolumeIds[i] = n

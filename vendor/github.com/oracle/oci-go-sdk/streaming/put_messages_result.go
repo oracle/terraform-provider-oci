@@ -23,7 +23,7 @@ type PutMessagesResult struct {
 	// The order is guaranteed to be the same as in the `PutMessagesDetails` object.
 	// If a message was successfully appended to the stream, the entry includes the `offset`, `partition`, and `timestamp`.
 	// If a message failed to be appended to the stream, the entry includes the `error` and `errorMessage`.
-	Entries []PutMessagesResultEntry `mandatory:"false" json:"entries"`
+	Entries []PutMessagesResultEntry `mandatory:"true" json:"entries"`
 }
 
 func (m PutMessagesResult) String() string {

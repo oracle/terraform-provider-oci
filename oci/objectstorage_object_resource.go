@@ -62,6 +62,16 @@ func ObjectStorageObjectResource() *schema.Resource {
 			},
 
 			// Optional
+			"cache_control": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
+			"content_disposition": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 			"content": {
 				Type: schema.TypeString,
 				// @CODEGEN 2/2018: content is optional and stored as checksum to avoid bloating the state file
@@ -213,6 +223,16 @@ func (s *ObjectStorageObjectResourceCrud) createMultiPartObject() error {
 
 	multipartUploadData.SourcePath = &tmpSource
 	multipartUploadData.SourceInfo = &sourceInfo
+
+	if cacheControl, ok := s.D.GetOkExists("cache_control"); ok {
+		tmp := cacheControl.(string)
+		multipartUploadData.CacheControl = &tmp
+	}
+
+	if contentDisposition, ok := s.D.GetOkExists("content_disposition"); ok {
+		tmp := contentDisposition.(string)
+		multipartUploadData.ContentDisposition = &tmp
+	}
 
 	if contentEncoding, ok := s.D.GetOkExists("content_encoding"); ok {
 		tmp := contentEncoding.(string)
@@ -480,6 +500,16 @@ func (s *ObjectStorageObjectResourceCrud) CreatedTarget() []string {
 
 func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 	request := oci_object_storage.PutObjectRequest{}
+
+	if cacheControl, ok := s.D.GetOkExists("cache_control"); ok {
+		tmp := cacheControl.(string)
+		request.CacheControl = &tmp
+	}
+
+	if contentDisposition, ok := s.D.GetOkExists("content_disposition"); ok {
+		tmp := contentDisposition.(string)
+		request.ContentDisposition = &tmp
+	}
 
 	if contentEncoding, ok := s.D.GetOkExists("content_encoding"); ok {
 		tmp := contentEncoding.(string)
@@ -783,6 +813,14 @@ func (s *ObjectStorageObjectResourceCrud) setDataObjectHead() error {
 
 	response := s.Res.HeadObjectResponse
 
+	if response.CacheControl != nil {
+		s.D.Set("cache_control", *response.CacheControl)
+	}
+
+	if response.ContentDisposition != nil {
+		s.D.Set("content_disposition", *response.ContentDisposition)
+	}
+
 	if response.ContentEncoding != nil {
 		s.D.Set("content_encoding", *response.ContentEncoding)
 	}
@@ -854,6 +892,14 @@ func (s *ObjectStorageObjectResourceCrud) setDataObject() error {
 	}
 	s.D.Set("content", contentArray)
 
+	if s.Res.ObjectResponse.CacheControl != nil {
+		s.D.Set("cache_control", *s.Res.ObjectResponse.CacheControl)
+	}
+
+	if s.Res.ObjectResponse.ContentDisposition != nil {
+		s.D.Set("content_disposition", *s.Res.ObjectResponse.ContentDisposition)
+	}
+
 	if s.Res.ObjectResponse.ContentEncoding != nil {
 		s.D.Set("content_encoding", *s.Res.ObjectResponse.ContentEncoding)
 	}
@@ -887,6 +933,10 @@ func (s *ObjectStorageObjectResourceCrud) setDataObject() error {
 
 func ObjectSummaryToMap(obj oci_object_storage.ObjectSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Etag != nil {
+		result["etag"] = string(*obj.Etag)
+	}
 
 	if obj.Md5 != nil {
 		result["md5"] = string(*obj.Md5)
