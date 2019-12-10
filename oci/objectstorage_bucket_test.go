@@ -91,6 +91,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 				Config: config + compartmentIdVariableStr + BucketResourceDependencies +
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -112,6 +113,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
+					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -155,6 +157,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Create, bucketRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "NoPublicAccess"),
+					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId2),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -183,6 +186,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Optional, Update, bucketRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "access_type", "ObjectRead"),
+					resource.TestCheckResourceAttrSet(resourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -239,11 +243,13 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "access_type", "ObjectRead"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_count"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_size"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "bucket_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName2),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
@@ -253,8 +259,6 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "object_events_enabled", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_count"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "approximate_size"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

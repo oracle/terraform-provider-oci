@@ -13,6 +13,8 @@ resource "oci_file_storage_mount_target" "my_mount_target_1" {
   freeform_tags = {
     "Department" = "Finance"
   }
+
+  nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 }
 
 resource "oci_file_storage_mount_target" "my_mount_target_2" {
@@ -28,6 +30,8 @@ resource "oci_file_storage_mount_target" "my_mount_target_2" {
   freeform_tags = {
     "Department" = "Accounting"
   }
+
+  nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 }
 
 # Use export_set.tf config to update the size for a mount target

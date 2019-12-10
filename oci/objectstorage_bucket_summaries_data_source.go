@@ -25,7 +25,7 @@ func ObjectStorageBucketsDataSource() *schema.Resource {
 			"bucket_summaries": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     ObjectStorageBucketResource(),
+				Elem:     GetDataSourceItemSchema(ObjectStorageBucketResource()),
 			},
 		},
 	}

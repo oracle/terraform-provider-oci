@@ -11,7 +11,7 @@ import (
 // GetMessagesRequest wrapper for the GetMessages operation
 type GetMessagesRequest struct {
 
-	// The OCID of the stream to get messages from.
+	// The OCID of the stream.
 	StreamId *string `mandatory:"true" contributesTo:"path" name:"streamId"`
 
 	// The cursor used to consume the stream.

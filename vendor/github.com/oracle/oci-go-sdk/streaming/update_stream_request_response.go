@@ -11,10 +11,10 @@ import (
 // UpdateStreamRequest wrapper for the UpdateStream operation
 type UpdateStreamRequest struct {
 
-	// The OCID of the stream to update.
+	// The OCID of the stream.
 	StreamId *string `mandatory:"true" contributesTo:"path" name:"streamId"`
 
-	// The stream is updated with the tags provided.
+	// The stream is updated with the values provided.
 	UpdateStreamDetails `contributesTo:"body"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

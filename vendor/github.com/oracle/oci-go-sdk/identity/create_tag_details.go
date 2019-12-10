@@ -36,9 +36,14 @@ type CreateTagDetails struct {
 	// Indicates whether the tag is enabled for cost tracking.
 	IsCostTracking *bool `mandatory:"false" json:"isCostTracking"`
 
-	// Additional validation rule for values specified for the tag definition.
-	// If no validator is defined for a tag definition, then any (valid) value will be accepted.
-	// The default value for `validator` is an empty map (no additional validation).
+	// The tag must have a value type, which is specified with a validator. Tags can use either a
+	// static value or a list of possible values. Static values are entered by a user applying the tag
+	// to a resource. Lists are created by you and the user must apply a value from the list. Lists
+	// are validiated.
+	// If you use the default validiator (or don't define a validator), the user applying the tag
+	// enters a value. No additional validation is performed.
+	// To clear the validator, call UpdateTag with
+	// DefaultTagDefinitionValidator (https://docs.cloud.oracle.com/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator).
 	Validator BaseTagDefinitionValidator `mandatory:"false" json:"validator"`
 }
 
@@ -61,10 +66,14 @@ func (m *CreateTagDetails) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.FreeformTags = model.FreeformTags
+
 	m.DefinedTags = model.DefinedTags
+
 	m.IsCostTracking = model.IsCostTracking
-	nn, e := model.Validator.UnmarshalPolymorphicJSON(model.Validator.JsonData)
+
+	nn, e = model.Validator.UnmarshalPolymorphicJSON(model.Validator.JsonData)
 	if e != nil {
 		return
 	}
@@ -73,7 +82,9 @@ func (m *CreateTagDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Validator = nil
 	}
+
 	m.Name = model.Name
+
 	m.Description = model.Description
 	return
 }

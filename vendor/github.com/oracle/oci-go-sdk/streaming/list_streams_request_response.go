@@ -14,6 +14,9 @@ type ListStreamsRequest struct {
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
+	// The OCID of the stream pool.
+	StreamPoolId *string `mandatory:"false" contributesTo:"query" name:"streamPoolId"`
+
 	// A filter to return only resources that match the given ID exactly.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 

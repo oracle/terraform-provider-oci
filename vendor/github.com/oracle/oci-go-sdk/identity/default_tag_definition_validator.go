@@ -13,8 +13,9 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// DefaultTagDefinitionValidator This is the default validatorType for definedTag. This is same as not setting any value on the validator field.
-// By default only string value can be set for this definedTag.
+// DefaultTagDefinitionValidator Use this validator to clear any existing validator on the tag key definition with the UpdateTag
+// operation. Using this `validatorType` is the same as not setting any value on the validator field.
+// The resultant value for `validatorType` returned in the response body is `null`.
 type DefaultTagDefinitionValidator struct {
 }
 

@@ -152,6 +152,8 @@ func (s *FileStorageMountTargetsDataSourceCrud) SetData() error {
 			mountTarget["id"] = *r.Id
 		}
 
+		mountTarget["nsg_ids"] = r.NsgIds
+
 		mountTarget["private_ip_ids"] = r.PrivateIpIds
 
 		mountTarget["state"] = r.LifecycleState

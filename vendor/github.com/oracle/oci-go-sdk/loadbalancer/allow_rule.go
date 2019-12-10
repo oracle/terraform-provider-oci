@@ -61,12 +61,14 @@ func (m *AllowRule) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.Description = model.Description
+
 	m.Conditions = make([]RuleCondition, len(model.Conditions))
 	for i, n := range model.Conditions {
-		nn, err := n.UnmarshalPolymorphicJSON(n.JsonData)
-		if err != nil {
-			return err
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
 		}
 		if nn != nil {
 			m.Conditions[i] = nn.(RuleCondition)

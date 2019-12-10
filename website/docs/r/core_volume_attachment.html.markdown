@@ -27,6 +27,7 @@ resource "oci_core_volume_attachment" "test_volume_attachment" {
 	display_name = "${var.volume_attachment_display_name}"
 	is_pv_encryption_in_transit_enabled = "${var.volume_attachment_is_pv_encryption_in_transit_enabled}"
 	is_read_only = "${var.volume_attachment_is_read_only}"
+	is_shareable = "${var.volume_attachment_is_shareable}"
 	use_chap = "${var.volume_attachment_use_chap}"
 }
 ```
@@ -41,6 +42,7 @@ The following arguments are supported:
 * `instance_id` - (Required) The OCID of the instance.
 * `is_pv_encryption_in_transit_enabled` - (Applicable when attachment_type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 * `is_read_only` - (Optional) Whether the attachment was created in read-only mode.
+* `is_shareable` - (Optional) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified. 
 * `use_chap` - (Applicable when attachment_type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false.
 * `volume_id` - (Required) The OCID of the volume.
 

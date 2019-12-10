@@ -72,13 +72,16 @@ func (m *RedirectRule) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.ResponseCode = model.ResponseCode
+
 	m.RedirectUri = model.RedirectUri
+
 	m.Conditions = make([]RuleCondition, len(model.Conditions))
 	for i, n := range model.Conditions {
-		nn, err := n.UnmarshalPolymorphicJSON(n.JsonData)
-		if err != nil {
-			return err
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
 		}
 		if nn != nil {
 			m.Conditions[i] = nn.(RuleCondition)

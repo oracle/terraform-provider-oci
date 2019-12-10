@@ -62,6 +62,7 @@ The following attributes are exported:
 * `content_length` - The content length of the body.
 * `content_md5` - The base-64 encoded MD5 hash of the body.
 * `content_type` - The content type of the object.  Defaults to 'application/octet-stream' if not overridden during the PutObject call.
+* `etag` - The current entity tag (ETag) for the object.
 * `metadata` - Optional user-defined metadata key and value.
 Note: Metadata keys are case-insensitive and all returned keys will be lower case.
 * `namespace` - The top-level namespace used for the request.
