@@ -108,8 +108,12 @@ endif
 release: clean
 ifdef version
 	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' oci/version.go && rm -f oci/version.go-e
+ifdef platform
+	gox -output ./bin/{{.OS}}_{{.Arch}}/terraform-provider-oci_v$(version) -osarch=$(platform)
+else
 	gox -output ./bin/{{.OS}}_{{.Arch}}/terraform-provider-oci_v$(version)
 	gox -output ./bin/solaris_amd64/terraform-provider-oci_v$(version) -osarch="solaris/amd64"
+endif
 else
 	@echo Err! `make release` requires a version argument
 endif
