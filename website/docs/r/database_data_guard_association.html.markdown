@@ -38,6 +38,7 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	hostname = "${var.data_guard_association_hostname}"
 	nsg_ids = "${var.data_guard_association_nsg_ids}"
 	peer_db_system_id = "${oci_database_db_system.test_db_system.id}"
+	shape = "${var.data_guard_association_shape}"
 	subnet_id = "${oci_core_subnet.test_subnet.id}"
 }
 ```
@@ -67,6 +68,9 @@ The following arguments are supported:
 * `protection_mode` - (Required) The protection mode to set up between the primary and standby databases. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation.
 
 	**IMPORTANT** - The only protection mode currently supported by the Database service is MAXIMUM_PERFORMANCE. 
+* `shape` - (Applicable when creation_type=NewDbSystem) The shape of the DB system to launch to set up the Data Guard association. The shape determines the number of CPU cores and the amount of memory available for the DB system. Only virtual machine shapes are valid shapes. If you do not supply this parameter, the default shape is the shape of the primary DB system.
+
+	To get a list of all shapes, use the [ListDbSystemShapes](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbSystemShapeSummary/ListDbSystemShapes) operation. 
 * `subnet_id` - (Applicable when creation_type=NewDbSystem) The OCID of the subnet the DB system is associated with. **Subnet Restrictions:**
 	* For 1- and 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.16.16/28
 
