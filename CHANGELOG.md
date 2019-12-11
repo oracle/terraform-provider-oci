@@ -1,4 +1,4 @@
-## 3.55.0 (Unreleased)
+## 3.55.0 (December 11, 2019)
 
 ### Added
 - Support Etag in `oci_objectstorage_objects` resource
