@@ -2,6 +2,7 @@
 
 ### Added
 - Support for change in `corporate_proxy` parameter in `oci_database_exadata_infrastructure`
+- Support for `maintenance_window_details` attribute in `database_autonomous_container_database` resource and datasource
 
 ## 3.56.0 (December 18, 2019)
 

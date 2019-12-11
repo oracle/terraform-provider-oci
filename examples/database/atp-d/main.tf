@@ -23,6 +23,22 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   compartment_id               = "${var.compartment_ocid}"
   freeform_tags                = "${var.autonomous_database_freeform_tags}"
   service_level_agreement_type = "STANDARD"
+
+  maintenance_window_details {
+    preference = "CUSTOM_PREFERENCE"
+
+    days_of_week {
+      name = "MONDAY"
+    }
+
+    hours_of_day = ["4"]
+
+    months {
+      name = "APRIL"
+    }
+
+    weeks_of_month = ["2"]
+  }
 }
 
 resource "random_string" "autonomous_database_admin_password" {
