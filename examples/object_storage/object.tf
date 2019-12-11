@@ -8,29 +8,32 @@
  */
 
 resource "oci_objectstorage_object" "object1" {
-  namespace        = "${data.oci_objectstorage_namespace.ns.namespace}"
-  bucket           = "${oci_objectstorage_bucket.bucket1.name}"
-  object           = "index.html"
-  content_language = "en-US"
-  content_type     = "text/html"
-  content          = "${file("index.html")}"
+  namespace           = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket              = "${oci_objectstorage_bucket.bucket1.name}"
+  object              = "index.html"
+  content_language    = "en-US"
+  content_type        = "text/html"
+  content             = "${file("index.html")}"
+  content_disposition = "attachment; filename=\"filename.html\""
 }
 
 resource "oci_objectstorage_object" "source_object" {
-  namespace        = "${data.oci_objectstorage_namespace.ns.namespace}"
-  bucket           = "${oci_objectstorage_bucket.bucket1.name}"
-  object           = "same_index.html"
-  content_language = "en-US"
-  content_type     = "text/html"
-  source           = "index.html"
+  namespace           = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket              = "${oci_objectstorage_bucket.bucket1.name}"
+  object              = "same_index.html"
+  content_language    = "en-US"
+  content_type        = "text/html"
+  source              = "index.html"
+  content_disposition = "attachment; filename=\"filename.html\""
 }
 
 resource "oci_objectstorage_object" "source_uri_object" {
-  namespace        = "${data.oci_objectstorage_namespace.ns.namespace}"
-  bucket           = "${oci_objectstorage_bucket.bucket1.name}"
-  object           = "copy_index.html"
-  content_language = "en-US"
-  content_type     = "text/html"
+  namespace           = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket              = "${oci_objectstorage_bucket.bucket1.name}"
+  object              = "copy_index.html"
+  content_language    = "en-US"
+  content_type        = "text/html"
+  content_disposition = "attachment; filename=\"filename.html\""
 
   source_uri_details {
     region    = "${local.source_region}"

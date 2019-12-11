@@ -19,7 +19,7 @@ type ResourceCoreVolumeAttachmentTestSuite struct {
 	suite.Suite
 	Providers    map[string]terraform.ResourceProvider
 	Config       string
-	ResourceName string
+	ResourceName [2]string
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
@@ -73,10 +73,30 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) SetupTest() {
 			create = "15m"
 		}
 	}
-
+	
+	resource "oci_core_instance" "t2" {
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+		compartment_id = "${var.compartment_id}"
+		display_name = "-tf-instance"
+		image = "${var.InstanceImageOCID[var.region]}"
+		shape = "VM.Standard2.1"
+		subnet_id = "${oci_core_subnet.t.id}"
+		metadata = {
+			ssh_authorized_keys = "${var.ssh_public_key}"
+		}
+		timeouts {
+			create = "15m"
+		}
+	}
+	
+	resource "oci_core_volume" "t2" {
+		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+		compartment_id = "${var.compartment_id}"
+		display_name = "display_name"
+	}
 `
-
-	s.ResourceName = "oci_core_volume_attachment.t"
+	s.ResourceName[0] = "oci_core_volume_attachment.t"
+	s.ResourceName[1] = "oci_core_volume_attachment.t2"
 }
 
 func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment_basic() {
@@ -100,22 +120,22 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					volume_id = "${oci_core_volume.t.id}"
 				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
-					resource.TestCheckResourceAttr(s.ResourceName, "is_pv_encryption_in_transit_enabled", "false"),
-					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "false"),
-					resource.TestCheckNoResourceAttr(s.ResourceName, "chap_secret"),
-					resource.TestCheckNoResourceAttr(s.ResourceName, "chap_username"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
-					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "iscsi"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeAttachmentLifecycleStateAttached)),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_read_only", "false"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "chap_secret"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "chap_username"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "ipv4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "iqn"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "port"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "attachment_type", "iscsi"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "time_created"),
 					func(ts *terraform.State) (err error) {
-						resId, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId, err = fromInstanceState(ts, s.ResourceName[0], "id")
 						return err
 					},
 				),
@@ -156,25 +176,269 @@ func (s *ResourceCoreVolumeAttachmentTestSuite) TestResourceCoreVolumeAttachment
 					use_chap = true
 				}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet(s.ResourceName, "availability_domain"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "instance_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "volume_id"),
-					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "tf-vol-attach-upd"),
-					resource.TestCheckResourceAttr(s.ResourceName, "is_pv_encryption_in_transit_enabled", "false"),
-					resource.TestCheckResourceAttr(s.ResourceName, "is_read_only", "true"),
-					resource.TestCheckResourceAttr(s.ResourceName, "use_chap", "true"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_secret"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "chap_username"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "ipv4"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "iqn"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "port"),
-					resource.TestCheckResourceAttr(s.ResourceName, "attachment_type", "iscsi"),
-					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VolumeAttachmentLifecycleStateAttached)),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "volume_id"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "display_name", "tf-vol-attach-upd"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_read_only", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "use_chap", "true"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "chap_secret"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "chap_username"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "ipv4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "iqn"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "port"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "attachment_type", "iscsi"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "time_created"),
 					func(ts *terraform.State) (err error) {
-						resId2, err = fromInstanceState(ts, s.ResourceName, "id")
+						resId2, err = fromInstanceState(ts, s.ResourceName[0], "id")
 						if resId2 == resId {
 							return fmt.Errorf("resource not recreated when expected to be when updating display name")
+						}
+						resId = resId2
+						return err
+					},
+				),
+			},
+			// verify shared block volume attachment with iscsi attachment type
+			{
+				Config: s.Config + `
+				resource "oci_core_volume_attachment" "t" {
+					attachment_type = "IscSi"	# case-insensitive
+					instance_id = "${oci_core_instance.t.id}"
+					volume_id = "${oci_core_volume.t2.id}"
+					display_name = "tf-vol-attach-01"
+					is_shareable = true
+				}
+				resource "oci_core_volume_attachment" "t2" {
+					attachment_type = "IscSi"	# case-insensitive
+					instance_id = "${oci_core_instance.t2.id}"
+					volume_id = "${oci_core_volume.t2.id}"
+					display_name = "tf-vol-attach-02"
+					is_shareable = true
+				}	
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_pv_encryption_in_transit_enabled", "false"),
+					//resource.TestCheckResourceAttr(s.ResourceName[0], "is_read_only", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "chap_secret"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "chap_username"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "ipv4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "iqn"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "port"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "attachment_type", "iscsi"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_shareable", "true"),
+
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "is_pv_encryption_in_transit_enabled", "false"),
+					//resource.TestCheckResourceAttr(s.ResourceName[1], "is_read_only", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "chap_secret"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "chap_username"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "ipv4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "iqn"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "port"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "attachment_type", "iscsi"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "is_shareable", "true"),
+					func(ts *terraform.State) (err error) {
+						resId, err = fromInstanceState(ts, s.ResourceName[1], "id")
+						return err
+					},
+				),
+			},
+			// verify shared block volume attachment with iscsi attachment type as read-only
+			{
+				Config: s.Config + `
+				resource "oci_core_volume_attachment" "t" {
+					attachment_type = "IscSi"	# case-insensitive
+					instance_id = "${oci_core_instance.t.id}"
+					volume_id = "${oci_core_volume.t2.id}"
+					display_name = "tf-vol-attach-01"
+					is_read_only = true
+					is_shareable = true
+				}
+				resource "oci_core_volume_attachment" "t2" {
+					attachment_type = "IscSi"	# case-insensitive
+					instance_id = "${oci_core_instance.t2.id}"
+					volume_id = "${oci_core_volume.t2.id}"
+					display_name = "tf-vol-attach-02"
+					is_read_only = true
+					is_shareable = true
+				}	
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_read_only", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "chap_secret"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "chap_username"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "ipv4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "iqn"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "port"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "attachment_type", "iscsi"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_shareable", "true"),
+
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "volume_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "display_name"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "is_pv_encryption_in_transit_enabled", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "is_read_only", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "chap_secret"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "chap_username"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "ipv4"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "iqn"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "port"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "attachment_type", "iscsi"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "is_shareable", "true"),
+					func(ts *terraform.State) (err error) {
+						resId, err = fromInstanceState(ts, s.ResourceName[1], "id")
+						return err
+					},
+				),
+			},
+			// verify shared block volume attachment with paravirtualized attachment type
+			{
+				Config: s.Config + `
+				resource "oci_core_volume_attachment" "t" {
+					attachment_type = "paRAviRTualized"	# case-insensitive
+					instance_id = "${oci_core_instance.t.id}"
+					volume_id = "${oci_core_volume.t2.id}"
+					display_name = "tf-vol-attach-upd"
+					use_chap = true # This should be ignored for paravirtualized attachments
+					is_pv_encryption_in_transit_enabled = true
+					is_shareable = true
+				}
+				resource "oci_core_volume_attachment" "t2" {
+					attachment_type = "paRAviRTualized"	# case-insensitive
+					instance_id = "${oci_core_instance.t2.id}"
+					volume_id = "${oci_core_volume.t2.id}"
+					display_name = "tf-vol-attach-upd"
+					use_chap = true # This should be ignored for paravirtualized attachments
+					is_pv_encryption_in_transit_enabled = true
+					is_shareable = true
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "volume_id"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "display_name", "tf-vol-attach-upd"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_pv_encryption_in_transit_enabled", "true"),
+					//resource.TestCheckResourceAttr(s.ResourceName[0], "is_read_only", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "chap_secret"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "chap_username"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "ipv4"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "iqn"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "port"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "attachment_type", "paravirtualized"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_shareable", "true"),
+
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "volume_id"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "display_name", "tf-vol-attach-upd"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "is_pv_encryption_in_transit_enabled", "true"),
+					//resource.TestCheckResourceAttr(s.ResourceName[1], "is_read_only", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "chap_secret"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "chap_username"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "ipv4"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "iqn"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "port"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "attachment_type", "paravirtualized"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "is_shareable", "true"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName[0], "id")
+						if resId2 == resId {
+							return fmt.Errorf("resource not recreated when expected to be when updating attachment type")
+						}
+						resId = resId2
+						return err
+					},
+				),
+			},
+			// verify shared block volume attachment with paravirtualized attachment type as read-only
+			{
+				Config: s.Config + `
+				resource "oci_core_volume_attachment" "t" {
+					attachment_type = "paRAviRTualized"	# case-insensitive
+					instance_id = "${oci_core_instance.t.id}"
+					volume_id = "${oci_core_volume.t2.id}"
+					display_name = "tf-vol-attach-upd"
+					use_chap = true # This should be ignored for paravirtualized attachments
+					is_pv_encryption_in_transit_enabled = true
+					is_read_only = true
+					is_shareable = true
+				}
+				resource "oci_core_volume_attachment" "t2" {
+					attachment_type = "paRAviRTualized"	# case-insensitive
+					instance_id = "${oci_core_instance.t2.id}"
+					volume_id = "${oci_core_volume.t2.id}"
+					display_name = "tf-vol-attach-upd"
+					use_chap = true # This should be ignored for paravirtualized attachments
+					is_pv_encryption_in_transit_enabled = true
+					is_read_only = true
+					is_shareable = true
+				}
+				`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "volume_id"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "display_name", "tf-vol-attach-upd"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_pv_encryption_in_transit_enabled", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_read_only", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "chap_secret"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "chap_username"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "ipv4"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "iqn"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[0], "port"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "attachment_type", "paravirtualized"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName[0], "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName[0], "is_shareable", "true"),
+
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "availability_domain"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "instance_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "volume_id"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "display_name", "tf-vol-attach-upd"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "is_pv_encryption_in_transit_enabled", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "is_read_only", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "chap_secret"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "chap_username"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "ipv4"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "iqn"),
+					resource.TestCheckNoResourceAttr(s.ResourceName[1], "port"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "attachment_type", "paravirtualized"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "state", string(core.VolumeAttachmentLifecycleStateAttached)),
+					resource.TestCheckResourceAttrSet(s.ResourceName[1], "time_created"),
+					resource.TestCheckResourceAttr(s.ResourceName[1], "is_shareable", "true"),
+					func(ts *terraform.State) (err error) {
+						resId2, err = fromInstanceState(ts, s.ResourceName[0], "id")
+						if resId2 == resId {
+							return fmt.Errorf("resource not recreated when expected to be when updating attachment type")
 						}
 						resId = resId2
 						return err

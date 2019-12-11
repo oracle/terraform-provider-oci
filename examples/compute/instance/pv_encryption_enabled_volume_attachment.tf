@@ -3,16 +3,17 @@
 # Instance with encryption in transit enabled
 
 resource "oci_core_instance" "test_instance_with_pv_encryption_in_transit" {
+  count               = 2
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
-  display_name        = "TestInstance"
+  display_name        = "TestInstance${count.index}"
   shape               = "${var.instance_shape}"
 
   create_vnic_details {
     subnet_id        = "${oci_core_subnet.test_subnet.id}"
     display_name     = "Primaryvnic"
     assign_public_ip = true
-    hostname_label   = "testinstance"
+    hostname_label   = "testinstance${count.index}"
   }
 
   source_details {
@@ -38,12 +39,14 @@ resource "oci_core_volume" "test_volume" {
 }
 
 resource "oci_core_volume_attachment" "test_volume_attachment" {
+  count                               = 2
   attachment_type                     = "paravirtualized"
-  instance_id                         = "${oci_core_instance.test_instance_with_pv_encryption_in_transit.id}"
+  instance_id                         = "${oci_core_instance.test_instance_with_pv_encryption_in_transit.*.id[count.index]}"
   volume_id                           = "${oci_core_volume.test_volume.id}"
   display_name                        = "TestVolumeAttachment"
   is_read_only                        = true
   is_pv_encryption_in_transit_enabled = true
+  is_shareable                        = "true"
 }
 
 # Gets a list of all Oracle Linux 7.5 images that support a given Instance shape

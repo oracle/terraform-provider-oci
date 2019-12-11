@@ -23,7 +23,10 @@ type CreateStreamDetails struct {
 	Partitions *int `mandatory:"true" json:"partitions"`
 
 	// The OCID of the compartment that contains the stream.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
+	// The OCID of the stream pool that contains the stream.
+	StreamPoolId *string `mandatory:"false" json:"streamPoolId"`
 
 	// The retention period of the stream, in hours. Accepted values are between 24 and 168 (7 days).
 	// If not specified, the stream will have a retention period of 24 hours.

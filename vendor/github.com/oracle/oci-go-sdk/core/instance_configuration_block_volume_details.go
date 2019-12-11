@@ -43,7 +43,8 @@ func (m *InstanceConfigurationBlockVolumeDetails) UnmarshalJSON(data []byte) (e 
 	if e != nil {
 		return
 	}
-	nn, e := model.AttachDetails.UnmarshalPolymorphicJSON(model.AttachDetails.JsonData)
+	var nn interface{}
+	nn, e = model.AttachDetails.UnmarshalPolymorphicJSON(model.AttachDetails.JsonData)
 	if e != nil {
 		return
 	}
@@ -52,7 +53,9 @@ func (m *InstanceConfigurationBlockVolumeDetails) UnmarshalJSON(data []byte) (e 
 	} else {
 		m.AttachDetails = nil
 	}
+
 	m.CreateDetails = model.CreateDetails
+
 	m.VolumeId = model.VolumeId
 	return
 }

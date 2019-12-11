@@ -117,15 +117,24 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.DefinedTags = model.DefinedTags
+
 	m.SystemTags = model.SystemTags
+
 	m.DisplayName = model.DisplayName
+
 	m.FreeformTags = model.FreeformTags
+
 	m.ImageId = model.ImageId
+
 	m.IsHydrated = model.IsHydrated
+
 	m.VpusPerGB = model.VpusPerGB
+
 	m.SizeInGBs = model.SizeInGBs
-	nn, e := model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
+
+	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
 	if e != nil {
 		return
 	}
@@ -134,13 +143,21 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.SourceDetails = nil
 	}
+
 	m.VolumeGroupId = model.VolumeGroupId
+
 	m.KmsKeyId = model.KmsKeyId
+
 	m.AvailabilityDomain = model.AvailabilityDomain
+
 	m.CompartmentId = model.CompartmentId
+
 	m.Id = model.Id
+
 	m.LifecycleState = model.LifecycleState
+
 	m.SizeInMBs = model.SizeInMBs
+
 	m.TimeCreated = model.TimeCreated
 	return
 }

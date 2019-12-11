@@ -961,17 +961,22 @@ func (client IdentityClient) createSwiftPassword(ctx context.Context, request co
 }
 
 // CreateTag Creates a new tag in the specified tag namespace.
-// You must specify either the OCID or the name of the tag namespace that will contain this tag definition.
-// You must also specify a *name* for the tag, which must be unique across all tags in the tag namespace
+// The tag requires either the OCID or the name of the tag namespace that will contain this
+// tag definition.
+// You must specify a *name* for the tag, which must be unique across all tags in the tag namespace
 // and cannot be changed. The name can contain any ASCII character except the space (_) or period (.) characters.
 // Names are case insensitive. That means, for example, "myTag" and "mytag" are not allowed in the same namespace.
 // If you specify a name that's already in use in the tag namespace, a 409 error is returned.
-// You must also specify a *description* for the tag.
-// It does not have to be unique, and you can change it with
+// The tag must have a *description*. It does not have to be unique, and you can change it with
 // UpdateTag.
-// If no 'validator' is set on this tag definition, then any (valid) value can be set for this definedTag.
-// If a 'validator' is set on this tag definition, then the only valid values that can be set for this
-// definedTag those that pass the additional validation imposed by the set 'validator'.
+// The tag must have a value type, which is specified with a validator. Tags can use either a
+// static value or a list of possible values. Static values are entered by a user applying the tag
+// to a resource. Lists are created by you and the user must apply a value from the list. Lists
+// are validiated.
+// * If no `validator` is set, the user applying the tag to a resource can type in a static
+// value or leave the tag value empty.
+// * If a `validator` is set, the user applying the tag to a resource must select from a list
+// of values that you supply with EnumTagDefinitionValidator.
 func (client IdentityClient) CreateTag(ctx context.Context, request CreateTagRequest) (response CreateTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3729,7 +3734,7 @@ func (client IdentityClient) listTags(ctx context.Context, request common.OCIReq
 // - Similarly, you can limit the results to just the memberships for a given group by specifying a `groupId`.
 // - You can set both the `userId` and `groupId` to determine if the specified user is in the specified group.
 // If the answer is no, the response is an empty list.
-// - Although`userId` and `groupId` are not indvidually required, you must set one of them.
+// - Although`userId` and `groupId` are not individually required, you must set one of them.
 func (client IdentityClient) ListUserGroupMemberships(ctx context.Context, request ListUserGroupMembershipsRequest) (response ListUserGroupMembershipsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3898,6 +3903,48 @@ func (client IdentityClient) moveCompartment(ctx context.Context, request common
 	}
 
 	var response MoveCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RecoverCompartment Recover the compartment from DELETED state to ACTIVE state.
+func (client IdentityClient) RecoverCompartment(ctx context.Context, request RecoverCompartmentRequest) (response RecoverCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.recoverCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = RecoverCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RecoverCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RecoverCompartmentResponse")
+	}
+	return
+}
+
+// recoverCompartment implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) recoverCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/compartments/{compartmentId}/actions/recoverCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response RecoverCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -4459,9 +4506,13 @@ func (client IdentityClient) updateSwiftPassword(ctx context.Context, request co
 }
 
 // UpdateTag Updates the specified tag definition.
-// Setting a 'validator' will enable enforcement of additional validation on values contained in the specified for
-// this definedTag. Any values that were previously set will not be changed, but any new value set for the
-// definedTag must pass validation.
+// Setting `validator` determines the value type. Tags can use either a static value or a
+// list of possible values. Static values are entered by a user applying the tag to a resource.
+// Lists are created by you and the user must apply a value from the list. On update, any values
+// in a list that were previously set do not change, but new values must pass validation. Values
+// already applied to a resource do not change.
+// You cannot remove list values that appear in a TagDefault. To remove a list value that
+// appears in a TagDefault, first update the TagDefault to use a different value.
 func (client IdentityClient) UpdateTag(ctx context.Context, request UpdateTagRequest) (response UpdateTagResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4552,7 +4603,7 @@ func (client IdentityClient) updateTagDefault(ctx context.Context, request commo
 // UpdateTagNamespace Updates the the specified tag namespace. You can't update the namespace name.
 // Updating `isRetired` to 'true' retires the namespace and all the tag definitions in the namespace. Reactivating a
 // namespace (changing `isRetired` from 'true' to 'false') does not reactivate tag definitions.
-// To reactivate the tag definitions, you must reactivate each one indvidually *after* you reactivate the namespace,
+// To reactivate the tag definitions, you must reactivate each one individually *after* you reactivate the namespace,
 // using UpdateTag. For more information about retiring tag namespaces, see
 // Retiring Key Definitions and Namespace Definitions (https://docs.cloud.oracle.com/Content/Identity/Concepts/taggingoverview.htm#Retiring).
 // You can't add a namespace with the same name as a retired namespace in the same tenancy.

@@ -101,6 +101,10 @@ func (s *ObjectStorageBucketDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.Id != nil {
+		s.D.Set("bucket_id", *s.Res.Id)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}

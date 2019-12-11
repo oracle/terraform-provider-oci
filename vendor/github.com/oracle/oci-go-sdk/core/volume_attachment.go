@@ -60,6 +60,9 @@ type VolumeAttachment interface {
 	// Whether the attachment was created in read-only mode.
 	GetIsReadOnly() *bool
 
+	// Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
+	GetIsShareable() *bool
+
 	// Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
 	GetIsPvEncryptionInTransitEnabled() *bool
 }
@@ -76,6 +79,7 @@ type volumeattachment struct {
 	Device                         *string                            `mandatory:"false" json:"device"`
 	DisplayName                    *string                            `mandatory:"false" json:"displayName"`
 	IsReadOnly                     *bool                              `mandatory:"false" json:"isReadOnly"`
+	IsShareable                    *bool                              `mandatory:"false" json:"isShareable"`
 	IsPvEncryptionInTransitEnabled *bool                              `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 	AttachmentType                 string                             `json:"attachmentType"`
 }
@@ -101,6 +105,7 @@ func (m *volumeattachment) UnmarshalJSON(data []byte) error {
 	m.Device = s.Model.Device
 	m.DisplayName = s.Model.DisplayName
 	m.IsReadOnly = s.Model.IsReadOnly
+	m.IsShareable = s.Model.IsShareable
 	m.IsPvEncryptionInTransitEnabled = s.Model.IsPvEncryptionInTransitEnabled
 	m.AttachmentType = s.Model.AttachmentType
 
@@ -181,6 +186,11 @@ func (m volumeattachment) GetDisplayName() *string {
 //GetIsReadOnly returns IsReadOnly
 func (m volumeattachment) GetIsReadOnly() *bool {
 	return m.IsReadOnly
+}
+
+//GetIsShareable returns IsShareable
+func (m volumeattachment) GetIsShareable() *bool {
+	return m.IsShareable
 }
 
 //GetIsPvEncryptionInTransitEnabled returns IsPvEncryptionInTransitEnabled

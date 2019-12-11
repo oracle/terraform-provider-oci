@@ -59,6 +59,7 @@ resource "oci_file_storage_mount_target" "test_mount_target" {
 	freeform_tags = {"Department"= "Finance"}
 	hostname_label = "${var.mount_target_hostname_label}"
 	ip_address = "${var.mount_target_ip_address}"
+	nsg_ids = "${var.mount_target_nsg_ids}"
 }
 ```
 
@@ -77,6 +78,7 @@ The following arguments are supported:
 
 	Example: `files-1` 
 * `ip_address` - (Optional) A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.  Example: `10.0.3.3` 
+* `nsg_ids` - (Optional) (Updatable) A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
 * `subnet_id` - (Required) The OCID of the subnet in which to create the mount target. 
 
 
@@ -95,6 +97,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the mount target.
 * `lifecycle_details` - Additional information about the current 'lifecycleState'.
+* `nsg_ids` - A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
 * `private_ip_ids` - The OCIDs of the private IP addresses associated with this mount target.
 * `state` - The current state of the mount target.
 * `subnet_id` - The OCID of the subnet the mount target is in.

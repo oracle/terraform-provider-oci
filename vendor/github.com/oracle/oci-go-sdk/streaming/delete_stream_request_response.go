@@ -11,7 +11,7 @@ import (
 // DeleteStreamRequest wrapper for the DeleteStream operation
 type DeleteStreamRequest struct {
 
-	// The OCID of the stream to delete.
+	// The OCID of the stream.
 	StreamId *string `mandatory:"true" contributesTo:"path" name:"streamId"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

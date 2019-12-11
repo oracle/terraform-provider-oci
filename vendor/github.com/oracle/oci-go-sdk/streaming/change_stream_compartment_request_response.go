@@ -11,7 +11,7 @@ import (
 // ChangeStreamCompartmentRequest wrapper for the ChangeStreamCompartment operation
 type ChangeStreamCompartmentRequest struct {
 
-	// The OCID of the stream to change compatment for.
+	// The OCID of the stream.
 	StreamId *string `mandatory:"true" contributesTo:"path" name:"streamId"`
 
 	// The stream will be moved into the compartment specified within this entity.

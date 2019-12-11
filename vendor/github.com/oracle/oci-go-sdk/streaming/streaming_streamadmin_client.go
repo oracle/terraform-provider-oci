@@ -58,7 +58,51 @@ func (client *StreamAdminClient) ConfigurationProvider() *common.ConfigurationPr
 	return client.config
 }
 
-// ChangeStreamCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+// ChangeConnectHarnessCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+func (client StreamAdminClient) ChangeConnectHarnessCompartment(ctx context.Context, request ChangeConnectHarnessCompartmentRequest) (response ChangeConnectHarnessCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeConnectHarnessCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeConnectHarnessCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeConnectHarnessCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeConnectHarnessCompartmentResponse")
+	}
+	return
+}
+
+// changeConnectHarnessCompartment implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) changeConnectHarnessCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/connectharnesses/{connectHarnessId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeConnectHarnessCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeStreamCompartment Moves a resource into a different compartment.
+// When provided, If-Match is checked against ETag values of the resource.
+// The stream will also be moved into the default stream pool in the destination compartment.
 func (client StreamAdminClient) ChangeStreamCompartment(ctx context.Context, request ChangeStreamCompartmentRequest) (response ChangeStreamCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -88,6 +132,48 @@ func (client StreamAdminClient) changeStreamCompartment(ctx context.Context, req
 	}
 
 	var response ChangeStreamCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeStreamPoolCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+func (client StreamAdminClient) ChangeStreamPoolCompartment(ctx context.Context, request ChangeStreamPoolCompartmentRequest) (response ChangeStreamPoolCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeStreamPoolCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeStreamPoolCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeStreamPoolCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeStreamPoolCompartmentResponse")
+	}
+	return
+}
+
+// changeStreamPoolCompartment implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) changeStreamPoolCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streampools/{streamPoolId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeStreamPoolCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -149,7 +235,57 @@ func (client StreamAdminClient) createArchiver(ctx context.Context, request comm
 	return response, err
 }
 
+// CreateConnectHarness Starts the provisioning of a new connect harness.
+// To track the progress of the provisioning, you can periodically call ConnectHarness object tells you its current state.
+func (client StreamAdminClient) CreateConnectHarness(ctx context.Context, request CreateConnectHarnessRequest) (response CreateConnectHarnessResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createConnectHarness, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateConnectHarnessResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateConnectHarnessResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateConnectHarnessResponse")
+	}
+	return
+}
+
+// createConnectHarness implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) createConnectHarness(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/connectharnesses")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateConnectHarnessResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateStream Starts the provisioning of a new stream.
+// The stream will be created in the given compartment id or stream pool id, depending on which parameter is specified.
+// Compartment id and stream pool id cannot be specified at the same time.
 // To track the progress of the provisioning, you can periodically call GetStream.
 // In the response, the `lifecycleState` parameter of the Stream object tells you its current state.
 func (client StreamAdminClient) CreateStream(ctx context.Context, request CreateStreamRequest) (response CreateStreamResponse, err error) {
@@ -181,6 +317,101 @@ func (client StreamAdminClient) createStream(ctx context.Context, request common
 	}
 
 	var response CreateStreamResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateStreamPool Starts the provisioning of a new stream pool.
+// To track the progress of the provisioning, you can periodically call GetStreamPool.
+// In the response, the `lifecycleState` parameter of the object tells you its current state.
+func (client StreamAdminClient) CreateStreamPool(ctx context.Context, request CreateStreamPoolRequest) (response CreateStreamPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createStreamPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateStreamPoolResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateStreamPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateStreamPoolResponse")
+	}
+	return
+}
+
+// createStreamPool implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) createStreamPool(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streampools")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateStreamPoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteConnectHarness Deletes a connect harness and its content. Connect harness contents are deleted immediately. The service retains records of the connect harness itself for 90 days after deletion.
+// The `lifecycleState` parameter of the `ConnectHarness` object changes to `DELETING` and the connect harness becomes inaccessible for read or write operations.
+// To verify that a connect harness has been deleted, make a GetConnectHarness request. If the call returns the connect harness's
+// lifecycle state as `DELETED`, then the connect harness has been deleted. If the call returns a "404 Not Found" error, that means all records of the
+// connect harness have been deleted.
+func (client StreamAdminClient) DeleteConnectHarness(ctx context.Context, request DeleteConnectHarnessRequest) (response DeleteConnectHarnessResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteConnectHarness, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteConnectHarnessResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteConnectHarnessResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteConnectHarnessResponse")
+	}
+	return
+}
+
+// deleteConnectHarness implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) deleteConnectHarness(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/connectharnesses/{connectHarnessId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteConnectHarnessResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -239,6 +470,49 @@ func (client StreamAdminClient) deleteStream(ctx context.Context, request common
 	return response, err
 }
 
+// DeleteStreamPool Deletes a stream pool. All containing streams will also be deleted.
+// The default stream pool of a compartment cannot be deleted.
+func (client StreamAdminClient) DeleteStreamPool(ctx context.Context, request DeleteStreamPoolRequest) (response DeleteStreamPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteStreamPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteStreamPoolResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteStreamPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteStreamPoolResponse")
+	}
+	return
+}
+
+// deleteStreamPool implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) deleteStreamPool(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/streampools/{streamPoolId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteStreamPoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetArchiver Returns the current state of the stream archiver.
 func (client StreamAdminClient) GetArchiver(ctx context.Context, request GetArchiverRequest) (response GetArchiverResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -269,6 +543,48 @@ func (client StreamAdminClient) getArchiver(ctx context.Context, request common.
 	}
 
 	var response GetArchiverResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetConnectHarness Gets detailed information about a connect harness.
+func (client StreamAdminClient) GetConnectHarness(ctx context.Context, request GetConnectHarnessRequest) (response GetConnectHarnessResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getConnectHarness, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetConnectHarnessResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetConnectHarnessResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetConnectHarnessResponse")
+	}
+	return
+}
+
+// getConnectHarness implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) getConnectHarness(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connectharnesses/{connectHarnessId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetConnectHarnessResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -323,7 +639,136 @@ func (client StreamAdminClient) getStream(ctx context.Context, request common.OC
 	return response, err
 }
 
-// ListStreams Lists the streams.
+// GetStreamPool Gets detailed information about the stream pool, such as Kafka settings.
+func (client StreamAdminClient) GetStreamPool(ctx context.Context, request GetStreamPoolRequest) (response GetStreamPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getStreamPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetStreamPoolResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetStreamPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetStreamPoolResponse")
+	}
+	return
+}
+
+// getStreamPool implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) getStreamPool(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streampools/{streamPoolId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetStreamPoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListConnectHarnesses Lists the connectharness.
+func (client StreamAdminClient) ListConnectHarnesses(ctx context.Context, request ListConnectHarnessesRequest) (response ListConnectHarnessesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listConnectHarnesses, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListConnectHarnessesResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListConnectHarnessesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListConnectHarnessesResponse")
+	}
+	return
+}
+
+// listConnectHarnesses implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) listConnectHarnesses(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connectharnesses")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListConnectHarnessesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListStreamPools List the stream pools for a given compartment ID.
+func (client StreamAdminClient) ListStreamPools(ctx context.Context, request ListStreamPoolsRequest) (response ListStreamPoolsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listStreamPools, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListStreamPoolsResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListStreamPoolsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListStreamPoolsResponse")
+	}
+	return
+}
+
+// listStreamPools implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) listStreamPools(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streampools")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListStreamPoolsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListStreams Lists the streams in the given compartment id.
+// If the compartment id is specified, it will list streams in the compartment, regardless of their stream pool.
+// If the stream pool id is specified, the action will be scoped to that stream pool.
+// The compartment id and stream pool id cannot be specified at the same time.
 func (client StreamAdminClient) ListStreams(ctx context.Context, request ListStreamsRequest) (response ListStreamsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -491,7 +936,49 @@ func (client StreamAdminClient) updateArchiver(ctx context.Context, request comm
 	return response, err
 }
 
-// UpdateStream Updates the tags applied to the stream.
+// UpdateConnectHarness Updates the tags applied to the connect harness.
+func (client StreamAdminClient) UpdateConnectHarness(ctx context.Context, request UpdateConnectHarnessRequest) (response UpdateConnectHarnessResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateConnectHarness, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateConnectHarnessResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateConnectHarnessResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateConnectHarnessResponse")
+	}
+	return
+}
+
+// updateConnectHarness implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) updateConnectHarness(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/connectharnesses/{connectHarnessId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateConnectHarnessResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateStream Updates the stream. Only specified values will be updated.
 func (client StreamAdminClient) UpdateStream(ctx context.Context, request UpdateStreamRequest) (response UpdateStreamResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -521,6 +1008,48 @@ func (client StreamAdminClient) updateStream(ctx context.Context, request common
 	}
 
 	var response UpdateStreamResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateStreamPool Updates the specified stream pool.
+func (client StreamAdminClient) UpdateStreamPool(ctx context.Context, request UpdateStreamPoolRequest) (response UpdateStreamPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateStreamPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateStreamPoolResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateStreamPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateStreamPoolResponse")
+	}
+	return
+}
+
+// updateStreamPool implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) updateStreamPool(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/streampools/{streamPoolId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateStreamPoolResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

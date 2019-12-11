@@ -50,7 +50,7 @@ The following arguments are supported:
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `rules` - (Optional) (Updatable) The bucket's set of lifecycle policy rules.
 	* `action` - (Required) (Updatable) The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects into the [Archive Storage tier](https://docs.cloud.oracle.com/iaas/Content/Archive/Concepts/archivestorageoverview.htm). Rules using the action 'DELETE' permanently delete objects from buckets. 'ARCHIVE' and 'DELETE' are the only two supported actions at this time. 
-	* `is_enabled` - (Required) (Updatable) A boolean that determines whether this rule is currently enabled.
+	* `is_enabled` - (Required) (Updatable) A Boolean that determines whether this rule is currently enabled.
 	* `name` - (Required) (Updatable) The name of the lifecycle rule to be applied.
 	* `object_name_filter` - (Optional) (Updatable) A filter limiting object names that the rule will apply to.
 		* `exclusion_patterns` - (Optional) (Updatable) An array of glob patterns to match the object names to exclude. An empty array is ignored. Exclusion patterns take precedence over inclusion patterns. A Glob pattern is a sequence of characters to match text. Any character that appears in the pattern, other than the special pattern characters described below, matches itself. Glob patterns must be between 1 and 1024 characters.
@@ -81,7 +81,7 @@ The following attributes are exported:
 
 	For an example of this value, see the [PutObjectLifecyclePolicy API documentation](https://docs.cloud.oracle.com/iaas/api/#/en/objectstorage/20160918/ObjectLifecyclePolicy/PutObjectLifecyclePolicy). 
 	* `action` - The action of the object lifecycle policy rule. Rules using the action 'ARCHIVE' move objects into the [Archive Storage tier](https://docs.cloud.oracle.com/iaas/Content/Archive/Concepts/archivestorageoverview.htm). Rules using the action 'DELETE' permanently delete objects from buckets. 'ARCHIVE' and 'DELETE' are the only two supported actions at this time. 
-	* `is_enabled` - A boolean that determines whether this rule is currently enabled.
+	* `is_enabled` - A Boolean that determines whether this rule is currently enabled.
 	* `name` - The name of the lifecycle rule to be applied.
 	* `object_name_filter` - A filter limiting object names that the rule will apply to.
 		* `exclusion_patterns` - An array of glob patterns to match the object names to exclude. An empty array is ignored. Exclusion patterns take precedence over inclusion patterns. A Glob pattern is a sequence of characters to match text. Any character that appears in the pattern, other than the special pattern characters described below, matches itself. Glob patterns must be between 1 and 1024 characters.

@@ -79,14 +79,22 @@ func (m *AutoScalingConfiguration) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.DefinedTags = model.DefinedTags
+
 	m.DisplayName = model.DisplayName
+
 	m.FreeformTags = model.FreeformTags
+
 	m.CoolDownInSeconds = model.CoolDownInSeconds
+
 	m.IsEnabled = model.IsEnabled
+
 	m.CompartmentId = model.CompartmentId
+
 	m.Id = model.Id
-	nn, e := model.Resource.UnmarshalPolymorphicJSON(model.Resource.JsonData)
+
+	nn, e = model.Resource.UnmarshalPolymorphicJSON(model.Resource.JsonData)
 	if e != nil {
 		return
 	}
@@ -95,11 +103,12 @@ func (m *AutoScalingConfiguration) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Resource = nil
 	}
+
 	m.Policies = make([]AutoScalingPolicy, len(model.Policies))
 	for i, n := range model.Policies {
-		nn, err := n.UnmarshalPolymorphicJSON(n.JsonData)
-		if err != nil {
-			return err
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
 		}
 		if nn != nil {
 			m.Policies[i] = nn.(AutoScalingPolicy)
@@ -107,6 +116,7 @@ func (m *AutoScalingConfiguration) UnmarshalJSON(data []byte) (e error) {
 			m.Policies[i] = nil
 		}
 	}
+
 	m.TimeCreated = model.TimeCreated
 	return
 }

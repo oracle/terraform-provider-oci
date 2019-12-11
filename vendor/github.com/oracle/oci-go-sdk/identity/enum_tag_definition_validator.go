@@ -13,8 +13,9 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// EnumTagDefinitionValidator Validates the 'value' set for a definedTag is contained in the list of allowable 'values'.
-// If the 'validatorType' is 'ENUM', then at least one valid value must be specified in the 'values' array.
+// EnumTagDefinitionValidator Used to validate the value set for a defined tag and contains the list of allowable `values`.
+// You must specify at least one valid value in the `values` array. You can't have blank or
+// or empty strings (`""`). Duplicate values are not allowed.
 type EnumTagDefinitionValidator struct {
 
 	// The list of allowed values for a definedTag value.

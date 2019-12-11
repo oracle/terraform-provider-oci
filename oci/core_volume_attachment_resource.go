@@ -71,6 +71,12 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_shareable": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"use_chap": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -379,6 +385,10 @@ func (s *CoreVolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolu
 			tmp := isReadOnly.(bool)
 			details.IsReadOnly = &tmp
 		}
+		if isShareable, ok := s.D.GetOkExists("is_shareable"); ok {
+			tmp := isShareable.(bool)
+			details.IsShareable = &tmp
+		}
 		if volumeId, ok := s.D.GetOkExists("volume_id"); ok {
 			tmp := volumeId.(string)
 			details.VolumeId = &tmp
@@ -405,6 +415,10 @@ func (s *CoreVolumeAttachmentResourceCrud) populateTopLevelPolymorphicAttachVolu
 		if isReadOnly, ok := s.D.GetOkExists("is_read_only"); ok {
 			tmp := isReadOnly.(bool)
 			details.IsReadOnly = &tmp
+		}
+		if isShareable, ok := s.D.GetOkExists("is_shareable"); ok {
+			tmp := isShareable.(bool)
+			details.IsShareable = &tmp
 		}
 		if volumeId, ok := s.D.GetOkExists("volume_id"); ok {
 			tmp := volumeId.(string)

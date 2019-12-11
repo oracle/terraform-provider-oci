@@ -68,6 +68,10 @@ func ObjectStorageObjectsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"etag": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -93,7 +97,7 @@ func (s *ObjectStorageObjectsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-var listObjectsFields = "name,size,md5,timeCreated"
+var listObjectsFields = "name,size,md5,timeCreated,etag"
 
 func (s *ObjectStorageObjectsDataSourceCrud) Get() error {
 	request := oci_object_storage.ListObjectsRequest{
