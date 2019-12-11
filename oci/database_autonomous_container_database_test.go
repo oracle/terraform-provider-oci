@@ -49,10 +49,27 @@ var (
 		"compartment_id":                       Representation{repType: Optional, create: `${var.compartment_id}`},
 		"defined_tags":                         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"maintenance_window_details":           RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
 		"service_level_agreement_type":         Representation{repType: Optional, create: `STANDARD`},
 	}
 	autonomousContainerDatabaseBackupConfigRepresentation = map[string]interface{}{
 		"recovery_window_in_days": Representation{repType: Optional, create: `10`, update: `11`},
+	}
+	autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation = map[string]interface{}{
+		"preference": Representation{repType: Required, create: `NO_PREFERENCE`},
+	}
+	autonomousContainerDatabaseMaintenanceWindowDetailsRepresentation = map[string]interface{}{
+		"preference":     Representation{repType: Required, create: `CUSTOM_PREFERENCE`},
+		"days_of_week":   RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsDaysOfWeekRepresentation},
+		"hours_of_day":   Representation{repType: Optional, create: []string{`4`}, update: []string{`8`}},
+		"months":         RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation},
+		"weeks_of_month": Representation{repType: Optional, create: []string{`1`}, update: []string{`2`}},
+	}
+	autonomousContainerDatabaseMaintenanceWindowDetailsDaysOfWeekRepresentation = map[string]interface{}{
+		"name": Representation{repType: Required, create: `MONDAY`, update: `TUESDAY`},
+	}
+	autonomousContainerDatabaseMaintenanceWindowDetailsMonthsRepresentation = map[string]interface{}{
+		"name": Representation{repType: Required, create: `APRIL`, update: `MAY`},
 	}
 
 	AutonomousContainerDatabaseResourceDependencies = AutonomousExadataInfrastructureResourceConfig
@@ -107,7 +124,8 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
-					generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create, autonomousContainerDatabaseRepresentation),
+					generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create,
+						getUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, autonomousContainerDatabaseRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
 					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
@@ -117,6 +135,12 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
 					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -133,7 +157,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				),
 			},
 
-			// verify update to the compartment (the compartment will be switched back in the next step)
+			// verify update to the compartment (the compartment will be switched back in the next step) and maintenance_window_details
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AutonomousContainerDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Create,
@@ -149,6 +173,14 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "MONDAY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "APRIL"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
 					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -163,6 +195,35 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				),
 			},
 
+			// verify update maintenance_window_details to NO_PREFERENCE
+			{
+				Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
+					generateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", Optional, Update,
+						getUpdatedRepresentationCopy("maintenance_window_details", RepresentationGroup{Optional, autonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, autonomousContainerDatabaseRepresentation)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_exadata_infrastructure_id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
+					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + AutonomousContainerDatabaseResourceDependencies +
@@ -176,6 +237,14 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "MAY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
 					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -212,6 +281,14 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.hours_of_day.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.months.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.months.0.name", "MAY"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.patch_model", "RELEASE_UPDATE_REVISIONS"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.service_level_agreement_type", "STANDARD"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.state"),
@@ -234,6 +311,14 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.hours_of_day.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.0.name", "MAY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "service_level_agreement_type", "STANDARD"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
@@ -246,11 +331,13 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 			},
 			// verify resource import
 			{
-				Config:                  config,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
+				Config:            config,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"maintenance_window_details",
+				},
+				ResourceName: resourceName,
 			},
 		},
 	})
