@@ -54,7 +54,7 @@ type Tag struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}``
+	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The tag's current state. After creating a tag, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tag, make sure its `lifecycleState` is INACTIVE before using it. If you delete a tag, you cannot delete another tag until the deleted tag's `lifecycleState` changes from DELETING to DELETED.
@@ -63,9 +63,14 @@ type Tag struct {
 	// Indicates whether the tag is enabled for cost tracking.
 	IsCostTracking *bool `mandatory:"false" json:"isCostTracking"`
 
-	// Additional validation rule for values specified for the tag definition.
-	// If no validator is defined for a tag definition, then any (valid) value will be accepted.
-	// To clear the validator call the UPDATE operation with DefaultTagDefinitionValidator
+	// The tag must have a value type, which is specified with a validator. Tags can use either a
+	// static value or a list of possible values. Static values are entered by a user applying the tag
+	// to a resource. Lists are created by you and the user must apply a value from the list. Lists
+	// are validiated.
+	// If you use the default validiator (or don't define a validator), the user applying the tag
+	// enters a value. No additional validation is performed.
+	// To clear the validator, call UpdateTag with
+	// DefaultTagDefinitionValidator (https://docs.cloud.oracle.com/api/#/en/identity/latest/datatypes/DefaultTagDefinitionValidator).
 	Validator BaseTagDefinitionValidator `mandatory:"false" json:"validator"`
 }
 
@@ -95,11 +100,16 @@ func (m *Tag) UnmarshalJSON(data []byte) (e error) {
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.FreeformTags = model.FreeformTags
+
 	m.DefinedTags = model.DefinedTags
+
 	m.LifecycleState = model.LifecycleState
+
 	m.IsCostTracking = model.IsCostTracking
-	nn, e := model.Validator.UnmarshalPolymorphicJSON(model.Validator.JsonData)
+
+	nn, e = model.Validator.UnmarshalPolymorphicJSON(model.Validator.JsonData)
 	if e != nil {
 		return
 	}
@@ -108,13 +118,21 @@ func (m *Tag) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Validator = nil
 	}
+
 	m.CompartmentId = model.CompartmentId
+
 	m.TagNamespaceId = model.TagNamespaceId
+
 	m.TagNamespaceName = model.TagNamespaceName
+
 	m.Id = model.Id
+
 	m.Name = model.Name
+
 	m.Description = model.Description
+
 	m.IsRetired = model.IsRetired
+
 	m.TimeCreated = model.TimeCreated
 	return
 }

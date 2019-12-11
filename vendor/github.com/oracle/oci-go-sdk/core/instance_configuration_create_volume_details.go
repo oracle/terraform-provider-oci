@@ -75,14 +75,22 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 	if e != nil {
 		return
 	}
+	var nn interface{}
 	m.AvailabilityDomain = model.AvailabilityDomain
+
 	m.BackupPolicyId = model.BackupPolicyId
+
 	m.CompartmentId = model.CompartmentId
+
 	m.DefinedTags = model.DefinedTags
+
 	m.DisplayName = model.DisplayName
+
 	m.FreeformTags = model.FreeformTags
+
 	m.SizeInGBs = model.SizeInGBs
-	nn, e := model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
+
+	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
 	if e != nil {
 		return
 	}

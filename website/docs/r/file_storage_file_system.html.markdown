@@ -24,6 +24,9 @@ more than one mount target at a time.
 For information about access control and compartments, see
 [Overview of the IAM Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 
+For information about Network Security Groups access control, see
+[Network Security Groups](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/networksecuritygroups.htm).
+
 For information about availability domains, see [Regions and
 Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).
 To get a list of availability domains, use the

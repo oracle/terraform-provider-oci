@@ -11,7 +11,7 @@ import (
 // ConsumerHeartbeatRequest wrapper for the ConsumerHeartbeat operation
 type ConsumerHeartbeatRequest struct {
 
-	// The OCID of the stream for which the group is committing offsets.
+	// The OCID of the stream.
 	StreamId *string `mandatory:"true" contributesTo:"path" name:"streamId"`
 
 	// The group-cursor representing the offsets of the group. This cursor is retrieved from the CreateGroupCursor API call.

@@ -40,6 +40,7 @@ var (
 		"display_name":                        Representation{repType: Optional, create: `displayName`},
 		"is_pv_encryption_in_transit_enabled": Representation{repType: Optional, create: `false`},
 		"is_read_only":                        Representation{repType: Optional, create: `false`},
+		"is_shareable":                        Representation{repType: Optional, create: `false`},
 	}
 
 	VolumeAttachmentResourceDependencies = OciImageIdsVariable +
@@ -99,6 +100,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
 					resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "is_read_only", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_shareable", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
@@ -138,6 +140,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 				ImportState:       true,
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
+					"is_shareable",
 					"use_chap",
 				},
 				ResourceName: resourceName,
