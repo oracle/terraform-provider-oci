@@ -2,6 +2,7 @@
 
 ### Added
 - Support for `description` field in networking routing rules in `oci_core_route_table` and `oci_core_security_list`
+- Support for Stop/Start Digital Assistant Instance
 
 ## 3.57.0 (January 09, 2020)
 
