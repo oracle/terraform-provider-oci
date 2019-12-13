@@ -346,7 +346,9 @@ func (s *DatabaseDbHomeResourceCrud) UpdatedPending() []string {
 }
 
 func (s *DatabaseDbHomeResourceCrud) UpdatedTarget() []string {
-	return s.CreatedTarget()
+	return []string{
+		string(oci_database.DbHomeLifecycleStateAvailable),
+	}
 }
 
 func (s *DatabaseDbHomeResourceCrud) Create() error {

@@ -169,13 +169,13 @@ func (s *StreamingStreamPoolResourceCrud) DeletedTarget() []string {
 
 func (s *StreamingStreamPoolResourceCrud) UpdatedPending() []string {
 	return []string{
-		string(oci_streaming.ConnectHarnessLifecycleStateUpdating),
+		string(oci_streaming.StreamPoolLifecycleStateUpdating),
 	}
 }
 
 func (s *StreamingStreamPoolResourceCrud) UpdatedTarget() []string {
 	return []string{
-		string(oci_streaming.ConnectHarnessLifecycleStateActive),
+		string(oci_streaming.StreamPoolLifecycleStateActive),
 	}
 }
 

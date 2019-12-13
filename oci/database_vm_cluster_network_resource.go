@@ -270,10 +270,10 @@ func (s *DatabaseVmClusterNetworkResourceCrud) UpdatedPending() []string {
 
 func (s *DatabaseVmClusterNetworkResourceCrud) UpdatedTarget() []string {
 	return []string{
-		string(oci_database.VmClusterNetworkLifecycleStateValidated),
-		string(oci_database.VmClusterNetworkLifecycleStateAllocated),
 		string(oci_database.VmClusterNetworkLifecycleStateRequiresValidation),
+		string(oci_database.VmClusterNetworkLifecycleStateValidated),
 		string(oci_database.VmClusterNetworkLifecycleStateValidationFailed),
+		string(oci_database.VmClusterNetworkLifecycleStateAllocated),
 	}
 }
 
