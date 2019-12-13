@@ -31,12 +31,13 @@ type PatchZoneRecordsRequest struct {
 	// agent does not have an entity-tag for the representation.
 	IfUnmodifiedSince *string `mandatory:"false" contributesTo:"header" name:"If-Unmodified-Since"`
 
+	// Unique Oracle-assigned identifier for the request. If you need
+	// to contact Oracle about a particular request, please provide
+	// the request ID.
+	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
 	// The OCID of the compartment the resource belongs to.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
-
-	// Unique Oracle-assigned identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
-	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

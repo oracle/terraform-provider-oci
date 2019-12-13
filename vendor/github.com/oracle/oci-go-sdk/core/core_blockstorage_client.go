@@ -326,6 +326,54 @@ func (client BlockstorageClient) changeVolumeGroupCompartment(ctx context.Contex
 	return response, err
 }
 
+// CopyBootVolumeBackup Creates a boot volume backup copy in specified region. For general information about volume backups,
+// see Overview of Boot Volume Backups (https://docs.cloud.oracle.com/Content/Block/Concepts/bootvolumebackups.htm)
+func (client BlockstorageClient) CopyBootVolumeBackup(ctx context.Context, request CopyBootVolumeBackupRequest) (response CopyBootVolumeBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.copyBootVolumeBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CopyBootVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CopyBootVolumeBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CopyBootVolumeBackupResponse")
+	}
+	return
+}
+
+// copyBootVolumeBackup implements the OCIOperation interface (enables retrying operations)
+func (client BlockstorageClient) copyBootVolumeBackup(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bootVolumeBackups/{bootVolumeBackupId}/actions/copy")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CopyBootVolumeBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CopyVolumeBackup Creates a volume backup copy in specified region. For general information about volume backups,
 // see Overview of Block Volume Service Backups (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumebackups.htm)
 func (client BlockstorageClient) CopyVolumeBackup(ctx context.Context, request CopyVolumeBackupRequest) (response CopyVolumeBackupResponse, err error) {
@@ -584,7 +632,9 @@ func (client BlockstorageClient) createVolumeBackup(ctx context.Context, request
 	return response, err
 }
 
-// CreateVolumeBackupPolicy Creates a new backup policy for the caller.
+// CreateVolumeBackupPolicy Creates a new user defined backup policy.
+// For more information about Oracle defined backup policies and user defined backup policies,
+// see Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm).
 func (client BlockstorageClient) CreateVolumeBackupPolicy(ctx context.Context, request CreateVolumeBackupPolicyRequest) (response CreateVolumeBackupPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -631,9 +681,9 @@ func (client BlockstorageClient) createVolumeBackupPolicy(ctx context.Context, r
 	return response, err
 }
 
-// CreateVolumeBackupPolicyAssignment Assigns a policy to the specified asset, such as a volume. Note that a given asset can
-// only have one policy assigned to it; if this method is called for an asset that previously
-// has a different policy assigned, the prior assignment will be silently deleted.
+// CreateVolumeBackupPolicyAssignment Assigns a volume backup policy to the specified volume. Note that a given volume can
+// only have one backup policy assigned to it. If this operation is used for a volume that already
+// has a different backup policy assigned, the prior backup policy will be silently unassigned.
 func (client BlockstorageClient) CreateVolumeBackupPolicyAssignment(ctx context.Context, request CreateVolumeBackupPolicyAssignmentRequest) (response CreateVolumeBackupPolicyAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -862,7 +912,7 @@ func (client BlockstorageClient) deleteBootVolumeBackup(ctx context.Context, req
 	return response, err
 }
 
-// DeleteBootVolumeKmsKey Removes the KMS key for the specified boot volume.
+// DeleteBootVolumeKmsKey Removes the specified boot volume's assigned Key Management encryption key.
 func (client BlockstorageClient) DeleteBootVolumeKmsKey(ctx context.Context, request DeleteBootVolumeKmsKeyRequest) (response DeleteBootVolumeKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -991,7 +1041,10 @@ func (client BlockstorageClient) deleteVolumeBackup(ctx context.Context, request
 	return response, err
 }
 
-// DeleteVolumeBackupPolicy Deletes the specified scheduled backup policy.
+// DeleteVolumeBackupPolicy Deletes a user defined backup policy.
+//  For more information about user defined backup policies,
+//  see Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm#UserDefinedBackupPolicies).
+//  Avoid entering confidential information.
 func (client BlockstorageClient) DeleteVolumeBackupPolicy(ctx context.Context, request DeleteVolumeBackupPolicyRequest) (response DeleteVolumeBackupPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1033,7 +1086,7 @@ func (client BlockstorageClient) deleteVolumeBackupPolicy(ctx context.Context, r
 	return response, err
 }
 
-// DeleteVolumeBackupPolicyAssignment Deletes a volume backup policy assignment (i.e. unassigns the policy from an asset).
+// DeleteVolumeBackupPolicyAssignment Deletes a volume backup policy assignment.
 func (client BlockstorageClient) DeleteVolumeBackupPolicyAssignment(ctx context.Context, request DeleteVolumeBackupPolicyAssignmentRequest) (response DeleteVolumeBackupPolicyAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1160,7 +1213,7 @@ func (client BlockstorageClient) deleteVolumeGroupBackup(ctx context.Context, re
 	return response, err
 }
 
-// DeleteVolumeKmsKey Removes the KMS key for the specified volume.
+// DeleteVolumeKmsKey Removes the specified volume's assigned Key Management encryption key.
 func (client BlockstorageClient) DeleteVolumeKmsKey(ctx context.Context, request DeleteVolumeKmsKeyRequest) (response DeleteVolumeKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1286,7 +1339,7 @@ func (client BlockstorageClient) getBootVolumeBackup(ctx context.Context, reques
 	return response, err
 }
 
-// GetBootVolumeKmsKey Gets the KMS key ID for the specified boot volume.
+// GetBootVolumeKmsKey Gets the Key Management encryption key assigned to the specified boot volume.
 func (client BlockstorageClient) GetBootVolumeKmsKey(ctx context.Context, request GetBootVolumeKmsKeyRequest) (response GetBootVolumeKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1454,9 +1507,9 @@ func (client BlockstorageClient) getVolumeBackupPolicy(ctx context.Context, requ
 	return response, err
 }
 
-// GetVolumeBackupPolicyAssetAssignment Gets the volume backup policy assignment for the specified asset. Note that the
-// assetId query parameter is required, and that the returned list will contain at most
-// one item (since any given asset can only have one policy assigned to it).
+// GetVolumeBackupPolicyAssetAssignment Gets the volume backup policy assignment for the specified volume. The
+// `assetId` query parameter is required, and the returned list will contain at most
+// one item, since volume can only have one volume backup policy assigned at a time.
 func (client BlockstorageClient) GetVolumeBackupPolicyAssetAssignment(ctx context.Context, request GetVolumeBackupPolicyAssetAssignmentRequest) (response GetVolumeBackupPolicyAssetAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1624,7 +1677,7 @@ func (client BlockstorageClient) getVolumeGroupBackup(ctx context.Context, reque
 	return response, err
 }
 
-// GetVolumeKmsKey Gets the KMS key ID for the specified volume.
+// GetVolumeKmsKey Gets the Key Management encryption key assigned to the specified volume.
 func (client BlockstorageClient) GetVolumeKmsKey(ctx context.Context, request GetVolumeKmsKeyRequest) (response GetVolumeKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1750,7 +1803,9 @@ func (client BlockstorageClient) listBootVolumes(ctx context.Context, request co
 	return response, err
 }
 
-// ListVolumeBackupPolicies Lists all volume backup policies available to the caller.
+// ListVolumeBackupPolicies Lists all the volume backup policies available in the specified compartment.
+// For more information about Oracle defined backup policies and user defined backup policies,
+// see Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm).
 func (client BlockstorageClient) ListVolumeBackupPolicies(ctx context.Context, request ListVolumeBackupPoliciesRequest) (response ListVolumeBackupPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2047,7 +2102,7 @@ func (client BlockstorageClient) updateBootVolumeBackup(ctx context.Context, req
 	return response, err
 }
 
-// UpdateBootVolumeKmsKey Updates the KMS key ID for the specified volume.
+// UpdateBootVolumeKmsKey Updates the specified volume with a new Key Management master encryption key.
 func (client BlockstorageClient) UpdateBootVolumeKmsKey(ctx context.Context, request UpdateBootVolumeKmsKeyRequest) (response UpdateBootVolumeKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2175,8 +2230,10 @@ func (client BlockstorageClient) updateVolumeBackup(ctx context.Context, request
 	return response, err
 }
 
-// UpdateVolumeBackupPolicy Updates a volume backup policy.
-// Avoid entering confidential information.
+// UpdateVolumeBackupPolicy Updates a user defined backup policy.
+//  For more information about user defined backup policies,
+//  see Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm#UserDefinedBackupPolicies).
+//  Avoid entering confidential information.
 func (client BlockstorageClient) UpdateVolumeBackupPolicy(ctx context.Context, request UpdateVolumeBackupPolicyRequest) (response UpdateVolumeBackupPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2311,7 +2368,7 @@ func (client BlockstorageClient) updateVolumeGroupBackup(ctx context.Context, re
 	return response, err
 }
 
-// UpdateVolumeKmsKey Updates the KMS key ID for the specified volume.
+// UpdateVolumeKmsKey Updates the specified volume with a new Key Management master encryption key.
 func (client BlockstorageClient) UpdateVolumeKmsKey(ctx context.Context, request UpdateVolumeKmsKeyRequest) (response UpdateVolumeKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

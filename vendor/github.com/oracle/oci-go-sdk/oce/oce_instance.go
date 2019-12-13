@@ -45,6 +45,8 @@ type OceInstance struct {
 	// OceInstance description, can be updated
 	Description *string `mandatory:"false" json:"description"`
 
+	IdentityStripe *IdentityStripeDetails `mandatory:"false" json:"identityStripe"`
+
 	// The time the the OceInstance was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

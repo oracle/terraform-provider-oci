@@ -39,6 +39,8 @@ type CreateOceInstanceDetails struct {
 	// OceInstance description
 	Description *string `mandatory:"false" json:"description"`
 
+	IdentityStripe *IdentityStripeDetails `mandatory:"false" json:"identityStripe"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

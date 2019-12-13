@@ -16,34 +16,42 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// VolumeBackupSchedule Defines a chronological recurrence pattern for creating scheduled backups at a particular periodicity.
+// VolumeBackupSchedule Defines the backup frequency and retention period for a volume backup policy. For more information,
+// see Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm).
 type VolumeBackupSchedule struct {
 
-	// The type of backup to create.
+	// The type of volume backup to create.
 	BackupType VolumeBackupScheduleBackupTypeEnum `mandatory:"true" json:"backupType"`
 
-	// How often the backup should occur.
+	// The volume backup frequency.
 	Period VolumeBackupSchedulePeriodEnum `mandatory:"true" json:"period"`
 
-	// How long, in seconds, backups created by this schedule should be kept until being automatically deleted.
+	// How long, in seconds, to keep the volume backups created by this schedule.
 	RetentionSeconds *int `mandatory:"true" json:"retentionSeconds"`
 
-	// The number of seconds that the backup time should be shifted from the default interval boundaries specified by the period. Backup time = Frequency start time + Offset.
+	// The number of seconds that the volume backup start time should be shifted from the default interval boundaries specified by the period. The volume backup start time is the frequency start time plus the offset.
 	OffsetSeconds *int `mandatory:"false" json:"offsetSeconds"`
 
-	// Indicates how offset is defined. If value is `STRUCTURED`, then `hourOfDay`, `dayOfWeek`, `dayOfMonth`, and `month` fields are used and `offsetSeconds` will be ignored in requests and users should ignore its value from the respones. `hourOfDay` is applicable for periods `ONE_DAY`, `ONE_WEEK`, `ONE_MONTH` and `ONE_YEAR`. `dayOfWeek` is applicable for period `ONE_WEEK`. `dayOfMonth` is applicable for periods `ONE_MONTH` and `ONE_YEAR`. 'month' is applicable for period 'ONE_YEAR'. They will be ignored in the requests for inapplicable periods. If value is `NUMERIC_SECONDS`, then `offsetSeconds` will be used for both requests and responses and the structured fields will be ignored in the requests and users should ignore their values from the respones. For clients using older versions of Apis and not sending `offsetType` in their requests, the behaviour is just like `NUMERIC_SECONDS`.
+	// Indicates how the offset is defined. If value is `STRUCTURED`, then `hourOfDay`, `dayOfWeek`, `dayOfMonth`, and `month` fields are used and `offsetSeconds` will be ignored in requests and users should ignore its value from the responses.
+	// `hourOfDay` is applicable for periods `ONE_DAY`, `ONE_WEEK`, `ONE_MONTH` and `ONE_YEAR`.
+	// `dayOfWeek` is applicable for period `ONE_WEEK`.
+	// `dayOfMonth` is applicable for periods `ONE_MONTH` and `ONE_YEAR`.
+	// 'month' is applicable for period 'ONE_YEAR'.
+	// They will be ignored in the requests for inapplicable periods.
+	// If value is `NUMERIC_SECONDS`, then `offsetSeconds` will be used for both requests and responses and the structured fields will be ignored in the requests and users should ignore their values from the responses.
+	// For clients using older versions of Apis and not sending `offsetType` in their requests, the behaviour is just like `NUMERIC_SECONDS`.
 	OffsetType VolumeBackupScheduleOffsetTypeEnum `mandatory:"false" json:"offsetType,omitempty"`
 
-	// The hour of the day to schedule the backup
+	// The hour of the day to schedule the volume backup.
 	HourOfDay *int `mandatory:"false" json:"hourOfDay"`
 
-	// The day of the week to schedule the backup
+	// The day of the week to schedule the volume backup.
 	DayOfWeek VolumeBackupScheduleDayOfWeekEnum `mandatory:"false" json:"dayOfWeek,omitempty"`
 
-	// The day of the month to schedule the backup
+	// The day of the month to schedule the volume backup.
 	DayOfMonth *int `mandatory:"false" json:"dayOfMonth"`
 
-	// The month of the year to schedule the backup
+	// The month of the year to schedule the volume backup.
 	Month VolumeBackupScheduleMonthEnum `mandatory:"false" json:"month,omitempty"`
 
 	// Specifies what time zone is the schedule in

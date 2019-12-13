@@ -14,7 +14,7 @@ type UpdateVolumeKmsKeyRequest struct {
 	// The OCID of the volume.
 	VolumeId *string `mandatory:"true" contributesTo:"path" name:"volumeId"`
 
-	// Update the KMS key ID for the specified volume.
+	// Updates the Key Management master encryption key assigned to the specified volume.
 	UpdateVolumeKmsKeyDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

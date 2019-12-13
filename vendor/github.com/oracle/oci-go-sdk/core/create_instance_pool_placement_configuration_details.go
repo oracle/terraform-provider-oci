@@ -23,10 +23,19 @@ type CreateInstancePoolPlacementConfigurationDetails struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
-	// The OCID of the primary subnet to place instances.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances.
 	PrimarySubnetId *string `mandatory:"true" json:"primarySubnetId"`
 
 	// The fault domains to place instances.
+	// If you don't provide any values, the system makes a best effort to distribute
+	// instances across all fault domains based on capacity.
+	// To distribute the instances evenly across selected fault domains, provide a
+	// set of fault domains. For example, you might want instances to be evenly
+	// distributed if your applications require high availability.
+	// To get a list of fault domains, use the
+	// ListFaultDomains operation
+	// in the Identity and Access Management Service API.
+	// Example: `[FAULT-DOMAIN-1, FAULT-DOMAIN-2, FAULT-DOMAIN-3]`
 	FaultDomains []string `mandatory:"false" json:"faultDomains"`
 
 	// The set of secondary VNIC data for instances in the pool.

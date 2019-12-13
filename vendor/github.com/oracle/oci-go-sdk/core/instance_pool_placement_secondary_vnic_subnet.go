@@ -19,11 +19,11 @@ import (
 // InstancePoolPlacementSecondaryVnicSubnet The secondary VNIC object for the placement configuration for an instance pool.
 type InstancePoolPlacementSecondaryVnicSubnet struct {
 
-	// The subnet OCID for the secondary vnic
+	// The subnet OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
-	// The displayName of the vnic. This is also use to match against the Instance Configuration defined
-	// secondary vnic.
+	// The display name of the VNIC. This is also use to match against the instance configuration defined
+	// secondary VNIC.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 }
 

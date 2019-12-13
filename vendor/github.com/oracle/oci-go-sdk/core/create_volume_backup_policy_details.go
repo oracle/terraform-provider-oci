@@ -16,17 +16,22 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateVolumeBackupPolicyDetails Contains properties for a scheduled backup policy.
+// CreateVolumeBackupPolicyDetails Specifies the properties for creating user defined backup policy.
+// For more information about user defined backup policies,
+// see User Defined Policies (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm#UserDefinedBackupPolicies) in
+// Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm).
 type CreateVolumeBackupPolicyDetails struct {
 
-	// The OCID of the compartment that contains the backup policy.
+	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name for the volume backup policy. Does not have to be unique and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The collection of schedules that this policy will apply.
+	// The collection of schedules for the volume backup policy. See
+	// see Schedules (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm#schedules) in
+	// Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm) for more information.
 	Schedules []VolumeBackupSchedule `mandatory:"false" json:"schedules"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
