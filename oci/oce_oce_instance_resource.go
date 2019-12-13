@@ -441,11 +441,6 @@ func (s *OceOceInstanceResourceCrud) Update() error {
 func (s *OceOceInstanceResourceCrud) Delete() error {
 	request := oci_oce.DeleteOceInstanceRequest{}
 
-	if idcsAccessToken, ok := s.D.GetOkExists("idcs_access_token"); ok {
-		tmp := idcsAccessToken.(string)
-		request.IdcsAccessToken = &tmp
-	}
-
 	tmp := s.D.Id()
 	request.OceInstanceId = &tmp
 
