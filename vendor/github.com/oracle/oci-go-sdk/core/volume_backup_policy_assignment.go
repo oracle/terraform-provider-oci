@@ -16,19 +16,21 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// VolumeBackupPolicyAssignment Specifies that a particular volume backup policy is assigned to an asset such as a volume.
+// VolumeBackupPolicyAssignment Specifies the volume that the volume backup policy is assigned to.
+// For more information about Oracle defined backup policies and custom backup policies,
+// see Policy-Based Backups (https://docs.cloud.oracle.com/iaas/Content/Block/Tasks/schedulingvolumebackups.htm).
 type VolumeBackupPolicyAssignment struct {
 
-	// The OCID of the asset (e.g. a volume) to which the policy has been assigned.
+	// The OCID of the volume the policy has been assigned to.
 	AssetId *string `mandatory:"true" json:"assetId"`
 
 	// The OCID of the volume backup policy assignment.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the volume backup policy that has been assigned to an asset.
+	// The OCID of the volume backup policy that has been assigned to the volume.
 	PolicyId *string `mandatory:"true" json:"policyId"`
 
-	// The date and time the volume backup policy assignment was created. Format defined by RFC3339.
+	// The date and time the volume backup policy was assigned to the volume. The format is defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 }
 

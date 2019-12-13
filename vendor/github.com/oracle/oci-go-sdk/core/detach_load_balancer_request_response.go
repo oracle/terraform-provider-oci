@@ -11,7 +11,7 @@ import (
 // DetachLoadBalancerRequest wrapper for the DetachLoadBalancer operation
 type DetachLoadBalancerRequest struct {
 
-	// The OCID of the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance pool.
 	InstancePoolId *string `mandatory:"true" contributesTo:"path" name:"instancePoolId"`
 
 	// Load balancer being detached

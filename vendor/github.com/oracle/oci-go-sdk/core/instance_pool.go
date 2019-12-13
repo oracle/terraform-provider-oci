@@ -21,13 +21,15 @@ import (
 // Managing Compute Instances (https://docs.cloud.oracle.com/Content/Compute/Concepts/instancemanagement.htm).
 type InstancePool struct {
 
-	// The OCID of the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance pool.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment containing the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the instance
+	// pool.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the instance configuration associated with the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance configuration associated
+	// with the instance pool.
 	InstanceConfigurationId *string `mandatory:"true" json:"instanceConfigurationId"`
 
 	// The current state of the instance pool.
@@ -48,7 +50,7 @@ type InstancePool struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The user-friendly name.  Does not have to be unique.
+	// The user-friendly name. Does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no

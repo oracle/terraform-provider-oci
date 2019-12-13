@@ -71,7 +71,7 @@ type BootVolumeBackup struct {
 	// The image OCID used to create the boot volume the backup is taken from.
 	ImageId *string `mandatory:"false" json:"imageId"`
 
-	// The OCID of the KMS key which is the master encryption key for the boot volume backup.
+	// The OCID of the Key Management master encryption assigned to the boot volume backup.
 	// For more information about the Key Management service and encryption keys, see
 	// Overview of Key Management (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm) and
 	// Using Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/usingkeys.htm).
@@ -79,6 +79,9 @@ type BootVolumeBackup struct {
 
 	// The size of the boot volume, in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
+
+	// The OCID of the source boot volume backup.
+	SourceBootVolumeBackupId *string `mandatory:"false" json:"sourceBootVolumeBackupId"`
 
 	// Specifies whether the backup was created manually, or via scheduled backup policy.
 	SourceType BootVolumeBackupSourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`

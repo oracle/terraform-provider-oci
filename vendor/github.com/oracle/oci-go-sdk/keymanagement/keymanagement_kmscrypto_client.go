@@ -51,7 +51,7 @@ func (client *KmsCryptoClient) ConfigurationProvider() *common.ConfigurationProv
 	return client.config
 }
 
-// Decrypt Decrypts data using the given DecryptDataDetails resource.
+// Decrypt Decrypts data using the given DecryptDataDetails (https://docs.cloud.oracle.com/api/#/en/key/release/datatypes/DecryptDataDetails) resource.
 func (client KmsCryptoClient) Decrypt(ctx context.Context, request DecryptRequest) (response DecryptResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -93,9 +93,8 @@ func (client KmsCryptoClient) decrypt(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
-// Encrypt Encrypts data using the given EncryptDataDetails resource.
-// Plaintext included in the example request is a base64-encoded value
-// of a UTF-8 string.
+// Encrypt Encrypts data using the given EncryptDataDetails (https://docs.cloud.oracle.com/api/#/en/key/release/datatypes/EncryptDataDetails) resource.
+// Plaintext included in the example request is a base64-encoded value of a UTF-8 string.
 func (client KmsCryptoClient) Encrypt(ctx context.Context, request EncryptRequest) (response EncryptResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

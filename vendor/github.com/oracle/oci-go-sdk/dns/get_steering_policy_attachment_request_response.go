@@ -26,8 +26,9 @@ type GetSteeringPolicyAttachmentRequest struct {
 	// selected representation's data is avoided if that data has not changed.
 	IfModifiedSince *string `mandatory:"false" contributesTo:"header" name:"If-Modified-Since"`
 
-	// Unique Oracle-assigned identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need
+	// to contact Oracle about a particular request, please provide
+	// the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

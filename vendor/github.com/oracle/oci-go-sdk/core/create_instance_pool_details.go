@@ -19,10 +19,11 @@ import (
 // CreateInstancePoolDetails The data to create an instance pool.
 type CreateInstancePoolDetails struct {
 
-	// The OCID of the compartment containing the instance pool
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the instance pool.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the instance configuration associated with the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance configuration associated
+	// with the instance pool.
 	InstanceConfigurationId *string `mandatory:"true" json:"instanceConfigurationId"`
 
 	// The placement configurations for the instance pool. Provide one placement configuration for

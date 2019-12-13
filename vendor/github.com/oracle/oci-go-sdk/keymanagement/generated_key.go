@@ -15,18 +15,17 @@ import (
 // GeneratedKey The representation of GeneratedKey
 type GeneratedKey struct {
 
-	// The encrypted generated data encryption key.
+	// The encrypted data encryption key generated from a master encryption key.
 	Ciphertext *string `mandatory:"true" json:"ciphertext"`
 
-	// The plaintext generated data encryption key, a base64-encoded
-	// sequence of random bytes, which is included if the
-	// GenerateDataEncryptionKey request includes the "includePlaintextKey"
-	// parameter and sets its value to 'true'.
+	// The plaintext data encryption key, a base64-encoded sequence of random bytes, which is
+	// included if the GenerateDataEncryptionKey (https://docs.cloud.oracle.com/api/#/en/key/release/GeneratedKey/GenerateDataEncryptionKey)
+	// request includes the `includePlaintextKey` parameter and sets its value to "true".
 	Plaintext *string `mandatory:"false" json:"plaintext"`
 
-	// The checksum of the plaintext generated data encryption key, which
-	// is included if the GenerateDataEncryptionKey request includes the
-	// "includePlaintextKey parameter and sets its value to 'true'.
+	// The checksum of the plaintext data encryption key, which is included if the
+	// GenerateDataEncryptionKey (https://docs.cloud.oracle.com/api/#/en/key/release/GeneratedKey/GenerateDataEncryptionKey)
+	// request includes the `includePlaintextKey` parameter and sets its value to "true".
 	PlaintextChecksum *string `mandatory:"false" json:"plaintextChecksum"`
 }
 

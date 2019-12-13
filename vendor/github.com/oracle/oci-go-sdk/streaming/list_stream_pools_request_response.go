@@ -12,7 +12,7 @@ import (
 type ListStreamPoolsRequest struct {
 
 	// The OCID of the compartment.
-	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources that match the given ID exactly.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
