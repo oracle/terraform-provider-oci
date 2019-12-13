@@ -612,18 +612,6 @@ func (s *DatabaseDbSystemResourceCrud) CreatedTarget() []string {
 	}
 }
 
-func (s *DatabaseDbSystemResourceCrud) UpdatedPending() []string {
-	return []string{
-		string(oci_database.DbSystemLifecycleStateUpdating),
-	}
-}
-
-func (s *DatabaseDbSystemResourceCrud) UpdatedTarget() []string {
-	return []string{
-		string(oci_database.DbSystemLifecycleStateAvailable),
-	}
-}
-
 func (s *DatabaseDbSystemResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_database.DbSystemLifecycleStateTerminating),
@@ -633,6 +621,18 @@ func (s *DatabaseDbSystemResourceCrud) DeletedPending() []string {
 func (s *DatabaseDbSystemResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_database.DbSystemLifecycleStateTerminated),
+	}
+}
+
+func (s *DatabaseDbSystemResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_database.DbSystemLifecycleStateUpdating),
+	}
+}
+
+func (s *DatabaseDbSystemResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_database.DbSystemLifecycleStateAvailable),
 	}
 }
 
