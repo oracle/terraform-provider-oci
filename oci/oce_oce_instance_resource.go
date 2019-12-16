@@ -45,6 +45,7 @@ func OceOceInstanceResource() *schema.Resource {
 				Type:      schema.TypeString,
 				Required:  true,
 				Sensitive: true,
+				StateFunc: getMd5Hash,
 			},
 			"name": {
 				Type:     schema.TypeString,

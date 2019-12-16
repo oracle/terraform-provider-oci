@@ -11,6 +11,7 @@
 - Support for API Gateway Service
 - Support for Marketplace
 - Support for OS management service
+- Support for delete OCE instance without IDCS token 
 
 ### Notes
 Starting with this version, the terraform-provider-oci supports VM Instance resizing with reboot. Resizing can only happen within the shapes of same family. The shapes much be compatible with the image and the instance should not be associated to any `dedicated_vm_host_id`.
