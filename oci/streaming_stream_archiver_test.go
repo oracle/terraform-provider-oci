@@ -5,6 +5,7 @@ package oci
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -38,6 +39,9 @@ var (
 )
 
 func TestStreamingStreamArchiverResource_basic(t *testing.T) {
+	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "StreamArchiver") {
+		t.Skip("StreamArchiver test not supported as this service is marked for deprecation")
+	}
 	httpreplay.SetScenario("TestStreamingStreamArchiverResource_basic")
 	defer httpreplay.SaveScenario()
 
