@@ -1,4 +1,8 @@
 ## 3.58.0 (Unreleased)
+
+### Added
+- Support for `description` field in networking routing rules in `oci_core_route_table` and `oci_core_security_list`
+
 ## 3.57.0 (January 09, 2020)
 
 ### Added

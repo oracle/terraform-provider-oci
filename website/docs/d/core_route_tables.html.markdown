@@ -62,6 +62,7 @@ The following attributes are exported:
 		Cannot be an IPv6 CIDR.
 
 		Example: `0.0.0.0/0` 
+	* `description` - An optional description of your choice for the rule. 
 	* `destination` - Conceptually, this is the range of IP addresses used for matching when routing traffic. Required if you provide a `destinationType`.
 
 		Allowed values:

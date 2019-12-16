@@ -7,6 +7,10 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 
+variable "route_table_route_rules_description" {
+  default = "description"
+}
+
 provider "oci" {
   tenancy_ocid     = "${var.tenancy_ocid}"
   user_ocid        = "${var.user_ocid}"
@@ -34,6 +38,7 @@ resource "oci_core_route_table" "example_route_table" {
   display_name   = "exampleRouteTable"
 
   route_rules {
+    description       = "${var.route_table_route_rules_description}"
     destination       = "0.0.0.0/0"
     destination_type  = "CIDR_BLOCK"
     network_entity_id = "${oci_core_internet_gateway.example_ig.id}"
