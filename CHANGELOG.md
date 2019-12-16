@@ -3,6 +3,7 @@
 ### Added
 - Support Functions integration for ONS service
 - Support IP-based policy for Identity Service
+- Support Extensions to Tenancy, User, Group entities in IAM
 
 ## 3.63.0 (February 19, 2020)
 
