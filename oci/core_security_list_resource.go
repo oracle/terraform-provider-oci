@@ -68,6 +68,11 @@ func CoreSecurityListResource() *schema.Resource {
 						},
 
 						// Optional
+						"description": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"destination_type": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -230,6 +235,11 @@ func CoreSecurityListResource() *schema.Resource {
 						},
 
 						// Optional
+						"description": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"icmp_options": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -675,6 +685,11 @@ func (s *CoreSecurityListResourceCrud) SetData() error {
 func (s *CoreSecurityListResourceCrud) mapToEgressSecurityRule(fieldKeyFormat string) (oci_core.EgressSecurityRule, error) {
 	result := oci_core.EgressSecurityRule{}
 
+	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+		tmp := description.(string)
+		result.Description = &tmp
+	}
+
 	if destination, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination")); ok && destination != "" {
 		tmp := destination.(string)
 		result.Destination = &tmp
@@ -732,6 +747,10 @@ func (s *CoreSecurityListResourceCrud) mapToEgressSecurityRule(fieldKeyFormat st
 
 func EgressSecurityRuleToMap(obj oci_core.EgressSecurityRule) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
 
 	if obj.Destination != nil {
 		result["destination"] = string(*obj.Destination)
@@ -799,6 +818,11 @@ func IcmpOptionsToMap(obj *oci_core.IcmpOptions) map[string]interface{} {
 func (s *CoreSecurityListResourceCrud) mapToIngressSecurityRule(fieldKeyFormat string) (oci_core.IngressSecurityRule, error) {
 	result := oci_core.IngressSecurityRule{}
 
+	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+		tmp := description.(string)
+		result.Description = &tmp
+	}
+
 	if icmpOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "icmp_options")); ok {
 		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "icmp_options"), 0)
@@ -856,6 +880,10 @@ func (s *CoreSecurityListResourceCrud) mapToIngressSecurityRule(fieldKeyFormat s
 
 func IngressSecurityRuleToMap(obj oci_core.IngressSecurityRule) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
 
 	if obj.IcmpOptions != nil {
 		result["icmp_options"] = []interface{}{IcmpOptionsToMap(obj.IcmpOptions)}
@@ -1013,6 +1041,9 @@ func UdpOptionsToMap(obj *oci_core.UdpOptions) map[string]interface{} {
 func egressSecurityRulesHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
+	if description, ok := m["description"]; ok && description != "" {
+		buf.WriteString(fmt.Sprintf("%v-", description))
+	}
 	if destination, ok := m["destination"]; ok && destination != "" {
 		buf.WriteString(fmt.Sprintf("%v-", destination))
 	}
@@ -1097,6 +1128,9 @@ func egressSecurityRulesHashCodeForSets(v interface{}) int {
 func ingressSecurityRulesHashCodeForSets(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
+	if description, ok := m["description"]; ok && description != "" {
+		buf.WriteString(fmt.Sprintf("%v-", description))
+	}
 	if icmpOptions, ok := m["icmp_options"]; ok {
 		if tmpList := icmpOptions.([]interface{}); len(tmpList) > 0 && tmpList[0] != nil {
 			buf.WriteString("icmp_options-")

@@ -77,6 +77,11 @@ func CoreRouteTableResource() *schema.Resource {
 							Computed:   true,
 							Deprecated: FieldDeprecatedForAnother("cidr_block", "destination"),
 						},
+						"description": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"destination": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -367,6 +372,11 @@ func (s *CoreRouteTableResourceCrud) mapToRouteRule(fieldKeyFormat string) (oci_
 		result.DestinationType = tmp
 	}
 
+	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+		tmp := description.(string)
+		result.Description = &tmp
+	}
+
 	cidrBlockChanged := false
 	cidrBlock, cidrBlockPresent := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cidr_block"))
 	if cidrBlockPresent && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cidr_block")) {
@@ -406,6 +416,10 @@ func RouteRuleToMap(obj oci_core.RouteRule) map[string]interface{} {
 		result["cidr_block"] = string(*obj.CidrBlock)
 	}
 
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
 	if obj.Destination != nil {
 		result["destination"] = string(*obj.Destination)
 	}
@@ -433,6 +447,9 @@ func routeRulesHashCodeForSets(v interface{}) int {
 		buf.WriteString(fmt.Sprintf("%v-", cidrBlock))
 	} else if destinationPresent && destination != "" {
 		buf.WriteString(fmt.Sprintf("%v-", destination))
+	}
+	if description, ok := m["description"]; ok && description != "" {
+		buf.WriteString(fmt.Sprintf("%v-", description))
 	}
 	if destinationPresent && destination != "" {
 		buf.WriteString(fmt.Sprintf("%v-", destination))
