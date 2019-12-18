@@ -56,6 +56,7 @@ const (
 	ConnectHarnessSummaryLifecycleStateDeleting ConnectHarnessSummaryLifecycleStateEnum = "DELETING"
 	ConnectHarnessSummaryLifecycleStateDeleted  ConnectHarnessSummaryLifecycleStateEnum = "DELETED"
 	ConnectHarnessSummaryLifecycleStateFailed   ConnectHarnessSummaryLifecycleStateEnum = "FAILED"
+	ConnectHarnessSummaryLifecycleStateUpdating ConnectHarnessSummaryLifecycleStateEnum = "UPDATING"
 )
 
 var mappingConnectHarnessSummaryLifecycleState = map[string]ConnectHarnessSummaryLifecycleStateEnum{
@@ -64,6 +65,7 @@ var mappingConnectHarnessSummaryLifecycleState = map[string]ConnectHarnessSummar
 	"DELETING": ConnectHarnessSummaryLifecycleStateDeleting,
 	"DELETED":  ConnectHarnessSummaryLifecycleStateDeleted,
 	"FAILED":   ConnectHarnessSummaryLifecycleStateFailed,
+	"UPDATING": ConnectHarnessSummaryLifecycleStateUpdating,
 }
 
 // GetConnectHarnessSummaryLifecycleStateEnumValues Enumerates the set of values for ConnectHarnessSummaryLifecycleStateEnum

@@ -1,4 +1,21 @@
-## 3.55.1 (Unreleased)
+## 3.56.0 (Unreleased)
+
+### Added
+- Support VM Instance resizing with reboot in `oci_core_instance` resource
+- Support for improved custom image support in  `oci_containerengine_node_pool` resource
+- Support for Kafka compatibility in Oracle Streaming Service
+- Support for Cross-region boot volume backups
+- Support for `is_management_disabled` attribute in `oci_core_instance` and `oci_core_image` resources and datasources
+- Support for `dns_tsig_key` resource and datasources
+- Support for Economy vaults in Key management service
+- Support for API Gateway Service
+- Support for Marketplace
+- Support for OS management service
+- Support for delete OCE instance without IDCS token 
+
+### Notes
+Starting with this version, the terraform-provider-oci supports VM Instance resizing with reboot. Resizing can only happen within the shapes of same family. The shapes much be compatible with the image and the instance should not be associated to any `dedicated_vm_host_id`.
+
 ## 3.55.0 (December 11, 2019)
 
 ### Added

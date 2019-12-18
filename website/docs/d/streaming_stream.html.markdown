@@ -25,7 +25,7 @@ data "oci_streaming_stream" "test_stream" {
 
 The following arguments are supported:
 
-* `stream_id` - (Required) The OCID of the stream to retrieve.
+* `stream_id` - (Required) The OCID of the stream. 
 
 
 ## Attributes Reference
@@ -42,5 +42,6 @@ The following attributes are exported:
 * `partitions` - The number of partitions in the stream.
 * `retention_in_hours` - The retention period of the stream, in hours. This property is read-only.
 * `state` - The current state of the stream.
+* `stream_pool_id` - The OCID of the stream pool that contains the stream.
 * `time_created` - The date and time the stream was created, expressed in in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2018-04-20T00:00:07.405Z` 
 

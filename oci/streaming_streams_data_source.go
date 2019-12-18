@@ -16,7 +16,7 @@ func StreamingStreamsDataSource() *schema.Resource {
 			"filter": dataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"id": {
 				Type:     schema.TypeString,
@@ -27,6 +27,10 @@ func StreamingStreamsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"stream_pool_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -79,6 +83,11 @@ func (s *StreamingStreamsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_streaming.StreamLifecycleStateEnum(state.(string))
 	}
 
+	if streamPoolId, ok := s.D.GetOkExists("stream_pool_id"); ok {
+		tmp := streamPoolId.(string)
+		request.StreamPoolId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "streaming")
 
 	response, err := s.Client.ListStreams(context.Background(), request)
@@ -111,8 +120,10 @@ func (s *StreamingStreamsDataSourceCrud) SetData() error {
 	resources := []map[string]interface{}{}
 
 	for _, r := range s.Res.Items {
-		stream := map[string]interface{}{
-			"compartment_id": *r.CompartmentId,
+		stream := map[string]interface{}{}
+
+		if r.CompartmentId != nil {
+			stream["compartment_id"] = *r.CompartmentId
 		}
 
 		if r.DefinedTags != nil {
@@ -138,6 +149,10 @@ func (s *StreamingStreamsDataSourceCrud) SetData() error {
 		}
 
 		stream["state"] = r.LifecycleState
+
+		if r.StreamPoolId != nil {
+			stream["stream_pool_id"] = *r.StreamPoolId
+		}
 
 		if r.TimeCreated != nil {
 			stream["time_created"] = r.TimeCreated.String()

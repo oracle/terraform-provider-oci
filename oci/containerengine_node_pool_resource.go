@@ -6,8 +6,10 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
@@ -125,14 +127,16 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Optional:      true,
 				Computed:      true,
 				ForceNew:      true,
-				ConflictsWith: []string{"node_image_name"},
+				ConflictsWith: []string{"node_image_name", "node_source_details"},
+				Deprecated:    FieldDeprecatedAndOverridenByAnother("node_image_id", "node_source_details"),
 			},
 			"node_image_name": {
 				Type:          schema.TypeString,
 				Optional:      true,
 				Computed:      true,
 				ForceNew:      true,
-				ConflictsWith: []string{"node_image_id"},
+				ConflictsWith: []string{"node_image_id", "node_source_details"},
+				Deprecated:    FieldDeprecatedAndOverridenByAnother("node_image_name", "node_source_details"),
 			},
 			"node_metadata": {
 				Type:     schema.TypeMap,
@@ -140,6 +144,38 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 				Elem:     schema.TypeString,
+			},
+			"node_source_details": {
+				Type:          schema.TypeList,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				MaxItems:      1,
+				MinItems:      1,
+				ConflictsWith: []string{"node_image_id", "node_image_name"},
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"image_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"source_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"IMAGE",
+							}, true),
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
 			},
 			"quantity_per_subnet": {
 				Type:          schema.TypeInt,
@@ -165,6 +201,33 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			},
 
 			// Computed
+			"node_source": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"image_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"source_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"source_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"nodes": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -353,6 +416,17 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	if nodeShape, ok := s.D.GetOkExists("node_shape"); ok {
 		tmp := nodeShape.(string)
 		request.NodeShape = &tmp
+	}
+
+	if nodeSourceDetails, ok := s.D.GetOkExists("node_source_details"); ok {
+		if tmpList := nodeSourceDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_source_details", 0)
+			tmp, err := s.mapToNodeSourceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NodeSourceDetails = tmp
+		}
 	}
 
 	if quantityPerSubnet, ok := s.D.GetOkExists("quantity_per_subnet"); ok {
@@ -612,6 +686,16 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("node_shape", *s.Res.NodeShape)
 	}
 
+	if s.Res.NodeSource != nil {
+		nodeSourceArray := []interface{}{}
+		if nodeSourceMap := NodeSourceOptionToMap(&s.Res.NodeSource); nodeSourceMap != nil {
+			nodeSourceArray = append(nodeSourceArray, nodeSourceMap)
+		}
+		s.D.Set("node_source", nodeSourceArray)
+	} else {
+		s.D.Set("node_source", nil)
+	}
+
 	nodes := []interface{}{}
 	for _, item := range s.Res.Nodes {
 		nodes = append(nodes, NodeToMap(item))
@@ -827,6 +911,68 @@ func NodePoolPlacementConfigDetailsToMap(obj oci_containerengine.NodePoolPlaceme
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	return result
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToNodeSourceDetails(fieldKeyFormat string) (oci_containerengine.NodeSourceDetails, error) {
+	var baseObject oci_containerengine.NodeSourceDetails
+	//discriminator
+	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
+	var sourceType string
+	if ok {
+		sourceType = sourceTypeRaw.(string)
+	} else {
+		sourceType = "" // default value
+	}
+	switch strings.ToLower(sourceType) {
+	case strings.ToLower("IMAGE"):
+		details := oci_containerengine.NodeSourceViaImageDetails{}
+		if imageId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_id")); ok {
+			tmp := imageId.(string)
+			details.ImageId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
+	}
+	return baseObject, nil
+}
+
+func NodeSourceDetailsToMap(obj *oci_containerengine.NodeSourceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_containerengine.NodeSourceViaImageDetails:
+		result["source_type"] = "IMAGE"
+
+		if v.ImageId != nil {
+			result["image_id"] = string(*v.ImageId)
+		}
+	default:
+		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func NodeSourceOptionToMap(obj *oci_containerengine.NodeSourceOption) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_containerengine.NodeSourceViaImageOption:
+		result["source_type"] = "IMAGE"
+
+		if v.ImageId != nil {
+			result["image_id"] = string(*v.ImageId)
+		}
+
+		if v.SourceName != nil {
+			result["source_name"] = string(*v.SourceName)
+		}
+	default:
+		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result

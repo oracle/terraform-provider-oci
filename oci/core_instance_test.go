@@ -72,6 +72,7 @@ var (
 		"state":                               Representation{repType: Optional, create: `STOPPED`, update: `RUNNING`},
 	}
 	instanceAgentConfigRepresentation = map[string]interface{}{
+		"is_management_disabled": Representation{repType: Optional, create: `false`, update: `true`},
 		"is_monitoring_disabled": Representation{repType: Optional, create: `false`, update: `true`},
 	}
 	instanceCreateVnicDetailsRepresentation = map[string]interface{}{
@@ -167,6 +168,28 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				),
 			},
 
+			// verify update to shape within the same family is not force new. Resizing can only be done to intances not using dedicated_vm_host_id
+			{
+				Config: testProviderConfig() + compartmentIdVariableStr + InstanceResourceDependencies +
+					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Required, Create, getUpdatedRepresentationCopy("shape", Representation{repType: Required, create: `VM.Standard2.2`}, instanceRepresentation)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.2"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "time_maintenance_reboot_due", ""),
+					resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "VFIO"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
+				),
+			},
+
 			// delete before next create
 			{
 				Config: config + compartmentIdVariableStr + InstanceResourceDependencies,
@@ -198,6 +221,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Create, instanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -260,6 +284,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
@@ -316,6 +341,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_instance", "test_instance", Optional, Update, instanceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "true"),
 					resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -380,6 +406,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.is_management_disabled", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.agent_config.0.is_monitoring_disabled", "true"),
 					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.availability_domain"),
 					resource.TestCheckResourceAttr(datasourceName, "instances.0.compartment_id", compartmentId),
@@ -420,6 +447,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "subnet_id"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_management_disabled", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "agent_config.0.is_monitoring_disabled", "true"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

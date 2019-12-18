@@ -15,7 +15,7 @@ import (
 // KeyShape The cryptographic properties of a key.
 type KeyShape struct {
 
-	// The algorithm used by a key's KeyVersions to encrypt or decrypt.
+	// The algorithm used by a key's key versions to encrypt or decrypt.
 	Algorithm KeyShapeAlgorithmEnum `mandatory:"true" json:"algorithm"`
 
 	// The length of the key, expressed as an integer. Values of 16, 24, or 32 are supported.
@@ -32,10 +32,12 @@ type KeyShapeAlgorithmEnum string
 // Set of constants representing the allowable values for KeyShapeAlgorithmEnum
 const (
 	KeyShapeAlgorithmAes KeyShapeAlgorithmEnum = "AES"
+	KeyShapeAlgorithmRsa KeyShapeAlgorithmEnum = "RSA"
 )
 
 var mappingKeyShapeAlgorithm = map[string]KeyShapeAlgorithmEnum{
 	"AES": KeyShapeAlgorithmAes,
+	"RSA": KeyShapeAlgorithmRsa,
 }
 
 // GetKeyShapeAlgorithmEnumValues Enumerates the set of values for KeyShapeAlgorithmEnum

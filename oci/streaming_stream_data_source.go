@@ -94,6 +94,10 @@ func (s *StreamingStreamDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.StreamPoolId != nil {
+		s.D.Set("stream_pool_id", *s.Res.StreamPoolId)
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}

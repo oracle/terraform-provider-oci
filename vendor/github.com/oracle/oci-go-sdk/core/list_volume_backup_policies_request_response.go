@@ -22,8 +22,8 @@ type ListVolumeBackupPoliciesRequest struct {
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The OCID of the compartment to list.
-	// If no compartment is specified, list the predefined (Gold, Silver, Bronze) backup policies.
+	// The OCID of the compartment.
+	// If no compartment is specified, the Oracle defined backup policies are listed.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Unique Oracle-assigned identifier for the request.

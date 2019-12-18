@@ -140,6 +140,10 @@ func CoreImageResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"is_management_supported": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_monitoring_supported": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -536,6 +540,10 @@ func (s *CoreImageResourceCrud) mapToImageSourceDetails(fieldKeyFormat string) (
 
 func InstanceAgentFeaturesToMap(obj *oci_core.InstanceAgentFeatures) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.IsManagementSupported != nil {
+		result["is_management_supported"] = bool(*obj.IsManagementSupported)
+	}
 
 	if obj.IsMonitoringSupported != nil {
 		result["is_monitoring_supported"] = bool(*obj.IsMonitoringSupported)

@@ -27,7 +27,7 @@ data "oci_core_instance_pool_load_balancer_attachment" "test_instance_pool_load_
 
 The following arguments are supported:
 
-* `instance_pool_id` - (Required) The OCID of the instance pool.
+* `instance_pool_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool.
 * `instance_pool_load_balancer_attachment_id` - (Required) The OCID of the load balancer attachment.
 
 
@@ -36,9 +36,9 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `backend_set_name` - The name of the backend set on the load balancer.
-* `id` - The OCID of the load balancer attachment.
-* `instance_pool_id` - The OCID of the instance pool of the load balancer attachment.
-* `load_balancer_id` - The OCID of the load balancer attached to the instance pool.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer attachment.
+* `instance_pool_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool of the load balancer attachment. 
+* `load_balancer_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer attached to the instance pool. 
 * `port` - The port value used for the backends.
 * `state` - The status of the interaction between the instance pool and the load balancer.
 * `vnic_selection` - Indicates which VNIC on each instance in the instance pool should be used to associate with the load balancer. Possible values are "PrimaryVnic" or the displayName of one of the secondary VNICs on the instance configuration that is associated with the instance pool.

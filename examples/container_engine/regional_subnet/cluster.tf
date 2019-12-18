@@ -32,7 +32,6 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
   compartment_id     = "${var.compartment_ocid}"
   kubernetes_version = "${data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions.0}"
   name               = "${var.node_pool_name}"
-  node_image_name    = "${var.node_pool_node_image_name}"
   node_shape         = "${var.node_pool_node_shape}"
 
   #Optional
@@ -40,6 +39,12 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
     #Optional
     key   = "${var.node_pool_initial_node_labels_key}"
     value = "${var.node_pool_initial_node_labels_value}"
+  }
+
+  node_source_details {
+    #Required
+    image_id    = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.image_id}"
+    source_type = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources.0.source_type}"
   }
 
   ssh_public_key = "${var.node_pool_ssh_public_key}"

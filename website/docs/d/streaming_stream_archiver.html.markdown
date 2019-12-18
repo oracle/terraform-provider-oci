@@ -36,7 +36,7 @@ The following attributes are exported:
 * `batch_rollover_size_in_mbs` - The batch rollover size in megabytes.
 * `batch_rollover_time_in_seconds` - The rollover time in seconds.
 * `bucket` - The name of the bucket.
-* `error` - If an operation failed this property contained the last error occurred.
+* `error` - 
 	* `code` - A short error code that defines the error, meant for programmatic parsing.
 	* `message` - A human-readable error string.
 * `start_position` - The start message.

@@ -50,6 +50,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `agent_config` - 
+	* `is_management_disabled` - Whether the agent running on the instance can run all the available management plugins. 
 	* `is_monitoring_disabled` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
 * `availability_domain` - The availability domain the instance is running in.  Example: `Uocm:PHX-AD-1` 
 * `boot_volume_id` - The OCID of the attached boot volume. If the `source_type` is `bootVolume`, this will be the same OCID as the `source_id`.
@@ -117,8 +118,8 @@ The following attributes are exported:
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `source_details` - Details for creating an instance
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB). This should only be specified when `source_type` is `image`.
-	* `kms_key_id` - The OCID of the KMS key to be used as the master encryption key for the boot volume.
-    * `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
+	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.
+	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `state` - The current state of the instance.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
