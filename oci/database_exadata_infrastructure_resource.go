@@ -40,10 +40,6 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"corporate_proxy": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -86,6 +82,11 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 			},
 
 			// Optional
+			"corporate_proxy": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"activation_file": {
 				Type:     schema.TypeString,
 				Optional: true,

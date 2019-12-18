@@ -25,7 +25,6 @@ var (
 		"cloud_control_plane_server1": Representation{repType: Required, create: `192.168.19.1`, update: `192.168.19.3`},
 		"cloud_control_plane_server2": Representation{repType: Required, create: `192.168.19.2`, update: `192.168.19.4`},
 		"compartment_id":              Representation{repType: Required, create: `${var.compartment_id}`},
-		"corporate_proxy":             Representation{repType: Required, create: `http://192.168.19.1:80`, update: `http://192.168.19.2:80`},
 		"display_name":                Representation{repType: Required, create: `tstExaInfra`},
 		"dns_server":                  Representation{repType: Required, create: []string{`192.168.10.10`}, update: []string{`192.168.10.11`, `192.168.10.12`}},
 		"gateway":                     Representation{repType: Required, create: `192.168.20.1`, update: `192.168.20.2`},
@@ -34,6 +33,7 @@ var (
 		"ntp_server":                  Representation{repType: Required, create: []string{`192.168.10.20`}, update: []string{`192.168.10.22`, `192.168.10.24`}},
 		"shape":                       Representation{repType: Required, create: `ExadataCC.Quarter3.100`},
 		"time_zone":                   Representation{repType: Required, create: `US/Pacific`, update: `UTC`},
+		"corporate_proxy":             Representation{repType: Optional, create: `http://192.168.19.1:80`, update: `http://192.168.19.2:80`},
 		"defined_tags":                Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":               Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}

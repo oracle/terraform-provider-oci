@@ -22,7 +22,6 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   cloud_control_plane_server1 = "192.168.19.1"
   cloud_control_plane_server2 = "192.168.19.2"
   compartment_id              = "${var.compartment_id}"
-  corporate_proxy             = "http://192.168.19.1:80"
   display_name                = "tstExaInfra"
   dns_server                  = ["192.168.10.10"]
   gateway                     = "192.168.20.1"
@@ -34,7 +33,8 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   activation_file             = "activation.zip"
 
   #Optional
-  defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedvalue")}"
+  corporate_proxy = "http://192.168.19.1:80"
+  defined_tags    = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedvalue")}"
 
   freeform_tags = {
     "Department" = "Accounting"
