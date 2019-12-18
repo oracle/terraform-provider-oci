@@ -21,6 +21,7 @@ resource "oci_database_maintenance_run" "test_maintenance_run" {
 
 	#Optional
 	is_enabled = "${var.maintenance_run_is_enabled}"
+	time_scheduled = "${var.maintenance_run_time_scheduled}"
 }
 ```
 
@@ -30,6 +31,7 @@ The following arguments are supported:
 
 * `is_enabled` - (Optional) (Updatable) If set to false, skips the Maintenance Run.
 * `maintenance_run_id` - (Required) The Maintenance Run OCID.
+* `time_scheduled` - (Optional) (Updatable) The scheduled date and time of the Maintenance Run to update.
 
 
 ** IMPORTANT **

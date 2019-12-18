@@ -104,6 +104,9 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					node_count = "1"
 					time_zone = "US/Pacific"
 					backup_network_nsg_ids = ["${oci_core_network_security_group.test_network_security_group2.id}"]
+					maintenance_window_details {
+						preference = "NO_PREFERENCE"
+					}
 					nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
 					db_home {
 						db_version = "12.1.0.2"
@@ -138,6 +141,9 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "time_zone", "US/Pacific"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "backup_network_nsg_ids.#", "1"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window_details.#", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
 				),
 			},
 			// verify update
@@ -213,6 +219,18 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					node_count = "1"
 					time_zone = "US/Pacific"
 					backup_network_nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
+					maintenance_window_details {
+						preference = "CUSTOM_PREFERENCE"
+    					days_of_week {
+      						name = "TUESDAY"
+    					}
+    					hours_of_day = ["4"]
+						lead_time_in_weeks = 11
+    					months {
+      						name = "MAY"
+						}
+    					weeks_of_month = ["2"]
+					}
 					nsg_ids = ["${oci_core_network_security_group.test_network_security_group2.id}"]
 					db_home {
 						db_version = "12.1.0.2"
@@ -247,6 +265,14 @@ func TestResourceDatabaseDBSystemExaData(t *testing.T) {
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "time_zone", "US/Pacific"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "backup_network_nsg_ids.#", "1"),
 					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.hours_of_day.#", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.lead_time_in_weeks", "11"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.months.#", "1"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.months.0.name", "MAY"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 				),
 			},
 			// verify removing nsgIds and backupNsgIds trigger update
