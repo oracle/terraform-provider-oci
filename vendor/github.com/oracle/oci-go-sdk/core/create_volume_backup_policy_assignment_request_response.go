@@ -11,7 +11,7 @@ import (
 // CreateVolumeBackupPolicyAssignmentRequest wrapper for the CreateVolumeBackupPolicyAssignment operation
 type CreateVolumeBackupPolicyAssignmentRequest struct {
 
-	// Request to assign a specified policy to a particular asset.
+	// Request to assign a specified policy to a particular volume.
 	CreateVolumeBackupPolicyAssignmentDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request.

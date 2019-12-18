@@ -59,7 +59,7 @@ func (client *DnsClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
 }
 
-// ChangeSteeringPolicyCompartment Moves a steering policy into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+// ChangeSteeringPolicyCompartment Moves a steering policy into a different compartment.
 func (client DnsClient) ChangeSteeringPolicyCompartment(ctx context.Context, request ChangeSteeringPolicyCompartmentRequest) (response ChangeSteeringPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -106,7 +106,54 @@ func (client DnsClient) changeSteeringPolicyCompartment(ctx context.Context, req
 	return response, err
 }
 
-// ChangeZoneCompartment Moves a zone into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+// ChangeTsigKeyCompartment Moves a TSIG key into a different compartment.
+func (client DnsClient) ChangeTsigKeyCompartment(ctx context.Context, request ChangeTsigKeyCompartmentRequest) (response ChangeTsigKeyCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeTsigKeyCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ChangeTsigKeyCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeTsigKeyCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeTsigKeyCompartmentResponse")
+	}
+	return
+}
+
+// changeTsigKeyCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) changeTsigKeyCompartment(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tsigKeys/{tsigKeyId}/actions/changeCompartment")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeTsigKeyCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeZoneCompartment Moves a zone into a different compartment.
 // **Note:** All SteeringPolicyAttachment objects associated with this zone will also be moved into the provided compartment.
 func (client DnsClient) ChangeZoneCompartment(ctx context.Context, request ChangeZoneCompartmentRequest) (response ChangeZoneCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -241,6 +288,49 @@ func (client DnsClient) createSteeringPolicyAttachment(ctx context.Context, requ
 	}
 
 	var response CreateSteeringPolicyAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateTsigKey Creates a new TSIG key in the specified compartment. There is no
+// `opc-retry-token` header since TSIG key names must be globally unique.
+func (client DnsClient) CreateTsigKey(ctx context.Context, request CreateTsigKeyRequest) (response CreateTsigKeyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createTsigKey, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = CreateTsigKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateTsigKeyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateTsigKeyResponse")
+	}
+	return
+}
+
+// createTsigKey implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) createTsigKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tsigKeys")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateTsigKeyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -469,6 +559,48 @@ func (client DnsClient) deleteSteeringPolicyAttachment(ctx context.Context, requ
 	return response, err
 }
 
+// DeleteTsigKey Deletes the specified TSIG key.
+func (client DnsClient) DeleteTsigKey(ctx context.Context, request DeleteTsigKeyRequest) (response DeleteTsigKeyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteTsigKey, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = DeleteTsigKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteTsigKeyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteTsigKeyResponse")
+	}
+	return
+}
+
+// deleteTsigKey implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) deleteTsigKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/tsigKeys/{tsigKeyId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteTsigKeyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteZone Deletes the specified zone and all its steering policy attachments.
 // A `204` response indicates that zone has been successfully deleted.
 func (client DnsClient) DeleteZone(ctx context.Context, request DeleteZoneRequest) (response DeleteZoneResponse, err error) {
@@ -683,6 +815,48 @@ func (client DnsClient) getSteeringPolicyAttachment(ctx context.Context, request
 	return response, err
 }
 
+// GetTsigKey Gets information about the specified TSIG key.
+func (client DnsClient) GetTsigKey(ctx context.Context, request GetTsigKeyRequest) (response GetTsigKeyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getTsigKey, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = GetTsigKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetTsigKeyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetTsigKeyResponse")
+	}
+	return
+}
+
+// getTsigKey implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) getTsigKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tsigKeys/{tsigKeyId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetTsigKeyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetZone Gets information about the specified zone, including its creation date,
 // zone type, and serial.
 func (client DnsClient) GetZone(ctx context.Context, request GetZoneRequest) (response GetZoneResponse, err error) {
@@ -842,6 +1016,48 @@ func (client DnsClient) listSteeringPolicyAttachments(ctx context.Context, reque
 	}
 
 	var response ListSteeringPolicyAttachmentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListTsigKeys Gets a list of all TSIG keys in the specified compartment.
+func (client DnsClient) ListTsigKeys(ctx context.Context, request ListTsigKeysRequest) (response ListTsigKeysResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTsigKeys, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = ListTsigKeysResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTsigKeysResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTsigKeysResponse")
+	}
+	return
+}
+
+// listTsigKeys implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) listTsigKeys(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tsigKeys")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTsigKeysResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
@@ -1190,6 +1406,48 @@ func (client DnsClient) updateSteeringPolicyAttachment(ctx context.Context, requ
 	}
 
 	var response UpdateSteeringPolicyAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateTsigKey Updates the specified TSIG key.
+func (client DnsClient) UpdateTsigKey(ctx context.Context, request UpdateTsigKeyRequest) (response UpdateTsigKeyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateTsigKey, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = UpdateTsigKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateTsigKeyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateTsigKeyResponse")
+	}
+	return
+}
+
+// updateTsigKey implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) updateTsigKey(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/tsigKeys/{tsigKeyId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateTsigKeyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)

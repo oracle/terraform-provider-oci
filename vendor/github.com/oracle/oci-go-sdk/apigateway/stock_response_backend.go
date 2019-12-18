@@ -1,0 +1,47 @@
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
+// Code generated. DO NOT EDIT.
+
+// API Gateway API
+//
+// API for the API Gateway service. Use this API to manage gateways, deployments, and related items.
+// For more information, see
+// Overview of API Gateway (https://docs.cloud.oracle.com/iaas/Content/APIGateway/Concepts/apigatewayoverview.htm).
+//
+
+package apigateway
+
+import (
+	"encoding/json"
+	"github.com/oracle/oci-go-sdk/common"
+)
+
+// StockResponseBackend Send the request to a mock backend.
+type StockResponseBackend struct {
+
+	// The status code of the stock response from the mock backend.
+	Status *int `mandatory:"true" json:"status"`
+
+	// The body of the stock response from the mock backend.
+	Body *string `mandatory:"false" json:"body"`
+
+	// The headers of the stock response from the mock backend.
+	Headers []HeaderFieldSpecification `mandatory:"false" json:"headers"`
+}
+
+func (m StockResponseBackend) String() string {
+	return common.PointerString(m)
+}
+
+// MarshalJSON marshals to json representation
+func (m StockResponseBackend) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeStockResponseBackend StockResponseBackend
+	s := struct {
+		DiscriminatorParam string `json:"type"`
+		MarshalTypeStockResponseBackend
+	}{
+		"STOCK_RESPONSE_BACKEND",
+		(MarshalTypeStockResponseBackend)(m),
+	}
+
+	return json.Marshal(&s)
+}

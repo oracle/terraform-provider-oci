@@ -37,7 +37,7 @@ func NewKmsVaultClientWithConfigurationProvider(configProvider common.Configurat
 
 // SetRegion overrides the region of this client.
 func (client *KmsVaultClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).Endpoint("kms")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("kms", "https://kms.{region}.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -59,9 +59,13 @@ func (client *KmsVaultClient) ConfigurationProvider() *common.ConfigurationProvi
 }
 
 // CancelVaultDeletion Cancels the scheduled deletion of the specified vault. Canceling a scheduled deletion
-// restores the vault and all keys in it to the respective states they were in before
-// the deletion was scheduled. All the keys that have already been scheduled deletion before the
-// scheduled deletion of the vault will also remain in their state and timeOfDeletion.
+// restores the vault and all keys in it to their respective states from before their
+// scheduled deletion. All keys that were scheduled for deletion prior to vault
+// deletion retain their lifecycle state and time of deletion.
+// As a provisioning operation, this call is subject to a Key Management limit that applies to
+// the total number of requests across all provisioning write operations. Key Management might
+// throttle this call to reject an otherwise valid request when the total rate of provisioning
+// write operations exceeds 10 requests per second for a given tenancy.
 func (client KmsVaultClient) CancelVaultDeletion(ctx context.Context, request CancelVaultDeletionRequest) (response CancelVaultDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -108,7 +112,13 @@ func (client KmsVaultClient) cancelVaultDeletion(ctx context.Context, request co
 	return response, err
 }
 
-// ChangeVaultCompartment Moves a vault into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+// ChangeVaultCompartment Moves a vault into a different compartment within the same tenancy. For information about
+// moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// When provided, if-match is checked against the ETag values of the resource.
+// As a provisioning operation, this call is subject to a Key Management limit that applies to
+// the total number of requests across all provisioning write operations. Key Management might
+// throttle this call to reject an otherwise valid request when the total rate of provisioning
+// write operations exceeds 10 requests per second for a given tenancy.
 func (client KmsVaultClient) ChangeVaultCompartment(ctx context.Context, request ChangeVaultCompartmentRequest) (response ChangeVaultCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -155,10 +165,14 @@ func (client KmsVaultClient) changeVaultCompartment(ctx context.Context, request
 	return response, err
 }
 
-// CreateVault Creates a new vault. The type of vault you create determines key
-// placement, pricing, and available options. Options include storage
-// isolation, a dedicated service endpoint instead of a shared service
-// endpoint for API calls, and a dedicated hardware security module (HSM) or a multitenant HSM.
+// CreateVault Creates a new vault. The type of vault you create determines key placement, pricing, and
+// available options. Options include storage isolation, a dedicated service endpoint instead
+// of a shared service endpoint for API calls, and either a dedicated hardware security module
+// (HSM) or a multitenant HSM.
+// As a provisioning operation, this call is subject to a Key Management limit that applies to
+// the total number of requests across all provisioning write operations. Key Management might
+// throttle this call to reject an otherwise valid request when the total rate of provisioning
+// write operations exceeds 10 requests per second for a given tenancy.
 func (client KmsVaultClient) CreateVault(ctx context.Context, request CreateVaultRequest) (response CreateVaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -206,6 +220,10 @@ func (client KmsVaultClient) createVault(ctx context.Context, request common.OCI
 }
 
 // GetVault Gets the specified vault's configuration information.
+// As a provisioning operation, this call is subject to a Key Management limit that applies to
+// the total number of requests across all provisioning read operations. Key Management might
+// throttle this call to reject an otherwise valid request when the total rate of provisioning
+// read operations exceeds 10 requests per second for a given tenancy.
 func (client KmsVaultClient) GetVault(ctx context.Context, request GetVaultRequest) (response GetVaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -248,6 +266,10 @@ func (client KmsVaultClient) getVault(ctx context.Context, request common.OCIReq
 }
 
 // ListVaults Lists the vaults in the specified compartment.
+// As a provisioning operation, this call is subject to a Key Management limit that applies to
+// the total number of requests across all provisioning read operations. Key Management might
+// throttle this call to reject an otherwise valid request when the total rate of provisioning
+// read operations exceeds 10 requests per second for a given tenancy.
 func (client KmsVaultClient) ListVaults(ctx context.Context, request ListVaultsRequest) (response ListVaultsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -289,12 +311,15 @@ func (client KmsVaultClient) listVaults(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// ScheduleVaultDeletion Schedules the deletion of the specified vault. This sets the state of the vault and
-// keys that are not scheduled deletion in it to `PENDING_DELETION` and then deletes them
-// after the retention period ends.
-// The state and the timeOfDeletion of the keys that have already been scheduled for deletion
-// will not change. If any keys in it are scheduled for deletion after the specified timeOfDeletion
-// for the vault, the call will be rejected with status code 409.
+// ScheduleVaultDeletion Schedules the deletion of the specified vault. This sets the lifecycle state of the vault and all keys in it
+// that are not already scheduled for deletion to PENDING_DELETION and then deletes them after the
+// retention period ends. The lifecycle state and time of deletion for keys already scheduled for deletion won't
+// change. If any keys in the vault are scheduled to be deleted after the specified time of
+// deletion for the vault, the call is rejected with the error code 409.
+// As a provisioning operation, this call is subject to a Key Management limit that applies to
+// the total number of requests across all provisioning write operations. Key Management might
+// throttle this call to reject an otherwise valid request when the total rate of provisioning
+// write operations exceeds 10 requests per second for a given tenancy.
 func (client KmsVaultClient) ScheduleVaultDeletion(ctx context.Context, request ScheduleVaultDeletionRequest) (response ScheduleVaultDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -343,7 +368,11 @@ func (client KmsVaultClient) scheduleVaultDeletion(ctx context.Context, request 
 
 // UpdateVault Updates the properties of a vault. Specifically, you can update the
 // `displayName`, `freeformTags`, and `definedTags` properties. Furthermore,
-// the vault must be in an `ACTIVE` or `CREATING` state to be updated.
+// the vault must be in an ACTIVE or CREATING state to be updated.
+// As a provisioning operation, this call is subject to a Key Management limit that applies to
+// the total number of requests across all provisioning write operations. Key Management might
+// throttle this call to reject an otherwise valid request when the total rate of provisioning
+// write operations exceeds 10 requests per second for a given tenancy.
 func (client KmsVaultClient) UpdateVault(ctx context.Context, request UpdateVaultRequest) (response UpdateVaultResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

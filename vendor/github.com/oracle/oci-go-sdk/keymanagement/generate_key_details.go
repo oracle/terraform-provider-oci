@@ -23,13 +23,13 @@ type GenerateKeyDetails struct {
 
 	KeyShape *KeyShape `mandatory:"true" json:"keyShape"`
 
-	// Information that can be used to provide an encryption context for the
-	// encrypted data. The length of the string representation of the associatedData
-	// must be fewer than 4096 characters.
+	// Information that can be used to provide an encryption context for the encrypted data.
+	// The length of the string representation of the associated data must be fewer than 4096
+	// characters.
 	AssociatedData map[string]string `mandatory:"false" json:"associatedData"`
 
-	// Information that can be used to provide context for audit logging. It is a map that contains any addtional
-	// data the users may have and will be added to the audit logs (if audit logging is enabled)
+	// Information that provides context for audit logging. You can provide this additional
+	// data by formatting it as key-value pairs to include in audit logs when audit logging is enabled.
 	LoggingContext map[string]string `mandatory:"false" json:"loggingContext"`
 }
 

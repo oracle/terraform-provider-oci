@@ -11,7 +11,7 @@ import (
 // AttachLoadBalancerRequest wrapper for the AttachLoadBalancer operation
 type AttachLoadBalancerRequest struct {
 
-	// The OCID of the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance pool.
 	InstancePoolId *string `mandatory:"true" contributesTo:"path" name:"instancePoolId"`
 
 	// Load balancer being attached

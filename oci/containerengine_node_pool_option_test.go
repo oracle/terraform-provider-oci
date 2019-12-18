@@ -51,6 +51,7 @@ func TestContainerengineNodePoolOptionResource_basic(t *testing.T) {
 					resource.TestMatchResourceAttr(singularDatasourceName, "images.#", regexp.MustCompile("[1-9][0-9]*")),
 					resource.TestMatchResourceAttr(singularDatasourceName, "kubernetes_versions.#", regexp.MustCompile("[1-9][0-9]*")),
 					resource.TestMatchResourceAttr(singularDatasourceName, "shapes.#", regexp.MustCompile("[1-9][0-9]*")),
+					resource.TestMatchResourceAttr(singularDatasourceName, "sources.#", regexp.MustCompile("[1-9][0-9]*")),
 				),
 			},
 			// verify singular datasource

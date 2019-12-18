@@ -4,6 +4,7 @@ package oci
 
 import (
 	oci_analytics "github.com/oracle/oci-go-sdk/analytics"
+	oci_apigateway "github.com/oracle/oci-go-sdk/apigateway"
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
@@ -21,11 +22,13 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
+	oci_marketplace "github.com/oracle/oci-go-sdk/marketplace"
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
+	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/resourcemanager"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
@@ -37,8 +40,9 @@ import (
 type OracleClients struct {
 	configuration                  map[string]string
 	auditClient                    *oci_audit.AuditClient
-	analyticsClient                *oci_analytics.AnalyticsClient
+	marketplaceClient              *oci_marketplace.MarketplaceClient
 	resourceManagerClient          *oci_resourcemanager.ResourceManagerClient
+	analyticsClient                *oci_analytics.AnalyticsClient
 	autoScalingClient              *oci_auto_scaling.AutoScalingClient
 	blockstorageClient             *oci_core.BlockstorageClient
 	budgetClient                   *oci_budget.BudgetClient
@@ -46,12 +50,15 @@ type OracleClients struct {
 	computeManagementClient        *oci_core.ComputeManagementClient
 	containerEngineClient          *oci_containerengine.ContainerEngineClient
 	databaseClient                 *oci_database.DatabaseClient
+	deploymentClient               *oci_apigateway.DeploymentClient
 	dnsClient                      *oci_dns.DnsClient
 	emailClient                    *oci_email.EmailClient
 	eventsClient                   *oci_events.EventsClient
 	fileStorageClient              *oci_file_storage.FileStorageClient
 	functionsInvokeClient          *oci_functions.FunctionsInvokeClient
 	functionsManagementClient      *oci_functions.FunctionsManagementClient
+	gatewayClient                  *oci_apigateway.GatewayClient
+	gatewayWorkRequestsClient      *oci_apigateway.WorkRequestsClient
 	healthChecksClient             *oci_health_checks.HealthChecksClient
 	identityClient                 *oci_identity.IdentityClient
 	integrationInstanceClient      *oci_integration.IntegrationInstanceClient
@@ -66,6 +73,7 @@ type OracleClients struct {
 	objectStorageClient            *oci_object_storage.ObjectStorageClient
 	oceInstanceClient              *oci_oce.OceInstanceClient
 	odaClient                      *oci_oda.OdaClient
+	osManagementClient             *oci_osmanagement.OsManagementClient
 	quotasClient                   *oci_limits.QuotasClient
 	redirectClient                 *oci_waas.RedirectClient
 	streamAdminClient              *oci_streaming.StreamAdminClient
@@ -119,15 +127,15 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 	}
 	clients.auditClient = &auditClient
 
-	analyticsClient, err := oci_analytics.NewAnalyticsClientWithConfigurationProvider(configProvider)
+	marketplaceClient, err := oci_marketplace.NewMarketplaceClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return
 	}
-	err = configureClient(&analyticsClient.BaseClient)
+	err = configureClient(&marketplaceClient.BaseClient)
 	if err != nil {
 		return
 	}
-	clients.analyticsClient = &analyticsClient
+	clients.marketplaceClient = &marketplaceClient
 
 	resourceManagerClient, err := oci_resourcemanager.NewResourceManagerClientWithConfigurationProvider(configProvider)
 	if err != nil {
@@ -138,6 +146,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.resourceManagerClient = &resourceManagerClient
+
+	analyticsClient, err := oci_analytics.NewAnalyticsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&analyticsClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.analyticsClient = &analyticsClient
 
 	autoScalingClient, err := oci_auto_scaling.NewAutoScalingClientWithConfigurationProvider(configProvider)
 	if err != nil {
@@ -209,6 +227,12 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 	}
 	clients.databaseClient = &databaseClient
 
+	deploymentClient, err := oci_apigateway.NewDeploymentClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	clients.deploymentClient = &deploymentClient
+
 	dnsClient, err := oci_dns.NewDnsClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return
@@ -268,6 +292,18 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.functionsManagementClient = &functionsManagementClient
+
+	gatewayClient, err := oci_apigateway.NewGatewayClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	clients.gatewayClient = &gatewayClient
+
+	gatewayWorkRequestsClient, err := oci_apigateway.NewWorkRequestsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	clients.gatewayWorkRequestsClient = &gatewayWorkRequestsClient
 
 	healthChecksClient, err := oci_health_checks.NewHealthChecksClientWithConfigurationProvider(configProvider)
 	if err != nil {
@@ -408,6 +444,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.odaClient = &odaClient
+
+	osManagementClient, err := oci_osmanagement.NewOsManagementClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&osManagementClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.osManagementClient = &osManagementClient
 
 	quotasClient, err := oci_limits.NewQuotasClientWithConfigurationProvider(configProvider)
 	if err != nil {

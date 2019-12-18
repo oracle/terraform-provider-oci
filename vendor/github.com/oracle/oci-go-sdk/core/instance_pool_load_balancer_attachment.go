@@ -19,13 +19,13 @@ import (
 // InstancePoolLoadBalancerAttachment Represents a load balancer that is attached to an instance pool.
 type InstancePoolLoadBalancerAttachment struct {
 
-	// The OCID of the load balancer attachment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer attachment.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the instance pool of the load balancer attachment.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance pool of the load balancer attachment.
 	InstancePoolId *string `mandatory:"true" json:"instancePoolId"`
 
-	// The OCID of the load balancer attached to the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer attached to the instance pool.
 	LoadBalancerId *string `mandatory:"true" json:"loadBalancerId"`
 
 	// The name of the backend set on the load balancer.

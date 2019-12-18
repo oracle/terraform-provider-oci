@@ -55,6 +55,12 @@ type UpdateInstanceDetails struct {
 	// rejected. You must provide the same values for 'user_data' and 'ssh_authorized_keys' that
 	// already exist on the instance.
 	ExtendedMetadata map[string]interface{} `mandatory:"false" json:"extendedMetadata"`
+
+	// The shape of the instance. The shape determines the number of CPUs and the amount of memory
+	// allocated to the instance. You can enumerate all available shapes by calling
+	// ListShapes.
+	// Example: `VM.Standard1.1`
+	Shape *string `mandatory:"false" json:"shape"`
 }
 
 func (m UpdateInstanceDetails) String() string {

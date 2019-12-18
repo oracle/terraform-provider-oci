@@ -11,7 +11,7 @@ import (
 // StartInstancePoolRequest wrapper for the StartInstancePool operation
 type StartInstancePoolRequest struct {
 
-	// The OCID of the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance pool.
 	InstancePoolId *string `mandatory:"true" contributesTo:"path" name:"instancePoolId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

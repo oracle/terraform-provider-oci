@@ -27,6 +27,10 @@ func CoreBootVolumeBackupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"source_boot_volume_backup_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -74,6 +78,11 @@ func (s *CoreBootVolumeBackupsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if sourceBootVolumeBackupId, ok := s.D.GetOkExists("source_boot_volume_backup_id"); ok {
+		tmp := sourceBootVolumeBackupId.(string)
+		request.SourceBootVolumeBackupId = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -148,6 +157,10 @@ func (s *CoreBootVolumeBackupsDataSourceCrud) SetData() error {
 
 		if r.SizeInGBs != nil {
 			bootVolumeBackup["size_in_gbs"] = strconv.FormatInt(*r.SizeInGBs, 10)
+		}
+
+		if r.SourceBootVolumeBackupId != nil {
+			bootVolumeBackup["source_boot_volume_backup_id"] = *r.SourceBootVolumeBackupId
 		}
 
 		bootVolumeBackup["source_type"] = r.SourceType

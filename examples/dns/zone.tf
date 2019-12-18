@@ -16,29 +16,26 @@ resource "oci_dns_zone" "zone1" {
   zone_type      = "PRIMARY"
 }
 
+resource "oci_dns_tsig_key" "test_tsig_key" {
+  algorithm      = "hmac-sha1"
+  compartment_id = "${var.compartment_ocid}"
+  name           = "test_tsig_key-name"
+  secret         = "c2VjcmV0"
+}
+
 resource "oci_dns_zone" "zone2" {
   compartment_id = "${var.compartment_ocid}"
   name           = "${data.oci_identity_tenancy.tenancy.name}-${random_string.random_prefix.result}-tf-example-secondary.oci-dns2"
   zone_type      = "SECONDARY"
 
   external_masters {
-    address = "77.64.12.1"
-
-    tsig {
-      algorithm = "hmac-sha1"
-      name      = "key-name"
-      secret    = "c2VjcmV0"
-    }
+    address     = "77.64.12.1"
+    tsig_key_id = "${oci_dns_tsig_key.test_tsig_key.id}"
   }
 
   external_masters {
-    address = "77.64.12.2"
-
-    tsig {
-      algorithm = "hmac-sha1"
-      name      = "key-name"
-      secret    = "c2VjcmV0"
-    }
+    address     = "77.64.12.2"
+    tsig_key_id = "${oci_dns_tsig_key.test_tsig_key.id}"
   }
 }
 

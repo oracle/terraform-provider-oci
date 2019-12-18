@@ -108,6 +108,23 @@ func (s *CoreVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(regi
 	return nil
 }
 
+func (s *CoreBootVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(region string) error {
+	if s.SourceRegionClient == nil {
+		sourceBlockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
+		if err != nil {
+			return fmt.Errorf("cannot create client for the source region: %v", err)
+		}
+		err = configureClient(&sourceBlockStorageClient.BaseClient)
+		if err != nil {
+			return fmt.Errorf("cannot configure client for the source region: %v", err)
+		}
+		s.SourceRegionClient = &sourceBlockStorageClient
+	}
+	s.SourceRegionClient.SetRegion(region)
+
+	return nil
+}
+
 func getCoreExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	if len(optionals) > 0 {
 		if key, ok := optionals[0].(string); ok {

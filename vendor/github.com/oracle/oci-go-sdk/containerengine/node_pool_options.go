@@ -11,6 +11,7 @@
 package containerengine
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/common"
 )
 
@@ -23,10 +24,59 @@ type NodePoolOptions struct {
 	// Available shapes for nodes.
 	Shapes []string `mandatory:"false" json:"shapes"`
 
-	// Available image names.
+	// Deprecated. See sources.
+	// When creating a node pool using the `CreateNodePoolDetails` object, only image names contained in this
+	// property can be passed to the `nodeImageName` property.
 	Images []string `mandatory:"false" json:"images"`
+
+	// Available source of the node.
+	Sources []NodeSourceOption `mandatory:"false" json:"sources"`
 }
 
 func (m NodePoolOptions) String() string {
 	return common.PointerString(m)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *NodePoolOptions) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		KubernetesVersions []string           `json:"kubernetesVersions"`
+		Shapes             []string           `json:"shapes"`
+		Images             []string           `json:"images"`
+		Sources            []nodesourceoption `json:"sources"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.KubernetesVersions = make([]string, len(model.KubernetesVersions))
+	for i, n := range model.KubernetesVersions {
+		m.KubernetesVersions[i] = n
+	}
+
+	m.Shapes = make([]string, len(model.Shapes))
+	for i, n := range model.Shapes {
+		m.Shapes[i] = n
+	}
+
+	m.Images = make([]string, len(model.Images))
+	for i, n := range model.Images {
+		m.Images[i] = n
+	}
+
+	m.Sources = make([]NodeSourceOption, len(model.Sources))
+	for i, n := range model.Sources {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.Sources[i] = nn.(NodeSourceOption)
+		} else {
+			m.Sources[i] = nil
+		}
+	}
+	return
 }

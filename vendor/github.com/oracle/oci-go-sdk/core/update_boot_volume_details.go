@@ -36,7 +36,12 @@ type UpdateBootVolumeDetails struct {
 	// The size to resize the volume to in GBs. Has to be larger than the current size.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
-	// The number of Volume Performance Units that will be applied to this boot volume per GB.
+	// The number of volume performance units (VPUs) that will be applied to this volume per GB,
+	// representing the Block Volume service's elastic performance options.
+	// See Block Volume Elastic Performance (https://docs.cloud.oracle.com/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
+	// Allowed values:
+	//   * `10`: Represents Balanced option.
+	//   * `20`: Represents Higher Performance option.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 }
 
