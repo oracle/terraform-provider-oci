@@ -1,4 +1,8 @@
-## 3.56.1 (Unreleased)
+## 3.57.0 (Unreleased)
+
+### Added
+- Support for change in `corporate_proxy` parameter in `oci_database_exadata_infrastructure`
+
 ## 3.56.0 (December 18, 2019)
 
 ### Added

@@ -21,7 +21,6 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 	cloud_control_plane_server1 = "${var.exadata_infrastructure_cloud_control_plane_server1}"
 	cloud_control_plane_server2 = "${var.exadata_infrastructure_cloud_control_plane_server2}"
 	compartment_id = "${var.compartment_id}"
-	corporate_proxy = "${var.exadata_infrastructure_corporate_proxy}"
 	display_name = "${var.exadata_infrastructure_display_name}"
 	dns_server = "${var.exadata_infrastructure_dns_server}"
 	gateway = "${var.exadata_infrastructure_gateway}"
@@ -32,6 +31,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 	time_zone = "${var.exadata_infrastructure_time_zone}"
 
 	#Optional
+	corporate_proxy = "${var.exadata_infrastructure_corporate_proxy}"
 	activation_file = "${var.exadata_infrastructure_activation_file}"
 	defined_tags = "${var.exadata_infrastructure_defined_tags}"
 	freeform_tags = {"Department"= "Finance"}
@@ -47,7 +47,7 @@ The following arguments are supported:
 * `cloud_control_plane_server1` - (Required) (Updatable) The IP address for the first control plane server.
 * `cloud_control_plane_server2` - (Required) (Updatable) The IP address for the second control plane server.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. 
-* `corporate_proxy` - (Required) (Updatable) The corporate network proxy for access to the control plane network.
+* `corporate_proxy` - (Optional) (Updatable) The corporate network proxy for access to the control plane network.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) The user-friendly name for the Exadata infrastructure. The name does not need to be unique. 
 * `dns_server` - (Required) (Updatable) The list of DNS server IP addresses. Maximum of 3 allowed.
