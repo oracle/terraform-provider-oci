@@ -31,6 +31,9 @@ type ListBootVolumeBackupsRequest struct {
 	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// A filter to return only resources that originated from the given source boot volume backup.
+	SourceBootVolumeBackupId *string `mandatory:"false" contributesTo:"query" name:"sourceBootVolumeBackupId"`
+
 	// The field to sort by. You can provide one sort order (`sortOrder`). Default order for
 	// TIMECREATED is descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME
 	// sort order is case sensitive.

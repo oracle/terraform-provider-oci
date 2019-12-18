@@ -11,10 +11,10 @@ import (
 // ListStreamsRequest wrapper for the ListStreams operation
 type ListStreamsRequest struct {
 
-	// The OCID of the compartment.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+	// The OCID of the compartment. Is exclusive with the `streamPoolId` parameter. One of them is required.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID of the stream pool.
+	// The OCID of the stream pool. Is exclusive with the `compartmentId` parameter. One of them is required.
 	StreamPoolId *string `mandatory:"false" contributesTo:"query" name:"streamPoolId"`
 
 	// A filter to return only resources that match the given ID exactly.

@@ -16,10 +16,10 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// BootVolumeKmsKey Kms key id associated with this volume.
+// BootVolumeKmsKey The Key Management master encryption key associated with this volume.
 type BootVolumeKmsKey struct {
 
-	// The OCID of the KMS key associated with this volume. If volume is not using KMS, then the `kmsKeyId` will be a null string.
+	// The OCID of the Key Management key assigned to this volume. If the volume is not using Key Management, then the `kmsKeyId` will be a null string.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 

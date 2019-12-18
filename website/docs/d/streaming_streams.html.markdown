@@ -10,19 +10,23 @@ description: |-
 # Data Source: oci_streaming_streams
 This data source provides the list of Streams in Oracle Cloud Infrastructure Streaming service.
 
-Lists the streams.
+Lists the streams in the given compartment id.
+If the compartment id is specified, it will list streams in the compartment, regardless of their stream pool.
+If the stream pool id is specified, the action will be scoped to that stream pool.
+The compartment id and stream pool id cannot be specified at the same time.
+
 
 ## Example Usage
 
 ```hcl
 data "oci_streaming_streams" "test_streams" {
-	#Required
-	compartment_id = "${var.compartment_id}"
 
 	#Optional
+	compartment_id = "${var.compartment_id}"
 	id = "${var.stream_id}"
 	name = "${var.stream_name}"
 	state = "${var.stream_state}"
+	stream_pool_id = "${oci_streaming_stream_pool.test_stream_pool.id}"
 }
 ```
 
@@ -30,10 +34,11 @@ data "oci_streaming_streams" "test_streams" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment.
+* `compartment_id` - (Optional) The OCID of the compartment. Is exclusive with the `streamPoolId` parameter. One of them is required.
 * `id` - (Optional) A filter to return only resources that match the given ID exactly. 
 * `name` - (Optional) A filter to return only resources that match the given name exactly. 
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state. The state value is case-insensitive. 
+* `stream_pool_id` - (Optional) The OCID of the stream pool. Is exclusive with the `compartmentId` parameter. One of them is required.
 
 
 ## Attributes Reference
@@ -56,5 +61,6 @@ The following attributes are exported:
 * `partitions` - The number of partitions in the stream.
 * `retention_in_hours` - The retention period of the stream, in hours. This property is read-only.
 * `state` - The current state of the stream.
+* `stream_pool_id` - The OCID of the stream pool that contains the stream.
 * `time_created` - The date and time the stream was created, expressed in in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2018-04-20T00:00:07.405Z` 
 

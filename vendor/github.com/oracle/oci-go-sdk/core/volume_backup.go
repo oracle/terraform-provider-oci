@@ -67,7 +67,7 @@ type VolumeBackup struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID of the KMS key which is the master encryption key for the volume backup.
+	// The OCID of the Key Management key which is the master encryption key for the volume backup.
 	// For more information about the Key Management service and encryption keys, see
 	// Overview of Key Management (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm) and
 	// Using Keys (https://docs.cloud.oracle.com/Content/KeyManagement/Tasks/usingkeys.htm).

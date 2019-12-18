@@ -50,12 +50,16 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `kms_key_id` - (Optional) (Updatable) The OCID of the KMS key to be used as the master encryption key for the boot volume.
+* `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management key to assign as the master encryption key for the boot volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
 * `source_details` - (Required) Specifies the boot volume source details for a new boot volume. The volume source is either another boot volume in the same availability domain or a boot volume backup. This is a mandatory field for a boot volume. 
 	* `id` - (Required) The OCID of the boot volume or boot volume backup.
 	* `type` - (Required) The type can be one of these values: `bootVolume`, `bootVolumeBackup`
-* `vpus_per_gb` - (Optional) (Updatable) The number of Volume Performance Units that will be applied to this boot volume per GB.
+* `vpus_per_gb` - (Optional) (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
+
+	Allowed values:
+	* `10`: Represents Balanced option.
+	* `20`: Represents Higher Performance option. 
 
 
 ** IMPORTANT **
@@ -73,7 +77,7 @@ The following attributes are exported:
 * `id` - The boot volume's Oracle ID (OCID).
 * `image_id` - The image OCID used to create the boot volume.
 * `is_hydrated` - Specifies whether the boot volume's data has finished copying from the source boot volume or boot volume backup.
-* `kms_key_id` - The OCID of the KMS key which is the master encryption key for the boot volume.
+* `kms_key_id` - The OCID of the Key Management master encryption key assigned to the boot volume.
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_details` - The boot volume source, either an existing boot volume in the same availability domain or a boot volume backup. If null, this means that the boot volume was created from an image. 
@@ -83,7 +87,11 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the boot volume was created. Format defined by RFC3339.
 * `volume_group_id` - The OCID of the source volume group.
-* `vpus_per_gb` - The number of Volume Performance Units that will be applied to this boot volume per GB.
+* `vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this boot volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
+
+	Allowed values:
+	* `10`: Represents Balanced option.
+	* `20`: Represents Higher Performance option. 
 
 ## Import
 

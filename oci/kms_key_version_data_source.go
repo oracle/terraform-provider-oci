@@ -89,8 +89,14 @@ func (s *KmsKeyVersionDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("state", s.Res.LifecycleState)
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeOfDeletion != nil {
+		s.D.Set("time_of_deletion", *s.Res.TimeOfDeletion)
 	}
 
 	if s.Res.VaultId != nil {

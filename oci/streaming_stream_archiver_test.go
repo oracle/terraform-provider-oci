@@ -5,6 +5,7 @@ package oci
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform/helper/resource"
@@ -38,6 +39,9 @@ var (
 )
 
 func TestStreamingStreamArchiverResource_basic(t *testing.T) {
+	if !strings.Contains(getEnvSettingWithBlankDefault("enabled_tests"), "StreamArchiver") {
+		t.Skip("StreamArchiver test not supported as this service is marked for deprecation")
+	}
 	httpreplay.SetScenario("TestStreamingStreamArchiverResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -94,6 +98,7 @@ func TestStreamingStreamArchiverResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "start_position", "LATEST"),
 					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
 					resource.TestCheckResourceAttrSet(resourceName, "stream_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttr(resourceName, "use_existing_bucket", "true"),
 
 					func(s *terraform.State) (err error) {
@@ -119,6 +124,7 @@ func TestStreamingStreamArchiverResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "start_position", "TRIM_HORIZON"),
 					resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
 					resource.TestCheckResourceAttrSet(resourceName, "stream_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttr(resourceName, "use_existing_bucket", "true"),
 
 					func(s *terraform.State) (err error) {

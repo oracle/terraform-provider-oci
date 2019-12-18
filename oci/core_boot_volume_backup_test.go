@@ -47,8 +47,8 @@ var (
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"type":           Representation{repType: Optional, create: `INCREMENTAL`},
 	}
-
-	BootVolumeBackupResourceDependencies = BootVolumeOptionalResource
+	bootVolumeBackupId, bootVolumeId, instanceId string
+	BootVolumeBackupResourceDependencies         = BootVolumeOptionalResource
 )
 
 func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
@@ -229,6 +229,10 @@ func TestCoreBootVolumeBackupResource_basic(t *testing.T) {
 func testAccCheckCoreBootVolumeBackupDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := testAccProvider.Meta().(*OracleClients).blockstorageClient
+
+	if bootVolumeBackupId != "" || bootVolumeId != "" {
+		deleteSourceBootVolumeBackupToCopy()
+	}
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_boot_volume_backup" {
 			noResourceFound = false

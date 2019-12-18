@@ -14,6 +14,8 @@ import (
 
 // UpdateStreamPoolDetails Object used to update the stream pool's details.
 type UpdateStreamPoolDetails struct {
+	Name *string `mandatory:"false" json:"name"`
+
 	KafkaSettings *KafkaSettings `mandatory:"false" json:"kafkaSettings"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair that is applied with no predefined name, type, or namespace. Exists for cross-compatibility only.

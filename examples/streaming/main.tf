@@ -5,6 +5,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
+variable "compartment_ocid" {}
 
 provider "oci" {
   tenancy_ocid     = "${var.tenancy_ocid}"
@@ -15,7 +16,7 @@ provider "oci" {
 }
 
 resource "oci_streaming_stream" "stream" {
-  compartment_id     = "${var.tenancy_ocid}"
+  compartment_id     = "${var.compartment_ocid}"
   name               = "stream1"
   partitions         = "1"
   retention_in_hours = "24"
@@ -53,20 +54,22 @@ data "oci_streaming_streams" "streams" {
   //  name  = "${oci_streaming_stream.stream.name}"
 }
 
-resource "oci_streaming_stream_archiver" "test_stream_archiver" {
+resource "oci_streaming_connect_harness" "test_connect_harness" {
   #Required
-  batch_rollover_size_in_mbs     = "10"
-  batch_rollover_time_in_seconds = "10"
-  bucket                         = "TFTestBucket"
-  start_position                 = "LATEST"
-  stream_id                      = "${oci_streaming_stream.stream.id}"
-  use_existing_bucket            = "false"
-
-  # optional
-  state = "stopped"
+  compartment_id = "${var.compartment_ocid}"
+  name           = "TFConnectHarness"
 }
 
-data "oci_streaming_stream_archiver" "test_stream_archiver" {
+data "oci_streaming_connect_harness" "test_connect_harness" {
+  connect_harness_id = "${oci_streaming_connect_harness.test_connect_harness.id}"
+}
+
+resource "oci_streaming_stream_pool" "test_stream_pool" {
   #Required
-  stream_id = "${oci_streaming_stream.stream.id}"
+  compartment_id = "${var.compartment_ocid}"
+  name           = "TFStreamPool"
+}
+
+data "oci_streaming_stream_pool" "test_stream_pool" {
+  stream_pool_id = "${oci_streaming_stream_pool.test_stream_pool.id}"
 }

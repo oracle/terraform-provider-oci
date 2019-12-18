@@ -20,26 +20,26 @@ import (
 type CreateAppCatalogSubscriptionDetails struct {
 
 	// The compartmentID for the subscription.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID of the listing.
-	ListingId *string `mandatory:"false" json:"listingId"`
+	ListingId *string `mandatory:"true" json:"listingId"`
 
 	// Listing resource version.
-	ListingResourceVersion *string `mandatory:"false" json:"listingResourceVersion"`
+	ListingResourceVersion *string `mandatory:"true" json:"listingResourceVersion"`
 
 	// Oracle TOU link
-	OracleTermsOfUseLink *string `mandatory:"false" json:"oracleTermsOfUseLink"`
-
-	// EULA link
-	EulaLink *string `mandatory:"false" json:"eulaLink"`
+	OracleTermsOfUseLink *string `mandatory:"true" json:"oracleTermsOfUseLink"`
 
 	// Date and time the agreements were retrieved, in RFC3339 format.
 	// Example: `2018-03-20T12:32:53.532Z`
-	TimeRetrieved *common.SDKTime `mandatory:"false" json:"timeRetrieved"`
+	TimeRetrieved *common.SDKTime `mandatory:"true" json:"timeRetrieved"`
 
 	// A generated signature for this listing resource version retrieved the agreements API.
-	Signature *string `mandatory:"false" json:"signature"`
+	Signature *string `mandatory:"true" json:"signature"`
+
+	// EULA link
+	EulaLink *string `mandatory:"false" json:"eulaLink"`
 }
 
 func (m CreateAppCatalogSubscriptionDetails) String() string {

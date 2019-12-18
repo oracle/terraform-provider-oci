@@ -21,6 +21,9 @@ type UpdateInstanceAgentConfigDetails struct {
 
 	// Whether the agent running on the instance can gather performance metrics and monitor the instance.
 	IsMonitoringDisabled *bool `mandatory:"false" json:"isMonitoringDisabled"`
+
+	// Whether the agent running on the instance can run all the available management plugins
+	IsManagementDisabled *bool `mandatory:"false" json:"isManagementDisabled"`
 }
 
 func (m UpdateInstanceAgentConfigDetails) String() string {

@@ -22,10 +22,6 @@ func StreamingStreamResource() *schema.Resource {
 		Delete:   deleteStreamingStream,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -38,6 +34,12 @@ func StreamingStreamResource() *schema.Resource {
 			},
 
 			// Optional
+			"compartment_id": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"stream_pool_id"},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -56,6 +58,12 @@ func StreamingStreamResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"stream_pool_id": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"compartment_id"},
 			},
 
 			// Computed
@@ -147,6 +155,18 @@ func (s *StreamingStreamResourceCrud) DeletedTarget() []string {
 	}
 }
 
+func (s *StreamingStreamResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_streaming.StreamLifecycleStateUpdating),
+	}
+}
+
+func (s *StreamingStreamResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_streaming.StreamLifecycleStateActive),
+	}
+}
+
 func (s *StreamingStreamResourceCrud) Create() error {
 	request := oci_streaming.CreateStreamRequest{}
 
@@ -180,6 +200,11 @@ func (s *StreamingStreamResourceCrud) Create() error {
 	if retentionInHours, ok := s.D.GetOkExists("retention_in_hours"); ok {
 		tmp := retentionInHours.(int)
 		request.RetentionInHours = &tmp
+	}
+
+	if streamPoolId, ok := s.D.GetOkExists("stream_pool_id"); ok {
+		tmp := streamPoolId.(string)
+		request.StreamPoolId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
@@ -237,6 +262,11 @@ func (s *StreamingStreamResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.StreamId = &tmp
 
+	if streamPoolId, ok := s.D.GetOkExists("stream_pool_id"); ok && s.D.HasChange("stream_pool_id") {
+		tmp := streamPoolId.(string)
+		request.StreamPoolId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
 	response, err := s.Client.UpdateStream(context.Background(), request)
@@ -293,6 +323,10 @@ func (s *StreamingStreamResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.StreamPoolId != nil {
+		s.D.Set("stream_pool_id", *s.Res.StreamPoolId)
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -315,5 +349,6 @@ func (s *StreamingStreamResourceCrud) updateCompartment(compartment interface{})
 	if err != nil {
 		return err
 	}
-	return nil
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_streaming.StreamLifecycleStateActive }
+	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }

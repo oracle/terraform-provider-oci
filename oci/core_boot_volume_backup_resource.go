@@ -4,6 +4,7 @@ package oci
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"strconv"
 
@@ -25,9 +26,41 @@ func CoreBootVolumeBackupResource() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// Required
 			"boot_volume_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				Computed:      true,
+				ConflictsWith: []string{"source_details"},
+			},
+
+			"source_details": {
+				Type:          schema.TypeList,
+				Optional:      true,
+				ForceNew:      true,
+				MaxItems:      1,
+				MinItems:      1,
+				ConflictsWith: []string{"boot_volume_id"},
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"region": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"boot_volume_backup_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						// Optional
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+					},
+				},
 			},
 
 			// Optional
@@ -75,6 +108,10 @@ func CoreBootVolumeBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"size_in_gbs": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"source_boot_volume_backup_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -166,6 +203,7 @@ func deleteCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
 type CoreBootVolumeBackupResourceCrud struct {
 	BaseCrud
 	Client                 *oci_core.BlockstorageClient
+	SourceRegionClient     *oci_core.BlockstorageClient
 	Res                    *oci_core.BootVolumeBackup
 	DisableNotFoundRetries bool
 }
@@ -200,6 +238,28 @@ func (s *CoreBootVolumeBackupResourceCrud) DeletedTarget() []string {
 }
 
 func (s *CoreBootVolumeBackupResourceCrud) Create() error {
+	if s.isCopyCreate() {
+		err := s.createBootVolumeBackupCopy()
+		if err != nil {
+			return err
+		}
+		// Update for some fields that can't be created by copy
+		return s.Update()
+	}
+
+	return s.createBootVolumeBackup()
+}
+
+func (s *CoreBootVolumeBackupResourceCrud) isCopyCreate() bool {
+	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
+		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *CoreBootVolumeBackupResourceCrud) createBootVolumeBackup() error {
 	request := oci_core.CreateBootVolumeBackupRequest{}
 
 	if bootVolumeId, ok := s.D.GetOkExists("boot_volume_id"); ok {
@@ -239,6 +299,56 @@ func (s *CoreBootVolumeBackupResourceCrud) Create() error {
 	return nil
 }
 
+func (s *CoreBootVolumeBackupResourceCrud) createBootVolumeBackupCopy() error {
+	copyBootVolumeBackupRequest := oci_core.CopyBootVolumeBackupRequest{}
+
+	configProvider := *s.Client.ConfigurationProvider()
+	if configProvider == nil {
+		return fmt.Errorf("cannot access ConfigurationProvider")
+	}
+	currentRegion, error := configProvider.Region()
+	if error != nil {
+		return fmt.Errorf("cannot access Region for the current ConfigurationProvider")
+	}
+
+	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok && sourceDetails != nil {
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
+
+		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			err := s.createBlockStorageSourceRegionClient(tmp)
+			if err != nil {
+				return err
+			}
+		}
+		copyBootVolumeBackupRequest.DestinationRegion = &currentRegion
+
+		if bootVolumeBackupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_backup_id")); ok {
+			tmp := bootVolumeBackupId.(string)
+			copyBootVolumeBackupRequest.BootVolumeBackupId = &tmp
+		}
+
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			copyBootVolumeBackupRequest.KmsKeyId = &tmp
+		}
+
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		copyBootVolumeBackupRequest.DisplayName = &tmp
+	}
+
+	response, err := s.SourceRegionClient.CopyBootVolumeBackup(context.Background(), copyBootVolumeBackupRequest)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.BootVolumeBackup
+	return nil
+}
+
 func (s *CoreBootVolumeBackupResourceCrud) Get() error {
 	request := oci_core.GetBootVolumeBackupRequest{}
 
@@ -266,9 +376,15 @@ func (s *CoreBootVolumeBackupResourceCrud) Update() error {
 			}
 		}
 	}
+	//check if there are any fields is set (empty update request is invalid)
+	hasAttributeSet := false
+
 	request := oci_core.UpdateBootVolumeBackupRequest{}
 
 	tmp := s.D.Id()
+	if tmp == "" && *s.Res.Id != "" {
+		tmp = *s.Res.Id
+	}
 	request.BootVolumeBackupId = &tmp
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -277,15 +393,21 @@ func (s *CoreBootVolumeBackupResourceCrud) Update() error {
 			return err
 		}
 		request.DefinedTags = convertedDefinedTags
+		hasAttributeSet = true
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+		hasAttributeSet = true
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+		hasAttributeSet = true
+	}
+	if !hasAttributeSet {
+		return nil
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -344,6 +466,10 @@ func (s *CoreBootVolumeBackupResourceCrud) SetData() error {
 
 	if s.Res.SizeInGBs != nil {
 		s.D.Set("size_in_gbs", strconv.FormatInt(*s.Res.SizeInGBs, 10))
+	}
+
+	if s.Res.SourceBootVolumeBackupId != nil {
+		s.D.Set("source_boot_volume_backup_id", *s.Res.SourceBootVolumeBackupId)
 	}
 
 	s.D.Set("source_type", s.Res.SourceType)

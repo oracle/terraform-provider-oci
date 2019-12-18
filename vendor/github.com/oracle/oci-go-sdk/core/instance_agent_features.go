@@ -21,6 +21,9 @@ type InstanceAgentFeatures struct {
 
 	// Whether the agent running on the instance can gather performance metrics and monitor the instance.
 	IsMonitoringSupported *bool `mandatory:"false" json:"isMonitoringSupported"`
+
+	// Whether the agent running on the instance can run all the available management plugins
+	IsManagementSupported *bool `mandatory:"false" json:"isManagementSupported"`
 }
 
 func (m InstanceAgentFeatures) String() string {

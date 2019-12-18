@@ -15,7 +15,7 @@ import (
 // CreateKeyDetails The representation of CreateKeyDetails
 type CreateKeyDetails struct {
 
-	// The OCID of the compartment that contains this key.
+	// The OCID of the compartment that contains this master encryption key.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name for the key. It does not have to be unique, and it is changeable.
@@ -24,13 +24,14 @@ type CreateKeyDetails struct {
 
 	KeyShape *KeyShape `mandatory:"true" json:"keyShape"`
 
-	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
-	// Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Simple key-value pair that is applied without any predefined name, type, or scope.
-	// Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 }
 
