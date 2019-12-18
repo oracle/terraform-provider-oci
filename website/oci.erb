@@ -52,6 +52,39 @@
             </li>
         </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-apigateway") %>>
+            <a href="#">API Gateway</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-apigateway-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/apigateway_deployment.html">oci_apigateway_deployment</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/apigateway_deployments.html">oci_apigateway_deployments</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/apigateway_gateway.html">oci_apigateway_gateway</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/apigateway_gateways.html">oci_apigateway_gateways</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-apigateway-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/apigateway_deployment.html">oci_apigateway_deployment</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/apigateway_gateway.html">oci_apigateway_gateway</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-analytics") %>>
             <a href="#">Analytics</a>
             <ul class="nav">
@@ -905,6 +938,12 @@
                             <a href="/docs/providers/oci/d/dns_steering_policy_attachments.html">oci_dns_steering_policy_attachments</a>
                         </li>
                         <li>
+                            <a href="/docs/providers/oci/d/dns_tsig_key.html">oci_dns_tsig_key</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/dns_tsig_keys.html">oci_dns_tsig_keys</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/dns_zones.html">oci_dns_zones</a>
                         </li>
                     </ul>
@@ -920,6 +959,9 @@
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/dns_steering_policy_attachment.html">oci_dns_steering_policy_attachment</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/dns_tsig_key.html">oci_dns_tsig_key</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/dns_zone.html">oci_dns_zone</a>
@@ -1477,6 +1519,51 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-marketplace") %>>
+            <a href="#">Marketplace</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-marketplace-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/marketplace_accepted_agreement.html">oci_marketplace_accepted_agreement</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/marketplace_accepted_agreements.html">oci_marketplace_accepted_agreements</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/marketplace_categories.html">oci_marketplace_categories</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/marketplace_listing.html">oci_marketplace_listing</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/marketplace_listing_package.html">oci_marketplace_listing_package</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/marketplace_listing_package_agreements.html">oci_marketplace_listing_package_agreements</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/marketplace_listing_packages.html">oci_marketplace_listing_packages</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/marketplace_listings.html">oci_marketplace_listings</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/marketplace_publishers.html">oci_marketplace_publishers</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-marketplace-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/marketplace_accepted_agreement.html">oci_marketplace_accepted_agreement</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-monitoring") %>>
             <a href="#">Monitoring</a>
             <ul class="nav">
@@ -1600,6 +1687,48 @@
                 </li>
             </ul>
         </li>
+        <li<%= sidebar_current("docs-oci-osmanagement") %>>
+            <a href="#">Osmanagement</a>
+            <ul class="nav">
+                <li<%= sidebar_current("docs-oci-osmanagement-datasources") %>>
+                    <a href="#">Data Sources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/d/osmanagement_managed_instance.html">oci_osmanagement_managed_instance</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/osmanagement_managed_instance_group.html">oci_osmanagement_managed_instance_group</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/osmanagement_managed_instance_groups.html">oci_osmanagement_managed_instance_groups</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/osmanagement_managed_instances.html">oci_osmanagement_managed_instances</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/osmanagement_software_source.html">oci_osmanagement_software_source</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/osmanagement_software_sources.html">oci_osmanagement_software_sources</a>
+                        </li>
+                    </ul>
+                </li>
+                <li<%= sidebar_current("docs-oci-osmanagement-resources") %>>
+                    <a href="#">Resources</a>
+                    <ul class="nav nav-auto-expand">
+                        <li>
+                            <a href="/docs/providers/oci/r/osmanagement_managed_instance_group.html">oci_osmanagement_managed_instance_group</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/osmanagement_managed_instance_management.html">oci_osmanagement_managed_instance_management</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/osmanagement_software_source.html">oci_osmanagement_software_source</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         <li<%= sidebar_current("docs-oci-resourcemanager") %>>
             <a href="#">Resource Manager</a>
             <ul class="nav">
@@ -1631,10 +1760,22 @@
                     <a href="#">Data Sources</a>
                     <ul class="nav nav-auto-expand">
                         <li>
+                            <a href="/docs/providers/oci/d/streaming_connect_harness.html">oci_streaming_connect_harness</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/streaming_connect_harnesses.html">oci_streaming_connect_harnesses</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/d/streaming_stream.html">oci_streaming_stream</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/streaming_stream_archiver.html">oci_streaming_stream_archiver</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/streaming_stream_pool.html">oci_streaming_stream_pool</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/d/streaming_stream_pools.html">oci_streaming_stream_pools</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/d/streaming_streams.html">oci_streaming_streams</a>
@@ -1645,10 +1786,16 @@
                     <a href="#">Resources</a>
                     <ul class="nav nav-auto-expand">
                         <li>
+                            <a href="/docs/providers/oci/r/streaming_connect_harness.html">oci_streaming_connect_harness</a>
+                        </li>
+                        <li>
                             <a href="/docs/providers/oci/r/streaming_stream.html">oci_streaming_stream</a>
                         </li>
                         <li>
                             <a href="/docs/providers/oci/r/streaming_stream_archiver.html">oci_streaming_stream_archiver</a>
+                        </li>
+                        <li>
+                            <a href="/docs/providers/oci/r/streaming_stream_pool.html">oci_streaming_stream_pool</a>
                         </li>
                     </ul>
                 </li>

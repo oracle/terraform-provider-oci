@@ -33,6 +33,11 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 	}
 	node_image_name = "${oci_core_image.test_image.name}"
 	node_metadata = "${var.node_pool_node_metadata}"
+	node_source_details {
+		#Required
+		image_id = "${oci_core_image.test_image.id}"
+		source_type = "${var.node_pool_node_source_details_source_type}"
+	}
 	quantity_per_subnet = "${var.node_pool_quantity_per_subnet}"
 	ssh_public_key = "${var.node_pool_ssh_public_key}"
 }
@@ -56,10 +61,13 @@ The following arguments are supported:
 		* `availability_domain` - (Required) (Updatable) The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `subnet_id` - (Required) (Updatable) The OCID of the subnet in which to place nodes.
 	* `size` - (Required) (Updatable) The number of nodes that should be in the node pool. 
-* `node_image_id` - (Optional) The OCID of the image running on the nodes in the node pool. Cannot be used when `node_image_name` is specified.
-* `node_image_name` - (Optional) The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
+* `node_image_id` - (Optional) Deprecated. Use `node_source_details` instead. The OCID of the image running on the nodes in the node pool. Cannot be used when `node_image_name` is specified.
+* `node_image_name` - (Optional) Deprecated. Use `node_source_details` instead. If you specify values for both, this value is ignored. The name of the image running on the nodes in the node pool. Cannot be used when `node_image_id` is specified.
 * `node_metadata` - (Optional) A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool.
 * `node_shape` - (Required) The name of the node shape of the nodes in the node pool.
+* `node_source_details` - (Optional) Specify the source to use to launch nodes in the node pool. Currently, image is the only supported source. 
+	* `image_id` - (Required) The OCID of the image used to boot the node.
+	* `source_type` - (Required) The source type for the node. Use `IMAGE` when specifying an OCID of an image. 
 * `quantity_per_subnet` - (Optional) (Updatable) Optional, default to 1. The number of nodes to create in each subnet specified in subnetIds property.  When used, subnetIds is required. This property is deprecated, use nodeConfigDetails instead. 
 * `ssh_public_key` - (Optional) The SSH public key to add to each node in the node pool.
 * `subnet_ids` - (Optional) (Updatable) The OCIDs of the subnets in which to place nodes for this node pool. When used, quantityPerSubnet can be provided. This property is deprecated, use nodeConfigDetails. Exactly one of the subnetIds or nodeConfigDetails properties must be specified. 
@@ -87,10 +95,14 @@ The following attributes are exported:
 		* `availability_domain` - The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `subnet_id` - The OCID of the subnet in which to place nodes.
 	* `size` - The number of nodes in the node pool. 
-* `node_image_id` - The OCID of the image running on the nodes in the node pool.
-* `node_image_name` - The name of the image running on the nodes in the node pool.
+* `node_image_id` - Deprecated. see `nodeSource`. The OCID of the image running on the nodes in the node pool. 
+* `node_image_name` - Deprecated. see `nodeSource`. The name of the image running on the nodes in the node pool. 
 * `node_metadata` - A list of key/value pairs to add to each underlying Oracle Cloud Infrastructure instance in the node pool.
 * `node_shape` - The name of the node shape of the nodes in the node pool.
+* `node_source` - Source running on the nodes in the node pool.
+	* `image_id` - The OCID of the image.
+	* `source_name` - The user-friendly name of the entity corresponding to the OCID. 
+	* `source_type` - The source type of this option. `IMAGE` means the OCID is of an image. 
 * `nodes` - The nodes in the node pool.
 	* `availability_domain` - The name of the availability domain in which this node is placed.
 	* `error` - An error that may be associated with the node.

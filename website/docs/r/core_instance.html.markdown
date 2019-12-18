@@ -56,6 +56,7 @@ resource "oci_core_instance" "test_instance" {
 	agent_config {
 
 		#Optional
+		is_management_disabled = "${var.instance_agent_config_is_management_disabled}"
 		is_monitoring_disabled = "${var.instance_agent_config_is_monitoring_disabled}"
 	}
 	create_vnic_details {
@@ -116,6 +117,7 @@ resource "oci_core_instance" "test_instance" {
 The following arguments are supported:
 
 * `agent_config` - (Optional) (Updatable) 
+	* `is_management_disabled` - (Optional) (Updatable) Whether the agent running on the instance can run all the available management plugins. Default value is false. 
 	* `is_monitoring_disabled` - (Optional) (Updatable) Whether the agent running on the instance can gather performance metrics and monitor the instance. Default value is false. 
 * `availability_domain` - (Required) The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment.
@@ -225,12 +227,12 @@ The following arguments are supported:
 	
 	**Note:** Both the 'user_data' and 'ssh_authorized_keys' fields cannot be changed after an instance has launched. Any request which updates, removes, or adds either of these fields will be rejected. You must provide the same values for 'user_data' and 'ssh_authorized_keys' that already exist on the instance. 
 * `preserve_boot_volume` - (Optional) Specifies whether to delete or preserve the boot volume when terminating an instance. The default value is false. Note: This value only applies to destroy operations initiated by Terraform.
-* `shape` - (Required) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
+* `shape` - (Required) (Updatable) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
 	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `source_details` - (Optional) Details for creating an instance. Use this parameter to specify whether a boot volume or an image should be used to launch a new instance. 
 	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
-	* `kms_key_id` - (Applicable when source_type=image) The OCID of the KMS key to be used as the master encryption key for the boot volume.
+	* `kms_key_id` - (Applicable when source_type=image) The OCID of the Key Management key to assign as the master encryption key for the boot volume.
 	* `source_id` - (Required) The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - (Required) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `state` - (Optional) (Updatable) The target state for the instance. Could be set to RUNNING or STOPPED.
@@ -245,6 +247,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `agent_config` - 
+	* `is_management_disabled` - Whether the agent running on the instance can run all the available management plugins. 
 	* `is_monitoring_disabled` - Whether the agent running on the instance can gather performance metrics and monitor the instance. 
 * `availability_domain` - The availability domain the instance is running in.  Example: `Uocm:PHX-AD-1` 
 * `boot_volume_id` - The OCID of the attached boot volume. If the `source_type` is `bootVolume`, this will be the same OCID as the `source_id`.
@@ -315,8 +318,8 @@ The following attributes are exported:
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/Shape/ListShapes). 
 * `source_details` - Details for creating an instance
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 16384 GB (16TB).
-	* `kms_key_id` - The OCID of the KMS key to be used as the master encryption key for the boot volume.
-    * `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
+	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.
+	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `state` - The current state of the instance.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 

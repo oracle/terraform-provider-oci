@@ -39,7 +39,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the volume.
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup.
-* `kms_key_id` - The OCID of the KMS key which is the master encryption key for the volume.
+* `kms_key_id` - The OCID of the Key Management key which is the master encryption key for the volume.
 * `size_in_gbs` - The size of the volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead.
 * `source_details` - The volume source, either an existing volume in the same availability domain or a volume backup. If null, an empty volume is created. 
@@ -49,5 +49,10 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the volume was created. Format defined by RFC3339.
 * `volume_group_id` - The OCID of the source volume group.
-* `vpus_per_gb` - The number of Volume Performance Units that will be applied to this volume per GB.
+* `vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Elastic Performance](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeelasticperformance.htm) for more information.
+
+	Allowed values:
+	* `0`: Represents Lower Cost option.
+	* `10`: Represents Balanced option.
+	* `20`: Represents Higher Performance option. 
 

@@ -4,7 +4,9 @@ package oci
 
 import (
 	"fmt"
+	"os"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/terraform"
@@ -31,9 +33,12 @@ var (
 		"values": Representation{repType: Required, create: []string{`${oci_kms_key_version.test_key_version.key_version_id}`}},
 	}
 
+	keyVersionDeletionTime = time.Now().UTC().AddDate(0, 0, 8).Truncate(time.Millisecond)
+
 	keyVersionRepresentation = map[string]interface{}{
 		"key_id":              Representation{repType: Required, create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"management_endpoint": Representation{repType: Required, create: `${data.oci_kms_vault.test_vault.management_endpoint}`},
+		"time_of_deletion":    Representation{repType: Required, create: keyVersionDeletionTime.Format(time.RFC3339Nano)},
 	}
 
 	KeyVersionResourceDependencies = KeyResourceDependencyConfig
@@ -45,6 +50,7 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 
 	provider := testAccProvider
 	config := testProviderConfig()
+	os.Setenv("disable_kms_version_delete", "true")
 
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
@@ -84,7 +90,9 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.compartment_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.key_version_id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.key_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.time_of_deletion"),
 					resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.vault_id"),
 				),
 			},
@@ -100,8 +108,10 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenancyId),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "key_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_deletion"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vault_id"),
 				),
 			},
@@ -116,7 +126,8 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateIdFunc: keyVersionImportId,
 				ImportStateVerifyIgnore: []string{
-					"state",
+					"management_endpoint",
+					"time_of_deletion",
 				},
 				ResourceName: resourceName,
 			},

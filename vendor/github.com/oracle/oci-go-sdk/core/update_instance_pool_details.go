@@ -33,7 +33,8 @@ type UpdateInstancePoolDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID of the instance configuration associated with the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the
+	// instance pool.
 	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
 
 	// The placement configurations for the instance pool. Provide one placement configuration for

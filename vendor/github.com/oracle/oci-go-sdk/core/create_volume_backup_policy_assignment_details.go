@@ -19,10 +19,10 @@ import (
 // CreateVolumeBackupPolicyAssignmentDetails The representation of CreateVolumeBackupPolicyAssignmentDetails
 type CreateVolumeBackupPolicyAssignmentDetails struct {
 
-	// The OCID of the asset (e.g. a volume) to which to assign the policy.
+	// The OCID of the volume to assign the policy to.
 	AssetId *string `mandatory:"true" json:"assetId"`
 
-	// The OCID of the volume backup policy to assign to an asset.
+	// The OCID of the volume backup policy to assign to the volume.
 	PolicyId *string `mandatory:"true" json:"policyId"`
 }
 

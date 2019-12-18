@@ -15,12 +15,12 @@ import (
 // Key The representation of Key
 type Key struct {
 
-	// The OCID of the compartment that contains this key.
+	// The OCID of the compartment that contains this master encryption key.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the KeyVersion resource used in cryptographic operations. During key rotation, service might be in a transitional state
-	// where this or a newer KeyVersion are used intermittently. The currentKeyVersion field is updated when the service is guaranteed to
-	// use the new KeyVersion for all subsequent encryption operations.
+	// The OCID of the key version used in cryptographic operations. During key rotation, the service might be
+	// in a transitional state where this or a newer key version are used intermittently. The `currentKeyVersion`
+	// field is updated when the service is guaranteed to use the new key version for all subsequent encryption operations.
 	CurrentKeyVersion *string `mandatory:"true" json:"currentKeyVersion"`
 
 	// A user-friendly name for the key. It does not have to be unique, and it is changeable.
@@ -43,16 +43,17 @@ type Key struct {
 	// The OCID of the vault that contains this key.
 	VaultId *string `mandatory:"true" json:"vaultId"`
 
-	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
-	// Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Simple key-value pair that is applied without any predefined name, type, or scope.
-	// Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// An optional property for the deletion time of the key, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// An optional property indicating when to delete the key, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2019-04-03T21:10:29.600Z`
 	TimeOfDeletion *common.SDKTime `mandatory:"false" json:"timeOfDeletion"`
 }

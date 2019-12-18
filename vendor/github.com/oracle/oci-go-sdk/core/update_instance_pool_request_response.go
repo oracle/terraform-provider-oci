@@ -11,7 +11,7 @@ import (
 // UpdateInstancePoolRequest wrapper for the UpdateInstancePool operation
 type UpdateInstancePoolRequest struct {
 
-	// The OCID of the instance pool.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance pool.
 	InstancePoolId *string `mandatory:"true" contributesTo:"path" name:"instancePoolId"`
 
 	// Update instance pool configuration

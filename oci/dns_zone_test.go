@@ -61,20 +61,16 @@ var (
 		"external_masters": RepresentationGroup{Optional, zoneExternalMastersRepresentation},
 		"freeform_tags":    Representation{repType: Optional, create: map[string]string{"freeformTags": "freeformTags"}, update: map[string]string{"freeformTags2": "freeformTags2"}},
 	}
-	zoneRepresentation = getUpdatedRepresentationCopy("zone_type", "SECONDARY", zoneRepresentationPrimary)
+	zoneRepresentation = getUpdatedRepresentationCopy("zone_type", Representation{repType: Required, create: `SECONDARY`}, zoneRepresentationPrimary)
 
 	zoneExternalMastersRepresentation = map[string]interface{}{
-		"address": Representation{repType: Required, create: `77.64.12.1`, update: `address2`},
-		"port":    Representation{repType: Optional, create: `53`, update: `11`},
-		"tsig":    RepresentationGroup{Optional, zoneExternalMastersTsigRepresentation},
-	}
-	zoneExternalMastersTsigRepresentation = map[string]interface{}{
-		"algorithm": Representation{repType: Required, create: `hmac-sha1`, update: `algorithm2`},
-		"name":      Representation{repType: Required, create: `name`, update: `name2`},
-		"secret":    Representation{repType: Required, create: `c2VjcmV0`, update: `secret2`},
+		"address":     Representation{repType: Required, create: `77.64.12.1`, update: `address2`},
+		"port":        Representation{repType: Optional, create: `53`, update: `11`},
+		"tsig_key_id": Representation{repType: Optional, create: `${oci_dns_tsig_key.test_tsig_key.id}`},
 	}
 
-	ZoneResourceDependencies = DefinedTagsDependencies + `
+	ZoneResourceDependencies = generateResourceFromRepresentationMap("oci_dns_tsig_key", "test_tsig_key", Required, Create, tsigKeyRepresentation) +
+		DefinedTagsDependencies + `
 data "oci_identity_tenancy" "test_tenancy" {
 	tenancy_id = "${var.tenancy_ocid}"
 }
@@ -122,36 +118,29 @@ func TestDnsZoneResource_basic(t *testing.T) {
 					},
 				),
 			},
-			// test SECONDARY zone creation, force new at the same time
-			// Disable SECONDARY zone creation test for now, since it's using a bogus external_master server.
-			// This will put the zone in a bad state and cause any records in this zone to fail during PATCH.
-			/*
-				{
-					Config: tokenFn(config + compartmentIdVariableStr + ZoneResourceDependencies +
+			{
+				Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies+
 					generateResourceFromRepresentationMap("oci_dns_zone", "test_zone", Optional, Create, zoneRepresentation), nil),
-					Check: resource.ComposeAggregateTestCheckFunc(
-						resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-						resource.TestCheckResourceAttr(resourceName, "external_masters.#", "1"),
-						resource.TestCheckResourceAttr(resourceName, "external_masters.0.address", "77.64.12.1"),
-						resource.TestCheckResourceAttr(resourceName, "external_masters.0.port", "53"),
-						resource.TestCheckResourceAttr(resourceName, "external_masters.0.tsig.#", "1"),
-						resource.TestCheckResourceAttr(resourceName, "external_masters.0.tsig.0.algorithm", "hmac-sha1"),
-						resource.TestCheckResourceAttr(resourceName, "external_masters.0.tsig.0.name", "name"),
-						resource.TestCheckResourceAttr(resourceName, "external_masters.0.tsig.0.secret", "c2VjcmV0"),
-						resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
-						resource.TestCheckResourceAttr(resourceName, "zone_type", "SECONDARY"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "external_masters.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "external_masters.0.address", "77.64.12.1"),
+					resource.TestCheckResourceAttr(resourceName, "external_masters.0.port", "53"),
+					resource.TestCheckResourceAttrSet(resourceName, "external_masters.0.tsig_key_id"),
+					resource.TestMatchResourceAttr(resourceName, "name", regexp.MustCompile("\\.oci-zone-test")),
+					resource.TestCheckResourceAttr(resourceName, "zone_type", "SECONDARY"),
 
-						func(s *terraform.State) (err error) {
-							resId2, err = fromInstanceState(s, resourceName, "id")
-							if resId == resId2 {
-								return fmt.Errorf("resource id should be different")
-							}
-							resId = resId2
-							return err
-						},
-					),
-				},
-			*/
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId == resId2 {
+							return fmt.Errorf("resource id should be different")
+						}
+						resId = resId2
+						return err
+					},
+				),
+			},
+
 			// delete before next create
 			{
 				Config: tokenFn(config+compartmentIdVariableStr+ZoneResourceDependencies, nil),
