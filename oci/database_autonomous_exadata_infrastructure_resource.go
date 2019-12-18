@@ -126,6 +126,11 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 								Type: schema.TypeInt,
 							},
 						},
+						"lead_time_in_weeks": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"months": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -218,6 +223,10 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
 							},
+						},
+						"lead_time_in_weeks": {
+							Type:     schema.TypeInt,
+							Computed: true,
 						},
 						"months": {
 							Type:     schema.TypeList,
@@ -663,6 +672,13 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 		}
 	}
 
+	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
+		tmp := leadTimeInWeeks.(int)
+		if tmp > 0 {
+			result.LeadTimeInWeeks = &tmp
+		}
+	}
+
 	if months, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "months")); ok {
 		interfaces := months.([]interface{})
 		tmp := make([]oci_database.Month, len(interfaces))
@@ -706,6 +722,10 @@ func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]inte
 	result["days_of_week"] = daysOfWeek
 
 	result["hours_of_day"] = obj.HoursOfDay
+
+	if obj.LeadTimeInWeeks != nil {
+		result["lead_time_in_weeks"] = int(*obj.LeadTimeInWeeks)
+	}
 
 	months := []interface{}{}
 	for _, item := range obj.Months {

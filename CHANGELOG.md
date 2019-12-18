@@ -6,6 +6,7 @@
 - Support Closing InstanceConfigurationLaunchInstanceDetails parity gaps with LaunchInstanceDetails 
 - Support Flexible Infrastructure - Flexible VM Instance
 - Support for object versioning in Object Storage 
+- Support for `maintenance_window` in `oci_database_db_system` resource for ExaCS infrastructure
 
 ### Notes
 `oci_streaming_stream_archiver` data source and resource were not supported by the service and removed from the provider since v3.72.0

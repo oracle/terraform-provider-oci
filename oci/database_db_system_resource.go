@@ -420,6 +420,89 @@ func DatabaseDbSystemResource() *schema.Resource {
 					string(oci_database.DbSystemLicenseModelLicenseIncluded),
 					string(oci_database.DbSystemLicenseModelBringYourOwnLicense)}, false),
 			},
+			"maintenance_window_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"days_of_week": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"hours_of_day": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 20,
+							MinItems: 0,
+							Elem: &schema.Schema{
+								Type: schema.TypeInt,
+							},
+						},
+						"lead_time_in_weeks": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"months": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"preference": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"weeks_of_month": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 4,
+							MinItems: 1,
+							Elem: &schema.Schema{
+								Type: schema.TypeInt,
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"node_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -515,6 +598,10 @@ func DatabaseDbSystemResource() *schema.Resource {
 					},
 				},
 			},
+			"last_maintenance_run_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"last_patch_history_entry_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -525,6 +612,85 @@ func DatabaseDbSystemResource() *schema.Resource {
 			},
 			"listener_port": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"maintenance_window": {
+				Type:     schema.TypeList,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"days_of_week": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"hours_of_day": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 20,
+							MinItems: 0,
+							Elem: &schema.Schema{
+								Type: schema.TypeInt,
+							},
+						},
+						"lead_time_in_weeks": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"months": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"preference": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"weeks_of_month": {
+							Type:     schema.TypeList,
+							Computed: true,
+							MaxItems: 4,
+							MinItems: 1,
+							Elem: &schema.Schema{
+								Type: schema.TypeInt,
+							},
+						},
+					},
+				},
+			},
+			"next_maintenance_run_id": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"reco_storage_size_in_gb": {
@@ -847,6 +1013,17 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
+		if tmpList := maintenanceWindowDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_details", 0)
+			tmp, err := s.mapToMaintenanceWindow(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceWindowDetails = &tmp
+		}
+	}
+
 	//@Codegen: Unless explicitly specified by the user, network_security_group_ids will not be supplied as the feature may or may not be supported
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 		set := nsgIds.(*schema.Set)
@@ -1071,6 +1248,10 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
 
+	if s.Res.LastMaintenanceRunId != nil {
+		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
+	}
+
 	if s.Res.LastPatchHistoryEntryId != nil {
 		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)
 	}
@@ -1083,6 +1264,16 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 
 	if s.Res.ListenerPort != nil {
 		s.D.Set("listener_port", *s.Res.ListenerPort)
+	}
+
+	if s.Res.MaintenanceWindow != nil {
+		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMap(s.Res.MaintenanceWindow)})
+	} else {
+		s.D.Set("maintenance_window", nil)
+	}
+
+	if s.Res.NextMaintenanceRunId != nil {
+		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
 
 	if s.Res.NodeCount != nil {
@@ -1556,6 +1747,16 @@ func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackup
 	return result
 }
 
+func (s *DatabaseDbSystemResourceCrud) mapToDayOfWeek(fieldKeyFormat string) (oci_database.DayOfWeek, error) {
+	result := oci_database.DayOfWeek{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		result.Name = oci_database.DayOfWeekNameEnum(name.(string))
+	}
+
+	return result, nil
+}
+
 // We cannot use the same function we use in create because the HasChanged check needed for the update to succeed interferes with the Create functionality
 func (s *DatabaseDbSystemResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
 	result := oci_database.DbBackupConfig{}
@@ -1653,6 +1854,123 @@ func DbSystemOptionsToMap(obj *oci_database.DbSystemOptions) map[string]interfac
 	result := map[string]interface{}{}
 
 	result["storage_management"] = string(obj.StorageManagement)
+
+	return result
+}
+
+func (s *DatabaseDbSystemResourceCrud) mapToMaintenanceWindow(fieldKeyFormat string) (oci_database.MaintenanceWindow, error) {
+	result := oci_database.MaintenanceWindow{}
+
+	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
+		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
+
+		// maintenance window fields are expected to be nil when preference = NO_PREFERENCE
+		if result.Preference == oci_database.MaintenanceWindowPreferenceNoPreference {
+			return result, nil
+		}
+	}
+
+	if daysOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "days_of_week")); ok {
+		interfaces := daysOfWeek.([]interface{})
+		tmp := make([]oci_database.DayOfWeek, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "days_of_week"), stateDataIndex)
+			converted, err := s.mapToDayOfWeek(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "days_of_week")) {
+			result.DaysOfWeek = tmp
+		}
+	}
+
+	if hoursOfDay, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hours_of_day")); ok {
+		interfaces := hoursOfDay.([]interface{})
+		tmp := make([]int, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(int)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "hours_of_day")) {
+			result.HoursOfDay = tmp
+		}
+	}
+
+	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
+		tmp := leadTimeInWeeks.(int)
+		result.LeadTimeInWeeks = &tmp
+	}
+
+	if months, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "months")); ok {
+		interfaces := months.([]interface{})
+		tmp := make([]oci_database.Month, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "months"), stateDataIndex)
+			converted, err := s.mapToMonth(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "months")) {
+			result.Months = tmp
+		}
+	}
+
+	if weeksOfMonth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")); ok {
+		interfaces := weeksOfMonth.([]interface{})
+		tmp := make([]int, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(int)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")) {
+			result.WeeksOfMonth = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDbSystemResourceCrud) mapToMonth(fieldKeyFormat string) (oci_database.Month, error) {
+	result := oci_database.Month{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		result.Name = oci_database.MonthNameEnum(name.(string))
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDbSystemResourceCrud) mapToPatchDetails(fieldKeyFormat string) (oci_database.PatchDetails, error) {
+	result := oci_database.PatchDetails{}
+
+	if action, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action")); ok {
+		result.Action = oci_database.PatchDetailsActionEnum(action.(string))
+	}
+
+	if patchId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patch_id")); ok {
+		tmp := patchId.(string)
+		result.PatchId = &tmp
+	}
+
+	return result, nil
+}
+
+func PatchDetailsToMap(obj *oci_database.PatchDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["action"] = string(obj.Action)
+
+	if obj.PatchId != nil {
+		result["patch_id"] = string(*obj.PatchId)
+	}
 
 	return result
 }
@@ -1932,6 +2250,16 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if hostname, ok := s.D.GetOkExists("hostname"); ok {
 			tmp := hostname.(string)
 			details.Hostname = &tmp
+		}
+		if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
+			if tmpList := maintenanceWindowDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_details", 0)
+				tmp, err := s.mapToMaintenanceWindow(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.MaintenanceWindowDetails = &tmp
+			}
 		}
 		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
 			tmp := nodeCount.(int)

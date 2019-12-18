@@ -127,6 +127,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 								Type: schema.TypeInt,
 							},
 						},
+						"lead_time_in_weeks": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"months": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -217,6 +222,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeInt,
 							},
+						},
+						"lead_time_in_weeks": {
+							Type:     schema.TypeInt,
+							Computed: true,
 						},
 						"months": {
 							Type:     schema.TypeList,
@@ -650,6 +659,13 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToMaintenanceWindow
 		}
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "hours_of_day")) {
 			result.HoursOfDay = tmp
+		}
+	}
+
+	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
+		tmp := leadTimeInWeeks.(int)
+		if tmp > 0 {
+			result.LeadTimeInWeeks = &tmp
 		}
 	}
 
