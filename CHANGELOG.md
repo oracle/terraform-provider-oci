@@ -1,4 +1,4 @@
-## 3.56.0 (Unreleased)
+## 3.56.0 (December 18, 2019)
 
 ### Added
 - Support VM Instance resizing with reboot in `oci_core_instance` resource
