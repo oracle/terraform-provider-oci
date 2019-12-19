@@ -55,8 +55,8 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `ciphertext` - The encrypted data encryption key generated from a master encryption key.
-* `plaintext` - The plaintext data encryption key, a base64-encoded sequence of random bytes, which is  included if the [GenerateDataEncryptionKey](/api/#/en/key/release/GeneratedKey/GenerateDataEncryptionKey)  request includes the `includePlaintextKey` parameter and sets its value to "true". 
-* `plaintext_checksum` - The checksum of the plaintext data encryption key, which is included if the  [GenerateDataEncryptionKey](/api/#/en/key/release/GeneratedKey/GenerateDataEncryptionKey)  request includes the `includePlaintextKey` parameter and sets its value to "true". 
+* `plaintext` - The plaintext data encryption key, a base64-encoded sequence of random bytes, which is  included if the [GenerateDataEncryptionKey](https://docs.cloud.oracle.com/iaas/api/#/en/key/release/GeneratedKey/GenerateDataEncryptionKey)  request includes the `includePlaintextKey` parameter and sets its value to "true".
+* `plaintext_checksum` - The checksum of the plaintext data encryption key, which is included if the  [GenerateDataEncryptionKey](https://docs.cloud.oracle.com/iaas/api/#/en/key/release/GeneratedKey/GenerateDataEncryptionKey)  request includes the `includePlaintextKey` parameter and sets its value to "true".
 
 ## Import
 
