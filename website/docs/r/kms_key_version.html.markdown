@@ -10,7 +10,7 @@ description: |-
 # oci_kms_key_version
 This resource provides the Key Version resource in Oracle Cloud Infrastructure Kms service.
 
-Generates a new [KeyVersion](/api/#/en/key/release/KeyVersion/) resource that provides new cryptographic 
+Generates a new [KeyVersion](https://docs.cloud.oracle.com/iaas/api/#/en/key/release/KeyVersion/) resource that provides new cryptographic
 material for a master encryption key. The key must be in an ENABLED state to be rotated.
 
 As a management operation, this call is subject to a Key Management limit that applies to the total number 
