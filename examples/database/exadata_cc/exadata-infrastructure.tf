@@ -18,7 +18,7 @@ provider "oci" {
 
 resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   #Required
-  admin_network_cidr          = "192.168.19.2/16"
+  admin_network_cidr          = "192.168.0.0/16"
   cloud_control_plane_server1 = "192.168.19.1"
   cloud_control_plane_server2 = "192.168.19.2"
   compartment_id              = "${var.compartment_id}"
@@ -26,7 +26,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   display_name                = "tstExaInfra"
   dns_server                  = ["192.168.10.10"]
   gateway                     = "192.168.20.1"
-  infini_band_network_cidr    = "10.172.19.1/22"
+  infini_band_network_cidr    = "10.172.0.0/19"
   netmask                     = "255.255.0.0"
   ntp_server                  = ["192.168.10.20"]
   shape                       = "ExadataCC.Quarter3.100"

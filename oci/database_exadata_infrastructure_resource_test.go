@@ -21,7 +21,7 @@ var (
 		generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update, exadataInfrastructureActivateRepresentation)
 
 	exadataInfrastructureActivateRepresentation = map[string]interface{}{
-		"admin_network_cidr":          Representation{repType: Required, create: `192.168.19.2/16`, update: `192.168.19.2/20`},
+		"admin_network_cidr":          Representation{repType: Required, create: `192.168.0.0/16`, update: `192.168.0.0/20`},
 		"cloud_control_plane_server1": Representation{repType: Required, create: `192.168.19.1`, update: `192.168.19.3`},
 		"cloud_control_plane_server2": Representation{repType: Required, create: `192.168.19.2`, update: `192.168.19.4`},
 		"compartment_id":              Representation{repType: Required, create: `${var.compartment_id}`},
@@ -29,7 +29,7 @@ var (
 		"display_name":                Representation{repType: Required, create: `tstExaInfra`},
 		"dns_server":                  Representation{repType: Required, create: []string{`192.168.10.10`}, update: []string{`192.168.10.11`, `192.168.10.12`}},
 		"gateway":                     Representation{repType: Required, create: `192.168.20.1`, update: `192.168.20.2`},
-		"infini_band_network_cidr":    Representation{repType: Required, create: `10.172.19.1/24`, update: `10.172.19.1/20`},
+		"infini_band_network_cidr":    Representation{repType: Required, create: `10.172.0.0/19`, update: `10.172.0.0/20`},
 		"netmask":                     Representation{repType: Required, create: `255.255.0.0`, update: `255.254.0.0`},
 		"ntp_server":                  Representation{repType: Required, create: []string{`192.168.10.20`}, update: []string{`192.168.10.22`, `192.168.10.24`}},
 		"shape":                       Representation{repType: Required, create: `ExadataCC.Quarter3.100`},
@@ -72,7 +72,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
 						representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}})),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.19.2/20"),
+					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "192.168.19.3"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "192.168.19.4"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -83,7 +83,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "gateway", "192.168.20.2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.172.19.1/20"),
+					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.172.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "netmask", "255.254.0.0"),
 					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
@@ -101,7 +101,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
 						representationCopyWithRemovedProperties(exadataInfrastructureActivateRepresentation, []string{`activation_file`})),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.19.2/20"),
+					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "192.168.19.3"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "192.168.19.4"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -112,7 +112,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "gateway", "192.168.20.2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.172.19.1/20"),
+					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.172.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "netmask", "255.254.0.0"),
 					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
@@ -131,7 +131,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", Optional, Update,
 						representationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": Representation{repType: Optional, update: activationFilePath}})),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.19.2/20"),
+					resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "192.168.19.3"),
 					resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server2", "192.168.19.4"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -142,7 +142,7 @@ func TestResourceDatabaseExadataInfrastructure_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "gateway", "192.168.20.2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.172.19.1/20"),
+					resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.172.0.0/20"),
 					resource.TestCheckResourceAttr(resourceName, "netmask", "255.254.0.0"),
 					resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
 					resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.Quarter3.100"),
