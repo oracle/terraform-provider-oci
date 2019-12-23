@@ -49,6 +49,10 @@ func CoreDrgResource() *schema.Resource {
 			},
 
 			// Computed
+			"redundancy_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -99,6 +103,7 @@ type CoreDrgResourceCrud struct {
 	Client                 *oci_core.VirtualNetworkClient
 	workRequestClient      *oci_work_requests.WorkRequestClient
 	Res                    *oci_core.Drg
+	RedundancyStatus       *oci_core.DrgRedundancyStatus
 	DisableNotFoundRetries bool
 }
 
@@ -180,7 +185,15 @@ func (s *CoreDrgResourceCrud) Get() error {
 	}
 
 	s.Res = &response.Drg
-	return nil
+
+	statusRequest := oci_core.GetDrgRedundancyStatusRequest{}
+	statusRequest.DrgId = &tmp
+
+	if redundancyStatusResponse, err := s.Client.GetDrgRedundancyStatus(context.Background(), statusRequest); err == nil {
+		s.RedundancyStatus = &redundancyStatusResponse.DrgRedundancyStatus
+	}
+
+	return err
 }
 
 func (s *CoreDrgResourceCrud) Update() error {
@@ -257,6 +270,10 @@ func (s *CoreDrgResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.RedundancyStatus != nil {
+		s.D.Set("redundancy_status", s.RedundancyStatus.Status)
 	}
 
 	return nil
