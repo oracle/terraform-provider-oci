@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateDbHomeDetails Details for creating a database home.
+// CreateDbHomeDetails Details for creating a Database Home.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateDbHomeDetails struct {
 
@@ -21,7 +21,7 @@ type CreateDbHomeDetails struct {
 
 	Database *CreateDatabaseDetails `mandatory:"true" json:"database"`
 
-	// The user-provided name of the database home.
+	// The user-provided name of the Database Home.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 }
 

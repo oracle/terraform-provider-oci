@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// UpdateDbHomeDetails Describes the modification parameters for the database home.
+// UpdateDbHomeDetails Describes the modification parameters for the Database Home.
 type UpdateDbHomeDetails struct {
 	DbVersion *PatchDetails `mandatory:"false" json:"dbVersion"`
 }

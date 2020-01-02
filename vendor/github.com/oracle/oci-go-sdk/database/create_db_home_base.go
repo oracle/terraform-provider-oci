@@ -13,11 +13,11 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateDbHomeBase Details for creating a database home.
+// CreateDbHomeBase Details for creating a Database Home.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateDbHomeBase interface {
 
-	// The user-provided name of the database home.
+	// The user-provided name of the Database Home.
 	GetDisplayName() *string
 }
 

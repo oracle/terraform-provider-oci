@@ -15,11 +15,11 @@ import (
 // NodeDetails Node details associated with a network.
 type NodeDetails struct {
 
+	// The node host name.
+	Hostname *string `mandatory:"true" json:"hostname"`
+
 	// The node IP address.
 	Ip *string `mandatory:"true" json:"ip"`
-
-	// The node host name.
-	Hostname *string `mandatory:"false" json:"hostname"`
 
 	// The node virtual IP (VIP) host name.
 	VipHostname *string `mandatory:"false" json:"vipHostname"`

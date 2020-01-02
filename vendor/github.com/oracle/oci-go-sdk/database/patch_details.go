@@ -14,7 +14,7 @@ import (
 
 // PatchDetails The details about what actions to perform and using what patch to the specified target.
 // This is part of an update request that is applied to a version field on the target such
-// as DB system, database home, etc.
+// as DB system, Database Home, etc.
 type PatchDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the patch.
