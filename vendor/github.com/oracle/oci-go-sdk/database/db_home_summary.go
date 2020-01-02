@@ -12,25 +12,25 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// DbHomeSummary A directory where Oracle Database software is installed. A bare metal DB system can have multiple database homes
-// and each database home can run a different supported version of Oracle Database. A virtual machine DB system can have only one database home.
-// For more information, see Bare Metal and Virtual Machine DB Systems (https://docs.cloud.oracle.com/Content/Database/Concepts/overview.htm).
+// DbHomeSummary A directory where Oracle Database software is installed. A bare metal or Exadata DB system can have multiple Database Homes
+// and each Database Home can run a different supported version of Oracle Database. A virtual machine DB system can have only one Database Home.
+// For more information, see Bare Metal and Virtual Machine DB Systems (https://docs.cloud.oracle.com/Content/Database/Concepts/overview.htm) and Exadata DB Systems (https://docs.cloud.oracle.com/Content/Database/Concepts/exaoverview.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an
 // administrator. If you're an administrator who needs to write policies to give users access,
 // see Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type DbHomeSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database home.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Home.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The user-provided name for the database home. The name does not need to be unique.
+	// The user-provided name for the Database Home. The name does not need to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The current state of the database home.
+	// The current state of the Database Home.
 	LifecycleState DbHomeSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The Oracle Database version.
@@ -45,7 +45,7 @@ type DbHomeSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster.
 	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
 
-	// The date and time the database home was created.
+	// The date and time the Database Home was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }
 

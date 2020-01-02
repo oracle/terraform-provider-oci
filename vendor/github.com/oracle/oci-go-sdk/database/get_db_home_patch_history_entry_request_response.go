@@ -11,7 +11,7 @@ import (
 // GetDbHomePatchHistoryEntryRequest wrapper for the GetDbHomePatchHistoryEntry operation
 type GetDbHomePatchHistoryEntryRequest struct {
 
-	// The database home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Database Home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DbHomeId *string `mandatory:"true" contributesTo:"path" name:"dbHomeId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the patch history entry.

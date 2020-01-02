@@ -45,14 +45,14 @@ type CreateExadataInfrastructureDetails struct {
 	// The CIDR block for the Exadata InfiniBand interconnect.
 	InfiniBandNetworkCIDR *string `mandatory:"true" json:"infiniBandNetworkCIDR"`
 
-	// The corporate network proxy for access to the control plane network.
-	CorporateProxy *string `mandatory:"true" json:"corporateProxy"`
-
 	// The list of DNS server IP addresses. Maximum of 3 allowed.
 	DnsServer []string `mandatory:"true" json:"dnsServer"`
 
 	// The list of NTP server IP addresses. Maximum of 3 allowed.
 	NtpServer []string `mandatory:"true" json:"ntpServer"`
+
+	// The corporate network proxy for access to the control plane network.
+	CorporateProxy *string `mandatory:"false" json:"corporateProxy"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
