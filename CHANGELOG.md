@@ -3,6 +3,7 @@
 ### Added
 - Support for updating `shape` attribute in `oci_database_db_system` resource
 - Support for CPE builder on IPSec console
+- Support for exposing `private_ip` and `fault_domain` for OKE cluster node 
 
 ## 3.64.0 (February 26, 2020)
 

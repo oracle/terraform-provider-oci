@@ -61,10 +61,12 @@ The following attributes are exported:
 		* `code` - A short error code that defines the upstream error, meant for programmatic parsing. See [API Errors](https://docs.cloud.oracle.com/iaas/Content/API/References/apierrors.htm).
 		* `message` - A human-readable error string of the upstream error.
 		* `status` - The status of the HTTP response encountered in the upstream error.
+	* `fault_domain` - The fault domain of this node.
 	* `id` - The OCID of the compute instance backing this node.
 	* `lifecycle_details` - Details about the state of the node.
 	* `name` - The name of the node.
 	* `node_pool_id` - The OCID of the node pool to which this node belongs.
+	* `private_ip` - The private IP address of this node.
 	* `public_ip` - The public IP address of this node.
 	* `state` - The state of the node.
 	* `subnet_id` - The OCID of the subnet in which this node is placed.
