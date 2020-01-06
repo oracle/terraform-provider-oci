@@ -148,7 +148,6 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			"node_source_details": {
 				Type:          schema.TypeList,
 				Optional:      true,
-				Computed:      true,
 				ForceNew:      true,
 				MaxItems:      1,
 				MinItems:      1,
