@@ -268,6 +268,10 @@ func ContainerengineNodePoolResource() *schema.Resource {
 								},
 							},
 						},
+						"fault_domain": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -281,6 +285,10 @@ func ContainerengineNodePoolResource() *schema.Resource {
 							Computed: true,
 						},
 						"node_pool_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"private_ip": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -834,6 +842,10 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 		result["error"] = []interface{}{NodeErrorToMap(obj.NodeError)}
 	}
 
+	if obj.FaultDomain != nil {
+		result["fault_domain"] = string(*obj.FaultDomain)
+	}
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
@@ -848,6 +860,10 @@ func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 
 	if obj.NodePoolId != nil {
 		result["node_pool_id"] = string(*obj.NodePoolId)
+	}
+
+	if obj.PrivateIp != nil {
+		result["private_ip"] = string(*obj.PrivateIp)
 	}
 
 	if obj.PublicIp != nil {
