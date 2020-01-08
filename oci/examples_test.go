@@ -179,32 +179,17 @@ func GetConfigPaths(t *testing.T, rootPath string) (pathList []string, err error
 	return pathList, err
 }
 
+// Helper function to ignore some folders
 func shouldSkip(dir string) bool {
-	blackList := []string{
-		"/db_exadata",
-		"/db_systems",
-		"/adw_backup",
-		"/atp_backup",
-		"/block",
-		"/atp-d",
-		"/lb_full",
-		"/identity_providers",
-		"/alarms",
-		"/metrics",
-		"budget",
-		"launch_by_subscription",
-		"volume_backup",
-		"subscription",
-		"object_storage",
-		"functions",
-		"kms",
-		"identity",
-	}
+	blackList := strings.Split(os.Getenv("black_list"), ",")
+
 	var flag bool
 	for _, blackDir := range blackList {
-		flag = flag || strings.HasSuffix(dir, blackDir)
-		if flag {
-			return flag
+		if len(blackDir) > 0 {
+			flag = flag || strings.HasSuffix(dir, blackDir)
+			if flag {
+				return flag
+			}
 		}
 	}
 	return flag
