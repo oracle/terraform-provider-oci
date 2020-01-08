@@ -15,16 +15,16 @@ import (
 // DbHome The representation of DbHome
 type DbHome struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database home.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Home.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The user-provided name for the database home. The name does not need to be unique.
+	// The user-provided name for the Database Home. The name does not need to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The current state of the database home.
+	// The current state of the Database Home.
 	LifecycleState DbHomeLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The Oracle Database version.
@@ -39,7 +39,7 @@ type DbHome struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster.
 	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
 
-	// The date and time the database home was created.
+	// The date and time the Database Home was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }
 

@@ -141,9 +141,9 @@ The following arguments are supported:
     	* `ncharacter_set` - (Applicable when source=NONE | VM_CLUSTER_NEW) The national character set for the database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
     	* `pdb_name` - (Applicable when source=NONE | VM_CLUSTER_NEW) The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
     * `db_version` - (Required when source=NONE) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.
-	* `display_name` - (Optional) The user-provided name of the database home.
+	* `display_name` - (Optional) The user-provided name of the Database Home.
 * `db_system_options` - (Optional) 
-	* `storage_management` - (Optional) The storage option used in DB system. For 1-node VM systems, you can specify either [Automatic Storage Management (ASM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=OSTMG-GUID-BC612D35-5399-4A35-843E-CF76E3D3CDB5) or [Logical Volume Manager (LVM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=ADMIN-GUID-57C50259-9472-4ED0-8818-DB9ABA96EC8E). For more information, see [Bare Metal and Virtual Machine DB Systems](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/overview.htm#fastprovisioning).
+	* `storage_management` - (Optional) The storage option used in DB system. ASM - Automatic storage management LVM - Logical Volume management 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `disk_redundancy` - (Optional) The type of redundancy configured for the DB system. Normal is 2-way redundancy, recommended for test and development systems. High is 3-way redundancy, recommended for production systems. 
 * `display_name` - (Optional) The user-friendly name for the DB system. The name does not have to be unique.
@@ -203,7 +203,7 @@ The following attributes are exported:
 * `data_storage_size_in_gb` - The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems. 
 * `database_edition` - The Oracle Database edition that applies to all the databases on the DB system. 
 * `db_system_options` - 
-	* `storage_management` - The storage option used in DB system. For 1-node VM systems, you can specify either [Automatic Storage Management (ASM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=OSTMG-GUID-BC612D35-5399-4A35-843E-CF76E3D3CDB5) or [Logical Volume Manager (LVM)](https://www.oracle.com/pls/topic/lookup?ctx=en/database/oracle/oracle-database/19&id=ADMIN-GUID-57C50259-9472-4ED0-8818-DB9ABA96EC8E). For more information, see [Bare Metal and Virtual Machine DB Systems](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/overview.htm#fastprovisioning).
+	* `storage_management` - The storage option used in DB system. ASM - Automatic storage management LVM - Logical Volume management 
 * `db_home` -
     * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
     * `database` 

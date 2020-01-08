@@ -21,9 +21,9 @@ func IdentityTagResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &FifteenMinutes,
-			Update: &FifteenMinutes,
-			Delete: &TwelveHours,
+			Create: getTimeoutDuration("15m"),
+			Update: getTimeoutDuration("15m"),
+			Delete: getTimeoutDuration("12h"),
 		},
 		Create: createIdentityTag,
 		Read:   readIdentityTag,

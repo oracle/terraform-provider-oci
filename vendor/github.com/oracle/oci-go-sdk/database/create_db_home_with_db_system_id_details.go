@@ -24,7 +24,7 @@ type CreateDbHomeWithDbSystemIdDetails struct {
 
 	Database *CreateDatabaseDetails `mandatory:"true" json:"database"`
 
-	// The user-provided name of the database home.
+	// The user-provided name of the Database Home.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 }
 

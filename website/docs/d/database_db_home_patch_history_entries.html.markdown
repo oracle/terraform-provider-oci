@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_db_home_patch_history_entries
 This data source provides the list of Db Home Patch History Entries in Oracle Cloud Infrastructure Database service.
 
-Gets history of the actions taken for patches for the specified database home.
+Gets history of the actions taken for patches for the specified Database Home.
 
 
 ## Example Usage
@@ -26,7 +26,7 @@ data "oci_database_db_home_patch_history_entries" "test_db_home_patch_history_en
 
 The following arguments are supported:
 
-* `db_home_id` - (Required) The database home [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `db_home_id` - (Required) The Database Home [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
 ## Attributes Reference

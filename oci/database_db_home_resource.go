@@ -21,9 +21,9 @@ func DatabaseDbHomeResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &TwelveHours,
-			Delete: &TwoHours,
-			Update: &TwoHours,
+			Create: getTimeoutDuration("12h"),
+			Update: getTimeoutDuration("2h"),
+			Delete: getTimeoutDuration("2h"),
 		},
 		Create: createDatabaseDbHome,
 		Read:   readDatabaseDbHome,
@@ -346,7 +346,9 @@ func (s *DatabaseDbHomeResourceCrud) UpdatedPending() []string {
 }
 
 func (s *DatabaseDbHomeResourceCrud) UpdatedTarget() []string {
-	return s.CreatedTarget()
+	return []string{
+		string(oci_database.DbHomeLifecycleStateAvailable),
+	}
 }
 
 func (s *DatabaseDbHomeResourceCrud) Create() error {
