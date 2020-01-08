@@ -160,6 +160,12 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.MaintenanceWindow != nil {
+			autonomousContainerDatabase["maintenance_window"] = []interface{}{MaintenanceWindowToMap(r.MaintenanceWindow)}
+		} else {
+			autonomousContainerDatabase["maintenance_window"] = nil
+		}
+
 		if r.NextMaintenanceRunId != nil {
 			autonomousContainerDatabase["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}

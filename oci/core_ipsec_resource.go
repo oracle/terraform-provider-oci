@@ -143,18 +143,6 @@ func (s *CoreIpSecConnectionResourceCrud) CreatedTarget() []string {
 	}
 }
 
-func (s *CoreIpSecConnectionResourceCrud) UpdatedPending() []string {
-	return []string{
-		string(oci_core.IpSecConnectionLifecycleStateProvisioning),
-	}
-}
-
-func (s *CoreIpSecConnectionResourceCrud) UpdatedTarget() []string {
-	return []string{
-		string(oci_core.IpSecConnectionLifecycleStateAvailable),
-	}
-}
-
 func (s *CoreIpSecConnectionResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_core.IpSecConnectionLifecycleStateTerminating),
@@ -164,6 +152,18 @@ func (s *CoreIpSecConnectionResourceCrud) DeletedPending() []string {
 func (s *CoreIpSecConnectionResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_core.IpSecConnectionLifecycleStateTerminated),
+	}
+}
+
+func (s *CoreIpSecConnectionResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_core.IpSecConnectionLifecycleStateProvisioning),
+	}
+}
+
+func (s *CoreIpSecConnectionResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_core.IpSecConnectionLifecycleStateAvailable),
 	}
 }
 

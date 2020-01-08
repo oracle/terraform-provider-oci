@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_db_homes
 This data source provides the list of Db Homes in Oracle Cloud Infrastructure Database service.
 
-Gets a list of database homes in the specified DB system and compartment. A database home is a directory where Oracle Database software is installed.
+Gets a list of Database Homes in the specified DB system and compartment. A Database Home is a directory where Oracle Database software is installed.
 
 
 ## Example Usage
@@ -52,10 +52,10 @@ The following attributes are exported:
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `db_version` - The Oracle Database version.
-* `display_name` - The user-provided name for the database home. The name does not need to be unique.
-* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database home.
+* `display_name` - The user-provided name for the Database Home. The name does not need to be unique.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 * `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation is started.
-* `state` - The current state of the database home.
-* `time_created` - The date and time the database home was created.
+* `state` - The current state of the Database Home.
+* `time_created` - The date and time the Database Home was created.
 * `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 

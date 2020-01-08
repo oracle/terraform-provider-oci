@@ -1,4 +1,12 @@
-## 3.56.1 (Unreleased)
+## 3.57.0 (Unreleased)
+
+### Added
+- Support for change in `corporate_proxy` parameter in `oci_database_exadata_infrastructure`
+- Support for `maintenance_window_details` attribute in `database_autonomous_container_database` resource and datasource
+
+### Fixed
+- Support of the deprecated `node_image_id`, `node_image_name` attributes in `oci_containerengine_node_pool` resource for Terraform v0.11
+
 ## 3.56.0 (December 18, 2019)
 
 ### Added
