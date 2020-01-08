@@ -27,6 +27,9 @@ resource "oci_load_balancer_listener" "test_listener" {
 	connection_configuration {
 		#Required
 		idle_timeout_in_seconds = "${var.listener_connection_configuration_idle_timeout_in_seconds}"
+
+		#Optional
+		backend_tcp_proxy_protocol_version = "${var.listener_connection_configuration_backend_tcp_proxy_protocol_version}"
 	}
 	hostname_names = ["${oci_load_balancer_hostname.test_hostname.name}"]
 	path_route_set_name = "${oci_load_balancer_path_route_set.test_path_route_set.name}"
@@ -47,6 +50,7 @@ resource "oci_load_balancer_listener" "test_listener" {
 The following arguments are supported:
 
 * `connection_configuration` - (Optional) (Updatable) 
+	* `backend_tcp_proxy_protocol_version` - (Required when `protocol` = `TCP`) (Updatable) The backend TCP Proxy Protocol version.  Example: `1` 
 	* `idle_timeout_in_seconds` - (Required) (Updatable) The maximum idle time, in seconds, allowed between two successive receive or two successive send operations between the client and backend servers. A send operation does not reset the timer for receive operations. A receive operation does not reset the timer for send operations.
 
 		For more information, see [Connection Configuration](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/connectionreuse.htm#ConnectionConfiguration).
