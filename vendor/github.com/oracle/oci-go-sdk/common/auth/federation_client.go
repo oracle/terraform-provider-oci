@@ -290,7 +290,14 @@ func (c *x509FederationClient) getSecurityToken() (securityToken, error) {
 
 	var httpResponse *http.Response
 	defer common.CloseBodyIfValid(httpResponse)
-	if httpResponse, err = c.authClient.Call(context.Background(), &httpRequest); err != nil {
+
+	for retry := 0; retry < 5; retry++ {
+		if httpResponse, err = c.authClient.Call(context.Background(), &httpRequest); err == nil {
+			break
+		}
+		time.Sleep(250 * time.Microsecond)
+	}
+	if err != nil {
 		return nil, fmt.Errorf("failed to call: %s", err.Error())
 	}
 

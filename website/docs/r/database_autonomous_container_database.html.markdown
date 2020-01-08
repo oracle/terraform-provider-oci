@@ -31,6 +31,22 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 	compartment_id = "${var.compartment_id}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
+	maintenance_window_details {
+		#Required
+		preference = "${var.autonomous_container_database_maintenance_window_details_preference}"
+
+		#Optional
+		days_of_week {
+			#Required
+			name = "${var.autonomous_container_database_maintenance_window_details_days_of_week_name}"
+		}
+		hours_of_day = "${var.autonomous_container_database_maintenance_window_details_hours_of_day}"
+		months {
+			#Required
+			name = "${var.autonomous_container_database_maintenance_window_details_months_name}"
+		}
+		weeks_of_month = "${var.autonomous_container_database_maintenance_window_details_weeks_of_month}"
+	}
 	service_level_agreement_type = "${var.autonomous_container_database_service_level_agreement_type}"
 }
 ```
@@ -46,6 +62,15 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) (Updatable) The display name for the Autonomous Container Database.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `maintenance_window_details` - (Optional) (Updatable) 
+	* `days_of_week` - (Optional) (Updatable) Days during the week when maintenance should be performed.
+		* `name` - (Required) (Updatable) Name of the day of the week.
+	* `hours_of_day` - (Optional) (Updatable) The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
+		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
+	* `months` - (Optional) (Updatable) Months during the year when maintenance should be performed.
+		* `name` - (Required) (Updatable) Name of the month of the year.
+	* `preference` - (Required) (Updatable) The maintenance window scheduling preference.
+	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `patch_model` - (Required) (Updatable) Database Patch model preference.
 * `service_level_agreement_type` - (Optional) The service level agreement type of the Autonomous Container Database. The default is STANDARD. For a mission critical Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
 
@@ -68,6 +93,15 @@ The following attributes are exported:
 * `id` - The OCID of the Autonomous Container Database.
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `lifecycle_details` - Additional information about the current lifecycleState.
+* `maintenance_window` - 
+	* `days_of_week` - Days during the week when maintenance should be performed.
+		* `name` - Name of the day of the week.
+	* `hours_of_day` - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
+		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
+	* `months` - Months during the year when maintenance should be performed.
+		* `name` - Name of the month of the year.
+	* `preference` - The maintenance window scheduling preference.
+	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 * `patch_model` - Database patch model preference.
 * `service_level_agreement_type` - The service level agreement type of the container database. The default is STANDARD.

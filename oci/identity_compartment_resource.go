@@ -8,7 +8,6 @@ import (
 	"log"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
@@ -20,7 +19,7 @@ func IdentityCompartmentResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Delete: schema.DefaultTimeout(90 * time.Minute), // service team states: p50: 30 min, p90: 60 min, max: 180 min
+			Delete: getTimeoutDuration("90m"), // service team states: p50: 30 min, p90: 60 min, max: 180 min
 		},
 		Create: createIdentityCompartment,
 		Read:   readIdentityCompartment,

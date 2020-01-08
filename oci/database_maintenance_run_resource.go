@@ -142,11 +142,15 @@ func (s *DatabaseMaintenanceRunResourceCrud) CreatedTarget() []string {
 }
 
 func (s *DatabaseMaintenanceRunResourceCrud) DeletedPending() []string {
-	return []string{}
+	return []string{
+		string(oci_database.MaintenanceRunLifecycleStateDeleting),
+	}
 }
 
 func (s *DatabaseMaintenanceRunResourceCrud) DeletedTarget() []string {
-	return []string{}
+	return []string{
+		string(oci_database.MaintenanceRunLifecycleStateDeleted),
+	}
 }
 
 func (s *DatabaseMaintenanceRunResourceCrud) Create() error {
