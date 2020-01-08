@@ -1,4 +1,8 @@
 ## 3.62.0 (Unreleased)
+
+### Added
+- Support Proxy Protocol for `oci_load_balancer_listener`
+
 ## 3.61.0 (February 05, 2020)
 
 ### Added

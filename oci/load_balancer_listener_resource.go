@@ -69,6 +69,10 @@ func LoadBalancerListenerResource() *schema.Resource {
 						},
 
 						// Optional
+						"backend_tcp_proxy_protocol_version": {
+							Type:     schema.TypeInt,
+							Optional: true,
+						},
 
 						// Computed
 					},
@@ -577,6 +581,15 @@ func parseListenerCompositeId(compositeId string) (listenerName string, loadBala
 func (s *LoadBalancerListenerResourceCrud) mapToConnectionConfiguration(fieldKeyFormat string) (oci_load_balancer.ConnectionConfiguration, error) {
 	result := oci_load_balancer.ConnectionConfiguration{}
 
+	if backendTcpProxyProtocolVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backend_tcp_proxy_protocol_version")); ok {
+		tmp := backendTcpProxyProtocolVersion.(int)
+		// Terraform v11 will auto assign nil value to 0 which is invalid value
+		// this check will remove backend_tcp_proxy_protocol_version in the request
+		if tmp != 0 {
+			result.BackendTcpProxyProtocolVersion = &tmp
+		}
+	}
+
 	if idleTimeoutInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "idle_timeout_in_seconds")); ok {
 		tmp := idleTimeoutInSeconds.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
@@ -591,6 +604,10 @@ func (s *LoadBalancerListenerResourceCrud) mapToConnectionConfiguration(fieldKey
 
 func ConnectionConfigurationToMap(obj *oci_load_balancer.ConnectionConfiguration) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.BackendTcpProxyProtocolVersion != nil {
+		result["backend_tcp_proxy_protocol_version"] = int(*obj.BackendTcpProxyProtocolVersion)
+	}
 
 	if obj.IdleTimeout != nil {
 		result["idle_timeout_in_seconds"] = strconv.FormatInt(*obj.IdleTimeout, 10)
