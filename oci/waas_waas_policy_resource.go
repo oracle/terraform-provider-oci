@@ -25,9 +25,9 @@ func WaasWaasPolicyResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &TwoHours,
-			Update: &TwoHours,
-			Delete: &TwoHours,
+			Create: getTimeoutDuration("2h"),
+			Update: getTimeoutDuration("2h"),
+			Delete: getTimeoutDuration("2h"),
 		},
 		Create: createWaasWaasPolicy,
 		Read:   readWaasWaasPolicy,

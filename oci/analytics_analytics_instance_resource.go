@@ -23,9 +23,9 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &OneHour,
-			Update: &OneHour,
-			Delete: &OneHour,
+			Create: getTimeoutDuration("1h"),
+			Update: getTimeoutDuration("1h"),
+			Delete: getTimeoutDuration("1h"),
 		},
 		Create: createAnalyticsAnalyticsInstance,
 		Read:   readAnalyticsAnalyticsInstance,

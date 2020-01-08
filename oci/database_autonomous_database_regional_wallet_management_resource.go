@@ -16,9 +16,9 @@ func DatabaseAutonomousDatabaseRegionalWalletManagementResource() *schema.Resour
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: &TwoHours,
-			Update: &TwoHours,
-			Delete: &TwoHours,
+			Create: getTimeoutDuration("2h"),
+			Update: getTimeoutDuration("2h"),
+			Delete: getTimeoutDuration("2h"),
 		},
 		Create: createDatabaseAutonomousDatabaseRegionalWalletManagement,
 		Read:   readDatabaseAutonomousDatabaseRegionalWalletManagement,

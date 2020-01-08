@@ -11,7 +11,7 @@ import (
 // ListDbHomePatchHistoryEntriesRequest wrapper for the ListDbHomePatchHistoryEntries operation
 type ListDbHomePatchHistoryEntriesRequest struct {
 
-	// The database home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Database Home OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DbHomeId *string `mandatory:"true" contributesTo:"path" name:"dbHomeId"`
 
 	// The maximum number of items to return per page.

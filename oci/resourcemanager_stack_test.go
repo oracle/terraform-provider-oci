@@ -21,7 +21,7 @@ import (
 
 var (
 	stackSingularDataSourceRepresentation = map[string]interface{}{
-		"stack_id": Representation{repType: Required, create: `${data.oci_resourcemanager_stacks.test_stacks.stacks[0].id}`},
+		"stack_id": Representation{repType: Required, create: `${var.resource_manager_stack_id}`},
 	}
 
 	stackDataSourceRepresentation = map[string]interface{}{
@@ -45,21 +45,34 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 	provider := testAccProvider
 	config := testProviderConfig()
 
+	client := GetTestClients(&schema.ResourceData{}).resourceManagerClient
+
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceManagerStackId, err := createResourceManagerStack(*client, "TestResourcemanagerStackResource_basic", compartmentId)
+	if err != nil {
+		t.Errorf("cannot create resource manager stack for the test run: %v", err)
+	}
 
 	datasourceName := "data.oci_resourcemanager_stacks.test_stacks"
 	singularDatasourceName := "data.oci_resourcemanager_stack.test_stack"
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
+		CheckDestroy: func(s *terraform.State) error {
+			return destroyResourceManagerStack(*client, resourceManagerStackId)
+		},
+		PreventPostDestroyRefresh: true,
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
 		},
 		Steps: []resource.TestStep{
 			// verify datasource
 			{
-				Config: config +
+				Config: config + `
+					variable "resource_manager_stack_id" { default = "` + resourceManagerStackId + `" }
+					` +
 					generateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", Required, Create, stackDataSourceRepresentation) +
 					compartmentIdVariableStr + StackResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -80,7 +93,9 @@ func TestResourcemanagerStackResource_basic(t *testing.T) {
 			},
 			// verify singular datasource
 			{
-				Config: config +
+				Config: config + `
+					variable "resource_manager_stack_id" { default = "` + resourceManagerStackId + `" }
+					` +
 					generateDataSourceFromRepresentationMap("oci_resourcemanager_stacks", "test_stacks", Required, Create, stackDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_resourcemanager_stack", "test_stack", Required, Create, stackSingularDataSourceRepresentation) +
 					compartmentIdVariableStr + StackResourceConfig,

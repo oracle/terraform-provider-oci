@@ -10,7 +10,7 @@ description: |-
 # oci_database_db_home
 This resource provides the Db Home resource in Oracle Cloud Infrastructure Database service.
 
-Creates a new database home in the specified DB system based on the request parameters you provide.
+Creates a new Database Home in the specified DB system based on the request parameters you provide. Applies only to bare metal and Exadata DB systems.
 
 The creation of an oci_database_db_system requires that it be created with exactly one oci_database_db_home. Therefore the first db home will have to be a property of the db system resource and any further db homes to be added to the db system will have to be added as first class resources using "oci_database_db_home".
 
@@ -84,7 +84,7 @@ The following arguments are supported:
 	* `pdb_name` - (Applicable when source=NONE | VM_CLUSTER_NEW) The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 * `db_system_id` - (Required when source=DB_BACKUP | NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `db_version` - (Required when source=NONE | VM_CLUSTER_NEW) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.
-* `display_name` - (Optional) The user-provided name of the database home.
+* `display_name` - (Optional) The user-provided name of the Database Home.
 * `source` - (Optional) The source of database: NONE for creating a new database. DB_BACKUP for creating a new database by restoring from a database backup. VM_CLUSTER_NEW for creating a database for VM Cluster.
 * `vm_cluster_id` - (Required when source=VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 
@@ -123,11 +123,11 @@ The following attributes are exported:
     * `time_created` - The date and time the database was created.
 * `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `db_version` - The Oracle Database version.
-* `display_name` - The user-provided name for the database home. The name does not need to be unique.
-* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database home.
+* `display_name` - The user-provided name for the Database Home. The name does not need to be unique.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 * `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation is started.
-* `state` - The current state of the database home.
-* `time_created` - The date and time the database home was created.
+* `state` - The current state of the Database Home.
+* `time_created` - The date and time the Database Home was created.
 * `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 
 ## Import

@@ -109,7 +109,6 @@ data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_
     network_type = "CLIENT"
     prefix       = "myprefix1"
     vlan_id      = "10"
-    domain       = "oracle.com"
   }
 
   networks {
@@ -121,7 +120,6 @@ data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_
     network_type = "BACKUP"
     prefix       = "myprefix2"
     vlan_id      = "11"
-    domain       = "oracle.com"
   }
 
   defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedvalue")}"

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_db_home_patches
 This data source provides the list of Db Home Patches in Oracle Cloud Infrastructure Database service.
 
-Lists patches applicable to the requested database home.
+Lists patches applicable to the requested Database Home.
 
 
 ## Example Usage
@@ -26,7 +26,7 @@ data "oci_database_db_home_patches" "test_db_home_patches" {
 
 The following arguments are supported:
 
-* `db_home_id` - (Required) The database home [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `db_home_id` - (Required) The Database Home [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
 ## Attributes Reference

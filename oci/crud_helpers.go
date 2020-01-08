@@ -928,3 +928,12 @@ func genericMapToJsonMap(genericMap map[string]interface{}) map[string]interface
 
 	return result
 }
+
+func getTimeoutDuration(timeout string) *time.Duration {
+	timeoutDuration, err := time.ParseDuration(timeout)
+	if err != nil {
+		// Return the OCI Provider's default timeout if there is an error
+		return &FifteenMinutes
+	}
+	return &timeoutDuration
+}
