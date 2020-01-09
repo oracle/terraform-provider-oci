@@ -51,6 +51,9 @@ type RouteRule struct {
 	//     Service (the rule is for traffic destined for a
 	//     particular `Service` through a service gateway).
 	DestinationType RouteRuleDestinationTypeEnum `mandatory:"false" json:"destinationType,omitempty"`
+
+	// An optional description of your choice for the rule.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m RouteRule) String() string {

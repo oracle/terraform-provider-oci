@@ -67,6 +67,9 @@ type IngressSecurityRule struct {
 	// Optional and valid only for UDP. Use to specify particular destination ports for UDP rules.
 	// If you specify UDP as the protocol but omit this object, then all destination ports are allowed.
 	UdpOptions *UdpOptions `mandatory:"false" json:"udpOptions"`
+
+	// An optional description of your choice for the rule.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m IngressSecurityRule) String() string {
