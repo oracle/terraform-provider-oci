@@ -1,0 +1,111 @@
+---
+subcategory: "Dataflow"
+layout: "oci"
+page_title: "Oracle Cloud Infrastructure: oci_dataflow_invoke_run"
+sidebar_current: "docs-oci-resource-dataflow-invoke_run"
+description: |-
+  Provides the Invoke Run resource in Oracle Cloud Infrastructure Dataflow service
+---
+
+# oci_dataflow_invoke_run
+This resource provides the Invoke Run resource in Oracle Cloud Infrastructure Dataflow service.
+
+Creates a run for an application.
+
+
+## Example Usage
+
+```hcl
+resource "oci_dataflow_invoke_run" "test_invoke_run" {
+	#Required
+	application_id = "${oci_dataflow_application.test_application.id}"
+	compartment_id = "${var.compartment_id}"
+	display_name = "${var.invoke_run_display_name}"
+
+	#Optional
+	arguments = "${var.invoke_run_arguments}"
+	configuration = "${var.invoke_run_configuration}"
+	defined_tags = {"Operations.CostCenter"= "42"}
+	driver_shape = "${var.invoke_run_driver_shape}"
+	executor_shape = "${var.invoke_run_executor_shape}"
+	freeform_tags = {"Department"= "Finance"}
+	logs_bucket_uri = "${var.invoke_run_logs_bucket_uri}"
+	num_executors = "${var.invoke_run_num_executors}"
+	parameters {
+		#Required
+		name = "${var.invoke_run_parameters_name}"
+		value = "${var.invoke_run_parameters_value}"
+	}
+	warehouse_bucket_uri = "${var.invoke_run_warehouse_bucket_uri}"
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `application_id` - (Required) The application ID. 
+* `arguments` - (Optional) The arguments passed to the running application as command line arguments.  An argument is either a plain text or a placeholder. Placeholders are replaced using values from the parameters map.  Each placeholder specified must be represented in the parameters map else the request (POST or PUT) will fail with a HTTP 400 status code.  Placeholders are specified as `Service Api Spec`, where `name` is the name of the parameter. Example:  `[ "--input", "${input_file}", "--name", "John Doe" ]` If "input_file" has a value of "mydata.xml", then the value above will be translated to `--input mydata.xml --name "John Doe"`
+* `asynchronous` -  (Optional) Flag to invoke run asynchronously. The default is true.
+* `compartment_id` - (Required) The OCID of the compartment that contains this application. 
+* `configuration` - (Optional) The Spark configuration passed to the running process. See https://spark.apache.org/docs/latest/configuration.html#available-properties Example: { "spark.app.name" : "My App Name", "spark.shuffle.io.maxRetries" : "4" } Note: Not all Spark properties are permitted to be set.  Attempting to set a property that is not allowed to be overwritten will cause a 400 status to be returned. 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `display_name` - (Required) A user-friendly name. It does not have to be unique. Avoid entering confidential information. 
+* `driver_shape` - (Optional) The VM shape for the driver. Sets the driver cores and memory. 
+* `executor_shape` - (Optional) The VM shape for the executors. Sets the executor cores and memory. 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `logs_bucket_uri` - (Optional) An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat 
+* `num_executors` - (Optional) The number of executor VMs requested. 
+* `parameters` - (Optional) An array of name/value pairs used to fill placeholders found in properties like `Application.arguments`.  The name must be a string of one or more word characters (a-z, A-Z, 0-9, _).  The value can be a string of 0 or more characters of any kind. Example:  [ { name: "iterations", value: "10"}, { name: "input_file", value: "mydata.xml" }, { name: "variable_x", value: "${x}"} ] 
+	* `name` - (Required) The name of the parameter.  It must be a string of one or more word characters (a-z, A-Z, 0-9, _). Examples: "iterations", "input_file" 
+	* `value` - (Required) The value of the parameter. It must be a string of 0 or more characters of any kind. Examples: "" (empty string), "10", "mydata.xml", "${x}" 
+* `warehouse_bucket_uri` - (Optional) An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat 
+
+
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
+
+## Attributes Reference
+
+The following attributes are exported:
+
+* `application_id` - The application ID. 
+* `arguments` - The arguments passed to the running application as command line arguments.  An argument is either a plain text or a placeholder. Placeholders are replaced using values from the parameters map.  Each placeholder specified must be represented in the parameters map else the request (POST or PUT) will fail with a HTTP 400 status code.  Placeholders are specified as `Service Api Spec`, where `name` is the name of the parameter. Example:  `[ "--input", "${input_file}", "--name", "John Doe" ]` If "input_file" has a value of "mydata.xml", then the value above will be translated to `--input mydata.xml --name "John Doe"` 
+* `class_name` - The class for the application. 
+* `compartment_id` - The OCID of the compartment that contains this application. 
+* `configuration` - The Spark configuration passed to the running process. See https://spark.apache.org/docs/latest/configuration.html#available-properties Example: { "spark.app.name" : "My App Name", "spark.shuffle.io.maxRetries" : "4" } Note: Not all Spark properties are permitted to be set.  Attempting to set a property that is not allowed to be overwritten will cause a 400 status to be returned. 
+* `data_read_in_bytes` - The data read by the run in bytes. 
+* `data_written_in_bytes` - The data written by the run in bytes. 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `display_name` - A user-friendly name. This name is not necessarily unique. 
+* `driver_shape` - The VM shape for the driver. Sets the driver cores and memory. 
+* `executor_shape` - The VM shape for the executors. Sets the executor cores and memory. 
+* `file_uri` - An Oracle Cloud Infrastructure URI of the file containing the application to execute. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `id` - The ID of a run. 
+* `language` - The Spark language. 
+* `lifecycle_details` - The detailed messages about the lifecycle state. 
+* `logs_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat 
+* `num_executors` - The number of executor VMs requested. 
+* `opc_request_id` - Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID. 
+* `owner_principal_id` - The OCID of the user who created the resource. 
+* `owner_user_name` - The username of the user who created the resource.  If the username of the owner does not exist, `null` will be returned and the caller should refer to the ownerPrincipalId value instead. 
+* `parameters` - An array of name/value pairs used to fill placeholders found in properties like `Application.arguments`.  The name must be a string of one or more word characters (a-z, A-Z, 0-9, _).  The value can be a string of 0 or more characters of any kind. Example:  [ { name: "iterations", value: "10"}, { name: "input_file", value: "mydata.xml" }, { name: "variable_x", value: "${x}"} ] 
+	* `name` - The name of the parameter.  It must be a string of one or more word characters (a-z, A-Z, 0-9, _). Examples: "iterations", "input_file" 
+	* `value` - The value of the parameter. It must be a string of 0 or more characters of any kind. Examples: "" (empty string), "10", "mydata.xml", "${x}" 
+* `run_duration_in_milliseconds` - The duration of the run in milliseconds. 
+* `spark_version` - The Spark version utilized to run the application. 
+* `state` - The current state of this run. 
+* `time_created` - The date and time a application was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
+* `time_updated` - The date and time a application was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 
+* `total_ocpu` - The total number of oCPU requested by the run. 
+* `warehouse_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat 
+
+## Import
+
+InvokeRuns can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_dataflow_invoke_run.test_invoke_run "id"
+```
+

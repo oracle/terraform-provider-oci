@@ -12,6 +12,7 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/datacatalog"
+	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 	oci_email "github.com/oracle/oci-go-sdk/email"
 	oci_events "github.com/oracle/oci-go-sdk/events"
@@ -49,6 +50,7 @@ type OracleClients struct {
 	computeManagementClient        *oci_core.ComputeManagementClient
 	containerEngineClient          *oci_containerengine.ContainerEngineClient
 	dataCatalogClient              *oci_datacatalog.DataCatalogClient
+	dataFlowClient                 *oci_dataflow.DataFlowClient
 	databaseClient                 *oci_database.DatabaseClient
 	deploymentClient               *oci_apigateway.DeploymentClient
 	dnsClient                      *oci_dns.DnsClient
@@ -208,6 +210,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.dataCatalogClient = &dataCatalogClient
+
+	dataFlowClient, err := oci_dataflow.NewDataFlowClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&dataFlowClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.dataFlowClient = &dataFlowClient
 
 	databaseClient, err := oci_database.NewDatabaseClientWithConfigurationProvider(configProvider)
 	if err != nil {
