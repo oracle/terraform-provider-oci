@@ -62,6 +62,11 @@ var (
 		"is_preview_version_with_service_terms_accepted": Representation{repType: Optional, create: `false`},
 		"license_model":    Representation{repType: Optional, create: `LICENSE_INCLUDED`},
 		"data_safe_status": Representation{repType: Optional, create: `REGISTERED`, update: `not_REGISTERED`},
+		"timeouts":         RepresentationGroup{Required, autonomousDatabaseDtaSafeStatusTimeoutsRepresentation},
+	}
+
+	autonomousDatabaseDtaSafeStatusTimeoutsRepresentation = map[string]interface{}{
+		"delete": Representation{repType: Required, create: `10m`},
 	}
 
 	AutonomousDatabaseDedicatedResourceDependencies = AutonomousContainerDatabaseResourceConfig
