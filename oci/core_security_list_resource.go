@@ -685,7 +685,7 @@ func (s *CoreSecurityListResourceCrud) SetData() error {
 func (s *CoreSecurityListResourceCrud) mapToEgressSecurityRule(fieldKeyFormat string) (oci_core.EgressSecurityRule, error) {
 	result := oci_core.EgressSecurityRule{}
 
-	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok && description != "" {
 		tmp := description.(string)
 		result.Description = &tmp
 	}
@@ -818,7 +818,7 @@ func IcmpOptionsToMap(obj *oci_core.IcmpOptions) map[string]interface{} {
 func (s *CoreSecurityListResourceCrud) mapToIngressSecurityRule(fieldKeyFormat string) (oci_core.IngressSecurityRule, error) {
 	result := oci_core.IngressSecurityRule{}
 
-	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok && description != "" {
 		tmp := description.(string)
 		result.Description = &tmp
 	}
