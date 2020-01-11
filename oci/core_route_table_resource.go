@@ -372,7 +372,7 @@ func (s *CoreRouteTableResourceCrud) mapToRouteRule(fieldKeyFormat string) (oci_
 		result.DestinationType = tmp
 	}
 
-	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok && description != "" {
 		tmp := description.(string)
 		result.Description = &tmp
 	}
