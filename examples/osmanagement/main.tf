@@ -115,7 +115,7 @@ resource "null_resource" "remote-exec" {
     inline = [
       "sudo -E wget http://yum-${var.region}.oracle.com/yum-${var.region}-ol7.repo",
       "sudo yum-config-manager --enable ol7_oci_included",
-      "sudo yum --enablerepo ol7_oci_included install osms-agent",
+      "sudo yum -y --enablerepo ol7_oci_included install osms-agent",
     ]
   }
 }
@@ -257,9 +257,9 @@ data "oci_osmanagement_managed_instance" "test_managed_instance" {
 }
 
 output "managed_instance_output" {
-  value = ["${data.oci_osmanagement_managed_instance.test_managed_instance}"]
+  value = ["${data.oci_osmanagement_managed_instance.test_managed_instance.managed_instance_groups}"]
 }
 
 output "managed_instance_groups_output" {
-  value = ["${data.oci_osmanagement_managed_instance_groups.test_managed_instance_groups}"]
+  value = ["${data.oci_osmanagement_managed_instance_groups.test_managed_instance_groups.display_name}"]
 }
