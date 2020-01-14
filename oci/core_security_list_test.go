@@ -45,6 +45,7 @@ var (
 	securityListEgressSecurityRulesICMPRepresentation = map[string]interface{}{
 		"destination":      Representation{repType: Required, create: `10.0.2.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
 		"protocol":         Representation{repType: Required, create: `1`},
+		"description":      Representation{repType: Optional, create: `description`, update: `description2`},
 		"destination_type": Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
 		"icmp_options":     RepresentationGroup{Optional, securityListEgressSecurityRulesIcmpOptionsRepresentation},
 		"stateless":        Representation{repType: Optional, create: `false`, update: `true`},
@@ -65,6 +66,7 @@ var (
 	}
 	securityListIngressSecurityRulesICMPRepresentation = map[string]interface{}{
 		"protocol":     Representation{repType: Required, create: `1`},
+		"description":  Representation{repType: Optional, create: `description`, update: `description2`},
 		"source":       Representation{repType: Required, create: `10.0.1.0/24`, update: `${lookup(data.oci_core_services.test_services.services[0], "cidr_block")}`},
 		"icmp_options": RepresentationGroup{Optional, securityListIngressSecurityRulesIcmpOptionsRepresentation},
 		"source_type":  Representation{repType: Optional, create: `CIDR_BLOCK`, update: `SERVICE_CIDR_BLOCK`},
@@ -201,6 +203,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "3"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
 						"destination":         "10.0.2.0/24",
+						"description":         "description",
 						"destination_type":    "CIDR_BLOCK",
 						"icmp_options.#":      "1",
 						"icmp_options.0.code": "4",
@@ -242,6 +245,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 						"icmp_options.#":      "1",
 						"icmp_options.0.code": "4",
 						"icmp_options.0.type": "3",
+						"description":         "description",
 						"protocol":            "1",
 						"source":              "10.0.1.0/24",
 						"source_type":         "CIDR_BLOCK",
@@ -303,6 +307,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyPrivateSubnetSecurityList"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "3"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
+						"description":         "description",
 						"destination":         "10.0.2.0/24",
 						"destination_type":    "CIDR_BLOCK",
 						"icmp_options.#":      "1",
@@ -316,6 +321,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "3"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
+						"description":         "description",
 						"icmp_options.#":      "1",
 						"icmp_options.0.code": "4",
 						"icmp_options.0.type": "3",
@@ -349,6 +355,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "egress_security_rules.#", "3"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "egress_security_rules", map[string]string{
+						"description":         "description2",
 						"destination_type":    "SERVICE_CIDR_BLOCK",
 						"icmp_options.#":      "1",
 						"icmp_options.0.code": "0",
@@ -391,6 +398,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "ingress_security_rules.#", "3"),
 					CheckResourceSetContainsElementWithProperties(resourceName, "ingress_security_rules", map[string]string{
+						"description":         "description2",
 						"icmp_options.#":      "1",
 						"icmp_options.0.code": "0",
 						"icmp_options.0.type": "3",
@@ -460,6 +468,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.egress_security_rules.#", "3"),
 					CheckResourceSetContainsElementWithProperties(datasourceName, "security_lists.0.egress_security_rules", map[string]string{
+						"description":         "description2",
 						"destination_type":    "SERVICE_CIDR_BLOCK",
 						"icmp_options.#":      "1",
 						"icmp_options.0.code": "0",
@@ -502,6 +511,7 @@ func TestCoreSecurityListResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "security_lists.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "security_lists.0.ingress_security_rules.#", "3"),
 					CheckResourceSetContainsElementWithProperties(datasourceName, "security_lists.0.ingress_security_rules", map[string]string{
+						"description":         "description2",
 						"icmp_options.#":      "1",
 						"icmp_options.0.code": "0",
 						"icmp_options.0.type": "3",

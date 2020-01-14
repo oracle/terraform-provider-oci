@@ -67,6 +67,8 @@ const (
 	WorkRequestRequestActionDeleteOdaInstance            WorkRequestRequestActionEnum = "DELETE_ODA_INSTANCE"
 	WorkRequestRequestActionPurgeOdaInstance             WorkRequestRequestActionEnum = "PURGE_ODA_INSTANCE"
 	WorkRequestRequestActionRecoverOdaInstance           WorkRequestRequestActionEnum = "RECOVER_ODA_INSTANCE"
+	WorkRequestRequestActionStopOdaInstance              WorkRequestRequestActionEnum = "STOP_ODA_INSTANCE"
+	WorkRequestRequestActionStartOdaInstance             WorkRequestRequestActionEnum = "START_ODA_INSTANCE"
 	WorkRequestRequestActionChangeOdaInstanceCompartment WorkRequestRequestActionEnum = "CHANGE_ODA_INSTANCE_COMPARTMENT"
 	WorkRequestRequestActionCreateAssociation            WorkRequestRequestActionEnum = "CREATE_ASSOCIATION"
 	WorkRequestRequestActionDeleteAssociation            WorkRequestRequestActionEnum = "DELETE_ASSOCIATION"
@@ -80,6 +82,8 @@ var mappingWorkRequestRequestAction = map[string]WorkRequestRequestActionEnum{
 	"DELETE_ODA_INSTANCE":             WorkRequestRequestActionDeleteOdaInstance,
 	"PURGE_ODA_INSTANCE":              WorkRequestRequestActionPurgeOdaInstance,
 	"RECOVER_ODA_INSTANCE":            WorkRequestRequestActionRecoverOdaInstance,
+	"STOP_ODA_INSTANCE":               WorkRequestRequestActionStopOdaInstance,
+	"START_ODA_INSTANCE":              WorkRequestRequestActionStartOdaInstance,
 	"CHANGE_ODA_INSTANCE_COMPARTMENT": WorkRequestRequestActionChangeOdaInstanceCompartment,
 	"CREATE_ASSOCIATION":              WorkRequestRequestActionCreateAssociation,
 	"DELETE_ASSOCIATION":              WorkRequestRequestActionDeleteAssociation,

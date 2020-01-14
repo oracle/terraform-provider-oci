@@ -1,0 +1,125 @@
+---
+subcategory: "Database"
+layout: "oci"
+page_title: "Oracle Cloud Infrastructure: oci_database_database"
+sidebar_current: "docs-oci-resource-database-database"
+description: |-
+  Provides the Database resource in Oracle Cloud Infrastructure Database service
+---
+
+# oci_database_database
+This resource provides the Database resource in Oracle Cloud Infrastructure Database service.
+
+Creates a new database in the specified Database Home. If the database version is provided, it must match the version of the Database Home. Applies only to Exadata DB systems.
+
+
+## Example Usage
+
+```hcl
+resource "oci_database_database" "test_database" {
+	#Required
+	database {
+		#Required
+		admin_password = "${var.database_database_admin_password}"
+		db_name = "${var.database_database_db_name}"
+
+		#Optional
+		character_set = "${var.database_database_character_set}"
+		db_backup_config {
+
+			#Optional
+			auto_backup_enabled = "${var.database_database_db_backup_config_auto_backup_enabled}"
+			auto_backup_window = "${var.database_database_db_backup_config_auto_backup_window}"
+			backup_destination_details {
+				#Required
+				type = "${var.database_database_db_backup_config_backup_destination_details_type}"
+
+				#Optional
+				id = "${var.database_database_db_backup_config_backup_destination_details_id}"
+			}
+			recovery_window_in_days = "${var.database_database_db_backup_config_recovery_window_in_days}"
+		}
+		db_unique_name = "${var.database_database_db_unique_name}"
+		db_workload = "${var.database_database_db_workload}"
+		defined_tags = "${var.database_database_defined_tags}"
+		freeform_tags = "${var.database_database_freeform_tags}"
+		ncharacter_set = "${var.database_database_ncharacter_set}"
+		pdb_name = "${var.database_database_pdb_name}"
+	}
+	db_home_id = "${oci_database_db_home.test_db_home.id}"
+	source = "${var.database_source}"
+
+	#Optional
+	db_version = "${var.database_db_version}"
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `database` - (Required) (Updatable) 
+	* `admin_password` - (Required) A strong password for SYS, SYSTEM, and PDB Admin. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
+	* `character_set` - (Optional) The character set for the database.  The default is AL32UTF8. Allowed values are:
+
+		AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8859P6, AR8MSWIN1256, AR8MUSSAD768, AR8NAFITHA711, AR8NAFITHA721, AR8SAKHR706, AR8SAKHR707, AZ8ISO8859P9E, BG8MSWIN, BG8PC437S, BLT8CP921, BLT8ISO8859P13, BLT8MSWIN1257, BLT8PC775, BN8BSCII, CDN8PC863, CEL8ISO8859P14, CL8ISO8859P5, CL8ISOIR111, CL8KOI8R, CL8KOI8U, CL8MACCYRILLICS, CL8MSWIN1251, EE8ISO8859P2, EE8MACCES, EE8MACCROATIANS, EE8MSWIN1250, EE8PC852, EL8DEC, EL8ISO8859P7, EL8MACGREEKS, EL8MSWIN1253, EL8PC437S, EL8PC851, EL8PC869, ET8MSWIN923, HU8ABMOD, HU8CWI2, IN8ISCII, IS8PC861, IW8ISO8859P8, IW8MACHEBREWS, IW8MSWIN1255, IW8PC1507, JA16EUC, JA16EUCTILDE, JA16SJIS, JA16SJISTILDE, JA16VMS, KO16KSC5601, KO16KSCCS, KO16MSWIN949, LA8ISO6937, LA8PASSPORT, LT8MSWIN921, LT8PC772, LT8PC774, LV8PC1117, LV8PC8LR, LV8RST104090, N8PC865, NE8ISO8859P10, NEE8ISO8859P4, RU8BESTA, RU8PC855, RU8PC866, SE8ISO8859P3, TH8MACTHAIS, TH8TISASCII, TR8DEC, TR8MACTURKISHS, TR8MSWIN1254, TR8PC857, US7ASCII, US8PC437, UTF8, VN8MSWIN1258, VN8VN3, WE8DEC, WE8DG, WE8ISO8859P1, WE8ISO8859P15, WE8ISO8859P9, WE8MACROMAN8S, WE8MSWIN1252, WE8NCR4970, WE8NEXTSTEP, WE8PC850, WE8PC858, WE8PC860, WE8ROMAN8, ZHS16CGB231280, ZHS16GBK, ZHT16BIG5, ZHT16CCDC, ZHT16DBT, ZHT16HKSCS, ZHT16MSWIN950, ZHT32EUC, ZHT32SOPS, ZHT32TRIS 
+	* `db_backup_config` - (Optional) (Updatable) 
+		* `auto_backup_enabled` - (Optional) (Updatable) If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
+		* `auto_backup_window` - (Optional) (Updatable) Time window selected for initiating automatic backup for the database system. There are twelve available two-hour time windows. If no option is selected, a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
+		* `backup_destination_details` - (Optional) Backup destination details.
+			* `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
+			* `type` - (Required) Type of the database backup destination.
+		* `recovery_window_in_days` - (Optional) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
+	* `db_name` - (Required) The database name. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted.
+	* `db_unique_name` - (Optional) The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
+	* `db_workload` - (Optional) The database workload type.
+	* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+	* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+	* `ncharacter_set` - (Optional) The national character set for the database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
+	* `pdb_name` - (Optional) The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
+* `db_home_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
+* `db_version` - (Optional) A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/20160918/DbVersionSummary/ListDbVersions) operation.
+* `source` - (Required) The source of the database: Use `NONE` for creating a new database. The default is `NONE`. 
+
+
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
+
+## Attributes Reference
+
+The following attributes are exported:
+
+* `character_set` - The character set for the database.
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `connection_strings` - The Connection strings used to connect to the Oracle Database.
+	* `all_connection_strings` - All connection strings to use to connect to the Database.
+	* `cdb_default` - Host name based CDB Connection String.
+	* `cdb_ip_default` - IP based CDB Connection String.
+* `db_backup_config` - 
+	* `auto_backup_enabled` - If set to true, configures automatic backups. If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
+	* `auto_backup_window` - Time window selected for initiating automatic backup for the database system. There are twelve available two-hour time windows. If no option is selected, a start time between 12:00 AM to 7:00 AM in the region of the database is automatically chosen. For example, if the user selects SLOT_TWO from the enum list, the automatic backup job will start in between 2:00 AM (inclusive) to 4:00 AM (exclusive).  Example: `SLOT_TWO` 
+	* `backup_destination_details` - Backup destination details.
+		* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
+		* `type` - Type of the database backup destination.
+		* `vpc_password` - For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
+		* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
+	* `recovery_window_in_days` - Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
+* `db_home_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
+* `db_name` - The database name.
+* `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
+* `db_unique_name` - A system-generated name for the database to ensure uniqueness within an Oracle Data Guard group (a primary database and its standby databases). The unique name cannot be changed. 
+* `db_workload` - The database workload type.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
+* `lifecycle_details` - Additional information about the current lifecycleState.
+* `ncharacter_set` - The national character set for the database.
+* `pdb_name` - The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
+* `state` - The current state of the database.
+* `time_created` - The date and time the database was created.
+* `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
+
+## Import
+
+Import is not supported for this resource.
+

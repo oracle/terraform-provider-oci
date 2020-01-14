@@ -36,6 +36,9 @@ type DbHomeSummary struct {
 	// The Oracle Database version.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
+	// The location of the Oracle Database Home.
+	DbHomeLocation *string `mandatory:"true" json:"dbHomeLocation"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation is started.
 	LastPatchHistoryEntryId *string `mandatory:"false" json:"lastPatchHistoryEntryId"`
 
@@ -44,6 +47,9 @@ type DbHomeSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster.
 	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
+
+	// Additional information about the current lifecycleState.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// The date and time the Database Home was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`

@@ -44,6 +44,7 @@ resource "oci_core_security_list" "test_security_list" {
 		protocol = "${var.security_list_egress_security_rules_protocol}"
 
 		#Optional
+		description = "${var.security_list_egress_security_rules_description}"
 		destination_type = "${var.security_list_egress_security_rules_destination_type}"
 		icmp_options {
 			#Required
@@ -83,6 +84,7 @@ resource "oci_core_security_list" "test_security_list" {
 		source = "${var.security_list_ingress_security_rules_source}"
 
 		#Optional
+		description = "${var.security_list_ingress_security_rules_description}"
 		icmp_options {
 			#Required
 			type = "${var.security_list_ingress_security_rules_icmp_options_type}"
@@ -126,6 +128,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `egress_security_rules` - (Optional) (Updatable) Rules for allowing egress IP packets.
+	* `description` - (Optional) (Updatable) An optional description of your choice for the rule. 
 	* `destination` - (Required) (Updatable) Conceptually, this is the range of IP addresses that a packet originating from the instance can go to.
 
 		Allowed values:
@@ -161,6 +164,7 @@ The following arguments are supported:
 			* `min` - (Required) (Updatable) The minimum port number. Must not be greater than the maximum port number.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `ingress_security_rules` - (Optional) (Updatable) Rules for allowing ingress IP packets.
+	* `description` - (Optional) (Updatable) An optional description of your choice for the rule. 
 	* `icmp_options` - (Optional) (Updatable) Optional and valid only for ICMP and ICMPv6. Use to specify a particular ICMP type and code as defined in:
 		* [ICMP Parameters](http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml)
 		* [ICMPv6 Parameters](https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml)
@@ -206,6 +210,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `egress_security_rules` - Rules for allowing egress IP packets.
+	* `description` - An optional description of your choice for the rule. 
 	* `destination` - Conceptually, this is the range of IP addresses that a packet originating from the instance can go to.
 
 		Allowed values:
@@ -242,6 +247,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The security list's Oracle Cloud ID (OCID).
 * `ingress_security_rules` - Rules for allowing ingress IP packets.
+	* `description` - An optional description of your choice for the rule. 
 	* `icmp_options` - Optional and valid only for ICMP and ICMPv6. Use to specify a particular ICMP type and code as defined in:
 		* [ICMP Parameters](http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml)
 		* [ICMPv6 Parameters](https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml)

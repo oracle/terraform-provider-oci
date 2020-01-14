@@ -6,6 +6,10 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 
+variable "oda_instance_state" {
+  default = "INACTIVE"
+}
+
 variable "compartment_ocid" {}
 
 provider "oci" {
@@ -21,6 +25,9 @@ resource "oci_oda_oda_instance" "TFOdaInstance" {
   shape_name     = "DEVELOPMENT"
   description    = "test instance"
   display_name   = "TestInstance"
+
+  #Optional
+  state = "${var.oda_instance_state}"
 }
 
 data "oci_oda_oda_instances" "TFOdaInstances" {

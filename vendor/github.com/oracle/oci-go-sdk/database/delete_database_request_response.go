@@ -8,16 +8,21 @@ import (
 	"net/http"
 )
 
-// DeleteExadataInfrastructureRequest wrapper for the DeleteExadataInfrastructure operation
-type DeleteExadataInfrastructureRequest struct {
+// DeleteDatabaseRequest wrapper for the DeleteDatabase operation
+type DeleteDatabaseRequest struct {
 
-	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-	ExadataInfrastructureId *string `mandatory:"true" contributesTo:"path" name:"exadataInfrastructureId"`
+	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
 	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
 	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
+
+	// Whether to perform a final backup of the database or not. Default is false.
+	// If you previously used RMAN or dbcli to configure backups and then you switch to using the Console or the API for backups, a new backup configuration is created and associated with your database. This means that you can no longer rely on your previously configured unmanaged backups to work.
+	// This parameter is used in multiple APIs. Refer to the API description for details on how the operation uses it.
+	PerformFinalBackup *bool `mandatory:"false" contributesTo:"query" name:"performFinalBackup"`
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -27,22 +32,22 @@ type DeleteExadataInfrastructureRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request DeleteExadataInfrastructureRequest) String() string {
+func (request DeleteDatabaseRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request DeleteExadataInfrastructureRequest) HTTPRequest(method, path string) (http.Request, error) {
+func (request DeleteDatabaseRequest) HTTPRequest(method, path string) (http.Request, error) {
 	return common.MakeDefaultHTTPRequestWithTaggedStruct(method, path, request)
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DeleteExadataInfrastructureRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteDatabaseRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
-// DeleteExadataInfrastructureResponse wrapper for the DeleteExadataInfrastructure operation
-type DeleteExadataInfrastructureResponse struct {
+// DeleteDatabaseResponse wrapper for the DeleteDatabase operation
+type DeleteDatabaseResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -55,11 +60,11 @@ type DeleteExadataInfrastructureResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response DeleteExadataInfrastructureResponse) String() string {
+func (response DeleteDatabaseResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response DeleteExadataInfrastructureResponse) HTTPResponse() *http.Response {
+func (response DeleteDatabaseResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
