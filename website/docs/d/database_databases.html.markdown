@@ -19,11 +19,12 @@ Gets a list of the databases in the specified Database Home.
 data "oci_database_databases" "test_databases" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	db_home_id = "${oci_database_db_home.test_db_home.id}"
 
 	#Optional
+	db_home_id = "${oci_database_db_home.test_db_home.id}"
 	db_name = "${var.database_db_name}"
 	state = "${var.database_state}"
+	system_id = "${oci_database_system.test_system.id}"
 }
 ```
 
@@ -32,9 +33,10 @@ data "oci_database_databases" "test_databases" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `db_home_id` - (Required) A Database Home [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `db_home_id` - (Optional) A Database Home [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `db_name` - (Optional) A filter to return only resources that match the entire database name given. The match is not case sensitive.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
+* `system_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata DB system that you want to filter the database results by. Applies only to Exadata DB systems.
 
 
 ## Attributes Reference
@@ -62,6 +64,7 @@ The following attributes are exported:
 	* `recovery_window_in_days` - Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
 * `db_home_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 * `db_name` - The database name.
+* `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system.
 * `db_unique_name` - A system-generated name for the database to ensure uniqueness within an Oracle Data Guard group (a primary database and its standby databases). The unique name cannot be changed. 
 * `db_workload` - The database workload type.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
@@ -72,4 +75,5 @@ The following attributes are exported:
 * `pdb_name` - The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of eight alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 * `state` - The current state of the database.
 * `time_created` - The date and time the database was created.
+* `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 

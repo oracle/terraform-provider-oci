@@ -600,6 +600,7 @@ func ResourcesMap() map[string]*schema.Resource {
 		"oci_database_backup":                                         DatabaseBackupResource(),
 		"oci_database_backup_destination":                             DatabaseBackupDestinationResource(),
 		"oci_database_data_guard_association":                         DatabaseDataGuardAssociationResource(),
+		"oci_database_database":                                       DatabaseDatabaseResource(),
 		"oci_database_db_home":                                        DatabaseDbHomeResource(),
 		"oci_database_db_system":                                      DatabaseDbSystemResource(),
 		"oci_database_exadata_iorm_config":                            DatabaseExadataIormConfigResource(),

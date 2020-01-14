@@ -4,6 +4,10 @@ package oci
 
 import (
 	"context"
+	"fmt"
+	"strings"
+
+	"github.com/hashicorp/terraform/helper/validation"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -66,8 +70,14 @@ func OdaOdaInstanceResource() *schema.Resource {
 				Computed: true,
 			},
 			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:             schema.TypeString,
+				Computed:         true,
+				Optional:         true,
+				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_oda.OdaInstanceLifecycleStateActive),
+					string(oci_oda.OdaInstanceLifecycleStateInactive),
+				}, true),
 			},
 			"state_message": {
 				Type:     schema.TypeString,
@@ -94,7 +104,30 @@ func createOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).odaClient
 
-	return CreateResource(d, sync)
+	var isInactiveRequest = false
+	if configState, ok := sync.D.GetOkExists("state"); ok {
+		wantedState := oci_oda.OdaInstanceLifecycleStateEnum(strings.ToUpper(configState.(string)))
+		if wantedState == oci_oda.OdaInstanceLifecycleStateInactive {
+			isInactiveRequest = true
+		}
+	}
+
+	if error := CreateResource(d, sync); error != nil {
+		return error
+	}
+
+	if isInactiveRequest {
+		return inactiveOdaIfNeeded(d, sync)
+	}
+
+	return nil
+}
+
+func inactiveOdaIfNeeded(d *schema.ResourceData, sync *OdaOdaInstanceResourceCrud) error {
+	if err := sync.StopOdaInstance(); err != nil {
+		return err
+	}
+	return ReadResource(sync)
 }
 
 func readOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
@@ -110,7 +143,46 @@ func updateOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*OracleClients).odaClient
 
-	return UpdateResource(d, sync)
+	// Start/Stop ODA instance
+	stateActive, stateInactive := false, false
+
+	if sync.D.HasChange("state") {
+		wantedState := strings.ToUpper(sync.D.Get("state").(string))
+		if oci_oda.OdaInstanceLifecycleStateActive == oci_oda.OdaInstanceLifecycleStateEnum(wantedState) {
+			stateActive = true
+			stateInactive = false
+		} else if oci_oda.OdaInstanceLifecycleStateInactive == oci_oda.OdaInstanceLifecycleStateEnum(wantedState) {
+			stateInactive = true
+			stateActive = false
+		} else {
+			return fmt.Errorf("[ERROR] Invalid state input for update %v", wantedState)
+		}
+	}
+
+	if stateActive {
+		if err := sync.StartOdaInstance(); err != nil {
+			return err
+		}
+		if err := sync.D.Set("state", oci_oda.OdaInstanceLifecycleStateActive); err != nil {
+			return err
+		}
+	}
+
+	// when state is inactive, it is invalid to update resource
+	if err := UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	if stateInactive {
+		if err := sync.StopOdaInstance(); err != nil {
+			return err
+		}
+		if err := sync.D.Set("state", oci_oda.OdaInstanceLifecycleStateInactive); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func deleteOdaOdaInstance(d *schema.ResourceData, m interface{}) error {
@@ -343,4 +415,48 @@ func (s *OdaOdaInstanceResourceCrud) updateCompartment(compartment interface{}) 
 		return err
 	}
 	return nil
+}
+
+func (s *OdaOdaInstanceResourceCrud) StartOdaInstance() error {
+	state := oci_oda.OdaInstanceLifecycleStateActive
+	if err := s.Get(); err != nil {
+		return err
+	}
+	if s.Res.LifecycleState == state {
+		fmt.Printf("[WARN] The ODA instance already in the wanted state: %v", state)
+		return nil
+	}
+	request := oci_oda.StartOdaInstanceRequest{}
+
+	tmp := s.D.Id()
+	request.OdaInstanceId = &tmp
+
+	if _, err := s.Client.StartOdaInstance(context.Background(), request); err != nil {
+		return err
+	}
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
+
+	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *OdaOdaInstanceResourceCrud) StopOdaInstance() error {
+	state := oci_oda.OdaInstanceLifecycleStateInactive
+	if err := s.Get(); err != nil {
+		return err
+	}
+	if s.Res.LifecycleState == state {
+		fmt.Printf("[WARN] The ODA instance already in the wanted state: %v", state)
+		return nil
+	}
+	request := oci_oda.StopOdaInstanceRequest{}
+
+	tmp := s.D.Id()
+	request.OdaInstanceId = &tmp
+
+	if _, err := s.Client.StopOdaInstance(context.Background(), request); err != nil {
+		return err
+	}
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
+
+	return WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }

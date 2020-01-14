@@ -9,6 +9,14 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 
+variable "security_list_egress_security_rules_description" {
+  default = "description"
+}
+
+variable "security_list_ingress_security_rules_description" {
+  default = "description"
+}
+
 provider "oci" {
   tenancy_ocid     = "${var.tenancy_ocid}"
   user_ocid        = "${var.user_ocid}"
@@ -40,8 +48,9 @@ resource "oci_core_security_list" "example_security_list" {
 
   // allow outbound udp traffic on a port range
   egress_security_rules {
+    description = "${var.security_list_egress_security_rules_description}"
     destination = "0.0.0.0/0"
-    protocol    = "17"        // udp
+    protocol    = "17"                                                     // udp
     stateless   = true
 
     udp_options {
@@ -71,9 +80,10 @@ resource "oci_core_security_list" "example_security_list" {
 
   // allow inbound icmp traffic of a specific type
   ingress_security_rules {
-    protocol  = 1
-    source    = "0.0.0.0/0"
-    stateless = true
+    description = "${var.security_list_ingress_security_rules_description}"
+    protocol    = 1
+    source      = "0.0.0.0/0"
+    stateless   = true
 
     icmp_options {
       type = 3

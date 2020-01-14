@@ -10,144 +10,12 @@ import (
 )
 
 func DatabaseDatabaseDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDatabaseDatabase,
-		Schema: map[string]*schema.Schema{
-			"database_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"character_set": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"connection_strings": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"all_connection_strings": {
-							Type:     schema.TypeMap,
-							Computed: true,
-							Elem:     schema.TypeString,
-						},
-						"cdb_default": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"cdb_ip_default": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"db_backup_config": {
-				Type:     schema.TypeList,
-				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"auto_backup_enabled": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"auto_backup_window": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"backup_destination_details": {
-							Type:     schema.TypeList,
-							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
-									"id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"type": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-								},
-							},
-						},
-						"recovery_window_in_days": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"db_home_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"db_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"db_unique_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"db_workload": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"ncharacter_set": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"pdb_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["database_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return GetSingularDataSourceItemSchema(DatabaseDatabaseResource(), fieldMap, readSingularDatabaseDatabase)
 }
 
 func readSingularDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
@@ -222,6 +90,10 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("db_name", *s.Res.DbName)
 	}
 
+	if s.Res.DbSystemId != nil {
+		s.D.Set("db_system_id", *s.Res.DbSystemId)
+	}
+
 	if s.Res.DbUniqueName != nil {
 		s.D.Set("db_unique_name", *s.Res.DbUniqueName)
 	}
@@ -254,35 +126,9 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.VmClusterId != nil {
+		s.D.Set("vm_cluster_id", *s.Res.VmClusterId)
+	}
+
 	return nil
 }
-
-func BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	result["type"] = string(obj.Type)
-
-	return result
-}
-
-func DatabaseConnectionStringsToMap(obj *oci_database.DatabaseConnectionStrings) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["all_connection_strings"] = obj.AllConnectionStrings
-
-	if obj.CdbDefault != nil {
-		result["cdb_default"] = string(*obj.CdbDefault)
-	}
-
-	if obj.CdbIpDefault != nil {
-		result["cdb_ip_default"] = string(*obj.CdbIpDefault)
-	}
-
-	return result
-}
-
-// @CODEGEN 08/2018: Method DbBackupConfigToMap is available in database_db_system_resource.go
