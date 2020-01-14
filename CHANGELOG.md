@@ -2,6 +2,7 @@
 
 ### Added
 - Support update DNS name for Events
+- Support for Oracle NoSQL Database Cloud
 
 ## 3.62.0 (February 12, 2020)
 
