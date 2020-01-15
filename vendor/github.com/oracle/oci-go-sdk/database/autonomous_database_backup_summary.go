@@ -49,6 +49,9 @@ type AutonomousDatabaseBackupSummary struct {
 
 	// The size of the database in terabytes at the time the backup was taken.
 	DatabaseSizeInTBs *float32 `mandatory:"false" json:"databaseSizeInTBs"`
+
+	// Indicates whether the backup can be used to restore the associated Autonomous Database.
+	IsRestorable *bool `mandatory:"false" json:"isRestorable"`
 }
 
 func (m AutonomousDatabaseBackupSummary) String() string {
