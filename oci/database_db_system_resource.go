@@ -259,7 +259,15 @@ func DatabaseDbSystemResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"db_home_location": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"last_patch_history_entry_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"lifecycle_details": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1201,6 +1209,14 @@ func (s *DatabaseDbSystemResourceCrud) DbHomeToMap(obj *oci_database.DbHome) map
 
 	if obj.LastPatchHistoryEntryId != nil {
 		result["last_patch_history_entry_id"] = string(*obj.LastPatchHistoryEntryId)
+	}
+
+	if obj.DbHomeLocation != nil {
+		result["db_home_location"] = string(*obj.DbHomeLocation)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
 	result["state"] = obj.LifecycleState

@@ -46,6 +46,7 @@ resource "oci_core_route_table" "test_route_table" {
 
 		#Optional
 		cidr_block = "${var.route_table_route_rules_cidr_block}"
+		description = "${var.route_table_route_rules_description}"
 		destination = "${var.route_table_route_rules_destination}"
 		destination_type = "${var.route_table_route_rules_destination_type}"
 	}
@@ -68,6 +69,7 @@ The following arguments are supported:
 		Cannot be an IPv6 CIDR.
 
 		Example: `0.0.0.0/0` 
+	* `description` - (Optional) (Updatable) An optional description of your choice for the rule. 
 	* `destination` - (Optional) (Updatable) Conceptually, this is the range of IP addresses used for matching when routing traffic. Required if you provide a `destinationType`.
 
 		Allowed values:
@@ -100,6 +102,7 @@ The following attributes are exported:
 		Cannot be an IPv6 CIDR.
 
 		Example: `0.0.0.0/0` 
+	* `description` - An optional description of your choice for the rule. 
 	* `destination` - Conceptually, this is the range of IP addresses used for matching when routing traffic. Required if you provide a `destinationType`.
 
 		Allowed values:

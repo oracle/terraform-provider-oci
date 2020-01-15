@@ -66,6 +66,10 @@ func (s *DatabaseDbHomeDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DbHomeLocation != nil {
+		s.D.Set("db_home_location", *s.Res.DbHomeLocation)
+	}
+
 	if s.Res.DbSystemId != nil {
 		s.D.Set("db_system_id", *s.Res.DbSystemId)
 	}
@@ -80,6 +84,10 @@ func (s *DatabaseDbHomeDataSourceCrud) SetData() error {
 
 	if s.Res.LastPatchHistoryEntryId != nil {
 		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)
+	}
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

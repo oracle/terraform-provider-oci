@@ -48,6 +48,8 @@ const (
 	WorkRequestSummaryRequestActionDeleteOdaInstance            WorkRequestSummaryRequestActionEnum = "DELETE_ODA_INSTANCE"
 	WorkRequestSummaryRequestActionPurgeOdaInstance             WorkRequestSummaryRequestActionEnum = "PURGE_ODA_INSTANCE"
 	WorkRequestSummaryRequestActionRecoverOdaInstance           WorkRequestSummaryRequestActionEnum = "RECOVER_ODA_INSTANCE"
+	WorkRequestSummaryRequestActionStopOdaInstance              WorkRequestSummaryRequestActionEnum = "STOP_ODA_INSTANCE"
+	WorkRequestSummaryRequestActionStartOdaInstance             WorkRequestSummaryRequestActionEnum = "START_ODA_INSTANCE"
 	WorkRequestSummaryRequestActionChangeOdaInstanceCompartment WorkRequestSummaryRequestActionEnum = "CHANGE_ODA_INSTANCE_COMPARTMENT"
 	WorkRequestSummaryRequestActionCreateAssociation            WorkRequestSummaryRequestActionEnum = "CREATE_ASSOCIATION"
 	WorkRequestSummaryRequestActionDeleteAssociation            WorkRequestSummaryRequestActionEnum = "DELETE_ASSOCIATION"
@@ -61,6 +63,8 @@ var mappingWorkRequestSummaryRequestAction = map[string]WorkRequestSummaryReques
 	"DELETE_ODA_INSTANCE":             WorkRequestSummaryRequestActionDeleteOdaInstance,
 	"PURGE_ODA_INSTANCE":              WorkRequestSummaryRequestActionPurgeOdaInstance,
 	"RECOVER_ODA_INSTANCE":            WorkRequestSummaryRequestActionRecoverOdaInstance,
+	"STOP_ODA_INSTANCE":               WorkRequestSummaryRequestActionStopOdaInstance,
+	"START_ODA_INSTANCE":              WorkRequestSummaryRequestActionStartOdaInstance,
 	"CHANGE_ODA_INSTANCE_COMPARTMENT": WorkRequestSummaryRequestActionChangeOdaInstanceCompartment,
 	"CREATE_ASSOCIATION":              WorkRequestSummaryRequestActionCreateAssociation,
 	"DELETE_ASSOCIATION":              WorkRequestSummaryRequestActionDeleteAssociation,

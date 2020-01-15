@@ -59,3 +59,21 @@ resource "oci_database_exadata_iorm_config" "test_exadata_iorm_config" {
     share   = 1
   }
 }
+
+resource "oci_database_database" "test_database" {
+  #Required
+  database {
+    admin_password = "${var.db_admin_password}"
+    db_name        = "${var.second_db_name}"
+    character_set  = "${var.character_set}"
+    ncharacter_set = "${var.n_character_set}"
+    db_workload    = "${var.db_workload}"
+
+    db_backup_config {
+      auto_backup_enabled = false
+    }
+  }
+
+  db_home_id = "${data.oci_database_db_homes.db_homes.db_homes.0.db_home_id}"
+  source     = "NONE"
+}
