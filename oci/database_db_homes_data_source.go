@@ -14,6 +14,10 @@ func DatabaseDbHomesDataSource() *schema.Resource {
 		Read: readDatabaseDbHomes,
 		Schema: map[string]*schema.Schema{
 			"filter": dataSourceFiltersSchema(),
+			"backup_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -63,6 +67,11 @@ func (s *DatabaseDbHomesDataSourceCrud) VoidState() {
 
 func (s *DatabaseDbHomesDataSourceCrud) Get() error {
 	request := oci_database.ListDbHomesRequest{}
+
+	if backupId, ok := s.D.GetOkExists("backup_id"); ok {
+		tmp := backupId.(string)
+		request.BackupId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -125,6 +134,14 @@ func (s *DatabaseDbHomesDataSourceCrud) SetData() error {
 			"db_system_id":   *r.DbSystemId,
 		}
 
+		if r.DbHomeLocation != nil {
+			dbHome["db_home_location"] = *r.DbHomeLocation
+		}
+
+		if r.DbSystemId != nil {
+			dbHome["db_system_id"] = *r.DbSystemId
+		}
+
 		if r.DbVersion != nil {
 			dbHome["db_version"] = *r.DbVersion
 		}
@@ -140,6 +157,10 @@ func (s *DatabaseDbHomesDataSourceCrud) SetData() error {
 
 		if r.LastPatchHistoryEntryId != nil {
 			dbHome["last_patch_history_entry_id"] = *r.LastPatchHistoryEntryId
+		}
+
+		if r.LifecycleDetails != nil {
+			dbHome["lifecycle_details"] = *r.LifecycleDetails
 		}
 
 		dbHome["state"] = r.LifecycleState

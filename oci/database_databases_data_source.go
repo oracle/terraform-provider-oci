@@ -20,7 +20,7 @@ func DatabaseDatabasesDataSource() *schema.Resource {
 			},
 			"db_home_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"db_name": {
 				Type:     schema.TypeString,
@@ -30,10 +30,14 @@ func DatabaseDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"system_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"databases": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     GetDataSourceItemSchema(DatabaseDatabaseDataSource()),
+				Elem:     GetDataSourceItemSchema(DatabaseDatabaseResource()),
 			},
 		},
 	}
@@ -79,6 +83,11 @@ func (s *DatabaseDatabasesDataSourceCrud) Get() error {
 		request.LifecycleState = oci_database.DatabaseSummaryLifecycleStateEnum(state.(string))
 	}
 
+	if systemId, ok := s.D.GetOkExists("system_id"); ok {
+		tmp := systemId.(string)
+		request.SystemId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
 
 	response, err := s.Client.ListDatabases(context.Background(), request)
@@ -113,7 +122,6 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		database := map[string]interface{}{
 			"compartment_id": *r.CompartmentId,
-			"db_home_id":     *r.DbHomeId,
 		}
 
 		if r.CharacterSet != nil {
@@ -132,8 +140,16 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["db_backup_config"] = nil
 		}
 
+		if r.DbHomeId != nil {
+			database["db_home_id"] = *r.DbHomeId
+		}
+
 		if r.DbName != nil {
 			database["db_name"] = *r.DbName
+		}
+
+		if r.DbSystemId != nil {
+			database["db_system_id"] = *r.DbSystemId
 		}
 
 		if r.DbUniqueName != nil {
@@ -170,6 +186,10 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			database["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.VmClusterId != nil {
+			database["vm_cluster_id"] = *r.VmClusterId
 		}
 
 		resources = append(resources, database)

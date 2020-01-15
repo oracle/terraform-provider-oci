@@ -97,6 +97,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `db_home_location` - The location of the Oracle Database Home.
 * `database` 
     * `character_set` - The character set for the database.
     * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -126,6 +127,7 @@ The following attributes are exported:
 * `display_name` - The user-provided name for the Database Home. The name does not need to be unique.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 * `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation is started.
+* `lifecycle_details` - Additional information about the current lifecycleState.
 * `state` - The current state of the Database Home.
 * `time_created` - The date and time the Database Home was created.
 * `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.

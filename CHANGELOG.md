@@ -1,4 +1,10 @@
 ## 3.58.0 (Unreleased)
+
+### Added
+- Support for `description` field in networking routing rules in `oci_core_route_table` and `oci_core_security_list`
+- Support for Stop/Start Digital Assistant Instance
+- Support for `oci_database_database` resource for exadata infrastructure
+
 ## 3.57.0 (January 09, 2020)
 
 ### Added

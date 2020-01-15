@@ -49,6 +49,8 @@ const (
 	WorkRequestResourceResourceActionDelete                     WorkRequestResourceResourceActionEnum = "DELETE"
 	WorkRequestResourceResourceActionPurge                      WorkRequestResourceResourceActionEnum = "PURGE"
 	WorkRequestResourceResourceActionRecover                    WorkRequestResourceResourceActionEnum = "RECOVER"
+	WorkRequestResourceResourceActionStop                       WorkRequestResourceResourceActionEnum = "STOP"
+	WorkRequestResourceResourceActionStart                      WorkRequestResourceResourceActionEnum = "START"
 	WorkRequestResourceResourceActionChangeCompartment          WorkRequestResourceResourceActionEnum = "CHANGE_COMPARTMENT"
 	WorkRequestResourceResourceActionCreateAssociation          WorkRequestResourceResourceActionEnum = "CREATE_ASSOCIATION"
 	WorkRequestResourceResourceActionDeleteAssociation          WorkRequestResourceResourceActionEnum = "DELETE_ASSOCIATION"
@@ -60,6 +62,8 @@ var mappingWorkRequestResourceResourceAction = map[string]WorkRequestResourceRes
 	"DELETE":                        WorkRequestResourceResourceActionDelete,
 	"PURGE":                         WorkRequestResourceResourceActionPurge,
 	"RECOVER":                       WorkRequestResourceResourceActionRecover,
+	"STOP":                          WorkRequestResourceResourceActionStop,
+	"START":                         WorkRequestResourceResourceActionStart,
 	"CHANGE_COMPARTMENT":            WorkRequestResourceResourceActionChangeCompartment,
 	"CREATE_ASSOCIATION":            WorkRequestResourceResourceActionCreateAssociation,
 	"DELETE_ASSOCIATION":            WorkRequestResourceResourceActionDeleteAssociation,

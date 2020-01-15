@@ -465,6 +465,103 @@ func (client OdaClient) listWorkRequests(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// StartOdaInstance Starts an inactive Digital Assistant instance. Once active, the instance will be accessible and metering
+// of requests will be started again.
+func (client OdaClient) StartOdaInstance(ctx context.Context, request StartOdaInstanceRequest) (response StartOdaInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.startOdaInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = StartOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartOdaInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartOdaInstanceResponse")
+	}
+	return
+}
+
+// startOdaInstance implements the OCIOperation interface (enables retrying operations)
+func (client OdaClient) startOdaInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/actions/start")
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartOdaInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StopOdaInstance Stops an active Digital Assistant instance. Once inactive, the instance will not be accessible and metering
+// of requests will be stopped until the instance is started again. Data associated with the instance
+// is not affected.
+func (client OdaClient) StopOdaInstance(ctx context.Context, request StopOdaInstanceRequest) (response StopOdaInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stopOdaInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			response = StopOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StopOdaInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StopOdaInstanceResponse")
+	}
+	return
+}
+
+// stopOdaInstance implements the OCIOperation interface (enables retrying operations)
+func (client OdaClient) stopOdaInstance(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/actions/stop")
+	if err != nil {
+		return nil, err
+	}
+
+	var response StopOdaInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateOdaInstance Updates the specified Digital Assistant instance with the information in the request body.
 func (client OdaClient) UpdateOdaInstance(ctx context.Context, request UpdateOdaInstanceRequest) (response UpdateOdaInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
