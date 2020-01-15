@@ -139,6 +139,14 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := CreateAutonomousDatabaseCloneDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "BACKUP_FROM_ID":
+		mm := CreateAutonomousDatabaseFromBackupDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BACKUP_FROM_TIMESTAMP":
+		mm := CreateAutonomousDatabaseFromBackupTimestampDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "NONE":
 		mm := CreateAutonomousDatabaseDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -283,13 +291,17 @@ type CreateAutonomousDatabaseBaseSourceEnum string
 
 // Set of constants representing the allowable values for CreateAutonomousDatabaseBaseSourceEnum
 const (
-	CreateAutonomousDatabaseBaseSourceNone     CreateAutonomousDatabaseBaseSourceEnum = "NONE"
-	CreateAutonomousDatabaseBaseSourceDatabase CreateAutonomousDatabaseBaseSourceEnum = "DATABASE"
+	CreateAutonomousDatabaseBaseSourceNone                CreateAutonomousDatabaseBaseSourceEnum = "NONE"
+	CreateAutonomousDatabaseBaseSourceDatabase            CreateAutonomousDatabaseBaseSourceEnum = "DATABASE"
+	CreateAutonomousDatabaseBaseSourceBackupFromId        CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_ID"
+	CreateAutonomousDatabaseBaseSourceBackupFromTimestamp CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_TIMESTAMP"
 )
 
 var mappingCreateAutonomousDatabaseBaseSource = map[string]CreateAutonomousDatabaseBaseSourceEnum{
-	"NONE":     CreateAutonomousDatabaseBaseSourceNone,
-	"DATABASE": CreateAutonomousDatabaseBaseSourceDatabase,
+	"NONE":                  CreateAutonomousDatabaseBaseSourceNone,
+	"DATABASE":              CreateAutonomousDatabaseBaseSourceDatabase,
+	"BACKUP_FROM_ID":        CreateAutonomousDatabaseBaseSourceBackupFromId,
+	"BACKUP_FROM_TIMESTAMP": CreateAutonomousDatabaseBaseSourceBackupFromTimestamp,
 }
 
 // GetCreateAutonomousDatabaseBaseSourceEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseSourceEnum
