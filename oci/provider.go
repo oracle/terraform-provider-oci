@@ -337,6 +337,7 @@ func DataSourcesMap() map[string]*schema.Resource {
 		"oci_database_autonomous_database_backup":                     DatabaseAutonomousDatabaseBackupDataSource(),
 		"oci_database_autonomous_database_backups":                    DatabaseAutonomousDatabaseBackupsDataSource(),
 		"oci_database_autonomous_db_preview_versions":                 DatabaseAutonomousDbPreviewVersionsDataSource(),
+		"oci_database_autonomous_db_versions":                         DatabaseAutonomousDbVersionsDataSource(),
 		"oci_database_autonomous_exadata_infrastructure":              DatabaseAutonomousExadataInfrastructureDataSource(),
 		"oci_database_autonomous_exadata_infrastructures":             DatabaseAutonomousExadataInfrastructuresDataSource(),
 		"oci_database_autonomous_exadata_infrastructure_ocpu":         DatabaseAutonomousExadataInfrastructureOcpuDataSource(),
