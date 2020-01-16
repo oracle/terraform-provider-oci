@@ -1,4 +1,8 @@
-## 3.60.1 (Unreleased)
+## 3.61.0 (Unreleased)
+
+### Added
+- Support for `DataScience` service
+
 ## 3.60.0 (January 29, 2020)
 
 ### Added
