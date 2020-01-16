@@ -22,7 +22,7 @@ var (
 	shapeResourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
 		"image_id":       Representation{repType: Required, create: `${oci_core_image.test_image.id}`},
-		"shape_name":     Representation{repType: Required, create: `VM.Standard.B1.1`},
+		"shape_name":     Representation{repType: Required, create: `VM.Standard.E2.1`},
 	}
 
 	ShapeResourceConfig = OciImageIdsVariable +
@@ -61,7 +61,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_core_shape_management", "test_shape", Required, Create, shapeResourceRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "image_id"),
-					resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.B1.1"),
+					resource.TestCheckResourceAttr(resourceName, "shape_name", "VM.Standard.E2.1"),
 				),
 			},
 			// verify Delete Compatible Image Shape
