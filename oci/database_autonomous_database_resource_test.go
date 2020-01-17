@@ -87,6 +87,10 @@ var (
 		})
 
 	AutonomousDatabaseDedicatedResourceDependencies = AutonomousContainerDatabaseResourceConfig
+
+	AutonomousDatabaseFromBackupDependencies = AutonomousDatabaseResourceDependencies +
+		generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation) +
+		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation)
 )
 
 func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
@@ -900,7 +904,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backupid", Required, Create, autonomousDatabaseRepresentationForSourceFromBackupId),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -922,11 +926,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backupid", Optional, Create, autonomousDatabaseRepresentationForSourceFromBackupId),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -971,7 +975,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backuptimestamp", Required, Create, autonomousDatabaseRepresentationForSourceFromBackupTimestamp),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -993,11 +997,11 @@ func TestResourceDatabaseAutonomousDatabaseResource_FromBackupTimestamp(t *testi
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies,
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies,
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
+				Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backuptimestamp", Optional, Create, autonomousDatabaseRepresentationForSourceFromBackupTimestamp),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),

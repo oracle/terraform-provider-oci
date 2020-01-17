@@ -70,9 +70,7 @@ var (
 			"source_id":  Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
 		})
 
-	AutonomousDatabaseResourceDependencies = DefinedTagsDependencies +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Required, Create, autonomousDatabaseBackupRepresentation) +
-		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation)
+	AutonomousDatabaseResourceDependencies = DefinedTagsDependencies
 )
 
 func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
