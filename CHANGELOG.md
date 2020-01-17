@@ -1,4 +1,5 @@
-## 3.58.1 (Unreleased)
+## 3.59.0 (Unreleased)
+
 ### Added
 - Support for creating `oci_database_autonomous_database` resource by cloning from a backup of an existing Autonomous Database.
 - Support for a new field `redundancy_status` in resource `core_drg_resource`.
