@@ -82,6 +82,10 @@ func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) SetData() error {
 		s.D.Set("is_automatic", *s.Res.IsAutomatic)
 	}
 
+	if s.Res.IsRestorable != nil {
+		s.D.Set("is_restorable", *s.Res.IsRestorable)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
