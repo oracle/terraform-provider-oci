@@ -84,6 +84,7 @@ func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_database_backups.0.display_name", "Monthly Backup"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.is_automatic"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.is_restorable"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.time_ended"),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_database_backups.0.time_started"),

@@ -26,6 +26,39 @@ resource "oci_database_autonomous_database" "autonomous_database" {
   whitelisted_ips                                = ["1.1.1.1/28"]
 }
 
+resource "oci_database_autonomous_database_backup" "autonomous_database_backup" {
+  #Required
+  autonomous_database_id = "${oci_database_autonomous_database.autonomous_database.id}"
+  display_name           = "${var.autonomous_database_backup_display_name}"
+}
+
+resource "oci_database_autonomous_database" "autonomous_database_from_backup_id" {
+  #Required
+  admin_password           = "${random_string.autonomous_database_admin_password.result}"
+  compartment_id           = "${var.compartment_ocid}"
+  cpu_core_count           = "1"
+  data_storage_size_in_tbs = "1"
+  db_name                  = "adbdb2"
+
+  clone_type                    = "FULL"
+  source                        = "BACKUP_FROM_ID"
+  autonomous_database_backup_id = "${oci_database_autonomous_database_backup.autonomous_database_backup.id}"
+}
+
+resource "oci_database_autonomous_database" "autonomous_database_from_backup_timestamp" {
+  #Required
+  admin_password           = "${random_string.autonomous_database_admin_password.result}"
+  compartment_id           = "${var.compartment_ocid}"
+  cpu_core_count           = "1"
+  data_storage_size_in_tbs = "1"
+  db_name                  = "adbdb3"
+
+  clone_type             = "FULL"
+  source                 = "BACKUP_FROM_TIMESTAMP"
+  autonomous_database_id = "${oci_database_autonomous_database_backup.autonomous_database_backup.autonomous_database_id}"
+  timestamp              = "${oci_database_autonomous_database_backup.autonomous_database_backup.time_ended}"
+}
+
 data "oci_database_autonomous_databases" "autonomous_databases" {
   #Required
   compartment_id = "${var.compartment_ocid}"
