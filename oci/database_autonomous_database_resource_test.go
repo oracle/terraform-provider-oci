@@ -16,6 +16,8 @@ var (
 	adbDedicatedCloneName  = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adDedicatedName        = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adDedicatedUpdateName  = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbBackupIdName        = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbBackupTimestampName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 
 	AutonomousDatabaseDedicatedRequiredOnlyResource = AutonomousDatabaseDedicatedResourceDependencies +
 		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseDedicatedRepresentation)
@@ -70,7 +72,7 @@ var (
 	}
 
 	autonomousDatabaseRepresentationForSourceFromBackupId = representationCopyWithNewProperties(
-		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbCloneName}, autonomousDatabaseRepresentation),
+		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbBackupIdName}, autonomousDatabaseRepresentation),
 		map[string]interface{}{
 			"clone_type":                    Representation{repType: Required, create: `FULL`},
 			"source":                        Representation{repType: Required, create: `BACKUP_FROM_ID`},
@@ -78,7 +80,7 @@ var (
 		})
 
 	autonomousDatabaseRepresentationForSourceFromBackupTimestamp = representationCopyWithNewProperties(
-		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbCloneName}, autonomousDatabaseRepresentation),
+		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbBackupTimestampName}, autonomousDatabaseRepresentation),
 		map[string]interface{}{
 			"clone_type":             Representation{repType: Required, create: `FULL`},
 			"source":                 Representation{repType: Required, create: `BACKUP_FROM_TIMESTAMP`},
