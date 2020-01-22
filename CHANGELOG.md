@@ -1,4 +1,4 @@
-## 3.59.0 (Unreleased)
+## 3.59.0 (January 22, 2020)
 
 ### Added
 - Support for creating `oci_database_autonomous_database` resource by cloning from a backup of an existing Autonomous Database.
