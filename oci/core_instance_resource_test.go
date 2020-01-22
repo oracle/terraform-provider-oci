@@ -903,6 +903,10 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_preserveBoot
 				},
 			),
 		},
+		// to verify reattaching to the old boot volume resource should be terminated before the waiting for boot volume condition
+		{
+			Config: s.Config,
+		},
 		// ForceNew an instance by changing hostname_label and try reattach to the old boot volume,
 		// We didn't set preserve flag in the previous step, so the boot volume should be deleted and
 		// this should result in an error from service.

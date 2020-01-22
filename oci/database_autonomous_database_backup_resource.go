@@ -4,6 +4,7 @@ package oci
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 
@@ -44,6 +45,10 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"is_automatic": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_restorable": {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
@@ -188,6 +193,10 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 		s.D.Set("is_automatic", *s.Res.IsAutomatic)
 	}
 
+	if s.Res.IsRestorable != nil {
+		s.D.Set("is_restorable", *s.Res.IsRestorable)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -195,11 +204,11 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) SetData() error {
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeEnded != nil {
-		s.D.Set("time_ended", s.Res.TimeEnded.String())
+		s.D.Set("time_ended", s.Res.TimeEnded.Format(time.RFC3339Nano))
 	}
 
 	if s.Res.TimeStarted != nil {
-		s.D.Set("time_started", s.Res.TimeStarted.String())
+		s.D.Set("time_started", s.Res.TimeStarted.Format(time.RFC3339Nano))
 	}
 
 	s.D.Set("type", s.Res.Type)

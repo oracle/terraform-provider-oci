@@ -137,6 +137,10 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) SetData() error {
 			autonomousDatabaseBackup["is_automatic"] = *r.IsAutomatic
 		}
 
+		if r.IsRestorable != nil {
+			autonomousDatabaseBackup["is_restorable"] = *r.IsRestorable
+		}
+
 		if r.LifecycleDetails != nil {
 			autonomousDatabaseBackup["lifecycle_details"] = *r.LifecycleDetails
 		}
