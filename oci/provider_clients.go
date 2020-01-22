@@ -39,10 +39,8 @@ import (
 
 type OracleClients struct {
 	configuration                  map[string]string
-	auditClient                    *oci_audit.AuditClient
-	marketplaceClient              *oci_marketplace.MarketplaceClient
-	resourceManagerClient          *oci_resourcemanager.ResourceManagerClient
 	analyticsClient                *oci_analytics.AnalyticsClient
+	auditClient                    *oci_audit.AuditClient
 	autoScalingClient              *oci_auto_scaling.AutoScalingClient
 	blockstorageClient             *oci_core.BlockstorageClient
 	budgetClient                   *oci_budget.BudgetClient
@@ -67,6 +65,7 @@ type OracleClients struct {
 	kmsVaultClient                 *oci_kms.KmsVaultClient
 	limitsClient                   *oci_limits.LimitsClient
 	loadBalancerClient             *oci_load_balancer.LoadBalancerClient
+	marketplaceClient              *oci_marketplace.MarketplaceClient
 	monitoringClient               *oci_monitoring.MonitoringClient
 	notificationControlPlaneClient *oci_ons.NotificationControlPlaneClient
 	notificationDataPlaneClient    *oci_ons.NotificationDataPlaneClient
@@ -76,6 +75,7 @@ type OracleClients struct {
 	osManagementClient             *oci_osmanagement.OsManagementClient
 	quotasClient                   *oci_limits.QuotasClient
 	redirectClient                 *oci_waas.RedirectClient
+	resourceManagerClient          *oci_resourcemanager.ResourceManagerClient
 	streamAdminClient              *oci_streaming.StreamAdminClient
 	virtualNetworkClient           *oci_core.VirtualNetworkClient
 	waasClient                     *oci_waas.WaasClient
@@ -117,36 +117,6 @@ func (m *OracleClients) KmsManagementClient(endpoint string) (*oci_kms.KmsManage
 
 func createSDKClients(clients *OracleClients, configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient) (err error) {
 
-	auditClient, err := oci_audit.NewAuditClientWithConfigurationProvider(configProvider)
-	if err != nil {
-		return
-	}
-	err = configureClient(&auditClient.BaseClient)
-	if err != nil {
-		return
-	}
-	clients.auditClient = &auditClient
-
-	marketplaceClient, err := oci_marketplace.NewMarketplaceClientWithConfigurationProvider(configProvider)
-	if err != nil {
-		return
-	}
-	err = configureClient(&marketplaceClient.BaseClient)
-	if err != nil {
-		return
-	}
-	clients.marketplaceClient = &marketplaceClient
-
-	resourceManagerClient, err := oci_resourcemanager.NewResourceManagerClientWithConfigurationProvider(configProvider)
-	if err != nil {
-		return
-	}
-	err = configureClient(&resourceManagerClient.BaseClient)
-	if err != nil {
-		return
-	}
-	clients.resourceManagerClient = &resourceManagerClient
-
 	analyticsClient, err := oci_analytics.NewAnalyticsClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return
@@ -156,6 +126,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.analyticsClient = &analyticsClient
+
+	auditClient, err := oci_audit.NewAuditClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&auditClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.auditClient = &auditClient
 
 	autoScalingClient, err := oci_auto_scaling.NewAutoScalingClientWithConfigurationProvider(configProvider)
 	if err != nil {
@@ -385,6 +365,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 	}
 	clients.loadBalancerClient = &loadBalancerClient
 
+	marketplaceClient, err := oci_marketplace.NewMarketplaceClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&marketplaceClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.marketplaceClient = &marketplaceClient
+
 	monitoringClient, err := oci_monitoring.NewMonitoringClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return
@@ -474,6 +464,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.redirectClient = &redirectClient
+
+	resourceManagerClient, err := oci_resourcemanager.NewResourceManagerClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&resourceManagerClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.resourceManagerClient = &resourceManagerClient
 
 	streamAdminClient, err := oci_streaming.NewStreamAdminClientWithConfigurationProvider(configProvider)
 	if err != nil {

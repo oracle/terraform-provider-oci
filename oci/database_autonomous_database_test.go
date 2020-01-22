@@ -403,11 +403,13 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				ImportStateVerify: true,
 				ImportStateVerifyIgnore: []string{
 					"admin_password",
+					"autonomous_database_backup_id",
 					"clone_type",
 					"is_preview_version_with_service_terms_accepted",
 					"source",
 					"source_id",
 					"lifecycle_details",
+					"timestamp",
 					// Need this workaround due to import behavior change introduced by https://github.com/hashicorp/terraform/issues/20985
 					"used_data_storage_size_in_tbs",
 				},

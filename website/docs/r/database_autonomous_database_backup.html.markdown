@@ -44,6 +44,7 @@ The following attributes are exported:
 * `display_name` - The user-friendly name for the backup. The name does not have to be unique.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database backup.
 * `is_automatic` - Indicates whether the backup is user-initiated or automatic.
+* `is_restorable` - Indicates whether the backup can be used to restore the associated Autonomous Database.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `state` - The current state of the backup.
 * `time_ended` - The date and time the backup completed.

@@ -7,6 +7,10 @@ variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
 
+variable "autonomous_database_backup_display_name" {
+  default = "Monthly Backup"
+}
+
 variable "autonomous_database_db_workload" {
   default = "OLTP"
 }
