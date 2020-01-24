@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_datacatalog_catalog_type
 This data source provides details about a specific Catalog Type resource in Oracle Cloud Infrastructure Data Catalog service.
 
-Get a specific Type by key within a data catalog.
+Gets a specific type by key within a data catalog.
 
 ## Example Usage
 
@@ -29,25 +29,25 @@ data "oci_datacatalog_catalog_type" "test_catalog_type" {
 
 The following arguments are supported:
 
-* `catalog_id` - (Required) unique Catalog identifier
-* `fields` - (Optional) Used to control which fields are returned in a Type response. 
-* `type_key` - (Required) Unique Type key.
+* `catalog_id` - (Required) Unique catalog identifier.
+* `fields` - (Optional) Specifies the fields to return in a type response. 
+* `type_key` - (Required) Unique type key.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `catalog_id` - The Catalog's Oracle ID (OCID).
-* `description` - Detailed description of the Type.
+* `catalog_id` - The data catalog's OCID.
+* `description` - Detailed description of the type.
 * `external_type_name` - Mapping type equivalence in the external system.
 * `is_approved` - Indicates whether the type is approved for use as a classifying object.
 * `is_internal` - Indicates whether the type is internal, making it unavailable for use by metadata elements.
 * `is_tag` - Indicates whether the type can be used for tagging metadata elements.
-* `key` - Unique Type key that is immutable.
+* `key` - Unique type key that is immutable.
 * `name` - The immutable name of the type.
-* `properties` - A map of arrays which defines the Type specific properties, both required and optional. The map keys are category names and the values are arrays contiaing all property details. Every property is contained inside of a category. Most Types have required properties within the "default" category. Example: `{ "properties": { "default": { "attributes:": [ { "name": "host", "type": "string", "isRequired": true, "isUpdatable": false }, ... ] } } }` 
-* `state` - The current state of the Type.
-* `type_category` - Indicates the category this type belongs to. For instance , data assets , connections.
-* `uri` - URI to the Type instance in the API.
+* `properties` - A map of arrays which defines the type specific properties, both required and optional. The map keys are category names and the values are arrays contiaing all property details. Every property is contained inside of a category. Most types have required properties within the "default" category. Example: `{ "properties": { "default": { "attributes:": [ { "name": "host", "type": "string", "isRequired": true, "isUpdatable": false }, ... ] } } }` 
+* `state` - The current state of the type.
+* `type_category` - Indicates the category this type belongs to. For instance, data assets, connections.
+* `uri` - URI to the type instance in the API.
 

@@ -6,7 +6,7 @@ variable "compartment_ocid" {}
 variable "compartment_id" {}
 variable "region" {}
 
-variabble "password" {}
+variable "connection_password" {}
 
 provider "oci" {
   region           = "${var.region}"
@@ -48,7 +48,7 @@ resource "oci_datacatalog_connection" test_connection {
   }
 
   enc_properties {
-    default.password = "${var.password}"
+    default.password = "${var.connection_password}"
   }
 
   is_default = true
