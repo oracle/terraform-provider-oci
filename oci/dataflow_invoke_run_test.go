@@ -47,10 +47,10 @@ var (
 		"driver_shape":         Representation{repType: Optional, create: `VM.Standard2.1`},
 		"executor_shape":       Representation{repType: Optional, create: `VM.Standard2.1`},
 		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"logs_bucket_uri":      Representation{repType: Optional, create: `oci://dataflow-logs@dxterraformdev/`},
+		"logs_bucket_uri":      Representation{repType: Optional, create: `${var.dataflow_logs_bucket_uri}`},
 		"num_executors":        Representation{repType: Optional, create: `1`},
 		"parameters":           RepresentationGroup{Optional, invokeRunParametersRepresentation},
-		"warehouse_bucket_uri": Representation{repType: Optional, create: `oci://dataflow-logs@dxterraformdev/`},
+		"warehouse_bucket_uri": Representation{repType: Optional, create: `${var.dataflow_warehouse_bucket_uri}`},
 	}
 	invokeRunParametersRepresentation = map[string]interface{}{
 		"name":  Representation{repType: Required, create: `name`},
@@ -71,6 +71,13 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	fileUri := getEnvSettingWithBlankDefault("dataflow_file_uri")
+	fileUriVariableStr := fmt.Sprintf("variable \"dataflow_file_uri\" { default = \"%s\" }\n", fileUri)
+	logsBucketUri := getEnvSettingWithBlankDefault("dataflow_logs_bucket_uri")
+	logsBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_logs_bucket_uri\" { default = \"%s\" }\n", logsBucketUri)
+	warehouseBucketUri := getEnvSettingWithBlankDefault("dataflow_warehouse_bucket_uri")
+	warehouseBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_warehouse_bucket_uri\" { default = \"%s\" }\n", warehouseBucketUri)
+
 	resourceName := "oci_dataflow_invoke_run.test_invoke_run"
 	datasourceName := "data.oci_dataflow_invoke_runs.test_invoke_runs"
 	singularDatasourceName := "data.oci_dataflow_invoke_run.test_invoke_run"
@@ -85,7 +92,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + InvokeRunResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Required, Create, invokeRunRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -101,11 +108,11 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + InvokeRunResourceDependencies,
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies,
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + InvokeRunResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Create, invokeRunRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -120,7 +127,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "language"),
-					resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", "oci://dataflow-logs@dxterraformdev/"),
+					resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", logsBucketUri),
 					resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
@@ -129,7 +136,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-					resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", "oci://dataflow-logs@dxterraformdev/"),
+					resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -145,7 +152,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + InvokeRunResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Update, invokeRunRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "application_id"),
@@ -160,7 +167,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "language"),
-					resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", "oci://dataflow-logs@dxterraformdev/"),
+					resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", logsBucketUri),
 					resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
@@ -169,7 +176,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-					resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", "oci://dataflow-logs@dxterraformdev/"),
+					resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -184,7 +191,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_invoke_runs", "test_invoke_runs", Optional, Update, invokeRunDataSourceRepresentation) +
-					compartmentIdVariableStr + InvokeRunResourceDependencies +
+					compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Optional, Update, invokeRunRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
@@ -214,7 +221,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_invoke_run", "test_invoke_run", Required, Create, invokeRunSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + InvokeRunResourceConfig,
+					compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + InvokeRunResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "run_id"),
 
@@ -231,7 +238,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "language"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "logs_bucket_uri", "oci://dataflow-logs@dxterraformdev/"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "logs_bucket_uri", logsBucketUri),
 					resource.TestCheckResourceAttr(singularDatasourceName, "num_executors", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "opc_request_id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "owner_user_name"),
@@ -244,12 +251,8 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "total_ocpu"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "warehouse_bucket_uri", "oci://dataflow-logs@dxterraformdev/"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "warehouse_bucket_uri", warehouseBucketUri),
 				),
-			},
-			// remove singular datasource from previous step so that it doesn't conflict with import tests
-			{
-				Config: config + compartmentIdVariableStr + InvokeRunResourceConfig,
 			},
 		},
 	})

@@ -29,9 +29,7 @@ variable "application_executor_shape" {
   default = "VM.Standard2.1"
 }
 
-variable "application_file_uri" {
-  default = "fileUri"
-}
+variable "application_file_uri" {}
 
 variable "application_language" {
   default = "PYTHON"
