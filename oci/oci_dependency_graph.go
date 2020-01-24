@@ -23,6 +23,8 @@ func initDependencyGraph() {
 	DependencyGraph["bootVolume"] = append(DependencyGraph["bootVolume"], "CoreBootVolumeAttachment")
 	DependencyGraph["bootVolume"] = append(DependencyGraph["bootVolume"], "CoreBootVolumeBackup")
 	DependencyGraph["budget"] = append(DependencyGraph["budget"], "BudgetAlertRule")
+	DependencyGraph["catalog"] = append(DependencyGraph["catalog"], "DatacatalogConnection")
+	DependencyGraph["catalog"] = append(DependencyGraph["catalog"], "DatacatalogDataAsset")
 	DependencyGraph["cluster"] = append(DependencyGraph["cluster"], "ContainerengineClusterKubeConfig")
 	DependencyGraph["cluster"] = append(DependencyGraph["cluster"], "ContainerengineNodePool")
 	DependencyGraph["cpe"] = append(DependencyGraph["cpe"], "CoreIpSecConnection")

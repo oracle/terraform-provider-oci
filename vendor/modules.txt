@@ -498,6 +498,7 @@ github.com/oracle/oci-go-sdk/common/auth
 github.com/oracle/oci-go-sdk/containerengine
 github.com/oracle/oci-go-sdk/core
 github.com/oracle/oci-go-sdk/database
+github.com/oracle/oci-go-sdk/datacatalog
 github.com/oracle/oci-go-sdk/dns
 github.com/oracle/oci-go-sdk/email
 github.com/oracle/oci-go-sdk/events

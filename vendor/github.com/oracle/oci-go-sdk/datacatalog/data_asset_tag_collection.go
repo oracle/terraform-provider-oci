@@ -1,0 +1,24 @@
+// Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
+// Code generated. DO NOT EDIT.
+
+// Data Catalog API
+//
+// Use the Data Catalog APIs to collect, organize, find, access, understand, enrich, and activate technical, business, and operational metadata.
+//
+
+package datacatalog
+
+import (
+	"github.com/oracle/oci-go-sdk/common"
+)
+
+// DataAssetTagCollection Results of a data asset tag listing. Data asset tags represent an association of a data asset to a term.
+type DataAssetTagCollection struct {
+
+	// Collection of data asset tags.
+	Items []DataAssetTagSummary `mandatory:"true" json:"items"`
+}
+
+func (m DataAssetTagCollection) String() string {
+	return common.PointerString(m)
+}
