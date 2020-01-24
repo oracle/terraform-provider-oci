@@ -1,0 +1,65 @@
+---
+subcategory: "Data Catalog"
+layout: "oci"
+page_title: "Oracle Cloud Infrastructure: oci_datacatalog_data_asset"
+sidebar_current: "docs-oci-resource-datacatalog-data_asset"
+description: |-
+  Provides the Data Asset resource in Oracle Cloud Infrastructure Data Catalog service
+---
+
+# oci_datacatalog_data_asset
+This resource provides the Data Asset resource in Oracle Cloud Infrastructure Data Catalog service.
+
+Create a new Data Asset.
+
+## Example Usage
+
+```hcl
+resource "oci_datacatalog_data_asset" "test_data_asset" {
+	#Required
+	catalog_id = "${oci_datacatalog_catalog.test_catalog.id}"
+	display_name = "${var.data_asset_display_name}"
+	type_key = "${var.data_asset_type_key}"
+
+	#Optional
+	description = "${var.data_asset_description}"
+	properties = "${var.data_asset_properties}"
+}
+```
+
+## Argument Reference
+
+The following arguments are supported:
+
+* `catalog_id` - (Required) unique Catalog identifier
+* `description` - (Optional) (Updatable) Detailed description of the Data Asset.
+* `display_name` - (Required) (Updatable) The display name of a user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `properties` - (Optional) (Updatable) A map of maps which contains the properties which are specific to the asset type. Each Data Asset type definition defines it's set of required and optional properties. The map keys are category names and the values are maps of property name to property value. Every property is contained inside of a category. Most Data Assets have required properties within the "default" category. To determine the set of optional and required properties for a Data Asset type, a query can be done on '/types?type=dataAsset' which returns a collection of all Data Asset types. The appropriate Data Asset type, which includes definitions of all of it's properties, can be identified from this collection. Example: `{"properties": { "default": { "host": "host1", "port": "1521", "database": "orcl"}}}` 
+* `type_key` - (Required) The key of the Data Asset type. This can be obtained via the '/types' endpoint.
+
+
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
+
+## Attributes Reference
+
+The following attributes are exported:
+
+* `catalog_id` - The Catalog's Oracle ID (OCID).
+* `created_by_id` - Id (OCID) of the user who created the Data Asset.
+* `description` - Detailed description of the Data Asset.
+* `display_name` - The display name of a user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `external_key` - External uri which can be used to reference the object. Format will differ based on the type of object. 
+* `key` - Unique Data Asset key that is immutable.
+* `properties` - A map of maps which contains the properties which are specific to the asset type. Each Data Asset type definition defines it's set of required and optional properties. The map keys are category names and the values are maps of property name to property value. Every property is contained inside of a category. Most Data Assets have required properties within the "default" category. Example: `{"properties": { "default": { "host": "host1", "port": "1521", "database": "orcl"}}}` 
+* `state` - The current state of the Data Asset.
+* `time_created` - The date and time the DataAsset was created, in the format defined by RFC3339. Example: `2019-03-25T21:10:29.600Z` 
+* `time_updated` - The last time that any change was made to the Data Asset. An RFC3339 formatted datetime string. 
+* `type_key` - The key of the object type. Type key's can be found via the '/types' endpoint.
+* `updated_by_id` - Id (OCID) of the user who last modified the Data Asset.
+* `uri` - URI to the Data Asset instance in the API.
+
+## Import
+
+Import is not supported for this resource.
+

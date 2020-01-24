@@ -2,6 +2,7 @@
 
 ### Added
 - Support `shape` property as customer input for VMDG.
+- Support Data Catalog Cloud Service.
 
 ## 3.59.0 (January 22, 2020)
 
