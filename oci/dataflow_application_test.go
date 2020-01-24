@@ -43,7 +43,7 @@ var (
 		"display_name":         Representation{repType: Required, create: `test_wordcount_app`, update: `displayName2`},
 		"driver_shape":         Representation{repType: Required, create: `VM.Standard2.1`},
 		"executor_shape":       Representation{repType: Required, create: `VM.Standard2.1`},
-		"file_uri":             Representation{repType: Required, create: `oci://dataflow-test-executible@dxterraformtest/dataflowTestFile.py`},
+		"file_uri":             Representation{repType: Required, create: `${var.dataflow_file_uri}`},
 		"language":             Representation{repType: Required, create: `PYTHON`},
 		"num_executors":        Representation{repType: Required, create: `1`, update: `2`},
 		"spark_version":        Representation{repType: Required, create: `2.4`},
@@ -52,9 +52,9 @@ var (
 		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":          Representation{repType: Optional, create: `description`, update: `description2`},
 		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
-		"logs_bucket_uri":      Representation{repType: Optional, create: `oci://dataflow-logs@dxterraformtest/`},
+		"logs_bucket_uri":      Representation{repType: Optional, create: `${var.dataflow_logs_bucket_uri}`},
 		"parameters":           RepresentationGroup{Optional, applicationParametersRepresentation},
-		"warehouse_bucket_uri": Representation{repType: Optional, create: `oci://dataflow-logs@dxterraformtest/`},
+		"warehouse_bucket_uri": Representation{repType: Optional, create: `${var.dataflow_warehouse_bucket_uri}`},
 	}
 	applicationParametersRepresentation = map[string]interface{}{
 		"name":  Representation{repType: Required, create: `name`, update: `name2`},
@@ -74,6 +74,13 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	fileUri := getEnvSettingWithBlankDefault("dataflow_file_uri")
+	fileUriVariableStr := fmt.Sprintf("variable \"dataflow_file_uri\" { default = \"%s\" }\n", fileUri)
+	logsBucketUri := getEnvSettingWithBlankDefault("dataflow_logs_bucket_uri")
+	logsBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_logs_bucket_uri\" { default = \"%s\" }\n", logsBucketUri)
+	warehouseBucketUri := getEnvSettingWithBlankDefault("dataflow_warehouse_bucket_uri")
+	warehouseBucketUriVariableStr := fmt.Sprintf("variable \"dataflow_warehouse_bucket_uri\" { default = \"%s\" }\n", warehouseBucketUri)
+
 	resourceName := "oci_dataflow_application.test_application"
 	datasourceName := "data.oci_dataflow_applications.test_applications"
 	singularDatasourceName := "data.oci_dataflow_application.test_application"
@@ -89,14 +96,14 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 		Steps: []resource.TestStep{
 			// verify create
 			{
-				Config: config + compartmentIdVariableStr + dataFlowApplicationResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app"),
 					resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "file_uri", "oci://dataflow-test-executible@dxterraformtest/dataflowTestFile.py"),
+					resource.TestCheckResourceAttr(resourceName, "file_uri", fileUri),
 					resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
 					resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
 					resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
@@ -110,11 +117,11 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 
 			// delete before next create
 			{
-				Config: config + compartmentIdVariableStr + dataFlowApplicationResourceDependencies,
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies,
 			},
 			// verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + dataFlowApplicationResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create, dataFlowApplicationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
@@ -125,11 +132,11 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app"),
 					resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "file_uri", "oci://dataflow-test-executible@dxterraformtest/dataflowTestFile.py"),
+					resource.TestCheckResourceAttr(resourceName, "file_uri", fileUri),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
-					resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", "oci://dataflow-logs@dxterraformtest/"),
+					resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", logsBucketUri),
 					resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
@@ -139,7 +146,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-					resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", "oci://dataflow-logs@dxterraformtest/"),
+					resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -155,7 +162,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + dataFlowApplicationResourceDependencies +
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, dataFlowApplicationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
@@ -166,11 +173,11 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(resourceName, "file_uri", "oci://dataflow-test-executible@dxterraformtest/dataflowTestFile.py"),
+					resource.TestCheckResourceAttr(resourceName, "file_uri", fileUri),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
-					resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", "oci://dataflow-logs@dxterraformtest/"),
+					resource.TestCheckResourceAttr(resourceName, "logs_bucket_uri", logsBucketUri),
 					resource.TestCheckResourceAttr(resourceName, "num_executors", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
 					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
@@ -180,7 +187,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
-					resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", "oci://dataflow-logs@dxterraformtest/"),
+					resource.TestCheckResourceAttr(resourceName, "warehouse_bucket_uri", warehouseBucketUri),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -195,7 +202,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_applications", "test_applications", Optional, Update, dataFlowApplicationDataSourceRepresentation) +
-					compartmentIdVariableStr + dataFlowApplicationResourceDependencies +
+					compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + dataFlowApplicationResourceDependencies +
 					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Update, dataFlowApplicationRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -219,7 +226,7 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_application", "test_application", Required, Create, dataFlowApplicationSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DataFlowApplicationResourceConfig,
+					compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + DataFlowApplicationResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "application_id"),
 
@@ -231,11 +238,11 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape", "VM.Standard2.1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "file_uri", "oci://dataflow-test-executible@dxterraformtest/dataflowTestFile.py"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "file_uri", fileUri),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "language", "PYTHON"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "logs_bucket_uri", "oci://dataflow-logs@dxterraformtest/"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "logs_bucket_uri", logsBucketUri),
 					resource.TestCheckResourceAttr(singularDatasourceName, "num_executors", "2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "owner_user_name"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "parameters.#", "1"),
@@ -245,12 +252,12 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "warehouse_bucket_uri", "oci://dataflow-logs@dxterraformtest/"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "warehouse_bucket_uri", warehouseBucketUri),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
 			{
-				Config: config + compartmentIdVariableStr + DataFlowApplicationResourceConfig,
+				Config: config + compartmentIdVariableStr + fileUriVariableStr + logsBucketUriVariableStr + warehouseBucketUriVariableStr + DataFlowApplicationResourceConfig,
 			},
 			// verify resource import
 			{

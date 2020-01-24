@@ -38,6 +38,9 @@ func TestDataflowRunLogResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	fileUri := getEnvSettingWithBlankDefault("dataflow_file_uri")
+	fileUriVariableStr := fmt.Sprintf("variable \"dataflow_file_uri\" { default = \"%s\" }\n", fileUri)
+
 	datasourceName := "data.oci_dataflow_run_logs.test_run_logs"
 	singularDatasourceName := "data.oci_dataflow_run_log.test_run_log"
 
@@ -51,7 +54,7 @@ func TestDataflowRunLogResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_run_logs", "test_run_logs", Required, Create, runLogDataSourceRepresentation) +
-					compartmentIdVariableStr + RunLogResourceConfig,
+					compartmentIdVariableStr + fileUriVariableStr + RunLogResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(datasourceName, "run_id"),
 
@@ -68,7 +71,7 @@ func TestDataflowRunLogResource_basic(t *testing.T) {
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_dataflow_run_logs", "test_run_logs", Required, Create, runLogDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_dataflow_run_log", "test_run_log", Required, Create, runLogSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + RunLogResourceConfig,
+					compartmentIdVariableStr + fileUriVariableStr + RunLogResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "run_id"),
