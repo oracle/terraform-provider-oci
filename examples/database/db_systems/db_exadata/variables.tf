@@ -27,20 +27,8 @@ variable "db_admin_password" {
   default = "BEstrO0ng_#12"
 }
 
-variable "db_name" {
-  default = "aTFdb"
-}
-
-variable "second_db_name" {
-  default = "aTFdb2"
-}
-
 variable "db_version" {
   default = "12.1.0.2"
-}
-
-variable "db_home_display_name" {
-  default = "MyTFDBHome"
 }
 
 variable "db_disk_redundancy" {
