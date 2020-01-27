@@ -469,12 +469,34 @@ func getDbHomeIds(compartment string) ([]string, error) {
 	listDbHomesRequest.SortBy = oci_database.ListDbHomesSortByTimecreated
 	listDbHomesRequest.SortOrder = oci_database.ListDbHomesSortOrderDesc
 
-	dbSystemIds, error := getDbSystemIds(compartment)
-	if error != nil {
+	dbSystemIds, err := getDbSystemIds(compartment)
+	if err != nil {
 		return resourceIds, fmt.Errorf("Error getting dbSystemId required for DbHome resource requests \n")
 	}
 	for _, dbSystemId := range dbSystemIds {
 		listDbHomesRequest.DbSystemId = &dbSystemId
+
+		listDbHomesRequest.LifecycleState = oci_database.DbHomeSummaryLifecycleStateAvailable
+		listDbHomesResponse, err := databaseClient.ListDbHomes(context.Background(), listDbHomesRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting DbHome list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, dbHome := range listDbHomesResponse.Items {
+			id := *dbHome.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "DbHomeId", id)
+		}
+
+	}
+	listDbHomesRequest.DbSystemId = nil
+	vmClusterIds, err := getVmClusterIds(compartment)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting vmClusterId required for DbHome resource requests \n")
+	}
+	for _, vmClusterId := range vmClusterIds {
+		listDbHomesRequest.VmClusterId = &vmClusterId
 
 		listDbHomesRequest.LifecycleState = oci_database.DbHomeSummaryLifecycleStateAvailable
 		listDbHomesResponse, err := databaseClient.ListDbHomes(context.Background(), listDbHomesRequest)
