@@ -2,8 +2,6 @@
 
 ### Added
 - Support `shape` property as customer input for `oci_database_data_guard_association`.
-- Support for Data Catalog Cloud Service.
-- Support for Dataflow Service.
 
 ## 3.59.0 (January 22, 2020)
 
