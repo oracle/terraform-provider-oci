@@ -1,4 +1,4 @@
-## 3.60.0 (Unreleased)
+## 3.60.0 (January 29, 2020)
 
 ### Added
 - Support `shape` property as customer input for `oci_database_data_guard_association`.
