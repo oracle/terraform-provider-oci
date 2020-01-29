@@ -111,6 +111,7 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 
   #required for NewDbSystem creation_type
   display_name        = "TFExampleDataGuardAssociationVM"
+  shape               = "VM.Standard2.1"
   subnet_id           = "${oci_core_subnet.test_subnet.id}"
   availability_domain = "${oci_core_subnet.test_subnet.availability_domain}"
   nsg_ids             = ["${oci_core_network_security_group.test_network_security_group.id}"]

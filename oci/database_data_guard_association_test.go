@@ -51,6 +51,7 @@ var (
 		"display_name":           Representation{repType: Required, create: `displayName`},
 		"hostname":               Representation{repType: Required, create: `hostname`},
 		"subnet_id":              Representation{repType: Required, create: `${oci_core_subnet.test_subnet.id}`},
+		"shape":                  Representation{repType: Optional, create: `VM.Standard2.1`},
 		"backup_network_nsg_ids": Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 	})
@@ -227,6 +228,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr("data.oci_database_db_systems.t", "db_systems.0.nsg_ids.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
 					resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
 					resource.TestCheckResourceAttr(resourceName, "transport_type", "ASYNC"),
 				),
 			},

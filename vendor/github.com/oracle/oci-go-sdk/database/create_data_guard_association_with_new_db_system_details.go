@@ -32,6 +32,11 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// The name of the availability domain that the standby database DB system will be located in. For example- "Uocm:PHX-AD-1".
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
+	// The shape of the DB system to launch to set up the Data Guard association. The shape determines the number of CPU cores and the amount of memory available for the DB system.
+	// Only virtual machine shapes are valid shapes. If you do not supply this parameter, the default shape is the shape of the primary DB system.
+	// To get a list of all shapes, use the ListDbSystemShapes operation.
+	Shape *string `mandatory:"false" json:"shape"`
+
 	// The OCID of the subnet the DB system is associated with.
 	// **Subnet Restrictions:**
 	// - For 1- and 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.16.16/28

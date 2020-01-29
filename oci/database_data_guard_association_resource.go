@@ -110,6 +110,12 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -510,6 +516,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if shape, ok := s.D.GetOkExists("shape"); ok {
+			tmp := shape.(string)
+			details.Shape = &tmp
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
