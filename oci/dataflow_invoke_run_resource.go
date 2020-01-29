@@ -1,0 +1,588 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
+package oci
+
+import (
+	"context"
+	"fmt"
+	"strconv"
+
+	"github.com/hashicorp/terraform/helper/schema"
+
+	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
+)
+
+func DataflowInvokeRunResource() *schema.Resource {
+	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Timeouts: DefaultTimeout,
+		Create:   createDataflowInvokeRun,
+		Read:     readDataflowInvokeRun,
+		Update:   updateDataflowInvokeRun,
+		Delete:   deleteDataflowInvokeRun,
+		Schema: map[string]*schema.Schema{
+			// Required
+			"application_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+
+			// Optional
+			"arguments": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"configuration": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
+			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: definedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"driver_shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"executor_shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"logs_bucket_uri": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"num_executors": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"parameters": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"name": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"value": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
+			"warehouse_bucket_uri": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"asynchronous": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				ForceNew: true,
+				Default:  true,
+			},
+
+			// Computed
+			"class_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"data_read_in_bytes": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"data_written_in_bytes": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"file_uri": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"language": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"opc_request_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"owner_principal_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"owner_user_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"run_duration_in_milliseconds": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"spark_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"total_ocpu": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+		},
+	}
+}
+
+func createDataflowInvokeRun(d *schema.ResourceData, m interface{}) error {
+	sync := &DataflowInvokeRunResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).dataFlowClient
+
+	return CreateResource(d, sync)
+}
+
+func readDataflowInvokeRun(d *schema.ResourceData, m interface{}) error {
+	sync := &DataflowInvokeRunResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).dataFlowClient
+
+	return ReadResource(sync)
+}
+
+func updateDataflowInvokeRun(d *schema.ResourceData, m interface{}) error {
+	sync := &DataflowInvokeRunResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).dataFlowClient
+
+	return UpdateResource(d, sync)
+}
+
+func deleteDataflowInvokeRun(d *schema.ResourceData, m interface{}) error {
+	sync := &DataflowInvokeRunResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.DisableNotFoundRetries = true
+
+	return DeleteResource(d, sync)
+}
+
+type DataflowInvokeRunResourceCrud struct {
+	BaseCrud
+	Client                 *oci_dataflow.DataFlowClient
+	Res                    *oci_dataflow.Run
+	DisableNotFoundRetries bool
+}
+
+func (s *DataflowInvokeRunResourceCrud) ID() string {
+	return *s.Res.Id
+}
+
+func (s *DataflowInvokeRunResourceCrud) CreatedPending() []string {
+	invokeAsynchronously := true
+	if async, ok := s.D.GetOkExists("asynchronous"); ok {
+		invokeAsynchronously = async.(bool)
+	}
+	if invokeAsynchronously {
+		return []string{
+			string(oci_dataflow.RunLifecycleStateInProgress),
+		}
+	}
+	return []string{
+		string(oci_dataflow.RunLifecycleStateInProgress),
+		string(oci_dataflow.RunLifecycleStateAccepted),
+	}
+}
+
+func (s *DataflowInvokeRunResourceCrud) CreatedTarget() []string {
+	invokeAsynchronously := true
+	if async, ok := s.D.GetOkExists("asynchronous"); ok {
+		invokeAsynchronously = async.(bool)
+	}
+	if invokeAsynchronously {
+		return []string{
+			string(oci_dataflow.RunLifecycleStateAccepted),
+		}
+	}
+	return []string{
+		string(oci_dataflow.RunLifecycleStateSucceeded),
+		string(oci_dataflow.RunLifecycleStateFailed),
+	}
+}
+
+func (s *DataflowInvokeRunResourceCrud) DeletedPending() []string {
+	return []string{
+		string(oci_dataflow.RunLifecycleStateAccepted),
+		string(oci_dataflow.RunLifecycleStateInProgress),
+		string(oci_dataflow.RunLifecycleStateCanceling),
+		string(oci_dataflow.RunLifecycleStateCanceled),
+	}
+}
+
+func (s *DataflowInvokeRunResourceCrud) DeletedTarget() []string {
+	return []string{
+		string(oci_dataflow.RunLifecycleStateSucceeded),
+		string(oci_dataflow.RunLifecycleStateFailed),
+		string(oci_dataflow.RunLifecycleStateCanceled),
+	}
+}
+
+func (s *DataflowInvokeRunResourceCrud) Create() error {
+	request := oci_dataflow.CreateRunRequest{}
+
+	if applicationId, ok := s.D.GetOkExists("application_id"); ok {
+		tmp := applicationId.(string)
+		request.ApplicationId = &tmp
+	}
+
+	if arguments, ok := s.D.GetOkExists("arguments"); ok {
+		interfaces := arguments.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("arguments") {
+			request.Arguments = tmp
+		}
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if configuration, ok := s.D.GetOkExists("configuration"); ok {
+		request.Configuration = objectMapToStringMap(configuration.(map[string]interface{}))
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	if driverShape, ok := s.D.GetOkExists("driver_shape"); ok {
+		tmp := driverShape.(string)
+		request.DriverShape = &tmp
+	}
+
+	if executorShape, ok := s.D.GetOkExists("executor_shape"); ok {
+		tmp := executorShape.(string)
+		request.ExecutorShape = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if logsBucketUri, ok := s.D.GetOkExists("logs_bucket_uri"); ok {
+		tmp := logsBucketUri.(string)
+		request.LogsBucketUri = &tmp
+	}
+
+	if numExecutors, ok := s.D.GetOkExists("num_executors"); ok {
+		tmp := numExecutors.(int)
+		request.NumExecutors = &tmp
+	}
+
+	if parameters, ok := s.D.GetOkExists("parameters"); ok {
+		interfaces := parameters.([]interface{})
+		tmp := make([]oci_dataflow.ApplicationParameter, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "parameters", stateDataIndex)
+			converted, err := s.mapToApplicationParameter(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("parameters") {
+			request.Parameters = tmp
+		}
+	}
+
+	if warehouseBucketUri, ok := s.D.GetOkExists("warehouse_bucket_uri"); ok {
+		tmp := warehouseBucketUri.(string)
+		request.WarehouseBucketUri = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+
+	response, err := s.Client.CreateRun(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Run
+	return nil
+}
+
+func (s *DataflowInvokeRunResourceCrud) Get() error {
+	request := oci_dataflow.GetRunRequest{}
+
+	tmp := s.D.Id()
+	request.RunId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+
+	response, err := s.Client.GetRun(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Run
+	return nil
+}
+
+func (s *DataflowInvokeRunResourceCrud) Update() error {
+	request := oci_dataflow.UpdateRunRequest{}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	tmp := s.D.Id()
+	request.RunId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+
+	response, err := s.Client.UpdateRun(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Run
+	return nil
+}
+
+func (s *DataflowInvokeRunResourceCrud) Delete() error {
+	getRequest := oci_dataflow.GetRunRequest{}
+
+	tmp := s.D.Id()
+	getRequest.RunId = &tmp
+
+	getRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+
+	getResponse, err := s.Client.GetRun(context.Background(), getRequest)
+	if err != nil {
+		return err
+	}
+	lifecycleState := getResponse.LifecycleState
+	if lifecycleState == oci_dataflow.RunLifecycleStateSucceeded || lifecycleState == oci_dataflow.RunLifecycleStateFailed {
+		return nil
+	}
+	request := oci_dataflow.DeleteRunRequest{}
+
+	tmp = s.D.Id()
+	request.RunId = &tmp
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+
+	_, err = s.Client.DeleteRun(context.Background(), request)
+	return err
+}
+
+func (s *DataflowInvokeRunResourceCrud) SetData() error {
+	if s.Res.ApplicationId != nil {
+		s.D.Set("application_id", *s.Res.ApplicationId)
+	}
+
+	s.D.Set("arguments", s.Res.Arguments)
+
+	if s.Res.ClassName != nil {
+		s.D.Set("class_name", *s.Res.ClassName)
+	}
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	s.D.Set("configuration", s.Res.Configuration)
+
+	if s.Res.DataReadInBytes != nil {
+		s.D.Set("data_read_in_bytes", strconv.FormatInt(*s.Res.DataReadInBytes, 10))
+	}
+
+	if s.Res.DataWrittenInBytes != nil {
+		s.D.Set("data_written_in_bytes", strconv.FormatInt(*s.Res.DataWrittenInBytes, 10))
+	}
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.DriverShape != nil {
+		s.D.Set("driver_shape", *s.Res.DriverShape)
+	}
+
+	if s.Res.ExecutorShape != nil {
+		s.D.Set("executor_shape", *s.Res.ExecutorShape)
+	}
+
+	if s.Res.FileUri != nil {
+		s.D.Set("file_uri", *s.Res.FileUri)
+	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	s.D.Set("language", s.Res.Language)
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.LogsBucketUri != nil {
+		s.D.Set("logs_bucket_uri", *s.Res.LogsBucketUri)
+	}
+
+	if s.Res.NumExecutors != nil {
+		s.D.Set("num_executors", *s.Res.NumExecutors)
+	}
+
+	if s.Res.OpcRequestId != nil {
+		s.D.Set("opc_request_id", *s.Res.OpcRequestId)
+	}
+
+	if s.Res.OwnerPrincipalId != nil {
+		s.D.Set("owner_principal_id", *s.Res.OwnerPrincipalId)
+	}
+
+	if s.Res.OwnerUserName != nil {
+		s.D.Set("owner_user_name", *s.Res.OwnerUserName)
+	}
+
+	parameters := []interface{}{}
+	for _, item := range s.Res.Parameters {
+		parameters = append(parameters, ApplicationParameterToMap(item))
+	}
+	s.D.Set("parameters", parameters)
+
+	if s.Res.RunDurationInMilliseconds != nil {
+		s.D.Set("run_duration_in_milliseconds", strconv.FormatInt(*s.Res.RunDurationInMilliseconds, 10))
+	}
+
+	if s.Res.SparkVersion != nil {
+		s.D.Set("spark_version", *s.Res.SparkVersion)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeUpdated != nil {
+		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.TotalOCpu != nil {
+		s.D.Set("total_ocpu", *s.Res.TotalOCpu)
+	}
+
+	if s.Res.WarehouseBucketUri != nil {
+		s.D.Set("warehouse_bucket_uri", *s.Res.WarehouseBucketUri)
+	}
+
+	return nil
+}
+
+func (s *DataflowInvokeRunResourceCrud) mapToApplicationParameter(fieldKeyFormat string) (oci_dataflow.ApplicationParameter, error) {
+	result := oci_dataflow.ApplicationParameter{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}

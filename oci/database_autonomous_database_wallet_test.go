@@ -13,6 +13,8 @@ import (
 )
 
 var (
+	adbWalletDbName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+
 	autonomousDatabaseWalletSingularDataSourceRepresentation = map[string]interface{}{
 		"autonomous_database_id": Representation{repType: Required, create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
 		"password":               Representation{repType: Required, create: `BEstrO0ng_#11`},
@@ -20,7 +22,8 @@ var (
 		"base64_encode_content":  Representation{repType: Optional, create: `true`},
 	}
 
-	AutonomousDatabaseWalletResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation)
+	AutonomousDatabaseWalletResourceConfig = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create,
+		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbWalletDbName}, autonomousDatabaseRepresentation))
 )
 
 func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {

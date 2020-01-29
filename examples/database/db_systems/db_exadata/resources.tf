@@ -10,7 +10,7 @@ resource "oci_database_db_system" "test_db_system" {
   db_home {
     database {
       admin_password = "${var.db_admin_password}"
-      db_name        = "${var.db_name}"
+      db_name        = "TFdb1Exa"
       character_set  = "${var.character_set}"
       ncharacter_set = "${var.n_character_set}"
       db_workload    = "${var.db_workload}"
@@ -22,7 +22,7 @@ resource "oci_database_db_system" "test_db_system" {
     }
 
     db_version   = "${var.db_version}"
-    display_name = "${var.db_home_display_name}"
+    display_name = "MyTFDBHome1Exa"
   }
 
   disk_redundancy  = "${var.db_disk_redundancy}"
@@ -64,7 +64,7 @@ resource "oci_database_database" "test_database" {
   #Required
   database {
     admin_password = "${var.db_admin_password}"
-    db_name        = "${var.second_db_name}"
+    db_name        = "TFdb2Exa"
     character_set  = "${var.character_set}"
     ncharacter_set = "${var.n_character_set}"
     db_workload    = "${var.db_workload}"

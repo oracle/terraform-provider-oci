@@ -13,6 +13,8 @@ import (
 )
 
 var (
+	adbBackupDbName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+
 	AutonomousDatabaseBackupResourceConfig = AutonomousDatabaseBackupResourceDependencies +
 		generateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", Optional, Update, autonomousDatabaseBackupRepresentation)
 
@@ -35,7 +37,8 @@ var (
 		"display_name":           Representation{repType: Required, create: `Monthly Backup`},
 	}
 
-	AutonomousDatabaseBackupResourceDependencies = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation)
+	AutonomousDatabaseBackupResourceDependencies = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create,
+		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbBackupDbName}, autonomousDatabaseRepresentation))
 )
 
 func TestDatabaseAutonomousDatabaseBackupResource_basic(t *testing.T) {
