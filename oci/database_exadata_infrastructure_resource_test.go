@@ -5,7 +5,6 @@ package oci
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"regexp"
 	"testing"
@@ -184,6 +183,5 @@ func createTmpActivationFile() (string, error) {
 	if err := activationFile.Close(); err != nil {
 		return "", err
 	}
-	log.Printf("activationFile.Name() %s ", activationFile.Name())
 	return activationFile.Name(), nil
 }

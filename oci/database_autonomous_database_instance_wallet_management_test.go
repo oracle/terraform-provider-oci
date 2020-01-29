@@ -14,6 +14,8 @@ import (
 )
 
 var (
+	adbWalletMgmtDbName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+
 	AutonomousDatabaseInstanceWalletManagementResourceConfig = AutonomousDatabaseInstanceWalletManagementResourceDependencies +
 		generateResourceFromRepresentationMap("oci_database_autonomous_database_instance_wallet_management", "test_autonomous_database_instance_wallet_management", Optional, Update, autonomousDatabaseInstanceWalletManagementRepresentation)
 
@@ -26,7 +28,8 @@ var (
 		"should_rotate":          Representation{repType: Optional, create: `false`, update: `true`},
 	}
 
-	AutonomousDatabaseInstanceWalletManagementResourceDependencies = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseRepresentation)
+	AutonomousDatabaseInstanceWalletManagementResourceDependencies = generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create,
+		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbWalletMgmtDbName}, autonomousDatabaseRepresentation))
 )
 
 func TestDatabaseAutonomousDatabaseInstanceWalletManagementResource_basic(t *testing.T) {

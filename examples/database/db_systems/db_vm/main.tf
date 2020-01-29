@@ -23,16 +23,8 @@ variable "db_admin_password" {
   default = "BEstrO0ng_#12"
 }
 
-variable "db_name" {
-  default = "aTFdb"
-}
-
 variable "db_version" {
   default = "19.0.0.0"
-}
-
-variable "db_home_display_name" {
-  default = "MyTFDBHome"
 }
 
 variable "db_disk_redundancy" {
@@ -41,10 +33,6 @@ variable "db_disk_redundancy" {
 
 variable "sparse_diskgroup" {
   default = true
-}
-
-variable "db_system_display_name" {
-  default = "MyTFDBSystem"
 }
 
 variable "hostname" {
@@ -266,7 +254,7 @@ resource "oci_database_db_system" "test_db_system" {
   db_home {
     database {
       admin_password = "${var.db_admin_password}"
-      db_name        = "${var.db_name}"
+      db_name        = "aTFdbVm"
       character_set  = "${var.character_set}"
       ncharacter_set = "${var.n_character_set}"
       db_workload    = "${var.db_workload}"
@@ -278,7 +266,7 @@ resource "oci_database_db_system" "test_db_system" {
     }
 
     db_version   = "${var.db_version}"
-    display_name = "${var.db_home_display_name}"
+    display_name = "MyTFDBHomeVm"
   }
 
   db_system_options {
@@ -289,7 +277,7 @@ resource "oci_database_db_system" "test_db_system" {
   shape                   = "${var.db_system_shape}"
   subnet_id               = "${oci_core_subnet.subnet.id}"
   ssh_public_keys         = ["${var.ssh_public_key}"]
-  display_name            = "${var.db_system_display_name}"
+  display_name            = "MyTFDBSystemVM"
   hostname                = "${var.hostname}"
   data_storage_size_in_gb = "${var.data_storage_size_in_gb}"
   license_model           = "${var.license_model}"
