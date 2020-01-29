@@ -18,6 +18,8 @@ var (
 	adDedicatedUpdateName  = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adbBackupIdName        = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 	adbBackupTimestampName = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbPreviewDbName       = randomString(1, charsetWithoutDigits) + randomString(13, charset)
+	adbDataSafeName        = randomString(1, charsetWithoutDigits) + randomString(13, charset)
 
 	AutonomousDatabaseDedicatedRequiredOnlyResource = AutonomousDatabaseDedicatedResourceDependencies +
 		generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Required, Create, autonomousDatabaseDedicatedRepresentation)
@@ -54,7 +56,7 @@ var (
 		"compartment_id":           Representation{repType: Required, create: `${var.compartment_id}`},
 		"cpu_core_count":           Representation{repType: Required, create: `1`},
 		"data_storage_size_in_tbs": Representation{repType: Required, create: `1`},
-		"db_name":                  Representation{repType: Required, create: adbName},
+		"db_name":                  Representation{repType: Required, create: adbDataSafeName},
 		"db_workload":              Representation{repType: Optional, create: `OLTP`},
 		"defined_tags":             Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":             Representation{repType: Optional, create: `example_autonomous_database`, update: `displayName2`},
@@ -310,6 +312,8 @@ func TestResourceDatabaseAutonomousDatabaseDedicated(t *testing.T) {
 }
 
 func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
+	t.Skip("Skip this test as this is a seasonal feature only when Dbaas has a preview to be released.")
+
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_preview")
 	defer httpreplay.SaveScenario()
 
@@ -323,7 +327,8 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 	datasourceName := "data.oci_database_autonomous_databases.test_autonomous_databases"
 	singularDatasourceName := "data.oci_database_autonomous_database.test_autonomous_database"
 
-	autonomousDatabasePreviewRepresentation := getUpdatedRepresentationCopy("is_preview_version_with_service_terms_accepted", Representation{repType: Optional, create: `true`}, autonomousDatabaseRepresentation)
+	autonomousDatabasePreviewRepresentation := getUpdatedRepresentationCopy("is_preview_version_with_service_terms_accepted", Representation{repType: Optional, create: `true`},
+		getUpdatedRepresentationCopy("db_name", Representation{repType: Required, create: adbPreviewDbName}, autonomousDatabaseRepresentation))
 	autonomousDatabasePreviewRepresentationForClone := getUpdatedRepresentationCopy("is_preview_version_with_service_terms_accepted", Representation{repType: Optional, create: `true`}, autonomousDatabaseRepresentationForClone)
 
 	var resId, resId2 string
@@ -344,7 +349,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbPreviewDbName),
 					// verify computed field db_workload to be defaulted to OLTP
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 
@@ -368,7 +373,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbPreviewDbName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
@@ -396,7 +401,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbPreviewDbName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -427,7 +432,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbPreviewDbName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -460,7 +465,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbPreviewDbName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -502,7 +507,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.connection_strings.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_name", adbName),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_name", adbPreviewDbName),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.db_version"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.defined_tags.%", "1"),
@@ -534,7 +539,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.0.all_connection_strings.%", "4"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", adbPreviewDbName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
@@ -587,7 +592,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbPreviewDbName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "DW"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
@@ -617,7 +622,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbPreviewDbName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "DW"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -649,7 +654,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbPreviewDbName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "DW"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -744,7 +749,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbDataSafeName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "REGISTERED"),
 
@@ -764,7 +769,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbDataSafeName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 
@@ -790,7 +795,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbDataSafeName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 
@@ -812,7 +817,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbDataSafeName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -841,7 +846,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(resourceName, "db_name", adbDataSafeName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "REGISTERED"),
 
@@ -866,7 +871,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", adbName),
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", adbDataSafeName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),

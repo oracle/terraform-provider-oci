@@ -167,12 +167,10 @@ resource "oci_database_backup_destination" "test_backup_destination_nfs" {
   type           = "NFS"
 
   #Optional
-  connection_string = "connectionString"
 
   freeform_tags = {
     "Department" = "Finance"
   }
-
   local_mount_point_path = "local_mount_point_path"
 }
 

@@ -413,16 +413,24 @@ func getDatabaseIds(compartment string) ([]string, error) {
 
 	listDatabasesRequest := oci_database.ListDatabasesRequest{}
 	listDatabasesRequest.CompartmentId = &compartmentId
-	listDatabasesRequest.LifecycleState = oci_database.DatabaseSummaryLifecycleStateAvailable
-	listDatabasesResponse, err := databaseClient.ListDatabases(context.Background(), listDatabasesRequest)
 
+	dbHomeIds, err := getDbHomeIds(compartment)
 	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting Database list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, err
 	}
-	for _, database := range listDatabasesResponse.Items {
-		id := *database.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "DatabaseId", id)
+	for _, dbHomeId := range dbHomeIds {
+		listDatabasesRequest.DbHomeId = &dbHomeId
+		listDatabasesRequest.LifecycleState = oci_database.DatabaseSummaryLifecycleStateAvailable
+		listDatabasesResponse, err := databaseClient.ListDatabases(context.Background(), listDatabasesRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting Database list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, database := range listDatabasesResponse.Items {
+			id := *database.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "DatabaseId", id)
+		}
 	}
 	return resourceIds, nil
 }

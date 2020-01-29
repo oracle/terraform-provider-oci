@@ -5,22 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hashicorp/terraform/helper/resource"
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/oracle/oci-go-sdk/common"
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
-
-func init() {
-	if DependencyGraph == nil {
-		initDependencyGraph()
-	}
-	resource.AddTestSweepers("DatabaseDbSystem", &resource.Sweeper{
-		Name:         "DatabaseDbSystem",
-		Dependencies: DependencyGraph["dbSystem"],
-		F:            sweepDatabaseDbSystemResource,
-	})
-}
 
 func sweepDatabaseDbSystemResource(compartment string) error {
 	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
