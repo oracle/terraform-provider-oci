@@ -38,7 +38,7 @@ func NewNotificationDataPlaneClientWithConfigurationProvider(configProvider comm
 
 // SetRegion overrides the region of this client.
 func (client *NotificationDataPlaneClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("notifications", "https://notification.{region}.oraclecloud.com")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("notification", "https://notification.{region}.oraclecloud.com")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
