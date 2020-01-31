@@ -1,7 +1,12 @@
 ## 3.61.0 (Unreleased)
 
 ### Added
-- Support for `DataScience` service
+- Support for Data Science service
+- Support for Data Catalog Cloud Service
+- Support for Data Flow Service
+
+### Fixed
+- Address issue where budget resource `time_spend_computed` attribute results in error [Github issue #966](https://github.com/terraform-providers/terraform-provider-oci/issues/966)
 
 ## 3.60.0 (January 29, 2020)
 
