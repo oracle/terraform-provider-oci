@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"math"
 	"os"
-	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -778,18 +777,6 @@ func checkIncompatibleAttrsForApiKeyAuth(d *schema.ResourceData) ([]string, bool
 	return apiKeyConfigAttributesToUnset, len(apiKeyConfigAttributesToUnset) == 0
 }
 
-func getCertificateFileBytes(certificateFileFullPath string) (pemRaw []byte, err error) {
-	absFile, err := filepath.Abs(certificateFileFullPath)
-	if err != nil {
-		return nil, fmt.Errorf("can't form absolute path of %s: %v", certificateFileFullPath, err)
-	}
-
-	if pemRaw, err = ioutil.ReadFile(absFile); err != nil {
-		return nil, fmt.Errorf("can't read %s: %v", certificateFileFullPath, err)
-	}
-	return
-}
-
 func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 	clients := &OracleClients{configuration: map[string]string{}}
 
@@ -892,34 +879,17 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipalWithCerts)", regionAttrName)
 		}
 
-		defaultCertsDir, err := os.Getwd()
-		if err != nil {
-			return nil, fmt.Errorf("can not get working directory for current os platform")
-		}
+		leafCertificate := getEnvSettingWithBlankDefault("ip_cert")
+		leafCertificateBytes := []byte(leafCertificate)
 
-		certsDir := filepath.Clean(getEnvSettingWithDefault("test_certificates_location", defaultCertsDir))
-		leafCertificateBytes, err := getCertificateFileBytes(filepath.Join(certsDir, "ip_cert.pem"))
-		if err != nil {
-			return nil, fmt.Errorf("can not read leaf certificate from %s", filepath.Join(certsDir, "ip_cert.pem"))
-		}
+		leafPrivateKey := getEnvSettingWithBlankDefault("ip_key")
+		leafPrivateKeyBytes := []byte(leafPrivateKey)
 
-		leafPrivateKeyBytes, err := getCertificateFileBytes(filepath.Join(certsDir, "ip_key.pem"))
-		if err != nil {
-			return nil, fmt.Errorf("can not read leaf private key from %s", filepath.Join(certsDir, "ip_key.pem"))
-		}
+		leafPassphrase := getEnvSettingWithBlankDefault("INTEGRATION_PASS_PHRASE")
+		leafPassphraseBytes := []byte(leafPassphrase)
 
-		leafPassphraseBytes := []byte{}
-		if _, err := os.Stat(certsDir + "/leaf_passphrase"); !os.IsNotExist(err) {
-			leafPassphraseBytes, err = getCertificateFileBytes(filepath.Join(certsDir + "leaf_passphrase"))
-			if err != nil {
-				return nil, fmt.Errorf("can not read leafPassphraseBytes from %s", filepath.Join(certsDir+"leaf_passphrase"))
-			}
-		}
-
-		intermediateCertificateBytes, err := getCertificateFileBytes(filepath.Join(certsDir, "intermediate.pem"))
-		if err != nil {
-			return nil, fmt.Errorf("can not read intermediate certificate from %s", filepath.Join(certsDir, "intermediate.pem"))
-		}
+		intermediateCertificate := getEnvSettingWithBlankDefault("intermediate")
+		intermediateCertificateBytes := []byte(intermediateCertificate)
 
 		intermediateCertificatesBytes := [][]byte{
 			intermediateCertificateBytes,
