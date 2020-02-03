@@ -26,6 +26,10 @@ func DatabaseDbVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"storage_management": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"db_versions": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -89,6 +93,10 @@ func (s *DatabaseDbVersionsDataSourceCrud) Get() error {
 	if dbSystemShape, ok := s.D.GetOkExists("db_system_shape"); ok {
 		tmp := dbSystemShape.(string)
 		request.DbSystemShape = &tmp
+	}
+
+	if storageManagement, ok := s.D.GetOkExists("storage_management"); ok {
+		request.StorageManagement = oci_database.DbSystemOptionsStorageManagementEnum(storageManagement.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(false, "database")
