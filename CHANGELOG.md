@@ -4,6 +4,7 @@
 - Support update DNS name for Events
 - Support for Oracle NoSQL Database Cloud
 - Support for exporting `pay_go_strategy` and `package_type` attributes in `oci_marketplace_listing_package`, `oci_marketplace_listing_packages` datasources
+- Support for `storage_management` attribute in `oci_database_db_versions` datasource
 
 ## 3.62.0 (February 12, 2020)
 
