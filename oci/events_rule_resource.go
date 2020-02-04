@@ -512,17 +512,15 @@ func EventsActionToMap(obj oci_events.Action) map[string]interface{} {
 			result["id"] = string(*v.Id)
 		}
 
+		if v.IsEnabled != nil {
+			result["is_enabled"] = bool(*v.IsEnabled)
+		}
+
 		if v.LifecycleMessage != nil {
 			result["lifecycle_message"] = string(*v.LifecycleMessage)
 		}
 
 		result["state"] = string(v.LifecycleState)
-		if v.LifecycleState == oci_events.ActionLifecycleStateActive {
-			result["is_enabled"] = true
-		}
-		if v.LifecycleState == oci_events.ActionLifecycleStateInactive {
-			result["is_enabled"] = false
-		}
 	case oci_events.NotificationServiceAction:
 		result["action_type"] = "ONS"
 
@@ -538,17 +536,15 @@ func EventsActionToMap(obj oci_events.Action) map[string]interface{} {
 			result["id"] = string(*v.Id)
 		}
 
+		if v.IsEnabled != nil {
+			result["is_enabled"] = bool(*v.IsEnabled)
+		}
+
 		if v.LifecycleMessage != nil {
 			result["lifecycle_message"] = string(*v.LifecycleMessage)
 		}
 
 		result["state"] = string(v.LifecycleState)
-		if v.LifecycleState == oci_events.ActionLifecycleStateActive {
-			result["is_enabled"] = true
-		}
-		if v.LifecycleState == oci_events.ActionLifecycleStateInactive {
-			result["is_enabled"] = false
-		}
 	case oci_events.StreamingServiceAction:
 		result["action_type"] = "OSS"
 
@@ -564,17 +560,15 @@ func EventsActionToMap(obj oci_events.Action) map[string]interface{} {
 			result["id"] = string(*v.Id)
 		}
 
+		if v.IsEnabled != nil {
+			result["is_enabled"] = bool(*v.IsEnabled)
+		}
+
 		if v.LifecycleMessage != nil {
 			result["lifecycle_message"] = string(*v.LifecycleMessage)
 		}
 
 		result["state"] = string(v.LifecycleState)
-		if v.LifecycleState == oci_events.ActionLifecycleStateActive {
-			result["is_enabled"] = true
-		}
-		if v.LifecycleState == oci_events.ActionLifecycleStateInactive {
-			result["is_enabled"] = false
-		}
 	default:
 		log.Printf("[WARN] Received 'action_type' of unknown type %v", obj)
 		return nil
