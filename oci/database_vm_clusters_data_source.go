@@ -163,6 +163,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["is_sparse_diskgroup_enabled"] = *r.IsSparseDiskgroupEnabled
 		}
 
+		if r.LastPatchHistoryEntryId != nil {
+			vmCluster["last_patch_history_entry_id"] = *r.LastPatchHistoryEntryId
+		}
+
 		vmCluster["license_model"] = r.LicenseModel
 
 		if r.LifecycleDetails != nil {

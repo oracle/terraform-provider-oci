@@ -7,6 +7,7 @@
 - Support addition of File Server capability to `oci_integration_integration_instance`
 - Support for MultiVM-Gen 2 Exadata Cloud at Customer
 - Support for `dbVersion` field added to Autonomous Database back resource
+- Support for patch and patch history in `database_vm_cluster`
 
 ## 3.79.0 (June 03, 2020)
 
