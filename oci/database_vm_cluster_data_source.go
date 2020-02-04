@@ -109,6 +109,10 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("is_sparse_diskgroup_enabled", *s.Res.IsSparseDiskgroupEnabled)
 	}
 
+	if s.Res.LastPatchHistoryEntryId != nil {
+		s.D.Set("last_patch_history_entry_id", *s.Res.LastPatchHistoryEntryId)
+	}
+
 	s.D.Set("license_model", s.Res.LicenseModel)
 
 	if s.Res.LifecycleDetails != nil {
