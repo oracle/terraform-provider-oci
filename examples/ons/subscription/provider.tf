@@ -50,18 +50,10 @@ variable "subscription_defined_tags_value" {
   default = "value"
 }
 
-variable "subscription_endpoint" {
-  default = "RobotNotExist@oracle.com"
-}
-
 variable "subscription_freeform_tags" {
   default = {
     "Department" = "Finance"
   }
-}
-
-variable "subscription_protocol" {
-  default = "EMAIL"
 }
 
 provider "oci" {
