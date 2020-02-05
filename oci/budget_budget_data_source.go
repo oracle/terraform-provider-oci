@@ -113,7 +113,7 @@ func (s *BudgetBudgetDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.TimeSpendComputed != nil {
-		s.D.Set("time_spend_computed", *s.Res.TimeSpendComputed)
+		s.D.Set("time_spend_computed", s.Res.TimeSpendComputed.String())
 	}
 
 	if s.Res.TimeUpdated != nil {
