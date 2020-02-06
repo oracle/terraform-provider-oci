@@ -38,7 +38,7 @@ func NewNotificationDataPlaneClientWithConfigurationProvider(configProvider comm
 
 // SetRegion overrides the region of this client.
 func (client *NotificationDataPlaneClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("notification", "https://notification.{region}.oraclecloud.com")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("notification", "https://notification.{region}.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -374,7 +374,11 @@ func (client NotificationDataPlaneClient) listSubscriptions(ctx context.Context,
 	return response, err
 }
 
-// PublishMessage Publishes a message to the specified topic. Limits information follows.
+// PublishMessage Publishes a message to the specified topic.
+// The topic endpoint is required for this operation.
+// To get the topic endpoint, use GetTopic
+// and review the `apiEndpoint` value in the response (NotificationTopic).
+// Limits information follows.
 // Message size limit per request: 64KB.
 // Message delivery rate limit per endpoint: 60 messages per minute for HTTP-based protocols, 10 messages per minute for the `EMAIL` protocol.
 // HTTP-based protocols use URL endpoints that begin with "http:" or "https:".
