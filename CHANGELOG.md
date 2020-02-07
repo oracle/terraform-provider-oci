@@ -1,4 +1,8 @@
 ## 3.70.0 (Unreleased)
+
+### Added
+- Support for non-default profiles for credentials
+
 ## 3.69.0 (April 01, 2020)
 
 ### Added

@@ -8,6 +8,8 @@ import (
 	"io/ioutil"
 	"math"
 	"os"
+	"os/user"
+	"path"
 	"path/filepath"
 	"regexp"
 	"strconv"
@@ -73,9 +75,12 @@ const (
 	disableAutoRetriesAttrName   = "disable_auto_retries"
 	retryDurationSecondsAttrName = "retry_duration_seconds"
 	oboTokenAttrName             = "obo_token"
+	configFileProfileAttrName    = "config_file_profile"
 
-	tfEnvPrefix  = "TF_VAR_"
-	ociEnvPrefix = "OCI_"
+	tfEnvPrefix           = "TF_VAR_"
+	ociEnvPrefix          = "OCI_"
+	defaultConfigFileName = "config"
+	defaultConfigDirName  = ".oci"
 )
 
 // OboTokenProvider interface that wraps information about auth tokens so the sdk client can make calls
@@ -122,6 +127,7 @@ func init() {
 			"Automatic retries were introduced to solve some eventual consistency problems but it also introduced performance issues on destroy operations.",
 		retryDurationSecondsAttrName: "(Optional) The minimum duration (in seconds) to retry a resource operation in response to an error.\n" +
 			"The actual retry duration may be longer due to jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true.",
+		configFileProfileAttrName: "(Optional) The profile name to be used from config file, if not set it will be DEFAULT.",
 	}
 }
 
@@ -203,6 +209,12 @@ func schemaMap() map[string]*schema.Schema {
 			Optional:    true,
 			Description: descriptions[retryDurationSecondsAttrName],
 			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(retryDurationSecondsAttrName), ociVarName(retryDurationSecondsAttrName)}, nil),
+		},
+		configFileProfileAttrName: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: descriptions[configFileProfileAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(configFileProfileAttrName), ociVarName(configFileProfileAttrName)}, nil),
 		},
 	}
 }
@@ -312,6 +324,7 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 	}
 
 	auth := strings.ToLower(d.Get(authAttrName).(string))
+	profile := d.Get(configFileProfileAttrName).(string)
 	clients.configuration[authAttrName] = auth
 
 	configProviders, err := getConfigProviders(d, auth)
@@ -322,13 +335,21 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 	if region, error := resourceDataConfigProvider.Region(); error == nil {
 		clients.configuration["region"] = region
 	}
-	configProviders = append(configProviders, resourceDataConfigProvider)
 
 	// TODO: DefaultConfigProvider will return us a composingConfigurationProvider that reads from SDK config files,
 	// and then from the environment variables ("TF_VAR" prefix). References to "TF_VAR" prefix should be removed from
 	// the SDK, since it's Terraform specific. When that happens, we need to update this to pass in the right prefix.
-	configProviders = append(configProviders, oci_common.DefaultConfigProvider())
-
+	configProviders = append(configProviders, resourceDataConfigProvider)
+	if profile == "" {
+		configProviders = append(configProviders, oci_common.DefaultConfigProvider())
+	} else {
+		defaultPath := path.Join(getHomeFolder(), defaultConfigDirName, defaultConfigFileName)
+		err := checkProfile(profile, defaultPath)
+		if err != nil {
+			return nil, err
+		}
+		configProviders = append(configProviders, oci_common.CustomProfileConfigProvider(defaultPath, profile))
+	}
 	sdkConfigProvider, err := oci_common.ComposingConfigurationProvider(configProviders)
 	if err != nil {
 		return nil, err
@@ -547,6 +568,36 @@ func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 	}
 
 	return configureClientFn, nil
+}
+
+func getHomeFolder() string {
+	current, e := user.Current()
+	if e != nil {
+		//Give up and try to return something sensible
+		home := os.Getenv("HOME")
+		if home == "" {
+			home = os.Getenv("USERPROFILE")
+		}
+		return home
+	}
+	return current.HomeDir
+}
+
+func checkProfile(profile string, path string) (err error) {
+	var profileRegex = regexp.MustCompile(`^\[(.*)\]`)
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	content := string(data)
+	splitContent := strings.Split(content, "\n")
+	for _, line := range splitContent {
+		if match := profileRegex.FindStringSubmatch(line); match != nil && len(match) > 1 && match[1] == profile {
+			return nil
+		}
+	}
+
+	return fmt.Errorf("configuration file did not contain profile: %s", profile)
 }
 
 type ResourceDataConfigProvider struct {
