@@ -53,6 +53,7 @@ For details on how to create and configure keys see [Required Keys and OCIDs #Ho
 - `private_key_password` - (Optional) Passphrase used for the key, if it is encrypted.
 - `fingerprint` - Fingerprint for the key pair being used. To get the value, see [Required Keys and OCIDs #How to Get the Key's Fingerprint](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/apisigningkey.htm#four).
 - `region` - An Oracle Cloud Infrastructure region. See [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).
+- `config_file_profile` - Profile Name if you would like to use custom profile for oci standard config file for credentials
 
 #### Environment variables
 It is common to export the above values as environment variables, or source them in different bash profiles when executing 
@@ -99,7 +100,18 @@ The variables won't be set for the current session, exit the terminal and reopen
 It is possible to define the required provider values in the same `~/.oci/config` file that the SDKs and CLI support. 
 For details on setting up this configuration see [SDK and CLI Configuration File](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm).  
 
-_Note: only the `[default]` profile is supported, and the parameter names are slightly different. Provider block from terraform config can be completely removed if all API Key based authentication required values are provided as environment variables, in a `*.tfvars file` or `~/.oci/config`_. When using empty provider block, `private_key_password` if required should to be set in `~/.oci/config`. 
+_Note: the parameter names are slightly different. Provider block from terraform config can be completely removed if all API Key based authentication required values are provided as environment variables, in a `*.tfvars file` or `~/.oci/config`_. When using empty provider block, `private_key_password` if required should to be set in `~/.oci/config`. 
+ 
+ If the parameters have multiple sources, the priority is going to be: 1 environment value, 2 non-default profile if provided, 3 DEFAULT profile
+ 
+ TO used non-default profile, you can set it through environment value like: `export TF_VAR_config_file_profile=<value>` or set it in a provider block like:
+ 
+```
+provider "oci" {
+  tenancy_ocid = "${var.tenancy_ocid}"
+  config_file_profile= "${var.config_file_profile}"
+}
+```
 
 ### Instance Principal Authentication
 Instance Principal authentication allows you to run Terraform from an OCI Instance within your Tenancy. To enable Instance 
