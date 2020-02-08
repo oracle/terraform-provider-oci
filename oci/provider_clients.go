@@ -62,7 +62,6 @@ type OracleClients struct {
 	functionsInvokeClient          *oci_functions.FunctionsInvokeClient
 	functionsManagementClient      *oci_functions.FunctionsManagementClient
 	gatewayClient                  *oci_apigateway.GatewayClient
-	gatewayWorkRequestsClient      *oci_apigateway.WorkRequestsClient
 	healthChecksClient             *oci_health_checks.HealthChecksClient
 	identityClient                 *oci_identity.IdentityClient
 	integrationInstanceClient      *oci_integration.IntegrationInstanceClient
@@ -85,6 +84,7 @@ type OracleClients struct {
 	streamAdminClient              *oci_streaming.StreamAdminClient
 	virtualNetworkClient           *oci_core.VirtualNetworkClient
 	waasClient                     *oci_waas.WaasClient
+	gatewayWorkRequestsClient      *oci_apigateway.WorkRequestsClient
 	workRequestClient              *oci_work_requests.WorkRequestClient
 }
 
@@ -247,6 +247,10 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 	if err != nil {
 		return
 	}
+	err = configureClient(&deploymentClient.BaseClient)
+	if err != nil {
+		return
+	}
 	clients.deploymentClient = &deploymentClient
 
 	dnsClient, err := oci_dns.NewDnsClientWithConfigurationProvider(configProvider)
@@ -313,13 +317,11 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 	if err != nil {
 		return
 	}
-	clients.gatewayClient = &gatewayClient
-
-	gatewayWorkRequestsClient, err := oci_apigateway.NewWorkRequestsClientWithConfigurationProvider(configProvider)
+	err = configureClient(&gatewayClient.BaseClient)
 	if err != nil {
 		return
 	}
-	clients.gatewayWorkRequestsClient = &gatewayWorkRequestsClient
+	clients.gatewayClient = &gatewayClient
 
 	healthChecksClient, err := oci_health_checks.NewHealthChecksClientWithConfigurationProvider(configProvider)
 	if err != nil {
@@ -540,6 +542,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.waasClient = &waasClient
+
+	gatewayWorkRequestsClient, err := oci_apigateway.NewWorkRequestsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&gatewayWorkRequestsClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.gatewayWorkRequestsClient = &gatewayWorkRequestsClient
 
 	workRequestClient, err := oci_work_requests.NewWorkRequestClientWithConfigurationProvider(configProvider)
 	if err != nil {
