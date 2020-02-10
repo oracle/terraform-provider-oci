@@ -82,3 +82,34 @@ func dbSystemSweepResponseFetchOperation(client *OracleClients, resourceId *stri
 	})
 	return err
 }
+
+func getDbNodeIds(compartment string) ([]string, error) {
+	ids := getResourceIdsToSweep(compartment, "DbNodeId")
+	if ids != nil {
+		return ids, nil
+	}
+	var resourceIds []string
+	dbSystemIds, err := getDbSystemIds(compartment)
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting dbSystemId required for DbNode resource requests \n")
+	}
+	compartmentId := compartment
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+
+	for _, dbSystemId := range dbSystemIds {
+		listDbNodesRequest := oci_database.ListDbNodesRequest{}
+		listDbNodesRequest.CompartmentId = &compartmentId
+		listDbNodesRequest.DbSystemId = &dbSystemId
+		listDbNodesResponse, err := databaseClient.ListDbNodes(context.Background(), listDbNodesRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting DbSystem list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, dbNode := range listDbNodesResponse.Items {
+			id := *dbNode.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "DbNodeId", id)
+		}
+	}
+	return resourceIds, nil
+}

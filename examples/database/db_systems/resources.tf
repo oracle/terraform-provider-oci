@@ -6,6 +6,10 @@ resource "oci_database_db_system" "test_db_system" {
   cpu_core_count      = "${lookup(data.oci_database_db_system_shapes.test_db_system_shapes.db_system_shapes[0], "minimum_core_count")}"
   database_edition    = "${var.db_edition}"
 
+  db_system_options {
+    storage_management = "LVM"
+  }
+
   db_home {
     database {
       admin_password = "${var.db_admin_password}"
@@ -79,4 +83,10 @@ resource "oci_database_backup" "test_backup" {
   depends_on   = ["oci_database_db_system.test_db_system"]
   database_id  = "${oci_database_db_system.test_db_system.db_home.0.database.0.id}"
   display_name = "FirstBackup"
+}
+
+resource "oci_database_db_node_console_connection" "test_db_node_console_connection" {
+  #Required
+  db_node_id = "${lookup(data.oci_database_db_nodes.db_nodes.db_nodes[0], "id")}"
+  public_key = "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l sample"
 }

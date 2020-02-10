@@ -3,6 +3,7 @@
 ### Added
 - Support for Handling the VM (hypervisor) reboots info shared with the customer
 - Support for VM 20c Preview in DBAAS
+- Support for console connection for db nodes in BM and VM db systems
 
 ## 3.66.0 (March 11, 2020)
 
