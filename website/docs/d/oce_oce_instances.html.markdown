@@ -53,6 +53,7 @@ The following attributes are exported:
 * `guid` - Unique GUID identifier that is immutable on creation
 * `id` - Unique identifier that is immutable on creation
 * `idcs_tenancy` - IDCS Tenancy Identifier
+* `instance_usage_type` - Instance type based on its usage
 * `name` - OceInstance Name
 * `object_storage_namespace` - Object Storage Namespace of tenancy
 * `service` - SERVICE data. Example: `{"service": {"IDCS": "value"}}` 
