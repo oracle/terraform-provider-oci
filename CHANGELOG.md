@@ -1,4 +1,9 @@
 ## 3.62.0 (Unreleased)
+
+### Added
+- Support for Proxy Protocol for `oci_load_balancer_listener`
+- Support for specifying db version while creating a database for ADB Serverless
+
 ## 3.61.0 (February 05, 2020)
 
 ### Added

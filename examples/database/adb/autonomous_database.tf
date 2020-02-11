@@ -8,6 +8,14 @@ resource "random_string" "autonomous_database_admin_password" {
   min_special = 1
 }
 
+data "oci_database_autonomous_db_versions" "test_autonomous_db_versions" {
+  #Required
+  compartment_id = "${var.compartment_ocid}"
+
+  #Optional
+  db_workload = "${var.autonomous_database_db_workload}"
+}
+
 resource "oci_database_autonomous_database" "autonomous_database" {
   #Required
   admin_password           = "${random_string.autonomous_database_admin_password.result}"
@@ -17,6 +25,7 @@ resource "oci_database_autonomous_database" "autonomous_database" {
   db_name                  = "adbdb1"
 
   #Optional
+  db_version                                     = "${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}"
   db_workload                                    = "${var.autonomous_database_db_workload}"
   display_name                                   = "example_autonomous_database"
   freeform_tags                                  = "${var.autonomous_database_freeform_tags}"

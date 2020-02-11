@@ -28,6 +28,7 @@ var (
 	httpRedirectSingularDataSourceRepresentation = map[string]interface{}{
 		"http_redirect_id": Representation{repType: Required, create: `${oci_waas_http_redirect.test_http_redirect.id}`},
 	}
+	domainName = randomString(6, charsetWithoutDigits) + ".com"
 
 	httpRedirectDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                        Representation{repType: Required, create: `${var.compartment_id}`},
@@ -44,7 +45,7 @@ var (
 
 	httpRedirectRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"domain":         Representation{repType: Required, create: `example.com`},
+		"domain":         Representation{repType: Required, create: domainName},
 		"target":         RepresentationGroup{Required, httpRedirectTargetRepresentation},
 		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
@@ -94,7 +95,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_waas_http_redirect", "test_http_redirect", Required, Create, httpRedirectRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "domain", "example.com"),
+					resource.TestCheckResourceAttr(resourceName, "domain", domainName),
 					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "target.0.host", "example1.com"),
 					resource.TestCheckResourceAttr(resourceName, "target.0.path", "/test{path}"),
@@ -120,7 +121,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "domain", "example.com"),
+					resource.TestCheckResourceAttr(resourceName, "domain", domainName),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "response_code", "301"),
 					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
@@ -153,7 +154,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "domain", "example.com"),
+					resource.TestCheckResourceAttr(resourceName, "domain", domainName),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "response_code", "301"),
 					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
@@ -181,7 +182,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "domain", "example.com"),
+					resource.TestCheckResourceAttr(resourceName, "domain", domainName),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "response_code", "302"),
 					resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
@@ -218,7 +219,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.domain", "example.com"),
+					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.domain", domainName),
 					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "http_redirects.0.id"),
 					resource.TestCheckResourceAttr(datasourceName, "http_redirects.0.response_code", "302"),
@@ -243,7 +244,7 @@ func TestWaasHttpRedirectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "domain", "example.com"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "domain", domainName),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "response_code", "302"),

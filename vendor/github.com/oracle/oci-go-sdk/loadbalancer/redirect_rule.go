@@ -16,7 +16,7 @@ import (
 
 // RedirectRule An object that represents the action of returning a specified response code and a redirect URI. Each RedirectRule
 // object is configured for a particular listener and a designated path.
-// The default response code is `302 Moved Temporarily`.
+// The default response code is `302 Found`.
 // **NOTES:**
 // *  This rule applies only to HTTP listeners.
 // *  You can specify this rule only with the RuleCondition
@@ -35,7 +35,7 @@ type RedirectRule struct {
 	// *  303
 	// *  307
 	// *  308
-	// The default value is `302` (Moved Temporarily).
+	// The default value is `302` (Found).
 	// Example: `301`
 	ResponseCode *int `mandatory:"false" json:"responseCode"`
 

@@ -41,23 +41,23 @@ type CreateAutonomousDatabaseBase interface {
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
 	GetDisplayName() *string
 
-	// The Oracle license model that applies to the Oracle Autonomous Database. Note that when provisioning an Autonomous Database using the dedicated deployment (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm) option, this attribute must be null because the attribute is already set at the
-	// Autonomous Exadata Infrastructure level. When using the serverless deployment (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#DeploymentTypes) option, if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
+	// The Oracle license model that applies to the Oracle Autonomous Database. Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm), this attribute must be null because the attribute is already set at the
+	// Autonomous Exadata Infrastructure level. When using shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI), if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 	GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum
 
-	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for serverless deployments (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI).
+	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI).
 	GetIsPreviewVersionWithServiceTermsAccepted() *bool
 
-	// Indicates if auto scaling is enabled for the Autonomous Database OCPU core count. The default value is `FALSE`. Note that auto scaling is available for serverless deployments (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) only.
+	// Indicates if auto scaling is enabled for the Autonomous Database OCPU core count. The default value is `FALSE`. Note that auto scaling is available for databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) only.
 	GetIsAutoScalingEnabled() *bool
 
-	// True if the database uses the dedicated deployment (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm) option.
+	// True if the database is on dedicated Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adbddoverview.htm).
 	GetIsDedicated() *bool
 
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	GetAutonomousContainerDatabaseId() *string
 
-	// The client IP access control list (ACL). This feature is available for serverless deployments (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) only.
+	// The client IP access control list (ACL). This feature is available for databases on shared Exadata infrastructure (https://docs.cloud.oracle.com/Content/Database/Concepts/adboverview.htm#AEI) only.
 	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance. This is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID.
 	// To add the whitelist VCN specific subnet or IP, use a semicoln ';' as a deliminator to add the VCN specific subnets or IPs.
 	// Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.1.1","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.0.0/16"]`
@@ -71,6 +71,9 @@ type CreateAutonomousDatabaseBase interface {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// A valid Oracle Database version for Autonomous Database.
+	GetDbVersion() *string
 }
 
 type createautonomousdatabasebase struct {
@@ -91,6 +94,7 @@ type createautonomousdatabasebase struct {
 	WhitelistedIps                           []string                                     `mandatory:"false" json:"whitelistedIps"`
 	FreeformTags                             map[string]string                            `mandatory:"false" json:"freeformTags"`
 	DefinedTags                              map[string]map[string]interface{}            `mandatory:"false" json:"definedTags"`
+	DbVersion                                *string                                      `mandatory:"false" json:"dbVersion"`
 	Source                                   string                                       `json:"source"`
 }
 
@@ -121,6 +125,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.WhitelistedIps = s.Model.WhitelistedIps
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.DbVersion = s.Model.DbVersion
 	m.Source = s.Model.Source
 
 	return err
@@ -234,6 +239,11 @@ func (m createautonomousdatabasebase) GetFreeformTags() map[string]string {
 //GetDefinedTags returns DefinedTags
 func (m createautonomousdatabasebase) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+//GetDbVersion returns DbVersion
+func (m createautonomousdatabasebase) GetDbVersion() *string {
+	return m.DbVersion
 }
 
 func (m createautonomousdatabasebase) String() string {

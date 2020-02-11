@@ -111,8 +111,8 @@ The following arguments are supported:
 			*  __/example/video/123__ appears as `/example/video/123` in the redirect URI.
 			*  __/example{path}__ appears as `/example/video/123` in the redirect URI if `/video/123` is the path in the incoming HTTP request URI.
 			*  __{path}/123__ appears as `/example/video/123` in the redirect URI if `/example/video` is the path in the incoming HTTP request URI.
-			*  __{path}123__ appears as `/example/video123` in the redirect URI if `/example/video is the path in the incoming HTTP request URI.
-			*  __/{host}/123__ appears as `/example.com/video/123` in the redirect URI if `example.com` is the hostname in the incoming HTTP request URI.
+			*  __{path}123__ appears as `/example/video123` in the redirect URI if `/example/video` is the path in the incoming HTTP request URI.
+			*  __/{host}/123__ appears as `/example.com/123` in the redirect URI if `example.com` is the hostname in the incoming HTTP request URI.
 			*  __/{host}/{port}__ appears as `/example.com/123` in the redirect URI if `example.com` is the hostname and `123` is the port in the incoming HTTP request URI.
 			*  __/{query}__ appears as `/lang=en` in the redirect URI if the query is `lang=en` in the incoming HTTP request URI. 
 		* `port` - (Applicable when action=REDIRECT) (Updatable) The communication port to use in the redirect URI.
@@ -159,7 +159,7 @@ The following arguments are supported:
 		*  307
 		*  308
 
-		The default value is `302` (Moved Temporarily).
+		The default value is `302` (Found).
 
 		Example: `301` 
 	* `status_code` - (Applicable when action=CONTROL_ACCESS_USING_HTTP_METHODS) (Updatable) The HTTP status code to return when the requested HTTP method is not in the list of allowed methods. The associated status line returned with the code is mapped from the standard HTTP specification. The default value is `405 (Method Not Allowed)`.  Example: 403 
@@ -228,8 +228,8 @@ The following attributes are exported:
 			*  __/example/video/123__ appears as `/example/video/123` in the redirect URI.
 			*  __/example{path}__ appears as `/example/video/123` in the redirect URI if `/video/123` is the path in the incoming HTTP request URI.
 			*  __{path}/123__ appears as `/example/video/123` in the redirect URI if `/example/video` is the path in the incoming HTTP request URI.
-			*  __{path}123__ appears as `/example/video123` in the redirect URI if `/example/video is the path in the incoming HTTP request URI.
-			*  __/{host}/123__ appears as `/example.com/video/123` in the redirect URI if `example.com` is the hostname in the incoming HTTP request URI.
+			*  __{path}123__ appears as `/example/video123` in the redirect URI if `/example/video` is the path in the incoming HTTP request URI.
+			*  __/{host}/123__ appears as `/example.com/123` in the redirect URI if `example.com` is the hostname in the incoming HTTP request URI.
 			*  __/{host}/{port}__ appears as `/example.com/123` in the redirect URI if `example.com` is the hostname and `123` is the port in the incoming HTTP request URI.
 			*  __/{query}__ appears as `/lang=en` in the redirect URI if the query is `lang=en` in the incoming HTTP request URI. 
 		* `port` - The communication port to use in the redirect URI.
@@ -276,7 +276,7 @@ The following attributes are exported:
 		*  307
 		*  308
 
-		The default value is `302` (Moved Temporarily).
+		The default value is `302` (Found).
 
 		Example: `301` 
 	* `status_code` - The HTTP status code to return when the requested HTTP method is not in the list of allowed methods. The associated status line returned with the code is mapped from the standard HTTP specification. The default value is `405 (Method Not Allowed)`.  Example: 403 

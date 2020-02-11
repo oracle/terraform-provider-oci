@@ -42,7 +42,7 @@ var (
 		"compartment_id":       Representation{repType: Required, create: `${var.compartment_id}`},
 		"display_name":         Representation{repType: Required, create: `test_wordcount_run`},
 		"arguments":            Representation{repType: Optional, create: []string{`arguments`}},
-		"configuration":        Representation{repType: Optional, create: map[string]string{"configuration": "configuration"}},
+		"configuration":        Representation{repType: Optional, create: map[string]string{"spark.shuffle.io.maxRetries": "10"}},
 		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"driver_shape":         Representation{repType: Optional, create: `VM.Standard2.1`},
 		"executor_shape":       Representation{repType: Optional, create: `VM.Standard2.1`},
