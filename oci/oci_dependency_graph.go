@@ -31,6 +31,7 @@ func initDependencyGraph() {
 	DependencyGraph["cluster"] = append(DependencyGraph["cluster"], "ContainerengineClusterKubeConfig")
 	DependencyGraph["cluster"] = append(DependencyGraph["cluster"], "ContainerengineNodePool")
 	DependencyGraph["cpe"] = append(DependencyGraph["cpe"], "CoreIpSecConnection")
+	DependencyGraph["cpeDeviceShape"] = append(DependencyGraph["cpeDeviceShape"], "CoreCpe")
 	DependencyGraph["crossConnectGroup"] = append(DependencyGraph["crossConnectGroup"], "CoreCrossConnect")
 	DependencyGraph["database"] = append(DependencyGraph["database"], "DatabaseBackup")
 	DependencyGraph["database"] = append(DependencyGraph["database"], "DatabaseDataGuardAssociation")

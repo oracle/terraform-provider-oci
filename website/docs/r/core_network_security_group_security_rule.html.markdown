@@ -120,7 +120,6 @@ The following arguments are supported:
         * `max` - (Required) The maximum port number. Must not be lower than the minimum port number. To specify a single port number, set both the min and max to the same value. 
         * `min` - (Required) The minimum port number. Must not be greater than the maximum port number.
 
-
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
 

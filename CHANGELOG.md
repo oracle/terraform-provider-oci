@@ -2,6 +2,7 @@
 
 ### Added
 - Support for updating `shape` attribute in `oci_database_db_system` resource
+- Support for CPE builder on IPSec console
 
 ## 3.64.0 (February 26, 2020)
 

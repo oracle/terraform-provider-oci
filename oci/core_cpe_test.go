@@ -30,11 +30,12 @@ var (
 	}
 
 	cpeRepresentation = map[string]interface{}{
-		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
-		"ip_address":     Representation{repType: Required, create: `189.44.2.135`},
-		"defined_tags":   Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   Representation{repType: Optional, create: `MyCpe`, update: `displayName2`},
-		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":      Representation{repType: Required, create: `${var.compartment_id}`},
+		"ip_address":          Representation{repType: Required, create: `189.44.2.135`},
+		"cpe_device_shape_id": Representation{repType: Optional, create: `${data.oci_core_cpe_device_shapes.test_cpe_device_shapes.cpe_device_shapes.0.cpe_device_shape_id}`},
+		"defined_tags":        Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        Representation{repType: Optional, create: `MyCpe`, update: `displayName2`},
+		"freeform_tags":       Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 	}
 
 	CpeResourceDependencies = DefinedTagsDependencies
@@ -87,9 +88,11 @@ func TestCoreCpeResource_basic(t *testing.T) {
 			// verify create with optionals
 			{
 				Config: config + compartmentIdVariableStr + CpeResourceDependencies +
+					generateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Optional, Create, cpeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "cpe_device_shape_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCpe"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -111,12 +114,14 @@ func TestCoreCpeResource_basic(t *testing.T) {
 			// verify update to the compartment (the compartment will be switched back in the next step)
 			{
 				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CpeResourceDependencies +
+					generateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Optional, Create,
 						representationCopyWithNewProperties(cpeRepresentation, map[string]interface{}{
 							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
 						})),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttrSet(resourceName, "cpe_device_shape_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "MyCpe"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -136,9 +141,11 @@ func TestCoreCpeResource_basic(t *testing.T) {
 			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + CpeResourceDependencies +
+					generateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation) +
 					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Optional, Update, cpeRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "cpe_device_shape_id"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -157,6 +164,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 			// verify datasource
 			{
 				Config: config +
+					generateDataSourceFromRepresentationMap("oci_core_cpe_device_shapes", "test_cpe_device_shapes", Required, Create, cpeDeviceShapeDataSourceRepresentation) +
 					generateDataSourceFromRepresentationMap("oci_core_cpes", "test_cpes", Optional, Update, cpeDataSourceRepresentation) +
 					compartmentIdVariableStr + CpeResourceDependencies +
 					generateResourceFromRepresentationMap("oci_core_cpe", "test_cpe", Optional, Update, cpeRepresentation),
@@ -165,6 +173,7 @@ func TestCoreCpeResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "cpes.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "cpes.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(datasourceName, "cpes.0.cpe_device_shape_id"),
 					resource.TestCheckResourceAttr(datasourceName, "cpes.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "cpes.0.display_name", "displayName2"),
 					resource.TestCheckResourceAttr(datasourceName, "cpes.0.freeform_tags.%", "1"),
