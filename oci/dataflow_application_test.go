@@ -48,7 +48,7 @@ var (
 		"num_executors":        Representation{repType: Required, create: `1`, update: `2`},
 		"spark_version":        Representation{repType: Required, create: `2.4`},
 		"arguments":            Representation{repType: Optional, create: []string{`arguments`}, update: []string{`arguments2`}},
-		"configuration":        Representation{repType: Optional, create: map[string]string{"configuration": "configuration"}, update: map[string]string{"configuration2": "configuration2"}},
+		"configuration":        Representation{repType: Optional, create: map[string]string{"spark.shuffle.io.maxRetries": "10"}, update: map[string]string{"spark.shuffle.io.maxRetries": "11"}},
 		"defined_tags":         Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":          Representation{repType: Optional, create: `description`, update: `description2`},
 		"freeform_tags":        Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},

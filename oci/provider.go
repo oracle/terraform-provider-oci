@@ -337,6 +337,7 @@ func DataSourcesMap() map[string]*schema.Resource {
 		"oci_database_autonomous_database_backup":                     DatabaseAutonomousDatabaseBackupDataSource(),
 		"oci_database_autonomous_database_backups":                    DatabaseAutonomousDatabaseBackupsDataSource(),
 		"oci_database_autonomous_db_preview_versions":                 DatabaseAutonomousDbPreviewVersionsDataSource(),
+		"oci_database_autonomous_db_versions":                         DatabaseAutonomousDbVersionsDataSource(),
 		"oci_database_autonomous_exadata_infrastructure":              DatabaseAutonomousExadataInfrastructureDataSource(),
 		"oci_database_autonomous_exadata_infrastructures":             DatabaseAutonomousExadataInfrastructuresDataSource(),
 		"oci_database_autonomous_exadata_infrastructure_ocpu":         DatabaseAutonomousExadataInfrastructureOcpuDataSource(),
@@ -836,6 +837,7 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 
 	switch auth {
 	case strings.ToLower(authAPIKeySetting):
+		// No additional config providers needed
 	case strings.ToLower(authInstancePrincipalSetting):
 		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
 		if !ok {
@@ -846,7 +848,21 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		if !ok {
 			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipal)", regionAttrName)
 		}
-		cfg, err := oci_common_auth.InstancePrincipalConfigurationProviderForRegion(oci_common.StringToRegion(region.(string)))
+
+		// Used to modify InstancePrincipal auth clients so that `accept_local_certs` is honored for auth clients as well
+		// These clients are created implicitly by SDK, and are not modified by the buildConfigureClientFn that usually does this for the other SDK clients
+		instancePrincipalAuthClientModifier := func(client oci_common.HTTPRequestDispatcher) (oci_common.HTTPRequestDispatcher, error) {
+			if acceptLocalCerts := getEnvSettingWithBlankDefault(acceptLocalCerts); acceptLocalCerts != "" {
+				if bool, err := strconv.ParseBool(acceptLocalCerts); err == nil {
+					modifiedClient := buildHttpClient()
+					modifiedClient.Transport.(*http.Transport).TLSClientConfig.InsecureSkipVerify = bool
+					return modifiedClient, nil
+				}
+			}
+			return client, nil
+		}
+
+		cfg, err := oci_common_auth.InstancePrincipalConfigurationForRegionWithCustomClient(oci_common.StringToRegion(region.(string)), instancePrincipalAuthClientModifier)
 		if err != nil {
 			return nil, err
 		}
