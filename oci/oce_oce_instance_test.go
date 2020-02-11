@@ -52,6 +52,7 @@ var (
 		"defined_tags":             Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":              Representation{repType: Optional, create: `description`, update: `description2`},
 		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
+		"instance_usage_type":      Representation{repType: Optional, create: `NONPRIMARY`},
 	}
 
 	OceInstanceResourceDependencies = generateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", Required, Create, tenancySingularDataSourceRepresentation) +
@@ -132,6 +133,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_tenancy"),
+					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(resourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
@@ -166,6 +168,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_tenancy"),
+					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(resourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
@@ -195,6 +198,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 					resource.TestCheckResourceAttrSet(resourceName, "idcs_tenancy"),
+					resource.TestCheckResourceAttr(resourceName, "instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(resourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
@@ -229,6 +233,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.guid"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.idcs_tenancy"),
+					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.name", instanceName),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.state"),
@@ -255,6 +260,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "guid"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "idcs_tenancy"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_usage_type", "NONPRIMARY"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", instanceName),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
