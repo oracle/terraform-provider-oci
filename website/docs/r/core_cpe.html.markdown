@@ -36,6 +36,7 @@ resource "oci_core_cpe" "test_cpe" {
 	ip_address = "${var.cpe_ip_address}"
 
 	#Optional
+	cpe_device_shape_id = "${data.oci_core_cpe_device_shapes.test_cpe_device_shapes.cpe_device_shapes.0.cpe_device_shape_id}"
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = "${var.cpe_display_name}"
 	freeform_tags = {"Department"= "Finance"}
@@ -47,6 +48,7 @@ resource "oci_core_cpe" "test_cpe" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the CPE.
+* `cpe_device_shape_id` - (Optional) (Updatable) The CPE device type's unique identifier.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -61,6 +63,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment containing the CPE.
+* `cpe_device_shape_id` - The CPE device type's unique identifier.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
