@@ -90,6 +90,13 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					string(oci_database.AutonomousDatabaseSummaryDataSafeStatusNotRegistered),
 				}, true),
 			},
+			"db_version": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: dbVersionDiffSuppress,
+			},
 			"db_workload": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -238,10 +245,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						},
 					},
 				},
-			},
-			"db_version": {
-				Type:     schema.TypeString,
-				Computed: true,
 			},
 			"is_preview": {
 				Type:     schema.TypeBool,
@@ -743,6 +746,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := dbName.(string)
 			details.DbName = &tmp
 		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
 		if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
 			details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))
 		}
@@ -832,6 +839,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := dbName.(string)
 			details.DbName = &tmp
 		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
 		if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
 			details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))
 		}
@@ -914,6 +925,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := dbName.(string)
 			details.DbName = &tmp
 		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
 		if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
 			details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))
 		}
@@ -986,6 +1001,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if dbName, ok := s.D.GetOkExists("db_name"); ok {
 			tmp := dbName.(string)
 			details.DbName = &tmp
+		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
 		}
 		if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {
 			details.DbWorkload = oci_database.CreateAutonomousDatabaseBaseDbWorkloadEnum(dbWorkload.(string))

@@ -22,6 +22,10 @@ func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"db_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"db_workload": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -76,6 +80,11 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+		tmp := dbVersion.(string)
+		request.DbVersion = &tmp
 	}
 
 	if dbWorkload, ok := s.D.GetOkExists("db_workload"); ok {

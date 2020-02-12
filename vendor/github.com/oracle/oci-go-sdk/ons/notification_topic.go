@@ -32,7 +32,7 @@ type NotificationTopic struct {
 	// The time the topic was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The endpoint for managing topic subscriptions or publishing messages to the topic.
+	// The endpoint for managing subscriptions or publishing messages to the topic.
 	ApiEndpoint *string `mandatory:"true" json:"apiEndpoint"`
 
 	// The description of the topic.

@@ -186,6 +186,20 @@ func DefaultConfigProvider() ConfigurationProvider {
 	return provider
 }
 
+// CustomProfileConfigProvider returns the config provider of given profile. The custom profile config provider
+// will look for configurations in 2 places: file in $HOME/.oci/config,  and variables names starting with the
+// string TF_VAR. If the same configuration is found in multiple places the provider will prefer the first one.
+func CustomProfileConfigProvider(customConfigPath string, profile string) ConfigurationProvider {
+	homeFolder := getHomeFolder()
+	defaultFileProvider, _ := ConfigurationProviderFromFileWithProfile(customConfigPath, profile, "")
+	secondaryConfigFile := path.Join(homeFolder, defaultConfigDirName, defaultConfigFileName)
+	secondaryFileProvider, _ := ConfigurationProviderFromFileWithProfile(secondaryConfigFile, profile, "")
+	environmentProvider := environmentConfigurationProvider{EnvironmentVariablePrefix: "TF_VAR"}
+	provider, _ := ComposingConfigurationProvider([]ConfigurationProvider{defaultFileProvider, secondaryFileProvider, environmentProvider})
+	Debugf("Configuration provided by: %s", provider)
+	return provider
+}
+
 func (client *BaseClient) prepareRequest(request *http.Request) (err error) {
 	if client.UserAgent == "" {
 		return fmt.Errorf("user agent can not be blank")
