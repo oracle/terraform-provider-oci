@@ -31,6 +31,7 @@ var (
 
 	autonomousDatabaseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": Representation{repType: Required, create: `${var.compartment_id}`},
+		"db_version":     Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
 		"db_workload":    Representation{repType: Optional, create: `OLTP`},
 		"display_name":   Representation{repType: Optional, create: `example_autonomous_database`, update: `displayName2`},
 		"state":          Representation{repType: Optional, create: `AVAILABLE`},
@@ -49,6 +50,7 @@ var (
 		"cpu_core_count":           Representation{repType: Required, create: `1`},
 		"data_storage_size_in_tbs": Representation{repType: Required, create: `1`},
 		"db_name":                  Representation{repType: Required, create: adbName},
+		"db_version":               Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
 		"db_workload":              Representation{repType: Optional, create: `OLTP`},
 		"defined_tags":             Representation{repType: Optional, create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":             Representation{repType: Optional, create: `example_autonomous_database`, update: `displayName2`},
@@ -70,7 +72,11 @@ var (
 			"source_id":  Representation{repType: Optional, create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
 		})
 
-	AutonomousDatabaseResourceDependencies = DefinedTagsDependencies
+	AutonomousDatabaseResourceDependencies = DefinedTagsDependencies +
+		generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", Required, Create, autonomousDbVersionDataSourceRepresentation) +
+		generateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions", Required, Create,
+			representationCopyWithNewProperties(autonomousDbVersionDataSourceRepresentation, map[string]interface{}{
+				"db_workload": Representation{repType: Required, create: `DW`}}))
 )
 
 func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
@@ -134,6 +140,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
@@ -172,6 +179,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
@@ -204,6 +212,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
@@ -237,6 +246,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -267,6 +277,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -297,6 +308,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -337,8 +349,8 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_safe_status", "NOT_REGISTERED"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.data_storage_size_in_tbs", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_name", adbName),
 					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.db_version"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_name", adbName),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.display_name", "displayName2"),
@@ -364,7 +376,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.0.all_connection_strings.%", "4"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.0.all_connection_strings.%", "5"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "connection_urls.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.apex_url"),
@@ -375,7 +387,6 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_safe_status", "NOT_REGISTERED"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_name", adbName),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
@@ -421,13 +432,16 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Create,
-						getUpdatedRepresentationCopy("db_workload", Representation{repType: Optional, create: "DW"}, autonomousDatabaseRepresentation)),
+						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
+							[]interface{}{Representation{repType: Optional, create: "DW"},
+								Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "DW"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
@@ -451,13 +465,16 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-						getUpdatedRepresentationCopy("db_workload", Representation{repType: Optional, create: "DW"}, autonomousDatabaseRepresentation)),
+						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "db_version"},
+							[]interface{}{Representation{repType: Optional, create: "DW"},
+								Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "DW"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -481,15 +498,17 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + AutonomousDatabaseResourceDependencies +
 					generateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", Optional, Update,
-						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled"},
+						getMultipleUpdatedRepresenationCopy([]string{"db_workload", "is_auto_scaling_enabled", "db_version"},
 							[]interface{}{Representation{repType: Optional, create: "DW"},
-								Representation{repType: Optional, update: `true`}}, autonomousDatabaseRepresentation)),
+								Representation{repType: Optional, update: `true`},
+								Representation{repType: Optional, create: `${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}`}}, autonomousDatabaseRepresentation)),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "DW"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -526,6 +545,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 					resource.TestCheckResourceAttr(resourceName, "db_name", adbCloneName),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),

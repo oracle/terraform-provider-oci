@@ -70,23 +70,16 @@ func (s *DatabaseBackupDestinationsDataSourceCrud) Get() error {
 	}
 
 	s.Res = &response
-	if s.Res != nil && s.Res.RawResponse != nil {
-		rawResponse := s.Res.RawResponse
-		nextPage := rawResponse.Header.Get(OpcNextPageHeader)
-		request.Page = &nextPage
-		for request.Page != nil && *request.Page != "" {
-			listResponse, err := s.Client.ListBackupDestination(context.Background(), request)
-			if err != nil {
-				return err
-			}
-			s.Res.Items = append(s.Res.Items, listResponse.Items...)
-			if listResponse.RawResponse != nil {
-				nextPage = listResponse.RawResponse.Header.Get(OpcNextPageHeader)
-				request.Page = &nextPage
-			} else {
-				request.Page = nil
-			}
+	request.Page = s.Res.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListBackupDestination(context.Background(), request)
+		if err != nil {
+			return err
 		}
+
+		s.Res.Items = append(s.Res.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
 	}
 
 	return nil

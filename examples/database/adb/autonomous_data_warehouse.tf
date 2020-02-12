@@ -8,6 +8,14 @@ resource "random_string" "autonomous_data_warehouse_admin_password" {
   min_special = 1
 }
 
+data "oci_database_autonomous_db_versions" "test_autonomous_dw_versions" {
+  #Required
+  compartment_id = "${var.compartment_ocid}"
+
+  #Optional
+  db_workload = "${var.autonomous_data_warehouse_db_workload}"
+}
+
 resource "oci_database_autonomous_database" "autonomous_data_warehouse" {
   #Required
   admin_password           = "${random_string.autonomous_data_warehouse_admin_password.result}"
@@ -17,6 +25,7 @@ resource "oci_database_autonomous_database" "autonomous_data_warehouse" {
   db_name                  = "adbdw1"
 
   #Optional
+  db_version              = "${data.oci_database_autonomous_db_versions.test_autonomous_dw_versions.autonomous_db_versions.0.version}"
   db_workload             = "${var.autonomous_data_warehouse_db_workload}"
   display_name            = "example_autonomous_data_warehouse"
   freeform_tags           = "${var.autonomous_database_freeform_tags}"

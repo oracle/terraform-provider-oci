@@ -78,9 +78,9 @@ type RedirectUri struct {
 	//    incoming HTTP request URI.
 	// *  __{path}/123__ appears as `/example/video/123` in the redirect URI if `/example/video` is the path in the
 	//    incoming HTTP request URI.
-	// *  __{path}123__ appears as `/example/video123` in the redirect URI if `/example/video is the path in the
+	// *  __{path}123__ appears as `/example/video123` in the redirect URI if `/example/video` is the path in the
 	//    incoming HTTP request URI.
-	// *  __/{host}/123__ appears as `/example.com/video/123` in the redirect URI if `example.com` is the hostname
+	// *  __/{host}/123__ appears as `/example.com/123` in the redirect URI if `example.com` is the hostname
 	//    in the incoming HTTP request URI.
 	// *  __/{host}/{port}__ appears as `/example.com/123` in the redirect URI if `example.com` is the hostname and
 	//    `123` is the port in the incoming HTTP request URI.
