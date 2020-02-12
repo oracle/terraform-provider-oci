@@ -42,6 +42,7 @@ The following attributes are exported:
 * `package_type` - The specified package's type.
 * `pricing` - 
 	* `currency` - The currency of the pricing model.
+	* `pay_go_strategy` - The type of pricing for a PAYGO model, eg PER_OCPU_LINEAR, PER_OCPU_MIN_BILLING, PER_INSTANCE.  Null if type is not PAYGO.
 	* `rate` - The pricing rate.
 	* `type` - The type of the pricing model.
 * `regions` - List of regions in which this ListingPackage is available.
