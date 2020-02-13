@@ -1,7 +1,7 @@
 package terraform
 
 import (
-	"github.com/hashicorp/hcl2/hcl"
+	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/terraform/addrs"
 	"github.com/hashicorp/terraform/configs/configschema"
 	"github.com/hashicorp/terraform/lang"
@@ -122,6 +122,17 @@ type EvalContext interface {
 	// Calling this function multiple times has merging behavior, keeping any
 	// previously-set keys that are not present in the new map.
 	SetModuleCallArguments(addrs.ModuleCallInstance, map[string]cty.Value)
+
+	// GetVariableValue returns the value provided for the input variable with
+	// the given address, or cty.DynamicVal if the variable hasn't been assigned
+	// a value yet.
+	//
+	// Most callers should deal with variable values only indirectly via
+	// EvaluationScope and the other expression evaluation functions, but
+	// this is provided because variables tend to be evaluated outside of
+	// the context of the module they belong to and so we sometimes need to
+	// override the normal expression evaluation behavior.
+	GetVariableValue(addr addrs.AbsInputVariableInstance) cty.Value
 
 	// Changes returns the writer object that can be used to write new proposed
 	// changes into the global changes set.

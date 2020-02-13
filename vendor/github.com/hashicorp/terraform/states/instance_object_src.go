@@ -5,7 +5,7 @@ import (
 	ctyjson "github.com/zclconf/go-cty/cty/json"
 
 	"github.com/hashicorp/terraform/addrs"
-	"github.com/hashicorp/terraform/config/hcl2shim"
+	"github.com/hashicorp/terraform/configs/hcl2shim"
 )
 
 // ResourceInstanceObjectSrc is a not-fully-decoded version of
@@ -53,7 +53,9 @@ type ResourceInstanceObjectSrc struct {
 	// ResourceInstanceObject.
 	Private      []byte
 	Status       ObjectStatus
-	Dependencies []addrs.Referenceable
+	Dependencies []addrs.AbsResource
+	// deprecated
+	DependsOn []addrs.Referenceable
 }
 
 // Decode unmarshals the raw representation of the object attributes. Pass the
@@ -86,6 +88,7 @@ func (os *ResourceInstanceObjectSrc) Decode(ty cty.Type) (*ResourceInstanceObjec
 		Value:        val,
 		Status:       os.Status,
 		Dependencies: os.Dependencies,
+		DependsOn:    os.DependsOn,
 		Private:      os.Private,
 	}, nil
 }

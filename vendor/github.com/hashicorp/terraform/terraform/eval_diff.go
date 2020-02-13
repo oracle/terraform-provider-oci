@@ -1,13 +1,11 @@
 package terraform
 
 import (
-	"bytes"
 	"fmt"
 	"log"
-	"reflect"
 	"strings"
 
-	"github.com/hashicorp/hcl2/hcl"
+	"github.com/hashicorp/hcl/v2"
 	"github.com/zclconf/go-cty/cty"
 
 	"github.com/hashicorp/terraform/addrs"
@@ -122,7 +120,7 @@ func (n *EvalDiff) Eval(ctx EvalContext) (interface{}, error) {
 	if providerSchema == nil {
 		return nil, fmt.Errorf("provider schema is unavailable for %s", n.Addr)
 	}
-	if n.ProviderAddr.ProviderConfig.Type == "" {
+	if n.ProviderAddr.ProviderConfig.Type.LegacyString() == "" {
 		panic(fmt.Sprintf("EvalDiff for %s does not have ProviderAddr set", n.Addr.Absolute(ctx.Path())))
 	}
 
@@ -134,7 +132,8 @@ func (n *EvalDiff) Eval(ctx EvalContext) (interface{}, error) {
 		// Should be caught during validation, so we don't bother with a pretty error here
 		return nil, fmt.Errorf("provider does not support resource type %q", n.Addr.Resource.Type)
 	}
-	keyData := EvalDataForInstanceKey(n.Addr.Key)
+	forEach, _ := evaluateResourceForEachExpression(n.Config.ForEach, ctx)
+	keyData := EvalDataForInstanceKey(n.Addr.Key, forEach)
 	configVal, _, configDiags := ctx.EvaluateBlock(config.Config, schema, nil, keyData)
 	diags = diags.Append(configDiags)
 	if configDiags.HasErrors() {
@@ -189,7 +188,16 @@ func (n *EvalDiff) Eval(ctx EvalContext) (interface{}, error) {
 	}
 
 	// The provider gets an opportunity to customize the proposed new value,
-	// which in turn produces the _planned_ new value.
+	// which in turn produces the _planned_ new value. But before
+	// we send back this information, we need to process ignore_changes
+	// so that CustomizeDiff will not act on them
+	var ignoreChangeDiags tfdiags.Diagnostics
+	proposedNewVal, ignoreChangeDiags = n.processIgnoreChanges(priorVal, proposedNewVal)
+	diags = diags.Append(ignoreChangeDiags)
+	if ignoreChangeDiags.HasErrors() {
+		return nil, diags.Err()
+	}
+
 	resp := provider.PlanResourceChange(providers.PlanResourceChangeRequest{
 		TypeName:         n.Addr.Resource.Type,
 		Config:           configVal,
@@ -258,13 +266,14 @@ func (n *EvalDiff) Eval(ctx EvalContext) (interface{}, error) {
 		}
 	}
 
-	{
-		var moreDiags tfdiags.Diagnostics
-		plannedNewVal, moreDiags = n.processIgnoreChanges(priorVal, plannedNewVal)
-		diags = diags.Append(moreDiags)
-		if moreDiags.HasErrors() {
-			return nil, diags.Err()
-		}
+	// TODO: We should be able to remove this repeat of processing ignored changes
+	// after the plan, which helps providers relying on old behavior "just work"
+	// in the next major version, such that we can be stricter about ignore_changes
+	// values
+	plannedNewVal, ignoreChangeDiags = n.processIgnoreChanges(priorVal, plannedNewVal)
+	diags = diags.Append(ignoreChangeDiags)
+	if ignoreChangeDiags.HasErrors() {
+		return nil, diags.Err()
 	}
 
 	// The provider produces a list of paths to attributes whose changes mean
@@ -532,7 +541,7 @@ func processIgnoreChangesIndividual(prior, proposed cty.Value, ignoreChanges []h
 		// away any deeper values we already produced at that point.
 		var ignoreTraversal hcl.Traversal
 		for i, candidate := range ignoreChangesPath {
-			if reflect.DeepEqual(path, candidate) {
+			if path.Equals(candidate) {
 				ignoreTraversal = ignoreChanges[i]
 			}
 		}
@@ -557,153 +566,6 @@ func processIgnoreChangesIndividual(prior, proposed cty.Value, ignoreChanges []h
 	return ret, diags
 }
 
-func (n *EvalDiff) processIgnoreChangesOld(diff *InstanceDiff) error {
-	if diff == nil || n.Config == nil || n.Config.Managed == nil {
-		return nil
-	}
-	ignoreChanges := n.Config.Managed.IgnoreChanges
-	ignoreAll := n.Config.Managed.IgnoreAllChanges
-
-	if len(ignoreChanges) == 0 && !ignoreAll {
-		return nil
-	}
-
-	// If we're just creating the resource, we shouldn't alter the
-	// Diff at all
-	if diff.ChangeType() == DiffCreate {
-		return nil
-	}
-
-	// If the resource has been tainted then we don't process ignore changes
-	// since we MUST recreate the entire resource.
-	if diff.GetDestroyTainted() {
-		return nil
-	}
-
-	attrs := diff.CopyAttributes()
-
-	// get the complete set of keys we want to ignore
-	ignorableAttrKeys := make(map[string]bool)
-	for k := range attrs {
-		if ignoreAll {
-			ignorableAttrKeys[k] = true
-			continue
-		}
-		for _, ignoredTraversal := range ignoreChanges {
-			ignoredKey := legacyFlatmapKeyForTraversal(ignoredTraversal)
-			if k == ignoredKey || strings.HasPrefix(k, ignoredKey+".") {
-				ignorableAttrKeys[k] = true
-			}
-		}
-	}
-
-	// If the resource was being destroyed, check to see if we can ignore the
-	// reason for it being destroyed.
-	if diff.GetDestroy() {
-		for k, v := range attrs {
-			if k == "id" {
-				// id will always be changed if we intended to replace this instance
-				continue
-			}
-			if v.Empty() || v.NewComputed {
-				continue
-			}
-
-			// If any RequiresNew attribute isn't ignored, we need to keep the diff
-			// as-is to be able to replace the resource.
-			if v.RequiresNew && !ignorableAttrKeys[k] {
-				return nil
-			}
-		}
-
-		// Now that we know that we aren't replacing the instance, we can filter
-		// out all the empty and computed attributes. There may be a bunch of
-		// extraneous attribute diffs for the other non-requires-new attributes
-		// going from "" -> "configval" or "" -> "<computed>".
-		// We must make sure any flatmapped containers are filterred (or not) as a
-		// whole.
-		containers := groupContainers(diff)
-		keep := map[string]bool{}
-		for _, v := range containers {
-			if v.keepDiff(ignorableAttrKeys) {
-				// At least one key has changes, so list all the sibling keys
-				// to keep in the diff
-				for k := range v {
-					keep[k] = true
-					// this key may have been added by the user to ignore, but
-					// if it's a subkey in a container, we need to un-ignore it
-					// to keep the complete containter.
-					delete(ignorableAttrKeys, k)
-				}
-			}
-		}
-
-		for k, v := range attrs {
-			if (v.Empty() || v.NewComputed) && !keep[k] {
-				ignorableAttrKeys[k] = true
-			}
-		}
-	}
-
-	// Here we undo the two reactions to RequireNew in EvalDiff - the "id"
-	// attribute diff and the Destroy boolean field
-	log.Printf("[DEBUG] Removing 'id' diff and setting Destroy to false " +
-		"because after ignore_changes, this diff no longer requires replacement")
-	diff.DelAttribute("id")
-	diff.SetDestroy(false)
-
-	// If we didn't hit any of our early exit conditions, we can filter the diff.
-	for k := range ignorableAttrKeys {
-		log.Printf("[DEBUG] [EvalIgnoreChanges] %s: Ignoring diff attribute: %s", n.Addr.String(), k)
-		diff.DelAttribute(k)
-	}
-
-	return nil
-}
-
-// legacyFlagmapKeyForTraversal constructs a key string compatible with what
-// the flatmap package would generate for an attribute addressable by the given
-// traversal.
-//
-// This is used only to shim references to attributes within the diff and
-// state structures, which have not (at the time of writing) yet been updated
-// to use the newer HCL-based representations.
-func legacyFlatmapKeyForTraversal(traversal hcl.Traversal) string {
-	var buf bytes.Buffer
-	first := true
-	for _, step := range traversal {
-		if !first {
-			buf.WriteByte('.')
-		}
-		switch ts := step.(type) {
-		case hcl.TraverseRoot:
-			buf.WriteString(ts.Name)
-		case hcl.TraverseAttr:
-			buf.WriteString(ts.Name)
-		case hcl.TraverseIndex:
-			val := ts.Key
-			switch val.Type() {
-			case cty.Number:
-				bf := val.AsBigFloat()
-				buf.WriteString(bf.String())
-			case cty.String:
-				s := val.AsString()
-				buf.WriteString(s)
-			default:
-				// should never happen, since no other types appear in
-				// traversals in practice.
-				buf.WriteByte('?')
-			}
-		default:
-			// should never happen, since we've covered all of the types
-			// that show up in parsed traversals in practice.
-			buf.WriteByte('?')
-		}
-		first = false
-	}
-	return buf.String()
-}
-
 // a group of key-*ResourceAttrDiff pairs from the same flatmapped container
 type flatAttrDiff map[string]*ResourceAttrDiff
 
@@ -724,33 +586,6 @@ func (f flatAttrDiff) keepDiff(ignoreChanges map[string]bool) bool {
 	return false
 }
 
-// sets, lists and maps need to be compared for diff inclusion as a whole, so
-// group the flatmapped keys together for easier comparison.
-func groupContainers(d *InstanceDiff) map[string]flatAttrDiff {
-	isIndex := multiVal.MatchString
-	containers := map[string]flatAttrDiff{}
-	attrs := d.CopyAttributes()
-	// we need to loop once to find the index key
-	for k := range attrs {
-		if isIndex(k) {
-			// add the key, always including the final dot to fully qualify it
-			containers[k[:len(k)-1]] = flatAttrDiff{}
-		}
-	}
-
-	// loop again to find all the sub keys
-	for prefix, values := range containers {
-		for k, attrDiff := range attrs {
-			// we include the index value as well, since it could be part of the diff
-			if strings.HasPrefix(k, prefix) {
-				values[k] = attrDiff
-			}
-		}
-	}
-
-	return containers
-}
-
 // EvalDiffDestroy is an EvalNode implementation that returns a plain
 // destroy diff.
 type EvalDiffDestroy struct {
@@ -768,7 +603,7 @@ func (n *EvalDiffDestroy) Eval(ctx EvalContext) (interface{}, error) {
 	absAddr := n.Addr.Absolute(ctx.Path())
 	state := *n.State
 
-	if n.ProviderAddr.ProviderConfig.Type == "" {
+	if n.ProviderAddr.ProviderConfig.Type.LegacyString() == "" {
 		if n.DeposedKey == "" {
 			panic(fmt.Sprintf("EvalDiffDestroy for %s does not have ProviderAddr set", absAddr))
 		} else {

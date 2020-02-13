@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	hcl2 "github.com/hashicorp/hcl2/hcl"
-	hcl2syntax "github.com/hashicorp/hcl2/hcl/hclsyntax"
+	hcl2 "github.com/hashicorp/hcl/v2"
+	hcl2syntax "github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/zclconf/go-cty/cty"
 
 	hcl1ast "github.com/hashicorp/hcl/hcl/ast"
@@ -38,9 +38,9 @@ Value:
 		return upgradeExpr(tv.Token, filename, interp, an)
 
 	case hcl1token.Token:
-		litVal := tv.Value()
 		switch tv.Type {
 		case hcl1token.STRING:
+			litVal := tv.Value()
 			if !interp {
 				// Easy case, then.
 				printQuotedString(&buf, litVal.(string))
@@ -110,17 +110,21 @@ Value:
 						Subject:  hcl1PosRange(filename, tv.Pos).Ptr(),
 					})
 				}
-				if _, ok := hilNode.(*hilast.Output); !ok {
-					// hil.Parse usually produces an output, but it can sometimes
-					// produce an isolated expression if the input is entirely
-					// a single interpolation.
-					hilNode = &hilast.Output{
-						Exprs: []hilast.Node{hilNode},
-						Posx:  hilNode.Pos(),
+				if hilNode != nil {
+					if _, ok := hilNode.(*hilast.Output); !ok {
+						// hil.Parse usually produces an output, but it can sometimes
+						// produce an isolated expression if the input is entirely
+						// a single interpolation.
+						if hilNode != nil {
+							hilNode = &hilast.Output{
+								Exprs: []hilast.Node{hilNode},
+								Posx:  hilNode.Pos(),
+							}
+						}
 					}
+					interpDiags := upgradeHeredocBody(&buf, hilNode.(*hilast.Output), filename, an)
+					diags = diags.Append(interpDiags)
 				}
-				interpDiags := upgradeHeredocBody(&buf, hilNode.(*hilast.Output), filename, an)
-				diags = diags.Append(interpDiags)
 			}
 			if !strings.HasSuffix(body, "\n") {
 				// The versions of HCL1 vendored into Terraform <=0.11
@@ -137,6 +141,7 @@ Value:
 			buf.WriteString(marker)
 
 		case hcl1token.BOOL:
+			litVal := tv.Value()
 			if litVal.(bool) {
 				buf.WriteString("true")
 			} else {
@@ -144,12 +149,28 @@ Value:
 			}
 
 		case hcl1token.NUMBER:
-			num := tv.Value()
-			buf.WriteString(strconv.FormatInt(num.(int64), 10))
+			num, err := strconv.ParseInt(tv.Text, 0, 64)
+			if err != nil {
+				diags = diags.Append(&hcl2.Diagnostic{
+					Severity: hcl2.DiagError,
+					Summary:  "Invalid number value",
+					Detail:   fmt.Sprintf("Parsing failed: %s", err),
+					Subject:  hcl1PosRange(filename, tv.Pos).Ptr(),
+				})
+			}
+			buf.WriteString(strconv.FormatInt(num, 10))
 
 		case hcl1token.FLOAT:
-			num := tv.Value()
-			buf.WriteString(strconv.FormatFloat(num.(float64), 'f', -1, 64))
+			num, err := strconv.ParseFloat(tv.Text, 64)
+			if err != nil {
+				diags = diags.Append(&hcl2.Diagnostic{
+					Severity: hcl2.DiagError,
+					Summary:  "Invalid float value",
+					Detail:   fmt.Sprintf("Parsing failed: %s", err),
+					Subject:  hcl1PosRange(filename, tv.Pos).Ptr(),
+				})
+			}
+			buf.WriteString(strconv.FormatFloat(num, 'f', -1, 64))
 
 		default:
 			// For everything else we'll just pass through the given bytes verbatim,

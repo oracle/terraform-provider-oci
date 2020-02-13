@@ -1,13 +1,9 @@
 package terraform
 
 import (
-	"github.com/hashicorp/hcl2/hcl"
-	"github.com/hashicorp/hcl2/hcldec"
-	"github.com/zclconf/go-cty/cty"
-	"github.com/zclconf/go-cty/cty/convert"
-
+	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/terraform/addrs"
-	"github.com/hashicorp/terraform/config"
 	"github.com/hashicorp/terraform/configs/configschema"
 	"github.com/hashicorp/terraform/lang"
 	"github.com/hashicorp/terraform/plans"
@@ -15,6 +11,8 @@ import (
 	"github.com/hashicorp/terraform/provisioners"
 	"github.com/hashicorp/terraform/states"
 	"github.com/hashicorp/terraform/tfdiags"
+	"github.com/zclconf/go-cty/cty"
+	"github.com/zclconf/go-cty/cty/convert"
 )
 
 // MockEvalContext is a mock version of EvalContext that can be used
@@ -110,24 +108,16 @@ type MockEvalContext struct {
 	EvaluationScopeKeyData InstanceKeyEvalData
 	EvaluationScopeScope   *lang.Scope
 
-	InterpolateCalled       bool
-	InterpolateConfig       *config.RawConfig
-	InterpolateResource     *Resource
-	InterpolateConfigResult *ResourceConfig
-	InterpolateError        error
-
-	InterpolateProviderCalled       bool
-	InterpolateProviderConfig       *config.ProviderConfig
-	InterpolateProviderResource     *Resource
-	InterpolateProviderConfigResult *ResourceConfig
-	InterpolateProviderError        error
-
 	PathCalled bool
 	PathPath   addrs.ModuleInstance
 
 	SetModuleCallArgumentsCalled bool
 	SetModuleCallArgumentsModule addrs.ModuleCallInstance
 	SetModuleCallArgumentsValues map[string]cty.Value
+
+	GetVariableValueCalled bool
+	GetVariableValueAddr   addrs.AbsInputVariableInstance
+	GetVariableValueValue  cty.Value
 
 	ChangesCalled  bool
 	ChangesChanges *plans.ChangesSync
@@ -311,22 +301,6 @@ func (c *MockEvalContext) EvaluationScope(self addrs.Referenceable, keyData Inst
 	return c.EvaluationScopeScope
 }
 
-func (c *MockEvalContext) Interpolate(
-	config *config.RawConfig, resource *Resource) (*ResourceConfig, error) {
-	c.InterpolateCalled = true
-	c.InterpolateConfig = config
-	c.InterpolateResource = resource
-	return c.InterpolateConfigResult, c.InterpolateError
-}
-
-func (c *MockEvalContext) InterpolateProvider(
-	config *config.ProviderConfig, resource *Resource) (*ResourceConfig, error) {
-	c.InterpolateProviderCalled = true
-	c.InterpolateProviderConfig = config
-	c.InterpolateProviderResource = resource
-	return c.InterpolateProviderConfigResult, c.InterpolateError
-}
-
 func (c *MockEvalContext) Path() addrs.ModuleInstance {
 	c.PathCalled = true
 	return c.PathPath
@@ -336,6 +310,12 @@ func (c *MockEvalContext) SetModuleCallArguments(n addrs.ModuleCallInstance, val
 	c.SetModuleCallArgumentsCalled = true
 	c.SetModuleCallArgumentsModule = n
 	c.SetModuleCallArgumentsValues = values
+}
+
+func (c *MockEvalContext) GetVariableValue(addr addrs.AbsInputVariableInstance) cty.Value {
+	c.GetVariableValueCalled = true
+	c.GetVariableValueAddr = addr
+	return c.GetVariableValueValue
 }
 
 func (c *MockEvalContext) Changes() *plans.ChangesSync {

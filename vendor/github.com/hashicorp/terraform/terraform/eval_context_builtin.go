@@ -13,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform/states"
 
-	"github.com/hashicorp/hcl2/hcl"
+	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/terraform/configs/configschema"
 	"github.com/hashicorp/terraform/lang"
 	"github.com/hashicorp/terraform/tfdiags"
@@ -142,7 +142,7 @@ func (ctx *BuiltinEvalContext) Provider(addr addrs.AbsProviderConfig) providers.
 func (ctx *BuiltinEvalContext) ProviderSchema(addr addrs.AbsProviderConfig) *ProviderSchema {
 	ctx.once.Do(ctx.init)
 
-	return ctx.Schemas.ProviderSchema(addr.ProviderConfig.Type)
+	return ctx.Schemas.ProviderSchema(addr.ProviderConfig.Type.LegacyString())
 }
 
 func (ctx *BuiltinEvalContext) CloseProvider(addr addrs.ProviderConfig) error {
@@ -225,14 +225,12 @@ func (ctx *BuiltinEvalContext) InitProvisioner(n string) (provisioners.Interface
 	ctx.ProvisionerLock.Lock()
 	defer ctx.ProvisionerLock.Unlock()
 
-	key := PathObjectCacheKey(ctx.Path(), n)
-
-	p, err := ctx.Components.ResourceProvisioner(n, key)
+	p, err := ctx.Components.ResourceProvisioner(n, "")
 	if err != nil {
 		return nil, err
 	}
 
-	ctx.ProvisionerCache[key] = p
+	ctx.ProvisionerCache[n] = p
 
 	return p, nil
 }
@@ -243,8 +241,7 @@ func (ctx *BuiltinEvalContext) Provisioner(n string) provisioners.Interface {
 	ctx.ProvisionerLock.Lock()
 	defer ctx.ProvisionerLock.Unlock()
 
-	key := PathObjectCacheKey(ctx.Path(), n)
-	return ctx.ProvisionerCache[key]
+	return ctx.ProvisionerCache[n]
 }
 
 func (ctx *BuiltinEvalContext) ProvisionerSchema(n string) *configschema.Block {
@@ -259,9 +256,7 @@ func (ctx *BuiltinEvalContext) CloseProvisioner(n string) error {
 	ctx.ProvisionerLock.Lock()
 	defer ctx.ProvisionerLock.Unlock()
 
-	key := PathObjectCacheKey(ctx.Path(), n)
-
-	prov := ctx.ProvisionerCache[key]
+	prov := ctx.ProvisionerCache[n]
 	if prov != nil {
 		return prov.Close()
 	}
@@ -315,6 +310,16 @@ func (ctx *BuiltinEvalContext) SetModuleCallArguments(n addrs.ModuleCallInstance
 	for k, v := range vals {
 		args[k] = v
 	}
+}
+
+func (ctx *BuiltinEvalContext) GetVariableValue(addr addrs.AbsInputVariableInstance) cty.Value {
+	modKey := addr.Module.String()
+	modVars := ctx.VariableValues[modKey]
+	val, ok := modVars[addr.Variable.Name]
+	if !ok {
+		return cty.DynamicVal
+	}
+	return val
 }
 
 func (ctx *BuiltinEvalContext) Changes() *plans.ChangesSync {
