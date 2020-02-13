@@ -429,7 +429,7 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 	if err != nil {
 		return
 	}
-	err = configureClient(&monitoringClient.BaseClient)
+	err = configureClient(&nosqlClient.BaseClient)
 	if err != nil {
 		return
 	}
