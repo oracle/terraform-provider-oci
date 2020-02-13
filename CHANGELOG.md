@@ -4,6 +4,9 @@
 - Support for non-default profiles for credentials
 - Support for limits and usage data source in KMS
 
+### Notes
+Supports terraform plugin SDK v0.12.20
+
 ## 3.69.0 (April 01, 2020)
 
 ### Added

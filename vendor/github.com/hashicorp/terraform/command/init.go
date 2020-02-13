@@ -7,15 +7,15 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/hashicorp/hcl2/hcl"
+	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/terraform-config-inspect/tfconfig"
 	"github.com/posener/complete"
 	"github.com/zclconf/go-cty/cty"
 
 	"github.com/hashicorp/errwrap"
+	"github.com/hashicorp/terraform/addrs"
 	"github.com/hashicorp/terraform/backend"
 	backendInit "github.com/hashicorp/terraform/backend/init"
-	"github.com/hashicorp/terraform/config"
 	"github.com/hashicorp/terraform/configs"
 	"github.com/hashicorp/terraform/configs/configschema"
 	"github.com/hashicorp/terraform/configs/configupgrade"
@@ -125,7 +125,7 @@ func (c *InitCommand) Run(args []string) int {
 	if flagFromModule != "" {
 		src := flagFromModule
 
-		empty, err := config.IsEmptyDir(path)
+		empty, err := configs.IsEmptyDir(path)
 		if err != nil {
 			c.Ui.Error(fmt.Sprintf("Error validating destination directory: %s", err))
 			return 1
@@ -157,7 +157,7 @@ func (c *InitCommand) Run(args []string) int {
 
 	// If our directory is empty, then we're done. We can't get or setup
 	// the backend with an empty directory.
-	empty, err := config.IsEmptyDir(path)
+	empty, err := configs.IsEmptyDir(path)
 	if err != nil {
 		diags = diags.Append(fmt.Errorf("Error checking configuration: %s", err))
 		return 1
@@ -295,6 +295,15 @@ func (c *InitCommand) Run(args []string) int {
 			}
 			back = be
 		}
+	} else {
+		// load the previously-stored backend config
+		be, backendDiags := c.Meta.backendFromState()
+		diags = diags.Append(backendDiags)
+		if backendDiags.HasErrors() {
+			c.showDiagnostics(diags)
+			return 1
+		}
+		back = be
 	}
 
 	if back == nil {
@@ -439,6 +448,29 @@ func (c *InitCommand) initBackend(root *configs.Module, extraConfig rawFlags) (b
 		if overrideDiags.HasErrors() {
 			return nil, true, diags
 		}
+	} else {
+		// If the user supplied a -backend-config on the CLI but no backend
+		// block was found in the configuration, it's likely - but not
+		// necessarily - a mistake. Return a warning.
+		if !extraConfig.Empty() {
+			diags = diags.Append(tfdiags.Sourceless(
+				tfdiags.Warning,
+				"Missing backend configuration",
+				`-backend-config was used without a "backend" block in the configuration.
+
+If you intended to override the default local backend configuration,
+no action is required, but you may add an explicit backend block to your
+configuration to clear this warning:
+
+terraform {
+  backend "local" {}
+}
+
+However, if you intended to override a defined backend, please verify that
+the backend configuration is present and valid.
+`,
+			))
+		}
 	}
 
 	opts := &BackendOpts{
@@ -473,7 +505,7 @@ func (c *InitCommand) getProviders(earlyConfig *earlyconfig.Config, state *state
 	configReqs := configDeps.AllPluginRequirements()
 	// FIXME: This is weird because ConfigTreeDependencies was written before
 	// we switched over to using earlyConfig as the main source of dependencies.
-	// In future we should clean this up to be a more reasoable API.
+	// In future we should clean this up to be a more reasonable API.
 	stateReqs := terraform.ConfigTreeDependencies(nil, state).AllPluginRequirements()
 
 	requirements := configReqs.Merge(stateReqs)
@@ -494,7 +526,8 @@ func (c *InitCommand) getProviders(earlyConfig *earlyconfig.Config, state *state
 		}
 
 		for provider, reqd := range missing {
-			_, providerDiags, err := c.providerInstaller.Get(provider, reqd.Versions)
+			pty := addrs.NewLegacyProvider(provider)
+			_, providerDiags, err := c.providerInstaller.Get(pty, reqd.Versions)
 			diags = diags.Append(providerDiags)
 
 			if err != nil {
@@ -573,7 +606,7 @@ func (c *InitCommand) getProviders(earlyConfig *earlyconfig.Config, state *state
 	available = c.providerPluginSet() // re-discover to see newly-installed plugins
 
 	// internal providers were already filtered out, since we don't need to get them.
-	chosen := choosePlugins(available, nil, requirements)
+	chosen := chooseProviders(available, nil, requirements)
 
 	digests := map[string][]byte{}
 	for name, meta := range chosen {

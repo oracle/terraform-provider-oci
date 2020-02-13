@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/hashicorp/hcl2/hcl"
+	"github.com/hashicorp/hcl/v2"
 
 	"github.com/hashicorp/terraform/addrs"
 	"github.com/hashicorp/terraform/configs"
@@ -215,7 +215,7 @@ func (d *evaluationStateData) staticValidateResourceReference(modCfg *configs.Co
 	// Normally accessing this directly is wrong because it doesn't take into
 	// account provider inheritance, etc but it's okay here because we're only
 	// paying attention to the type anyway.
-	providerType := cfg.ProviderConfigAddr().Type
+	providerType := cfg.ProviderConfigAddr().Type.LegacyString()
 	schema, _ := d.Evaluator.Schemas.ResourceTypeConfig(providerType, addr.Mode, addr.Type)
 
 	if schema == nil {

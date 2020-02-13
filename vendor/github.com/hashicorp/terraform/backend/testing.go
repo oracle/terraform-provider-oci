@@ -6,12 +6,12 @@ import (
 	"testing"
 
 	uuid "github.com/hashicorp/go-uuid"
-	"github.com/hashicorp/hcl2/hcl"
-	"github.com/hashicorp/hcl2/hcldec"
+	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl/v2/hcldec"
 
 	"github.com/hashicorp/terraform/addrs"
-	"github.com/hashicorp/terraform/config/hcl2shim"
 	"github.com/hashicorp/terraform/configs"
+	"github.com/hashicorp/terraform/configs/hcl2shim"
 	"github.com/hashicorp/terraform/state"
 	"github.com/hashicorp/terraform/states"
 	"github.com/hashicorp/terraform/states/statemgr"
@@ -151,7 +151,7 @@ func TestBackendStates(t *testing.T, b Backend) {
 				SchemaVersion: 0,
 			},
 			addrs.ProviderConfig{
-				Type: "test",
+				Type: addrs.NewLegacyProvider("test"),
 			}.Absolute(addrs.RootModuleInstance),
 		)
 

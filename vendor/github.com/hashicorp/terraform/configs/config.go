@@ -4,7 +4,7 @@ import (
 	"sort"
 
 	version "github.com/hashicorp/go-version"
-	"github.com/hashicorp/hcl2/hcl"
+	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/terraform/addrs"
 )
 
@@ -191,11 +191,11 @@ func (c *Config) gatherProviderTypes(m map[string]struct{}) {
 	}
 	for _, rc := range c.Module.ManagedResources {
 		providerAddr := rc.ProviderConfigAddr()
-		m[providerAddr.Type] = struct{}{}
+		m[providerAddr.Type.LegacyString()] = struct{}{}
 	}
 	for _, rc := range c.Module.DataResources {
 		providerAddr := rc.ProviderConfigAddr()
-		m[providerAddr.Type] = struct{}{}
+		m[providerAddr.Type.LegacyString()] = struct{}{}
 	}
 
 	// Must also visit our child modules, recursively.

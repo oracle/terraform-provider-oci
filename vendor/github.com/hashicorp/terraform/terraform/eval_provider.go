@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/hcl2/hcl"
+	"github.com/hashicorp/hcl/v2"
 
 	"github.com/hashicorp/terraform/addrs"
 	"github.com/hashicorp/terraform/configs"
@@ -125,7 +125,7 @@ type EvalGetProvider struct {
 }
 
 func (n *EvalGetProvider) Eval(ctx EvalContext) (interface{}, error) {
-	if n.Addr.ProviderConfig.Type == "" {
+	if n.Addr.ProviderConfig.Type.LegacyString() == "" {
 		// Should never happen
 		panic("EvalGetProvider used with uninitialized provider configuration address")
 	}

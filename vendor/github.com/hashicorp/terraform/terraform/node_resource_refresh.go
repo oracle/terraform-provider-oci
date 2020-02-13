@@ -18,6 +18,10 @@ import (
 // NodeRefreshableManagedResourceInstance. Resource count orphans are also added.
 type NodeRefreshableManagedResource struct {
 	*NodeAbstractResource
+
+	// We attach dependencies to the Resource during refresh, since the
+	// instances are instantiated during DynamicExpand.
+	Dependencies []addrs.AbsResource
 }
 
 var (
@@ -27,7 +31,13 @@ var (
 	_ GraphNodeReferencer           = (*NodeRefreshableManagedResource)(nil)
 	_ GraphNodeResource             = (*NodeRefreshableManagedResource)(nil)
 	_ GraphNodeAttachResourceConfig = (*NodeRefreshableManagedResource)(nil)
+	_ GraphNodeAttachDependencies   = (*NodeRefreshableManagedResource)(nil)
 )
+
+// GraphNodeAttachDependencies
+func (n *NodeRefreshableManagedResource) AttachDependencies(deps []addrs.AbsResource) {
+	n.Dependencies = deps
+}
 
 // GraphNodeDynamicExpandable
 func (n *NodeRefreshableManagedResource) DynamicExpand(ctx EvalContext) (*Graph, error) {
@@ -36,6 +46,11 @@ func (n *NodeRefreshableManagedResource) DynamicExpand(ctx EvalContext) (*Graph,
 	count, countDiags := evaluateResourceCountExpression(n.Config.Count, ctx)
 	diags = diags.Append(countDiags)
 	if countDiags.HasErrors() {
+		return nil, diags.Err()
+	}
+
+	forEachMap, forEachDiags := evaluateResourceForEachExpression(n.Config.ForEach, ctx)
+	if forEachDiags.HasErrors() {
 		return nil, diags.Err()
 	}
 
@@ -53,6 +68,7 @@ func (n *NodeRefreshableManagedResource) DynamicExpand(ctx EvalContext) (*Graph,
 		// Add the config and state since we don't do that via transforms
 		a.Config = n.Config
 		a.ResolvedProvider = n.ResolvedProvider
+		a.Dependencies = n.Dependencies
 
 		return &NodeRefreshableManagedResourceInstance{
 			NodeAbstractResourceInstance: a,
@@ -66,6 +82,7 @@ func (n *NodeRefreshableManagedResource) DynamicExpand(ctx EvalContext) (*Graph,
 			Concrete: concreteResource,
 			Schema:   n.Schema,
 			Count:    count,
+			ForEach:  forEachMap,
 			Addr:     n.ResourceAddr(),
 		},
 
@@ -74,6 +91,7 @@ func (n *NodeRefreshableManagedResource) DynamicExpand(ctx EvalContext) (*Graph,
 		&OrphanResourceCountTransformer{
 			Concrete: concreteResource,
 			Count:    count,
+			ForEach:  forEachMap,
 			Addr:     n.ResourceAddr(),
 			State:    state,
 		},
@@ -196,6 +214,11 @@ func (n *NodeRefreshableManagedResourceInstance) evalTreeManagedResource() EvalN
 				Output: &state,
 			},
 
+			&EvalRefreshDependencies{
+				State:        &state,
+				Dependencies: &n.Dependencies,
+			},
+
 			&EvalRefresh{
 				Addr:           addr.Resource,
 				ProviderAddr:   n.ResolvedProvider,
@@ -210,6 +233,7 @@ func (n *NodeRefreshableManagedResourceInstance) evalTreeManagedResource() EvalN
 				ProviderAddr:   n.ResolvedProvider,
 				ProviderSchema: &providerSchema,
 				State:          &state,
+				Dependencies:   &n.Dependencies,
 			},
 		},
 	}
@@ -269,6 +293,7 @@ func (n *NodeRefreshableManagedResourceInstance) evalTreeManagedResourceNoState(
 				ProviderAddr:   n.ResolvedProvider,
 				ProviderSchema: &providerSchema,
 				State:          &state,
+				Dependencies:   &n.Dependencies,
 			},
 
 			// We must also save the planned change, so that expressions in

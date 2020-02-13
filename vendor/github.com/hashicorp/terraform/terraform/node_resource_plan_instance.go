@@ -34,25 +34,18 @@ var (
 func (n *NodePlannableResourceInstance) EvalTree() EvalNode {
 	addr := n.ResourceInstanceAddr()
 
-	// State still uses legacy-style internal ids, so we need to shim to get
-	// a suitable key to use.
-	stateId := NewLegacyResourceInstanceAddress(addr).stateId()
-
-	// Determine the dependencies for the state.
-	stateDeps := n.StateReferences()
-
 	// Eval info is different depending on what kind of resource this is
 	switch addr.Resource.Resource.Mode {
 	case addrs.ManagedResourceMode:
-		return n.evalTreeManagedResource(addr, stateId, stateDeps)
+		return n.evalTreeManagedResource(addr)
 	case addrs.DataResourceMode:
-		return n.evalTreeDataResource(addr, stateId, stateDeps)
+		return n.evalTreeDataResource(addr)
 	default:
 		panic(fmt.Errorf("unsupported resource mode %s", n.Config.Mode))
 	}
 }
 
-func (n *NodePlannableResourceInstance) evalTreeDataResource(addr addrs.AbsResourceInstance, stateId string, stateDeps []addrs.Referenceable) EvalNode {
+func (n *NodePlannableResourceInstance) evalTreeDataResource(addr addrs.AbsResourceInstance) EvalNode {
 	config := n.Config
 	var provider providers.Interface
 	var providerSchema *ProviderSchema
@@ -85,8 +78,8 @@ func (n *NodePlannableResourceInstance) evalTreeDataResource(addr addrs.AbsResou
 
 					// Check and see if any of our dependencies have changes.
 					changes := ctx.Changes()
-					for _, d := range n.StateReferences() {
-						ri, ok := d.(addrs.ResourceInstance)
+					for _, d := range n.References() {
+						ri, ok := d.Subject.(addrs.ResourceInstance)
 						if !ok {
 							continue
 						}
@@ -121,7 +114,6 @@ func (n *NodePlannableResourceInstance) evalTreeDataResource(addr addrs.AbsResou
 			&EvalReadData{
 				Addr:           addr.Resource,
 				Config:         n.Config,
-				Dependencies:   n.StateReferences(),
 				Provider:       &provider,
 				ProviderAddr:   n.ResolvedProvider,
 				ProviderSchema: &providerSchema,
@@ -147,7 +139,7 @@ func (n *NodePlannableResourceInstance) evalTreeDataResource(addr addrs.AbsResou
 	}
 }
 
-func (n *NodePlannableResourceInstance) evalTreeManagedResource(addr addrs.AbsResourceInstance, stateId string, stateDeps []addrs.Referenceable) EvalNode {
+func (n *NodePlannableResourceInstance) evalTreeManagedResource(addr addrs.AbsResourceInstance) EvalNode {
 	config := n.Config
 	var provider providers.Interface
 	var providerSchema *ProviderSchema
