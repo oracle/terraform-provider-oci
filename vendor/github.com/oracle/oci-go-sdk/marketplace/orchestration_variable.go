@@ -24,6 +24,9 @@ type OrchestrationVariable struct {
 	// A description of the variable.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The data type of the variable.
+	DataType OrchestrationVariableTypeEnumEnum `mandatory:"false" json:"dataType,omitempty"`
+
 	// Whether the variable is mandatory.
 	IsMandatory *bool `mandatory:"false" json:"isMandatory"`
 

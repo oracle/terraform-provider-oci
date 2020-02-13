@@ -15,6 +15,9 @@ import (
 // Link The model for links.
 type Link struct {
 
+	// Reference links to the previous page, next page, and other pages.
+	Rel LinkEnumEnum `mandatory:"false" json:"rel,omitempty"`
+
 	// The anchor tag.
 	Href *string `mandatory:"false" json:"href"`
 }
