@@ -662,6 +662,8 @@ func LinkToMap(obj oci_marketplace.Link) map[string]interface{} {
 		result["href"] = string(*obj.Href)
 	}
 
+	result["rel"] = string(obj.Rel)
+
 	return result
 }
 

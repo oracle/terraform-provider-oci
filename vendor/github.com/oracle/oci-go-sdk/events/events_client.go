@@ -38,7 +38,7 @@ func NewEventsClientWithConfigurationProvider(configProvider common.Configuratio
 
 // SetRegion overrides the region of this client.
 func (client *EventsClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("events", "https://events.{region}.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("events", "https://events.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

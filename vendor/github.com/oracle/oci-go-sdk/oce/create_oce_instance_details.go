@@ -1,7 +1,7 @@
 // Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// OceInstance API
+// Oracle Content and Experience API
 //
 // Oracle Content and Experience is a cloud-based content hub to drive omni-channel content management and accelerate experience delivery
 //
@@ -41,6 +41,9 @@ type CreateOceInstanceDetails struct {
 
 	IdentityStripe *IdentityStripeDetails `mandatory:"false" json:"identityStripe"`
 
+	// Instance type based on its usage
+	InstanceUsageType CreateOceInstanceDetailsInstanceUsageTypeEnum `mandatory:"false" json:"instanceUsageType,omitempty"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -52,4 +55,27 @@ type CreateOceInstanceDetails struct {
 
 func (m CreateOceInstanceDetails) String() string {
 	return common.PointerString(m)
+}
+
+// CreateOceInstanceDetailsInstanceUsageTypeEnum Enum with underlying type: string
+type CreateOceInstanceDetailsInstanceUsageTypeEnum string
+
+// Set of constants representing the allowable values for CreateOceInstanceDetailsInstanceUsageTypeEnum
+const (
+	CreateOceInstanceDetailsInstanceUsageTypePrimary    CreateOceInstanceDetailsInstanceUsageTypeEnum = "PRIMARY"
+	CreateOceInstanceDetailsInstanceUsageTypeNonprimary CreateOceInstanceDetailsInstanceUsageTypeEnum = "NONPRIMARY"
+)
+
+var mappingCreateOceInstanceDetailsInstanceUsageType = map[string]CreateOceInstanceDetailsInstanceUsageTypeEnum{
+	"PRIMARY":    CreateOceInstanceDetailsInstanceUsageTypePrimary,
+	"NONPRIMARY": CreateOceInstanceDetailsInstanceUsageTypeNonprimary,
+}
+
+// GetCreateOceInstanceDetailsInstanceUsageTypeEnumValues Enumerates the set of values for CreateOceInstanceDetailsInstanceUsageTypeEnum
+func GetCreateOceInstanceDetailsInstanceUsageTypeEnumValues() []CreateOceInstanceDetailsInstanceUsageTypeEnum {
+	values := make([]CreateOceInstanceDetailsInstanceUsageTypeEnum, 0)
+	for _, v := range mappingCreateOceInstanceDetailsInstanceUsageType {
+		values = append(values, v)
+	}
+	return values
 }
