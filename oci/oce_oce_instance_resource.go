@@ -87,6 +87,12 @@ func OceOceInstanceResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"instance_usage_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"guid": {
@@ -223,6 +229,10 @@ func (s *OceOceInstanceResourceCrud) Create() error {
 	if idcsAccessToken, ok := s.D.GetOkExists("idcs_access_token"); ok {
 		tmp := idcsAccessToken.(string)
 		request.IdcsAccessToken = &tmp
+	}
+
+	if instanceUsageType, ok := s.D.GetOkExists("instance_usage_type"); ok {
+		request.InstanceUsageType = oci_oce.CreateOceInstanceDetailsInstanceUsageTypeEnum(instanceUsageType.(string))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -485,6 +495,8 @@ func (s *OceOceInstanceResourceCrud) SetData() error {
 	if s.Res.IdcsTenancy != nil {
 		s.D.Set("idcs_tenancy", *s.Res.IdcsTenancy)
 	}
+
+	s.D.Set("instance_usage_type", s.Res.InstanceUsageType)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)

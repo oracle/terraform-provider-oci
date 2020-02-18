@@ -27,6 +27,7 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 	oci_marketplace "github.com/oracle/oci-go-sdk/marketplace"
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
+	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
@@ -72,6 +73,7 @@ type OracleClients struct {
 	loadBalancerClient             *oci_load_balancer.LoadBalancerClient
 	marketplaceClient              *oci_marketplace.MarketplaceClient
 	monitoringClient               *oci_monitoring.MonitoringClient
+	nosqlClient                    *oci_nosql.NosqlClient
 	notificationControlPlaneClient *oci_ons.NotificationControlPlaneClient
 	notificationDataPlaneClient    *oci_ons.NotificationDataPlaneClient
 	objectStorageClient            *oci_object_storage.ObjectStorageClient
@@ -422,6 +424,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.monitoringClient = &monitoringClient
+
+	nosqlClient, err := oci_nosql.NewNosqlClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&nosqlClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.nosqlClient = &nosqlClient
 
 	notificationControlPlaneClient, err := oci_ons.NewNotificationControlPlaneClientWithConfigurationProvider(configProvider)
 	if err != nil {

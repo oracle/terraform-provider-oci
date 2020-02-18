@@ -26,6 +26,11 @@ type ListDbVersionsRequest struct {
 	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). If provided, filters the results to the set of database versions which are supported for the DB system.
 	DbSystemId *string `mandatory:"false" contributesTo:"query" name:"dbSystemId"`
 
+	// The storage option used in DB system to list database versions for that storage manager.
+	// ASM - Automatic storage management
+	// LVM - Logical Volume management
+	StorageManagement DbSystemOptionsStorageManagementEnum `mandatory:"false" contributesTo:"query" name:"storageManagement" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

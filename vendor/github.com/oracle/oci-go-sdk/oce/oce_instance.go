@@ -1,7 +1,7 @@
 // Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// OceInstance API
+// Oracle Content and Experience API
 //
 // Oracle Content and Experience is a cloud-based content hub to drive omni-channel content management and accelerate experience delivery
 //
@@ -47,6 +47,9 @@ type OceInstance struct {
 
 	IdentityStripe *IdentityStripeDetails `mandatory:"false" json:"identityStripe"`
 
+	// Instance type based on its usage
+	InstanceUsageType OceInstanceInstanceUsageTypeEnum `mandatory:"false" json:"instanceUsageType,omitempty"`
+
 	// The time the the OceInstance was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
@@ -74,6 +77,29 @@ type OceInstance struct {
 
 func (m OceInstance) String() string {
 	return common.PointerString(m)
+}
+
+// OceInstanceInstanceUsageTypeEnum Enum with underlying type: string
+type OceInstanceInstanceUsageTypeEnum string
+
+// Set of constants representing the allowable values for OceInstanceInstanceUsageTypeEnum
+const (
+	OceInstanceInstanceUsageTypePrimary    OceInstanceInstanceUsageTypeEnum = "PRIMARY"
+	OceInstanceInstanceUsageTypeNonprimary OceInstanceInstanceUsageTypeEnum = "NONPRIMARY"
+)
+
+var mappingOceInstanceInstanceUsageType = map[string]OceInstanceInstanceUsageTypeEnum{
+	"PRIMARY":    OceInstanceInstanceUsageTypePrimary,
+	"NONPRIMARY": OceInstanceInstanceUsageTypeNonprimary,
+}
+
+// GetOceInstanceInstanceUsageTypeEnumValues Enumerates the set of values for OceInstanceInstanceUsageTypeEnum
+func GetOceInstanceInstanceUsageTypeEnumValues() []OceInstanceInstanceUsageTypeEnum {
+	values := make([]OceInstanceInstanceUsageTypeEnum, 0)
+	for _, v := range mappingOceInstanceInstanceUsageType {
+		values = append(values, v)
+	}
+	return values
 }
 
 // OceInstanceLifecycleStateEnum Enum with underlying type: string

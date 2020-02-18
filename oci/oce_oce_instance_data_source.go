@@ -88,6 +88,8 @@ func (s *OceOceInstanceDataSourceCrud) SetData() error {
 		s.D.Set("idcs_tenancy", *s.Res.IdcsTenancy)
 	}
 
+	s.D.Set("instance_usage_type", s.Res.InstanceUsageType)
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
