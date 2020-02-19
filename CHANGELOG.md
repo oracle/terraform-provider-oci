@@ -1,4 +1,4 @@
-## 3.63.0 (Unreleased)
+## 3.63.0 (February 19, 2020)
 
 ### Added
 - Support update DNS name for Events
