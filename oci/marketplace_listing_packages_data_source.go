@@ -54,6 +54,10 @@ func MarketplaceListingPackagesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"package_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"package_version": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -136,6 +140,8 @@ func (s *MarketplaceListingPackagesDataSourceCrud) SetData() error {
 		listingPackage := map[string]interface{}{
 			"listing_id": *r.ListingId,
 		}
+
+		listingPackage["package_type"] = r.PackageType
 
 		if r.PackageVersion != nil {
 			listingPackage["package_version"] = *r.PackageVersion

@@ -132,6 +132,8 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 			oceInstance["idcs_tenancy"] = *r.IdcsTenancy
 		}
 
+		oceInstance["instance_usage_type"] = r.InstanceUsageType
+
 		if r.Name != nil {
 			oceInstance["name"] = *r.Name
 		}

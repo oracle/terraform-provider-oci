@@ -1,7 +1,7 @@
 // Copyright (c) 2016, 2018, 2019, Oracle and/or its affiliates. All rights reserved.
 // Code generated. DO NOT EDIT.
 
-// OceInstance API
+// Oracle Content and Experience API
 //
 // Oracle Content and Experience is a cloud-based content hub to drive omni-channel content management and accelerate experience delivery
 //
@@ -45,6 +45,9 @@ type OceInstanceSummary struct {
 	// OceInstance description, can be updated
 	Description *string `mandatory:"false" json:"description"`
 
+	// Instance type based on its usage
+	InstanceUsageType OceInstanceSummaryInstanceUsageTypeEnum `mandatory:"false" json:"instanceUsageType,omitempty"`
+
 	// The time the the OceInstance was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
@@ -72,6 +75,29 @@ type OceInstanceSummary struct {
 
 func (m OceInstanceSummary) String() string {
 	return common.PointerString(m)
+}
+
+// OceInstanceSummaryInstanceUsageTypeEnum Enum with underlying type: string
+type OceInstanceSummaryInstanceUsageTypeEnum string
+
+// Set of constants representing the allowable values for OceInstanceSummaryInstanceUsageTypeEnum
+const (
+	OceInstanceSummaryInstanceUsageTypePrimary    OceInstanceSummaryInstanceUsageTypeEnum = "PRIMARY"
+	OceInstanceSummaryInstanceUsageTypeNonprimary OceInstanceSummaryInstanceUsageTypeEnum = "NONPRIMARY"
+)
+
+var mappingOceInstanceSummaryInstanceUsageType = map[string]OceInstanceSummaryInstanceUsageTypeEnum{
+	"PRIMARY":    OceInstanceSummaryInstanceUsageTypePrimary,
+	"NONPRIMARY": OceInstanceSummaryInstanceUsageTypeNonprimary,
+}
+
+// GetOceInstanceSummaryInstanceUsageTypeEnumValues Enumerates the set of values for OceInstanceSummaryInstanceUsageTypeEnum
+func GetOceInstanceSummaryInstanceUsageTypeEnumValues() []OceInstanceSummaryInstanceUsageTypeEnum {
+	values := make([]OceInstanceSummaryInstanceUsageTypeEnum, 0)
+	for _, v := range mappingOceInstanceSummaryInstanceUsageType {
+		values = append(values, v)
+	}
+	return values
 }
 
 // OceInstanceSummaryLifecycleStateEnum Enum with underlying type: string
