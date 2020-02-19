@@ -30,6 +30,7 @@ resource "oci_oce_oce_instance" "test_oce_instance" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = "${var.oce_instance_description}"
 	freeform_tags = {"bar-key"= "value"}
+	instance_usage_type = "${var.oce_instance_instance_usage_type}"
 }
 ```
 
@@ -44,6 +45,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `idcs_access_token` - (Required) Identity Cloud Service access token identifying a stripe and service administrator user. 
         **Note:** The `idcs_access_token` is stored in the Terraform state file.
+* `instance_usage_type` - (Optional) Instance type based on its usage
 * `name` - (Required) OceInstance Name
 * `object_storage_namespace` - (Required) Object Storage Namespace of Tenancy
 * `tenancy_id` - (Required) Tenancy Identifier
@@ -65,6 +67,7 @@ The following attributes are exported:
 * `guid` - Unique GUID identifier that is immutable on creation
 * `id` - Unique identifier that is immutable on creation
 * `idcs_tenancy` - IDCS Tenancy Identifier
+* `instance_usage_type` - Instance type based on its usage
 * `name` - OceInstance Name
 * `object_storage_namespace` - Object Storage Namespace of tenancy
 * `service` - SERVICE data. Example: `{"service": {"IDCS": "value"}}` 

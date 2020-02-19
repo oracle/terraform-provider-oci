@@ -229,7 +229,7 @@ func (s *MarketplaceListingsDataSourceCrud) Get() error {
 		tmp := make([]oci_marketplace.ListListingsPricingEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(oci_marketplace.ListListingsPricingEnum)
+				tmp[i] = oci_marketplace.ListListingsPricingEnum(interfaces[i].(string))
 			}
 		}
 		if len(tmp) != 0 || s.D.HasChange("pricing") {

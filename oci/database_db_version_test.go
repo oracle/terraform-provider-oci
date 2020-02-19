@@ -22,6 +22,9 @@ var (
 	dbVersionDataSourceRepresentationWithDbSystemShapeOptional = representationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
 		"db_system_shape": Representation{repType: Optional, create: `BM.DenseIO2.52`},
 	})
+	dbVersionDataSourceRepresentationWithStorageManagementOptional = representationCopyWithNewProperties(dbVersionDataSourceRepresentationRequiredOnly, map[string]interface{}{
+		"storage_management": Representation{repType: Optional, create: `ASM`},
+	})
 
 	DbVersionResourceConfig = DbSystemResourceConfig
 )
@@ -50,6 +53,7 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 					generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions", Required, Create, dbVersionDataSourceRepresentationRequiredOnly) +
 					generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_db_system_id", Optional, Create, dbVersionDataSourceRepresentationWithDbSystemIdOptional) +
 					generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_db_system_shape", Optional, Create, dbVersionDataSourceRepresentationWithDbSystemShapeOptional) +
+					generateDataSourceFromRepresentationMap("oci_database_db_versions", "test_db_versions_by_storage_management", Optional, Create, dbVersionDataSourceRepresentationWithStorageManagementOptional) +
 					compartmentIdVariableStr + DbVersionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -68,6 +72,12 @@ func TestDatabaseDbVersionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName+"_by_db_system_shape", "db_versions.0.is_latest_for_major_version"),
 					resource.TestCheckResourceAttrSet(datasourceName+"_by_db_system_shape", "db_versions.0.supports_pdb"),
 					resource.TestCheckResourceAttrSet(datasourceName+"_by_db_system_shape", "db_versions.0.version"),
+
+					resource.TestCheckResourceAttr(datasourceName+"_by_storage_management", "storage_management", "ASM"),
+					resource.TestCheckResourceAttrSet(datasourceName+"_by_storage_management", "db_versions.#"),
+					resource.TestCheckResourceAttrSet(datasourceName+"_by_storage_management", "db_versions.0.is_latest_for_major_version"),
+					resource.TestCheckResourceAttrSet(datasourceName+"_by_storage_management", "db_versions.0.supports_pdb"),
+					resource.TestCheckResourceAttrSet(datasourceName+"_by_storage_management", "db_versions.0.version"),
 				),
 			},
 		},

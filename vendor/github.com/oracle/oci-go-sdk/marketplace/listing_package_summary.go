@@ -21,6 +21,9 @@ type ListingPackageSummary struct {
 	// The version of the specified package.
 	PackageVersion *string `mandatory:"false" json:"packageVersion"`
 
+	// The specified package's type.
+	PackageType PackageTypeEnumEnum `mandatory:"false" json:"packageType,omitempty"`
+
 	// The unique identifier for the package resource.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 

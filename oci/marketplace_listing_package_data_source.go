@@ -53,6 +53,10 @@ func MarketplaceListingPackageDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"pay_go_strategy": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"rate": {
 							Type:     schema.TypeFloat,
 							Computed: true,
@@ -302,6 +306,8 @@ func (s *MarketplaceListingPackageDataSourceCrud) SetData() error {
 func OrchestrationVariableToMap(obj oci_marketplace.OrchestrationVariable) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["data_type"] = string(obj.DataType)
+
 	if obj.DefaultValue != nil {
 		result["default_value"] = string(*obj.DefaultValue)
 	}
@@ -328,8 +334,15 @@ func OrchestrationVariableToMap(obj oci_marketplace.OrchestrationVariable) map[s
 func PricingModelToMap(obj *oci_marketplace.PricingModel) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["currency"] = string(obj.Currency)
+
+	result["pay_go_strategy"] = string(obj.PayGoStrategy)
+
 	if obj.Rate != nil {
 		result["rate"] = float32(*obj.Rate)
 	}
+
+	result["type"] = string(obj.Type)
+
 	return result
 }
