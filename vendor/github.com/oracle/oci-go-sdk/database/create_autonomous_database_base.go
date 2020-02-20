@@ -63,6 +63,22 @@ type CreateAutonomousDatabaseBase interface {
 	// Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.1.1","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.0.0/16"]`
 	GetWhitelistedIps() []string
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
+	// **Subnet Restrictions:**
+	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
+	// - For Exadata and virtual machine 2-node RAC DB systems, do not use a subnet that overlaps with 192.168.128.0/20.
+	// - For Autonomous Database, setting this will disable public secure access to the database.
+	// These subnets are used by the Oracle Clusterware private interconnect on the database instance.
+	// Specifying an overlapping subnet will cause the private interconnect to malfunction.
+	// This restriction applies to both the client subnet and the backup subnet.
+	GetSubnetId() *string
+
+	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
+	GetNsgIds() []string
+
+	// The private endpoint label for the resource.
+	GetPrivateEndpointLabel() *string
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -92,6 +108,9 @@ type createautonomousdatabasebase struct {
 	IsDedicated                              *bool                                        `mandatory:"false" json:"isDedicated"`
 	AutonomousContainerDatabaseId            *string                                      `mandatory:"false" json:"autonomousContainerDatabaseId"`
 	WhitelistedIps                           []string                                     `mandatory:"false" json:"whitelistedIps"`
+	SubnetId                                 *string                                      `mandatory:"false" json:"subnetId"`
+	NsgIds                                   []string                                     `mandatory:"false" json:"nsgIds"`
+	PrivateEndpointLabel                     *string                                      `mandatory:"false" json:"privateEndpointLabel"`
 	FreeformTags                             map[string]string                            `mandatory:"false" json:"freeformTags"`
 	DefinedTags                              map[string]map[string]interface{}            `mandatory:"false" json:"definedTags"`
 	DbVersion                                *string                                      `mandatory:"false" json:"dbVersion"`
@@ -123,6 +142,9 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.IsDedicated = s.Model.IsDedicated
 	m.AutonomousContainerDatabaseId = s.Model.AutonomousContainerDatabaseId
 	m.WhitelistedIps = s.Model.WhitelistedIps
+	m.SubnetId = s.Model.SubnetId
+	m.NsgIds = s.Model.NsgIds
+	m.PrivateEndpointLabel = s.Model.PrivateEndpointLabel
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.DbVersion = s.Model.DbVersion
@@ -229,6 +251,21 @@ func (m createautonomousdatabasebase) GetAutonomousContainerDatabaseId() *string
 //GetWhitelistedIps returns WhitelistedIps
 func (m createautonomousdatabasebase) GetWhitelistedIps() []string {
 	return m.WhitelistedIps
+}
+
+//GetSubnetId returns SubnetId
+func (m createautonomousdatabasebase) GetSubnetId() *string {
+	return m.SubnetId
+}
+
+//GetNsgIds returns NsgIds
+func (m createautonomousdatabasebase) GetNsgIds() []string {
+	return m.NsgIds
+}
+
+//GetPrivateEndpointLabel returns PrivateEndpointLabel
+func (m createautonomousdatabasebase) GetPrivateEndpointLabel() *string {
+	return m.PrivateEndpointLabel
 }
 
 //GetFreeformTags returns FreeformTags
