@@ -30,10 +30,10 @@ data "oci_functions_applications" "test_applications" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which this resource belongs. 
-* `display_name` - (Optional) A filter to return only applications with display names that match the display name string. Matching is exact. 
-* `id` - (Optional) A filter to return only applications with the specfied OCID. 
-* `state` - (Optional) A filter to return only applications that match the lifecycle state in this parameter. Example: `Creating` 
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which this resource belongs.
+* `display_name` - (Optional) A filter to return only applications with display names that match the display name string. Matching is exact.
+* `id` - (Optional) A filter to return only applications with the specified OCID.
+* `state` - (Optional) A filter to return only applications that match the lifecycle state in this parameter. Example: `Creating`
 
 
 ## Attributes Reference
