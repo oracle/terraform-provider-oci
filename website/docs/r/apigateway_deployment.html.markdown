@@ -232,7 +232,7 @@ The following attributes are exported:
 			* `is_enabled` - Enables pushing of access logs to Oracle Cloud Infrastructure Public Logging.
 		* `execution_log` -
 			* `is_enabled` - Enables pushing of execution logs to Oracle Cloud Infrastructure Public Logging.
-			* `log_level` - Specifies the logging level, which affects the log entries pushed to Oracle Cloud Infrastructure Public Logging if `isEnabled` is set to True.
+			* `log_level` - Specifies the logging level (Example: `INFO` or `WARN`), which affects the log entries pushed to Oracle Cloud Infrastructure Public Logging if `isEnabled` is set to True.
 	* `request_policies` -
 		* `authentication` -
 			* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource.
@@ -269,7 +269,7 @@ The following attributes are exported:
 				* `is_enabled` - Enables pushing of access logs to Oracle Cloud Infrastructure Public Logging.
 			* `execution_log` -
 				* `is_enabled` - Enables pushing of execution logs to Oracle Cloud Infrastructure Public Logging.
-				* `log_level` - Specifies the logging level, which affects the log entries pushed to Oracle Cloud Infrastructure Public Logging if `isEnabled` is set to True.
+				* `log_level` - Specifies the logging level (Example: `INFO` or `WARN`), which affects the log entries pushed to Oracle Cloud Infrastructure Public Logging if `isEnabled` is set to True.
 		* `methods` - A list of allowed methods on this route.
 		* `path` - A URL path pattern that must be matched on this route. The path pattern may contain a subset of RFC 6570 identifiers to allow wildcard and parameterized matching.
 		* `request_policies` -
