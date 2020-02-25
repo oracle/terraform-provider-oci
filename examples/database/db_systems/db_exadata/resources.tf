@@ -77,3 +77,25 @@ resource "oci_database_database" "test_database" {
   db_home_id = "${data.oci_database_db_homes.db_homes.db_homes.0.db_home_id}"
   source     = "NONE"
 }
+
+resource "oci_database_backup" "test_backup" {
+  depends_on   = ["oci_database_db_system.test_db_system"]
+  database_id  = "${oci_database_db_system.test_db_system.db_home.0.database.0.id}"
+  display_name = "FirstBackup"
+}
+
+resource "oci_database_database" "test_database_backup" {
+  #Required
+  database {
+    backup_id           = "${oci_database_backup.test_backup.id}"
+    backup_tde_password = "${var.db_admin_password}"
+    admin_password      = "${var.db_admin_password}"
+    db_name             = "TFdb3Exa"
+    character_set       = "${var.character_set}"
+    ncharacter_set      = "${var.n_character_set}"
+    db_workload         = "${var.db_workload}"
+  }
+
+  db_home_id = "${data.oci_database_db_homes.db_homes.db_homes.0.db_home_id}"
+  source     = "DB_BACKUP"
+}
