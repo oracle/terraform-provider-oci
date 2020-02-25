@@ -49,7 +49,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `api_endpoint` - The endpoint for managing topic subscriptions or publishing messages to the topic. 
+* `api_endpoint` - The endpoint for managing subscriptions or publishing messages to the topic. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for the topic. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the topic.

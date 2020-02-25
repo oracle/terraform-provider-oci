@@ -32,7 +32,7 @@ resource "oci_core_remote_peering_connection" "test_remote_peering_connection" {
 
 ## Argument Reference
 
-* Specifying a `peer_id` and a `peer_region_name` creates a connection to the specified RPC ID. Both `peer_id` and `peer_region_name` are required for the connection to succeed.
+* Specifying a `peer_id` and a `peer_region_name` creates a connection to the specified RPC ID. Both `peer_id` and `peer_region_name` are optional for creating the resource but are required for the connection to succeed. If only one of them is present the connection will not succeed.
 * If the specified peer_id is also a resource in the terraform config you will have do a `terraform refresh` after the `terraform apply` in order to get the latest connection information on that resource.
 * To disconnect the peering connection at least one of the RPC resources in the connection will have to be destroyed, however in terraform we recommend that when one RPC is destroyed the peer should also be destroyed. If one of them is not destroyed it will have a `REVOKED` peering_status. If another RPC resource tries to connect to this RPC resource the peering_status on the requestor will be `INVALID`. To solve this you will have to run `terraform taint oci_core_remote_peering_connection.test_remote_peering_connection` on the acceptor resource or target delete it `terraform destroy -target="oci_core_remote_peering_connection.test_remote_peering_connection"`.
 

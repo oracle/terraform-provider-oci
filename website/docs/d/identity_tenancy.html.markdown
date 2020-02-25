@@ -47,4 +47,5 @@ The following attributes are exported:
 	* `NRT` 
 * `id` - The OCID of the tenancy.
 * `name` - The name of the tenancy.
+* `upi_idcs_compatibility_layer_endpoint` - Url which refers to the UPI IDCS compatibility layer endpoint configured for this Tenant's home region.
 
