@@ -134,11 +134,25 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("nsg_ids", s.Res.NsgIds)
+
+	if s.Res.PrivateEndpoint != nil {
+		s.D.Set("private_endpoint", *s.Res.PrivateEndpoint)
+	}
+
+	if s.Res.PrivateEndpointLabel != nil {
+		s.D.Set("private_endpoint_label", *s.Res.PrivateEndpointLabel)
+	}
+
 	if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SubnetId != nil {
+		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))

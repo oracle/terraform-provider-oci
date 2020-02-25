@@ -29,6 +29,9 @@ type UpdateUserCapabilitiesDetails struct {
 
 	// Indicates if the user can use SigV4 symmetric keys.
 	CanUseCustomerSecretKeys *bool `mandatory:"false" json:"canUseCustomerSecretKeys"`
+
+	// Indicates if the user can use OAuth2 credentials and tokens.
+	CanUseOAuth2ClientCredentials *bool `mandatory:"false" json:"canUseOAuth2ClientCredentials"`
 }
 
 func (m UpdateUserCapabilitiesDetails) String() string {

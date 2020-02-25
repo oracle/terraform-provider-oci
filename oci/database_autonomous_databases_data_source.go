@@ -213,11 +213,25 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		autonomousDatabase["nsg_ids"] = r.NsgIds
+
+		if r.PrivateEndpoint != nil {
+			autonomousDatabase["private_endpoint"] = *r.PrivateEndpoint
+		}
+
+		if r.PrivateEndpointLabel != nil {
+			autonomousDatabase["private_endpoint_label"] = *r.PrivateEndpointLabel
+		}
+
 		if r.ServiceConsoleUrl != nil {
 			autonomousDatabase["service_console_url"] = *r.ServiceConsoleUrl
 		}
 
 		autonomousDatabase["state"] = r.LifecycleState
+
+		if r.SubnetId != nil {
+			autonomousDatabase["subnet_id"] = *r.SubnetId
+		}
 
 		if r.SystemTags != nil {
 			autonomousDatabase["system_tags"] = systemTagsToMap(r.SystemTags)
