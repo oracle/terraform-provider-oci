@@ -93,6 +93,10 @@ func IdentityUserResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"can_use_oauth2client_credentials": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"can_use_smtp_credentials": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -390,6 +394,10 @@ func UserCapabilitiesToMap(obj *oci_identity.UserCapabilities) map[string]interf
 
 	if obj.CanUseCustomerSecretKeys != nil {
 		result["can_use_customer_secret_keys"] = bool(*obj.CanUseCustomerSecretKeys)
+	}
+
+	if obj.CanUseOAuth2ClientCredentials != nil {
+		result["can_use_oauth2client_credentials"] = bool(*obj.CanUseOAuth2ClientCredentials)
 	}
 
 	if obj.CanUseSmtpCredentials != nil {

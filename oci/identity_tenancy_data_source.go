@@ -40,6 +40,10 @@ func IdentityTenancyDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"upi_idcs_compatibility_layer_endpoint": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -104,6 +108,10 @@ func (s *IdentityTenancyDataSourceCrud) SetData() error {
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
+	}
+
+	if s.Res.UpiIdcsCompatibilityLayerEndpoint != nil {
+		s.D.Set("upi_idcs_compatibility_layer_endpoint", *s.Res.UpiIdcsCompatibilityLayerEndpoint)
 	}
 
 	return nil
