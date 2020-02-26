@@ -19,7 +19,6 @@ Creates a new Alert Rule.
 resource "oci_budget_alert_rule" "test_alert_rule" {
 	#Required
 	budget_id = "${oci_budget_budget.test_budget.id}"
-	recipients = "${var.alert_rule_recipients}"
 	threshold = "${var.alert_rule_threshold}"
 	threshold_type = "${var.alert_rule_threshold_type}"
 	type = "${var.alert_rule_type}"
@@ -30,6 +29,7 @@ resource "oci_budget_alert_rule" "test_alert_rule" {
 	display_name = "${var.alert_rule_display_name}"
 	freeform_tags = {"Department"= "Finance"}
 	message = "${var.alert_rule_message}"
+	recipients = "${var.alert_rule_recipients}"
 }
 ```
 
@@ -43,7 +43,7 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) The name of the alert rule.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `message` - (Optional) (Updatable) The message to be sent to the recipients when alert rule is triggered.
-* `recipients` - (Required) (Updatable) The audience that will received the alert when it triggers.
+* `recipients` - (Optional) (Updatable) The audience that will receive the alert when it triggers. An empty string is interpreted as null.
 * `threshold` - (Required) (Updatable) The threshold for triggering the alert expressed as a whole number or decimal value. If thresholdType is ABSOLUTE, threshold can have at most 12 digits before the decimal point and up to 2 digits after the decimal point. If thresholdType is PERCENTAGE, the maximum value is 10000 and can have up to 2 digits after the decimal point. 
 * `threshold_type` - (Required) (Updatable) The type of threshold.
 * `type` - (Required) (Updatable) Type of alert. Valid values are ACTUAL (the alert will trigger based on actual usage) or FORECAST (the alert will trigger based on predicted usage). 
