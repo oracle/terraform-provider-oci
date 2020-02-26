@@ -24,10 +24,6 @@ func BudgetAlertRuleResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"recipients": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"threshold": {
 				Type:             schema.TypeFloat,
 				Required:         true,
@@ -70,6 +66,10 @@ func BudgetAlertRuleResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"recipients": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 
 			// Computed

@@ -46,7 +46,7 @@ The following arguments are supported:
 * `reset_period` - (Required) (Updatable) The reset period for the budget. 
 * `target_compartment_id` - (Optional) This is DEPRECTAED. Set the target compartment id in targets instead. 
 * `target_type` - (Optional) The type of target on which the budget is applied. 
-* `targets` - (Optional) The list of targets on which the budget is applied. If targetType is "COMPARTMENT", targets contains list of compartment OCIDs. If targetType is "TAG", targets contains list of tag identifiers in the form of "{tagNamespace}.{tagKey}.{tagValue}". Curerntly, the array should contain EXACT ONE item. 
+* `targets` - (Optional) The list of targets on which the budget is applied. If targetType is "COMPARTMENT", targets contains list of compartment OCIDs. If targetType is "TAG", targets contains list of cost tracking tag identifiers in the form of "{tagNamespace}.{tagKey}.{tagValue}". Curerntly, the array should contain EXACT ONE item. 
 
 
 ** IMPORTANT **
@@ -70,7 +70,7 @@ The following attributes are exported:
 * `state` - The current state of the budget.
 * `target_compartment_id` - This is DEPRECATED. For backwards compatability, the property will be populated when targetType is "COMPARTMENT" AND targets contains EXACT ONE target compartment ocid. For all other scenarios, this property will be left empty. 
 * `target_type` - The type of target on which the budget is applied. 
-* `targets` - The list of targets on which the budget is applied. If targetType is "COMPARTMENT", targets contains list of compartment OCIDs. If targetType is "TAG", targets contains list of tag identifiers in the form of "{tagNamespace}.{tagKey}.{tagValue}". 
+* `targets` - The list of targets on which the budget is applied. If targetType is "COMPARTMENT", targets contains list of compartment OCIDs. If targetType is "TAG", targets contains list of cost tracking tag identifiers in the form of "{tagNamespace}.{tagKey}.{tagValue}". 
 * `time_created` - Time that budget was created
 * `time_spend_computed` - The time that the budget spend was last computed
 * `time_updated` - Time that budget was updated
