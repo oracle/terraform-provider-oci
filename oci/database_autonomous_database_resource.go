@@ -148,6 +148,21 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"nsg_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Computed: true,
+				Set:      literalTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"private_endpoint_label": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"source": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -162,6 +177,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				}, true),
 			},
 			"source_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"subnet_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -251,6 +272,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"private_endpoint": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -458,6 +483,34 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok && s.D.HasChange("nsg_ids") {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			nsgUpdateRequest := oci_database.UpdateAutonomousDatabaseRequest{}
+
+			autonomousDatabaseId := s.D.Id()
+			nsgUpdateRequest.AutonomousDatabaseId = &autonomousDatabaseId
+
+			nsgUpdateRequest.NsgIds = tmp
+
+			nsgUpdateRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+			nsgUpdateResponse, err := s.Client.UpdateAutonomousDatabase(context.Background(), nsgUpdateRequest)
+			if err != nil {
+				return err
+			}
+
+			s.Res = &nsgUpdateResponse.AutonomousDatabase
+		}
+	}
+
 	request := oci_database.UpdateAutonomousDatabaseRequest{}
 
 	// @CODEGEN 09/2018: Cannot update the password and scale the Autonomous Transaction Processing in same request, only include changed properties in request
@@ -622,11 +675,29 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	nsgIds := []interface{}{}
+	for _, item := range s.Res.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	s.D.Set("nsg_ids", schema.NewSet(literalTypeHashCodeForSets, nsgIds))
+
+	if s.Res.PrivateEndpoint != nil {
+		s.D.Set("private_endpoint", *s.Res.PrivateEndpoint)
+	}
+
+	if s.Res.PrivateEndpointLabel != nil {
+		s.D.Set("private_endpoint_label", *s.Res.PrivateEndpointLabel)
+	}
+
 	if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SubnetId != nil {
+		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", systemTagsToMap(s.Res.SystemTags))
@@ -786,6 +857,27 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
+			tmp := privateEndpointLabel.(string)
+			details.PrivateEndpointLabel = &tmp
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
 			interfaces := whitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -879,6 +971,27 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
+			tmp := privateEndpointLabel.(string)
+			details.PrivateEndpointLabel = &tmp
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
 			interfaces := whitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -965,6 +1078,27 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
+			tmp := privateEndpointLabel.(string)
+			details.PrivateEndpointLabel = &tmp
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
 			interfaces := whitelistedIps.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -1041,6 +1175,27 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if privateEndpointLabel, ok := s.D.GetOkExists("private_endpoint_label"); ok {
+			tmp := privateEndpointLabel.(string)
+			details.PrivateEndpointLabel = &tmp
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
 		}
 		if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok {
 			interfaces := whitelistedIps.([]interface{})
