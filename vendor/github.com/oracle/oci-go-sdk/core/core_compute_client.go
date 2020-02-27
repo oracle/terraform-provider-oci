@@ -1576,8 +1576,8 @@ func (client ComputeClient) getVolumeAttachment(ctx context.Context, request com
 	return response, err
 }
 
-// GetWindowsInstanceInitialCredentials Gets the generated credentials for the instance. Only works for instances that require password to log in (E.g. Windows).
-// For certain OS'es, users will be forced to change the initial credentials.
+// GetWindowsInstanceInitialCredentials Gets the generated credentials for the instance. Only works for instances that require a password to log in, such as Windows.
+// For certain operating systems, users will be forced to change the initial credentials.
 func (client ComputeClient) GetWindowsInstanceInitialCredentials(ctx context.Context, request GetWindowsInstanceInitialCredentialsRequest) (response GetWindowsInstanceInitialCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1622,10 +1622,14 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // InstanceAction Performs one of the following power actions on the specified instance:
 // - **START** - Powers on the instance.
 // - **STOP** - Powers off the instance.
-// - **SOFTRESET** - Gracefully reboots instance by sending a shutdown command to the operating system and then powers the instance back on.
-// - **SOFTSTOP** - Gracefully shuts down instance by sending a shutdown command to the operating system.
 // - **RESET** - Powers off the instance and then powers it back on.
-// For more information see Stopping and Starting an Instance (https://docs.cloud.oracle.com/Content/Compute/Tasks/restartinginstance.htm).
+// - **SOFTSTOP** - Gracefully shuts down the instance by sending a shutdown command to the operating system.
+// If the applications that run on the instance take a long time to shut down, they could be improperly stopped, resulting
+// in data corruption. To avoid this, shut down the instance using the commands available in the OS before you softstop the
+// instance.
+// - **SOFTRESET** - Gracefully reboots the instance by sending a shutdown command to the operating system, and
+// then powers the instance back on.
+// For more information, see Stopping and Starting an Instance (https://docs.cloud.oracle.com/Content/Compute/Tasks/restartinginstance.htm).
 func (client ComputeClient) InstanceAction(ctx context.Context, request InstanceActionRequest) (response InstanceActionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

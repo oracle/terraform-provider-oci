@@ -118,7 +118,7 @@ type VirtualCircuit struct {
 	ProviderState VirtualCircuitProviderStateEnum `mandatory:"false" json:"providerState,omitempty"`
 
 	// For a public virtual circuit. The public IP prefixes (CIDRs) the customer wants to
-	// advertise across the connection. Each prefix must be /31 or less specific.
+	// advertise across the connection. All prefix sizes are allowed.
 	PublicPrefixes []string `mandatory:"false" json:"publicPrefixes"`
 
 	// Provider-supplied reference information about this virtual circuit

@@ -16,14 +16,13 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateVirtualCircuitPublicPrefixDetails The representation of CreateVirtualCircuitPublicPrefixDetails
-type CreateVirtualCircuitPublicPrefixDetails struct {
+// UpdateTunnelCpeDeviceConfigDetails The representation of UpdateTunnelCpeDeviceConfigDetails
+type UpdateTunnelCpeDeviceConfigDetails struct {
 
-	// An individual public IP prefix (CIDR) to add to the public virtual circuit.
-	// All prefix sizes are allowed.
-	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
+	// The set of configuration answers for a CPE device.
+	TunnelCpeDeviceConfig []CpeDeviceConfigAnswer `mandatory:"false" json:"tunnelCpeDeviceConfig"`
 }
 
-func (m CreateVirtualCircuitPublicPrefixDetails) String() string {
+func (m UpdateTunnelCpeDeviceConfigDetails) String() string {
 	return common.PointerString(m)
 }
