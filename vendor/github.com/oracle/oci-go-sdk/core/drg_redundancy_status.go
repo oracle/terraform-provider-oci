@@ -16,13 +16,14 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// DrgRedundancyStatus Redundancy status of the DRG object identified by ID
+// DrgRedundancyStatus The redundancy status of the DRG. For more information, see
+// Redundancy Remedies (https://docs.cloud.oracle.com/Content/Network/Troubleshoot/drgredundancy.htm).
 type DrgRedundancyStatus struct {
 
-	// The DRG's unique identifier.
+	// The OCID of the DRG.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The redudancy status of the DRG specified.
+	// The redundancy status of the DRG.
 	Status DrgRedundancyStatusStatusEnum `mandatory:"false" json:"status,omitempty"`
 }
 

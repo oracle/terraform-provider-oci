@@ -16,14 +16,19 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// CreateVirtualCircuitPublicPrefixDetails The representation of CreateVirtualCircuitPublicPrefixDetails
-type CreateVirtualCircuitPublicPrefixDetails struct {
+// CpeDeviceConfigAnswer An individual answer to a CPE device question.
+// The answers correlate to the questions that are specific to the CPE device type (see the
+// `parameters` attribute of CpeDeviceShapeDetail).
+type CpeDeviceConfigAnswer struct {
 
-	// An individual public IP prefix (CIDR) to add to the public virtual circuit.
-	// All prefix sizes are allowed.
-	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
+	// A string that identifies the question to be answered. See the `key` attribute in
+	// CpeDeviceConfigQuestion.
+	Key *string `mandatory:"false" json:"key"`
+
+	// The answer to the question.
+	Value *string `mandatory:"false" json:"value"`
 }
 
-func (m CreateVirtualCircuitPublicPrefixDetails) String() string {
+func (m CpeDeviceConfigAnswer) String() string {
 	return common.PointerString(m)
 }

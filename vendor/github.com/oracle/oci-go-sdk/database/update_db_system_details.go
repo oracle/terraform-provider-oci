@@ -36,6 +36,11 @@ type UpdateDbSystemDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The shape of the DB system. The shape determines resources allocated to the DB system.
+	// - For virtual machine shapes, the number of CPU cores and memory
+	// To get a list of shapes, use the ListDbSystemShapes operation.
+	Shape *string `mandatory:"false" json:"shape"`
+
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 

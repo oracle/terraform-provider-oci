@@ -51,6 +51,20 @@ type Cpe struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the CPE's device type.
+	// The Networking service maintains a general list of CPE device types (for example,
+	// Cisco ASA). For each type, Oracle provides CPE configuration content that can help
+	// a network engineer configure the CPE. The OCID uniquely identifies the type of
+	// device. To get the OCIDs for the device types on the list, see
+	// ListCpeDeviceShapes.
+	// For information about how to generate CPE configuration content for a
+	// CPE device type, see:
+	//   * GetCpeDeviceConfigContent
+	//   * GetIpsecCpeDeviceConfigContent
+	//   * GetTunnelCpeDeviceConfigContent
+	//   * GetTunnelCpeDeviceConfig
+	CpeDeviceShapeId *string `mandatory:"false" json:"cpeDeviceShapeId"`
+
 	// The date and time the CPE was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
