@@ -10,6 +10,10 @@ import (
 	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
 )
 
+func init() {
+	RegisterResource("oci_health_checks_ping_probe", HealthChecksPingProbeResource())
+}
+
 func HealthChecksPingProbeResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

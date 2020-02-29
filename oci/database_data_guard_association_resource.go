@@ -17,6 +17,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterResource("oci_database_data_guard_association", DatabaseDataGuardAssociationResource())
+}
+
 func DatabaseDataGuardAssociationResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: &schema.ResourceTimeout{

@@ -12,6 +12,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_default_dhcp_options", DefaultCoreDhcpOptionsResource())
+}
+
 func DefaultCoreDhcpOptionsResource() *schema.Resource {
 	defaultResourceSchema := ConvertToDefaultVcnResourceSchema(CoreDhcpOptionsResource())
 

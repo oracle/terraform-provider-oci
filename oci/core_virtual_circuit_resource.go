@@ -15,6 +15,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_virtual_circuit", CoreVirtualCircuitResource())
+}
+
 func CoreVirtualCircuitResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

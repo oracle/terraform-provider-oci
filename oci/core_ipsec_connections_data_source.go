@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_ipsec_connections", CoreIpSecConnectionsDataSource())
+}
+
 func CoreIpSecConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreIpSecConnections,

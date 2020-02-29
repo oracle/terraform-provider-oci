@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_cross_connect_group", CoreCrossConnectGroupDataSource())
+}
+
 func CoreCrossConnectGroupDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["cross_connect_group_id"] = &schema.Schema{

@@ -9,6 +9,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_tag_namespaces", IdentityTagNamespacesDataSource())
+}
+
 func IdentityTagNamespacesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityTagNamespaces,

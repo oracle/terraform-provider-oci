@@ -9,6 +9,10 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/email"
 )
 
+func init() {
+	RegisterDatasource("oci_email_sender", EmailSenderDataSource())
+}
+
 func EmailSenderDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["sender_id"] = &schema.Schema{

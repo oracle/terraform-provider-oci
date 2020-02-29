@@ -13,6 +13,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterResource("oci_identity_user", IdentityUserResource())
+}
+
 func IdentityUserResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

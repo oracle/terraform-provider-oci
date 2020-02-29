@@ -10,6 +10,10 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
+func init() {
+	RegisterResource("oci_dns_steering_policy_attachment", DnsSteeringPolicyAttachmentResource())
+}
+
 func DnsSteeringPolicyAttachmentResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

@@ -9,6 +9,10 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
+func init() {
+	RegisterDatasource("oci_containerengine_node_pools", ContainerengineNodePoolsDataSource())
+}
+
 func ContainerengineNodePoolsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readContainerengineNodePools,

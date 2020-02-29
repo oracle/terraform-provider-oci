@@ -11,6 +11,10 @@ import (
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 
+func init() {
+	RegisterDatasource("oci_waas_address_lists", WaasAddressListsDataSource())
+}
+
 func WaasAddressListsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readWaasAddressLists,

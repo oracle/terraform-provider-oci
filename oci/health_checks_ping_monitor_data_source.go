@@ -9,6 +9,10 @@ import (
 	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
 )
 
+func init() {
+	RegisterDatasource("oci_health_checks_ping_monitor", HealthChecksPingMonitorDataSource())
+}
+
 func HealthChecksPingMonitorDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["monitor_id"] = &schema.Schema{

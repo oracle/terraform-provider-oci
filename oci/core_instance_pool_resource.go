@@ -19,6 +19,10 @@ const (
 	instancePoolStoppedState = "stopped"
 )
 
+func init() {
+	RegisterResource("oci_core_instance_pool", CoreInstancePoolResource())
+}
+
 func CoreInstancePoolResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

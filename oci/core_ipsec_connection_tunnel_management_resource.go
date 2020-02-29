@@ -12,6 +12,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_ipsec_connection_tunnel_management", CoreIpSecConnectionTunnelManagementResource())
+}
+
 func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

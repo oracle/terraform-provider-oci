@@ -21,6 +21,10 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
+func init() {
+	RegisterResource("oci_dns_record", DnsRecordResource())
+}
+
 func DnsRecordResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

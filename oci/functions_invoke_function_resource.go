@@ -16,6 +16,10 @@ import (
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 )
 
+func init() {
+	RegisterResource("oci_functions_invoke_function", FunctionsInvokeFunctionResource())
+}
+
 func FunctionsInvokeFunctionResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

@@ -9,6 +9,10 @@ import (
 	oci_integration "github.com/oracle/oci-go-sdk/integration"
 )
 
+func init() {
+	RegisterDatasource("oci_integration_integration_instance", IntegrationIntegrationInstanceDataSource())
+}
+
 func IntegrationIntegrationInstanceDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["integration_instance_id"] = &schema.Schema{

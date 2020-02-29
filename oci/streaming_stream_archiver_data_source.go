@@ -9,6 +9,10 @@ import (
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 )
 
+func init() {
+	RegisterDatasource("oci_streaming_stream_archiver", StreamingStreamArchiverDataSource())
+}
+
 func StreamingStreamArchiverDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["stream_id"] = &schema.Schema{

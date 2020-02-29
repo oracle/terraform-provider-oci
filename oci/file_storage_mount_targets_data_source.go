@@ -9,6 +9,10 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
+func init() {
+	RegisterDatasource("oci_file_storage_mount_targets", FileStorageMountTargetsDataSource())
+}
+
 func FileStorageMountTargetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readFileStorageMountTargets,

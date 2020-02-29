@@ -9,6 +9,10 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
+func init() {
+	RegisterDatasource("oci_file_storage_snapshot", FileStorageSnapshotDataSource())
+}
+
 func FileStorageSnapshotDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["snapshot_id"] = &schema.Schema{

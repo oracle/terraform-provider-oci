@@ -10,6 +10,10 @@ import (
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 
+func init() {
+	RegisterResource("oci_waas_address_list", WaasAddressListResource())
+}
+
 func WaasAddressListResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

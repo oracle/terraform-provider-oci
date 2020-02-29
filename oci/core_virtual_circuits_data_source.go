@@ -10,6 +10,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_virtual_circuits", CoreVirtualCircuitsDataSource())
+}
+
 func CoreVirtualCircuitsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreVirtualCircuits,

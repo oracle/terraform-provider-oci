@@ -9,6 +9,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_autonomous_container_database", DatabaseAutonomousContainerDatabaseDataSource())
+}
+
 func DatabaseAutonomousContainerDatabaseDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["autonomous_container_database_id"] = &schema.Schema{

@@ -10,6 +10,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_user", IdentityUserDataSource())
+}
+
 func IdentityUserDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["user_id"] = &schema.Schema{

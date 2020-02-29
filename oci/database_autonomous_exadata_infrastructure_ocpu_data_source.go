@@ -9,6 +9,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_autonomous_exadata_infrastructure_ocpu", DatabaseAutonomousExadataInfrastructureOcpuDataSource())
+}
+
 func DatabaseAutonomousExadataInfrastructureOcpuDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularDatabaseAutonomousExadataInfrastructureOcpu,

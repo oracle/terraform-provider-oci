@@ -12,6 +12,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_exadata_infrastructure_download_config_file", DatabaseExadataInfrastructureDownloadConfigFileDataSource())
+}
+
 func DatabaseExadataInfrastructureDownloadConfigFileDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularDatabaseExadataInfrastructureDownloadConfigFile,

@@ -9,6 +9,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_autonomous_database_regional_wallet_management", DatabaseAutonomousDatabaseRegionalWalletManagementDataSource())
+}
+
 func DatabaseAutonomousDatabaseRegionalWalletManagementDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	return GetSingularDataSourceItemSchema(DatabaseAutonomousDatabaseRegionalWalletManagementResource(), fieldMap, readSingularDatabaseAutonomousDatabaseRegionalWalletManagement)

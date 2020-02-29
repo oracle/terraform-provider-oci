@@ -16,6 +16,10 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
+func init() {
+	RegisterResource("oci_objectstorage_bucket", ObjectStorageBucketResource())
+}
+
 func ObjectStorageBucketResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

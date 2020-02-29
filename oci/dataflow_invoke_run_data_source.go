@@ -10,6 +10,10 @@ import (
 	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
 )
 
+func init() {
+	RegisterDatasource("oci_dataflow_invoke_run", DataflowInvokeRunDataSource())
+}
+
 func DataflowInvokeRunDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["run_id"] = &schema.Schema{

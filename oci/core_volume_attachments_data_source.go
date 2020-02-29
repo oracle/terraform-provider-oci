@@ -10,6 +10,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_volume_attachments", CoreVolumeAttachmentsDataSource())
+}
+
 func CoreVolumeAttachmentsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreVolumeAttachments,

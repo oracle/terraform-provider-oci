@@ -13,6 +13,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_service_gateway", CoreServiceGatewayResource())
+}
+
 func CoreServiceGatewayResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

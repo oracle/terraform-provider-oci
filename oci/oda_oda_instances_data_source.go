@@ -9,6 +9,10 @@ import (
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
 )
 
+func init() {
+	RegisterDatasource("oci_oda_oda_instances", OdaOdaInstancesDataSource())
+}
+
 func OdaOdaInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOdaOdaInstances,

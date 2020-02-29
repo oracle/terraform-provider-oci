@@ -10,6 +10,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterResource("oci_database_autonomous_database_regional_wallet_management", DatabaseAutonomousDatabaseRegionalWalletManagementResource())
+}
+
 func DatabaseAutonomousDatabaseRegionalWalletManagementResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

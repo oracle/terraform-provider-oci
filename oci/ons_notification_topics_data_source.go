@@ -9,6 +9,10 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 )
 
+func init() {
+	RegisterDatasource("oci_ons_notification_topics", OnsNotificationTopicsDataSource())
+}
+
 func OnsNotificationTopicsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOnsNotificationTopics,

@@ -11,6 +11,10 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/common"
 )
 
+func init() {
+	RegisterDatasource("oci_audit_events", AuditAuditEventsDataSource())
+}
+
 func AuditAuditEventsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readAuditAuditEvents,

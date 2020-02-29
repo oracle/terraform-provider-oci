@@ -9,6 +9,10 @@ import (
 	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
 )
 
+func init() {
+	RegisterDatasource("oci_health_checks_vantage_points", HealthChecksVantagePointsDataSource())
+}
+
 func HealthChecksVantagePointsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readHealthChecksVantagePoints,

@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_virtual_circuit_public_prefixes", CoreVirtualCircuitPublicPrefixesDataSource())
+}
+
 func CoreVirtualCircuitPublicPrefixesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreVirtualCircuitPublicPrefixes,

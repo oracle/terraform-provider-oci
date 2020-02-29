@@ -12,6 +12,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_vm_cluster_network_download_config_file", DatabaseVmClusterNetworkDownloadConfigFileDataSource())
+}
+
 func DatabaseVmClusterNetworkDownloadConfigFileDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularDatabaseVmClusterNetworkDownloadConfigFile,
