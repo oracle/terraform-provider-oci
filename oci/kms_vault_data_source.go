@@ -9,6 +9,10 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
+func init() {
+	RegisterDatasource("oci_kms_vault", KmsVaultDataSource())
+}
+
 func KmsVaultDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["vault_id"] = &schema.Schema{

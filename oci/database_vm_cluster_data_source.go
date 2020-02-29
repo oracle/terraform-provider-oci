@@ -9,6 +9,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_vm_cluster", DatabaseVmClusterDataSource())
+}
+
 func DatabaseVmClusterDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["vm_cluster_id"] = &schema.Schema{

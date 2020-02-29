@@ -10,6 +10,10 @@ import (
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 )
 
+func init() {
+	RegisterResource("oci_budget_alert_rule", BudgetAlertRuleResource())
+}
+
 func BudgetAlertRuleResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

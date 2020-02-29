@@ -10,6 +10,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_console_history", CoreConsoleHistoryResource())
+}
+
 func CoreConsoleHistoryResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

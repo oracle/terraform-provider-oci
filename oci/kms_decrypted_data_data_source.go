@@ -11,6 +11,10 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
+func init() {
+	RegisterDatasource("oci_kms_decrypted_data", KmsDecryptedDataDataSource())
+}
+
 func KmsDecryptedDataDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularDecryptedData,

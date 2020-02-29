@@ -9,6 +9,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_db_system_shapes", DatabaseDbSystemShapesDataSource())
+}
+
 func DatabaseDbSystemShapesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDbSystemShapes,

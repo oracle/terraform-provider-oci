@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_security_lists", CoreSecurityListsDataSource())
+}
+
 func CoreSecurityListsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreSecurityLists,

@@ -9,6 +9,10 @@ import (
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 )
 
+func init() {
+	RegisterDatasource("oci_budget_budgets", BudgetBudgetsDataSource())
+}
+
 func BudgetBudgetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readBudgetBudgets,

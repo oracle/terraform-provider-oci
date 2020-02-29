@@ -12,6 +12,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_default_route_table", DefaultCoreRouteTableResource())
+}
+
 func DefaultCoreRouteTableResource() *schema.Resource {
 	defaultResourceSchema := ConvertToDefaultVcnResourceSchema(CoreRouteTableResource())
 

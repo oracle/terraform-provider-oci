@@ -41,8 +41,6 @@ var isMissingRequiredAttributes bool
 
 func init() {
 	resourceNameCount = map[string]int{}
-	resourcesMap = ResourcesMap()
-	datasourcesMap = DataSourcesMap()
 	vars = map[string]string{}
 	referenceMap = map[string]string{}
 
@@ -113,6 +111,9 @@ type ExportCommandArgs struct {
 }
 
 func RunExportCommand(args *ExportCommandArgs) error {
+	resourcesMap = ResourcesMap()
+	datasourcesMap = DataSourcesMap()
+
 	if err := args.validate(); err != nil {
 		return err
 	}

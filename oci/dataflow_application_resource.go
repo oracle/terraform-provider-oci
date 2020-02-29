@@ -11,6 +11,10 @@ import (
 	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
 )
 
+func init() {
+	RegisterResource("oci_dataflow_application", DataflowApplicationResource())
+}
+
 func DataflowApplicationResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

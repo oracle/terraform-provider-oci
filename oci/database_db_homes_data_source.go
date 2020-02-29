@@ -9,6 +9,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_db_homes", DatabaseDbHomesDataSource())
+}
+
 func DatabaseDbHomesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDbHomes,

@@ -11,6 +11,10 @@ import (
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 )
 
+func init() {
+	RegisterResource("oci_audit_configuration", AuditConfigurationResource())
+}
+
 func AuditConfigurationResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

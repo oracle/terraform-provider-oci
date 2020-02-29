@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_nat_gateway", CoreNatGatewayDataSource())
+}
+
 func CoreNatGatewayDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["nat_gateway_id"] = &schema.Schema{

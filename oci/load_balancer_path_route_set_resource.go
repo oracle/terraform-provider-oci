@@ -15,6 +15,10 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
+func init() {
+	RegisterResource("oci_load_balancer_path_route_set", LoadBalancerPathRouteSetResource())
+}
+
 func LoadBalancerPathRouteSetResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

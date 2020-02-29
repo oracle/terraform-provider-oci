@@ -12,6 +12,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterResource("oci_identity_auth_token", IdentityAuthTokenResource())
+}
+
 func IdentityAuthTokenResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

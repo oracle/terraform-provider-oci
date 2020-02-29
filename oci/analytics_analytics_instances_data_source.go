@@ -9,6 +9,10 @@ import (
 	oci_analytics "github.com/oracle/oci-go-sdk/analytics"
 )
 
+func init() {
+	RegisterDatasource("oci_analytics_analytics_instances", AnalyticsAnalyticsInstancesDataSource())
+}
+
 func AnalyticsAnalyticsInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readAnalyticsAnalyticsInstances,

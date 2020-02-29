@@ -11,6 +11,10 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
+func init() {
+	RegisterDatasource("oci_dns_steering_policies", DnsSteeringPoliciesDataSource())
+}
+
 func DnsSteeringPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDnsSteeringPolicies,

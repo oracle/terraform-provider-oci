@@ -9,6 +9,10 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
+func init() {
+	RegisterDatasource("oci_objectstorage_preauthrequest", ObjectStoragePreauthenticatedRequestDataSource())
+}
+
 func ObjectStoragePreauthenticatedRequestDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["bucket"] = &schema.Schema{

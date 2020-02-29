@@ -15,6 +15,10 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
+func init() {
+	RegisterResource("oci_load_balancer_hostname", LoadBalancerHostnameResource())
+}
+
 func LoadBalancerHostnameResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

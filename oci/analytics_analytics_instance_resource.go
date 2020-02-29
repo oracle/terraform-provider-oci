@@ -17,6 +17,10 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/common"
 )
 
+func init() {
+	RegisterResource("oci_analytics_analytics_instance", AnalyticsAnalyticsInstanceResource())
+}
+
 func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

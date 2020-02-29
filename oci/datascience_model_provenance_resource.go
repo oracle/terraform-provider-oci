@@ -15,6 +15,10 @@ import (
 	oci_datascience "github.com/oracle/oci-go-sdk/datascience"
 )
 
+func init() {
+	RegisterResource("oci_datascience_model_provenance", DatascienceModelProvenanceResource())
+}
+
 func DatascienceModelProvenanceResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

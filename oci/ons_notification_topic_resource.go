@@ -10,6 +10,10 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 )
 
+func init() {
+	RegisterResource("oci_ons_notification_topic", OnsNotificationTopicResource())
+}
+
 func OnsNotificationTopicResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

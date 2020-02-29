@@ -11,6 +11,10 @@ import (
 	"log"
 )
 
+func init() {
+	RegisterDatasource("oci_objectstorage_object_head", ObjectStorageObjectHeadDataSource())
+}
+
 func ObjectStorageObjectHeadDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readObjectHead,

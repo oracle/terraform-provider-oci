@@ -9,6 +9,10 @@ import (
 	oci_datascience "github.com/oracle/oci-go-sdk/datascience"
 )
 
+func init() {
+	RegisterDatasource("oci_datascience_model_provenance", DatascienceModelProvenanceDataSource())
+}
+
 func DatascienceModelProvenanceDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["model_id"] = &schema.Schema{

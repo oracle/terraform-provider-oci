@@ -9,6 +9,10 @@ import (
 	oci_apigateway "github.com/oracle/oci-go-sdk/apigateway"
 )
 
+func init() {
+	RegisterDatasource("oci_apigateway_gateways", ApigatewayGatewaysDataSource())
+}
+
 func ApigatewayGatewaysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readApigatewayGateways,

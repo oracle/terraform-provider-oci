@@ -10,6 +10,10 @@ import (
 	oci_datacatalog "github.com/oracle/oci-go-sdk/datacatalog"
 )
 
+func init() {
+	RegisterResource("oci_datacatalog_connection", DatacatalogConnectionResource())
+}
+
 func DatacatalogConnectionResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

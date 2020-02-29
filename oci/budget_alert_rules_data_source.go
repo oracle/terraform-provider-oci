@@ -9,6 +9,10 @@ import (
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 )
 
+func init() {
+	RegisterDatasource("oci_budget_alert_rules", BudgetAlertRulesDataSource())
+}
+
 func BudgetAlertRulesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readBudgetAlertRules,

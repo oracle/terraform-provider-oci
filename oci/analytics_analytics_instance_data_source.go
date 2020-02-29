@@ -9,6 +9,10 @@ import (
 	oci_analytics "github.com/oracle/oci-go-sdk/analytics"
 )
 
+func init() {
+	RegisterDatasource("oci_analytics_analytics_instance", AnalyticsAnalyticsInstanceDataSource())
+}
+
 func AnalyticsAnalyticsInstanceDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["analytics_instance_id"] = &schema.Schema{

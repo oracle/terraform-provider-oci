@@ -10,6 +10,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_virtual_circuit", CoreVirtualCircuitDataSource())
+}
+
 func CoreVirtualCircuitDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["virtual_circuit_id"] = &schema.Schema{

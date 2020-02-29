@@ -10,6 +10,10 @@ import (
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/resourcemanager"
 )
 
+func init() {
+	RegisterDatasource("oci_resourcemanager_stacks", ResourcemanagerStacksDataSource())
+}
+
 func ResourcemanagerStacksDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readResourcemanagerStacks,

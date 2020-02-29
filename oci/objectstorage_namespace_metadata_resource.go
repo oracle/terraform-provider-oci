@@ -9,6 +9,10 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
+func init() {
+	RegisterResource("oci_objectstorage_namespace_metadata", ObjectStorageNamespaceMetadataResource())
+}
+
 func ObjectStorageNamespaceMetadataResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
