@@ -166,7 +166,7 @@ The following arguments are supported:
 * `license_model` - (Optional) The Oracle license model that applies to all the databases on the DB system. The default is LICENSE_INCLUDED. 
 * `node_count` - (Optional) The number of nodes to launch for a 2-node RAC virtual machine DB system. 
 * `nsg_ids` - (Optional) (Updatable) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
-* `shape` - (Required) The shape of the DB system. The shape determines resources allocated to the DB system.
+* `shape` - (Required) (Updatable) The shape of the DB system. The shape determines resources allocated to the DB system.
 	* For virtual machine shapes, the number of CPU cores and memory
 	* For bare metal and Exadata shapes, the number of CPU cores, memory, and storage
 

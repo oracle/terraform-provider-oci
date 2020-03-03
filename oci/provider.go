@@ -247,6 +247,8 @@ func DataSourcesMap() map[string]*schema.Resource {
 		"oci_core_console_histories":                                  CoreConsoleHistoriesDataSource(),
 		"oci_core_console_history_data":                               CoreConsoleHistoryContentDataSource(),
 		"oci_core_cpes":                                               CoreCpesDataSource(),
+		"oci_core_cpe_device_shape":                                   CoreCpeDeviceShapeDataSource(),
+		"oci_core_cpe_device_shapes":                                  CoreCpeDeviceShapesDataSource(),
 		"oci_core_cross_connect_group":                                CoreCrossConnectGroupDataSource(),
 		"oci_core_cross_connect_groups":                               CoreCrossConnectGroupsDataSource(),
 		"oci_core_cross_connect_locations":                            CoreCrossConnectLocationsDataSource(),

@@ -39,7 +39,7 @@ type VnicAttachment struct {
 	// The current state of the VNIC attachment.
 	LifecycleState VnicAttachmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID of the VNIC's subnet.
+	// The OCID of the subnet to create the VNIC in.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// The date and time the VNIC attachment was created, in the format defined by RFC3339.

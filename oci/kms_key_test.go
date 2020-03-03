@@ -76,7 +76,7 @@ var (
 
 		filter {
     		name = "state"
-    		values = ["ENABLED"]
+    		values = ["ENABLED", "UPDATING"]
         }
 	}
 	`

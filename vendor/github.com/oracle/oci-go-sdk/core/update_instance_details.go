@@ -57,9 +57,16 @@ type UpdateInstanceDetails struct {
 	ExtendedMetadata map[string]interface{} `mandatory:"false" json:"extendedMetadata"`
 
 	// The shape of the instance. The shape determines the number of CPUs and the amount of memory
-	// allocated to the instance. You can enumerate all available shapes by calling
+	// allocated to the instance. For more information about how to change shapes, and a list of
+	// shapes that are supported, see
+	// Changing the Shape of an Instance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/resizinginstances.htm).
+	// For details about the CPUs, memory, and other properties of each shape, see
+	// Compute Shapes (https://docs.cloud.oracle.com/iaas/Content/Compute/References/computeshapes.htm).
+	// The new shape must be compatible with the image that was used to launch the instance. You
+	// can enumerate all available shapes and determine image compatibility by calling
 	// ListShapes.
-	// Example: `VM.Standard1.1`
+	// If the instance is running when you change the shape, the instance is rebooted.
+	// Example: `VM.Standard2.1`
 	Shape *string `mandatory:"false" json:"shape"`
 }
 

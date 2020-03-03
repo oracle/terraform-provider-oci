@@ -89,6 +89,10 @@ func (s *CoreCpesDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.CpeDeviceShapeId != nil {
+			cpe["cpe_device_shape_id"] = *r.CpeDeviceShapeId
+		}
+
 		if r.DefinedTags != nil {
 			cpe["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
