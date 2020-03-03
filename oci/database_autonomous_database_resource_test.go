@@ -99,7 +99,14 @@ var (
 				"nsg_ids":                Representation{repType: Optional, create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, update: []string{`${oci_core_network_security_group.test_network_security_group.id}`, `${oci_core_network_security_group.test_network_security_group2.id}`}},
 				"private_endpoint_label": Representation{repType: Optional, create: `xlx4fcli`},
 				"subnet_id":              Representation{repType: Optional, create: `${oci_core_subnet.test_subnet.id}`},
+				"timeouts":               RepresentationGroup{Required, autonomousDatabasePrivateEndpointTimeoutsRepresentation},
 			}), []string{"whitelisted_ips"})
+
+	autonomousDatabasePrivateEndpointTimeoutsRepresentation = map[string]interface{}{
+		"create": Representation{repType: Required, create: `10m`},
+		"update": Representation{repType: Required, create: `10m`},
+		"delete": Representation{repType: Required, create: `10m`},
+	}
 
 	AutonomousDatabasePrivateEndpointResourceDependencies = generateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", Required, Create, subnetRepresentation) +
 		generateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", Required, Create, vcnRepresentation) +
