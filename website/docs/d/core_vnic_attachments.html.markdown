@@ -56,7 +56,7 @@ The following attributes are exported:
 * `instance_id` - The OCID of the instance.
 * `nic_index` - Which physical network interface card (NIC) the VNIC uses. Certain bare metal instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of these instances, you can specify which NIC the VNIC will use. For more information, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
 * `state` - The current state of the VNIC attachment.
-* `subnet_id` - The OCID of the VNIC's subnet.
+* `subnet_id` - The OCID of the subnet to create the VNIC in.
 * `time_created` - The date and time the VNIC attachment was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `vlan_tag` - The Oracle-assigned VLAN tag of the attached VNIC. Available after the attachment process is complete.  Example: `0` 
 * `vnic_id` - The OCID of the VNIC. Available after the attachment process is complete.

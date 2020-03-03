@@ -16,6 +16,8 @@ const (
 	RegionSEA Region = "sea"
 	//RegionCAToronto1 region for toronto
 	RegionCAToronto1 Region = "ca-toronto-1"
+	//RegionCAMontreal1 region for Montreal
+	RegionCAMontreal1 Region = "ca-montreal-1"
 	//RegionPHX region PHX
 	RegionPHX Region = "us-phoenix-1"
 	//RegionIAD region IAD
@@ -72,6 +74,7 @@ var regionRealm = map[Region]string{
 	RegionFRA:          "oc1",
 	RegionLHR:          "oc1",
 	RegionCAToronto1:   "oc1",
+	RegionCAMontreal1:  "oc1",
 	RegionAPTokyo1:     "oc1",
 	RegionAPOsaka1:     "oc1",
 	RegionAPSeoul1:     "oc1",
@@ -132,6 +135,8 @@ func StringToRegion(stringRegion string) (r Region) {
 		r = RegionSEA
 	case "yyz", "ca-toronto-1":
 		r = RegionCAToronto1
+	case "yul", "ca-montreal-1":
+		r = RegionCAMontreal1
 	case "phx", "us-phoenix-1":
 		r = RegionPHX
 	case "iad", "us-ashburn-1":

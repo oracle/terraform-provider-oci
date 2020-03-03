@@ -33,6 +33,11 @@ func CoreCpeResource() *schema.Resource {
 			},
 
 			// Optional
+			"cpe_device_shape_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -113,6 +118,11 @@ func (s *CoreCpeResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if cpeDeviceShapeId, ok := s.D.GetOkExists("cpe_device_shape_id"); ok {
+		tmp := cpeDeviceShapeId.(string)
+		request.CpeDeviceShapeId = &tmp
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -175,6 +185,11 @@ func (s *CoreCpeResourceCrud) Update() error {
 	}
 	request := oci_core.UpdateCpeRequest{}
 
+	if cpeDeviceShapeId, ok := s.D.GetOkExists("cpe_device_shape_id"); ok {
+		tmp := cpeDeviceShapeId.(string)
+		request.CpeDeviceShapeId = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.CpeId = &tmp
 
@@ -221,6 +236,10 @@ func (s *CoreCpeResourceCrud) Delete() error {
 func (s *CoreCpeResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.CpeDeviceShapeId != nil {
+		s.D.Set("cpe_device_shape_id", *s.Res.CpeDeviceShapeId)
 	}
 
 	if s.Res.DefinedTags != nil {
