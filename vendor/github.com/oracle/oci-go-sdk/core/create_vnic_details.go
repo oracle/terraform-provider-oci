@@ -25,7 +25,10 @@ type CreateVnicDetails struct {
 	// The OCID of the subnet to create the VNIC in. When launching an instance,
 	// use this `subnetId` instead of the deprecated `subnetId` in
 	// LaunchInstanceDetails.
-	// At least one of them is required; if you provide both, the values must match.
+	// Alternatively, the `vlanId` can be used instead of a `subnetId`.
+	// At least one `subnetId` value is required if this field is populated; if
+	// you provide both, the values must match. If both the `vlanId` and `subnetId`
+	// fields are provided, the launch will fail.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// Whether the VNIC should be assigned a public IP address. Defaults to whether
@@ -85,12 +88,12 @@ type CreateVnicDetails struct {
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// A private IP address of your choice to assign to the VNIC. Must be an
-	// available IP address within the subnet's CIDR. If you don't specify a
-	// value, Oracle automatically assigns a private IP address from the subnet.
-	// This is the VNIC's *primary* private IP address. The value appears in
-	// the Vnic object and also the
-	// PrivateIp object returned by
+	// A private IP address of your choice to assign to the VNIC. Value is ignored
+	// if a `vlanId` value is specified. Must be an available IP address within
+	// the subnet's CIDR. If you don't specify a value, Oracle automatically assigns
+	// a private IP address from the subnet. This is the VNIC's *primary* private IP
+	// address. The value appears in the Vnic object and
+	// also the PrivateIp object returned by
 	// ListPrivateIps and
 	// GetPrivateIp.
 	// Example: `10.0.3.3`

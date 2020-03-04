@@ -17,14 +17,21 @@ provider "oci" {
 }
 
 resource oci_core_cpe "test_cpe" {
-  compartment_id = "${var.compartment_ocid}"
-  display_name   = "test_cpe"
-  ip_address     = "189.44.2.135"
+  compartment_id      = "${var.compartment_ocid}"
+  display_name        = "test_cpe"
+  ip_address          = "189.44.2.135"
+  cpe_device_shape_id = "${data.oci_core_cpe_device_shape.test_cpe_device_shape.id}"
 }
 
 resource oci_core_drg "test_drg" {
   compartment_id = "${var.compartment_ocid}"
   display_name   = "test_drg"
+}
+
+data "oci_core_cpe_device_shapes" "test_cpe_device_shapes" {}
+
+data "oci_core_cpe_device_shape" "test_cpe_device_shape" {
+  cpe_device_shape_id = "${data.oci_core_cpe_device_shapes.test_cpe_device_shapes.cpe_device_shapes.0.cpe_device_shape_id}"
 }
 
 resource "oci_core_ipsec" "test_ip_sec_connection" {

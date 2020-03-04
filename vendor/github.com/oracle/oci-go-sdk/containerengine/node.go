@@ -32,6 +32,12 @@ type Node struct {
 	// The OCID of the node pool to which this node belongs.
 	NodePoolId *string `mandatory:"false" json:"nodePoolId"`
 
+	// The fault domain of this node.
+	FaultDomain *string `mandatory:"false" json:"faultDomain"`
+
+	// The private IP address of this node.
+	PrivateIp *string `mandatory:"false" json:"privateIp"`
+
 	// The public IP address of this node.
 	PublicIp *string `mandatory:"false" json:"publicIp"`
 

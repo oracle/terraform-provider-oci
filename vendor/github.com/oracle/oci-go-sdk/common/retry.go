@@ -147,7 +147,7 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 			<-time.After(duration)
 		}
 
-		retrierChannel <- retrierResult{nil, fmt.Errorf("maximum number of attempts exceeded (%v)", policy.MaximumNumberAttempts)}
+		retrierChannel <- retrierResult{response, err}
 	}()
 
 	select {

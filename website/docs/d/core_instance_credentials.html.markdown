@@ -10,8 +10,8 @@ description: |-
 # Data Source: oci_core_instance_credentials
 This data source provides details about a specific Instance Credential resource in Oracle Cloud Infrastructure Core service.
 
-Gets the generated credentials for the instance. Only works for instances that require password to log in (E.g. Windows).
-For certain OS'es, users will be forced to change the initial credentials.
+Gets the generated credentials for the instance. Only works for instances that require a password to log in, such as Windows.
+For certain operating systems, users will be forced to change the initial credentials.
 
 
 ## Example Usage
