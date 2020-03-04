@@ -291,7 +291,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 			"shape": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"ssh_public_keys": {
 				Type:     schema.TypeSet,
@@ -857,6 +856,11 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
+		tmp := shape.(string)
+		request.Shape = &tmp
 	}
 
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {

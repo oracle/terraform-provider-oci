@@ -315,6 +315,11 @@ func (s *NosqlTableResourceCrud) getTableFromWorkRequest(workId *string, retryPo
 		}
 		return err
 	}
+
+	// For update, we send multiple requests and we don't want to override the state file for each request
+	if actionTypeEnum == oci_nosql.WorkRequestResourceActionTypeUpdated {
+		return nil
+	}
 	s.D.SetId(*tableId)
 	s.D.Set("table_name_or_id", *tableId)
 
@@ -448,15 +453,30 @@ func (s *NosqlTableResourceCrud) Get() error {
 }
 
 func (s *NosqlTableResourceCrud) Update() error {
-	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+	if _, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			fromCompartmentId := oldRaw.(string)
+			toCompartmentId := newRaw.(string)
+			err := s.updateCompartment(fromCompartmentId, toCompartmentId)
 			if err != nil {
 				return err
 			}
 		}
 	}
+
+	defer func() {
+		// get latest state of the instance
+		err := s.Get()
+		if err != nil {
+			log.Printf("[ERROR] unable to invoke GET() after UPDATE '%v'", err)
+		}
+		// write latest state
+		if err := s.SetData(); err != nil {
+			log.Printf("[ERROR] unable to invoke setData() '%v'", err)
+		}
+	}()
+
 	request := oci_nosql.UpdateTableRequest{}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "nosql")
@@ -530,7 +550,7 @@ func sendUpdateRequest(s *NosqlTableResourceCrud, request oci_nosql.UpdateTableR
 	if err != nil {
 		return err
 	}
-	return s.SetData()
+	return nil
 }
 
 func (s *NosqlTableResourceCrud) Delete() error {
@@ -737,27 +757,30 @@ func TableSummaryToMap(obj oci_nosql.TableSummary) map[string]interface{} {
 	return result
 }
 
-func (s *NosqlTableResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *NosqlTableResourceCrud) updateCompartment(fromCompartmentId, toCompartmentId string) error {
 	changeCompartmentRequest := oci_nosql.ChangeTableCompartmentRequest{}
 
-	if fromCompartmentId, ok := s.D.GetOkExists("from_compartment_id"); ok {
-		tmp := fromCompartmentId.(string)
-		changeCompartmentRequest.FromCompartmentId = &tmp
-	}
+	changeCompartmentRequest.FromCompartmentId = &fromCompartmentId
 
 	if tableNameOrId, ok := s.D.GetOkExists("table_name_or_id"); ok {
 		tmp := tableNameOrId.(string)
 		changeCompartmentRequest.TableNameOrId = &tmp
+	} else if s.D.Id() != "" {
+		tmp := s.D.Id()
+		changeCompartmentRequest.TableNameOrId = &tmp
 	}
 
-	if toCompartmentId, ok := s.D.GetOkExists("to_compartment_id"); ok {
-		tmp := toCompartmentId.(string)
-		changeCompartmentRequest.ToCompartmentId = &tmp
-	}
+	changeCompartmentRequest.ToCompartmentId = &toCompartmentId
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	_, err := s.Client.ChangeTableCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeTableCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	err = s.getTableFromWorkRequest(workId, getRetryPolicy(s.DisableNotFoundRetries, "nosql"), oci_nosql.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
