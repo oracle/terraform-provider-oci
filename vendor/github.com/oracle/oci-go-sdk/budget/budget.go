@@ -55,7 +55,7 @@ type Budget struct {
 
 	// The list of targets on which the budget is applied.
 	//   If targetType is "COMPARTMENT", targets contains list of compartment OCIDs.
-	//   If targetType is "TAG", targets contains list of tag identifiers in the form of "{tagNamespace}.{tagKey}.{tagValue}".
+	//   If targetType is "TAG", targets contains list of cost tracking tag identifiers in the form of "{tagNamespace}.{tagKey}.{tagValue}".
 	Targets []string `mandatory:"false" json:"targets"`
 
 	// Version of the budget. Starts from 1 and increments by 1.
