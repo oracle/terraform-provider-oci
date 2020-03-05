@@ -2,6 +2,7 @@
 
 ### Added
 - Support for Handling the VM (hypervisor) reboots info shared with the customer
+- Support for VM 20c Preview in DBAAS
 
 ## 3.66.0 (March 11, 2020)
 

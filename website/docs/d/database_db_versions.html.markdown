@@ -49,6 +49,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `is_latest_for_major_version` - True if this version of the Oracle Database software is the latest version for a release.
+* `is_preview_db_version` - True if this version of the Oracle Database software is the preview version.
 * `supports_pdb` - True if this version of the Oracle Database software supports pluggable databases.
 * `version` - A valid Oracle Database version.
 
