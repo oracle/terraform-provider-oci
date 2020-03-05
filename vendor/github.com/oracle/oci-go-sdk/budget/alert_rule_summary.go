@@ -37,7 +37,7 @@ type AlertRuleSummary struct {
 	// The current state of the alert rule.
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The audience that will received the alert when it triggers.
+	// The audience that will receive the alert when it triggers.
 	Recipients *string `mandatory:"true" json:"recipients"`
 
 	// Time when budget was created
