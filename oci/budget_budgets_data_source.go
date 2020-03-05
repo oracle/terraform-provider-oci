@@ -71,8 +71,7 @@ func (s *BudgetBudgetsDataSourceCrud) Get() error {
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
-		tmp := state.(string)
-		request.LifecycleState = &tmp
+		request.LifecycleState = oci_budget.ListBudgetsLifecycleStateEnum(state.(string))
 	}
 
 	if targetType, ok := s.D.GetOkExists("target_type"); ok {
