@@ -47,7 +47,7 @@ The following arguments are supported:
 * `cloud_control_plane_server1` - (Required) (Updatable) The IP address for the first control plane server.
 * `cloud_control_plane_server2` - (Required) (Updatable) The IP address for the second control plane server.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. 
-* `corporate_proxy` - (Optional) (Updatable) The corporate network proxy for access to the control plane network.
+* `corporate_proxy` - (Optional) (Updatable) The corporate network proxy for access to the control plane network. Oracle recommends using an HTTPS proxy when possible for enhanced security. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) The user-friendly name for the Exadata infrastructure. The name does not need to be unique. 
 * `dns_server` - (Required) (Updatable) The list of DNS server IP addresses. Maximum of 3 allowed.

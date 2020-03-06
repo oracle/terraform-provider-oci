@@ -33,7 +33,9 @@ The following arguments are supported:
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `db_system_id` - (Optional) The DB system [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). If provided, filters the results to the set of database versions which are supported for the DB system.
 * `db_system_shape` - (Optional) If provided, filters the results to the set of database versions which are supported for the given shape.
-* `storage_management` - (Optional) The storage option used in DB system to list database versions for that storage manager. ASM - Automatic storage management LVM - Logical Volume management 
+* `storage_management` - (Optional) The DB system storage management option. Used to list database versions available for that storage manager. Valid values are:
+	* ASM - Automatic storage management
+	* LVM - Logical volume management 
 
 
 ## Attributes Reference
