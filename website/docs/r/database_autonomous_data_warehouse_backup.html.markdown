@@ -15,6 +15,7 @@ Creates a new Autonomous Data Warehouse backup for the specified database based 
 **IMPORTANT:** This resource is being **deprecated**, use `oci_database_autonomous_database_backup` instead.
 Refer to the [Deprecation Guide](#deprecation-guide) below on how to rename and migrate existing resources.
 
+
 ## Example Usage
 
 ```hcl

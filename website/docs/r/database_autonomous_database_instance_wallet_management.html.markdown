@@ -28,6 +28,7 @@ resource "oci_database_autonomous_database_instance_wallet_management" "test_aut
 ## Argument Reference
 
 The following arguments are supported:
+
 * `autonomous_database_id` - (Required) (Updatable) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `should_rotate` - (Optional) (Updatable) Indicates whether to rotate the wallet or not. If `false`, the wallet will not be rotated. The default is `false`.
 

@@ -14,6 +14,7 @@ Gets the details of the specified Autonomous Data Warehouse.
 
 **IMPORTANT:** This data source is being **deprecated**, use `oci_database_autonomous_database` instead.
 
+
 ## Example Usage
 
 ```hcl
