@@ -5,6 +5,9 @@
 - Support for VM 20c Preview in DBAAS
 - Support for console connection for db nodes in BM and VM db systems
 
+### Fixed
+- Fixed load balancer listener to write default hostnames in state [Github issue #975](https://github.com/terraform-providers/terraform-provider-oci/issues/975)
+
 ## 3.66.0 (March 11, 2020)
 
 ### Added
