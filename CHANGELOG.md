@@ -1,4 +1,8 @@
 ## 3.69.0 (Unreleased)
+
+### Added
+- Support for pod security policy in kubernetes
+
 ## 3.68.0 (March 25, 2020)
 
 ### Added

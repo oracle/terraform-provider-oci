@@ -70,7 +70,6 @@ func ContainerengineClusterResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -101,6 +100,27 @@ func ContainerengineClusterResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"admission_controller_options": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"is_pod_security_policy_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
 									},
 
 									// Computed
@@ -513,6 +533,17 @@ func (s *ContainerengineClusterResourceCrud) Update() error {
 		request.Name = &tmp
 	}
 
+	if options, ok := s.D.GetOkExists("options"); ok {
+		if tmpList := options.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "options", 0)
+			tmp, err := s.mapToUpdateClusterOptionsDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Options = &tmp
+		}
+	}
+
 	//Issue update request
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 	response, err := s.Client.UpdateCluster(context.Background(), request)
@@ -644,6 +675,27 @@ func AddOnOptionsToMap(obj *oci_containerengine.AddOnOptions) map[string]interfa
 	return result
 }
 
+func (s *ContainerengineClusterResourceCrud) mapToAdmissionControllerOptions(fieldKeyFormat string) (oci_containerengine.AdmissionControllerOptions, error) {
+	result := oci_containerengine.AdmissionControllerOptions{}
+
+	if isPodSecurityPolicyEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pod_security_policy_enabled")); ok {
+		tmp := isPodSecurityPolicyEnabled.(bool)
+		result.IsPodSecurityPolicyEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func AdmissionControllerOptionsToMap(obj *oci_containerengine.AdmissionControllerOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsPodSecurityPolicyEnabled != nil {
+		result["is_pod_security_policy_enabled"] = bool(*obj.IsPodSecurityPolicyEnabled)
+	}
+
+	return result
+}
+
 func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyFormat string) (oci_containerengine.ClusterCreateOptions, error) {
 	result := oci_containerengine.ClusterCreateOptions{}
 
@@ -655,6 +707,17 @@ func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyF
 				return result, fmt.Errorf("unable to convert add_ons, encountered error: %v", err)
 			}
 			result.AddOns = &tmp
+		}
+	}
+
+	if admissionControllerOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admission_controller_options")); ok {
+		if tmpList := admissionControllerOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "admission_controller_options"), 0)
+			tmp, err := s.mapToAdmissionControllerOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert admission_controller_options, encountered error: %v", err)
+			}
+			result.AdmissionControllerOptions = &tmp
 		}
 	}
 
@@ -685,11 +748,32 @@ func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyF
 	return result, nil
 }
 
+func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterOptionsDetails(fieldKeyFormat string) (oci_containerengine.UpdateClusterOptionsDetails, error) {
+	result := oci_containerengine.UpdateClusterOptionsDetails{}
+
+	if admissionControllerOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admission_controller_options")); ok {
+		if tmpList := admissionControllerOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "admission_controller_options"), 0)
+			tmp, err := s.mapToAdmissionControllerOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert admission_controller_options, encountered error: %v", err)
+			}
+			result.AdmissionControllerOptions = &tmp
+		}
+	}
+
+	return result, nil
+}
+
 func ClusterCreateOptionsToMap(obj *oci_containerengine.ClusterCreateOptions) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AddOns != nil {
 		result["add_ons"] = []interface{}{AddOnOptionsToMap(obj.AddOns)}
+	}
+
+	if obj.AdmissionControllerOptions != nil {
+		result["admission_controller_options"] = []interface{}{AdmissionControllerOptionsToMap(obj.AdmissionControllerOptions)}
 	}
 
 	if obj.KubernetesNetworkConfig != nil {

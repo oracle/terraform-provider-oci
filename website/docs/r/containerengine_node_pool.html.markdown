@@ -68,7 +68,7 @@ The following arguments are supported:
 * `node_source_details` - (Optional) Specify the source to use to launch nodes in the node pool. Currently, image is the only supported source. 
 	* `image_id` - (Required) The OCID of the image used to boot the node.
 	* `source_type` - (Required) The source type for the node. Use `IMAGE` when specifying an OCID of an image. 
-* `quantity_per_subnet` - (Optional) (Updatable) Optional, default to 1. The number of nodes to create in each subnet specified in subnetIds property.  When used, subnetIds is required. This property is deprecated, use nodeConfigDetails instead. 
+* `quantity_per_subnet` - (Optional) (Updatable) Optional, default to 1. The number of nodes to create in each subnet specified in subnetIds property. When used, subnetIds is required. This property is deprecated, use nodeConfigDetails instead. 
 * `ssh_public_key` - (Optional) The SSH public key to add to each node in the node pool.
 * `subnet_ids` - (Optional) (Updatable) The OCIDs of the subnets in which to place nodes for this node pool. When used, quantityPerSubnet can be provided. This property is deprecated, use nodeConfigDetails. Exactly one of the subnetIds or nodeConfigDetails properties must be specified. 
 
