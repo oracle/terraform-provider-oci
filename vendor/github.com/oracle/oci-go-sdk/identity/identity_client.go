@@ -29,6 +29,22 @@ func NewIdentityClientWithConfigurationProvider(configProvider common.Configurat
 		return
 	}
 
+	return newIdentityClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewIdentityClientWithOboToken Creates a new default Identity client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewIdentityClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client IdentityClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newIdentityClientFromBaseClient(baseClient, configProvider)
+}
+
+func newIdentityClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client IdentityClient, err error) {
 	client = IdentityClient{BaseClient: baseClient}
 	client.BasePath = "20160918"
 	err = client.setConfigurationProvider(configProvider)

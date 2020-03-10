@@ -32,6 +32,22 @@ func NewEmailClientWithConfigurationProvider(configProvider common.Configuration
 		return
 	}
 
+	return newEmailClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewEmailClientWithOboToken Creates a new default Email client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewEmailClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client EmailClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newEmailClientFromBaseClient(baseClient, configProvider)
+}
+
+func newEmailClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client EmailClient, err error) {
 	client = EmailClient{BaseClient: baseClient}
 	client.BasePath = "20170907"
 	err = client.setConfigurationProvider(configProvider)

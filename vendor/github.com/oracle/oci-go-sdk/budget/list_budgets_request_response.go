@@ -26,10 +26,10 @@ type ListBudgetsRequest struct {
 	// The field to sort by. If not specified, the default is timeCreated.
 	// The default sort order for timeCreated is DESC.
 	// The default sort order for displayName is ASC in alphanumeric order.
-	SortBy *string `mandatory:"false" contributesTo:"query" name:"sortBy"`
+	SortBy ListBudgetsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The current state of the resource to filter by.
-	LifecycleState *string `mandatory:"false" contributesTo:"query" name:"lifecycleState"`
+	LifecycleState ListBudgetsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Example: `My new resource`
@@ -110,6 +110,52 @@ var mappingListBudgetsSortOrder = map[string]ListBudgetsSortOrderEnum{
 func GetListBudgetsSortOrderEnumValues() []ListBudgetsSortOrderEnum {
 	values := make([]ListBudgetsSortOrderEnum, 0)
 	for _, v := range mappingListBudgetsSortOrder {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListBudgetsSortByEnum Enum with underlying type: string
+type ListBudgetsSortByEnum string
+
+// Set of constants representing the allowable values for ListBudgetsSortByEnum
+const (
+	ListBudgetsSortByTimecreated ListBudgetsSortByEnum = "timeCreated"
+	ListBudgetsSortByDisplayname ListBudgetsSortByEnum = "displayName"
+)
+
+var mappingListBudgetsSortBy = map[string]ListBudgetsSortByEnum{
+	"timeCreated": ListBudgetsSortByTimecreated,
+	"displayName": ListBudgetsSortByDisplayname,
+}
+
+// GetListBudgetsSortByEnumValues Enumerates the set of values for ListBudgetsSortByEnum
+func GetListBudgetsSortByEnumValues() []ListBudgetsSortByEnum {
+	values := make([]ListBudgetsSortByEnum, 0)
+	for _, v := range mappingListBudgetsSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListBudgetsLifecycleStateEnum Enum with underlying type: string
+type ListBudgetsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListBudgetsLifecycleStateEnum
+const (
+	ListBudgetsLifecycleStateActive   ListBudgetsLifecycleStateEnum = "ACTIVE"
+	ListBudgetsLifecycleStateInactive ListBudgetsLifecycleStateEnum = "INACTIVE"
+)
+
+var mappingListBudgetsLifecycleState = map[string]ListBudgetsLifecycleStateEnum{
+	"ACTIVE":   ListBudgetsLifecycleStateActive,
+	"INACTIVE": ListBudgetsLifecycleStateInactive,
+}
+
+// GetListBudgetsLifecycleStateEnumValues Enumerates the set of values for ListBudgetsLifecycleStateEnum
+func GetListBudgetsLifecycleStateEnumValues() []ListBudgetsLifecycleStateEnum {
+	values := make([]ListBudgetsLifecycleStateEnum, 0)
+	for _, v := range mappingListBudgetsLifecycleState {
 		values = append(values, v)
 	}
 	return values

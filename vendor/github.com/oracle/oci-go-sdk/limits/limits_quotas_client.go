@@ -29,6 +29,22 @@ func NewQuotasClientWithConfigurationProvider(configProvider common.Configuratio
 		return
 	}
 
+	return newQuotasClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewQuotasClientWithOboToken Creates a new default Quotas client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewQuotasClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client QuotasClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newQuotasClientFromBaseClient(baseClient, configProvider)
+}
+
+func newQuotasClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client QuotasClient, err error) {
 	client = QuotasClient{BaseClient: baseClient}
 	client.BasePath = ""
 	err = client.setConfigurationProvider(configProvider)

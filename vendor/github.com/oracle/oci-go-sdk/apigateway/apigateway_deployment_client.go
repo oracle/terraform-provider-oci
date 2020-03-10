@@ -31,6 +31,22 @@ func NewDeploymentClientWithConfigurationProvider(configProvider common.Configur
 		return
 	}
 
+	return newDeploymentClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewDeploymentClientWithOboToken Creates a new default Deployment client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewDeploymentClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DeploymentClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newDeploymentClientFromBaseClient(baseClient, configProvider)
+}
+
+func newDeploymentClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DeploymentClient, err error) {
 	client = DeploymentClient{BaseClient: baseClient}
 	client.BasePath = "20190501"
 	err = client.setConfigurationProvider(configProvider)

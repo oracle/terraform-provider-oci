@@ -59,6 +59,9 @@ const (
 	// requestHeaderXContentSHA256 The key for passing a header to indicate SHA256 hash
 	requestHeaderXContentSHA256 = "X-Content-SHA256"
 
+	// requestHeaderOpcOboToken The key for passing a header to use obo token
+	requestHeaderOpcOboToken = "opc-obo-token"
+
 	// private constants
 	defaultScheme            = "https"
 	defaultSDKMarker         = "Oracle-GoSDK"
@@ -152,6 +155,26 @@ func NewClientWithConfig(configProvider ConfigurationProvider) (client BaseClien
 	}
 
 	client = defaultBaseClient(configProvider)
+
+	return
+}
+
+// NewClientWithOboToken Create a new client that will use oboToken for auth
+func NewClientWithOboToken(configProvider ConfigurationProvider, oboToken string) (client BaseClient, err error) {
+	client, err = NewClientWithConfig(configProvider)
+	if err != nil {
+		return
+	}
+
+	// Interceptor to add obo token header
+	client.Interceptor = func(request *http.Request) error {
+		request.Header.Add(requestHeaderOpcOboToken, oboToken)
+		return nil
+	}
+	// Obo token will also be signed
+	defaultHeaders := append(DefaultGenericHeaders(), requestHeaderOpcOboToken)
+	client.Signer = RequestSigner(configProvider, defaultHeaders, DefaultBodyHeaders())
+
 	return
 }
 
