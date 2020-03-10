@@ -29,6 +29,22 @@ func NewOsManagementClientWithConfigurationProvider(configProvider common.Config
 		return
 	}
 
+	return newOsManagementClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewOsManagementClientWithOboToken Creates a new default OsManagement client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewOsManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OsManagementClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newOsManagementClientFromBaseClient(baseClient, configProvider)
+}
+
+func newOsManagementClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OsManagementClient, err error) {
 	client = OsManagementClient{BaseClient: baseClient}
 	client.BasePath = "20190801"
 	err = client.setConfigurationProvider(configProvider)

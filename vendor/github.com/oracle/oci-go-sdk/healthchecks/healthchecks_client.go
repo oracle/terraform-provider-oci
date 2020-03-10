@@ -31,6 +31,22 @@ func NewHealthChecksClientWithConfigurationProvider(configProvider common.Config
 		return
 	}
 
+	return newHealthChecksClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewHealthChecksClientWithOboToken Creates a new default HealthChecks client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewHealthChecksClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client HealthChecksClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newHealthChecksClientFromBaseClient(baseClient, configProvider)
+}
+
+func newHealthChecksClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client HealthChecksClient, err error) {
 	client = HealthChecksClient{BaseClient: baseClient}
 	client.BasePath = "20180501"
 	err = client.setConfigurationProvider(configProvider)

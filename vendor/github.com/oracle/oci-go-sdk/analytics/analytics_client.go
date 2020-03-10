@@ -29,6 +29,22 @@ func NewAnalyticsClientWithConfigurationProvider(configProvider common.Configura
 		return
 	}
 
+	return newAnalyticsClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewAnalyticsClientWithOboToken Creates a new default Analytics client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewAnalyticsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client AnalyticsClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newAnalyticsClientFromBaseClient(baseClient, configProvider)
+}
+
+func newAnalyticsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client AnalyticsClient, err error) {
 	client = AnalyticsClient{BaseClient: baseClient}
 	client.BasePath = "20190331"
 	err = client.setConfigurationProvider(configProvider)
