@@ -30,6 +30,22 @@ func NewEventsClientWithConfigurationProvider(configProvider common.Configuratio
 		return
 	}
 
+	return newEventsClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewEventsClientWithOboToken Creates a new default Events client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewEventsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client EventsClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newEventsClientFromBaseClient(baseClient, configProvider)
+}
+
+func newEventsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client EventsClient, err error) {
 	client = EventsClient{BaseClient: baseClient}
 	client.BasePath = "20181201"
 	err = client.setConfigurationProvider(configProvider)

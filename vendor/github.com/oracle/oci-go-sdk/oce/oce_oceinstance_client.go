@@ -29,6 +29,22 @@ func NewOceInstanceClientWithConfigurationProvider(configProvider common.Configu
 		return
 	}
 
+	return newOceInstanceClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewOceInstanceClientWithOboToken Creates a new default OceInstance client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewOceInstanceClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OceInstanceClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newOceInstanceClientFromBaseClient(baseClient, configProvider)
+}
+
+func newOceInstanceClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OceInstanceClient, err error) {
 	client = OceInstanceClient{BaseClient: baseClient}
 	client.BasePath = "20190912"
 	err = client.setConfigurationProvider(configProvider)

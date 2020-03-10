@@ -29,6 +29,22 @@ func NewDataFlowClientWithConfigurationProvider(configProvider common.Configurat
 		return
 	}
 
+	return newDataFlowClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewDataFlowClientWithOboToken Creates a new default DataFlow client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewDataFlowClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DataFlowClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newDataFlowClientFromBaseClient(baseClient, configProvider)
+}
+
+func newDataFlowClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DataFlowClient, err error) {
 	client = DataFlowClient{BaseClient: baseClient}
 	client.BasePath = "20200129"
 	err = client.setConfigurationProvider(configProvider)

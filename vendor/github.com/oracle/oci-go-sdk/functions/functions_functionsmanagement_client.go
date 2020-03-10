@@ -29,6 +29,22 @@ func NewFunctionsManagementClientWithConfigurationProvider(configProvider common
 		return
 	}
 
+	return newFunctionsManagementClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewFunctionsManagementClientWithOboToken Creates a new default FunctionsManagement client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewFunctionsManagementClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client FunctionsManagementClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newFunctionsManagementClientFromBaseClient(baseClient, configProvider)
+}
+
+func newFunctionsManagementClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client FunctionsManagementClient, err error) {
 	client = FunctionsManagementClient{BaseClient: baseClient}
 	client.BasePath = "20181201"
 	err = client.setConfigurationProvider(configProvider)

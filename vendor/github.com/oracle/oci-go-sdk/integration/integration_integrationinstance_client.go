@@ -29,6 +29,22 @@ func NewIntegrationInstanceClientWithConfigurationProvider(configProvider common
 		return
 	}
 
+	return newIntegrationInstanceClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewIntegrationInstanceClientWithOboToken Creates a new default IntegrationInstance client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewIntegrationInstanceClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client IntegrationInstanceClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newIntegrationInstanceClientFromBaseClient(baseClient, configProvider)
+}
+
+func newIntegrationInstanceClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client IntegrationInstanceClient, err error) {
 	client = IntegrationInstanceClient{BaseClient: baseClient}
 	client.BasePath = "20190131"
 	err = client.setConfigurationProvider(configProvider)
