@@ -48,6 +48,13 @@ const (
 	SUCCEEDED = "SUCCEEDED"
 )
 
+type deleteObjectInDestinationBucketStateEnum string
+
+// Set of constants representing the allowable values for ListCustomProtectionRulesLifecycleStateEnum
+const (
+	deleteObjectInDestinationBucketStateEnumAccept deleteObjectInDestinationBucketStateEnum = "ACCEPT"
+)
+
 const (
 	OpcNextPageHeader = "Opc-Next-Page"
 )

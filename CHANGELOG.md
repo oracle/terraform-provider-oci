@@ -4,6 +4,7 @@
 - Support for pod security policy in kubernetes
 - Support for Oracle Big Data Service
 - Support for application definition parameters update in dataflow application
+- Support for Cross Region Replication
 
 ## 3.68.0 (March 25, 2020)
 

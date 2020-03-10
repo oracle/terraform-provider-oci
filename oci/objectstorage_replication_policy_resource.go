@@ -1,0 +1,275 @@
+// Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
+
+package oci
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"net/url"
+	"regexp"
+	"strings"
+
+	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
+
+	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
+)
+
+func init() {
+	RegisterResource("oci_objectstorage_replication_policy", ObjectStorageReplicationPolicyResource())
+}
+
+func ObjectStorageReplicationPolicyResource() *schema.Resource {
+	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
+		Timeouts: DefaultTimeout,
+		Create:   createObjectStorageReplicationPolicy,
+		Read:     readObjectStorageReplicationPolicy,
+		Delete:   deleteObjectStorageReplicationPolicy,
+		Schema: map[string]*schema.Schema{
+			// Required
+			"bucket": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"destination_bucket_name": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"destination_region_name": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"name": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"namespace": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"delete_object_in_destination_bucket": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					"ACCEPT",
+					"DECLINE",
+				}, true),
+			},
+
+			// Optional
+
+			// Computed
+			"status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"status_message": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_last_sync": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+		},
+	}
+}
+
+func createObjectStorageReplicationPolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageReplicationPolicyResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).objectStorageClient
+
+	return CreateResource(d, sync)
+}
+
+func readObjectStorageReplicationPolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageReplicationPolicyResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).objectStorageClient
+
+	return ReadResource(sync)
+}
+
+func deleteObjectStorageReplicationPolicy(d *schema.ResourceData, m interface{}) error {
+	sync := &ObjectStorageReplicationPolicyResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.DisableNotFoundRetries = true
+
+	return DeleteResource(d, sync)
+}
+
+type ObjectStorageReplicationPolicyResourceCrud struct {
+	BaseCrud
+	Client                 *oci_object_storage.ObjectStorageClient
+	Res                    *oci_object_storage.ReplicationPolicy
+	DisableNotFoundRetries bool
+}
+
+func (s *ObjectStorageReplicationPolicyResourceCrud) ID() string {
+	return getReplicationPolicyCompositeId(s.D.Get("bucket").(string), s.D.Get("namespace").(string), *s.Res.Id)
+}
+
+func (s *ObjectStorageReplicationPolicyResourceCrud) Create() error {
+	if state, ok := s.D.GetOkExists("delete_object_in_destination_bucket"); ok {
+		if deleteObjectInDestinationBucketStateEnum(state.(string)) != deleteObjectInDestinationBucketStateEnumAccept {
+			return fmt.Errorf(`If you have 'delete_object_in_destination_bucket' set to 'DECLINE',
+Objects in the destination bucket will not be deleted and therefore you can not create the replication policy. If you 
+are sure to deleted all the objects in the destination buckets, change 'delete_object_in_destination_bucket' set to 'ACCEPT'`)
+		}
+	}
+	request := oci_object_storage.CreateReplicationPolicyRequest{}
+
+	if bucket, ok := s.D.GetOkExists("bucket"); ok {
+		tmp := bucket.(string)
+		request.BucketName = &tmp
+	}
+
+	if destinationBucketName, ok := s.D.GetOkExists("destination_bucket_name"); ok {
+		tmp := destinationBucketName.(string)
+		request.DestinationBucketName = &tmp
+	}
+
+	if destinationRegionName, ok := s.D.GetOkExists("destination_region_name"); ok {
+		tmp := destinationRegionName.(string)
+		request.DestinationRegionName = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
+	}
+
+	if namespace, ok := s.D.GetOkExists("namespace"); ok {
+		tmp := namespace.(string)
+		request.NamespaceName = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	response, err := s.Client.CreateReplicationPolicy(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.ReplicationPolicy
+	return nil
+}
+
+func (s *ObjectStorageReplicationPolicyResourceCrud) Get() error {
+	request := oci_object_storage.GetReplicationPolicyRequest{}
+
+	bucket, namespace, replicationId, err := parseReplicationPolicyCompositeId(s.D.Id())
+	if err == nil {
+		request.BucketName = &bucket
+		request.NamespaceName = &namespace
+		request.ReplicationId = &replicationId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	response, err := s.Client.GetReplicationPolicy(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.ReplicationPolicy
+	return nil
+}
+
+func (s *ObjectStorageReplicationPolicyResourceCrud) Delete() error {
+	request := oci_object_storage.DeleteReplicationPolicyRequest{}
+
+	bucket, namespace, replicationId, err := parseReplicationPolicyCompositeId(s.D.Id())
+	if err == nil {
+		request.BucketName = &bucket
+		request.NamespaceName = &namespace
+		request.ReplicationId = &replicationId
+	} else {
+		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+
+	_, err = s.Client.DeleteReplicationPolicy(context.Background(), request)
+	return err
+}
+
+func (s *ObjectStorageReplicationPolicyResourceCrud) SetData() error {
+
+	bucket, namespace, replicationId, err := parseReplicationPolicyCompositeId(s.D.Id())
+	if err == nil {
+		s.D.Set("bucket", &bucket)
+		s.D.Set("namespace", &namespace)
+		s.D.Set("replication_id", &replicationId)
+	} else {
+		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
+	if s.Res.DestinationBucketName != nil {
+		s.D.Set("destination_bucket_name", *s.Res.DestinationBucketName)
+	}
+
+	if s.Res.DestinationRegionName != nil {
+		s.D.Set("destination_region_name", *s.Res.DestinationRegionName)
+	}
+
+	if s.Res.Name != nil {
+		s.D.Set("name", *s.Res.Name)
+	}
+
+	s.D.Set("status", s.Res.Status)
+
+	if s.Res.StatusMessage != nil {
+		s.D.Set("status_message", *s.Res.StatusMessage)
+	}
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeLastSync != nil {
+		s.D.Set("time_last_sync", s.Res.TimeLastSync.String())
+	}
+
+	return nil
+}
+
+func getReplicationPolicyCompositeId(bucket string, namespace string, replicationId string) string {
+	bucket = url.PathEscape(bucket)
+	namespace = url.PathEscape(namespace)
+	replicationId = url.PathEscape(replicationId)
+	compositeId := "n/" + namespace + "/b/" + bucket + "/replicationPolicies/" + replicationId
+	return compositeId
+}
+
+func parseReplicationPolicyCompositeId(compositeId string) (bucket string, namespace string, replicationId string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("n/.*/b/.*/replicationPolicies/.*", compositeId)
+	if !match || len(parts) != 6 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	namespace, _ = url.PathUnescape(parts[1])
+	bucket, _ = url.PathUnescape(parts[3])
+	replicationId, _ = url.PathUnescape(parts[5])
+
+	return
+}

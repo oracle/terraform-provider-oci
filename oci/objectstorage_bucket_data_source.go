@@ -105,6 +105,10 @@ func (s *ObjectStorageBucketDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsReadOnly != nil {
+		s.D.Set("is_read_only", *s.Res.IsReadOnly)
+	}
+
 	if s.Res.Id != nil {
 		s.D.Set("bucket_id", *s.Res.Id)
 	}
@@ -121,6 +125,10 @@ func (s *ObjectStorageBucketDataSourceCrud) SetData() error {
 
 	if s.Res.ObjectLifecyclePolicyEtag != nil {
 		s.D.Set("object_lifecycle_policy_etag", *s.Res.ObjectLifecyclePolicyEtag)
+	}
+
+	if s.Res.ReplicationEnabled != nil {
+		s.D.Set("replication_enabled", *s.Res.ReplicationEnabled)
 	}
 
 	s.D.Set("storage_tier", s.Res.StorageTier)
