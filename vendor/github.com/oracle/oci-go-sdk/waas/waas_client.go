@@ -29,6 +29,22 @@ func NewWaasClientWithConfigurationProvider(configProvider common.ConfigurationP
 		return
 	}
 
+	return newWaasClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewWaasClientWithOboToken Creates a new default Waas client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewWaasClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client WaasClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newWaasClientFromBaseClient(baseClient, configProvider)
+}
+
+func newWaasClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client WaasClient, err error) {
 	client = WaasClient{BaseClient: baseClient}
 	client.BasePath = "20181116"
 	err = client.setConfigurationProvider(configProvider)

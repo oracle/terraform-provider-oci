@@ -29,6 +29,22 @@ func NewFileStorageClientWithConfigurationProvider(configProvider common.Configu
 		return
 	}
 
+	return newFileStorageClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewFileStorageClientWithOboToken Creates a new default FileStorage client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewFileStorageClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client FileStorageClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newFileStorageClientFromBaseClient(baseClient, configProvider)
+}
+
+func newFileStorageClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client FileStorageClient, err error) {
 	client = FileStorageClient{BaseClient: baseClient}
 	client.BasePath = "20171215"
 	err = client.setConfigurationProvider(configProvider)

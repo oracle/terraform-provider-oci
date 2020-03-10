@@ -29,6 +29,22 @@ func NewResourceManagerClientWithConfigurationProvider(configProvider common.Con
 		return
 	}
 
+	return newResourceManagerClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewResourceManagerClientWithOboToken Creates a new default ResourceManager client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewResourceManagerClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ResourceManagerClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newResourceManagerClientFromBaseClient(baseClient, configProvider)
+}
+
+func newResourceManagerClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ResourceManagerClient, err error) {
 	client = ResourceManagerClient{BaseClient: baseClient}
 	client.BasePath = "20180917"
 	err = client.setConfigurationProvider(configProvider)
