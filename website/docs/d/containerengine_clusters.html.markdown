@@ -67,6 +67,8 @@ The following attributes are exported:
 	* `add_ons` - Configurable cluster add-ons
 		* `is_kubernetes_dashboard_enabled` - Whether or not to enable the Kubernetes Dashboard add-on.
 		* `is_tiller_enabled` - Whether or not to enable the Tiller add-on.
+	* `admission_controller_options` - Configurable cluster admission controllers
+		* `is_pod_security_policy_enabled` - Whether or not to enable the Pod Security Policy admission controller.
 	* `kubernetes_network_config` - Network configuration for Kubernetes.
 		* `pods_cidr` - The CIDR block for Kubernetes pods.
 		* `services_cidr` - The CIDR block for Kubernetes services.
