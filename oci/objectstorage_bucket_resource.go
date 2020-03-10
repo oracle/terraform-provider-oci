@@ -109,8 +109,16 @@ func ObjectStorageBucketResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_read_only": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"object_lifecycle_policy_etag": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"replication_enabled": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 			"time_created": {
@@ -388,6 +396,10 @@ func (s *ObjectStorageBucketResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsReadOnly != nil {
+		s.D.Set("is_read_only", *s.Res.IsReadOnly)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
@@ -410,6 +422,10 @@ func (s *ObjectStorageBucketResourceCrud) SetData() error {
 
 	if s.Res.ObjectLifecyclePolicyEtag != nil {
 		s.D.Set("object_lifecycle_policy_etag", *s.Res.ObjectLifecyclePolicyEtag)
+	}
+
+	if s.Res.ReplicationEnabled != nil {
+		s.D.Set("replication_enabled", *s.Res.ReplicationEnabled)
 	}
 
 	s.D.Set("storage_tier", s.Res.StorageTier)
