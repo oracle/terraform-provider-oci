@@ -30,6 +30,22 @@ func NewAutoScalingClientWithConfigurationProvider(configProvider common.Configu
 		return
 	}
 
+	return newAutoScalingClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewAutoScalingClientWithOboToken Creates a new default AutoScaling client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewAutoScalingClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client AutoScalingClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newAutoScalingClientFromBaseClient(baseClient, configProvider)
+}
+
+func newAutoScalingClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client AutoScalingClient, err error) {
 	client = AutoScalingClient{BaseClient: baseClient}
 	client.BasePath = "20181001"
 	err = client.setConfigurationProvider(configProvider)

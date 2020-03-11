@@ -30,6 +30,22 @@ func NewDnsClientWithConfigurationProvider(configProvider common.ConfigurationPr
 		return
 	}
 
+	return newDnsClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewDnsClientWithOboToken Creates a new default Dns client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewDnsClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client DnsClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newDnsClientFromBaseClient(baseClient, configProvider)
+}
+
+func newDnsClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client DnsClient, err error) {
 	client = DnsClient{BaseClient: baseClient}
 	client.BasePath = "20180115"
 	err = client.setConfigurationProvider(configProvider)

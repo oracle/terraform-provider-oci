@@ -30,7 +30,7 @@ type UpdateAlertRuleDetails struct {
 	// The type of threshold.
 	ThresholdType ThresholdTypeEnum `mandatory:"false" json:"thresholdType,omitempty"`
 
-	// The audience that will received the alert when it triggers.
+	// The audience that will receive the alert when it triggers. If you need to clear out this value, please pass in an empty string instead of null.
 	Recipients *string `mandatory:"false" json:"recipients"`
 
 	// The description of the alert rule

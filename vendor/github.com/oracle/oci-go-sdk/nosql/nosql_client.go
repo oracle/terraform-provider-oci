@@ -32,6 +32,22 @@ func NewNosqlClientWithConfigurationProvider(configProvider common.Configuration
 		return
 	}
 
+	return newNosqlClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewNosqlClientWithOboToken Creates a new default Nosql client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewNosqlClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client NosqlClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newNosqlClientFromBaseClient(baseClient, configProvider)
+}
+
+func newNosqlClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client NosqlClient, err error) {
 	client = NosqlClient{BaseClient: baseClient}
 	client.BasePath = "20190828"
 	err = client.setConfigurationProvider(configProvider)

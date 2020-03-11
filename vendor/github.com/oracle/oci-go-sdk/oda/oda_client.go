@@ -29,6 +29,22 @@ func NewOdaClientWithConfigurationProvider(configProvider common.ConfigurationPr
 		return
 	}
 
+	return newOdaClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewOdaClientWithOboToken Creates a new default Oda client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewOdaClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client OdaClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newOdaClientFromBaseClient(baseClient, configProvider)
+}
+
+func newOdaClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client OdaClient, err error) {
 	client = OdaClient{BaseClient: baseClient}
 	client.BasePath = "20190506"
 	err = client.setConfigurationProvider(configProvider)
