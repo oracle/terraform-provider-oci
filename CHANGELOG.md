@@ -1,4 +1,4 @@
-## 3.66.0 (Unreleased)
+## 3.66.0 (March 11, 2020)
 
 ### Added
 - Support for budget alerts service integration with events service
