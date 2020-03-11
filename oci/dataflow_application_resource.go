@@ -47,12 +47,10 @@ func DataflowApplicationResource() *schema.Resource {
 			"file_uri": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"language": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"num_executors": {
 				Type:     schema.TypeInt,
@@ -61,7 +59,6 @@ func DataflowApplicationResource() *schema.Resource {
 			"spark_version": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 
 			// Optional
@@ -76,8 +73,6 @@ func DataflowApplicationResource() *schema.Resource {
 			"class_name": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
-				ForceNew: true,
 			},
 			"configuration": {
 				Type:     schema.TypeMap,
@@ -380,6 +375,11 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 		}
 	}
 
+	if className, ok := s.D.GetOkExists("class_name"); ok {
+		tmp := className.(string)
+		request.ClassName = &tmp
+	}
+
 	if configuration, ok := s.D.GetOkExists("configuration"); ok {
 		request.Configuration = objectMapToStringMap(configuration.(map[string]interface{}))
 	}
@@ -412,8 +412,17 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 		request.ExecutorShape = &tmp
 	}
 
+	if fileUri, ok := s.D.GetOkExists("file_uri"); ok {
+		tmp := fileUri.(string)
+		request.FileUri = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if language, ok := s.D.GetOkExists("language"); ok {
+		request.Language = oci_dataflow.ApplicationLanguageEnum(language.(string))
 	}
 
 	if logsBucketUri, ok := s.D.GetOkExists("logs_bucket_uri"); ok {
@@ -441,6 +450,11 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 		if len(tmp) != 0 || s.D.HasChange("parameters") {
 			request.Parameters = tmp
 		}
+	}
+
+	if sparkVersion, ok := s.D.GetOkExists("spark_version"); ok {
+		tmp := sparkVersion.(string)
+		request.SparkVersion = &tmp
 	}
 
 	if warehouseBucketUri, ok := s.D.GetOkExists("warehouse_bucket_uri"); ok {
