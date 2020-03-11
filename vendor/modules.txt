@@ -523,6 +523,7 @@ github.com/oracle/oci-go-sdk/ons
 github.com/oracle/oci-go-sdk/osmanagement
 github.com/oracle/oci-go-sdk/resourcemanager
 github.com/oracle/oci-go-sdk/streaming
+github.com/oracle/oci-go-sdk/vault
 github.com/oracle/oci-go-sdk/waas
 github.com/oracle/oci-go-sdk/workrequests
 # github.com/packer-community/winrmcp v0.0.0-20180102160824-81144009af58

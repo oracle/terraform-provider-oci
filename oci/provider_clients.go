@@ -36,6 +36,7 @@ import (
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/resourcemanager"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
+	oci_vault "github.com/oracle/oci-go-sdk/vault"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 
@@ -86,6 +87,7 @@ type OracleClients struct {
 	redirectClient                 *oci_waas.RedirectClient
 	resourceManagerClient          *oci_resourcemanager.ResourceManagerClient
 	streamAdminClient              *oci_streaming.StreamAdminClient
+	vaultsClient                   *oci_vault.VaultsClient
 	virtualNetworkClient           *oci_core.VirtualNetworkClient
 	waasClient                     *oci_waas.WaasClient
 	gatewayWorkRequestsClient      *oci_apigateway.WorkRequestsClient
@@ -546,6 +548,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.streamAdminClient = &streamAdminClient
+
+	vaultsClient, err := oci_vault.NewVaultsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&vaultsClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.vaultsClient = &vaultsClient
 
 	virtualNetworkClient, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(configProvider)
 	if err != nil {
