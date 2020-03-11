@@ -166,6 +166,10 @@ func (s *OceOceInstancesDataSourceCrud) SetData() error {
 			oceInstance["time_updated"] = r.TimeUpdated.String()
 		}
 
+		if r.WafPrimaryDomain != nil {
+			oceInstance["waf_primary_domain"] = *r.WafPrimaryDomain
+		}
+
 		resources = append(resources, oceInstance)
 	}
 
