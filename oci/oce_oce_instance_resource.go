@@ -93,6 +93,11 @@ func OceOceInstanceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"waf_primary_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"guid": {
@@ -253,6 +258,11 @@ func (s *OceOceInstanceResourceCrud) Create() error {
 	if tenancyName, ok := s.D.GetOkExists("tenancy_name"); ok {
 		tmp := tenancyName.(string)
 		request.TenancyName = &tmp
+	}
+
+	if wafPrimaryDomain, ok := s.D.GetOkExists("waf_primary_domain"); ok {
+		tmp := wafPrimaryDomain.(string)
+		request.WafPrimaryDomain = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oce")
@@ -438,6 +448,11 @@ func (s *OceOceInstanceResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.OceInstanceId = &tmp
 
+	if wafPrimaryDomain, ok := s.D.GetOkExists("waf_primary_domain"); ok {
+		tmp := wafPrimaryDomain.(string)
+		request.WafPrimaryDomain = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "oce")
 
 	response, err := s.Client.UpdateOceInstance(context.Background(), request)
@@ -528,6 +543,10 @@ func (s *OceOceInstanceResourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.WafPrimaryDomain != nil {
+		s.D.Set("waf_primary_domain", *s.Res.WafPrimaryDomain)
 	}
 
 	return nil

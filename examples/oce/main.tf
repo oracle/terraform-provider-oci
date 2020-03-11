@@ -30,6 +30,12 @@ resource "oci_oce_oce_instance" "test_oce_instance" {
   object_storage_namespace = "${var.tenancy_name}"
   tenancy_id               = "${var.tenancy_ocid}"
   tenancy_name             = "${var.tenancy_name}"
+
+  #optional
+  freeform_tags       = "${map("freeformkey", "freeformvalue")}"
+  description         = "description"
+  instance_usage_type = "NONPRIMARY"
+  waf_primary_domain  = "oracle.com"
 }
 
 data "oci_oce_oce_instances" "test_oce_instances" {

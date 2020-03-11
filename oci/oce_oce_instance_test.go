@@ -53,6 +53,7 @@ var (
 		"description":              Representation{repType: Optional, create: `description`, update: `description2`},
 		"freeform_tags":            Representation{repType: Optional, create: map[string]string{"bar-key": "value"}, update: map[string]string{"Department": "Accounting"}},
 		"instance_usage_type":      Representation{repType: Optional, create: `NONPRIMARY`},
+		"waf_primary_domain":       Representation{repType: Optional, create: `oracle.com`, update: `java.com`},
 	}
 
 	OceInstanceResourceDependencies = generateDataSourceFromRepresentationMap("oci_identity_tenancy", "test_tenancy", Required, Create, tenancySingularDataSourceRepresentation) +
@@ -138,6 +139,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_name"),
+					resource.TestCheckResourceAttr(resourceName, "waf_primary_domain", "oracle.com"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -173,6 +175,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_name"),
+					resource.TestCheckResourceAttr(resourceName, "waf_primary_domain", "oracle.com"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -203,6 +206,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "object_storage_namespace"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "tenancy_name"),
+					resource.TestCheckResourceAttr(resourceName, "waf_primary_domain", "java.com"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -242,6 +246,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.tenancy_name"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.time_created"),
 					resource.TestCheckResourceAttrSet(datasourceName, "oce_instances.0.time_updated"),
+					resource.TestCheckResourceAttr(datasourceName, "oce_instances.0.waf_primary_domain", "java.com"),
 				),
 			},
 			// verify singular datasource
@@ -267,6 +272,7 @@ func TestOceOceInstanceResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state_message"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "waf_primary_domain", "java.com"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests
