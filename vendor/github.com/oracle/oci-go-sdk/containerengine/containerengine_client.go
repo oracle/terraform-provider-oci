@@ -31,6 +31,22 @@ func NewContainerEngineClientWithConfigurationProvider(configProvider common.Con
 		return
 	}
 
+	return newContainerEngineClientFromBaseClient(baseClient, configProvider)
+}
+
+// NewContainerEngineClientWithOboToken Creates a new default ContainerEngine client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//  as well as reading the region
+func NewContainerEngineClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string) (client ContainerEngineClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newContainerEngineClientFromBaseClient(baseClient, configProvider)
+}
+
+func newContainerEngineClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client ContainerEngineClient, err error) {
 	client = ContainerEngineClient{BaseClient: baseClient}
 	client.BasePath = "20180222"
 	err = client.setConfigurationProvider(configProvider)

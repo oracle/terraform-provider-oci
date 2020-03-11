@@ -29,6 +29,22 @@ func NewFunctionsInvokeClientWithConfigurationProvider(configProvider common.Con
 		return
 	}
 
+	return newFunctionsInvokeClientFromBaseClient(baseClient, configProvider, endpoint)
+}
+
+// NewFunctionsInvokeClientWithOboToken Creates a new default FunctionsInvoke client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//
+func NewFunctionsInvokeClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string, endpoint string) (client FunctionsInvokeClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newFunctionsInvokeClientFromBaseClient(baseClient, configProvider, endpoint)
+}
+
+func newFunctionsInvokeClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider, endpoint string) (client FunctionsInvokeClient, err error) {
 	client = FunctionsInvokeClient{BaseClient: baseClient}
 	client.BasePath = "20181201"
 	client.Host = endpoint

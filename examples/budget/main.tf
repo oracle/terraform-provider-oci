@@ -77,7 +77,6 @@ output "budgets" {
 resource "oci_budget_alert_rule" "test_alert_rule" {
   #Required
   budget_id      = "${oci_budget_budget.test_budget.id}"
-  recipients     = "JohnSmith@example.com"
   threshold      = "100"
   threshold_type = "ABSOLUTE"
   type           = "ACTUAL"
@@ -86,6 +85,7 @@ resource "oci_budget_alert_rule" "test_alert_rule" {
   description  = "alertRuleDescription"
   display_name = "alertRule"
   message      = "possible overspend"
+  recipients   = "JohnSmith@example.com"
 }
 
 data "oci_budget_alert_rules" "test_alert_rules" {

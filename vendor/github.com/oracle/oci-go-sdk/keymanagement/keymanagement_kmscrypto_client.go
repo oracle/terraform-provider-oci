@@ -29,6 +29,22 @@ func NewKmsCryptoClientWithConfigurationProvider(configProvider common.Configura
 		return
 	}
 
+	return newKmsCryptoClientFromBaseClient(baseClient, configProvider, endpoint)
+}
+
+// NewKmsCryptoClientWithOboToken Creates a new default KmsCrypto client with the given configuration provider.
+// The obotoken will be added to default headers and signed; the configuration provider will be used for the signer
+//
+func NewKmsCryptoClientWithOboToken(configProvider common.ConfigurationProvider, oboToken string, endpoint string) (client KmsCryptoClient, err error) {
+	baseClient, err := common.NewClientWithOboToken(configProvider, oboToken)
+	if err != nil {
+		return
+	}
+
+	return newKmsCryptoClientFromBaseClient(baseClient, configProvider, endpoint)
+}
+
+func newKmsCryptoClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider, endpoint string) (client KmsCryptoClient, err error) {
 	client = KmsCryptoClient{BaseClient: baseClient}
 	client.BasePath = ""
 	client.Host = endpoint

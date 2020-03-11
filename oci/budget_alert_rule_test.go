@@ -41,7 +41,6 @@ var (
 
 	alertRuleRepresentation = map[string]interface{}{
 		"budget_id":      Representation{repType: Required, create: `${oci_budget_budget.test_budget.id}`},
-		"recipients":     Representation{repType: Required, create: `JohnSmith@example.com`, update: `SmithJohn@example.com`},
 		"threshold":      Representation{repType: Required, create: `100`, update: `200`},
 		"threshold_type": Representation{repType: Required, create: `PERCENTAGE`, update: `ABSOLUTE`},
 		"type":           Representation{repType: Required, create: `ACTUAL`, update: `FORECAST`},
@@ -50,6 +49,7 @@ var (
 		"display_name":   Representation{repType: Optional, create: `displayName`, update: `displayName2`},
 		"freeform_tags":  Representation{repType: Optional, create: map[string]string{"Department": "Finance"}, update: map[string]string{"Department": "Accounting"}},
 		"message":        Representation{repType: Optional, create: `message`, update: `message2`},
+		"recipients":     Representation{repType: Optional, create: `JohnSmith@example.com`, update: `SmithJohn@example.com`},
 	}
 
 	AlertRuleResourceDependencies = generateResourceFromRepresentationMap("oci_budget_budget", "test_budget", Required, Create, budgetRepresentationWithTargetCompartmentId) +
@@ -85,7 +85,6 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 					generateResourceFromRepresentationMap("oci_budget_alert_rule", "test_alert_rule", Required, Create, alertRuleRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(resourceName, "budget_id"),
-					resource.TestCheckResourceAttr(resourceName, "recipients", "JohnSmith@example.com"),
 					resource.TestCheckResourceAttr(resourceName, "threshold", "100"),
 					resource.TestCheckResourceAttr(resourceName, "threshold_type", "PERCENTAGE"),
 					resource.TestCheckResourceAttr(resourceName, "type", "ACTUAL"),

@@ -26,10 +26,10 @@ type ListAlertRulesRequest struct {
 	// The field to sort by. If not specified, the default is timeCreated.
 	// The default sort order for timeCreated is DESC.
 	// The default sort order for displayName is ASC in alphanumeric order.
-	SortBy *string `mandatory:"false" contributesTo:"query" name:"sortBy"`
+	SortBy ListAlertRulesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The current state of the resource to filter by.
-	LifecycleState *string `mandatory:"false" contributesTo:"query" name:"lifecycleState"`
+	LifecycleState ListAlertRulesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Example: `My new resource`
@@ -104,6 +104,52 @@ var mappingListAlertRulesSortOrder = map[string]ListAlertRulesSortOrderEnum{
 func GetListAlertRulesSortOrderEnumValues() []ListAlertRulesSortOrderEnum {
 	values := make([]ListAlertRulesSortOrderEnum, 0)
 	for _, v := range mappingListAlertRulesSortOrder {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListAlertRulesSortByEnum Enum with underlying type: string
+type ListAlertRulesSortByEnum string
+
+// Set of constants representing the allowable values for ListAlertRulesSortByEnum
+const (
+	ListAlertRulesSortByTimecreated ListAlertRulesSortByEnum = "timeCreated"
+	ListAlertRulesSortByDisplayname ListAlertRulesSortByEnum = "displayName"
+)
+
+var mappingListAlertRulesSortBy = map[string]ListAlertRulesSortByEnum{
+	"timeCreated": ListAlertRulesSortByTimecreated,
+	"displayName": ListAlertRulesSortByDisplayname,
+}
+
+// GetListAlertRulesSortByEnumValues Enumerates the set of values for ListAlertRulesSortByEnum
+func GetListAlertRulesSortByEnumValues() []ListAlertRulesSortByEnum {
+	values := make([]ListAlertRulesSortByEnum, 0)
+	for _, v := range mappingListAlertRulesSortBy {
+		values = append(values, v)
+	}
+	return values
+}
+
+// ListAlertRulesLifecycleStateEnum Enum with underlying type: string
+type ListAlertRulesLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListAlertRulesLifecycleStateEnum
+const (
+	ListAlertRulesLifecycleStateActive   ListAlertRulesLifecycleStateEnum = "ACTIVE"
+	ListAlertRulesLifecycleStateInactive ListAlertRulesLifecycleStateEnum = "INACTIVE"
+)
+
+var mappingListAlertRulesLifecycleState = map[string]ListAlertRulesLifecycleStateEnum{
+	"ACTIVE":   ListAlertRulesLifecycleStateActive,
+	"INACTIVE": ListAlertRulesLifecycleStateInactive,
+}
+
+// GetListAlertRulesLifecycleStateEnumValues Enumerates the set of values for ListAlertRulesLifecycleStateEnum
+func GetListAlertRulesLifecycleStateEnumValues() []ListAlertRulesLifecycleStateEnum {
+	values := make([]ListAlertRulesLifecycleStateEnum, 0)
+	for _, v := range mappingListAlertRulesLifecycleState {
 		values = append(values, v)
 	}
 	return values
