@@ -384,19 +384,25 @@ func getExadataInfrastructureIds(compartment string) ([]string, error) {
 	var resourceIds []string
 	compartmentId := compartment
 	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
-
-	listExadataInfrastructuresRequest := oci_database.ListExadataInfrastructuresRequest{}
-	listExadataInfrastructuresRequest.CompartmentId = &compartmentId
-	listExadataInfrastructuresRequest.LifecycleState = oci_database.ExadataInfrastructureSummaryLifecycleStateRequiresActivation
-	listExadataInfrastructuresResponse, err := databaseClient.ListExadataInfrastructures(context.Background(), listExadataInfrastructuresRequest)
-
-	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting ExadataInfrastructure list for compartment id : %s , %s \n", compartmentId, err)
+	resourceStatesForDestroy := []oci_database.ExadataInfrastructureSummaryLifecycleStateEnum{
+		oci_database.ExadataInfrastructureSummaryLifecycleStateRequiresActivation,
+		oci_database.ExadataInfrastructureSummaryLifecycleStateActive,
 	}
-	for _, exadataInfrastructure := range listExadataInfrastructuresResponse.Items {
-		id := *exadataInfrastructure.Id
-		resourceIds = append(resourceIds, id)
-		addResourceIdToSweeperResourceIdMap(compartmentId, "ExadataInfrastructureId", id)
+	for _, state := range resourceStatesForDestroy {
+
+		listExadataInfrastructuresRequest := oci_database.ListExadataInfrastructuresRequest{}
+		listExadataInfrastructuresRequest.CompartmentId = &compartmentId
+		listExadataInfrastructuresRequest.LifecycleState = state
+		listExadataInfrastructuresResponse, err := databaseClient.ListExadataInfrastructures(context.Background(), listExadataInfrastructuresRequest)
+
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting ExadataInfrastructure list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, exadataInfrastructure := range listExadataInfrastructuresResponse.Items {
+			id := *exadataInfrastructure.Id
+			resourceIds = append(resourceIds, id)
+			addResourceIdToSweeperResourceIdMap(compartmentId, "ExadataInfrastructureId", id)
+		}
 	}
 	return resourceIds, nil
 }
