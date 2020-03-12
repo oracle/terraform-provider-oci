@@ -43,6 +43,18 @@ type DbNodeSummary struct {
 
 	// The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems.
 	SoftwareStorageSizeInGB *int `mandatory:"false" json:"softwareStorageSizeInGB"`
+
+	// The type of maintenance of dbNode.
+	MaintenanceType DbNodeSummaryMaintenanceTypeEnum `mandatory:"false" json:"maintenanceType,omitempty"`
+
+	// Start date and time of maintenance window.
+	TimeMaintenanceWindowStart *common.SDKTime `mandatory:"false" json:"timeMaintenanceWindowStart"`
+
+	// End date and time of maintenance window.
+	TimeMaintenanceWindowEnd *common.SDKTime `mandatory:"false" json:"timeMaintenanceWindowEnd"`
+
+	// Additional information like a message to customer about the maintenance.
+	AdditionalDetails *string `mandatory:"false" json:"additionalDetails"`
 }
 
 func (m DbNodeSummary) String() string {
@@ -81,6 +93,27 @@ var mappingDbNodeSummaryLifecycleState = map[string]DbNodeSummaryLifecycleStateE
 func GetDbNodeSummaryLifecycleStateEnumValues() []DbNodeSummaryLifecycleStateEnum {
 	values := make([]DbNodeSummaryLifecycleStateEnum, 0)
 	for _, v := range mappingDbNodeSummaryLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// DbNodeSummaryMaintenanceTypeEnum Enum with underlying type: string
+type DbNodeSummaryMaintenanceTypeEnum string
+
+// Set of constants representing the allowable values for DbNodeSummaryMaintenanceTypeEnum
+const (
+	DbNodeSummaryMaintenanceTypeVmdbRebootMigration DbNodeSummaryMaintenanceTypeEnum = "VMDB_REBOOT_MIGRATION"
+)
+
+var mappingDbNodeSummaryMaintenanceType = map[string]DbNodeSummaryMaintenanceTypeEnum{
+	"VMDB_REBOOT_MIGRATION": DbNodeSummaryMaintenanceTypeVmdbRebootMigration,
+}
+
+// GetDbNodeSummaryMaintenanceTypeEnumValues Enumerates the set of values for DbNodeSummaryMaintenanceTypeEnum
+func GetDbNodeSummaryMaintenanceTypeEnumValues() []DbNodeSummaryMaintenanceTypeEnum {
+	values := make([]DbNodeSummaryMaintenanceTypeEnum, 0)
+	for _, v := range mappingDbNodeSummaryMaintenanceType {
 		values = append(values, v)
 	}
 	return values
