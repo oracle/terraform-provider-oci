@@ -33,7 +33,7 @@ data "oci_objectstorage_namespace" "test_namespace" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) This is an optional field representing the tenancy OCID or the compartment OCID within the tenancy whose Object Storage namespace name has to be retrieved. 
+* `compartment_id` - (Optional) This is an optional field representing either the tenancy [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) or the compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) within the tenancy whose Object Storage namespace is to be retrieved. 
 
 
 ## Attributes Reference

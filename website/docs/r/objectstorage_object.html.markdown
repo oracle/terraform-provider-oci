@@ -10,8 +10,11 @@ description: |-
 # oci_objectstorage_object
 This resource provides the Object resource in Oracle Cloud Infrastructure Object Storage service.
 
-Creates a new object or overwrites an existing one. See [Special Instructions for Object Storage
-PUT](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/signingrequests.htm#ObjectStoragePut) for request signature requirements.
+Creates a new object or overwrites an existing object with the same name. The maximum object size allowed by
+PutObject is 50 GiB.
+
+See [Special Instructions for Object Storage PUT](https://docs.cloud.oracle.com/iaas/Content/API/Concepts/signingrequests.htm#ObjectStoragePut)
+for request signature requirements.
 
 
 ## Example Usage
@@ -38,12 +41,16 @@ resource "oci_objectstorage_object" "test_object" {
 
 The following arguments are supported:
 
+* `cache_control` - (Optional) The optional Cache-Control header that defines the caching behavior value to be returned in GetObject and HeadObject responses. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify objects that require caching restrictions. 
+* `content_disposition` - (Optional) The optional Content-Disposition header that defines presentational information for the object to be returned in GetObject and HeadObject responses. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to let users download objects with custom filenames in a browser. 
+* `content_encoding` - (Optional) The optional Content-Encoding header that defines the content encodings that were applied to the object to upload. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to determine what decoding mechanisms need to be applied to obtain the media-type specified by the Content-Type header of the object. 
+* `content_language` - (Optional) The optional Content-Language header that defines the content language of the object to upload. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify and differentiate objects based on a particular language. 
+* `content_length` - (Required) (Updatable) The content length of the body.
+* `content_md5` - (Optional) (Updatable) The optional base-64 header that defines the encoded MD5 hash of the body. If the optional Content-MD5 header is present, Object Storage performs an integrity check on the body of the HTTP request by computing the MD5 hash for the body and comparing it to the MD5 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content MD5 error is returned with the message:
+
+	"The computed MD5 of the request body (ACTUAL_MD5) does not match the Content-MD5 header (HEADER_MD5)" 
+* `content_type` - (Optional) The optional Content-Type header that defines the standard MIME type format of the object. Content type defaults to 'application/octet-stream' if not specified in the PutObject call. Specifying values for this header has no effect on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example, you could use this header to identify and perform special operations on text only objects.  
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
-* `cache_control` - (Optional) The cache-control header value to be returned in GetObjectResponse.
-* `content_disposition` - (Optional) The Content-Disposition header value to be returned in GetObjectResponse.
-* `content_encoding` - (Optional) The content encoding of the object.
-* `content_language` - (Optional) The content language of the object.
-* `content_type` - (Optional) The content type of the object.  Defaults to 'application/octet-stream' if not overridden during the PutObject call.
 * `content` - (Required) The object to upload to the object store. Cannot be defined if `source` or `source_uri_details` is defined.
 * `metadata` - (Optional) Optional user-defined metadata key and value.
 Note: All specified keys must be in lower case.
