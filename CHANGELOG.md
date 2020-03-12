@@ -3,6 +3,7 @@
 ### Added
 - Support for resource discovery in Big Data service
 - Support for Scheduled Cross-Region Backups in `oci_core_volume_backup_policy`
+- Support Closing InstanceConfigurationLaunchInstanceDetails parity gaps with LaunchInstanceDetails 
 
 ### Notes
 `oci_streaming_stream_archiver` data source and resource were not supported by the service and removed from the provider since v3.72.0
