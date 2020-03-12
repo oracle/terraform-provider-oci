@@ -75,12 +75,12 @@ var (
 		"filter":         RepresentationGroup{Required, availabilityDomainDataSourceFilterRepresentation}}
 	availabilityDomainDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `name`},
-		"values": Representation{repType: Required, create: []string{`LOil:US-ASHBURN-AD-2`}},
+		"values": Representation{repType: Required, create: []string{`NyKp:US-ASHBURN-AD-3`}},
 	}
 
 	AvailabilityDomainClusterNetworkConfig = generateDataSourceFromRepresentationMap("oci_identity_availability_domains", "test_availability_domains", Required, Create, availabilityDomainDataSourceClusterNetworkRepresentation)
 
-	instanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation = getUpdatedRepresentationCopy("shape", Representation{repType: Optional, create: `BM.HPC2.36`}, instanceConfigurationInstanceDetailsLaunchDetailsRepresentation)
+	instanceConfigurationInstanceDetailsLaunchDetailsClusterNetworkRepresentation = representationCopyWithRemovedProperties(getUpdatedRepresentationCopy("shape", Representation{repType: Optional, create: `BM.HPC2.36`}, instanceConfigurationInstanceDetailsLaunchDetailsRepresentation), []string{"shape_config", "dedicated_vm_host_id", "is_pv_encryption_in_transit_enabled", "preferred_maintenance_action"})
 
 	ClusterNetworkResourceRequiredOnlyDependencies = AvailabilityDomainClusterNetworkConfig + DefinedTagsDependencies + VcnResourceConfig + DhcpOptionsRequiredOnlyResource + AnotherSecurityListRequiredOnlyResource +
 		generateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", Required, Create, routeTableRepresentation) +
