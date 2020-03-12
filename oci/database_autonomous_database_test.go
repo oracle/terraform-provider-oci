@@ -60,8 +60,14 @@ var (
 		"is_preview_version_with_service_terms_accepted": Representation{repType: Optional, create: `false`},
 		"license_model":   Representation{repType: Optional, create: `LICENSE_INCLUDED`},
 		"whitelisted_ips": Representation{repType: Optional, create: []string{`1.1.1.1/28`}},
+		"timeouts":        RepresentationGroup{Required, autonomousDatabaseTimeoutsRepresentation},
 	}
 
+	autonomousDatabaseTimeoutsRepresentation = map[string]interface{}{
+		"create": Representation{repType: Required, create: `20m`},
+		"update": Representation{repType: Required, create: `20m`},
+		"delete": Representation{repType: Required, create: `20m`},
+	}
 	autonomousDatabaseCopyWithUpdatedIPsRepresentation = getUpdatedRepresentationCopy("whitelisted_ips", Representation{repType: Optional, create: []string{"1.1.1.1/28", "1.1.1.29"}, update: []string{}}, autonomousDatabaseRepresentation)
 
 	autonomousDatabaseRepresentationForClone = representationCopyWithNewProperties(
@@ -376,7 +382,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.#", "1"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.0.all_connection_strings.%", "5"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "connection_strings.0.all_connection_strings.%", "4"),
 
 					resource.TestCheckResourceAttr(singularDatasourceName, "connection_urls.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_urls.0.apex_url"),
