@@ -38,7 +38,7 @@ The following arguments are supported:
 * `name` - (Required) A user-specified name for the pre-authenticated request. Names can be helpful in managing pre-authenticated requests.
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `object` - (Optional) The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket. 
-* `time_expires` - (Required) The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/rfc/rfc3339). After this date the pre-authenticated request will no longer be valid. 
+* `time_expires` - (Required) The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/html/rfc3339). After this date the pre-authenticated request will no longer be valid. 
 
 
 ** IMPORTANT **
@@ -53,11 +53,11 @@ The following attributes are exported:
 * `bucket` - The name of the bucket.  Example: `my-new-bucket1` 
 * `id` - The unique identifier to use when directly addressing the pre-authenticated request.
 * `name` - The user-provided name of the pre-authenticated request.
+* `object` - The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket. Example: test/object1.log 
+* `time_created` - The date when the pre-authenticated request was created as per specification [RFC 3339](https://tools.ietf.org/html/rfc3339). 
+* `time_expires` - The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/html/rfc3339). After this date the pre-authenticated request will no longer be valid. 
 * `namespace` - The top-level namespace used for the request.
-* `object` - The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket. 
 * `par_id` - The unique identifier for the pre-authenticated request. This can be used to manage operations against the pre-authenticated request, such as GET or DELETE.
-* `time_created` - The date when the pre-authenticated request was created as per specification [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
-* `time_expires` - The expiration date for the pre-authenticated request as per [RFC 3339](https://tools.ietf.org/rfc/rfc3339). After this date the pre-authenticated request will no longer be valid. 
 
 ## Import
 

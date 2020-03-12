@@ -36,9 +36,11 @@ func readSingularObjectStorageBucket(d *schema.ResourceData, m interface{}) erro
 }
 
 type ObjectStorageBucketDataSourceCrud struct {
-	D      *schema.ResourceData
-	Client *oci_object_storage.ObjectStorageClient
-	Res    *oci_object_storage.GetBucketResponse
+	D                      *schema.ResourceData
+	Client                 *oci_object_storage.ObjectStorageClient
+	Res                    *oci_object_storage.GetBucketResponse
+	RetentionRuleRes       []*oci_object_storage.RetentionRule
+	DisableNotFoundRetries bool
 }
 
 func (s *ObjectStorageBucketDataSourceCrud) VoidState() {
@@ -47,15 +49,18 @@ func (s *ObjectStorageBucketDataSourceCrud) VoidState() {
 
 func (s *ObjectStorageBucketDataSourceCrud) Get() error {
 	request := oci_object_storage.GetBucketRequest{}
+	listRetentionRulesRequest := oci_object_storage.ListRetentionRulesRequest{}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.BucketName = &tmp
+		listRetentionRulesRequest.BucketName = &tmp
 	}
 
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
 		tmp := namespace.(string)
 		request.NamespaceName = &tmp
+		listRetentionRulesRequest.NamespaceName = &tmp
 	}
 
 	request.Fields = oci_object_storage.GetGetBucketFieldsEnumValues()
@@ -67,6 +72,16 @@ func (s *ObjectStorageBucketDataSourceCrud) Get() error {
 	}
 
 	s.Res = &response
+
+	// using list call as summary and get response is same for a retention rule
+	listRetentionRulesRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "object_storage")
+	listRetentionRulesResponse, e := s.Client.ListRetentionRules(context.Background(), listRetentionRulesRequest)
+	if e != nil {
+		return e
+	}
+
+	s.RetentionRuleRes = listResponseToRetentionRuleRes(listRetentionRulesResponse)
+
 	return nil
 }
 
@@ -136,6 +151,8 @@ func (s *ObjectStorageBucketDataSourceCrud) SetData() error {
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
+
+	s.D.Set("retention_rules", retentionRulesResToSet(s.RetentionRuleRes, true))
 
 	return nil
 }
