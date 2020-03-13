@@ -2,6 +2,7 @@
 
 ### Added
 - Support for creating DB from backup in DBAAS
+- Support for OCI WAF version 1.2
 
 ## 3.67.0 (March 19, 2020)
 
