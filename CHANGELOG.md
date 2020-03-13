@@ -1,4 +1,4 @@
-## 3.67.0 (March 18, 2020)
+## 3.67.0 (Unreleased)
 
 ### Added
 - Support for Handling the VM (hypervisor) reboots info shared with the customer
