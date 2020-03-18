@@ -42,7 +42,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `db_workload` - The Autonomous Database workload type. OLTP indicates an Autonomous Transaction Processing database and DW indicates an Autonomous Data Warehouse database.
+* `db_workload` - The Autonomous Database workload type. The following values are valid:
+	* OLTP - indicates an Autonomous Transaction Processing database
+	* DW - indicates an Autonomous Data Warehouse database 
 * `details` - A URL that points to a detailed description of the Autonomous Database version.
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm). 
 * `version` - A valid Oracle Database version for Autonomous Database.

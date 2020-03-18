@@ -77,7 +77,7 @@ func (r *urlBasedX509CertificateRetriever) Refresh() error {
 
 func (r *urlBasedX509CertificateRetriever) renewCertificate(url string) (certificatePemRaw []byte, certificate *x509.Certificate, err error) {
 	var body bytes.Buffer
-	if body, err = httpGet(r.dispatcher, url); err != nil {
+	if body, _, err = httpGet(r.dispatcher, url); err != nil {
 		return nil, nil, fmt.Errorf("failed to get certificate from %s: %s", url, err.Error())
 	}
 
@@ -97,7 +97,7 @@ func (r *urlBasedX509CertificateRetriever) renewCertificate(url string) (certifi
 
 func (r *urlBasedX509CertificateRetriever) renewPrivateKey(url, passphrase string) (privateKeyPemRaw []byte, privateKey *rsa.PrivateKey, err error) {
 	var body bytes.Buffer
-	if body, err = httpGet(r.dispatcher, url); err != nil {
+	if body, _, err = httpGet(r.dispatcher, url); err != nil {
 		return nil, nil, fmt.Errorf("failed to get private key from %s: %s", url, err.Error())
 	}
 

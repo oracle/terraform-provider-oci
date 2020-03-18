@@ -15,7 +15,7 @@ import (
 
 // httpGet makes a simple HTTP GET request to the given URL, expecting only "200 OK" status code.
 // This is basically for the Instance Metadata Service.
-func httpGet(dispatcher common.HTTPRequestDispatcher, url string) (body bytes.Buffer, err error) {
+func httpGet(dispatcher common.HTTPRequestDispatcher, url string) (body bytes.Buffer, statusCode int, err error) {
 	var response *http.Response
 	request, err := http.NewRequest(http.MethodGet, url, nil)
 
@@ -25,6 +25,7 @@ func httpGet(dispatcher common.HTTPRequestDispatcher, url string) (body bytes.Bu
 		return
 	}
 
+	statusCode = response.StatusCode
 	common.IfDebug(func() {
 		if dump, e := httputil.DumpResponse(response, true); e == nil {
 			common.Logf("Dump Response %v", string(dump))
@@ -38,7 +39,7 @@ func httpGet(dispatcher common.HTTPRequestDispatcher, url string) (body bytes.Bu
 		return
 	}
 
-	if response.StatusCode != http.StatusOK {
+	if statusCode != http.StatusOK {
 		err = fmt.Errorf("HTTP Get failed: URL: %s, Status: %s, Message: %s",
 			url, response.Status, body.String())
 		return

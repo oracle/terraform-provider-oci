@@ -18,6 +18,10 @@ func DatabaseDbNodeDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"additional_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"backup_vnic_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -34,6 +38,10 @@ func DatabaseDbNodeDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"maintenance_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"software_storage_size_in_gb": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -43,6 +51,14 @@ func DatabaseDbNodeDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_maintenance_window_end": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_maintenance_window_start": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -98,6 +114,10 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AdditionalDetails != nil {
+		s.D.Set("additional_details", *s.Res.AdditionalDetails)
+	}
+
 	if s.Res.BackupVnicId != nil {
 		s.D.Set("backup_vnic_id", *s.Res.BackupVnicId)
 	}
@@ -114,6 +134,8 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
 
+	s.D.Set("maintenance_type", s.Res.MaintenanceType)
+
 	if s.Res.SoftwareStorageSizeInGB != nil {
 		s.D.Set("software_storage_size_in_gb", *s.Res.SoftwareStorageSizeInGB)
 	}
@@ -122,6 +144,14 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeMaintenanceWindowEnd != nil {
+		s.D.Set("time_maintenance_window_end", s.Res.TimeMaintenanceWindowEnd.String())
+	}
+
+	if s.Res.TimeMaintenanceWindowStart != nil {
+		s.D.Set("time_maintenance_window_start", s.Res.TimeMaintenanceWindowStart.String())
 	}
 
 	if s.Res.VnicId != nil {
