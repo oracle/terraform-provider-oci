@@ -24,6 +24,9 @@ type DbVersionSummary struct {
 
 	// True if this version of the Oracle Database software supports pluggable databases.
 	SupportsPdb *bool `mandatory:"false" json:"supportsPdb"`
+
+	// True if this version of the Oracle Database software is the preview version.
+	IsPreviewDbVersion *bool `mandatory:"false" json:"isPreviewDbVersion"`
 }
 
 func (m DbVersionSummary) String() string {

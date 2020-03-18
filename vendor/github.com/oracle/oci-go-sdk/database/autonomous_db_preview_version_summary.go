@@ -24,7 +24,9 @@ type AutonomousDbPreviewVersionSummary struct {
 	// The date and time when the preview version availability ends.
 	TimePreviewEnd *common.SDKTime `mandatory:"false" json:"timePreviewEnd"`
 
-	// The Autonomous Database workload type. OLTP indicates an Autonomous Transaction Processing database and DW indicates an Autonomous Data Warehouse database.
+	// The Autonomous Database workload type. The following values are valid:
+	// - OLTP - indicates an Autonomous Transaction Processing database
+	// - DW - indicates an Autonomous Data Warehouse database
 	DbWorkload AutonomousDbPreviewVersionSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
 	// A URL that points to a detailed description of the preview version.

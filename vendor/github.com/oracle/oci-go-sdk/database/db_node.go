@@ -41,6 +41,18 @@ type DbNode struct {
 
 	// The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems.
 	SoftwareStorageSizeInGB *int `mandatory:"false" json:"softwareStorageSizeInGB"`
+
+	// The type of maintenance of dbNode.
+	MaintenanceType DbNodeMaintenanceTypeEnum `mandatory:"false" json:"maintenanceType,omitempty"`
+
+	// Start date and time of maintenance window.
+	TimeMaintenanceWindowStart *common.SDKTime `mandatory:"false" json:"timeMaintenanceWindowStart"`
+
+	// End date and time of maintenance window.
+	TimeMaintenanceWindowEnd *common.SDKTime `mandatory:"false" json:"timeMaintenanceWindowEnd"`
+
+	// Additional information like a message to customer about the maintenance.
+	AdditionalDetails *string `mandatory:"false" json:"additionalDetails"`
 }
 
 func (m DbNode) String() string {
@@ -79,6 +91,27 @@ var mappingDbNodeLifecycleState = map[string]DbNodeLifecycleStateEnum{
 func GetDbNodeLifecycleStateEnumValues() []DbNodeLifecycleStateEnum {
 	values := make([]DbNodeLifecycleStateEnum, 0)
 	for _, v := range mappingDbNodeLifecycleState {
+		values = append(values, v)
+	}
+	return values
+}
+
+// DbNodeMaintenanceTypeEnum Enum with underlying type: string
+type DbNodeMaintenanceTypeEnum string
+
+// Set of constants representing the allowable values for DbNodeMaintenanceTypeEnum
+const (
+	DbNodeMaintenanceTypeVmdbRebootMigration DbNodeMaintenanceTypeEnum = "VMDB_REBOOT_MIGRATION"
+)
+
+var mappingDbNodeMaintenanceType = map[string]DbNodeMaintenanceTypeEnum{
+	"VMDB_REBOOT_MIGRATION": DbNodeMaintenanceTypeVmdbRebootMigration,
+}
+
+// GetDbNodeMaintenanceTypeEnumValues Enumerates the set of values for DbNodeMaintenanceTypeEnum
+func GetDbNodeMaintenanceTypeEnumValues() []DbNodeMaintenanceTypeEnum {
+	values := make([]DbNodeMaintenanceTypeEnum, 0)
+	for _, v := range mappingDbNodeMaintenanceType {
 		values = append(values, v)
 	}
 	return values

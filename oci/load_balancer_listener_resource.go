@@ -533,6 +533,8 @@ func (s *LoadBalancerListenerResourceCrud) SetData() error {
 	}
 	if s.Res.HostnameNames != nil {
 		s.D.Set("hostname_names", s.Res.HostnameNames)
+	} else {
+		s.D.Set("hostname_names", []interface{}{})
 	}
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
