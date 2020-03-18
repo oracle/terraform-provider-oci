@@ -115,6 +115,10 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 			"db_system_id": *r.DbSystemId,
 		}
 
+		if r.AdditionalDetails != nil {
+			dbNode["additional_details"] = *r.AdditionalDetails
+		}
+
 		if r.BackupVnicId != nil {
 			dbNode["backup_vnic_id"] = *r.BackupVnicId
 		}
@@ -132,6 +136,8 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 			dbNode["db_node_id"] = *r.Id // maintain legacy vanity id
 		}
 
+		dbNode["maintenance_type"] = r.MaintenanceType
+
 		if r.SoftwareStorageSizeInGB != nil {
 			dbNode["software_storage_size_in_gb"] = *r.SoftwareStorageSizeInGB
 		}
@@ -140,6 +146,14 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			dbNode["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.TimeMaintenanceWindowEnd != nil {
+			dbNode["time_maintenance_window_end"] = r.TimeMaintenanceWindowEnd.String()
+		}
+
+		if r.TimeMaintenanceWindowStart != nil {
+			dbNode["time_maintenance_window_start"] = r.TimeMaintenanceWindowStart.String()
 		}
 
 		if r.VnicId != nil {

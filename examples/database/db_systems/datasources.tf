@@ -80,3 +80,12 @@ data "oci_database_db_system_shapes" "test_db_system_shapes" {
     values = ["${var.db_system_shape}"]
   }
 }
+
+data "oci_database_db_node_console_connections" "test_db_node_console_connections" {
+  db_node_id = "${lookup(data.oci_database_db_nodes.db_nodes.db_nodes[0], "id")}"
+}
+
+data "oci_database_db_node_console_connection" "test_db_node_console_connection" {
+  db_node_id = "${lookup(data.oci_database_db_nodes.db_nodes.db_nodes[0], "id")}"
+  id         = "${oci_database_db_node_console_connection.test_db_node_console_connection.id}"
+}

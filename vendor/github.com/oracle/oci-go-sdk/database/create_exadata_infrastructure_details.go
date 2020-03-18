@@ -51,7 +51,8 @@ type CreateExadataInfrastructureDetails struct {
 	// The list of NTP server IP addresses. Maximum of 3 allowed.
 	NtpServer []string `mandatory:"true" json:"ntpServer"`
 
-	// The corporate network proxy for access to the control plane network.
+	// The corporate network proxy for access to the control plane network. Oracle recommends using an HTTPS proxy when possible
+	// for enhanced security.
 	CorporateProxy *string `mandatory:"false" json:"corporateProxy"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
