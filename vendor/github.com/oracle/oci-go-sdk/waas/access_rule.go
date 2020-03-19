@@ -9,6 +9,7 @@
 package waas
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/common"
 )
 
@@ -18,7 +19,7 @@ type AccessRule struct {
 	// The unique name of the access rule.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The list of access rule criteria.
+	// The list of access rule criteria. The rule would be applied only for the requests that matched all the listed conditions.
 	Criteria []AccessRuleCriteria `mandatory:"true" json:"criteria"`
 
 	// The action to take when the access criteria are met for a rule. If unspecified, defaults to `ALLOW`.
@@ -26,7 +27,8 @@ type AccessRule struct {
 	// - **DETECT:** Takes no action, but creates an alert for the request.
 	// - **BLOCK:** Blocks the request by returning specified response code or showing error page.
 	// - **BYPASS:** Bypasses some or all challenges.
-	// - **REDIRECT:** Redirects the request to the specified URL.
+	// - **REDIRECT:** Redirects the request to the specified URL. These fields are required when `REDIRECT` is selected: `redirectUrl`, `redirectResponseCode`.
+	// - **SHOW_CAPTCHA:** Show a CAPTCHA Challenge page instead of the requested page.
 	// Regardless of action, no further rules are processed once a rule is matched.
 	Action AccessRuleActionEnum `mandatory:"true" json:"action"`
 
@@ -52,17 +54,109 @@ type AccessRule struct {
 	// - **CAPTCHA:** Bypasses CAPTCHA Challenge.
 	BypassChallenges []AccessRuleBypassChallengesEnum `mandatory:"false" json:"bypassChallenges,omitempty"`
 
-	// The target to which the request should be redirected, represented as a URI reference.
+	// The target to which the request should be redirected, represented as a URI reference. Required when `action` is `REDIRECT`.
 	RedirectUrl *string `mandatory:"false" json:"redirectUrl"`
 
 	// The response status code to return when `action` is set to `REDIRECT`.
 	// - **MOVED_PERMANENTLY:** Used for designating the permanent movement of a page (numerical code - 301).
 	// - **FOUND:** Used for designating the temporary movement of a page (numerical code - 302).
 	RedirectResponseCode AccessRuleRedirectResponseCodeEnum `mandatory:"false" json:"redirectResponseCode,omitempty"`
+
+	// The title used when showing a CAPTCHA challenge when `action` is set to `SHOW_CAPTCHA` and the request is challenged.
+	CaptchaTitle *string `mandatory:"false" json:"captchaTitle"`
+
+	// The text to show in the header when showing a CAPTCHA challenge when `action` is set to `SHOW_CAPTCHA` and the request is challenged.
+	CaptchaHeader *string `mandatory:"false" json:"captchaHeader"`
+
+	// The text to show in the footer when showing a CAPTCHA challenge when `action` is set to `SHOW_CAPTCHA` and the request is challenged.
+	CaptchaFooter *string `mandatory:"false" json:"captchaFooter"`
+
+	// The text to show on the label of the CAPTCHA challenge submit button when `action` is set to `SHOW_CAPTCHA` and the request is challenged.
+	CaptchaSubmitLabel *string `mandatory:"false" json:"captchaSubmitLabel"`
+
+	// An object that represents an action to apply to an HTTP response headers if all rule criteria will be matched regardless of `action` value.
+	ResponseHeaderManipulation []HeaderManipulationAction `mandatory:"false" json:"responseHeaderManipulation"`
 }
 
 func (m AccessRule) String() string {
 	return common.PointerString(m)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *AccessRule) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		BlockAction                AccessRuleBlockActionEnum          `json:"blockAction"`
+		BlockResponseCode          *int                               `json:"blockResponseCode"`
+		BlockErrorPageMessage      *string                            `json:"blockErrorPageMessage"`
+		BlockErrorPageCode         *string                            `json:"blockErrorPageCode"`
+		BlockErrorPageDescription  *string                            `json:"blockErrorPageDescription"`
+		BypassChallenges           []AccessRuleBypassChallengesEnum   `json:"bypassChallenges"`
+		RedirectUrl                *string                            `json:"redirectUrl"`
+		RedirectResponseCode       AccessRuleRedirectResponseCodeEnum `json:"redirectResponseCode"`
+		CaptchaTitle               *string                            `json:"captchaTitle"`
+		CaptchaHeader              *string                            `json:"captchaHeader"`
+		CaptchaFooter              *string                            `json:"captchaFooter"`
+		CaptchaSubmitLabel         *string                            `json:"captchaSubmitLabel"`
+		ResponseHeaderManipulation []headermanipulationaction         `json:"responseHeaderManipulation"`
+		Name                       *string                            `json:"name"`
+		Criteria                   []AccessRuleCriteria               `json:"criteria"`
+		Action                     AccessRuleActionEnum               `json:"action"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.BlockAction = model.BlockAction
+
+	m.BlockResponseCode = model.BlockResponseCode
+
+	m.BlockErrorPageMessage = model.BlockErrorPageMessage
+
+	m.BlockErrorPageCode = model.BlockErrorPageCode
+
+	m.BlockErrorPageDescription = model.BlockErrorPageDescription
+
+	m.BypassChallenges = make([]AccessRuleBypassChallengesEnum, len(model.BypassChallenges))
+	for i, n := range model.BypassChallenges {
+		m.BypassChallenges[i] = n
+	}
+
+	m.RedirectUrl = model.RedirectUrl
+
+	m.RedirectResponseCode = model.RedirectResponseCode
+
+	m.CaptchaTitle = model.CaptchaTitle
+
+	m.CaptchaHeader = model.CaptchaHeader
+
+	m.CaptchaFooter = model.CaptchaFooter
+
+	m.CaptchaSubmitLabel = model.CaptchaSubmitLabel
+
+	m.ResponseHeaderManipulation = make([]HeaderManipulationAction, len(model.ResponseHeaderManipulation))
+	for i, n := range model.ResponseHeaderManipulation {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.ResponseHeaderManipulation[i] = nn.(HeaderManipulationAction)
+		} else {
+			m.ResponseHeaderManipulation[i] = nil
+		}
+	}
+
+	m.Name = model.Name
+
+	m.Criteria = make([]AccessRuleCriteria, len(model.Criteria))
+	for i, n := range model.Criteria {
+		m.Criteria[i] = n
+	}
+
+	m.Action = model.Action
+	return
 }
 
 // AccessRuleActionEnum Enum with underlying type: string
@@ -70,19 +164,21 @@ type AccessRuleActionEnum string
 
 // Set of constants representing the allowable values for AccessRuleActionEnum
 const (
-	AccessRuleActionAllow    AccessRuleActionEnum = "ALLOW"
-	AccessRuleActionDetect   AccessRuleActionEnum = "DETECT"
-	AccessRuleActionBlock    AccessRuleActionEnum = "BLOCK"
-	AccessRuleActionBypass   AccessRuleActionEnum = "BYPASS"
-	AccessRuleActionRedirect AccessRuleActionEnum = "REDIRECT"
+	AccessRuleActionAllow       AccessRuleActionEnum = "ALLOW"
+	AccessRuleActionDetect      AccessRuleActionEnum = "DETECT"
+	AccessRuleActionBlock       AccessRuleActionEnum = "BLOCK"
+	AccessRuleActionBypass      AccessRuleActionEnum = "BYPASS"
+	AccessRuleActionRedirect    AccessRuleActionEnum = "REDIRECT"
+	AccessRuleActionShowCaptcha AccessRuleActionEnum = "SHOW_CAPTCHA"
 )
 
 var mappingAccessRuleAction = map[string]AccessRuleActionEnum{
-	"ALLOW":    AccessRuleActionAllow,
-	"DETECT":   AccessRuleActionDetect,
-	"BLOCK":    AccessRuleActionBlock,
-	"BYPASS":   AccessRuleActionBypass,
-	"REDIRECT": AccessRuleActionRedirect,
+	"ALLOW":        AccessRuleActionAllow,
+	"DETECT":       AccessRuleActionDetect,
+	"BLOCK":        AccessRuleActionBlock,
+	"BYPASS":       AccessRuleActionBypass,
+	"REDIRECT":     AccessRuleActionRedirect,
+	"SHOW_CAPTCHA": AccessRuleActionShowCaptcha,
 }
 
 // GetAccessRuleActionEnumValues Enumerates the set of values for AccessRuleActionEnum

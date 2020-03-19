@@ -9,6 +9,7 @@
 package waas
 
 import (
+	"encoding/json"
 	"github.com/oracle/oci-go-sdk/common"
 )
 
@@ -59,10 +60,89 @@ type PolicyConfig struct {
 	// The set cipher group for the configured TLS protocol. This sets the configuration for the TLS connections between clients and edge nodes only.
 	// - **DEFAULT:** Cipher group supports TLS 1.0, TLS 1.1, TLS 1.2, TLS 1.3 protocols. It has the following ciphers enabled: `ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:!DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA`
 	CipherGroup PolicyConfigCipherGroupEnum `mandatory:"false" json:"cipherGroup,omitempty"`
+
+	// An object that represents a load balancing method and its properties.
+	LoadBalancingMethod LoadBalancingMethod `mandatory:"false" json:"loadBalancingMethod"`
+
+	// ModSecurity is not capable to inspect WebSockets. Therefore paths specified here have WAF disabled if Connection request header from the client has the value Upgrade (case insensitive matching) and Upgrade request header has the value websocket (case insensitive matching). Paths matches if the concatenation of request URL path and query starts with the contents of the one of `websocketPathPrefixes` array value. In All other cases challenges, like JSC, HIC and etc., remain active.
+	WebsocketPathPrefixes []string `mandatory:"false" json:"websocketPathPrefixes"`
+
+	// SNI stands for Server Name Indication and is an extension of the TLS protocol. It indicates which hostname is being contacted by the browser at the beginning of the 'handshake'-process. This allows a server to connect multiple SSL Certificates to one IP address and port.
+	IsSniEnabled *bool `mandatory:"false" json:"isSniEnabled"`
+
+	HealthChecks *HealthCheck `mandatory:"false" json:"healthChecks"`
 }
 
 func (m PolicyConfig) String() string {
 	return common.PointerString(m)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *PolicyConfig) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		CertificateId              *string                             `json:"certificateId"`
+		IsHttpsEnabled             *bool                               `json:"isHttpsEnabled"`
+		IsHttpsForced              *bool                               `json:"isHttpsForced"`
+		TlsProtocols               []PolicyConfigTlsProtocolsEnum      `json:"tlsProtocols"`
+		IsOriginCompressionEnabled *bool                               `json:"isOriginCompressionEnabled"`
+		IsBehindCdn                *bool                               `json:"isBehindCdn"`
+		ClientAddressHeader        PolicyConfigClientAddressHeaderEnum `json:"clientAddressHeader"`
+		IsCacheControlRespected    *bool                               `json:"isCacheControlRespected"`
+		IsResponseBufferingEnabled *bool                               `json:"isResponseBufferingEnabled"`
+		CipherGroup                PolicyConfigCipherGroupEnum         `json:"cipherGroup"`
+		LoadBalancingMethod        loadbalancingmethod                 `json:"loadBalancingMethod"`
+		WebsocketPathPrefixes      []string                            `json:"websocketPathPrefixes"`
+		IsSniEnabled               *bool                               `json:"isSniEnabled"`
+		HealthChecks               *HealthCheck                        `json:"healthChecks"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.CertificateId = model.CertificateId
+
+	m.IsHttpsEnabled = model.IsHttpsEnabled
+
+	m.IsHttpsForced = model.IsHttpsForced
+
+	m.TlsProtocols = make([]PolicyConfigTlsProtocolsEnum, len(model.TlsProtocols))
+	for i, n := range model.TlsProtocols {
+		m.TlsProtocols[i] = n
+	}
+
+	m.IsOriginCompressionEnabled = model.IsOriginCompressionEnabled
+
+	m.IsBehindCdn = model.IsBehindCdn
+
+	m.ClientAddressHeader = model.ClientAddressHeader
+
+	m.IsCacheControlRespected = model.IsCacheControlRespected
+
+	m.IsResponseBufferingEnabled = model.IsResponseBufferingEnabled
+
+	m.CipherGroup = model.CipherGroup
+
+	nn, e = model.LoadBalancingMethod.UnmarshalPolymorphicJSON(model.LoadBalancingMethod.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.LoadBalancingMethod = nn.(LoadBalancingMethod)
+	} else {
+		m.LoadBalancingMethod = nil
+	}
+
+	m.WebsocketPathPrefixes = make([]string, len(model.WebsocketPathPrefixes))
+	for i, n := range model.WebsocketPathPrefixes {
+		m.WebsocketPathPrefixes[i] = n
+	}
+
+	m.IsSniEnabled = model.IsSniEnabled
+
+	m.HealthChecks = model.HealthChecks
+	return
 }
 
 // PolicyConfigTlsProtocolsEnum Enum with underlying type: string

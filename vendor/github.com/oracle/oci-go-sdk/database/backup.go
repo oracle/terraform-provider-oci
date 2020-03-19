@@ -50,6 +50,9 @@ type Backup struct {
 
 	// The size of the database in gigabytes at the time the backup was taken.
 	DatabaseSizeInGBs *float64 `mandatory:"false" json:"databaseSizeInGBs"`
+
+	// Shape of the backup's source database.
+	Shape *string `mandatory:"false" json:"shape"`
 }
 
 func (m Backup) String() string {

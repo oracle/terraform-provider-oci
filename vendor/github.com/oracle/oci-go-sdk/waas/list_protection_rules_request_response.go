@@ -17,7 +17,7 @@ type ListProtectionRulesRequest struct {
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The maximum number of items to return in a paginated call. In unspecified, defaults to `10`.
+	// The maximum number of items to return in a paginated call. If unspecified, defaults to `10`.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The value of the `opc-next-page` response header from the previous paginated call.
