@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// Header An HTTP header name and value. You can configure your origin server to only allow requests that contain the custom header values that you specify.
+// Header An HTTP header with name and value.
 type Header struct {
 
 	// The name of the header.

@@ -21,6 +21,8 @@ type CustomProtectionRuleSetting struct {
 	// The action to take when the custom protection rule is triggered.
 	// `DETECT` - Logs the request when the criteria of the custom protection rule are met. `BLOCK` - Blocks the request when the criteria of the custom protection rule are met.
 	Action CustomProtectionRuleSettingActionEnum `mandatory:"false" json:"action,omitempty"`
+
+	Exclusions []ProtectionRuleExclusion `mandatory:"false" json:"exclusions"`
 }
 
 func (m CustomProtectionRuleSetting) String() string {

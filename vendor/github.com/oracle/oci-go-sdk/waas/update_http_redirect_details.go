@@ -22,7 +22,7 @@ type UpdateHttpRedirectDetails struct {
 	// The redirect target object including all the redirect data.
 	Target *HttpRedirectTarget `mandatory:"false" json:"target"`
 
-	// The response code returned for the redirect to the client. reference - https://tools.ietf.org/html/rfc7231#section-6.4
+	// The response code returned for the redirect to the client. For more information, see RFC 7231 (https://tools.ietf.org/html/rfc7231#section-6.4).
 	ResponseCode *int `mandatory:"false" json:"responseCode"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

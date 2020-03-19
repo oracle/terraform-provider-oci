@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/oci-go-sdk/common"
 )
 
-// HttpRedirectSummary The details of a HTTP Redirect configuration to allow redirecting HTTP traffic to allow redirecting HTTP traffic from a request domain to a new target.
+// HttpRedirectSummary The details of a HTTP Redirect configuration to allow redirecting HTTP traffic from a request domain to a new target.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type HttpRedirectSummary struct {
 
@@ -31,7 +31,7 @@ type HttpRedirectSummary struct {
 	// The redirect target object including all the redirect data.
 	Target *HttpRedirectTarget `mandatory:"false" json:"target"`
 
-	// The response code returned for the redirect to the client. reference - https://tools.ietf.org/html/rfc7231#section-6.4
+	// The response code returned for the redirect to the client. For more information, see RFC 7231 (https://tools.ietf.org/html/rfc7231#section-6.4).
 	ResponseCode *int `mandatory:"false" json:"responseCode"`
 
 	// The current lifecycle state of the HTTP Redirect.

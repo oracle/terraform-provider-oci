@@ -18,7 +18,7 @@ type CreateAddressListDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to create the address list.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A unique user-friendly name for the address list.
+	// A user-friendly name for the address list.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// A list of IP addresses or CIDR notations.
