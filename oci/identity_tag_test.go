@@ -46,13 +46,21 @@ var (
 	TagRequiredOnlyResource = TagResourceDependencies +
 		generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagRepresentation)
 
+	TagResourceConfigWithoutValidator = TagResourceDependencies +
+		generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Update, representationCopyWithRemovedProperties(tagRepresentation, []string{"validator"}))
+
+	tagSingularDataSourceRepresentation = map[string]interface{}{
+		"tag_name":         Representation{repType: Required, create: `${oci_identity_tag.test_tag.name}`},
+		"tag_namespace_id": Representation{repType: Required, create: `${oci_identity_tag_namespace.tag-namespace1.id}`},
+	}
+
 	tagDataSourceRepresentation = map[string]interface{}{
 		"tag_namespace_id": Representation{repType: Required, create: `${oci_identity_tag_namespace.tag-namespace1.id}`},
-		"state":            Representation{repType: Optional, create: `AVAILABLE`},
+		"state":            Representation{repType: Optional, create: `ACTIVE`},
 		"filter":           RepresentationGroup{Required, tagDataSourceFilterRepresentation}}
 	tagDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   Representation{repType: Required, create: `id`},
-		"values": Representation{repType: Required, create: []string{`${oci_identity_tag.test_tag.id}`}},
+		"name":   Representation{repType: Required, create: `name`},
+		"values": Representation{repType: Required, create: []string{`${oci_identity_tag.test_tag.name}`}},
 	}
 
 	tagRepresentation = map[string]interface{}{
@@ -82,25 +90,15 @@ func TestIdentityTagResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	tagNamespaceResourceName := "oci_identity_tag_namespace.tag-namespace1"
 	resourceName := "oci_identity_tag.test_tag"
 	datasourceName := "data.oci_identity_tags.test_tags"
+	singularDatasourceName := "data.oci_identity_tag.test_tag"
 
 	var resId, resId2 string
-	var tagNamespceId string
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { testAccPreCheck(t) },
 		Providers: map[string]terraform.ResourceProvider{
 			"oci": provider,
-		},
-		CheckDestroy: func(s *terraform.State) (err error) {
-			tagNamespceId, err = fromInstanceState(s, tagNamespaceResourceName, "id")
-			if err == nil {
-				// Remove validator from tag if present
-				identityClient := GetTestClients(&schema.ResourceData{}).identityClient
-				err = resetIdentityTagResourceImport("TFTestTag", tagNamespceId, identityClient)
-			}
-			return err
 		},
 		Steps: []resource.TestStep{
 			// verify create
@@ -181,23 +179,46 @@ func TestIdentityTagResource_basic(t *testing.T) {
 			{
 				Config: config +
 					generateDataSourceFromRepresentationMap("oci_identity_tags", "test_tags", Optional, Update, tagDataSourceRepresentation) +
-					compartmentIdVariableStr + TagResourceDependencies +
-					generateResourceFromRepresentationMap("oci_identity_tag", "test_tag", Optional, Create, representationCopyWithRemovedProperties(tagRepresentation, []string{"validator"})),
+					compartmentIdVariableStr + TagResourceConfigWithoutValidator,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tag_namespace_id"),
 
 					resource.TestCheckResourceAttr(datasourceName, "tags.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.defined_tags.%", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.description", "This tag will show the cost center that will be used for billing of associated resources."),
+					resource.TestCheckResourceAttr(datasourceName, "tags.0.description", "description2"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.id"),
-					resource.TestCheckResourceAttr(datasourceName, "tags.0.is_cost_tracking", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "tags.0.is_cost_tracking", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.is_retired", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "tags.0.name", "TFTestTag"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.state"),
 					resource.TestCheckResourceAttrSet(datasourceName, "tags.0.time_created"),
 				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					generateDataSourceFromRepresentationMap("oci_identity_tag", "test_tag", Required, Create, tagSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + TagResourceConfigWithoutValidator,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_name"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "tag_namespace_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_cost_tracking", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_retired", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "name", "TFTestTag"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				),
+			},
+			// remove singular datasource from previous step so that it doesn't conflict with import tests
+			{
+				Config: config + compartmentIdVariableStr + TagResourceConfigWithoutValidator,
 			},
 			// verify resource import
 			{
