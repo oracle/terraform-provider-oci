@@ -33,11 +33,10 @@ resource "oci_database_database" "test_database" {
 			auto_backup_enabled = "${var.database_database_db_backup_config_auto_backup_enabled}"
 			auto_backup_window = "${var.database_database_db_backup_config_auto_backup_window}"
 			backup_destination_details {
-				#Required
-				type = "${var.database_database_db_backup_config_backup_destination_details_type}"
 
 				#Optional
 				id = "${var.database_database_db_backup_config_backup_destination_details_id}"
+				type = "${var.database_database_db_backup_config_backup_destination_details_type}"
 			}
 			recovery_window_in_days = "${var.database_database_db_backup_config_recovery_window_in_days}"
 		}
