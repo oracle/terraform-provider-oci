@@ -89,11 +89,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
-												"type": {
-													Type:     schema.TypeString,
-													Required: true,
-													ForceNew: true,
-												},
 
 												// Optional
 												"id": {
@@ -102,7 +97,11 @@ func DatabaseDatabaseResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
-
+												"type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													ForceNew: true,
+												},
 												// Computed
 											},
 										},
