@@ -47,12 +47,13 @@ github.com/agext/levenshtein
 # github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20190329064014-6e358769c32a
 github.com/aliyun/alibaba-cloud-sdk-go/sdk
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/auth/credentials
+github.com/aliyun/alibaba-cloud-sdk-go/sdk/requests
 github.com/aliyun/alibaba-cloud-sdk-go/services/location
+github.com/aliyun/alibaba-cloud-sdk-go/services/sts
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/auth
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/auth/credentials/provider
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/endpoints
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/errors
-github.com/aliyun/alibaba-cloud-sdk-go/sdk/requests
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/responses
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/utils
 github.com/aliyun/alibaba-cloud-sdk-go/sdk/auth/signers
@@ -151,7 +152,7 @@ github.com/fatih/color
 github.com/gogo/protobuf/gogoproto
 github.com/gogo/protobuf/proto
 github.com/gogo/protobuf/protoc-gen-gogo/descriptor
-# github.com/golang/protobuf v1.3.0
+# github.com/golang/protobuf v1.3.1
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
@@ -166,6 +167,8 @@ github.com/google/go-cmp/cmp/internal/function
 github.com/google/go-cmp/cmp/internal/value
 # github.com/google/go-querystring v1.0.0
 github.com/google/go-querystring/query
+# github.com/google/uuid v1.1.1
+github.com/google/uuid
 # github.com/googleapis/gax-go/v2 v2.0.3
 github.com/googleapis/gax-go/v2
 # github.com/gophercloud/gophercloud v0.0.0-20190208042652-bc37892e1968
@@ -259,7 +262,7 @@ github.com/gophercloud/gophercloud/openstack/db/v1/datastores
 github.com/gophercloud/gophercloud/internal
 # github.com/gophercloud/utils v0.0.0-20190128072930-fbb6ab446f01
 github.com/gophercloud/utils/openstack/clientconfig
-# github.com/hashicorp/aws-sdk-go-base v0.2.0
+# github.com/hashicorp/aws-sdk-go-base v0.3.0
 github.com/hashicorp/aws-sdk-go-base
 # github.com/hashicorp/consul v0.0.0-20171026175957-610f3c86a089
 github.com/hashicorp/consul/api
@@ -269,7 +272,7 @@ github.com/hashicorp/errwrap
 github.com/hashicorp/go-azure-helpers/authentication
 # github.com/hashicorp/go-cleanhttp v0.5.0
 github.com/hashicorp/go-cleanhttp
-# github.com/hashicorp/go-getter v1.3.0
+# github.com/hashicorp/go-getter v1.3.1-0.20190627223108-da0323b9545e
 github.com/hashicorp/go-getter
 github.com/hashicorp/go-getter/helper/url
 # github.com/hashicorp/go-hclog v0.0.0-20181001195459-61d530d6c27f
@@ -293,10 +296,12 @@ github.com/hashicorp/go-tfe
 github.com/hashicorp/go-uuid
 # github.com/hashicorp/go-version v1.1.0
 github.com/hashicorp/go-version
+# github.com/hashicorp/golang-lru v0.5.0
+github.com/hashicorp/golang-lru/simplelru
 # github.com/hashicorp/hcl v0.0.0-20180404174102-ef8a98b0bbce
 github.com/hashicorp/hcl/hcl/fmtcmd
-github.com/hashicorp/hcl
 github.com/hashicorp/hcl/hcl/printer
+github.com/hashicorp/hcl
 github.com/hashicorp/hcl/hcl/ast
 github.com/hashicorp/hcl/hcl/parser
 github.com/hashicorp/hcl/hcl/token
@@ -305,7 +310,7 @@ github.com/hashicorp/hcl/hcl/scanner
 github.com/hashicorp/hcl/hcl/strconv
 github.com/hashicorp/hcl/json/scanner
 github.com/hashicorp/hcl/json/token
-# github.com/hashicorp/hcl2 v0.0.0-20190618163856-0b64543c968c
+# github.com/hashicorp/hcl2 v0.0.0-20190821123243-0c888d1241f6
 github.com/hashicorp/hcl2/hcl
 github.com/hashicorp/hcl2/hcl/hclsyntax
 github.com/hashicorp/hcl2/hcldec
@@ -325,7 +330,7 @@ github.com/hashicorp/hil/scanner
 github.com/hashicorp/logutils
 # github.com/hashicorp/serf v0.0.0-20160124182025-e4ec8cc423bb
 github.com/hashicorp/serf/coordinate
-# github.com/hashicorp/terraform v0.12.4-0.20190628193153-a74738cd35fc
+# github.com/hashicorp/terraform v0.12.7
 github.com/hashicorp/terraform/plugin
 github.com/hashicorp/terraform/terraform
 github.com/hashicorp/terraform/backend/local
@@ -345,11 +350,9 @@ github.com/hashicorp/terraform/provisioners
 github.com/hashicorp/terraform/version
 github.com/hashicorp/terraform/addrs
 github.com/hashicorp/terraform/config
-github.com/hashicorp/terraform/config/hcl2shim
-github.com/hashicorp/terraform/config/module
 github.com/hashicorp/terraform/configs
+github.com/hashicorp/terraform/configs/hcl2shim
 github.com/hashicorp/terraform/dag
-github.com/hashicorp/terraform/flatmap
 github.com/hashicorp/terraform/helper/didyoumean
 github.com/hashicorp/terraform/httpclient
 github.com/hashicorp/terraform/lang
@@ -419,13 +422,14 @@ github.com/hashicorp/terraform/builtin/provisioners/puppet/bolt
 github.com/hashicorp/terraform/command/jsonconfig
 github.com/hashicorp/terraform/svchost
 github.com/hashicorp/terraform/svchost/auth
+github.com/hashicorp/terraform/flatmap
 github.com/hashicorp/terraform/state/remote
 github.com/hashicorp/terraform/helper/pathorcontents
 github.com/hashicorp/terraform/communicator/ssh
 github.com/hashicorp/terraform/communicator/winrm
 github.com/hashicorp/terraform/helper/mutexkv
 github.com/hashicorp/terraform/communicator/shared
-# github.com/hashicorp/terraform-config-inspect v0.0.0-20190327195015-8022a2663a70
+# github.com/hashicorp/terraform-config-inspect v0.0.0-20190821133035-82a99dc22ef4
 github.com/hashicorp/terraform-config-inspect/tfconfig
 # github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb
 github.com/hashicorp/yamux
@@ -463,7 +467,7 @@ github.com/mitchellh/cli
 github.com/mitchellh/colorstring
 # github.com/mitchellh/copystructure v1.0.0
 github.com/mitchellh/copystructure
-# github.com/mitchellh/go-homedir v1.0.0
+# github.com/mitchellh/go-homedir v1.1.0
 github.com/mitchellh/go-homedir
 # github.com/mitchellh/go-linereader v0.0.0-20190213213312-1b945b3263eb
 github.com/mitchellh/go-linereader
@@ -528,7 +532,7 @@ github.com/oracle/oci-go-sdk/waas
 github.com/oracle/oci-go-sdk/workrequests
 # github.com/packer-community/winrmcp v0.0.0-20180102160824-81144009af58
 github.com/packer-community/winrmcp/winrmcp
-# github.com/pkg/errors v0.0.0-20170505043639-c605e284fe17
+# github.com/pkg/errors v0.8.0
 github.com/pkg/errors
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib
@@ -564,7 +568,7 @@ github.com/vmihailenco/msgpack/codes
 github.com/xanzy/ssh-agent
 # github.com/xlab/treeprint v0.0.0-20161029104018-1d6e34225557
 github.com/xlab/treeprint
-# github.com/zclconf/go-cty v1.0.0
+# github.com/zclconf/go-cty v1.0.1-0.20190708163926-19588f92a98f
 github.com/zclconf/go-cty/cty
 github.com/zclconf/go-cty/cty/msgpack
 github.com/zclconf/go-cty/cty/convert
@@ -573,12 +577,11 @@ github.com/zclconf/go-cty/cty/json
 github.com/zclconf/go-cty/cty/set
 github.com/zclconf/go-cty/cty/function
 github.com/zclconf/go-cty/cty/function/stdlib
-# github.com/zclconf/go-cty-yaml v0.1.0
+# github.com/zclconf/go-cty-yaml v1.0.1
 github.com/zclconf/go-cty-yaml
-# go.opencensus.io v0.18.0
+# go.opencensus.io v0.20.2
 go.opencensus.io/trace
 go.opencensus.io/plugin/ochttp
-go.opencensus.io/exemplar
 go.opencensus.io/internal
 go.opencensus.io/trace/internal
 go.opencensus.io/trace/tracestate
@@ -590,7 +593,10 @@ go.opencensus.io/trace/propagation
 go.opencensus.io
 go.opencensus.io/stats/internal
 go.opencensus.io/internal/tagencoding
-# golang.org/x/crypto v0.0.0-20190426145343-a29dc8fdc734
+go.opencensus.io/metric/metricdata
+go.opencensus.io/metric/metricproducer
+go.opencensus.io/resource
+# golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4
 golang.org/x/crypto/openpgp
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/openpgp/armor
@@ -624,7 +630,7 @@ golang.org/x/net/context/ctxhttp
 golang.org/x/net/html/charset
 golang.org/x/net/html
 golang.org/x/net/html/atom
-# golang.org/x/oauth2 v0.0.0-20190220154721-9b3c75971fc9
+# golang.org/x/oauth2 v0.0.0-20190226205417-e64efc72b421
 golang.org/x/oauth2/jwt
 golang.org/x/oauth2
 golang.org/x/oauth2/google
@@ -656,7 +662,7 @@ golang.org/x/text/runes
 golang.org/x/text/internal/tag
 # golang.org/x/time v0.0.0-20190308202827-9d24e82272b4
 golang.org/x/time/rate
-# google.golang.org/api v0.1.0
+# google.golang.org/api v0.3.1
 google.golang.org/api/iterator
 google.golang.org/api/googleapi
 google.golang.org/api/option
@@ -679,12 +685,12 @@ google.golang.org/appengine/internal/base
 google.golang.org/appengine/internal/log
 google.golang.org/appengine/internal/remote_api
 google.golang.org/appengine/internal/urlfetch
-# google.golang.org/genproto v0.0.0-20190201180003-4b09977fb922
+# google.golang.org/genproto v0.0.0-20190307195333-5fe7a883aa19
 google.golang.org/genproto/googleapis/rpc/status
 google.golang.org/genproto/googleapis/iam/v1
 google.golang.org/genproto/googleapis/rpc/code
 google.golang.org/genproto/googleapis/api/annotations
-# google.golang.org/grpc v1.18.0
+# google.golang.org/grpc v1.19.1
 google.golang.org/grpc
 google.golang.org/grpc/test/bufconn
 google.golang.org/grpc/credentials
