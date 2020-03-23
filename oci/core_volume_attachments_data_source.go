@@ -119,6 +119,50 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 	for _, r := range s.Res.Items {
 		result := map[string]interface{}{}
 		switch v := (r).(type) {
+		case oci_core.EmulatedVolumeAttachment:
+			result["attachment_type"] = "emulated"
+
+			if v.AvailabilityDomain != nil {
+				result["availability_domain"] = string(*v.AvailabilityDomain)
+			}
+
+			if v.CompartmentId != nil {
+				result["compartment_id"] = string(*v.CompartmentId)
+			}
+
+			if v.Device != nil {
+				result["device"] = string(*v.Device)
+			}
+
+			if v.DisplayName != nil {
+				result["display_name"] = string(*v.DisplayName)
+			}
+
+			if v.Id != nil {
+				result["id"] = string(*v.Id)
+			}
+
+			if v.InstanceId != nil {
+				result["instance_id"] = string(*v.InstanceId)
+			}
+
+			if v.IsPvEncryptionInTransitEnabled != nil {
+				result["is_pv_encryption_in_transit_enabled"] = bool(*v.IsPvEncryptionInTransitEnabled)
+			}
+
+			if v.IsReadOnly != nil {
+				result["is_read_only"] = bool(*v.IsReadOnly)
+			}
+
+			result["state"] = string(v.LifecycleState)
+
+			if v.TimeCreated != nil {
+				result["time_created"] = v.TimeCreated.String()
+			}
+
+			if v.VolumeId != nil {
+				result["volume_id"] = string(*v.VolumeId)
+			}
 		case oci_core.IScsiVolumeAttachment:
 			result["attachment_type"] = "iscsi"
 
