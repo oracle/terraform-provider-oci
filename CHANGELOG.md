@@ -8,6 +8,7 @@
 - Support for Cross Region Replication
 - Support for Secrets Management Service's `oci_vault_secret` and `oci_vault_secret_version` datasources
 - Support for Retention Rules that control object immutability
+- Support for Allowing resources to be moved between compartments in dataflow application
 
 ## 3.68.0 (March 25, 2020)
 
