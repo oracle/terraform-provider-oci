@@ -36,7 +36,6 @@ func DataflowInvokeRunResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -412,6 +411,15 @@ func (s *DataflowInvokeRunResourceCrud) Get() error {
 }
 
 func (s *DataflowInvokeRunResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_dataflow.UpdateRunRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -589,4 +597,23 @@ func (s *DataflowInvokeRunResourceCrud) mapToApplicationParameter(fieldKeyFormat
 	}
 
 	return result, nil
+}
+
+func (s *DataflowInvokeRunResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_dataflow.ChangeRunCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	if runId := s.D.Id(); runId != "" {
+		changeCompartmentRequest.RunId = &runId
+	}
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+
+	_, err := s.Client.ChangeRunCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }

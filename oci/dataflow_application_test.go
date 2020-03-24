@@ -74,6 +74,8 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 	compartmentId := getEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := getEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 	fileUri := getEnvSettingWithBlankDefault("dataflow_file_uri")
 	fileUriUpdated := getEnvSettingWithBlankDefault("dataflow_file_uri_updated")
 	fileUriVariableStr := fmt.Sprintf("variable \"dataflow_file_uri\" { default = \"%s\" }\n", fileUri)
@@ -158,6 +160,48 @@ func TestDataflowApplicationResource_basic(t *testing.T) {
 							if errExport := testExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 								return errExport
 							}
+						}
+						return err
+					},
+				),
+			},
+
+			// verify update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ApplicationResourceDependencies + fileUriVariableStr + warehouseBucketUriVariableStr + logsBucketUriVariableStr +
+					generateResourceFromRepresentationMap("oci_dataflow_application", "test_application", Optional, Create,
+						representationCopyWithNewProperties(dataFlowApplicationRepresentation, map[string]interface{}{
+							"compartment_id": Representation{repType: Required, create: `${var.compartment_id_for_update}`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "arguments.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttr(resourceName, "configuration.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "description", "description"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "test_wordcount_app"),
+					resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "file_uri"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "language", "PYTHON"),
+					resource.TestCheckResourceAttrSet(resourceName, "logs_bucket_uri"),
+					resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "owner_principal_id"),
+					resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
+					resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value"),
+					resource.TestCheckResourceAttr(resourceName, "spark_version", "2.4"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+					resource.TestCheckResourceAttrSet(resourceName, "warehouse_bucket_uri"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = fromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
 						}
 						return err
 					},
