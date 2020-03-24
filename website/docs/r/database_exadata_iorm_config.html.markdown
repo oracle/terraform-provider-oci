@@ -17,8 +17,13 @@ This resource provides the Exadata Iorm Config resource in Oracle Cloud Infrastr
 ```hcl
 resource "oci_database_exadata_iorm_config" "test_exadata_iorm_config" {
 	#Required
-	db_system_id = "${var.db_system_id}
-	db_plans = "${var.db_plans.id}"
+	db_plans {
+		#Required
+		db_name = "${var.exadata_iorm_config_db_plans_db_name}"
+		flash_cache_limit = "${var.exadata_iorm_config_db_plans_flash_cache_limit}"
+		share = "${var.exadata_iorm_config_db_plans_share}"
+	}
+	db_system_id = "${oci_database_db_system.test_db_system.id}"
 
 	#Optional
 	objective = "AUTO"
@@ -29,13 +34,12 @@ resource "oci_database_exadata_iorm_config" "test_exadata_iorm_config" {
 
 The following arguments are supported:
 
-
-* `db_system_id` - (Required) The DB system [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
-* `db_plans` - (Required) Array of IORM Setting for all the database in this Exadata DB System 
-	* `db_name` - (Required) Database Name. For default DbPlan, the dbName will always be `default` 
-	* `flash_cache_limit` - Flash Cache limit, internally configured based on shares 
-	* `share` - (Required) Relative priority of a database 
-* `objective` - (Optional) Value for the IORM objective Default is "Auto" 
+* `db_plans` - (Required) Array of IORM Setting for all the database in this Exadata DB System
+	* `db_name` - (Required) Database Name. For default DbPlan, the dbName will always be `default`
+	* `flash_cache_limit` - (Required) Flash Cache limit, internally configured based on shares
+	* `share` - (Required) Relative priority of a database
+* `db_system_id` - (Required) The DB system [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `objective` - (Optional) Value for the IORM objective Default is "Auto"
 
 
 ** IMPORTANT **

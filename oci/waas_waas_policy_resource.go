@@ -14,6 +14,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/common"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
@@ -182,6 +183,83 @@ func WaasWaasPolicyResource() *schema.Resource {
 							//@Codegen: The field is polymorphic in nature and cannot be set when is_behind_cdn=false
 							//Computed: true,
 						},
+						"health_checks": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"expected_response_code_group": {
+										Type:             schema.TypeList,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"expected_response_text": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"headers": {
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+										Elem:             schema.TypeString,
+									},
+									"healthy_threshold": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"interval_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"is_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"is_response_text_check_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"method": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"path": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"timeout_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"unhealthy_threshold": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"is_behind_cdn": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -212,7 +290,61 @@ func WaasWaasPolicyResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_sni_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"load_balancing_method": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"method": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"IP_HASH",
+											"ROUND_ROBIN",
+											"STICKY_COOKIE",
+										}, true),
+									},
+
+									// Optional
+									"domain": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"expiration_time_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"tls_protocols": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"websocket_path_prefixes": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
@@ -263,6 +395,11 @@ func WaasWaasPolicyResource() *schema.Resource {
 												},
 
 												// Optional
+												"is_case_sensitive": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
 
 												// Computed
 											},
@@ -307,6 +444,26 @@ func WaasWaasPolicyResource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
+									"captcha_footer": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"captcha_header": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"captcha_submit_label": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"captcha_title": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"redirect_response_code": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -316,6 +473,39 @@ func WaasWaasPolicyResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+									"response_header_manipulation": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"action": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"ADD_HTTP_RESPONSE_HEADER",
+														"EXTEND_HTTP_RESPONSE_HEADER",
+														"REMOVE_HTTP_RESPONSE_HEADER",
+													}, true),
+												},
+												"header": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+												"value": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
 									},
 
 									// Computed
@@ -479,6 +669,33 @@ func WaasWaasPolicyResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+									"exclusions": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"exclusions": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"target": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
 									},
 									"id": {
 										Type:     schema.TypeString,
@@ -702,6 +919,11 @@ func WaasWaasPolicyResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"is_nat_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
 									"recording_period_in_seconds": {
 										Type:     schema.TypeInt,
 										Optional: true,
@@ -758,6 +980,11 @@ func WaasWaasPolicyResource() *schema.Resource {
 									},
 									"action_expiration_in_seconds": {
 										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"are_redirects_challenged": {
+										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
 									},
@@ -822,8 +1049,40 @@ func WaasWaasPolicyResource() *schema.Resource {
 											},
 										},
 									},
+									"criteria": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"condition": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+												"is_case_sensitive": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"failure_threshold": {
 										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"is_nat_enabled": {
+										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
 									},
@@ -963,19 +1222,28 @@ func WaasWaasPolicyResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"addresses": {
-										Type:     schema.TypeList,
-										Required: true,
-										Elem: &schema.Schema{
-											Type: schema.TypeString,
-										},
-									},
 									"name": {
 										Type:     schema.TypeString,
 										Required: true,
 									},
 
 									// Optional
+									"address_lists": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"addresses": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 
 									// Computed
 								},
@@ -1621,6 +1889,26 @@ func (s *WaasWaasPolicyResourceCrud) mapToAccessRule(fieldKeyFormat string) (oci
 		}
 	}
 
+	if captchaFooter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "captcha_footer")); ok {
+		tmp := captchaFooter.(string)
+		result.CaptchaFooter = &tmp
+	}
+
+	if captchaHeader, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "captcha_header")); ok {
+		tmp := captchaHeader.(string)
+		result.CaptchaHeader = &tmp
+	}
+
+	if captchaSubmitLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "captcha_submit_label")); ok {
+		tmp := captchaSubmitLabel.(string)
+		result.CaptchaSubmitLabel = &tmp
+	}
+
+	if captchaTitle, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "captcha_title")); ok {
+		tmp := captchaTitle.(string)
+		result.CaptchaTitle = &tmp
+	}
+
 	if criteria, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "criteria")); ok {
 		interfaces := criteria.([]interface{})
 		tmp := make([]oci_waas.AccessRuleCriteria, len(interfaces))
@@ -1652,6 +1940,23 @@ func (s *WaasWaasPolicyResourceCrud) mapToAccessRule(fieldKeyFormat string) (oci
 		result.RedirectUrl = &tmp
 	}
 
+	if responseHeaderManipulation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_header_manipulation")); ok {
+		interfaces := responseHeaderManipulation.([]interface{})
+		tmp := make([]oci_waas.HeaderManipulationAction, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "response_header_manipulation"), stateDataIndex)
+			converted, err := s.mapToHeaderManipulationAction(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "response_header_manipulation")) {
+			result.ResponseHeaderManipulation = tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -1680,6 +1985,22 @@ func AccessRuleToMap(obj oci_waas.AccessRule) map[string]interface{} {
 
 	result["bypass_challenges"] = obj.BypassChallenges
 
+	if obj.CaptchaFooter != nil {
+		result["captcha_footer"] = string(*obj.CaptchaFooter)
+	}
+
+	if obj.CaptchaHeader != nil {
+		result["captcha_header"] = string(*obj.CaptchaHeader)
+	}
+
+	if obj.CaptchaSubmitLabel != nil {
+		result["captcha_submit_label"] = string(*obj.CaptchaSubmitLabel)
+	}
+
+	if obj.CaptchaTitle != nil {
+		result["captcha_title"] = string(*obj.CaptchaTitle)
+	}
+
 	criteria := []interface{}{}
 	for _, item := range obj.Criteria {
 		criteria = append(criteria, AccessRuleCriteriaToMap(item))
@@ -1696,6 +2017,12 @@ func AccessRuleToMap(obj oci_waas.AccessRule) map[string]interface{} {
 		result["redirect_url"] = string(*obj.RedirectUrl)
 	}
 
+	responseHeaderManipulation := []interface{}{}
+	for _, item := range obj.ResponseHeaderManipulation {
+		responseHeaderManipulation = append(responseHeaderManipulation, HeaderManipulationActionToMap(item))
+	}
+	result["response_header_manipulation"] = responseHeaderManipulation
+
 	return result
 }
 
@@ -1704,6 +2031,11 @@ func (s *WaasWaasPolicyResourceCrud) mapToAccessRuleCriteria(fieldKeyFormat stri
 
 	if condition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "condition")); ok {
 		result.Condition = oci_waas.AccessRuleCriteriaConditionEnum(condition.(string))
+	}
+
+	if isCaseSensitive, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_case_sensitive")); ok {
+		tmp := isCaseSensitive.(bool)
+		result.IsCaseSensitive = &tmp
 	}
 
 	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
@@ -1718,6 +2050,10 @@ func AccessRuleCriteriaToMap(obj oci_waas.AccessRuleCriteria) map[string]interfa
 	result := map[string]interface{}{}
 
 	result["condition"] = string(obj.Condition)
+
+	if obj.IsCaseSensitive != nil {
+		result["is_case_sensitive"] = bool(*obj.IsCaseSensitive)
+	}
 
 	if obj.Value != nil {
 		result["value"] = string(*obj.Value)
@@ -2059,6 +2395,23 @@ func (s *WaasWaasPolicyResourceCrud) mapToCustomProtectionRuleSetting(fieldKeyFo
 		result.Action = oci_waas.CustomProtectionRuleSettingActionEnum(action.(string))
 	}
 
+	if exclusions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exclusions")); ok {
+		interfaces := exclusions.([]interface{})
+		tmp := make([]oci_waas.ProtectionRuleExclusion, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "exclusions"), stateDataIndex)
+			converted, err := s.mapToProtectionRuleExclusion(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "exclusions")) {
+			result.Exclusions = tmp
+		}
+	}
+
 	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 		tmp := id.(string)
 		result.Id = &tmp
@@ -2071,6 +2424,12 @@ func CustomProtectionRuleSettingToMap(obj oci_waas.CustomProtectionRuleSetting) 
 	result := map[string]interface{}{}
 
 	result["action"] = string(obj.Action)
+
+	exclusions := []interface{}{}
+	for _, item := range obj.Exclusions {
+		exclusions = append(exclusions, ProtectionRuleExclusionToMap(item))
+	}
+	result["exclusions"] = exclusions
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -2212,6 +2571,201 @@ func HeaderToMap(obj *oci_waas.Header) map[string]interface{} {
 	return result
 }
 
+func (s *WaasWaasPolicyResourceCrud) mapToHeaderManipulationAction(fieldKeyFormat string) (oci_waas.HeaderManipulationAction, error) {
+	var baseObject oci_waas.HeaderManipulationAction
+	//discriminator
+	actionRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "action"))
+	var action string
+	if ok {
+		action = actionRaw.(string)
+	} else {
+		action = "" // default value
+	}
+	switch strings.ToLower(action) {
+	case strings.ToLower("ADD_HTTP_RESPONSE_HEADER"):
+		details := oci_waas.AddHttpResponseHeaderAction{}
+		if header, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "header")); ok {
+			tmp := header.(string)
+			details.Header = &tmp
+		}
+		if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+			tmp := value.(string)
+			details.Value = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("EXTEND_HTTP_RESPONSE_HEADER"):
+		details := oci_waas.ExtendHttpResponseHeaderAction{}
+		if header, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "header")); ok {
+			tmp := header.(string)
+			details.Header = &tmp
+		}
+		if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+			tmp := value.(string)
+			details.Value = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("REMOVE_HTTP_RESPONSE_HEADER"):
+		details := oci_waas.RemoveHttpResponseHeaderAction{}
+		if header, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "header")); ok {
+			tmp := header.(string)
+			details.Header = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown action '%v' was specified", action)
+	}
+	return baseObject, nil
+}
+
+func HeaderManipulationActionToMap(obj oci_waas.HeaderManipulationAction) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_waas.AddHttpResponseHeaderAction:
+		result["action"] = "ADD_HTTP_RESPONSE_HEADER"
+
+		if v.Header != nil {
+			result["header"] = string(*v.Header)
+		}
+
+		if v.Value != nil {
+			result["value"] = string(*v.Value)
+		}
+	case oci_waas.ExtendHttpResponseHeaderAction:
+		result["action"] = "EXTEND_HTTP_RESPONSE_HEADER"
+
+		if v.Header != nil {
+			result["header"] = string(*v.Header)
+		}
+
+		if v.Value != nil {
+			result["value"] = string(*v.Value)
+		}
+	case oci_waas.RemoveHttpResponseHeaderAction:
+		result["action"] = "REMOVE_HTTP_RESPONSE_HEADER"
+
+		if v.Header != nil {
+			result["header"] = string(*v.Header)
+		}
+	default:
+		log.Printf("[WARN] Received 'action' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *WaasWaasPolicyResourceCrud) mapToHealthCheck(fieldKeyFormat string) (oci_waas.HealthCheck, error) {
+	result := oci_waas.HealthCheck{}
+
+	if expectedResponseCodeGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "expected_response_code_group")); ok {
+		interfaces := expectedResponseCodeGroup.([]interface{})
+		tmp := make([]oci_waas.HealthCheckExpectedResponseCodeGroupEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				enum := oci_waas.HealthCheckExpectedResponseCodeGroupEnum(interfaces[i].(string))
+				tmp[i] = enum
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "expected_response_code_group")) {
+			result.ExpectedResponseCodeGroup = tmp
+		}
+	}
+
+	if expectedResponseText, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "expected_response_text")); ok {
+		tmp := expectedResponseText.(string)
+		result.ExpectedResponseText = &tmp
+	}
+
+	if headers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "headers")); ok {
+		result.Headers = objectMapToStringMap(headers.(map[string]interface{}))
+	}
+
+	if healthyThreshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "healthy_threshold")); ok {
+		tmp := healthyThreshold.(int)
+		result.HealthyThreshold = &tmp
+	}
+
+	if intervalInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "interval_in_seconds")); ok {
+		tmp := intervalInSeconds.(int)
+		result.IntervalInSeconds = &tmp
+	}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	if isResponseTextCheckEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_response_text_check_enabled")); ok {
+		tmp := isResponseTextCheckEnabled.(bool)
+		result.IsResponseTextCheckEnabled = &tmp
+	}
+
+	if method, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "method")); ok {
+		result.Method = oci_waas.HealthCheckMethodEnum(method.(string))
+	}
+
+	if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+		tmp := path.(string)
+		result.Path = &tmp
+	}
+
+	if timeoutInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_seconds")); ok {
+		tmp := timeoutInSeconds.(int)
+		result.TimeoutInSeconds = &tmp
+	}
+
+	if unhealthyThreshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "unhealthy_threshold")); ok {
+		tmp := unhealthyThreshold.(int)
+		result.UnhealthyThreshold = &tmp
+	}
+
+	return result, nil
+}
+
+func HealthCheckToMap(obj *oci_waas.HealthCheck) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["expected_response_code_group"] = obj.ExpectedResponseCodeGroup
+
+	if obj.ExpectedResponseText != nil {
+		result["expected_response_text"] = string(*obj.ExpectedResponseText)
+	}
+
+	result["headers"] = obj.Headers
+
+	if obj.HealthyThreshold != nil {
+		result["healthy_threshold"] = int(*obj.HealthyThreshold)
+	}
+
+	if obj.IntervalInSeconds != nil {
+		result["interval_in_seconds"] = int(*obj.IntervalInSeconds)
+	}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	if obj.IsResponseTextCheckEnabled != nil {
+		result["is_response_text_check_enabled"] = bool(*obj.IsResponseTextCheckEnabled)
+	}
+
+	result["method"] = string(obj.Method)
+
+	if obj.Path != nil {
+		result["path"] = string(*obj.Path)
+	}
+
+	if obj.TimeoutInSeconds != nil {
+		result["timeout_in_seconds"] = int(*obj.TimeoutInSeconds)
+	}
+
+	if obj.UnhealthyThreshold != nil {
+		result["unhealthy_threshold"] = int(*obj.UnhealthyThreshold)
+	}
+
+	return result
+}
+
 func (s *WaasWaasPolicyResourceCrud) mapToHumanInteractionChallenge(fieldKeyFormat string) (oci_waas.HumanInteractionChallenge, error) {
 	result := oci_waas.HumanInteractionChallenge{}
 
@@ -2253,6 +2807,11 @@ func (s *WaasWaasPolicyResourceCrud) mapToHumanInteractionChallenge(fieldKeyForm
 	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
 		tmp := isEnabled.(bool)
 		result.IsEnabled = &tmp
+	}
+
+	if isNatEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_nat_enabled")); ok {
+		tmp := isNatEnabled.(bool)
+		result.IsNatEnabled = &tmp
 	}
 
 	if recordingPeriodInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recording_period_in_seconds")); ok {
@@ -2303,6 +2862,10 @@ func HumanInteractionChallengeToMap(obj *oci_waas.HumanInteractionChallenge) map
 		result["is_enabled"] = bool(*obj.IsEnabled)
 	}
 
+	if obj.IsNatEnabled != nil {
+		result["is_nat_enabled"] = bool(*obj.IsNatEnabled)
+	}
+
 	if obj.RecordingPeriodInSeconds != nil {
 		result["recording_period_in_seconds"] = int(*obj.RecordingPeriodInSeconds)
 	}
@@ -2326,6 +2889,11 @@ func (s *WaasWaasPolicyResourceCrud) mapToJsChallenge(fieldKeyFormat string) (oc
 		result.ActionExpirationInSeconds = &tmp
 	}
 
+	if areRedirectsChallenged, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_redirects_challenged")); ok {
+		tmp := areRedirectsChallenged.(bool)
+		result.AreRedirectsChallenged = &tmp
+	}
+
 	if challengeSettings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "challenge_settings")); ok {
 		if tmpList := challengeSettings.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "challenge_settings"), 0)
@@ -2337,6 +2905,23 @@ func (s *WaasWaasPolicyResourceCrud) mapToJsChallenge(fieldKeyFormat string) (oc
 		}
 	}
 
+	if criteria, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "criteria")); ok {
+		interfaces := criteria.([]interface{})
+		tmp := make([]oci_waas.AccessRuleCriteria, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "criteria"), stateDataIndex)
+			converted, err := s.mapToAccessRuleCriteria(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "criteria")) {
+			result.Criteria = tmp
+		}
+	}
+
 	if failureThreshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "failure_threshold")); ok {
 		tmp := failureThreshold.(int)
 		result.FailureThreshold = &tmp
@@ -2345,6 +2930,11 @@ func (s *WaasWaasPolicyResourceCrud) mapToJsChallenge(fieldKeyFormat string) (oc
 	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
 		tmp := isEnabled.(bool)
 		result.IsEnabled = &tmp
+	}
+
+	if isNatEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_nat_enabled")); ok {
+		tmp := isNatEnabled.(bool)
+		result.IsNatEnabled = &tmp
 	}
 
 	if setHttpHeader, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "set_http_header")); ok {
@@ -2370,9 +2960,19 @@ func JsChallengeToMap(obj *oci_waas.JsChallenge) map[string]interface{} {
 		result["action_expiration_in_seconds"] = int(*obj.ActionExpirationInSeconds)
 	}
 
+	if obj.AreRedirectsChallenged != nil {
+		result["are_redirects_challenged"] = bool(*obj.AreRedirectsChallenged)
+	}
+
 	if obj.ChallengeSettings != nil {
 		result["challenge_settings"] = []interface{}{BlockChallengeSettingsToMap(obj.ChallengeSettings)}
 	}
+
+	criteria := []interface{}{}
+	for _, item := range obj.Criteria {
+		criteria = append(criteria, AccessRuleCriteriaToMap(item))
+	}
+	result["criteria"] = criteria
 
 	if obj.FailureThreshold != nil {
 		result["failure_threshold"] = int(*obj.FailureThreshold)
@@ -2382,8 +2982,79 @@ func JsChallengeToMap(obj *oci_waas.JsChallenge) map[string]interface{} {
 		result["is_enabled"] = bool(*obj.IsEnabled)
 	}
 
+	if obj.IsNatEnabled != nil {
+		result["is_nat_enabled"] = bool(*obj.IsNatEnabled)
+	}
+
 	if obj.SetHttpHeader != nil {
 		result["set_http_header"] = []interface{}{HeaderToMap(obj.SetHttpHeader)}
+	}
+
+	return result
+}
+
+func (s *WaasWaasPolicyResourceCrud) mapToLoadBalancingMethod(fieldKeyFormat string) (oci_waas.LoadBalancingMethod, error) {
+	var baseObject oci_waas.LoadBalancingMethod
+	//discriminator
+	methodRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "method"))
+	var method string
+	if ok {
+		method = methodRaw.(string)
+	} else {
+		method = "" // default value
+	}
+	switch strings.ToLower(method) {
+	case strings.ToLower("IP_HASH"):
+		details := oci_waas.IpHashLoadBalancingMethod{}
+		baseObject = details
+	case strings.ToLower("ROUND_ROBIN"):
+		details := oci_waas.RoundRobinLoadBalancingMethod{}
+		baseObject = details
+	case strings.ToLower("STICKY_COOKIE"):
+		details := oci_waas.StickyCookieLoadBalancingMethod{}
+		if domain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "domain")); ok {
+			tmp := domain.(string)
+			details.Domain = &tmp
+		}
+		if expirationTimeInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "expiration_time_in_seconds")); ok {
+			tmp := expirationTimeInSeconds.(int)
+			details.ExpirationTimeInSeconds = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown method '%v' was specified", method)
+	}
+	return baseObject, nil
+}
+
+func LoadBalancingMethodToMap(obj *oci_waas.LoadBalancingMethod) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_waas.IpHashLoadBalancingMethod:
+		result["method"] = "IP_HASH"
+	case oci_waas.RoundRobinLoadBalancingMethod:
+		result["method"] = "ROUND_ROBIN"
+	case oci_waas.StickyCookieLoadBalancingMethod:
+		result["method"] = "STICKY_COOKIE"
+
+		if v.Domain != nil {
+			result["domain"] = string(*v.Domain)
+		}
+
+		if v.ExpirationTimeInSeconds != nil {
+			result["expiration_time_in_seconds"] = int(*v.ExpirationTimeInSeconds)
+		}
+
+		if v.Name != nil {
+			result["name"] = string(*v.Name)
+		}
+	default:
+		log.Printf("[WARN] Received 'method' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
@@ -2403,6 +3074,17 @@ func (s *WaasWaasPolicyResourceCrud) mapToPolicyConfig(fieldKeyFormat string) (o
 
 	if clientAddressHeader, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_address_header")); ok && clientAddressHeader != "" {
 		result.ClientAddressHeader = oci_waas.PolicyConfigClientAddressHeaderEnum(clientAddressHeader.(string))
+	}
+
+	if healthChecks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "health_checks")); ok {
+		if tmpList := healthChecks.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "health_checks"), 0)
+			tmp, err := s.mapToHealthCheck(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert health_checks, encountered error: %v", err)
+			}
+			result.HealthChecks = &tmp
+		}
 	}
 
 	if isBehindCdn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_behind_cdn")); ok {
@@ -2435,6 +3117,22 @@ func (s *WaasWaasPolicyResourceCrud) mapToPolicyConfig(fieldKeyFormat string) (o
 		result.IsResponseBufferingEnabled = &tmp
 	}
 
+	if isSniEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_sni_enabled")); ok {
+		tmp := isSniEnabled.(bool)
+		result.IsSniEnabled = &tmp
+	}
+
+	if loadBalancingMethod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "load_balancing_method")); ok {
+		if tmpList := loadBalancingMethod.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "load_balancing_method"), 0)
+			tmp, err := s.mapToLoadBalancingMethod(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert load_balancing_method, encountered error: %v", err)
+			}
+			result.LoadBalancingMethod = tmp
+		}
+	}
+
 	if tlsProtocols, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tls_protocols")); ok {
 		interfaces := tlsProtocols.([]interface{})
 		tmp := make([]oci_waas.PolicyConfigTlsProtocolsEnum, len(interfaces))
@@ -2445,6 +3143,19 @@ func (s *WaasWaasPolicyResourceCrud) mapToPolicyConfig(fieldKeyFormat string) (o
 		}
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "tls_protocols")) {
 			result.TlsProtocols = tmp
+		}
+	}
+
+	if websocketPathPrefixes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "websocket_path_prefixes")); ok {
+		interfaces := websocketPathPrefixes.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "websocket_path_prefixes")) {
+			result.WebsocketPathPrefixes = tmp
 		}
 	}
 
@@ -2461,6 +3172,10 @@ func PolicyConfigToMap(obj *oci_waas.PolicyConfig) map[string]interface{} {
 	result["cipher_group"] = string(obj.CipherGroup)
 
 	result["client_address_header"] = string(obj.ClientAddressHeader)
+
+	if obj.HealthChecks != nil {
+		result["health_checks"] = []interface{}{HealthCheckToMap(obj.HealthChecks)}
+	}
 
 	if obj.IsBehindCdn != nil {
 		result["is_behind_cdn"] = bool(*obj.IsBehindCdn)
@@ -2486,7 +3201,54 @@ func PolicyConfigToMap(obj *oci_waas.PolicyConfig) map[string]interface{} {
 		result["is_response_buffering_enabled"] = bool(*obj.IsResponseBufferingEnabled)
 	}
 
+	if obj.IsSniEnabled != nil {
+		result["is_sni_enabled"] = bool(*obj.IsSniEnabled)
+	}
+
+	if obj.LoadBalancingMethod != nil {
+		loadBalancingMethodArray := []interface{}{}
+		if loadBalancingMethodMap := LoadBalancingMethodToMap(&obj.LoadBalancingMethod); loadBalancingMethodMap != nil {
+			loadBalancingMethodArray = append(loadBalancingMethodArray, loadBalancingMethodMap)
+		}
+		result["load_balancing_method"] = loadBalancingMethodArray
+	}
+
 	result["tls_protocols"] = obj.TlsProtocols
+
+	result["websocket_path_prefixes"] = obj.WebsocketPathPrefixes
+
+	return result
+}
+
+func (s *WaasWaasPolicyResourceCrud) mapToProtectionRuleExclusion(fieldKeyFormat string) (oci_waas.ProtectionRuleExclusion, error) {
+	result := oci_waas.ProtectionRuleExclusion{}
+
+	if exclusions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exclusions")); ok {
+		interfaces := exclusions.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "exclusions")) {
+			result.Exclusions = tmp
+		}
+	}
+
+	if target, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target")); ok {
+		result.Target = oci_waas.ProtectionRuleExclusionTargetEnum(target.(string))
+	}
+
+	return result, nil
+}
+
+func ProtectionRuleExclusionToMap(obj oci_waas.ProtectionRuleExclusion) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["exclusions"] = obj.Exclusions
+
+	result["target"] = string(obj.Target)
 
 	return result
 }
@@ -3105,6 +3867,19 @@ func WafConfigToMap(obj *oci_waas.WafConfig) map[string]interface{} {
 func (s *WaasWaasPolicyResourceCrud) mapToWhitelist(fieldKeyFormat string) (oci_waas.Whitelist, error) {
 	result := oci_waas.Whitelist{}
 
+	if addressLists, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "address_lists")); ok {
+		interfaces := addressLists.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "address_lists")) {
+			result.AddressLists = tmp
+		}
+	}
+
 	if addresses, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "addresses")); ok {
 		interfaces := addresses.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -3128,6 +3903,8 @@ func (s *WaasWaasPolicyResourceCrud) mapToWhitelist(fieldKeyFormat string) (oci_
 
 func WhitelistToMap(obj oci_waas.Whitelist) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["address_lists"] = obj.AddressLists
 
 	result["addresses"] = obj.Addresses
 

@@ -6,9 +6,9 @@ import (
 	"bytes"
 	"crypto/rsa"
 	"fmt"
+	"github.com/oracle/oci-go-sdk/common"
 	"net/http"
 	"strings"
-	"github.com/oracle/oci-go-sdk/common"
 )
 
 const (

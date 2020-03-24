@@ -11,7 +11,6 @@ description: |-
 This resource provides the Autonomous Database resource in Oracle Cloud Infrastructure Database service.
 
 Creates a new Autonomous Database.
-Note: `whitelisted_ips` cannot be used during creation.
 
 
 ## Example Usage
@@ -30,7 +29,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	autonomous_database_backup_id = "${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}"
 	autonomous_database_id = "${oci_database_autonomous_database.test_autonomous_database.id}"
 	clone_type = "${var.autonomous_database_clone_type}"
-	data_safe_status = "${var.data_safe_status}"
+	data_safe_status = "${var.autonomous_database_data_safe_status}"
 	db_version = "${var.autonomous_database_db_version}"
 	db_workload = "${var.autonomous_database_db_workload}"
 	defined_tags = "${var.autonomous_database_defined_tags}"
@@ -60,11 +59,11 @@ The following arguments are supported:
 * `autonomous_database_backup_id` - (Required when source=BACKUP_FROM_ID) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database Backup that you will clone to create a new Autonomous Database.
 * `autonomous_database_id` - (Required when source=BACKUP_FROM_TIMESTAMP) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that you will clone to create a new Autonomous Database.
 * `clone_type` - (Required when source=BACKUP_FROM_ID | BACKUP_FROM_TIMESTAMP | DATABASE) The Autonomous Database clone type.
-    * `FULL` - This option creates a new database that includes all source database data.
-    * `METADATA` - This option creates a new database that includes the source database schema and select metadata, but not the source database data.
+	* `FULL` - This option creates a new database that includes all source database data.
+	* `METADATA` - This option creates a new database that includes the source database schema and select metadata, but not the source database data.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 * `cpu_core_count` - (Required) (Updatable) The number of OCPU cores to be made available to the database. This input is ignored for Always Free resources.
-* `data_safe_status` - (Optional) (Updatable) Target status of the Data Safe registration for this Autonomous Database. Could be set to REGISTERED or NOT_REGISTERED.
+* `data_safe_status` - (Optional) (Updatable) Status of the Data Safe registration for this Autonomous Database. Could be REGISTERED or NOT_REGISTERED.
 * `data_storage_size_in_tbs` - (Required) (Updatable) The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. This input is ignored for Always Free resources.
 * `db_name` - (Required) The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy.
 * `db_version` - (Optional) A valid Oracle Database version for Autonomous Database.
@@ -83,6 +82,8 @@ The following arguments are supported:
 	* Autonomous Databases with private access require at least 1 Network Security Group (NSG). The nsgIds array cannot be empty. 
 * `private_endpoint_label` - (Optional) The private endpoint label for the resource.
 * `source` - (Optional) The source of the database: Use `NONE` for creating a new Autonomous Database. Use `DATABASE` for creating a new Autonomous Database by cloning an existing Autonomous Database. 
+
+	For Autonomous Databases on [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI), the following cloning options are available: Use `BACKUP_FROM_ID` for creating a new Autonomous Database from a specified backup. Use `BACKUP_FROM_TIMESTAMP` for creating a point-in-time Autonomous Database clone using backups. For more information, see [Cloning an Autonomous Database](https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/adbcloning.htm).  
 * `source_id` - (Required when source=DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that you will clone to create a new Autonomous Database.
 * `subnet_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 
@@ -93,7 +94,8 @@ The following arguments are supported:
 
 	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and the backup subnet. 
 * `timestamp` - (Required when source=BACKUP_FROM_TIMESTAMP) The timestamp specified for the point-in-time clone of the source Autonomous Database. The timestamp must be in the past.
-* `whitelisted_ips` - (Optional) (Updatable) The client IP access control list (ACL). This feature is available for databases on [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI) only. Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance. This is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID. To add the whitelist VCN specific subnet or IP, use a semicoln ';' as a deliminator to add the VCN specific subnets or IPs. Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.1.1","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.0.0/16"]`. To remove all whitelisted IPs, set the field to a list with an empty string `[""]`.
+* `whitelisted_ips` - (Optional) (Updatable) The client IP access control list (ACL). This feature is available for databases on [shared Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adboverview.htm#AEI) only. Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance. This is an array of CIDR (Classless Inter-Domain Routing) notations for a subnet or VCN OCID. To add the whitelist VCN specific subnet or IP, use a semicoln ';' as a deliminator to add the VCN specific subnets or IPs. Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.1.1","ocid1.vcn.oc1.sea.aaaaaaaard2hfx2nn3e5xeo6j6o62jga44xjizkw;1.1.0.0/16"]` To remove all whitelisted IPs, set the field to a list with an empty string `[""]`.
+
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -115,7 +117,7 @@ The following attributes are exported:
 	* `machine_learning_user_management_url` - Oracle Machine Learning user management URL.
 	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `cpu_core_count` - The number of OCPU cores to be made available to the database.
-* `data_safe_status` - Status of the Data Safe registration for this Autonomous Database.
+* `data_safe_status` - Status of the Data Safe registration for this Autonomous Database. Could be REGISTERED or NOT_REGISTERED.
 * `data_storage_size_in_tbs` - The quantity of data in the database, in terabytes.
 * `db_name` - The database name.
 * `db_version` - A valid Oracle Database version for Autonomous Database.

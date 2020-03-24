@@ -1,4 +1,10 @@
 ## 3.68.0 (Unreleased)
+
+### Added
+- Support for creating DB from backup in DBAAS
+- Support for OCI WAF version 1.2
+- Support for WAF URL in `oci_oce_oce_instance` for disaster recovery
+
 ## 3.67.0 (March 19, 2020)
 
 ### Added

@@ -18,6 +18,9 @@ type UpdateOceInstanceDetails struct {
 	// OceInstance description
 	Description *string `mandatory:"false" json:"description"`
 
+	// Web Application Firewall(WAF) primary domain
+	WafPrimaryDomain *string `mandatory:"false" json:"wafPrimaryDomain"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

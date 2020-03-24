@@ -33,6 +33,8 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `autonomous_database_id` - The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `should_rotate` - Indicates whether to rotate the wallet or not. If `false`, the wallet will not be rotated. The default is `false`.
 * `state` - The current lifecycle state of the Autonomous Database wallet.
 * `time_rotated` - The date and time the wallet was last rotated.
 

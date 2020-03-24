@@ -20,6 +20,9 @@ data "oci_database_vm_cluster_network_download_config_file" "test_vm_cluster_net
 	#Required
 	exadata_infrastructure_id = "${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}"
 	vm_cluster_network_id = "${oci_database_vm_cluster_network.test_vm_cluster_network.id}"
+
+	#Optional
+	base64_encode_content = "false"
 }
 ```
 
@@ -37,5 +40,4 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `content` - content of the downloaded config file for exadata infrastructure. If `base64_encode_content` is set to `true`, then this content will be base64 encoded.
-
 

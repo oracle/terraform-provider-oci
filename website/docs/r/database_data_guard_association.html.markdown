@@ -28,6 +28,7 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	creation_type = "${var.data_guard_association_creation_type}"
 	database_admin_password = "${var.data_guard_association_database_admin_password}"
 	database_id = "${oci_database_database.test_database.id}"
+	delete_standby_db_home_on_delete = "${var.data_guard_association_delete_standby_db_home_on_delete}"
 	protection_mode = "${var.data_guard_association_protection_mode}"
 	transport_type = "${var.data_guard_association_transport_type}"
 
