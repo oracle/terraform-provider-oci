@@ -15,7 +15,7 @@ import (
 // UpdateAddressListDetails The data used to update the address list: IP addresses and CIDR notations.
 type UpdateAddressListDetails struct {
 
-	// A unique user-friendly name for the address list.
+	// A user-friendly name for the address list.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// A list of IP addresses or CIDR notations.

@@ -62,6 +62,10 @@ func (m *createdatabasebase) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := CreateNewDatabaseDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DB_BACKUP":
+		mm := CreateDatabaseFromBackup{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		return *m, nil
 	}
@@ -86,11 +90,13 @@ type CreateDatabaseBaseSourceEnum string
 
 // Set of constants representing the allowable values for CreateDatabaseBaseSourceEnum
 const (
-	CreateDatabaseBaseSourceNone CreateDatabaseBaseSourceEnum = "NONE"
+	CreateDatabaseBaseSourceNone     CreateDatabaseBaseSourceEnum = "NONE"
+	CreateDatabaseBaseSourceDbBackup CreateDatabaseBaseSourceEnum = "DB_BACKUP"
 )
 
 var mappingCreateDatabaseBaseSource = map[string]CreateDatabaseBaseSourceEnum{
-	"NONE": CreateDatabaseBaseSourceNone,
+	"NONE":      CreateDatabaseBaseSourceNone,
+	"DB_BACKUP": CreateDatabaseBaseSourceDbBackup,
 }
 
 // GetCreateDatabaseBaseSourceEnumValues Enumerates the set of values for CreateDatabaseBaseSourceEnum

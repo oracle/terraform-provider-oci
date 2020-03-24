@@ -31,8 +31,8 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 	time_zone = "${var.exadata_infrastructure_time_zone}"
 
 	#Optional
-	corporate_proxy = "${var.exadata_infrastructure_corporate_proxy}"
 	activation_file = "${var.exadata_infrastructure_activation_file}"
+	corporate_proxy = "${var.exadata_infrastructure_corporate_proxy}"
 	defined_tags = "${var.exadata_infrastructure_defined_tags}"
 	freeform_tags = {"Department"= "Finance"}
 }

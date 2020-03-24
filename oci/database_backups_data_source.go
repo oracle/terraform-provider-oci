@@ -126,6 +126,10 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 			backup["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.Shape != nil {
+			backup["shape"] = *r.Shape
+		}
+
 		backup["state"] = r.LifecycleState
 
 		if r.TimeEnded != nil {

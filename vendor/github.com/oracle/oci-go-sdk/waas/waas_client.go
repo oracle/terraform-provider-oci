@@ -2291,6 +2291,7 @@ func (client WaasClient) updateCachingRules(ctx context.Context, request common.
 // CAPTCHA challenges can be updated by changing the properties of the CAPTCHA object with the rule's key specified in the key field. CAPTCHA challenges can be reordered by changing the order of the CAPTCHA challenges in the list when updating.
 // CAPTCHA challenges can be created by adding a new access rule object to the list without a `key` property specified. A `key` will be generated for the new CAPTCHA challenges upon update.
 // Any existing CAPTCHA challenges that are not specified with a `key` in the list of CAPTCHA challenges will be deleted upon update.
+// Query parameters are allowed in CAPTCHA URL.
 func (client WaasClient) UpdateCaptchas(ctx context.Context, request UpdateCaptchasRequest) (response UpdateCaptchasResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2428,7 +2429,7 @@ func (client WaasClient) updateCustomProtectionRule(ctx context.Context, request
 
 // UpdateDeviceFingerprintChallenge Updates the Device Fingerprint Challenge (DFC) settings in the Web Application Firewall configuration for a policy. The DFC generates a hashed signature of both virtual and real browsers based on 50+ attributes. These proprietary signatures are then leveraged for real-time correlation to identify and block malicious bots.
 // The signature is based on a library of attributes detected via JavaScript listeners; the attributes include OS, screen resolution, fonts, UserAgent, IP address, etc. We are constantly making improvements and considering new libraries to include in our DFC build. We can also exclude attributes from the signature as needed.
-// DFC collects attributes to generate a hashed signature about a client – if a fingerprint is not possible, then it will result in a block or alert action. Actions can be enforced across multiple devices if they share they have the same fingerprint.
+// DFC collects attributes to generate a hashed signature about a client - if a fingerprint is not possible, then it will result in a block or alert action. Actions can be enforced across multiple devices if they share they have the same fingerprint.
 func (client WaasClient) UpdateDeviceFingerprintChallenge(ctx context.Context, request UpdateDeviceFingerprintChallengeRequest) (response UpdateDeviceFingerprintChallengeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2992,7 +2993,7 @@ func (client WaasClient) updateWafConfig(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// UpdateWhitelists Updates the list of IP addresses that bypass the Web Application Firewall for a WAAS policy. Supports both single IP addresses or subnet masks (CIDR notation).
+// UpdateWhitelists Updates the list of IP addresses that bypass the Web Application Firewall for a WAAS policy. Supports single IP addresses, subnet masks (CIDR notation) and Address Lists.
 // This operation can create, delete, update, and/or reorder whitelists depending on the structure of the request body.
 // Whitelists can be updated by changing the properties of the whitelist object with the rule's key specified in the `key` field. Whitelists can be reordered by changing the order of the whitelists in the list of objects when updating.
 // Whitelists can be created by adding a new whitelist object to the list without a `key` property specified. A `key` will be generated for the new whitelist upon update.

@@ -31,6 +31,7 @@ resource "oci_oce_oce_instance" "test_oce_instance" {
 	description = "${var.oce_instance_description}"
 	freeform_tags = {"bar-key"= "value"}
 	instance_usage_type = "${var.oce_instance_instance_usage_type}"
+	waf_primary_domain = "${var.oce_instance_waf_primary_domain}"
 }
 ```
 
@@ -50,6 +51,7 @@ The following arguments are supported:
 * `object_storage_namespace` - (Required) Object Storage Namespace of Tenancy
 * `tenancy_id` - (Required) Tenancy Identifier
 * `tenancy_name` - (Required) Tenancy Name
+* `waf_primary_domain` - (Optional) (Updatable) Web Application Firewall(WAF) primary domain
 
 
 ** IMPORTANT **
@@ -77,6 +79,7 @@ The following attributes are exported:
 * `tenancy_name` - Tenancy Name
 * `time_created` - The time the the OceInstance was created. An RFC3339 formatted datetime string
 * `time_updated` - The time the OceInstance was updated. An RFC3339 formatted datetime string
+* `waf_primary_domain` - Web Application Firewall(WAF) primary domain
 
 ## Import
 

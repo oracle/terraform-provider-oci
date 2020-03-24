@@ -20,7 +20,7 @@ type ListRecommendationsRequest struct {
 	// A filter that matches recommended protection rules based on the selected action. If unspecified, rules with any action type are returned.
 	RecommendedAction ListRecommendationsRecommendedActionEnum `mandatory:"false" contributesTo:"query" name:"recommendedAction" omitEmpty:"true"`
 
-	// The maximum number of items to return in a paginated call. In unspecified, defaults to `10`.
+	// The maximum number of items to return in a paginated call. If unspecified, defaults to `10`.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The value of the `opc-next-page` response header from the previous paginated call.

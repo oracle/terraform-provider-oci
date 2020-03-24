@@ -23,7 +23,7 @@ type ListWafRequestsRequest struct {
 	// A filter that limits returned events to those occurring before a date and time, specified in RFC 3339 format.
 	TimeObservedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeObservedLessThan"`
 
-	// The maximum number of items to return in a paginated call. In unspecified, defaults to `10`.
+	// The maximum number of items to return in a paginated call. If unspecified, defaults to `10`.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The value of the `opc-next-page` response header from the previous paginated call.

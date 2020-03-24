@@ -14,6 +14,7 @@ Gets information about the specified Autonomous Data Warehouse backup.
 
 **IMPORTANT:** This data source is being **deprecated**, use `oci_database_autonomous_database_backup` instead.
 
+
 ## Example Usage
 
 ```hcl
