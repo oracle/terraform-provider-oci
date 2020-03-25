@@ -88,6 +88,9 @@ func printResourceGraphResources(resourceGraphs map[string]TerraformResourceGrap
 }
 
 func RunListExportableResourcesCommand() error {
+	resourcesMap = ResourcesMap()
+	datasourcesMap = DataSourcesMap()
+
 	log.Println("List of Discoverable Oracle Cloud Infrastructure Resources")
 
 	if err := printResourceGraphResources(tenancyResourceGraphs, "tenancy"); err != nil {
