@@ -1,4 +1,5 @@
-## 3.68.0 (Unreleased)
+## 3.69.0 (Unreleased)
+## 3.68.0 (March 25, 2020)
 
 ### Added
 - Support for creating DB from backup in DBAAS
