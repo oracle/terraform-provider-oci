@@ -43,6 +43,17 @@ func DatabaseDatabaseResource() *schema.Resource {
 						},
 
 						// Optional
+						"backup_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"backup_tde_password": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							ForceNew:  true,
+							Sensitive: true,
+						},
 						"character_set": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -78,11 +89,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
-												"type": {
-													Type:     schema.TypeString,
-													Required: true,
-													ForceNew: true,
-												},
 
 												// Optional
 												"id": {
@@ -91,7 +97,11 @@ func DatabaseDatabaseResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
-
+												"type": {
+													Type:     schema.TypeString,
+													Optional: true,
+													ForceNew: true,
+												},
 												// Computed
 											},
 										},
@@ -159,6 +169,7 @@ func DatabaseDatabaseResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"DB_BACKUP",
 					"NONE",
 				}, true),
 			},
@@ -654,6 +665,37 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 
 // @CODEGEN: Method CreateDatabaseDetailsToMap is available in database_db_system_resource.go
 
+func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromBackupDetails, error) {
+	result := oci_database.CreateDatabaseFromBackupDetails{}
+
+	if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
+		tmp := adminPassword.(string)
+		result.AdminPassword = &tmp
+	}
+
+	if backupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_id")); ok {
+		tmp := backupId.(string)
+		result.BackupId = &tmp
+	}
+
+	if backupTDEPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_tde_password")); ok {
+		tmp := backupTDEPassword.(string)
+		result.BackupTDEPassword = &tmp
+	}
+
+	if dbName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_name")); ok {
+		tmp := dbName.(string)
+		result.DbName = &tmp
+	}
+
+	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
+		tmp := dbUniqueName.(string)
+		result.DbUniqueName = &tmp
+	}
+
+	return result, nil
+}
+
 func DatabaseConnectionStringsToMap(obj *oci_database.DatabaseConnectionStrings) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -767,6 +809,27 @@ func (s *DatabaseDatabaseResourceCrud) populateTopLevelPolymorphicCreateDatabase
 		source = "NONE" // default value
 	}
 	switch strings.ToLower(source) {
+	case strings.ToLower("DB_BACKUP"):
+		details := oci_database.CreateDatabaseFromBackup{}
+		if database, ok := s.D.GetOkExists("database"); ok {
+			if tmpList := database.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+				tmp, err := s.mapToCreateDatabaseFromBackupDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.Database = &tmp
+			}
+		}
+		if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
+			tmp := dbHomeId.(string)
+			details.DbHomeId = &tmp
+		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
+		request.CreateNewDatabaseDetails = details
 	case strings.ToLower("NONE"):
 		details := oci_database.CreateNewDatabaseDetails{}
 		if database, ok := s.D.GetOkExists("database"); ok {

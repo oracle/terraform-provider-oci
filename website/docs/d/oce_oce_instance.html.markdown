@@ -50,4 +50,5 @@ The following attributes are exported:
 * `tenancy_name` - Tenancy Name
 * `time_created` - The time the the OceInstance was created. An RFC3339 formatted datetime string
 * `time_updated` - The time the OceInstance was updated. An RFC3339 formatted datetime string
+* `waf_primary_domain` - Web Application Firewall(WAF) primary domain
 

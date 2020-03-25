@@ -48,6 +48,9 @@ type OceInstanceSummary struct {
 	// Instance type based on its usage
 	InstanceUsageType OceInstanceSummaryInstanceUsageTypeEnum `mandatory:"false" json:"instanceUsageType,omitempty"`
 
+	// Web Application Firewall(WAF) primary domain
+	WafPrimaryDomain *string `mandatory:"false" json:"wafPrimaryDomain"`
+
 	// The time the the OceInstance was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

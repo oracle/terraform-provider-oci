@@ -59,6 +59,10 @@ func DatabaseBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"shape": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -218,6 +222,10 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.Shape != nil {
+		s.D.Set("shape", *s.Res.Shape)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

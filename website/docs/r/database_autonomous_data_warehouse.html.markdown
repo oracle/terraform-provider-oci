@@ -15,6 +15,7 @@ Creates a new Autonomous Data Warehouse.
 **IMPORTANT:** This resource is being **deprecated**, use `oci_database_autonomous_database` with `db_workload=DW` to provision Autonomous Data Warehouse.
 Refer to the [Deprecation Guide](#deprecation-guide) below on how to rename and migrate existing resources.
 
+
 ## Example Usage
 
 ```hcl

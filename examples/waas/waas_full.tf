@@ -163,7 +163,35 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
     is_https_forced               = true
     is_origin_compression_enabled = true
     is_response_buffering_enabled = true
+    is_sni_enabled                = true
+    websocket_path_prefixes       = ["/url1"]
     tls_protocols                 = ["TLS_V1_1"]
+
+    health_checks = {
+      is_enabled                     = true
+      is_response_text_check_enabled = true
+      expected_response_code_group   = ["2XX"]
+      expected_response_text         = "testResponseText"
+
+      headers = {
+        "Host"       = "oracle.com"
+        "User-Agent" = "Oracle-TerraformProvider"
+      }
+
+      method              = "GET"
+      path                = "/testpath"
+      timeout_in_seconds  = 10
+      unhealthy_threshold = 5
+      interval_in_seconds = 10
+      healthy_threshold   = 2
+    }
+
+    load_balancing_method = {
+      method                     = "STICKY_COOKIE"
+      name                       = "name2"
+      domain                     = "example.com"
+      expiration_time_in_seconds = 10
+    }
   }
 
   timeouts {
@@ -195,6 +223,19 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
       bypass_challenges            = ["JS_CHALLENGE"]
       redirect_response_code       = "FOUND"
       redirect_url                 = "http://192.168.0.3"
+      captcha_footer               = "captchaFooter"
+      captcha_header               = "captchaHeader"
+      captcha_submit_label         = "captchaSubmitLabel"
+      captcha_title                = "captchaTitle"
+
+      response_header_manipulation = {
+        #Required
+        action = "EXTEND_HTTP_RESPONSE_HEADER"
+        header = "header"
+
+        #Optional
+        value = "value"
+      }
     }
 
     address_rate_limiting {
@@ -243,6 +284,11 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
       #Optional
       action = "DETECT"
       id     = "${oci_waas_custom_protection_rule.test_custom_protection_rule.id}"
+
+      exclusions = {
+        exclusions = ["example.com"]
+        target     = "REQUEST_COOKIES"
+      }
     }
 
     device_fingerprint_challenge {
@@ -312,6 +358,17 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
       #Optional
       action                       = "DETECT"
       action_expiration_in_seconds = 10
+      are_redirects_challenged     = true
+      is_nat_enabled               = true
+
+      criteria = {
+        #Required
+        condition = "URL_IS"
+        value     = "/public"
+
+        #Optional
+        is_case_sensitive = true
+      }
 
       challenge_settings {
         #Optional
@@ -351,8 +408,11 @@ resource "oci_waas_waas_policy" "test_waas_policy" {
 
     whitelists {
       #Required
-      addresses = ["192.168.127.127", "192.168.127.128"]
-      name      = "whitelist_name"
+      name = "whitelist_name"
+
+      #Optional
+      addresses     = ["192.168.127.127", "192.168.127.128"]
+      address_lists = ["${oci_waas_address_list.test_address_list.id}`}"]
     }
   }
 }
