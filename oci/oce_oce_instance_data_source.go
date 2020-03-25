@@ -122,5 +122,9 @@ func (s *OceOceInstanceDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	if s.Res.WafPrimaryDomain != nil {
+		s.D.Set("waf_primary_domain", *s.Res.WafPrimaryDomain)
+	}
+
 	return nil
 }

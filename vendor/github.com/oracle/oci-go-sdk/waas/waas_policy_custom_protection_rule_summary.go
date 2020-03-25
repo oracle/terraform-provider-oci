@@ -27,6 +27,8 @@ type WaasPolicyCustomProtectionRuleSummary struct {
 
 	// The list of the ModSecurity rule IDs that apply to this protection rule. For more information about ModSecurity's open source WAF rules, see Mod Security's documentation (https://www.modsecurity.org/CRS/Documentation/index.html).
 	ModSecurityRuleIds []string `mandatory:"false" json:"modSecurityRuleIds"`
+
+	Exclusions []ProtectionRuleExclusion `mandatory:"false" json:"exclusions"`
 }
 
 func (m WaasPolicyCustomProtectionRuleSummary) String() string {

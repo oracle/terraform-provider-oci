@@ -19,9 +19,9 @@ Gets a list of database nodes in the specified DB system and compartment. A data
 data "oci_database_db_nodes" "test_db_nodes" {
 	#Required
 	compartment_id = "${var.compartment_id}"
-	db_system_id = "${oci_database_db_system.test_db_system.id}"
 
 	#Optional
+	db_system_id = "${oci_database_db_system.test_db_system.id}"
 	state = "${var.db_node_state}"
 	vm_cluster_id = "${oci_database_vm_cluster.test_vm_cluster.id}"
 }

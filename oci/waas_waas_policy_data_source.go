@@ -6,6 +6,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform/helper/validation"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 
@@ -152,6 +153,83 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"health_checks": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"expected_response_code_group": {
+										Type:             schema.TypeList,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"expected_response_text": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"headers": {
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+										Elem:             schema.TypeString,
+									},
+									"healthy_threshold": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"interval_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"is_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"is_response_text_check_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"method": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"path": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"timeout_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"unhealthy_threshold": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"is_behind_cdn": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -182,7 +260,61 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_sni_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"load_balancing_method": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"method": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"IP_HASH",
+											"ROUND_ROBIN",
+											"STICKY_COOKIE",
+										}, true),
+									},
+
+									// Optional
+									"domain": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"expiration_time_in_seconds": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"tls_protocols": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"websocket_path_prefixes": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
@@ -238,6 +370,11 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 												},
 
 												// Optional
+												"is_case_sensitive": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
 
 												// Computed
 											},
@@ -282,6 +419,26 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
+									"captcha_footer": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"captcha_header": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"captcha_submit_label": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"captcha_title": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"redirect_response_code": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -291,6 +448,39 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+									"response_header_manipulation": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"action": {
+													Type:             schema.TypeString,
+													Required:         true,
+													DiffSuppressFunc: EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"ADD_HTTP_RESPONSE_HEADER",
+														"EXTEND_HTTP_RESPONSE_HEADER",
+														"REMOVE_HTTP_RESPONSE_HEADER",
+													}, true),
+												},
+												"header": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+												"value": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
 									},
 
 									// Computed
@@ -452,6 +642,33 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
+									},
+									"exclusions": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"exclusions": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"target": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
 									},
 									"id": {
 										Type:     schema.TypeString,
@@ -675,6 +892,11 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"is_nat_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
 									"recording_period_in_seconds": {
 										Type:     schema.TypeInt,
 										Optional: true,
@@ -731,6 +953,11 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 									},
 									"action_expiration_in_seconds": {
 										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"are_redirects_challenged": {
+										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
 									},
@@ -795,8 +1022,40 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 											},
 										},
 									},
+									"criteria": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"condition": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Required: true,
+												},
+
+												// Optional
+												"is_case_sensitive": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"failure_threshold": {
 										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"is_nat_enabled": {
+										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
 									},
@@ -936,19 +1195,28 @@ func WaasWaasPolicyDataSource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"addresses": {
-										Type:     schema.TypeList,
-										Required: true,
-										Elem: &schema.Schema{
-											Type: schema.TypeString,
-										},
-									},
 									"name": {
 										Type:     schema.TypeString,
 										Required: true,
 									},
 
 									// Optional
+									"address_lists": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"addresses": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 
 									// Computed
 								},

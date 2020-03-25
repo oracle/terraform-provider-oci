@@ -23,7 +23,7 @@ type CachingRuleSummary struct {
 	// - **BYPASS_CACHE:** Allows requests to bypass the cache and be directed to the origin when the criteria of the rule is met.
 	Action CachingRuleSummaryActionEnum `mandatory:"true" json:"action"`
 
-	// The array of the rule criteria with condition and value.
+	// The array of the rule criteria with condition and value. The caching rule would be applied for the requests that matched any of the listed conditions.
 	Criteria []CachingRuleCriteria `mandatory:"true" json:"criteria"`
 
 	// The unique key for the caching rule.

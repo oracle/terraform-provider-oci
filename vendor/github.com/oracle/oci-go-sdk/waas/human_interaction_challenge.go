@@ -40,6 +40,9 @@ type HumanInteractionChallenge struct {
 	SetHttpHeader *Header `mandatory:"false" json:"setHttpHeader"`
 
 	ChallengeSettings *BlockChallengeSettings `mandatory:"false" json:"challengeSettings"`
+
+	// When enabled, the user is identified not only by the IP address but also by an unique additional hash, which prevents blocking visitors with shared IP addresses.
+	IsNatEnabled *bool `mandatory:"false" json:"isNatEnabled"`
 }
 
 func (m HumanInteractionChallenge) String() string {

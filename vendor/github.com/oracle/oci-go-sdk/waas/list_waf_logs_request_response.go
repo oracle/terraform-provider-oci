@@ -17,7 +17,7 @@ type ListWafLogsRequest struct {
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The maximum number of items to return in a paginated call. In unspecified, defaults to `20`.
+	// The maximum number of items to return in a paginated call. If unspecified, defaults to `20`.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The value of the `opc-next-page` response header from the previous paginated call.
@@ -56,7 +56,7 @@ type ListWafLogsRequest struct {
 	// Filter logs by incident key.
 	IncidentKey []string `contributesTo:"query" name:"incidentKey" collectionFormat:"multi"`
 
-	// Filter by log type.
+	// Filter by log type. For more information about WAF logs, see Logs (https://docs.cloud.oracle.com/iaas/Content/WAF/Tasks/logs.htm).
 	LogType []ListWafLogsLogTypeEnum `contributesTo:"query" name:"logType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Filter by origin IP address.
