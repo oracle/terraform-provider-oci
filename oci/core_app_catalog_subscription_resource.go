@@ -63,9 +63,10 @@ func CoreAppCatalogSubscriptionResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"time_retrieved": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: timeDiffSuppressFunction,
 			},
 
 			// Optional
@@ -165,7 +166,10 @@ func (s *CoreAppCatalogSubscriptionResourceCrud) Create() error {
 	}
 
 	if timeRetrieved, ok := s.D.GetOkExists("time_retrieved"); ok {
-		tmp, _ := time.Parse(time.RFC3339Nano, timeRetrieved.(string))
+		tmp, err := time.Parse(time.RFC3339Nano, timeRetrieved.(string))
+		if err != nil {
+			return err
+		}
 		request.TimeRetrieved = &oci_common.SDKTime{Time: tmp}
 	}
 

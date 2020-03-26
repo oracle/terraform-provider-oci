@@ -141,7 +141,7 @@ func (s *DatacatalogConnectionDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.TimeStatusUpdated != nil {
-		s.D.Set("time_status_updated", *s.Res.TimeStatusUpdated)
+		s.D.Set("time_status_updated", s.Res.TimeStatusUpdated.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

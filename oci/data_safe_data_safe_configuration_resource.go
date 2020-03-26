@@ -310,7 +310,7 @@ func (s *DataSafeDataSafeConfigurationResourceCrud) SetData() error {
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeEnabled != nil {
-		s.D.Set("time_enabled", s.Res.TimeEnabled.Format(time.RFC3339Nano))
+		s.D.Set("time_enabled", s.Res.TimeEnabled.String())
 	}
 
 	if s.Res.Url != nil {
