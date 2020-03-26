@@ -35,6 +35,7 @@ output "show-ads" {
 }
 
 ```
+More examples can be found [here](https://github.com/terraform-providers/terraform-provider-oci/tree/master/examples).
 
 ## Authentication
 
