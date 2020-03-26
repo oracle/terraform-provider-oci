@@ -299,7 +299,6 @@ func (s *DatabaseAutonomousDataWarehouseResourceCrud) Get() error {
 func (s *DatabaseAutonomousDataWarehouseResourceCrud) Update() error {
 	request := oci_database.UpdateAutonomousDataWarehouseRequest{}
 
-	// @CODEGEN 09/2018: Cannot update the password and scale the ATP/ADW in the same request, only include changed properties in request
 	if adminPassword, ok := s.D.GetOkExists("admin_password"); ok && s.D.HasChange("admin_password") {
 		tmp := adminPassword.(string)
 		request.AdminPassword = &tmp
@@ -307,10 +306,12 @@ func (s *DatabaseAutonomousDataWarehouseResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.AutonomousDataWarehouseId = &tmp
+
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok && s.D.HasChange("cpu_core_count") {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
 	}
+
 	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok && s.D.HasChange("data_storage_size_in_tbs") {
 		tmp := dataStorageSizeInTBs.(int)
 		request.DataStorageSizeInTBs = &tmp

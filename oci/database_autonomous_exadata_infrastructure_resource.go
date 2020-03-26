@@ -86,7 +86,6 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 			"maintenance_window_details": {
 				Type:     schema.TypeList,
 				Optional: true,
-				//Computed: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -513,7 +512,6 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Update() error {
 				tmp[i] = interfaces[i].(string)
 			}
 		}
-
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.UpdateAutonomousExadataInfrastructuresDetails.NsgIds = tmp
 		}
@@ -636,7 +634,6 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) mapToMaintenanceWi
 	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
 		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
 
-		// maintenance window fields are expected to be nil when preference = NO_PREFERENCE
 		if result.Preference == oci_database.MaintenanceWindowPreferenceNoPreference {
 			return result, nil
 		}

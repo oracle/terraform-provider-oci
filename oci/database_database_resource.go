@@ -106,6 +106,7 @@ func DatabaseDatabaseResource() *schema.Resource {
 													Optional: true,
 													ForceNew: true,
 												},
+
 												// Computed
 											},
 										},
@@ -342,14 +343,6 @@ func readDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 	return ReadResource(sync)
 }
 
-func updateDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
-	sync := &DatabaseDatabaseResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
-
-	return UpdateResource(d, sync)
-}
-
 func deleteDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDatabaseResourceCrud{}
 	sync.D = d
@@ -434,34 +427,6 @@ func (s *DatabaseDatabaseResourceCrud) Get() error {
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.GetDatabase(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	s.Res = &response.Database
-	return nil
-}
-
-func (s *DatabaseDatabaseResourceCrud) Update() error {
-	request := oci_database.UpdateDatabaseRequest{}
-
-	tmp := s.D.Id()
-	request.DatabaseId = &tmp
-
-	if database, ok := s.D.GetOkExists("database"); ok {
-		if tmpList := database.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
-			tmp, err := s.mapToUpdateDatabaseDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.UpdateDatabaseDetails = tmp
-		}
-	}
-
-	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
-
-	response, err := s.Client.UpdateDatabase(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -667,8 +632,6 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 	return result, nil
 }
 
-// @CODEGEN: Method CreateDatabaseDetailsToMap is available in database_db_system_resource.go
-
 func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromBackupDetails(fieldKeyFormat string) (oci_database.CreateDatabaseFromBackupDetails, error) {
 	result := oci_database.CreateDatabaseFromBackupDetails{}
 
@@ -740,64 +703,14 @@ func (s *DatabaseDatabaseResourceCrud) mapToDbBackupConfig(fieldKeyFormat string
 			}
 			tmp[i] = converted
 		}
-		result.BackupDestinationDetails = tmp
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")) {
+			result.BackupDestinationDetails = tmp
+		}
 	}
 
 	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok {
 		tmp := recoveryWindowInDays.(int)
 		result.RecoveryWindowInDays = &tmp
-	}
-
-	return result, nil
-}
-
-func (s *DatabaseDatabaseResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
-	result := oci_database.DbBackupConfig{}
-
-	// Service does not allow to update auto_backup_enabled and recovery_window_in_days at the same time so we must have the HasChanged check
-	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")) {
-		tmp := autoBackupEnabled.(bool)
-		result.AutoBackupEnabled = &tmp
-	}
-
-	if autoBackupWindow, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_window")); ok {
-		result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
-	}
-
-	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")) {
-		tmp := recoveryWindowInDays.(int)
-		result.RecoveryWindowInDays = &tmp
-	}
-
-	return result, nil
-}
-
-// @CODEGEN: Method DbBackupConfigToMap is available in database_db_system_resource.go
-
-func (s *DatabaseDatabaseResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat string) (oci_database.UpdateDatabaseDetails, error) {
-	result := oci_database.UpdateDatabaseDetails{}
-
-	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
-		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
-			tmp, err := s.mapToUpdateDbBackupConfig(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, err
-			}
-			result.DbBackupConfig = &tmp
-		}
-	}
-
-	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
-		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
-		if err != nil {
-			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
-		}
-		result.DefinedTags = tmp
-	}
-
-	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	return result, nil
@@ -859,4 +772,89 @@ func (s *DatabaseDatabaseResourceCrud) populateTopLevelPolymorphicCreateDatabase
 		return fmt.Errorf("unknown source '%v' was specified", source)
 	}
 	return nil
+}
+
+func updateDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseDatabaseResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*OracleClients).databaseClient
+
+	return UpdateResource(d, sync)
+}
+
+func (s *DatabaseDatabaseResourceCrud) Update() error {
+	request := oci_database.UpdateDatabaseRequest{}
+
+	tmp := s.D.Id()
+	request.DatabaseId = &tmp
+
+	if database, ok := s.D.GetOkExists("database"); ok {
+		if tmpList := database.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+			tmp, err := s.mapToUpdateDatabaseDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.UpdateDatabaseDetails = tmp
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UpdateDatabase(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response.Database
+	return nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat string) (oci_database.DbBackupConfig, error) {
+	result := oci_database.DbBackupConfig{}
+
+	if autoBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "auto_backup_enabled")) {
+		tmp := autoBackupEnabled.(bool)
+		result.AutoBackupEnabled = &tmp
+	}
+
+	if autoBackupWindow, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_backup_window")); ok {
+		result.AutoBackupWindow = oci_database.DbBackupConfigAutoBackupWindowEnum(autoBackupWindow.(string))
+	}
+
+	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")) {
+		tmp := recoveryWindowInDays.(int)
+		result.RecoveryWindowInDays = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat string) (oci_database.UpdateDatabaseDetails, error) {
+	result := oci_database.UpdateDatabaseDetails{}
+
+	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
+		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_backup_config"), 0)
+			tmp, err := s.mapToUpdateDbBackupConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			result.DbBackupConfig = &tmp
+		}
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := mapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = objectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	return result, nil
 }

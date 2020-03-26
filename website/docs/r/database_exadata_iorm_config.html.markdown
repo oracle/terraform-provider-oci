@@ -10,6 +10,7 @@ description: |-
 # oci_database_exadata_iorm_config
 This resource provides the Exadata Iorm Config resource in Oracle Cloud Infrastructure Database service.
 
+Update `IORM` Settings for the requested Exadata DB System.
 
 
 ## Example Usage
@@ -20,7 +21,6 @@ resource "oci_database_exadata_iorm_config" "test_exadata_iorm_config" {
 	db_plans {
 		#Required
 		db_name = "${var.exadata_iorm_config_db_plans_db_name}"
-		flash_cache_limit = "${var.exadata_iorm_config_db_plans_flash_cache_limit}"
 		share = "${var.exadata_iorm_config_db_plans_share}"
 	}
 	db_system_id = "${oci_database_db_system.test_db_system.id}"
@@ -34,12 +34,11 @@ resource "oci_database_exadata_iorm_config" "test_exadata_iorm_config" {
 
 The following arguments are supported:
 
-* `db_plans` - (Required) Array of IORM Setting for all the database in this Exadata DB System
-	* `db_name` - (Required) Database Name. For default DbPlan, the dbName will always be `default`
-	* `flash_cache_limit` - (Required) Flash Cache limit, internally configured based on shares
-	* `share` - (Required) Relative priority of a database
-* `db_system_id` - (Required) The DB system [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `objective` - (Optional) Value for the IORM objective Default is "Auto"
+* `db_plans` - (Required) (Updatable) Array of IORM Setting for all the database in this Exadata DB System 
+	* `db_name` - (Required) (Updatable) Database Name. For updating default DbPlan, pass in dbName as `default` 
+	* `share` - (Required) (Updatable) Relative priority of a database 
+* `db_system_id` - (Required) (Updatable) The DB system [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `objective` - (Optional) (Updatable) Value for the IORM objective Default is "Auto" 
 
 
 ** IMPORTANT **

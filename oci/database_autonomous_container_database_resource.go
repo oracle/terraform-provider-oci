@@ -626,7 +626,6 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToMaintenanceWindow
 	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
 		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
 
-		// maintenance window fields are expected to be nil when preference = NO_PREFERENCE
 		if result.Preference == oci_database.MaintenanceWindowPreferenceNoPreference {
 			return result, nil
 		}
