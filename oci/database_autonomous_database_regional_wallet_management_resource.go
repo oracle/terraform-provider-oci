@@ -16,9 +16,6 @@ func init() {
 
 func DatabaseAutonomousDatabaseRegionalWalletManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: &schema.ResourceTimeout{
 			Create: getTimeoutDuration("2h"),
 			Update: getTimeoutDuration("2h"),
@@ -30,6 +27,7 @@ func DatabaseAutonomousDatabaseRegionalWalletManagementResource() *schema.Resour
 		Delete: deleteDatabaseAutonomousDatabaseRegionalWalletManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
+
 			// Optional
 			"should_rotate": {
 				Type:     schema.TypeBool,
@@ -124,7 +122,6 @@ func (s *DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud) Updated
 }
 
 func (s *DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud) Create() error {
-	// This resource can't actually be created. So treat it as an update instead.
 	if shouldRotate, ok := s.D.GetOkExists("should_rotate"); ok {
 		if tmp := shouldRotate.(bool); tmp {
 			return s.Update()
@@ -169,6 +166,7 @@ func (s *DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud) Update(
 }
 
 func (s *DatabaseAutonomousDatabaseRegionalWalletManagementResourceCrud) SetData() error {
+
 	if s.Res == nil {
 		return nil
 	}

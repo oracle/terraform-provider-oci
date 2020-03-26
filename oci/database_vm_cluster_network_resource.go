@@ -387,8 +387,6 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Create() error {
 
 	s.Res = &response.VmClusterNetwork
 
-	//wait for vm cluster network to not be in creating state
-
 	if waitErr := waitForCreatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
@@ -532,8 +530,6 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Update() error {
 
 	s.Res = &response.VmClusterNetwork
 
-	//wait for vm cluster network to not be in updating state after the update
-
 	if waitErr := waitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
@@ -569,6 +565,12 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Delete() error {
 }
 
 func (s *DatabaseVmClusterNetworkResourceCrud) SetData() error {
+
+	if s.Res.LifecycleState == oci_database.VmClusterNetworkLifecycleStateRequiresValidation ||
+		s.Res.LifecycleState == oci_database.VmClusterNetworkLifecycleStateValidationFailed {
+		s.D.Set("validate_vm_cluster_network", false)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -617,10 +619,6 @@ func (s *DatabaseVmClusterNetworkResourceCrud) SetData() error {
 	}
 	s.D.Set("vm_networks", schema.NewSet(vmNetworksHashCodeForSets, vmNetworks))
 
-	if s.Res.LifecycleState == oci_database.VmClusterNetworkLifecycleStateRequiresValidation ||
-		s.Res.LifecycleState == oci_database.VmClusterNetworkLifecycleStateValidationFailed {
-		s.D.Set("validate_vm_cluster_network", false)
-	}
 	return nil
 }
 

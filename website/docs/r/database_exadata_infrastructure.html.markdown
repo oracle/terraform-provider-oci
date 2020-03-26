@@ -42,7 +42,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
 
 The following arguments are supported:
 
-* `activation_file` - (Optional) The activation zip file. If provided in config, exadata infrastructure will be activated after creation. Updates are not allowed on activated exadata infrastructure.
+* `activation_file` - (Optional) (Updatable) The activation zip file. If provided in config, exadata infrastructure will be activated after creation. Updates are not allowed on activated exadata infrastructure.
 * `admin_network_cidr` - (Required) (Updatable) The CIDR block for the Exadata administration network.
 * `cloud_control_plane_server1` - (Required) (Updatable) The IP address for the first control plane server.
 * `cloud_control_plane_server2` - (Required) (Updatable) The IP address for the second control plane server.

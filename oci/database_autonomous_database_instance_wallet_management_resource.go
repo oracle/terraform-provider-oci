@@ -16,9 +16,6 @@ func init() {
 
 func DatabaseAutonomousDatabaseInstanceWalletManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
-		},
 		Timeouts: &schema.ResourceTimeout{
 			Create: getTimeoutDuration("20m"),
 			Update: getTimeoutDuration("20m"),
@@ -127,7 +124,6 @@ func (s *DatabaseAutonomousDatabaseInstanceWalletManagementResourceCrud) Updated
 }
 
 func (s *DatabaseAutonomousDatabaseInstanceWalletManagementResourceCrud) Create() error {
-	// This resource can't actually be created. So treat it as an update instead.
 	if shouldRotate, ok := s.D.GetOkExists("should_rotate"); ok {
 		if tmp := shouldRotate.(bool); tmp {
 			return s.Update()
