@@ -87,7 +87,7 @@ func (s *IdentitySwiftPasswordsDataSourceCrud) SetData() error {
 		}
 
 		if r.ExpiresOn != nil {
-			swiftPassword["expires_on"] = *r.ExpiresOn
+			swiftPassword["expires_on"] = r.ExpiresOn.String()
 		}
 
 		if r.Id != nil {

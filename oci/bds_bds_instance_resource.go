@@ -1140,7 +1140,7 @@ func ClusterDetailsToMap(obj *oci_bds.ClusterDetails) map[string]interface{} {
 	}
 
 	if obj.TimeRefreshed != nil {
-		result["time_refreshed"] = oci_common.SDKTime(*obj.TimeRefreshed)
+		result["time_refreshed"] = obj.TimeRefreshed.String()
 	}
 
 	return result

@@ -122,7 +122,7 @@ func (s *KmsKeyVersionsDataSourceCrud) SetData() error {
 		}
 
 		if r.TimeOfDeletion != nil {
-			keyVersion["time_of_deletion"] = *r.TimeOfDeletion
+			keyVersion["time_of_deletion"] = r.TimeOfDeletion.String()
 		}
 
 		if r.VaultId != nil {

@@ -4,7 +4,6 @@ package oci
 
 import (
 	"context"
-	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/datasafe"
@@ -78,7 +77,7 @@ func (s *DataSafeDataSafeConfigurationDataSourceCrud) SetData() error {
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeEnabled != nil {
-		s.D.Set("time_enabled", s.Res.TimeEnabled.Format(time.RFC3339Nano))
+		s.D.Set("time_enabled", s.Res.TimeEnabled.String())
 	}
 
 	if s.Res.Url != nil {
