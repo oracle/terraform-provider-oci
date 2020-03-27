@@ -44,13 +44,47 @@ resource "oci_apigateway_deployment" "test_deployment" {
 			#Optional
 			authentication {
 				#Required
-				function_id = "${oci_functions_function.test_function.id}"
 				type = "${var.deployment_specification_request_policies_authentication_type}"
 
 				#Optional
+				audiences = "${var.deployment_specification_request_policies_authentication_audiences}"
+				function_id = "${oci_functions_function.test_function.id}"
 				is_anonymous_access_allowed = "${var.deployment_specification_request_policies_authentication_is_anonymous_access_allowed}"
+				issuers = "${var.deployment_specification_request_policies_authentication_issuers}"
+				max_clock_skew_in_seconds = "${var.deployment_specification_request_policies_authentication_max_clock_skew_in_seconds}"
+				public_keys {
+					#Required
+					type = "${var.deployment_specification_request_policies_authentication_public_keys_type}"
+
+					#Optional
+					is_ssl_verify_disabled = "${var.deployment_specification_request_policies_authentication_public_keys_is_ssl_verify_disabled}"
+					keys {
+						#Required
+						format = "${var.deployment_specification_request_policies_authentication_public_keys_keys_format}"
+
+						#Optional
+						alg = "${var.deployment_specification_request_policies_authentication_public_keys_keys_alg}"
+						e = "${var.deployment_specification_request_policies_authentication_public_keys_keys_e}"
+						key = "${var.deployment_specification_request_policies_authentication_public_keys_keys_key}"
+						key_ops = "${var.deployment_specification_request_policies_authentication_public_keys_keys_key_ops}"
+						kid = "${var.deployment_specification_request_policies_authentication_public_keys_keys_kid}"
+						kty = "${var.deployment_specification_request_policies_authentication_public_keys_keys_kty}"
+						n = "${var.deployment_specification_request_policies_authentication_public_keys_keys_n}"
+						use = "${var.deployment_specification_request_policies_authentication_public_keys_keys_use}"
+					}
+					max_cache_duration_in_hours = "${var.deployment_specification_request_policies_authentication_public_keys_max_cache_duration_in_hours}"
+					uri = "${var.deployment_specification_request_policies_authentication_public_keys_uri}"
+				}
+				token_auth_scheme = "${var.deployment_specification_request_policies_authentication_token_auth_scheme}"
 				token_header = "${var.deployment_specification_request_policies_authentication_token_header}"
 				token_query_param = "${var.deployment_specification_request_policies_authentication_token_query_param}"
+				verify_claims {
+
+					#Optional
+					is_required = "${var.deployment_specification_request_policies_authentication_verify_claims_is_required}"
+					key = "${var.deployment_specification_request_policies_authentication_verify_claims_key}"
+					values = "${var.deployment_specification_request_policies_authentication_verify_claims_values}"
+				}
 			}
 			cors {
 				#Required
@@ -160,11 +194,34 @@ The following arguments are supported:
 			* `log_level` - (Optional) (Updatable) Specifies the logging level, which affects the log entries pushed to Oracle Cloud Infrastructure Public Logging if `isEnabled` is set to True. 
 	* `request_policies` - (Optional) (Updatable) 
 		* `authentication` - (Optional) (Updatable) 
-			* `function_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
+			* `audiences` - (Required when type=JWT_AUTHENTICATION) (Updatable) The list of intended recipients for the token.
+			* `function_id` - (Required when type=CUSTOM_AUTHENTICATION) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
 			* `is_anonymous_access_allowed` - (Optional) (Updatable) Whether an unauthenticated user may access the API. Must be "true" to enable ANONYMOUS route authorization. 
+			* `issuers` - (Required when type=JWT_AUTHENTICATION) (Updatable) A list of parties that could have issued the token.
+			* `max_clock_skew_in_seconds` - (Applicable when type=JWT_AUTHENTICATION) (Updatable) The maximum expected time difference between the system clocks of the token issuer and the API Gateway. 
+			* `public_keys` - (Required when type=JWT_AUTHENTICATION) (Updatable) 
+				* `is_ssl_verify_disabled` - (Applicable when type=REMOTE_JWKS) (Updatable) Defines whether or not to uphold SSL verification. 
+				* `keys` - (Applicable when type=STATIC_KEYS) (Updatable) The set of static public keys.
+					* `alg` - (Required when format=JSON_WEB_KEY) (Updatable) The algorithm intended for use with this key.
+					* `e` - (Required when format=JSON_WEB_KEY) (Updatable) The base64 url encoded exponent of the RSA public key represented by this key. 
+					* `format` - (Required) (Updatable) The format of the public key.
+					* `key` - (Required when format=PEM) (Updatable) The content of the PEM-encoded public key.
+					* `key_ops` - (Applicable when format=JSON_WEB_KEY) (Updatable) The operations for which this key is to be used.
+					* `kid` - (Required when type=STATIC_KEYS) (Updatable) A unique key ID. This key will be used to verify the signature of a JWT with matching "kid". 
+					* `kty` - (Required when format=JSON_WEB_KEY) (Updatable) The key type.
+					* `n` - (Required when format=JSON_WEB_KEY) (Updatable) The base64 url encoded modulus of the RSA public key represented by this key. 
+					* `use` - (Applicable when format=JSON_WEB_KEY) (Updatable) The intended use of the public key.
+				* `max_cache_duration_in_hours` - (Applicable when type=REMOTE_JWKS) (Updatable) The duration for which the JWKS should be cached before it is fetched again. 
+				* `type` - (Required) (Updatable) Type of the public key set.
+				* `uri` - (Required when type=REMOTE_JWKS) (Updatable) The uri from which to retrieve the key. It must be accessible without authentication. 
+			* `token_auth_scheme` - (Applicable when type=JWT_AUTHENTICATION) (Updatable) The authentication scheme that is to be used when authenticating the token. This must to be provided if "tokenHeader" is specified. 
 			* `token_header` - (Optional) (Updatable) The name of the header containing the authentication token.
 			* `token_query_param` - (Optional) (Updatable) The name of the query parameter containing the authentication token.
 			* `type` - (Required) (Updatable) Type of the authentication policy to use.
+			* `verify_claims` - (Applicable when type=JWT_AUTHENTICATION) (Updatable) A list of claims which should be validated to consider the token valid.
+				* `is_required` - (Applicable when type=JWT_AUTHENTICATION) (Updatable) Whether the claim is required to be present in the JWT or not. If set to "false", the claim values will be matched only if the claim is present in the JWT. 
+				* `key` - (Required when type=JWT_AUTHENTICATION) (Updatable) Name of the claim.
+				* `values` - (Applicable when type=JWT_AUTHENTICATION) (Updatable) The list of acceptable values for a given claim. If this value is "null" or empty and "isRequired" set to "true", then the presence of this claim in the JWT is validated. 
 		* `cors` - (Optional) (Updatable) 
 			* `allowed_headers` - (Optional) (Updatable) The list of headers that will be allowed from the client via the Access-Control-Allow-Headers header. '*' will allow all headers. 
 			* `allowed_methods` - (Optional) (Updatable) The list of allowed HTTP methods that will be returned for the preflight OPTIONS request in the Access-Control-Allow-Methods header. '*' will allow all methods. 
@@ -235,11 +292,34 @@ The following attributes are exported:
 			* `log_level` - Specifies the logging level, which affects the log entries pushed to Oracle Cloud Infrastructure Public Logging if `isEnabled` is set to True. 
 	* `request_policies` - 
 		* `authentication` - 
+			* `audiences` - The list of intended recipients for the token.
 			* `function_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Functions function resource. 
 			* `is_anonymous_access_allowed` - Whether an unauthenticated user may access the API. Must be "true" to enable ANONYMOUS route authorization. 
+			* `issuers` - A list of parties that could have issued the token.
+			* `max_clock_skew_in_seconds` - The maximum expected time difference between the system clocks of the token issuer and the API Gateway. 
+			* `public_keys` - 
+				* `is_ssl_verify_disabled` - Defines whether or not to uphold SSL verification. 
+				* `keys` - The set of static public keys.
+					* `alg` - The algorithm intended for use with this key.
+					* `e` - The base64 url encoded exponent of the RSA public key represented by this key. 
+					* `format` - The format of the public key.
+					* `key` - The content of the PEM-encoded public key.
+					* `key_ops` - The operations for which this key is to be used.
+					* `kid` - A unique key ID. This key will be used to verify the signature of a JWT with matching "kid". 
+					* `kty` - The key type.
+					* `n` - The base64 url encoded modulus of the RSA public key represented by this key. 
+					* `use` - The intended use of the public key.
+				* `max_cache_duration_in_hours` - The duration for which the JWKS should be cached before it is fetched again. 
+				* `type` - Type of the public key set.
+				* `uri` - The uri from which to retrieve the key. It must be accessible without authentication. 
+			* `token_auth_scheme` - The authentication scheme that is to be used when authenticating the token. This must to be provided if "tokenHeader" is specified. 
 			* `token_header` - The name of the header containing the authentication token.
 			* `token_query_param` - The name of the query parameter containing the authentication token.
 			* `type` - Type of the authentication policy to use.
+			* `verify_claims` - A list of claims which should be validated to consider the token valid.
+				* `is_required` - Whether the claim is required to be present in the JWT or not. If set to "false", the claim values will be matched only if the claim is present in the JWT. 
+				* `key` - Name of the claim.
+				* `values` - The list of acceptable values for a given claim. If this value is "null" or empty and "isRequired" set to "true", then the presence of this claim in the JWT is validated. 
 		* `cors` - 
 			* `allowed_headers` - The list of headers that will be allowed from the client via the Access-Control-Allow-Headers header. '*' will allow all headers. 
 			* `allowed_methods` - The list of allowed HTTP methods that will be returned for the preflight OPTIONS request in the Access-Control-Allow-Methods header. '*' will allow all methods. 
