@@ -3,6 +3,7 @@
 ### Added
 - Support resource discovery for autoScaling resources
 - Support for exposing `private_endpoint` in `oci_database_autonomous_database`
+- Support for JWT Validation in API Gateway Service
 
 ## 3.75.0 (May 13, 2020)
 
