@@ -90,7 +90,8 @@ func (client DnsClient) ChangeSteeringPolicyCompartment(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.changeSteeringPolicyCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeSteeringPolicyCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeSteeringPolicyCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -137,7 +138,8 @@ func (client DnsClient) ChangeTsigKeyCompartment(ctx context.Context, request Ch
 	ociResponse, err = common.Retry(ctx, request, client.changeTsigKeyCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeTsigKeyCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeTsigKeyCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -185,7 +187,8 @@ func (client DnsClient) ChangeZoneCompartment(ctx context.Context, request Chang
 	ociResponse, err = common.Retry(ctx, request, client.changeZoneCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeZoneCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeZoneCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -233,7 +236,8 @@ func (client DnsClient) CreateSteeringPolicy(ctx context.Context, request Create
 	ociResponse, err = common.Retry(ctx, request, client.createSteeringPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateSteeringPolicyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateSteeringPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -284,7 +288,8 @@ func (client DnsClient) CreateSteeringPolicyAttachment(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.createSteeringPolicyAttachment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateSteeringPolicyAttachmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateSteeringPolicyAttachmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -327,7 +332,8 @@ func (client DnsClient) CreateTsigKey(ctx context.Context, request CreateTsigKey
 	ociResponse, err = common.Retry(ctx, request, client.createTsigKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateTsigKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateTsigKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -371,7 +377,8 @@ func (client DnsClient) CreateZone(ctx context.Context, request CreateZoneReques
 	ociResponse, err = common.Retry(ctx, request, client.createZone, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateZoneResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateZoneResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -413,7 +420,8 @@ func (client DnsClient) DeleteDomainRecords(ctx context.Context, request DeleteD
 	ociResponse, err = common.Retry(ctx, request, client.deleteDomainRecords, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteDomainRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteDomainRecordsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -455,7 +463,8 @@ func (client DnsClient) DeleteRRSet(ctx context.Context, request DeleteRRSetRequ
 	ociResponse, err = common.Retry(ctx, request, client.deleteRRSet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteRRSetResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteRRSetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -500,7 +509,8 @@ func (client DnsClient) DeleteSteeringPolicy(ctx context.Context, request Delete
 	ociResponse, err = common.Retry(ctx, request, client.deleteSteeringPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteSteeringPolicyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteSteeringPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -543,7 +553,8 @@ func (client DnsClient) DeleteSteeringPolicyAttachment(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.deleteSteeringPolicyAttachment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteSteeringPolicyAttachmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteSteeringPolicyAttachmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -585,7 +596,8 @@ func (client DnsClient) DeleteTsigKey(ctx context.Context, request DeleteTsigKey
 	ociResponse, err = common.Retry(ctx, request, client.deleteTsigKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteTsigKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteTsigKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -628,7 +640,8 @@ func (client DnsClient) DeleteZone(ctx context.Context, request DeleteZoneReques
 	ociResponse, err = common.Retry(ctx, request, client.deleteZone, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteZoneResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteZoneResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -672,7 +685,8 @@ func (client DnsClient) GetDomainRecords(ctx context.Context, request GetDomainR
 	ociResponse, err = common.Retry(ctx, request, client.getDomainRecords, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetDomainRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetDomainRecordsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -715,7 +729,8 @@ func (client DnsClient) GetRRSet(ctx context.Context, request GetRRSetRequest) (
 	ociResponse, err = common.Retry(ctx, request, client.getRRSet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetRRSetResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetRRSetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -757,7 +772,8 @@ func (client DnsClient) GetSteeringPolicy(ctx context.Context, request GetSteeri
 	ociResponse, err = common.Retry(ctx, request, client.getSteeringPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetSteeringPolicyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetSteeringPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -799,7 +815,8 @@ func (client DnsClient) GetSteeringPolicyAttachment(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.getSteeringPolicyAttachment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetSteeringPolicyAttachmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetSteeringPolicyAttachmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -841,7 +858,8 @@ func (client DnsClient) GetTsigKey(ctx context.Context, request GetTsigKeyReques
 	ociResponse, err = common.Retry(ctx, request, client.getTsigKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetTsigKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetTsigKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -884,7 +902,8 @@ func (client DnsClient) GetZone(ctx context.Context, request GetZoneRequest) (re
 	ociResponse, err = common.Retry(ctx, request, client.getZone, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetZoneResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetZoneResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -928,7 +947,8 @@ func (client DnsClient) GetZoneRecords(ctx context.Context, request GetZoneRecor
 	ociResponse, err = common.Retry(ctx, request, client.getZoneRecords, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetZoneRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetZoneRecordsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -970,7 +990,8 @@ func (client DnsClient) ListSteeringPolicies(ctx context.Context, request ListSt
 	ociResponse, err = common.Retry(ctx, request, client.listSteeringPolicies, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListSteeringPoliciesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListSteeringPoliciesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1012,7 +1033,8 @@ func (client DnsClient) ListSteeringPolicyAttachments(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.listSteeringPolicyAttachments, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListSteeringPolicyAttachmentsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListSteeringPolicyAttachmentsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1054,7 +1076,8 @@ func (client DnsClient) ListTsigKeys(ctx context.Context, request ListTsigKeysRe
 	ociResponse, err = common.Retry(ctx, request, client.listTsigKeys, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListTsigKeysResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListTsigKeysResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1097,7 +1120,8 @@ func (client DnsClient) ListZones(ctx context.Context, request ListZonesRequest)
 	ociResponse, err = common.Retry(ctx, request, client.listZones, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListZonesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListZonesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1142,7 +1166,8 @@ func (client DnsClient) PatchDomainRecords(ctx context.Context, request PatchDom
 	ociResponse, err = common.Retry(ctx, request, client.patchDomainRecords, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = PatchDomainRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = PatchDomainRecordsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1184,7 +1209,8 @@ func (client DnsClient) PatchRRSet(ctx context.Context, request PatchRRSetReques
 	ociResponse, err = common.Retry(ctx, request, client.patchRRSet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = PatchRRSetResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = PatchRRSetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1229,7 +1255,8 @@ func (client DnsClient) PatchZoneRecords(ctx context.Context, request PatchZoneR
 	ociResponse, err = common.Retry(ctx, request, client.patchZoneRecords, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = PatchZoneRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = PatchZoneRecordsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1276,7 +1303,8 @@ func (client DnsClient) UpdateDomainRecords(ctx context.Context, request UpdateD
 	ociResponse, err = common.Retry(ctx, request, client.updateDomainRecords, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateDomainRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateDomainRecordsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1318,7 +1346,8 @@ func (client DnsClient) UpdateRRSet(ctx context.Context, request UpdateRRSetRequ
 	ociResponse, err = common.Retry(ctx, request, client.updateRRSet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateRRSetResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateRRSetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1360,7 +1389,8 @@ func (client DnsClient) UpdateSteeringPolicy(ctx context.Context, request Update
 	ociResponse, err = common.Retry(ctx, request, client.updateSteeringPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateSteeringPolicyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateSteeringPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1402,7 +1432,8 @@ func (client DnsClient) UpdateSteeringPolicyAttachment(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.updateSteeringPolicyAttachment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateSteeringPolicyAttachmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateSteeringPolicyAttachmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1444,7 +1475,8 @@ func (client DnsClient) UpdateTsigKey(ctx context.Context, request UpdateTsigKey
 	ociResponse, err = common.Retry(ctx, request, client.updateTsigKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateTsigKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateTsigKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1488,7 +1520,8 @@ func (client DnsClient) UpdateZone(ctx context.Context, request UpdateZoneReques
 	ociResponse, err = common.Retry(ctx, request, client.updateZone, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateZoneResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateZoneResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1534,7 +1567,8 @@ func (client DnsClient) UpdateZoneRecords(ctx context.Context, request UpdateZon
 	ociResponse, err = common.Retry(ctx, request, client.updateZoneRecords, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateZoneRecordsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateZoneRecordsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

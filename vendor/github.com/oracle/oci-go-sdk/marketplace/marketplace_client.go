@@ -90,7 +90,8 @@ func (client MarketplaceClient) CreateAcceptedAgreement(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.createAcceptedAgreement, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateAcceptedAgreementResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateAcceptedAgreementResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -134,7 +135,8 @@ func (client MarketplaceClient) DeleteAcceptedAgreement(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.deleteAcceptedAgreement, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteAcceptedAgreementResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteAcceptedAgreementResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -176,7 +178,8 @@ func (client MarketplaceClient) GetAcceptedAgreement(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.getAcceptedAgreement, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetAcceptedAgreementResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetAcceptedAgreementResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -219,7 +222,8 @@ func (client MarketplaceClient) GetAgreement(ctx context.Context, request GetAgr
 	ociResponse, err = common.Retry(ctx, request, client.getAgreement, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetAgreementResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetAgreementResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -262,7 +266,8 @@ func (client MarketplaceClient) GetListing(ctx context.Context, request GetListi
 	ociResponse, err = common.Retry(ctx, request, client.getListing, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetListingResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetListingResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -304,7 +309,8 @@ func (client MarketplaceClient) GetPackage(ctx context.Context, request GetPacka
 	ociResponse, err = common.Retry(ctx, request, client.getPackage, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetPackageResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetPackageResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -347,7 +353,8 @@ func (client MarketplaceClient) ListAcceptedAgreements(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.listAcceptedAgreements, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListAcceptedAgreementsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListAcceptedAgreementsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -389,7 +396,8 @@ func (client MarketplaceClient) ListAgreements(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listAgreements, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListAgreementsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListAgreementsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -432,7 +440,8 @@ func (client MarketplaceClient) ListCategories(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listCategories, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListCategoriesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListCategoriesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -475,7 +484,8 @@ func (client MarketplaceClient) ListListings(ctx context.Context, request ListLi
 	ociResponse, err = common.Retry(ctx, request, client.listListings, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListListingsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListListingsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -517,7 +527,8 @@ func (client MarketplaceClient) ListPackages(ctx context.Context, request ListPa
 	ociResponse, err = common.Retry(ctx, request, client.listPackages, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListPackagesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListPackagesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -559,7 +570,8 @@ func (client MarketplaceClient) ListPublishers(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listPublishers, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListPublishersResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListPublishersResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -606,7 +618,8 @@ func (client MarketplaceClient) UpdateAcceptedAgreement(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.updateAcceptedAgreement, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateAcceptedAgreementResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateAcceptedAgreementResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

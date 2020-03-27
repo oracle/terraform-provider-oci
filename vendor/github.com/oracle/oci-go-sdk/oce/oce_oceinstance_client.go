@@ -89,7 +89,8 @@ func (client OceInstanceClient) ChangeOceInstanceCompartment(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.changeOceInstanceCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeOceInstanceCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeOceInstanceCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -136,7 +137,8 @@ func (client OceInstanceClient) CreateOceInstance(ctx context.Context, request C
 	ociResponse, err = common.Retry(ctx, request, client.createOceInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateOceInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateOceInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -178,7 +180,8 @@ func (client OceInstanceClient) DeleteOceInstance(ctx context.Context, request D
 	ociResponse, err = common.Retry(ctx, request, client.deleteOceInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteOceInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteOceInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -220,7 +223,8 @@ func (client OceInstanceClient) GetOceInstance(ctx context.Context, request GetO
 	ociResponse, err = common.Retry(ctx, request, client.getOceInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetOceInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetOceInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -262,7 +266,8 @@ func (client OceInstanceClient) GetWorkRequest(ctx context.Context, request GetW
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -304,7 +309,8 @@ func (client OceInstanceClient) ListOceInstances(ctx context.Context, request Li
 	ociResponse, err = common.Retry(ctx, request, client.listOceInstances, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListOceInstancesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListOceInstancesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -346,7 +352,8 @@ func (client OceInstanceClient) ListWorkRequestErrors(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -388,7 +395,8 @@ func (client OceInstanceClient) ListWorkRequestLogs(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -430,7 +438,8 @@ func (client OceInstanceClient) ListWorkRequests(ctx context.Context, request Li
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -472,7 +481,8 @@ func (client OceInstanceClient) UpdateOceInstance(ctx context.Context, request U
 	ociResponse, err = common.Retry(ctx, request, client.updateOceInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateOceInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateOceInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

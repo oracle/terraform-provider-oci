@@ -93,7 +93,8 @@ func (client ComputeManagementClient) AttachLoadBalancer(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.attachLoadBalancer, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = AttachLoadBalancerResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = AttachLoadBalancerResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -144,7 +145,8 @@ func (client ComputeManagementClient) ChangeClusterNetworkCompartment(ctx contex
 	ociResponse, err = common.Retry(ctx, request, client.changeClusterNetworkCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeClusterNetworkCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeClusterNetworkCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -201,7 +203,8 @@ func (client ComputeManagementClient) ChangeInstanceConfigurationCompartment(ctx
 	ociResponse, err = common.Retry(ctx, request, client.changeInstanceConfigurationCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeInstanceConfigurationCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeInstanceConfigurationCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -252,7 +255,8 @@ func (client ComputeManagementClient) ChangeInstancePoolCompartment(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.changeInstancePoolCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeInstancePoolCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeInstancePoolCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -300,7 +304,8 @@ func (client ComputeManagementClient) CreateClusterNetwork(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.createClusterNetwork, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -348,7 +353,8 @@ func (client ComputeManagementClient) CreateInstanceConfiguration(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.createInstanceConfiguration, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateInstanceConfigurationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateInstanceConfigurationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -395,7 +401,8 @@ func (client ComputeManagementClient) CreateInstancePool(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.createInstancePool, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateInstancePoolResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateInstancePoolResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -437,7 +444,8 @@ func (client ComputeManagementClient) DeleteInstanceConfiguration(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.deleteInstanceConfiguration, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteInstanceConfigurationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteInstanceConfigurationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -484,7 +492,8 @@ func (client ComputeManagementClient) DetachLoadBalancer(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.detachLoadBalancer, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DetachLoadBalancerResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DetachLoadBalancerResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -526,7 +535,8 @@ func (client ComputeManagementClient) GetClusterNetwork(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.getClusterNetwork, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -568,7 +578,8 @@ func (client ComputeManagementClient) GetInstanceConfiguration(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.getInstanceConfiguration, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetInstanceConfigurationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetInstanceConfigurationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -610,7 +621,8 @@ func (client ComputeManagementClient) GetInstancePool(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.getInstancePool, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetInstancePoolResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetInstancePoolResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -652,7 +664,8 @@ func (client ComputeManagementClient) GetInstancePoolLoadBalancerAttachment(ctx 
 	ociResponse, err = common.Retry(ctx, request, client.getInstancePoolLoadBalancerAttachment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetInstancePoolLoadBalancerAttachmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetInstancePoolLoadBalancerAttachmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -704,7 +717,8 @@ func (client ComputeManagementClient) LaunchInstanceConfiguration(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.launchInstanceConfiguration, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = LaunchInstanceConfigurationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = LaunchInstanceConfigurationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -746,7 +760,8 @@ func (client ComputeManagementClient) ListClusterNetworkInstances(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.listClusterNetworkInstances, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListClusterNetworkInstancesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListClusterNetworkInstancesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -788,7 +803,8 @@ func (client ComputeManagementClient) ListClusterNetworks(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.listClusterNetworks, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListClusterNetworksResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListClusterNetworksResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -830,7 +846,8 @@ func (client ComputeManagementClient) ListInstanceConfigurations(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.listInstanceConfigurations, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListInstanceConfigurationsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListInstanceConfigurationsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -872,7 +889,8 @@ func (client ComputeManagementClient) ListInstancePoolInstances(ctx context.Cont
 	ociResponse, err = common.Retry(ctx, request, client.listInstancePoolInstances, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListInstancePoolInstancesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListInstancePoolInstancesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -914,7 +932,8 @@ func (client ComputeManagementClient) ListInstancePools(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.listInstancePools, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListInstancePoolsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListInstancePoolsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -962,7 +981,8 @@ func (client ComputeManagementClient) ResetInstancePool(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.resetInstancePool, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ResetInstancePoolResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ResetInstancePoolResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1010,7 +1030,8 @@ func (client ComputeManagementClient) SoftresetInstancePool(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.softresetInstancePool, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = SoftresetInstancePoolResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = SoftresetInstancePoolResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1058,7 +1079,8 @@ func (client ComputeManagementClient) StartInstancePool(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.startInstancePool, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = StartInstancePoolResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = StartInstancePoolResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1106,7 +1128,8 @@ func (client ComputeManagementClient) StopInstancePool(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.stopInstancePool, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = StopInstancePoolResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = StopInstancePoolResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1150,7 +1173,8 @@ func (client ComputeManagementClient) TerminateClusterNetwork(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.terminateClusterNetwork, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = TerminateClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = TerminateClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1192,7 +1216,8 @@ func (client ComputeManagementClient) TerminateInstancePool(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.terminateInstancePool, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = TerminateInstancePoolResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = TerminateInstancePoolResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1239,7 +1264,8 @@ func (client ComputeManagementClient) UpdateClusterNetwork(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.updateClusterNetwork, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1286,7 +1312,8 @@ func (client ComputeManagementClient) UpdateInstanceConfiguration(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.updateInstanceConfiguration, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateInstanceConfigurationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateInstanceConfigurationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1334,7 +1361,8 @@ func (client ComputeManagementClient) UpdateInstancePool(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.updateInstancePool, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateInstancePoolResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateInstancePoolResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

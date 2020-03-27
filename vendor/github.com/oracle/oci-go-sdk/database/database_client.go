@@ -89,7 +89,8 @@ func (client DatabaseClient) ActivateExadataInfrastructure(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.activateExadataInfrastructure, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ActivateExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ActivateExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -138,7 +139,8 @@ func (client DatabaseClient) ChangeAutonomousContainerDatabaseCompartment(ctx co
 	ociResponse, err = common.Retry(ctx, request, client.changeAutonomousContainerDatabaseCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeAutonomousContainerDatabaseCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeAutonomousContainerDatabaseCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -187,7 +189,8 @@ func (client DatabaseClient) ChangeAutonomousDatabaseCompartment(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.changeAutonomousDatabaseCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeAutonomousDatabaseCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeAutonomousDatabaseCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -236,7 +239,8 @@ func (client DatabaseClient) ChangeAutonomousExadataInfrastructureCompartment(ct
 	ociResponse, err = common.Retry(ctx, request, client.changeAutonomousExadataInfrastructureCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeAutonomousExadataInfrastructureCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeAutonomousExadataInfrastructureCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -285,7 +289,8 @@ func (client DatabaseClient) ChangeBackupDestinationCompartment(ctx context.Cont
 	ociResponse, err = common.Retry(ctx, request, client.changeBackupDestinationCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeBackupDestinationCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeBackupDestinationCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -334,7 +339,8 @@ func (client DatabaseClient) ChangeDbSystemCompartment(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.changeDbSystemCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeDbSystemCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeDbSystemCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -382,7 +388,8 @@ func (client DatabaseClient) ChangeExadataInfrastructureCompartment(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.changeExadataInfrastructureCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeExadataInfrastructureCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeExadataInfrastructureCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -430,7 +437,8 @@ func (client DatabaseClient) ChangeVmClusterCompartment(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.changeVmClusterCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeVmClusterCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeVmClusterCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -478,7 +486,8 @@ func (client DatabaseClient) CompleteExternalBackupJob(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.completeExternalBackupJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CompleteExternalBackupJobResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CompleteExternalBackupJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -525,7 +534,8 @@ func (client DatabaseClient) CreateAutonomousContainerDatabase(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.createAutonomousContainerDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -572,7 +582,8 @@ func (client DatabaseClient) CreateAutonomousDataWarehouse(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDataWarehouse, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -619,7 +630,8 @@ func (client DatabaseClient) CreateAutonomousDataWarehouseBackup(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDataWarehouseBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateAutonomousDataWarehouseBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateAutonomousDataWarehouseBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -666,7 +678,8 @@ func (client DatabaseClient) CreateAutonomousDatabase(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -713,7 +726,8 @@ func (client DatabaseClient) CreateAutonomousDatabaseBackup(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDatabaseBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateAutonomousDatabaseBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateAutonomousDatabaseBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -760,7 +774,8 @@ func (client DatabaseClient) CreateBackup(ctx context.Context, request CreateBac
 	ociResponse, err = common.Retry(ctx, request, client.createBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -807,7 +822,8 @@ func (client DatabaseClient) CreateBackupDestination(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.createBackupDestination, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateBackupDestinationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateBackupDestinationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -856,7 +872,8 @@ func (client DatabaseClient) CreateConsoleConnection(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.createConsoleConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateConsoleConnectionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateConsoleConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -909,7 +926,8 @@ func (client DatabaseClient) CreateDataGuardAssociation(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.createDataGuardAssociation, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -956,7 +974,8 @@ func (client DatabaseClient) CreateDatabase(ctx context.Context, request CreateD
 	ociResponse, err = common.Retry(ctx, request, client.createDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1003,7 +1022,8 @@ func (client DatabaseClient) CreateDbHome(ctx context.Context, request CreateDbH
 	ociResponse, err = common.Retry(ctx, request, client.createDbHome, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateDbHomeResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateDbHomeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1050,7 +1070,8 @@ func (client DatabaseClient) CreateExadataInfrastructure(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.createExadataInfrastructure, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1098,7 +1119,8 @@ func (client DatabaseClient) CreateExternalBackupJob(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.createExternalBackupJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateExternalBackupJobResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateExternalBackupJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1145,7 +1167,8 @@ func (client DatabaseClient) CreateVmCluster(ctx context.Context, request Create
 	ociResponse, err = common.Retry(ctx, request, client.createVmCluster, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateVmClusterResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateVmClusterResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1192,7 +1215,8 @@ func (client DatabaseClient) CreateVmClusterNetwork(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.createVmClusterNetwork, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateVmClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateVmClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1250,7 +1274,8 @@ func (client DatabaseClient) DbNodeAction(ctx context.Context, request DbNodeAct
 	ociResponse, err = common.Retry(ctx, request, client.dbNodeAction, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DbNodeActionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DbNodeActionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1292,7 +1317,8 @@ func (client DatabaseClient) DeleteAutonomousDataWarehouse(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.deleteAutonomousDataWarehouse, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1334,7 +1360,8 @@ func (client DatabaseClient) DeleteAutonomousDatabase(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.deleteAutonomousDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1376,7 +1403,8 @@ func (client DatabaseClient) DeleteBackup(ctx context.Context, request DeleteBac
 	ociResponse, err = common.Retry(ctx, request, client.deleteBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1418,7 +1446,8 @@ func (client DatabaseClient) DeleteBackupDestination(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.deleteBackupDestination, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteBackupDestinationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteBackupDestinationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1460,7 +1489,8 @@ func (client DatabaseClient) DeleteConsoleConnection(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.deleteConsoleConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteConsoleConnectionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteConsoleConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1503,7 +1533,8 @@ func (client DatabaseClient) DeleteDatabase(ctx context.Context, request DeleteD
 	ociResponse, err = common.Retry(ctx, request, client.deleteDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1547,7 +1578,8 @@ func (client DatabaseClient) DeleteDbHome(ctx context.Context, request DeleteDbH
 	ociResponse, err = common.Retry(ctx, request, client.deleteDbHome, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteDbHomeResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteDbHomeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1589,7 +1621,8 @@ func (client DatabaseClient) DeleteExadataInfrastructure(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.deleteExadataInfrastructure, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1631,7 +1664,8 @@ func (client DatabaseClient) DeleteVmCluster(ctx context.Context, request Delete
 	ociResponse, err = common.Retry(ctx, request, client.deleteVmCluster, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteVmClusterResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteVmClusterResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1673,7 +1707,8 @@ func (client DatabaseClient) DeleteVmClusterNetwork(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.deleteVmClusterNetwork, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteVmClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteVmClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1715,7 +1750,8 @@ func (client DatabaseClient) DeregisterAutonomousDatabaseDataSafe(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.deregisterAutonomousDatabaseDataSafe, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeregisterAutonomousDatabaseDataSafeResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeregisterAutonomousDatabaseDataSafeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1762,7 +1798,8 @@ func (client DatabaseClient) DownloadExadataInfrastructureConfigFile(ctx context
 	ociResponse, err = common.Retry(ctx, request, client.downloadExadataInfrastructureConfigFile, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DownloadExadataInfrastructureConfigFileResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DownloadExadataInfrastructureConfigFileResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1808,7 +1845,8 @@ func (client DatabaseClient) DownloadVmClusterNetworkConfigFile(ctx context.Cont
 	ociResponse, err = common.Retry(ctx, request, client.downloadVmClusterNetworkConfigFile, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DownloadVmClusterNetworkConfigFileResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DownloadVmClusterNetworkConfigFileResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1852,7 +1890,8 @@ func (client DatabaseClient) FailoverDataGuardAssociation(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.failoverDataGuardAssociation, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = FailoverDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = FailoverDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1899,7 +1938,8 @@ func (client DatabaseClient) GenerateAutonomousDataWarehouseWallet(ctx context.C
 	ociResponse, err = common.Retry(ctx, request, client.generateAutonomousDataWarehouseWallet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GenerateAutonomousDataWarehouseWalletResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GenerateAutonomousDataWarehouseWalletResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1945,7 +1985,8 @@ func (client DatabaseClient) GenerateAutonomousDatabaseWallet(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.generateAutonomousDatabaseWallet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GenerateAutonomousDatabaseWalletResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GenerateAutonomousDatabaseWalletResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1991,7 +2032,8 @@ func (client DatabaseClient) GenerateRecommendedVmClusterNetwork(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.generateRecommendedVmClusterNetwork, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GenerateRecommendedVmClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GenerateRecommendedVmClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2033,7 +2075,8 @@ func (client DatabaseClient) GetAutonomousContainerDatabase(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.getAutonomousContainerDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2075,7 +2118,8 @@ func (client DatabaseClient) GetAutonomousDataWarehouse(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.getAutonomousDataWarehouse, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2117,7 +2161,8 @@ func (client DatabaseClient) GetAutonomousDataWarehouseBackup(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.getAutonomousDataWarehouseBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetAutonomousDataWarehouseBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetAutonomousDataWarehouseBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2159,7 +2204,8 @@ func (client DatabaseClient) GetAutonomousDatabase(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.getAutonomousDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2201,7 +2247,8 @@ func (client DatabaseClient) GetAutonomousDatabaseBackup(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.getAutonomousDatabaseBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetAutonomousDatabaseBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetAutonomousDatabaseBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2243,7 +2290,8 @@ func (client DatabaseClient) GetAutonomousDatabaseRegionalWallet(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.getAutonomousDatabaseRegionalWallet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetAutonomousDatabaseRegionalWalletResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetAutonomousDatabaseRegionalWalletResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2285,7 +2333,8 @@ func (client DatabaseClient) GetAutonomousDatabaseWallet(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.getAutonomousDatabaseWallet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetAutonomousDatabaseWalletResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetAutonomousDatabaseWalletResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2327,7 +2376,8 @@ func (client DatabaseClient) GetAutonomousExadataInfrastructure(ctx context.Cont
 	ociResponse, err = common.Retry(ctx, request, client.getAutonomousExadataInfrastructure, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetAutonomousExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetAutonomousExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2369,7 +2419,8 @@ func (client DatabaseClient) GetBackup(ctx context.Context, request GetBackupReq
 	ociResponse, err = common.Retry(ctx, request, client.getBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetBackupResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2411,7 +2462,8 @@ func (client DatabaseClient) GetBackupDestination(ctx context.Context, request G
 	ociResponse, err = common.Retry(ctx, request, client.getBackupDestination, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetBackupDestinationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetBackupDestinationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2453,7 +2505,8 @@ func (client DatabaseClient) GetConsoleConnection(ctx context.Context, request G
 	ociResponse, err = common.Retry(ctx, request, client.getConsoleConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetConsoleConnectionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetConsoleConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2495,7 +2548,8 @@ func (client DatabaseClient) GetDataGuardAssociation(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.getDataGuardAssociation, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2537,7 +2591,8 @@ func (client DatabaseClient) GetDatabase(ctx context.Context, request GetDatabas
 	ociResponse, err = common.Retry(ctx, request, client.getDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2579,7 +2634,8 @@ func (client DatabaseClient) GetDbHome(ctx context.Context, request GetDbHomeReq
 	ociResponse, err = common.Retry(ctx, request, client.getDbHome, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetDbHomeResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetDbHomeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2621,7 +2677,8 @@ func (client DatabaseClient) GetDbHomePatch(ctx context.Context, request GetDbHo
 	ociResponse, err = common.Retry(ctx, request, client.getDbHomePatch, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetDbHomePatchResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetDbHomePatchResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2663,7 +2720,8 @@ func (client DatabaseClient) GetDbHomePatchHistoryEntry(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.getDbHomePatchHistoryEntry, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetDbHomePatchHistoryEntryResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetDbHomePatchHistoryEntryResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2705,7 +2763,8 @@ func (client DatabaseClient) GetDbNode(ctx context.Context, request GetDbNodeReq
 	ociResponse, err = common.Retry(ctx, request, client.getDbNode, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetDbNodeResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetDbNodeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2747,7 +2806,8 @@ func (client DatabaseClient) GetDbSystem(ctx context.Context, request GetDbSyste
 	ociResponse, err = common.Retry(ctx, request, client.getDbSystem, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetDbSystemResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetDbSystemResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2789,7 +2849,8 @@ func (client DatabaseClient) GetDbSystemPatch(ctx context.Context, request GetDb
 	ociResponse, err = common.Retry(ctx, request, client.getDbSystemPatch, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetDbSystemPatchResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetDbSystemPatchResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2831,7 +2892,8 @@ func (client DatabaseClient) GetDbSystemPatchHistoryEntry(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.getDbSystemPatchHistoryEntry, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetDbSystemPatchHistoryEntryResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetDbSystemPatchHistoryEntryResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2873,7 +2935,8 @@ func (client DatabaseClient) GetExadataInfrastructure(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.getExadataInfrastructure, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2915,7 +2978,8 @@ func (client DatabaseClient) GetExadataInfrastructureOcpus(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.getExadataInfrastructureOcpus, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetExadataInfrastructureOcpusResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetExadataInfrastructureOcpusResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -2958,7 +3022,8 @@ func (client DatabaseClient) GetExadataIormConfig(ctx context.Context, request G
 	ociResponse, err = common.Retry(ctx, request, client.getExadataIormConfig, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetExadataIormConfigResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetExadataIormConfigResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3001,7 +3066,8 @@ func (client DatabaseClient) GetExternalBackupJob(ctx context.Context, request G
 	ociResponse, err = common.Retry(ctx, request, client.getExternalBackupJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetExternalBackupJobResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetExternalBackupJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3043,7 +3109,8 @@ func (client DatabaseClient) GetMaintenanceRun(ctx context.Context, request GetM
 	ociResponse, err = common.Retry(ctx, request, client.getMaintenanceRun, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetMaintenanceRunResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetMaintenanceRunResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3085,7 +3152,8 @@ func (client DatabaseClient) GetVmCluster(ctx context.Context, request GetVmClus
 	ociResponse, err = common.Retry(ctx, request, client.getVmCluster, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetVmClusterResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetVmClusterResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3127,7 +3195,8 @@ func (client DatabaseClient) GetVmClusterNetwork(ctx context.Context, request Ge
 	ociResponse, err = common.Retry(ctx, request, client.getVmClusterNetwork, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetVmClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetVmClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3174,7 +3243,8 @@ func (client DatabaseClient) LaunchAutonomousExadataInfrastructure(ctx context.C
 	ociResponse, err = common.Retry(ctx, request, client.launchAutonomousExadataInfrastructure, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = LaunchAutonomousExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = LaunchAutonomousExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3226,7 +3296,8 @@ func (client DatabaseClient) LaunchDbSystem(ctx context.Context, request LaunchD
 	ociResponse, err = common.Retry(ctx, request, client.launchDbSystem, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = LaunchDbSystemResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = LaunchDbSystemResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3268,7 +3339,8 @@ func (client DatabaseClient) ListAutonomousContainerDatabases(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.listAutonomousContainerDatabases, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListAutonomousContainerDatabasesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListAutonomousContainerDatabasesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3310,7 +3382,8 @@ func (client DatabaseClient) ListAutonomousDataWarehouseBackups(ctx context.Cont
 	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDataWarehouseBackups, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListAutonomousDataWarehouseBackupsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListAutonomousDataWarehouseBackupsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3352,7 +3425,8 @@ func (client DatabaseClient) ListAutonomousDataWarehouses(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDataWarehouses, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListAutonomousDataWarehousesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListAutonomousDataWarehousesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3394,7 +3468,8 @@ func (client DatabaseClient) ListAutonomousDatabaseBackups(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDatabaseBackups, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListAutonomousDatabaseBackupsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListAutonomousDatabaseBackupsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3436,7 +3511,8 @@ func (client DatabaseClient) ListAutonomousDatabases(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDatabases, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListAutonomousDatabasesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListAutonomousDatabasesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3479,7 +3555,8 @@ func (client DatabaseClient) ListAutonomousDbPreviewVersions(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDbPreviewVersions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListAutonomousDbPreviewVersionsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListAutonomousDbPreviewVersionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3521,7 +3598,8 @@ func (client DatabaseClient) ListAutonomousDbVersions(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDbVersions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListAutonomousDbVersionsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListAutonomousDbVersionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3563,7 +3641,8 @@ func (client DatabaseClient) ListAutonomousExadataInfrastructureShapes(ctx conte
 	ociResponse, err = common.Retry(ctx, request, client.listAutonomousExadataInfrastructureShapes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListAutonomousExadataInfrastructureShapesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListAutonomousExadataInfrastructureShapesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3605,7 +3684,8 @@ func (client DatabaseClient) ListAutonomousExadataInfrastructures(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.listAutonomousExadataInfrastructures, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListAutonomousExadataInfrastructuresResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListAutonomousExadataInfrastructuresResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3647,7 +3727,8 @@ func (client DatabaseClient) ListBackupDestination(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.listBackupDestination, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListBackupDestinationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListBackupDestinationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3689,7 +3770,8 @@ func (client DatabaseClient) ListBackups(ctx context.Context, request ListBackup
 	ociResponse, err = common.Retry(ctx, request, client.listBackups, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListBackupsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListBackupsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3731,7 +3813,8 @@ func (client DatabaseClient) ListConsoleConnections(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.listConsoleConnections, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListConsoleConnectionsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListConsoleConnectionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3773,7 +3856,8 @@ func (client DatabaseClient) ListDataGuardAssociations(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.listDataGuardAssociations, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListDataGuardAssociationsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListDataGuardAssociationsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3815,7 +3899,8 @@ func (client DatabaseClient) ListDatabases(ctx context.Context, request ListData
 	ociResponse, err = common.Retry(ctx, request, client.listDatabases, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListDatabasesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListDatabasesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3857,7 +3942,8 @@ func (client DatabaseClient) ListDbHomePatchHistoryEntries(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.listDbHomePatchHistoryEntries, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListDbHomePatchHistoryEntriesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListDbHomePatchHistoryEntriesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3899,7 +3985,8 @@ func (client DatabaseClient) ListDbHomePatches(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listDbHomePatches, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListDbHomePatchesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListDbHomePatchesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3941,7 +4028,8 @@ func (client DatabaseClient) ListDbHomes(ctx context.Context, request ListDbHome
 	ociResponse, err = common.Retry(ctx, request, client.listDbHomes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListDbHomesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListDbHomesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -3983,7 +4071,8 @@ func (client DatabaseClient) ListDbNodes(ctx context.Context, request ListDbNode
 	ociResponse, err = common.Retry(ctx, request, client.listDbNodes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListDbNodesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListDbNodesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4025,7 +4114,8 @@ func (client DatabaseClient) ListDbSystemPatchHistoryEntries(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.listDbSystemPatchHistoryEntries, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListDbSystemPatchHistoryEntriesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListDbSystemPatchHistoryEntriesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4067,7 +4157,8 @@ func (client DatabaseClient) ListDbSystemPatches(ctx context.Context, request Li
 	ociResponse, err = common.Retry(ctx, request, client.listDbSystemPatches, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListDbSystemPatchesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListDbSystemPatchesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4109,7 +4200,8 @@ func (client DatabaseClient) ListDbSystemShapes(ctx context.Context, request Lis
 	ociResponse, err = common.Retry(ctx, request, client.listDbSystemShapes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListDbSystemShapesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListDbSystemShapesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4152,7 +4244,8 @@ func (client DatabaseClient) ListDbSystems(ctx context.Context, request ListDbSy
 	ociResponse, err = common.Retry(ctx, request, client.listDbSystems, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListDbSystemsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListDbSystemsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4194,7 +4287,8 @@ func (client DatabaseClient) ListDbVersions(ctx context.Context, request ListDbV
 	ociResponse, err = common.Retry(ctx, request, client.listDbVersions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListDbVersionsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListDbVersionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4236,7 +4330,8 @@ func (client DatabaseClient) ListExadataInfrastructures(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.listExadataInfrastructures, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListExadataInfrastructuresResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListExadataInfrastructuresResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4278,7 +4373,8 @@ func (client DatabaseClient) ListGiVersions(ctx context.Context, request ListGiV
 	ociResponse, err = common.Retry(ctx, request, client.listGiVersions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListGiVersionsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListGiVersionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4320,7 +4416,8 @@ func (client DatabaseClient) ListMaintenanceRuns(ctx context.Context, request Li
 	ociResponse, err = common.Retry(ctx, request, client.listMaintenanceRuns, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListMaintenanceRunsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListMaintenanceRunsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4362,7 +4459,8 @@ func (client DatabaseClient) ListVmClusterNetworks(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.listVmClusterNetworks, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListVmClusterNetworksResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListVmClusterNetworksResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4404,7 +4502,8 @@ func (client DatabaseClient) ListVmClusters(ctx context.Context, request ListVmC
 	ociResponse, err = common.Retry(ctx, request, client.listVmClusters, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListVmClustersResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListVmClustersResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4446,7 +4545,8 @@ func (client DatabaseClient) RegisterAutonomousDatabaseDataSafe(ctx context.Cont
 	ociResponse, err = common.Retry(ctx, request, client.registerAutonomousDatabaseDataSafe, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = RegisterAutonomousDatabaseDataSafeResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = RegisterAutonomousDatabaseDataSafeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4488,7 +4588,8 @@ func (client DatabaseClient) ReinstateDataGuardAssociation(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.reinstateDataGuardAssociation, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ReinstateDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ReinstateDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4530,7 +4631,8 @@ func (client DatabaseClient) RestartAutonomousContainerDatabase(ctx context.Cont
 	ociResponse, err = common.Retry(ctx, request, client.restartAutonomousContainerDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = RestartAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = RestartAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4572,7 +4674,8 @@ func (client DatabaseClient) RestartAutonomousDatabase(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.restartAutonomousDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = RestartAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = RestartAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4614,7 +4717,8 @@ func (client DatabaseClient) RestoreAutonomousDataWarehouse(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.restoreAutonomousDataWarehouse, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = RestoreAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = RestoreAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4656,7 +4760,8 @@ func (client DatabaseClient) RestoreAutonomousDatabase(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.restoreAutonomousDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = RestoreAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = RestoreAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4698,7 +4803,8 @@ func (client DatabaseClient) RestoreDatabase(ctx context.Context, request Restor
 	ociResponse, err = common.Retry(ctx, request, client.restoreDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = RestoreDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = RestoreDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4740,7 +4846,8 @@ func (client DatabaseClient) StartAutonomousDataWarehouse(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.startAutonomousDataWarehouse, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = StartAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = StartAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4782,7 +4889,8 @@ func (client DatabaseClient) StartAutonomousDatabase(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.startAutonomousDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = StartAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = StartAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4824,7 +4932,8 @@ func (client DatabaseClient) StopAutonomousDataWarehouse(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.stopAutonomousDataWarehouse, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = StopAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = StopAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4866,7 +4975,8 @@ func (client DatabaseClient) StopAutonomousDatabase(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.stopAutonomousDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = StopAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = StopAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4910,7 +5020,8 @@ func (client DatabaseClient) SwitchoverDataGuardAssociation(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.switchoverDataGuardAssociation, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = SwitchoverDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = SwitchoverDataGuardAssociationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4952,7 +5063,8 @@ func (client DatabaseClient) TerminateAutonomousContainerDatabase(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.terminateAutonomousContainerDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = TerminateAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = TerminateAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -4994,7 +5106,8 @@ func (client DatabaseClient) TerminateAutonomousExadataInfrastructure(ctx contex
 	ociResponse, err = common.Retry(ctx, request, client.terminateAutonomousExadataInfrastructure, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = TerminateAutonomousExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = TerminateAutonomousExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5036,7 +5149,8 @@ func (client DatabaseClient) TerminateDbSystem(ctx context.Context, request Term
 	ociResponse, err = common.Retry(ctx, request, client.terminateDbSystem, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = TerminateDbSystemResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = TerminateDbSystemResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5078,7 +5192,8 @@ func (client DatabaseClient) UpdateAutonomousContainerDatabase(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.updateAutonomousContainerDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateAutonomousContainerDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5120,7 +5235,8 @@ func (client DatabaseClient) UpdateAutonomousDataWarehouse(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.updateAutonomousDataWarehouse, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateAutonomousDataWarehouseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5162,7 +5278,8 @@ func (client DatabaseClient) UpdateAutonomousDatabase(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.updateAutonomousDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateAutonomousDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5204,7 +5321,8 @@ func (client DatabaseClient) UpdateAutonomousDatabaseRegionalWallet(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.updateAutonomousDatabaseRegionalWallet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateAutonomousDatabaseRegionalWalletResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateAutonomousDatabaseRegionalWalletResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5246,7 +5364,8 @@ func (client DatabaseClient) UpdateAutonomousDatabaseWallet(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.updateAutonomousDatabaseWallet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateAutonomousDatabaseWalletResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateAutonomousDatabaseWalletResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5288,7 +5407,8 @@ func (client DatabaseClient) UpdateAutonomousExadataInfrastructure(ctx context.C
 	ociResponse, err = common.Retry(ctx, request, client.updateAutonomousExadataInfrastructure, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateAutonomousExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateAutonomousExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5332,7 +5452,8 @@ func (client DatabaseClient) UpdateBackupDestination(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.updateBackupDestination, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateBackupDestinationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateBackupDestinationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5374,7 +5495,8 @@ func (client DatabaseClient) UpdateDatabase(ctx context.Context, request UpdateD
 	ociResponse, err = common.Retry(ctx, request, client.updateDatabase, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateDatabaseResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateDatabaseResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5416,7 +5538,8 @@ func (client DatabaseClient) UpdateDbHome(ctx context.Context, request UpdateDbH
 	ociResponse, err = common.Retry(ctx, request, client.updateDbHome, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateDbHomeResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateDbHomeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5458,7 +5581,8 @@ func (client DatabaseClient) UpdateDbSystem(ctx context.Context, request UpdateD
 	ociResponse, err = common.Retry(ctx, request, client.updateDbSystem, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateDbSystemResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateDbSystemResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5500,7 +5624,8 @@ func (client DatabaseClient) UpdateExadataInfrastructure(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.updateExadataInfrastructure, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateExadataInfrastructureResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5542,7 +5667,8 @@ func (client DatabaseClient) UpdateExadataIormConfig(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.updateExadataIormConfig, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateExadataIormConfigResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateExadataIormConfigResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5584,7 +5710,8 @@ func (client DatabaseClient) UpdateMaintenanceRun(ctx context.Context, request U
 	ociResponse, err = common.Retry(ctx, request, client.updateMaintenanceRun, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateMaintenanceRunResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateMaintenanceRunResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5626,7 +5753,8 @@ func (client DatabaseClient) UpdateVmCluster(ctx context.Context, request Update
 	ociResponse, err = common.Retry(ctx, request, client.updateVmCluster, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateVmClusterResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateVmClusterResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5668,7 +5796,8 @@ func (client DatabaseClient) UpdateVmClusterNetwork(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.updateVmClusterNetwork, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateVmClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateVmClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -5715,7 +5844,8 @@ func (client DatabaseClient) ValidateVmClusterNetwork(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.validateVmClusterNetwork, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ValidateVmClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ValidateVmClusterNetworkResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
