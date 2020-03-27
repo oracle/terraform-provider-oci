@@ -90,7 +90,8 @@ func (client OdaClient) ChangeOdaInstanceCompartment(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.changeOdaInstanceCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeOdaInstanceCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeOdaInstanceCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -139,7 +140,8 @@ func (client OdaClient) CreateOdaInstance(ctx context.Context, request CreateOda
 	ociResponse, err = common.Retry(ctx, request, client.createOdaInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -182,7 +184,8 @@ func (client OdaClient) DeleteOdaInstance(ctx context.Context, request DeleteOda
 	ociResponse, err = common.Retry(ctx, request, client.deleteOdaInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -224,7 +227,8 @@ func (client OdaClient) GetOdaInstance(ctx context.Context, request GetOdaInstan
 	ociResponse, err = common.Retry(ctx, request, client.getOdaInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -268,7 +272,8 @@ func (client OdaClient) GetWorkRequest(ctx context.Context, request GetWorkReque
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -314,7 +319,8 @@ func (client OdaClient) ListOdaInstances(ctx context.Context, request ListOdaIns
 	ociResponse, err = common.Retry(ctx, request, client.listOdaInstances, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListOdaInstancesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListOdaInstancesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -359,7 +365,8 @@ func (client OdaClient) ListWorkRequestErrors(ctx context.Context, request ListW
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -404,7 +411,8 @@ func (client OdaClient) ListWorkRequestLogs(ctx context.Context, request ListWor
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -449,7 +457,8 @@ func (client OdaClient) ListWorkRequests(ctx context.Context, request ListWorkRe
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -497,7 +506,8 @@ func (client OdaClient) StartOdaInstance(ctx context.Context, request StartOdaIn
 	ociResponse, err = common.Retry(ctx, request, client.startOdaInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = StartOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = StartOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -546,7 +556,8 @@ func (client OdaClient) StopOdaInstance(ctx context.Context, request StopOdaInst
 	ociResponse, err = common.Retry(ctx, request, client.stopOdaInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = StopOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = StopOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -588,7 +599,8 @@ func (client OdaClient) UpdateOdaInstance(ctx context.Context, request UpdateOda
 	ociResponse, err = common.Retry(ctx, request, client.updateOdaInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateOdaInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

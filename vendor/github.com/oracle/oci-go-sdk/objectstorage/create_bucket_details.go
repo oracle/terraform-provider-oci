@@ -4,6 +4,8 @@
 // Object Storage Service API
 //
 // Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
+// For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
+// Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
 //
 
 package objectstorage
@@ -17,7 +19,7 @@ import (
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
 type CreateBucketDetails struct {
 
-	// The name of the bucket. Valid characters are uppercase or lowercase letters, numbers, and dashes.
+	// The name of the bucket. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods.
 	// Bucket names must be unique within an Object Storage namespace. Avoid entering confidential information.
 	// example: Example: my-new-bucket1
 	Name *string `mandatory:"true" json:"name"`
@@ -56,8 +58,8 @@ type CreateBucketDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The OCID of a master encryption key used to call the Key Management service to generate a data
-	// encryption key or to encrypt or decrypt a data encryption key.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key
+	// Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 

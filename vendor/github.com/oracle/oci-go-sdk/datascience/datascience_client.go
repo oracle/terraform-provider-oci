@@ -84,7 +84,8 @@ func (client DataScienceClient) ActivateModel(ctx context.Context, request Activ
 	ociResponse, err = common.Retry(ctx, request, client.activateModel, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ActivateModelResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ActivateModelResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -126,7 +127,8 @@ func (client DataScienceClient) ActivateNotebookSession(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.activateNotebookSession, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ActivateNotebookSessionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ActivateNotebookSessionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -168,7 +170,8 @@ func (client DataScienceClient) CancelWorkRequest(ctx context.Context, request C
 	ociResponse, err = common.Retry(ctx, request, client.cancelWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CancelWorkRequestResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CancelWorkRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -215,7 +218,8 @@ func (client DataScienceClient) ChangeModelCompartment(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.changeModelCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeModelCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeModelCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -262,7 +266,8 @@ func (client DataScienceClient) ChangeNotebookSessionCompartment(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.changeNotebookSessionCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeNotebookSessionCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeNotebookSessionCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -309,7 +314,8 @@ func (client DataScienceClient) ChangeProjectCompartment(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.changeProjectCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeProjectCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeProjectCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -356,7 +362,8 @@ func (client DataScienceClient) CreateModel(ctx context.Context, request CreateM
 	ociResponse, err = common.Retry(ctx, request, client.createModel, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateModelResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateModelResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -403,7 +410,8 @@ func (client DataScienceClient) CreateModelArtifact(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.createModelArtifact, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateModelArtifactResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateModelArtifactResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -460,7 +468,8 @@ func (client DataScienceClient) CreateModelProvenance(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.createModelProvenance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateModelProvenanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateModelProvenanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -507,7 +516,8 @@ func (client DataScienceClient) CreateNotebookSession(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.createNotebookSession, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateNotebookSessionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateNotebookSessionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -554,7 +564,8 @@ func (client DataScienceClient) CreateProject(ctx context.Context, request Creat
 	ociResponse, err = common.Retry(ctx, request, client.createProject, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateProjectResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateProjectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -596,7 +607,8 @@ func (client DataScienceClient) DeactivateModel(ctx context.Context, request Dea
 	ociResponse, err = common.Retry(ctx, request, client.deactivateModel, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeactivateModelResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeactivateModelResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -638,7 +650,8 @@ func (client DataScienceClient) DeactivateNotebookSession(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.deactivateNotebookSession, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeactivateNotebookSessionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeactivateNotebookSessionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -680,7 +693,8 @@ func (client DataScienceClient) DeleteModel(ctx context.Context, request DeleteM
 	ociResponse, err = common.Retry(ctx, request, client.deleteModel, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteModelResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteModelResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -722,7 +736,8 @@ func (client DataScienceClient) DeleteNotebookSession(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.deleteNotebookSession, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteNotebookSessionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteNotebookSessionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -764,7 +779,8 @@ func (client DataScienceClient) DeleteProject(ctx context.Context, request Delet
 	ociResponse, err = common.Retry(ctx, request, client.deleteProject, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteProjectResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteProjectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -806,7 +822,8 @@ func (client DataScienceClient) GetModel(ctx context.Context, request GetModelRe
 	ociResponse, err = common.Retry(ctx, request, client.getModel, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetModelResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetModelResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -848,7 +865,8 @@ func (client DataScienceClient) GetModelArtifactContent(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.getModelArtifactContent, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetModelArtifactContentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetModelArtifactContentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -889,7 +907,8 @@ func (client DataScienceClient) GetModelProvenance(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.getModelProvenance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetModelProvenanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetModelProvenanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -931,7 +950,8 @@ func (client DataScienceClient) GetNotebookSession(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.getNotebookSession, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetNotebookSessionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetNotebookSessionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -973,7 +993,8 @@ func (client DataScienceClient) GetProject(ctx context.Context, request GetProje
 	ociResponse, err = common.Retry(ctx, request, client.getProject, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetProjectResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetProjectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1015,7 +1036,8 @@ func (client DataScienceClient) GetWorkRequest(ctx context.Context, request GetW
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1057,7 +1079,8 @@ func (client DataScienceClient) HeadModelArtifact(ctx context.Context, request H
 	ociResponse, err = common.Retry(ctx, request, client.headModelArtifact, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = HeadModelArtifactResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = HeadModelArtifactResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1099,7 +1122,8 @@ func (client DataScienceClient) ListModels(ctx context.Context, request ListMode
 	ociResponse, err = common.Retry(ctx, request, client.listModels, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListModelsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListModelsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1141,7 +1165,8 @@ func (client DataScienceClient) ListNotebookSessionShapes(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.listNotebookSessionShapes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListNotebookSessionShapesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListNotebookSessionShapesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1183,7 +1208,8 @@ func (client DataScienceClient) ListNotebookSessions(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.listNotebookSessions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListNotebookSessionsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListNotebookSessionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1225,7 +1251,8 @@ func (client DataScienceClient) ListProjects(ctx context.Context, request ListPr
 	ociResponse, err = common.Retry(ctx, request, client.listProjects, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListProjectsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListProjectsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1267,7 +1294,8 @@ func (client DataScienceClient) ListWorkRequestErrors(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1309,7 +1337,8 @@ func (client DataScienceClient) ListWorkRequestLogs(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1351,7 +1380,8 @@ func (client DataScienceClient) ListWorkRequests(ctx context.Context, request Li
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1393,7 +1423,8 @@ func (client DataScienceClient) UpdateModel(ctx context.Context, request UpdateM
 	ociResponse, err = common.Retry(ctx, request, client.updateModel, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateModelResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateModelResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1435,7 +1466,8 @@ func (client DataScienceClient) UpdateModelProvenance(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.updateModelProvenance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateModelProvenanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateModelProvenanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1479,7 +1511,8 @@ func (client DataScienceClient) UpdateNotebookSession(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.updateNotebookSession, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateNotebookSessionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateNotebookSessionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1521,7 +1554,8 @@ func (client DataScienceClient) UpdateProject(ctx context.Context, request Updat
 	ociResponse, err = common.Retry(ctx, request, client.updateProject, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateProjectResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateProjectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

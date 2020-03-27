@@ -91,7 +91,8 @@ func (client EventsClient) ChangeRuleCompartment(ctx context.Context, request Ch
 	ociResponse, err = common.Retry(ctx, request, client.changeRuleCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeRuleCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeRuleCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -138,7 +139,8 @@ func (client EventsClient) CreateRule(ctx context.Context, request CreateRuleReq
 	ociResponse, err = common.Retry(ctx, request, client.createRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateRuleResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -180,7 +182,8 @@ func (client EventsClient) DeleteRule(ctx context.Context, request DeleteRuleReq
 	ociResponse, err = common.Retry(ctx, request, client.deleteRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteRuleResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -222,7 +225,8 @@ func (client EventsClient) GetRule(ctx context.Context, request GetRuleRequest) 
 	ociResponse, err = common.Retry(ctx, request, client.getRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetRuleResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -264,7 +268,8 @@ func (client EventsClient) ListRules(ctx context.Context, request ListRulesReque
 	ociResponse, err = common.Retry(ctx, request, client.listRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListRulesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -306,7 +311,8 @@ func (client EventsClient) UpdateRule(ctx context.Context, request UpdateRuleReq
 	ociResponse, err = common.Retry(ctx, request, client.updateRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateRuleResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

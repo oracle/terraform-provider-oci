@@ -93,7 +93,8 @@ func (client NotificationDataPlaneClient) ChangeSubscriptionCompartment(ctx cont
 	ociResponse, err = common.Retry(ctx, request, client.changeSubscriptionCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeSubscriptionCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeSubscriptionCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -143,7 +144,8 @@ func (client NotificationDataPlaneClient) CreateSubscription(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.createSubscription, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateSubscriptionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateSubscriptionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -186,7 +188,8 @@ func (client NotificationDataPlaneClient) DeleteSubscription(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.deleteSubscription, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteSubscriptionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteSubscriptionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -229,7 +232,8 @@ func (client NotificationDataPlaneClient) GetConfirmSubscription(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.getConfirmSubscription, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetConfirmSubscriptionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetConfirmSubscriptionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -272,7 +276,8 @@ func (client NotificationDataPlaneClient) GetSubscription(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.getSubscription, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetSubscriptionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetSubscriptionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -315,7 +320,8 @@ func (client NotificationDataPlaneClient) GetUnsubscription(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.getUnsubscription, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetUnsubscriptionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetUnsubscriptionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -358,7 +364,8 @@ func (client NotificationDataPlaneClient) ListSubscriptions(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.listSubscriptions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListSubscriptionsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListSubscriptionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -410,7 +417,8 @@ func (client NotificationDataPlaneClient) PublishMessage(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.publishMessage, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = PublishMessageResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = PublishMessageResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -453,7 +461,8 @@ func (client NotificationDataPlaneClient) ResendSubscriptionConfirmation(ctx con
 	ociResponse, err = common.Retry(ctx, request, client.resendSubscriptionConfirmation, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ResendSubscriptionConfirmationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ResendSubscriptionConfirmationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -496,7 +505,8 @@ func (client NotificationDataPlaneClient) UpdateSubscription(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.updateSubscription, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateSubscriptionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateSubscriptionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

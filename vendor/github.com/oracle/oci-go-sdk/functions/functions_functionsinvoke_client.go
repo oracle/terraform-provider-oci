@@ -77,7 +77,8 @@ func (client FunctionsInvokeClient) InvokeFunction(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.invokeFunction, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = InvokeFunctionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = InvokeFunctionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

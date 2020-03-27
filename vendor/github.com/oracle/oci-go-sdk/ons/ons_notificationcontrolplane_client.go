@@ -93,7 +93,8 @@ func (client NotificationControlPlaneClient) ChangeTopicCompartment(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.changeTopicCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeTopicCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeTopicCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -149,7 +150,8 @@ func (client NotificationControlPlaneClient) CreateTopic(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.createTopic, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateTopicResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateTopicResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -192,7 +194,8 @@ func (client NotificationControlPlaneClient) DeleteTopic(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.deleteTopic, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteTopicResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteTopicResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -234,7 +237,8 @@ func (client NotificationControlPlaneClient) GetTopic(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.getTopic, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetTopicResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetTopicResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -277,7 +281,8 @@ func (client NotificationControlPlaneClient) ListTopics(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.listTopics, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListTopicsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListTopicsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -320,7 +325,8 @@ func (client NotificationControlPlaneClient) UpdateTopic(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.updateTopic, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateTopicResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateTopicResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

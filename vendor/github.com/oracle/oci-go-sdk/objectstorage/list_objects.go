@@ -4,6 +4,8 @@
 // Object Storage Service API
 //
 // Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
+// For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
+// Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
 //
 
 package objectstorage
@@ -23,7 +25,7 @@ type ListObjects struct {
 	// Prefixes that are common to the results returned by the request if the request specified a delimiter.
 	Prefixes []string `mandatory:"false" json:"prefixes"`
 
-	// The name of the object to use in the 'startWith' parameter to obtain the next page of
+	// The name of the object to use in the 'start' parameter to obtain the next page of
 	// a truncated ListObjects response. Avoid entering confidential information.
 	// Example: test/object1.log
 	NextStartWith *string `mandatory:"false" json:"nextStartWith"`

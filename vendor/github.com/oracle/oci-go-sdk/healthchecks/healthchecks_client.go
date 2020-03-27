@@ -92,7 +92,8 @@ func (client HealthChecksClient) ChangeHttpMonitorCompartment(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.changeHttpMonitorCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeHttpMonitorCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeHttpMonitorCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -140,7 +141,8 @@ func (client HealthChecksClient) ChangePingMonitorCompartment(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.changePingMonitorCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangePingMonitorCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangePingMonitorCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -189,7 +191,8 @@ func (client HealthChecksClient) CreateHttpMonitor(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.createHttpMonitor, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateHttpMonitorResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateHttpMonitorResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -233,7 +236,8 @@ func (client HealthChecksClient) CreateOnDemandHttpProbe(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.createOnDemandHttpProbe, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateOnDemandHttpProbeResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateOnDemandHttpProbeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -277,7 +281,8 @@ func (client HealthChecksClient) CreateOnDemandPingProbe(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.createOnDemandPingProbe, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateOnDemandPingProbeResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateOnDemandPingProbeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -326,7 +331,8 @@ func (client HealthChecksClient) CreatePingMonitor(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.createPingMonitor, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreatePingMonitorResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreatePingMonitorResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -369,7 +375,8 @@ func (client HealthChecksClient) DeleteHttpMonitor(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.deleteHttpMonitor, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteHttpMonitorResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteHttpMonitorResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -412,7 +419,8 @@ func (client HealthChecksClient) DeletePingMonitor(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.deletePingMonitor, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeletePingMonitorResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeletePingMonitorResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -454,7 +462,8 @@ func (client HealthChecksClient) GetHttpMonitor(ctx context.Context, request Get
 	ociResponse, err = common.Retry(ctx, request, client.getHttpMonitor, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetHttpMonitorResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetHttpMonitorResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -496,7 +505,8 @@ func (client HealthChecksClient) GetPingMonitor(ctx context.Context, request Get
 	ociResponse, err = common.Retry(ctx, request, client.getPingMonitor, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetPingMonitorResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetPingMonitorResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -538,7 +548,8 @@ func (client HealthChecksClient) ListHealthChecksVantagePoints(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.listHealthChecksVantagePoints, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListHealthChecksVantagePointsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListHealthChecksVantagePointsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -580,7 +591,8 @@ func (client HealthChecksClient) ListHttpMonitors(ctx context.Context, request L
 	ociResponse, err = common.Retry(ctx, request, client.listHttpMonitors, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListHttpMonitorsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListHttpMonitorsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -624,7 +636,8 @@ func (client HealthChecksClient) ListHttpProbeResults(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.listHttpProbeResults, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListHttpProbeResultsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListHttpProbeResultsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -668,7 +681,8 @@ func (client HealthChecksClient) ListPingMonitors(ctx context.Context, request L
 	ociResponse, err = common.Retry(ctx, request, client.listPingMonitors, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListPingMonitorsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListPingMonitorsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -715,7 +729,8 @@ func (client HealthChecksClient) ListPingProbeResults(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.listPingProbeResults, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListPingProbeResultsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListPingProbeResultsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -759,7 +774,8 @@ func (client HealthChecksClient) UpdateHttpMonitor(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.updateHttpMonitor, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateHttpMonitorResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateHttpMonitorResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -803,7 +819,8 @@ func (client HealthChecksClient) UpdatePingMonitor(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.updatePingMonitor, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdatePingMonitorResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdatePingMonitorResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
