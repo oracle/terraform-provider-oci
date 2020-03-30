@@ -7,7 +7,7 @@
 resource "oci_objectstorage_bucket" "retention_rule_bucket" {
   compartment_id = "${var.compartment_ocid}"
   namespace      = "${data.oci_objectstorage_namespace.ns.namespace}"
-  name           = "tf-example-bucket"
+  name           = "tf-example-bucket-with-retention-rule"
   access_type    = "NoPublicAccess"
 
   retention_rules {
@@ -24,9 +24,9 @@ resource "oci_objectstorage_bucket" "retention_rule_bucket" {
 
 data "oci_objectstorage_bucket" "retention_rule_bucket" {
   namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
-  name      = "tf-example-bucket"
+  name      = "tf-example-bucket-with-retention-rule"
 }
 
-output lifecyclePolicies1 {
+output "retention_rules_on_bucket" {
   value = "${data.oci_objectstorage_bucket.retention_rule_bucket.retention_rules}"
 }
