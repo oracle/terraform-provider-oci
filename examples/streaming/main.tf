@@ -70,27 +70,28 @@ resource "oci_streaming_stream_pool" "test_stream_pool" {
   #Required
   compartment_id = "${var.compartment_ocid}"
   name           = "TFStreamPool"
+
   private_endpoint_settings {
-    nsg_ids = ["${oci_core_network_security_group.test_nsg.id}"]
+    nsg_ids             = ["${oci_core_network_security_group.test_nsg.id}"]
     private_endpoint_ip = "10.0.0.5"
-    subnet_id = "${oci_core_subnet.test_subnet.id}"
+    subnet_id           = "${oci_core_subnet.test_subnet.id}"
   }
 }
 
 resource "oci_core_vcn" "test_vcn" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block     = "10.0.0.0/16"
   compartment_id = "${var.compartment_ocid}"
-  display_name = "testvcn"
-  dns_label = "dnslabel"
+  display_name   = "testvcn"
+  dns_label      = "dnslabel"
 }
 
 resource "oci_core_subnet" "test_subnet" {
-  cidr_block = "10.0.0.0/24"
+  cidr_block     = "10.0.0.0/24"
   compartment_id = "${var.compartment_ocid}"
-  vcn_id = "${oci_core_vcn.test_vcn.id}"
+  vcn_id         = "${oci_core_vcn.test_vcn.id}"
 }
 
 resource "oci_core_network_security_group" "test_nsg" {
   compartment_id = "${var.compartment_ocid}"
-  vcn_id = "${oci_core_vcn.test_vcn.id}"
+  vcn_id         = "${oci_core_vcn.test_vcn.id}"
 }
