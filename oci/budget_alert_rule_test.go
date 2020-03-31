@@ -221,7 +221,7 @@ func TestBudgetAlertRuleResource_basic(t *testing.T) {
 
 func testAccCheckBudgetAlertRuleDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).budgetClient
+	client := testAccProvider.Meta().(*OracleClients).budgetClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_budget_alert_rule" {
 			noResourceFound = false
@@ -269,7 +269,7 @@ func init() {
 }
 
 func sweepBudgetAlertRuleResource(compartment string) error {
-	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient
+	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient()
 	alertRuleIds, err := getAlertRuleIds(compartment)
 	if err != nil {
 		return err
@@ -298,7 +298,7 @@ func getAlertRuleIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient
+	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient()
 
 	listAlertRulesRequest := oci_budget.ListAlertRulesRequest{}
 

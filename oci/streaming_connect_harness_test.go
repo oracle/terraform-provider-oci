@@ -225,7 +225,7 @@ func TestStreamingConnectHarnessResource_basic(t *testing.T) {
 
 func testAccCheckStreamingConnectHarnessDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).streamAdminClient
+	client := testAccProvider.Meta().(*OracleClients).streamAdminClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_streaming_connect_harness" {
 			noResourceFound = false
@@ -277,7 +277,7 @@ func init() {
 }
 
 func sweepStreamingConnectHarnessResource(compartment string) error {
-	streamAdminClient := GetTestClients(&schema.ResourceData{}).streamAdminClient
+	streamAdminClient := GetTestClients(&schema.ResourceData{}).streamAdminClient()
 	connectHarnessIds, err := getConnectHarnessIds(compartment)
 	if err != nil {
 		return err
@@ -308,7 +308,7 @@ func getConnectHarnessIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	streamAdminClient := GetTestClients(&schema.ResourceData{}).streamAdminClient
+	streamAdminClient := GetTestClients(&schema.ResourceData{}).streamAdminClient()
 
 	listConnectHarnessesRequest := oci_streaming.ListConnectHarnessesRequest{}
 	listConnectHarnessesRequest.CompartmentId = &compartmentId
@@ -335,7 +335,7 @@ func connectHarnessSweepWaitCondition(response common.OCIOperationResponse) bool
 }
 
 func connectHarnessSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.streamAdminClient.GetConnectHarness(context.Background(), oci_streaming.GetConnectHarnessRequest{
+	_, err := client.streamAdminClient().GetConnectHarness(context.Background(), oci_streaming.GetConnectHarnessRequest{
 		ConnectHarnessId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

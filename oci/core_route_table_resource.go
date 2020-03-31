@@ -118,7 +118,7 @@ func CoreRouteTableResource() *schema.Resource {
 func createCoreRouteTable(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreRouteTableResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -126,7 +126,7 @@ func createCoreRouteTable(d *schema.ResourceData, m interface{}) error {
 func readCoreRouteTable(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreRouteTableResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -134,7 +134,7 @@ func readCoreRouteTable(d *schema.ResourceData, m interface{}) error {
 func updateCoreRouteTable(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreRouteTableResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -142,7 +142,7 @@ func updateCoreRouteTable(d *schema.ResourceData, m interface{}) error {
 func deleteCoreRouteTable(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreRouteTableResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

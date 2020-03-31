@@ -330,7 +330,7 @@ func TestDatabaseVmClusterNetworkResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseVmClusterNetworkDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient
+	client := testAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_vm_cluster_network" {
 			noResourceFound = false
@@ -386,7 +386,7 @@ func init() {
 }
 
 func sweepDatabaseVmClusterNetworkResource(compartment string) error {
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	vmClusterNetworkIds, err := getVmClusterNetworkIds(compartment)
 	if err != nil {
 		return err
@@ -417,7 +417,7 @@ func getVmClusterNetworkIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 
 	listVmClusterNetworksRequest := oci_database.ListVmClusterNetworksRequest{}
 	listVmClusterNetworksRequest.CompartmentId = &compartmentId
@@ -454,7 +454,7 @@ func vmClusterNetworkSweepWaitCondition(response common.OCIOperationResponse) bo
 }
 
 func vmClusterNetworkSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.databaseClient.GetVmClusterNetwork(context.Background(), oci_database.GetVmClusterNetworkRequest{
+	_, err := client.databaseClient().GetVmClusterNetwork(context.Background(), oci_database.GetVmClusterNetworkRequest{
 		VmClusterNetworkId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

@@ -27,9 +27,9 @@ func CoreInstanceDataSource() *schema.Resource {
 func readSingularCoreInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstanceDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
-	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient
-	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).computeClient()
+	sync.VirtualNetworkClient = m.(*OracleClients).virtualNetworkClient()
+	sync.BlockStorageClient = m.(*OracleClients).blockstorageClient()
 
 	return ReadResource(sync)
 }

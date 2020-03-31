@@ -149,7 +149,7 @@ func TestLoadBalancerPathRouteSetResource_basic(t *testing.T) {
 
 func testAccCheckLoadBalancerPathRouteSetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient
+	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_load_balancer_path_route_set" {
 			noResourceFound = false
@@ -198,7 +198,7 @@ func init() {
 }
 
 func sweepLoadBalancerPathRouteSetResource(compartment string) error {
-	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient()
 	pathRouteSetIds, err := getPathRouteSetIds(compartment)
 	if err != nil {
 		return err
@@ -225,7 +225,7 @@ func getPathRouteSetIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient()
 
 	listPathRouteSetsRequest := oci_load_balancer.ListPathRouteSetsRequest{}
 

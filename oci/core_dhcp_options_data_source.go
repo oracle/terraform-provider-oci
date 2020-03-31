@@ -46,7 +46,7 @@ func CoreDhcpOptionsDataSource() *schema.Resource {
 func readCoreDhcpOptionsList(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDhcpOptionsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

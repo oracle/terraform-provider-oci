@@ -422,7 +422,7 @@ func TestBudgetBudgetResource_basic(t *testing.T) {
 
 func testAccCheckBudgetBudgetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).budgetClient
+	client := testAccProvider.Meta().(*OracleClients).budgetClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_budget_budget" {
 			noResourceFound = false
@@ -466,7 +466,7 @@ func init() {
 }
 
 func sweepBudgetBudgetResource(compartment string) error {
-	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient
+	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient()
 	// BudgetBudgetResource can only run on root compartment
 	compartment = getEnvSettingWithBlankDefault("tenancy_ocid")
 	budgetIds, err := getBudgetIds(compartment)
@@ -497,7 +497,7 @@ func getBudgetIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient
+	budgetClient := GetTestClients(&schema.ResourceData{}).budgetClient()
 
 	listBudgetsRequest := oci_budget.ListBudgetsRequest{}
 	listBudgetsRequest.CompartmentId = &compartmentId

@@ -62,7 +62,7 @@ func DataSafeDataSafeConfigurationResource() *schema.Resource {
 func createDataSafeDataSafeConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &DataSafeDataSafeConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataSafeClient
+	sync.Client = m.(*OracleClients).dataSafeClient()
 
 	return CreateResource(d, sync)
 }
@@ -70,7 +70,7 @@ func createDataSafeDataSafeConfiguration(d *schema.ResourceData, m interface{}) 
 func readDataSafeDataSafeConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &DataSafeDataSafeConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataSafeClient
+	sync.Client = m.(*OracleClients).dataSafeClient()
 
 	return ReadResource(sync)
 }
@@ -78,7 +78,7 @@ func readDataSafeDataSafeConfiguration(d *schema.ResourceData, m interface{}) er
 func updateDataSafeDataSafeConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &DataSafeDataSafeConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataSafeClient
+	sync.Client = m.(*OracleClients).dataSafeClient()
 
 	return UpdateResource(d, sync)
 }

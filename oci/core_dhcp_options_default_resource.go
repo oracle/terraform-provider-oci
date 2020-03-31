@@ -32,15 +32,14 @@ type DefaultDhcpOptionsResourceCrud struct {
 func createDefaultDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	sync := &DefaultDhcpOptionsResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
-
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	return CreateResource(d, sync)
 }
 
 func deleteDefaultDhcpOptions(d *schema.ResourceData, m interface{}) error {
 	sync := &DefaultDhcpOptionsResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

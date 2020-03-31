@@ -34,7 +34,7 @@ func DatabaseDbNodeConsoleConnectionsDataSource() *schema.Resource {
 func readDatabaseDbNodeConsoleConnections(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbNodeConsoleConnectionsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

@@ -232,7 +232,7 @@ func TestFunctionsApplicationResource_basic(t *testing.T) {
 
 func testAccCheckFunctionsApplicationDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).functionsManagementClient
+	client := testAccProvider.Meta().(*OracleClients).functionsManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_functions_application" {
 			noResourceFound = false
@@ -284,7 +284,7 @@ func init() {
 }
 
 func sweepFunctionsApplicationResource(compartment string) error {
-	functionsManagementClient := GetTestClients(&schema.ResourceData{}).functionsManagementClient
+	functionsManagementClient := GetTestClients(&schema.ResourceData{}).functionsManagementClient()
 	applicationIds, err := getApplicationIds(compartment)
 	if err != nil {
 		return err
@@ -315,7 +315,7 @@ func getApplicationIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	functionsManagementClient := GetTestClients(&schema.ResourceData{}).functionsManagementClient
+	functionsManagementClient := GetTestClients(&schema.ResourceData{}).functionsManagementClient()
 
 	listApplicationsRequest := oci_functions.ListApplicationsRequest{}
 	listApplicationsRequest.CompartmentId = &compartmentId
@@ -342,7 +342,7 @@ func applicationSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func applicationSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.functionsManagementClient.GetApplication(context.Background(), oci_functions.GetApplicationRequest{
+	_, err := client.functionsManagementClient().GetApplication(context.Background(), oci_functions.GetApplicationRequest{
 		ApplicationId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

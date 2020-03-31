@@ -328,7 +328,7 @@ func TestMonitoringAlarmResource_basic(t *testing.T) {
 
 func testAccCheckMonitoringAlarmDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).monitoringClient
+	client := testAccProvider.Meta().(*OracleClients).monitoringClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_monitoring_alarm" {
 			noResourceFound = false
@@ -380,7 +380,7 @@ func init() {
 }
 
 func sweepMonitoringAlarmResource(compartment string) error {
-	monitoringClient := GetTestClients(&schema.ResourceData{}).monitoringClient
+	monitoringClient := GetTestClients(&schema.ResourceData{}).monitoringClient()
 	alarmIds, err := getAlarmIds(compartment)
 	if err != nil {
 		return err
@@ -411,7 +411,7 @@ func getAlarmIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	monitoringClient := GetTestClients(&schema.ResourceData{}).monitoringClient
+	monitoringClient := GetTestClients(&schema.ResourceData{}).monitoringClient()
 
 	listAlarmsRequest := oci_monitoring.ListAlarmsRequest{}
 	listAlarmsRequest.CompartmentId = &compartmentId
@@ -438,7 +438,7 @@ func alarmSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func alarmSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.monitoringClient.GetAlarm(context.Background(), oci_monitoring.GetAlarmRequest{
+	_, err := client.monitoringClient().GetAlarm(context.Background(), oci_monitoring.GetAlarmRequest{
 		AlarmId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

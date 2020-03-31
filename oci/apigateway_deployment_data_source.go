@@ -25,7 +25,7 @@ func ApigatewayDeploymentDataSource() *schema.Resource {
 func readSingularApigatewayDeployment(d *schema.ResourceData, m interface{}) error {
 	sync := &ApigatewayDeploymentDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).deploymentClient
+	sync.Client = m.(*OracleClients).deploymentClient()
 
 	return ReadResource(sync)
 }

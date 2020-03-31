@@ -46,7 +46,7 @@ func CorePublicIpsDataSource() *schema.Resource {
 func readCorePublicIps(d *schema.ResourceData, m interface{}) error {
 	sync := &CorePublicIpsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

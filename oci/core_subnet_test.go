@@ -292,7 +292,7 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 
 func testAccCheckCoreSubnetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_subnet" {
 			noResourceFound = false
@@ -344,7 +344,7 @@ func init() {
 }
 
 func sweepCoreSubnetResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	subnetIds, err := getSubnetIds(compartment)
 	if err != nil {
 		return err
@@ -375,7 +375,7 @@ func getSubnetIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listSubnetsRequest := oci_core.ListSubnetsRequest{}
 	listSubnetsRequest.CompartmentId = &compartmentId
@@ -412,7 +412,7 @@ func subnetSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func subnetSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetSubnet(context.Background(), oci_core.GetSubnetRequest{
+	_, err := client.virtualNetworkClient().GetSubnet(context.Background(), oci_core.GetSubnetRequest{
 		SubnetId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

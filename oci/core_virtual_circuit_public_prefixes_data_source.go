@@ -54,7 +54,7 @@ func CoreVirtualCircuitPublicPrefixesDataSource() *schema.Resource {
 func readCoreVirtualCircuitPublicPrefixes(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVirtualCircuitPublicPrefixesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

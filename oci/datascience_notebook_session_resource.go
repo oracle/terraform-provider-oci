@@ -121,7 +121,7 @@ func DatascienceNotebookSessionResource() *schema.Resource {
 func createDatascienceNotebookSession(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceNotebookSessionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	var deactivateNotebookSession = false
 	if state, ok := sync.D.GetOkExists("state"); ok {
@@ -146,7 +146,7 @@ func createDatascienceNotebookSession(d *schema.ResourceData, m interface{}) err
 func readDatascienceNotebookSession(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceNotebookSessionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return ReadResource(sync)
 }
@@ -154,7 +154,7 @@ func readDatascienceNotebookSession(d *schema.ResourceData, m interface{}) error
 func updateDatascienceNotebookSession(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceNotebookSessionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	// Activate/Deactivate NotebookSession
 	activate, deactivate := false, false
@@ -196,7 +196,7 @@ func updateDatascienceNotebookSession(d *schema.ResourceData, m interface{}) err
 func deleteDatascienceNotebookSession(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceNotebookSessionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

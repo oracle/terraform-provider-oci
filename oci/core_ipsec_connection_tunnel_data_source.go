@@ -106,8 +106,7 @@ func CoreIpSecConnectionTunnelDataSource() *schema.Resource {
 func readSingularCoreIpSecConnectionTunnel(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreIpSecConnectionTunnelDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
-
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	return ReadResource(sync)
 }
 

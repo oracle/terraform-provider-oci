@@ -54,7 +54,7 @@ func CoreServicesDataSource() *schema.Resource {
 func readCoreServices(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreServicesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

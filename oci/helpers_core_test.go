@@ -29,7 +29,7 @@ var imageIdMap = map[string]string{
 func createVolumeInRegion(clients *OracleClients, region string) (string, error) {
 	compartment := getEnvSettingWithBlankDefault("compartment_ocid")
 
-	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient.ConfigurationProvider())
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
 		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
@@ -38,7 +38,7 @@ func createVolumeInRegion(clients *OracleClients, region string) (string, error)
 		return "", fmt.Errorf("cannot configure client for the source region: %v", err)
 	}
 	blockStorageClient.SetRegion(region)
-	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(*clients.identityClient.ConfigurationProvider())
+	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(*clients.identityClient().ConfigurationProvider())
 	if err != nil {
 		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
@@ -88,7 +88,7 @@ func createVolumeInRegion(clients *OracleClients, region string) (string, error)
 
 func createVolumeBackupInRegion(clients *OracleClients, region string, volumeId *string) (string, error) {
 
-	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient.ConfigurationProvider())
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
 		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
@@ -127,7 +127,7 @@ func createVolumeBackupInRegion(clients *OracleClients, region string, volumeId 
 
 func deleteVolumeInRegion(clients *OracleClients, region string, volumeId string) error {
 
-	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient.ConfigurationProvider())
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
 		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
@@ -152,7 +152,7 @@ func deleteVolumeInRegion(clients *OracleClients, region string, volumeId string
 
 func deleteVolumeBackupInRegion(clients *OracleClients, region string, volumeBackupId string) error {
 
-	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient.ConfigurationProvider())
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
 		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
@@ -194,7 +194,7 @@ func volumeBackupAvailableWaitCondition(response oci_common.OCIOperationResponse
 func createBootVolumeInRegion(clients *OracleClients, region string) (string, string, error) {
 	compartment := getEnvSettingWithBlankDefault("compartment_ocid")
 
-	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient.ConfigurationProvider())
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
 		return "", "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
@@ -203,7 +203,7 @@ func createBootVolumeInRegion(clients *OracleClients, region string) (string, st
 		return "", "", fmt.Errorf("cannot configure client for the source region: %v", err)
 	}
 	blockStorageClient.SetRegion(region)
-	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(*clients.identityClient.ConfigurationProvider())
+	identityClient, err := oci_identity.NewIdentityClientWithConfigurationProvider(*clients.identityClient().ConfigurationProvider())
 	if err != nil {
 		return "", "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
@@ -222,7 +222,7 @@ func createBootVolumeInRegion(clients *OracleClients, region string) (string, st
 	domain := listAvailabilityDomainsResponse.Items[0].Name
 
 	// Create subnet
-	networkClient, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(*clients.virtualNetworkClient.ConfigurationProvider())
+	networkClient, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(*clients.virtualNetworkClient().ConfigurationProvider())
 
 	if err != nil {
 		return "", "", fmt.Errorf("[WARN] cannot configure client for the source region %v", err)
@@ -250,7 +250,7 @@ func createBootVolumeInRegion(clients *OracleClients, region string) (string, st
 		},
 	})
 
-	computeClient, err := oci_core.NewComputeClientWithConfigurationProvider(*clients.computeClient.ConfigurationProvider())
+	computeClient, err := oci_core.NewComputeClientWithConfigurationProvider(*clients.computeClient().ConfigurationProvider())
 	if err != nil {
 		return "", "", fmt.Errorf("cannot configure client for the source region: %v", err)
 	}
@@ -315,7 +315,7 @@ func createBootVolumeInRegion(clients *OracleClients, region string) (string, st
 
 func createBootVolumeBackupInRegion(clients *OracleClients, region string, bootVolumeId *string) (string, error) {
 
-	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient.ConfigurationProvider())
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
 		return "", fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
@@ -354,7 +354,7 @@ func createBootVolumeBackupInRegion(clients *OracleClients, region string, bootV
 
 func deleteBootVolumeInRegion(clients *OracleClients, region string, bootVolumeId string) error {
 
-	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient.ConfigurationProvider())
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
 		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
@@ -379,7 +379,7 @@ func deleteBootVolumeInRegion(clients *OracleClients, region string, bootVolumeI
 
 func deleteBootVolumeBackupInRegion(clients *OracleClients, region string, bootVolumeBackupId string) error {
 
-	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient.ConfigurationProvider())
+	blockStorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(*clients.blockstorageClient().ConfigurationProvider())
 	if err != nil {
 		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}
@@ -403,7 +403,7 @@ func deleteBootVolumeBackupInRegion(clients *OracleClients, region string, bootV
 }
 
 func terminateInstanceInRegion(clients *OracleClients, region string, instanceId string) error {
-	computeClient, err := oci_core.NewComputeClientWithConfigurationProvider(*clients.computeClient.ConfigurationProvider())
+	computeClient, err := oci_core.NewComputeClientWithConfigurationProvider(*clients.computeClient().ConfigurationProvider())
 	if err != nil {
 		return fmt.Errorf("cannot create client for the source region %s: %v", region, err)
 	}

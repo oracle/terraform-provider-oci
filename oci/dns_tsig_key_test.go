@@ -232,7 +232,7 @@ func TestDnsTsigKeyResource_basic(t *testing.T) {
 
 func testAccCheckDnsTsigKeyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dnsClient
+	client := testAccProvider.Meta().(*OracleClients).dnsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dns_tsig_key" {
 			noResourceFound = false
@@ -276,7 +276,7 @@ func init() {
 }
 
 func sweepDnsTsigKeyResource(compartment string) error {
-	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
+	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient()
 	tsigKeyIds, err := getTsigKeyIds(compartment)
 	if err != nil {
 		return err
@@ -305,7 +305,7 @@ func getTsigKeyIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
+	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient()
 
 	listTsigKeysRequest := oci_dns.ListTsigKeysRequest{}
 	listTsigKeysRequest.CompartmentId = &compartmentId

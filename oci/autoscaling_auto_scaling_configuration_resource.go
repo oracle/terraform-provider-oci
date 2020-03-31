@@ -270,7 +270,7 @@ func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 func createAutoScalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &AutoScalingAutoScalingConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).autoScalingClient
+	sync.Client = m.(*OracleClients).autoScalingClient()
 
 	return CreateResource(d, sync)
 }
@@ -278,7 +278,7 @@ func createAutoScalingAutoScalingConfiguration(d *schema.ResourceData, m interfa
 func readAutoScalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &AutoScalingAutoScalingConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).autoScalingClient
+	sync.Client = m.(*OracleClients).autoScalingClient()
 
 	return ReadResource(sync)
 }
@@ -286,7 +286,7 @@ func readAutoScalingAutoScalingConfiguration(d *schema.ResourceData, m interface
 func updateAutoScalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &AutoScalingAutoScalingConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).autoScalingClient
+	sync.Client = m.(*OracleClients).autoScalingClient()
 
 	return UpdateResource(d, sync)
 }
@@ -294,7 +294,7 @@ func updateAutoScalingAutoScalingConfiguration(d *schema.ResourceData, m interfa
 func deleteAutoScalingAutoScalingConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &AutoScalingAutoScalingConfigurationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).autoScalingClient
+	sync.Client = m.(*OracleClients).autoScalingClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

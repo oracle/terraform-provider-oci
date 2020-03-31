@@ -205,7 +205,7 @@ func TestMarketplaceAcceptedAgreementResource_basic(t *testing.T) {
 
 func testAccCheckMarketplaceAcceptedAgreementDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).marketplaceClient
+	client := testAccProvider.Meta().(*OracleClients).marketplaceClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_marketplace_accepted_agreement" {
 			noResourceFound = false
@@ -249,7 +249,7 @@ func init() {
 }
 
 func sweepMarketplaceAcceptedAgreementResource(compartment string) error {
-	marketplaceClient := GetTestClients(&schema.ResourceData{}).marketplaceClient
+	marketplaceClient := GetTestClients(&schema.ResourceData{}).marketplaceClient()
 	acceptedAgreementIds, err := getAcceptedAgreementIds(compartment)
 	if err != nil {
 		return err
@@ -278,7 +278,7 @@ func getAcceptedAgreementIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	marketplaceClient := GetTestClients(&schema.ResourceData{}).marketplaceClient
+	marketplaceClient := GetTestClients(&schema.ResourceData{}).marketplaceClient()
 
 	listAcceptedAgreementsRequest := oci_marketplace.ListAcceptedAgreementsRequest{}
 	listAcceptedAgreementsRequest.CompartmentId = &compartmentId

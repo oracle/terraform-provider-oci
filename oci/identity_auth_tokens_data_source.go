@@ -35,7 +35,7 @@ func IdentityAuthTokensDataSource() *schema.Resource {
 func readIdentityAuthTokens(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthTokensDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

@@ -43,7 +43,7 @@ func IdentityUsersDataSource() *schema.Resource {
 func readIdentityUsers(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUsersDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

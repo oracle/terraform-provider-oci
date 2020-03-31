@@ -176,7 +176,7 @@ func TestCoreConsoleHistoryResource_basic(t *testing.T) {
 
 func testAccCheckCoreConsoleHistoryDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient
+	client := testAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_console_history" {
 			noResourceFound = false
@@ -220,7 +220,7 @@ func init() {
 }
 
 func sweepCoreConsoleHistoryResource(compartment string) error {
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 	consoleHistoryIds, err := getConsoleHistoryIds(compartment)
 	if err != nil {
 		return err
@@ -249,7 +249,7 @@ func getConsoleHistoryIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 
 	listConsoleHistoriesRequest := oci_core.ListConsoleHistoriesRequest{}
 	listConsoleHistoriesRequest.CompartmentId = &compartmentId

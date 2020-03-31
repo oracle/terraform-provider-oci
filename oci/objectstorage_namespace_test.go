@@ -58,7 +58,7 @@ func TestObjectStorageNamespaceResource_basic(t *testing.T) {
 func getNamespaces(compartment string) ([]string, error) {
 	var resourceIds []string
 	compartmentId := compartment
-	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient
+	objectStorageClient := GetTestClients(&schema.ResourceData{}).objectStorageClient()
 
 	getNamespacesRequest := oci_object_storage.GetNamespaceRequest{}
 	getNamespacesResponse, err := objectStorageClient.GetNamespace(context.Background(), getNamespacesRequest)

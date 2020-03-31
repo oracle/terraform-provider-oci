@@ -32,15 +32,14 @@ type DefaultRouteTableResourceCrud struct {
 func createDefaultRouteTable(d *schema.ResourceData, m interface{}) error {
 	sync := &DefaultRouteTableResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
-
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	return CreateResource(d, sync)
 }
 
 func deleteDefaultRouteTable(d *schema.ResourceData, m interface{}) error {
 	sync := &DefaultRouteTableResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

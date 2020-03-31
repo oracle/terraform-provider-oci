@@ -99,7 +99,7 @@ func CoreAppCatalogSubscriptionResource() *schema.Resource {
 func createCoreAppCatalogSubscription(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreAppCatalogSubscriptionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return CreateResource(d, sync)
 }
@@ -107,7 +107,7 @@ func createCoreAppCatalogSubscription(d *schema.ResourceData, m interface{}) err
 func readCoreAppCatalogSubscription(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreAppCatalogSubscriptionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }
@@ -115,7 +115,7 @@ func readCoreAppCatalogSubscription(d *schema.ResourceData, m interface{}) error
 func deleteCoreAppCatalogSubscription(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreAppCatalogSubscriptionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

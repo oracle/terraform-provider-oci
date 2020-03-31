@@ -39,7 +39,7 @@ func OnsSubscriptionsDataSource() *schema.Resource {
 func readOnsSubscriptions(d *schema.ResourceData, m interface{}) error {
 	sync := &OnsSubscriptionsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).notificationDataPlaneClient
+	sync.Client = m.(*OracleClients).notificationDataPlaneClient()
 
 	return ReadResource(sync)
 }

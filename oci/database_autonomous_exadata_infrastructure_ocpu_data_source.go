@@ -58,7 +58,7 @@ func DatabaseAutonomousExadataInfrastructureOcpuDataSource() *schema.Resource {
 func readSingularDatabaseAutonomousExadataInfrastructureOcpu(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousExadataInfrastructureOcpuDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

@@ -223,7 +223,7 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 
 func testAccCheckCoreIpSecConnectionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_ipsec" {
 			noResourceFound = false
@@ -275,7 +275,7 @@ func init() {
 }
 
 func sweepCoreIpSecConnectionResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	ipSecConnectionIds, err := getIpSecConnectionIds(compartment)
 	if err != nil {
 		return err
@@ -306,7 +306,7 @@ func getIpSecConnectionIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listIPSecConnectionsRequest := oci_core.ListIPSecConnectionsRequest{}
 	listIPSecConnectionsRequest.CompartmentId = &compartmentId
@@ -332,7 +332,7 @@ func ipSecConnectionSweepWaitCondition(response common.OCIOperationResponse) boo
 }
 
 func ipSecConnectionSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetIPSecConnection(context.Background(), oci_core.GetIPSecConnectionRequest{
+	_, err := client.virtualNetworkClient().GetIPSecConnection(context.Background(), oci_core.GetIPSecConnectionRequest{
 		IpscId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

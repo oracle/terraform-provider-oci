@@ -46,7 +46,7 @@ func StreamingStreamPoolsDataSource() *schema.Resource {
 func readStreamingStreamPools(d *schema.ResourceData, m interface{}) error {
 	sync := &StreamingStreamPoolsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).streamAdminClient
+	sync.Client = m.(*OracleClients).streamAdminClient()
 
 	return ReadResource(sync)
 }

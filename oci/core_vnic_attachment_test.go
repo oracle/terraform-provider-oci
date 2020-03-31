@@ -165,7 +165,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 
 func testAccCheckCoreVnicAttachmentDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient
+	client := testAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_vnic_attachment" {
 			noResourceFound = false
@@ -217,7 +217,7 @@ func init() {
 }
 
 func sweepCoreVnicAttachmentResource(compartment string) error {
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 	vnicAttachmentIds, err := getVnicAttachmentIds(compartment)
 	if err != nil {
 		return err
@@ -248,7 +248,7 @@ func getVnicAttachmentIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 
 	listVnicAttachmentsRequest := oci_core.ListVnicAttachmentsRequest{}
 	listVnicAttachmentsRequest.CompartmentId = &compartmentId
@@ -274,7 +274,7 @@ func vnicAttachmentSweepWaitCondition(response common.OCIOperationResponse) bool
 }
 
 func vnicAttachmentSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.computeClient.GetVnicAttachment(context.Background(), oci_core.GetVnicAttachmentRequest{
+	_, err := client.computeClient().GetVnicAttachment(context.Background(), oci_core.GetVnicAttachmentRequest{
 		VnicAttachmentId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

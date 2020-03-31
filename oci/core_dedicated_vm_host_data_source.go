@@ -25,7 +25,7 @@ func CoreDedicatedVmHostDataSource() *schema.Resource {
 func readSingularCoreDedicatedVmHost(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDedicatedVmHostDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }

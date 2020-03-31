@@ -69,7 +69,7 @@ func IdentitySmtpCredentialResource() *schema.Resource {
 func createIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySmtpCredentialResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return CreateResource(d, sync)
 }
@@ -77,7 +77,7 @@ func createIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 func readIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySmtpCredentialResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }
@@ -85,7 +85,7 @@ func readIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 func updateIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySmtpCredentialResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return UpdateResource(d, sync)
 }
@@ -93,7 +93,7 @@ func updateIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 func deleteIdentitySmtpCredential(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentitySmtpCredentialResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

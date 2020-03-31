@@ -91,7 +91,7 @@ func CorePublicIpDataSource() *schema.Resource {
 func readSingularCorePublicIp(d *schema.ResourceData, m interface{}) error {
 	sync := &CorePublicIpDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

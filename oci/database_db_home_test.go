@@ -377,7 +377,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseDbHomeDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient
+	client := testAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_db_home" {
 			noResourceFound = false
@@ -429,7 +429,7 @@ func init() {
 }
 
 func sweepDatabaseDbHomeResource(compartment string) error {
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	dbHomeIds, err := getDbHomeIds(compartment)
 	if err != nil {
 		return err
@@ -460,7 +460,7 @@ func getDbHomeIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 
 	listDbHomesRequest := oci_database.ListDbHomesRequest{}
 	listDbHomesRequest.CompartmentId = &compartmentId
@@ -523,7 +523,7 @@ func dbHomeSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func dbHomeSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.databaseClient.GetDbHome(context.Background(), oci_database.GetDbHomeRequest{
+	_, err := client.databaseClient().GetDbHome(context.Background(), oci_database.GetDbHomeRequest{
 		DbHomeId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

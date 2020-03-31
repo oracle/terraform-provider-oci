@@ -66,7 +66,7 @@ func DatabaseAutonomousDbVersionsDataSource() *schema.Resource {
 func readDatabaseAutonomousDbVersions(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDbVersionsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

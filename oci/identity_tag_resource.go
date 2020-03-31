@@ -121,7 +121,7 @@ func IdentityTagResource() *schema.Resource {
 func createIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return CreateResource(d, sync)
 }
@@ -129,7 +129,7 @@ func createIdentityTag(d *schema.ResourceData, m interface{}) error {
 func readIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }
@@ -137,7 +137,7 @@ func readIdentityTag(d *schema.ResourceData, m interface{}) error {
 func updateIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return UpdateResource(d, sync)
 }
@@ -151,7 +151,7 @@ func deleteIdentityTag(d *schema.ResourceData, m interface{}) error {
 
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

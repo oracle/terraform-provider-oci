@@ -137,7 +137,7 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 func createDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -145,7 +145,7 @@ func createDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) 
 func readDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -153,7 +153,7 @@ func readDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) er
 func updateDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return UpdateResource(d, sync)
 }
@@ -161,7 +161,7 @@ func updateDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) 
 func deleteDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

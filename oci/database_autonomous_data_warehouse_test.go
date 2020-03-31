@@ -228,7 +228,7 @@ func TestDatabaseAutonomousDataWarehouseResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseAutonomousDataWarehouseDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient
+	client := testAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_autonomous_data_warehouse" {
 			noResourceFound = false
@@ -280,7 +280,7 @@ func init() {
 }
 
 func sweepDatabaseAutonomousDataWarehouseResource(compartment string) error {
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	autonomousDataWarehouseIds, err := getAutonomousDataWarehouseIds(compartment)
 	if err != nil {
 		return err
@@ -311,7 +311,7 @@ func getAutonomousDataWarehouseIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 
 	listAutonomousDataWarehousesRequest := oci_database.ListAutonomousDataWarehousesRequest{}
 	listAutonomousDataWarehousesRequest.CompartmentId = &compartmentId
@@ -338,7 +338,7 @@ func autonomousDataWarehouseSweepWaitCondition(response common.OCIOperationRespo
 }
 
 func autonomousDataWarehouseSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.databaseClient.GetAutonomousDataWarehouse(context.Background(), oci_database.GetAutonomousDataWarehouseRequest{
+	_, err := client.databaseClient().GetAutonomousDataWarehouse(context.Background(), oci_database.GetAutonomousDataWarehouseRequest{
 		AutonomousDataWarehouseId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

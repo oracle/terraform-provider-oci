@@ -42,7 +42,7 @@ func BudgetAlertRulesDataSource() *schema.Resource {
 func readBudgetAlertRules(d *schema.ResourceData, m interface{}) error {
 	sync := &BudgetAlertRulesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).budgetClient
+	sync.Client = m.(*OracleClients).budgetClient()
 
 	return ReadResource(sync)
 }

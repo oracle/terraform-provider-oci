@@ -42,7 +42,7 @@ func FileStorageSnapshotsDataSource() *schema.Resource {
 func readFileStorageSnapshots(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageSnapshotsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return ReadResource(sync)
 }

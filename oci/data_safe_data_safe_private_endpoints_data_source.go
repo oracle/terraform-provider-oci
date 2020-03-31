@@ -46,7 +46,7 @@ func DataSafeDataSafePrivateEndpointsDataSource() *schema.Resource {
 func readDataSafeDataSafePrivateEndpoints(d *schema.ResourceData, m interface{}) error {
 	sync := &DataSafeDataSafePrivateEndpointsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataSafeClient
+	sync.Client = m.(*OracleClients).dataSafeClient()
 
 	return ReadResource(sync)
 }

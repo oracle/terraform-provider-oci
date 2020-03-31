@@ -86,7 +86,7 @@ func DnsTsigKeyResource() *schema.Resource {
 func createDnsTsigKey(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsTsigKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return CreateResource(d, sync)
 }
@@ -94,7 +94,7 @@ func createDnsTsigKey(d *schema.ResourceData, m interface{}) error {
 func readDnsTsigKey(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsTsigKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return ReadResource(sync)
 }
@@ -102,7 +102,7 @@ func readDnsTsigKey(d *schema.ResourceData, m interface{}) error {
 func updateDnsTsigKey(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsTsigKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return UpdateResource(d, sync)
 }
@@ -110,7 +110,7 @@ func updateDnsTsigKey(d *schema.ResourceData, m interface{}) error {
 func deleteDnsTsigKey(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsTsigKeyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

@@ -94,7 +94,7 @@ func CoreIpSecConnectionResource() *schema.Resource {
 func createCoreIpSecConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreIpSecConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -102,7 +102,7 @@ func createCoreIpSecConnection(d *schema.ResourceData, m interface{}) error {
 func readCoreIpSecConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreIpSecConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -110,7 +110,7 @@ func readCoreIpSecConnection(d *schema.ResourceData, m interface{}) error {
 func updateCoreIpSecConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreIpSecConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -118,7 +118,7 @@ func updateCoreIpSecConnection(d *schema.ResourceData, m interface{}) error {
 func deleteCoreIpSecConnection(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreIpSecConnectionResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

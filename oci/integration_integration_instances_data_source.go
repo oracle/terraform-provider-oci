@@ -42,7 +42,7 @@ func IntegrationIntegrationInstancesDataSource() *schema.Resource {
 func readIntegrationIntegrationInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &IntegrationIntegrationInstancesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).integrationInstanceClient
+	sync.Client = m.(*OracleClients).integrationInstanceClient()
 
 	return ReadResource(sync)
 }

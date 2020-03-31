@@ -41,7 +41,7 @@ func CoreConsoleHistoryContentDataSource() *schema.Resource {
 func readSingularCoreConsoleHistoryContent(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreConsoleHistoryContentDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }

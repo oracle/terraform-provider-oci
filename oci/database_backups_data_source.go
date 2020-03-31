@@ -38,7 +38,7 @@ func DatabaseBackupsDataSource() *schema.Resource {
 func readDatabaseBackups(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseBackupsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

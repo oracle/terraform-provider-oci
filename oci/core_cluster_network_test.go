@@ -372,7 +372,7 @@ func TestCoreClusterNetworkResource_basic(t *testing.T) {
 
 func testAccCheckCoreClusterNetworkDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeManagementClient
+	client := testAccProvider.Meta().(*OracleClients).computeManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_cluster_network" {
 			noResourceFound = false
@@ -424,7 +424,7 @@ func init() {
 }
 
 func sweepCoreClusterNetworkResource(compartment string) error {
-	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient
+	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient()
 	clusterNetworkIds, err := getClusterNetworkIds(compartment)
 	if err != nil {
 		return err
@@ -455,7 +455,7 @@ func getClusterNetworkIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient
+	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient()
 
 	listClusterNetworksRequest := oci_core.ListClusterNetworksRequest{}
 	listClusterNetworksRequest.CompartmentId = &compartmentId
@@ -482,7 +482,7 @@ func clusterNetworkSweepWaitCondition(response common.OCIOperationResponse) bool
 }
 
 func clusterNetworkSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.computeManagementClient.GetClusterNetwork(context.Background(), oci_core.GetClusterNetworkRequest{
+	_, err := client.computeManagementClient().GetClusterNetwork(context.Background(), oci_core.GetClusterNetworkRequest{
 		ClusterNetworkId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

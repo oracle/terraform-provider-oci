@@ -34,7 +34,7 @@ func LoadBalancerHostnamesDataSource() *schema.Resource {
 func readLoadBalancerHostnames(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerHostnamesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return ReadResource(sync)
 }

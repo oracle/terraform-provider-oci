@@ -25,7 +25,7 @@ func StreamingConnectHarnessDataSource() *schema.Resource {
 func readSingularStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
 	sync := &StreamingConnectHarnessDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).streamAdminClient
+	sync.Client = m.(*OracleClients).streamAdminClient()
 
 	return ReadResource(sync)
 }

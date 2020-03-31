@@ -213,7 +213,7 @@ func CoreVirtualCircuitResource() *schema.Resource {
 func createCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVirtualCircuitResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -221,7 +221,7 @@ func createCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 func readCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVirtualCircuitResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -229,7 +229,7 @@ func readCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 func updateCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVirtualCircuitResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -237,7 +237,7 @@ func updateCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 func deleteCoreVirtualCircuit(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVirtualCircuitResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

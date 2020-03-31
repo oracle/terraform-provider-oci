@@ -35,7 +35,7 @@ func IdentityIdpGroupMappingsDataSource() *schema.Resource {
 func readIdentityIdpGroupMappings(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdpGroupMappingsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

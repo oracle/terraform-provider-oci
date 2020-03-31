@@ -190,7 +190,7 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 
 func testAccCheckFileStorageExportDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).fileStorageClient
+	client := testAccProvider.Meta().(*OracleClients).fileStorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_file_storage_export" {
 			noResourceFound = false
@@ -242,7 +242,7 @@ func init() {
 }
 
 func sweepFileStorageExportResource(compartment string) error {
-	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient()
 	exportIds, err := getExportIds(compartment)
 	if err != nil {
 		return err
@@ -273,7 +273,7 @@ func getExportIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient()
 
 	listExportsRequest := oci_file_storage.ListExportsRequest{}
 	listExportsRequest.CompartmentId = &compartmentId
@@ -300,7 +300,7 @@ func exportSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func exportSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.fileStorageClient.GetExport(context.Background(), oci_file_storage.GetExportRequest{
+	_, err := client.fileStorageClient().GetExport(context.Background(), oci_file_storage.GetExportRequest{
 		ExportId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

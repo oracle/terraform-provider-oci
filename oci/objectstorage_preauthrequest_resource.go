@@ -93,7 +93,7 @@ func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
 func createObjectStoragePreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStoragePreauthenticatedRequestResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return CreateResource(d, sync)
 }
@@ -115,7 +115,7 @@ func readObjectStoragePreauthenticatedRequest(d *schema.ResourceData, m interfac
 		}
 	}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return ReadResource(sync)
 }
@@ -123,7 +123,7 @@ func readObjectStoragePreauthenticatedRequest(d *schema.ResourceData, m interfac
 func deleteObjectStoragePreauthenticatedRequest(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStoragePreauthenticatedRequestResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

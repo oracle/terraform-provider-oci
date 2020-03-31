@@ -92,7 +92,7 @@ func DatacatalogCatalogResource() *schema.Resource {
 func createDatacatalogCatalog(d *schema.ResourceData, m interface{}) error {
 	sync := &DatacatalogCatalogResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataCatalogClient
+	sync.Client = m.(*OracleClients).dataCatalogClient()
 
 	return CreateResource(d, sync)
 }
@@ -100,7 +100,7 @@ func createDatacatalogCatalog(d *schema.ResourceData, m interface{}) error {
 func readDatacatalogCatalog(d *schema.ResourceData, m interface{}) error {
 	sync := &DatacatalogCatalogResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataCatalogClient
+	sync.Client = m.(*OracleClients).dataCatalogClient()
 
 	return ReadResource(sync)
 }
@@ -108,7 +108,7 @@ func readDatacatalogCatalog(d *schema.ResourceData, m interface{}) error {
 func updateDatacatalogCatalog(d *schema.ResourceData, m interface{}) error {
 	sync := &DatacatalogCatalogResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataCatalogClient
+	sync.Client = m.(*OracleClients).dataCatalogClient()
 
 	return UpdateResource(d, sync)
 }
@@ -116,7 +116,7 @@ func updateDatacatalogCatalog(d *schema.ResourceData, m interface{}) error {
 func deleteDatacatalogCatalog(d *schema.ResourceData, m interface{}) error {
 	sync := &DatacatalogCatalogResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataCatalogClient
+	sync.Client = m.(*OracleClients).dataCatalogClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

@@ -124,7 +124,7 @@ func CoreClusterNetworkInstancesDataSource() *schema.Resource {
 func readCoreClusterNetworkInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreClusterNetworkInstancesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return ReadResource(sync)
 }

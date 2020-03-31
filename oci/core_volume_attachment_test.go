@@ -151,7 +151,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 
 func testAccCheckCoreVolumeAttachmentDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient
+	client := testAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_volume_attachment" {
 			noResourceFound = false
@@ -203,7 +203,7 @@ func init() {
 }
 
 func sweepCoreVolumeAttachmentResource(compartment string) error {
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 	volumeAttachmentIds, err := getVolumeAttachmentIds(compartment)
 	if err != nil {
 		return err
@@ -234,7 +234,7 @@ func getVolumeAttachmentIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 
 	listVolumeAttachmentsRequest := oci_core.ListVolumeAttachmentsRequest{}
 	listVolumeAttachmentsRequest.CompartmentId = &compartmentId
@@ -260,7 +260,7 @@ func volumeAttachmentSweepWaitCondition(response common.OCIOperationResponse) bo
 }
 
 func volumeAttachmentSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.computeClient.GetVolumeAttachment(context.Background(), oci_core.GetVolumeAttachmentRequest{
+	_, err := client.computeClient().GetVolumeAttachment(context.Background(), oci_core.GetVolumeAttachmentRequest{
 		VolumeAttachmentId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

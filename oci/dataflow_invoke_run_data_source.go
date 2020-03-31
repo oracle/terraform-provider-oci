@@ -26,7 +26,7 @@ func DataflowInvokeRunDataSource() *schema.Resource {
 func readSingularDataflowInvokeRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowInvokeRunDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.Client = m.(*OracleClients).dataFlowClient()
 
 	return ReadResource(sync)
 }

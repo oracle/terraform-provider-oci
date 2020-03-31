@@ -457,7 +457,7 @@ func TestAutoScalingAutoScalingConfigurationResource_basic(t *testing.T) {
 
 func testAccCheckAutoScalingAutoScalingConfigurationDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).autoScalingClient
+	client := testAccProvider.Meta().(*OracleClients).autoScalingClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_autoscaling_auto_scaling_configuration" {
 			noResourceFound = false
@@ -499,7 +499,7 @@ func init() {
 }
 
 func sweepAutoScalingAutoScalingConfigurationResource(compartment string) error {
-	autoScalingClient := GetTestClients(&schema.ResourceData{}).autoScalingClient
+	autoScalingClient := GetTestClients(&schema.ResourceData{}).autoScalingClient()
 	autoScalingConfigurationIds, err := getAutoScalingConfigurationIds(compartment)
 	if err != nil {
 		return err
@@ -528,7 +528,7 @@ func getAutoScalingConfigurationIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	autoScalingClient := GetTestClients(&schema.ResourceData{}).autoScalingClient
+	autoScalingClient := GetTestClients(&schema.ResourceData{}).autoScalingClient()
 
 	listAutoScalingConfigurationsRequest := oci_auto_scaling.ListAutoScalingConfigurationsRequest{}
 	listAutoScalingConfigurationsRequest.CompartmentId = &compartmentId

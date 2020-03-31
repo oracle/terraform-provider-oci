@@ -526,7 +526,7 @@ func TestApigatewayDeploymentResource_basic(t *testing.T) {
 
 func testAccCheckApigatewayDeploymentDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).deploymentClient
+	client := testAccProvider.Meta().(*OracleClients).deploymentClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_apigateway_deployment" {
 			noResourceFound = false
@@ -578,7 +578,7 @@ func init() {
 }
 
 func sweepApigatewayDeploymentResource(compartment string) error {
-	deploymentClient := GetTestClients(&schema.ResourceData{}).deploymentClient
+	deploymentClient := GetTestClients(&schema.ResourceData{}).deploymentClient()
 	deploymentIds, err := getDeploymentIds(compartment)
 	if err != nil {
 		return err
@@ -609,7 +609,7 @@ func getDeploymentIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	deploymentClient := GetTestClients(&schema.ResourceData{}).deploymentClient
+	deploymentClient := GetTestClients(&schema.ResourceData{}).deploymentClient()
 
 	listDeploymentsRequest := oci_apigateway.ListDeploymentsRequest{}
 	listDeploymentsRequest.CompartmentId = &compartmentId
@@ -636,7 +636,7 @@ func deploymentSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func deploymentSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.deploymentClient.GetDeployment(context.Background(), oci_apigateway.GetDeploymentRequest{
+	_, err := client.deploymentClient().GetDeployment(context.Background(), oci_apigateway.GetDeploymentRequest{
 		DeploymentId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

@@ -405,7 +405,7 @@ func TestCorePublicIpResource_basic(t *testing.T) {
 
 func testAccCheckCorePublicIpDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_public_ip" {
 			noResourceFound = false
@@ -457,7 +457,7 @@ func init() {
 }
 
 func sweepCorePublicIpResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	publicIpIds, err := getPublicIpIds(compartment)
 	if err != nil {
 		return err
@@ -528,7 +528,7 @@ func publicIpSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func publicIpSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetPublicIp(context.Background(), oci_core.GetPublicIpRequest{
+	_, err := client.virtualNetworkClient().GetPublicIp(context.Background(), oci_core.GetPublicIpRequest{
 		PublicIpId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

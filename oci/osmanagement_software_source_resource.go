@@ -151,7 +151,7 @@ func OsmanagementSoftwareSourceResource() *schema.Resource {
 func createOsmanagementSoftwareSource(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementSoftwareSourceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 
 	return CreateResource(d, sync)
 }
@@ -159,7 +159,7 @@ func createOsmanagementSoftwareSource(d *schema.ResourceData, m interface{}) err
 func readOsmanagementSoftwareSource(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementSoftwareSourceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 
 	return ReadResource(sync)
 }
@@ -167,7 +167,7 @@ func readOsmanagementSoftwareSource(d *schema.ResourceData, m interface{}) error
 func updateOsmanagementSoftwareSource(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementSoftwareSourceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 
 	return UpdateResource(d, sync)
 }
@@ -175,7 +175,7 @@ func updateOsmanagementSoftwareSource(d *schema.ResourceData, m interface{}) err
 func deleteOsmanagementSoftwareSource(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementSoftwareSourceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

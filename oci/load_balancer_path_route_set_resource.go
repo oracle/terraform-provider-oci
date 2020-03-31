@@ -97,7 +97,7 @@ func LoadBalancerPathRouteSetResource() *schema.Resource {
 func createLoadBalancerPathRouteSet(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerPathRouteSetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return CreateResource(d, sync)
 }
@@ -105,7 +105,7 @@ func createLoadBalancerPathRouteSet(d *schema.ResourceData, m interface{}) error
 func readLoadBalancerPathRouteSet(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerPathRouteSetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return ReadResource(sync)
 }
@@ -113,7 +113,7 @@ func readLoadBalancerPathRouteSet(d *schema.ResourceData, m interface{}) error {
 func updateLoadBalancerPathRouteSet(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerPathRouteSetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return UpdateResource(d, sync)
 }
@@ -121,7 +121,7 @@ func updateLoadBalancerPathRouteSet(d *schema.ResourceData, m interface{}) error
 func deleteLoadBalancerPathRouteSet(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerPathRouteSetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

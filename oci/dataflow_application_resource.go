@@ -158,7 +158,7 @@ func DataflowApplicationResource() *schema.Resource {
 func createDataflowApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowApplicationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.Client = m.(*OracleClients).dataFlowClient()
 
 	return CreateResource(d, sync)
 }
@@ -166,7 +166,7 @@ func createDataflowApplication(d *schema.ResourceData, m interface{}) error {
 func readDataflowApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowApplicationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.Client = m.(*OracleClients).dataFlowClient()
 
 	return ReadResource(sync)
 }
@@ -174,7 +174,7 @@ func readDataflowApplication(d *schema.ResourceData, m interface{}) error {
 func updateDataflowApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowApplicationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.Client = m.(*OracleClients).dataFlowClient()
 
 	return UpdateResource(d, sync)
 }
@@ -182,7 +182,7 @@ func updateDataflowApplication(d *schema.ResourceData, m interface{}) error {
 func deleteDataflowApplication(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowApplicationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.Client = m.(*OracleClients).dataFlowClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

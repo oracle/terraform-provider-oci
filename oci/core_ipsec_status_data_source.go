@@ -67,7 +67,7 @@ func CoreIpSecConnectionDeviceStatusDataSource() *schema.Resource {
 func readSingularCoreIpSecConnectionDeviceStatus(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreIpSecConnectionDeviceStatusDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

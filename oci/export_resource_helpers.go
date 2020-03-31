@@ -399,7 +399,7 @@ func findIdentityTags(clients *OracleClients, tfMeta *TerraformResourceAssociati
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "identity")
 	results := []*OCIResource{}
 
-	response, err := clients.identityClient.ListTags(context.Background(), request)
+	response, err := clients.identityClient().ListTags(context.Background(), request)
 	if err != nil {
 		return results, err
 	}
@@ -407,7 +407,7 @@ func findIdentityTags(clients *OracleClients, tfMeta *TerraformResourceAssociati
 	request.Page = response.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := clients.identityClient.ListTags(context.Background(), request)
+		listResponse, err := clients.identityClient().ListTags(context.Background(), request)
 		if err != nil {
 			return results, err
 		}
@@ -463,7 +463,7 @@ func findLoadBalancerListeners(clients *OracleClients, tfMeta *TerraformResource
 	request.LoadBalancerId = &loadBalancerId
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "load_balancer")
 
-	response, err := clients.loadBalancerClient.GetLoadBalancer(context.Background(), request)
+	response, err := clients.loadBalancerClient().GetLoadBalancer(context.Background(), request)
 	if err != nil {
 		return nil, err
 	}

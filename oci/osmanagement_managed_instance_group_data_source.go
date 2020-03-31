@@ -25,7 +25,7 @@ func OsmanagementManagedInstanceGroupDataSource() *schema.Resource {
 func readSingularOsmanagementManagedInstanceGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementManagedInstanceGroupDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 
 	return ReadResource(sync)
 }

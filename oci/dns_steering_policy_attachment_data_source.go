@@ -25,7 +25,7 @@ func DnsSteeringPolicyAttachmentDataSource() *schema.Resource {
 func readSingularDnsSteeringPolicyAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsSteeringPolicyAttachmentDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return ReadResource(sync)
 }

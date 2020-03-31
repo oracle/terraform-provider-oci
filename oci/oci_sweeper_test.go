@@ -72,7 +72,7 @@ func getResourceIdsToSweep(compartmentId string, resourceName string) []string {
 
 func getAvalabilityDomains(compartmentId string) (map[string]string, error) {
 	availabilityDomains := make(map[string]string)
-	identityClient := GetTestClients(&schema.ResourceData{}).identityClient
+	identityClient := GetTestClients(&schema.ResourceData{}).identityClient()
 	adRequest := oci_identity.ListAvailabilityDomainsRequest{}
 	adRequest.CompartmentId = &compartmentId
 	ads, err := identityClient.ListAvailabilityDomains(context.Background(), adRequest)

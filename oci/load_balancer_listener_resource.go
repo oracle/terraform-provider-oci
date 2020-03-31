@@ -146,7 +146,7 @@ func LoadBalancerListenerResource() *schema.Resource {
 func createLoadBalancerListener(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return CreateResource(d, sync)
 }
@@ -154,14 +154,14 @@ func createLoadBalancerListener(d *schema.ResourceData, m interface{}) error {
 func readLoadBalancerListener(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 	return ReadResource(sync)
 }
 
 func updateLoadBalancerListener(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 
 	return UpdateResource(d, sync)
 }
@@ -169,7 +169,7 @@ func updateLoadBalancerListener(d *schema.ResourceData, m interface{}) error {
 func deleteLoadBalancerListener(d *schema.ResourceData, m interface{}) error {
 	sync := &LoadBalancerListenerResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).loadBalancerClient
+	sync.Client = m.(*OracleClients).loadBalancerClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

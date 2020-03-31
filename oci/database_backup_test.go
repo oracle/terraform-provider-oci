@@ -109,7 +109,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseBackupDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient
+	client := testAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_backup" {
 			noResourceFound = false
@@ -161,7 +161,7 @@ func init() {
 }
 
 func sweepDatabaseBackupResource(compartment string) error {
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	backupIds, err := getBackupIds(compartment)
 	if err != nil {
 		return err
@@ -192,7 +192,7 @@ func getBackupIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 
 	listBackupsRequest := oci_database.ListBackupsRequest{}
 	listBackupsRequest.CompartmentId = &compartmentId
@@ -218,7 +218,7 @@ func backupSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func backupSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.databaseClient.GetBackup(context.Background(), oci_database.GetBackupRequest{
+	_, err := client.databaseClient().GetBackup(context.Background(), oci_database.GetBackupRequest{
 		BackupId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

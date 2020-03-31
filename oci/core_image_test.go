@@ -232,7 +232,7 @@ func TestCoreImageResource_basic(t *testing.T) {
 
 func testAccCheckCoreImageDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeClient
+	client := testAccProvider.Meta().(*OracleClients).computeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_image" {
 			noResourceFound = false
@@ -284,7 +284,7 @@ func init() {
 }
 
 func sweepCoreImageResource(compartment string) error {
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 	imageIds, err := getImageIds(compartment)
 	if err != nil {
 		return err
@@ -315,7 +315,7 @@ func getImageIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	computeClient := GetTestClients(&schema.ResourceData{}).computeClient
+	computeClient := GetTestClients(&schema.ResourceData{}).computeClient()
 
 	listImagesRequest := oci_core.ListImagesRequest{}
 	listImagesRequest.CompartmentId = &compartmentId
@@ -344,7 +344,7 @@ func imageSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func imageSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.computeClient.GetImage(context.Background(), oci_core.GetImageRequest{
+	_, err := client.computeClient().GetImage(context.Background(), oci_core.GetImageRequest{
 		ImageId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

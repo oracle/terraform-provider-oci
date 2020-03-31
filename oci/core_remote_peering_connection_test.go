@@ -204,7 +204,7 @@ func TestCoreRemotePeeringConnectionResource_basic(t *testing.T) {
 
 func testAccCheckCoreRemotePeeringConnectionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_remote_peering_connection" {
 			noResourceFound = false
@@ -256,7 +256,7 @@ func init() {
 }
 
 func sweepCoreRemotePeeringConnectionResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	remotePeeringConnectionIds, err := getRemotePeeringConnectionIds(compartment)
 	if err != nil {
 		return err
@@ -287,7 +287,7 @@ func getRemotePeeringConnectionIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listRemotePeeringConnectionsRequest := oci_core.ListRemotePeeringConnectionsRequest{}
 	listRemotePeeringConnectionsRequest.CompartmentId = &compartmentId
@@ -313,7 +313,7 @@ func remotePeeringConnectionSweepWaitCondition(response common.OCIOperationRespo
 }
 
 func remotePeeringConnectionSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetRemotePeeringConnection(context.Background(), oci_core.GetRemotePeeringConnectionRequest{
+	_, err := client.virtualNetworkClient().GetRemotePeeringConnection(context.Background(), oci_core.GetRemotePeeringConnectionRequest{
 		RemotePeeringConnectionId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,
