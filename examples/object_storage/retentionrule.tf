@@ -24,7 +24,7 @@ resource "oci_objectstorage_bucket" "retention_rule_bucket" {
 
 data "oci_objectstorage_bucket" "retention_rule_bucket" {
   namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
-  name      = "tf-example-bucket-with-retention-rule"
+  name      = "${oci_objectstorage_bucket.retention_rule_bucket.name}"
 }
 
 output "retention_rules_on_bucket" {

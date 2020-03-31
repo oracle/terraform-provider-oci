@@ -23,7 +23,7 @@ resource "oci_objectstorage_object" "source_object" {
   object              = "same_index.html"
   content_language    = "en-US"
   content_type        = "text/html"
-  source              = "index.html"
+  source              = "${oci_objectstorage_object.object1.object}"
   content_disposition = "attachment; filename=\"filename.html\""
 }
 
@@ -39,8 +39,27 @@ resource "oci_objectstorage_object" "source_uri_object" {
     region    = "${local.source_region}"
     namespace = "${data.oci_objectstorage_namespace.ns.namespace}"
     bucket    = "${oci_objectstorage_bucket.bucket1.name}"
-    object    = "index.html"
+    object    = "${oci_objectstorage_object.object1.object}"
   }
+}
+
+resource "oci_objectstorage_object" "source_uri_object_from_version" {
+  namespace           = "${data.oci_objectstorage_namespace.ns.namespace}"
+  bucket              = "${oci_objectstorage_bucket.bucket_with_versioning.name}"
+  object              = "copy_from_version_index.html"
+  content_language    = "en-US"
+  content_type        = "text/html"
+  content_disposition = "attachment; filename=\"filename.html\""
+
+  source_uri_details {
+    region            = "${local.source_region}"
+    namespace         = "${data.oci_objectstorage_namespace.ns.namespace}"
+    bucket            = "${oci_objectstorage_bucket.bucket1.name}"
+    object            = "${oci_objectstorage_object.object1.object}"
+    source_version_id = "${oci_objectstorage_object.object1.version_id}"
+  }
+
+  delete_all_object_versions = true
 }
 
 data "oci_objectstorage_object_head" "object_head1" {

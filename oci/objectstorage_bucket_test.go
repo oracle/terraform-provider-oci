@@ -53,6 +53,7 @@ var (
 		"metadata":              Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
 		"object_events_enabled": Representation{repType: Optional, create: `false`, update: `true`},
 		"storage_tier":          Representation{repType: Optional, create: `Standard`},
+		"versioning":            Representation{repType: Optional, create: `Enabled`, update: `Disabled`},
 	}
 
 	BucketResourceDependencies = generateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", Required, Create, namespaceSingularDataSourceRepresentation) +
@@ -126,6 +127,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "object_events_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "versioning", "Enabled"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = fromInstanceState(s, resourceName, "id")
@@ -199,6 +201,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "object_events_enabled", "true"),
 					resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "versioning", "Disabled"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = fromInstanceState(s, resourceName, "id")
@@ -259,6 +262,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "object_events_enabled", "true"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "versioning", "Disabled"),
 				),
 			},
 			// remove singular datasource from previous step so that it doesn't conflict with import tests

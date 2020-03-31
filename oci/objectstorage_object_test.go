@@ -32,11 +32,14 @@ var (
 		generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, objectRepresentation)
 
 	objectDataSourceRepresentation = map[string]interface{}{
-		"bucket":    Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"namespace": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
-		"delimiter": Representation{repType: Optional, create: `delimiter`, update: `/`},
-		"prefix":    Representation{repType: Optional, create: `prefix`, update: `my-test`},
-		"filter":    RepresentationGroup{Required, objectDataSourceFilterRepresentation}}
+		"bucket":      Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"namespace":   Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"delimiter":   Representation{repType: Optional, create: `delimiter`, update: `/`},
+		"end":         Representation{repType: Optional, create: `x`},
+		"prefix":      Representation{repType: Optional, create: `prefix`, update: `my-test`},
+		"start":       Representation{repType: Optional, create: `${oci_objectstorage_object.test_object.object}`},
+		"start_after": Representation{repType: Optional, create: `a`},
+		"filter":      RepresentationGroup{Required, objectDataSourceFilterRepresentation}}
 	objectDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   Representation{repType: Required, create: `name`},
 		"values": Representation{repType: Required, create: []string{`${oci_objectstorage_object.test_object.object}`}},
@@ -48,19 +51,21 @@ var (
 		"object":                Representation{repType: Required, create: `my-test-object-3`},
 		"content_length_limit":  Representation{repType: Optional, create: `17`, update: `15`},
 		"base64_encode_content": Representation{repType: Optional, create: `true`},
+		"version_id":            Representation{repType: Optional, create: `${oci_objectstorage_object.test_object.version_id}`},
 	}
 
 	objectRepresentation = map[string]interface{}{
-		"bucket":              Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
-		"content":             Representation{repType: Optional, create: `content`, update: `<a1>content</a1>`},
-		"namespace":           Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
-		"object":              Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-2`},
-		"cache_control":       Representation{repType: Optional, create: `no-cache`, update: `no-store`},
-		"content_disposition": Representation{repType: Optional, create: `inline`, update: `attachment; filename=\"filename.html\"`},
-		"content_encoding":    Representation{repType: Optional, create: `identity`},
-		"content_language":    Representation{repType: Optional, create: `en-US`, update: `en-CA`},
-		"content_type":        Representation{repType: Optional, create: `text/plain`, update: `text/xml`},
-		"metadata":            Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
+		"bucket":                     Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"content":                    Representation{repType: Optional, create: `content`, update: `<a1>content</a1>`},
+		"namespace":                  Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
+		"object":                     Representation{repType: Required, create: `my-test-object-1`, update: `my-test-object-2`},
+		"cache_control":              Representation{repType: Optional, create: `no-cache`, update: `no-store`},
+		"content_disposition":        Representation{repType: Optional, create: `inline`, update: `attachment; filename=\"filename.html\"`},
+		"content_encoding":           Representation{repType: Optional, create: `identity`},
+		"content_language":           Representation{repType: Optional, create: `en-US`, update: `en-CA`},
+		"content_type":               Representation{repType: Optional, create: `text/plain`, update: `text/xml`},
+		"delete_all_object_versions": Representation{repType: Optional, create: `false`, update: `true`},
+		"metadata":                   Representation{repType: Optional, create: map[string]string{"content-type": "text/plain"}, update: map[string]string{"content-type": "text/xml"}},
 	}
 
 	ObjectResourceDependencies = generateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", Required, Create, bucketRepresentation) +
@@ -133,6 +138,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
 					resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
+					resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "false"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
 					resource.TestCheckResourceAttrSet(resourceName, "content"),
 					resource.TestCheckResourceAttr(resourceName, "content", md5sum),
@@ -165,6 +171,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "content_md5"),
 					resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
 					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
+					resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "true"),
 					resource.TestCheckResourceAttrSet(resourceName, "content"),
 					resource.TestCheckResourceAttr(resourceName, "content", md5sum2),
 					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
@@ -235,6 +242,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.content-type", "text/xml"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "object", "my-test-object-3"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "version_id"),
 				),
 			},
 			// verify base64 encoding in singular datasource
@@ -287,7 +295,10 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "objects.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "delimiter", "/"),
+					resource.TestCheckResourceAttr(datasourceName, "end", "x"),
 					resource.TestCheckResourceAttr(datasourceName, "prefix", "my-test"),
+					resource.TestCheckResourceAttrSet(datasourceName, "start"),
+					resource.TestCheckResourceAttr(datasourceName, "start_after", "a"),
 				),
 			},
 			// verify resource import
@@ -305,6 +316,7 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 					"content",
 					"state",
 					"work_request_id",
+					"delete_all_object_versions",
 				},
 				ResourceName: resourceName,
 			},
@@ -437,6 +449,10 @@ func testAccCheckObjectStorageObjectDestroy(s *terraform.State) error {
 
 			if value, ok := rs.Primary.Attributes["object"]; ok {
 				request.ObjectName = &value
+			}
+
+			if value, ok := rs.Primary.Attributes["version_id"]; ok {
+				request.VersionId = &value
 			}
 
 			request.RequestMetadata.RetryPolicy = getRetryPolicy(true, "object_storage")
@@ -768,6 +784,7 @@ func TestObjectStorageObjectResource_multipartUpload(t *testing.T) {
 					"source",
 					"state",
 					"work_request_id",
+					"delete_all_object_versions",
 				},
 				ResourceName: resourceName,
 			},
@@ -799,6 +816,11 @@ var (
 		"metadata":           Representation{repType: Optional, create: map[string]string{"content-type": "text/plain-copy-copy"}},
 	}))
 
+	ObjectResourceConfigWithSourceURIWithVersionId = generateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", Optional, Create, representationCopyWithNewProperties(ObjectResourceConfigWithoutContent, map[string]interface{}{
+		"source_uri_details": RepresentationGroup{Optional, objectSourceUriDetailsRepresentationWithVersionId},
+		"metadata":           Representation{repType: Optional, create: map[string]string{"content-type": "text/plain-copy-copy"}},
+	}))
+
 	objectSourceUriDetailsRepresentation = map[string]interface{}{
 		"region":    Representation{repType: Required, create: `${var.region}`},
 		"namespace": Representation{repType: Required, create: `${oci_objectstorage_bucket.test_bucket.namespace}`},
@@ -810,6 +832,10 @@ var (
 	})
 	objectSourceUriDetailsRepresentationWithCopyObject = representationCopyWithNewProperties(objectSourceUriDetailsRepresentation, map[string]interface{}{
 		"object": Representation{repType: Optional, create: `my-test-object-1-copy`},
+	})
+	objectSourceUriDetailsRepresentationWithVersionId = representationCopyWithNewProperties(objectSourceUriDetailsRepresentation, map[string]interface{}{
+		"object":            Representation{repType: Optional, create: `my-test-object-1-copy`},
+		"source_version_id": Representation{repType: Optional, create: `${oci_objectstorage_object.test_object_copy.version_id}`},
 	})
 
 	ObjectResourceConfigWithSourceURIFromContentObjectDependency = generateDataSourceFromRepresentationMap("oci_objectstorage_object_head", "object_head", Required, Create, objectHeadDatasourceRepresentation)
@@ -993,6 +1019,28 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain-copy-copy"),
 				),
 			},
+
+			//  restore object version using source_uri_details
+			{
+				Config: config + compartmentIdVariableStr + ObjectResourceConfigWithSourceURIFromContentObjectWithoutSourceEtag +
+					ObjectResourceConfigWithSourceURIWithVersionId + ObjectResourceConfigWithSourceURIFromContentObjectDependency +
+					ObjectResourceDependencies,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+					resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
+					resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
+					//the values were not set for the object_copy, the source object are used
+					resource.TestCheckResourceAttr(resourceName, "cache_control", "no-cache"),
+					resource.TestCheckResourceAttr(resourceName, "content_disposition", "inline"),
+					resource.TestCheckResourceAttr(resourceName, "content_length", "7"),
+					resource.TestCheckResourceAttr(resourceName, "content_type", "text/plain"),
+					resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
+					resource.TestCheckResourceAttr(resourceName, "content_language", "en-US"),
+					//the values were set for the object_copy
+					resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain-copy-copy"),
+				),
+			},
 			// recreate copy of copy of content object by singlepart with optionals
 			{
 				Config: config + ObjectResourceDependencies +
@@ -1025,6 +1073,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					"source_uri_details",
 					"state",
 					"work_request_id",
+					"delete_all_object_versions",
 				},
 				ResourceName: resourceNameCopy,
 			},
