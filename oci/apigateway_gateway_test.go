@@ -233,7 +233,7 @@ func TestApigatewayGatewayResource_basic(t *testing.T) {
 
 func testAccCheckApigatewayGatewayDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).gatewayClient
+	client := testAccProvider.Meta().(*OracleClients).gatewayClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_apigateway_gateway" {
 			noResourceFound = false
@@ -285,7 +285,7 @@ func init() {
 }
 
 func sweepApigatewayGatewayResource(compartment string) error {
-	gatewayClient := GetTestClients(&schema.ResourceData{}).gatewayClient
+	gatewayClient := GetTestClients(&schema.ResourceData{}).gatewayClient()
 	gatewayIds, err := getGatewayIds(compartment)
 	if err != nil {
 		return err
@@ -316,7 +316,7 @@ func getGatewayIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	gatewayClient := GetTestClients(&schema.ResourceData{}).gatewayClient
+	gatewayClient := GetTestClients(&schema.ResourceData{}).gatewayClient()
 
 	listGatewaysRequest := oci_apigateway.ListGatewaysRequest{}
 	listGatewaysRequest.CompartmentId = &compartmentId
@@ -343,7 +343,7 @@ func gatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func gatewaySweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.gatewayClient.GetGateway(context.Background(), oci_apigateway.GetGatewayRequest{
+	_, err := client.gatewayClient().GetGateway(context.Background(), oci_apigateway.GetGatewayRequest{
 		GatewayId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

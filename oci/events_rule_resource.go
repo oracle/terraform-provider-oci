@@ -164,7 +164,7 @@ func EventsRuleResource() *schema.Resource {
 func createEventsRule(d *schema.ResourceData, m interface{}) error {
 	sync := &EventsRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).eventsClient
+	sync.Client = m.(*OracleClients).eventsClient()
 
 	return CreateResource(d, sync)
 }
@@ -172,7 +172,7 @@ func createEventsRule(d *schema.ResourceData, m interface{}) error {
 func readEventsRule(d *schema.ResourceData, m interface{}) error {
 	sync := &EventsRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).eventsClient
+	sync.Client = m.(*OracleClients).eventsClient()
 
 	return ReadResource(sync)
 }
@@ -180,7 +180,7 @@ func readEventsRule(d *schema.ResourceData, m interface{}) error {
 func updateEventsRule(d *schema.ResourceData, m interface{}) error {
 	sync := &EventsRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).eventsClient
+	sync.Client = m.(*OracleClients).eventsClient()
 
 	return UpdateResource(d, sync)
 }
@@ -188,7 +188,7 @@ func updateEventsRule(d *schema.ResourceData, m interface{}) error {
 func deleteEventsRule(d *schema.ResourceData, m interface{}) error {
 	sync := &EventsRuleResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).eventsClient
+	sync.Client = m.(*OracleClients).eventsClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

@@ -263,7 +263,7 @@ func DnsSteeringPolicyResource() *schema.Resource {
 func createDnsSteeringPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsSteeringPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return CreateResource(d, sync)
 }
@@ -271,7 +271,7 @@ func createDnsSteeringPolicy(d *schema.ResourceData, m interface{}) error {
 func readDnsSteeringPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsSteeringPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return ReadResource(sync)
 }
@@ -279,7 +279,7 @@ func readDnsSteeringPolicy(d *schema.ResourceData, m interface{}) error {
 func updateDnsSteeringPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsSteeringPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return UpdateResource(d, sync)
 }
@@ -287,7 +287,7 @@ func updateDnsSteeringPolicy(d *schema.ResourceData, m interface{}) error {
 func deleteDnsSteeringPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsSteeringPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

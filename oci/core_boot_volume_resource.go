@@ -156,7 +156,7 @@ func CoreBootVolumeResource() *schema.Resource {
 func createCoreBootVolume(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreBootVolumeResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	return CreateResource(d, sync)
 }
@@ -164,7 +164,7 @@ func createCoreBootVolume(d *schema.ResourceData, m interface{}) error {
 func readCoreBootVolume(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreBootVolumeResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	return ReadResource(sync)
 }
@@ -172,7 +172,7 @@ func readCoreBootVolume(d *schema.ResourceData, m interface{}) error {
 func updateCoreBootVolume(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreBootVolumeResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	return UpdateResource(d, sync)
 }
@@ -180,7 +180,7 @@ func updateCoreBootVolume(d *schema.ResourceData, m interface{}) error {
 func deleteCoreBootVolume(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreBootVolumeResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

@@ -77,7 +77,7 @@ func DatabaseDbHomePatchesDataSource() *schema.Resource {
 func readDatabaseDbHomePatches(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbHomePatchesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

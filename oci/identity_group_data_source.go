@@ -26,7 +26,7 @@ func IdentityGroupDataSource() *schema.Resource {
 func readSingularIdentityGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityGroupDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

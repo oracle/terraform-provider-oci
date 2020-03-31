@@ -72,7 +72,7 @@ func CoreNetworkSecurityGroupResource() *schema.Resource {
 func createCoreNetworkSecurityGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreNetworkSecurityGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -80,7 +80,7 @@ func createCoreNetworkSecurityGroup(d *schema.ResourceData, m interface{}) error
 func readCoreNetworkSecurityGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreNetworkSecurityGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -88,7 +88,7 @@ func readCoreNetworkSecurityGroup(d *schema.ResourceData, m interface{}) error {
 func updateCoreNetworkSecurityGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreNetworkSecurityGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -96,7 +96,7 @@ func updateCoreNetworkSecurityGroup(d *schema.ResourceData, m interface{}) error
 func deleteCoreNetworkSecurityGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreNetworkSecurityGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

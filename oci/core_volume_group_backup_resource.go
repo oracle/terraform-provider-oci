@@ -108,7 +108,7 @@ func CoreVolumeGroupBackupResource() *schema.Resource {
 func createCoreVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeGroupBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	// Issue logged with service team for `create` not supporting non-default compartment_id
 	// Remove custom code after issue is fixed.
@@ -140,7 +140,7 @@ func createCoreVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 func readCoreVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeGroupBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	return ReadResource(sync)
 }
@@ -148,7 +148,7 @@ func readCoreVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 func updateCoreVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeGroupBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	return UpdateResource(d, sync)
 }
@@ -156,7 +156,7 @@ func updateCoreVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 func deleteCoreVolumeGroupBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeGroupBackupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

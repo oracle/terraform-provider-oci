@@ -334,7 +334,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	configDataSafeStatus := oci_database.AutonomousDatabaseDataSafeStatusNotRegistered
@@ -360,7 +360,7 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 func readDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -368,7 +368,7 @@ func readDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error
 func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
@@ -377,7 +377,7 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 func deleteDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

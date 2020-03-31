@@ -116,7 +116,7 @@ func FileStorageMountTargetResource() *schema.Resource {
 func createFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return CreateResource(d, sync)
 }
@@ -124,7 +124,7 @@ func createFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 func readFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return ReadResource(sync)
 }
@@ -132,7 +132,7 @@ func readFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 func updateFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return UpdateResource(d, sync)
 }
@@ -140,7 +140,7 @@ func updateFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 func deleteFileStorageMountTarget(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageMountTargetResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

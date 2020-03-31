@@ -46,7 +46,7 @@ func MarketplaceCategoriesDataSource() *schema.Resource {
 func readMarketplaceCategories(d *schema.ResourceData, m interface{}) error {
 	sync := &MarketplaceCategoriesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).marketplaceClient
+	sync.Client = m.(*OracleClients).marketplaceClient()
 
 	return ReadResource(sync)
 }

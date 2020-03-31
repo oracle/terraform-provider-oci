@@ -354,7 +354,7 @@ resource "oci_dns_record" "test_record" {
 
 func testAccCheckDnsRecordDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dnsClient
+	client := testAccProvider.Meta().(*OracleClients).dnsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dns_record" {
 			noResourceFound = false

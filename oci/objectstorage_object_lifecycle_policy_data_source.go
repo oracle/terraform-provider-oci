@@ -29,7 +29,7 @@ func ObjectStorageObjectLifecyclePolicyDataSource() *schema.Resource {
 func readSingularObjectStorageObjectLifecyclePolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &ObjectStorageObjectLifecyclePolicyDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
+	sync.Client = m.(*OracleClients).objectStorageClient()
 
 	return ReadResource(sync)
 }

@@ -420,7 +420,7 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 
 func testAccCheckCoreInstancePoolDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).computeManagementClient
+	client := testAccProvider.Meta().(*OracleClients).computeManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_instance_pool" {
 			noResourceFound = false
@@ -472,7 +472,7 @@ func init() {
 }
 
 func sweepCoreInstancePoolResource(compartment string) error {
-	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient
+	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient()
 	instancePoolIds, err := getInstancePoolIds(compartment)
 	if err != nil {
 		return err
@@ -503,7 +503,7 @@ func getInstancePoolIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient
+	computeManagementClient := GetTestClients(&schema.ResourceData{}).computeManagementClient()
 
 	listInstancePoolsRequest := oci_core.ListInstancePoolsRequest{}
 	listInstancePoolsRequest.CompartmentId = &compartmentId
@@ -530,7 +530,7 @@ func instancePoolSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func instancePoolSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.computeManagementClient.GetInstancePool(context.Background(), oci_core.GetInstancePoolRequest{
+	_, err := client.computeManagementClient().GetInstancePool(context.Background(), oci_core.GetInstancePoolRequest{
 		InstancePoolId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

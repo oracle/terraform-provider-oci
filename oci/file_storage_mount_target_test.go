@@ -268,7 +268,7 @@ func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 
 func testAccCheckFileStorageMountTargetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).fileStorageClient
+	client := testAccProvider.Meta().(*OracleClients).fileStorageClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_file_storage_mount_target" {
 			noResourceFound = false
@@ -320,7 +320,7 @@ func init() {
 }
 
 func sweepFileStorageMountTargetResource(compartment string) error {
-	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient()
 	mountTargetIds, err := getMountTargetIds(compartment)
 	if err != nil {
 		return err
@@ -351,7 +351,7 @@ func getMountTargetIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient
+	fileStorageClient := GetTestClients(&schema.ResourceData{}).fileStorageClient()
 
 	listMountTargetsRequest := oci_file_storage.ListMountTargetsRequest{}
 	listMountTargetsRequest.CompartmentId = &compartmentId
@@ -388,7 +388,7 @@ func mountTargetSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func mountTargetSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.fileStorageClient.GetMountTarget(context.Background(), oci_file_storage.GetMountTargetRequest{
+	_, err := client.fileStorageClient().GetMountTarget(context.Background(), oci_file_storage.GetMountTargetRequest{
 		MountTargetId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

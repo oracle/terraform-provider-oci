@@ -110,7 +110,7 @@ func DataSafeDataSafePrivateEndpointResource() *schema.Resource {
 func createDataSafeDataSafePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &DataSafeDataSafePrivateEndpointResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataSafeClient
+	sync.Client = m.(*OracleClients).dataSafeClient()
 
 	return CreateResource(d, sync)
 }
@@ -118,7 +118,7 @@ func createDataSafeDataSafePrivateEndpoint(d *schema.ResourceData, m interface{}
 func readDataSafeDataSafePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &DataSafeDataSafePrivateEndpointResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataSafeClient
+	sync.Client = m.(*OracleClients).dataSafeClient()
 
 	return ReadResource(sync)
 }
@@ -126,7 +126,7 @@ func readDataSafeDataSafePrivateEndpoint(d *schema.ResourceData, m interface{}) 
 func updateDataSafeDataSafePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &DataSafeDataSafePrivateEndpointResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataSafeClient
+	sync.Client = m.(*OracleClients).dataSafeClient()
 
 	return UpdateResource(d, sync)
 }
@@ -134,7 +134,7 @@ func updateDataSafeDataSafePrivateEndpoint(d *schema.ResourceData, m interface{}
 func deleteDataSafeDataSafePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &DataSafeDataSafePrivateEndpointResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataSafeClient
+	sync.Client = m.(*OracleClients).dataSafeClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

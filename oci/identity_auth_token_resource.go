@@ -65,7 +65,7 @@ func IdentityAuthTokenResource() *schema.Resource {
 func createIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthTokenResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return CreateResource(d, sync)
 }
@@ -73,7 +73,7 @@ func createIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
 func readIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthTokenResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }
@@ -81,7 +81,7 @@ func readIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
 func updateIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthTokenResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return UpdateResource(d, sync)
 }
@@ -89,7 +89,7 @@ func updateIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
 func deleteIdentityAuthToken(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityAuthTokenResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

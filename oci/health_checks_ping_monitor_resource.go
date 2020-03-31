@@ -108,7 +108,7 @@ func HealthChecksPingMonitorResource() *schema.Resource {
 func createHealthChecksPingMonitor(d *schema.ResourceData, m interface{}) error {
 	sync := &HealthChecksPingMonitorResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).healthChecksClient
+	sync.Client = m.(*OracleClients).healthChecksClient()
 
 	return CreateResource(d, sync)
 }
@@ -116,7 +116,7 @@ func createHealthChecksPingMonitor(d *schema.ResourceData, m interface{}) error 
 func readHealthChecksPingMonitor(d *schema.ResourceData, m interface{}) error {
 	sync := &HealthChecksPingMonitorResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).healthChecksClient
+	sync.Client = m.(*OracleClients).healthChecksClient()
 
 	return ReadResource(sync)
 }
@@ -124,7 +124,7 @@ func readHealthChecksPingMonitor(d *schema.ResourceData, m interface{}) error {
 func updateHealthChecksPingMonitor(d *schema.ResourceData, m interface{}) error {
 	sync := &HealthChecksPingMonitorResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).healthChecksClient
+	sync.Client = m.(*OracleClients).healthChecksClient()
 
 	return UpdateResource(d, sync)
 }
@@ -132,7 +132,7 @@ func updateHealthChecksPingMonitor(d *schema.ResourceData, m interface{}) error 
 func deleteHealthChecksPingMonitor(d *schema.ResourceData, m interface{}) error {
 	sync := &HealthChecksPingMonitorResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).healthChecksClient
+	sync.Client = m.(*OracleClients).healthChecksClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

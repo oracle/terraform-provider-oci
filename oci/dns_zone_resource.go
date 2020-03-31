@@ -163,7 +163,7 @@ func DnsZoneResource() *schema.Resource {
 func createDnsZone(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsZoneResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return CreateResource(d, sync)
 }
@@ -171,7 +171,7 @@ func createDnsZone(d *schema.ResourceData, m interface{}) error {
 func readDnsZone(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsZoneResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return ReadResource(sync)
 }
@@ -179,7 +179,7 @@ func readDnsZone(d *schema.ResourceData, m interface{}) error {
 func updateDnsZone(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsZoneResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return UpdateResource(d, sync)
 }
@@ -187,7 +187,7 @@ func updateDnsZone(d *schema.ResourceData, m interface{}) error {
 func deleteDnsZone(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsZoneResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

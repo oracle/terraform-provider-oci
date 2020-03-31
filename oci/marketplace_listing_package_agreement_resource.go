@@ -62,24 +62,21 @@ func MarketplaceListingPackageAgreementResource() *schema.Resource {
 func createMarketplaceListingPackageAgreement(d *schema.ResourceData, m interface{}) error {
 	sync := &MarketplaceListingPackageAgreementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).marketplaceClient
-
+	sync.Client = m.(*OracleClients).marketplaceClient()
 	return CreateResource(d, sync)
 }
 
 func readMarketplaceListingPackageAgreement(d *schema.ResourceData, m interface{}) error {
 	sync := &MarketplaceListingPackageAgreementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).marketplaceClient
-
+	sync.Client = m.(*OracleClients).marketplaceClient()
 	return ReadResource(sync)
 }
 
 func deleteMarketplaceListingPackageAgreement(d *schema.ResourceData, m interface{}) error {
 	sync := &MarketplaceListingPackageAgreementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).marketplaceClient
-
+	sync.Client = m.(*OracleClients).marketplaceClient()
 	return DeleteResource(d, sync)
 }
 

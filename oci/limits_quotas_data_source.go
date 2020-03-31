@@ -42,7 +42,7 @@ func LimitsQuotasDataSource() *schema.Resource {
 func readLimitsQuotas(d *schema.ResourceData, m interface{}) error {
 	sync := &LimitsQuotasDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).quotasClient
+	sync.Client = m.(*OracleClients).quotasClient()
 
 	return ReadResource(sync)
 }

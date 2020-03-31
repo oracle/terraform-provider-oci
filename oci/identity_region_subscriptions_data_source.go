@@ -62,7 +62,7 @@ func IdentityRegionSubscriptionsDataSource() *schema.Resource {
 func readIdentityRegionSubscriptions(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityRegionSubscriptionsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

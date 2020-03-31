@@ -175,7 +175,7 @@ func NosqlTableResource() *schema.Resource {
 func createNosqlTable(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlTableResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).nosqlClient
+	sync.Client = m.(*OracleClients).nosqlClient()
 
 	return CreateResource(d, sync)
 }
@@ -183,7 +183,7 @@ func createNosqlTable(d *schema.ResourceData, m interface{}) error {
 func readNosqlTable(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlTableResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).nosqlClient
+	sync.Client = m.(*OracleClients).nosqlClient()
 
 	return ReadResource(sync)
 }
@@ -191,7 +191,7 @@ func readNosqlTable(d *schema.ResourceData, m interface{}) error {
 func updateNosqlTable(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlTableResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).nosqlClient
+	sync.Client = m.(*OracleClients).nosqlClient()
 
 	return UpdateResource(d, sync)
 }
@@ -199,7 +199,7 @@ func updateNosqlTable(d *schema.ResourceData, m interface{}) error {
 func deleteNosqlTable(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlTableResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).nosqlClient
+	sync.Client = m.(*OracleClients).nosqlClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

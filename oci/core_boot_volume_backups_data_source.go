@@ -51,7 +51,7 @@ func CoreBootVolumeBackupsDataSource() *schema.Resource {
 func readCoreBootVolumeBackups(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreBootVolumeBackupsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	return ReadResource(sync)
 }

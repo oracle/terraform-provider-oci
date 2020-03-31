@@ -92,7 +92,7 @@ func IdentityCompartmentResource() *schema.Resource {
 func createIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 	sync.Configuration = m.(*OracleClients).configuration
 
 	return CreateResource(d, sync)
@@ -101,7 +101,7 @@ func createIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 func readIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }
@@ -109,7 +109,7 @@ func readIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 func updateIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return UpdateResource(d, sync)
 }
@@ -121,7 +121,7 @@ func deleteIdentityCompartment(d *schema.ResourceData, m interface{}) error {
 
 	sync := &IdentityCompartmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

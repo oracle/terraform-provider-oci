@@ -279,7 +279,7 @@ func CoreClusterNetworkResource() *schema.Resource {
 func createCoreClusterNetwork(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreClusterNetworkResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return CreateResource(d, sync)
 }
@@ -287,7 +287,7 @@ func createCoreClusterNetwork(d *schema.ResourceData, m interface{}) error {
 func readCoreClusterNetwork(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreClusterNetworkResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return ReadResource(sync)
 }
@@ -295,7 +295,7 @@ func readCoreClusterNetwork(d *schema.ResourceData, m interface{}) error {
 func updateCoreClusterNetwork(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreClusterNetworkResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return UpdateResource(d, sync)
 }
@@ -303,7 +303,7 @@ func updateCoreClusterNetwork(d *schema.ResourceData, m interface{}) error {
 func deleteCoreClusterNetwork(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreClusterNetworkResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

@@ -42,7 +42,7 @@ func NosqlTablesDataSource() *schema.Resource {
 func readNosqlTables(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlTablesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).nosqlClient
+	sync.Client = m.(*OracleClients).nosqlClient()
 
 	return ReadResource(sync)
 }

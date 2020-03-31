@@ -39,8 +39,7 @@ func ObjectStorageNamespaceMetadataDataSource() *schema.Resource {
 func readNamespaceMetadata2(d *schema.ResourceData, m interface{}) error {
 	sync := &NamespaceMetadataDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).objectStorageClient
-
+	sync.Client = m.(*OracleClients).objectStorageClient()
 	return ReadResource(sync)
 }
 

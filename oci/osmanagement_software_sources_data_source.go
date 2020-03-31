@@ -42,7 +42,7 @@ func OsmanagementSoftwareSourcesDataSource() *schema.Resource {
 func readOsmanagementSoftwareSources(d *schema.ResourceData, m interface{}) error {
 	sync := &OsmanagementSoftwareSourcesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).osManagementClient
+	sync.Client = m.(*OracleClients).osManagementClient()
 
 	return ReadResource(sync)
 }

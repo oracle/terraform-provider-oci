@@ -51,7 +51,7 @@ func WaasPurgeCacheResource() *schema.Resource {
 func createWaasPurgeCache(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasPurgeCacheResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return CreateResource(d, sync)
 }

@@ -326,7 +326,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 
 func testAccCheckDatabaseDatabaseDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).databaseClient
+	client := testAccProvider.Meta().(*OracleClients).databaseClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_database_database" {
 			noResourceFound = false
@@ -378,7 +378,7 @@ func init() {
 }
 
 func sweepDatabaseDatabaseResource(compartment string) error {
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 	databaseIds, err := getDatabaseIds(compartment)
 	if err != nil {
 		return err
@@ -409,7 +409,7 @@ func getDatabaseIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient
+	databaseClient := GetTestClients(&schema.ResourceData{}).databaseClient()
 
 	listDatabasesRequest := oci_database.ListDatabasesRequest{}
 	listDatabasesRequest.CompartmentId = &compartmentId
@@ -444,7 +444,7 @@ func databaseSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func databaseSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.databaseClient.GetDatabase(context.Background(), oci_database.GetDatabaseRequest{
+	_, err := client.databaseClient().GetDatabase(context.Background(), oci_database.GetDatabaseRequest{
 		DatabaseId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

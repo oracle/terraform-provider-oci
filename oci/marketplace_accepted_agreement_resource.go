@@ -84,7 +84,7 @@ func MarketplaceAcceptedAgreementResource() *schema.Resource {
 func createMarketplaceAcceptedAgreement(d *schema.ResourceData, m interface{}) error {
 	sync := &MarketplaceAcceptedAgreementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).marketplaceClient
+	sync.Client = m.(*OracleClients).marketplaceClient()
 
 	return CreateResource(d, sync)
 }
@@ -92,7 +92,7 @@ func createMarketplaceAcceptedAgreement(d *schema.ResourceData, m interface{}) e
 func readMarketplaceAcceptedAgreement(d *schema.ResourceData, m interface{}) error {
 	sync := &MarketplaceAcceptedAgreementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).marketplaceClient
+	sync.Client = m.(*OracleClients).marketplaceClient()
 
 	return ReadResource(sync)
 }
@@ -100,7 +100,7 @@ func readMarketplaceAcceptedAgreement(d *schema.ResourceData, m interface{}) err
 func updateMarketplaceAcceptedAgreement(d *schema.ResourceData, m interface{}) error {
 	sync := &MarketplaceAcceptedAgreementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).marketplaceClient
+	sync.Client = m.(*OracleClients).marketplaceClient()
 
 	return UpdateResource(d, sync)
 }
@@ -108,7 +108,7 @@ func updateMarketplaceAcceptedAgreement(d *schema.ResourceData, m interface{}) e
 func deleteMarketplaceAcceptedAgreement(d *schema.ResourceData, m interface{}) error {
 	sync := &MarketplaceAcceptedAgreementResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).marketplaceClient
+	sync.Client = m.(*OracleClients).marketplaceClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

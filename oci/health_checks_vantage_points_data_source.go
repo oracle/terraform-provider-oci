@@ -130,7 +130,7 @@ func HealthChecksVantagePointsDataSource() *schema.Resource {
 func readHealthChecksVantagePoints(d *schema.ResourceData, m interface{}) error {
 	sync := &HealthChecksVantagePointsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).healthChecksClient
+	sync.Client = m.(*OracleClients).healthChecksClient()
 
 	return ReadResource(sync)
 }

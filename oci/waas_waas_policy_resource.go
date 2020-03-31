@@ -1279,7 +1279,7 @@ func WaasWaasPolicyResource() *schema.Resource {
 func createWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasWaasPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return CreateResource(d, sync)
 }
@@ -1287,7 +1287,7 @@ func createWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
 func readWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasWaasPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return ReadResource(sync)
 }
@@ -1295,7 +1295,7 @@ func readWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
 func updateWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasWaasPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return UpdateResource(d, sync)
 }
@@ -1303,7 +1303,7 @@ func updateWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
 func deleteWaasWaasPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasWaasPolicyResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

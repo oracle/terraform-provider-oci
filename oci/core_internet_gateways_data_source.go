@@ -46,7 +46,7 @@ func CoreInternetGatewaysDataSource() *schema.Resource {
 func readCoreInternetGateways(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInternetGatewaysDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

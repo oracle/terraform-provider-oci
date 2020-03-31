@@ -119,7 +119,7 @@ func TestIdentityCustomerSecretKeyResource_basic(t *testing.T) {
 
 func testAccCheckIdentityCustomerSecretKeyDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).identityClient
+	client := testAccProvider.Meta().(*OracleClients).identityClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_identity_customer_secret_key" {
 			noResourceFound = false

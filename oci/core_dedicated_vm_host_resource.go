@@ -93,7 +93,7 @@ func CoreDedicatedVmHostResource() *schema.Resource {
 func createCoreDedicatedVmHost(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDedicatedVmHostResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return CreateResource(d, sync)
@@ -102,7 +102,7 @@ func createCoreDedicatedVmHost(d *schema.ResourceData, m interface{}) error {
 func readCoreDedicatedVmHost(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDedicatedVmHostResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 
 	return ReadResource(sync)
 }
@@ -110,7 +110,7 @@ func readCoreDedicatedVmHost(d *schema.ResourceData, m interface{}) error {
 func updateCoreDedicatedVmHost(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDedicatedVmHostResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 	sync.workRequestClient = m.(*OracleClients).workRequestClient
 
 	return UpdateResource(d, sync)
@@ -119,7 +119,7 @@ func updateCoreDedicatedVmHost(d *schema.ResourceData, m interface{}) error {
 func deleteCoreDedicatedVmHost(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreDedicatedVmHostResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeClient
+	sync.Client = m.(*OracleClients).computeClient()
 	sync.workRequestClient = m.(*OracleClients).workRequestClient
 	sync.DisableNotFoundRetries = true
 

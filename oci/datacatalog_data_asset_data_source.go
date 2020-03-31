@@ -37,7 +37,7 @@ func DatacatalogDataAssetDataSource() *schema.Resource {
 func readSingularDatacatalogDataAsset(d *schema.ResourceData, m interface{}) error {
 	sync := &DatacatalogDataAssetDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataCatalogClient
+	sync.Client = m.(*OracleClients).dataCatalogClient()
 
 	return ReadResource(sync)
 }

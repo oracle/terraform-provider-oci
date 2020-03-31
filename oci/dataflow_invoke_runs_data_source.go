@@ -61,7 +61,7 @@ func DataflowInvokeRunsDataSource() *schema.Resource {
 func readDataflowInvokeRuns(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowInvokeRunsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataFlowClient
+	sync.Client = m.(*OracleClients).dataFlowClient()
 
 	return ReadResource(sync)
 }

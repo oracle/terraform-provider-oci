@@ -53,7 +53,7 @@ func CoreInstancePoolLoadBalancerAttachmentDataSource() *schema.Resource {
 func readSingularCoreInstancePoolLoadBalancerAttachment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstancePoolLoadBalancerAttachmentDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return ReadResource(sync)
 }

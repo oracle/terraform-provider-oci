@@ -91,7 +91,7 @@ func DatabaseExadataIormConfigResource() *schema.Resource {
 func createDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseExadataIormConfigResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -99,7 +99,7 @@ func createDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) erro
 func readDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseExadataIormConfigResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -107,7 +107,7 @@ func readDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) error 
 func updateDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseExadataIormConfigResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return UpdateResource(d, sync)
 }
@@ -115,7 +115,7 @@ func updateDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) erro
 func deleteDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseExadataIormConfigResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return DeleteResource(d, sync)
 }

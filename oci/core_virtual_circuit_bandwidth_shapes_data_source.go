@@ -50,7 +50,7 @@ func CoreVirtualCircuitBandwidthShapesDataSource() *schema.Resource {
 func readCoreVirtualCircuitBandwidthShapes(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVirtualCircuitBandwidthShapesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

@@ -135,7 +135,7 @@ func IdentityUserResource() *schema.Resource {
 func createIdentityUser(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 	sync.Configuration = m.(*OracleClients).configuration
 
 	return CreateResource(d, sync)
@@ -144,7 +144,7 @@ func createIdentityUser(d *schema.ResourceData, m interface{}) error {
 func readIdentityUser(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }
@@ -152,7 +152,7 @@ func readIdentityUser(d *schema.ResourceData, m interface{}) error {
 func updateIdentityUser(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return UpdateResource(d, sync)
 }
@@ -160,7 +160,7 @@ func updateIdentityUser(d *schema.ResourceData, m interface{}) error {
 func deleteIdentityUser(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityUserResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

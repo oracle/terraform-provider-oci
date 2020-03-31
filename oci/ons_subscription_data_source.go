@@ -26,7 +26,7 @@ func OnsSubscriptionDataSource() *schema.Resource {
 func readSingularOnsSubscription(d *schema.ResourceData, m interface{}) error {
 	sync := &OnsSubscriptionDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).notificationDataPlaneClient
+	sync.Client = m.(*OracleClients).notificationDataPlaneClient()
 
 	return ReadResource(sync)
 }

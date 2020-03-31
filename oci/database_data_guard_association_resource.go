@@ -175,7 +175,7 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 func createDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDataGuardAssociationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -183,7 +183,7 @@ func createDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) e
 func readDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDataGuardAssociationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -191,7 +191,7 @@ func readDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) err
 func deleteDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDataGuardAssociationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return DeleteResource(d, sync)
 }
@@ -533,7 +533,7 @@ func (s *DatabaseDataGuardAssociationResourceCrud) Delete() error {
 func updateDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDataGuardAssociationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return UpdateResource(d, sync)
 }

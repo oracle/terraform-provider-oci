@@ -178,8 +178,7 @@ func (args *ExportCommandArgs) validate() error {
 }
 
 func getExportConfig(d *schema.ResourceData) (interface{}, error) {
-
-	clients := &OracleClients{configuration: map[string]string{}}
+	clients := oracleClients
 
 	userAgentString := fmt.Sprintf(exportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, Version)
 	httpClient := buildHttpClient()
@@ -1082,7 +1081,7 @@ func resolveCompartmentId(clients *OracleClients, compartmentName *string) (*str
 	req.CompartmentIdInSubtree = &recursiveSearch
 
 	for {
-		resp, err := clients.identityClient.ListCompartments(context.Background(), req)
+		resp, err := clients.identityClient().ListCompartments(context.Background(), req)
 		if err != nil {
 			return nil, err
 		}

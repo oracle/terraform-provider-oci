@@ -81,7 +81,7 @@ func IdentityDynamicGroupResource() *schema.Resource {
 func createIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityDynamicGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return CreateResource(d, sync)
 }
@@ -89,7 +89,7 @@ func createIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 func readIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityDynamicGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }
@@ -97,7 +97,7 @@ func readIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 func updateIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityDynamicGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return UpdateResource(d, sync)
 }
@@ -105,7 +105,7 @@ func updateIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 func deleteIdentityDynamicGroup(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityDynamicGroupResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

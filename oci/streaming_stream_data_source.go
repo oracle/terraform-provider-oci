@@ -25,7 +25,7 @@ func StreamingStreamDataSource() *schema.Resource {
 func readSingularStreamingStream(d *schema.ResourceData, m interface{}) error {
 	sync := &StreamingStreamDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).streamAdminClient
+	sync.Client = m.(*OracleClients).streamAdminClient()
 
 	return ReadResource(sync)
 }

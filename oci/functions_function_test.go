@@ -236,7 +236,7 @@ func TestFunctionsFunctionResource_basic(t *testing.T) {
 
 func testAccCheckFunctionsFunctionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).functionsManagementClient
+	client := testAccProvider.Meta().(*OracleClients).functionsManagementClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_functions_function" {
 			noResourceFound = false
@@ -288,7 +288,7 @@ func init() {
 }
 
 func sweepFunctionsFunctionResource(compartment string) error {
-	functionsManagementClient := GetTestClients(&schema.ResourceData{}).functionsManagementClient
+	functionsManagementClient := GetTestClients(&schema.ResourceData{}).functionsManagementClient()
 	functionIds, err := getFunctionIds(compartment)
 	if err != nil {
 		return err
@@ -319,7 +319,7 @@ func getFunctionIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	functionsManagementClient := GetTestClients(&schema.ResourceData{}).functionsManagementClient
+	functionsManagementClient := GetTestClients(&schema.ResourceData{}).functionsManagementClient()
 
 	listFunctionsRequest := oci_functions.ListFunctionsRequest{}
 
@@ -355,7 +355,7 @@ func functionSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func functionSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.functionsManagementClient.GetFunction(context.Background(), oci_functions.GetFunctionRequest{
+	_, err := client.functionsManagementClient().GetFunction(context.Background(), oci_functions.GetFunctionRequest{
 		FunctionId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

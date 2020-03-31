@@ -43,7 +43,7 @@ func ContainerengineClusterKubeConfigDataSource() *schema.Resource {
 func readSingularContainerengineClusterKubeConfig(d *schema.ResourceData, m interface{}) error {
 	sync := &ContainerengineClusterKubeConfigDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).containerEngineClient
+	sync.Client = m.(*OracleClients).containerEngineClient()
 
 	return ReadResource(sync)
 }

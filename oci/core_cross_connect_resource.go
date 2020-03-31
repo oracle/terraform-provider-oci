@@ -110,7 +110,7 @@ func CoreCrossConnectResource() *schema.Resource {
 func createCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreCrossConnectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	err := CreateResource(d, sync)
 	if err != nil {
@@ -129,7 +129,7 @@ func createCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
 func readCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreCrossConnectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -137,7 +137,7 @@ func readCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
 func updateCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreCrossConnectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -145,7 +145,7 @@ func updateCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
 func deleteCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreCrossConnectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

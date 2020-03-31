@@ -245,7 +245,7 @@ func TestDnsSteeringPolicyAttachmentResource_basic(t *testing.T) {
 
 func testAccCheckDnsSteeringPolicyAttachmentDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dnsClient
+	client := testAccProvider.Meta().(*OracleClients).dnsClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_dns_steering_policy_attachment" {
 			noResourceFound = false
@@ -289,7 +289,7 @@ func init() {
 }
 
 func sweepDnsSteeringPolicyAttachmentResource(compartment string) error {
-	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
+	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient()
 	steeringPolicyAttachmentIds, err := getSteeringPolicyAttachmentIds(compartment)
 	if err != nil {
 		return err
@@ -318,7 +318,7 @@ func getSteeringPolicyAttachmentIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient
+	dnsClient := GetTestClients(&schema.ResourceData{}).dnsClient()
 
 	listSteeringPolicyAttachmentsRequest := oci_dns.ListSteeringPolicyAttachmentsRequest{}
 	listSteeringPolicyAttachmentsRequest.CompartmentId = &compartmentId

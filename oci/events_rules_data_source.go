@@ -42,7 +42,7 @@ func EventsRulesDataSource() *schema.Resource {
 func readEventsRules(d *schema.ResourceData, m interface{}) error {
 	sync := &EventsRulesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).eventsClient
+	sync.Client = m.(*OracleClients).eventsClient()
 
 	return ReadResource(sync)
 }

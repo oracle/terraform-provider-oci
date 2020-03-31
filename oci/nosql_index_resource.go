@@ -109,7 +109,7 @@ func NosqlIndexResource() *schema.Resource {
 func createNosqlIndex(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlIndexResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).nosqlClient
+	sync.Client = m.(*OracleClients).nosqlClient()
 
 	return CreateResource(d, sync)
 }
@@ -117,7 +117,7 @@ func createNosqlIndex(d *schema.ResourceData, m interface{}) error {
 func readNosqlIndex(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlIndexResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).nosqlClient
+	sync.Client = m.(*OracleClients).nosqlClient()
 
 	return ReadResource(sync)
 }
@@ -125,7 +125,7 @@ func readNosqlIndex(d *schema.ResourceData, m interface{}) error {
 func deleteNosqlIndex(d *schema.ResourceData, m interface{}) error {
 	sync := &NosqlIndexResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).nosqlClient
+	sync.Client = m.(*OracleClients).nosqlClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

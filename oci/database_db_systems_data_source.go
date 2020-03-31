@@ -50,7 +50,7 @@ func DatabaseDbSystemsDataSource() *schema.Resource {
 func readDatabaseDbSystems(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseDbSystemsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

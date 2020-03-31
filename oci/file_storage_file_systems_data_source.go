@@ -51,7 +51,7 @@ func FileStorageFileSystemsDataSource() *schema.Resource {
 func readFileStorageFileSystems(d *schema.ResourceData, m interface{}) error {
 	sync := &FileStorageFileSystemsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).fileStorageClient
+	sync.Client = m.(*OracleClients).fileStorageClient()
 
 	return ReadResource(sync)
 }

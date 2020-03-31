@@ -42,7 +42,7 @@ func EmailSendersDataSource() *schema.Resource {
 func readEmailSenders(d *schema.ResourceData, m interface{}) error {
 	sync := &EmailSendersDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).emailClient
+	sync.Client = m.(*OracleClients).emailClient()
 
 	return ReadResource(sync)
 }

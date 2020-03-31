@@ -38,7 +38,7 @@ func AutoScalingAutoScalingConfigurationsDataSource() *schema.Resource {
 func readAutoScalingAutoScalingConfigurations(d *schema.ResourceData, m interface{}) error {
 	sync := &AutoScalingAutoScalingConfigurationsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).autoScalingClient
+	sync.Client = m.(*OracleClients).autoScalingClient()
 
 	return ReadResource(sync)
 }

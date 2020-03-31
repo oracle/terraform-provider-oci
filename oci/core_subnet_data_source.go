@@ -25,7 +25,7 @@ func CoreSubnetDataSource() *schema.Resource {
 func readSingularCoreSubnet(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreSubnetDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }

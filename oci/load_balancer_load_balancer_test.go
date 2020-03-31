@@ -258,7 +258,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 
 func testAccCheckLoadBalancerLoadBalancerDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient
+	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_load_balancer_load_balancer" {
 			noResourceFound = false
@@ -310,7 +310,7 @@ func init() {
 }
 
 func sweepLoadBalancerLoadBalancerResource(compartment string) error {
-	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient()
 	loadBalancerIds, err := getLoadBalancerIds(compartment)
 	if err != nil {
 		return err
@@ -341,7 +341,7 @@ func getLoadBalancerIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient()
 
 	listLoadBalancersRequest := oci_load_balancer.ListLoadBalancersRequest{}
 	listLoadBalancersRequest.CompartmentId = &compartmentId
@@ -368,7 +368,7 @@ func loadBalancerSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func loadBalancerSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.loadBalancerClient.GetLoadBalancer(context.Background(), oci_load_balancer.GetLoadBalancerRequest{
+	_, err := client.loadBalancerClient().GetLoadBalancer(context.Background(), oci_load_balancer.GetLoadBalancerRequest{
 		LoadBalancerId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

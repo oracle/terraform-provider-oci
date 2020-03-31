@@ -120,7 +120,7 @@ func DatabaseBackupDestinationResource() *schema.Resource {
 func createDatabaseBackupDestination(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseBackupDestinationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return CreateResource(d, sync)
 }
@@ -128,7 +128,7 @@ func createDatabaseBackupDestination(d *schema.ResourceData, m interface{}) erro
 func readDatabaseBackupDestination(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseBackupDestinationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }
@@ -136,7 +136,7 @@ func readDatabaseBackupDestination(d *schema.ResourceData, m interface{}) error 
 func updateDatabaseBackupDestination(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseBackupDestinationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return UpdateResource(d, sync)
 }
@@ -144,7 +144,7 @@ func updateDatabaseBackupDestination(d *schema.ResourceData, m interface{}) erro
 func deleteDatabaseBackupDestination(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseBackupDestinationResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

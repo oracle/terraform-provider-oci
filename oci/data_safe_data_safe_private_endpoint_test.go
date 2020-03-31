@@ -250,7 +250,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 
 func testAccCheckDataSafeDataSafePrivateEndpointDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataSafeClient
+	client := testAccProvider.Meta().(*OracleClients).dataSafeClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_data_safe_data_safe_private_endpoint" {
 			noResourceFound = false
@@ -302,7 +302,7 @@ func init() {
 }
 
 func sweepDataSafeDataSafePrivateEndpointResource(compartment string) error {
-	dataSafeClient := GetTestClients(&schema.ResourceData{}).dataSafeClient
+	dataSafeClient := GetTestClients(&schema.ResourceData{}).dataSafeClient()
 	dataSafePrivateEndpointIds, err := getDataSafePrivateEndpointIds(compartment)
 	if err != nil {
 		return err
@@ -333,7 +333,7 @@ func getDataSafePrivateEndpointIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	dataSafeClient := GetTestClients(&schema.ResourceData{}).dataSafeClient
+	dataSafeClient := GetTestClients(&schema.ResourceData{}).dataSafeClient()
 
 	listDataSafePrivateEndpointsRequest := oci_data_safe.ListDataSafePrivateEndpointsRequest{}
 	listDataSafePrivateEndpointsRequest.CompartmentId = &compartmentId
@@ -360,7 +360,7 @@ func dataSafePrivateEndpointSweepWaitCondition(response common.OCIOperationRespo
 }
 
 func dataSafePrivateEndpointSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.dataSafeClient.GetDataSafePrivateEndpoint(context.Background(), oci_data_safe.GetDataSafePrivateEndpointRequest{
+	_, err := client.dataSafeClient().GetDataSafePrivateEndpoint(context.Background(), oci_data_safe.GetDataSafePrivateEndpointRequest{
 		DataSafePrivateEndpointId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

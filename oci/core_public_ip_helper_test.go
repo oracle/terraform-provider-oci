@@ -30,7 +30,7 @@ func getPublicIpIdsForADScope(compartmentId string, listPublicIpsRequest oci_cor
 }
 
 func getPublicIpIdsByScope(compartmentId string, listPublicIpsRequest oci_core.ListPublicIpsRequest) ([]oci_core.PublicIp, error) {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	listPublicIpsResponse, err := virtualNetworkClient.ListPublicIps(context.Background(), listPublicIpsRequest)
 
 	if err != nil {

@@ -96,7 +96,7 @@ func CorePublicIpResource() *schema.Resource {
 func createCorePublicIp(d *schema.ResourceData, m interface{}) error {
 	sync := &CorePublicIpResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return CreateResource(d, sync)
 }
@@ -104,7 +104,7 @@ func createCorePublicIp(d *schema.ResourceData, m interface{}) error {
 func readCorePublicIp(d *schema.ResourceData, m interface{}) error {
 	sync := &CorePublicIpResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return ReadResource(sync)
 }
@@ -112,7 +112,7 @@ func readCorePublicIp(d *schema.ResourceData, m interface{}) error {
 func updateCorePublicIp(d *schema.ResourceData, m interface{}) error {
 	sync := &CorePublicIpResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 
 	return UpdateResource(d, sync)
 }
@@ -120,7 +120,7 @@ func updateCorePublicIp(d *schema.ResourceData, m interface{}) error {
 func deleteCorePublicIp(d *schema.ResourceData, m interface{}) error {
 	sync := &CorePublicIpResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).virtualNetworkClient
+	sync.Client = m.(*OracleClients).virtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

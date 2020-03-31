@@ -124,7 +124,7 @@ func CoreInstancePoolInstancesDataSource() *schema.Resource {
 func readCoreInstancePoolInstances(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreInstancePoolInstancesDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).computeManagementClient
+	sync.Client = m.(*OracleClients).computeManagementClient()
 
 	return ReadResource(sync)
 }

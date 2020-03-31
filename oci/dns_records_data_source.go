@@ -68,7 +68,7 @@ func DnsRecordsDataSource() *schema.Resource {
 func readDnsRecords(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsRecordsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return ReadResource(sync)
 }

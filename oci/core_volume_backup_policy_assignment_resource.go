@@ -50,7 +50,7 @@ func CoreVolumeBackupPolicyAssignmentResource() *schema.Resource {
 func createCoreVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeBackupPolicyAssignmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	return CreateResource(d, sync)
 }
@@ -58,7 +58,7 @@ func createCoreVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{
 func readCoreVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeBackupPolicyAssignmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 
 	return ReadResource(sync)
 }
@@ -66,7 +66,7 @@ func readCoreVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{})
 func deleteCoreVolumeBackupPolicyAssignment(d *schema.ResourceData, m interface{}) error {
 	sync := &CoreVolumeBackupPolicyAssignmentResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).blockstorageClient
+	sync.Client = m.(*OracleClients).blockstorageClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

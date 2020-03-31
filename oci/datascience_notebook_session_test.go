@@ -270,7 +270,7 @@ func TestDatascienceNotebookSessionResource_basic(t *testing.T) {
 
 func testAccCheckDatascienceNotebookSessionDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).dataScienceClient
+	client := testAccProvider.Meta().(*OracleClients).dataScienceClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_datascience_notebook_session" {
 			noResourceFound = false
@@ -322,7 +322,7 @@ func init() {
 }
 
 func sweepDatascienceNotebookSessionResource(compartment string) error {
-	dataScienceClient := GetTestClients(&schema.ResourceData{}).dataScienceClient
+	dataScienceClient := GetTestClients(&schema.ResourceData{}).dataScienceClient()
 	notebookSessionIds, err := getNotebookSessionIds(compartment)
 	if err != nil {
 		return err
@@ -353,7 +353,7 @@ func getNotebookSessionIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	dataScienceClient := GetTestClients(&schema.ResourceData{}).dataScienceClient
+	dataScienceClient := GetTestClients(&schema.ResourceData{}).dataScienceClient()
 
 	listNotebookSessionsRequest := oci_datascience.ListNotebookSessionsRequest{}
 	listNotebookSessionsRequest.CompartmentId = &compartmentId
@@ -380,7 +380,7 @@ func notebookSessionSweepWaitCondition(response common.OCIOperationResponse) boo
 }
 
 func notebookSessionSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.dataScienceClient.GetNotebookSession(context.Background(), oci_datascience.GetNotebookSessionRequest{
+	_, err := client.dataScienceClient().GetNotebookSession(context.Background(), oci_datascience.GetNotebookSessionRequest{
 		NotebookSessionId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

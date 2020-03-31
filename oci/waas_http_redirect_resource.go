@@ -119,8 +119,8 @@ func WaasHttpRedirectResource() *schema.Resource {
 func createWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasHttpRedirectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).redirectClient
-	sync.WaasClient = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).redirectClient()
+	sync.WaasClient = m.(*OracleClients).waasClient()
 
 	return CreateResource(d, sync)
 }
@@ -128,7 +128,7 @@ func createWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
 func readWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasHttpRedirectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).redirectClient
+	sync.Client = m.(*OracleClients).redirectClient()
 
 	return ReadResource(sync)
 }
@@ -136,8 +136,8 @@ func readWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
 func updateWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasHttpRedirectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).redirectClient
-	sync.WaasClient = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).redirectClient()
+	sync.WaasClient = m.(*OracleClients).waasClient()
 
 	return UpdateResource(d, sync)
 }
@@ -145,8 +145,8 @@ func updateWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
 func deleteWaasHttpRedirect(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasHttpRedirectResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).redirectClient
-	sync.WaasClient = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).redirectClient()
+	sync.WaasClient = m.(*OracleClients).waasClient()
 	sync.DisableNotFoundRetries = true
 
 	return DeleteResource(d, sync)

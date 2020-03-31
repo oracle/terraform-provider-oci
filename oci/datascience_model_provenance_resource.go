@@ -72,7 +72,7 @@ func DatascienceModelProvenanceResource() *schema.Resource {
 func createDatascienceModelProvenance(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelProvenanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return CreateResource(d, sync)
 }
@@ -80,7 +80,7 @@ func createDatascienceModelProvenance(d *schema.ResourceData, m interface{}) err
 func readDatascienceModelProvenance(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelProvenanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return ReadResource(sync)
 }
@@ -88,7 +88,7 @@ func readDatascienceModelProvenance(d *schema.ResourceData, m interface{}) error
 func updateDatascienceModelProvenance(d *schema.ResourceData, m interface{}) error {
 	sync := &DatascienceModelProvenanceResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dataScienceClient
+	sync.Client = m.(*OracleClients).dataScienceClient()
 
 	return UpdateResource(d, sync)
 }

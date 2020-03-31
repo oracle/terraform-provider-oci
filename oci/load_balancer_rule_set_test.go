@@ -335,7 +335,7 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 
 func testAccCheckLoadBalancerRuleSetDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient
+	client := testAccProvider.Meta().(*OracleClients).loadBalancerClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_load_balancer_rule_set" {
 			noResourceFound = false
@@ -384,7 +384,7 @@ func init() {
 }
 
 func sweepLoadBalancerRuleSetResource(compartment string) error {
-	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient()
 	ruleSetIds, err := getRuleSetIds(compartment)
 	if err != nil {
 		return err
@@ -411,7 +411,7 @@ func getRuleSetIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient
+	loadBalancerClient := GetTestClients(&schema.ResourceData{}).loadBalancerClient()
 
 	listRuleSetsRequest := oci_load_balancer.ListRuleSetsRequest{}
 

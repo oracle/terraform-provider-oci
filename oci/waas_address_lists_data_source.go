@@ -65,7 +65,7 @@ func WaasAddressListsDataSource() *schema.Resource {
 func readWaasAddressLists(d *schema.ResourceData, m interface{}) error {
 	sync := &WaasAddressListsDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).waasClient
+	sync.Client = m.(*OracleClients).waasClient()
 
 	return ReadResource(sync)
 }

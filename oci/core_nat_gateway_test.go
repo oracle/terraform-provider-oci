@@ -242,7 +242,7 @@ func TestCoreNatGatewayResource_basic(t *testing.T) {
 
 func testAccCheckCoreNatGatewayDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient
+	client := testAccProvider.Meta().(*OracleClients).virtualNetworkClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_core_nat_gateway" {
 			noResourceFound = false
@@ -294,7 +294,7 @@ func init() {
 }
 
 func sweepCoreNatGatewayResource(compartment string) error {
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 	natGatewayIds, err := getNatGatewayIds(compartment)
 	if err != nil {
 		return err
@@ -325,7 +325,7 @@ func getNatGatewayIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient
+	virtualNetworkClient := GetTestClients(&schema.ResourceData{}).virtualNetworkClient()
 
 	listNatGatewaysRequest := oci_core.ListNatGatewaysRequest{}
 	listNatGatewaysRequest.CompartmentId = &compartmentId
@@ -352,7 +352,7 @@ func natGatewaySweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func natGatewaySweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.virtualNetworkClient.GetNatGateway(context.Background(), oci_core.GetNatGatewayRequest{
+	_, err := client.virtualNetworkClient().GetNatGateway(context.Background(), oci_core.GetNatGatewayRequest{
 		NatGatewayId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

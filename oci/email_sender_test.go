@@ -215,7 +215,7 @@ func TestEmailSenderResource_basic(t *testing.T) {
 
 func testAccCheckEmailSenderDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := testAccProvider.Meta().(*OracleClients).emailClient
+	client := testAccProvider.Meta().(*OracleClients).emailClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_email_sender" {
 			noResourceFound = false
@@ -267,7 +267,7 @@ func init() {
 }
 
 func sweepEmailSenderResource(compartment string) error {
-	emailClient := GetTestClients(&schema.ResourceData{}).emailClient
+	emailClient := GetTestClients(&schema.ResourceData{}).emailClient()
 	senderIds, err := getSenderIds(compartment)
 	if err != nil {
 		return err
@@ -298,7 +298,7 @@ func getSenderIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	emailClient := GetTestClients(&schema.ResourceData{}).emailClient
+	emailClient := GetTestClients(&schema.ResourceData{}).emailClient()
 
 	listSendersRequest := oci_email.ListSendersRequest{}
 	listSendersRequest.CompartmentId = &compartmentId
@@ -325,7 +325,7 @@ func senderSweepWaitCondition(response common.OCIOperationResponse) bool {
 }
 
 func senderSweepResponseFetchOperation(client *OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.emailClient.GetSender(context.Background(), oci_email.GetSenderRequest{
+	_, err := client.emailClient().GetSender(context.Background(), oci_email.GetSenderRequest{
 		SenderId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

@@ -40,7 +40,7 @@ func IdentityIdentityProvidersDataSource() *schema.Resource {
 func readIdentityIdentityProviders(d *schema.ResourceData, m interface{}) error {
 	sync := &IdentityIdentityProvidersDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).identityClient
+	sync.Client = m.(*OracleClients).identityClient()
 
 	return ReadResource(sync)
 }

@@ -26,7 +26,7 @@ func DatabaseMaintenanceRunDataSource() *schema.Resource {
 func readSingularDatabaseMaintenanceRun(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseMaintenanceRunDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).databaseClient
+	sync.Client = m.(*OracleClients).databaseClient()
 
 	return ReadResource(sync)
 }

@@ -46,7 +46,7 @@ func DnsTsigKeysDataSource() *schema.Resource {
 func readDnsTsigKeys(d *schema.ResourceData, m interface{}) error {
 	sync := &DnsTsigKeysDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).dnsClient
+	sync.Client = m.(*OracleClients).dnsClient()
 
 	return ReadResource(sync)
 }

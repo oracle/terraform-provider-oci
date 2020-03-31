@@ -26,7 +26,7 @@ func FunctionsFunctionDataSource() *schema.Resource {
 func readSingularFunctionsFunction(d *schema.ResourceData, m interface{}) error {
 	sync := &FunctionsFunctionDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*OracleClients).functionsManagementClient
+	sync.Client = m.(*OracleClients).functionsManagementClient()
 
 	return ReadResource(sync)
 }
