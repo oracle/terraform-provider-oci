@@ -47,6 +47,7 @@ The following attributes are exported:
 	* `cloudera_manager_url` - The URL of a Cloudera Manager
 	* `hue_server_url` - The URL of a Hue Server
 	* `time_created` - The time the cluster was created. An RFC3339 formatted datetime string
+	* `time_refreshed` - The time the BDS instance was automatically, or manually refreshed. An RFC3339 formatted datetime string 
 * `cluster_version` - Version of the Hadoop distribution
 * `compartment_id` - The OCID of the compartment
 * `created_by` - The user who created the BDS instance.
@@ -76,7 +77,9 @@ The following attributes are exported:
 	* `state` - The state of the node
 	* `subnet_id` - The OCID of the subnet in which the node should be created
 	* `time_created` - The time the node was created. An RFC3339 formatted datetime string
+	* `time_updated` - The time the BDS instance was updated. An RFC3339 formatted datetime string
 * `number_of_nodes` - Number of nodes that forming the cluster
 * `state` - The state of the BDS instance
 * `time_created` - The time the BDS instance was created. An RFC3339 formatted datetime string
+* `time_updated` - The time the BDS instance was updated. An RFC3339 formatted datetime string
 
