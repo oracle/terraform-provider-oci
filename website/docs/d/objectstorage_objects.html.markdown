@@ -30,6 +30,7 @@ data "oci_objectstorage_objects" "test_objects" {
 	end = "${var.object_end}"
 	prefix = "${var.object_prefix}"
 	start = "${var.object_start}"
+	start_after = "${var.object_start_after}"
 }
 ```
 
@@ -43,6 +44,7 @@ The following arguments are supported:
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `prefix` - (Optional) The string to use for matching against the start of object names in a list query.
 * `start` - (Optional) Object names returned by a list query must be greater or equal to this parameter.
+* `start_after` - (Optional) Object names returned by a list query must be greater than this parameter.
 
 
 ## Attributes Reference

@@ -5,6 +5,7 @@
 - Support for Scheduled Cross-Region Backups in `oci_core_volume_backup_policy`
 - Support Closing InstanceConfigurationLaunchInstanceDetails parity gaps with LaunchInstanceDetails 
 - Support Flexible Infrastructure - Flexible VM Instance
+- Support for object versioning in Object Storage 
 
 ### Notes
 `oci_streaming_stream_archiver` data source and resource were not supported by the service and removed from the provider since v3.72.0
