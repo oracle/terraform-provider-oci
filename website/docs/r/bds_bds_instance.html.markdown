@@ -49,7 +49,8 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
 	network_config {
-		#Required
+
+		#Optional
 		cidr_block = "${var.bds_instance_network_config_cidr_block}"
 		is_nat_gateway_required = "${var.bds_instance_network_config_is_nat_gateway_required}"
 	}
@@ -113,6 +114,7 @@ The following attributes are exported:
 	* `cloudera_manager_url` - The URL of a Cloudera Manager
 	* `hue_server_url` - The URL of a Hue Server
 	* `time_created` - The time the cluster was created. An RFC3339 formatted datetime string
+	* `time_refreshed` - The time the BDS instance was automatically, or manually refreshed. An RFC3339 formatted datetime string 
 * `cluster_version` - Version of the Hadoop distribution
 * `compartment_id` - The OCID of the compartment
 * `created_by` - The user who created the BDS instance.
@@ -142,9 +144,11 @@ The following attributes are exported:
 	* `state` - The state of the node
 	* `subnet_id` - The OCID of the subnet in which the node should be created
 	* `time_created` - The time the node was created. An RFC3339 formatted datetime string
+	* `time_updated` - The time the BDS instance was updated. An RFC3339 formatted datetime string
 * `number_of_nodes` - Number of nodes that forming the cluster
 * `state` - The state of the BDS instance
 * `time_created` - The time the BDS instance was created. An RFC3339 formatted datetime string
+* `time_updated` - The time the BDS instance was updated. An RFC3339 formatted datetime string
 
 ## Import
 

@@ -57,6 +57,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
 			"is_high_availability": {
 				Type:     schema.TypeBool,
 				Required: true,
@@ -236,10 +240,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 				DiffSuppressFunc: definedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -249,24 +249,25 @@ func BdsBdsInstanceResource() *schema.Resource {
 			"network_config": {
 				Type:     schema.TypeList,
 				Optional: true,
+				Computed: true,
 				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
+
+						// Optional
 						"cidr_block": {
 							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
+							Computed: true,
+							Optional: true,
 						},
 						"is_nat_gateway_required": {
 							Type:     schema.TypeBool,
-							Required: true,
-							ForceNew: true,
+							Computed: true,
+							Optional: true,
 						},
-
-						// Optional
 
 						// Computed
 					},
@@ -397,6 +398,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_refreshed": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -409,6 +414,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -1002,7 +1011,7 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 	if s.Res.CloudSqlDetails != nil {
 		s.D.Set("cloud_sql_details", []interface{}{CloudSqlDetailsToMap(s.Res.CloudSqlDetails)})
 	} else {
-		s.D.Set("cloud_sql_details", nil)
+		s.D.Set("cloud_sql_details", []interface{}{})
 		s.D.Set("is_cloud_sql_configured", false)
 	}
 
@@ -1068,6 +1077,10 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeUpdated != nil {
+		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
 	return nil
 }
 
@@ -1124,6 +1137,10 @@ func ClusterDetailsToMap(obj *oci_bds.ClusterDetails) map[string]interface{} {
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeRefreshed != nil {
+		result["time_refreshed"] = oci_common.SDKTime(*obj.TimeRefreshed)
 	}
 
 	return result
@@ -1208,6 +1225,10 @@ func BdsNodeToMap(obj oci_bds.Node) map[string]interface{} {
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
 	}
 
 	return result
