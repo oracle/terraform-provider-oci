@@ -91,7 +91,8 @@ func (client GatewayClient) ChangeGatewayCompartment(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.changeGatewayCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeGatewayCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeGatewayCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -138,7 +139,8 @@ func (client GatewayClient) CreateGateway(ctx context.Context, request CreateGat
 	ociResponse, err = common.Retry(ctx, request, client.createGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateGatewayResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -180,7 +182,8 @@ func (client GatewayClient) DeleteGateway(ctx context.Context, request DeleteGat
 	ociResponse, err = common.Retry(ctx, request, client.deleteGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteGatewayResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -222,7 +225,8 @@ func (client GatewayClient) GetGateway(ctx context.Context, request GetGatewayRe
 	ociResponse, err = common.Retry(ctx, request, client.getGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetGatewayResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -264,7 +268,8 @@ func (client GatewayClient) ListGateways(ctx context.Context, request ListGatewa
 	ociResponse, err = common.Retry(ctx, request, client.listGateways, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListGatewaysResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListGatewaysResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -306,7 +311,8 @@ func (client GatewayClient) UpdateGateway(ctx context.Context, request UpdateGat
 	ociResponse, err = common.Retry(ctx, request, client.updateGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateGatewayResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

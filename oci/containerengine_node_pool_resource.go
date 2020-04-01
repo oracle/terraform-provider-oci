@@ -14,6 +14,10 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
+func init() {
+	RegisterResource("oci_containerengine_node_pool", ContainerengineNodePoolResource())
+}
+
 func ContainerengineNodePoolResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

@@ -4,6 +4,8 @@
 // Object Storage Service API
 //
 // Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
+// For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
+// Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
 //
 
 package objectstorage
@@ -37,7 +39,6 @@ type ObjectLifecycleRule struct {
 	// A Boolean that determines whether this rule is currently enabled.
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
-	// A filter limiting object names that the rule will apply to.
 	ObjectNameFilter *ObjectNameFilter `mandatory:"false" json:"objectNameFilter"`
 }
 

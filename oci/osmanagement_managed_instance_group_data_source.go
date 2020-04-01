@@ -9,6 +9,10 @@ import (
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 )
 
+func init() {
+	RegisterDatasource("oci_osmanagement_managed_instance_group", OsmanagementManagedInstanceGroupDataSource())
+}
+
 func OsmanagementManagedInstanceGroupDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["managed_instance_group_id"] = &schema.Schema{

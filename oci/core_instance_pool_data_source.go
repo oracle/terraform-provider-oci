@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_instance_pool", CoreInstancePoolDataSource())
+}
+
 func CoreInstancePoolDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["instance_pool_id"] = &schema.Schema{

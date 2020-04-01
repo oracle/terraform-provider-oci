@@ -10,6 +10,10 @@ import (
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 )
 
+func init() {
+	RegisterResource("oci_functions_application", FunctionsApplicationResource())
+}
+
 func FunctionsApplicationResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

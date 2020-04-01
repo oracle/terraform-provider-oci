@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_network_security_groups", CoreNetworkSecurityGroupsDataSource())
+}
+
 func CoreNetworkSecurityGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreNetworkSecurityGroups,

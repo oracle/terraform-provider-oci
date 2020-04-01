@@ -127,6 +127,11 @@ resource "oci_containerengine_cluster" "test_cluster" {
       is_tiller_enabled               = "true"
     }
 
+    admission_controller_options {
+      #Optional
+      is_pod_security_policy_enabled = true
+    }
+
     kubernetes_network_config {
       #Optional
       pods_cidr     = "10.1.0.0/16"

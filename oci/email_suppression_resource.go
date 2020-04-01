@@ -10,6 +10,10 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/email"
 )
 
+func init() {
+	RegisterResource("oci_email_suppression", EmailSuppressionResource())
+}
+
 func EmailSuppressionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

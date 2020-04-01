@@ -9,6 +9,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_fault_domains", IdentityFaultDomainsDataSource())
+}
+
 func IdentityFaultDomainsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityFaultDomains,

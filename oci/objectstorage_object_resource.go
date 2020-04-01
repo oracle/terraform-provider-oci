@@ -26,6 +26,10 @@ const (
 	ObjIdPrefix = "tfobm-object-"
 )
 
+func init() {
+	RegisterResource("oci_objectstorage_object", ObjectStorageObjectResource())
+}
+
 func ObjectStorageObjectResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

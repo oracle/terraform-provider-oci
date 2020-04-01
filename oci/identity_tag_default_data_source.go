@@ -9,6 +9,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_tag_default", IdentityTagDefaultDataSource())
+}
+
 func IdentityTagDefaultDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["tag_default_id"] = &schema.Schema{

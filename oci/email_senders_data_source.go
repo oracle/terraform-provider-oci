@@ -9,6 +9,10 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/email"
 )
 
+func init() {
+	RegisterDatasource("oci_email_senders", EmailSendersDataSource())
+}
+
 func EmailSendersDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readEmailSenders,

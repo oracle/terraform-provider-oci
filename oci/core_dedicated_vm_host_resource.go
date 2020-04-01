@@ -11,6 +11,10 @@ import (
 	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 )
 
+func init() {
+	RegisterResource("oci_core_dedicated_vm_host", CoreDedicatedVmHostResource())
+}
+
 func CoreDedicatedVmHostResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

@@ -9,6 +9,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_tag_defaults", IdentityTagDefaultsDataSource())
+}
+
 func IdentityTagDefaultsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityTagDefaults,

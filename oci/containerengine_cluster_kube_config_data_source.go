@@ -11,6 +11,10 @@ import (
 	"io/ioutil"
 )
 
+func init() {
+	RegisterDatasource("oci_containerengine_cluster_kube_config", ContainerengineClusterKubeConfigDataSource())
+}
+
 func ContainerengineClusterKubeConfigDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularContainerengineClusterKubeConfig,

@@ -11,6 +11,10 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
+func init() {
+	RegisterDatasource("oci_kms_keys", KmsKeysDataSource())
+}
+
 func KmsKeysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readKmsKeys,

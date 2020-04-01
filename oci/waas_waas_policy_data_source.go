@@ -10,6 +10,10 @@ import (
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 
+func init() {
+	RegisterDatasource("oci_waas_waas_policy", WaasWaasPolicyDataSource())
+}
+
 func WaasWaasPolicyDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularWaasWaasPolicy,

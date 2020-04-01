@@ -23,6 +23,10 @@ const (
 	streamingArchiverStoppedState = "stopped"
 )
 
+func init() {
+	RegisterResource("oci_streaming_stream_archiver", StreamingStreamArchiverResource())
+}
+
 func StreamingStreamArchiverResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

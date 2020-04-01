@@ -10,6 +10,10 @@ import (
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 
+func init() {
+	RegisterResource("oci_waas_certificate", WaasCertificateResource())
+}
+
 func WaasCertificateResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

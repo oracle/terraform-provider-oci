@@ -9,6 +9,10 @@ import (
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
 )
 
+func init() {
+	RegisterDatasource("oci_oce_oce_instance", OceOceInstanceDataSource())
+}
+
 func OceOceInstanceDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["oce_instance_id"] = &schema.Schema{

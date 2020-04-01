@@ -11,6 +11,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_network_security_group_security_rule", CoreNetworkSecurityGroupSecurityRuleResource())
+}
+
 func CoreNetworkSecurityGroupSecurityRuleResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

@@ -9,6 +9,10 @@ import (
 	oci_apigateway "github.com/oracle/oci-go-sdk/apigateway"
 )
 
+func init() {
+	RegisterDatasource("oci_apigateway_gateway", ApigatewayGatewayDataSource())
+}
+
 func ApigatewayGatewayDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["gateway_id"] = &schema.Schema{

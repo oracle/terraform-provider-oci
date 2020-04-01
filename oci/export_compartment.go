@@ -41,8 +41,6 @@ var isMissingRequiredAttributes bool
 
 func init() {
 	resourceNameCount = map[string]int{}
-	resourcesMap = ResourcesMap()
-	datasourcesMap = DataSourcesMap()
 	vars = map[string]string{}
 	referenceMap = map[string]string{}
 
@@ -90,6 +88,9 @@ func printResourceGraphResources(resourceGraphs map[string]TerraformResourceGrap
 }
 
 func RunListExportableResourcesCommand() error {
+	resourcesMap = ResourcesMap()
+	datasourcesMap = DataSourcesMap()
+
 	log.Println("List of Discoverable Oracle Cloud Infrastructure Resources")
 
 	if err := printResourceGraphResources(tenancyResourceGraphs, "tenancy"); err != nil {
@@ -113,6 +114,9 @@ type ExportCommandArgs struct {
 }
 
 func RunExportCommand(args *ExportCommandArgs) error {
+	resourcesMap = ResourcesMap()
+	datasourcesMap = DataSourcesMap()
+
 	if err := args.validate(); err != nil {
 		return err
 	}

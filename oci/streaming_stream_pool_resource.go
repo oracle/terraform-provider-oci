@@ -11,6 +11,10 @@ import (
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 )
 
+func init() {
+	RegisterResource("oci_streaming_stream_pool", StreamingStreamPoolResource())
+}
+
 func StreamingStreamPoolResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

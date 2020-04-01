@@ -9,6 +9,10 @@ import (
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 )
 
+func init() {
+	RegisterDatasource("oci_limits_quotas", LimitsQuotasDataSource())
+}
+
 func LimitsQuotasDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLimitsQuotas,

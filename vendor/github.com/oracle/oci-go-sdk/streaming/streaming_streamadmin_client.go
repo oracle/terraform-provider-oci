@@ -84,7 +84,8 @@ func (client StreamAdminClient) ChangeConnectHarnessCompartment(ctx context.Cont
 	ociResponse, err = common.Retry(ctx, request, client.changeConnectHarnessCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeConnectHarnessCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeConnectHarnessCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -128,7 +129,8 @@ func (client StreamAdminClient) ChangeStreamCompartment(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.changeStreamCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeStreamCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeStreamCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -170,7 +172,8 @@ func (client StreamAdminClient) ChangeStreamPoolCompartment(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.changeStreamPoolCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeStreamPoolCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeStreamPoolCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -219,7 +222,8 @@ func (client StreamAdminClient) CreateArchiver(ctx context.Context, request Crea
 	ociResponse, err = common.Retry(ctx, request, client.createArchiver, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateArchiverResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateArchiverResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -267,7 +271,8 @@ func (client StreamAdminClient) CreateConnectHarness(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.createConnectHarness, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateConnectHarnessResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateConnectHarnessResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -313,7 +318,8 @@ func (client StreamAdminClient) CreateStream(ctx context.Context, request Create
 	ociResponse, err = common.Retry(ctx, request, client.createStream, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateStreamResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateStreamResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -362,7 +368,8 @@ func (client StreamAdminClient) CreateStreamPool(ctx context.Context, request Cr
 	ociResponse, err = common.Retry(ctx, request, client.createStreamPool, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateStreamPoolResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateStreamPoolResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -408,7 +415,8 @@ func (client StreamAdminClient) DeleteConnectHarness(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.deleteConnectHarness, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteConnectHarnessResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteConnectHarnessResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -454,7 +462,8 @@ func (client StreamAdminClient) DeleteStream(ctx context.Context, request Delete
 	ociResponse, err = common.Retry(ctx, request, client.deleteStream, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteStreamResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteStreamResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -497,7 +506,8 @@ func (client StreamAdminClient) DeleteStreamPool(ctx context.Context, request De
 	ociResponse, err = common.Retry(ctx, request, client.deleteStreamPool, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteStreamPoolResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteStreamPoolResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -539,7 +549,8 @@ func (client StreamAdminClient) GetArchiver(ctx context.Context, request GetArch
 	ociResponse, err = common.Retry(ctx, request, client.getArchiver, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetArchiverResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetArchiverResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -581,7 +592,8 @@ func (client StreamAdminClient) GetConnectHarness(ctx context.Context, request G
 	ociResponse, err = common.Retry(ctx, request, client.getConnectHarness, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetConnectHarnessResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetConnectHarnessResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -623,7 +635,8 @@ func (client StreamAdminClient) GetStream(ctx context.Context, request GetStream
 	ociResponse, err = common.Retry(ctx, request, client.getStream, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetStreamResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetStreamResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -665,7 +678,8 @@ func (client StreamAdminClient) GetStreamPool(ctx context.Context, request GetSt
 	ociResponse, err = common.Retry(ctx, request, client.getStreamPool, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetStreamPoolResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetStreamPoolResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -707,7 +721,8 @@ func (client StreamAdminClient) ListConnectHarnesses(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.listConnectHarnesses, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListConnectHarnessesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListConnectHarnessesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -749,7 +764,8 @@ func (client StreamAdminClient) ListStreamPools(ctx context.Context, request Lis
 	ociResponse, err = common.Retry(ctx, request, client.listStreamPools, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListStreamPoolsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListStreamPoolsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -794,7 +810,8 @@ func (client StreamAdminClient) ListStreams(ctx context.Context, request ListStr
 	ociResponse, err = common.Retry(ctx, request, client.listStreams, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListStreamsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListStreamsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -836,7 +853,8 @@ func (client StreamAdminClient) StartArchiver(ctx context.Context, request Start
 	ociResponse, err = common.Retry(ctx, request, client.startArchiver, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = StartArchiverResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = StartArchiverResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -878,7 +896,8 @@ func (client StreamAdminClient) StopArchiver(ctx context.Context, request StopAr
 	ociResponse, err = common.Retry(ctx, request, client.stopArchiver, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = StopArchiverResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = StopArchiverResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -920,7 +939,8 @@ func (client StreamAdminClient) UpdateArchiver(ctx context.Context, request Upda
 	ociResponse, err = common.Retry(ctx, request, client.updateArchiver, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateArchiverResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateArchiverResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -962,7 +982,8 @@ func (client StreamAdminClient) UpdateConnectHarness(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.updateConnectHarness, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateConnectHarnessResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateConnectHarnessResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1004,7 +1025,8 @@ func (client StreamAdminClient) UpdateStream(ctx context.Context, request Update
 	ociResponse, err = common.Retry(ctx, request, client.updateStream, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateStreamResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateStreamResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1046,7 +1068,8 @@ func (client StreamAdminClient) UpdateStreamPool(ctx context.Context, request Up
 	ociResponse, err = common.Retry(ctx, request, client.updateStreamPool, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateStreamPoolResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateStreamPoolResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

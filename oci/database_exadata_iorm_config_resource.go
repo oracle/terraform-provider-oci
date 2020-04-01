@@ -14,6 +14,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterResource("oci_database_exadata_iorm_config", DatabaseExadataIormConfigResource())
+}
+
 func DatabaseExadataIormConfigResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

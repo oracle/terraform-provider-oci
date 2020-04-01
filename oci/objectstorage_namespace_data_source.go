@@ -9,6 +9,10 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
+func init() {
+	RegisterDatasource("oci_objectstorage_namespace", ObjectStorageNamespaceDataSource())
+}
+
 func ObjectStorageNamespaceDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularObjectStorageNamespace,

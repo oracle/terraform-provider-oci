@@ -14,6 +14,10 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
+func init() {
+	RegisterDatasource("oci_objectstorage_object", ObjectStorageObjectDataSource())
+}
+
 func ObjectStorageObjectDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularObjectStorageObject,

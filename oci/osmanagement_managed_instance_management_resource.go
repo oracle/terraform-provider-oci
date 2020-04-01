@@ -13,6 +13,10 @@ import (
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 )
 
+func init() {
+	RegisterResource("oci_osmanagement_managed_instance_management", OsmanagementManagedInstanceManagementResource())
+}
+
 func OsmanagementManagedInstanceManagementResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

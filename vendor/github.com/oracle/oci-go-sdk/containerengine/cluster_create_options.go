@@ -25,6 +25,9 @@ type ClusterCreateOptions struct {
 
 	// Configurable cluster add-ons
 	AddOns *AddOnOptions `mandatory:"false" json:"addOns"`
+
+	// Configurable cluster admission controllers
+	AdmissionControllerOptions *AdmissionControllerOptions `mandatory:"false" json:"admissionControllerOptions"`
 }
 
 func (m ClusterCreateOptions) String() string {

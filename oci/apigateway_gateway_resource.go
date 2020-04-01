@@ -16,6 +16,10 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/common"
 )
 
+func init() {
+	RegisterResource("oci_apigateway_gateway", ApigatewayGatewayResource())
+}
+
 func ApigatewayGatewayResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

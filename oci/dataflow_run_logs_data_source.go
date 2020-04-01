@@ -10,6 +10,10 @@ import (
 	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
 )
 
+func init() {
+	RegisterDatasource("oci_dataflow_run_logs", DataflowRunLogsDataSource())
+}
+
 func DataflowRunLogsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDataflowRunLogs,

@@ -9,6 +9,10 @@ import (
 	oci_datacatalog "github.com/oracle/oci-go-sdk/datacatalog"
 )
 
+func init() {
+	RegisterDatasource("oci_datacatalog_catalog_types", DatacatalogCatalogTypesDataSource())
+}
+
 func DatacatalogCatalogTypesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatacatalogCatalogTypes,

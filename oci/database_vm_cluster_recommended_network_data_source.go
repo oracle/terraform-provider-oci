@@ -10,6 +10,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_vm_cluster_recommended_network", DatabaseVmClusterRecommendedNetworkDataSource())
+}
+
 func DatabaseVmClusterRecommendedNetworkDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularDatabaseVmClusterRecommendedNetwork,

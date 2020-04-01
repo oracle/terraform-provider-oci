@@ -9,6 +9,10 @@ import (
 	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
 )
 
+func init() {
+	RegisterDatasource("oci_nosql_table", NosqlTableDataSource())
+}
+
 func NosqlTableDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["compartment_id"] = &schema.Schema{

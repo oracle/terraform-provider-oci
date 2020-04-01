@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_fast_connect_provider_service_key", CoreFastConnectProviderServiceKeyDataSource())
+}
+
 func CoreFastConnectProviderServiceKeyDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularCoreFastConnectProviderServiceKey,

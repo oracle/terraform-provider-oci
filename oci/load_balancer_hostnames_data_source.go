@@ -9,6 +9,10 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
+func init() {
+	RegisterDatasource("oci_load_balancer_hostnames", LoadBalancerHostnamesDataSource())
+}
+
 func LoadBalancerHostnamesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoadBalancerHostnames,

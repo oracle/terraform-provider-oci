@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_instance_configurations", CoreInstanceConfigurationsDataSource())
+}
+
 func CoreInstanceConfigurationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreInstanceConfigurations,

@@ -9,6 +9,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_maintenance_run", DatabaseMaintenanceRunDataSource())
+}
+
 func DatabaseMaintenanceRunDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["maintenance_run_id"] = &schema.Schema{

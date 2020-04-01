@@ -9,6 +9,10 @@ import (
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 )
 
+func init() {
+	RegisterDatasource("oci_audit_configuration", AuditConfigurationDataSource())
+}
+
 func AuditConfigurationDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["compartment_id"] = &schema.Schema{

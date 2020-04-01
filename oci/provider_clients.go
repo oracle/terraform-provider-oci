@@ -7,6 +7,7 @@ import (
 	oci_apigateway "github.com/oracle/oci-go-sdk/apigateway"
 	oci_audit "github.com/oracle/oci-go-sdk/audit"
 	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
+	oci_bds "github.com/oracle/oci-go-sdk/bds"
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 	oci_core "github.com/oracle/oci-go-sdk/core"
@@ -35,6 +36,7 @@ import (
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/resourcemanager"
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
+	oci_vault "github.com/oracle/oci-go-sdk/vault"
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 
@@ -46,6 +48,7 @@ type OracleClients struct {
 	analyticsClient                *oci_analytics.AnalyticsClient
 	auditClient                    *oci_audit.AuditClient
 	autoScalingClient              *oci_auto_scaling.AutoScalingClient
+	bdsClient                      *oci_bds.BdsClient
 	blockstorageClient             *oci_core.BlockstorageClient
 	budgetClient                   *oci_budget.BudgetClient
 	computeClient                  *oci_core.ComputeClient
@@ -84,6 +87,7 @@ type OracleClients struct {
 	redirectClient                 *oci_waas.RedirectClient
 	resourceManagerClient          *oci_resourcemanager.ResourceManagerClient
 	streamAdminClient              *oci_streaming.StreamAdminClient
+	vaultsClient                   *oci_vault.VaultsClient
 	virtualNetworkClient           *oci_core.VirtualNetworkClient
 	waasClient                     *oci_waas.WaasClient
 	gatewayWorkRequestsClient      *oci_apigateway.WorkRequestsClient
@@ -154,6 +158,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.autoScalingClient = &autoScalingClient
+
+	bdsClient, err := oci_bds.NewBdsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&bdsClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.bdsClient = &bdsClient
 
 	blockstorageClient, err := oci_core.NewBlockstorageClientWithConfigurationProvider(configProvider)
 	if err != nil {
@@ -534,6 +548,16 @@ func createSDKClients(clients *OracleClients, configProvider oci_common.Configur
 		return
 	}
 	clients.streamAdminClient = &streamAdminClient
+
+	vaultsClient, err := oci_vault.NewVaultsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return
+	}
+	err = configureClient(&vaultsClient.BaseClient)
+	if err != nil {
+		return
+	}
+	clients.vaultsClient = &vaultsClient
 
 	virtualNetworkClient, err := oci_core.NewVirtualNetworkClientWithConfigurationProvider(configProvider)
 	if err != nil {

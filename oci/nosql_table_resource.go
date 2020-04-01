@@ -16,6 +16,10 @@ import (
 	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
 )
 
+func init() {
+	RegisterResource("oci_nosql_table", NosqlTableResource())
+}
+
 func NosqlTableResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

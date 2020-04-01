@@ -10,6 +10,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_swift_passwords", IdentitySwiftPasswordsDataSource())
+}
+
 func IdentitySwiftPasswordsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentitySwiftPasswords,

@@ -4,6 +4,8 @@
 // Object Storage Service API
 //
 // Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
+// For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
+// Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
 //
 
 package objectstorage
@@ -33,10 +35,10 @@ type Bucket struct {
 	// Arbitrary string keys and values for user-defined metadata.
 	Metadata map[string]string `mandatory:"true" json:"metadata"`
 
-	// The OCID of the user who created the bucket.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the user who created the bucket.
 	CreatedBy *string `mandatory:"true" json:"createdBy"`
 
-	// The date and time the bucket was created, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616), section 14.29.
+	// The date and time the bucket was created, as described in RFC 2616 (https://tools.ietf.org/html/rfc2616#section-14.29).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The entity tag (ETag) for the bucket.
@@ -70,8 +72,8 @@ type Bucket struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The OCID of a master encryption key used to call the Key Management service to generate a data encryption key
-	// or to encrypt or decrypt a data encryption key.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key Management
+	// service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
 	// The entity tag (ETag) for the live object lifecycle policy on the bucket.
@@ -85,7 +87,15 @@ type Bucket struct {
 	// see a lag between what is displayed and the actual size of the bucket.
 	ApproximateSize *int64 `mandatory:"false" json:"approximateSize"`
 
-	// The OCID of the bucket which is a Oracle assigned unique identifier for this resource type (bucket).
+	// Whether or not this bucket is a replication source. By default, `replicationEnabled` is set to `false`. This will
+	// be set to 'true' when you create a replication policy for the bucket.
+	ReplicationEnabled *bool `mandatory:"false" json:"replicationEnabled"`
+
+	// Whether or not this bucket is read only. By default, `isReadOnly` is set to `false`. This will
+	// be set to 'true' when this bucket is configured as a destination in a replication policy.
+	IsReadOnly *bool `mandatory:"false" json:"isReadOnly"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the bucket.
 	Id *string `mandatory:"false" json:"id"`
 }
 

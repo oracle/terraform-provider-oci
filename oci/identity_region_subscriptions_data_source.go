@@ -9,6 +9,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_region_subscriptions", IdentityRegionSubscriptionsDataSource())
+}
+
 func IdentityRegionSubscriptionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityRegionSubscriptions,

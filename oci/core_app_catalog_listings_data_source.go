@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_app_catalog_listings", CoreAppCatalogListingsDataSource())
+}
+
 func CoreAppCatalogListingsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreAppCatalogListings,

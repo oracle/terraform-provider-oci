@@ -32,6 +32,7 @@ var (
 	OneHour                       = 60 * time.Minute
 	TwoHours                      = 120 * time.Minute
 	TwoAndHalfHours               = 150 * time.Minute
+	ThreeHours                    = 180 * time.Minute
 	TwelveHours                   = 12 * time.Hour
 	ZeroTime        time.Duration = 0
 
@@ -45,6 +46,13 @@ var (
 const (
 	FAILED    = "FAILED"
 	SUCCEEDED = "SUCCEEDED"
+)
+
+type deleteObjectInDestinationBucketStateEnum string
+
+// Set of constants representing the allowable values for ListCustomProtectionRulesLifecycleStateEnum
+const (
+	deleteObjectInDestinationBucketStateEnumAccept deleteObjectInDestinationBucketStateEnum = "ACCEPT"
 )
 
 const (

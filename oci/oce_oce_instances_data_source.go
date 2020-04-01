@@ -9,6 +9,10 @@ import (
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
 )
 
+func init() {
+	RegisterDatasource("oci_oce_oce_instances", OceOceInstancesDataSource())
+}
+
 func OceOceInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOceOceInstances,
