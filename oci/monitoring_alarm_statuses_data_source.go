@@ -9,6 +9,10 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 )
 
+func init() {
+	RegisterDatasource("oci_monitoring_alarm_statuses", MonitoringAlarmStatusesDataSource())
+}
+
 func MonitoringAlarmStatusesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMonitoringAlarmStatuses,

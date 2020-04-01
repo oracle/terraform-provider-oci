@@ -9,6 +9,10 @@ import (
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 )
 
+func init() {
+	RegisterDatasource("oci_budget_alert_rule", BudgetAlertRuleDataSource())
+}
+
 func BudgetAlertRuleDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["alert_rule_id"] = &schema.Schema{

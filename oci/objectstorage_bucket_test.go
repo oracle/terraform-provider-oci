@@ -250,6 +250,7 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "etag"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_read_only"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", testBucketName2),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
@@ -257,6 +258,8 @@ func TestObjectStorageBucketResource_basic(t *testing.T) {
 					// If a depends_on is added, we get an error like "After applying this step and refreshing, the plan was not empty:"
 					//resource.TestCheckResourceAttrSet(singularDatasourceName, "object_lifecycle_policy_etag"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "object_events_enabled", "true"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "object_lifecycle_policy_etag"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "replication_enabled"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "storage_tier", "Standard"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),

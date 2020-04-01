@@ -10,6 +10,10 @@ import (
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 )
 
+func init() {
+	RegisterDatasource("oci_functions_function", FunctionsFunctionDataSource())
+}
+
 func FunctionsFunctionDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["function_id"] = &schema.Schema{

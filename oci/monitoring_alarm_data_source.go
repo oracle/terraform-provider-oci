@@ -9,6 +9,10 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 )
 
+func init() {
+	RegisterDatasource("oci_monitoring_alarm", MonitoringAlarmDataSource())
+}
+
 func MonitoringAlarmDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["alarm_id"] = &schema.Schema{

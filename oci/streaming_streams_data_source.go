@@ -9,6 +9,10 @@ import (
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 )
 
+func init() {
+	RegisterDatasource("oci_streaming_streams", StreamingStreamsDataSource())
+}
+
 func StreamingStreamsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readStreamingStreams,

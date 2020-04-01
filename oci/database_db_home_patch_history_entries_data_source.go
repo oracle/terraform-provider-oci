@@ -9,6 +9,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_db_home_patch_history_entries", DatabaseDbHomePatchHistoryEntriesDataSource())
+}
+
 func DatabaseDbHomePatchHistoryEntriesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatabaseDbHomePatchHistoryEntries,

@@ -16,6 +16,10 @@ import (
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 
+func init() {
+	RegisterResource("oci_waas_http_redirect", WaasHttpRedirectResource())
+}
+
 func WaasHttpRedirectResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

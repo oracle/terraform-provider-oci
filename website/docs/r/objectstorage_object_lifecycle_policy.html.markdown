@@ -99,7 +99,7 @@ The following attributes are exported:
 	    * `inclusion_prefixes` - An array of object name prefixes that the rule will apply to. An empty array means to include all objects. 
 	* `time_amount` - Specifies the age of objects to apply the rule to. The timeAmount is interpreted in units defined by the timeUnit parameter, and is calculated in relation to each object's Last-Modified time. 
 	* `time_unit` - The unit that should be used to interpret timeAmount.  Days are defined as starting and ending at midnight UTC. Years are defined as 365.2425 days long and likewise round up to the next midnight UTC. 
-* `time_created` - The date and time the object lifecycle policy was created, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339), section 14.29. 
+* `time_created` - The date and time the object lifecycle policy was created, as described in [RFC 3339](https://tools.ietf.org/html/rfc3339). 
 
 ## Import
 

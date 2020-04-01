@@ -10,6 +10,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_db_node_console_connection", DatabaseDbNodeConsoleConnectionDataSource())
+}
+
 func DatabaseDbNodeConsoleConnectionDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["db_node_id"] = &schema.Schema{

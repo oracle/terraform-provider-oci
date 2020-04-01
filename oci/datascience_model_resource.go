@@ -19,6 +19,10 @@ import (
 	oci_datascience "github.com/oracle/oci-go-sdk/datascience"
 )
 
+func init() {
+	RegisterResource("oci_datascience_model", DatascienceModelResource())
+}
+
 func DatascienceModelResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

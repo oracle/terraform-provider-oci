@@ -33,6 +33,11 @@ resource "oci_containerengine_cluster" "test_cluster" {
 			is_kubernetes_dashboard_enabled = "${var.cluster_options_add_ons_is_kubernetes_dashboard_enabled}"
 			is_tiller_enabled = "${var.cluster_options_add_ons_is_tiller_enabled}"
 		}
+		admission_controller_options {
+
+			#Optional
+			is_pod_security_policy_enabled = "${var.cluster_options_admission_controller_options_is_pod_security_policy_enabled}"
+		}
 		kubernetes_network_config {
 
 			#Optional
@@ -52,10 +57,12 @@ The following arguments are supported:
 * `kms_key_id` - (Optional) The OCID of the KMS key to be used as the master encryption key for Kubernetes secret encryption. When used, `kubernetesVersion` must be at least `v1.13.0`. 
 * `kubernetes_version` - (Required) (Updatable) The version of Kubernetes to install into the cluster masters.
 * `name` - (Required) (Updatable) The name of the cluster. Avoid entering confidential information.
-* `options` - (Optional) Optional attributes for the cluster.
+* `options` - (Optional) (Updatable) Optional attributes for the cluster.
 	* `add_ons` - (Optional) Configurable cluster add-ons
 		* `is_kubernetes_dashboard_enabled` - (Optional) Whether or not to enable the Kubernetes Dashboard add-on.
 		* `is_tiller_enabled` - (Optional) Whether or not to enable the Tiller add-on.
+	* `admission_controller_options` - (Optional) (Updatable) Configurable cluster admission controllers
+		* `is_pod_security_policy_enabled` - (Optional) (Updatable) Whether or not to enable the Pod Security Policy admission controller.
 	* `kubernetes_network_config` - (Optional) Network configuration for Kubernetes.
 		* `pods_cidr` - (Optional) The CIDR block for Kubernetes pods.
 		* `services_cidr` - (Optional) The CIDR block for Kubernetes services.
@@ -93,6 +100,8 @@ The following attributes are exported:
 	* `add_ons` - Configurable cluster add-ons
 		* `is_kubernetes_dashboard_enabled` - Whether or not to enable the Kubernetes Dashboard add-on.
 		* `is_tiller_enabled` - Whether or not to enable the Tiller add-on.
+	* `admission_controller_options` - Configurable cluster admission controllers
+		* `is_pod_security_policy_enabled` - Whether or not to enable the Pod Security Policy admission controller.
 	* `kubernetes_network_config` - Network configuration for Kubernetes.
 		* `pods_cidr` - The CIDR block for Kubernetes pods.
 		* `services_cidr` - The CIDR block for Kubernetes services.

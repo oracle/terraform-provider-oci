@@ -9,6 +9,10 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
+func init() {
+	RegisterDatasource("oci_dns_records", DnsRecordsDataSource())
+}
+
 func DnsRecordsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDnsRecords,

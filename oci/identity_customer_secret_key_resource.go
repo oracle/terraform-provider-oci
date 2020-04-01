@@ -12,6 +12,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterResource("oci_identity_customer_secret_key", IdentityCustomerSecretKeyResource())
+}
+
 func IdentityCustomerSecretKeyResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

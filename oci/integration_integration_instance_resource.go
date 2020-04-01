@@ -15,6 +15,10 @@ import (
 	oci_integration "github.com/oracle/oci-go-sdk/integration"
 )
 
+func init() {
+	RegisterResource("oci_integration_integration_instance", IntegrationIntegrationInstanceResource())
+}
+
 func IntegrationIntegrationInstanceResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

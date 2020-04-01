@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_network_security_group", CoreNetworkSecurityGroupDataSource())
+}
+
 func CoreNetworkSecurityGroupDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["network_security_group_id"] = &schema.Schema{

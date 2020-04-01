@@ -10,6 +10,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterResource("oci_database_autonomous_data_warehouse_backup", DatabaseAutonomousDataWarehouseBackupResource())
+}
+
 func DatabaseAutonomousDataWarehouseBackupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

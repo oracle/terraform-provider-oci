@@ -129,7 +129,8 @@ func (client AuditClient) ListEvents(ctx context.Context, request ListEventsRequ
 	ociResponse, err = common.Retry(ctx, request, client.listEvents, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListEventsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListEventsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -171,7 +172,8 @@ func (client AuditClient) UpdateConfiguration(ctx context.Context, request Updat
 	ociResponse, err = common.Retry(ctx, request, client.updateConfiguration, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateConfigurationResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateConfigurationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

@@ -15,6 +15,10 @@ import (
 	oci_datacatalog "github.com/oracle/oci-go-sdk/datacatalog"
 )
 
+func init() {
+	RegisterResource("oci_datacatalog_catalog", DatacatalogCatalogResource())
+}
+
 func DatacatalogCatalogResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

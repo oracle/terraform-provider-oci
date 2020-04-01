@@ -524,7 +524,7 @@ func isResourceSupportImport(resourceName string) (support bool, err error) {
 	if strings.Contains(resourceName, ".") {
 		resourceName = strings.Split(resourceName, ".")[0]
 	}
-	resource := resourcesMap[resourceName]
+	resource := ResourcesMap()[resourceName]
 	if resource == nil {
 		return false, fmt.Errorf("[ERROR]: resouce %v is not found in resource Map", resourceName)
 	}

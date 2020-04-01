@@ -10,6 +10,10 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
+func init() {
+	RegisterResource("oci_dns_tsig_key", DnsTsigKeyResource())
+}
+
 func DnsTsigKeyResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

@@ -13,6 +13,10 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
+func init() {
+	RegisterResource("oci_kms_encrypted_data", KmsEncryptedDataResource())
+}
+
 func KmsEncryptedDataResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

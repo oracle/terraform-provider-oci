@@ -10,6 +10,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_instance_console_connection", CoreInstanceConsoleConnectionResource())
+}
+
 func CoreInstanceConsoleConnectionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

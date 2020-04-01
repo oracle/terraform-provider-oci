@@ -9,6 +9,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_vm_cluster_network", DatabaseVmClusterNetworkDataSource())
+}
+
 func DatabaseVmClusterNetworkDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["exadata_infrastructure_id"] = &schema.Schema{

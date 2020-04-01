@@ -19,6 +19,10 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
+func init() {
+	RegisterResource("oci_kms_key_version", KmsKeyVersionResource())
+}
+
 func KmsKeyVersionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

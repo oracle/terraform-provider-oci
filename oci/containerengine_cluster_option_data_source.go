@@ -9,6 +9,10 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
+func init() {
+	RegisterDatasource("oci_containerengine_cluster_option", ContainerengineClusterOptionDataSource())
+}
+
 func ContainerengineClusterOptionDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularContainerengineClusterOption,

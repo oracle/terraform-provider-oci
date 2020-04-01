@@ -9,6 +9,10 @@ import (
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 
+func init() {
+	RegisterDatasource("oci_waas_custom_protection_rule", WaasCustomProtectionRuleDataSource())
+}
+
 func WaasCustomProtectionRuleDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["custom_protection_rule_id"] = &schema.Schema{

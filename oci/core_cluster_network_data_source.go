@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_cluster_network", CoreClusterNetworkDataSource())
+}
+
 func CoreClusterNetworkDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["cluster_network_id"] = &schema.Schema{

@@ -9,6 +9,10 @@ import (
 	oci_dataflow "github.com/oracle/oci-go-sdk/dataflow"
 )
 
+func init() {
+	RegisterDatasource("oci_dataflow_application", DataflowApplicationDataSource())
+}
+
 func DataflowApplicationDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["application_id"] = &schema.Schema{

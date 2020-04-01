@@ -11,6 +11,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_autonomous_data_warehouse_wallet", DatabaseAutonomousDataWarehouseWalletDataSource())
+}
+
 func DatabaseAutonomousDataWarehouseWalletDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularDatabaseAutonomousDataWarehouseWallet,

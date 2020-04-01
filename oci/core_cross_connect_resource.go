@@ -11,6 +11,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_cross_connect", CoreCrossConnectResource())
+}
+
 func CoreCrossConnectResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

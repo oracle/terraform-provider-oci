@@ -9,6 +9,10 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
+func init() {
+	RegisterDatasource("oci_dns_tsig_key", DnsTsigKeyDataSource())
+}
+
 func DnsTsigKeyDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["tsig_key_id"] = &schema.Schema{

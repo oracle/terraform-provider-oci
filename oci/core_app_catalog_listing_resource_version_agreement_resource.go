@@ -10,6 +10,11 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_app_catalog_listing_resource_version_agreement", AppCatalogListingResourceVersionAgreementResource())
+	RegisterResource("oci_core_listing_resource_version_agreement", AppCatalogListingResourceVersionAgreementResource())
+}
+
 func AppCatalogListingResourceVersionAgreementResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

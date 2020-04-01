@@ -14,6 +14,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_shape_management", CoreShapeResource())
+}
+
 func CoreShapeResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

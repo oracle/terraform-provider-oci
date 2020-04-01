@@ -11,6 +11,10 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 )
 
+func init() {
+	RegisterDatasource("oci_monitoring_metric_data", MonitoringMetricDataDataSource())
+}
+
 func MonitoringMetricDataDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMonitoringMetricData,

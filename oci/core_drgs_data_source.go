@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_drgs", CoreDrgsDataSource())
+}
+
 func CoreDrgsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreDrgs,

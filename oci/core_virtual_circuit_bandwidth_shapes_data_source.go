@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_virtual_circuit_bandwidth_shapes", CoreVirtualCircuitBandwidthShapesDataSource())
+}
+
 func CoreVirtualCircuitBandwidthShapesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreVirtualCircuitBandwidthShapes,

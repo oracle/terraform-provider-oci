@@ -9,6 +9,10 @@ import (
 	oci_datacatalog "github.com/oracle/oci-go-sdk/datacatalog"
 )
 
+func init() {
+	RegisterDatasource("oci_datacatalog_catalog", DatacatalogCatalogDataSource())
+}
+
 func DatacatalogCatalogDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["catalog_id"] = &schema.Schema{

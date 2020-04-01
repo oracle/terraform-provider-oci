@@ -10,6 +10,10 @@ import (
 	oci_marketplace "github.com/oracle/oci-go-sdk/marketplace"
 )
 
+func init() {
+	RegisterResource("oci_marketplace_accepted_agreement", MarketplaceAcceptedAgreementResource())
+}
+
 func MarketplaceAcceptedAgreementResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

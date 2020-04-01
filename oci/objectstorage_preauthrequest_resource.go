@@ -17,6 +17,10 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
+func init() {
+	RegisterResource("oci_objectstorage_preauthrequest", ObjectStoragePreauthenticatedRequestResource())
+}
+
 func ObjectStoragePreauthenticatedRequestResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

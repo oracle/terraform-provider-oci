@@ -9,6 +9,10 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
+func init() {
+	RegisterDatasource("oci_objectstorage_bucket_summaries", ObjectStorageBucketsDataSource())
+}
+
 func ObjectStorageBucketsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readObjectStorageBuckets,

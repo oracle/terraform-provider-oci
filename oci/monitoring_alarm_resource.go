@@ -13,6 +13,10 @@ import (
 	oci_monitoring "github.com/oracle/oci-go-sdk/monitoring"
 )
 
+func init() {
+	RegisterResource("oci_monitoring_alarm", MonitoringAlarmResource())
+}
+
 func MonitoringAlarmResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
