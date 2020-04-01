@@ -12,6 +12,10 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
+func init() {
+	RegisterResource("oci_kms_generated_key", KmsGeneratedKeyResource())
+}
+
 func KmsGeneratedKeyResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

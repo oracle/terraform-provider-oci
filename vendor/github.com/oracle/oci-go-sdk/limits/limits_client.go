@@ -87,7 +87,8 @@ func (client LimitsClient) GetResourceAvailability(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.getResourceAvailability, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetResourceAvailabilityResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetResourceAvailabilityResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -131,7 +132,8 @@ func (client LimitsClient) ListLimitDefinitions(ctx context.Context, request Lis
 	ociResponse, err = common.Retry(ctx, request, client.listLimitDefinitions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListLimitDefinitionsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListLimitDefinitionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -173,7 +175,8 @@ func (client LimitsClient) ListLimitValues(ctx context.Context, request ListLimi
 	ociResponse, err = common.Retry(ctx, request, client.listLimitValues, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListLimitValuesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListLimitValuesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -216,7 +219,8 @@ func (client LimitsClient) ListServices(ctx context.Context, request ListService
 	ociResponse, err = common.Retry(ctx, request, client.listServices, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListServicesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListServicesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

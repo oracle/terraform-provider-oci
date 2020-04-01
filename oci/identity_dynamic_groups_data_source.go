@@ -10,6 +10,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_dynamic_groups", IdentityDynamicGroupsDataSource())
+}
+
 func IdentityDynamicGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityDynamicGroups,

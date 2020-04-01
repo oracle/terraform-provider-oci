@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_cpe_device_shape", CoreCpeDeviceShapeDataSource())
+}
+
 func CoreCpeDeviceShapeDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularCoreCpeDeviceShape,

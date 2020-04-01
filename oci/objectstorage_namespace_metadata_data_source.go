@@ -9,6 +9,10 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
+func init() {
+	RegisterDatasource("oci_objectstorage_namespace_metadata", ObjectStorageNamespaceMetadataDataSource())
+}
+
 func ObjectStorageNamespaceMetadataDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readNamespaceMetadata2,

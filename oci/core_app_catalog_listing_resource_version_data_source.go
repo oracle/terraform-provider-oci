@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_app_catalog_listing_resource_version", CoreAppCatalogListingResourceVersionDataSource())
+}
+
 func CoreAppCatalogListingResourceVersionDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularCoreAppCatalogListingResourceVersion,

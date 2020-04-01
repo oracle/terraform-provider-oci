@@ -4,6 +4,8 @@
 // Object Storage Service API
 //
 // Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
+// For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
+// Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
 //
 
 package objectstorage
@@ -21,19 +23,35 @@ type CreateMultipartUploadDetails struct {
 	// Example: test/object1.log
 	Object *string `mandatory:"true" json:"object"`
 
-	// The content type of the object to upload.
+	// The optional Content-Type header that defines the standard MIME type format of the object to upload.
+	// Specifying values for this header has no effect on Object Storage behavior. Programs that read the object
+	// determine what to do based on the value provided. For example, you could use this header to identify and
+	// perform special operations on text only objects.
 	ContentType *string `mandatory:"false" json:"contentType"`
 
-	// The content language of the object to upload.
+	// The optional Content-Language header that defines the content language of the object to upload. Specifying
+	// values for this header has no effect on Object Storage behavior. Programs that read the object determine what
+	// to do based on the value provided. For example, you could use this header to identify and differentiate objects
+	// based on a particular language.
 	ContentLanguage *string `mandatory:"false" json:"contentLanguage"`
 
-	// The content encoding of the object to upload.
+	// The optional Content-Encoding header that defines the content encodings that were applied to the object to
+	// upload. Specifying values for this header has no effect on Object Storage behavior. Programs that read the
+	// object determine what to do based on the value provided. For example, you could use this header to determine
+	// what decoding mechanisms need to be applied to obtain the media-type specified by the Content-Type header of
+	// the object.
 	ContentEncoding *string `mandatory:"false" json:"contentEncoding"`
 
-	// The Content-Disposition header value to be returned in GetObjectReponse.
+	// The optional Content-Disposition header that defines presentational information for the object to be
+	// returned in GetObject and HeadObject responses. Specifying values for this header has no effect on Object
+	// Storage behavior. Programs that read the object determine what to do based on the value provided.
+	// For example, you could use this header to let users download objects with custom filenames in a browser.
 	ContentDisposition *string `mandatory:"false" json:"contentDisposition"`
 
-	// The cache-control header value to be returned in GetObjectReponse.
+	// The optional Cache-Control header that defines the caching behavior value to be returned in GetObject and
+	// HeadObject responses. Specifying values for this header has no effect on Object Storage behavior. Programs
+	// that read the object determine what to do based on the value provided.
+	// For example, you could use this header to identify objects that require caching restrictions.
 	CacheControl *string `mandatory:"false" json:"cacheControl"`
 
 	// Arbitrary string keys and values for the user-defined metadata for the object.

@@ -16,6 +16,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_dhcp_options", CoreDhcpOptionsResource())
+}
+
 func CoreDhcpOptionsResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

@@ -14,6 +14,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_remote_peering_connection", CoreRemotePeeringConnectionResource())
+}
+
 func CoreRemotePeeringConnectionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

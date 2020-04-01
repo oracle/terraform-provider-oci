@@ -87,7 +87,8 @@ func (client EmailClient) ChangeSenderCompartment(ctx context.Context, request C
 	ociResponse, err = common.Retry(ctx, request, client.changeSenderCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeSenderCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeSenderCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -129,7 +130,8 @@ func (client EmailClient) CreateSender(ctx context.Context, request CreateSender
 	ociResponse, err = common.Retry(ctx, request, client.createSender, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateSenderResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateSenderResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -174,7 +176,8 @@ func (client EmailClient) CreateSuppression(ctx context.Context, request CreateS
 	ociResponse, err = common.Retry(ctx, request, client.createSuppression, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateSuppressionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateSuppressionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -217,7 +220,8 @@ func (client EmailClient) DeleteSender(ctx context.Context, request DeleteSender
 	ociResponse, err = common.Retry(ctx, request, client.deleteSender, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteSenderResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteSenderResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -260,7 +264,8 @@ func (client EmailClient) DeleteSuppression(ctx context.Context, request DeleteS
 	ociResponse, err = common.Retry(ctx, request, client.deleteSuppression, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteSuppressionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteSuppressionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -302,7 +307,8 @@ func (client EmailClient) GetSender(ctx context.Context, request GetSenderReques
 	ociResponse, err = common.Retry(ctx, request, client.getSender, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetSenderResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetSenderResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -345,7 +351,8 @@ func (client EmailClient) GetSuppression(ctx context.Context, request GetSuppres
 	ociResponse, err = common.Retry(ctx, request, client.getSuppression, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetSuppressionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetSuppressionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -387,7 +394,8 @@ func (client EmailClient) ListSenders(ctx context.Context, request ListSendersRe
 	ociResponse, err = common.Retry(ctx, request, client.listSenders, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListSendersResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListSendersResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -431,7 +439,8 @@ func (client EmailClient) ListSuppressions(ctx context.Context, request ListSupp
 	ociResponse, err = common.Retry(ctx, request, client.listSuppressions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListSuppressionsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListSuppressionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -476,7 +485,8 @@ func (client EmailClient) UpdateSender(ctx context.Context, request UpdateSender
 	ociResponse, err = common.Retry(ctx, request, client.updateSender, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateSenderResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateSenderResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

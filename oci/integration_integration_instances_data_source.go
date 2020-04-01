@@ -9,6 +9,10 @@ import (
 	oci_integration "github.com/oracle/oci-go-sdk/integration"
 )
 
+func init() {
+	RegisterDatasource("oci_integration_integration_instances", IntegrationIntegrationInstancesDataSource())
+}
+
 func IntegrationIntegrationInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIntegrationIntegrationInstances,

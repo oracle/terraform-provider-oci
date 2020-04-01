@@ -9,6 +9,10 @@ import (
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
 )
 
+func init() {
+	RegisterDatasource("oci_oda_oda_instance", OdaOdaInstanceDataSource())
+}
+
 func OdaOdaInstanceDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["oda_instance_id"] = &schema.Schema{

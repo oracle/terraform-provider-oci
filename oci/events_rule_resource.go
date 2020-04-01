@@ -16,6 +16,10 @@ import (
 	oci_events "github.com/oracle/oci-go-sdk/events"
 )
 
+func init() {
+	RegisterResource("oci_events_rule", EventsRuleResource())
+}
+
 func EventsRuleResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

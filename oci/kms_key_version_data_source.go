@@ -11,6 +11,10 @@ import (
 	oci_kms "github.com/oracle/oci-go-sdk/keymanagement"
 )
 
+func init() {
+	RegisterDatasource("oci_kms_key_version", KmsKeyVersionDataSource())
+}
+
 func KmsKeyVersionDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["key_id"] = &schema.Schema{

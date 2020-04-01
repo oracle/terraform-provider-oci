@@ -13,6 +13,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterResource("oci_database_database", DatabaseDatabaseResource())
+}
+
 func DatabaseDatabaseResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

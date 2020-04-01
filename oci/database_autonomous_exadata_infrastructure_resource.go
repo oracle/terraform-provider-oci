@@ -11,6 +11,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterResource("oci_database_autonomous_exadata_infrastructure", DatabaseAutonomousExadataInfrastructureResource())
+}
+
 func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

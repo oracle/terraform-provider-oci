@@ -9,6 +9,10 @@ import (
 	oci_containerengine "github.com/oracle/oci-go-sdk/containerengine"
 )
 
+func init() {
+	RegisterDatasource("oci_containerengine_work_request_errors", ContainerengineWorkRequestErrorsDataSource())
+}
+
 func ContainerengineWorkRequestErrorsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readContainerengineWorkRequestErrors,

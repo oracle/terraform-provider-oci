@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_dedicated_vm_host", CoreDedicatedVmHostDataSource())
+}
+
 func CoreDedicatedVmHostDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["dedicated_vm_host_id"] = &schema.Schema{

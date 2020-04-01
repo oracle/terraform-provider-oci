@@ -16,6 +16,10 @@ import (
 	oci_oce "github.com/oracle/oci-go-sdk/oce"
 )
 
+func init() {
+	RegisterResource("oci_oce_oce_instance", OceOceInstanceResource())
+}
+
 func OceOceInstanceResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

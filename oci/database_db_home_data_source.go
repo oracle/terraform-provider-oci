@@ -9,6 +9,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_db_home", DatabaseDbHomeDataSource())
+}
+
 func DatabaseDbHomeDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["db_home_id"] = &schema.Schema{

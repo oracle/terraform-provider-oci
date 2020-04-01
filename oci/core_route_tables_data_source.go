@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_route_tables", CoreRouteTablesDataSource())
+}
+
 func CoreRouteTablesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreRouteTables,

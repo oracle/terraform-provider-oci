@@ -9,6 +9,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterDatasource("oci_database_autonomous_data_warehouse_backup", DatabaseAutonomousDataWarehouseBackupDataSource())
+}
+
 func DatabaseAutonomousDataWarehouseBackupDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["autonomous_data_warehouse_backup_id"] = &schema.Schema{

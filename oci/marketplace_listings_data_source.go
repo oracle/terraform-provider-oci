@@ -9,6 +9,10 @@ import (
 	oci_marketplace "github.com/oracle/oci-go-sdk/marketplace"
 )
 
+func init() {
+	RegisterDatasource("oci_marketplace_listings", MarketplaceListingsDataSource())
+}
+
 func MarketplaceListingsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readMarketplaceListings,

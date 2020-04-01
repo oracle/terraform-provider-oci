@@ -11,6 +11,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterResource("oci_database_autonomous_database_backup", DatabaseAutonomousDatabaseBackupResource())
+}
+
 func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

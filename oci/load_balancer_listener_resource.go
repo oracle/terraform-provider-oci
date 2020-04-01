@@ -16,6 +16,10 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
+func init() {
+	RegisterResource("oci_load_balancer_listener", LoadBalancerListenerResource())
+}
+
 func LoadBalancerListenerResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

@@ -88,7 +88,8 @@ func (client KmsManagementClient) CancelKeyDeletion(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.cancelKeyDeletion, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CancelKeyDeletionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CancelKeyDeletionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -141,7 +142,8 @@ func (client KmsManagementClient) CancelKeyVersionDeletion(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.cancelKeyVersionDeletion, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CancelKeyVersionDeletionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CancelKeyVersionDeletionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -194,7 +196,8 @@ func (client KmsManagementClient) ChangeKeyCompartment(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.changeKeyCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeKeyCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeKeyCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -245,7 +248,8 @@ func (client KmsManagementClient) CreateKey(ctx context.Context, request CreateK
 	ociResponse, err = common.Retry(ctx, request, client.createKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -297,7 +301,8 @@ func (client KmsManagementClient) CreateKeyVersion(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.createKeyVersion, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateKeyVersionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateKeyVersionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -349,7 +354,8 @@ func (client KmsManagementClient) DisableKey(ctx context.Context, request Disabl
 	ociResponse, err = common.Retry(ctx, request, client.disableKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DisableKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DisableKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -401,7 +407,8 @@ func (client KmsManagementClient) EnableKey(ctx context.Context, request EnableK
 	ociResponse, err = common.Retry(ctx, request, client.enableKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = EnableKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = EnableKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -447,7 +454,8 @@ func (client KmsManagementClient) GetKey(ctx context.Context, request GetKeyRequ
 	ociResponse, err = common.Retry(ctx, request, client.getKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -493,7 +501,8 @@ func (client KmsManagementClient) GetKeyVersion(ctx context.Context, request Get
 	ociResponse, err = common.Retry(ctx, request, client.getKeyVersion, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetKeyVersionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetKeyVersionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -535,7 +544,8 @@ func (client KmsManagementClient) GetWrappingKey(ctx context.Context, request Ge
 	ociResponse, err = common.Retry(ctx, request, client.getWrappingKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetWrappingKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetWrappingKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -582,7 +592,8 @@ func (client KmsManagementClient) ImportKey(ctx context.Context, request ImportK
 	ociResponse, err = common.Retry(ctx, request, client.importKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ImportKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ImportKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -629,7 +640,8 @@ func (client KmsManagementClient) ImportKeyVersion(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.importKeyVersion, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ImportKeyVersionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ImportKeyVersionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -676,7 +688,8 @@ func (client KmsManagementClient) ListKeyVersions(ctx context.Context, request L
 	ociResponse, err = common.Retry(ctx, request, client.listKeyVersions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListKeyVersionsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListKeyVersionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -722,7 +735,8 @@ func (client KmsManagementClient) ListKeys(ctx context.Context, request ListKeys
 	ociResponse, err = common.Retry(ctx, request, client.listKeys, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListKeysResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListKeysResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -774,7 +788,8 @@ func (client KmsManagementClient) ScheduleKeyDeletion(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.scheduleKeyDeletion, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ScheduleKeyDeletionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ScheduleKeyDeletionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -826,7 +841,8 @@ func (client KmsManagementClient) ScheduleKeyVersionDeletion(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.scheduleKeyVersionDeletion, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ScheduleKeyVersionDeletionResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ScheduleKeyVersionDeletionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -874,7 +890,8 @@ func (client KmsManagementClient) UpdateKey(ctx context.Context, request UpdateK
 	ociResponse, err = common.Retry(ctx, request, client.updateKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateKeyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

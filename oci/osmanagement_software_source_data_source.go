@@ -9,6 +9,10 @@ import (
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 )
 
+func init() {
+	RegisterDatasource("oci_osmanagement_software_source", OsmanagementSoftwareSourceDataSource())
+}
+
 func OsmanagementSoftwareSourceDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["software_source_id"] = &schema.Schema{

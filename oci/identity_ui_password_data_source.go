@@ -9,6 +9,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_ui_password", IdentityUiPasswordDataSource())
+}
+
 func IdentityUiPasswordDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["user_id"] = &schema.Schema{

@@ -9,6 +9,10 @@ import (
 	oci_dns "github.com/oracle/oci-go-sdk/dns"
 )
 
+func init() {
+	RegisterDatasource("oci_dns_steering_policy", DnsSteeringPolicyDataSource())
+}
+
 func DnsSteeringPolicyDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["steering_policy_id"] = &schema.Schema{

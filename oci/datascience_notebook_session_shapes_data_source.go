@@ -9,6 +9,10 @@ import (
 	oci_datascience "github.com/oracle/oci-go-sdk/datascience"
 )
 
+func init() {
+	RegisterDatasource("oci_datascience_notebook_session_shapes", DatascienceNotebookSessionShapesDataSource())
+}
+
 func DatascienceNotebookSessionShapesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatascienceNotebookSessionShapes,

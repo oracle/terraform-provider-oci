@@ -9,6 +9,10 @@ import (
 	oci_datascience "github.com/oracle/oci-go-sdk/datascience"
 )
 
+func init() {
+	RegisterDatasource("oci_datascience_notebook_session", DatascienceNotebookSessionDataSource())
+}
+
 func DatascienceNotebookSessionDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["notebook_session_id"] = &schema.Schema{

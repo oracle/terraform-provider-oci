@@ -10,6 +10,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_idp_group_mappings", IdentityIdpGroupMappingsDataSource())
+}
+
 func IdentityIdpGroupMappingsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityIdpGroupMappings,

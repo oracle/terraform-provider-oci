@@ -89,7 +89,8 @@ func (client QuotasClient) CreateQuota(ctx context.Context, request CreateQuotaR
 	ociResponse, err = common.Retry(ctx, request, client.createQuota, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateQuotaResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateQuotaResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -131,7 +132,8 @@ func (client QuotasClient) DeleteQuota(ctx context.Context, request DeleteQuotaR
 	ociResponse, err = common.Retry(ctx, request, client.deleteQuota, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteQuotaResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteQuotaResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -173,7 +175,8 @@ func (client QuotasClient) GetQuota(ctx context.Context, request GetQuotaRequest
 	ociResponse, err = common.Retry(ctx, request, client.getQuota, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetQuotaResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetQuotaResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -215,7 +218,8 @@ func (client QuotasClient) ListQuotas(ctx context.Context, request ListQuotasReq
 	ociResponse, err = common.Retry(ctx, request, client.listQuotas, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListQuotasResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListQuotasResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -257,7 +261,8 @@ func (client QuotasClient) UpdateQuota(ctx context.Context, request UpdateQuotaR
 	ociResponse, err = common.Retry(ctx, request, client.updateQuota, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateQuotaResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateQuotaResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

@@ -9,6 +9,10 @@ import (
 	oci_email "github.com/oracle/oci-go-sdk/email"
 )
 
+func init() {
+	RegisterDatasource("oci_email_suppression", EmailSuppressionDataSource())
+}
+
 func EmailSuppressionDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["suppression_id"] = &schema.Schema{

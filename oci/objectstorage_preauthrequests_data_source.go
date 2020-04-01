@@ -9,6 +9,10 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/objectstorage"
 )
 
+func init() {
+	RegisterDatasource("oci_objectstorage_preauthrequests", ObjectStoragePreauthenticatedRequestsDataSource())
+}
+
 func ObjectStoragePreauthenticatedRequestsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readObjectStoragePreauthenticatedRequests,

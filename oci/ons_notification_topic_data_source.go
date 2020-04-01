@@ -9,6 +9,10 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 )
 
+func init() {
+	RegisterDatasource("oci_ons_notification_topic", OnsNotificationTopicDataSource())
+}
+
 func OnsNotificationTopicDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["topic_id"] = &schema.Schema{

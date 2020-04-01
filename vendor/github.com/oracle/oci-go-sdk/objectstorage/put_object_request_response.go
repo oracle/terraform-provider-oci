@@ -44,25 +44,42 @@ type PutObjectRequest struct {
 	// 100-continue
 	Expect *string `mandatory:"false" contributesTo:"header" name:"Expect"`
 
-	// The base-64 encoded MD5 hash of the body. If the Content-MD5 header is present, Object Storage performs an integrity check
-	// on the body of the HTTP request by computing the MD5 hash for the body and comparing it to the MD5 hash supplied in the header.
-	// If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content MD5 error is returned with the message:
+	// The optional base-64 header that defines the encoded MD5 hash of the body. If the optional Content-MD5 header is present, Object
+	// Storage performs an integrity check on the body of the HTTP request by computing the MD5 hash for the body and comparing it to the
+	// MD5 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content MD5 error
+	// is returned with the message:
 	// "The computed MD5 of the request body (ACTUAL_MD5) does not match the Content-MD5 header (HEADER_MD5)"
 	ContentMD5 *string `mandatory:"false" contributesTo:"header" name:"Content-MD5"`
 
-	// The content type of the object.  Defaults to 'application/octet-stream' if not overridden during the PutObject call.
+	// The optional Content-Type header that defines the standard MIME type format of the object. Content type defaults to
+	// 'application/octet-stream' if not specified in the PutObject call. Specifying values for this header has no effect
+	// on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example,
+	// you could use this header to identify and perform special operations on text only objects.
 	ContentType *string `mandatory:"false" contributesTo:"header" name:"Content-Type"`
 
-	// The content language of the object.
+	// The optional Content-Language header that defines the content language of the object to upload. Specifying
+	// values for this header has no effect on Object Storage behavior. Programs that read the object determine what
+	// to do based on the value provided. For example, you could use this header to identify and differentiate objects
+	// based on a particular language.
 	ContentLanguage *string `mandatory:"false" contributesTo:"header" name:"Content-Language"`
 
-	// The content encoding of the object.
+	// The optional Content-Encoding header that defines the content encodings that were applied to the object to
+	// upload. Specifying values for this header has no effect on Object Storage behavior. Programs that read the
+	// object determine what to do based on the value provided. For example, you could use this header to determine
+	// what decoding mechanisms need to be applied to obtain the media-type specified by the Content-Type header of
+	// the object.
 	ContentEncoding *string `mandatory:"false" contributesTo:"header" name:"Content-Encoding"`
 
-	// The Content-Disposition header value to be returned in GetObjectReponse.
+	// The optional Content-Disposition header that defines presentational information for the object to be
+	// returned in GetObject and HeadObject responses. Specifying values for this header has no effect on Object
+	// Storage behavior. Programs that read the object determine what to do based on the value provided.
+	// For example, you could use this header to let users download objects with custom filenames in a browser.
 	ContentDisposition *string `mandatory:"false" contributesTo:"header" name:"Content-Disposition"`
 
-	// The cache-control header value to be returned in GetObjectReponse.
+	// The optional Cache-Control header that defines the caching behavior value to be returned in GetObject and
+	// HeadObject responses. Specifying values for this header has no effect on Object Storage behavior. Programs
+	// that read the object determine what to do based on the value provided.
+	// For example, you could use this header to identify objects that require caching restrictions.
 	CacheControl *string `mandatory:"false" contributesTo:"header" name:"Cache-Control"`
 
 	// Optional user-defined metadata key and value.
@@ -106,7 +123,7 @@ type PutObjectResponse struct {
 	// The entity tag (ETag) for the object.
 	ETag *string `presentIn:"header" name:"etag"`
 
-	// The time the object was modified, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616), section 14.29.
+	// The time the object was modified, as described in RFC 2616 (https://tools.ietf.org/html/rfc2616#section-14.29).
 	LastModified *common.SDKTime `presentIn:"header" name:"last-modified"`
 }
 

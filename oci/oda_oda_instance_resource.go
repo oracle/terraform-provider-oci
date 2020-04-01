@@ -14,6 +14,10 @@ import (
 	oci_oda "github.com/oracle/oci-go-sdk/oda"
 )
 
+func init() {
+	RegisterResource("oci_oda_oda_instance", OdaOdaInstanceResource())
+}
+
 func OdaOdaInstanceResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

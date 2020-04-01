@@ -4,6 +4,8 @@
 // Object Storage Service API
 //
 // Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
+// For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
+// Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
 //
 
 package objectstorage
@@ -33,16 +35,17 @@ type PreauthenticatedRequest struct {
 	// The operation that can be performed on this resource.
 	AccessType PreauthenticatedRequestAccessTypeEnum `mandatory:"true" json:"accessType"`
 
-	// The expiration date for the pre-authenticated request as per RFC 3339 (https://tools.ietf.org/rfc/rfc3339). After
+	// The expiration date for the pre-authenticated request as per RFC 3339 (https://tools.ietf.org/html/rfc3339). After
 	// this date the pre-authenticated request will no longer be valid.
 	TimeExpires *common.SDKTime `mandatory:"true" json:"timeExpires"`
 
 	// The date when the pre-authenticated request was created as per specification
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
+	// RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The name of the object that is being granted access to by the pre-authenticated request. Avoid entering confidential
 	// information. The object name can be null and if so, the pre-authenticated request grants access to the entire bucket.
+	// Example: test/object1.log
 	ObjectName *string `mandatory:"false" json:"objectName"`
 }
 

@@ -9,6 +9,10 @@ import (
 	oci_nosql "github.com/oracle/oci-go-sdk/nosql"
 )
 
+func init() {
+	RegisterDatasource("oci_nosql_tables", NosqlTablesDataSource())
+}
+
 func NosqlTablesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readNosqlTables,

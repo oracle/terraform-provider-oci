@@ -10,6 +10,10 @@ import (
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 )
 
+func init() {
+	RegisterResource("oci_budget_budget", BudgetBudgetResource())
+}
+
 func BudgetBudgetResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

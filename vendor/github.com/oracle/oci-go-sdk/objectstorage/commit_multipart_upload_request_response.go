@@ -82,7 +82,7 @@ type CommitMultipartUploadResponse struct {
 	// The entity tag (ETag) for the object.
 	ETag *string `presentIn:"header" name:"etag"`
 
-	// The time the object was last modified, as described in RFC 2616 (https://tools.ietf.org/rfc/rfc2616), section 14.29.
+	// The time the object was last modified, as described in RFC 2616 (https://tools.ietf.org/html/rfc2616#section-14.29).
 	LastModified *common.SDKTime `presentIn:"header" name:"last-modified"`
 }
 

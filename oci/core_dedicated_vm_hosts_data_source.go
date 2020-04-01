@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_dedicated_vm_hosts", CoreDedicatedVmHostsDataSource())
+}
+
 func CoreDedicatedVmHostsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreDedicatedVmHosts,

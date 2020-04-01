@@ -9,6 +9,10 @@ import (
 	oci_events "github.com/oracle/oci-go-sdk/events"
 )
 
+func init() {
+	RegisterDatasource("oci_events_rules", EventsRulesDataSource())
+}
+
 func EventsRulesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readEventsRules,

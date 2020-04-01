@@ -9,6 +9,10 @@ import (
 	oci_events "github.com/oracle/oci-go-sdk/events"
 )
 
+func init() {
+	RegisterDatasource("oci_events_rule", EventsRuleDataSource())
+}
+
 func EventsRuleDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["rule_id"] = &schema.Schema{

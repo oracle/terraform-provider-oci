@@ -9,6 +9,10 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
+func init() {
+	RegisterDatasource("oci_file_storage_export_sets", FileStorageExportSetsDataSource())
+}
+
 func FileStorageExportSetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readFileStorageExportSets,

@@ -15,6 +15,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterResource("oci_database_db_node_console_connection", DatabaseDbNodeConsoleConnectionResource())
+}
+
 func DatabaseDbNodeConsoleConnectionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

@@ -16,6 +16,10 @@ import (
 	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 )
 
+func init() {
+	RegisterResource("oci_autoscaling_auto_scaling_configuration", AutoScalingAutoScalingConfigurationResource())
+}
+
 func AutoScalingAutoScalingConfigurationResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
