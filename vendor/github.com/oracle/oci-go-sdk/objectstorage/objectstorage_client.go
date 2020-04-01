@@ -4,6 +4,8 @@
 // Object Storage Service API
 //
 // Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
+// For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
+// Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
 //
 
 package objectstorage
@@ -83,7 +85,8 @@ func (client ObjectStorageClient) AbortMultipartUpload(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.abortMultipartUpload, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = AbortMultipartUploadResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = AbortMultipartUploadResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -125,7 +128,8 @@ func (client ObjectStorageClient) CancelWorkRequest(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.cancelWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CancelWorkRequestResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CancelWorkRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -167,7 +171,8 @@ func (client ObjectStorageClient) CommitMultipartUpload(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.commitMultipartUpload, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CommitMultipartUploadResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CommitMultipartUploadResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -209,7 +214,8 @@ func (client ObjectStorageClient) CopyObject(ctx context.Context, request CopyOb
 	ociResponse, err = common.Retry(ctx, request, client.copyObject, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CopyObjectResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CopyObjectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -252,7 +258,8 @@ func (client ObjectStorageClient) CreateBucket(ctx context.Context, request Crea
 	ociResponse, err = common.Retry(ctx, request, client.createBucket, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateBucketResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateBucketResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -294,7 +301,8 @@ func (client ObjectStorageClient) CreateMultipartUpload(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.createMultipartUpload, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateMultipartUploadResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateMultipartUploadResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -336,7 +344,8 @@ func (client ObjectStorageClient) CreatePreauthenticatedRequest(ctx context.Cont
 	ociResponse, err = common.Retry(ctx, request, client.createPreauthenticatedRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreatePreauthenticatedRequestResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreatePreauthenticatedRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -368,6 +377,93 @@ func (client ObjectStorageClient) createPreauthenticatedRequest(ctx context.Cont
 	return response, err
 }
 
+// CreateReplicationPolicy Creates a replication policy for the specified bucket.
+func (client ObjectStorageClient) CreateReplicationPolicy(ctx context.Context, request CreateReplicationPolicyRequest) (response CreateReplicationPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createReplicationPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateReplicationPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateReplicationPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateReplicationPolicyResponse")
+	}
+	return
+}
+
+// createReplicationPolicy implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) createReplicationPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/replicationPolicies")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateReplicationPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateRetentionRule Creates a new retention rule in the specified bucket. The new rule will take effect typically within 30 seconds.
+// Note that a maximum of 100 rules are supported on a bucket.
+func (client ObjectStorageClient) CreateRetentionRule(ctx context.Context, request CreateRetentionRuleRequest) (response CreateRetentionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.createRetentionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateRetentionRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateRetentionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateRetentionRuleResponse")
+	}
+	return
+}
+
+// createRetentionRule implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) createRetentionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/retentionRules")
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateRetentionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteBucket Deletes a bucket if the bucket is already empty. If the bucket is not empty, use
 // DeleteObject first. In addition,
 // you cannot delete a bucket that has a multipart upload in progress or a pre-authenticated
@@ -381,7 +477,8 @@ func (client ObjectStorageClient) DeleteBucket(ctx context.Context, request Dele
 	ociResponse, err = common.Retry(ctx, request, client.deleteBucket, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteBucketResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteBucketResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -423,7 +520,8 @@ func (client ObjectStorageClient) DeleteObject(ctx context.Context, request Dele
 	ociResponse, err = common.Retry(ctx, request, client.deleteObject, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteObjectResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteObjectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -465,7 +563,8 @@ func (client ObjectStorageClient) DeleteObjectLifecyclePolicy(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.deleteObjectLifecyclePolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteObjectLifecyclePolicyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteObjectLifecyclePolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -507,7 +606,8 @@ func (client ObjectStorageClient) DeletePreauthenticatedRequest(ctx context.Cont
 	ociResponse, err = common.Retry(ctx, request, client.deletePreauthenticatedRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeletePreauthenticatedRequestResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeletePreauthenticatedRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -539,6 +639,92 @@ func (client ObjectStorageClient) deletePreauthenticatedRequest(ctx context.Cont
 	return response, err
 }
 
+// DeleteReplicationPolicy Deletes the replication policy associated with the source bucket.
+func (client ObjectStorageClient) DeleteReplicationPolicy(ctx context.Context, request DeleteReplicationPolicyRequest) (response DeleteReplicationPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteReplicationPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteReplicationPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteReplicationPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteReplicationPolicyResponse")
+	}
+	return
+}
+
+// deleteReplicationPolicy implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) deleteReplicationPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/replicationPolicies/{replicationId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteReplicationPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteRetentionRule Deletes the specified rule. The deletion takes effect typically within 30 seconds.
+func (client ObjectStorageClient) DeleteRetentionRule(ctx context.Context, request DeleteRetentionRuleRequest) (response DeleteRetentionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRetentionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteRetentionRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRetentionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRetentionRuleResponse")
+	}
+	return
+}
+
+// deleteRetentionRule implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) deleteRetentionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/b/{bucketName}/retentionRules/{retentionRuleId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteRetentionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetBucket Gets the current representation of the given bucket in the given Object Storage namespace.
 func (client ObjectStorageClient) GetBucket(ctx context.Context, request GetBucketRequest) (response GetBucketResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -549,7 +735,8 @@ func (client ObjectStorageClient) GetBucket(ctx context.Context, request GetBuck
 	ociResponse, err = common.Retry(ctx, request, client.getBucket, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetBucketResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetBucketResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -643,7 +830,8 @@ func (client ObjectStorageClient) GetNamespaceMetadata(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.getNamespaceMetadata, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetNamespaceMetadataResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetNamespaceMetadataResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -685,7 +873,8 @@ func (client ObjectStorageClient) GetObject(ctx context.Context, request GetObje
 	ociResponse, err = common.Retry(ctx, request, client.getObject, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetObjectResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetObjectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -726,7 +915,8 @@ func (client ObjectStorageClient) GetObjectLifecyclePolicy(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.getObjectLifecyclePolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetObjectLifecyclePolicyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetObjectLifecyclePolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -768,7 +958,8 @@ func (client ObjectStorageClient) GetPreauthenticatedRequest(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.getPreauthenticatedRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetPreauthenticatedRequestResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetPreauthenticatedRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -800,6 +991,92 @@ func (client ObjectStorageClient) getPreauthenticatedRequest(ctx context.Context
 	return response, err
 }
 
+// GetReplicationPolicy Get the replication policy.
+func (client ObjectStorageClient) GetReplicationPolicy(ctx context.Context, request GetReplicationPolicyRequest) (response GetReplicationPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getReplicationPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetReplicationPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetReplicationPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetReplicationPolicyResponse")
+	}
+	return
+}
+
+// getReplicationPolicy implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) getReplicationPolicy(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/replicationPolicies/{replicationId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetReplicationPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetRetentionRule Get the specified retention rule.
+func (client ObjectStorageClient) GetRetentionRule(ctx context.Context, request GetRetentionRuleRequest) (response GetRetentionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRetentionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetRetentionRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRetentionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRetentionRuleResponse")
+	}
+	return
+}
+
+// getRetentionRule implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) getRetentionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/retentionRules/{retentionRuleId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRetentionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetWorkRequest Gets the status of the work request for the given ID.
 func (client ObjectStorageClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -810,7 +1087,8 @@ func (client ObjectStorageClient) GetWorkRequest(ctx context.Context, request Ge
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -852,7 +1130,8 @@ func (client ObjectStorageClient) HeadBucket(ctx context.Context, request HeadBu
 	ociResponse, err = common.Retry(ctx, request, client.headBucket, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = HeadBucketResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = HeadBucketResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -894,7 +1173,8 @@ func (client ObjectStorageClient) HeadObject(ctx context.Context, request HeadOb
 	ociResponse, err = common.Retry(ctx, request, client.headObject, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = HeadObjectResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = HeadObjectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -940,7 +1220,8 @@ func (client ObjectStorageClient) ListBuckets(ctx context.Context, request ListB
 	ociResponse, err = common.Retry(ctx, request, client.listBuckets, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListBucketsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListBucketsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -982,7 +1263,8 @@ func (client ObjectStorageClient) ListMultipartUploadParts(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.listMultipartUploadParts, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListMultipartUploadPartsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListMultipartUploadPartsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1024,7 +1306,8 @@ func (client ObjectStorageClient) ListMultipartUploads(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.listMultipartUploads, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListMultipartUploadsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListMultipartUploadsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1069,7 +1352,8 @@ func (client ObjectStorageClient) ListObjects(ctx context.Context, request ListO
 	ociResponse, err = common.Retry(ctx, request, client.listObjects, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListObjectsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListObjectsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1111,7 +1395,8 @@ func (client ObjectStorageClient) ListPreauthenticatedRequests(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.listPreauthenticatedRequests, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListPreauthenticatedRequestsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListPreauthenticatedRequestsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1143,6 +1428,136 @@ func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Conte
 	return response, err
 }
 
+// ListReplicationPolicies List the replication policies associated with a bucket.
+func (client ObjectStorageClient) ListReplicationPolicies(ctx context.Context, request ListReplicationPoliciesRequest) (response ListReplicationPoliciesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listReplicationPolicies, policy)
+	if err != nil {
+		if ociResponse != nil {
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListReplicationPoliciesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListReplicationPoliciesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListReplicationPoliciesResponse")
+	}
+	return
+}
+
+// listReplicationPolicies implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) listReplicationPolicies(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/replicationPolicies")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListReplicationPoliciesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListReplicationSources List the replication sources of a destination bucket.
+func (client ObjectStorageClient) ListReplicationSources(ctx context.Context, request ListReplicationSourcesRequest) (response ListReplicationSourcesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listReplicationSources, policy)
+	if err != nil {
+		if ociResponse != nil {
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListReplicationSourcesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListReplicationSourcesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListReplicationSourcesResponse")
+	}
+	return
+}
+
+// listReplicationSources implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) listReplicationSources(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/replicationSources")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListReplicationSourcesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRetentionRules List the retention rules for a bucket. The retention rules are sorted based on creation time,
+// with the most recently created retention rule returned first.
+func (client ObjectStorageClient) ListRetentionRules(ctx context.Context, request ListRetentionRulesRequest) (response ListRetentionRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRetentionRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListRetentionRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRetentionRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRetentionRulesResponse")
+	}
+	return
+}
+
+// listRetentionRules implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) listRetentionRules(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/retentionRules")
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRetentionRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListWorkRequestErrors Lists the errors of the work request with the given ID.
 func (client ObjectStorageClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1153,7 +1568,8 @@ func (client ObjectStorageClient) ListWorkRequestErrors(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1195,7 +1611,8 @@ func (client ObjectStorageClient) ListWorkRequestLogs(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1237,7 +1654,8 @@ func (client ObjectStorageClient) ListWorkRequests(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1269,8 +1687,56 @@ func (client ObjectStorageClient) listWorkRequests(ctx context.Context, request 
 	return response, err
 }
 
-// PutObject Creates a new object or overwrites an existing one. See Special Instructions for Object Storage
-// PUT (https://docs.cloud.oracle.com/Content/API/Concepts/signingrequests.htm#ObjectStoragePut) for request signature requirements.
+// MakeBucketWritable Stops replication to the destination bucket and removes the replication policy. When the replication
+// policy was created, this destination bucket became read-only except for new and changed objects replicated
+// automatically from the source bucket. MakeBucketWritable removes the replication policy. This bucket is no
+// longer the target for replication and is now writable, allowing users to make changes to bucket contents.
+func (client ObjectStorageClient) MakeBucketWritable(ctx context.Context, request MakeBucketWritableRequest) (response MakeBucketWritableResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.makeBucketWritable, policy)
+	if err != nil {
+		if ociResponse != nil {
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = MakeBucketWritableResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MakeBucketWritableResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MakeBucketWritableResponse")
+	}
+	return
+}
+
+// makeBucketWritable implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) makeBucketWritable(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/makeBucketWritable")
+	if err != nil {
+		return nil, err
+	}
+
+	var response MakeBucketWritableResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PutObject Creates a new object or overwrites an existing object with the same name. The maximum object size allowed by
+// PutObject is 50 GiB.
+// See Special Instructions for Object Storage PUT (https://docs.cloud.oracle.com/Content/API/Concepts/signingrequests.htm#ObjectStoragePut)
+// for request signature requirements.
 func (client ObjectStorageClient) PutObject(ctx context.Context, request PutObjectRequest) (response PutObjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1280,7 +1746,8 @@ func (client ObjectStorageClient) PutObject(ctx context.Context, request PutObje
 	ociResponse, err = common.Retry(ctx, request, client.putObject, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = PutObjectResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = PutObjectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1332,7 +1799,8 @@ func (client ObjectStorageClient) PutObjectLifecyclePolicy(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.putObjectLifecyclePolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = PutObjectLifecyclePolicyResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = PutObjectLifecyclePolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1386,7 +1854,8 @@ func (client ObjectStorageClient) ReencryptBucket(ctx context.Context, request R
 	ociResponse, err = common.Retry(ctx, request, client.reencryptBucket, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ReencryptBucketResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ReencryptBucketResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1428,7 +1897,8 @@ func (client ObjectStorageClient) RenameObject(ctx context.Context, request Rena
 	ociResponse, err = common.Retry(ctx, request, client.renameObject, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = RenameObjectResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = RenameObjectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1471,7 +1941,8 @@ func (client ObjectStorageClient) RestoreObjects(ctx context.Context, request Re
 	ociResponse, err = common.Retry(ctx, request, client.restoreObjects, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = RestoreObjectsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = RestoreObjectsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1516,7 +1987,8 @@ func (client ObjectStorageClient) UpdateBucket(ctx context.Context, request Upda
 	ociResponse, err = common.Retry(ctx, request, client.updateBucket, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateBucketResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateBucketResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1563,7 +2035,8 @@ func (client ObjectStorageClient) UpdateNamespaceMetadata(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.updateNamespaceMetadata, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateNamespaceMetadataResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateNamespaceMetadataResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -1595,6 +2068,49 @@ func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, r
 	return response, err
 }
 
+// UpdateRetentionRule Updates the specified retention rule. Rule changes take effect typically within 30 seconds.
+func (client ObjectStorageClient) UpdateRetentionRule(ctx context.Context, request UpdateRetentionRuleRequest) (response UpdateRetentionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRetentionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateRetentionRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRetentionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRetentionRuleResponse")
+	}
+	return
+}
+
+// updateRetentionRule implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) updateRetentionRule(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/b/{bucketName}/retentionRules/{retentionRuleId}")
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRetentionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UploadPart Uploads a single part of a multipart upload.
 func (client ObjectStorageClient) UploadPart(ctx context.Context, request UploadPartRequest) (response UploadPartResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1605,7 +2121,8 @@ func (client ObjectStorageClient) UploadPart(ctx context.Context, request Upload
 	ociResponse, err = common.Retry(ctx, request, client.uploadPart, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UploadPartResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UploadPartResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

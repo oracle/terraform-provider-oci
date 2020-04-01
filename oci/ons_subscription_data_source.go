@@ -10,6 +10,10 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 )
 
+func init() {
+	RegisterDatasource("oci_ons_subscription", OnsSubscriptionDataSource())
+}
+
 func OnsSubscriptionDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["subscription_id"] = &schema.Schema{

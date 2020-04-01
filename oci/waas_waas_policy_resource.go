@@ -20,6 +20,10 @@ import (
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 
+func init() {
+	RegisterResource("oci_waas_waas_policy", WaasWaasPolicyResource())
+}
+
 func WaasWaasPolicyResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

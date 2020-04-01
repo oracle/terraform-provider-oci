@@ -10,6 +10,10 @@ import (
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 )
 
+func init() {
+	RegisterResource("oci_osmanagement_managed_instance_group", OsmanagementManagedInstanceGroupResource())
+}
+
 func OsmanagementManagedInstanceGroupResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

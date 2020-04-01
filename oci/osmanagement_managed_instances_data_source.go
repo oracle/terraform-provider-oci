@@ -9,6 +9,10 @@ import (
 	oci_osmanagement "github.com/oracle/oci-go-sdk/osmanagement"
 )
 
+func init() {
+	RegisterDatasource("oci_osmanagement_managed_instances", OsmanagementManagedInstancesDataSource())
+}
+
 func OsmanagementManagedInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOsmanagementManagedInstances,

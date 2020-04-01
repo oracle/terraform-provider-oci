@@ -84,7 +84,8 @@ func (client IntegrationInstanceClient) ChangeIntegrationInstanceCompartment(ctx
 	ociResponse, err = common.Retry(ctx, request, client.changeIntegrationInstanceCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeIntegrationInstanceCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeIntegrationInstanceCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -131,7 +132,8 @@ func (client IntegrationInstanceClient) CreateIntegrationInstance(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.createIntegrationInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateIntegrationInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateIntegrationInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -173,7 +175,8 @@ func (client IntegrationInstanceClient) DeleteIntegrationInstance(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.deleteIntegrationInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteIntegrationInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteIntegrationInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -215,7 +218,8 @@ func (client IntegrationInstanceClient) GetIntegrationInstance(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.getIntegrationInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetIntegrationInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetIntegrationInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -257,7 +261,8 @@ func (client IntegrationInstanceClient) GetWorkRequest(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -299,7 +304,8 @@ func (client IntegrationInstanceClient) ListIntegrationInstances(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.listIntegrationInstances, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListIntegrationInstancesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListIntegrationInstancesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -341,7 +347,8 @@ func (client IntegrationInstanceClient) ListWorkRequestErrors(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -383,7 +390,8 @@ func (client IntegrationInstanceClient) ListWorkRequestLogs(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -425,7 +433,8 @@ func (client IntegrationInstanceClient) ListWorkRequests(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -467,7 +476,8 @@ func (client IntegrationInstanceClient) UpdateIntegrationInstance(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.updateIntegrationInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateIntegrationInstanceResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateIntegrationInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

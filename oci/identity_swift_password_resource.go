@@ -12,6 +12,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterResource("oci_identity_swift_password", IdentitySwiftPasswordResource())
+}
+
 func IdentitySwiftPasswordResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

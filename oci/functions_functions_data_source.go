@@ -10,6 +10,10 @@ import (
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 )
 
+func init() {
+	RegisterDatasource("oci_functions_functions", FunctionsFunctionsDataSource())
+}
+
 func FunctionsFunctionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readFunctionsFunctions,

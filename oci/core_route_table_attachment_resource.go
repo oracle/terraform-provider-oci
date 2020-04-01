@@ -12,6 +12,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_route_table_attachment", CoreRouteTableAttachmentResource())
+}
+
 func CoreRouteTableAttachmentResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

@@ -10,6 +10,10 @@ import (
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 )
 
+func init() {
+	RegisterResource("oci_limits_quota", LimitsQuotaResource())
+}
+
 func LimitsQuotaResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

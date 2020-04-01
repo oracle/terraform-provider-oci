@@ -10,6 +10,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_auth_tokens", IdentityAuthTokensDataSource())
+}
+
 func IdentityAuthTokensDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readIdentityAuthTokens,

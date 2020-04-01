@@ -9,6 +9,10 @@ import (
 	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 )
 
+func init() {
+	RegisterDatasource("oci_autoscaling_auto_scaling_configurations", AutoScalingAutoScalingConfigurationsDataSource())
+}
+
 func AutoScalingAutoScalingConfigurationsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readAutoScalingAutoScalingConfigurations,

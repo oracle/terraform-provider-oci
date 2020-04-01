@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_private_ip", CorePrivateIpDataSource())
+}
+
 func CorePrivateIpDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["private_ip_id"] = &schema.Schema{

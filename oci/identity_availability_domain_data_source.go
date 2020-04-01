@@ -15,6 +15,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_availability_domain", IdentityAvailabilityDomainDataSource())
+}
+
 func IdentityAvailabilityDomainDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readAvailabilityDomain,

@@ -10,6 +10,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_boot_volume", CoreBootVolumeDataSource())
+}
+
 func CoreBootVolumeDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["boot_volume_id"] = &schema.Schema{

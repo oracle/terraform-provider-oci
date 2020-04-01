@@ -78,7 +78,8 @@ func (client StreamClient) ConsumerCommit(ctx context.Context, request ConsumerC
 	ociResponse, err = common.Retry(ctx, request, client.consumerCommit, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ConsumerCommitResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ConsumerCommitResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -120,7 +121,8 @@ func (client StreamClient) ConsumerHeartbeat(ctx context.Context, request Consum
 	ociResponse, err = common.Retry(ctx, request, client.consumerHeartbeat, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ConsumerHeartbeatResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ConsumerHeartbeatResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -166,7 +168,8 @@ func (client StreamClient) CreateCursor(ctx context.Context, request CreateCurso
 	ociResponse, err = common.Retry(ctx, request, client.createCursor, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateCursorResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateCursorResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -208,7 +211,8 @@ func (client StreamClient) CreateGroupCursor(ctx context.Context, request Create
 	ociResponse, err = common.Retry(ctx, request, client.createGroupCursor, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateGroupCursorResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateGroupCursorResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -250,7 +254,8 @@ func (client StreamClient) GetGroup(ctx context.Context, request GetGroupRequest
 	ociResponse, err = common.Retry(ctx, request, client.getGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetGroupResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -294,7 +299,8 @@ func (client StreamClient) GetMessages(ctx context.Context, request GetMessagesR
 	ociResponse, err = common.Retry(ctx, request, client.getMessages, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetMessagesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetMessagesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -339,7 +345,8 @@ func (client StreamClient) PutMessages(ctx context.Context, request PutMessagesR
 	ociResponse, err = common.Retry(ctx, request, client.putMessages, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = PutMessagesResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = PutMessagesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -391,7 +398,8 @@ func (client StreamClient) UpdateGroup(ctx context.Context, request UpdateGroupR
 	ociResponse, err = common.Retry(ctx, request, client.updateGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateGroupResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

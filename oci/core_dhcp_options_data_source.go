@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_dhcp_options", CoreDhcpOptionsDataSource())
+}
+
 func CoreDhcpOptionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreDhcpOptionsList,

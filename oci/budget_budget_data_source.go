@@ -9,6 +9,10 @@ import (
 	oci_budget "github.com/oracle/oci-go-sdk/budget"
 )
 
+func init() {
+	RegisterDatasource("oci_budget_budget", BudgetBudgetDataSource())
+}
+
 func BudgetBudgetDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["budget_id"] = &schema.Schema{

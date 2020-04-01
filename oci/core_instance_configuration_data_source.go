@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_instance_configuration", CoreInstanceConfigurationDataSource())
+}
+
 func CoreInstanceConfigurationDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["instance_configuration_id"] = &schema.Schema{

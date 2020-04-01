@@ -9,6 +9,10 @@ import (
 	oci_health_checks "github.com/oracle/oci-go-sdk/healthchecks"
 )
 
+func init() {
+	RegisterDatasource("oci_health_checks_http_probe_results", HealthChecksHttpProbeResultsDataSource())
+}
+
 func HealthChecksHttpProbeResultsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readHealthChecksHttpProbeResults,

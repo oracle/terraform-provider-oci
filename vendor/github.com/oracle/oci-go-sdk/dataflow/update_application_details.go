@@ -15,6 +15,19 @@ import (
 // UpdateApplicationDetails The update application details.
 type UpdateApplicationDetails struct {
 
+	// The class for the application.
+	ClassName *string `mandatory:"false" json:"className"`
+
+	// An Oracle Cloud Infrastructure URI of the file containing the application to execute.
+	// See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat
+	FileUri *string `mandatory:"false" json:"fileUri"`
+
+	// The Spark version utilized to run the application.
+	SparkVersion *string `mandatory:"false" json:"sparkVersion"`
+
+	// The Spark language.
+	Language ApplicationLanguageEnum `mandatory:"false" json:"language,omitempty"`
+
 	// The arguments passed to the running application as command line arguments.  An argument is
 	// either a plain text or a placeholder. Placeholders are replaced using values from the parameters
 	// map.  Each placeholder specified must be represented in the parameters map else the request

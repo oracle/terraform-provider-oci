@@ -9,6 +9,10 @@ import (
 	oci_marketplace "github.com/oracle/oci-go-sdk/marketplace"
 )
 
+func init() {
+	RegisterDatasource("oci_marketplace_accepted_agreement", MarketplaceAcceptedAgreementDataSource())
+}
+
 func MarketplaceAcceptedAgreementDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["accepted_agreement_id"] = &schema.Schema{

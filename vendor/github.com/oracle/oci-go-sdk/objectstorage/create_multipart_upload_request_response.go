@@ -18,7 +18,7 @@ type CreateMultipartUploadRequest struct {
 	// Example: `my-new-bucket1`
 	BucketName *string `mandatory:"true" contributesTo:"path" name:"bucketName"`
 
-	// Request object for creating a multi-part upload.
+	// Request object for creating a multipart upload.
 	CreateMultipartUploadDetails `contributesTo:"body"`
 
 	// The entity tag (ETag) to match. For creating and committing a multipart upload to an object, this is the entity tag of the target object.

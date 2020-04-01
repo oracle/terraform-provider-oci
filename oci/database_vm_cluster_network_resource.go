@@ -14,6 +14,10 @@ import (
 	oci_database "github.com/oracle/oci-go-sdk/database"
 )
 
+func init() {
+	RegisterResource("oci_database_vm_cluster_network", DatabaseVmClusterNetworkResource())
+}
+
 func DatabaseVmClusterNetworkResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

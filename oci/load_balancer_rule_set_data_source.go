@@ -9,6 +9,10 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
+func init() {
+	RegisterDatasource("oci_load_balancer_rule_set", LoadBalancerRuleSetDataSource())
+}
+
 func LoadBalancerRuleSetDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["load_balancer_id"] = &schema.Schema{

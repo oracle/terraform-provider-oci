@@ -9,6 +9,10 @@ import (
 	oci_limits "github.com/oracle/oci-go-sdk/limits"
 )
 
+func init() {
+	RegisterDatasource("oci_limits_limit_definitions", LimitsLimitDefinitionsDataSource())
+}
+
 func LimitsLimitDefinitionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLimitsLimitDefinitions,

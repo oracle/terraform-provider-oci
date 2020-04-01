@@ -9,6 +9,10 @@ import (
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 
+func init() {
+	RegisterDatasource("oci_waas_address_list", WaasAddressListDataSource())
+}
+
 func WaasAddressListDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["address_list_id"] = &schema.Schema{

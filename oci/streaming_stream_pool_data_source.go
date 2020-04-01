@@ -9,6 +9,10 @@ import (
 	oci_streaming "github.com/oracle/oci-go-sdk/streaming"
 )
 
+func init() {
+	RegisterDatasource("oci_streaming_stream_pool", StreamingStreamPoolDataSource())
+}
+
 func StreamingStreamPoolDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["stream_pool_id"] = &schema.Schema{

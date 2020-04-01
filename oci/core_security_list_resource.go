@@ -13,6 +13,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_security_list", CoreSecurityListResource())
+}
+
 func CoreSecurityListResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

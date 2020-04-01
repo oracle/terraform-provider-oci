@@ -10,6 +10,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterDatasource("oci_identity_network_source", IdentityNetworkSourceDataSource())
+}
+
 func IdentityNetworkSourceDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["network_source_id"] = &schema.Schema{

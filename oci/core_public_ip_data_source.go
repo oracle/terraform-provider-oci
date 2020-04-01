@@ -10,6 +10,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_public_ip", CorePublicIpDataSource())
+}
+
 func CorePublicIpDataSource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,

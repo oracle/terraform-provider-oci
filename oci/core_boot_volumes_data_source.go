@@ -10,6 +10,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_boot_volumes", CoreBootVolumesDataSource())
+}
+
 func CoreBootVolumesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreBootVolumes,

@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_cross_connect_port_speed_shapes", CoreCrossConnectPortSpeedShapesDataSource())
+}
+
 func CoreCrossConnectPortSpeedShapesDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreCrossConnectPortSpeedShapes,

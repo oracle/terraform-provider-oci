@@ -22,6 +22,10 @@ import (
 	oci_work_requests "github.com/oracle/oci-go-sdk/workrequests"
 )
 
+func init() {
+	RegisterResource("oci_core_instance", CoreInstanceResource())
+}
+
 func CoreInstanceResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

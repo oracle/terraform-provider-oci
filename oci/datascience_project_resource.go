@@ -10,6 +10,10 @@ import (
 	oci_datascience "github.com/oracle/oci-go-sdk/datascience"
 )
 
+func init() {
+	RegisterResource("oci_datascience_project", DatascienceProjectResource())
+}
+
 func DatascienceProjectResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

@@ -10,6 +10,10 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 )
 
+func init() {
+	RegisterDatasource("oci_ons_subscriptions", OnsSubscriptionsDataSource())
+}
+
 func OnsSubscriptionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readOnsSubscriptions,

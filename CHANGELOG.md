@@ -1,4 +1,13 @@
 ## 3.69.0 (Unreleased)
+
+### Added
+- Support for pod security policy in kubernetes
+- Support for Oracle Big Data Service
+- Support for application definition parameters update in dataflow application
+- Support for Cross Region Replication
+- Support for Secrets Management Service's `oci_vault_secret` and `oci_vault_secret_version` datasources
+- Support for Retention Rules that control object immutability
+
 ## 3.68.0 (March 25, 2020)
 
 ### Added

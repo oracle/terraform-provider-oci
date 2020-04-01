@@ -9,6 +9,10 @@ import (
 	oci_waas "github.com/oracle/oci-go-sdk/waas"
 )
 
+func init() {
+	RegisterDatasource("oci_waas_http_redirect", WaasHttpRedirectDataSource())
+}
+
 func WaasHttpRedirectDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["http_redirect_id"] = &schema.Schema{

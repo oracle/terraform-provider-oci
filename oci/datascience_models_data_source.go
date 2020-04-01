@@ -9,6 +9,10 @@ import (
 	oci_datascience "github.com/oracle/oci-go-sdk/datascience"
 )
 
+func init() {
+	RegisterDatasource("oci_datascience_models", DatascienceModelsDataSource())
+}
+
 func DatascienceModelsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readDatascienceModels,

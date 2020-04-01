@@ -9,6 +9,10 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
+func init() {
+	RegisterDatasource("oci_load_balancer_rule_sets", LoadBalancerRuleSetsDataSource())
+}
+
 func LoadBalancerRuleSetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoadBalancerRuleSets,

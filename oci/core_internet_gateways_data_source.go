@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_internet_gateways", CoreInternetGatewaysDataSource())
+}
+
 func CoreInternetGatewaysDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreInternetGateways,

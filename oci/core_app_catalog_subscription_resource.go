@@ -17,6 +17,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_app_catalog_subscription", CoreAppCatalogSubscriptionResource())
+}
+
 func CoreAppCatalogSubscriptionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

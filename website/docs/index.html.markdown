@@ -35,6 +35,7 @@ output "show-ads" {
 }
 
 ```
+More Oracle Cloud Infrastructure provider examples can be found [here](https://github.com/terraform-providers/terraform-provider-oci/tree/master/examples).
 
 ## Authentication
 
@@ -114,9 +115,6 @@ provider "oci" {
 
 _Note: this configuration will only work when run from an OCI instance. For more information on using Instance 
 Principals, see [this document](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm)._
-
-## Testing
-Credentials must be provided via the environment variables as shown above in order to run acceptance tests.
 
 ## Configuring Automatic Retries
 While applying, refreshing, or destroying a plan, Terraform may encounter some intermittent OCI errors (such as 429 or 500 errors) that could succeed on retry. 

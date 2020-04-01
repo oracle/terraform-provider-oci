@@ -11,6 +11,10 @@ import (
 	oci_identity "github.com/oracle/oci-go-sdk/identity"
 )
 
+func init() {
+	RegisterResource("oci_identity_user_group_membership", IdentityUserGroupMembershipResource())
+}
+
 func IdentityUserGroupMembershipResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

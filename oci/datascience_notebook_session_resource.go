@@ -13,6 +13,10 @@ import (
 	oci_datascience "github.com/oracle/oci-go-sdk/datascience"
 )
 
+func init() {
+	RegisterResource("oci_datascience_notebook_session", DatascienceNotebookSessionResource())
+}
+
 func DatascienceNotebookSessionResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

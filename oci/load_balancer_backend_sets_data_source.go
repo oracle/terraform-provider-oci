@@ -9,6 +9,10 @@ import (
 	oci_load_balancer "github.com/oracle/oci-go-sdk/loadbalancer"
 )
 
+func init() {
+	RegisterDatasource("oci_load_balancer_backend_sets", LoadBalancerBackendSetsDataSource())
+}
+
 func LoadBalancerBackendSetsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readLoadBalancerBackendSets,

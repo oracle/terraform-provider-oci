@@ -4,6 +4,8 @@
 // Object Storage Service API
 //
 // Common set of Object Storage and Archive Storage APIs for managing buckets, objects, and related resources.
+// For more information, see Overview of Object Storage (https://docs.cloud.oracle.com/Content/Object/Concepts/objectstorageoverview.htm) and
+// Overview of Archive Storage (https://docs.cloud.oracle.com/Content/Archive/Concepts/archivestorageoverview.htm).
 //
 
 package objectstorage
@@ -23,7 +25,8 @@ type UpdateBucketDetails struct {
 	// The compartmentId for the compartment to move the bucket to.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The name of the bucket. Avoid entering confidential information.
+	// The name of the bucket. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods.
+	// Bucket names must be unique within an Object Storage namespace. Avoid entering confidential information.
 	// Example: my-new-bucket1
 	Name *string `mandatory:"false" json:"name"`
 
@@ -51,9 +54,10 @@ type UpdateBucketDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The OCID of the Key Management master encryption key to associate with the specified bucket. If this value
-	// is empty, the Update operation will remove the associated key, if there is one, from the bucket. (The bucket
-	// will continue to be encrypted, but with an encryption key managed by Oracle.)
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Key Management master encryption key to associate
+	// with the specified bucket. If this value is empty, the Update operation will remove the associated key, if
+	// there is one, from the bucket. (The bucket will continue to be encrypted, but with an encryption key managed
+	// by Oracle.)
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 

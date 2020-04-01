@@ -9,6 +9,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterDatasource("oci_core_remote_peering_connections", CoreRemotePeeringConnectionsDataSource())
+}
+
 func CoreRemotePeeringConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readCoreRemotePeeringConnections,

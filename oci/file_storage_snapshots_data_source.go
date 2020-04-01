@@ -9,6 +9,10 @@ import (
 	oci_file_storage "github.com/oracle/oci-go-sdk/filestorage"
 )
 
+func init() {
+	RegisterDatasource("oci_file_storage_snapshots", FileStorageSnapshotsDataSource())
+}
+
 func FileStorageSnapshotsDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readFileStorageSnapshots,

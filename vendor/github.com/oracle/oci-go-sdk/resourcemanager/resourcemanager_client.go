@@ -86,7 +86,8 @@ func (client ResourceManagerClient) CancelJob(ctx context.Context, request Cance
 	ociResponse, err = common.Retry(ctx, request, client.cancelJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CancelJobResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CancelJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -133,7 +134,8 @@ func (client ResourceManagerClient) ChangeStackCompartment(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.changeStackCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ChangeStackCompartmentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ChangeStackCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -180,7 +182,8 @@ func (client ResourceManagerClient) CreateJob(ctx context.Context, request Creat
 	ociResponse, err = common.Retry(ctx, request, client.createJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateJobResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -229,7 +232,8 @@ func (client ResourceManagerClient) CreateStack(ctx context.Context, request Cre
 	ociResponse, err = common.Retry(ctx, request, client.createStack, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = CreateStackResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = CreateStackResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -271,7 +275,8 @@ func (client ResourceManagerClient) DeleteStack(ctx context.Context, request Del
 	ociResponse, err = common.Retry(ctx, request, client.deleteStack, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = DeleteStackResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = DeleteStackResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -313,7 +318,8 @@ func (client ResourceManagerClient) GetJob(ctx context.Context, request GetJobRe
 	ociResponse, err = common.Retry(ctx, request, client.getJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetJobResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -355,7 +361,8 @@ func (client ResourceManagerClient) GetJobLogs(ctx context.Context, request GetJ
 	ociResponse, err = common.Retry(ctx, request, client.getJobLogs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetJobLogsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetJobLogsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -398,7 +405,8 @@ func (client ResourceManagerClient) GetJobLogsContent(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.getJobLogsContent, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetJobLogsContentResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetJobLogsContentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -441,7 +449,8 @@ func (client ResourceManagerClient) GetJobTfConfig(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.getJobTfConfig, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetJobTfConfigResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetJobTfConfigResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -482,7 +491,8 @@ func (client ResourceManagerClient) GetJobTfState(ctx context.Context, request G
 	ociResponse, err = common.Retry(ctx, request, client.getJobTfState, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetJobTfStateResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetJobTfStateResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -523,7 +533,8 @@ func (client ResourceManagerClient) GetStack(ctx context.Context, request GetSta
 	ociResponse, err = common.Retry(ctx, request, client.getStack, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetStackResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetStackResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -566,7 +577,8 @@ func (client ResourceManagerClient) GetStackTfConfig(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.getStackTfConfig, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetStackTfConfigResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetStackTfConfigResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -607,7 +619,8 @@ func (client ResourceManagerClient) GetStackTfState(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.getStackTfState, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetStackTfStateResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetStackTfStateResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -648,7 +661,8 @@ func (client ResourceManagerClient) GetWorkRequest(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -693,7 +707,8 @@ func (client ResourceManagerClient) ListJobs(ctx context.Context, request ListJo
 	ociResponse, err = common.Retry(ctx, request, client.listJobs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListJobsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListJobsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -737,7 +752,8 @@ func (client ResourceManagerClient) ListStacks(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listStacks, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListStacksResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListStacksResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -779,7 +795,8 @@ func (client ResourceManagerClient) ListTerraformVersions(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.listTerraformVersions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListTerraformVersionsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListTerraformVersionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -821,7 +838,8 @@ func (client ResourceManagerClient) ListWorkRequestErrors(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -863,7 +881,8 @@ func (client ResourceManagerClient) ListWorkRequestLogs(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -905,7 +924,8 @@ func (client ResourceManagerClient) ListWorkRequests(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -947,7 +967,8 @@ func (client ResourceManagerClient) UpdateJob(ctx context.Context, request Updat
 	ociResponse, err = common.Retry(ctx, request, client.updateJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateJobResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}
@@ -993,7 +1014,8 @@ func (client ResourceManagerClient) UpdateStack(ctx context.Context, request Upd
 	ociResponse, err = common.Retry(ctx, request, client.updateStack, policy)
 	if err != nil {
 		if ociResponse != nil {
-			response = UpdateStackResponse{RawResponse: ociResponse.HTTPResponse()}
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = UpdateStackResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
 		}
 		return
 	}

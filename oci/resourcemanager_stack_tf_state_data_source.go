@@ -11,6 +11,10 @@ import (
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/resourcemanager"
 )
 
+func init() {
+	RegisterDatasource("oci_resourcemanager_stack_tf_state", ResourcemanagerStackTfStateDataSource())
+}
+
 func ResourcemanagerStackTfStateDataSource() *schema.Resource {
 	return &schema.Resource{
 		Read: readSingularResourcemanagerStackTfState,

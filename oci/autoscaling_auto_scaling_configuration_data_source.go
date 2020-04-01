@@ -9,6 +9,10 @@ import (
 	oci_auto_scaling "github.com/oracle/oci-go-sdk/autoscaling"
 )
 
+func init() {
+	RegisterDatasource("oci_autoscaling_auto_scaling_configuration", AutoScalingAutoScalingConfigurationDataSource())
+}
+
 func AutoScalingAutoScalingConfigurationDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
 	fieldMap["auto_scaling_configuration_id"] = &schema.Schema{

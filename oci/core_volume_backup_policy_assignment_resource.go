@@ -10,6 +10,10 @@ import (
 	oci_core "github.com/oracle/oci-go-sdk/core"
 )
 
+func init() {
+	RegisterResource("oci_core_volume_backup_policy_assignment", CoreVolumeBackupPolicyAssignmentResource())
+}
+
 func CoreVolumeBackupPolicyAssignmentResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{

@@ -13,6 +13,10 @@ import (
 	oci_ons "github.com/oracle/oci-go-sdk/ons"
 )
 
+func init() {
+	RegisterResource("oci_ons_subscription", OnsSubscriptionResource())
+}
+
 func OnsSubscriptionResource() *schema.Resource {
 	return &schema.Resource{
 		Timeouts: DefaultTimeout,
