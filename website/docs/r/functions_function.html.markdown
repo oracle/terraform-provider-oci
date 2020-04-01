@@ -12,8 +12,6 @@ This resource provides the Function resource in Oracle Cloud Infrastructure Func
 
 Creates a new function.
 
-**NOTE:** Terraform will take 40 minutes after destroying a function due to a known service issue. Refer [here](https://docs.cloud.oracle.com/iaas/Content/Functions/Tasks/functionsdeleting.htm)
-
 ## Example Usage
 
 ```hcl

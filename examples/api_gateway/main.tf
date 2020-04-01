@@ -266,8 +266,6 @@ data "oci_functions_applications" "test_applications" {
   state        = "${var.application_state}"
 }
 
-# Terraform will take 40 minutes after destroying a function due to a known service issue.
-# please refer: https://docs.cloud.oracle.com/iaas/Content/Functions/Tasks/functionsdeleting.htm
 resource "oci_functions_function" "test_function" {
   #Required
   application_id = "${oci_functions_application.test_application.id}"
