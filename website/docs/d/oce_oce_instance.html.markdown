@@ -40,6 +40,7 @@ The following attributes are exported:
 * `guid` - Unique GUID identifier that is immutable on creation
 * `id` - Unique identifier that is immutable on creation
 * `idcs_tenancy` - IDCS Tenancy Identifier
+* `instance_access_type` - Flag indicating whether the instance access is private or public
 * `instance_usage_type` - Instance type based on its usage
 * `name` - OceInstance Name
 * `object_storage_namespace` - Object Storage Namespace of tenancy
@@ -50,5 +51,6 @@ The following attributes are exported:
 * `tenancy_name` - Tenancy Name
 * `time_created` - The time the the OceInstance was created. An RFC3339 formatted datetime string
 * `time_updated` - The time the OceInstance was updated. An RFC3339 formatted datetime string
+* `upgrade_schedule` - Upgrade schedule type representing service to be upgraded immediately whenever latest version is released or delay upgrade of the service to previous released version 
 * `waf_primary_domain` - Web Application Firewall(WAF) primary domain
 
