@@ -99,6 +99,10 @@ func (s *CoreVolumeBackupPoliciesDataSourceCrud) SetData() error {
 			volumeBackupPolicy["defined_tags"] = definedTagsToMap(r.DefinedTags)
 		}
 
+		if r.DestinationRegion != nil {
+			volumeBackupPolicy["destination_region"] = *r.DestinationRegion
+		}
+
 		if r.DisplayName != nil {
 			volumeBackupPolicy["display_name"] = *r.DisplayName
 		}
