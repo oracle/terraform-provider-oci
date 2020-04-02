@@ -56,8 +56,7 @@ The following attributes are exported:
     * `duration` - 
         * `time_amount` - The timeAmount is interpreted in units defined by the timeUnit parameter, and is calculated in relation to each object's Last-Modified timestamp. 
         * `time_unit` - The unit that should be used to interpret timeAmount.
-    * `etag` - The entity tag (ETag) for the retention rule.
-    * `id` - Unique identifier for the retention rule.
+    * `retention_rule_id` - Unique identifier for the retention rule.
     * `time_created` - The date and time that the retention rule was created as per [RFC3339](https://tools.ietf.org/html/rfc3339).
     * `time_modified` - The date and time that the retention rule was modified as per [RFC3339](https://tools.ietf.org/html/rfc3339).
     * `time_rule_locked` - The date and time as per [RFC 3339](https://tools.ietf.org/html/rfc3339) after which this rule becomes locked. and can only be deleted by deleting the bucket. 
