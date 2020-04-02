@@ -31,6 +31,8 @@ var requiredTestEnvVars = []string{"compartment_ocid", "compartment_id_for_creat
 var requiredKeyAuthEnvVars = []string{"tenancy_ocid", "user_ocid", "fingerprint"}
 var requiredOboTokenAuthEnvVars = []string{"tenancy_ocid", "obo_token"}
 
+type ConfigFunc func(d *schema.ResourceData) (interface{}, error)
+
 func init() {
 	testAccProvider = testProvider(func(d *schema.ResourceData) (interface{}, error) {
 		return GetTestClients(d), nil
@@ -374,7 +376,7 @@ var testKeyFingerPrint = "b4:8a:7d:54:e6:81:04:b2:fa:ce:ba:55:34:dd:00:00"
 var testTenancyOCID = "ocid1.tenancy.oc1..faketenancy"
 var testUserOCID = "ocid1.user.oc1..fakeuser"
 
-func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField bool, auth string, configFileProfile string) {
+func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField bool, auth string, configFileProfile string, configFunc ConfigFunc) {
 	r := &schema.Resource{
 		Schema: schemaMap(),
 	}
@@ -402,7 +404,18 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 		d.Set("config_file_profile", configFileProfile)
 	}
 
-	client, err := ProviderConfig(d)
+	// Use config func for export (resource discovery)
+	configureProviderFn := configFunc
+	userAgent := fmt.Sprintf(exportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, Version)
+
+	// If no ConfigFunc use ProviderConfig
+	if configureProviderFn == nil {
+		configureProviderFn = ProviderConfig
+		userAgent = fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), terraformCLIVersion, defaultUserAgentProviderName, Version)
+
+	}
+	client, err := configureProviderFn(d)
+
 	if configFileProfile == "wrongProfile" {
 		assert.Equal(t, "configuration file did not contain profile: wrongProfile", err.Error())
 		return
@@ -437,7 +450,6 @@ func providerConfigTest(t *testing.T, disableRetries bool, skipRequiredField boo
 	oracleClient, ok := client.(*OracleClients)
 	assert.True(t, ok)
 
-	userAgent := fmt.Sprintf(userAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, terraform.VersionString(), terraformCLIVersion, defaultUserAgentProviderName, Version)
 	testClient := func(c *oci_common.BaseClient) {
 		assert.NotNil(t, c)
 		assert.NotNil(t, c.HTTPClient)
@@ -494,20 +506,20 @@ func TestUnitProviderConfig(t *testing.T) {
 	if httpreplay.ModeRecordReplay() {
 		t.Skip("Skip TestProviderConfig in HttpReplay mode.")
 	}
-	providerConfigTest(t, true, true, authAPIKeySetting, "")              // ApiKey with required fields + disable auto-retries
-	providerConfigTest(t, false, true, authAPIKeySetting, "")             // ApiKey without required fields
-	providerConfigTest(t, false, false, authInstancePrincipalSetting, "") // InstancePrincipal
-	providerConfigTest(t, true, false, "invalid-auth-setting", "")        // Invalid auth + disable auto-retries
+	providerConfigTest(t, true, true, authAPIKeySetting, "", nil)              // ApiKey with required fields + disable auto-retries
+	providerConfigTest(t, false, true, authAPIKeySetting, "", nil)             // ApiKey without required fields
+	providerConfigTest(t, false, false, authInstancePrincipalSetting, "", nil) // InstancePrincipal
+	providerConfigTest(t, true, false, "invalid-auth-setting", "", nil)        // Invalid auth + disable auto-retries
 	configFile, keyFile, err := writeConfigFile()
 	assert.Nil(t, err)
-	providerConfigTest(t, true, true, authAPIKeySetting, "DEFAULT")              // ApiKey with required fields + disable auto-retries
-	providerConfigTest(t, false, true, authAPIKeySetting, "DEFAULT")             // ApiKey without required fields
-	providerConfigTest(t, false, false, authInstancePrincipalSetting, "DEFAULT") // InstancePrincipal
-	providerConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT")        // Invalid auth + disable auto-retries
-	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE1")           // correct profileName
-	providerConfigTest(t, false, false, authAPIKeySetting, "wrongProfile")       // Invalid profileName
-	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2")           // correct profileName with mix and match
-	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE3")           // correct profileName with mix and match & env
+	providerConfigTest(t, true, true, authAPIKeySetting, "DEFAULT", nil)              // ApiKey with required fields + disable auto-retries
+	providerConfigTest(t, false, true, authAPIKeySetting, "DEFAULT", nil)             // ApiKey without required fields
+	providerConfigTest(t, false, false, authInstancePrincipalSetting, "DEFAULT", nil) // InstancePrincipal
+	providerConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", nil)        // Invalid auth + disable auto-retries
+	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE1", nil)           // correct profileName
+	providerConfigTest(t, false, false, authAPIKeySetting, "wrongProfile", nil)       // Invalid profileName
+	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2", nil)           // correct profileName with mix and match
+	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE3", nil)           // correct profileName with mix and match & env
 	defer removeFile(configFile)
 	defer removeFile(keyFile)
 }

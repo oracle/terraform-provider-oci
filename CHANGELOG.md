@@ -4,6 +4,7 @@
 - Support for non-default profiles for credentials
 - Support for limits and usage data source in KMS
 - Support for Allowing resources to be moved between compartments in dataflow application
+- Support for config file profiles, `InstancePrincipal` and `InstancePrincipalWithCerts` auth mode in Resource discovery
 
 ### Notes
 Supports terraform plugin SDK v0.12.20

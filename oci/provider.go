@@ -6,6 +6,7 @@ import (
 	"crypto/rsa"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"math"
 	"os"
 	"os/user"
@@ -323,6 +324,31 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 		configuredRetryDuration = &val
 	}
 
+	sdkConfigProvider, err := getSdkConfigProvider(d, clients)
+	if err != nil {
+		return nil, err
+	}
+
+	httpClient := buildHttpClient()
+
+	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
+	configureClient, err = buildConfigureClientFn(sdkConfigProvider, httpClient)
+	if err != nil {
+		return nil, err
+	}
+
+	err = createSDKClients(clients, sdkConfigProvider, configureClient)
+	if err != nil {
+		return nil, err
+	}
+
+	avoidWaitingForDeleteTarget, _ = strconv.ParseBool(getEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
+
+	return clients, nil
+}
+
+func getSdkConfigProvider(d *schema.ResourceData, clients *OracleClients) (oci_common.ConfigurationProvider, error) {
+
 	auth := strings.ToLower(d.Get(authAttrName).(string))
 	profile := d.Get(configFileProfileAttrName).(string)
 	clients.configuration[authAttrName] = auth
@@ -355,22 +381,7 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 		return nil, err
 	}
 
-	httpClient := buildHttpClient()
-
-	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
-	configureClient, err = buildConfigureClientFn(sdkConfigProvider, httpClient)
-	if err != nil {
-		return nil, err
-	}
-
-	err = createSDKClients(clients, sdkConfigProvider, configureClient)
-	if err != nil {
-		return nil, err
-	}
-
-	avoidWaitingForDeleteTarget, _ = strconv.ParseBool(getEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
-
-	return clients, nil
+	return sdkConfigProvider, nil
 }
 
 func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.ConfigurationProvider, error) {
@@ -407,6 +418,8 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		if err != nil {
 			return nil, err
 		}
+		log.Printf("[DEBUG] Configuration provided by: %s", cfg)
+
 		configProviders = append(configProviders, cfg)
 	case strings.ToLower(authInstancePrincipalWithCertsSetting):
 		apiKeyConfigVariablesToUnset, ok := checkIncompatibleAttrsForApiKeyAuth(d)
@@ -456,6 +469,8 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		if err != nil {
 			return nil, err
 		}
+		log.Printf("[DEBUG] Configuration provided by: %s", cfg)
+
 		configProviders = append(configProviders, cfg)
 	default:
 		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s'", authAPIKeySetting, authInstancePrincipalSetting, authInstancePrincipalWithCertsSetting)
