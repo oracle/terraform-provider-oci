@@ -15,7 +15,7 @@ import (
 // Application A data flow application object.
 type Application struct {
 
-	// The OCID of the compartment that contains this application.
+	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. This name is not necessarily unique.

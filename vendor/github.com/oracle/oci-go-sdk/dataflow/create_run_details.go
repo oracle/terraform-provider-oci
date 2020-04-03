@@ -33,7 +33,7 @@ type CreateRunDetails struct {
 	// The application ID.
 	ApplicationId *string `mandatory:"true" json:"applicationId"`
 
-	// The OCID of the compartment that contains this application.
+	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// A user-friendly name. It does not have to be unique. Avoid entering confidential information.
