@@ -285,6 +285,49 @@ func (client KmsVaultClient) getVault(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
+// GetVaultUsage Gets the count of keys and key versions in the specified vault to calculate usage against service limits.
+func (client KmsVaultClient) GetVaultUsage(ctx context.Context, request GetVaultUsageRequest) (response GetVaultUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getVaultUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
+			response = GetVaultUsageResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetVaultUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetVaultUsageResponse")
+	}
+	return
+}
+
+// getVaultUsage implements the OCIOperation interface (enables retrying operations)
+func (client KmsVaultClient) getVaultUsage(ctx context.Context, request common.OCIRequest) (common.OCIResponse, error) {
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/20180608/vaults/{vaultId}/usage")
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetVaultUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListVaults Lists the vaults in the specified compartment.
 // As a provisioning operation, this call is subject to a Key Management limit that applies to
 // the total number of requests across all provisioning read operations. Key Management might
