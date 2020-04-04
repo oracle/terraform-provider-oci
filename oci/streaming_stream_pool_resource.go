@@ -37,6 +37,30 @@ func StreamingStreamPoolResource() *schema.Resource {
 			},
 
 			// Optional
+			"custom_encryption_key": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+						"key_state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -85,8 +109,55 @@ func StreamingStreamPoolResource() *schema.Resource {
 					},
 				},
 			},
+			"private_endpoint_settings": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"nsg_ids": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Set:      literalTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"private_endpoint_ip": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
+			"endpoint_fqdn": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_private": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_state_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -191,6 +262,17 @@ func (s *StreamingStreamPoolResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if customEncryptionKey, ok := s.D.GetOkExists("custom_encryption_key"); ok {
+		if tmpList := customEncryptionKey.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "custom_encryption_key", 0)
+			tmp, err := s.mapToCustomEncryptionKeyDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.CustomEncryptionKeyDetails = &tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -217,6 +299,17 @@ func (s *StreamingStreamPoolResourceCrud) Create() error {
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
+	}
+
+	if privateEndpointSettings, ok := s.D.GetOkExists("private_endpoint_settings"); ok {
+		if tmpList := privateEndpointSettings.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "private_endpoint_settings", 0)
+			tmp, err := s.mapToPrivateEndpointDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PrivateEndpointDetails = &tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = getRetryPolicy(s.DisableNotFoundRetries, "streaming")
@@ -258,6 +351,17 @@ func (s *StreamingStreamPoolResourceCrud) Update() error {
 		}
 	}
 	request := oci_streaming.UpdateStreamPoolRequest{}
+
+	if customEncryptionKey, ok := s.D.GetOkExists("custom_encryption_key"); ok {
+		if tmpList := customEncryptionKey.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "custom_encryption_key", 0)
+			tmp, err := s.mapToCustomEncryptionKeyDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.CustomEncryptionKeyDetails = &tmp
+		}
+	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := mapToDefinedTags(definedTags.(map[string]interface{}))
@@ -318,11 +422,25 @@ func (s *StreamingStreamPoolResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.CustomEncryptionKey != nil {
+		s.D.Set("custom_encryption_key", []interface{}{CustomEncryptionKeyToMap(s.Res.CustomEncryptionKey)})
+	} else {
+		s.D.Set("custom_encryption_key", nil)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", definedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.EndpointFqdn != nil {
+		s.D.Set("endpoint_fqdn", *s.Res.EndpointFqdn)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsPrivate != nil {
+		s.D.Set("is_private", *s.Res.IsPrivate)
+	}
 
 	if s.Res.KafkaSettings != nil {
 		s.D.Set("kafka_settings", []interface{}{KafkaSettingsToMap(s.Res.KafkaSettings)})
@@ -338,6 +456,12 @@ func (s *StreamingStreamPoolResourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	if s.Res.PrivateEndpointSettings != nil {
+		s.D.Set("private_endpoint_settings", []interface{}{PrivateEndpointSettingsToMap(s.Res.PrivateEndpointSettings, false)})
+	} else {
+		s.D.Set("private_endpoint_settings", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -345,6 +469,29 @@ func (s *StreamingStreamPoolResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *StreamingStreamPoolResourceCrud) mapToCustomEncryptionKeyDetails(fieldKeyFormat string) (oci_streaming.CustomEncryptionKeyDetails, error) {
+	result := oci_streaming.CustomEncryptionKeyDetails{}
+
+	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+		tmp := kmsKeyId.(string)
+		result.KmsKeyId = &tmp
+	}
+
+	return result, nil
+}
+
+func CustomEncryptionKeyToMap(obj *oci_streaming.CustomEncryptionKey) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["key_state"] = string(obj.KeyState)
+
+	if obj.KmsKeyId != nil {
+		result["kms_key_id"] = string(*obj.KmsKeyId)
+	}
+
+	return result
 }
 
 func (s *StreamingStreamPoolResourceCrud) mapToKafkaSettings(fieldKeyFormat string) (oci_streaming.KafkaSettings, error) {
@@ -385,6 +532,60 @@ func KafkaSettingsToMap(obj *oci_streaming.KafkaSettings) map[string]interface{}
 
 	if obj.NumPartitions != nil {
 		result["num_partitions"] = int(*obj.NumPartitions)
+	}
+
+	return result
+}
+
+func (s *StreamingStreamPoolResourceCrud) mapToPrivateEndpointDetails(fieldKeyFormat string) (oci_streaming.PrivateEndpointDetails, error) {
+	result := oci_streaming.PrivateEndpointDetails{}
+
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
+	}
+
+	if privateEndpointIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_endpoint_ip")); ok {
+		tmp := privateEndpointIp.(string)
+		result.PrivateEndpointIp = &tmp
+	}
+
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
+	return result, nil
+}
+
+func PrivateEndpointSettingsToMap(obj *oci_streaming.PrivateEndpointSettings, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(literalTypeHashCodeForSets, nsgIds)
+	}
+
+	if obj.PrivateEndpointIp != nil {
+		result["private_endpoint_ip"] = string(*obj.PrivateEndpointIp)
+	}
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
 	}
 
 	return result

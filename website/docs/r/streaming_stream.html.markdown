@@ -59,7 +59,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair that is applied with no predefined name, type, or namespace. Exists for cross-compatibility only. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the stream.
 * `lifecycle_state_details` - Any additional details about the current state of the stream.
-* `messages_endpoint` - The endpoint to use when creating the StreamClient to consume or publish messages in the stream.
+* `messages_endpoint` - The endpoint to use when creating the StreamClient to consume or publish messages in the stream. If the associated stream pool is private, the endpoint is also private and can only be accessed from inside the stream pool's associated subnet. 
 * `name` - The name of the stream. Avoid entering confidential information.  Example: `TelemetryEvents` 
 * `partitions` - The number of partitions in the stream.
 * `retention_in_hours` - The retention period of the stream, in hours. This property is read-only.
