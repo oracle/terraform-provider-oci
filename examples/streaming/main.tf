@@ -15,6 +15,7 @@ provider "oci" {
   region           = "${var.region}"
 }
 
+/*
 resource "oci_streaming_stream" "stream" {
   compartment_id     = "${var.compartment_ocid}"
   name               = "stream1"
@@ -63,13 +64,33 @@ resource "oci_streaming_connect_harness" "test_connect_harness" {
 data "oci_streaming_connect_harness" "test_connect_harness" {
   connect_harness_id = "${oci_streaming_connect_harness.test_connect_harness.id}"
 }
+*/
 
 resource "oci_streaming_stream_pool" "test_stream_pool" {
   #Required
   compartment_id = "${var.compartment_ocid}"
   name           = "TFStreamPool"
+  private_endpoint_settings {
+    nsg_ids = ["${oci_core_network_security_group.test_nsg.id}"]
+    private_endpoint_ip = "10.0.0.5"
+    subnet_id = "${oci_core_subnet.test_subnet.id}"
+  }
 }
 
-data "oci_streaming_stream_pool" "test_stream_pool" {
-  stream_pool_id = "${oci_streaming_stream_pool.test_stream_pool.id}"
+resource "oci_core_vcn" "test_vcn" {
+  cidr_block = "10.0.0.0/16"
+  compartment_id = "${var.compartment_ocid}"
+  display_name = "testvcn"
+  dns_label = "dnslabel"
+}
+
+resource "oci_core_subnet" "test_subnet" {
+  cidr_block = "10.0.0.0/24"
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id = "${oci_core_vcn.test_vcn.id}"
+}
+
+resource "oci_core_network_security_group" "test_nsg" {
+  compartment_id = "${var.compartment_ocid}"
+  vcn_id = "${oci_core_vcn.test_vcn.id}"
 }
