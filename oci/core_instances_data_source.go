@@ -184,6 +184,12 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["shape"] = *r.Shape
 		}
 
+		if r.ShapeConfig != nil {
+			instance["shape_config"] = []interface{}{InstanceShapeConfigToMap(r.ShapeConfig)}
+		} else {
+			instance["shape_config"] = nil
+		}
+
 		if r.SourceDetails != nil {
 			sourceDetailsArray := []interface{}{}
 			if sourceDetailsMap := InstanceSourceDetailsToMap(&r.SourceDetails, nil, nil); sourceDetailsMap != nil {
