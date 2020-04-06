@@ -42,6 +42,8 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
 * `is_enabled` - Whether the autoscaling configuration is enabled.
+* `max_resource_count` - The maximum number of resources to scale out to.
+* `min_resource_count` - The minimum number of resources to scale in to.
 * `policies` - Autoscaling policy definitions for the autoscaling configuration. An autoscaling policy defines the criteria that trigger autoscaling actions and the actions to take.
 
 	Each autoscaling configuration can have one autoscaling policy. 
@@ -50,7 +52,12 @@ The following attributes are exported:
 		* `max` - The maximum number of instances the instance pool is allowed to increase to (scale out).
 		* `min` - The minimum number of instances the instance pool is allowed to decrease to (scale in).
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `execution_schedule` - 
+		* `expression` - The value representing the execution schedule, as defined by cron format. 
+		* `timezone` - Specifies the time zone the schedule is in.
+		* `type` - The type of ExecutionSchedule.
 	* `id` - The ID of the autoscaling policy that is assigned after creation.
+	* `is_enabled` - Boolean field indicating whether this policy is enabled or not.
 	* `policy_type` - The type of autoscaling policy.
 	* `rules` - 
 		* `action` - 

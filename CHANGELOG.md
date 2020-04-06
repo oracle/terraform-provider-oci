@@ -2,6 +2,7 @@
 
 ### Added
 - Support Token base security authentication
+- Support for Scheduled Autoscaling
 
 ## 3.80.0 (June 10, 2020)
 
