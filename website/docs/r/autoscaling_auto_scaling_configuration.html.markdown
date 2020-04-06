@@ -26,33 +26,45 @@ resource "oci_autoscaling_auto_scaling_configuration" "test_auto_scaling_configu
 	policies {
 		#Required
 		capacity {
-			#Required
+
+			#Optional
 			initial = "${var.auto_scaling_configuration_policies_capacity_initial}"
 			max = "${var.auto_scaling_configuration_policies_capacity_max}"
 			min = "${var.auto_scaling_configuration_policies_capacity_min}"
 		}
 		policy_type = "${var.auto_scaling_configuration_policies_policy_type}"
-		rules {
+
+		#Optional
+		display_name = "${var.auto_scaling_configuration_policies_display_name}"
+		execution_schedule {
 			#Required
+			expression = "${var.auto_scaling_configuration_policies_execution_schedule_expression}"
+			timezone = "${var.auto_scaling_configuration_policies_execution_schedule_timezone}"
+			type = "${var.auto_scaling_configuration_policies_execution_schedule_type}"
+		}
+		is_enabled = "${var.auto_scaling_configuration_policies_is_enabled}"
+		rules {
+
+			#Optional
 			action {
-				#Required
+
+				#Optional
 				type = "${var.auto_scaling_configuration_policies_rules_action_type}"
 				value = "${var.auto_scaling_configuration_policies_rules_action_value}"
 			}
 			display_name = "${var.auto_scaling_configuration_policies_rules_display_name}"
 			metric {
-				#Required
+
+				#Optional
 				metric_type = "${var.auto_scaling_configuration_policies_rules_metric_metric_type}"
 				threshold {
-					#Required
+
+					#Optional
 					operator = "${var.auto_scaling_configuration_policies_rules_metric_threshold_operator}"
 					value = "${var.auto_scaling_configuration_policies_rules_metric_threshold_value}"
 				}
 			}
 		}
-
-		#Optional
-		display_name = "${var.auto_scaling_configuration_policies_display_name}"
 	}
 
 	#Optional
@@ -81,21 +93,26 @@ The following arguments are supported:
 
 	Each autoscaling configuration can have one autoscaling policy. 
 	* `capacity` - (Required) The capacity requirements of the autoscaling policy.
-		* `initial` - (Required) The initial number of instances to launch in the instance pool immediately after autoscaling is enabled. After autoscaling retrieves performance metrics, the number of instances is automatically adjusted from this initial number to a number that is based on the limits that you set. 
-		* `max` - (Required) The maximum number of instances the instance pool is allowed to increase to (scale out).
-		* `min` - (Required) The minimum number of instances the instance pool is allowed to decrease to (scale in).
+		* `initial` - (Optional) The initial number of instances to launch in the instance pool immediately after autoscaling is enabled. After autoscaling retrieves performance metrics, the number of instances is automatically adjusted from this initial number to a number that is based on the limits that you set. 
+		* `max` - (Optional) The maximum number of instances the instance pool is allowed to increase to (scale out).
+		* `min` - (Optional) The minimum number of instances the instance pool is allowed to decrease to (scale in).
 	* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `execution_schedule` - (Required when policy_type=scheduled) 
+		* `expression` - (Required) The value representing the execution schedule, as defined by cron format. 
+		* `timezone` - (Required) Specifies the time zone the schedule is in.
+		* `type` - (Required) The type of ExecutionSchedule.
+	* `is_enabled` - (Optional) Boolean field indicating whether this policy is enabled or not.
 	* `policy_type` - (Required) The type of autoscaling policy.
-	* `rules` - (Required) 
-		* `action` - (Required) 
-			* `type` - (Required) The type of action to take.
-			* `value` - (Required) To scale out (increase the number of instances), provide a positive value. To scale in (decrease the number of instances), provide a negative value. 
-		* `display_name` - (Required) A user-friendly name. Does not have to be unique. Avoid entering confidential information. This value is not changeable through Terraform.
-		* `metric` - (Required) 
-			* `metric_type` - (Required) 
-			* `threshold` - (Required) 
-				* `operator` - (Required) The comparison operator to use. Options are greater than (`GT`), greater than or equal to (`GTE`), less than (`LT`), and less than or equal to (`LTE`). 
-				* `value` - (Required) 
+	* `rules` - (Required when policy_type=threshold) 
+		* `action` - (Required when policy_type=threshold) 
+			* `type` - (Required when policy_type=threshold) The type of action to take.
+			* `value` - (Required when policy_type=threshold) To scale out (increase the number of instances), provide a positive value. To scale in (decrease the number of instances), provide a negative value. 
+		* `display_name` - (Required when policy_type=threshold) A user-friendly name. Does not have to be unique. Avoid entering confidential information. This value is not changeable through Terraform. 
+		* `metric` - (Required when policy_type=threshold) 
+			* `metric_type` - (Required when policy_type=threshold) 
+			* `threshold` - (Required when policy_type=threshold) 
+				* `operator` - (Required when policy_type=threshold) The comparison operator to use. Options are greater than (`GT`), greater than or equal to (`GTE`), less than (`LT`), and less than or equal to (`LTE`). 
+				* `value` - (Required when policy_type=threshold) 
 
 
 ** IMPORTANT **
@@ -115,6 +132,8 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the autoscaling configuration.
 * `is_enabled` - Whether the autoscaling configuration is enabled.
+* `max_resource_count` - The maximum number of resources to scale out to.
+* `min_resource_count` - The minimum number of resources to scale in to.
 * `policies` - Autoscaling policy definitions for the autoscaling configuration. An autoscaling policy defines the criteria that trigger autoscaling actions and the actions to take.
 
 	Each autoscaling configuration can have one autoscaling policy. 
@@ -123,7 +142,12 @@ The following attributes are exported:
 		* `max` - The maximum number of instances the instance pool is allowed to increase to (scale out).
 		* `min` - The minimum number of instances the instance pool is allowed to decrease to (scale in).
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `execution_schedule` - 
+		* `expression` - The value representing the execution schedule, as defined by cron format. 
+		* `timezone` - Specifies the time zone the schedule is in.
+		* `type` - The type of ExecutionSchedule.
 	* `id` - The ID of the autoscaling policy that is assigned after creation.
+	* `is_enabled` - Boolean field indicating whether this policy is enabled or not.
 	* `policy_type` - The type of autoscaling policy.
 	* `rules` - 
 		* `action` - 

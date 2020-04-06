@@ -99,6 +99,14 @@ func (s *AutoScalingAutoScalingConfigurationDataSourceCrud) SetData() error {
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
 	}
 
+	if s.Res.MaxResourceCount != nil {
+		s.D.Set("max_resource_count", *s.Res.MaxResourceCount)
+	}
+
+	if s.Res.MinResourceCount != nil {
+		s.D.Set("min_resource_count", *s.Res.MinResourceCount)
+	}
+
 	policies := []interface{}{}
 	for _, item := range s.Res.Policies {
 		policies = append(policies, AutoScalingPolicyToMap(item, true))
