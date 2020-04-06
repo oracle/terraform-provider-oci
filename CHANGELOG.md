@@ -3,6 +3,7 @@
 ### Added
 - Support for Start/Stop `oci_integration_integration_instance`
 - Support compartmentId query for service marketplace
+- Support for Oracle Data Safe Service
 
 ## 3.72.0 (April 22, 2020)
 
