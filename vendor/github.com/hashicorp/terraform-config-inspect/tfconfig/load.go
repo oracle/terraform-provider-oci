@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl2/hcl"
 )
 
 // LoadModule reads the directory at the given path and attempts to interpret
@@ -52,12 +52,12 @@ func (m *Module) init(diags Diagnostics) {
 	// case so callers can easily recognize it.
 	for _, r := range m.ManagedResources {
 		if _, exists := m.RequiredProviders[r.Provider.Name]; !exists {
-			m.RequiredProviders[r.Provider.Name] = &ProviderRequirement{}
+			m.RequiredProviders[r.Provider.Name] = []string{}
 		}
 	}
 	for _, r := range m.DataResources {
 		if _, exists := m.RequiredProviders[r.Provider.Name]; !exists {
-			m.RequiredProviders[r.Provider.Name] = &ProviderRequirement{}
+			m.RequiredProviders[r.Provider.Name] = []string{}
 		}
 	}
 

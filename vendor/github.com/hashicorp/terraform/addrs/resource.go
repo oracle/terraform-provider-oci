@@ -65,9 +65,8 @@ func (r Resource) DefaultProviderConfig() ProviderConfig {
 	if under := strings.Index(typeName, "_"); under != -1 {
 		typeName = typeName[:under]
 	}
-
 	return ProviderConfig{
-		Type: NewLegacyProvider(typeName),
+		Type: typeName,
 	}
 }
 
@@ -254,7 +253,7 @@ func (r AbsResourceInstance) Less(o AbsResourceInstance) bool {
 // resource lifecycle has a slightly different address format.
 type ResourceMode rune
 
-//go:generate go run golang.org/x/tools/cmd/stringer -type ResourceMode
+//go:generate stringer -type ResourceMode
 
 const (
 	// InvalidResourceMode is the zero value of ResourceMode and is not

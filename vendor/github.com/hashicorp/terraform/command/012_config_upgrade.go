@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl2/hcl"
 	"github.com/hashicorp/terraform/configs/configupgrade"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/hashicorp/terraform/tfdiags"
@@ -53,12 +53,6 @@ func (c *ZeroTwelveUpgradeCommand) Run(args []string) int {
 			"The command 0.12upgrade expects only a single argument, giving the directory containing the module to upgrade.",
 		))
 		c.showDiagnostics(diags)
-		return 1
-	}
-
-	// Check for user-supplied plugin path
-	if c.pluginPath, err = c.loadPluginPath(); err != nil {
-		c.Ui.Error(fmt.Sprintf("Error loading plugin path: %s", err))
 		return 1
 	}
 

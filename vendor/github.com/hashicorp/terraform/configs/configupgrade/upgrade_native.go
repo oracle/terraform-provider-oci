@@ -16,7 +16,7 @@ import (
 	hcl1printer "github.com/hashicorp/hcl/hcl/printer"
 	hcl1token "github.com/hashicorp/hcl/hcl/token"
 
-	hcl2 "github.com/hashicorp/hcl/v2"
+	hcl2 "github.com/hashicorp/hcl2/hcl"
 	"github.com/zclconf/go-cty/cty"
 
 	"github.com/hashicorp/terraform/addrs"

@@ -39,13 +39,6 @@ func (rs *Resource) Instance(key addrs.InstanceKey) *ResourceInstance {
 	return rs.Instances[key]
 }
 
-// CreateInstance creates an instance and adds it to the resource
-func (rs *Resource) CreateInstance(key addrs.InstanceKey) *ResourceInstance {
-	is := NewResourceInstance()
-	rs.Instances[key] = is
-	return is
-}
-
 // EnsureInstance returns the state for the instance with the given key,
 // creating a new empty state for it if one doesn't already exist.
 //
@@ -182,7 +175,7 @@ const (
 	EachMap  EachMode = 'M'
 )
 
-//go:generate go run golang.org/x/tools/cmd/stringer -type EachMode
+//go:generate stringer -type EachMode
 
 func eachModeForInstanceKey(key addrs.InstanceKey) EachMode {
 	switch key.(type) {

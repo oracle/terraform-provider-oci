@@ -55,9 +55,6 @@ type Plan struct {
 	ResourceDestructions int                   `jsonapi:"attr,resource-destructions"`
 	Status               PlanStatus            `jsonapi:"attr,status"`
 	StatusTimestamps     *PlanStatusTimestamps `jsonapi:"attr,status-timestamps"`
-
-	// Relations
-	Exports []*PlanExport `jsonapi:"relation,exports"`
 }
 
 // PlanStatusTimestamps holds the timestamps for individual plan statuses.

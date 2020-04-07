@@ -1,7 +1,7 @@
 package configs
 
 import (
-	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl2/hcl"
 )
 
 func decodeDependsOn(attr *hcl.Attribute) ([]hcl.Traversal, hcl.Diagnostics) {

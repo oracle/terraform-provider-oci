@@ -28,13 +28,12 @@ type NodeApplyableResourceInstance struct {
 }
 
 var (
-	_ GraphNodeResource           = (*NodeApplyableResourceInstance)(nil)
-	_ GraphNodeResourceInstance   = (*NodeApplyableResourceInstance)(nil)
-	_ GraphNodeCreator            = (*NodeApplyableResourceInstance)(nil)
-	_ GraphNodeReferencer         = (*NodeApplyableResourceInstance)(nil)
-	_ GraphNodeDeposer            = (*NodeApplyableResourceInstance)(nil)
-	_ GraphNodeEvalable           = (*NodeApplyableResourceInstance)(nil)
-	_ GraphNodeAttachDependencies = (*NodeApplyableResourceInstance)(nil)
+	_ GraphNodeResource         = (*NodeApplyableResourceInstance)(nil)
+	_ GraphNodeResourceInstance = (*NodeApplyableResourceInstance)(nil)
+	_ GraphNodeCreator          = (*NodeApplyableResourceInstance)(nil)
+	_ GraphNodeReferencer       = (*NodeApplyableResourceInstance)(nil)
+	_ GraphNodeDeposer          = (*NodeApplyableResourceInstance)(nil)
+	_ GraphNodeEvalable         = (*NodeApplyableResourceInstance)(nil)
 )
 
 // GraphNodeAttachDestroyer
@@ -98,14 +97,16 @@ func (n *NodeApplyableResourceInstance) References() []*addrs.Reference {
 	return ret
 }
 
-// GraphNodeAttachDependencies
-func (n *NodeApplyableResourceInstance) AttachDependencies(deps []addrs.AbsResource) {
-	n.Dependencies = deps
-}
-
 // GraphNodeEvalable
 func (n *NodeApplyableResourceInstance) EvalTree() EvalNode {
 	addr := n.ResourceInstanceAddr()
+
+	// State still uses legacy-style internal ids, so we need to shim to get
+	// a suitable key to use.
+	stateId := NewLegacyResourceInstanceAddress(addr).stateId()
+
+	// Determine the dependencies for the state.
+	stateDeps := n.StateReferences()
 
 	if n.Config == nil {
 		// This should not be possible, but we've got here in at least one
@@ -131,15 +132,15 @@ func (n *NodeApplyableResourceInstance) EvalTree() EvalNode {
 	// Eval info is different depending on what kind of resource this is
 	switch n.Config.Mode {
 	case addrs.ManagedResourceMode:
-		return n.evalTreeManagedResource(addr)
+		return n.evalTreeManagedResource(addr, stateId, stateDeps)
 	case addrs.DataResourceMode:
-		return n.evalTreeDataResource(addr)
+		return n.evalTreeDataResource(addr, stateId, stateDeps)
 	default:
 		panic(fmt.Errorf("unsupported resource mode %s", n.Config.Mode))
 	}
 }
 
-func (n *NodeApplyableResourceInstance) evalTreeDataResource(addr addrs.AbsResourceInstance) EvalNode {
+func (n *NodeApplyableResourceInstance) evalTreeDataResource(addr addrs.AbsResourceInstance, stateId string, stateDeps []addrs.Referenceable) EvalNode {
 	var provider providers.Interface
 	var providerSchema *ProviderSchema
 	var change *plans.ResourceInstanceChange
@@ -177,6 +178,7 @@ func (n *NodeApplyableResourceInstance) evalTreeDataResource(addr addrs.AbsResou
 			&EvalReadData{
 				Addr:           addr.Resource,
 				Config:         n.Config,
+				Dependencies:   n.StateReferences(),
 				Planned:        &change, // setting this indicates that the result must be complete
 				Provider:       &provider,
 				ProviderAddr:   n.ResolvedProvider,
@@ -204,7 +206,7 @@ func (n *NodeApplyableResourceInstance) evalTreeDataResource(addr addrs.AbsResou
 	}
 }
 
-func (n *NodeApplyableResourceInstance) evalTreeManagedResource(addr addrs.AbsResourceInstance) EvalNode {
+func (n *NodeApplyableResourceInstance) evalTreeManagedResource(addr addrs.AbsResourceInstance, stateId string, stateDeps []addrs.Referenceable) EvalNode {
 	// Declare a bunch of variables that are used for state during
 	// evaluation. Most of this are written to by-address below.
 	var provider providers.Interface
@@ -346,6 +348,7 @@ func (n *NodeApplyableResourceInstance) evalTreeManagedResource(addr addrs.AbsRe
 			&EvalApply{
 				Addr:           addr.Resource,
 				Config:         n.Config,
+				Dependencies:   n.StateReferences(),
 				State:          &state,
 				Change:         &diffApply,
 				Provider:       &provider,
@@ -356,17 +359,17 @@ func (n *NodeApplyableResourceInstance) evalTreeManagedResource(addr addrs.AbsRe
 				CreateNew:      &createNew,
 			},
 			&EvalMaybeTainted{
-				Addr:   addr.Resource,
-				State:  &state,
-				Change: &diffApply,
-				Error:  &err,
+				Addr:        addr.Resource,
+				State:       &state,
+				Change:      &diffApply,
+				Error:       &err,
+				StateOutput: &state,
 			},
 			&EvalWriteState{
 				Addr:           addr.Resource,
 				ProviderAddr:   n.ResolvedProvider,
 				ProviderSchema: &providerSchema,
 				State:          &state,
-				Dependencies:   &n.Dependencies,
 			},
 			&EvalApplyProvisioners{
 				Addr:           addr.Resource,
@@ -377,26 +380,25 @@ func (n *NodeApplyableResourceInstance) evalTreeManagedResource(addr addrs.AbsRe
 				When:           configs.ProvisionerWhenCreate,
 			},
 			&EvalMaybeTainted{
-				Addr:   addr.Resource,
-				State:  &state,
-				Change: &diffApply,
-				Error:  &err,
+				Addr:        addr.Resource,
+				State:       &state,
+				Change:      &diffApply,
+				Error:       &err,
+				StateOutput: &state,
 			},
 			&EvalWriteState{
 				Addr:           addr.Resource,
 				ProviderAddr:   n.ResolvedProvider,
 				ProviderSchema: &providerSchema,
 				State:          &state,
-				Dependencies:   &n.Dependencies,
 			},
 			&EvalIf{
 				If: func(ctx EvalContext) (bool, error) {
 					return createBeforeDestroyEnabled && err != nil, nil
 				},
 				Then: &EvalMaybeRestoreDeposedObject{
-					Addr:          addr.Resource,
-					PlannedChange: &diffApply,
-					Key:           &deposedKey,
+					Addr: addr.Resource,
+					Key:  &deposedKey,
 				},
 			},
 

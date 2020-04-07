@@ -1,7 +1,7 @@
 package tfconfig
 
 import (
-	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl2/hcl"
 )
 
 var rootSchema = &hcl.BodySchema{

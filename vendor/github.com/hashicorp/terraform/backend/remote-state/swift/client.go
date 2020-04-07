@@ -19,6 +19,8 @@ import (
 )
 
 const (
+	TFSTATE_NAME = "tfstate.tf"
+
 	consistencyTimeout = 15
 
 	// Suffix that will be appended to state file paths

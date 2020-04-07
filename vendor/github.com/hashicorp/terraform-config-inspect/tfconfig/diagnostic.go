@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	legacyhclparser "github.com/hashicorp/hcl/hcl/parser"
-	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl2/hcl"
 )
 
 // Diagnostic describes a problem (error or warning) encountered during

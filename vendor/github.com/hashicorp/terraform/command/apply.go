@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/go-getter"
 	"github.com/hashicorp/terraform/addrs"
 	"github.com/hashicorp/terraform/backend"
-	"github.com/hashicorp/terraform/configs/hcl2shim"
+	"github.com/hashicorp/terraform/config/hcl2shim"
 	"github.com/hashicorp/terraform/repl"
 	"github.com/hashicorp/terraform/states"
 	"github.com/hashicorp/terraform/tfdiags"
@@ -248,15 +248,11 @@ Usage: terraform apply [options] [DIR-OR-PLAN]
 
 Options:
 
-  -auto-approve          Skip interactive approval of plan before applying.
-
   -backup=path           Path to backup the existing state file before
                          modifying. Defaults to the "-state-out" path with
                          ".backup" extension. Set to "-" to disable backup.
 
-  -compact-warnings      If Terraform produces any warnings that are not
-                         accompanied by errors, show them in a more compact
-                         form that includes only the summary messages.
+  -auto-approve          Skip interactive approval of plan before applying.
 
   -lock=true             Lock the state file when locking is supported.
 
