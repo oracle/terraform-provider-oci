@@ -87,8 +87,12 @@ func (client LimitsClient) GetResourceAvailability(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.getResourceAvailability, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetResourceAvailabilityResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetResourceAvailabilityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetResourceAvailabilityResponse{}
+			}
 		}
 		return
 	}
@@ -132,8 +136,12 @@ func (client LimitsClient) ListLimitDefinitions(ctx context.Context, request Lis
 	ociResponse, err = common.Retry(ctx, request, client.listLimitDefinitions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListLimitDefinitionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListLimitDefinitionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListLimitDefinitionsResponse{}
+			}
 		}
 		return
 	}
@@ -175,8 +183,12 @@ func (client LimitsClient) ListLimitValues(ctx context.Context, request ListLimi
 	ociResponse, err = common.Retry(ctx, request, client.listLimitValues, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListLimitValuesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListLimitValuesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListLimitValuesResponse{}
+			}
 		}
 		return
 	}
@@ -219,8 +231,12 @@ func (client LimitsClient) ListServices(ctx context.Context, request ListService
 	ociResponse, err = common.Retry(ctx, request, client.listServices, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListServicesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListServicesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListServicesResponse{}
+			}
 		}
 		return
 	}

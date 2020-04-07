@@ -90,8 +90,12 @@ func (client BlockstorageClient) ChangeBootVolumeBackupCompartment(ctx context.C
 	ociResponse, err = common.Retry(ctx, request, client.changeBootVolumeBackupCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeBootVolumeBackupCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeBootVolumeBackupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeBootVolumeBackupCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -135,8 +139,12 @@ func (client BlockstorageClient) ChangeBootVolumeCompartment(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.changeBootVolumeCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeBootVolumeCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeBootVolumeCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeBootVolumeCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -180,8 +188,12 @@ func (client BlockstorageClient) ChangeVolumeBackupCompartment(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.changeVolumeBackupCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeVolumeBackupCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeVolumeBackupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeVolumeBackupCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -225,8 +237,12 @@ func (client BlockstorageClient) ChangeVolumeCompartment(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.changeVolumeCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeVolumeCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeVolumeCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeVolumeCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -270,8 +286,12 @@ func (client BlockstorageClient) ChangeVolumeGroupBackupCompartment(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.changeVolumeGroupBackupCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeVolumeGroupBackupCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeVolumeGroupBackupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeVolumeGroupBackupCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -315,8 +335,12 @@ func (client BlockstorageClient) ChangeVolumeGroupCompartment(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.changeVolumeGroupCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeVolumeGroupCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeVolumeGroupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeVolumeGroupCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -364,8 +388,12 @@ func (client BlockstorageClient) CopyBootVolumeBackup(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.copyBootVolumeBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CopyBootVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CopyBootVolumeBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CopyBootVolumeBackupResponse{}
+			}
 		}
 		return
 	}
@@ -413,8 +441,12 @@ func (client BlockstorageClient) CopyVolumeBackup(ctx context.Context, request C
 	ociResponse, err = common.Retry(ctx, request, client.copyVolumeBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CopyVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CopyVolumeBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CopyVolumeBackupResponse{}
+			}
 		}
 		return
 	}
@@ -464,8 +496,12 @@ func (client BlockstorageClient) CreateBootVolume(ctx context.Context, request C
 	ociResponse, err = common.Retry(ctx, request, client.createBootVolume, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateBootVolumeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateBootVolumeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateBootVolumeResponse{}
+			}
 		}
 		return
 	}
@@ -516,8 +552,12 @@ func (client BlockstorageClient) CreateBootVolumeBackup(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.createBootVolumeBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateBootVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateBootVolumeBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateBootVolumeBackupResponse{}
+			}
 		}
 		return
 	}
@@ -575,8 +615,12 @@ func (client BlockstorageClient) CreateVolume(ctx context.Context, request Creat
 	ociResponse, err = common.Retry(ctx, request, client.createVolume, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateVolumeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVolumeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVolumeResponse{}
+			}
 		}
 		return
 	}
@@ -627,8 +671,12 @@ func (client BlockstorageClient) CreateVolumeBackup(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.createVolumeBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVolumeBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVolumeBackupResponse{}
+			}
 		}
 		return
 	}
@@ -677,8 +725,12 @@ func (client BlockstorageClient) CreateVolumeBackupPolicy(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.createVolumeBackupPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateVolumeBackupPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVolumeBackupPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVolumeBackupPolicyResponse{}
+			}
 		}
 		return
 	}
@@ -722,8 +774,12 @@ func (client BlockstorageClient) CreateVolumeBackupPolicyAssignment(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.createVolumeBackupPolicyAssignment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateVolumeBackupPolicyAssignmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVolumeBackupPolicyAssignmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVolumeBackupPolicyAssignmentResponse{}
+			}
 		}
 		return
 	}
@@ -775,8 +831,12 @@ func (client BlockstorageClient) CreateVolumeGroup(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.createVolumeGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateVolumeGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVolumeGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVolumeGroupResponse{}
+			}
 		}
 		return
 	}
@@ -824,8 +884,12 @@ func (client BlockstorageClient) CreateVolumeGroupBackup(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.createVolumeGroupBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateVolumeGroupBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVolumeGroupBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVolumeGroupBackupResponse{}
+			}
 		}
 		return
 	}
@@ -870,8 +934,12 @@ func (client BlockstorageClient) DeleteBootVolume(ctx context.Context, request D
 	ociResponse, err = common.Retry(ctx, request, client.deleteBootVolume, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteBootVolumeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteBootVolumeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteBootVolumeResponse{}
+			}
 		}
 		return
 	}
@@ -913,8 +981,12 @@ func (client BlockstorageClient) DeleteBootVolumeBackup(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.deleteBootVolumeBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteBootVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteBootVolumeBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteBootVolumeBackupResponse{}
+			}
 		}
 		return
 	}
@@ -956,8 +1028,12 @@ func (client BlockstorageClient) DeleteBootVolumeKmsKey(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.deleteBootVolumeKmsKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteBootVolumeKmsKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteBootVolumeKmsKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteBootVolumeKmsKeyResponse{}
+			}
 		}
 		return
 	}
@@ -1002,8 +1078,12 @@ func (client BlockstorageClient) DeleteVolume(ctx context.Context, request Delet
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolume, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteVolumeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVolumeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVolumeResponse{}
+			}
 		}
 		return
 	}
@@ -1045,8 +1125,12 @@ func (client BlockstorageClient) DeleteVolumeBackup(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVolumeBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVolumeBackupResponse{}
+			}
 		}
 		return
 	}
@@ -1091,8 +1175,12 @@ func (client BlockstorageClient) DeleteVolumeBackupPolicy(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeBackupPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteVolumeBackupPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVolumeBackupPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVolumeBackupPolicyResponse{}
+			}
 		}
 		return
 	}
@@ -1134,8 +1222,12 @@ func (client BlockstorageClient) DeleteVolumeBackupPolicyAssignment(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeBackupPolicyAssignment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteVolumeBackupPolicyAssignmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVolumeBackupPolicyAssignmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVolumeBackupPolicyAssignmentResponse{}
+			}
 		}
 		return
 	}
@@ -1178,8 +1270,12 @@ func (client BlockstorageClient) DeleteVolumeGroup(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteVolumeGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVolumeGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVolumeGroupResponse{}
+			}
 		}
 		return
 	}
@@ -1221,8 +1317,12 @@ func (client BlockstorageClient) DeleteVolumeGroupBackup(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeGroupBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteVolumeGroupBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVolumeGroupBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVolumeGroupBackupResponse{}
+			}
 		}
 		return
 	}
@@ -1264,8 +1364,12 @@ func (client BlockstorageClient) DeleteVolumeKmsKey(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.deleteVolumeKmsKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteVolumeKmsKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVolumeKmsKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVolumeKmsKeyResponse{}
+			}
 		}
 		return
 	}
@@ -1307,8 +1411,12 @@ func (client BlockstorageClient) GetBootVolume(ctx context.Context, request GetB
 	ociResponse, err = common.Retry(ctx, request, client.getBootVolume, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetBootVolumeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBootVolumeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBootVolumeResponse{}
+			}
 		}
 		return
 	}
@@ -1350,8 +1458,12 @@ func (client BlockstorageClient) GetBootVolumeBackup(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.getBootVolumeBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetBootVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBootVolumeBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBootVolumeBackupResponse{}
+			}
 		}
 		return
 	}
@@ -1393,8 +1505,12 @@ func (client BlockstorageClient) GetBootVolumeKmsKey(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.getBootVolumeKmsKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetBootVolumeKmsKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBootVolumeKmsKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBootVolumeKmsKeyResponse{}
+			}
 		}
 		return
 	}
@@ -1436,8 +1552,12 @@ func (client BlockstorageClient) GetVolume(ctx context.Context, request GetVolum
 	ociResponse, err = common.Retry(ctx, request, client.getVolume, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetVolumeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVolumeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVolumeResponse{}
+			}
 		}
 		return
 	}
@@ -1479,8 +1599,12 @@ func (client BlockstorageClient) GetVolumeBackup(ctx context.Context, request Ge
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetVolumeBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVolumeBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVolumeBackupResponse{}
+			}
 		}
 		return
 	}
@@ -1522,8 +1646,12 @@ func (client BlockstorageClient) GetVolumeBackupPolicy(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeBackupPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetVolumeBackupPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVolumeBackupPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVolumeBackupPolicyResponse{}
+			}
 		}
 		return
 	}
@@ -1567,8 +1695,12 @@ func (client BlockstorageClient) GetVolumeBackupPolicyAssetAssignment(ctx contex
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeBackupPolicyAssetAssignment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetVolumeBackupPolicyAssetAssignmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVolumeBackupPolicyAssetAssignmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVolumeBackupPolicyAssetAssignmentResponse{}
+			}
 		}
 		return
 	}
@@ -1610,8 +1742,12 @@ func (client BlockstorageClient) GetVolumeBackupPolicyAssignment(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeBackupPolicyAssignment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetVolumeBackupPolicyAssignmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVolumeBackupPolicyAssignmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVolumeBackupPolicyAssignmentResponse{}
+			}
 		}
 		return
 	}
@@ -1653,8 +1789,12 @@ func (client BlockstorageClient) GetVolumeGroup(ctx context.Context, request Get
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetVolumeGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVolumeGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVolumeGroupResponse{}
+			}
 		}
 		return
 	}
@@ -1696,8 +1836,12 @@ func (client BlockstorageClient) GetVolumeGroupBackup(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeGroupBackup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetVolumeGroupBackupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVolumeGroupBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVolumeGroupBackupResponse{}
+			}
 		}
 		return
 	}
@@ -1739,8 +1883,12 @@ func (client BlockstorageClient) GetVolumeKmsKey(ctx context.Context, request Ge
 	ociResponse, err = common.Retry(ctx, request, client.getVolumeKmsKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetVolumeKmsKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVolumeKmsKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVolumeKmsKeyResponse{}
+			}
 		}
 		return
 	}
@@ -1782,8 +1930,12 @@ func (client BlockstorageClient) ListBootVolumeBackups(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.listBootVolumeBackups, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListBootVolumeBackupsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBootVolumeBackupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBootVolumeBackupsResponse{}
+			}
 		}
 		return
 	}
@@ -1825,8 +1977,12 @@ func (client BlockstorageClient) ListBootVolumes(ctx context.Context, request Li
 	ociResponse, err = common.Retry(ctx, request, client.listBootVolumes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListBootVolumesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBootVolumesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBootVolumesResponse{}
+			}
 		}
 		return
 	}
@@ -1870,8 +2026,12 @@ func (client BlockstorageClient) ListVolumeBackupPolicies(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeBackupPolicies, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListVolumeBackupPoliciesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVolumeBackupPoliciesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVolumeBackupPoliciesResponse{}
+			}
 		}
 		return
 	}
@@ -1913,8 +2073,12 @@ func (client BlockstorageClient) ListVolumeBackups(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeBackups, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListVolumeBackupsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVolumeBackupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVolumeBackupsResponse{}
+			}
 		}
 		return
 	}
@@ -1957,8 +2121,12 @@ func (client BlockstorageClient) ListVolumeGroupBackups(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeGroupBackups, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListVolumeGroupBackupsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVolumeGroupBackupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVolumeGroupBackupsResponse{}
+			}
 		}
 		return
 	}
@@ -2001,8 +2169,12 @@ func (client BlockstorageClient) ListVolumeGroups(ctx context.Context, request L
 	ociResponse, err = common.Retry(ctx, request, client.listVolumeGroups, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListVolumeGroupsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVolumeGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVolumeGroupsResponse{}
+			}
 		}
 		return
 	}
@@ -2044,8 +2216,12 @@ func (client BlockstorageClient) ListVolumes(ctx context.Context, request ListVo
 	ociResponse, err = common.Retry(ctx, request, client.listVolumes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListVolumesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVolumesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVolumesResponse{}
+			}
 		}
 		return
 	}
@@ -2087,8 +2263,12 @@ func (client BlockstorageClient) UpdateBootVolume(ctx context.Context, request U
 	ociResponse, err = common.Retry(ctx, request, client.updateBootVolume, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateBootVolumeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateBootVolumeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateBootVolumeResponse{}
+			}
 		}
 		return
 	}
@@ -2173,8 +2353,12 @@ func (client BlockstorageClient) UpdateBootVolumeKmsKey(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.updateBootVolumeKmsKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateBootVolumeKmsKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateBootVolumeKmsKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateBootVolumeKmsKeyResponse{}
+			}
 		}
 		return
 	}
@@ -2217,8 +2401,12 @@ func (client BlockstorageClient) UpdateVolume(ctx context.Context, request Updat
 	ociResponse, err = common.Retry(ctx, request, client.updateVolume, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateVolumeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVolumeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVolumeResponse{}
+			}
 		}
 		return
 	}
@@ -2311,8 +2499,12 @@ func (client BlockstorageClient) UpdateVolumeBackupPolicy(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.updateVolumeBackupPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateVolumeBackupPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVolumeBackupPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVolumeBackupPolicyResponse{}
+			}
 		}
 		return
 	}
@@ -2358,8 +2550,12 @@ func (client BlockstorageClient) UpdateVolumeGroup(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.updateVolumeGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateVolumeGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVolumeGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVolumeGroupResponse{}
+			}
 		}
 		return
 	}
@@ -2443,8 +2639,12 @@ func (client BlockstorageClient) UpdateVolumeKmsKey(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.updateVolumeKmsKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateVolumeKmsKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVolumeKmsKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVolumeKmsKeyResponse{}
+			}
 		}
 		return
 	}

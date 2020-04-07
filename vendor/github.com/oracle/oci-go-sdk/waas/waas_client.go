@@ -85,8 +85,12 @@ func (client WaasClient) AcceptRecommendations(ctx context.Context, request Acce
 	ociResponse, err = common.Retry(ctx, request, client.acceptRecommendations, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = AcceptRecommendationsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AcceptRecommendationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AcceptRecommendationsResponse{}
+			}
 		}
 		return
 	}
@@ -133,8 +137,12 @@ func (client WaasClient) CancelWorkRequest(ctx context.Context, request CancelWo
 	ociResponse, err = common.Retry(ctx, request, client.cancelWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CancelWorkRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CancelWorkRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CancelWorkRequestResponse{}
+			}
 		}
 		return
 	}
@@ -183,8 +191,12 @@ func (client WaasClient) ChangeAddressListCompartment(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.changeAddressListCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeAddressListCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeAddressListCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeAddressListCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -232,8 +244,12 @@ func (client WaasClient) ChangeCertificateCompartment(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.changeCertificateCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeCertificateCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCertificateCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCertificateCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -280,8 +296,12 @@ func (client WaasClient) ChangeCustomProtectionRuleCompartment(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.changeCustomProtectionRuleCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeCustomProtectionRuleCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCustomProtectionRuleCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCustomProtectionRuleCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -329,8 +349,12 @@ func (client WaasClient) ChangeWaasPolicyCompartment(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.changeWaasPolicyCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeWaasPolicyCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeWaasPolicyCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeWaasPolicyCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -377,8 +401,12 @@ func (client WaasClient) CreateAddressList(ctx context.Context, request CreateAd
 	ociResponse, err = common.Retry(ctx, request, client.createAddressList, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateAddressListResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAddressListResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAddressListResponse{}
+			}
 		}
 		return
 	}
@@ -426,8 +454,12 @@ func (client WaasClient) CreateCertificate(ctx context.Context, request CreateCe
 	ociResponse, err = common.Retry(ctx, request, client.createCertificate, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateCertificateResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCertificateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCertificateResponse{}
+			}
 		}
 		return
 	}
@@ -475,8 +507,12 @@ func (client WaasClient) CreateCustomProtectionRule(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.createCustomProtectionRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateCustomProtectionRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCustomProtectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCustomProtectionRuleResponse{}
+			}
 		}
 		return
 	}
@@ -529,8 +565,12 @@ func (client WaasClient) CreateWaasPolicy(ctx context.Context, request CreateWaa
 	ociResponse, err = common.Retry(ctx, request, client.createWaasPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateWaasPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateWaasPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateWaasPolicyResponse{}
+			}
 		}
 		return
 	}
@@ -577,8 +617,12 @@ func (client WaasClient) DeleteAddressList(ctx context.Context, request DeleteAd
 	ociResponse, err = common.Retry(ctx, request, client.deleteAddressList, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteAddressListResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAddressListResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAddressListResponse{}
+			}
 		}
 		return
 	}
@@ -625,8 +669,12 @@ func (client WaasClient) DeleteCertificate(ctx context.Context, request DeleteCe
 	ociResponse, err = common.Retry(ctx, request, client.deleteCertificate, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteCertificateResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCertificateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCertificateResponse{}
+			}
 		}
 		return
 	}
@@ -673,8 +721,12 @@ func (client WaasClient) DeleteCustomProtectionRule(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.deleteCustomProtectionRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteCustomProtectionRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCustomProtectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCustomProtectionRuleResponse{}
+			}
 		}
 		return
 	}
@@ -721,8 +773,12 @@ func (client WaasClient) DeleteWaasPolicy(ctx context.Context, request DeleteWaa
 	ociResponse, err = common.Retry(ctx, request, client.deleteWaasPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteWaasPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteWaasPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteWaasPolicyResponse{}
+			}
 		}
 		return
 	}
@@ -764,8 +820,12 @@ func (client WaasClient) GetAddressList(ctx context.Context, request GetAddressL
 	ociResponse, err = common.Retry(ctx, request, client.getAddressList, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetAddressListResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAddressListResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAddressListResponse{}
+			}
 		}
 		return
 	}
@@ -807,8 +867,12 @@ func (client WaasClient) GetCertificate(ctx context.Context, request GetCertific
 	ociResponse, err = common.Retry(ctx, request, client.getCertificate, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetCertificateResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCertificateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCertificateResponse{}
+			}
 		}
 		return
 	}
@@ -850,8 +914,12 @@ func (client WaasClient) GetCustomProtectionRule(ctx context.Context, request Ge
 	ociResponse, err = common.Retry(ctx, request, client.getCustomProtectionRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetCustomProtectionRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCustomProtectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCustomProtectionRuleResponse{}
+			}
 		}
 		return
 	}
@@ -893,8 +961,12 @@ func (client WaasClient) GetDeviceFingerprintChallenge(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.getDeviceFingerprintChallenge, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetDeviceFingerprintChallengeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDeviceFingerprintChallengeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDeviceFingerprintChallengeResponse{}
+			}
 		}
 		return
 	}
@@ -936,8 +1008,12 @@ func (client WaasClient) GetHumanInteractionChallenge(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.getHumanInteractionChallenge, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetHumanInteractionChallengeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetHumanInteractionChallengeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetHumanInteractionChallengeResponse{}
+			}
 		}
 		return
 	}
@@ -979,8 +1055,12 @@ func (client WaasClient) GetJsChallenge(ctx context.Context, request GetJsChalle
 	ociResponse, err = common.Retry(ctx, request, client.getJsChallenge, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetJsChallengeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetJsChallengeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetJsChallengeResponse{}
+			}
 		}
 		return
 	}
@@ -1022,8 +1102,12 @@ func (client WaasClient) GetPolicyConfig(ctx context.Context, request GetPolicyC
 	ociResponse, err = common.Retry(ctx, request, client.getPolicyConfig, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetPolicyConfigResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPolicyConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPolicyConfigResponse{}
+			}
 		}
 		return
 	}
@@ -1065,8 +1149,12 @@ func (client WaasClient) GetProtectionRule(ctx context.Context, request GetProte
 	ociResponse, err = common.Retry(ctx, request, client.getProtectionRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetProtectionRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetProtectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetProtectionRuleResponse{}
+			}
 		}
 		return
 	}
@@ -1108,8 +1196,12 @@ func (client WaasClient) GetProtectionSettings(ctx context.Context, request GetP
 	ociResponse, err = common.Retry(ctx, request, client.getProtectionSettings, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetProtectionSettingsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetProtectionSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetProtectionSettingsResponse{}
+			}
 		}
 		return
 	}
@@ -1151,8 +1243,12 @@ func (client WaasClient) GetWaasPolicy(ctx context.Context, request GetWaasPolic
 	ociResponse, err = common.Retry(ctx, request, client.getWaasPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetWaasPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWaasPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWaasPolicyResponse{}
+			}
 		}
 		return
 	}
@@ -1194,8 +1290,12 @@ func (client WaasClient) GetWafAddressRateLimiting(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.getWafAddressRateLimiting, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetWafAddressRateLimitingResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWafAddressRateLimitingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWafAddressRateLimitingResponse{}
+			}
 		}
 		return
 	}
@@ -1237,8 +1337,12 @@ func (client WaasClient) GetWafConfig(ctx context.Context, request GetWafConfigR
 	ociResponse, err = common.Retry(ctx, request, client.getWafConfig, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetWafConfigResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWafConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWafConfigResponse{}
+			}
 		}
 		return
 	}
@@ -1280,8 +1384,12 @@ func (client WaasClient) GetWorkRequest(ctx context.Context, request GetWorkRequ
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWorkRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWorkRequestResponse{}
+			}
 		}
 		return
 	}
@@ -1324,8 +1432,12 @@ func (client WaasClient) ListAccessRules(ctx context.Context, request ListAccess
 	ociResponse, err = common.Retry(ctx, request, client.listAccessRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListAccessRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAccessRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAccessRulesResponse{}
+			}
 		}
 		return
 	}
@@ -1367,8 +1479,12 @@ func (client WaasClient) ListAddressLists(ctx context.Context, request ListAddre
 	ociResponse, err = common.Retry(ctx, request, client.listAddressLists, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListAddressListsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAddressListsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAddressListsResponse{}
+			}
 		}
 		return
 	}
@@ -1411,8 +1527,12 @@ func (client WaasClient) ListCachingRules(ctx context.Context, request ListCachi
 	ociResponse, err = common.Retry(ctx, request, client.listCachingRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListCachingRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCachingRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCachingRulesResponse{}
+			}
 		}
 		return
 	}
@@ -1457,8 +1577,12 @@ func (client WaasClient) ListCaptchas(ctx context.Context, request ListCaptchasR
 	ociResponse, err = common.Retry(ctx, request, client.listCaptchas, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListCaptchasResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCaptchasResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCaptchasResponse{}
+			}
 		}
 		return
 	}
@@ -1500,8 +1624,12 @@ func (client WaasClient) ListCertificates(ctx context.Context, request ListCerti
 	ociResponse, err = common.Retry(ctx, request, client.listCertificates, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListCertificatesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCertificatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCertificatesResponse{}
+			}
 		}
 		return
 	}
@@ -1543,8 +1671,12 @@ func (client WaasClient) ListCustomProtectionRules(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.listCustomProtectionRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListCustomProtectionRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCustomProtectionRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCustomProtectionRulesResponse{}
+			}
 		}
 		return
 	}
@@ -1586,8 +1718,12 @@ func (client WaasClient) ListEdgeSubnets(ctx context.Context, request ListEdgeSu
 	ociResponse, err = common.Retry(ctx, request, client.listEdgeSubnets, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListEdgeSubnetsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListEdgeSubnetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListEdgeSubnetsResponse{}
+			}
 		}
 		return
 	}
@@ -1630,8 +1766,12 @@ func (client WaasClient) ListGoodBots(ctx context.Context, request ListGoodBotsR
 	ociResponse, err = common.Retry(ctx, request, client.listGoodBots, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListGoodBotsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListGoodBotsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListGoodBotsResponse{}
+			}
 		}
 		return
 	}
@@ -1674,8 +1814,12 @@ func (client WaasClient) ListProtectionRules(ctx context.Context, request ListPr
 	ociResponse, err = common.Retry(ctx, request, client.listProtectionRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListProtectionRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListProtectionRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListProtectionRulesResponse{}
+			}
 		}
 		return
 	}
@@ -1719,8 +1863,12 @@ func (client WaasClient) ListRecommendations(ctx context.Context, request ListRe
 	ociResponse, err = common.Retry(ctx, request, client.listRecommendations, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListRecommendationsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRecommendationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRecommendationsResponse{}
+			}
 		}
 		return
 	}
@@ -1764,8 +1912,12 @@ func (client WaasClient) ListThreatFeeds(ctx context.Context, request ListThreat
 	ociResponse, err = common.Retry(ctx, request, client.listThreatFeeds, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListThreatFeedsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListThreatFeedsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListThreatFeedsResponse{}
+			}
 		}
 		return
 	}
@@ -1807,8 +1959,12 @@ func (client WaasClient) ListWaasPolicies(ctx context.Context, request ListWaasP
 	ociResponse, err = common.Retry(ctx, request, client.listWaasPolicies, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWaasPoliciesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWaasPoliciesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWaasPoliciesResponse{}
+			}
 		}
 		return
 	}
@@ -1850,8 +2006,12 @@ func (client WaasClient) ListWaasPolicyCustomProtectionRules(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.listWaasPolicyCustomProtectionRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWaasPolicyCustomProtectionRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWaasPolicyCustomProtectionRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWaasPolicyCustomProtectionRulesResponse{}
+			}
 		}
 		return
 	}
@@ -1893,8 +2053,12 @@ func (client WaasClient) ListWafBlockedRequests(ctx context.Context, request Lis
 	ociResponse, err = common.Retry(ctx, request, client.listWafBlockedRequests, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWafBlockedRequestsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWafBlockedRequestsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWafBlockedRequestsResponse{}
+			}
 		}
 		return
 	}
@@ -1938,8 +2102,12 @@ func (client WaasClient) ListWafLogs(ctx context.Context, request ListWafLogsReq
 	ociResponse, err = common.Retry(ctx, request, client.listWafLogs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWafLogsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWafLogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWafLogsResponse{}
+			}
 		}
 		return
 	}
@@ -1983,8 +2151,12 @@ func (client WaasClient) ListWafRequests(ctx context.Context, request ListWafReq
 	ociResponse, err = common.Retry(ctx, request, client.listWafRequests, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWafRequestsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWafRequestsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWafRequestsResponse{}
+			}
 		}
 		return
 	}
@@ -2027,8 +2199,12 @@ func (client WaasClient) ListWafTraffic(ctx context.Context, request ListWafTraf
 	ociResponse, err = common.Retry(ctx, request, client.listWafTraffic, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWafTrafficResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWafTrafficResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWafTrafficResponse{}
+			}
 		}
 		return
 	}
@@ -2070,8 +2246,12 @@ func (client WaasClient) ListWhitelists(ctx context.Context, request ListWhiteli
 	ociResponse, err = common.Retry(ctx, request, client.listWhitelists, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWhitelistsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWhitelistsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWhitelistsResponse{}
+			}
 		}
 		return
 	}
@@ -2113,8 +2293,12 @@ func (client WaasClient) ListWorkRequests(ctx context.Context, request ListWorkR
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWorkRequestsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWorkRequestsResponse{}
+			}
 		}
 		return
 	}
@@ -2157,8 +2341,12 @@ func (client WaasClient) PurgeCache(ctx context.Context, request PurgeCacheReque
 	ociResponse, err = common.Retry(ctx, request, client.purgeCache, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = PurgeCacheResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PurgeCacheResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PurgeCacheResponse{}
+			}
 		}
 		return
 	}
@@ -2209,8 +2397,12 @@ func (client WaasClient) UpdateAccessRules(ctx context.Context, request UpdateAc
 	ociResponse, err = common.Retry(ctx, request, client.updateAccessRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateAccessRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAccessRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAccessRulesResponse{}
+			}
 		}
 		return
 	}
@@ -2252,8 +2444,12 @@ func (client WaasClient) UpdateAddressList(ctx context.Context, request UpdateAd
 	ociResponse, err = common.Retry(ctx, request, client.updateAddressList, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateAddressListResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAddressListResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAddressListResponse{}
+			}
 		}
 		return
 	}
@@ -2303,8 +2499,12 @@ func (client WaasClient) UpdateCachingRules(ctx context.Context, request UpdateC
 	ociResponse, err = common.Retry(ctx, request, client.updateCachingRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateCachingRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCachingRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCachingRulesResponse{}
+			}
 		}
 		return
 	}
@@ -2356,8 +2556,12 @@ func (client WaasClient) UpdateCaptchas(ctx context.Context, request UpdateCaptc
 	ociResponse, err = common.Retry(ctx, request, client.updateCaptchas, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateCaptchasResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCaptchasResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCaptchasResponse{}
+			}
 		}
 		return
 	}
@@ -2399,8 +2603,12 @@ func (client WaasClient) UpdateCertificate(ctx context.Context, request UpdateCe
 	ociResponse, err = common.Retry(ctx, request, client.updateCertificate, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateCertificateResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCertificateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCertificateResponse{}
+			}
 		}
 		return
 	}
@@ -2447,8 +2655,12 @@ func (client WaasClient) UpdateCustomProtectionRule(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.updateCustomProtectionRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateCustomProtectionRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCustomProtectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCustomProtectionRuleResponse{}
+			}
 		}
 		return
 	}
@@ -2497,8 +2709,12 @@ func (client WaasClient) UpdateDeviceFingerprintChallenge(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.updateDeviceFingerprintChallenge, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateDeviceFingerprintChallengeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDeviceFingerprintChallengeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDeviceFingerprintChallengeResponse{}
+			}
 		}
 		return
 	}
@@ -2546,8 +2762,12 @@ func (client WaasClient) UpdateGoodBots(ctx context.Context, request UpdateGoodB
 	ociResponse, err = common.Retry(ctx, request, client.updateGoodBots, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateGoodBotsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateGoodBotsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateGoodBotsResponse{}
+			}
 		}
 		return
 	}
@@ -2594,8 +2814,12 @@ func (client WaasClient) UpdateHumanInteractionChallenge(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.updateHumanInteractionChallenge, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateHumanInteractionChallengeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateHumanInteractionChallengeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateHumanInteractionChallengeResponse{}
+			}
 		}
 		return
 	}
@@ -2642,8 +2866,12 @@ func (client WaasClient) UpdateJsChallenge(ctx context.Context, request UpdateJs
 	ociResponse, err = common.Retry(ctx, request, client.updateJsChallenge, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateJsChallengeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateJsChallengeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateJsChallengeResponse{}
+			}
 		}
 		return
 	}
@@ -2690,8 +2918,12 @@ func (client WaasClient) UpdatePolicyConfig(ctx context.Context, request UpdateP
 	ociResponse, err = common.Retry(ctx, request, client.updatePolicyConfig, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdatePolicyConfigResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdatePolicyConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdatePolicyConfigResponse{}
+			}
 		}
 		return
 	}
@@ -2735,8 +2967,12 @@ func (client WaasClient) UpdateProtectionRules(ctx context.Context, request Upda
 	ociResponse, err = common.Retry(ctx, request, client.updateProtectionRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateProtectionRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateProtectionRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateProtectionRulesResponse{}
+			}
 		}
 		return
 	}
@@ -2783,8 +3019,12 @@ func (client WaasClient) UpdateProtectionSettings(ctx context.Context, request U
 	ociResponse, err = common.Retry(ctx, request, client.updateProtectionSettings, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateProtectionSettingsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateProtectionSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateProtectionSettingsResponse{}
+			}
 		}
 		return
 	}
@@ -2826,8 +3066,12 @@ func (client WaasClient) UpdateThreatFeeds(ctx context.Context, request UpdateTh
 	ociResponse, err = common.Retry(ctx, request, client.updateThreatFeeds, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateThreatFeedsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateThreatFeedsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateThreatFeedsResponse{}
+			}
 		}
 		return
 	}
@@ -2876,8 +3120,12 @@ func (client WaasClient) UpdateWaasPolicy(ctx context.Context, request UpdateWaa
 	ociResponse, err = common.Retry(ctx, request, client.updateWaasPolicy, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateWaasPolicyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateWaasPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateWaasPolicyResponse{}
+			}
 		}
 		return
 	}
@@ -2924,8 +3172,12 @@ func (client WaasClient) UpdateWaasPolicyCustomProtectionRules(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.updateWaasPolicyCustomProtectionRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateWaasPolicyCustomProtectionRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateWaasPolicyCustomProtectionRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateWaasPolicyCustomProtectionRulesResponse{}
+			}
 		}
 		return
 	}
@@ -2972,8 +3224,12 @@ func (client WaasClient) UpdateWafAddressRateLimiting(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.updateWafAddressRateLimiting, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateWafAddressRateLimitingResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateWafAddressRateLimitingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateWafAddressRateLimitingResponse{}
+			}
 		}
 		return
 	}
@@ -3025,8 +3281,12 @@ func (client WaasClient) UpdateWafConfig(ctx context.Context, request UpdateWafC
 	ociResponse, err = common.Retry(ctx, request, client.updateWafConfig, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateWafConfigResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateWafConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateWafConfigResponse{}
+			}
 		}
 		return
 	}
@@ -3077,8 +3337,12 @@ func (client WaasClient) UpdateWhitelists(ctx context.Context, request UpdateWhi
 	ociResponse, err = common.Retry(ctx, request, client.updateWhitelists, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateWhitelistsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateWhitelistsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateWhitelistsResponse{}
+			}
 		}
 		return
 	}
