@@ -7,10 +7,10 @@ import (
 type azureCLIProfile struct {
 	profile cli.Profile
 
-	clientId       string
-	environment    string
-	subscriptionId string
-	tenantId       string
+	clientId        string
+	environment     string
+	subscriptionId  string
+	tenantId        string
 }
 
 func (a *azureCLIProfile) populateFields() error {
