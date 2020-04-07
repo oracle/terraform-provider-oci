@@ -5,6 +5,7 @@ package oci
 import (
 	"context"
 	"fmt"
+	"reflect"
 	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -417,9 +418,12 @@ func (s *AuditAuditEventsDataSourceCrud) SetData() error {
 func dataToMap(obj *oci_audit.Data) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	if val, ok := obj.AdditionalDetails["X-Real-Port"]; ok {
-		obj.AdditionalDetails["X-Real-Port"] = fmt.Sprintf("%f", val)
+	for keys := range obj.AdditionalDetails {
+		if reflect.TypeOf(obj.AdditionalDetails[keys]).String() == "float64" {
+			obj.AdditionalDetails[keys] = fmt.Sprintf("%f", obj.AdditionalDetails[keys])
+		}
 	}
+
 	result["additional_details"] = obj.AdditionalDetails
 
 	if obj.AvailabilityDomain != nil {
