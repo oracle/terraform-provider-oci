@@ -128,7 +128,7 @@ func applyFn(ctx context.Context) error {
 
 	if p.OSType == "" {
 		switch connType := state.Ephemeral.ConnInfo["type"]; connType {
-		case "ssh", "": // The default connection type is ssh, so if the type is empty assume ssh
+		case "ssh", "":
 			p.OSType = "linux"
 		case "winrm":
 			p.OSType = "windows"
@@ -259,30 +259,16 @@ func (p *provisioner) generateAutosignToken(certname string) (string, error) {
 }
 
 func (p *provisioner) installPuppetAgentOpenSource() error {
-	task := "puppet_agent::install"
-
-	connType := p.instanceState.Ephemeral.ConnInfo["type"]
-	if connType == "" {
-		connType = "ssh"
-	}
-
-	agentConnInfo := map[string]string{
-		"type":     connType,
-		"host":     p.instanceState.Ephemeral.ConnInfo["host"],
-		"user":     p.instanceState.Ephemeral.ConnInfo["user"],
-		"password": p.instanceState.Ephemeral.ConnInfo["password"], // Required on Windows only
-	}
-
 	result, err := bolt.Task(
-		agentConnInfo,
+		p.instanceState.Ephemeral.ConnInfo,
 		p.BoltTimeout,
 		p.UseSudo,
-		task,
+		"puppet_agent::install",
 		nil,
 	)
 
 	if err != nil || result.Items[0].Status != "success" {
-		return fmt.Errorf("%s failed: %s\n%+v", task, err, result)
+		return fmt.Errorf("puppet_agent::install failed: %s\n%+v", err, result)
 	}
 
 	return nil

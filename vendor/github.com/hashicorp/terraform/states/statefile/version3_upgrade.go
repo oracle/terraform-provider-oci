@@ -3,16 +3,13 @@ package statefile
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 
-	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/zclconf/go-cty/cty"
 	ctyjson "github.com/zclconf/go-cty/cty/json"
 
 	"github.com/hashicorp/terraform/addrs"
-	"github.com/hashicorp/terraform/configs"
 	"github.com/hashicorp/terraform/states"
 	"github.com/hashicorp/terraform/tfdiags"
 )
@@ -53,13 +50,6 @@ func upgradeStateV3ToV4(old *stateV3) (*stateV4, error) {
 		// all of the modules are unkeyed.
 		moduleAddr := make(addrs.ModuleInstance, len(msOld.Path)-1)
 		for i, name := range msOld.Path[1:] {
-			if !hclsyntax.ValidIdentifier(name) {
-				// If we don't fail here then we'll produce an invalid state
-				// version 4 which subsequent operations will reject, so we'll
-				// fail early here for safety to make sure we can never
-				// inadvertently commit an invalid snapshot to a backend.
-				return nil, fmt.Errorf("state contains invalid module path %#v: %q is not a valid identifier; rename it in Terraform 0.11 before upgrading to Terraform 0.12", msOld.Path, name)
-			}
 			moduleAddr[i] = addrs.ModuleInstanceStep{
 				Name:        name,
 				InstanceKey: addrs.NoKey,
@@ -89,7 +79,7 @@ func upgradeStateV3ToV4(old *stateV3) (*stateV4, error) {
 				case addrs.DataResourceMode:
 					modeStr = "data"
 				default:
-					return nil, fmt.Errorf("state contains resource %s with an unsupported resource mode %#v", resAddr, resAddr.Mode)
+					return nil, fmt.Errorf("state contains resource %s with an unsupported resource mode", resAddr)
 				}
 
 				// In state versions prior to 4 we allowed each instance of a
@@ -108,14 +98,7 @@ func upgradeStateV3ToV4(old *stateV3) (*stateV4, error) {
 					var diags tfdiags.Diagnostics
 					providerAddr, diags = addrs.ParseAbsProviderConfigStr(oldProviderAddr)
 					if diags.HasErrors() {
-						if strings.Contains(oldProviderAddr, "${") {
-							// There seems to be a common misconception that
-							// interpolation was valid in provider aliases
-							// in 0.11, so we'll use a specialized error
-							// message for that case.
-							return nil, fmt.Errorf("invalid provider config reference %q for %s: this alias seems to contain a template interpolation sequence, which was not supported but also not error-checked in Terraform 0.11. To proceed, rename the associated provider alias to a valid identifier and apply the change with Terraform 0.11 before upgrading to Terraform 0.12", oldProviderAddr, instAddr)
-						}
-						return nil, fmt.Errorf("invalid provider config reference %q for %s: %s", oldProviderAddr, instAddr, diags.Err())
+						return nil, diags.Err()
 					}
 				} else {
 					// Smells like an old-style module-local provider address,
@@ -124,16 +107,9 @@ func upgradeStateV3ToV4(old *stateV3) (*stateV4, error) {
 					// incorrect but it'll get fixed up next time any updates
 					// are made to an instance.
 					if oldProviderAddr != "" {
-						localAddr, diags := configs.ParseProviderConfigCompactStr(oldProviderAddr)
+						localAddr, diags := addrs.ParseProviderConfigCompactStr(oldProviderAddr)
 						if diags.HasErrors() {
-							if strings.Contains(oldProviderAddr, "${") {
-								// There seems to be a common misconception that
-								// interpolation was valid in provider aliases
-								// in 0.11, so we'll use a specialized error
-								// message for that case.
-								return nil, fmt.Errorf("invalid legacy provider config reference %q for %s: this alias seems to contain a template interpolation sequence, which was not supported but also not error-checked in Terraform 0.11. To proceed, rename the associated provider alias to a valid identifier and apply the change with Terraform 0.11 before upgrading to Terraform 0.12", oldProviderAddr, instAddr)
-							}
-							return nil, fmt.Errorf("invalid legacy provider config reference %q for %s: %s", oldProviderAddr, instAddr, diags.Err())
+							return nil, diags.Err()
 						}
 						providerAddr = localAddr.Absolute(moduleAddr)
 					} else {
@@ -296,7 +272,7 @@ func upgradeInstanceObjectV3ToV4(rsOld *resourceStateV2, isOld *instanceStateV2,
 		instKeyRaw = string(tk)
 	default:
 		if instKeyRaw != nil {
-			return nil, fmt.Errorf("unsupported instance key: %#v", instKey)
+			return nil, fmt.Errorf("insupported instance key: %#v", instKey)
 		}
 	}
 
@@ -323,33 +299,9 @@ func upgradeInstanceObjectV3ToV4(rsOld *resourceStateV2, isOld *instanceStateV2,
 		}
 	}
 
-	dependencies := make([]string, 0, len(rsOld.Dependencies))
-	for _, v := range rsOld.Dependencies {
-		depStr, err := parseLegacyDependency(v)
-		if err != nil {
-			// We just drop invalid dependencies on the floor here, because
-			// they tend to get left behind in Terraform 0.11 when resources
-			// are renamed or moved between modules and there's no automatic
-			// way to fix them here. In practice it shouldn't hurt to miss
-			// a few dependency edges in the state because a subsequent plan
-			// will run a refresh walk first and re-synchronize the
-			// dependencies with the configuration.
-			//
-			// There is one rough edges where this can cause an incorrect
-			// result, though: If the first command the user runs after
-			// upgrading to Terraform 0.12 uses -refresh=false and thus
-			// prevents the dependency reorganization from occurring _and_
-			// that initial plan discovered "orphaned" resources (not present
-			// in configuration any longer) then when the plan is applied the
-			// destroy ordering will be incorrect for the instances of those
-			// resources. We expect that is a rare enough situation that it
-			// isn't a big deal, and even when it _does_ occur it's common for
-			// the apply to succeed anyway unless many separate resources with
-			// complex inter-dependencies are all orphaned at once.
-			log.Printf("statefile: ignoring invalid dependency address %q while upgrading from state version 3 to version 4: %s", v, err)
-			continue
-		}
-		dependencies = append(dependencies, depStr)
+	dependencies := make([]string, len(rsOld.Dependencies))
+	for i, v := range rsOld.Dependencies {
+		dependencies[i] = parseLegacyDependency(v)
 	}
 
 	return &instanceObjectStateV4{
@@ -357,7 +309,7 @@ func upgradeInstanceObjectV3ToV4(rsOld *resourceStateV2, isOld *instanceStateV2,
 		Status:         status,
 		Deposed:        string(deposedKey),
 		AttributesFlat: attributes,
-		DependsOn:      dependencies,
+		Dependencies:   dependencies,
 		SchemaVersion:  schemaVersion,
 		PrivateRaw:     privateJSON,
 	}, nil
@@ -462,7 +414,7 @@ func simplifyImpliedValueType(ty cty.Type) cty.Type {
 	}
 }
 
-func parseLegacyDependency(s string) (string, error) {
+func parseLegacyDependency(s string) string {
 	parts := strings.Split(s, ".")
 	ret := parts[0]
 	for _, part := range parts[1:] {
@@ -475,14 +427,5 @@ func parseLegacyDependency(s string) (string, error) {
 		}
 		ret = ret + "." + part
 	}
-
-	// The result must parse as a reference, or else we'll create an invalid
-	// state file.
-	var diags tfdiags.Diagnostics
-	_, diags = addrs.ParseRefStr(ret)
-	if diags.HasErrors() {
-		return "", diags.Err()
-	}
-
-	return ret, nil
+	return ret
 }

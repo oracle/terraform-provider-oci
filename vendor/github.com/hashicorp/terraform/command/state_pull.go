@@ -7,6 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform/states/statefile"
 	"github.com/hashicorp/terraform/states/statemgr"
+	"github.com/mitchellh/cli"
 )
 
 // StatePullCommand is a Command implementation that shows a single resource.
@@ -23,8 +24,7 @@ func (c *StatePullCommand) Run(args []string) int {
 
 	cmdFlags := c.Meta.defaultFlagSet("state pull")
 	if err := cmdFlags.Parse(args); err != nil {
-		c.Ui.Error(fmt.Sprintf("Error parsing command-line flags: %s\n", err.Error()))
-		return 1
+		return cli.RunResultHelp
 	}
 	args = cmdFlags.Args()
 

@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"sort"
 
-	"github.com/hashicorp/terraform/configs"
+	"github.com/hashicorp/terraform/config"
 	"github.com/hashicorp/terraform/moduledeps"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/hashicorp/terraform/tfdiags"
@@ -35,7 +35,6 @@ func (c *ProvidersCommand) Run(args []string) int {
 	cmdFlags := c.Meta.defaultFlagSet("providers")
 	cmdFlags.Usage = func() { c.Ui.Error(c.Help()) }
 	if err := cmdFlags.Parse(args); err != nil {
-		c.Ui.Error(fmt.Sprintf("Error parsing command-line flags: %s\n", err.Error()))
 		return 1
 	}
 
@@ -47,7 +46,7 @@ func (c *ProvidersCommand) Run(args []string) int {
 
 	var diags tfdiags.Diagnostics
 
-	empty, err := configs.IsEmptyDir(configPath)
+	empty, err := config.IsEmptyDir(configPath)
 	if err != nil {
 		diags = diags.Append(tfdiags.Sourceless(
 			tfdiags.Error,

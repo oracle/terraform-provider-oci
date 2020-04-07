@@ -5,13 +5,13 @@ import (
 
 	"github.com/hashicorp/terraform/tfdiags"
 
-	"github.com/hashicorp/hcl/v2"
-	"github.com/hashicorp/hcl/v2/hclsyntax"
+	"github.com/hashicorp/hcl2/hcl"
+	"github.com/hashicorp/hcl2/hcl/hclsyntax"
 )
 
 // ProviderConfig is the address of a provider configuration.
 type ProviderConfig struct {
-	Type Provider
+	Type string
 
 	// If not empty, Alias identifies which non-default (aliased) provider
 	// configuration this address refers to.
@@ -22,8 +22,86 @@ type ProviderConfig struct {
 // configuration for the provider with the given type name.
 func NewDefaultProviderConfig(typeName string) ProviderConfig {
 	return ProviderConfig{
-		Type: NewLegacyProvider(typeName),
+		Type: typeName,
 	}
+}
+
+// ParseProviderConfigCompact parses the given absolute traversal as a relative
+// provider address in compact form. The following are examples of traversals
+// that can be successfully parsed as compact relative provider configuration
+// addresses:
+//
+//     aws
+//     aws.foo
+//
+// This function will panic if given a relative traversal.
+//
+// If the returned diagnostics contains errors then the result value is invalid
+// and must not be used.
+func ParseProviderConfigCompact(traversal hcl.Traversal) (ProviderConfig, tfdiags.Diagnostics) {
+	var diags tfdiags.Diagnostics
+	ret := ProviderConfig{
+		Type: traversal.RootName(),
+	}
+
+	if len(traversal) < 2 {
+		// Just a type name, then.
+		return ret, diags
+	}
+
+	aliasStep := traversal[1]
+	switch ts := aliasStep.(type) {
+	case hcl.TraverseAttr:
+		ret.Alias = ts.Name
+		return ret, diags
+	default:
+		diags = diags.Append(&hcl.Diagnostic{
+			Severity: hcl.DiagError,
+			Summary:  "Invalid provider configuration address",
+			Detail:   "The provider type name must either stand alone or be followed by an alias name separated with a dot.",
+			Subject:  aliasStep.SourceRange().Ptr(),
+		})
+	}
+
+	if len(traversal) > 2 {
+		diags = diags.Append(&hcl.Diagnostic{
+			Severity: hcl.DiagError,
+			Summary:  "Invalid provider configuration address",
+			Detail:   "Extraneous extra operators after provider configuration address.",
+			Subject:  traversal[2:].SourceRange().Ptr(),
+		})
+	}
+
+	return ret, diags
+}
+
+// ParseProviderConfigCompactStr is a helper wrapper around ParseProviderConfigCompact
+// that takes a string and parses it with the HCL native syntax traversal parser
+// before interpreting it.
+//
+// This should be used only in specialized situations since it will cause the
+// created references to not have any meaningful source location information.
+// If a reference string is coming from a source that should be identified in
+// error messages then the caller should instead parse it directly using a
+// suitable function from the HCL API and pass the traversal itself to
+// ParseProviderConfigCompact.
+//
+// Error diagnostics are returned if either the parsing fails or the analysis
+// of the traversal fails. There is no way for the caller to distinguish the
+// two kinds of diagnostics programmatically. If error diagnostics are returned
+// then the returned address is invalid.
+func ParseProviderConfigCompactStr(str string) (ProviderConfig, tfdiags.Diagnostics) {
+	var diags tfdiags.Diagnostics
+
+	traversal, parseDiags := hclsyntax.ParseTraversalAbs([]byte(str), "", hcl.Pos{Line: 1, Column: 1})
+	diags = diags.Append(parseDiags)
+	if parseDiags.HasErrors() {
+		return ProviderConfig{}, diags
+	}
+
+	addr, addrDiags := ParseProviderConfigCompact(traversal)
+	diags = diags.Append(addrDiags)
+	return addr, diags
 }
 
 // Absolute returns an AbsProviderConfig from the receiver and the given module
@@ -36,25 +114,25 @@ func (pc ProviderConfig) Absolute(module ModuleInstance) AbsProviderConfig {
 }
 
 func (pc ProviderConfig) String() string {
-	if pc.Type.LegacyString() == "" {
+	if pc.Type == "" {
 		// Should never happen; always indicates a bug
 		return "provider.<invalid>"
 	}
 
 	if pc.Alias != "" {
-		return fmt.Sprintf("provider.%s.%s", pc.Type.LegacyString(), pc.Alias)
+		return fmt.Sprintf("provider.%s.%s", pc.Type, pc.Alias)
 	}
 
-	return "provider." + pc.Type.LegacyString()
+	return "provider." + pc.Type
 }
 
 // StringCompact is an alternative to String that returns the form that can
 // be parsed by ParseProviderConfigCompact, without the "provider." prefix.
 func (pc ProviderConfig) StringCompact() string {
 	if pc.Alias != "" {
-		return fmt.Sprintf("%s.%s", pc.Type.LegacyString(), pc.Alias)
+		return fmt.Sprintf("%s.%s", pc.Type, pc.Alias)
 	}
-	return pc.Type.LegacyString()
+	return pc.Type
 }
 
 // AbsProviderConfig is the absolute address of a provider configuration
@@ -103,7 +181,7 @@ func ParseAbsProviderConfig(traversal hcl.Traversal) (AbsProviderConfig, tfdiags
 	}
 
 	if tt, ok := remain[1].(hcl.TraverseAttr); ok {
-		ret.ProviderConfig.Type = NewLegacyProvider(tt.Name)
+		ret.ProviderConfig.Type = tt.Name
 	} else {
 		diags = diags.Append(&hcl.Diagnostic{
 			Severity: hcl.DiagError,
@@ -166,7 +244,7 @@ func (m ModuleInstance) ProviderConfigDefault(name string) AbsProviderConfig {
 	return AbsProviderConfig{
 		Module: m,
 		ProviderConfig: ProviderConfig{
-			Type: NewLegacyProvider(name),
+			Type: name,
 		},
 	}
 }
@@ -177,7 +255,7 @@ func (m ModuleInstance) ProviderConfigAliased(name, alias string) AbsProviderCon
 	return AbsProviderConfig{
 		Module: m,
 		ProviderConfig: ProviderConfig{
-			Type:  NewLegacyProvider(name),
+			Type:  name,
 			Alias: alias,
 		},
 	}

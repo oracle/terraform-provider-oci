@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform/dag"
-	"github.com/hashicorp/terraform/helper/logging"
 )
 
 // GraphTransformer is the interface that transformers implement. This
@@ -46,7 +45,7 @@ func (t *graphTransformerMulti) Transform(g *Graph) error {
 			return err
 		}
 		if thisStepStr := g.StringWithNodeTypes(); thisStepStr != lastStepStr {
-			log.Printf("[TRACE] (graphTransformerMulti) Completed graph transform %T with new graph:\n%s  ------", t, logging.Indent(thisStepStr))
+			log.Printf("[TRACE] (graphTransformerMulti) Completed graph transform %T with new graph:\n%s------", t, thisStepStr)
 			lastStepStr = thisStepStr
 		} else {
 			log.Printf("[TRACE] (graphTransformerMulti) Completed graph transform %T (no changes)", t)

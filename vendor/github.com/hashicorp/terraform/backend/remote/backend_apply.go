@@ -75,7 +75,10 @@ func (b *Remote) opApply(stopCtx, cancelCtx context.Context, op *backend.Operati
 		))
 	}
 
-	if b.hasExplicitVariableValues(op) {
+	variables, parseDiags := b.parseVariableValues(op)
+	diags = diags.Append(parseDiags)
+
+	if len(variables) > 0 {
 		diags = diags.Append(tfdiags.Sourceless(
 			tfdiags.Error,
 			"Run variables are currently not supported",

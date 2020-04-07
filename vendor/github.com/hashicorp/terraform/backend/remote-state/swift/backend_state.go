@@ -189,9 +189,9 @@ func (b *Backend) StateMgr(name string) (state.State, error) {
 
 func (b *Backend) objectName(name string) string {
 	if name != backend.DefaultStateName {
-		name = fmt.Sprintf("%s%s/%s", objectEnvPrefix, name, b.stateName)
+		name = fmt.Sprintf("%s%s/%s", objectEnvPrefix, name, TFSTATE_NAME)
 	} else {
-		name = b.stateName
+		name = TFSTATE_NAME
 	}
 
 	return name

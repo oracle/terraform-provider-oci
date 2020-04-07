@@ -3,7 +3,6 @@ package lang
 import (
 	"fmt"
 
-	"github.com/hashicorp/hcl/v2/ext/tryfunc"
 	ctyyaml "github.com/zclconf/go-cty-yaml"
 	"github.com/zclconf/go-cty/cty"
 	"github.com/zclconf/go-cty/cty/function"
@@ -32,7 +31,6 @@ func (s *Scope) Functions() map[string]function.Function {
 
 		s.funcs = map[string]function.Function{
 			"abs":              stdlib.AbsoluteFunc,
-			"abspath":          funcs.AbsPathFunc,
 			"basename":         funcs.BasenameFunc,
 			"base64decode":     funcs.Base64DecodeFunc,
 			"base64encode":     funcs.Base64EncodeFunc,
@@ -40,13 +38,11 @@ func (s *Scope) Functions() map[string]function.Function {
 			"base64sha256":     funcs.Base64Sha256Func,
 			"base64sha512":     funcs.Base64Sha512Func,
 			"bcrypt":           funcs.BcryptFunc,
-			"can":              tryfunc.CanFunc,
 			"ceil":             funcs.CeilFunc,
 			"chomp":            funcs.ChompFunc,
 			"cidrhost":         funcs.CidrHostFunc,
 			"cidrnetmask":      funcs.CidrNetmaskFunc,
 			"cidrsubnet":       funcs.CidrSubnetFunc,
-			"cidrsubnets":      funcs.CidrSubnetsFunc,
 			"coalesce":         funcs.CoalesceFunc,
 			"coalescelist":     funcs.CoalesceListFunc,
 			"compact":          funcs.CompactFunc,
@@ -59,7 +55,6 @@ func (s *Scope) Functions() map[string]function.Function {
 			"chunklist":        funcs.ChunklistFunc,
 			"file":             funcs.MakeFileFunc(s.BaseDir, false),
 			"fileexists":       funcs.MakeFileExistsFunc(s.BaseDir),
-			"fileset":          funcs.MakeFileSetFunc(s.BaseDir),
 			"filebase64":       funcs.MakeFileFunc(s.BaseDir, true),
 			"filebase64sha256": funcs.MakeFileBase64Sha256Func(s.BaseDir),
 			"filebase64sha512": funcs.MakeFileBase64Sha512Func(s.BaseDir),
@@ -89,12 +84,9 @@ func (s *Scope) Functions() map[string]function.Function {
 			"md5":              funcs.Md5Func,
 			"merge":            funcs.MergeFunc,
 			"min":              stdlib.MinFunc,
-			"parseint":         funcs.ParseIntFunc,
 			"pathexpand":       funcs.PathExpandFunc,
 			"pow":              funcs.PowFunc,
 			"range":            stdlib.RangeFunc,
-			"regex":            stdlib.RegexFunc,
-			"regexall":         stdlib.RegexAllFunc,
 			"replace":          funcs.ReplaceFunc,
 			"reverse":          funcs.ReverseFunc,
 			"rsadecrypt":       funcs.RsaDecryptFunc,
@@ -120,11 +112,7 @@ func (s *Scope) Functions() map[string]function.Function {
 			"tolist":           funcs.MakeToFunc(cty.List(cty.DynamicPseudoType)),
 			"tomap":            funcs.MakeToFunc(cty.Map(cty.DynamicPseudoType)),
 			"transpose":        funcs.TransposeFunc,
-			"trim":             funcs.TrimFunc,
-			"trimprefix":       funcs.TrimPrefixFunc,
 			"trimspace":        funcs.TrimSpaceFunc,
-			"trimsuffix":       funcs.TrimSuffixFunc,
-			"try":              tryfunc.TryFunc,
 			"upper":            stdlib.UpperFunc,
 			"urlencode":        funcs.URLEncodeFunc,
 			"uuid":             funcs.UUIDFunc,

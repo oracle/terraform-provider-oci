@@ -36,8 +36,7 @@ func (c *StateMvCommand) Run(args []string) int {
 	cmdFlags.StringVar(&c.statePath, "state", "", "path")
 	cmdFlags.StringVar(&statePathOut, "state-out", "", "path")
 	if err := cmdFlags.Parse(args); err != nil {
-		c.Ui.Error(fmt.Sprintf("Error parsing command-line flags: %s\n", err.Error()))
-		return 1
+		return cli.RunResultHelp
 	}
 	args = cmdFlags.Args()
 	if len(args) != 2 {
@@ -195,8 +194,11 @@ func (c *StateMvCommand) Run(args []string) int {
 			}
 			diags = diags.Append(c.validateResourceMove(addrFrom, addrTo))
 			if stateTo.Module(addrTo.Module) == nil {
-				// moving something to a mew module, so we need to ensure it exists
-				stateTo.EnsureModule(addrTo.Module)
+				diags = diags.Append(tfdiags.Sourceless(
+					tfdiags.Error,
+					msgInvalidTarget,
+					fmt.Sprintf("Cannot move to %s: %s does not exist in the current state.", addrTo, addrTo.Module),
+				))
 			}
 			if stateTo.Resource(addrTo) != nil {
 				diags = diags.Append(tfdiags.Sourceless(
@@ -249,8 +251,11 @@ func (c *StateMvCommand) Run(args []string) int {
 			diags = diags.Append(c.validateResourceMove(addrFrom.ContainingResource(), addrTo.ContainingResource()))
 
 			if stateTo.Module(addrTo.Module) == nil {
-				// moving something to a mew module, so we need to ensure it exists
-				stateTo.EnsureModule(addrTo.Module)
+				diags = diags.Append(tfdiags.Sourceless(
+					tfdiags.Error,
+					msgInvalidTarget,
+					fmt.Sprintf("Cannot move to %s: %s does not exist in the current state.", addrTo, addrTo.Module),
+				))
 			}
 			if stateTo.ResourceInstance(addrTo) != nil {
 				diags = diags.Append(tfdiags.Sourceless(
@@ -278,9 +283,7 @@ func (c *StateMvCommand) Run(args []string) int {
 			c.Ui.Output(fmt.Sprintf("%s %q to %q", prefix, addrFrom.String(), args[1]))
 			if !dryRun {
 				fromResourceAddr := addrFrom.ContainingResource()
-				fromResource := ssFrom.Resource(fromResourceAddr)
-				fromProviderAddr := fromResource.ProviderConfig
-				fromEachMode := fromResource.EachMode
+				fromProviderAddr := ssFrom.Resource(fromResourceAddr).ProviderConfig
 				ssFrom.ForgetResourceInstanceAll(addrFrom)
 				ssFrom.RemoveResourceIfEmpty(fromResourceAddr)
 
@@ -289,17 +292,22 @@ func (c *StateMvCommand) Run(args []string) int {
 					// If we're moving to an address without an index then that
 					// suggests the user's intent is to establish both the
 					// resource and the instance at the same time (since the
-					// address covers both). If there's an index in the
-					// target then allow creating the new instance here,
-					// inferring the mode from how the new address was parsed.
+					// address covers both), but if there's an index in the
+					// target then the resource must already exist.
 					if addrTo.Resource.Key != addrs.NoKey {
-						fromEachMode = eachModeForInstanceKey(addrTo.Resource.Key)
+						diags = diags.Append(tfdiags.Sourceless(
+							tfdiags.Error,
+							msgInvalidTarget,
+							fmt.Sprintf("Cannot move to %s: %s does not exist in the current state.", addrTo, addrTo.ContainingResource()),
+						))
+						c.showDiagnostics(diags)
+						return 1
 					}
 
 					resourceAddr := addrTo.ContainingResource()
 					stateTo.SyncWrapper().SetResourceMeta(
 						resourceAddr,
-						fromEachMode,
+						states.NoEach,
 						fromProviderAddr, // in this case, we bring the provider along as if we were moving the whole resource
 					)
 					rs = stateTo.Resource(resourceAddr)
@@ -313,28 +321,6 @@ func (c *StateMvCommand) Run(args []string) int {
 				msgInvalidSource,
 				fmt.Sprintf("Cannot move %s: Terraform doesn't know how to move this object.", rawAddrFrom),
 			))
-		}
-
-		// Look for any dependencies that may be effected and
-		// remove them to ensure they are recreated in full.
-		for _, mod := range stateTo.Modules {
-			for _, res := range mod.Resources {
-				for _, ins := range res.Instances {
-					if ins.Current == nil {
-						continue
-					}
-
-					for _, dep := range ins.Current.Dependencies {
-						// check both directions here, since we may be moving
-						// an instance which is in a resource, or a module
-						// which can contain a resource.
-						if dep.TargetContains(rawAddrFrom) || rawAddrFrom.TargetContains(dep) {
-							ins.Current.Dependencies = nil
-							break
-						}
-					}
-				}
-			}
 		}
 	}
 
@@ -375,20 +361,6 @@ func (c *StateMvCommand) Run(args []string) int {
 		c.Ui.Output(fmt.Sprintf("Successfully moved %d object(s).", moved))
 	}
 	return 0
-}
-
-func eachModeForInstanceKey(key addrs.InstanceKey) states.EachMode {
-	switch key.(type) {
-	case addrs.IntKey:
-		return states.EachList
-	case addrs.StringKey:
-		return states.EachMap
-	default:
-		if key == addrs.NoKey {
-			return states.NoEach
-		}
-		panic(fmt.Sprintf("don't know an each mode for instance key %#v", key))
-	}
 }
 
 // sourceObjectAddrs takes a single source object address and expands it to

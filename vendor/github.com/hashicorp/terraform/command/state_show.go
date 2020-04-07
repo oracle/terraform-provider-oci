@@ -27,8 +27,7 @@ func (c *StateShowCommand) Run(args []string) int {
 	cmdFlags := c.Meta.defaultFlagSet("state show")
 	cmdFlags.StringVar(&c.Meta.statePath, "state", "", "path")
 	if err := cmdFlags.Parse(args); err != nil {
-		c.Ui.Error(fmt.Sprintf("Error parsing command-line flags: %s\n", err.Error()))
-		return 1
+		return cli.RunResultHelp
 	}
 	args = cmdFlags.Args()
 	if len(args) != 1 {
@@ -72,7 +71,6 @@ func (c *StateShowCommand) Run(args []string) int {
 
 	// Build the operation (required to get the schemas)
 	opReq := c.Operation(b)
-	opReq.AllowUnsetVariables = true
 	opReq.ConfigDir = cwd
 
 	opReq.ConfigLoader, err = c.initConfigLoader()

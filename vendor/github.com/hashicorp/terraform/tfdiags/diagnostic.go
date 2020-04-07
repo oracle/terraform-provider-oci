@@ -1,7 +1,7 @@
 package tfdiags
 
 import (
-	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl2/hcl"
 )
 
 type Diagnostic interface {
@@ -17,7 +17,7 @@ type Diagnostic interface {
 
 type Severity rune
 
-//go:generate go run golang.org/x/tools/cmd/stringer -type=Severity
+//go:generate stringer -type=Severity
 
 const (
 	Error   Severity = 'E'

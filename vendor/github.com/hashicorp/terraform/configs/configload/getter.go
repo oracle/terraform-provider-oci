@@ -19,7 +19,6 @@ import (
 
 var goGetterDetectors = []getter.Detector{
 	new(getter.GitHubDetector),
-	new(getter.GitDetector),
 	new(getter.BitBucketDetector),
 	new(getter.GCSDetector),
 	new(getter.S3Detector),
@@ -85,7 +84,7 @@ func (g reusingGetter) getWithGoGetter(instPath, addr string) (string, error) {
 
 	log.Printf("[DEBUG] will download %q to %s", packageAddr, instPath)
 
-	realAddr, err := getter.Detect(packageAddr, instPath, goGetterDetectors)
+	realAddr, err := getter.Detect(packageAddr, instPath, getter.Detectors)
 	if err != nil {
 		return "", err
 	}

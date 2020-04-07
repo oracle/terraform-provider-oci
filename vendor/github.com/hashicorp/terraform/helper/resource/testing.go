@@ -18,6 +18,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/hashicorp/errwrap"
 	"github.com/hashicorp/go-multierror"
+	"github.com/hashicorp/logutils"
 	"github.com/mitchellh/colorstring"
 
 	"github.com/hashicorp/terraform/addrs"
@@ -375,12 +376,11 @@ type TestStep struct {
 
 	// ImportStateVerify, if true, will also check that the state values
 	// that are finally put into the state after import match for all the
-	// IDs returned by the Import.  Note that this checks for strict equality
-	// and does not respect DiffSuppressFunc or CustomizeDiff.
+	// IDs returned by the Import.
 	//
-	// ImportStateVerifyIgnore is a list of prefixes of fields that should
-	// not be verified to be equal. These can be set to ephemeral fields or
-	// fields that can't be refreshed and don't matter.
+	// ImportStateVerifyIgnore are fields that should not be verified to
+	// be equal. These can be set to ephemeral fields or fields that can't
+	// be refreshed and don't matter.
 	ImportStateVerify       bool
 	ImportStateVerifyIgnore []string
 
@@ -395,7 +395,7 @@ const EnvLogPathMask = "TF_LOG_PATH_MASK"
 func LogOutput(t TestT) (logOutput io.Writer, err error) {
 	logOutput = ioutil.Discard
 
-	logLevel := logging.CurrentLogLevel()
+	logLevel := logging.LogLevel()
 	if logLevel == "" {
 		return
 	}
@@ -423,9 +423,9 @@ func LogOutput(t TestT) (logOutput io.Writer, err error) {
 	}
 
 	// This was the default since the beginning
-	logOutput = &logging.LevelFilter{
+	logOutput = &logutils.LevelFilter{
 		Levels:   logging.ValidLevels,
-		MinLevel: logging.LogLevel(logLevel),
+		MinLevel: logutils.LogLevel(logLevel),
 		Writer:   logOutput,
 	}
 
@@ -676,11 +676,11 @@ func testProviderResolver(c TestCase) (providers.Resolver, error) {
 
 	// wrap the old provider factories in the test grpc server so they can be
 	// called from terraform.
-	newProviders := make(map[addrs.Provider]providers.Factory)
+	newProviders := make(map[string]providers.Factory)
 
 	for k, pf := range ctxProviders {
 		factory := pf // must copy to ensure each closure sees its own value
-		newProviders[addrs.NewLegacyProvider(k)] = func() (providers.Interface, error) {
+		newProviders[k] = func() (providers.Interface, error) {
 			p, err := factory()
 			if err != nil {
 				return nil, err
@@ -727,7 +727,7 @@ func testIDOnlyRefresh(c TestCase, opts terraform.ContextOpts, step TestStep, r 
 			AttrsFlat: r.Primary.Attributes,
 			Status:    states.ObjectReady,
 		},
-		addrs.ProviderConfig{Type: addrs.NewLegacyProvider("placeholder")}.Absolute(addrs.RootModuleInstance),
+		addrs.ProviderConfig{Type: "placeholder"}.Absolute(addrs.RootModuleInstance),
 	)
 
 	// Create the config module. We use the full config because Refresh

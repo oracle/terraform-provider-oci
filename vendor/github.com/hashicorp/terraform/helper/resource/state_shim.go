@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform/addrs"
 	"github.com/zclconf/go-cty/cty"
 
-	"github.com/hashicorp/terraform/configs/hcl2shim"
+	"github.com/hashicorp/terraform/config/hcl2shim"
 	"github.com/hashicorp/terraform/helper/schema"
 
 	"github.com/hashicorp/terraform/states"
@@ -50,7 +50,7 @@ func shimNewState(newState *states.State, providers map[string]terraform.Resourc
 			resType := res.Addr.Type
 			providerType := res.ProviderConfig.ProviderConfig.Type
 
-			resource := getResource(providers, providerType.LegacyString(), res.Addr)
+			resource := getResource(providers, providerType, res.Addr)
 
 			for key, i := range res.Instances {
 				resState := &terraform.ResourceState{
@@ -81,13 +81,12 @@ func shimNewState(newState *states.State, providers map[string]terraform.Resourc
 					}
 
 					if i.Current.SchemaVersion != 0 {
-						if resState.Primary.Meta == nil {
-							resState.Primary.Meta = map[string]interface{}{}
+						resState.Primary.Meta = map[string]interface{}{
+							"schema_version": i.Current.SchemaVersion,
 						}
-						resState.Primary.Meta["schema_version"] = i.Current.SchemaVersion
 					}
 
-					for _, dep := range i.Current.DependsOn {
+					for _, dep := range i.Current.Dependencies {
 						resState.Dependencies = append(resState.Dependencies, dep.String())
 					}
 

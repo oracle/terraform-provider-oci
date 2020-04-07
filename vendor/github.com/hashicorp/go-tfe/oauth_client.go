@@ -40,18 +40,13 @@ type ServiceProviderType string
 
 // List of available VCS types.
 const (
-	ServiceProviderAzureDevOpsServer   ServiceProviderType = "ado_server"
-	ServiceProviderAzureDevOpsServices ServiceProviderType = "ado_services"
-	ServiceProviderBitbucket           ServiceProviderType = "bitbucket_hosted"
-	// Bitbucket Server v5.4.0 and above
+	ServiceProviderBitbucket       ServiceProviderType = "bitbucket_hosted"
 	ServiceProviderBitbucketServer ServiceProviderType = "bitbucket_server"
-	// Bitbucket Server v5.3.0 and below
-	ServiceProviderBitbucketServerLegacy ServiceProviderType = "bitbucket_server_legacy"
-	ServiceProviderGithub                ServiceProviderType = "github"
-	ServiceProviderGithubEE              ServiceProviderType = "github_enterprise"
-	ServiceProviderGitlab                ServiceProviderType = "gitlab_hosted"
-	ServiceProviderGitlabCE              ServiceProviderType = "gitlab_community_edition"
-	ServiceProviderGitlabEE              ServiceProviderType = "gitlab_enterprise_edition"
+	ServiceProviderGithub          ServiceProviderType = "github"
+	ServiceProviderGithubEE        ServiceProviderType = "github_enterprise"
+	ServiceProviderGitlab          ServiceProviderType = "gitlab_hosted"
+	ServiceProviderGitlabCE        ServiceProviderType = "gitlab_community_edition"
+	ServiceProviderGitlabEE        ServiceProviderType = "gitlab_enterprise_edition"
 )
 
 // OAuthClientList represents a list of OAuth clients.

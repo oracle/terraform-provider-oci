@@ -14,12 +14,12 @@ import (
 
 	tfe "github.com/hashicorp/go-tfe"
 	version "github.com/hashicorp/go-version"
-	"github.com/hashicorp/terraform-svchost"
-	"github.com/hashicorp/terraform-svchost/disco"
 	"github.com/hashicorp/terraform/backend"
 	"github.com/hashicorp/terraform/configs/configschema"
 	"github.com/hashicorp/terraform/state"
 	"github.com/hashicorp/terraform/state/remote"
+	"github.com/hashicorp/terraform/svchost"
+	"github.com/hashicorp/terraform/svchost/disco"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/hashicorp/terraform/tfdiags"
 	tfversion "github.com/hashicorp/terraform/version"
@@ -657,7 +657,11 @@ func (b *Remote) Operation(ctx context.Context, op *backend.Operation) (*backend
 			)
 		default:
 			return nil, fmt.Errorf(
-				"The configured \"remote\" backend encountered an unexpected error:\n\n%s",
+				"%s\n\n"+
+					"The configured \"remote\" backend encountered an unexpected error. Sometimes\n"+
+					"this is caused by network connection problems, in which case you could retr\n"+
+					"the command. If the issue persists please open a support ticket to get help\n"+
+					"resolving the problem.",
 				err,
 			)
 		}

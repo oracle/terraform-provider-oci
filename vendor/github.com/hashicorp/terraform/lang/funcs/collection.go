@@ -246,7 +246,7 @@ var CompactFunc = function.New(&function.Spec{
 
 		for it := listVal.ElementIterator(); it.Next(); {
 			_, v := it.Element()
-			if v.IsNull() || v.AsString() == "" {
+			if v.AsString() == "" {
 				continue
 			}
 			outputList = append(outputList, v)
@@ -390,10 +390,6 @@ var ChunklistFunc = function.New(&function.Spec{
 		listVal := args[0]
 		if !listVal.IsKnown() {
 			return cty.UnknownVal(retType), nil
-		}
-
-		if listVal.LengthInt() == 0 {
-			return cty.ListValEmpty(listVal.Type()), nil
 		}
 
 		var size int
@@ -660,12 +656,6 @@ var LookupFunc = function.New(&function.Spec{
 			}
 			return cty.DynamicPseudoType, function.NewArgErrorf(0, "the given object has no attribute %q", key)
 		case ty.IsMapType():
-			if len(args) == 3 {
-				_, err = convert.Convert(args[2], ty.ElementType())
-				if err != nil {
-					return cty.NilType, function.NewArgErrorf(2, "the default value must have the same type as the map elements")
-				}
-			}
 			return ty.ElementType(), nil
 		default:
 			return cty.NilType, function.NewArgErrorf(0, "lookup() requires a map as the first argument")
@@ -692,7 +682,19 @@ var LookupFunc = function.New(&function.Spec{
 				return mapVar.GetAttr(lookupKey), nil
 			}
 		} else if mapVar.HasIndex(cty.StringVal(lookupKey)) == cty.True {
-			return mapVar.Index(cty.StringVal(lookupKey)), nil
+			v := mapVar.Index(cty.StringVal(lookupKey))
+			if ty := v.Type(); !ty.Equals(cty.NilType) {
+				switch {
+				case ty.Equals(cty.String):
+					return cty.StringVal(v.AsString()), nil
+				case ty.Equals(cty.Number):
+					return cty.NumberVal(v.AsBigFloat()), nil
+				case ty.Equals(cty.Bool):
+					return cty.BoolVal(v.True()), nil
+				default:
+					return cty.NilVal, errors.New("lookup() can only be used with maps of primitive types")
+				}
+			}
 		}
 
 		if defaultValueSet {
@@ -940,7 +942,7 @@ var ReverseFunc = function.New(&function.Spec{
 	},
 })
 
-// SetProductFunc calculates the Cartesian product of two or more sets or
+// SetProductFunc calculates the cartesian product of two or more sets or
 // sequences. If the arguments are all lists then the result is a list of tuples,
 // preserving the ordering of all of the input lists. Otherwise the result is a
 // set of tuples.
@@ -1179,6 +1181,7 @@ func sliceIndexes(args []cty.Value) (int, int, bool, error) {
 	return startIndex, endIndex, startKnown && endKnown, nil
 }
 
+// TransposeFunc contructs a function that takes a map of lists of strings and
 // TransposeFunc constructs a function that takes a map of lists of strings and
 // swaps the keys and values to produce a new map of lists of strings.
 var TransposeFunc = function.New(&function.Spec{
@@ -1223,10 +1226,6 @@ var TransposeFunc = function.New(&function.Spec{
 				values = append(values, cty.StringVal(v))
 			}
 			outputMap[outKey] = cty.ListVal(values)
-		}
-
-		if len(outputMap) == 0 {
-			return cty.MapValEmpty(cty.List(cty.String)), nil
 		}
 
 		return cty.MapVal(outputMap), nil
@@ -1494,7 +1493,7 @@ func Reverse(list cty.Value) (cty.Value, error) {
 	return ReverseFunc.Call([]cty.Value{list})
 }
 
-// SetProduct computes the Cartesian product of sets or sequences.
+// SetProduct computes the cartesian product of sets or sequences.
 func SetProduct(sets ...cty.Value) (cty.Value, error) {
 	return SetProductFunc.Call(sets)
 }
