@@ -4,7 +4,7 @@
 - Support for non-default profiles for credentials
 - Support for limits and usage data source in KMS
 - Support for Allowing resources to be moved between compartments in dataflow application
-- Support for config file profiles, `InstancePrincipal` and `InstancePrincipalWithCerts` auth mode in Resource discovery
+- Support for `InstancePrincipal` and `InstancePrincipalWithCerts` auth mode in Resource discovery
 
 ## 3.69.0 (April 01, 2020)
 
