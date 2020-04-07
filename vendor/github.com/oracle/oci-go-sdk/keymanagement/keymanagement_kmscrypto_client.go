@@ -77,8 +77,12 @@ func (client KmsCryptoClient) Decrypt(ctx context.Context, request DecryptReques
 	ociResponse, err = common.Retry(ctx, request, client.decrypt, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DecryptResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DecryptResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DecryptResponse{}
+			}
 		}
 		return
 	}
@@ -121,8 +125,12 @@ func (client KmsCryptoClient) Encrypt(ctx context.Context, request EncryptReques
 	ociResponse, err = common.Retry(ctx, request, client.encrypt, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = EncryptResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EncryptResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EncryptResponse{}
+			}
 		}
 		return
 	}
@@ -164,8 +172,12 @@ func (client KmsCryptoClient) GenerateDataEncryptionKey(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.generateDataEncryptionKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GenerateDataEncryptionKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateDataEncryptionKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateDataEncryptionKeyResponse{}
+			}
 		}
 		return
 	}

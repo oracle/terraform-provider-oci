@@ -84,8 +84,12 @@ func (client OsManagementClient) AddPackagesToSoftwareSource(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.addPackagesToSoftwareSource, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = AddPackagesToSoftwareSourceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddPackagesToSoftwareSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddPackagesToSoftwareSourceResponse{}
+			}
 		}
 		return
 	}
@@ -134,8 +138,12 @@ func (client OsManagementClient) AttachChildSoftwareSourceToManagedInstance(ctx 
 	ociResponse, err = common.Retry(ctx, request, client.attachChildSoftwareSourceToManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = AttachChildSoftwareSourceToManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachChildSoftwareSourceToManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachChildSoftwareSourceToManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -185,8 +193,12 @@ func (client OsManagementClient) AttachManagedInstanceToManagedInstanceGroup(ctx
 	ociResponse, err = common.Retry(ctx, request, client.attachManagedInstanceToManagedInstanceGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = AttachManagedInstanceToManagedInstanceGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachManagedInstanceToManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachManagedInstanceToManagedInstanceGroupResponse{}
+			}
 		}
 		return
 	}
@@ -236,8 +248,12 @@ func (client OsManagementClient) AttachParentSoftwareSourceToManagedInstance(ctx
 	ociResponse, err = common.Retry(ctx, request, client.attachParentSoftwareSourceToManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = AttachParentSoftwareSourceToManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachParentSoftwareSourceToManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachParentSoftwareSourceToManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -285,8 +301,12 @@ func (client OsManagementClient) ChangeManagedInstanceGroupCompartment(ctx conte
 	ociResponse, err = common.Retry(ctx, request, client.changeManagedInstanceGroupCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeManagedInstanceGroupCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeManagedInstanceGroupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeManagedInstanceGroupCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -334,8 +354,12 @@ func (client OsManagementClient) ChangeScheduledJobCompartment(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.changeScheduledJobCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeScheduledJobCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeScheduledJobCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeScheduledJobCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -383,8 +407,12 @@ func (client OsManagementClient) ChangeSoftwareSourceCompartment(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.changeSoftwareSourceCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeSoftwareSourceCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSoftwareSourceCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSoftwareSourceCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -433,8 +461,12 @@ func (client OsManagementClient) CreateManagedInstanceGroup(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.createManagedInstanceGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateManagedInstanceGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateManagedInstanceGroupResponse{}
+			}
 		}
 		return
 	}
@@ -484,8 +516,12 @@ func (client OsManagementClient) CreateScheduledJob(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.createScheduledJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateScheduledJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateScheduledJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateScheduledJobResponse{}
+			}
 		}
 		return
 	}
@@ -534,8 +570,12 @@ func (client OsManagementClient) CreateSoftwareSource(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.createSoftwareSource, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateSoftwareSourceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSoftwareSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSoftwareSourceResponse{}
+			}
 		}
 		return
 	}
@@ -577,8 +617,12 @@ func (client OsManagementClient) DeleteManagedInstanceGroup(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.deleteManagedInstanceGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteManagedInstanceGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteManagedInstanceGroupResponse{}
+			}
 		}
 		return
 	}
@@ -620,8 +664,12 @@ func (client OsManagementClient) DeleteScheduledJob(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.deleteScheduledJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteScheduledJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteScheduledJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteScheduledJobResponse{}
+			}
 		}
 		return
 	}
@@ -663,8 +711,12 @@ func (client OsManagementClient) DeleteSoftwareSource(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.deleteSoftwareSource, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteSoftwareSourceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSoftwareSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSoftwareSourceResponse{}
+			}
 		}
 		return
 	}
@@ -712,8 +764,12 @@ func (client OsManagementClient) DetachChildSoftwareSourceFromManagedInstance(ct
 	ociResponse, err = common.Retry(ctx, request, client.detachChildSoftwareSourceFromManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DetachChildSoftwareSourceFromManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachChildSoftwareSourceFromManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachChildSoftwareSourceFromManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -760,8 +816,12 @@ func (client OsManagementClient) DetachManagedInstanceFromManagedInstanceGroup(c
 	ociResponse, err = common.Retry(ctx, request, client.detachManagedInstanceFromManagedInstanceGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DetachManagedInstanceFromManagedInstanceGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachManagedInstanceFromManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachManagedInstanceFromManagedInstanceGroupResponse{}
+			}
 		}
 		return
 	}
@@ -809,8 +869,12 @@ func (client OsManagementClient) DetachParentSoftwareSourceFromManagedInstance(c
 	ociResponse, err = common.Retry(ctx, request, client.detachParentSoftwareSourceFromManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DetachParentSoftwareSourceFromManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachParentSoftwareSourceFromManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachParentSoftwareSourceFromManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -852,8 +916,12 @@ func (client OsManagementClient) GetErratum(ctx context.Context, request GetErra
 	ociResponse, err = common.Retry(ctx, request, client.getErratum, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetErratumResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetErratumResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetErratumResponse{}
+			}
 		}
 		return
 	}
@@ -895,8 +963,12 @@ func (client OsManagementClient) GetManagedInstance(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.getManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -938,8 +1010,12 @@ func (client OsManagementClient) GetManagedInstanceGroup(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.getManagedInstanceGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetManagedInstanceGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetManagedInstanceGroupResponse{}
+			}
 		}
 		return
 	}
@@ -981,8 +1057,12 @@ func (client OsManagementClient) GetScheduledJob(ctx context.Context, request Ge
 	ociResponse, err = common.Retry(ctx, request, client.getScheduledJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetScheduledJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetScheduledJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetScheduledJobResponse{}
+			}
 		}
 		return
 	}
@@ -1024,8 +1104,12 @@ func (client OsManagementClient) GetSoftwarePackage(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.getSoftwarePackage, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetSoftwarePackageResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSoftwarePackageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSoftwarePackageResponse{}
+			}
 		}
 		return
 	}
@@ -1067,8 +1151,12 @@ func (client OsManagementClient) GetSoftwareSource(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.getSoftwareSource, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetSoftwareSourceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSoftwareSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSoftwareSourceResponse{}
+			}
 		}
 		return
 	}
@@ -1110,8 +1198,12 @@ func (client OsManagementClient) GetWorkRequest(ctx context.Context, request Get
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWorkRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWorkRequestResponse{}
+			}
 		}
 		return
 	}
@@ -1158,8 +1250,12 @@ func (client OsManagementClient) InstallAllPackageUpdatesOnManagedInstance(ctx c
 	ociResponse, err = common.Retry(ctx, request, client.installAllPackageUpdatesOnManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = InstallAllPackageUpdatesOnManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallAllPackageUpdatesOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallAllPackageUpdatesOnManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -1206,8 +1302,12 @@ func (client OsManagementClient) InstallPackageOnManagedInstance(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.installPackageOnManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = InstallPackageOnManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallPackageOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallPackageOnManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -1254,8 +1354,12 @@ func (client OsManagementClient) InstallPackageUpdateOnManagedInstance(ctx conte
 	ociResponse, err = common.Retry(ctx, request, client.installPackageUpdateOnManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = InstallPackageUpdateOnManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallPackageUpdateOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallPackageUpdateOnManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -1297,8 +1401,12 @@ func (client OsManagementClient) ListAvailablePackagesForManagedInstance(ctx con
 	ociResponse, err = common.Retry(ctx, request, client.listAvailablePackagesForManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListAvailablePackagesForManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAvailablePackagesForManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAvailablePackagesForManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -1340,8 +1448,12 @@ func (client OsManagementClient) ListAvailableSoftwareSourcesForManagedInstance(
 	ociResponse, err = common.Retry(ctx, request, client.listAvailableSoftwareSourcesForManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListAvailableSoftwareSourcesForManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAvailableSoftwareSourcesForManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAvailableSoftwareSourcesForManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -1383,8 +1495,12 @@ func (client OsManagementClient) ListAvailableUpdatesForManagedInstance(ctx cont
 	ociResponse, err = common.Retry(ctx, request, client.listAvailableUpdatesForManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListAvailableUpdatesForManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAvailableUpdatesForManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAvailableUpdatesForManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -1426,8 +1542,12 @@ func (client OsManagementClient) ListManagedInstanceGroups(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.listManagedInstanceGroups, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListManagedInstanceGroupsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListManagedInstanceGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListManagedInstanceGroupsResponse{}
+			}
 		}
 		return
 	}
@@ -1469,8 +1589,12 @@ func (client OsManagementClient) ListManagedInstances(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.listManagedInstances, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListManagedInstancesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListManagedInstancesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListManagedInstancesResponse{}
+			}
 		}
 		return
 	}
@@ -1512,8 +1636,12 @@ func (client OsManagementClient) ListPackagesInstalledOnManagedInstance(ctx cont
 	ociResponse, err = common.Retry(ctx, request, client.listPackagesInstalledOnManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListPackagesInstalledOnManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPackagesInstalledOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPackagesInstalledOnManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -1555,8 +1683,12 @@ func (client OsManagementClient) ListScheduledJobs(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.listScheduledJobs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListScheduledJobsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListScheduledJobsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListScheduledJobsResponse{}
+			}
 		}
 		return
 	}
@@ -1598,8 +1730,12 @@ func (client OsManagementClient) ListSoftwareSourcePackages(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.listSoftwareSourcePackages, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListSoftwareSourcePackagesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSoftwareSourcePackagesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSoftwareSourcePackagesResponse{}
+			}
 		}
 		return
 	}
@@ -1641,8 +1777,12 @@ func (client OsManagementClient) ListSoftwareSources(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.listSoftwareSources, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListSoftwareSourcesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSoftwareSourcesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSoftwareSourcesResponse{}
+			}
 		}
 		return
 	}
@@ -1684,8 +1824,12 @@ func (client OsManagementClient) ListUpcomingScheduledJobs(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.listUpcomingScheduledJobs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListUpcomingScheduledJobsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListUpcomingScheduledJobsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListUpcomingScheduledJobsResponse{}
+			}
 		}
 		return
 	}
@@ -1727,8 +1871,12 @@ func (client OsManagementClient) ListWorkRequestErrors(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWorkRequestErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWorkRequestErrorsResponse{}
+			}
 		}
 		return
 	}
@@ -1770,8 +1918,12 @@ func (client OsManagementClient) ListWorkRequestLogs(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWorkRequestLogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWorkRequestLogsResponse{}
+			}
 		}
 		return
 	}
@@ -1813,8 +1965,12 @@ func (client OsManagementClient) ListWorkRequests(ctx context.Context, request L
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWorkRequestsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWorkRequestsResponse{}
+			}
 		}
 		return
 	}
@@ -1861,8 +2017,12 @@ func (client OsManagementClient) RemovePackageFromManagedInstance(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.removePackageFromManagedInstance, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = RemovePackageFromManagedInstanceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemovePackageFromManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemovePackageFromManagedInstanceResponse{}
+			}
 		}
 		return
 	}
@@ -1904,8 +2064,12 @@ func (client OsManagementClient) RemovePackagesFromSoftwareSource(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.removePackagesFromSoftwareSource, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = RemovePackagesFromSoftwareSourceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemovePackagesFromSoftwareSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemovePackagesFromSoftwareSourceResponse{}
+			}
 		}
 		return
 	}
@@ -1953,8 +2117,12 @@ func (client OsManagementClient) RunScheduledJobNow(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.runScheduledJobNow, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = RunScheduledJobNowResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RunScheduledJobNowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RunScheduledJobNowResponse{}
+			}
 		}
 		return
 	}
@@ -1997,8 +2165,12 @@ func (client OsManagementClient) SearchSoftwarePackages(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.searchSoftwarePackages, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = SearchSoftwarePackagesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchSoftwarePackagesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchSoftwarePackagesResponse{}
+			}
 		}
 		return
 	}
@@ -2046,8 +2218,12 @@ func (client OsManagementClient) SkipNextScheduledJobExecution(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.skipNextScheduledJobExecution, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = SkipNextScheduledJobExecutionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SkipNextScheduledJobExecutionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SkipNextScheduledJobExecutionResponse{}
+			}
 		}
 		return
 	}
@@ -2089,8 +2265,12 @@ func (client OsManagementClient) UpdateManagedInstanceGroup(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.updateManagedInstanceGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateManagedInstanceGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateManagedInstanceGroupResponse{}
+			}
 		}
 		return
 	}
@@ -2132,8 +2312,12 @@ func (client OsManagementClient) UpdateScheduledJob(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.updateScheduledJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateScheduledJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateScheduledJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateScheduledJobResponse{}
+			}
 		}
 		return
 	}
@@ -2175,8 +2359,12 @@ func (client OsManagementClient) UpdateSoftwareSource(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.updateSoftwareSource, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateSoftwareSourceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSoftwareSourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSoftwareSourceResponse{}
+			}
 		}
 		return
 	}

@@ -88,8 +88,12 @@ func (client VirtualNetworkClient) AddNetworkSecurityGroupSecurityRules(ctx cont
 	ociResponse, err = common.Retry(ctx, request, client.addNetworkSecurityGroupSecurityRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = AddNetworkSecurityGroupSecurityRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddNetworkSecurityGroupSecurityRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddNetworkSecurityGroupSecurityRulesResponse{}
+			}
 		}
 		return
 	}
@@ -139,8 +143,12 @@ func (client VirtualNetworkClient) AttachServiceId(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.attachServiceId, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = AttachServiceIdResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachServiceIdResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachServiceIdResponse{}
+			}
 		}
 		return
 	}
@@ -279,8 +287,12 @@ func (client VirtualNetworkClient) ChangeCpeCompartment(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.changeCpeCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeCpeCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCpeCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCpeCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -329,8 +341,12 @@ func (client VirtualNetworkClient) ChangeCrossConnectCompartment(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.changeCrossConnectCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeCrossConnectCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCrossConnectCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCrossConnectCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -379,8 +395,12 @@ func (client VirtualNetworkClient) ChangeCrossConnectGroupCompartment(ctx contex
 	ociResponse, err = common.Retry(ctx, request, client.changeCrossConnectGroupCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeCrossConnectGroupCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCrossConnectGroupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCrossConnectGroupCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -429,8 +449,12 @@ func (client VirtualNetworkClient) ChangeDhcpOptionsCompartment(ctx context.Cont
 	ociResponse, err = common.Retry(ctx, request, client.changeDhcpOptionsCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeDhcpOptionsCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDhcpOptionsCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDhcpOptionsCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -479,8 +503,12 @@ func (client VirtualNetworkClient) ChangeDrgCompartment(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.changeDrgCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeDrgCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDrgCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDrgCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -529,8 +557,12 @@ func (client VirtualNetworkClient) ChangeIPSecConnectionCompartment(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.changeIPSecConnectionCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeIPSecConnectionCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeIPSecConnectionCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeIPSecConnectionCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -579,8 +611,12 @@ func (client VirtualNetworkClient) ChangeInternetGatewayCompartment(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.changeInternetGatewayCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeInternetGatewayCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeInternetGatewayCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeInternetGatewayCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -629,8 +665,12 @@ func (client VirtualNetworkClient) ChangeLocalPeeringGatewayCompartment(ctx cont
 	ociResponse, err = common.Retry(ctx, request, client.changeLocalPeeringGatewayCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeLocalPeeringGatewayCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeLocalPeeringGatewayCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeLocalPeeringGatewayCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -679,8 +719,12 @@ func (client VirtualNetworkClient) ChangeNatGatewayCompartment(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.changeNatGatewayCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeNatGatewayCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeNatGatewayCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeNatGatewayCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -728,8 +772,12 @@ func (client VirtualNetworkClient) ChangeNetworkSecurityGroupCompartment(ctx con
 	ociResponse, err = common.Retry(ctx, request, client.changeNetworkSecurityGroupCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeNetworkSecurityGroupCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeNetworkSecurityGroupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeNetworkSecurityGroupCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -780,8 +828,12 @@ func (client VirtualNetworkClient) ChangePublicIpCompartment(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.changePublicIpCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangePublicIpCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangePublicIpCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangePublicIpCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -830,8 +882,12 @@ func (client VirtualNetworkClient) ChangeRemotePeeringConnectionCompartment(ctx 
 	ociResponse, err = common.Retry(ctx, request, client.changeRemotePeeringConnectionCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeRemotePeeringConnectionCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeRemotePeeringConnectionCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeRemotePeeringConnectionCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -880,8 +936,12 @@ func (client VirtualNetworkClient) ChangeRouteTableCompartment(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.changeRouteTableCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeRouteTableCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeRouteTableCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeRouteTableCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -930,8 +990,12 @@ func (client VirtualNetworkClient) ChangeSecurityListCompartment(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.changeSecurityListCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeSecurityListCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSecurityListCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSecurityListCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -980,8 +1044,12 @@ func (client VirtualNetworkClient) ChangeServiceGatewayCompartment(ctx context.C
 	ociResponse, err = common.Retry(ctx, request, client.changeServiceGatewayCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeServiceGatewayCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeServiceGatewayCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeServiceGatewayCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -1030,8 +1098,12 @@ func (client VirtualNetworkClient) ChangeSubnetCompartment(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.changeSubnetCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeSubnetCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSubnetCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSubnetCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -1080,8 +1152,12 @@ func (client VirtualNetworkClient) ChangeVcnCompartment(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.changeVcnCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeVcnCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeVcnCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeVcnCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -1130,8 +1206,12 @@ func (client VirtualNetworkClient) ChangeVirtualCircuitCompartment(ctx context.C
 	ociResponse, err = common.Retry(ctx, request, client.changeVirtualCircuitCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeVirtualCircuitCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeVirtualCircuitCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeVirtualCircuitCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -1179,8 +1259,12 @@ func (client VirtualNetworkClient) ConnectLocalPeeringGateways(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.connectLocalPeeringGateways, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ConnectLocalPeeringGatewaysResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConnectLocalPeeringGatewaysResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConnectLocalPeeringGatewaysResponse{}
+			}
 		}
 		return
 	}
@@ -1228,8 +1312,12 @@ func (client VirtualNetworkClient) ConnectRemotePeeringConnections(ctx context.C
 	ociResponse, err = common.Retry(ctx, request, client.connectRemotePeeringConnections, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ConnectRemotePeeringConnectionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConnectRemotePeeringConnectionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConnectRemotePeeringConnectionsResponse{}
+			}
 		}
 		return
 	}
@@ -1287,8 +1375,12 @@ func (client VirtualNetworkClient) CreateCpe(ctx context.Context, request Create
 	ociResponse, err = common.Retry(ctx, request, client.createCpe, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateCpeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCpeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCpeResponse{}
+			}
 		}
 		return
 	}
@@ -1350,8 +1442,12 @@ func (client VirtualNetworkClient) CreateCrossConnect(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.createCrossConnect, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateCrossConnectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCrossConnectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCrossConnectResponse{}
+			}
 		}
 		return
 	}
@@ -1410,8 +1506,12 @@ func (client VirtualNetworkClient) CreateCrossConnectGroup(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.createCrossConnectGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateCrossConnectGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCrossConnectGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCrossConnectGroupResponse{}
+			}
 		}
 		return
 	}
@@ -1467,8 +1567,12 @@ func (client VirtualNetworkClient) CreateDhcpOptions(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.createDhcpOptions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateDhcpOptionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDhcpOptionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDhcpOptionsResponse{}
+			}
 		}
 		return
 	}
@@ -1524,8 +1628,12 @@ func (client VirtualNetworkClient) CreateDrg(ctx context.Context, request Create
 	ociResponse, err = common.Retry(ctx, request, client.createDrg, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateDrgResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDrgResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDrgResponse{}
+			}
 		}
 		return
 	}
@@ -1580,8 +1688,12 @@ func (client VirtualNetworkClient) CreateDrgAttachment(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.createDrgAttachment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateDrgAttachmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDrgAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDrgAttachmentResponse{}
+			}
 		}
 		return
 	}
@@ -1650,8 +1762,12 @@ func (client VirtualNetworkClient) CreateIPSecConnection(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.createIPSecConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateIPSecConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateIPSecConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateIPSecConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -1714,8 +1830,12 @@ func (client VirtualNetworkClient) CreateInternetGateway(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.createInternetGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateInternetGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateInternetGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateInternetGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -1762,8 +1882,12 @@ func (client VirtualNetworkClient) CreateIpv6(ctx context.Context, request Creat
 	ociResponse, err = common.Retry(ctx, request, client.createIpv6, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateIpv6Response{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateIpv6Response{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateIpv6Response{}
+			}
 		}
 		return
 	}
@@ -1810,8 +1934,12 @@ func (client VirtualNetworkClient) CreateLocalPeeringGateway(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.createLocalPeeringGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateLocalPeeringGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateLocalPeeringGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateLocalPeeringGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -1859,8 +1987,12 @@ func (client VirtualNetworkClient) CreateNatGateway(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.createNatGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateNatGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateNatGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateNatGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -1907,8 +2039,12 @@ func (client VirtualNetworkClient) CreateNetworkSecurityGroup(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.createNetworkSecurityGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateNetworkSecurityGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateNetworkSecurityGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateNetworkSecurityGroupResponse{}
+			}
 		}
 		return
 	}
@@ -1957,8 +2093,12 @@ func (client VirtualNetworkClient) CreatePrivateIp(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.createPrivateIp, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreatePrivateIpResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreatePrivateIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreatePrivateIpResponse{}
+			}
 		}
 		return
 	}
@@ -2021,8 +2161,12 @@ func (client VirtualNetworkClient) CreatePublicIp(ctx context.Context, request C
 	ociResponse, err = common.Retry(ctx, request, client.createPublicIp, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreatePublicIpResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreatePublicIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreatePublicIpResponse{}
+			}
 		}
 		return
 	}
@@ -2069,8 +2213,12 @@ func (client VirtualNetworkClient) CreateRemotePeeringConnection(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.createRemotePeeringConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateRemotePeeringConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateRemotePeeringConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateRemotePeeringConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -2129,8 +2277,12 @@ func (client VirtualNetworkClient) CreateRouteTable(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.createRouteTable, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateRouteTableResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateRouteTableResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateRouteTableResponse{}
+			}
 		}
 		return
 	}
@@ -2188,8 +2340,12 @@ func (client VirtualNetworkClient) CreateSecurityList(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.createSecurityList, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateSecurityListResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSecurityListResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSecurityListResponse{}
+			}
 		}
 		return
 	}
@@ -2242,8 +2398,12 @@ func (client VirtualNetworkClient) CreateServiceGateway(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.createServiceGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateServiceGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateServiceGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateServiceGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -2314,8 +2474,12 @@ func (client VirtualNetworkClient) CreateSubnet(ctx context.Context, request Cre
 	ociResponse, err = common.Retry(ctx, request, client.createSubnet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateSubnetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSubnetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSubnetResponse{}
+			}
 		}
 		return
 	}
@@ -2384,8 +2548,12 @@ func (client VirtualNetworkClient) CreateVcn(ctx context.Context, request Create
 	ociResponse, err = common.Retry(ctx, request, client.createVcn, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateVcnResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVcnResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVcnResponse{}
+			}
 		}
 		return
 	}
@@ -2449,8 +2617,12 @@ func (client VirtualNetworkClient) CreateVirtualCircuit(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.createVirtualCircuit, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateVirtualCircuitResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVirtualCircuitResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVirtualCircuitResponse{}
+			}
 		}
 		return
 	}
@@ -2494,8 +2666,12 @@ func (client VirtualNetworkClient) DeleteCpe(ctx context.Context, request Delete
 	ociResponse, err = common.Retry(ctx, request, client.deleteCpe, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteCpeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCpeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCpeResponse{}
+			}
 		}
 		return
 	}
@@ -2538,8 +2714,12 @@ func (client VirtualNetworkClient) DeleteCrossConnect(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.deleteCrossConnect, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteCrossConnectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCrossConnectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCrossConnectResponse{}
+			}
 		}
 		return
 	}
@@ -2583,8 +2763,12 @@ func (client VirtualNetworkClient) DeleteCrossConnectGroup(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.deleteCrossConnectGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteCrossConnectGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCrossConnectGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCrossConnectGroupResponse{}
+			}
 		}
 		return
 	}
@@ -2629,8 +2813,12 @@ func (client VirtualNetworkClient) DeleteDhcpOptions(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.deleteDhcpOptions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteDhcpOptionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDhcpOptionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDhcpOptionsResponse{}
+			}
 		}
 		return
 	}
@@ -2675,8 +2863,12 @@ func (client VirtualNetworkClient) DeleteDrg(ctx context.Context, request Delete
 	ociResponse, err = common.Retry(ctx, request, client.deleteDrg, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteDrgResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDrgResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDrgResponse{}
+			}
 		}
 		return
 	}
@@ -2720,8 +2912,12 @@ func (client VirtualNetworkClient) DeleteDrgAttachment(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.deleteDrgAttachment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteDrgAttachmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDrgAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDrgAttachmentResponse{}
+			}
 		}
 		return
 	}
@@ -2769,8 +2965,12 @@ func (client VirtualNetworkClient) DeleteIPSecConnection(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.deleteIPSecConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteIPSecConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteIPSecConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteIPSecConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -2815,8 +3015,12 @@ func (client VirtualNetworkClient) DeleteInternetGateway(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.deleteInternetGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteInternetGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInternetGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInternetGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -2859,8 +3063,12 @@ func (client VirtualNetworkClient) DeleteIpv6(ctx context.Context, request Delet
 	ociResponse, err = common.Retry(ctx, request, client.deleteIpv6, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteIpv6Response{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteIpv6Response{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteIpv6Response{}
+			}
 		}
 		return
 	}
@@ -2904,8 +3112,12 @@ func (client VirtualNetworkClient) DeleteLocalPeeringGateway(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.deleteLocalPeeringGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteLocalPeeringGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteLocalPeeringGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteLocalPeeringGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -2950,8 +3162,12 @@ func (client VirtualNetworkClient) DeleteNatGateway(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.deleteNatGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteNatGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteNatGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteNatGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -2998,8 +3214,12 @@ func (client VirtualNetworkClient) DeleteNetworkSecurityGroup(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.deleteNetworkSecurityGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteNetworkSecurityGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteNetworkSecurityGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteNetworkSecurityGroupResponse{}
+			}
 		}
 		return
 	}
@@ -3049,8 +3269,12 @@ func (client VirtualNetworkClient) DeletePrivateIp(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.deletePrivateIp, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeletePrivateIpResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeletePrivateIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeletePrivateIpResponse{}
+			}
 		}
 		return
 	}
@@ -3103,8 +3327,12 @@ func (client VirtualNetworkClient) DeletePublicIp(ctx context.Context, request D
 	ociResponse, err = common.Retry(ctx, request, client.deletePublicIp, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeletePublicIpResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeletePublicIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeletePublicIpResponse{}
+			}
 		}
 		return
 	}
@@ -3148,8 +3376,12 @@ func (client VirtualNetworkClient) DeleteRemotePeeringConnection(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.deleteRemotePeeringConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteRemotePeeringConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRemotePeeringConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRemotePeeringConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -3194,8 +3426,12 @@ func (client VirtualNetworkClient) DeleteRouteTable(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.deleteRouteTable, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteRouteTableResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRouteTableResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRouteTableResponse{}
+			}
 		}
 		return
 	}
@@ -3240,8 +3476,12 @@ func (client VirtualNetworkClient) DeleteSecurityList(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.deleteSecurityList, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteSecurityListResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSecurityListResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSecurityListResponse{}
+			}
 		}
 		return
 	}
@@ -3284,8 +3524,12 @@ func (client VirtualNetworkClient) DeleteServiceGateway(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.deleteServiceGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteServiceGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteServiceGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteServiceGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -3329,8 +3573,12 @@ func (client VirtualNetworkClient) DeleteSubnet(ctx context.Context, request Del
 	ociResponse, err = common.Retry(ctx, request, client.deleteSubnet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteSubnetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSubnetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSubnetResponse{}
+			}
 		}
 		return
 	}
@@ -3374,8 +3622,12 @@ func (client VirtualNetworkClient) DeleteVcn(ctx context.Context, request Delete
 	ociResponse, err = common.Retry(ctx, request, client.deleteVcn, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteVcnResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVcnResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVcnResponse{}
+			}
 		}
 		return
 	}
@@ -3420,8 +3672,12 @@ func (client VirtualNetworkClient) DeleteVirtualCircuit(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.deleteVirtualCircuit, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteVirtualCircuitResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVirtualCircuitResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVirtualCircuitResponse{}
+			}
 		}
 		return
 	}
@@ -3473,8 +3729,12 @@ func (client VirtualNetworkClient) DetachServiceId(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.detachServiceId, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DetachServiceIdResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachServiceIdResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachServiceIdResponse{}
+			}
 		}
 		return
 	}
@@ -3516,8 +3776,12 @@ func (client VirtualNetworkClient) GetCpe(ctx context.Context, request GetCpeReq
 	ociResponse, err = common.Retry(ctx, request, client.getCpe, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetCpeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCpeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCpeResponse{}
+			}
 		}
 		return
 	}
@@ -3573,8 +3837,12 @@ func (client VirtualNetworkClient) GetCpeDeviceConfigContent(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.getCpeDeviceConfigContent, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetCpeDeviceConfigContentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCpeDeviceConfigContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCpeDeviceConfigContentResponse{}
+			}
 		}
 		return
 	}
@@ -3622,8 +3890,12 @@ func (client VirtualNetworkClient) GetCpeDeviceShape(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.getCpeDeviceShape, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetCpeDeviceShapeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCpeDeviceShapeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCpeDeviceShapeResponse{}
+			}
 		}
 		return
 	}
@@ -3665,8 +3937,12 @@ func (client VirtualNetworkClient) GetCrossConnect(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.getCrossConnect, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetCrossConnectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCrossConnectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCrossConnectResponse{}
+			}
 		}
 		return
 	}
@@ -3708,8 +3984,12 @@ func (client VirtualNetworkClient) GetCrossConnectGroup(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.getCrossConnectGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetCrossConnectGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCrossConnectGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCrossConnectGroupResponse{}
+			}
 		}
 		return
 	}
@@ -3751,8 +4031,12 @@ func (client VirtualNetworkClient) GetCrossConnectLetterOfAuthority(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.getCrossConnectLetterOfAuthority, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetCrossConnectLetterOfAuthorityResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCrossConnectLetterOfAuthorityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCrossConnectLetterOfAuthorityResponse{}
+			}
 		}
 		return
 	}
@@ -3794,8 +4078,12 @@ func (client VirtualNetworkClient) GetCrossConnectStatus(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.getCrossConnectStatus, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetCrossConnectStatusResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCrossConnectStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCrossConnectStatusResponse{}
+			}
 		}
 		return
 	}
@@ -3837,8 +4125,12 @@ func (client VirtualNetworkClient) GetDhcpOptions(ctx context.Context, request G
 	ociResponse, err = common.Retry(ctx, request, client.getDhcpOptions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetDhcpOptionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDhcpOptionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDhcpOptionsResponse{}
+			}
 		}
 		return
 	}
@@ -3880,8 +4172,12 @@ func (client VirtualNetworkClient) GetDrg(ctx context.Context, request GetDrgReq
 	ociResponse, err = common.Retry(ctx, request, client.getDrg, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetDrgResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDrgResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDrgResponse{}
+			}
 		}
 		return
 	}
@@ -3923,8 +4219,12 @@ func (client VirtualNetworkClient) GetDrgAttachment(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.getDrgAttachment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetDrgAttachmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDrgAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDrgAttachmentResponse{}
+			}
 		}
 		return
 	}
@@ -3967,8 +4267,12 @@ func (client VirtualNetworkClient) GetDrgRedundancyStatus(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.getDrgRedundancyStatus, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetDrgRedundancyStatusResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDrgRedundancyStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDrgRedundancyStatusResponse{}
+			}
 		}
 		return
 	}
@@ -4011,8 +4315,12 @@ func (client VirtualNetworkClient) GetFastConnectProviderService(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.getFastConnectProviderService, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetFastConnectProviderServiceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetFastConnectProviderServiceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetFastConnectProviderServiceResponse{}
+			}
 		}
 		return
 	}
@@ -4055,8 +4363,12 @@ func (client VirtualNetworkClient) GetFastConnectProviderServiceKey(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.getFastConnectProviderServiceKey, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetFastConnectProviderServiceKeyResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetFastConnectProviderServiceKeyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetFastConnectProviderServiceKeyResponse{}
+			}
 		}
 		return
 	}
@@ -4100,8 +4412,12 @@ func (client VirtualNetworkClient) GetIPSecConnection(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.getIPSecConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetIPSecConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIPSecConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIPSecConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -4145,8 +4461,12 @@ func (client VirtualNetworkClient) GetIPSecConnectionDeviceConfig(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.getIPSecConnectionDeviceConfig, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetIPSecConnectionDeviceConfigResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIPSecConnectionDeviceConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIPSecConnectionDeviceConfigResponse{}
+			}
 		}
 		return
 	}
@@ -4189,8 +4509,12 @@ func (client VirtualNetworkClient) GetIPSecConnectionDeviceStatus(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.getIPSecConnectionDeviceStatus, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetIPSecConnectionDeviceStatusResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIPSecConnectionDeviceStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIPSecConnectionDeviceStatusResponse{}
+			}
 		}
 		return
 	}
@@ -4234,8 +4558,12 @@ func (client VirtualNetworkClient) GetIPSecConnectionTunnel(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.getIPSecConnectionTunnel, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetIPSecConnectionTunnelResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIPSecConnectionTunnelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIPSecConnectionTunnelResponse{}
+			}
 		}
 		return
 	}
@@ -4278,8 +4606,12 @@ func (client VirtualNetworkClient) GetIPSecConnectionTunnelSharedSecret(ctx cont
 	ociResponse, err = common.Retry(ctx, request, client.getIPSecConnectionTunnelSharedSecret, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetIPSecConnectionTunnelSharedSecretResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIPSecConnectionTunnelSharedSecretResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIPSecConnectionTunnelSharedSecretResponse{}
+			}
 		}
 		return
 	}
@@ -4321,8 +4653,12 @@ func (client VirtualNetworkClient) GetInternetGateway(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.getInternetGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetInternetGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInternetGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInternetGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -4379,8 +4715,12 @@ func (client VirtualNetworkClient) GetIpsecCpeDeviceConfigContent(ctx context.Co
 	ociResponse, err = common.Retry(ctx, request, client.getIpsecCpeDeviceConfigContent, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetIpsecCpeDeviceConfigContentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIpsecCpeDeviceConfigContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIpsecCpeDeviceConfigContentResponse{}
+			}
 		}
 		return
 	}
@@ -4424,8 +4764,12 @@ func (client VirtualNetworkClient) GetIpv6(ctx context.Context, request GetIpv6R
 	ociResponse, err = common.Retry(ctx, request, client.getIpv6, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetIpv6Response{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIpv6Response{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIpv6Response{}
+			}
 		}
 		return
 	}
@@ -4467,8 +4811,12 @@ func (client VirtualNetworkClient) GetLocalPeeringGateway(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.getLocalPeeringGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetLocalPeeringGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetLocalPeeringGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetLocalPeeringGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -4510,8 +4858,12 @@ func (client VirtualNetworkClient) GetNatGateway(ctx context.Context, request Ge
 	ociResponse, err = common.Retry(ctx, request, client.getNatGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetNatGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetNatGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetNatGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -4557,8 +4909,12 @@ func (client VirtualNetworkClient) GetNetworkSecurityGroup(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.getNetworkSecurityGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetNetworkSecurityGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetNetworkSecurityGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetNetworkSecurityGroupResponse{}
+			}
 		}
 		return
 	}
@@ -4603,8 +4959,12 @@ func (client VirtualNetworkClient) GetPrivateIp(ctx context.Context, request Get
 	ociResponse, err = common.Retry(ctx, request, client.getPrivateIp, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetPrivateIpResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPrivateIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPrivateIpResponse{}
+			}
 		}
 		return
 	}
@@ -4653,8 +5013,12 @@ func (client VirtualNetworkClient) GetPublicIp(ctx context.Context, request GetP
 	ociResponse, err = common.Retry(ctx, request, client.getPublicIp, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetPublicIpResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPublicIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPublicIpResponse{}
+			}
 		}
 		return
 	}
@@ -4699,8 +5063,12 @@ func (client VirtualNetworkClient) GetPublicIpByIpAddress(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.getPublicIpByIpAddress, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetPublicIpByIpAddressResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPublicIpByIpAddressResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPublicIpByIpAddressResponse{}
+			}
 		}
 		return
 	}
@@ -4751,8 +5119,12 @@ func (client VirtualNetworkClient) GetPublicIpByPrivateIpId(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.getPublicIpByPrivateIpId, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetPublicIpByPrivateIpIdResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPublicIpByPrivateIpIdResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPublicIpByPrivateIpIdResponse{}
+			}
 		}
 		return
 	}
@@ -4794,8 +5166,12 @@ func (client VirtualNetworkClient) GetRemotePeeringConnection(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.getRemotePeeringConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetRemotePeeringConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRemotePeeringConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRemotePeeringConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -4837,8 +5213,12 @@ func (client VirtualNetworkClient) GetRouteTable(ctx context.Context, request Ge
 	ociResponse, err = common.Retry(ctx, request, client.getRouteTable, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetRouteTableResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRouteTableResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRouteTableResponse{}
+			}
 		}
 		return
 	}
@@ -4880,8 +5260,12 @@ func (client VirtualNetworkClient) GetSecurityList(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.getSecurityList, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetSecurityListResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSecurityListResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSecurityListResponse{}
+			}
 		}
 		return
 	}
@@ -4923,8 +5307,12 @@ func (client VirtualNetworkClient) GetService(ctx context.Context, request GetSe
 	ociResponse, err = common.Retry(ctx, request, client.getService, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetServiceResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetServiceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetServiceResponse{}
+			}
 		}
 		return
 	}
@@ -4966,8 +5354,12 @@ func (client VirtualNetworkClient) GetServiceGateway(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.getServiceGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetServiceGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetServiceGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetServiceGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -5009,8 +5401,12 @@ func (client VirtualNetworkClient) GetSubnet(ctx context.Context, request GetSub
 	ociResponse, err = common.Retry(ctx, request, client.getSubnet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetSubnetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSubnetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSubnetResponse{}
+			}
 		}
 		return
 	}
@@ -5056,8 +5452,12 @@ func (client VirtualNetworkClient) GetTunnelCpeDeviceConfig(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.getTunnelCpeDeviceConfig, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetTunnelCpeDeviceConfigResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetTunnelCpeDeviceConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetTunnelCpeDeviceConfigResponse{}
+			}
 		}
 		return
 	}
@@ -5113,8 +5513,12 @@ func (client VirtualNetworkClient) GetTunnelCpeDeviceConfigContent(ctx context.C
 	ociResponse, err = common.Retry(ctx, request, client.getTunnelCpeDeviceConfigContent, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetTunnelCpeDeviceConfigContentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetTunnelCpeDeviceConfigContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetTunnelCpeDeviceConfigContentResponse{}
+			}
 		}
 		return
 	}
@@ -5155,8 +5559,12 @@ func (client VirtualNetworkClient) GetVcn(ctx context.Context, request GetVcnReq
 	ociResponse, err = common.Retry(ctx, request, client.getVcn, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetVcnResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVcnResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVcnResponse{}
+			}
 		}
 		return
 	}
@@ -5198,8 +5606,12 @@ func (client VirtualNetworkClient) GetVirtualCircuit(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.getVirtualCircuit, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetVirtualCircuitResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVirtualCircuitResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVirtualCircuitResponse{}
+			}
 		}
 		return
 	}
@@ -5244,8 +5656,12 @@ func (client VirtualNetworkClient) GetVnic(ctx context.Context, request GetVnicR
 	ociResponse, err = common.Retry(ctx, request, client.getVnic, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetVnicResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVnicResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVnicResponse{}
+			}
 		}
 		return
 	}
@@ -5288,8 +5704,12 @@ func (client VirtualNetworkClient) ListAllowedPeerRegionsForRemotePeering(ctx co
 	ociResponse, err = common.Retry(ctx, request, client.listAllowedPeerRegionsForRemotePeering, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListAllowedPeerRegionsForRemotePeeringResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAllowedPeerRegionsForRemotePeeringResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAllowedPeerRegionsForRemotePeeringResponse{}
+			}
 		}
 		return
 	}
@@ -5340,8 +5760,12 @@ func (client VirtualNetworkClient) ListCpeDeviceShapes(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.listCpeDeviceShapes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListCpeDeviceShapesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCpeDeviceShapesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCpeDeviceShapesResponse{}
+			}
 		}
 		return
 	}
@@ -5383,8 +5807,12 @@ func (client VirtualNetworkClient) ListCpes(ctx context.Context, request ListCpe
 	ociResponse, err = common.Retry(ctx, request, client.listCpes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListCpesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCpesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCpesResponse{}
+			}
 		}
 		return
 	}
@@ -5426,8 +5854,12 @@ func (client VirtualNetworkClient) ListCrossConnectGroups(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.listCrossConnectGroups, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListCrossConnectGroupsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCrossConnectGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCrossConnectGroupsResponse{}
+			}
 		}
 		return
 	}
@@ -5470,8 +5902,12 @@ func (client VirtualNetworkClient) ListCrossConnectLocations(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.listCrossConnectLocations, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListCrossConnectLocationsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCrossConnectLocationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCrossConnectLocationsResponse{}
+			}
 		}
 		return
 	}
@@ -5514,8 +5950,12 @@ func (client VirtualNetworkClient) ListCrossConnects(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.listCrossConnects, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListCrossConnectsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCrossConnectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCrossConnectsResponse{}
+			}
 		}
 		return
 	}
@@ -5559,8 +5999,12 @@ func (client VirtualNetworkClient) ListCrossconnectPortSpeedShapes(ctx context.C
 	ociResponse, err = common.Retry(ctx, request, client.listCrossconnectPortSpeedShapes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListCrossconnectPortSpeedShapesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCrossconnectPortSpeedShapesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCrossconnectPortSpeedShapesResponse{}
+			}
 		}
 		return
 	}
@@ -5604,8 +6048,12 @@ func (client VirtualNetworkClient) ListDhcpOptions(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.listDhcpOptions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListDhcpOptionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDhcpOptionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDhcpOptionsResponse{}
+			}
 		}
 		return
 	}
@@ -5648,8 +6096,12 @@ func (client VirtualNetworkClient) ListDrgAttachments(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.listDrgAttachments, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListDrgAttachmentsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDrgAttachmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDrgAttachmentsResponse{}
+			}
 		}
 		return
 	}
@@ -5691,8 +6143,12 @@ func (client VirtualNetworkClient) ListDrgs(ctx context.Context, request ListDrg
 	ociResponse, err = common.Retry(ctx, request, client.listDrgs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListDrgsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDrgsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDrgsResponse{}
+			}
 		}
 		return
 	}
@@ -5738,8 +6194,12 @@ func (client VirtualNetworkClient) ListFastConnectProviderServices(ctx context.C
 	ociResponse, err = common.Retry(ctx, request, client.listFastConnectProviderServices, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListFastConnectProviderServicesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFastConnectProviderServicesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFastConnectProviderServicesResponse{}
+			}
 		}
 		return
 	}
@@ -5783,8 +6243,12 @@ func (client VirtualNetworkClient) ListFastConnectProviderVirtualCircuitBandwidt
 	ociResponse, err = common.Retry(ctx, request, client.listFastConnectProviderVirtualCircuitBandwidthShapes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListFastConnectProviderVirtualCircuitBandwidthShapesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFastConnectProviderVirtualCircuitBandwidthShapesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFastConnectProviderVirtualCircuitBandwidthShapesResponse{}
+			}
 		}
 		return
 	}
@@ -5826,8 +6290,12 @@ func (client VirtualNetworkClient) ListIPSecConnectionTunnels(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.listIPSecConnectionTunnels, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListIPSecConnectionTunnelsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListIPSecConnectionTunnelsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListIPSecConnectionTunnelsResponse{}
+			}
 		}
 		return
 	}
@@ -5870,8 +6338,12 @@ func (client VirtualNetworkClient) ListIPSecConnections(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.listIPSecConnections, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListIPSecConnectionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListIPSecConnectionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListIPSecConnectionsResponse{}
+			}
 		}
 		return
 	}
@@ -5913,8 +6385,12 @@ func (client VirtualNetworkClient) ListInternetGateways(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.listInternetGateways, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListInternetGatewaysResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInternetGatewaysResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInternetGatewaysResponse{}
+			}
 		}
 		return
 	}
@@ -5962,8 +6438,12 @@ func (client VirtualNetworkClient) ListIpv6s(ctx context.Context, request ListIp
 	ociResponse, err = common.Retry(ctx, request, client.listIpv6s, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListIpv6sResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListIpv6sResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListIpv6sResponse{}
+			}
 		}
 		return
 	}
@@ -6006,8 +6486,12 @@ func (client VirtualNetworkClient) ListLocalPeeringGateways(ctx context.Context,
 	ociResponse, err = common.Retry(ctx, request, client.listLocalPeeringGateways, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListLocalPeeringGatewaysResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListLocalPeeringGatewaysResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListLocalPeeringGatewaysResponse{}
+			}
 		}
 		return
 	}
@@ -6050,8 +6534,12 @@ func (client VirtualNetworkClient) ListNatGateways(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.listNatGateways, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListNatGatewaysResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListNatGatewaysResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListNatGatewaysResponse{}
+			}
 		}
 		return
 	}
@@ -6093,8 +6581,12 @@ func (client VirtualNetworkClient) ListNetworkSecurityGroupSecurityRules(ctx con
 	ociResponse, err = common.Retry(ctx, request, client.listNetworkSecurityGroupSecurityRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListNetworkSecurityGroupSecurityRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListNetworkSecurityGroupSecurityRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListNetworkSecurityGroupSecurityRulesResponse{}
+			}
 		}
 		return
 	}
@@ -6136,8 +6628,12 @@ func (client VirtualNetworkClient) ListNetworkSecurityGroupVnics(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.listNetworkSecurityGroupVnics, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListNetworkSecurityGroupVnicsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListNetworkSecurityGroupVnicsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListNetworkSecurityGroupVnicsResponse{}
+			}
 		}
 		return
 	}
@@ -6179,8 +6675,12 @@ func (client VirtualNetworkClient) ListNetworkSecurityGroups(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.listNetworkSecurityGroups, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListNetworkSecurityGroupsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListNetworkSecurityGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListNetworkSecurityGroupsResponse{}
+			}
 		}
 		return
 	}
@@ -6232,8 +6732,12 @@ func (client VirtualNetworkClient) ListPrivateIps(ctx context.Context, request L
 	ociResponse, err = common.Retry(ctx, request, client.listPrivateIps, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListPrivateIpsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPrivateIpsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPrivateIpsResponse{}
+			}
 		}
 		return
 	}
@@ -6290,8 +6794,12 @@ func (client VirtualNetworkClient) ListPublicIps(ctx context.Context, request Li
 	ociResponse, err = common.Retry(ctx, request, client.listPublicIps, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListPublicIpsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPublicIpsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPublicIpsResponse{}
+			}
 		}
 		return
 	}
@@ -6334,8 +6842,12 @@ func (client VirtualNetworkClient) ListRemotePeeringConnections(ctx context.Cont
 	ociResponse, err = common.Retry(ctx, request, client.listRemotePeeringConnections, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListRemotePeeringConnectionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRemotePeeringConnectionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRemotePeeringConnectionsResponse{}
+			}
 		}
 		return
 	}
@@ -6379,8 +6891,12 @@ func (client VirtualNetworkClient) ListRouteTables(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.listRouteTables, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListRouteTablesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRouteTablesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRouteTablesResponse{}
+			}
 		}
 		return
 	}
@@ -6422,8 +6938,12 @@ func (client VirtualNetworkClient) ListSecurityLists(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.listSecurityLists, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListSecurityListsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSecurityListsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSecurityListsResponse{}
+			}
 		}
 		return
 	}
@@ -6466,8 +6986,12 @@ func (client VirtualNetworkClient) ListServiceGateways(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.listServiceGateways, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListServiceGatewaysResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListServiceGatewaysResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListServiceGatewaysResponse{}
+			}
 		}
 		return
 	}
@@ -6510,8 +7034,12 @@ func (client VirtualNetworkClient) ListServices(ctx context.Context, request Lis
 	ociResponse, err = common.Retry(ctx, request, client.listServices, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListServicesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListServicesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListServicesResponse{}
+			}
 		}
 		return
 	}
@@ -6553,8 +7081,12 @@ func (client VirtualNetworkClient) ListSubnets(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listSubnets, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListSubnetsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSubnetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSubnetsResponse{}
+			}
 		}
 		return
 	}
@@ -6596,8 +7128,12 @@ func (client VirtualNetworkClient) ListVcns(ctx context.Context, request ListVcn
 	ociResponse, err = common.Retry(ctx, request, client.listVcns, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListVcnsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVcnsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVcnsResponse{}
+			}
 		}
 		return
 	}
@@ -6639,8 +7175,12 @@ func (client VirtualNetworkClient) ListVirtualCircuitBandwidthShapes(ctx context
 	ociResponse, err = common.Retry(ctx, request, client.listVirtualCircuitBandwidthShapes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListVirtualCircuitBandwidthShapesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVirtualCircuitBandwidthShapesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVirtualCircuitBandwidthShapesResponse{}
+			}
 		}
 		return
 	}
@@ -6683,8 +7223,12 @@ func (client VirtualNetworkClient) ListVirtualCircuitPublicPrefixes(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.listVirtualCircuitPublicPrefixes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListVirtualCircuitPublicPrefixesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVirtualCircuitPublicPrefixesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVirtualCircuitPublicPrefixesResponse{}
+			}
 		}
 		return
 	}
@@ -6726,8 +7270,12 @@ func (client VirtualNetworkClient) ListVirtualCircuits(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.listVirtualCircuits, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListVirtualCircuitsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVirtualCircuitsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVirtualCircuitsResponse{}
+			}
 		}
 		return
 	}
@@ -6769,8 +7317,12 @@ func (client VirtualNetworkClient) RemoveNetworkSecurityGroupSecurityRules(ctx c
 	ociResponse, err = common.Retry(ctx, request, client.removeNetworkSecurityGroupSecurityRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = RemoveNetworkSecurityGroupSecurityRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveNetworkSecurityGroupSecurityRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveNetworkSecurityGroupSecurityRulesResponse{}
+			}
 		}
 		return
 	}
@@ -6813,8 +7365,12 @@ func (client VirtualNetworkClient) UpdateCpe(ctx context.Context, request Update
 	ociResponse, err = common.Retry(ctx, request, client.updateCpe, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateCpeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCpeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCpeResponse{}
+			}
 		}
 		return
 	}
@@ -6856,8 +7412,12 @@ func (client VirtualNetworkClient) UpdateCrossConnect(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.updateCrossConnect, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateCrossConnectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCrossConnectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCrossConnectResponse{}
+			}
 		}
 		return
 	}
@@ -6900,8 +7460,12 @@ func (client VirtualNetworkClient) UpdateCrossConnectGroup(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.updateCrossConnectGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateCrossConnectGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCrossConnectGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCrossConnectGroupResponse{}
+			}
 		}
 		return
 	}
@@ -6945,8 +7509,12 @@ func (client VirtualNetworkClient) UpdateDhcpOptions(ctx context.Context, reques
 	ociResponse, err = common.Retry(ctx, request, client.updateDhcpOptions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateDhcpOptionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDhcpOptionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDhcpOptionsResponse{}
+			}
 		}
 		return
 	}
@@ -6988,8 +7556,12 @@ func (client VirtualNetworkClient) UpdateDrg(ctx context.Context, request Update
 	ociResponse, err = common.Retry(ctx, request, client.updateDrg, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateDrgResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDrgResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDrgResponse{}
+			}
 		}
 		return
 	}
@@ -7032,8 +7604,12 @@ func (client VirtualNetworkClient) UpdateDrgAttachment(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.updateDrgAttachment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateDrgAttachmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDrgAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDrgAttachmentResponse{}
+			}
 		}
 		return
 	}
@@ -7077,8 +7653,12 @@ func (client VirtualNetworkClient) UpdateIPSecConnection(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.updateIPSecConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateIPSecConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateIPSecConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateIPSecConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -7128,8 +7708,12 @@ func (client VirtualNetworkClient) UpdateIPSecConnectionTunnel(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.updateIPSecConnectionTunnel, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateIPSecConnectionTunnelResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateIPSecConnectionTunnelResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateIPSecConnectionTunnelResponse{}
+			}
 		}
 		return
 	}
@@ -7172,8 +7756,12 @@ func (client VirtualNetworkClient) UpdateIPSecConnectionTunnelSharedSecret(ctx c
 	ociResponse, err = common.Retry(ctx, request, client.updateIPSecConnectionTunnelSharedSecret, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateIPSecConnectionTunnelSharedSecretResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateIPSecConnectionTunnelSharedSecretResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateIPSecConnectionTunnelSharedSecretResponse{}
+			}
 		}
 		return
 	}
@@ -7218,8 +7806,12 @@ func (client VirtualNetworkClient) UpdateInternetGateway(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.updateInternetGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateInternetGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateInternetGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateInternetGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -7266,8 +7858,12 @@ func (client VirtualNetworkClient) UpdateIpv6(ctx context.Context, request Updat
 	ociResponse, err = common.Retry(ctx, request, client.updateIpv6, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateIpv6Response{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateIpv6Response{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateIpv6Response{}
+			}
 		}
 		return
 	}
@@ -7309,8 +7905,12 @@ func (client VirtualNetworkClient) UpdateLocalPeeringGateway(ctx context.Context
 	ociResponse, err = common.Retry(ctx, request, client.updateLocalPeeringGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateLocalPeeringGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateLocalPeeringGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateLocalPeeringGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -7352,8 +7952,12 @@ func (client VirtualNetworkClient) UpdateNatGateway(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.updateNatGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateNatGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateNatGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateNatGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -7405,8 +8009,12 @@ func (client VirtualNetworkClient) UpdateNetworkSecurityGroup(ctx context.Contex
 	ociResponse, err = common.Retry(ctx, request, client.updateNetworkSecurityGroup, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateNetworkSecurityGroupResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateNetworkSecurityGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateNetworkSecurityGroupResponse{}
+			}
 		}
 		return
 	}
@@ -7448,8 +8056,12 @@ func (client VirtualNetworkClient) UpdateNetworkSecurityGroupSecurityRules(ctx c
 	ociResponse, err = common.Retry(ctx, request, client.updateNetworkSecurityGroupSecurityRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateNetworkSecurityGroupSecurityRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateNetworkSecurityGroupSecurityRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateNetworkSecurityGroupSecurityRulesResponse{}
+			}
 		}
 		return
 	}
@@ -7498,8 +8110,12 @@ func (client VirtualNetworkClient) UpdatePrivateIp(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.updatePrivateIp, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdatePrivateIpResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdatePrivateIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdatePrivateIpResponse{}
+			}
 		}
 		return
 	}
@@ -7572,8 +8188,12 @@ func (client VirtualNetworkClient) UpdatePublicIp(ctx context.Context, request U
 	ociResponse, err = common.Retry(ctx, request, client.updatePublicIp, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdatePublicIpResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdatePublicIpResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdatePublicIpResponse{}
+			}
 		}
 		return
 	}
@@ -7615,8 +8235,12 @@ func (client VirtualNetworkClient) UpdateRemotePeeringConnection(ctx context.Con
 	ociResponse, err = common.Retry(ctx, request, client.updateRemotePeeringConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateRemotePeeringConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRemotePeeringConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRemotePeeringConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -7660,8 +8284,12 @@ func (client VirtualNetworkClient) UpdateRouteTable(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.updateRouteTable, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateRouteTableResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRouteTableResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRouteTableResponse{}
+			}
 		}
 		return
 	}
@@ -7706,8 +8334,12 @@ func (client VirtualNetworkClient) UpdateSecurityList(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.updateSecurityList, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateSecurityListResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSecurityListResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSecurityListResponse{}
+			}
 		}
 		return
 	}
@@ -7750,8 +8382,12 @@ func (client VirtualNetworkClient) UpdateServiceGateway(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.updateServiceGateway, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateServiceGatewayResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateServiceGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateServiceGatewayResponse{}
+			}
 		}
 		return
 	}
@@ -7793,8 +8429,12 @@ func (client VirtualNetworkClient) UpdateSubnet(ctx context.Context, request Upd
 	ociResponse, err = common.Retry(ctx, request, client.updateSubnet, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateSubnetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSubnetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSubnetResponse{}
+			}
 		}
 		return
 	}
@@ -7843,8 +8483,12 @@ func (client VirtualNetworkClient) UpdateTunnelCpeDeviceConfig(ctx context.Conte
 	ociResponse, err = common.Retry(ctx, request, client.updateTunnelCpeDeviceConfig, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateTunnelCpeDeviceConfigResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateTunnelCpeDeviceConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateTunnelCpeDeviceConfigResponse{}
+			}
 		}
 		return
 	}
@@ -7886,8 +8530,12 @@ func (client VirtualNetworkClient) UpdateVcn(ctx context.Context, request Update
 	ociResponse, err = common.Retry(ctx, request, client.updateVcn, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateVcnResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVcnResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVcnResponse{}
+			}
 		}
 		return
 	}
@@ -7950,8 +8598,12 @@ func (client VirtualNetworkClient) UpdateVirtualCircuit(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.updateVirtualCircuit, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateVirtualCircuitResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVirtualCircuitResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVirtualCircuitResponse{}
+			}
 		}
 		return
 	}
@@ -7993,8 +8645,12 @@ func (client VirtualNetworkClient) UpdateVnic(ctx context.Context, request Updat
 	ociResponse, err = common.Retry(ctx, request, client.updateVnic, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateVnicResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVnicResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVnicResponse{}
+			}
 		}
 		return
 	}
