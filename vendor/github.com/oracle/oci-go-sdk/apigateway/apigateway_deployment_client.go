@@ -91,8 +91,12 @@ func (client DeploymentClient) ChangeDeploymentCompartment(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.changeDeploymentCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeDeploymentCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDeploymentCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDeploymentCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -139,8 +143,12 @@ func (client DeploymentClient) CreateDeployment(ctx context.Context, request Cre
 	ociResponse, err = common.Retry(ctx, request, client.createDeployment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateDeploymentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDeploymentResponse{}
+			}
 		}
 		return
 	}
@@ -182,8 +190,12 @@ func (client DeploymentClient) DeleteDeployment(ctx context.Context, request Del
 	ociResponse, err = common.Retry(ctx, request, client.deleteDeployment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteDeploymentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDeploymentResponse{}
+			}
 		}
 		return
 	}
@@ -225,8 +237,12 @@ func (client DeploymentClient) GetDeployment(ctx context.Context, request GetDep
 	ociResponse, err = common.Retry(ctx, request, client.getDeployment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetDeploymentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDeploymentResponse{}
+			}
 		}
 		return
 	}
@@ -268,8 +284,12 @@ func (client DeploymentClient) ListDeployments(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listDeployments, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListDeploymentsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDeploymentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDeploymentsResponse{}
+			}
 		}
 		return
 	}
@@ -311,8 +331,12 @@ func (client DeploymentClient) UpdateDeployment(ctx context.Context, request Upd
 	ociResponse, err = common.Retry(ctx, request, client.updateDeployment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateDeploymentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDeploymentResponse{}
+			}
 		}
 		return
 	}

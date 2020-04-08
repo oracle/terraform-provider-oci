@@ -84,8 +84,12 @@ func (client DataCatalogClient) ChangeCatalogCompartment(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.changeCatalogCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeCatalogCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCatalogCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCatalogCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -132,8 +136,12 @@ func (client DataCatalogClient) CreateAttribute(ctx context.Context, request Cre
 	ociResponse, err = common.Retry(ctx, request, client.createAttribute, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateAttributeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAttributeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAttributeResponse{}
+			}
 		}
 		return
 	}
@@ -180,8 +188,12 @@ func (client DataCatalogClient) CreateAttributeTag(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.createAttributeTag, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateAttributeTagResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAttributeTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAttributeTagResponse{}
+			}
 		}
 		return
 	}
@@ -229,8 +241,12 @@ func (client DataCatalogClient) CreateCatalog(ctx context.Context, request Creat
 	ociResponse, err = common.Retry(ctx, request, client.createCatalog, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateCatalogResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCatalogResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCatalogResponse{}
+			}
 		}
 		return
 	}
@@ -277,8 +293,12 @@ func (client DataCatalogClient) CreateConnection(ctx context.Context, request Cr
 	ociResponse, err = common.Retry(ctx, request, client.createConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -325,8 +345,12 @@ func (client DataCatalogClient) CreateDataAsset(ctx context.Context, request Cre
 	ociResponse, err = common.Retry(ctx, request, client.createDataAsset, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateDataAssetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDataAssetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDataAssetResponse{}
+			}
 		}
 		return
 	}
@@ -373,8 +397,12 @@ func (client DataCatalogClient) CreateDataAssetTag(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.createDataAssetTag, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateDataAssetTagResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDataAssetTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDataAssetTagResponse{}
+			}
 		}
 		return
 	}
@@ -421,8 +449,12 @@ func (client DataCatalogClient) CreateEntity(ctx context.Context, request Create
 	ociResponse, err = common.Retry(ctx, request, client.createEntity, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateEntityResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateEntityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateEntityResponse{}
+			}
 		}
 		return
 	}
@@ -469,8 +501,12 @@ func (client DataCatalogClient) CreateEntityTag(ctx context.Context, request Cre
 	ociResponse, err = common.Retry(ctx, request, client.createEntityTag, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateEntityTagResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateEntityTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateEntityTagResponse{}
+			}
 		}
 		return
 	}
@@ -517,8 +553,12 @@ func (client DataCatalogClient) CreateFolder(ctx context.Context, request Create
 	ociResponse, err = common.Retry(ctx, request, client.createFolder, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateFolderResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateFolderResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateFolderResponse{}
+			}
 		}
 		return
 	}
@@ -565,8 +605,12 @@ func (client DataCatalogClient) CreateFolderTag(ctx context.Context, request Cre
 	ociResponse, err = common.Retry(ctx, request, client.createFolderTag, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateFolderTagResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateFolderTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateFolderTagResponse{}
+			}
 		}
 		return
 	}
@@ -613,8 +657,12 @@ func (client DataCatalogClient) CreateGlossary(ctx context.Context, request Crea
 	ociResponse, err = common.Retry(ctx, request, client.createGlossary, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateGlossaryResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateGlossaryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateGlossaryResponse{}
+			}
 		}
 		return
 	}
@@ -661,8 +709,12 @@ func (client DataCatalogClient) CreateJob(ctx context.Context, request CreateJob
 	ociResponse, err = common.Retry(ctx, request, client.createJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateJobResponse{}
+			}
 		}
 		return
 	}
@@ -709,8 +761,12 @@ func (client DataCatalogClient) CreateJobDefinition(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.createJobDefinition, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateJobDefinitionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateJobDefinitionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateJobDefinitionResponse{}
+			}
 		}
 		return
 	}
@@ -757,8 +813,12 @@ func (client DataCatalogClient) CreateJobExecution(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.createJobExecution, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateJobExecutionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateJobExecutionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateJobExecutionResponse{}
+			}
 		}
 		return
 	}
@@ -805,8 +865,12 @@ func (client DataCatalogClient) CreateTerm(ctx context.Context, request CreateTe
 	ociResponse, err = common.Retry(ctx, request, client.createTerm, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateTermResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateTermResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateTermResponse{}
+			}
 		}
 		return
 	}
@@ -853,8 +917,12 @@ func (client DataCatalogClient) CreateTermRelationship(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.createTermRelationship, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateTermRelationshipResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateTermRelationshipResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateTermRelationshipResponse{}
+			}
 		}
 		return
 	}
@@ -896,8 +964,12 @@ func (client DataCatalogClient) DeleteAttribute(ctx context.Context, request Del
 	ociResponse, err = common.Retry(ctx, request, client.deleteAttribute, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteAttributeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAttributeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAttributeResponse{}
+			}
 		}
 		return
 	}
@@ -939,8 +1011,12 @@ func (client DataCatalogClient) DeleteAttributeTag(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.deleteAttributeTag, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteAttributeTagResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAttributeTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAttributeTagResponse{}
+			}
 		}
 		return
 	}
@@ -982,8 +1058,12 @@ func (client DataCatalogClient) DeleteCatalog(ctx context.Context, request Delet
 	ociResponse, err = common.Retry(ctx, request, client.deleteCatalog, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteCatalogResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCatalogResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCatalogResponse{}
+			}
 		}
 		return
 	}
@@ -1025,8 +1105,12 @@ func (client DataCatalogClient) DeleteConnection(ctx context.Context, request De
 	ociResponse, err = common.Retry(ctx, request, client.deleteConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -1068,8 +1152,12 @@ func (client DataCatalogClient) DeleteDataAsset(ctx context.Context, request Del
 	ociResponse, err = common.Retry(ctx, request, client.deleteDataAsset, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteDataAssetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDataAssetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDataAssetResponse{}
+			}
 		}
 		return
 	}
@@ -1111,8 +1199,12 @@ func (client DataCatalogClient) DeleteDataAssetTag(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.deleteDataAssetTag, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteDataAssetTagResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDataAssetTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDataAssetTagResponse{}
+			}
 		}
 		return
 	}
@@ -1154,8 +1246,12 @@ func (client DataCatalogClient) DeleteEntity(ctx context.Context, request Delete
 	ociResponse, err = common.Retry(ctx, request, client.deleteEntity, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteEntityResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteEntityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteEntityResponse{}
+			}
 		}
 		return
 	}
@@ -1197,8 +1293,12 @@ func (client DataCatalogClient) DeleteEntityTag(ctx context.Context, request Del
 	ociResponse, err = common.Retry(ctx, request, client.deleteEntityTag, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteEntityTagResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteEntityTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteEntityTagResponse{}
+			}
 		}
 		return
 	}
@@ -1240,8 +1340,12 @@ func (client DataCatalogClient) DeleteFolder(ctx context.Context, request Delete
 	ociResponse, err = common.Retry(ctx, request, client.deleteFolder, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteFolderResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteFolderResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteFolderResponse{}
+			}
 		}
 		return
 	}
@@ -1283,8 +1387,12 @@ func (client DataCatalogClient) DeleteFolderTag(ctx context.Context, request Del
 	ociResponse, err = common.Retry(ctx, request, client.deleteFolderTag, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteFolderTagResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteFolderTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteFolderTagResponse{}
+			}
 		}
 		return
 	}
@@ -1326,8 +1434,12 @@ func (client DataCatalogClient) DeleteGlossary(ctx context.Context, request Dele
 	ociResponse, err = common.Retry(ctx, request, client.deleteGlossary, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteGlossaryResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteGlossaryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteGlossaryResponse{}
+			}
 		}
 		return
 	}
@@ -1369,8 +1481,12 @@ func (client DataCatalogClient) DeleteJob(ctx context.Context, request DeleteJob
 	ociResponse, err = common.Retry(ctx, request, client.deleteJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteJobResponse{}
+			}
 		}
 		return
 	}
@@ -1412,8 +1528,12 @@ func (client DataCatalogClient) DeleteJobDefinition(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.deleteJobDefinition, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteJobDefinitionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteJobDefinitionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteJobDefinitionResponse{}
+			}
 		}
 		return
 	}
@@ -1455,8 +1575,12 @@ func (client DataCatalogClient) DeleteTerm(ctx context.Context, request DeleteTe
 	ociResponse, err = common.Retry(ctx, request, client.deleteTerm, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteTermResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteTermResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteTermResponse{}
+			}
 		}
 		return
 	}
@@ -1498,8 +1622,12 @@ func (client DataCatalogClient) DeleteTermRelationship(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.deleteTermRelationship, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteTermRelationshipResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteTermRelationshipResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteTermRelationshipResponse{}
+			}
 		}
 		return
 	}
@@ -1546,8 +1674,12 @@ func (client DataCatalogClient) ExpandTreeForGlossary(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.expandTreeForGlossary, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ExpandTreeForGlossaryResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ExpandTreeForGlossaryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ExpandTreeForGlossaryResponse{}
+			}
 		}
 		return
 	}
@@ -1594,8 +1726,12 @@ func (client DataCatalogClient) ExportGlossary(ctx context.Context, request Expo
 	ociResponse, err = common.Retry(ctx, request, client.exportGlossary, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ExportGlossaryResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ExportGlossaryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ExportGlossaryResponse{}
+			}
 		}
 		return
 	}
@@ -1637,8 +1773,12 @@ func (client DataCatalogClient) GetAttribute(ctx context.Context, request GetAtt
 	ociResponse, err = common.Retry(ctx, request, client.getAttribute, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetAttributeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAttributeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAttributeResponse{}
+			}
 		}
 		return
 	}
@@ -1680,8 +1820,12 @@ func (client DataCatalogClient) GetAttributeTag(ctx context.Context, request Get
 	ociResponse, err = common.Retry(ctx, request, client.getAttributeTag, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetAttributeTagResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAttributeTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAttributeTagResponse{}
+			}
 		}
 		return
 	}
@@ -1723,8 +1867,12 @@ func (client DataCatalogClient) GetCatalog(ctx context.Context, request GetCatal
 	ociResponse, err = common.Retry(ctx, request, client.getCatalog, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetCatalogResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCatalogResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCatalogResponse{}
+			}
 		}
 		return
 	}
@@ -1766,8 +1914,12 @@ func (client DataCatalogClient) GetConnection(ctx context.Context, request GetCo
 	ociResponse, err = common.Retry(ctx, request, client.getConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -1809,8 +1961,12 @@ func (client DataCatalogClient) GetDataAsset(ctx context.Context, request GetDat
 	ociResponse, err = common.Retry(ctx, request, client.getDataAsset, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetDataAssetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDataAssetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDataAssetResponse{}
+			}
 		}
 		return
 	}
@@ -1852,8 +2008,12 @@ func (client DataCatalogClient) GetDataAssetTag(ctx context.Context, request Get
 	ociResponse, err = common.Retry(ctx, request, client.getDataAssetTag, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetDataAssetTagResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDataAssetTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDataAssetTagResponse{}
+			}
 		}
 		return
 	}
@@ -1895,8 +2055,12 @@ func (client DataCatalogClient) GetEntity(ctx context.Context, request GetEntity
 	ociResponse, err = common.Retry(ctx, request, client.getEntity, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetEntityResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetEntityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetEntityResponse{}
+			}
 		}
 		return
 	}
@@ -1938,8 +2102,12 @@ func (client DataCatalogClient) GetEntityTag(ctx context.Context, request GetEnt
 	ociResponse, err = common.Retry(ctx, request, client.getEntityTag, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetEntityTagResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetEntityTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetEntityTagResponse{}
+			}
 		}
 		return
 	}
@@ -1981,8 +2149,12 @@ func (client DataCatalogClient) GetFolder(ctx context.Context, request GetFolder
 	ociResponse, err = common.Retry(ctx, request, client.getFolder, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetFolderResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetFolderResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetFolderResponse{}
+			}
 		}
 		return
 	}
@@ -2024,8 +2196,12 @@ func (client DataCatalogClient) GetFolderTag(ctx context.Context, request GetFol
 	ociResponse, err = common.Retry(ctx, request, client.getFolderTag, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetFolderTagResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetFolderTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetFolderTagResponse{}
+			}
 		}
 		return
 	}
@@ -2067,8 +2243,12 @@ func (client DataCatalogClient) GetGlossary(ctx context.Context, request GetGlos
 	ociResponse, err = common.Retry(ctx, request, client.getGlossary, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetGlossaryResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetGlossaryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetGlossaryResponse{}
+			}
 		}
 		return
 	}
@@ -2110,8 +2290,12 @@ func (client DataCatalogClient) GetJob(ctx context.Context, request GetJobReques
 	ociResponse, err = common.Retry(ctx, request, client.getJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetJobResponse{}
+			}
 		}
 		return
 	}
@@ -2153,8 +2337,12 @@ func (client DataCatalogClient) GetJobDefinition(ctx context.Context, request Ge
 	ociResponse, err = common.Retry(ctx, request, client.getJobDefinition, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetJobDefinitionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetJobDefinitionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetJobDefinitionResponse{}
+			}
 		}
 		return
 	}
@@ -2196,8 +2384,12 @@ func (client DataCatalogClient) GetJobExecution(ctx context.Context, request Get
 	ociResponse, err = common.Retry(ctx, request, client.getJobExecution, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetJobExecutionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetJobExecutionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetJobExecutionResponse{}
+			}
 		}
 		return
 	}
@@ -2239,8 +2431,12 @@ func (client DataCatalogClient) GetJobLog(ctx context.Context, request GetJobLog
 	ociResponse, err = common.Retry(ctx, request, client.getJobLog, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetJobLogResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetJobLogResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetJobLogResponse{}
+			}
 		}
 		return
 	}
@@ -2282,8 +2478,12 @@ func (client DataCatalogClient) GetJobMetrics(ctx context.Context, request GetJo
 	ociResponse, err = common.Retry(ctx, request, client.getJobMetrics, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetJobMetricsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetJobMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetJobMetricsResponse{}
+			}
 		}
 		return
 	}
@@ -2325,8 +2525,12 @@ func (client DataCatalogClient) GetTerm(ctx context.Context, request GetTermRequ
 	ociResponse, err = common.Retry(ctx, request, client.getTerm, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetTermResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetTermResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetTermResponse{}
+			}
 		}
 		return
 	}
@@ -2368,8 +2572,12 @@ func (client DataCatalogClient) GetTermRelationship(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.getTermRelationship, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetTermRelationshipResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetTermRelationshipResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetTermRelationshipResponse{}
+			}
 		}
 		return
 	}
@@ -2411,8 +2619,12 @@ func (client DataCatalogClient) GetType(ctx context.Context, request GetTypeRequ
 	ociResponse, err = common.Retry(ctx, request, client.getType, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetTypeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetTypeResponse{}
+			}
 		}
 		return
 	}
@@ -2454,8 +2666,12 @@ func (client DataCatalogClient) GetWorkRequest(ctx context.Context, request GetW
 	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetWorkRequestResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWorkRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWorkRequestResponse{}
+			}
 		}
 		return
 	}
@@ -2502,8 +2718,12 @@ func (client DataCatalogClient) ImportConnection(ctx context.Context, request Im
 	ociResponse, err = common.Retry(ctx, request, client.importConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ImportConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -2550,8 +2770,12 @@ func (client DataCatalogClient) ImportGlossary(ctx context.Context, request Impo
 	ociResponse, err = common.Retry(ctx, request, client.importGlossary, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ImportGlossaryResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportGlossaryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportGlossaryResponse{}
+			}
 		}
 		return
 	}
@@ -2593,8 +2817,12 @@ func (client DataCatalogClient) ListAttributeTags(ctx context.Context, request L
 	ociResponse, err = common.Retry(ctx, request, client.listAttributeTags, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListAttributeTagsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAttributeTagsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAttributeTagsResponse{}
+			}
 		}
 		return
 	}
@@ -2636,8 +2864,12 @@ func (client DataCatalogClient) ListAttributes(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listAttributes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListAttributesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAttributesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAttributesResponse{}
+			}
 		}
 		return
 	}
@@ -2679,8 +2911,12 @@ func (client DataCatalogClient) ListCatalogs(ctx context.Context, request ListCa
 	ociResponse, err = common.Retry(ctx, request, client.listCatalogs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListCatalogsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCatalogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCatalogsResponse{}
+			}
 		}
 		return
 	}
@@ -2722,8 +2958,12 @@ func (client DataCatalogClient) ListConnections(ctx context.Context, request Lis
 	ociResponse, err = common.Retry(ctx, request, client.listConnections, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListConnectionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListConnectionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListConnectionsResponse{}
+			}
 		}
 		return
 	}
@@ -2765,8 +3005,12 @@ func (client DataCatalogClient) ListDataAssetTags(ctx context.Context, request L
 	ociResponse, err = common.Retry(ctx, request, client.listDataAssetTags, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListDataAssetTagsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDataAssetTagsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDataAssetTagsResponse{}
+			}
 		}
 		return
 	}
@@ -2808,8 +3052,12 @@ func (client DataCatalogClient) ListDataAssets(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listDataAssets, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListDataAssetsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDataAssetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDataAssetsResponse{}
+			}
 		}
 		return
 	}
@@ -2851,8 +3099,12 @@ func (client DataCatalogClient) ListEntities(ctx context.Context, request ListEn
 	ociResponse, err = common.Retry(ctx, request, client.listEntities, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListEntitiesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListEntitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListEntitiesResponse{}
+			}
 		}
 		return
 	}
@@ -2894,8 +3146,12 @@ func (client DataCatalogClient) ListEntityTags(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listEntityTags, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListEntityTagsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListEntityTagsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListEntityTagsResponse{}
+			}
 		}
 		return
 	}
@@ -2937,8 +3193,12 @@ func (client DataCatalogClient) ListFolderTags(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listFolderTags, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListFolderTagsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFolderTagsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFolderTagsResponse{}
+			}
 		}
 		return
 	}
@@ -2980,8 +3240,12 @@ func (client DataCatalogClient) ListFolders(ctx context.Context, request ListFol
 	ociResponse, err = common.Retry(ctx, request, client.listFolders, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListFoldersResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFoldersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFoldersResponse{}
+			}
 		}
 		return
 	}
@@ -3023,8 +3287,12 @@ func (client DataCatalogClient) ListGlossaries(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listGlossaries, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListGlossariesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListGlossariesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListGlossariesResponse{}
+			}
 		}
 		return
 	}
@@ -3066,8 +3334,12 @@ func (client DataCatalogClient) ListJobDefinitions(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.listJobDefinitions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListJobDefinitionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListJobDefinitionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListJobDefinitionsResponse{}
+			}
 		}
 		return
 	}
@@ -3109,8 +3381,12 @@ func (client DataCatalogClient) ListJobExecutions(ctx context.Context, request L
 	ociResponse, err = common.Retry(ctx, request, client.listJobExecutions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListJobExecutionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListJobExecutionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListJobExecutionsResponse{}
+			}
 		}
 		return
 	}
@@ -3152,8 +3428,12 @@ func (client DataCatalogClient) ListJobLogs(ctx context.Context, request ListJob
 	ociResponse, err = common.Retry(ctx, request, client.listJobLogs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListJobLogsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListJobLogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListJobLogsResponse{}
+			}
 		}
 		return
 	}
@@ -3195,8 +3475,12 @@ func (client DataCatalogClient) ListJobMetrics(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listJobMetrics, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListJobMetricsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListJobMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListJobMetricsResponse{}
+			}
 		}
 		return
 	}
@@ -3238,8 +3522,12 @@ func (client DataCatalogClient) ListJobs(ctx context.Context, request ListJobsRe
 	ociResponse, err = common.Retry(ctx, request, client.listJobs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListJobsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListJobsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListJobsResponse{}
+			}
 		}
 		return
 	}
@@ -3281,8 +3569,12 @@ func (client DataCatalogClient) ListTags(ctx context.Context, request ListTagsRe
 	ociResponse, err = common.Retry(ctx, request, client.listTags, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListTagsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTagsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTagsResponse{}
+			}
 		}
 		return
 	}
@@ -3324,8 +3616,12 @@ func (client DataCatalogClient) ListTermRelationships(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.listTermRelationships, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListTermRelationshipsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTermRelationshipsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTermRelationshipsResponse{}
+			}
 		}
 		return
 	}
@@ -3367,8 +3663,12 @@ func (client DataCatalogClient) ListTerms(ctx context.Context, request ListTerms
 	ociResponse, err = common.Retry(ctx, request, client.listTerms, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListTermsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTermsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTermsResponse{}
+			}
 		}
 		return
 	}
@@ -3410,8 +3710,12 @@ func (client DataCatalogClient) ListTypes(ctx context.Context, request ListTypes
 	ociResponse, err = common.Retry(ctx, request, client.listTypes, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListTypesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTypesResponse{}
+			}
 		}
 		return
 	}
@@ -3453,8 +3757,12 @@ func (client DataCatalogClient) ListWorkRequestErrors(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWorkRequestErrorsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWorkRequestErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWorkRequestErrorsResponse{}
+			}
 		}
 		return
 	}
@@ -3496,8 +3804,12 @@ func (client DataCatalogClient) ListWorkRequestLogs(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWorkRequestLogsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWorkRequestLogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWorkRequestLogsResponse{}
+			}
 		}
 		return
 	}
@@ -3539,8 +3851,12 @@ func (client DataCatalogClient) ListWorkRequests(ctx context.Context, request Li
 	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListWorkRequestsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWorkRequestsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWorkRequestsResponse{}
+			}
 		}
 		return
 	}
@@ -3582,8 +3898,12 @@ func (client DataCatalogClient) ObjectStats(ctx context.Context, request ObjectS
 	ociResponse, err = common.Retry(ctx, request, client.objectStats, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ObjectStatsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ObjectStatsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ObjectStatsResponse{}
+			}
 		}
 		return
 	}
@@ -3630,8 +3950,12 @@ func (client DataCatalogClient) ParseConnection(ctx context.Context, request Par
 	ociResponse, err = common.Retry(ctx, request, client.parseConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ParseConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ParseConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ParseConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -3673,8 +3997,12 @@ func (client DataCatalogClient) SearchCriteria(ctx context.Context, request Sear
 	ociResponse, err = common.Retry(ctx, request, client.searchCriteria, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = SearchCriteriaResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchCriteriaResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchCriteriaResponse{}
+			}
 		}
 		return
 	}
@@ -3721,8 +4049,12 @@ func (client DataCatalogClient) TestConnection(ctx context.Context, request Test
 	ociResponse, err = common.Retry(ctx, request, client.testConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = TestConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TestConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TestConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -3764,8 +4096,12 @@ func (client DataCatalogClient) UpdateAttribute(ctx context.Context, request Upd
 	ociResponse, err = common.Retry(ctx, request, client.updateAttribute, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateAttributeResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAttributeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAttributeResponse{}
+			}
 		}
 		return
 	}
@@ -3807,8 +4143,12 @@ func (client DataCatalogClient) UpdateCatalog(ctx context.Context, request Updat
 	ociResponse, err = common.Retry(ctx, request, client.updateCatalog, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateCatalogResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCatalogResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCatalogResponse{}
+			}
 		}
 		return
 	}
@@ -3850,8 +4190,12 @@ func (client DataCatalogClient) UpdateConnection(ctx context.Context, request Up
 	ociResponse, err = common.Retry(ctx, request, client.updateConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateConnectionResponse{}
+			}
 		}
 		return
 	}
@@ -3893,8 +4237,12 @@ func (client DataCatalogClient) UpdateDataAsset(ctx context.Context, request Upd
 	ociResponse, err = common.Retry(ctx, request, client.updateDataAsset, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateDataAssetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDataAssetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDataAssetResponse{}
+			}
 		}
 		return
 	}
@@ -3936,8 +4284,12 @@ func (client DataCatalogClient) UpdateEntity(ctx context.Context, request Update
 	ociResponse, err = common.Retry(ctx, request, client.updateEntity, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateEntityResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateEntityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateEntityResponse{}
+			}
 		}
 		return
 	}
@@ -3979,8 +4331,12 @@ func (client DataCatalogClient) UpdateFolder(ctx context.Context, request Update
 	ociResponse, err = common.Retry(ctx, request, client.updateFolder, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateFolderResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateFolderResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateFolderResponse{}
+			}
 		}
 		return
 	}
@@ -4022,8 +4378,12 @@ func (client DataCatalogClient) UpdateGlossary(ctx context.Context, request Upda
 	ociResponse, err = common.Retry(ctx, request, client.updateGlossary, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateGlossaryResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateGlossaryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateGlossaryResponse{}
+			}
 		}
 		return
 	}
@@ -4065,8 +4425,12 @@ func (client DataCatalogClient) UpdateJob(ctx context.Context, request UpdateJob
 	ociResponse, err = common.Retry(ctx, request, client.updateJob, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateJobResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateJobResponse{}
+			}
 		}
 		return
 	}
@@ -4108,8 +4472,12 @@ func (client DataCatalogClient) UpdateJobDefinition(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.updateJobDefinition, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateJobDefinitionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateJobDefinitionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateJobDefinitionResponse{}
+			}
 		}
 		return
 	}
@@ -4151,8 +4519,12 @@ func (client DataCatalogClient) UpdateTerm(ctx context.Context, request UpdateTe
 	ociResponse, err = common.Retry(ctx, request, client.updateTerm, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateTermResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateTermResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateTermResponse{}
+			}
 		}
 		return
 	}
@@ -4194,8 +4566,12 @@ func (client DataCatalogClient) UpdateTermRelationship(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.updateTermRelationship, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateTermRelationshipResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateTermRelationshipResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateTermRelationshipResponse{}
+			}
 		}
 		return
 	}
@@ -4242,8 +4618,12 @@ func (client DataCatalogClient) UploadCredentials(ctx context.Context, request U
 	ociResponse, err = common.Retry(ctx, request, client.uploadCredentials, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UploadCredentialsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UploadCredentialsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UploadCredentialsResponse{}
+			}
 		}
 		return
 	}
@@ -4285,8 +4665,12 @@ func (client DataCatalogClient) Users(ctx context.Context, request UsersRequest)
 	ociResponse, err = common.Retry(ctx, request, client.users, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UsersResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UsersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UsersResponse{}
+			}
 		}
 		return
 	}
@@ -4333,8 +4717,12 @@ func (client DataCatalogClient) ValidateConnection(ctx context.Context, request 
 	ociResponse, err = common.Retry(ctx, request, client.validateConnection, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ValidateConnectionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateConnectionResponse{}
+			}
 		}
 		return
 	}

@@ -812,9 +812,26 @@ func elaspedInMillisecond(start time.Time) int64 {
 	return time.Since(start).Nanoseconds() / int64(time.Millisecond)
 }
 
-func WaitForWorkRequestWithErrorHandling(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+func WaitForWorkRequestWithErrorHandling(workRequestClient *oci_work_requests.WorkRequestClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool) (*string, error) {
-	return WaitForWorkRequest(workRequestClient, workRequestId, entityType, action, timeout, disableFoundRetries, true)
+	var identifier *string
+	workRequestIdsSet := map[string]bool{}
+
+	for _, wId := range strings.Split(strings.TrimSpace(*workRequestIds), ",") {
+		if wId != "" {
+			workRequestIdsSet[strings.TrimSpace(wId)] = true
+		}
+	}
+
+	for wId := range workRequestIdsSet {
+		id, err := WaitForWorkRequest(workRequestClient, &wId, entityType, action, timeout, disableFoundRetries, true)
+		if err != nil {
+			return nil, err
+		}
+		identifier = id
+	}
+	return identifier, nil
+
 }
 
 func WaitForWorkRequest(workRequestClient *oci_work_requests.WorkRequestClient, workRequestId *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,

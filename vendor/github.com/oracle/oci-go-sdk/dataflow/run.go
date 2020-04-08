@@ -18,7 +18,7 @@ type Run struct {
 	// The application ID.
 	ApplicationId *string `mandatory:"true" json:"applicationId"`
 
-	// The OCID of the compartment that contains this application.
+	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The VM shape for the driver. Sets the driver cores and memory.

@@ -121,38 +121,47 @@ func RunExportCommand(args *ExportCommandArgs) error {
 		return err
 	}
 
-	clients := &OracleClients{}
-	userAgentString := fmt.Sprintf(exportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, Version)
-	httpClient := buildHttpClient()
+	r := &schema.Resource{
+		Schema: schemaMap(),
+	}
+	d := r.Data(nil)
 
-	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
-	configureClient, err := buildConfigureClientFn(oci_common.DefaultConfigProvider(), httpClient)
-	if err != nil {
+	if err := d.Set(authAttrName, getEnvSettingWithDefault(authAttrName, authAPIKeySetting)); err != nil {
+		return err
+	}
+	if err := d.Set(regionAttrName, getEnvSettingWithBlankDefault(regionAttrName)); err != nil {
+		return err
+	}
+	if err := d.Set(userOcidAttrName, getEnvSettingWithBlankDefault(userOcidAttrName)); err != nil {
+		return err
+	}
+	if err := d.Set(fingerprintAttrName, getEnvSettingWithBlankDefault(fingerprintAttrName)); err != nil {
+		return err
+	}
+	if err := d.Set(privateKeyAttrName, getEnvSettingWithBlankDefault(privateKeyAttrName)); err != nil {
+		return err
+	}
+	if err := d.Set(privateKeyPathAttrName, getEnvSettingWithBlankDefault(privateKeyPathAttrName)); err != nil {
+		return err
+	}
+	if err := d.Set(privateKeyPasswordAttrName, getEnvSettingWithBlankDefault(privateKeyPasswordAttrName)); err != nil {
 		return err
 	}
 
-	configureClientWithUserAgent := func(client *oci_common.BaseClient) error {
-		if err := configureClient(client); err != nil {
-			return err
-		}
-		client.UserAgent = userAgentString
-		return nil
-	}
-
-	err = createSDKClients(clients, oci_common.DefaultConfigProvider(), configureClientWithUserAgent)
+	clients, err := getExportConfig(d)
 	if err != nil {
 		return err
 	}
 
 	if args.CompartmentName != nil && *args.CompartmentName != "" {
 		var err error
-		args.CompartmentId, err = resolveCompartmentId(clients, args.CompartmentName)
+		args.CompartmentId, err = resolveCompartmentId(clients.(*OracleClients), args.CompartmentName)
 		if err != nil {
 			return err
 		}
 	}
 
-	return runExportCommand(clients, args)
+	return runExportCommand(clients.(*OracleClients), args)
 }
 
 // Dedupes possible repeating services from command line and sorts them
@@ -183,6 +192,40 @@ func (args *ExportCommandArgs) validate() error {
 	}
 
 	return nil
+}
+
+func getExportConfig(d *schema.ResourceData) (interface{}, error) {
+
+	clients := &OracleClients{configuration: map[string]string{}}
+
+	userAgentString := fmt.Sprintf(exportUserAgentFormatter, oci_common.Version(), runtime.Version(), runtime.GOOS, runtime.GOARCH, Version)
+	httpClient := buildHttpClient()
+
+	sdkConfigProvider, err := getSdkConfigProvider(d, clients)
+	if err != nil {
+		return nil, err
+	}
+
+	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
+	configureClient, err := buildConfigureClientFn(sdkConfigProvider, httpClient)
+	if err != nil {
+		return nil, err
+	}
+
+	configureClientWithUserAgent := func(client *oci_common.BaseClient) error {
+		if err := configureClient(client); err != nil {
+			return err
+		}
+		client.UserAgent = userAgentString
+		return nil
+	}
+
+	err = createSDKClients(clients, sdkConfigProvider, configureClientWithUserAgent)
+	if err != nil {
+		return nil, err
+	}
+
+	return clients, nil
 }
 
 func runExportCommand(clients *OracleClients, args *ExportCommandArgs) error {
