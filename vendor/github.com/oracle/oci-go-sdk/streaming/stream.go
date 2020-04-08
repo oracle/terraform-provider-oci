@@ -42,6 +42,7 @@ type Stream struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The endpoint to use when creating the StreamClient to consume or publish messages in the stream.
+	// If the associated stream pool is private, the endpoint is also private and can only be accessed from inside the stream pool's associated subnet.
 	MessagesEndpoint *string `mandatory:"true" json:"messagesEndpoint"`
 
 	// Any additional details about the current state of the stream.

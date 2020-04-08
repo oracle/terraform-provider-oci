@@ -1,4 +1,11 @@
 ## 3.70.0 (Unreleased)
+
+### Added
+- Support for non-default profiles for credentials
+- Support for limits and usage data source in KMS
+- Support for Allowing resources to be moved between compartments in dataflow application
+- Support for `InstancePrincipal` and `InstancePrincipalWithCerts` auth mode in Resource discovery
+
 ## 3.69.0 (April 01, 2020)
 
 ### Added
@@ -22,9 +29,6 @@
 - Support for Handling the VM (hypervisor) reboots info shared with the customer
 - Support for VM 20c Preview in DBAAS
 - Support for console connection for db nodes in BM and VM db systems
-
-### Fixed
-- Fixed load balancer listener to write default hostnames in state [Github issue #975](https://github.com/terraform-providers/terraform-provider-oci/issues/975)
 
 ## 3.66.0 (March 11, 2020)
 

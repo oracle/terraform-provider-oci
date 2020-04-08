@@ -85,8 +85,12 @@ func (client FunctionsManagementClient) ChangeApplicationCompartment(ctx context
 	ociResponse, err = common.Retry(ctx, request, client.changeApplicationCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeApplicationCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeApplicationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeApplicationCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -128,8 +132,12 @@ func (client FunctionsManagementClient) CreateApplication(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.createApplication, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateApplicationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateApplicationResponse{}
+			}
 		}
 		return
 	}
@@ -171,8 +179,12 @@ func (client FunctionsManagementClient) CreateFunction(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.createFunction, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateFunctionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateFunctionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateFunctionResponse{}
+			}
 		}
 		return
 	}
@@ -214,8 +226,12 @@ func (client FunctionsManagementClient) DeleteApplication(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.deleteApplication, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteApplicationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteApplicationResponse{}
+			}
 		}
 		return
 	}
@@ -257,8 +273,12 @@ func (client FunctionsManagementClient) DeleteFunction(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.deleteFunction, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteFunctionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteFunctionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteFunctionResponse{}
+			}
 		}
 		return
 	}
@@ -300,8 +320,12 @@ func (client FunctionsManagementClient) GetApplication(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.getApplication, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetApplicationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetApplicationResponse{}
+			}
 		}
 		return
 	}
@@ -343,8 +367,12 @@ func (client FunctionsManagementClient) GetFunction(ctx context.Context, request
 	ociResponse, err = common.Retry(ctx, request, client.getFunction, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetFunctionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetFunctionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetFunctionResponse{}
+			}
 		}
 		return
 	}
@@ -386,8 +414,12 @@ func (client FunctionsManagementClient) ListApplications(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.listApplications, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListApplicationsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListApplicationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListApplicationsResponse{}
+			}
 		}
 		return
 	}
@@ -429,8 +461,12 @@ func (client FunctionsManagementClient) ListFunctions(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.listFunctions, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListFunctionsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListFunctionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListFunctionsResponse{}
+			}
 		}
 		return
 	}
@@ -472,8 +508,12 @@ func (client FunctionsManagementClient) UpdateApplication(ctx context.Context, r
 	ociResponse, err = common.Retry(ctx, request, client.updateApplication, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateApplicationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateApplicationResponse{}
+			}
 		}
 		return
 	}
@@ -515,8 +555,12 @@ func (client FunctionsManagementClient) UpdateFunction(ctx context.Context, requ
 	ociResponse, err = common.Retry(ctx, request, client.updateFunction, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateFunctionResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateFunctionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateFunctionResponse{}
+			}
 		}
 		return
 	}

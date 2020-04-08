@@ -8,6 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -874,4 +876,24 @@ func TestUnitGetHCLString_interpolationMap(t *testing.T) {
 		t.Logf("expected hcl to avoid cyclical reference '%s' but found one", targetResource.getHclReferenceIdString())
 		t.Fail()
 	}
+}
+
+func Test_getExportConfig(t *testing.T) {
+
+	providerConfigTest(t, true, true, authAPIKeySetting, "", getExportConfig)              // ApiKey with required fields + disable auto-retries
+	providerConfigTest(t, false, true, authAPIKeySetting, "", getExportConfig)             // ApiKey without required fields
+	providerConfigTest(t, false, false, authInstancePrincipalSetting, "", getExportConfig) // InstancePrincipal
+	providerConfigTest(t, true, false, "invalid-auth-setting", "", getExportConfig)        // Invalid auth + disable auto-retries
+	configFile, keyFile, err := writeConfigFile()
+	assert.Nil(t, err)
+	providerConfigTest(t, true, true, authAPIKeySetting, "DEFAULT", getExportConfig)              // ApiKey with required fields + disable auto-retries
+	providerConfigTest(t, false, true, authAPIKeySetting, "DEFAULT", getExportConfig)             // ApiKey without required fields
+	providerConfigTest(t, false, false, authInstancePrincipalSetting, "DEFAULT", getExportConfig) // InstancePrincipal
+	providerConfigTest(t, true, false, "invalid-auth-setting", "DEFAULT", getExportConfig)        // Invalid auth + disable auto-retries
+	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE1", getExportConfig)           // correct profileName
+	providerConfigTest(t, false, false, authAPIKeySetting, "wrongProfile", getExportConfig)       // Invalid profileName
+	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE2", getExportConfig)           // correct profileName with mix and match
+	providerConfigTest(t, false, false, authAPIKeySetting, "PROFILE3", getExportConfig)           // correct profileName with mix and match & env
+	defer removeFile(configFile)
+	defer removeFile(keyFile)
 }

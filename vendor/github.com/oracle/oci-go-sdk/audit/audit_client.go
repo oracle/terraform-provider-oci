@@ -129,8 +129,12 @@ func (client AuditClient) ListEvents(ctx context.Context, request ListEventsRequ
 	ociResponse, err = common.Retry(ctx, request, client.listEvents, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListEventsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListEventsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListEventsResponse{}
+			}
 		}
 		return
 	}
@@ -172,8 +176,12 @@ func (client AuditClient) UpdateConfiguration(ctx context.Context, request Updat
 	ociResponse, err = common.Retry(ctx, request, client.updateConfiguration, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateConfigurationResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateConfigurationResponse{}
+			}
 		}
 		return
 	}
