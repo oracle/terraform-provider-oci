@@ -33,8 +33,21 @@ type StreamPool struct {
 
 	KafkaSettings *KafkaSettings `mandatory:"true" json:"kafkaSettings"`
 
+	CustomEncryptionKey *CustomEncryptionKey `mandatory:"true" json:"customEncryptionKey"`
+
 	// Any additional details about the current state of the stream.
 	LifecycleStateDetails *string `mandatory:"false" json:"lifecycleStateDetails"`
+
+	// True if the stream pool is private, false otherwise.
+	// If the stream pool is private, the streams inside the stream pool can only be accessed from inside the associated subnetId.
+	IsPrivate *bool `mandatory:"false" json:"isPrivate"`
+
+	// The FQDN used to access the streams inside the stream pool (same FQDN as the messagesEndpoint attribute of a Stream object).
+	// If the stream pool is private, the FQDN is customized and can only be accessed from inside the associated subnetId, otherwise the FQDN is publicly resolvable.
+	// Depending on which protocol you attempt to use, you need to either prepend https or append the Kafka port.
+	EndpointFqdn *string `mandatory:"false" json:"endpointFqdn"`
+
+	PrivateEndpointSettings *PrivateEndpointSettings `mandatory:"false" json:"privateEndpointSettings"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. Exists for cross-compatibility only.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

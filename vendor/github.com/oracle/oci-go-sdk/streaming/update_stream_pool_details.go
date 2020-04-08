@@ -18,6 +18,8 @@ type UpdateStreamPoolDetails struct {
 
 	KafkaSettings *KafkaSettings `mandatory:"false" json:"kafkaSettings"`
 
+	CustomEncryptionKeyDetails *CustomEncryptionKeyDetails `mandatory:"false" json:"customEncryptionKeyDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair that is applied with no predefined name, type, or namespace. Exists for cross-compatibility only.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

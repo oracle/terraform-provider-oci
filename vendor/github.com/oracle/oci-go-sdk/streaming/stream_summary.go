@@ -39,6 +39,7 @@ type StreamSummary struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The endpoint to use when creating the StreamClient to consume or publish messages in the stream.
+	// If the associated stream pool is private, the endpoint is also private and can only be accessed from inside the stream pool's associated subnet.
 	MessagesEndpoint *string `mandatory:"true" json:"messagesEndpoint"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair that is applied with no predefined name, type, or namespace. Exists for cross-compatibility only.

@@ -5,13 +5,9 @@ package oci
 import (
 	"context"
 	"fmt"
-	"log"
 	"strconv"
-	"time"
 
 	"github.com/hashicorp/terraform/helper/schema"
-
-	"github.com/terraform-providers/terraform-provider-oci/httpreplay"
 
 	oci_functions "github.com/oracle/oci-go-sdk/functions"
 )
@@ -379,12 +375,4 @@ func (s *FunctionsFunctionResourceCrud) SetData() error {
 	}
 
 	return nil
-}
-
-func (s *FunctionsFunctionResourceCrud) ExtraWaitPostDelete() time.Duration {
-	if httpreplay.ShouldRetryImmediately() {
-		return time.Duration(1 * time.Second)
-	}
-	log.Printf("[DEBUG] Waiting for 40 minutes post destroy of function resource due to known service issue")
-	return time.Duration(40 * time.Minute)
 }

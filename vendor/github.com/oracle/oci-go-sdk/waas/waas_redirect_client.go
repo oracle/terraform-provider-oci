@@ -89,8 +89,12 @@ func (client RedirectClient) ChangeHttpRedirectCompartment(ctx context.Context, 
 	ociResponse, err = common.Retry(ctx, request, client.changeHttpRedirectCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeHttpRedirectCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeHttpRedirectCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeHttpRedirectCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -137,8 +141,12 @@ func (client RedirectClient) CreateHttpRedirect(ctx context.Context, request Cre
 	ociResponse, err = common.Retry(ctx, request, client.createHttpRedirect, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateHttpRedirectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateHttpRedirectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateHttpRedirectResponse{}
+			}
 		}
 		return
 	}
@@ -185,8 +193,12 @@ func (client RedirectClient) DeleteHttpRedirect(ctx context.Context, request Del
 	ociResponse, err = common.Retry(ctx, request, client.deleteHttpRedirect, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteHttpRedirectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteHttpRedirectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteHttpRedirectResponse{}
+			}
 		}
 		return
 	}
@@ -228,8 +240,12 @@ func (client RedirectClient) GetHttpRedirect(ctx context.Context, request GetHtt
 	ociResponse, err = common.Retry(ctx, request, client.getHttpRedirect, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetHttpRedirectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetHttpRedirectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetHttpRedirectResponse{}
+			}
 		}
 		return
 	}
@@ -271,8 +287,12 @@ func (client RedirectClient) ListHttpRedirects(ctx context.Context, request List
 	ociResponse, err = common.Retry(ctx, request, client.listHttpRedirects, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListHttpRedirectsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListHttpRedirectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListHttpRedirectsResponse{}
+			}
 		}
 		return
 	}
@@ -319,8 +339,12 @@ func (client RedirectClient) UpdateHttpRedirect(ctx context.Context, request Upd
 	ociResponse, err = common.Retry(ctx, request, client.updateHttpRedirect, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateHttpRedirectResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateHttpRedirectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateHttpRedirectResponse{}
+			}
 		}
 		return
 	}

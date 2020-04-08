@@ -89,8 +89,12 @@ func (client BudgetClient) CreateAlertRule(ctx context.Context, request CreateAl
 	ociResponse, err = common.Retry(ctx, request, client.createAlertRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateAlertRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAlertRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAlertRuleResponse{}
+			}
 		}
 		return
 	}
@@ -137,8 +141,12 @@ func (client BudgetClient) CreateBudget(ctx context.Context, request CreateBudge
 	ociResponse, err = common.Retry(ctx, request, client.createBudget, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateBudgetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateBudgetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateBudgetResponse{}
+			}
 		}
 		return
 	}
@@ -180,8 +188,12 @@ func (client BudgetClient) DeleteAlertRule(ctx context.Context, request DeleteAl
 	ociResponse, err = common.Retry(ctx, request, client.deleteAlertRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteAlertRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAlertRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAlertRuleResponse{}
+			}
 		}
 		return
 	}
@@ -223,8 +235,12 @@ func (client BudgetClient) DeleteBudget(ctx context.Context, request DeleteBudge
 	ociResponse, err = common.Retry(ctx, request, client.deleteBudget, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteBudgetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteBudgetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteBudgetResponse{}
+			}
 		}
 		return
 	}
@@ -266,8 +282,12 @@ func (client BudgetClient) GetAlertRule(ctx context.Context, request GetAlertRul
 	ociResponse, err = common.Retry(ctx, request, client.getAlertRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetAlertRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAlertRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAlertRuleResponse{}
+			}
 		}
 		return
 	}
@@ -309,8 +329,12 @@ func (client BudgetClient) GetBudget(ctx context.Context, request GetBudgetReque
 	ociResponse, err = common.Retry(ctx, request, client.getBudget, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetBudgetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBudgetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBudgetResponse{}
+			}
 		}
 		return
 	}
@@ -352,8 +376,12 @@ func (client BudgetClient) ListAlertRules(ctx context.Context, request ListAlert
 	ociResponse, err = common.Retry(ctx, request, client.listAlertRules, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListAlertRulesResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAlertRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAlertRulesResponse{}
+			}
 		}
 		return
 	}
@@ -401,8 +429,12 @@ func (client BudgetClient) ListBudgets(ctx context.Context, request ListBudgetsR
 	ociResponse, err = common.Retry(ctx, request, client.listBudgets, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListBudgetsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBudgetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBudgetsResponse{}
+			}
 		}
 		return
 	}
@@ -444,8 +476,12 @@ func (client BudgetClient) UpdateAlertRule(ctx context.Context, request UpdateAl
 	ociResponse, err = common.Retry(ctx, request, client.updateAlertRule, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateAlertRuleResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAlertRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAlertRuleResponse{}
+			}
 		}
 		return
 	}
@@ -487,8 +523,12 @@ func (client BudgetClient) UpdateBudget(ctx context.Context, request UpdateBudge
 	ociResponse, err = common.Retry(ctx, request, client.updateBudget, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateBudgetResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateBudgetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateBudgetResponse{}
+			}
 		}
 		return
 	}

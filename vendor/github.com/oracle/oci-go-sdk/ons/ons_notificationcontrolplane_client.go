@@ -93,8 +93,12 @@ func (client NotificationControlPlaneClient) ChangeTopicCompartment(ctx context.
 	ociResponse, err = common.Retry(ctx, request, client.changeTopicCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ChangeTopicCompartmentResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeTopicCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeTopicCompartmentResponse{}
+			}
 		}
 		return
 	}
@@ -150,8 +154,12 @@ func (client NotificationControlPlaneClient) CreateTopic(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.createTopic, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = CreateTopicResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateTopicResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateTopicResponse{}
+			}
 		}
 		return
 	}
@@ -194,8 +202,12 @@ func (client NotificationControlPlaneClient) DeleteTopic(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.deleteTopic, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = DeleteTopicResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteTopicResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteTopicResponse{}
+			}
 		}
 		return
 	}
@@ -237,8 +249,12 @@ func (client NotificationControlPlaneClient) GetTopic(ctx context.Context, reque
 	ociResponse, err = common.Retry(ctx, request, client.getTopic, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = GetTopicResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetTopicResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetTopicResponse{}
+			}
 		}
 		return
 	}
@@ -281,8 +297,12 @@ func (client NotificationControlPlaneClient) ListTopics(ctx context.Context, req
 	ociResponse, err = common.Retry(ctx, request, client.listTopics, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = ListTopicsResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTopicsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTopicsResponse{}
+			}
 		}
 		return
 	}
@@ -325,8 +345,12 @@ func (client NotificationControlPlaneClient) UpdateTopic(ctx context.Context, re
 	ociResponse, err = common.Retry(ctx, request, client.updateTopic, policy)
 	if err != nil {
 		if ociResponse != nil {
-			opcRequestId := ociResponse.HTTPResponse().Header.Get("opc-request-id")
-			response = UpdateTopicResponse{RawResponse: ociResponse.HTTPResponse(), OpcRequestId: &opcRequestId}
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateTopicResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateTopicResponse{}
+			}
 		}
 		return
 	}
